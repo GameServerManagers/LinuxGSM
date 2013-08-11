@@ -1,0 +1,464 @@
+#!/bin/bash
+# Unreal Tournament 2004
+# Server Management Script
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 110813
+
+#### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="off"
+email="email@example.com"
+
+# Directorys
+rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+selfname="$0"
+filesdir="${rootdir}/ut2k4"
+systemdir="${filesdir}/System"
+compressedmapsdir="${rootdir}/Maps-Compressed"
+
+# Server names
+servicename="ut2k4-server"
+gamename="Unreal Tournament 2004"
+ini="${servicename}.ini"
+servername=`grep -s ServerName= ${systemdir}/${ini} | sed 's/ServerName=//g'`
+
+# Logging
+logdir="${rootdir}/log"
+logfile="${logdir}/${servicename}.log"
+logfiledate="${logdir}/${servicename}-$( date '+%d-%m-%Y-%H-%M-%S').log"
+logdays="7"
+
+# Start vars
+defaultmap="DM-Rankin"
+parms="server ${defaultmap}?game=XGame.xDMGame -nohomedir ini=${ini} log=${logfile}"
+
+##### Script #####
+# Do not edit
+# unless you know
+# what you are doing
+
+fn_rootcheck(){
+if [ `whoami` = "root" ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] Script will not run as root!"
+	exit
+fi
+}
+
+fn_syscheck(){
+if [ ! -e ${filesdir} ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] Cannot access ${filesdir}: No such directory"
+	exit
+fi
+}
+
+fn_runcheck(){
+# already running check
+pidwc=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l`
+if [ ${pidwc} -eq 1 ];then
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${logfile}
+	exit
+# multiple of same instance check
+elif [ ${pidwc} -ge 2 ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} is running ${pidwc} times"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is running ${pidwc} times" >> ${logfile}
+	echo -e "[\e[0;32m  OK  \e[0;39m] ${servicename}: Stopping ${pidwc} instances of ${servername}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Stopping ${pidwc} instances of ${servername}" >> ${logfile}
+	fn_stopserver
+	exit
+fi
+}
+
+fn_distro(){
+arch=$(uname -m)
+kernel=$(uname -r)
+if [ -f /etc/lsb-release ]; then
+	os=$(lsb_release -s -d)
+elif [ -f /etc/debian_version ]; then
+	os="Debian $(cat /etc/debian_version)"
+elif [ -f /etc/redhat-release ]; then
+	os=`cat /etc/redhat-release`
+else
+	os="$(uname -s) $(uname -r)"
+fi
+}
+
+fn_uptime(){
+uptime=$(</proc/uptime)
+uptime=${uptime%%.*}
+minutes=$(( uptime/60%60 ))
+hours=$(( uptime/60/60%24 ))
+days=$(( uptime/60/60/24 ))
+}
+
+fn_load(){
+load=$(uptime | awk -F 'load average' '{ print $2 }')
+}
+
+fn_emailnotification(){
+fn_distro
+fn_uptime
+fn_load
+{
+echo -e "=========================================\nServer information\n=========================================\n"
+echo -e "Date: $(date)"
+echo -e "Distro: ${os}"
+echo -e "Arch: ${arch}"
+echo -e "Kernel: ${kernel}"
+echo -e "Hostname: $HOSTNAME"
+echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
+echo -e "Avg Load${load}\n"
+echo -e "=========================================\n${servicename} statistics\n=========================================\n"
+echo -e "Service: ${servicename}"
+echo -e "Server: ${servername}"
+echo -e "Failure reason: ${failurereason}"
+echo -e "Action Taken: ${actiontaken}\n"
+echo -e "=========================================\n${servicename} log summary\n=========================================\n"
+}|tee ${logdir}/${servicename}-email.log > /dev/null 2>&1
+tail -50 ${logfile} >> /${logdir}/${servicename}-email.log
+mail -s "${subject}" ${email} < /${logdir}/${servicename}-email.log
+echo -e "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: sent email notification to ${email}" >> ${logfile}
+}
+
+fn_emailtest(){
+fn_rootcheck
+fn_syscheck
+echo -e "[\e[0;32m  OK  \e[0;39m] Emailing test notification"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Emailing test notification" >> ${logfile}
+if [ "${emailnotification}" = "on" ];then
+	subject="${servicename} Email Test Notification - Testing ${servername}"
+	failurereason="Testing ${servicename} email notification"
+	actiontaken="Sent test email...hello is this thing on?"
+	fn_emailnotification
+else 
+	echo -e "[\e[0;31m FAIL \e[0;39m] Email notificaion not enabled"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Email notificaion not enabled" >> ${logfile}
+fi
+}
+
+fn_logmanager(){
+# log manager will active if finds logs older than $logdays
+if [ `find ${logdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
+	echo -e "[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> ${logfile}
+	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${logfile}
+	find ${logdir}/* -mtime +${logdays} |tee >> ${logfile}
+	count=`find ${logdir}/* -mtime +${logdays}|wc -l`
+	find ${logdir}/* -mtime +${logdays} -exec rm {} \;
+	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${logfile}
+fi
+}
+
+fn_restartserver(){
+	echo -e "[\e[0;32m  OK  \e[0;39m] Restarting ${servicename}: ${servername}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Restarting ${servername}" >> ${logfile}
+	fn_stopserver
+	sleep 1
+	fn_startserver
+}
+
+fn_startserver(){
+fn_rootcheck
+fn_syscheck
+fn_runcheck
+fn_logmanager
+cd ${systemdir}
+echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${logfile}
+cp ${logfile} ${logfiledate}
+screen -d -m -S ${servicename} ./ucc-bin ${parms}
+sleep 1
+pidwc=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l`
+if [ ${pidwc} -eq 0 ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: Failed to start ${servername}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: failed to start ${servername}" >> ${logfile}
+fi
+}
+
+fn_stopserver(){
+fn_rootcheck
+fn_syscheck
+pid=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'`
+if [ -z ${pid} ];then
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already stopped"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${logfile}
+else
+	echo -e "[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${logfile}
+	kill `screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'`
+	screen -wipe > /dev/null 2>&1
+fi
+}
+
+fn_debugserver(){
+fn_rootcheck
+fn_syscheck
+cd ${filesdir}
+echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername} in debug mode!"
+sleep 0.5
+echo -e ""
+echo -e "Use for identifying server issues only!"
+while true; do
+	echo "If server is already running it will be stopped"
+	read -p "Continue? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1 ;;
+	* ) echo "Please answer yes or no.";;
+esac
+done
+fn_stopserver
+sleep 1
+echo -e "[\e[0;36m INFO \e[0;39m] Press CTRL+C to drop out of debug mode"
+sleep 3
+echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+cd ${systemdir}
+./ucc-bin ${parms}
+}
+
+fn_monitorserver(){
+fn_rootcheck
+fn_syscheck
+fn_logmanager
+echo -e "[\e[0;32m  OK  \e[0;39m] Checking ${servicename}: ${servername}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Checking ${servername}" >> ${logfile}
+updatecheck=`ps -ef|grep "${selfname} update"|grep -v grep|wc -l`
+if [ "${updatecheck}" = "0" ];then
+	fn_runcheck
+	echo -e "[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${logfile}
+	if [ "${emailnotification}" = "on" ];then
+		subject="${servicename} Monitor - Starting ${servername}"
+		failurereason="${servername} had stopped"
+		actiontaken="restarted ${servername}"
+		fn_emailnotification
+	fi
+	fn_startserver
+else
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: Monitor detected ${servername} is currently checking for updates!"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} is currently checking for updates!" >> ${logfile}
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} will start when updating is complete"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} will start when updating is complete" >> ${logfile}
+fi
+}
+
+fn_compressmaps(){
+fn_rootcheck
+clear
+echo "${gamename} Map Compressor"
+echo "============================"
+echo "Will compress all maps in:"
+echo ""
+pwd
+echo ""
+echo "Compressed maps saved to:"
+echo ""
+echo "$compressedmapsdir"
+echo ""
+while true; do
+	read -p "Start compression [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1 ;;
+	* ) echo "Please answer yes or no.";;
+	esac
+done
+mkdir $compressedmapsdir
+rm -rfv ${filesdir}/Maps/*.uz2
+cd ${systemdir}
+./ucc-bin compress ../Maps/* --nohomedir
+mv -fv ${filesdir}/Maps/*.uz2 $compressedmapsdir	
+}
+
+#
+##Installer
+#
+
+fn_header(){
+clear
+echo "================================="
+echo "${gamename}"
+echo "Server Linux Installer"
+echo "by Daniel Gibbs"
+echo "http://danielgibbs.co.uk"
+echo "================================="
+echo ""
+}
+
+fn_filesdl(){
+echo ""
+echo "Downloading Server Files"
+echo "============================"
+cd ${rootdir}
+mkdir ${filesdir}
+cd ${filesdir}
+if [ ! -f dedicatedserver3339-bonuspack.zip ];then
+	wget http://downloads.unrealadmin.org/UT2004/Server/dedicatedserver3339-bonuspack.zip
+else
+	echo "dedicatedserver3339-bonuspack.zip already downloaded!"
+fi
+echo "Running MD5 checksum to verify the file"
+sleep 1
+echo "MD5 checksum: d3f28c5245c4c02802d48e4f0ffd3e34"
+md5check=`md5sum dedicatedserver3339-bonuspack.zip| awk '{print $1;}'`
+echo "File returned: ${md5check}"
+if [ "${md5check}" != "d3f28c5245c4c02802d48e4f0ffd3e34" ];then
+	echo "MD5 checksum: FAILED!"
+	read -p "Retry download? [y/N]" yn
+	case $yn in
+	[Yy]* ) rm -f dedicatedserver3339-bonuspack.zip; fn_filesdl;;
+	[Nn]* ) echo Exiting; exit ;;
+	* ) echo "Please answer yes or no.";;
+	esac
+else
+	echo "MD5 checksum: PASSED"
+fi
+}
+
+fn_retryinstall(){
+while true; do
+	read -p "Retry install? [y/N]" yn
+	case $yn in
+	[Yy]* ) fn_install;;
+	[Nn]* ) echo Exiting; exit ;;
+	* ) echo "Please answer yes or no.";;
+	esac
+done
+}
+
+fn_install(){
+fn_rootcheck
+fn_header
+if [ -d ${filesdir} ];then
+	echo "${gamename} Server is already installed here:"
+	pwd
+	echo ""
+	while true; do
+		read -p "Continue [y/N]" yn
+		case $yn in
+		[Yy]* ) break;;
+		[Nn]* ) echo Exiting; return 1 ;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+fi
+fn_header
+echo "Install Directory:"
+pwd
+echo ""
+while true; do
+	read -p "Continue [y/N]" yn	
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1 ;;
+	* ) echo "Please answer yes or no.";;
+    esac
+done
+fn_header
+fn_filesdl
+echo ""
+echo "Installing ${gamename} Server"
+echo "================================="
+	cd ${filesdir}
+	unzip dedicatedserver3339-bonuspack.zip
+	cd ${systemdir}
+	chmod +x ucc-bin
+	while true; do
+		read -p "Was the install successful? [y/N]" yn
+		case $yn in
+		[Yy]* ) break;;
+		[Nn]* ) fn_retryinstall ;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+	cd ${filesdir}
+	while true; do
+		read -p "Remove dedicatedserver3339-bonuspack.zip? [y/N]" yn
+		case $yn in
+		[Yy]* ) rm -iv dedicatedserver3339-bonuspack.zip ; break ;;
+		[Nn]* ) break ;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+echo ""
+echo "Configuring ${gamename} Server"
+echo "================================="
+	echo "Copying ${systemdir}/ut2004.ini to ${systemdir}/${ini}"
+	cp ${systemdir}/UT2004.ini ${systemdir}/${ini}
+	sleep 1
+	echo ""
+	echo "Applying WebAdmin CharSet fix!"
+	echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
+	sleep 1
+	echo ""
+	echo "Applying WebAdmin ut2003.css fix!"
+	echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
+	sleep 1
+	echo ""
+	echo "Setting WebAdmin port to 8077"
+	sleep 1
+	echo ""
+	echo "Setting WebAdmin username and password"
+	sleep 1
+	echo ""
+	echo "Enabling Web Interface"
+	sleep 2
+	sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' ${systemdir}/UWeb.int
+	sed -i 's/none}/none;/g' ${filesdir}/Web/ServerAdmin/ut2003.css
+	sed -i 's/underline}/underline;/g' ${filesdir}/Web/ServerAdmin/ut2003.css
+	sed -i 's/AdminName=/AdminName=admin/g' ${systemdir}/${ini}
+	sed -i 's/AdminPassword=/AdminPassword=utpass/g' ${systemdir}/${ini}
+	sed -i 's/bEnabled=False/bEnabled=True/g' ${systemdir}/${ini}
+	sed -i 's/ListenPort=80/ListenPort=8077/g' ${systemdir}/${ini}
+	mkdir ${logdir}
+	cd ${rootdir}
+	echo ""
+	echo "Default Settings"
+	echo "=============================="
+	echo "WebAdmin Details:"
+	echo "Url: http://localhost:8077"
+	echo "Username: admin"
+	echo "Password: utpass"
+	echo ""
+	echo "Port Details:"
+	echo "8077 TCP (WebAdmin Port)"
+	echo "7777 UDP (Game Port)"
+	echo "7778 UDP (Query Port)"
+	echo "7787 UDP (GameSpy Query Port)"
+	echo "28902 TCP & UDP (Allows your Server to Connect to the Master Server Browser)"
+	echo "20560 UDP (Steam Port)"
+	echo "================================="
+	echo "Install Complete!"
+	echo ""
+	echo "To start server type:"
+	echo "${selfname} start"
+}
+
+case "$1" in
+	start)
+		fn_startserver;;
+	stop)
+		fn_stopserver;;
+	restart)
+		fn_restartserver;;
+	monitor)
+		fn_monitorserver;;
+	install)
+		fn_install;;
+	debug)
+		fn_debugserver;;
+	map-compressor)
+		fn_compressmaps;;	
+	email-test)
+		fn_emailtest;;
+	*)
+		echo "Usage: $0 {start|stop|restart|monitor|install|debug|map-compressor|email-test}"
+		exit 1;;
+esac
+exit
