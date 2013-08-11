@@ -1,5 +1,5 @@
 #!/bin/bash
-# Counter Strike: Source
+# Counter Strike: Global Offensive 
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -17,27 +17,27 @@ defaultmap="de_dust"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-parms="-game cstrike +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
+parms="-game csgo +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
 
 #### Advanced Variables ####
 
 # Steam
-appid="232330"
+appid="740"
 
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
-filesdir="${rootdir}/css"
-servercfg="${filesdir}/cstrike/cfg/server.cfg"
+filesdir="${rootdir}/csgo"
+servercfg="${filesdir}/csgo/cfg/server.cfg"
 
 # Server names
-servicename="css-server"
-gamename="Counter Strike: Source"
+servicename="csgo-server"
+gamename="Counter Strike: Global Offensive"
 servername=`grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g'`
 
 # Logging
 logdir="${rootdir}/log/script"
-gamelogdir="${filesdir}/cstrike/logs"
+gamelogdir="${filesdir}/csgo/logs"
 logfile="${logdir}/${servicename}.log"
 logfiledate="${logdir}/${servicename}-$( date '+%d-%m-%Y-%H-%M-%S').log"
 logdays="7"
