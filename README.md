@@ -8,3 +8,7 @@ Server installer
 Start/Stop/Restart server
 Server updater
 Server monitor (includes optional email notification)
+
+Full Documentation and details at:
+
+http://danielgibbs.co.uk/scripts
