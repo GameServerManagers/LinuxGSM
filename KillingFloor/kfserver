@@ -1,11 +1,16 @@
 #!/bin/bash
-# Killing Floor 
+# Killing Floor
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010813
+# Version: 180813
 
 #### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="off"
+email="email@example.com"
 
 # Steam login
 steamuser="username"
@@ -13,11 +18,6 @@ steampass="password"
 
 # Steam
 appid="215360"
-
-# Notification Email
-# (on|off)
-emailnotification="off"
-email="email@example.com"
 
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -79,7 +79,7 @@ if [ -f serverquery.py ];then
 		echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} has locked up!" >> ${logfile}
 		sleep 1
 		fn_restartserver
-	else 
+	else
 		echo -e "[\e[0;32m  OK  \e[0;39m] Querying ${servicename}: ${servername}: ${serverquery}"
 		echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Querying ${servername}: ${serverquery}" >> ${logfile}
 		sleep 1
@@ -168,7 +168,7 @@ if [ "${emailnotification}" = "on" ];then
 	failurereason="Testing ${servicename} email notification"
 	actiontaken="Sent test email...hello is this thing on?"
 	fn_emailnotification
-else 
+else
 	echo -e "[\e[0;31m FAIL \e[0;39m] Email notificaion not enabled"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Email notificaion not enabled" >> ${logfile}
 fi
@@ -279,7 +279,7 @@ else
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} is currently checking for updates!" >> ${logfile}
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} will start when updating is complete"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} will start when updating is complete" >> ${logfile}
-fi	
+fi
 }
 
 fn_updateserver(){
@@ -324,7 +324,7 @@ mkdir $compressedmapsdir
 rm -rfv ${filesdir}/Maps/*.uz2
 cd ${systemdir}
 ./ucc-bin compress ../Maps/* --nohomedir
-mv -fv ${filesdir}/Maps/*.uz2 $compressedmapsdir	
+mv -fv ${filesdir}/Maps/*.uz2 $compressedmapsdir
 }
 
 fn_steamguard(){
@@ -383,7 +383,7 @@ cd ${rootdir}
 mkdir steamcmd
 cd steamcmd
 if [ ! -f steam.sh ];then
-	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz 
+	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
 	chmod +x steam.sh
@@ -424,7 +424,7 @@ echo "Install Directory:"
 pwd
 echo ""
 while true; do
-	read -p "Continue [y/N]" yn	
+	read -p "Continue [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return 1 ;;
@@ -438,7 +438,6 @@ echo "Installing ${gamename} Server"
 echo "================================="
 	cd ${rootdir}/steamcmd
 	mkdir -v ${filesdir}
-	mkdir -v ${logdir}
 	touch install.txt
 	chmod 0600 install.txt
 	echo "login ${steamuser} ${steampass}" > install.txt
@@ -460,34 +459,34 @@ echo "================================="
 echo ""
 echo "Configuring ${gamename} Server"
 echo "================================="
+	sleep 1
 	echo "Copying ${systemdir}/default.ini to ${systemdir}/${ini}"
 	cp ${systemdir}/Default.ini ${systemdir}/${ini}
 	sleep 1
 	echo ""
-	echo "Applying WebAdmin CharSet fix!"
-	echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
+	echo "Creating log directory"
+	mkdir -v ${logdir}
 	sleep 1
 	echo ""
 	echo "Applying WebAdmin ROOst.css fix!"
 	echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
+	sed -i 's/none}/none;/g' ${filesdir}/Web/ServerAdmin/ROOst.css
+	sed -i 's/underline}/underline;/g' ${filesdir}/Web/ServerAdmin/ROOst.css
 	sleep 1
 	echo ""
 	echo "Setting WebAdmin username and password"
-	sleep 1
-	echo ""
-	echo "Enabling Web Interface"
-	sleep 2
-	sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' ${systemdir}/UWeb.int
-	sed -i 's/none}/none;/g' ${filesdir}/Web/ServerAdmin/ROOst.css
-	sed -i 's/underline}/underline;/g' ${filesdir}/Web/ServerAdmin/ROOst.css
 	sed -i 's/AdminName=/AdminName=admin/g' ${systemdir}/${ini}
 	sed -i 's/AdminPassword=/AdminPassword=kfpass/g' ${systemdir}/${ini}
-	sed -i 's/bEnabled=False/bEnabled=True/g' ${systemdir}/${ini}
-	mkdir ${logdir}
-	cd ${rootdir}
+	sleep 1
 	echo ""
+	echo "Enabling WebAdmin"
+	sed -i 's/bEnabled=False/bEnabled=True/g' ${systemdir}/${ini}
+	sleep 1
+	echo ""
+	cd ${rootdir}
 	echo "Default Settings"
 	echo "=============================="
+	sleep 1
 	echo "WebAdmin Details:"
 	echo "Url: http://localhost:8075"
 	echo "Username: admin"
@@ -526,10 +525,10 @@ case "$1" in
 	debug)
 		fn_debugserver;;
 	map-compressor)
-		fn_compressmaps;;	
+		fn_compressmaps;;
 	steam-auth)
 		fn_updateserver
-		fn_steamguard;;		
+		fn_steamguard;;
 	email-test)
 		fn_emailtest;;
 	*)
