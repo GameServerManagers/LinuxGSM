@@ -17,6 +17,7 @@ servername="Mumble"
 servicename="mumble-server"
 
 # Directorys
+# Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/murmor"
@@ -208,6 +209,9 @@ fn_debugserver(){
 fn_rootcheck
 fn_syscheck
 cd ${filesdir}
+if [ -f ${logdir} ];then
+	cp ${logfile} ${logfiledate}
+fi
 echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername} Debug mode!"
 sleep 0.5
 echo -e "Use for identifying server issues only!"
