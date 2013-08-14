@@ -1,0 +1,266 @@
+#!/bin/bash
+# Mumble
+# Server Management Script
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 280313
+
+### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="off"
+email="email@example.com"
+
+# Server names
+servername="Mumble"
+servicename="mumble-server"
+
+# Directorys
+rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+selfname="$0"
+filesdir="${rootdir}/murmor"
+ini="murmur.ini"
+
+# Logging
+logdir="${rootdir}/log"
+logfile="${logdir}/${servicename}.log"
+logfiledate="${logdir}/${servicename}-$( date '+%d-%m-%Y-%H-%M-%S').log"
+logdays="7"
+
+##### Script #####
+# Do not edit
+# unless you know
+# what you are doing
+
+fn_rootcheck(){
+if [ `whoami` = "root" ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] Script will not run as root!"
+	exit
+fi
+}
+
+fn_syscheck(){
+if [ ! -e ${filesdir} ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: cannot access ${filesdir}: No such directory"
+	exit
+fi
+}
+
+fn_runcheck(){
+# already running check
+pidwc=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l`
+if [ ${pidwc} -eq 1 ];then
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${logfile}
+	exit
+# multiple of same instance check
+elif [ ${pidwc} -ge 2 ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} is running ${pidwc} times"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is running ${pidwc} times" >> ${logfile}
+	echo -e "[\e[0;32m  OK  \e[0;39m] ${servicename}: ${servername} stopping all ${pidwc} instances"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} stopping all ${pidwc} instances" >> ${logfile}
+	fn_stopserver
+	exit
+fi
+}
+
+fn_inicheck(){
+if [ ! -e ${filesdir}/${ini} ]; then
+	echo -e "[\e[1;33m WARN \e[0;39m] ${servicename}: ${filesdir}/${ini} is missing"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} ${filesdir}/${ini} is missing" >> ${logfile}
+fi
+}
+
+fn_distro(){
+arch=$(uname -m)
+kernel=$(uname -r)
+if [ -f /etc/lsb-release ]; then
+	os=$(lsb_release -s -d)
+elif [ -f /etc/debian_version ]; then
+	os="Debian $(cat /etc/debian_version)"
+elif [ -f /etc/redhat-release ]; then
+	os=`cat /etc/redhat-release`
+else
+	os="$(uname -s) $(uname -r)"
+fi
+}
+
+fn_uptime(){
+uptime=$(</proc/uptime)
+uptime=${uptime%%.*}
+minutes=$(( uptime/60%60 ))
+hours=$(( uptime/60/60%24 ))
+days=$(( uptime/60/60/24 ))
+}
+
+fn_load(){
+load=$(uptime | awk -F 'load average' '{ print $2 }')
+}
+
+fn_emailnotification(){
+fn_distro
+fn_uptime
+fn_load
+{
+echo -e "=========================================\nServer information\n=========================================\n"
+echo -e "Date: $(date)"
+echo -e "Distro: ${os}"
+echo -e "Arch: ${arch}"
+echo -e "Kernel: ${kernel}"
+echo -e "Hostname: $HOSTNAME"
+echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
+echo -e "Avg Load${load}\n"
+echo -e "=========================================\n${servicename} statistics\n=========================================\n"
+echo -e "Service: ${servicename}"
+echo -e "Server: ${servername}"
+echo -e "Failure reason: ${failurereason}"
+echo -e "Action Taken: ${actiontaken}\n"
+echo -e "=========================================\n${servicename} log summary\n=========================================\n"
+}|tee ${logdir}/${servicename}-email.log > /dev/null 2>&1
+tail -50 ${logfile} >> /${logdir}/${servicename}-email.log
+mail -s "${subject}" ${email} < /${logdir}/${servicename}-email.log
+echo -e "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: sent email notification to ${email}" >> ${logfile}
+}
+
+fn_emailtest(){
+fn_rootcheck
+fn_syscheck
+echo -e "[\e[0;32m  OK  \e[0;39m] Emailing test notification"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Emailing test notification" >> ${logfile}
+if [ "${emailnotification}" = "on" ];then
+	subject="${servicename} Email Test Notification - Testing ${servername}"
+	failurereason="Testing ${servicename} email notification"
+	actiontaken="Sent test email...hello is this thing on?"
+	fn_emailnotification
+else
+	echo -e "[\e[0;31m FAIL \e[0;39m] Email notificaion not enabled"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Email notificaion not enabled" >> ${logfile}
+fi
+}
+
+fn_logmanager(){
+# log manager will active if finds logs older than $logdays
+if [ `find ${logdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
+	echo -e "[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> ${logfile}
+	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${logfile}
+	find ${logdir}/* -mtime +${logdays} |tee >> ${logfile}
+	count=`find ${logdir}/* -mtime +${logdays}|wc -l`
+	find ${logdir}/* -mtime +${logdays} -exec rm {} \;
+	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${logfile}
+fi
+}
+
+fn_restartserver(){
+	echo -e "[\e[0;32m  OK  \e[0;39m] Restarting ${servicename}: ${servername}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Restarting ${servername}" >> ${logfile}
+	fn_stopserver
+	sleep 1
+	fn_startserver
+}
+
+fn_startserver(){
+if [ ! -d ${logdir} ];then
+	mkdir ${logdir}
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Creating log directory ${logdir}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} Creating log directory ${logdir}" >> ${logfile}
+fi
+fn_rootcheck
+fn_syscheck
+fn_runcheck
+fn_inicheck
+fn_logmanager
+cd ${filesdir}
+if [ -f ${logdir} ];then
+	cp ${logfile} ${logfiledate}
+fi
+echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${logfile}
+screen -d -m -S ${servicename} ./murmur.x86 -fg -ini ${ini}
+sleep 1
+pidwc=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l`
+if [ ${pidwc} -eq 0 ];then
+	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} failed to start"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} failed to start" >> ${logfile}
+fi
+}
+
+fn_stopserver(){
+fn_rootcheck
+fn_syscheck
+pid=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'`
+if [ -z ${pid} ];then
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already stopped"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${logfile}
+else
+	echo -e "[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${logfile}
+	pkill -P `screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'`
+	screen -wipe > /dev/null 2>&1
+fi
+}
+
+fn_debugserver(){
+fn_rootcheck
+fn_syscheck
+cd ${filesdir}
+echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername} Debug mode!"
+sleep 0.5
+echo -e "Use for identifying server issues only!"
+sleep 2
+while true; do
+	echo "If server is already running it will be stopped"
+	read -p "Continue? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1 ;;
+	* ) echo "Please answer yes or no.";;
+esac
+done
+fn_stopserver
+echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: Enter CTRL+C to drop out of debug mode"
+sleep 3
+echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+./murmur.x86 -fg -ini ${ini}
+}
+
+fn_monitorserver(){
+fn_rootcheck
+fn_syscheck
+fn_logmanager
+echo -e "[\e[0;32m  OK  \e[0;39m] Checking ${servicename}: ${servername}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Checking ${servername}" >> ${logfile}
+fn_runcheck
+echo -e "[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${logfile}
+if [ "${emailnotification}" = "on" ];then
+	subject="${servicename} Monitor - Starting ${servername}"
+	failurereason="${servername} had stopped"
+	actiontaken="restarted ${servername}"
+	fn_emailnotification
+fi
+fn_startserver
+}
+
+case "$1" in
+	start)
+		fn_startserver;;
+	stop)
+		fn_stopserver;;
+	restart)
+		fn_restartserver;;
+	monitor)
+		fn_monitorserver;;
+	debug)
+		fn_debugserver;;
+	email-test)
+		fn_emailtest;;
+	*)
+		echo "Usage: $0 {start|stop|restart|monitor|debug|email-test}"
+		exit 1;;
+esac
+exit
