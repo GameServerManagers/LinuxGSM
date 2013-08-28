@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 180813
+# Version: 280813
 
 #### Variables ####
 
@@ -304,7 +304,7 @@ mv -fv ${filesdir}/Maps/*.uz2 $compressedmapsdir
 }
 
 #
-##Installer
+## Installer
 #
 
 fn_header(){
@@ -340,6 +340,28 @@ if [ "${md5check}" != "d3f28c5245c4c02802d48e4f0ffd3e34" ];then
 	read -p "Retry download? [y/N]" yn
 	case $yn in
 	[Yy]* ) rm -f dedicatedserver3339-bonuspack.zip; fn_filesdl;;
+	[Nn]* ) echo Exiting; exit ;;
+	* ) echo "Please answer yes or no.";;
+	esac
+else
+	echo "MD5 checksum: PASSED"
+fi
+
+if [ ! -f ut2004-lnxpatch3369-2.tar.bz2 ];then
+	wget http://downloads.unrealadmin.org/UT2004/Patches/Linux/ut2004-lnxpatch3369-2.tar.bz2
+else
+	echo "ut2004-lnxpatch3369-2.tar.bz2 already downloaded!"
+fi
+echo "Running MD5 checksum to verify the file"
+sleep 1
+echo "MD5 checksum: 0fa447e05fe5a38e0e32adf171be405e"
+md5check=`md5sum ut2004-lnxpatch3369-2.tar.bz2| awk '{print $1;}'`
+echo "File returned: ${md5check}"
+if [ "${md5check}" != "0fa447e05fe5a38e0e32adf171be405e" ];then
+	echo "MD5 checksum: FAILED!"
+	read -p "Retry download? [y/N]" yn
+	case $yn in
+	[Yy]* ) rm -f ut2004-lnxpatch3369-2.tar.bz2; fn_filesdl;;
 	[Nn]* ) echo Exiting; exit ;;
 	* ) echo "Please answer yes or no.";;
 	esac
@@ -392,27 +414,53 @@ fn_filesdl
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
+	sleep 1
 	cd ${filesdir}
+	echo "Extracting dedicatedserver3339-bonuspack.zip"
+	sleep 1
 	unzip dedicatedserver3339-bonuspack.zip
+	echo "Extracting dedicatedserver3339-bonuspack.zip"
+	sleep 1
+	tar -xvjf ut2004-lnxpatch3369-2.tar.bz2 UT2004-Patch/ --strip-components=1
 	cd ${systemdir}
 	chmod +x ucc-bin
 	while true; do
 		read -p "Was the install successful? [y/N]" yn
 		case $yn in
 		[Yy]* ) break;;
-		[Nn]* ) fn_retryinstall ;;
+		[Nn]* ) fn_retryinstall;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
 	cd ${filesdir}
 	while true; do
-		read -p "Remove dedicatedserver3339-bonuspack.zip? [y/N]" yn
+		read -p "Remove ut2004-lnxpatch3369-2.tar.bz2? [y/N]" yn
 		case $yn in
-		[Yy]* ) rm -iv dedicatedserver3339-bonuspack.zip ; break ;;
+		[Yy]* ) rm -iv ut2004-lnxpatch3369-2.tar.bz2 ; break;;
 		[Nn]* ) break ;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
+	while true; do
+		read -p "Remove dedicatedserver3339-bonuspack.zip? [y/N]" yn
+		case $yn in
+		[Yy]* ) rm -iv dedicatedserver3339-bonuspack.zip ; break;;
+		[Nn]* ) break ;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+echo ""
+echo "Enter ${gamename} CD Key"
+echo "================================="
+	sleep 1
+	echo "To get your server listed on the Master Server list"
+	echo "you must get a free CD key. Get a key here:"
+	echo "http://www.unrealtournament.com/ut2004server/cdkey.php"
+	echo ""
+	echo "Once you have the key enter it below"
+	echo -n "KEY: "
+	read CODE
+	echo ""\""CDKey"\""="\""${CODE}"\""" > ${systemdir}/cdkey > /dev/null 2>&1
 echo ""
 echo "Configuring ${gamename} Server"
 echo "================================="
