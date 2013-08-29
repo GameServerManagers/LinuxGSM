@@ -535,6 +535,10 @@ echo "================================="
 	sed -i 's/none}/none;/g' ${filesdir}/Web/ServerAdmin/ut2003.css
 	sed -i 's/underline}/underline;/g' ${filesdir}/Web/ServerAdmin/ut2003.css
 	sleep 1
+	echo "Applying WebAdmin CharSet fix!"
+	echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
+	sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' ${systemdir}/UWeb.int
+	sleep 1	
 	echo "Setting WebAdmin username and password"
 	sed -i 's/AdminName=/AdminName=admin/g' ${systemdir}/${ini}
 	sed -i 's/AdminPassword=/AdminPassword=utpass/g' ${systemdir}/${ini}
