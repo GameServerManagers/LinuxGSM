@@ -320,20 +320,20 @@ if [ "${engine}" = "unreal2" ];then
 	webadminpass=$(grep AdminPassword= ${systemdir}/${ini}|sed 's/\AdminPassword=//g')
 	echo "Ports the server is currently using"
 	echo ""
-	echo "DIRECTION	DESCRIPTION		PORT			INI VARIABLE"
-	echo "INBOUND		Game Port		${gameport} UDP		Port=${gameport}"
-	echo "INBOUND		Query Port		${queryport} UDP		n/a"
-	echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP		OldQueryPortNumber=${gsqueryport}"
+	echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
+	echo "INBOUND		Game Port		${gameport} UDP	Port=${gameport}"
+	echo "INBOUND		Query Port		${queryport} UDP	n/a"
+	echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
 	if [ "${gamename}" == "Killing Floor" ];then
-		echo "OUTBOUND	Master Server port 	28852 TCP/UDP		n/a"
+		echo "OUTBOUND	Master Server port 	28852 TCP/UDP	n/a"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ];then
-		echo "OUTBOUND	Master Server port	28900/28902 TCP/UDP	n/a"
+		echo "OUTBOUND	Master Server port	28900/28902 TCP/UDP  n/a"
 	fi
 
 	if [ "${appid}" ];then
-		echo "OUTBOUND	Steam Port		20660 UDP		n/a"
+		echo "OUTBOUND	Steam Port		20660 UDP	n/a"
 	fi
-	echo "INBOUND		WebAdmin 		${webadmin} TCP		ListenPort=${webadmin}"
+	echo "INBOUND		WebAdmin 		${webadmin} TCP	ListenPort=${webadmin}"
 	echo ""
 	echo "${servername} WebAdmin"
 	echo "======================="
