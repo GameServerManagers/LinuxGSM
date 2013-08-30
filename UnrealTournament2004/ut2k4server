@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 290813
+# Version: 300813
 
 #### Variables ####
 
@@ -314,21 +314,21 @@ echo "======================="
 if [ "${engine}" = "unreal2" ];then
 	gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
 	queryport=$((${gameport} + 1))
-	gsqueryport=$((${gameport} + 10))
+	gsqueryport=$(grep OldQueryPortNumber= ${systemdir}/${ini}|sed 's/\OldQueryPortNumber=//g')
 	webadmin=$(grep ListenPort= ${systemdir}/${ini}|sed 's/\ListenPort=//g')
 	webadminuser=$(grep AdminName= ${systemdir}/${ini}|sed 's/\AdminName=//g')
 	webadminpass=$(grep AdminPassword= ${systemdir}/${ini}|sed 's/\AdminPassword=//g')
 	echo "Ports the server is currently using"
 	echo ""
-	echo "DIRECTION	DESCRIPTION		PORT"
-	echo "INBOUND		Game Port		${gameport}"
-	echo "INBOUND		Query Port		${queryport}"
-	echo "INBOUND		GameSpy Query Port	${gsqueryport}"
-	echo "OUTBOUND	Master Server port	28900/28902"
+	echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
+	echo "INBOUND		Game Port		${gameport}		Port=${gameport}"
+	echo "INBOUND		Query Port		${queryport}		n/a"
+	echo "INBOUND		GameSpy Query Port	${gsqueryport}		OldQueryPortNumber=${gsqueryport}"
+	echo "OUTBOUND	Master Server port	28900/28902	n/a"
 	if [ "${appid}" ];then
-		echo "OUTBOUND	Steam Port		20660"
+		echo "OUTBOUND	Steam Port		20660		n/a"
 	fi
-	echo "INBOUND:	WebAdmin 		${webadmin}"
+	echo "INBOUND:	WebAdmin 		${webadmin}		ListenPort=${webadmin}"
 	echo ""
 	echo "${servername} WebAdmin"
 	echo "======================="
@@ -405,7 +405,6 @@ if [ "${md5check}" != "d3f28c5245c4c02802d48e4f0ffd3e34" ];then
 else
 	echo "MD5 checksum: PASSED"
 fi
-
 if [ ! -f ut2004-lnxpatch3369-2.tar.bz2 ];then
 	wget http://downloads.unrealadmin.org/UT2004/Patches/Linux/ut2004-lnxpatch3369-2.tar.bz2
 else
@@ -538,7 +537,7 @@ echo "================================="
 	echo "Applying WebAdmin CharSet fix!"
 	echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
 	sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' ${systemdir}/UWeb.int
-	sleep 1	
+	sleep 1
 	echo "Setting WebAdmin username and password"
 	sed -i 's/AdminName=/AdminName=admin/g' ${systemdir}/${ini}
 	sed -i 's/AdminPassword=/AdminPassword=utpass/g' ${systemdir}/${ini}
@@ -557,6 +556,7 @@ echo "================================="
 	${selfname} restart
 	sleep 5
 	${selfname} stop
+	sleep 5
 	fn_header
 	fn_details
 	echo "================================="
