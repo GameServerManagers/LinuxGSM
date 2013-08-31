@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010813
+# Version: 310813
 
 #### Variables ####
 
@@ -27,13 +27,17 @@ appid="232370"
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
-filesdir="${rootdir}/hl2dm"
+filesdir="${rootdir}/serverfiles"
 servercfg="${filesdir}/hl2mp/cfg/server.cfg"
 
-# Server names
+
+# Server Details
 servicename="hl2dm-server"
 gamename="Half Life 2: Deathmatch"
+engine="source"
+
 servername=`grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g'`
+rcon=`grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g'`
 
 # Logging
 logdir="${rootdir}/log/script"
@@ -79,7 +83,7 @@ if [ -f serverquery.py ];then
 		echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} has locked up!" >> ${logfile}
 		sleep 1
 		fn_restartserver
-	else 
+	else
 		echo -e "[\e[0;32m  OK  \e[0;39m] Querying ${servicename}: ${servername}: ${serverquery}"
 		echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Querying ${servername}: ${serverquery}" >> ${logfile}
 		sleep 1
@@ -168,7 +172,7 @@ if [ "${emailnotification}" = "on" ];then
 	failurereason="Testing ${servicename} email notification"
 	actiontaken="Sent test email...hello is this thing on?"
 	fn_emailnotification
-else 
+else
 	echo -e "[\e[0;31m FAIL \e[0;39m] Email notificaion not enabled"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Email notificaion not enabled" >> ${logfile}
 fi
@@ -278,7 +282,7 @@ else
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} is currently checking for updates!" >> ${logfile}
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} will start when updating is complete"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} will start when updating is complete" >> ${logfile}
-fi	
+fi
 }
 
 fn_updateserver(){
@@ -291,8 +295,78 @@ cd steamcmd
 ./steamcmd.sh +login anonymous +force_install_dir ${filesdir} +app_update ${appid} validate +quit |tee -a ${logfile}
 }
 
+fn_details(){
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo ""
+echo "${servername} Ports"
+echo "======================="
+if [ "${engine}" = "unreal2" ];then
+	gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
+	queryport=$((${gameport} + 1))
+	gsqueryport=$(grep OldQueryPortNumber= ${systemdir}/${ini}|sed 's/\OldQueryPortNumber=//g')
+	webadminport=$(grep ListenPort= ${systemdir}/${ini}|sed 's/\ListenPort=//g')
+	webadminuser=$(grep AdminName= ${systemdir}/${ini}|sed 's/\AdminName=//g')
+	webadminpass=$(grep AdminPassword= ${systemdir}/${ini}|sed 's/\AdminPassword=//g')
+	echo "Ports the server is currently using"
+	echo ""
+	echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
+	echo "INBOUND		Game Port		${gameport} UDP	Port=${gameport}"
+	echo "INBOUND		Query Port		${queryport} UDP	n/a"
+	if [ "${appid}" != "223250" ];then
+		echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
+	fi
+	if [ "${appid}" == "215360" ];then
+		echo "OUTBOUND	Master Server port 	28852 TCP/UDP	n/a"
+	else
+		echo "OUTBOUND	Master Server port	28900/28902 TCP/UDP  n/a"
+	fi
+	if [ "${appid}" ];then
+		if [ "${appid}" == "223250" ];then
+			echo "OUTBOUND	Steam Port		20610 UDP	n/a"
+		else
+			echo "OUTBOUND	Steam Port		20660 UDP	n/a"
+		fi
+	fi
+	echo "INBOUND		WebAdmin 		${webadminport} TCP	ListenPort=${webadminport}"
+	echo ""
+	echo "${servername} WebAdmin"
+	echo "======================="
+	echo "WebAdmin URL: http://localhost:${webadminport}"
+	echo "WebAdmin Username: ${webadminuser}"
+	echo "WebAdmin Password: ${webadminpass}"
+	echo ""
+	echo "Config file"
+	echo "${systemdir}/${ini}"
+elif [ "${engine}" = "source" ]||[ "${engine}" = "goldsource" ];then
+	servername=`grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g'`
+	rcon=`grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g'`
+	echo "Ports the server is currently using"
+	echo ""
+	echo "DIRECTION	DESCRIPTION		PORT"
+	echo "INBOUND		Game/Rcon Port		${port}"
+	if [ "${engine}" = "source" ];then
+		echo "INBOUND		SourceTV Port		${sourcetvport}"
+	fi
+	echo "OUTBOUND	Client Port		${clientport}"
+	echo ""
+	echo "You can change ports by editing the"
+	echo "start parameters in ${selfname}"
+	echo ""
+	echo "${servername} Details"
+	echo "======================="
+	echo "Server name: ${servername}"
+	echo "Rcon Password: ${rcon}"
+	echo ""
+	echo "Config file:"
+	echo "${servercfg}"
+fi
+echo ""
+}
+
 #
-##Installer
+## Installer
 #
 
 fn_header(){
@@ -313,7 +387,7 @@ cd ${rootdir}
 mkdir steamcmd
 cd steamcmd
 if [ ! -f steam.sh ];then
-	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz 
+	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
 	chmod +x steam.sh
@@ -354,7 +428,7 @@ echo "Install Directory:"
 pwd
 echo ""
 while true; do
-	read -p "Continue [y/N]" yn	
+	read -p "Continue [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return 1 ;;
@@ -388,11 +462,11 @@ echo "================================="
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
-echo ""
+fn_header
 echo "Configuring ${gamename} Server"
 echo "================================="
-	read -p "Enter rcon password: " rconpass
 	read -p "Enter server name: " servername
+	read -p "Enter rcon password: " rconpass
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
@@ -429,19 +503,8 @@ echo "================================="
 	mkdir -v ${rootdir}/.steam/sdk32
 	cp -v ${filesdir}/bin/steamclient.so ${rootdir}/.steam/sdk32/steamclient.so
 	sleep 1
-	echo ""
-	echo "${gamename} Server Details"
-	echo "================================="
-	hostname=`grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g'`
-	rcon=`grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g'`
-	echo "Server hostname: ${hostname}"
-	echo "Rcon password: ${rcon}"
-	echo "You can edit these in server.cfg:"
-	echo "${servercfg}"
-	echo ""
-	echo "Server IP: localhost:27015"
-	echo "You can change port by editing the"
-	echo "start parms in ${selfname}"
+	fn_header
+	fn_details
 	echo "================================="
 	echo "Install Complete!"
 	echo ""
@@ -469,8 +532,10 @@ case "$1" in
 		fn_debugserver;;
 	email-test)
 		fn_emailtest;;
+	details)
+		fn_details;;
 	*)
-		echo "Usage: $0 {start|stop|restart|update|monitor|install|debug|email-test}"
+		echo "Usage: $0 {start|stop|restart|update|monitor|install|debug|email-test|details}"
 		exit 1;;
 esac
 exit

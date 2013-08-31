@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 180813
+# Version: 310813
 
 #### Variables ####
 
@@ -15,20 +15,20 @@ email="email@example.com"
 # Steam login
 steamuser="username"
 steampass="password"
-
 # Steam
 appid="223250"
 
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
-filesdir="${rootdir}/ro"
+filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/system"
 compressedmapsdir="${rootdir}/Maps-Compressed"
 
 # Server names
 servicename="ro-server"
 gamename="Red Orchestra: Ostfront 41-45"
+engine="unreal2"
 ini="${servicename}.ini"
 servername=`grep -s ServerName= ${systemdir}/${ini} | sed 's/ServerName=//g'`
 
@@ -40,7 +40,7 @@ logdays="7"
 
 # Start vars
 defaultmap="RO-Arad.rom"
-parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true? -nohomedir ini=${ini} log=${logfile}"
+parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true -nohomedir ini=${ini} log=${logfile}"
 
 ##### Script #####
 # Do not edit
@@ -361,8 +361,78 @@ echo "Complete!"
 cd ${rootdir}
 }
 
+fn_details(){
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo ""
+echo "${servername} Ports"
+echo "======================="
+if [ "${engine}" = "unreal2" ];then
+	gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
+	queryport=$((${gameport} + 1))
+	gsqueryport=$(grep OldQueryPortNumber= ${systemdir}/${ini}|sed 's/\OldQueryPortNumber=//g')
+	webadminport=$(grep ListenPort= ${systemdir}/${ini}|sed 's/\ListenPort=//g')
+	webadminuser=$(grep AdminName= ${systemdir}/${ini}|sed 's/\AdminName=//g')
+	webadminpass=$(grep AdminPassword= ${systemdir}/${ini}|sed 's/\AdminPassword=//g')
+	echo "Ports the server is currently using"
+	echo ""
+	echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
+	echo "INBOUND		Game Port		${gameport} UDP	Port=${gameport}"
+	echo "INBOUND		Query Port		${queryport} UDP	n/a"
+	if [ "${appid}" != "223250" ];then
+		echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
+	fi
+	if [ "${appid}" == "215360" ];then
+		echo "OUTBOUND	Master Server port 	28852 TCP/UDP	n/a"
+	else
+		echo "OUTBOUND	Master Server port	28900/28902 TCP/UDP  n/a"
+	fi
+	if [ "${appid}" ];then
+		if [ "${appid}" == "223250" ];then
+			echo "OUTBOUND	Steam Port		20610 UDP	n/a"
+		else
+			echo "OUTBOUND	Steam Port		20660 UDP	n/a"
+		fi
+	fi
+	echo "INBOUND		WebAdmin 		${webadminport} TCP	ListenPort=${webadminport}"
+	echo ""
+	echo "${servername} WebAdmin"
+	echo "======================="
+	echo "WebAdmin URL: http://localhost:${webadminport}"
+	echo "WebAdmin Username: ${webadminuser}"
+	echo "WebAdmin Password: ${webadminpass}"
+	echo ""
+	echo "Config file"
+	echo "${systemdir}/${ini}"
+elif [ "${engine}" = "source" ]||[ "${engine}" = "goldsource" ];then
+	servername=`grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g'`
+	rcon=`grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g'`
+	echo "Ports the server is currently using"
+	echo ""
+	echo "DIRECTION	DESCRIPTION		PORT"
+	echo "INBOUND		Game/Rcon Port		${port}"
+	if [ "${engine}" = "source" ];then
+		echo "INBOUND		SourceTV Port		${sourcetvport}"
+	fi
+	echo "OUTBOUND	Client Port		${clientport}"
+	echo ""
+	echo "You can change ports by editing the"
+	echo "start parameters in ${selfname}"
+	echo ""
+	echo "${servername} Details"
+	echo "======================="
+	echo "Server name: ${servername}"
+	echo "Rcon Password: ${rcon}"
+	echo ""
+	echo "Config file:"
+	echo "${servercfg}"
+fi
+echo ""
+}
+
 #
-##Installer
+## Installer
 #
 
 fn_header(){
@@ -456,49 +526,43 @@ echo "================================="
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
-echo ""
+fn_header
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1
 	echo "Copying ${systemdir}/default.ini to ${systemdir}/${ini}"
 	cp ${systemdir}/default.ini ${systemdir}/${ini}
 	sleep 1
-	echo ""
 	echo "Creating log directory"
 	mkdir -v ${logdir}
 	sleep 1
-	echo ""
 	echo "Applying WebAdmin ROOst.css fix!"
 	echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
 	sed -i 's/none}/none;/g' ${filesdir}/Web/ServerAdmin/ROOst.css
 	sed -i 's/underline}/underline;/g' ${filesdir}/Web/ServerAdmin/ROOst.css
 	sleep 1
-	echo ""
+	echo "Applying WebAdmin CharSet fix!"
+	echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
+	sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' ${systemdir}/uweb.int
+	sleep 1
 	echo "Setting WebAdmin username and password"
 	sed -i 's/AdminName=/AdminName=admin/g' ${systemdir}/${ini}
 	sed -i 's/AdminPassword=/AdminPassword=ropass/g' ${systemdir}/${ini}
 	sleep 1
-	echo ""
 	echo "Enabling WebAdmin"
 	sed -i 's/bEnabled=False/bEnabled=True/g' ${systemdir}/${ini}
 	sleep 1
-	echo ""
-	cd ${rootdir}
-	echo "Default Settings"
-	echo "=============================="
+	echo "Forcing server to start to get ports/server name to display correctly"
 	sleep 1
-	echo "WebAdmin Details:"
-	echo "Url: http://localhost:8075"
-	echo "Username: admin"
-	echo "Password: ropass"
-	echo ""
-	echo "Port Details:"
-	echo "8075 TCP (WebAdmin Port)"
-	echo "7707 UDP (Game Port)"
-	echo "7708 UDP (Query Port)"
-	echo "7717 UDP (GameSpy Query Port)"
-	echo "28852 TCP & UDP (Allows your Server to Connect to the Master Server Browser)"
-	echo "20560 UDP (Steam Port)"
+	cd ${rootdir}
+	${selfname} start
+	sleep 5
+	${selfname} restart
+	sleep 5
+	${selfname} stop
+	sleep 5
+	fn_header
+	fn_details
 	echo "================================="
 	echo "Install Complete!"
 	echo ""
@@ -531,8 +595,10 @@ case "$1" in
 		fn_steamguard;;
 	email-test)
 		fn_emailtest;;
+	details)
+		fn_details;;
 	*)
-		echo "Usage: $0 {start|stop|restart|update|monitor|install|debug|map-compressor|steam-auth|email-test}"
+		echo "Usage: $0 {start|stop|restart|update|monitor|install|debug|map-compressor|steam-auth|email-test|details}"
 		exit 1;;
 esac
 exit
