@@ -320,7 +320,11 @@ if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ];then
 	gsqueryport=$(grep OldQueryPortNumber= ${systemdir}/${ini}|sed 's/\OldQueryPortNumber=//g')
 	udplinkport=$((${gameport} + 2))
 	webadminport=$(grep ListenPort= ${systemdir}/${ini}|sed 's/\ListenPort=//g')
-	webadminuser=$(grep AdminName= ${systemdir}/${ini}|sed 's/\AdminName=//g')
+	if [ "${engine}" == "unreal" ];then
+		webadminuser=$(grep AdminUsername= ${systemdir}/${ini}|sed 's/\AdminUsername=//g')
+	else
+		webadminuser=$(grep AdminName= ${systemdir}/${ini}|sed 's/\AdminName=//g')
+	fi
 	webadminpass=$(grep AdminPassword= ${systemdir}/${ini}|sed 's/\AdminPassword=//g')
 	echo "Ports the server is currently using"
 	echo ""
