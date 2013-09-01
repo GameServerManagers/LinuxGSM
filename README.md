@@ -4,10 +4,10 @@ The Linux Game Server Managers are command line tools for quick, simple deployme
 
 Main features
 
-Server installer 
-Start/Stop/Restart server
-Server updater
-Server monitor (includes optional email notification)
+Server installer<br>
+Start/Stop/Restart server<br>
+Server updater<br>
+Server monitor (includes optional email notification)<br>
 
 Full Documentation and details at:
 
