@@ -318,6 +318,7 @@ if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ];then
 	gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
 	queryport=$((${gameport} + 1))
 	gsqueryport=$(grep OldQueryPortNumber= ${systemdir}/${ini}|sed 's/\OldQueryPortNumber=//g')
+	udplinkport=$((${gameport} + 2))
 	webadminport=$(grep ListenPort= ${systemdir}/${ini}|sed 's/\ListenPort=//g')
 	webadminuser=$(grep AdminName= ${systemdir}/${ini}|sed 's/\AdminName=//g')
 	webadminpass=$(grep AdminPassword= ${systemdir}/${ini}|sed 's/\AdminPassword=//g')
@@ -326,6 +327,9 @@ if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ];then
 	echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
 	echo "INBOUND		Game Port		${gameport} UDP	Port=${gameport}"
 	echo "INBOUND		Query Port		${queryport} UDP	n/a"
+	if [ "${engine}" == "unreal" ];then
+		echo "OUTBOUND	UdpLink Port (random)	${udplinkport}+ UDP	n/a"
+	fi
 	if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ];then
 		echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
 	fi
