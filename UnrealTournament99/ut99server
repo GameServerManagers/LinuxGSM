@@ -287,7 +287,7 @@ pwd
 echo ""
 echo "Compressed maps saved to:"
 echo ""
-echo "$compressedmapsdir"
+echo "${compressedmapsdir}"
 echo ""
 while true; do
 	read -p "Start compression [y/N]" yn
@@ -297,11 +297,14 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 	esac
 done
-mkdir $compressedmapsdir
-rm -rfv ${filesdir}/Maps/*.uz2
+mkdir ${compressedmapsdir}
+rm -rfv ${filesdir}/Maps/*.unr.uz
 cd ${systemdir}
-./ucc-bin compress ../Maps/* --nohomedir
-mv -fv ${filesdir}/Maps/*.uz2 $compressedmapsdir
+for f in ../Maps/*
+do
+	./ucc-bin compress $f --nohomedir
+done
+mv -fv ${filesdir}/Maps/*.unr.uz ${compressedmapsdir}
 }
 
 fn_details(){
