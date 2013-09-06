@@ -486,7 +486,6 @@ echo "================================="
 		echo -e "sv_logfile 1"
 		echo -e "sv_log_onefile 0"
 	}|tee ${servercfg} > /dev/null 2>&1
-
 	sleep 1
 	echo ""
 	echo "Setting up logging"
