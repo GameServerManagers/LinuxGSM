@@ -22,9 +22,6 @@ parms="-game hidden +map ${defaultmap} -port ${port} +tv_port ${sourcetvport} +c
 
 #### Advanced Variables ####
 
-# Steam
-appid="4020"
-
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
