@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hidden: Source
+# The Hidden
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -29,8 +29,8 @@ filesdir="${rootdir}/serverfiles"
 servercfg="${filesdir}/hidden/cfg/server.cfg"
 
 # Server Details
-servicename="hs-server"
-gamename="Hidden: Source"
+servicename="th-server"
+gamename="The Hidden"
 engine="source"
 
 servername=`grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g'`
