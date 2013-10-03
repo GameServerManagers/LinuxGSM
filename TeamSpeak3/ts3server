@@ -13,19 +13,24 @@ emailnotification="off"
 email="email@example.com"
 
 # Server names
+gamename="Teamspeak 3"
 servername="Teamspeak 3 Server"
 servicename="ts3-server"
 
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-filesdir="${rootdir}/ts3"
+filesdir="${rootdir}/serverfiles"
 ini="${servicename}.ini"
 
 # Logging
-logdir="${rootdir}/${servicename}-log"
-logfile="${logdir}/${servicename}.log"
-logfiledate="${logdir}/${servicename}-$( date '+%d-%m-%Y-%H-%M-%S').log"
 logdays="7"
+gamelogdir="${filesdir}/logs"
+scriptlogdir="${rootdir}/log/script"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
 ##### Script #####
 # Do not edit
@@ -49,8 +54,10 @@ fi
 fn_runcheck(){
 fn_status
 if [ "$ts3status" = "Server is running" ]; then
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${logfile}
+	echo -en "\r[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${scriptlog}
+	sleep 0.5
+	echo -en "\n"
 	exit
 fi
 }
@@ -58,12 +65,12 @@ fi
 fn_inicheck(){
 if [ ! -e ${filesdir}/${ini} ]; then
 	echo -e "[\e[1;33m WARN \e[0;39m] ${servicename}: ${filesdir}/${ini} is missing"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} ${filesdir}/${ini} is missing" >> ${logfile}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} ${filesdir}/${ini} is missing" >> ${scriptlog}
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: Creating blank ${ini}"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Creating blank ${ini}" >> ${logfile}
-	echo -e "* ${ini} can remain blank by default."
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Creating blank ${ini}" >> ${scriptlog}
+	echo -e "[\e[0;36m INFO \e[0;39m] ${ini} can remain blank by default."
 	touch ${filesdir}/${ini}
-fi	
+fi
 }
 
 fn_distro(){
@@ -97,139 +104,164 @@ fn_distro
 fn_uptime
 fn_load
 {
-echo -e "=========================================\nServer information\n=========================================\n"
+echo -e "========================================\n${servicename} details\n========================================\n"
+echo -e "Service: ${servicename}"
+echo -e "Game: ${gamename}"
+echo -e "Server: ${servername}"
+echo -e "Failure reason: ${failurereason}"
+echo -e "Action Taken: ${actiontaken}\n"
+echo -e "========================================\nServer details\n========================================\n"
 echo -e "Date: $(date)"
-echo -e "Distro: ${os}" 
+echo -e "Distro: ${os}"
 echo -e "Arch: ${arch}"
 echo -e "Kernel: ${kernel}"
 echo -e "Hostname: $HOSTNAME"
 echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
 echo -e "Avg Load${load}\n"
-echo -e "=========================================\n${servicename} statistics\n=========================================\n"
-echo -e "Service: ${servicename}"
-echo -e "Server: ${servername}"
-echo -e "Failure reason: ${failurereason}"
-echo -e "Action Taken: ${actiontaken}\n"
-echo -e "=========================================\n${servicename} log summary\n=========================================\n"
-}|tee ${logdir}/${servicename}-email.log > /dev/null 2>&1
-tail -50 ${logfile} >> /${logdir}/${servicename}-email.log
-mail -s "${subject}" ${email} < /${logdir}/${servicename}-email.log
-echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: Sent email notification to ${email}"
-echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} sent email notification to ${email}" >> ${logfile}
+echo -e "========================================\nLogs\n========================================\n"
+echo -e "Script log\n===================\n"
+}|tee ${scriptlogdir}/${servicename}-email.log > /dev/null 2>&1
+tail -25 ${scriptlog} >> ${emaillog}
+if [ ! -z ${consolelog} ];then
+	echo -e "\n\nConsole log\n====================\n" >> ${emaillog}
+	tail -25 ${consolelog} >> ${emaillog}
+fi
+if [ ! -z ${gamelogdir} ];then
+	echo -e "\n\nServer log\n====================\n" >> ${emaillog}
+	tail ${gamelogdir}/*|grep -v "==>"|sed '/^$/d'|tail -25 >> ${emaillog}
+fi
+mail -s "${subject}" ${email} < ${emaillog}
+echo -en "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Sent email notification to ${email}" >> ${scriptlog}
 }
 
 fn_emailtest(){
 fn_rootcheck
 fn_syscheck
-echo -e "[\e[0;32m  OK  \e[0;39m] ${servicename}: Email test notification: ${servername}"
-echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} email test notification" >> ${logfile}
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Emailing test notification" >> ${scriptlog}
 if [ "${emailnotification}" = "on" ];then
-	subject="${servicename} email test notification - testing ${servername}"
+	subject="${servicename} Email Test Notification - Testing ${servername}"
 	failurereason="Testing ${servicename} email notification"
 	actiontaken="Sent test email...hello is this thing on?"
 	fn_emailnotification
-else 
-	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: email notificaion not enabled"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} email notificaion not enabled" >> ${logfile}
+else
+	echo -e "[\e[0;31m FAIL \e[0;39m] Email notification not enabled"
+	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Email notification not enabled" >> ${scriptlog}
 fi
+sleep 0.5
+echo -en "\n"
 }
 
 fn_logmanager(){
 #Log manager will active if finds logs older than $logdays
-if [ `find ${logdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
+if [ `find ${scriptlogdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
 	echo -e "[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> ${logfile}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> ${scriptlog}
 	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${logfile}
-	find ${logdir}/* -mtime +${logdays} |tee >> ${logfile}
-	count=`find ${logdir}/* -mtime +${logdays}|wc -l`
-	find ${logdir}/* -mtime +${logdays} -exec rm {} \;
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${scriptlog}
+	find ${scriptlogdir}/* -mtime +${logdays} |tee >> ${scriptlog}
+	count=`find ${scriptlogdir}/* -mtime +${logdays}|wc -l`
+	find ${scriptlogdir}/* -mtime +${logdays} -exec rm {} \;
 	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${logfile}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${scriptlog}
 fi
 }
 
 fn_restartserver(){
-	echo -e "[\e[0;32m  OK  \e[0;39m] Restarting ${servicename}: ${servername}"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Restarting ${servername}" >> ${logfile}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Restarting ${servername}" >> ${scriptlog}
 	fn_stopserver
-	sleep 1
 	fn_startserver
 }
 
 fn_startserver(){
-if [ ! -d ${logdir} ];then
-	mkdir ${logdir}
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Creating log directory ${logdir}"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} Creating log directory ${logdir}" >> ${logfile}
+if [ ! -d ${scriptlogdir} ];then
+	mkdir ${rootdir}/log
+	mkdir ${scriptlogdir}
+	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Creating log directorys ${scriptlogdir}"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} Creating log directorys ${scriptlogdir}" >> ${scriptlog}
+fi
+if [ ! -h ${rootdir}/log/server ]; then
+	ln -sv ${gamelogdir} ${rootdir}/log/server
 fi
 fn_rootcheck
 fn_syscheck
 fn_runcheck
 fn_inicheck
 fn_logmanager
-if [ -f ${logdir} ];then
-	cp ${logfile} ${logfiledate}
-fi
-echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
-echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${logfile}
-${filesdir}/ts3server_startscript.sh start inifile=${ini}
-sleep 3
+mv ${scriptlog} ${scriptlogdate}
+echo -en "[ .... ] Starting ${servicename}: ${servername}"
+${filesdir}/ts3server_startscript.sh start inifile=${ini} > /dev/null 2>&1
+sleep 1
 fn_status
 if [ "$ts3status" = "Server seems to have died" ] || [ "$ts3status"	= "No server running (ts3server.pid is missing)" ];then
-	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} Server is unable to start"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} Server is unable to start" >> ${logfile}
-	echo -e "Check ${filesdir}/logs for failure reason" |tee ${logfile}
+	echo -en "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} Server is unable to start" >> ${scriptlog}
+	echo -e "Check ${filesdir}/logs for failure reason" |tee ${scriptlog}
+else
+	echo -en "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername}" >> ${scriptlog}
 fi
+sleep 0.5
+echo -en "\n"
 }
 
 fn_stopserver(){
 fn_rootcheck
 fn_syscheck
 fn_status
+echo -en "[ .... ] Stopping ${servicename}: ${servername}"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${scriptlog}
+sleep 0.5
 if [ "$ts3status" = "No server running (ts3server.pid is missing)" ];then
-	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} has already stopped"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} has already stopped" >> ${logfile}
+	echo -en "\r[\e[0;31m FAIL \e[0;39m] Stopping ${servicename}: ${servername} is already stopped"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${scriptlog}
 else
-	echo -e "[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${logfile}
-	${filesdir}/ts3server_startscript.sh stop inifile=${ini}
+	echo -en "\r[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopped ${servername}" >> ${scriptlog}
+	${filesdir}/ts3server_startscript.sh stop inifile=${ini} > /dev/null 2>&1
 fi
+echo -en "\n"
 }
 
 fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_logmanager
-echo -e "[\e[0;32m  OK  \e[0;39m] Checking ${servicename}: ${servername}"
-echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Checking ${servername}" >> ${logfile}
+echo -en "[ .... ] Monitor is checking ${servicename}: ${servername}"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor is checking ${servername}" >> ${scriptlog}
+sleep 0.5
 fn_runcheck
-echo -e "[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!"
-echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${logfile}
+echo -en "\r[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!\n"
+echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${scriptlog}
+sleep 1
 ts3status=`${filesdir}/ts3server_startscript.sh status inifile=${ini}`
 if [ "$ts3status" = "Server seems to have died" ];then
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Server seems to have died"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} Server seems to have died" >> ${logfile}
+	echo -en "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Server seems to have died"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} Server seems to have died" >> ${scriptlog}
+
 	failurereason="Server seems to have died"
-elif [ "$ts3status"	= "No server running (ts3server.pid is missing)" ];then
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} No server running (ts3server.pid is missing)"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} No server running (ts3server.pid is missing)" >> ${logfile}
+	echo -en "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} No server running (ts3server.pid is missing)"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} No server running (ts3server.pid is missing)" >> ${scriptlog}
 	failurereason="No server running (ts3server.pid is missing)"
 else
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Unknown error"
-	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} Unknown error" >> ${logfile}
+	echo -en "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Unknown error"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} Unknown error" >> ${scriptlog}
 	failurereason="Unknown error"
 fi
-fn_restartserver
+sleep 0.5
+echo -en "\n"
 if [ "${emailnotification}" = "on" ];then
 	subject="${servicename} Monitor - Restarting ${servername}"
 	actiontaken="restarted ${servername}"
 	fn_emailnotification
 fi
+sleep 0.5
+echo -en "\n"
+fn_restartserver
 }
 
 fn_status(){
-ts3status=`${filesdir}/ts3server_startscript.sh status inifile=${ini}`
+ts3status=`${filesdir}/ts3server_startscript.sh status inifile=${ini} > /dev/null 2>&1`
 }
 
 case "$1" in
