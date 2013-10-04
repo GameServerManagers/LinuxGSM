@@ -521,11 +521,11 @@ fi
 echo "MD5 checksum: PASSED"
 echo ""
 if [ ! -f UTPGPatch451.tar.bz2 ];then
-	wget http://danielgibbs.co.uk/wp-content/uploads/ut-server-436.tar.gz
+	wget http://danielgibbs.co.uk/wp-content/uploads/UTPGPatch451.tar.bz2
 else
-	echo "ut-server-436.tar.gz already downloaded!"
+	echo "UTPGPatch451.tar.bz2 already downloaded!"
 fi
-echo "Running MD5 checksum to verify ut-server-436.tar.gz"
+echo "Running MD5 checksum to verify UTPGPatch451.tar.bz2"
 sleep 1
 echo "MD5 checksum: 77a735a78b1eb819042338859900b83b"
 md5check=`md5sum UTPGPatch451.tar.bz2| awk '{print $1;}'`
