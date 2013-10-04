@@ -9,8 +9,8 @@
 
 # Notification Email
 # (on|off)
-emailnotification="on"
-email="me@danielgibbs.co.uk"
+emailnotification="off"
+email="email@example.com"
 
 # Start vars
 defaultmap="de_dust"
