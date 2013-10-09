@@ -244,7 +244,7 @@ echo "WebAdmin URL: http://localhost:${webadminport}"
 echo "WebAdmin Username: ${webadminuser}"
 echo "WebAdmin Password: ${webadminpass}"
 echo ""
-echo "You can change various paramers by editing the"
+echo "You can change various parameters by editing the"
 echo "start parameters in ${selfname}"
 echo ""
 }
