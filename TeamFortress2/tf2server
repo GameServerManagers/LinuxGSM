@@ -72,7 +72,7 @@ fi
 }
 
 fn_runcheck(){
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	fn_serverquery
 	echo -en "\r[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
