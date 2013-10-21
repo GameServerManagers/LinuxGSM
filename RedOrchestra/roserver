@@ -214,12 +214,12 @@ esac
 done
 echo -en "\r[ .... ] Starting ${servicename} console"
 sleep 0.5
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	echo -e "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename} console"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} console accessed" >> ${scriptlog}
 	sleep 1
-	tmux attach-session -t $(tmux list-sessions|awk '{print $1}')
+	tmux attach-session -t ${servicename}
 else
 	echo -e "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename} console: ${servername} not running"
 	sleep 0.5
@@ -254,7 +254,7 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
 	while true; do
@@ -503,11 +503,11 @@ fn_startserver
 fn_stopserver(){
 fn_rootcheck
 fn_syscheck
-pid=$(tmux list-sessions 2>&1|awk '{print $1}')
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep ${servicename}|wc -l)
 echo -en "[ .... ] Stopping ${servicename}: ${servername}"
 echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${scriptlog}
 sleep 0.5
-if [ "${pid}" == "failed" ];then
+if [ "${pid}" == "0" ];then
 	echo -en "\r[\e[0;31m FAIL \e[0;39m] Stopping ${servicename}: ${servername} is already stopped"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${scriptlog}
 else
@@ -532,7 +532,7 @@ mv ${consolelog} ${consolelogdate}
 cd ${systemdir}
 
 tmux new-session -d -s ${servicename} "./ucc-bin ${parms} |tee -a ${consolelog}"
-tmuxwc=`tmux list-sessions 2>&1|awk '{print $1}'|wc -l`
+tmuxwc=`tmux list-sessions 2>&1|awk '{print $1}'|grep ${servicename}|wc -l`
 sleep 1
 if [ ${tmuxwc} -eq 0 ];then
 	echo -en "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
