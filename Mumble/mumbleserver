@@ -20,7 +20,7 @@ servicename="mumble-server"
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
-filesdir="${rootdir}/murmor"
+filesdir="${rootdir}/murmur"
 ini="murmur.ini"
 
 # Logging
