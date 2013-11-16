@@ -470,8 +470,8 @@ mv ${scriptlog} ${scriptlogdate}
 mv ${consolelog} ${consolelogdate}
 cd ${systemdir}
 tmux new-session -d -s ${servicename} "./ucc-bin ${parms} |tee -a ${consolelog}"
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep ${servicename}|wc -l)
 sleep 1
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep ${servicename}|wc -l)
 if [ ${tmuxwc} -eq 0 ];then
 	echo -en "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: failed to start ${servername}" >> ${scriptlog}
