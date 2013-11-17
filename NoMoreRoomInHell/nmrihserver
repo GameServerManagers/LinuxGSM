@@ -17,7 +17,7 @@ steamuser="username"
 steampass="password"
 
 # Start Variables
-defaultmap="nms_deadend"
+defaultmap="nmo_broadway"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
