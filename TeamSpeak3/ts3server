@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010813
+# Version: 101113
 
 #### Variables ####
 
@@ -12,7 +12,7 @@
 emailnotification="off"
 email="email@example.com"
 
-# Server names
+# Server Details
 gamename="Teamspeak 3"
 servername="Teamspeak 3 Server"
 servicename="ts3-server"
@@ -81,7 +81,7 @@ if [ -f /etc/lsb-release ]; then
 elif [ -f /etc/debian_version ]; then
 	os="Debian $(cat /etc/debian_version)"
 elif [ -f /etc/redhat-release ]; then
-	os=`cat /etc/redhat-release`
+	os=$(cat /etc/redhat-release)
 else
 	os="$(uname -s) $(uname -r)"
 fi
@@ -160,7 +160,7 @@ if [ `find ${scriptlogdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
 	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${scriptlog}
 	find ${scriptlogdir}/* -mtime +${logdays} |tee >> ${scriptlog}
-	count=`find ${scriptlogdir}/* -mtime +${logdays}|wc -l`
+	count=$(find ${scriptlogdir}/* -mtime +${logdays}|wc -l)
 	find ${scriptlogdir}/* -mtime +${logdays} -exec rm {} \;
 	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${scriptlog}
@@ -234,7 +234,7 @@ fn_runcheck
 echo -en "\r[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!\n"
 echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${scriptlog}
 sleep 1
-ts3status=`${filesdir}/ts3server_startscript.sh status inifile=${ini}`
+fn_status
 if [ "$ts3status" = "Server seems to have died" ];then
 	echo -en "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} Server seems to have died"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} Server seems to have died" >> ${scriptlog}
@@ -261,7 +261,7 @@ fn_restartserver
 }
 
 fn_status(){
-ts3status=`${filesdir}/ts3server_startscript.sh status inifile=${ini} > /dev/null 2>&1`
+ts3status=$(${filesdir}/ts3server_startscript.sh status inifile=${ini})
 }
 
 case "$1" in

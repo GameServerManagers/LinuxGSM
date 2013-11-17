@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 180813
+# Version: 101113
 
 ### Variables ####
 
@@ -12,11 +12,10 @@
 emailnotification="off"
 email="email@example.com"
 
-# Server names
+# Server Details
 servername="Mumble"
 servicename="mumble-server"
 
-# Directorys
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
@@ -50,7 +49,7 @@ fi
 
 fn_runcheck(){
 # already running check
-pidwc=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l`
+pidwc=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
 if [ ${pidwc} -eq 1 ];then
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${logfile}
@@ -81,7 +80,7 @@ if [ -f /etc/lsb-release ]; then
 elif [ -f /etc/debian_version ]; then
 	os="Debian $(cat /etc/debian_version)"
 elif [ -f /etc/redhat-release ]; then
-	os=`cat /etc/redhat-release`
+	os=$(cat /etc/redhat-release)
 else
 	os="$(uname -s) $(uname -r)"
 fi
@@ -149,7 +148,7 @@ if [ `find ${logdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
 	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${logfile}
 	find ${logdir}/* -mtime +${logdays} |tee >> ${logfile}
-	count=`find ${logdir}/* -mtime +${logdays}|wc -l`
+	count=$(find ${logdir}/* -mtime +${logdays}|wc -l)
 	find ${logdir}/* -mtime +${logdays} -exec rm {} \;
 	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${logfile}
@@ -183,7 +182,7 @@ echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
 echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${logfile}
 screen -d -m -S ${servicename} ./murmur.x86 -fg -ini ${ini}
 sleep 1
-pidwc=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l`
+pidwc=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
 if [ ${pidwc} -eq 0 ];then
 	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} failed to start"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} failed to start" >> ${logfile}
@@ -193,7 +192,7 @@ fi
 fn_stopserver(){
 fn_rootcheck
 fn_syscheck
-pid=`screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'`
+pid=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}')
 if [ -z ${pid} ];then
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already stopped"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${logfile}
