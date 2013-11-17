@@ -33,8 +33,8 @@ filesdir="${rootdir}/serverfiles"
 servercfg="${filesdir}/hidden/cfg/${servicename}.cfg"
 
 # Server Details
-servername$(grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g')
-rcon$(grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g')
+servername=$(grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g')
 
 # Logging
 logdays="7"
@@ -470,8 +470,6 @@ echo "================================="
 cd ${filesdir}
 if [ ! -f steam ];then
 	wget http://danielgibbs.co.uk/wp-content/uploads/steam
-	tar --verbose -zxf steamcmd_linux.tar.gz
-	rm -v steamcmd_linux.tar.gz
 	chmod +x steam
 else
 	echo "hldsupdatetool already installed!"
