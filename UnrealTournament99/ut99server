@@ -20,7 +20,7 @@ systemdir="${filesdir}/System"
 backupdir="${rootdir}/backups"
 compressedmapsdir="${rootdir}/Maps-Compressed"
 
-# Server names
+# Server Details
 servicename="ut99-server"
 gamename="Unreal Tournament 99"
 engine="unreal"
@@ -39,7 +39,7 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
-# Start vars
+# Start Variables
 defaultmap="DM-Deck16]["
 parms="server ${defaultmap}.unr ini=${systemdir}/${ini}"
 
@@ -413,12 +413,14 @@ sleep 0.5
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ];then
 	fn_runcheck
-	echo -en "\r[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!\n"
+	echo -en "\r[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${scriptlog}
 	if [ "${emailnotification}" = "on" ];then
 		subject="${servicename} Monitor - Starting ${servername}"
 		failurereason="${servicename} process was not running"
 		actiontaken="restarted ${servicename}"
+		sleep 0.5
+		echo -en "\n"
 		fn_emailnotification
 	fi
 	sleep 0.5
@@ -596,7 +598,7 @@ echo "================================="
 	mkdir -v ${filesdir}
 	cd ${filesdir}
 	tar -zxvf ut-server-436.tar.gz ut-server/ --strip-components=1
-	tar jxvf UTPGPatch451.tar.bz2
+	tar -jxvf UTPGPatch451.tar.bz2
 	cd ${systemdir}
 	while true; do
 		read -p "Was the install successful? [y/N]" yn
