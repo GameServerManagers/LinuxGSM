@@ -655,7 +655,7 @@ echo "================================="
 	echo "Once you have the key enter it below"
 	echo -n "KEY: "
 	read CODE
-	echo ""\""CDKey"\""="\""${CODE}"\""" > ${systemdir}/cdkey > /dev/null 2>&1
+	echo ""\""CDKey"\""="\""${CODE}"\""" > ${systemdir}/cdkey
 	fn_header
 echo "Configuring ${gamename} Server"
 echo "================================="
