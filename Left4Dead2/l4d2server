@@ -555,8 +555,11 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
+	touch ${filesdir}/left4dead2/cfg/server.cfg
+	echo "exec ${servercfg}" > ${filesdir}/left4dead2/cfg/server.cfg
 	sleep 1
-	echo "Saving as:"
+	echo "Creating default config file:"
+	sleep 0.5
 	echo "${servercfg}"
 	touch ${servercfg}
 	{
