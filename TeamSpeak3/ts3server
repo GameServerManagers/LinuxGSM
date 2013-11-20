@@ -21,6 +21,7 @@ servicename="ts3-server"
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 filesdir="${rootdir}/serverfiles"
 ini="${servicename}.ini"
+backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
@@ -97,6 +98,53 @@ days=$(( uptime/60/60/24 ))
 
 fn_load(){
 load=$(uptime | awk -F 'load average' '{ print $2 }')
+}
+
+fn_backupserver(){
+fn_rootcheck
+fn_syscheck
+backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
+echo ""
+echo "${gamename} Backup"
+echo "============================"
+echo ""
+echo "The following backup will be created."
+echo ""
+echo "${backupdir}/${backupname}.tar.gz"
+echo ""
+while true; do
+	read -p "Continue? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1 ;;
+	* ) echo "Please answer yes or no.";;
+esac
+done
+
+fn_status
+if [ "$ts3status" = "Server is running" ]; then
+	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
+	while true; do
+		read -p "Would you like to stop ${servicename} while running the backup? [y/N]" yn
+		case $yn in
+		[Yy]* ) fn_stopserver;break;;
+		[Nn]* ) break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+fi
+echo -en "[ .... ] Starting ${servicename}: ${servername} backup"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername} backup" >> ${scriptlog}
+sleep 0.5
+echo -en "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername} backup"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername} backup" >> ${scriptlog}
+sleep 1
+echo -en "\n"
+cd ${rootdir}
+mkdir ${backupdir} > /dev/null 2>&1
+tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} ${rootdir}
+echo -en "\r${servicename} backup complete"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: backup complete" >> ${scriptlog}
 }
 
 fn_emailnotification(){
@@ -271,12 +319,14 @@ case "$1" in
 		fn_stopserver;;
 	restart)
 		fn_restartserver;;
+	backup)
+		fn_backupserver;;
 	monitor)
-		fn_monitorserver;;
+		fn_monitorserver;;	
 	email-test)
 		fn_emailtest;;
 	*)
-		echo "Usage: $0 {start|stop|restart|monitor|email-test}"
+		echo "Usage: $0 {start|stop|restart|backup|monitor|email-test}"
 		exit 1;;
 esac
 exit
