@@ -307,10 +307,12 @@ case "$1" in
 		fn_monitorserver;;
 	debug)
 		fn_debugserver;;
+	backup)
+		fn_backupserver;;		
 	email-test)
 		fn_emailtest;;
 	*)
-		echo "Usage: $0 {start|stop|restart|monitor|debug|email-test}"
+		echo "Usage: $0 {start|stop|restart|monitor|debug|backup|email-test}"
 		exit 1;;
 esac
 exit
