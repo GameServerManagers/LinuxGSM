@@ -559,8 +559,8 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
-	touch ${filesdir}/tf/cfg/server.cfg
-	echo "exec ${servercfg}" > ${filesdir}/tf/cfg/server.cfg
+	touch ${filesdir}/nmrih/cfg/server.cfg
+	echo "exec ${servercfg}" > ${filesdir}/nmrih/cfg/server.cfg
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5
