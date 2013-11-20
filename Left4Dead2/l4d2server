@@ -34,7 +34,7 @@ rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
 servercfg="${filesdir}/left4dead2/cfg/${servicename}.cfg"
-backupdir="${rootdir}/backups"
+backupdir="backups"
 
 # Server Details
 servername=$(grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g')
@@ -219,7 +219,7 @@ sleep 1
 echo -en "\n"
 cd ${rootdir}
 mkdir ${backupdir} > /dev/null 2>&1
-tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} ${rootdir}
+tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} *
 echo -en "\r${servicename} backup complete"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: backup complete" >> ${scriptlog}
 }

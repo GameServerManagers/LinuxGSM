@@ -42,7 +42,7 @@ engine="spark"
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
-backupdir="${rootdir}/backups"
+backupdir="backups"
 
 # Logging
 logdays="7"
@@ -223,7 +223,7 @@ sleep 1
 echo -en "\n"
 cd ${rootdir}
 mkdir ${backupdir} > /dev/null 2>&1
-tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} ${rootdir}
+tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} *
 echo -en "\r${servicename} backup complete"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: backup complete" >> ${scriptlog}
 }
@@ -239,7 +239,7 @@ echo "Ports the server is currently using"
 echo ""
 echo "DIRECTION	DESCRIPTION		PORT"
 echo "INBOUND		Game/Rcon Port		${port}"
-echo "INBOUND		WebAdmin 		${webadminport}"	
+echo "INBOUND		WebAdmin 		${webadminport}"
 echo ""
 echo "${servername} WebAdmin"
 echo "======================="

@@ -21,7 +21,7 @@ servicename="ts3-server"
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 filesdir="${rootdir}/serverfiles"
 ini="${servicename}.ini"
-backupdir="${rootdir}/backups"
+backupdir="backups"
 
 # Logging
 logdays="7"
@@ -120,7 +120,6 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-
 fn_status
 if [ "$ts3status" = "Server is running" ]; then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
@@ -142,7 +141,7 @@ sleep 1
 echo -en "\n"
 cd ${rootdir}
 mkdir ${backupdir} > /dev/null 2>&1
-tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} ${rootdir}
+tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} *
 echo -en "\r${servicename} backup complete"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: backup complete" >> ${scriptlog}
 }
@@ -322,7 +321,7 @@ case "$1" in
 	backup)
 		fn_backupserver;;
 	monitor)
-		fn_monitorserver;;	
+		fn_monitorserver;;
 	email-test)
 		fn_emailtest;;
 	*)
