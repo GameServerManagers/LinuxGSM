@@ -93,8 +93,8 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
-if [ ${tmuxwc} -eq 1 ];then
+pidwc=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
+if [ ${pidwc} -eq 1 ];then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
 	while true; do
 		read -p "Would you like to stop ${servicename} while running the backup? [y/N]" yn
