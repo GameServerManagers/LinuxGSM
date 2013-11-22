@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 101113
+# Version: 221113
 
 #### Variables ####
 
@@ -527,8 +527,21 @@ echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
 	rm -f ${servercfg}
-	cd ${rootdir}/steamcmd
 	mkdir -v ${filesdir}
+	echo ""
+	echo "Downloading appmanifest files (app 90 fix)"
+	echo "================================="
+	sleep 2	
+	mkdir -v ${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5
+	cd ${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5	
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_10.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_70.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_90.acf
+	echo "Downloading appmanifest files (app 90 fix)"
+	echo ""
+	echo "Installing ${gamename} Server"
+	echo "================================="
+	cd ${rootdir}/steamcmd	
 	touch install.txt
 	chmod 0600 install.txt
 	echo "login anonymous" > install.txt
