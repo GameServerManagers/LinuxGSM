@@ -50,7 +50,7 @@ fi
 
 fn_runcheck(){
 # already running check
-pidwc=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
+pidwc=$(screen -ls |grep -E "^${servicename}:" |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
 if [ ${pidwc} -eq 1 ];then
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${logfile}
@@ -93,7 +93,7 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-pidwc=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
+pidwc=$(screen -ls |grep -E "^${servicename}:" |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
 if [ ${pidwc} -eq 1 ];then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
 	while true; do
@@ -229,7 +229,7 @@ echo -e "[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
 echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${logfile}
 screen -d -m -S ${servicename} ./murmur.x86 -fg -ini ${ini}
 sleep 1
-pidwc=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
+pidwc=$(screen -ls |grep -E "^${servicename}:" |awk -F . '{print $1}'|awk '{print $1}'|wc -l)
 if [ ${pidwc} -eq 0 ];then
 	echo -e "[\e[0;31m FAIL \e[0;39m] ${servicename}: ${servername} failed to start"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} failed to start" >> ${logfile}
@@ -239,14 +239,14 @@ fi
 fn_stopserver(){
 fn_rootcheck
 fn_syscheck
-pid=$(screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}')
+pid=$(screen -ls |grep -E "^${servicename}:" |awk -F . '{print $1}'|awk '{print $1}')
 if [ -z ${pid} ];then
 	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already stopped"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${logfile}
 else
 	echo -e "[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
 	echo -e "$( date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${logfile}
-	pkill -P `screen -ls |grep ${servicename} |awk -F . '{print $1}'|awk '{print $1}'`
+	pkill -P `screen -ls |grep -E "^${servicename}:" |awk -F . '{print $1}'|awk '{print $1}'`
 	screen -wipe > /dev/null 2>&1
 fi
 }

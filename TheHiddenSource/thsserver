@@ -70,7 +70,7 @@ fi
 }
 
 fn_runcheck(){
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	fn_serverquery
 	echo -en "\r[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
@@ -155,7 +155,7 @@ esac
 done
 echo -en "\r[ .... ] Starting ${servicename} console"
 sleep 0.5
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	echo -e "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename} console"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} console accessed" >> ${scriptlog}
@@ -195,7 +195,7 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
 	while true; do
@@ -242,7 +242,7 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep ${servicename}|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ];then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
 	while true; do
@@ -455,7 +455,7 @@ fn_startserver
 fn_stopserver(){
 fn_rootcheck
 fn_syscheck
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep ${servicename}|wc -l)
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo -en "[ .... ] Stopping ${servicename}: ${servername}"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${scriptlog}
 sleep 0.5
@@ -484,7 +484,7 @@ mv ${consolelog} ${consolelogdate}
 cd ${filesdir}
 tmux new-session -d -s ${servicename} "./srcds_run ${parms} |tee -a ${consolelog}"
 sleep 1
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep ${servicename}|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ];then
 	echo -en "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: failed to start ${servername}" >> ${scriptlog}

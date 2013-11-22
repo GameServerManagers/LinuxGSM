@@ -21,7 +21,7 @@ parms="-game cstrike +map ${defaultmap} -strictportbind -port ${port} +clientpor
 #### Advanced Variables ####
 
 # Steam
-appid="90"
+appid="90 -beta beta"
 
 # Server Details
 servicename="cs-server"
@@ -536,6 +536,8 @@ echo "================================="
 	echo "app_update ${appid} validate" >> install.txt
 	echo "quit" >> install.txt
 	STEAMEXE=steamcmd ./steam.sh +runscript install.txt
+	STEAMEXE=steamcmd ./steam.sh +runscript install.txt
+	STEAMEXE=steamcmd ./steam.sh +runscript install.txt	
 	rm install.txt
 	echo ""
 	echo "================================="
