@@ -17,7 +17,8 @@ defaultmap="ctf_2fort"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-parms="-game tf +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
+maxplayers="16"
+parms="-game tf +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
