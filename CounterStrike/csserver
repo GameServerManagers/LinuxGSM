@@ -16,7 +16,8 @@ email="email@example.com"
 defaultmap="de_aztec"
 port="27015"
 clientport="27005"
-parms="-game cstrike +map ${defaultmap} -strictportbind -port ${port} +clientport ${clientport}"
+maxplayers="16"
+parms="-game cstrike +map ${defaultmap} -strictportbind -port ${port} +clientport ${clientport} +maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
