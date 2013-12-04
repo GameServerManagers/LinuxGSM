@@ -17,7 +17,8 @@ defaultmap="dod_Anzio"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-parms="-game dod +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
+maxplayers="16"
+parms="-game dod +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
