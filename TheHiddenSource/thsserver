@@ -17,7 +17,8 @@ defaultmap="hdn_docks"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-parms="-game hidden +map ${defaultmap} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
+maxplayers="16"
+parms="-game hidden +map ${defaultmap} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 

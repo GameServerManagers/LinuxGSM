@@ -17,7 +17,8 @@ defaultmap="dm_lockdown"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-parms="-game hl2mp +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
+maxplayers="16"
+parms="-game hl2mp +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
