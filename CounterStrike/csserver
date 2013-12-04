@@ -571,12 +571,9 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
-<<<<<<< HEAD
 	touch ${filesdir}/cstrike/cfg/server.cfg
 	echo "exec ${servicename}.cfg" > ${filesdir}/cstrike/cfg/server.cfg
-=======
 	echo "exec ${servicename}.cfg" >> ${filesdir}/cstrike/server.cfg
->>>>>>> a46f23fd4b86e3ec69a9db2cb61c76f4977a8678
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5
