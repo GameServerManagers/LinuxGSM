@@ -21,7 +21,8 @@ defaultmap="nmo_broadway"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-parms="+map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport}"
+maxplayers="16"
+parms="+map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 

@@ -16,7 +16,8 @@ email="email@example.com"
 defaultmap="de_aztec"
 port="27015"
 clientport="27005"
-parms="-game cstrike +map ${defaultmap} -strictportbind -port ${port} +clientport ${clientport}"
+maxplayers="16"
+parms="-game cstrike +map ${defaultmap} -strictportbind -port ${port} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
@@ -570,8 +571,12 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
+<<<<<<< HEAD
 	touch ${filesdir}/cstrike/cfg/server.cfg
 	echo "exec ${servicename}.cfg" > ${filesdir}/cstrike/cfg/server.cfg
+=======
+	echo "exec ${servicename}.cfg" >> ${filesdir}/cstrike/server.cfg
+>>>>>>> a46f23fd4b86e3ec69a9db2cb61c76f4977a8678
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5
@@ -634,9 +639,9 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Applying steamclient.so fix"
-	mkdir -v ${rootdir}/.steam
-	mkdir -v ${rootdir}/.steam/sdk32
-	cp -v ${filesdir}/steamclient.so ${rootdir}/.steam/sdk32/steamclient.so
+	mkdir -v ${HOME}/.steam
+	mkdir -v ${HOME}/.steam/sdk32
+	cp -v ${filesdir}/steamclient.so ${HOME}/.steam/sdk32/steamclient.so
 	sleep 1
 	fn_header
 	fn_details
