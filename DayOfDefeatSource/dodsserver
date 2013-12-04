@@ -555,7 +555,7 @@ echo "================================="
 	echo ""
 	echo "Creating server.cfg"
 	touch ${filesdir}/dod/cfg/server.cfg
-	echo "exec ${servercfg}" > ${filesdir}/dod/cfg/server.cfg
+	echo "exec ${servicename}.cfg" > ${filesdir}/dod/cfg/server.cfg
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5

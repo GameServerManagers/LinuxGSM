@@ -556,7 +556,7 @@ echo "================================="
 	echo ""
 	echo "Creating server.cfg"
 	touch ${filesdir}/hl2mp/cfg/server.cfg
-	echo "exec ${servercfg}" > ${filesdir}/hl2mp/cfg/server.cfg
+	echo "exec ${servicename}.cfg" > ${filesdir}/hl2mp/cfg/server.cfg
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5
