@@ -595,9 +595,9 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Applying steamclient.so fix"
-	mkdir -v ${rootdir}/.steam
-	mkdir -v ${rootdir}/.steam/sdk32
-	cp -v ${filesdir}/bin/steamclient.so ${rootdir}/.steam/sdk32/steamclient.so
+	mkdir -v ${HOME}/.steam
+	mkdir -v ${HOME}/.steam/sdk32
+	cp -v ${filesdir}/steamclient.so ${HOME}/.steam/sdk32/steamclient.so
 	sleep 1
 	fn_header
 	fn_details
