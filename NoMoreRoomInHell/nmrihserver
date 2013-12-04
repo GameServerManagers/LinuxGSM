@@ -601,7 +601,7 @@ echo "================================="
 	echo "Applying steamclient.so fix"
 	mkdir -v ${HOME}/.steam
 	mkdir -v ${HOME}/.steam/sdk32
-	cp -v ${filesdir}/steamclient.so ${HOME}/.steam/sdk32/steamclient.so
+	cp -v ${filesdir}/srcds/bin/steamclient.so ${HOME}/.steam/sdk32/steamclient.so
 	sleep 1
 	fn_header
 	fn_details
