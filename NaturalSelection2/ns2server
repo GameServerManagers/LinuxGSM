@@ -548,7 +548,7 @@ echo "================================="
 	echo "================================="
 	cd ${filesdir}
 	wget https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
-	wget https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libstdc%2B%2B.so.6
+	wget https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libstdc++.so.6
 	sleep 2
 fn_header	
 fn_header
