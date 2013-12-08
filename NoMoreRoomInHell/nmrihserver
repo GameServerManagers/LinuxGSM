@@ -555,6 +555,7 @@ echo "================================="
 	echo ""
 	echo "Downloading libm.so.6"	
 	echo "================================="
+	cd ${filesdir}/srcds
 	wget https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
 	sleep 2
 fn_header
