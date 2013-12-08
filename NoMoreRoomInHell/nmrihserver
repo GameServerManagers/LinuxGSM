@@ -552,6 +552,11 @@ echo "================================="
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
+	echo ""
+	echo "Downloading libm.so.6"	
+	echo "================================="
+	wget https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
+	sleep 2
 fn_header
 echo "Configuring ${gamename} Server"
 echo "================================="
