@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 221113
+# Version: 081213
 
 #### Variables ####
 
@@ -474,11 +474,11 @@ echo "================================="
 cd ${rootdir}
 mkdir steamcmd
 cd steamcmd
-if [ ! -f steam.sh ];then
+if [ ! -f steamcmd.sh ];then
 	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
-	chmod +x steam.sh
+	chmod +x steamcmd.sh
 else
 	echo "Steam already installed!"
 fi
@@ -536,7 +536,7 @@ echo "================================="
 	echo "force_install_dir ${filesdir}" >> install.txt
 	echo "app_update ${appid} validate" >> install.txt
 	echo "quit" >> install.txt
-	STEAMEXE=steamcmd ./steam.sh +runscript install.txt
+	STEAMEXE=steamcmd ./steamcmd.sh +runscript install.txt
 	rm install.txt
 	echo ""
 	echo "================================="
