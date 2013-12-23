@@ -115,5 +115,3 @@ if __name__ == '__main__':
 	#
 	server = GameServer( options, arguments )
 	server.responding()
-
-
