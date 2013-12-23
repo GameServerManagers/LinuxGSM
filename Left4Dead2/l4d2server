@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 081213
+# Version: 251213
 
 #### Variables ####
 
@@ -18,7 +18,9 @@ port="27015"
 sourcetvport="27020"
 clientport="27005"
 maxplayers="16"
-parms="-game left4dead2 +map ${defaultmap} -strictportbind -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
+ip="0.0.0.0"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+parms="-game left4dead2 +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
@@ -60,41 +62,49 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 # what you are doing
 
 fn_rootcheck(){
-if [ `whoami` = "root" ];then
-	echo -e "[\e[0;31m FAIL \e[0;39m] Script will not run as root!"
+if [ `whoami` = "root" ]; then
+	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Script will not run as root!"
 	exit
 fi
 }
 
 fn_syscheck(){
-if [ ! -e ${filesdir} ];then
-	echo -e "[\e[0;31m FAIL \e[0;39m] Cannot access ${filesdir}: No such directory"
+if [ ! -e ${filesdir} ]; then
+	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Cannot access ${filesdir}: No such directory"
 	exit
 fi
 }
 
-fn_runcheck(){
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
-if [ ${tmuxwc} -eq 1 ];then
-	fn_serverquery
-	echo -en "\r[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} is already running"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${scriptlog}
-	sleep 0.5
-	echo -en "\n"
-	exit
+fn_autoip(){
+# Identifies the server interface IP
+# If multiple interfaces this will need to be set manually
+getip=$(ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1)
+getipwc=$(ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1|wc -l)
+if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
+	if [ "${getipwc}" -ge "2" ]; then
+		echo -en "[\e[1;33m WARN \e[0;39m] Multiple active interfaces.\n\n" 
+		echo -en "Manually specify the IP in ${selfname}\n"
+		echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
+		echo -en "${getip}\n"
+		exit
+	else 
+		ip=${getip}
+	fi
 fi
 }
 
 fn_logmanager(){
-if [ ! -e ${consolelog} ];then
+if [ ! -e ${consolelog} ]; then
 	touch ${consolelog}
 fi
 # log manager will active if finds logs older than ${logdays}
-if [ `find ${scriptlogdir}/* -mtime +${logdays} |wc -l` -ne "0" ];then
-	echo -e "[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
+if [ `find ${scriptlogdir}/* -mtime +${logdays} |wc -l` -ne "0" ]; then
+	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> ${scriptlog}
+	sleep 1
 	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${scriptlog}
+	sleep 1
 	find ${scriptlogdir}/* -mtime +${logdays} |tee >> ${scriptlog}
 	find ${consolelogdir}/* -mtime +${logdays} |tee >> ${scriptlog}
 	scriptcount=$(find ${scriptlogdir}/* -mtime +${logdays}|wc -l)
@@ -110,6 +120,7 @@ fi
 fn_debugserver(){
 fn_rootcheck
 fn_syscheck
+fn_autoip
 echo ""
 echo "${gamename} Debug"
 echo "============================"
@@ -122,16 +133,15 @@ while true; do
 	read -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1 ;;
+	[Nn]* ) echo Exiting; return 1;;
 	* ) echo "Please answer yes or no.";;
 esac
 done
 fn_stopserver
-echo -en "[ .... ] Starting ${servicename}: ${servername} debug mode"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername} debug mode" >> ${scriptlog}
+echo -en "\r\033[K[ .... ] Starting debug mode ${servicename}: ${servername}"
 sleep 0.5
-echo -en "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername} debug mode" >> ${scriptlog}
+echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting debug mode ${servicename}: ${servername}"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started debug mode ${servername} " >> ${scriptlog}
 sleep 0.5
 echo -en "\n"
 cd ${filesdir}
@@ -152,20 +162,20 @@ while true; do
 	read -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1 ;;
+	[Nn]* ) echo Exiting; return 1;;
 	* ) echo "Please answer yes or no.";;
 esac
 done
-echo -en "\r[ .... ] Starting ${servicename} console"
+echo -en "\r\033[K[ .... ] Starting ${servicename} console"
 sleep 0.5
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
-if [ ${tmuxwc} -eq 1 ];then
-	echo -e "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename} console"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} console accessed" >> ${scriptlog}
+if [ ${tmuxwc} -eq 1 ]; then
+	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting ${servicename} console"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Console accessed" >> ${scriptlog}
 	sleep 1
 	tmux attach-session -t ${servicename}
 else
-	echo -e "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename} console: ${servername} not running"
+	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Starting ${servicename} console: ${servername} not running"
 	sleep 0.5
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn
@@ -194,12 +204,12 @@ while true; do
 	read -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1 ;;
+	[Nn]* ) echo Exiting; return 1;;
 	* ) echo "Please answer yes or no.";;
 esac
 done
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
-if [ ${tmuxwc} -eq 1 ];then
+if [ ${tmuxwc} -eq 1 ]; then
 	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
 	while true; do
 		read -p "Would you like to stop ${servicename} while running the backup? [y/N]" yn
@@ -210,49 +220,17 @@ if [ ${tmuxwc} -eq 1 ];then
 	esac
 	done
 fi
-echo -en "[ .... ] Starting ${servicename}: ${servername} backup"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername} backup" >> ${scriptlog}
-sleep 0.5
-echo -en "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername} backup"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername} backup" >> ${scriptlog}
+echo -en "\r\033[K[ .... ] Starting backup ${servicename}: ${servername}"
+sleep 1
+echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting backup ${servicename}: ${servername}"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Backup started" >> ${scriptlog}
 sleep 1
 echo -en "\n"
 cd ${rootdir}
 mkdir ${backupdir} > /dev/null 2>&1
 tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} *
-echo -en "\r${servicename} backup complete"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: backup complete" >> ${scriptlog}
-}
-
-fn_details(){
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo ""
-echo "${servername} Ports"
-echo "======================="
-servername=$(grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g')
-rcon=$(grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g')
-echo "Ports the server is currently using"
-echo ""
-echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game/Rcon Port		${port}"
-if [ "${engine}" = "source" ];then
-	echo "INBOUND		SourceTV Port		${sourcetvport}"
-fi
-echo "OUTBOUND	Client Port		${clientport}"
-echo ""
-echo "You can change ports by editing the"
-echo "start parameters in ${selfname}"
-echo ""
-echo "${servername} Details"
-echo "======================="
-echo "Server name: ${servername}"
-echo "Rcon Password: ${rcon}"
-echo ""
-echo "Config file:"
-echo "${servercfg}"
-echo ""
+echo -en "\r\033[K${servicename} Backup complete"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Backup complete" >> ${scriptlog}
 }
 
 fn_distro(){
@@ -286,48 +264,50 @@ fn_distro
 fn_uptime
 fn_load
 {
-echo -e "========================================\n${servicename} details\n========================================\n"
-echo -e "Service: ${servicename}"
-echo -e "Game: ${gamename}"
-echo -e "Server: ${servername}"
-echo -e "Failure reason: ${failurereason}"
-echo -e "Action Taken: ${actiontaken}\n"
-echo -e "========================================\nServer details\n========================================\n"
-echo -e "Date: $(date)"
-echo -e "Distro: ${os}"
-echo -e "Arch: ${arch}"
-echo -e "Kernel: ${kernel}"
-echo -e "Hostname: $HOSTNAME"
-echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
-echo -e "Avg Load${load}\n"
-echo -e "========================================\nLogs\n========================================\n"
-echo -e "Script log\n===================\n"
+	echo -e "========================================\n${servicename} details\n========================================\n"
+	echo -e "Service: ${servicename}"
+	echo -e "Server: ${servername}"
+	echo -e "Game: ${gamename}"
+	echo -e "Failure reason: ${failurereason}"
+	echo -e "Action Taken: ${actiontaken}\n"
+	echo -e "========================================\nServer details\n========================================\n"
+	echo -e "Date: $(date)"
+	echo -e "Distro: ${os}"
+	echo -e "Arch: ${arch}"
+	echo -e "Kernel: ${kernel}"
+	echo -e "Hostname: $HOSTNAME"
+	echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
+	echo -e "Avg Load${load}\n"
+	echo -e "========================================\nLogs\n========================================\n"
+	echo -e "Script log\n===================\n"
 }|tee ${scriptlogdir}/${servicename}-email.log > /dev/null 2>&1
 tail -25 ${scriptlog} >> ${emaillog}
-if [ ! -z ${consolelog} ];then
+if [ ! -z ${consolelog} ]; then
 	echo -e "\n\nConsole log\n====================\n" >> ${emaillog}
 	tail -25 ${consolelog} >> ${emaillog}
 fi
-if [ ! -z ${gamelogdir} ];then
+if [ ! -z ${gamelogdir} ]; then
 	echo -e "\n\nServer log\n====================\n" >> ${emaillog}
 	tail ${gamelogdir}/*|grep -v "==>"|sed '/^$/d'|tail -25 >> ${emaillog}
 fi
 mail -s "${subject}" ${email} < ${emaillog}
 echo -en "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Sent email notification to ${email}" >> ${scriptlog}
+sleep 1
+echo -en "\n"
 }
 
 fn_emailtest(){
 fn_rootcheck
 fn_syscheck
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Emailing test notification" >> ${scriptlog}
-if [ "${emailnotification}" = "on" ];then
+if [ "${emailnotification}" = "on" ]; then
 	subject="${servicename} Email Test Notification - Testing ${servername}"
 	failurereason="Testing ${servicename} email notification"
 	actiontaken="Sent test email...hello is this thing on?"
 	fn_emailnotification
 else
-	echo -e "[\e[0;31m FAIL \e[0;39m] Email notification not enabled"
+	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Email notification not enabled"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Email notification not enabled" >> ${scriptlog}
 fi
 sleep 0.5
@@ -335,27 +315,67 @@ echo -en "\n"
 }
 
 fn_serverquery(){
-# uses serverquery.py to directly query the server
+# uses gsquery.py to directly query the server
 # detects if the server locks up
-if [ -f serverquery.py ];then
-	echo -e "[\e[0;36m INFO \e[0;39m] serverquery.py detected"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: serverquery.py detected" >> ${scriptlog}
-	echo -e "[\e[0;32m  OK  \e[0;39m] Querying ${servicename}: ${servername}: QUERYING"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying ${servername}: QUERYING" >> ${scriptlog}
-	serverquery=$(./serverquery.py 127.0.0.1 ${port} 2>&1)
+if [ -f gsquery.py ]; then
+	if [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
+		gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
+		port=$((${gameport} + 1))
+	elif [ "${engine}" == "spark" ]; then
+		port=$((${port} + 1))
+	fi
+	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected gsquery.py"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Detected gsquery.py " >> ${scriptlog}
 	sleep 1
-	if [ "${serverquery}" = "ERROR 1" ]||[ "${serverquery}" = "ERROR 2" ]||[ "${serverquery}" = "ERROR 3" ];then
-		echo -e "[\e[0;31m FAIL \e[0;39m] Querying ${servicename}: ${servername}: ${serverquery}"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying ${servername}: ${serverquery}" >> ${scriptlog}
+	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: QUERYING" >> ${scriptlog}
+	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
+	exitcode=$?
+	sleep 1	
+	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: ${serverquery}" >> ${scriptlog}
 		sleep 1
-		echo -e "[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} has locked up!"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} has locked up!" >> ${scriptlog}
-		sleep 1
+		echo -en "\n"
+		if [ "${emailnotification}" = "on" ]; then
+			subject="${servicename} Monitor - Starting ${servername}"
+			failurereason="Failed to query ${servicename}: ${serverquery}"
+			actiontaken="restarted ${servicename}"
+			fn_emailnotification
+		fi
 		fn_restartserver
-	else
-		echo -e "[\e[0;32m  OK  \e[0;39m] Querying ${servicename}: ${servername}: ${serverquery}"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying ${servername}: ${serverquery}" >> ${scriptlog}
+		exit
+	elif [ "${exitcode}" == "0" ]; then
+		echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: OK" >> ${scriptlog}		
 		sleep 1
+		echo -en "\n"
+		exit
+	elif [ "${exitcode}" == "126" ]; then
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: ./gsquery.py: Permission denied" >> ${scriptlog}		
+		sleep 1
+		echo -en "\n"
+		echo "Attempting to resolve automatically"
+		chmod +x -v gsquery.py
+		exitcode=$?
+		if [ "${exitcode}" == "0" ]; then
+			fn_serverquery
+		else
+			echo -en "\nUnable to resolve automatically. Please manually fix permissions\n"
+			owner=$(ls -al gsquery.py|awk '{ print $3 }')
+			echo "As user ${owner} or root run the following command"
+			whoami=$(whoami)
+			echo -en "\nchown ${whoami}:${whoami} gsquery.py\n\n"
+		exit
+		fi
+	else
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR" >> ${scriptlog}		
+		sleep 1
+		echo -en "\n"
+		./gsquery.py -a ${ip} -p ${port} -e ${engine}
+		exit		
 	fi
 fi
 }
@@ -363,39 +383,52 @@ fi
 fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
-fn_logmanager
-echo -en "[ .... ] Monitor is checking ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor is checking ${servername}" >> ${scriptlog}
-sleep 0.5
+fn_autoip
+echo -en "\r\033[K[ .... ] Monitoring ${servicename}: ${servername}"
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitoring ${servername}" >> ${scriptlog}
+sleep 1
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
-if [ "${updatecheck}" = "0" ];then
-	fn_runcheck
-	echo -en "\r[\e[1;33m WARN \e[0;39m] ${servicename}: Monitor detected ${servername} had stopped!"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} had stopped!" >> ${scriptlog}
-	if [ "${emailnotification}" = "on" ];then
-		subject="${servicename} Monitor - Starting ${servername}"
-		failurereason="${servicename} process was not running"
-		actiontaken="restarted ${servicename}"
-		sleep 0.5
+if [ "${updatecheck}" = "0" ]; then
+	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Checking session: CHECKING"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: CHECKING" >> ${scriptlog}
+	sleep 1
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	if [ ${tmuxwc} -eq 1 ]; then
+		echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Monitoring ${servicename}: Checking session: OK"
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: OK" >> ${scriptlog}
+		sleep 1
 		echo -en "\n"
-		fn_emailnotification
+		fn_serverquery
+		exit
+	else
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Checking session: FAIL"
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: FAIL" >> ${scriptlog}
+		sleep 1
+		echo -en "\n"		
+		if [ "${emailnotification}" = "on" ]; then
+			subject="${servicename} Monitor - Starting ${servername}"
+			failurereason="${servicename} process not running"
+			actiontaken="${servicename} has been restarted"
+			fn_emailnotification
+		fi
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor is starting ${servername}" >> ${scriptlog}
+		fn_startserver	
 	fi
-	sleep 0.5
-	echo -en "\n"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor is starting ${servername}" >> ${scriptlog}
-	fn_startserver
 else
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: Monitor detected ${servername} is currently checking for updates!"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor detected ${servername} is currently checking for updates!" >> ${scriptlog}
-	echo -e "[\e[0;36m INFO \e[0;39m] ${servicename}: ${servername} will start when updating is complete"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} will start when updating is complete" >> ${scriptlog}
+	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected SteamCMD is checking for updates"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Detected SteamCMD is checking for updates" >> ${scriptlog}
+	sleep 1
+	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: When updates complete ${servicename} will start"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: When updates complete ${servicename} will start" >> ${scriptlog}
 fi
 }
 
 fn_updateserver(){
 fn_rootcheck
 fn_syscheck
-echo -e "[\e[0;32m  OK  \e[0;39m] Updating ${servicename}: ${servername}"
+echo -en "\r\033[K[ .... ] Updating ${servicename}: ${servername}"
+sleep 0.5
+echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Updating ${servicename}: ${servername}"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Updating ${servername}" >> ${scriptlog}
 cd ${rootdir}
 cd steamcmd
@@ -412,15 +445,15 @@ fn_stopserver(){
 fn_rootcheck
 fn_syscheck
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo -en "[ .... ] Stopping ${servicename}: ${servername}"
+echo -en "\r\033[K[ .... ] Stopping ${servicename}: ${servername}"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${scriptlog}
 sleep 0.5
-if [ "${pid}" == "0" ];then
-	echo -en "\r[\e[0;31m FAIL \e[0;39m] Stopping ${servicename}: ${servername} is already stopped"
+if [ "${pid}" == "0" ]; then
+	echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Stopping ${servicename}: ${servername} is already stopped"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${scriptlog}
 else
 	tmux kill-session -t ${servicename}
-	echo -en "\r[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
+	echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopped ${servername}" >> ${scriptlog}
 fi
 sleep 0.5
@@ -430,26 +463,67 @@ echo -en "\n"
 fn_startserver(){
 fn_rootcheck
 fn_syscheck
-echo -en "[ .... ] Starting ${servicename}: ${servername}"
+fn_autoip
+fn_logmanager
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+if [ ${tmuxwc} -eq 0 ]; then
+	mv ${scriptlog} ${scriptlogdate}
+	mv ${consolelog} ${consolelogdate}
+fi
+echo -en "\r\033[K[ .... ] Starting ${servicename}: ${servername}"
 echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${scriptlog}
 sleep 0.5
-fn_runcheck
-fn_logmanager
-mv ${scriptlog} ${scriptlogdate}
-mv ${consolelog} ${consolelogdate}
+if [ ${tmuxwc} -eq 1 ]; then
+	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Starting ${servicename}: ${servername} is already running"
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${scriptlog}
+	sleep 0.5
+	echo -en "\n"
+	exit
+fi
 cd ${filesdir}
 tmux new-session -d -s ${servicename} "./srcds_run ${parms} |tee -a ${consolelog}"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-if [ ${tmuxwc} -eq 0 ];then
-	echo -en "\r[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
+if [ ${tmuxwc} -eq 0 ]; then
+	echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: failed to start ${servername}" >> ${scriptlog}
 else
-	echo -en "\r[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+	echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername}" >> ${scriptlog}
 fi
 sleep 0.5
 echo -en "\n"
+}
+
+fn_details(){
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo ""
+echo "${servername} Ports"
+echo "======================="
+servername=$(grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g')
+echo "Ports the server is currently using"
+echo ""
+echo "DIRECTION	DESCRIPTION		PORT"
+echo "INBOUND		Game/Rcon Port		${port}"
+if [ "${engine}" = "source" ]; then
+	echo "INBOUND		SourceTV Port		${sourcetvport}"
+fi
+echo "OUTBOUND	Client Port		${clientport}"
+echo ""
+echo "You can change ports by editing the"
+echo "start parameters in ${selfname}"
+echo ""
+echo "${servername} Details"
+echo "======================="
+echo "Server name: ${servername}"
+echo "Rcon Password: ${rcon}"
+echo ""
+echo "Config file:"
+echo "${servercfg}"
+echo ""
 }
 
 #
@@ -473,7 +547,7 @@ echo "================================="
 cd ${rootdir}
 mkdir steamcmd
 cd steamcmd
-if [ ! -f steamcmd.sh ];then
+if [ ! -f steamcmd.sh ]; then
 	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
@@ -488,7 +562,7 @@ while true; do
 	read -p "Retry install? [y/N]" yn
 	case $yn in
 	[Yy]* ) fn_install;;
-	[Nn]* ) echo Exiting; exit ;;
+	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 	esac
 done
@@ -497,7 +571,7 @@ done
 fn_install(){
 fn_rootcheck
 fn_header
-if [ -d ${filesdir} ];then
+if [ -d ${filesdir} ]; then
 	echo "${gamename} Server is already installed here:"
 	pwd
 	echo ""
@@ -505,7 +579,7 @@ if [ -d ${filesdir} ];then
 		read -p "Continue [y/N]" yn
 		case $yn in
 		[Yy]* ) break;;
-		[Nn]* ) echo Exiting; return 1 ;;
+		[Nn]* ) echo Exiting; return 1;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
@@ -518,7 +592,7 @@ while true; do
 	read -p "Continue [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1 ;;
+	[Nn]* ) echo Exiting; return 1;;
 	* ) echo "Please answer yes or no.";;
 	esac
 done
@@ -543,7 +617,7 @@ echo "================================="
 		read -p "Was the install successful? [y/N]" yn
 		case $yn in
 		[Yy]* ) break;;
-		[Nn]* ) fn_retryinstall ;;
+		[Nn]* ) fn_retryinstall;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
