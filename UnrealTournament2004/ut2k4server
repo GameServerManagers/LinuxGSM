@@ -26,6 +26,7 @@ gamename="Unreal Tournament 2004"
 engine="unreal2"
 ini="${servicename}.ini"
 servername=$(grep -s ServerName= ${systemdir}/${ini} | sed 's/ServerName=//g')
+ip="0.0.0.0"
 
 # Logging
 logdays="7"

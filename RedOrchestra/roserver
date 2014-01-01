@@ -33,6 +33,7 @@ gamename="Red Orchestra: Ostfront 41-45"
 engine="unreal2"
 ini="${servicename}.ini"
 servername=$(grep -s ServerName= ${systemdir}/${ini} | sed 's/ServerName=//g')
+ip="0.0.0.0"
 
 # Logging
 logdays="7"

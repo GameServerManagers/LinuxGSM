@@ -37,6 +37,7 @@ appid="4940"
 servicename="ns2-server"
 gamename="Natural Selection 2"
 engine="spark"
+ip="0.0.0.0"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
