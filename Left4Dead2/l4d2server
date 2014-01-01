@@ -20,7 +20,7 @@ clientport="27005"
 maxplayers="16"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-parms="-game left4dead2 +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
+parms="-game left4dead2 -usercon +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
