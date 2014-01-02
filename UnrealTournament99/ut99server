@@ -66,8 +66,8 @@ fi
 fn_autoip(){
 # Identifies the server interface IP
 # If multiple interfaces this will need to be set manually
-getip=$(ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1)
-getipwc=$(ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1|wc -l)
+getip=$(/sbin/ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1)
+getipwc=$(/sbin/ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1|wc -l)
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
 		echo -en "[\e[1;33m WARN \e[0;39m] Multiple active interfaces.\n\n" 
