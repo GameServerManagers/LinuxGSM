@@ -1,0 +1,23 @@
+"AppState"
+{
+	"appid"		"80"
+	"Universe"		"1"
+	"StateFlags"		"68"
+	"installdir"		"Half-Life"
+	"LastUpdated"		"1389012978"
+	"UpdateResult"		"0"
+	"SizeOnDisk"		"415598839"
+	"buildid"		"68738"
+	"LastOwner"		"0"
+	"BytesToDownload"		"0"
+	"BytesDownloaded"		"0"
+	"AutoUpdateBehavior"		"0"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"UserConfig"
+	{
+	}
+	"MountedDepots"
+	{
+		"81"		"1631065823895707990"
+	}
+}
