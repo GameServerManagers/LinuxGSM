@@ -1,9 +1,9 @@
 #!/bin/bash
-# Counter Strike
+# Counter Strike: Condition Zero
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 251213
+# Version: 060113
 
 #### Variables ####
 
@@ -19,23 +19,23 @@ clientport="27005"
 maxplayers="16"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
-parms="-game cstrike +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -maxplayers ${maxplayers}"
+parms="-game czero +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
 # Steam
-appid="90 -beta beta"
+appid="90 -beta beta +app_set_config 90 mod czero"
 
 # Server Details
-servicename="cs-server"
-gamename="Counter Strike 1.6"
+servicename="cscz-server"
+gamename="Counter Strike: Condition Zero"
 engine="goldsource"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
-servercfg="${filesdir}/cstrike/${servicename}.cfg"
+servercfg="${filesdir}/czero/${servicename}.cfg"
 backupdir="backups"
 
 # Server Details
@@ -44,7 +44,7 @@ rcon=$(grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//
 
 # Logging
 logdays="7"
-gamelogdir="${filesdir}/cstrike/logs"
+gamelogdir="${filesdir}/czero/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
@@ -606,11 +606,12 @@ echo "================================="
 	echo "Downloading appmanifest files (app 90 fix)"
 	echo "================================="
 	sleep 2	
-	mkdir -v ${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5
-	cd ${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5	
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_10.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_70.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_90.acf
+	mkdir -v ${filesdir}/1ea271ace3aa6eb2cbade5b6f37851d19ffb9e6f
+	cd ${filesdir}/1ea271ace3aa6eb2cbade5b6f37851d19ffb9e6f	
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_10.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_70.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_80.acf	
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_90.acf
 	echo "Downloading appmanifest files (app 90 fix)"
 	echo ""
 	echo "Installing ${gamename} Server"
@@ -644,15 +645,15 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
-	touch ${filesdir}/cstrike/server.cfg
-	echo "exec ${servicename}.cfg" > ${filesdir}/cstrike/server.cfg
+	touch ${filesdir}/czero/server.cfg
+	echo "exec ${servicename}.cfg" > ${filesdir}/czero/server.cfg
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5
 	echo "${servercfg}"
 	touch ${servercfg}
-	touch ${filesdir}/cstrike/listip.cfg
-	touch ${filesdir}/cstrike/banned.cfg
+	touch ${filesdir}/czero/listip.cfg
+	touch ${filesdir}/czero/banned.cfg
 	{
 		echo -e "// Use this file to configure your DEDICATED server."
 		echo -e "// This config file is executed on server start."
