@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 251213
+# Version: 251214
 
 #### Variables ####
 
@@ -69,7 +69,7 @@ fi
 }
 
 fn_syscheck(){
-if [ ! -e ${filesdir} ]; then
+if [ ! -e "${filesdir}" ]; then
 	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Cannot access ${filesdir}: No such directory"
 	exit
 fi
@@ -94,26 +94,26 @@ fi
 }
 
 fn_logmanager(){
-if [ ! -e ${consolelog} ]; then
-	touch ${consolelog}
+if [ ! -e "${consolelog}" ]; then
+	touch "${consolelog}"
 fi
 # log manager will active if finds logs older than ${logdays}
-if [ `find ${scriptlogdir}/* -mtime +${logdays} |wc -l` -ne "0" ]; then
+if [ `find "${scriptlogdir}"/* -mtime +${logdays} |wc -l` -ne "0" ]; then
 	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting log cleaner" >> "${scriptlog}"
 	sleep 1
 	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Removing logs older than ${logdays} days" >> "${scriptlog}"
 	sleep 1
-	find ${scriptlogdir}/* -mtime +${logdays} |tee >> ${scriptlog}
-	find ${consolelogdir}/* -mtime +${logdays} |tee >> ${scriptlog}
-	scriptcount=$(find ${scriptlogdir}/* -mtime +${logdays}|wc -l)
-	consolecount=$(find ${consolelogdir}/* -mtime +${logdays}|wc -l)
+	find "${scriptlogdir}"/* -mtime +${logdays} |tee >> "${scriptlog}"
+	find "${consolelogdir}"/* -mtime +${logdays} |tee >> "${scriptlog}"
+	scriptcount=$(find "${scriptlogdir}/*" -mtime +${logdays}|wc -l)
+	consolecount=$(find "${consolelogdir}/*" -mtime +${logdays}|wc -l)
 	count=$((${scriptcount} + ${consolecount}))
-	find ${scriptlogdir}/* -mtime +${logdays} -exec rm {} \;
-	find ${consolelogdir}/* -mtime +${logdays} -exec rm {} \;
+	find "${scriptlogdir}"/* -mtime +${logdays} -exec rm {} \;
+	find "${consolelogdir}"/* -mtime +${logdays} -exec rm {} \;
 	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Log cleaner removed ${count} log files" >> "${scriptlog}"
 fi
 }
 
@@ -141,10 +141,10 @@ fn_stopserver
 echo -en "\r\033[K[ .... ] Starting debug mode ${servicename}: ${servername}"
 sleep 0.5
 echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting debug mode ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started debug mode ${servername} " >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started debug mode ${servername} " >> "${scriptlog}"
 sleep 0.5
 echo -en "\n"
-cd ${filesdir}
+cd "${filesdir}"
 ./srcds_run ${parms} -debug
 }
 
@@ -171,7 +171,7 @@ sleep 0.5
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ]; then
 	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting ${servicename} console"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Console accessed" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Console accessed" >> "${scriptlog}"
 	sleep 1
 	tmux attach-session -t ${servicename}
 else
@@ -223,14 +223,14 @@ fi
 echo -en "\r\033[K[ .... ] Starting backup ${servicename}: ${servername}"
 sleep 1
 echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting backup ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Backup started" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Backup started" >> "${scriptlog}"
 sleep 1
 echo -en "\n"
-cd ${rootdir}
-mkdir ${backupdir} > /dev/null 2>&1
-tar -cvzf ${backupdir}/${backupname}.tar.gz --exclude ${backupdir} *
+cd "${rootdir}"
+mkdir "${backupdir}" > /dev/null 2>&1
+tar -cvzf "${backupdir}/${backupname}.tar.gz" --exclude "${backupdir}" *
 echo -en "\r\033[K${servicename} Backup complete"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Backup complete" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Backup complete" >> "${scriptlog}"
 }
 
 fn_distro(){
@@ -280,19 +280,19 @@ fn_load
 	echo -e "Avg Load${load}\n"
 	echo -e "========================================\nLogs\n========================================\n"
 	echo -e "Script log\n===================\n"
-}|tee ${scriptlogdir}/${servicename}-email.log > /dev/null 2>&1
-tail -25 ${scriptlog} >> ${emaillog}
-if [ ! -z ${consolelog} ]; then
-	echo -e "\n\nConsole log\n====================\n" >> ${emaillog}
-	tail -25 ${consolelog} >> ${emaillog}
+}|tee "${scriptlogdir}/${servicename}-email.log" > /dev/null 2>&1
+tail -25 "${scriptlog}" >> "${emaillog}"
+if [ ! -z "${consolelog}" ]; then
+	echo -e "\n\nConsole log\n====================\n" >> "${emaillog}"
+	tail -25 "${consolelog}" >> "${emaillog}"
 fi
-if [ ! -z ${gamelogdir} ]; then
-	echo -e "\n\nServer log\n====================\n" >> ${emaillog}
-	tail ${gamelogdir}/*|grep -v "==>"|sed '/^$/d'|tail -25 >> ${emaillog}
+if [ ! -z "${gamelogdir}" ]; then
+	echo -e "\n\nServer log\n====================\n" >> "${emaillog}"
+	tail "${gamelogdir}"/* | grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
 fi
-mail -s "${subject}" ${email} < ${emaillog}
+mail -s "${subject}" ${email} < "${emaillog}"
 echo -en "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Sent email notification to ${email}" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Sent email notification to ${email}" >> "${scriptlog}"
 sleep 1
 echo -en "\n"
 }
@@ -300,7 +300,7 @@ echo -en "\n"
 fn_emailtest(){
 fn_rootcheck
 fn_syscheck
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Emailing test notification" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Emailing test notification" >> "${scriptlog}"
 if [ "${emailnotification}" = "on" ]; then
 	subject="${servicename} Email Test Notification - Testing ${servername}"
 	failurereason="Testing ${servicename} email notification"
@@ -308,7 +308,7 @@ if [ "${emailnotification}" = "on" ]; then
 	fn_emailnotification
 else
 	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Email notification not enabled"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Email notification not enabled" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Email notification not enabled" >> "${scriptlog}"
 fi
 sleep 0.5
 echo -en "\n"
@@ -325,16 +325,16 @@ if [ -f gsquery.py ]; then
 		port=$((${port} + 1))
 	fi
 	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected gsquery.py"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Detected gsquery.py " >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Detected gsquery.py " >> "${scriptlog}"
 	sleep 1
 	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: QUERYING" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: QUERYING" >> "${scriptlog}"
 	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
 	sleep 1	
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: ${serverquery}" >> ${scriptlog}
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: ${serverquery}" >> "${scriptlog}"
 		sleep 1
 		echo -en "\n"
 		if [ "${emailnotification}" = "on" ]; then
@@ -347,13 +347,13 @@ if [ -f gsquery.py ]; then
 		exit
 	elif [ "${exitcode}" == "0" ]; then
 		echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: OK" >> ${scriptlog}		
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: OK" >> "${scriptlog}"
 		sleep 1
 		echo -en "\n"
 		exit
 	elif [ "${exitcode}" == "126" ]; then
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: ./gsquery.py: Permission denied" >> ${scriptlog}		
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: ./gsquery.py: Permission denied" >> "${scriptlog}"
 		sleep 1
 		echo -en "\n"
 		echo "Attempting to resolve automatically"
@@ -371,7 +371,7 @@ if [ -f gsquery.py ]; then
 		fi
 	else
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR" >> ${scriptlog}		
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR" >> "${scriptlog}"
 		sleep 1
 		echo -en "\n"
 		./gsquery.py -a ${ip} -p ${port} -e ${engine}
@@ -385,24 +385,24 @@ fn_rootcheck
 fn_syscheck
 fn_autoip
 echo -en "\r\033[K[ .... ] Monitoring ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitoring ${servername}" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitoring ${servername}" >> "${scriptlog}"
 sleep 1
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]; then
 	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Checking session: CHECKING"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: CHECKING" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: CHECKING" >> "${scriptlog}"
 	sleep 1
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 	if [ ${tmuxwc} -eq 1 ]; then
 		echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Monitoring ${servicename}: Checking session: OK"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: OK" >> ${scriptlog}
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: OK" >> "${scriptlog}"
 		sleep 1
 		echo -en "\n"
 		fn_serverquery
 		exit
 	else
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Checking session: FAIL"
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: FAIL" >> ${scriptlog}
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Checking session: FAIL" >> "${scriptlog}"
 		sleep 1
 		echo -en "\n"		
 		if [ "${emailnotification}" = "on" ]; then
@@ -411,15 +411,15 @@ if [ "${updatecheck}" = "0" ]; then
 			actiontaken="${servicename} has been restarted"
 			fn_emailnotification
 		fi
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor is starting ${servername}" >> ${scriptlog}
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Monitor is starting ${servername}" >> "${scriptlog}"
 		fn_startserver	
 	fi
 else
 	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected SteamCMD is checking for updates"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Detected SteamCMD is checking for updates" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Detected SteamCMD is checking for updates" >> "${scriptlog}"
 	sleep 1
 	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: When updates complete ${servicename} will start"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: When updates complete ${servicename} will start" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: When updates complete ${servicename} will start" >> "${scriptlog}"
 fi
 }
 
@@ -429,14 +429,14 @@ fn_syscheck
 echo -en "\r\033[K[ .... ] Updating ${servicename}: ${servername}"
 sleep 0.5
 echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Updating ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Updating ${servername}" >> ${scriptlog}
-cd ${rootdir}
-cd steamcmd
-./steamcmd.sh +login anonymous +force_install_dir ${filesdir} +app_update ${appid} validate +quit |tee -a ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Updating ${servername}" >> "${scriptlog}"
+cd "${rootdir}"
+# cd steamcmd # WTF, this should be a variable or something
+./steamcmd.sh +login anonymous +force_install_dir "${filesdir}" +app_update ${appid} validate +quit |tee -a "${scriptlog}"
 }
 
 fn_restartserver(){
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Restarting ${servername}" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Restarting ${servername}" >> "${scriptlog}"
 fn_stopserver
 fn_startserver
 }
@@ -446,15 +446,15 @@ fn_rootcheck
 fn_syscheck
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo -en "\r\033[K[ .... ] Stopping ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopping ${servername}" >> "${scriptlog}"
 sleep 0.5
 if [ "${pid}" == "0" ]; then
 	echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Stopping ${servicename}: ${servername} is already stopped"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already stopped" >> "${scriptlog}"
 else
 	tmux kill-session -t ${servicename}
 	echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopped ${servername}" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Stopped ${servername}" >> "${scriptlog}"
 fi
 sleep 0.5
 echo -en "\n"
@@ -467,29 +467,29 @@ fn_autoip
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
-	mv ${scriptlog} ${scriptlogdate}
-	mv ${consolelog} ${consolelogdate}
+	mv "${scriptlog}" "${scriptlogdate}"
+	mv "${consolelog}" "${consolelogdate}"
 fi
 echo -en "\r\033[K[ .... ] Starting ${servicename}: ${servername}"
-echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> ${scriptlog}
+echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Starting ${servername}" >> "${scriptlog}"
 sleep 0.5
 if [ ${tmuxwc} -eq 1 ]; then
 	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Starting ${servicename}: ${servername} is already running"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${servername} is already running" >> "${scriptlog}"
 	sleep 0.5
 	echo -en "\n"
 	exit
 fi
-cd ${filesdir}
-tmux new-session -d -s ${servicename} "./srcds_run ${parms} |tee -a ${consolelog}"
+cd "${filesdir}"
+tmux new-session -d -s ${servicename} "./srcds_run ${parms} |tee -a '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
 	echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: failed to start ${servername}" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: failed to start ${servername}" >> "${scriptlog}"
 else
 	echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername}" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: Started ${servername}" >> "${scriptlog}"
 fi
 sleep 0.5
 echo -en "\n"
@@ -502,8 +502,8 @@ echo "============================"
 echo ""
 echo "${servername} Ports"
 echo "======================="
-servername=$(grep -s hostname ${servercfg} | sed 's/hostname //g'|sed 's/"//g')
-rcon=$(grep -s rcon_password ${servercfg} | sed 's/rcon_password //g'|sed 's/"//g')
+servername=$(grep -s hostname "${servercfg}" | sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfg}" | sed 's/rcon_password //g'|sed 's/"//g')
 echo "Ports the server is currently using"
 echo ""
 echo "DIRECTION	DESCRIPTION		PORT"
@@ -544,7 +544,7 @@ echo ""
 fn_steamdl(){
 echo "Installing Steam"
 echo "================================="
-cd ${rootdir}
+cd "${rootdir}"
 mkdir steamcmd
 cd steamcmd
 if [ ! -f steamcmd.sh ]; then
@@ -571,7 +571,7 @@ done
 fn_install(){
 fn_rootcheck
 fn_header
-if [ -d ${filesdir} ]; then
+if [ -d "${filesdir}" ]; then
 	echo "${gamename} Server is already installed here:"
 	pwd
 	echo ""
@@ -601,8 +601,8 @@ fn_steamdl
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
-	cd ${rootdir}/steamcmd
-	mkdir -v ${filesdir}
+	cd "${rootdir}/steamcmd"
+	mkdir -v "${filesdir}"
 	touch install.txt
 	chmod 0600 install.txt
 	echo "login anonymous" > install.txt
@@ -629,13 +629,13 @@ echo "================================="
 	sleep 1
 	echo ""
 	echo "Creating server.cfg"
-	touch ${filesdir}/left4dead2/cfg/server.cfg
-	echo "exec ${servicename}.cfg" > ${filesdir}/left4dead2/cfg/server.cfg
+	touch "${filesdir}/left4dead2/cfg/server.cfg"
+	echo "exec ${servicename}.cfg" > "${filesdir}/left4dead2/cfg/server.cfg"
 	sleep 1
 	echo "Creating default config file:"
 	sleep 0.5
 	echo "${servercfg}"
-	touch ${servercfg}
+	touch "${servercfg}"
 	{
 		echo -e "// server name"
 		echo -e "hostname \"${servername}\""
@@ -652,16 +652,16 @@ echo "================================="
 		echo -e "sv_logecho 1"
 		echo -e "sv_logfile 1"
 		echo -e "sv_log_onefile 0"
-	}|tee ${servercfg} > /dev/null 2>&1
+	}|tee "${servercfg}" > /dev/null 2>&1
 	sleep 1
 	echo ""
 	echo "Creating log directorys"
-	mkdir -v ${rootdir}/log
-	mkdir -v ${scriptlogdir}
-	mkdir -v ${consolelogdir}
-	touch ${consolelog}
+	mkdir -v "${rootdir}/log"
+	mkdir -v "${scriptlogdir}"
+	mkdir -v "${consolelogdir}"
+	touch "${consolelog}"
 	if [ ! -h ${rootdir}/log/server ]; then
-		ln -sv ${gamelogdir} ${rootdir}/log/server
+		ln -sv "${gamelogdir}" "${rootdir}/log/server"
 	else
 		echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
 	fi
@@ -670,7 +670,7 @@ echo "================================="
 	echo "Applying steamclient.so fix"
 	mkdir -v ${HOME}/.steam
 	mkdir -v ${HOME}/.steam/sdk32
-	cp -v ${filesdir}/bin/steamclient.so ${HOME}/.steam/sdk32/steamclient.so
+	cp -v "${filesdir}/bin/steamclient.so ${HOME}/.steam/sdk32/steamclient.so"
 	sleep 1
 	fn_header
 	fn_details
