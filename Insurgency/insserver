@@ -1,5 +1,5 @@
 #!/bin/bash
-# Day of Defeat: Source
+# Insurgency
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -13,38 +13,39 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="anonymous"
-steampass=""
+steamuser="username"
+steampass="password"
 
 # Start Variables
-defaultmap="dod_Anzio"
+
+defaultmap="ministry"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-maxplayers="16"
+maxplayers="24"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game dod +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers}"
+parms="+map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
 
 # Steam
-appid="232290"
+appid="237410"
 
 # Server Details
-servicename="dods-server"
-gamename="Day of Defeat: Source"
+servicename="ins-server"
+gamename="Insurgency"
 engine="source"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/dod"
+systemdir="${filesdir}/insurgency"
 executabledir="${filesdir}"
-executable="./srcds_run"
+executable="./srcds_linux"
 servercfg="${systemdir}/cfg/${servicename}.cfg"
 defaultcfg="${systemdir}/cfg/server.cfg"
 backupdir="backups"

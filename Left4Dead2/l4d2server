@@ -3,7 +3,11 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
+<<<<<<< HEAD
 # Version: 251214
+=======
+# Version: 240114
+>>>>>>> Major update 240114
 
 #### Variables ####
 
@@ -11,6 +15,10 @@
 # (on|off)
 emailnotification="off"
 email="email@example.com"
+
+# Steam login
+steamuser="anonymous"
+steampass=""
 
 # Start Variables
 defaultmap="c5m1_waterfront"
@@ -20,7 +28,9 @@ clientport="27005"
 maxplayers="16"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-parms="-game left4dead2 +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
+fn_parms(){
+parms="-game left4dead2 +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers}"
+}
 
 #### Advanced Variables ####
 
@@ -36,16 +46,26 @@ engine="source"
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
-servercfg="${filesdir}/left4dead2/cfg/${servicename}.cfg"
+systemdir="${filesdir}/left4dead2"
+executabledir="${filesdir}"
+executable="./srcds_run"
+servercfg="${systemdir}/cfg/${servicename}.cfg"
+defaultcfg="${systemdir}/cfg/server.cfg"
 backupdir="backups"
+steamclient="${filesdir}/bin/steamclient.so"
 
 # Server Details
+<<<<<<< HEAD
 servername=$(grep -s hostname "${servercfg}" | sed 's/hostname //g'|sed 's/"//g')
 rcon=$(grep -s rcon_password "${servercfg}" | sed 's/rcon_password //g'|sed 's/"//g')
+=======
+servername=$(grep -s hostname "${servercfg}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfg}"|sed 's/rcon_password //g'|sed 's/"//g')
+>>>>>>> Major update 240114
 
 # Logging
 logdays="7"
-gamelogdir="${filesdir}/left4dead2/logs"
+gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
@@ -73,8 +93,13 @@ fi
 }
 
 fn_syscheck(){
+<<<<<<< HEAD
 if [ ! -e "${filesdir}" ]; then
 	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Cannot access ${filesdir}: No such directory"
+=======
+if [ ! -e "${systemdir}" ]; then
+	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Cannot access ${systemdir}: No such directory"
+>>>>>>> Major update 240114
 	exit
 fi
 }
@@ -82,12 +107,17 @@ fi
 fn_autoip(){
 # Identifies the server interface IP
 # If multiple interfaces this will need to be set manually
-getip=$(/sbin/ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1)
-getipwc=$(/sbin/ifconfig | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'|grep -v 127.0.0.1|wc -l)
+getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1)
+getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1|wc -l)
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
+<<<<<<< HEAD
 		echo -en "[\e[1;33m WARN \e[0;39m] Multiple active interfaces.\n\n"
 		echo -en "Manually specify the IP in ${selfname}\n"
+=======
+		echo -en "[\e[1;33m WARN \e[0;39m] Multiple active network interfaces.\n\n"
+		echo -en "Manually specify the IP you want to use in ${selfname}.\n"
+>>>>>>> Major update 240114
 		echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 		echo -en "${getip}\n"
 		exit
@@ -102,15 +132,24 @@ if [ ! -e "${consolelog}" ]; then
 	touch "${consolelog}"
 fi
 # log manager will active if finds logs older than ${logdays}
+<<<<<<< HEAD
 if [ `find "${scriptlogdir}"/* -mtime +${logdays} |wc -l` -ne "0" ]; then
+=======
+if [ `find "${scriptlogdir}"/* -mtime +${logdays}|wc -l` -ne "0" ]; then
+>>>>>>> Major update 240114
 	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
 	fn_scriptlog "Starting log cleaner"
 	sleep 1
 	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
 	fn_scriptlog "Removing logs older than ${logdays} days"
 	sleep 1
+<<<<<<< HEAD
 	find "${scriptlogdir}"/* -mtime +${logdays} |tee >> "${scriptlog}"
 	find "${consolelogdir}"/* -mtime +${logdays} |tee >> "${scriptlog}"
+=======
+	find "${scriptlogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	find "${consolelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+>>>>>>> Major update 240114
 	scriptcount=$(find "${scriptlogdir}/*" -mtime +${logdays}|wc -l)
 	consolecount=$(find "${consolelogdir}/*" -mtime +${logdays}|wc -l)
 	count=$((${scriptcount} + ${consolecount}))
@@ -125,6 +164,7 @@ fn_debugserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+fn_parms
 echo ""
 echo "${gamename} Debug"
 echo "============================"
@@ -132,6 +172,9 @@ echo ""
 echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode"
 echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
+echo ""
+echo "Start parameters:"
+echo ${parms}
 echo ""
 while true; do
 	read -p "Continue? [y/N]" yn
@@ -145,11 +188,19 @@ fn_stopserver
 echo -en "\r\033[K[ .... ] Starting debug mode ${servicename}: ${servername}"
 sleep 0.5
 echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting debug mode ${servicename}: ${servername}"
+<<<<<<< HEAD
 fn_scriptlog "Started debug mode ${servername} "
 sleep 0.5
 echo -en "\n"
 cd "${filesdir}"
 ./srcds_run "${parms}" -debug
+=======
+fn_scriptlog "Started debug mode ${servername}"
+sleep 0.5
+echo -en "\n"
+cd "${executabledir}"
+${executable} ${parms} -debug
+>>>>>>> Major update 240114
 }
 
 fn_console(){
@@ -231,7 +282,11 @@ fn_scriptlog "Backup started"
 sleep 1
 echo -en "\n"
 cd "${rootdir}"
+<<<<<<< HEAD
 mkdir -p "${backupdir}" > /dev/null 2>&1
+=======
+mkdir -pv "${backupdir}" > /dev/null 2>&1
+>>>>>>> Major update 240114
 tar -cvzf "${backupdir}/${backupname}.tar.gz" --exclude "${backupdir}" *
 echo -en "\r\033[K${servicename} Backup complete"
 fn_scriptlog "Backup complete"
@@ -260,7 +315,7 @@ days=$(( uptime/60/60/24 ))
 }
 
 fn_load(){
-load=$(uptime | awk -F 'load average' '{ print $2 }')
+load=$(uptime|awk -F 'load average' '{ print $2 }')
 }
 
 fn_emailnotification(){
@@ -292,7 +347,11 @@ if [ ! -z "${consolelog}" ]; then
 fi
 if [ ! -z "${gamelogdir}" ]; then
 	echo -e "\n\nServer log\n====================\n" >> "${emaillog}"
+<<<<<<< HEAD
 	tail "${gamelogdir}"/* | grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
+=======
+	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
+>>>>>>> Major update 240114
 fi
 mail -s "${subject}" ${email} < "${emaillog}"
 echo -en "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
@@ -322,20 +381,28 @@ fn_serverquery(){
 # uses gsquery.py to directly query the server
 # detects if the server locks up
 if [ -f gsquery.py ]; then
-	if [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
+	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
 		port=$((${gameport} + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
 	fi
 	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected gsquery.py"
+<<<<<<< HEAD
 	fn_scriptlog "Detected gsquery.py "
+=======
+	fn_scriptlog "Detected gsquery.py"
+>>>>>>> Major update 240114
 	sleep 1
 	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
 	fn_scriptlog "Querying port: ${ip}:${port}: QUERYING"
 	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
+<<<<<<< HEAD
 	sleep 1 
+=======
+	sleep 1
+>>>>>>> Major update 240114
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
 		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
@@ -379,7 +446,7 @@ if [ -f gsquery.py ]; then
 		sleep 1
 		echo -en "\n"
 		./gsquery.py -a ${ip} -p ${port} -e ${engine}
-		exit		
+		exit
 	fi
 fi
 }
@@ -408,7 +475,11 @@ if [ "${updatecheck}" = "0" ]; then
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Checking session: FAIL"
 		fn_scriptlog "Checking session: FAIL"
 		sleep 1
+<<<<<<< HEAD
 		echo -en "\n"	   
+=======
+		echo -en "\n"
+>>>>>>> Major update 240114
 		if [ "${emailnotification}" = "on" ]; then
 			subject="${servicename} Monitor - Starting ${servername}"
 			failurereason="${servicename} process not running"
@@ -416,7 +487,11 @@ if [ "${updatecheck}" = "0" ]; then
 			fn_emailnotification
 		fi
 		fn_scriptlog "Monitor is starting ${servername}"
+<<<<<<< HEAD
 		fn_startserver  
+=======
+		fn_startserver
+>>>>>>> Major update 240114
 	fi
 else
 	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected SteamCMD is checking for updates"
@@ -435,8 +510,13 @@ sleep 0.5
 echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Updating ${servicename}: ${servername}"
 fn_scriptlog "Updating ${servername}"
 cd "${rootdir}"
+<<<<<<< HEAD
 cd steamcmd
 ./steamcmd.sh +login anonymous +force_install_dir "${filesdir}" +app_update ${appid} validate +quit |tee -a "${scriptlog}"
+=======
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
+>>>>>>> Major update 240114
 }
 
 fn_restartserver(){
@@ -468,6 +548,7 @@ fn_startserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+fn_parms
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
@@ -484,8 +565,13 @@ if [ ${tmuxwc} -eq 1 ]; then
 	echo -en "\n"
 	exit
 fi
+<<<<<<< HEAD
 cd "${filesdir}"
 tmux new-session -d -s ${servicename} "./srcds_run ${parms} |tee -a '${consolelog}'"
+=======
+cd "${executabledir}"
+tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
+>>>>>>> Major update 240114
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
@@ -500,33 +586,44 @@ echo -en "\n"
 }
 
 fn_details(){
+fn_autoip
+servername=$(grep -s hostname "${servercfg}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfg}"|sed 's/rcon_password //g'|sed 's/"//g')
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo ""
 echo "${gamename} Server Details"
 echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${port}"
+echo "RCON password: ${rcon}"
+echo "Config file: ${servercfg}"
 echo ""
 echo "${servername} Ports"
+<<<<<<< HEAD
 echo "======================="
 servername=$(grep -s hostname "${servercfg}" | sed 's/hostname //g'|sed 's/"//g')
 rcon=$(grep -s rcon_password "${servercfg}" | sed 's/rcon_password //g'|sed 's/"//g')
 echo "Ports the server is currently using"
+=======
+echo "============================"
+echo "Ports the server is currently using."
+>>>>>>> Major update 240114
 echo ""
 echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game/Rcon Port		${port}"
+echo "INBOUND		Game/RCON port		${port}"
 if [ "${engine}" = "source" ]; then
-	echo "INBOUND		SourceTV Port		${sourcetvport}"
+	echo "INBOUND		SourceTV port		${sourcetvport}"
 fi
-echo "OUTBOUND	Client Port		${clientport}"
+echo "OUTBOUND	Client port		${clientport}"
 echo ""
 echo "You can change ports by editing the"
-echo "start parameters in ${selfname}"
+echo "start parameters in ${selfname}."
 echo ""
-echo "${servername} Details"
-echo "======================="
-echo "Server name: ${servername}"
-echo "Rcon Password: ${rcon}"
-echo ""
-echo "Config file:"
-echo "${servercfg}"
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
 echo ""
 }
 
@@ -538,7 +635,7 @@ fn_header(){
 clear
 echo "================================="
 echo "${gamename}"
-echo "Server Linux Installer"
+echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
 echo "http://danielgibbs.co.uk"
 echo "================================="
@@ -546,19 +643,78 @@ echo ""
 }
 
 fn_steamdl(){
-echo "Installing Steam"
+echo "Installing SteamCMD"
 echo "================================="
 cd "${rootdir}"
+<<<<<<< HEAD
 mkdir -p steamcmd
 cd steamcmd
+=======
+mkdir -pv "steamcmd"
+sleep 1
+cd "steamcmd"
+>>>>>>> Major update 240114
 if [ ! -f steamcmd.sh ]; then
 	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
 	chmod +x steamcmd.sh
+	sleep 1
 else
+	echo ""
 	echo "Steam already installed!"
 fi
+sleep 1
+echo ""
+}
+
+fn_steaminstall(){
+echo "Installing ${gamename} Server"
+echo "================================="
+sleep 1
+mkdir -pv "${filesdir}"
+cd "${rootdir}/steamcmd"
+STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
+echo ""
+echo "================================="
+while true; do
+	read -p "Was the install successful? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) fn_retryinstall;;
+	* ) echo "Please answer yes or no.";;
+	esac
+done
+echo ""
+}
+
+fn_steamfix(){
+echo "Applying steamclient.so fix"
+echo "================================="
+sleep 1
+mkdir -pv ${HOME}/.steam
+mkdir -pv ${HOME}/.steam/sdk32
+cp -v "${steamclient}" "${HOME}/.steam/sdk32/steamclient.so"
+sleep 1
+echo ""
+}
+
+fn_loginstall(){
+echo "Creating log directorys"
+echo "================================="
+sleep 1
+mkdir -pv "${rootdir}/log"
+mkdir -pv "${scriptlogdir}"
+touch "${scriptlog}"
+mkdir -pv "${consolelogdir}"
+touch "${consolelog}"
+if [ ! -h ${rootdir}/log/server ]; then
+	ln -sv "${gamelogdir}" "${rootdir}/log/server"
+else
+	echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
+fi
+sleep 1
+echo ""
 }
 
 fn_retryinstall(){
@@ -582,13 +738,12 @@ if [ -d "${filesdir}" ]; then
 	while true; do
 		read -p "Continue [y/N]" yn
 		case $yn in
-		[Yy]* ) break;;
+		[Yy]* ) fn_header; break;;
 		[Nn]* ) echo Exiting; return 1;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
 fi
-fn_header
 echo "Install Directory:"
 pwd
 echo ""
@@ -602,6 +757,7 @@ while true; do
 done
 fn_header
 fn_steamdl
+<<<<<<< HEAD
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
@@ -629,11 +785,18 @@ echo "================================="
 		esac
 	done
 fn_header
+=======
+fn_steaminstall
+fn_steamfix
+fn_loginstall
+>>>>>>> Major update 240114
 echo "Configuring ${gamename} Server"
 echo "================================="
+	sleep 1
 	read -p "Enter server name: " servername
 	read -p "Enter rcon password: " rconpass
 	sleep 1
+<<<<<<< HEAD
 	echo ""
 	echo "Creating server.cfg"
 	touch "${filesdir}/left4dead2/cfg/server.cfg"
@@ -642,6 +805,13 @@ echo "================================="
 	echo "Creating default config file:"
 	sleep 0.5
 	echo "${servercfg}"
+=======
+	echo "Creating server.cfg."
+	touch "${defaultcfg}"
+	echo "exec ${servicename}.cfg" > "${defaultcfg}"
+	sleep 1
+	echo "Creating ${servicename}.cfg config file."
+>>>>>>> Major update 240114
 	touch "${servercfg}"
 	{
 		echo -e "// server name"
@@ -662,6 +832,7 @@ echo "================================="
 	}|tee "${servercfg}" > /dev/null 2>&1
 	sleep 1
 	echo ""
+<<<<<<< HEAD
 	echo "Creating log directorys"
 	mkdir -pv "${rootdir}/log"
 	mkdir -pv "${scriptlogdir}"
@@ -679,8 +850,12 @@ echo "================================="
 	mkdir -pv ${HOME}/.steam/sdk32
 	cp -v "${filesdir}/bin/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
 	sleep 1
+=======
+>>>>>>> Major update 240114
 	fn_header
+	sleep 1
 	fn_details
+	sleep 1
 	echo "================================="
 	echo "Install Complete!"
 	echo ""
