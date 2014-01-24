@@ -13,8 +13,8 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="dgibbsserver"
-steampass="Roundabout1"
+steamuser="username"
+steampass="password"
 
 # Start Variables
 
