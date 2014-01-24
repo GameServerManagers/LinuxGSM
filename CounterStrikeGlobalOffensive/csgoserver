@@ -13,14 +13,23 @@ emailnotification="off"
 email="email@example.com"
 
 # Start Variables
+# [Game Modes]           game_mode    game_type
+# Classic Casual             0            0
+# Classic Competitive        0            1
+# Arms Race                  1            0
+# Demolition                 1            1
+gamemode="0"
+gametype="0"
 defaultmap="de_dust"
+mapgroup="random_classic"
+maxplayers="16"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-maxplayers="16"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-parms="-game csgo -usercon +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
+# Change the parameter "-maxplayers" to "-maxplayers_override" for force the max player limit
+parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${defaultmap} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 
 #### Advanced Variables ####
 
