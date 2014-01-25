@@ -563,7 +563,7 @@ if [ ${pass} == 1 ]; then
 	cd "${appdir}"
 	echo "Removing any existing appmanifest files. (app 90 fix)"
 	sleep 2
-	rm -rf "${appdir}/*"
+	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
 elif [ ${pass} == 2 ]; then
 	echo "Downloading firstpass appmanifest files. (app 90 fix)"
 	sleep 2
@@ -576,7 +576,7 @@ elif [ ${pass} == 3 ]; then
 	sleep 2
 	cd "${appdir}"	
 	rm -f appmanifest_90.acf
-	https://raw2.github.com/dgibbs64/linuxgameservers/master/DayOfDefeat/appmanifest/secondpass/appmanifest_90.acf
+	wget https://raw2.github.com/dgibbs64/linuxgameservers/master/DayOfDefeat/appmanifest/secondpass/appmanifest_90.acf
 fi
 }
 
@@ -630,7 +630,7 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 	esac
 done
-echo ""	
+echo ""
 }
 
 fn_steamfix(){

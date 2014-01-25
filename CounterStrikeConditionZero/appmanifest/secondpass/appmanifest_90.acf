@@ -4,23 +4,22 @@
 	"Universe"		"1"
 	"StateFlags"		"4"
 	"installdir"		"Half-Life"
-	"LastUpdated"		"1389012979"
+	"LastUpdated"		"1390662869"
 	"UpdateResult"		"0"
-	"SizeOnDisk"		"41588635"
-	"buildid"		"100666"
-	"LastOwner"		"76561200372854832"
-	"BytesToDownload"		"5145024"
-	"BytesDownloaded"		"5145024"
+	"SizeOnDisk"		"41586625"
+	"buildid"		"63549"
+	"LastOwner"		"76561199609699388"
+	"BytesToDownload"		"224501136"
+	"BytesDownloaded"		"224501136"
 	"AutoUpdateBehavior"		"0"
 	"AllowOtherDownloadsWhileRunning"		"0"
-	"FullValidateOnNextUpdate"		"1"
 	"UserConfig"
 	{
 		"mod"		"czero"
 	}
 	"MountedDepots"
 	{
-		"4"		"3241770180922475775"
+		"4"		"3196956435784640171"
 	}
 	"SharedDepots"
 	{

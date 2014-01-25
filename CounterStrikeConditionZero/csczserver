@@ -554,16 +554,31 @@ echo ""
 #
 
 fn_csczappmanifest(){
-echo "Downloading appmanifest files (app 90 fix)"
-echo "================================="
-sleep 1
-mkdir -v "${filesdir}/1ea271ace3aa6eb2cbade5b6f37851d19ffb9e6f"
-cd "${filesdir}/1ea271ace3aa6eb2cbade5b6f37851d19ffb9e6f"
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_10.acf
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_70.acf
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_80.acf
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/appmanifest_90.acf
-echo ""
+appdir="${filesdir}/1ea271ace3aa6eb2cbade5b6f37851d19ffb9e6f"
+if [ ${pass} == 1 ]; then
+	echo "Creating appmanifest directory. (app 90 fix)"
+	sleep 2
+	mkdir -v "${filesdir}"
+	mkdir -v "${appdir}"
+	cd "${appdir}"
+	echo "Removing any existing appmanifest files. (app 90 fix)"
+	sleep 2
+	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
+elif [ ${pass} == 2 ]; then
+	echo "Downloading firstpass appmanifest files. (app 90 fix)"
+	sleep 2
+	cd "${appdir}"
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_10.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_70.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_80.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_90.acf
+elif [ ${pass} == 3 ]; then
+	echo "Downloading secondpass appmanifest files. (app 90 fix)"
+	sleep 2
+	cd "${appdir}"	
+	rm -f appmanifest_90.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/secondpass/appmanifest_90.acf
+fi
 }
 
 fn_header(){
@@ -599,14 +614,13 @@ echo ""
 }
 
 fn_steaminstall(){
-echo "Installing ${gamename} Server"
-echo "================================="
 sleep 1
 mkdir -pv "${filesdir}"
 cd "${rootdir}/steamcmd"
 STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
-STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
-STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
+}
+
+fn_success(){
 echo ""
 echo "================================="
 while true; do
@@ -689,8 +703,21 @@ while true; do
 done
 fn_header
 fn_steamdl
+
+echo "Installing ${gamename} Server"
+echo "================================="
+pass=1
+fn_csczappmanifest
+pass=2
 fn_csczappmanifest
 fn_steaminstall
+fn_steaminstall
+pass=3
+fn_csczappmanifest
+fn_steaminstall
+fn_steaminstall
+fn_steaminstall
+fn_success
 fn_steamfix
 fn_loginstall
 echo "Configuring ${gamename} Server"
