@@ -30,7 +30,7 @@ parms="-game cstrike +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} 
 #### Advanced Variables ####
 
 # Steam
-appid="90 -beta beta"
+appid="90"
 
 # Server Details
 servicename="cs-server"
@@ -554,15 +554,24 @@ echo ""
 #
 
 fn_csappmanifest(){
-echo "Downloading appmanifest files (app 90 fix)"
-echo "================================="
-sleep 1
-mkdir -v "${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5"
-cd "${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5"
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_10.acf
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_70.acf
-wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_90.acf
-echo ""
+appdir="${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5"
+if [ ${pass} == 1 ]; then
+	echo "Creating appmanifest directory. (app 90 fix)"
+	sleep 2
+	mkdir -v "${filesdir}"
+	mkdir -v "${appdir}"
+	cd "${appdir}"
+	echo "Removing any existing appmanifest files. (app 90 fix)"
+	sleep 2
+	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
+elif [ ${pass} == 2 ]; then
+	echo "Downloading firstpass appmanifest files. (app 90 fix)"
+	sleep 2
+	cd "${appdir}"
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_10.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_70.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_90.acf
+fi
 }
 
 fn_header(){
@@ -598,12 +607,13 @@ echo ""
 }
 
 fn_steaminstall(){
-echo "Installing ${gamename} Server"
-echo "================================="
 sleep 1
 mkdir -pv "${filesdir}"
 cd "${rootdir}/steamcmd"
 STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
+}
+
+fn_success(){
 echo ""
 echo "================================="
 while true; do
@@ -686,8 +696,16 @@ while true; do
 done
 fn_header
 fn_steamdl
+echo "Installing ${gamename} Server"
+echo "================================="
+pass=1
+fn_csappmanifest
+pass=2
 fn_csappmanifest
 fn_steaminstall
+fn_steaminstall
+fn_steaminstall
+fn_success
 fn_steamfix
 fn_loginstall
 echo "Configuring ${gamename} Server"

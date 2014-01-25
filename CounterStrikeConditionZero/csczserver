@@ -30,7 +30,7 @@ parms="-game czero +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +c
 #### Advanced Variables ####
 
 # Steam
-appid="90 -beta beta +app_set_config 90 mod czero"
+appid="90 +app_set_config 90 mod czero"
 
 # Server Details
 servicename="cscz-server"
@@ -563,7 +563,7 @@ if [ ${pass} == 1 ]; then
 	cd "${appdir}"
 	echo "Removing any existing appmanifest files. (app 90 fix)"
 	sleep 2
-	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
+	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_80.acf appmanifest_90.acf
 elif [ ${pass} == 2 ]; then
 	echo "Downloading firstpass appmanifest files. (app 90 fix)"
 	sleep 2
@@ -703,7 +703,6 @@ while true; do
 done
 fn_header
 fn_steamdl
-
 echo "Installing ${gamename} Server"
 echo "================================="
 pass=1
