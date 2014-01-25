@@ -24,20 +24,17 @@ steampass=""
 # Demolition                 1            1
 gamemode="0"
 gametype="0"
-<<<<<<< HEAD
 defaultmap="de_dust"
 mapgroup="random_classic"
 maxplayers="16"
 =======
 defaultmap="de_dust2"
 mapgroup="random_classic"
->>>>>>> Major update 240114
 port="27015"
 sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-<<<<<<< HEAD
 # Change the parameter "-maxplayers" to "-maxplayers_override" for force the max player limit
 parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${defaultmap} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 =======
@@ -45,7 +42,6 @@ parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${defaultmap} +game_mode
 fn_parms(){
 parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers}"
 }
->>>>>>> Major update 240114
 
 #### Advanced Variables ####
 
