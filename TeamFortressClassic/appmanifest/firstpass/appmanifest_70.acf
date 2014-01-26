@@ -2,12 +2,12 @@
 {
 	"AppID"		"70"
 	"Universe"		"1"
-	"StateFlags"		"68"
+	"StateFlags"		"1090"
 	"installdir"		"Half-Life"
-	"LastUpdated"		"1390765182"
+	"LastUpdated"		"0"
 	"UpdateResult"		"0"
-	"SizeOnDisk"		"445330938"
-	"buildid"		"110703"
+	"SizeOnDisk"		"0"
+	"buildid"		"0"
 	"LastOwner"		"0"
 	"BytesToDownload"		"0"
 	"BytesDownloaded"		"0"
@@ -15,11 +15,8 @@
 	"AllowOtherDownloadsWhileRunning"		"0"
 	"UserConfig"
 	{
-		"BetaKey"		"public"
 	}
 	"MountedDepots"
 	{
-		"1"		"5409401804038872403"
-		"71"		"778444776426820105"
 	}
 }
