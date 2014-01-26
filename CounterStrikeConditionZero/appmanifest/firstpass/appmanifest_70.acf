@@ -1,6 +1,6 @@
 "AppState"
 {
-	"appid"		"70"
+	"AppID"		"70"
 	"Universe"		"1"
 	"StateFlags"		"1090"
 	"installdir"		"Half-Life"
