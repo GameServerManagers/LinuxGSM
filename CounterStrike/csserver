@@ -47,7 +47,7 @@ executable="./hlds_run"
 servercfg="${systemdir}/${servicename}.cfg"
 defaultcfg="${systemdir}/server.cfg"
 backupdir="backups"
-steamclient="${filesdir}/steamclient.so"
+steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
 
 # Server Details
 servername=$(grep -s hostname "${servercfg}"|sed 's/hostname //g'|sed 's/"//g')

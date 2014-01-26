@@ -46,7 +46,7 @@ executable="./srcds_nmrih"
 servercfg="${systemdir}/cfg/${servicename}.cfg"
 defaultcfg="${systemdir}/cfg/server.cfg"
 backupdir="backups"
-steamclient="${filesdir}/srcds/bin/steamclient.so"
+steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
 
 # Server Details
 servername=$(grep -s hostname "${servercfg}"|sed 's/hostname //g'|sed 's/"//g')

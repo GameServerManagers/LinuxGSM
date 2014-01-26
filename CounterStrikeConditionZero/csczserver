@@ -47,7 +47,7 @@ executable="./hlds_run"
 servercfg="${systemdir}/${servicename}.cfg"
 defaultcfg="${systemdir}/server.cfg"
 backupdir="backups"
-steamclient="${filesdir}/steamclient.so"
+steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
 
 # Server Details
 servername=$(grep -s hostname "${servercfg}"|sed 's/hostname //g'|sed 's/"//g')
@@ -563,7 +563,7 @@ if [ ${pass} == 1 ]; then
 	cd "${appdir}"
 	echo "Removing any existing appmanifest files. (app 90 fix)"
 	sleep 2
-	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_80.acf appmanifest_90.acf
+	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
 elif [ ${pass} == 2 ]; then
 	echo "Downloading firstpass appmanifest files. (app 90 fix)"
 	sleep 2
@@ -574,7 +574,7 @@ elif [ ${pass} == 2 ]; then
 elif [ ${pass} == 3 ]; then
 	echo "Downloading secondpass appmanifest files. (app 90 fix)"
 	sleep 2
-	cd "${appdir}"	
+	cd "${appdir}"
 	rm -f appmanifest_90.acf
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/secondpass/appmanifest_90.acf
 fi
