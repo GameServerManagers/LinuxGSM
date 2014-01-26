@@ -570,7 +570,6 @@ elif [ ${pass} == 2 ]; then
 	cd "${appdir}"
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_10.acf
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_70.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_80.acf
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_90.acf
 elif [ ${pass} == 3 ]; then
 	echo "Downloading secondpass appmanifest files. (app 90 fix)"
