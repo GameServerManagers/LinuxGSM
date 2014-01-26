@@ -560,7 +560,7 @@ echo "WebAdmin Username: ${webadminuser}"
 echo "WebAdmin Password: ${webadminpass}"
 echo ""
 if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"	
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
 else
 	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
 fi
