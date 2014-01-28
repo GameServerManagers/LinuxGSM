@@ -33,9 +33,8 @@ port="27015"
 sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-# Change the parameter "-maxplayers" to "-maxplayers_override" for force the max player limit
-parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${defaultmap} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +tv_port ${sourcetvport} +clientport ${clientport} -maxplayers ${maxplayers}"
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
 fn_parms(){
 parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers}"

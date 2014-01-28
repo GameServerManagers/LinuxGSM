@@ -17,7 +17,6 @@ steamuser="username"
 steampass="password"
 
 # Start Variables
-
 defaultmap="ministry"
 port="27015"
 sourcetvport="27020"
