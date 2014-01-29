@@ -565,12 +565,12 @@ if [ ${pass} == 1 ]; then
 	sleep 2
 	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
 elif [ ${pass} == 2 ]; then
-	echo "Downloading firstpass appmanifest files. (app 90 fix)"
+	echo "Downloading HLDS appmanifest files. (app 90 fix)"
 	sleep 2
 	cd "${appdir}"
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_10.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_70.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrike/appmanifest/appmanifest_90.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_10.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_70.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_90.acf
 fi
 }
 

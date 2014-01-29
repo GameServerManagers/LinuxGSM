@@ -565,18 +565,18 @@ if [ ${pass} == 1 ]; then
 	sleep 2
 	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
 elif [ ${pass} == 2 ]; then
-	echo "Downloading firstpass appmanifest files. (app 90 fix)"
+	echo "Downloading HLDS appmanifest files. (app 90 fix)"
 	sleep 2
 	cd "${appdir}"
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_10.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_70.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/firstpass/appmanifest_90.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_10.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_70.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_90.acf
 elif [ ${pass} == 3 ]; then
-	echo "Downloading secondpass appmanifest files. (app 90 fix)"
+	echo "Downloading ${gamename} appmanifest files. (app 90 fix)"
 	sleep 2
 	cd "${appdir}"
 	rm -f appmanifest_90.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/appmanifest/secondpass/appmanifest_90.acf
+	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/czero/appmanifest_90.acf
 fi
 }
 

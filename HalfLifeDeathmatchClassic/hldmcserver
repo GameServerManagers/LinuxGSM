@@ -1,5 +1,5 @@
 #!/bin/bash
-# Team Fortress Classic
+# Half Life: Deathmatch Classic
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -17,31 +17,31 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="dustbowl"
+defaultmap="crossfire"
 port="27015"
 clientport="27005"
 maxplayers="16"
 ip="0.0.0.0"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game tfc +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -maxplayers ${maxplayers}"
+parms="-game valve +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod tfc"
+appid="90"
 
 # Server Details
-servicename="tfc-server"
-gamename="Team Fortress Classic"
+servicename="hldmc-server"
+gamename="Half Life: Deathmatch Classic"
 engine="goldsource"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/tfc"
+systemdir="${filesdir}/valve"
 executabledir="${filesdir}"
 executable="./hlds_run"
 servercfg="${systemdir}/${servicename}.cfg"
@@ -553,8 +553,8 @@ echo ""
 ## Installer
 #
 
-fn_tfcappmanifest(){
-appdir="${filesdir}/5cf8446bee28893dd1ff1867b48c26ae8f14e1e7"
+fn_hldmcappmanifest(){
+appdir="${filesdir}/91aa146f9fda7056098af2c7015b8fb308bf1ce2"
 if [ ${pass} == 1 ]; then
 	echo "Creating appmanifest directory. (app 90 fix)"
 	sleep 2
@@ -571,12 +571,6 @@ elif [ ${pass} == 2 ]; then
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_10.acf
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_70.acf
 	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_90.acf
-elif [ ${pass} == 3 ]; then
-	echo "Downloading ${gamename} appmanifest files. (app 90 fix)"
-	sleep 2
-	cd "${appdir}"
-	rm -f appmanifest_90.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/tfc/appmanifest_90.acf
 fi
 }
 
@@ -705,13 +699,9 @@ fn_steamdl
 echo "Installing ${gamename} Server"
 echo "================================="
 pass=1
-fn_tfcappmanifest
+fn_hldmcappmanifest
 pass=2
-fn_tfcappmanifest
-fn_steaminstall
-fn_steaminstall
-pass=3
-fn_tfcappmanifest
+fn_hldmcappmanifest
 fn_steaminstall
 fn_steaminstall
 fn_steaminstall
