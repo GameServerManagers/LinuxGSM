@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 240114
+# Version: 290114
 
 #### Variables ####
 
@@ -17,18 +17,18 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-# [Game Modes]           game_mode    game_type
+# [Game Modes]           game_type    game_mode
 # Classic Casual             0            0
 # Classic Competitive        0            1
 # Arms Race                  1            0
 # Demolition                 1            1
-gamemode="0"
+# Deathmatch                 1            2
 gametype="0"
-defaultmap="de_dust"
-mapgroup="random_classic"
-maxplayers="16"
+gamemode="0"
 defaultmap="de_dust2"
 mapgroup="random_classic"
+maxplayers="16"
+tickrate="64"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
@@ -36,9 +36,20 @@ ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
+
 fn_parms(){
-parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers}"
+parms="-game csgo -usercon -tickrate ${tickrate} +map ${defaultmap} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers_override ${maxplayers}"
 }
+
+# https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
+# Workshop Paramters
+# wh_collection_id="125499818"
+# wh_start_map="125488374"
+# authkey="Visit - http://steamcommunity.com/dev/apikey"
+
+#fn_parms(){ 
+#parms="-game csgo -usercon -tickrate ${tickrate} +map ${defaultmap} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers_override ${maxplayers} +host_workshop_collection ${wh_collection_id} +workshop_start_map ${wh_start_map} -authkey ${authkey}"
+#}
 
 #### Advanced Variables ####
 
