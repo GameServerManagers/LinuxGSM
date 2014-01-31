@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 240114
+# Version: 010214
 
 #### Variables ####
 
@@ -338,6 +338,13 @@ if [ -f gsquery.py ]; then
 		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
 		sleep 1
 		echo -en "\n"
+		if [[ -z "${secondquery}" ]]; then
+			echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Waiting 30 seconds to re-query"
+			fn_scriptlog "Waiting 30 seconds to re-query"
+			sleep 30
+			secondquery=1
+			fn_serverquery
+		fi
 		if [ "${emailnotification}" = "on" ]; then
 			subject="${servicename} Monitor - Starting ${servername}"
 			failurereason="Failed to query ${servicename}: ${serverquery}"
@@ -541,7 +548,7 @@ echo "WebAdmin Username: ${webadminuser}"
 echo "WebAdmin Password: ${webadminpass}"
 echo ""
 if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"	
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
 else
 	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
 fi
@@ -687,7 +694,7 @@ echo ""
 fn_utloginstall(){
 echo "Creating log directorys"
 echo "================================="
-sleep 1	
+sleep 1
 mkdir -pv "${rootdir}/log"
 mkdir -pv "${scriptlogdir}"
 touch "${scriptlog}"
