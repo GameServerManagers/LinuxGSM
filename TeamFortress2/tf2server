@@ -100,7 +100,7 @@ getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|g
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
 		echo -en "[\e[1;33m WARN \e[0;39m] Multiple active network interfaces.\n\n"
-		echo -en "Manually specify the IP you want to use in ${selfname}.\n"
+		echo -en "Manually specify the IP you want to use within the ${selfname} script.\n"
 		echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 		echo -en "${getip}\n"
 		exit
