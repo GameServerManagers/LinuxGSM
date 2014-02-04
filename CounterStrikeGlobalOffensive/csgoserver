@@ -38,20 +38,7 @@ tickrate="64"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
 fn_parms(){
-parms="-game csgo "
-parms+="-usercon "
-parms+="+map ${defaultmap} "
-parms+="+mapgroup ${mapgroup} "
-parms+="+game_mode ${gamemode} "
-parms+="+game_type ${gametype} "
-parms+="-strictportbind "
-parms+="-ip ${ip} "
-parms+="-port ${port} "
-parms+="+clientport ${clientport} "
-parms+="+tv_port ${sourcetvport} "
-parms+="-maxplayers ${maxplayers} "
-parms+="+servercfgfile ${servercfg}"
-parms+="-tickrate ${tickrate}"
+-parms="-game csgo -usercon +map ${defaultmap} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -maxplayers ${maxplayers} +servercfgfile ${servercfg} -tickrate ${tickrate}"
 }
 
 #### Advanced Variables ####
@@ -95,49 +82,6 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
-# Print functions
-
-# [ FAIL ]
-print_fail_nonl()
-{
-    echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
-}
-
-print_fail()
-{
-    print_fail_nonl $@
-    echo -en "\n"
-}
-
-# [  OK  ]
-print_ok_nonl()
-{
-	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
-}
-
-print_ok()
-{
-    print_ok_nonl $@
-    echo -en "\n"
-}
-
-# [ INFO ]
-print_info_nonl()
-{
-	echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
-}
-print_info()
-{
-    print_info_nonl $@
-    echo -en "\n"
-}
-
-# [ .... ]
-print_dots()
-{
-    echo -en "\r\033[K[ .... ] $@"
-}
-
 ##### Script #####
 # Do not edit
 # unless you know
@@ -145,6 +89,42 @@ print_dots()
 
 fn_scriptlog(){
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: '$1'" >> ${scriptlog}
+}
+
+# Print functions
+# [ FAIL ]
+print_fail_nonl(){
+    echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+print_fail(){
+    print_fail_nonl $@
+    echo -en "\n"
+}
+
+# [  OK  ]
+print_ok_nonl(){
+	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+print_ok(){
+    print_ok_nonl $@
+    echo -en "\n"
+}
+
+# [ INFO ]
+print_info_nonl(){
+	echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+print_info(){
+    print_info_nonl $@
+    echo -en "\n"
+}
+
+# [ .... ]
+print_dots(){
+    echo -en "\r\033[K[ .... ] $@"
 }
 
 fn_rootcheck(){
