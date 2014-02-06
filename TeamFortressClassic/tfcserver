@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010214
+# Version: 050214
 
 #### Variables ####
 
@@ -18,13 +18,14 @@ steampass=""
 
 # Start Variables
 defaultmap="dustbowl"
+maxplayers="16"
 port="27015"
 clientport="27005"
-maxplayers="16"
 ip="0.0.0.0"
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game tfc +map ${defaultmap} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -maxplayers ${maxplayers} +servercfgfile ${servercfg}"
+parms="-game tfc -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -77,16 +78,60 @@ fn_scriptlog(){
 	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: '$1'" >> ${scriptlog}
 }
 
+# [ FAIL ]
+fn_printfail(){
+    echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+fn_printfailnl(){
+    echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+fn_printok(){
+    echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+# [  OK  ]
+fn_printoknl(){
+    echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+fn_printinfo(){
+    echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+fn_printinfonl(){
+    echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+# [ INFO ]
+fn_printokinfonl(){
+    echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+fn_printwarn(){
+	echo -en "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
+}
+
+fn_printwarnnl(){
+	echo -e "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
+}
+	
+# [ .... ]
+fn_printdots(){
+    echo -en "\r\033[K[ .... ] $@"
+}
+
 fn_rootcheck(){
 if [ `whoami` = "root" ]; then
-	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Script will not run as root!"
+	fn_printfailnl "Script will not run as root!"
 	exit
 fi
 }
 
 fn_syscheck(){
 if [ ! -e "${systemdir}" ]; then
-	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Cannot access ${systemdir}: No such directory"
+	fn_printfailnl "Cannot access ${systemdir}: No such directory"
 	exit
 fi
 }
@@ -98,7 +143,7 @@ getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|gre
 getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1|wc -l)
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
-		echo -en "[\e[1;33m WARN \e[0;39m] Multiple active network interfaces.\n\n"
+		fn_printwarn "Multiple active network interfaces.\n\n"
 		echo -en "Manually specify the IP you want to use within the ${selfname} script.\n"
 		echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 		echo -en "${getip}\n"
@@ -115,20 +160,28 @@ if [ ! -e "${consolelog}" ]; then
 fi
 # log manager will active if finds logs older than ${logdays}
 if [ `find "${scriptlogdir}"/* -mtime +${logdays}|wc -l` -ne "0" ]; then
-	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting log cleaner"
+	fn_printdots "Starting log cleaner"
+	sleep 1	
+	fn_printok "Starting log cleaner"
+	sleep 1	
 	fn_scriptlog "Starting log cleaner"
 	sleep 1
-	echo -e "[\e[0;36m INFO \e[0;39m] Removing logs older than ${logdays} days"
+	echo -en "\n"
+	fn_printinfo "Removing logs older than ${logdays} days"
+	sleep 1
+	echo -en "\n"
 	fn_scriptlog "Removing logs older than ${logdays} days"
 	sleep 1
 	find "${scriptlogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
 	find "${consolelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
-	scriptcount=$(find "${scriptlogdir}/*" -mtime +${logdays}|wc -l)
-	consolecount=$(find "${consolelogdir}/*" -mtime +${logdays}|wc -l)
+	scriptcount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	consolecount=$(find "${consolelogdir}"/* -mtime +${logdays}|wc -l)
 	count=$((${scriptcount} + ${consolecount}))
 	find "${scriptlogdir}"/* -mtime +${logdays} -exec rm {} \;
 	find "${consolelogdir}"/* -mtime +${logdays} -exec rm {} \;
-	echo -e "[\e[0;36m INFO \e[0;39m] Log cleaner removed ${count} log files"
+	fn_printok "Log cleaner removed ${count} log files"
+	sleep 1
+	echo -en "\n"
 	fn_scriptlog "Log cleaner removed ${count} log files"
 fi
 }
@@ -158,11 +211,11 @@ while true; do
 esac
 done
 fn_stopserver
-echo -en "\r\033[K[ .... ] Starting debug mode ${servicename}: ${servername}"
-sleep 0.5
-echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting debug mode ${servicename}: ${servername}"
+fn_printdots "Starting debug mode ${servicename}: ${servername}"
+sleep 1
+fn_printok "Starting debug mode ${servicename}: ${servername}"
+sleep 1
 fn_scriptlog "Started debug mode ${servername}"
-sleep 0.5
 echo -en "\n"
 cd "${executabledir}"
 ${executable} ${parms} -debug
@@ -186,21 +239,21 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-echo -en "\r\033[K[ .... ] Starting ${servicename} console"
-sleep 0.5
+fn_printdots "Starting ${servicename} console"
+sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ]; then
-	echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting ${servicename} console"
-	fn_scriptlog "Console accessed"
+	fn_printoknl "Starting ${servicename} console"
 	sleep 1
+	fn_scriptlog "Console accessed"
 	tmux attach-session -t ${servicename}
 else
-	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Starting ${servicename} console: ${servername} not running"
-	sleep 0.5
+	fn_printfailnl "Starting ${servicename} console: ${servername} not running"
+	sleep 1
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn
 		case $yn in
-		[Yy]* ) fn_startserver;break;;
+		[Yy]* ) fn_startserver; break;;
 		[Nn]* ) break;;
 		* ) echo "Please answer yes or no.";;
 	esac
@@ -234,17 +287,17 @@ if [ ${tmuxwc} -eq 1 ]; then
 	while true; do
 		read -p "Would you like to stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
-		[Yy]* ) fn_stopserver;break;;
+		[Yy]* ) fn_stopserver; break;;
 		[Nn]* ) break;;
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
 fi
-echo -en "\r\033[K[ .... ] Starting backup ${servicename}: ${servername}"
+fn_printdots "Starting backup ${servicename}: ${servername}"
 sleep 1
-echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting backup ${servicename}: ${servername}"
+fn_printok "Starting backup ${servicename}: ${servername}"
+sleep 1
 fn_scriptlog "Backup started"
-sleep 1
 echo -en "\n"
 cd "${rootdir}"
 mkdir -pv "${backupdir}" > /dev/null 2>&1
@@ -311,10 +364,10 @@ if [ ! -z "${gamelogdir}" ]; then
 	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
 fi
 mail -s "${subject}" ${email} < "${emaillog}"
-echo -en "[\e[0;36m INFO \e[0;39m] Sent email notification to ${email}"
-fn_scriptlog "Sent email notification to ${email}"
+fn_printinfo "Sent email notification to ${email}"
 sleep 1
 echo -en "\n"
+fn_scriptlog "Sent email notification to ${email}"
 }
 
 fn_emailtest(){
@@ -327,10 +380,10 @@ if [ "${emailnotification}" = "on" ]; then
 	actiontaken="Sent test email...hello is this thing on?"
 	fn_emailnotification
 else
-	echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] Email notification not enabled"
+	fn_printfailnl "Email notification not enabled"
 	fn_scriptlog "Email notification not enabled"
 fi
-sleep 0.5
+sleep 1
 echo -en "\n"
 }
 
@@ -344,23 +397,24 @@ if [ -f gsquery.py ]; then
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
 	fi
-	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected gsquery.py"
+	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
+	sleep 1	
 	fn_scriptlog "Detected gsquery.py"
-	sleep 1
-	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
+	fn_printdots "Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
+	sleep 1	
 	fn_scriptlog "Querying port: ${ip}:${port}: QUERYING"
 	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
-	sleep 1
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
-		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
 		sleep 1
 		echo -en "\n"
+		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
 		if [[ -z "${secondquery}" ]]; then
-			echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Waiting 30 seconds to re-query"
+			fn_printinfo "Monitoring ${servicename}: Waiting 30 seconds to re-query"
+			sleep 1
 			fn_scriptlog "Waiting 30 seconds to re-query"
-			sleep 30
+			sleep 29
 			secondquery=1
 			fn_serverquery
 		fi
@@ -373,15 +427,15 @@ if [ -f gsquery.py ]; then
 		fn_restartserver
 		exit
 	elif [ "${exitcode}" == "0" ]; then
-		echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
+		fn_printok "Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
+		sleep 1		
 		fn_scriptlog "Querying port: ${ip}:${port}: OK"
-		sleep 1
 		echo -en "\n"
 		exit
 	elif [ "${exitcode}" == "126" ]; then
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
-		fn_scriptlog "Querying port: ${ip}:${port}: ./gsquery.py: Permission denied"
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
 		sleep 1
+		fn_scriptlog "Querying port: ${ip}:${port}: ./gsquery.py: Permission denied"
 		echo -en "\n"
 		echo "Attempting to resolve automatically"
 		chmod +x -v gsquery.py
@@ -397,10 +451,10 @@ if [ -f gsquery.py ]; then
 		exit
 		fi
 	else
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
-		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
 		sleep 1
 		echo -en "\n"
+		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
 		./gsquery.py -a ${ip} -p ${port} -e ${engine}
 		exit
 	fi
@@ -411,24 +465,24 @@ fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
-echo -en "\r\033[K[ .... ] Monitoring ${servicename}: ${servername}"
-fn_scriptlog "Monitoring ${servername}"
+fn_printdots "Monitoring ${servicename}: ${servername}"
 sleep 1
+fn_scriptlog "Monitoring ${servername}"
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]; then
-	echo -en "\r\033[K[ .... ] Monitoring ${servicename}: Checking session: CHECKING"
+	fn_printdots "Monitoring ${servicename}: Checking session: CHECKING"
+	sleep 1	
 	fn_scriptlog "Checking session: CHECKING"
-	sleep 1
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 	if [ ${tmuxwc} -eq 1 ]; then
-		echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Monitoring ${servicename}: Checking session: OK"
-		fn_scriptlog "Checking session: OK"
-		sleep 1
+		fn_printok "Monitoring ${servicename}: Checking session: OK"
+		sleep 1		
 		echo -en "\n"
+		fn_scriptlog "Checking session: OK"
 		fn_serverquery
 		exit
 	else
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Monitoring ${servicename}: Checking session: FAIL"
+		fn_printfail "Monitoring ${servicename}: Checking session: FAIL"
 		fn_scriptlog "Checking session: FAIL"
 		sleep 1
 		echo -en "\n"
@@ -442,10 +496,11 @@ if [ "${updatecheck}" = "0" ]; then
 		fn_startserver
 	fi
 else
-	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: Detected SteamCMD is checking for updates"
-	fn_scriptlog "Detected SteamCMD is checking for updates"
+	fn_printinfonl "Monitoring ${servicename}: Detected SteamCMD is checking for updates"
 	sleep 1
-	echo -e "[\e[0;36m INFO \e[0;39m] Monitoring ${servicename}: When updates complete ${servicename} will start"
+	fn_scriptlog "Detected SteamCMD is checking for updates"
+	fn_printinfonl "Monitoring ${servicename}: When updates complete ${servicename} will start"
+	sleep 1	
 	fn_scriptlog "When updates complete ${servicename} will start"
 fi
 }
@@ -453,10 +508,30 @@ fi
 fn_updateserver(){
 fn_rootcheck
 fn_syscheck
-echo -en "\r\033[K[ .... ] Updating ${servicename}: ${servername}"
-sleep 0.5
-echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Updating ${servicename}: ${servername}"
+fn_printdots "Updating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Updating ${servicename}: ${servername}"
+sleep 1
 fn_scriptlog "Updating ${servername}"
+cd "${rootdir}"
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} +quit|tee -a "${scriptlog}"
+}
+
+fn_validateserver(){
+fn_rootcheck
+fn_syscheck
+fn_printwarn "Validating may overwrite some customised files."
+sleep 1
+echo -en "\n"
+echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
+sleep 5
+echo -en "\n"
+fn_printdots "Validating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Validating ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Validating ${servername}"
 cd "${rootdir}"
 cd "steamcmd"
 ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
@@ -472,18 +547,18 @@ fn_stopserver(){
 fn_rootcheck
 fn_syscheck
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo -en "\r\033[K[ .... ] Stopping ${servicename}: ${servername}"
+fn_printdots "Stopping ${servicename}: ${servername}"
+sleep 1
 fn_scriptlog "Stopping ${servername}"
-sleep 0.5
 if [ "${pid}" == "0" ]; then
-	echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Stopping ${servicename}: ${servername} is already stopped"
+	fn_printfail "Stopping ${servicename}: ${servername} is already stopped"
 	fn_scriptlog "${servername} is already stopped"
 else
 	tmux kill-session -t ${servicename}
-	echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Stopping ${servicename}: ${servername}"
+	fn_printok "Stopping ${servicename}: ${servername}"
 	fn_scriptlog "Stopped ${servername}"
 fi
-sleep 0.5
+sleep 1
 echo -en "\n"
 }
 
@@ -498,14 +573,14 @@ if [ ${tmuxwc} -eq 0 ]; then
 	mv "${scriptlog}" "${scriptlogdate}"
 	mv "${consolelog}" "${consolelogdate}"
 fi
-echo -en "\r\033[K[ .... ] Starting ${servicename}: ${servername}"
+fn_printdots "Starting ${servicename}: ${servername}"
+sleep 1
 fn_scriptlog "Starting ${servername}"
-sleep 0.5
 if [ ${tmuxwc} -eq 1 ]; then
-	echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] Starting ${servicename}: ${servername} is already running"
-	fn_scriptlog "${servername} is already running"
-	sleep 0.5
+	fn_printinfo "Starting ${servicename}: ${servername} is already running"
+	sleep 1
 	echo -en "\n"
+	fn_scriptlog "${servername} is already running"
 	exit
 fi
 cd "${executabledir}"
@@ -513,13 +588,13 @@ tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolel
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
-	echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] Starting ${servicename}: Failed to start ${servername}"
+	fn_printfail "Starting ${servicename}: Failed to start ${servername}"
 	fn_scriptlog "failed to start ${servername}"
 else
-	echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] Starting ${servicename}: ${servername}"
+	fn_printok "Starting ${servicename}: ${servername}"
 	fn_scriptlog "Started ${servername}"
 fi
-sleep 0.5
+sleep 1
 echo -en "\n"
 }
 
@@ -646,8 +721,8 @@ fn_steamfix(){
 echo "Applying steamclient.so fix"
 echo "================================="
 sleep 1
-mkdir -pv ${HOME}/.steam
-mkdir -pv ${HOME}/.steam/sdk32
+mkdir -pv "${HOME}/.steam"
+mkdir -pv "${HOME}/.steam/sdk32"
 cp -v "${steamclient}" "${HOME}/.steam/sdk32/steamclient.so"
 sleep 1
 echo ""
@@ -802,8 +877,16 @@ case "$1" in
 	restart)
 		fn_restartserver;;
 	update)
+		fn_updateserver;;
+	update-restart)
 		fn_stopserver
 		fn_updateserver
+		fn_startserver;;		
+	validate)
+		fn_validateserver;;
+	validate-restart)
+		fn_stopserver
+		fn_validateserver
 		fn_startserver;;
 	monitor)
 		fn_monitorserver;;
@@ -820,7 +903,7 @@ case "$1" in
 	install)
 		fn_install;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|monitor|email-test|details|backup|console|debug|install}"
+	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install}"
 	exit 1;;
 esac
 exit
