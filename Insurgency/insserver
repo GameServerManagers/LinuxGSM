@@ -638,8 +638,8 @@ echo ""
 ## Installer
 #
 
-fn_inshdeps(){
-echo "Downloading libm.so.6"
+fn_insdeps(){
+echo "Downloading libc.so.6, libpthread.so.0 & librt.so.1"
 echo "================================="
 sleep 1
 cd "${filesdir}/bin"
@@ -774,7 +774,7 @@ fn_steamdl
 fn_steaminstall
 fn_steamfix
 fn_loginstall
-fn_inshdeps
+fn_insdeps
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1
