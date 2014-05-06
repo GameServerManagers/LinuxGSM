@@ -359,7 +359,7 @@ if [ ! -z "${gamelogdir}" ]; then
 	echo -e "\n\nServer log\n====================\n" >> "${emaillog}"
 	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
 fi
-mail -s "${subject}" ${email} < "${emaillog}"
+cat -v "${emaillog}" | mail -s "${subject}" ${email}
 fn_printinfo "Sent email notification to ${email}"
 sleep 1
 echo -en "\n"
