@@ -17,7 +17,7 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="de_dust2"
+defaultmap="cp_badlands"
 maxplayers="16"
 tickrate="64"
 port="27015"
