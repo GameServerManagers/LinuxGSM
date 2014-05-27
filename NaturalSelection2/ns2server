@@ -17,7 +17,7 @@ steamuser="username"
 steampass="password"
 
 # Start Variables
-
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 defaultmap="ns2_summit"
 port="27015"
 maxplayers="24"
@@ -26,9 +26,12 @@ servername="NS2 Server"
 webadminuser="admin"
 webadminpass="admin"
 webadminport="8080"
+configpath="server1"
+modstorage="server1/Workshop"
+mods=""
 password=""
 fn_parms(){
-parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword ${webadminpass} -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -password ${password}"
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\" -password \"${password}\""
 }
 #### Advanced Variables ####
 
@@ -40,8 +43,7 @@ servicename="ns2-server"
 gamename="Natural Selection 2"
 engine="spark"
 
-# Directorys
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Directories
 selfname="$0"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
@@ -357,7 +359,7 @@ if [ ! -z "${gamelogdir}" ]; then
 	echo -e "\n\nServer log\n====================\n" >> "${emaillog}"
 	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
 fi
-mail -s "${subject}" ${email} < "${emaillog}"
+cat -v "${emaillog}" | mail -s "${subject}" ${email}
 fn_printinfo "Sent email notification to ${email}"
 sleep 1
 echo -en "\n"
