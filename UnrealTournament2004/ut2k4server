@@ -19,7 +19,6 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"
 executable="./ucc-bin"
-executable64="./ucc-bin-linux-amd64"
 compressedmapsdir="${rootdir}/Maps-Compressed"
 defaultcfg="${systemdir}/UT2004.ini"
 backupdir="backups"
@@ -199,11 +198,7 @@ sleep 1
 fn_scriptlog "Started debug mode ${servername}"
 echo -en "\n"
 cd "${executabledir}"
-if [ `getconf LONG_BIT` = "64" ]; then
-	${executable64} ${parms}
-else
-	${executable} ${parms}
-fi
+${executable} ${parms}
 }
 
 fn_console(){
@@ -537,11 +532,7 @@ if [ ${tmuxwc} -eq 1 ]; then
 	exit
 fi
 cd "${executabledir}"
-if [ `getconf LONG_BIT` = "64" ]; then
-	tmux new-session -d -s ${servicename} "${executable64} ${parms}|tee -a '${consolelog}'"
-else
-	tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
-fi
+tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
