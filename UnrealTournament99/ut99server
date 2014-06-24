@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 050214
+# Version: 220614
 
 #### Variables ####
 
@@ -445,6 +445,12 @@ fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+if [ ! -f ${lockselfname} ]; then 
+	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
 fn_printdots "Monitoring ${servicename}: ${servername}"
 sleep 1
 fn_scriptlog "Monitoring ${servername}"
@@ -506,6 +512,8 @@ else
 	fn_printok "Stopping ${servicename}: ${servername}"
 	fn_scriptlog "Stopped ${servername}"
 fi
+# Remove lock file
+rm -f ${lockselfname}
 sleep 1
 echo -en "\n"
 }
@@ -531,6 +539,8 @@ if [ ${tmuxwc} -eq 1 ]; then
 	fn_scriptlog "${servername} is already running"
 	exit
 fi
+# Create lock file
+lockfile -r 0 ${lockselfname}
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
 sleep 1

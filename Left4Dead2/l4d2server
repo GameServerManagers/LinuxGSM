@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 050214
+# Version: 220614
 
 #### Variables ####
 
@@ -20,13 +20,12 @@ steampass=""
 defaultmap="c5m1_waterfront"
 maxplayers="8"
 port="27015"
-sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -42,6 +41,7 @@ engine="source"
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
+lockselfname=$(echo "${selfname}.lock"|sed 's/^\(.\{1\}\).\(.*\)/\1\2/')
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/left4dead2"
 executabledir="${filesdir}"
@@ -466,6 +466,12 @@ fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+if [ ! -f ${lockselfname} ]; then 
+	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
 fn_printdots "Monitoring ${servicename}: ${servername}"
 sleep 1
 fn_scriptlog "Monitoring ${servername}"
@@ -559,6 +565,8 @@ else
 	fn_printok "Stopping ${servicename}: ${servername}"
 	fn_scriptlog "Stopped ${servername}"
 fi
+# Remove lock file
+rm -f ${lockselfname}
 sleep 1
 echo -en "\n"
 }
@@ -584,6 +592,8 @@ if [ ${tmuxwc} -eq 1 ]; then
 	fn_scriptlog "${servername} is already running"
 	exit
 fi
+# Create lock file
+lockfile -r 0 ${lockselfname}
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
 sleep 1
@@ -618,7 +628,7 @@ echo "Ports the server is currently using."
 echo ""
 echo "DIRECTION	DESCRIPTION		PORT"
 echo "INBOUND		Game/RCON port		${port}"
-if [ "${engine}" = "source" ]; then
+if [ ! -z ${sourcetvport} ]; then
 	echo "INBOUND		SourceTV port		${sourcetvport}"
 fi
 echo "OUTBOUND	Client port		${clientport}"

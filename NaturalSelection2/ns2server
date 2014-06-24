@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 050214
+# Version: 220614
 
 #### Variables ####
 
@@ -45,6 +45,7 @@ engine="spark"
 
 # Directories
 selfname="$0"
+lockselfname=$(echo "${selfname}.lock"|sed 's/^\(.\{1\}\).\(.*\)/\1\2/')
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
@@ -359,7 +360,7 @@ if [ ! -z "${gamelogdir}" ]; then
 	echo -e "\n\nServer log\n====================\n" >> "${emaillog}"
 	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
 fi
-cat -v "${emaillog}" | mail -s "${subject}" ${email}
+mail -s "${subject}" ${email} < "${emaillog}"
 fn_printinfo "Sent email notification to ${email}"
 sleep 1
 echo -en "\n"
@@ -461,6 +462,12 @@ fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+if [ ! -f ${lockselfname} ]; then 
+	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
 fn_printdots "Monitoring ${servicename}: ${servername}"
 sleep 1
 fn_scriptlog "Monitoring ${servername}"
@@ -554,6 +561,8 @@ else
 	fn_printok "Stopping ${servicename}: ${servername}"
 	fn_scriptlog "Stopped ${servername}"
 fi
+# Remove lock file
+rm -f ${lockselfname}
 sleep 1
 echo -en "\n"
 }
@@ -579,6 +588,8 @@ if [ ${tmuxwc} -eq 1 ]; then
 	fn_scriptlog "${servername} is already running"
 	exit
 fi
+# Create lock file
+lockfile -r 0 ${lockselfname}
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
 sleep 1
