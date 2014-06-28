@@ -17,6 +17,7 @@ steamuser="anonymous"
 steampass=""
 
 # Workshop Variables
+# http://wiki.garrysmod.com/page/Workshop_for_Dedicated_Servers
 workshopauth=""
 workshopcollectionid=""
 
