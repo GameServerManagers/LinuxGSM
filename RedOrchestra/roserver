@@ -580,7 +580,7 @@ if [ ${tmuxwc} -eq 1 ]; then
 	exit
 fi
 # Create lock file
-lockfile -r 0 ${lockselfname}
+date > ${lockselfname}
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
 sleep 1
