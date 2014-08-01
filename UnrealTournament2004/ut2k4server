@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 220614
+# Version: 010814
 
 #### Variables ####
 
@@ -15,7 +15,7 @@ email="email@example.com"
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
-lockselfname=$(echo "${selfname}.lock"|sed 's/^\(.\{1\}\).\(.*\)/\1\2/')
+lockselfname=$(echo ".${servicename}.lock")
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"
