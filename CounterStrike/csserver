@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010814
+# Version: 050814
 
 #### Variables ####
 
@@ -25,7 +25,7 @@ ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -595,7 +595,8 @@ fi
 # Create lock file
 date > ${lockselfname}
 cd "${executabledir}"
-tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
+tmux new-session -d -s ${servicename} "${executable} ${parms}"
+tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
@@ -647,27 +648,6 @@ echo ""
 #
 ## Installer
 #
-
-fn_csappmanifest(){
-appdir="${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5"
-if [ ${pass} == 1 ]; then
-	echo "Creating appmanifest directory. (app 90 fix)"
-	sleep 2
-	mkdir -v "${filesdir}"
-	mkdir -v "${appdir}"
-	cd "${appdir}"
-	echo "Removing any existing appmanifest files. (app 90 fix)"
-	sleep 2
-	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
-elif [ ${pass} == 2 ]; then
-	echo "Downloading HLDS appmanifest files. (app 90 fix)"
-	sleep 2
-	cd "${appdir}"
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_10.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_70.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_90.acf
-fi
-}
 
 fn_header(){
 clear
@@ -793,10 +773,6 @@ fn_header
 fn_steamdl
 echo "Installing ${gamename} Server"
 echo "================================="
-pass=1
-fn_csappmanifest
-pass=2
-fn_csappmanifest
 fn_steaminstall
 fn_steaminstall
 fn_steaminstall
