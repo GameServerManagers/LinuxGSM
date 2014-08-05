@@ -1,9 +1,11 @@
 #!/bin/bash
-# Counter Strike
+# Left 4 Dead
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 010814
+# Contributor: Summit Singh Thakur
+# Author Website: http://danielgibbs.co.uk
+# Contributor Website: http://www.summit.im
+# Version: 050814
 
 #### Variables ####
 
@@ -17,40 +19,41 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="de_dust2"
-maxplayers="16"
+defaultmap="l4d_hospital01_apartment"
+maxplayers="8"
 port="27015"
+sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 
 #### Advanced Variables ####
 
 # Steam
-appid="90"
+appid="222840"
 
 # Server Details
-servicename="cs-server"
-gamename="Counter Strike 1.6"
-engine="goldsource"
+servicename="l4d-server"
+gamename="Left 4 Dead"
+engine="source"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 lockselfname=$(echo ".${servicename}.lock")
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/cstrike"
+systemdir="${filesdir}/left4dead"
 executabledir="${filesdir}"
-executable="./hlds_run"
-servercfgdir="${systemdir}"
+executable="./srcds_run"
+servercfgdir="${systemdir}/cfg"
 servercfg="${servicename}.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +exec ${servercfg} -maxplayers ${maxplayers}"
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +exec ${servercfg} -maxplayers ${maxplayers}"
 }
 
 # Server Details
@@ -648,34 +651,13 @@ echo ""
 ## Installer
 #
 
-fn_csappmanifest(){
-appdir="${filesdir}/ec5da605084840d3d7b3ed355e48c098b28a1bd5"
-if [ ${pass} == 1 ]; then
-	echo "Creating appmanifest directory. (app 90 fix)"
-	sleep 2
-	mkdir -v "${filesdir}"
-	mkdir -v "${appdir}"
-	cd "${appdir}"
-	echo "Removing any existing appmanifest files. (app 90 fix)"
-	sleep 2
-	rm -f appmanifest_10.acf appmanifest_70.acf appmanifest_90.acf
-elif [ ${pass} == 2 ]; then
-	echo "Downloading HLDS appmanifest files. (app 90 fix)"
-	sleep 2
-	cd "${appdir}"
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_10.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_70.acf
-	wget https://raw.github.com/dgibbs64/linuxgameservers/master/appmanifest/appmanifest_90.acf
-fi
-}
-
 fn_header(){
 clear
 echo "================================="
 echo "${gamename}"
 echo "Linux Game Server Manager"
-echo "by Daniel Gibbs"
-echo "http://danielgibbs.co.uk"
+echo "by Summit Singh Thakur"
+echo "http://www.summit.im"
 echo "================================="
 echo ""
 }
@@ -702,13 +684,12 @@ echo ""
 }
 
 fn_steaminstall(){
+echo "Installing ${gamename} Server"
+echo "================================="
 sleep 1
 mkdir -pv "${filesdir}"
 cd "${rootdir}/steamcmd"
 STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
-}
-
-fn_success(){
 echo ""
 echo "================================="
 while true; do
@@ -791,16 +772,7 @@ while true; do
 done
 fn_header
 fn_steamdl
-echo "Installing ${gamename} Server"
-echo "================================="
-pass=1
-fn_csappmanifest
-pass=2
-fn_csappmanifest
 fn_steaminstall
-fn_steaminstall
-fn_steaminstall
-fn_success
 fn_steamfix
 fn_loginstall
 echo "Configuring ${gamename} Server"
@@ -815,33 +787,9 @@ echo "================================="
 	sleep 1
 	echo "Creating ${servicename}.cfg config file."
 	touch "${servercfgfullpath}"
-	touch "${systemdir}/listip.cfg"
-	touch "${systemdir}/banned.cfg"
 	{
-		echo -e "// Use this file to configure your DEDICATED server."
-		echo -e "// This config file is executed on server start."
-		echo -e ""
-		echo -e "// disable autoaim"
-		echo -e "sv_aim 0"
-		echo -e ""
-		echo -e "// disable clients' ability to pause the server"
-		echo -e "pausable 0"
-		echo -e ""
-		echo -e "// default server name. Change to \"Bob's Server\", etc."
+		echo -e "// server name"
 		echo -e "hostname \"${servername}\""
-		echo -e ""
-		echo -e "// maximum client movement speed "
-		echo -e "sv_maxspeed 320"
-		echo -e ""
-		echo -e "// 20 minute timelimit"
-		echo -e "mp_timelimit 20"
-		echo -e ""
-		echo -e "// cheats off"
-		echo -e "sv_cheats 0"
-		echo -e ""
-		echo -e "// load ban files"
-		echo -e "exec listip.cfg"
-		echo -e "exec banned.cfg"
 		echo -e ""
 		echo -e "// rcon passsword"
 		echo -e "rcon_password \"${rconpass}\""

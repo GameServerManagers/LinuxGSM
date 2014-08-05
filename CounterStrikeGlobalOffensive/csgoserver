@@ -41,11 +41,6 @@ ip="0.0.0.0"
 # ws_collection_id=""
 # ws_start_map=""
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-fn_parms(){
-parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
-}
-
 #### Advanced Variables ####
 
 # Steam
@@ -70,6 +65,11 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +exec ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
+}
 
 # Server Details
 servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
