@@ -26,11 +26,6 @@ sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-fn_parms(){
-parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +exec ${servercfg} -maxplayers ${maxplayers}"
-}
-
 #### Advanced Variables ####
 
 # Steam
@@ -55,6 +50,11 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +exec ${servercfg} -maxplayers ${maxplayers}"
+}
 
 # Server Details
 servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
