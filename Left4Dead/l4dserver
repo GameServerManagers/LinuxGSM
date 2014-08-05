@@ -22,13 +22,12 @@ steampass=""
 defaultmap="l4d_hospital01_apartment"
 maxplayers="8"
 port="27015"
-sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -598,7 +597,8 @@ fi
 # Create lock file
 date > ${lockselfname}
 cd "${executabledir}"
-tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
+tmux new-session -d -s ${servicename} "${executable} ${parms}"
+tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
@@ -656,8 +656,8 @@ clear
 echo "================================="
 echo "${gamename}"
 echo "Linux Game Server Manager"
-echo "by Summit Singh Thakur"
-echo "http://www.summit.im"
+echo "by Daniel Gibbs"
+echo "http://danielgibbs.co.uk"
 echo "================================="
 echo ""
 }

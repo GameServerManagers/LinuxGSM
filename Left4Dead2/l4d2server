@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010814
+# Version: 050814
 
 #### Variables ####
 
@@ -595,7 +595,8 @@ fi
 # Create lock file
 date > ${lockselfname}
 cd "${executabledir}"
-tmux new-session -d -s ${servicename} "${executable} ${parms}|tee -a '${consolelog}'"
+tmux new-session -d -s ${servicename} "${executable} ${parms}"
+tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
