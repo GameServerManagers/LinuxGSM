@@ -23,11 +23,6 @@ port="27015"
 clientport="27005"
 ip="0.0.0.0"
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
-fn_parms(){
-parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
-}
-
 #### Advanced Variables ####
 
 # Steam
@@ -52,6 +47,11 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+fn_parms(){
+parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +exec ${servercfg} -maxplayers ${maxplayers}"
+}
 
 # Server Details
 servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
