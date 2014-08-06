@@ -20,6 +20,7 @@ steampass="password"
 defaultmap="nmo_broadway"
 maxplayers="8"
 port="27015"
+sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 
@@ -201,7 +202,7 @@ echo -e "Press CTRL+c to drop out of debug mode"
 echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
 echo ""
 echo "Start parameters:"
-echo ${parms}
+echo "${parms} -debug -insecure"
 echo ""
 while true; do
 	read -p "Continue? [y/N]" yn
@@ -219,7 +220,7 @@ sleep 1
 fn_scriptlog "Started debug mode ${servername}"
 echo -en "\n"
 cd "${executabledir}"
-${executable} ${parms} -debug
+${executable} ${parms} -debug -insecure
 }
 
 fn_console(){
@@ -595,7 +596,7 @@ fi
 # Create lock file
 date > ${lockselfname}
 cd "${executabledir}"
-tmux new-session -d -s ${servicename} "${executable} ${parms}"
+tmux new-session -d -s ${servicename} "${executable} ${parms} -debug -insecure"
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
