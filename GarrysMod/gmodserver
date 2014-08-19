@@ -727,6 +727,23 @@ sleep 1
 echo ""
 }
 
+fn_glibcfix(){
+echo "Applying GLIBC_2.15 fix"
+echo "================================="
+sleep 1
+mkdir -pv "${rootdir}/tmp"
+echo "Downloading GLIBC_2.15"
+wget -q http://security.ubuntu.com/ubuntu/pool/main/e/eglibc/libc6_2.15-0ubuntu10.6_i386.deb -O ${rootdir}/tmp/libc6_2.15-0ubuntu10.6_i386.deb
+echo "Extracting files"
+dpkg -x ${rootdir}/tmp/libc6_2.15-0ubuntu10.6_i386.deb ${rootdir}/tmp/
+echo "Copying GLIBC_2.15 files into bin"
+cp ${rootdir}/tmp/lib/i386-linux-gnu/* ${rootdir}/serverfiles/bin/
+echo "Removing temporary folder"
+rm -fr ${rootdir}/tmp/
+sleep 1
+echo ""
+}
+
 fn_loginstall(){
 echo "Creating log directorys"
 echo "================================="
@@ -787,6 +804,7 @@ fn_header
 fn_steamdl
 fn_steaminstall
 fn_steamfix
+fn_glibcfix
 fn_loginstall
 fn_gmoddeps
 echo "Configuring ${gamename} Server"
