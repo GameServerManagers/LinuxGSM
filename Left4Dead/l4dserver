@@ -5,7 +5,7 @@
 # Contributor: Summit Singh Thakur
 # Author Website: http://danielgibbs.co.uk
 # Contributor Website: http://www.summit.im
-# Version: 050814
+# Version: 290814
 
 #### Variables ####
 
@@ -651,6 +651,15 @@ echo ""
 ## Installer
 #
 
+fn_l4ddeps(){
+echo "Copying libstdc++.so.6"
+echo "================================="
+sleep 1
+cd "${filesdir}"
+cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}"
+sleep 1
+echo ""
+
 fn_header(){
 clear
 echo "================================="
@@ -775,6 +784,7 @@ fn_steamdl
 fn_steaminstall
 fn_steamfix
 fn_loginstall
+fn_l4ddeps
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1
