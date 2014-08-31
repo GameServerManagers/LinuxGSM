@@ -659,6 +659,7 @@ cd "${filesdir}"
 cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}"
 sleep 1
 echo ""
+}
 
 fn_header(){
 clear
