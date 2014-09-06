@@ -117,7 +117,8 @@ fn_checkrelease(){
 }
 
 fn_header(){
-    echo -e ""
+    clear
+    echo -e "============================"
     echo -e "Linux Game Server Manager"
     echo -e "Compatibility Check Script"
     echo -e "Version: 050914"
