@@ -22,7 +22,7 @@ maxplayers="16"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-ip="37.59.99.175"
+ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
@@ -655,8 +655,7 @@ fn_bsdeps(){
 echo "Copying libstdc++.so.6"
 echo "================================="
 sleep 1
-cd "${filesdir}"
-cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}"
+cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 sleep 1
 echo ""
 }
