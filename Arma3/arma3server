@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://danielgibbs.co.uk
-# Version: 060914
+# Version: 080914
 
 #### Variables ####
 
@@ -20,6 +20,10 @@ steampass="password"
 # Server IP
 ip="0.0.0.0"
 
+fn_parms(){
+parms="-netlog -port=${serverport} -ip=${ip} -config=${servercfg}"
+}
+
 #### Advanced Variables ####
 
 # Steam
@@ -28,7 +32,7 @@ appid="233780"
 # Server Details
 servicename="arma3-server"
 gamename="ARMA 3"
-engine="Real Virtuality"
+engine="realvirtuality"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -45,16 +49,11 @@ defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
 
-#Take line n from cfg, extract numbers from string
-fn_ports(){
+# Server Details
+servername=$(grep -s hostname "${servercfgfullpath}"|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
 serverport=$(sed -n -e '10 p' $servercfgfullpath | sed 's/[\/\; ]//g' | tr -cd [:digit:])
 queryport=$(sed -n -e '14 p' $servercfgfullpath | sed 's/[\/\; ]//g' | tr -cd [:digit:])
 masterport=$(sed -n -e '12 p' $servercfgfullpath | sed 's/[\/\; ]//g' | tr -cd [:digit:])
-}
-
-fn_parms(){
-parms="-netlog -port=${serverport} -ip=${ip} -config=${servercfg}"
-}
 
 # Logging
 logdays="7"
@@ -190,7 +189,6 @@ fn_debugserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
-fn_ports
 fn_parms
 echo ""
 echo "${gamename} Debug"
@@ -202,11 +200,6 @@ echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will b
 echo ""
 echo "Start parameters:"
 echo ${parms}
-echo ""
-echo "Server ports:"
-echo "Server: ${serverport}"
-echo "Query:  ${queryport}"
-echo "Master: ${masterport}"
 echo ""
 while true; do
 	read -p "Continue? [y/N]" yn
@@ -393,18 +386,93 @@ sleep 1
 echo -en "\n"
 }
 
+fn_serverquery(){
+# uses gsquery.py to directly query the server
+# detects if the server locks up
+if [ -f gsquery.py ]; then
+	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+		gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
+		port=$((${gameport} + 1))
+	elif [ "${engine}" == "spark" ]; then
+		port=$((${port} + 1))
+	fi
+	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
+	sleep 1	
+	fn_scriptlog "Detected gsquery.py"
+	fn_printdots "Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
+	sleep 1	
+	fn_scriptlog "Querying port: ${ip}:${port}: QUERYING"
+	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
+	exitcode=$?
+	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
+		sleep 1
+		echo -en "\n"
+		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
+		if [[ -z "${secondquery}" ]]; then
+			fn_printinfo "Monitoring ${servicename}: Waiting 30 seconds to re-query"
+			sleep 1
+			fn_scriptlog "Waiting 30 seconds to re-query"
+			sleep 29
+			secondquery=1
+			fn_serverquery
+		fi
+		if [ "${emailnotification}" = "on" ]; then
+			subject="${servicename} Monitor - Starting ${servername}"
+			failurereason="Failed to query ${servicename}: ${serverquery}"
+			actiontaken="restarted ${servicename}"
+			fn_emailnotification
+		fi
+		fn_restartserver
+		exit
+	elif [ "${exitcode}" == "0" ]; then
+		fn_printok "Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
+		sleep 1		
+		fn_scriptlog "Querying port: ${ip}:${port}: OK"
+		echo -en "\n"
+		exit
+	elif [ "${exitcode}" == "126" ]; then
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
+		sleep 1
+		fn_scriptlog "Querying port: ${ip}:${port}: ./gsquery.py: Permission denied"
+		echo -en "\n"
+		echo "Attempting to resolve automatically"
+		chmod +x -v gsquery.py
+		exitcode=$?
+		if [ "${exitcode}" == "0" ]; then
+			fn_serverquery
+		else
+			echo -en "\nUnable to resolve automatically. Please manually fix permissions\n"
+			owner=$(ls -al gsquery.py|awk '{ print $3 }')
+			echo "As user ${owner} or root run the following command"
+			whoami=$(whoami)
+			echo -en "\nchown ${whoami}:${whoami} gsquery.py\n\n"
+		exit
+		fi
+	else
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		sleep 1
+		echo -en "\n"
+		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		./gsquery.py -a ${ip} -p ${port} -e ${engine}
+		exit
+	fi
+fi
+}
+
 fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+fn_printdots "Monitoring ${servicename}: ${servername}"
+sleep 1
 if [ ! -f ${lockselfname} ]; then 
 	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
 	sleep 1
 	echo -en "\n"
+	echo "To enable monitor run ${selfname} start"
 	exit
 fi
-fn_printdots "Monitoring ${servicename}: ${servername}"
-sleep 1
 fn_scriptlog "Monitoring ${servername}"
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]; then
@@ -417,6 +485,7 @@ if [ "${updatecheck}" = "0" ]; then
 		sleep 1		
 		echo -en "\n"
 		fn_scriptlog "Checking session: OK"
+		fn_serverquery
 		exit
 	else
 		fn_printfail "Monitoring ${servicename}: Checking session: FAIL"
@@ -505,7 +574,6 @@ fn_startserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
-fn_ports
 fn_parms
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
@@ -526,7 +594,6 @@ fi
 # Create lock file
 date > ${lockselfname}
 cd "${executabledir}"
-# Start server
 tmux new-session -d -s ${servicename} "${executable} ${parms}"
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
@@ -542,11 +609,13 @@ sleep 1
 echo -en "\n"
 }
 
-fn_details(){
+fn_arma3details(){
 fn_autoip
-fn_ports
 servername=$(grep -s hostname "${servercfgfullpath}"|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
 adminpass=$(grep -s passwordAdmin "${servercfgfullpath}"|sed -e 's/\<passwordAdmin\>//g'|tr -d '=\"; ')
+serverport=$(sed -n -e '10 p' $servercfgfullpath | sed 's/[\/\; ]//g' | tr -cd [:digit:])
+queryport=$(sed -n -e '14 p' $servercfgfullpath | sed 's/[\/\; ]//g' | tr -cd [:digit:])
+masterport=$(sed -n -e '12 p' $servercfgfullpath | sed 's/[\/\; ]//g' | tr -cd [:digit:])
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo ""
 echo "${gamename} Server Details"
@@ -555,7 +624,7 @@ echo "Server name: ${servername}"
 echo "Server IP: ${ip}:${serverport}"
 echo "Config file: ${servercfgfullpath}"
 echo ""
-echo "Admin Password: $adminpass"
+echo "Admin Password: ${adminpass}"
 echo ""
 echo "${servername} Ports"
 echo "============================"
@@ -567,7 +636,7 @@ echo "UDP      STEAM query port          ${queryport}"
 echo "UDP      STEAM master traffic port ${masterport}"
 echo ""
 echo "You can change ports by editing the"
-echo "parameters in $servercfgfullpath."
+echo "parameters in ${servercfgfullpath}."
 echo ""
 if [ "${pid}" == "0" ]; then
 	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
@@ -581,13 +650,34 @@ echo ""
 ## Installer
 #
 
+fn_arma3deps(){
+echo "Copying libstdc++.so.6"
+echo "================================="
+sleep 1
+cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+sleep 1
+echo ""
+}
+
+fn_arma3config(){
+echo "Downloading CONFIG_Vanilla.cfg"
+echo "================================="
+sleep 1
+cd "${systemdir}"
+wget -nv https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/CONFIG_Vanilla.cfg
+echo "Creating ${servicename}.cfg config file."
+sleep 1
+cp -v CONFIG_Vanilla.cfg ${servercfgfullpath}
+sleep 1
+echo ""
+}
 fn_header(){
 clear
 echo "================================="
 echo "${gamename}"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
-echo "with modifications by Scarsz"
+echo "contributions by Scarsz"
 echo "http://danielgibbs.co.uk"
 echo "================================="
 echo ""
@@ -645,15 +735,6 @@ sleep 1
 echo ""
 }
 
-fn_arma3deps(){
-echo "Copying libstdc++.so.6"
-echo "================================="
-sleep 1
-cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-sleep 1
-echo ""
-}
-
 fn_loginstall(){
 echo "Creating log directorys"
 echo "================================="
@@ -669,20 +750,6 @@ else
 	echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
 fi
 sleep 1
-echo ""
-}
-
-fn_arma3config(){
-echo "Downloading CONFIG_Vanilla.cfg"
-echo "================================="
-sleep 1
-cd "${systemdir}"
-wget -nv https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/CONFIG_Vanilla.cfg
-echo "Creating ${servicename}.cfg config file."
-sleep 1
-cp -v CONFIG_Vanilla.cfg ${servercfgfullpath}
-sleep 1
-echo ""
 echo ""
 }
 
@@ -728,20 +795,17 @@ fn_header
 fn_steamdl
 fn_steaminstall
 fn_steamfix
-fn_arma3deps
 fn_loginstall
+fn_arma3deps
 fn_arma3config
 sleep 1
 echo ""
 fn_header
 sleep 1
-fn_details
+fn_arma3details
 sleep 1
 echo "================================="
 echo "Install Complete!"
-echo ""
-echo "You need to edit the default server configuration at:"
-echo "$servercfgfullpath"
 echo ""
 echo "To start server type:"
 echo "${selfname} start"
@@ -772,7 +836,7 @@ case "$1" in
 	email-test)
 		fn_emailtest;;
 	details)
-		fn_details;;
+		fn_arma3details;;
 	backup)
 		fn_backupserver;;
 	console)
