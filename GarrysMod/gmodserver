@@ -663,14 +663,16 @@ cd "${filesdir}"
 cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}"
 sleep 1
 echo ""
-echo "Applying GLIBC_2.15 fix"
-echo "================================="
-sleep 1
-cd "${filesdir}"/bin
-wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
-wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
-wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
-echo ""
+####### Temporarily disabled for testing, for info see 
+####### https://github.com/dgibbs64/linuxgameservers/issues/154
+#echo "Applying GLIBC_2.15 fix"
+#echo "================================="
+#sleep 1
+#cd "${filesdir}"/bin
+#wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
+#wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
+#wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
+#echo ""
 }
 
 fn_header(){
