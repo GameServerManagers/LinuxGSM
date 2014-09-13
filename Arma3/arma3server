@@ -832,7 +832,7 @@ case "$1" in
 	update-restart)
 		fn_stopserver
 		fn_updateserver
-		fn_startserver;;		
+		fn_startserver;;
 	validate)
 		fn_validateserver;;
 	validate-restart)

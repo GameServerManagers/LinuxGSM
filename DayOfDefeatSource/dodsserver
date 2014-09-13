@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 050814
+# Version: 100914
 
 #### Variables ####
 
@@ -39,7 +39,7 @@ servicename="dods-server"
 gamename="Day of Defeat: Source"
 engine="source"
 
-# Directorys
+# Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 lockselfname=$(echo ".${servicename}.lock")
@@ -192,17 +192,25 @@ fn_debugserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+fn_distro
+fn_uptime
+fn_load
 fn_parms
 echo ""
 echo "${gamename} Debug"
 echo "============================"
 echo ""
-echo -e "Use for identifying server issues only!"
-echo -e "Press CTRL+c to drop out of debug mode"
-echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
+echo -e "Distro: ${os}"
+echo -e "Arch: ${arch}"
+echo -e "Kernel: ${kernel}"
+echo -e "Hostname: $HOSTNAME"
 echo ""
 echo "Start parameters:"
 echo ${parms}
+echo ""
+echo -e "Use for identifying server issues only!"
+echo -e "Press CTRL+c to drop out of debug mode"
+echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
 echo ""
 while true; do
 	read -p "Continue? [y/N]" yn
@@ -467,14 +475,15 @@ fn_monitorserver(){
 fn_rootcheck
 fn_syscheck
 fn_autoip
+fn_printdots "Monitoring ${servicename}: ${servername}"
+sleep 1
 if [ ! -f ${lockselfname} ]; then 
 	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
 	sleep 1
 	echo -en "\n"
+	echo "To enable monitor run ${selfname} start"
 	exit
 fi
-fn_printdots "Monitoring ${servicename}: ${servername}"
-sleep 1
 fn_scriptlog "Monitoring ${servername}"
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]; then
@@ -735,7 +744,7 @@ fn_retryinstall(){
 while true; do
 	read -p "Retry install? [y/N]" yn
 	case $yn in
-	[Yy]* ) fn_install;;
+	[Yy]* ) fn_install; exit;;
 	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 	esac
@@ -829,7 +838,7 @@ case "$1" in
 	update-restart)
 		fn_stopserver
 		fn_updateserver
-		fn_startserver;;		
+		fn_startserver;;
 	validate)
 		fn_validateserver;;
 	validate-restart)
