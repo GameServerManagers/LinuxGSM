@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 100914
+# Version: 170914
 
 #### Variables ####
 
@@ -777,6 +777,20 @@ sleep 1
 echo ""
 }
 
+fn_getquery(){
+	echo "GameServerQuery"
+	echo "============================"
+	while true; do
+		read -p "Do you want to install GameServerQuery? [y/N]" yn
+		case $yn in
+		[Yy]* ) wget -nv "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
+		[Nn]* ) echo -e "Not installing GameServerQuery.";break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+	echo ""
+}
+
 fn_retryinstall(){
 while true; do
 	read -p "Retry install? [y/N]" yn
@@ -819,6 +833,7 @@ fn_header
 fn_ut99filesdl
 fn_ut99install
 fn_utloginstall
+fn_getquery
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1

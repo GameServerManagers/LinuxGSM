@@ -814,6 +814,20 @@ sleep 1
 echo ""
 }
 
+fn_getquery(){
+	echo "GameServerQuery"
+	echo "============================"
+	while true; do
+		read -p "Do you want to install GameServerQuery? [y/N]" yn
+		case $yn in
+		[Yy]* ) wget -nv "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
+		[Nn]* ) echo -e "Not installing GameServerQuery.";break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+	echo ""
+}
+
 fn_retryinstall(){
 while true; do
 	read -p "Retry install? [y/N]" yn
@@ -857,6 +871,7 @@ fn_ut2k4filesdl
 fn_ut2k4install
 fn_ut2k4key
 fn_utloginstall
+fn_getquery
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1
