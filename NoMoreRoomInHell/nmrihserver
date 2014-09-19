@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 170914
+# Version: 200914
 
 #### Variables ####
 
@@ -52,7 +52,6 @@ servercfg="${servicename}.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
-steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
 
 # Server Details
 servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
@@ -141,8 +140,8 @@ fi
 fn_autoip(){
 # Identifies the server interface IP
 # If multiple interfaces this will need to be set manually
-getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1)
-getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1|wc -l)
+getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0|wc -l)
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
 		fn_printwarn "Multiple active network interfaces.\n\n"
@@ -605,7 +604,7 @@ fi
 # Create lock file
 date > ${lockselfname}
 cd "${executabledir}"
-tmux new-session -d -s ${servicename} "${executable} ${parms} -debug -insecure"
+tmux new-session -d -s ${servicename} "${executable} ${parms} -insecure"
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
@@ -659,14 +658,112 @@ echo ""
 ## Installer
 #
 
-fn_nmrihdeps(){
-echo "Downloading libm.so.6"
-echo "================================="
-sleep 1
-cd "${filesdir}/srcds"
-wget -nv https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
-sleep 1
-echo ""
+fn_glibcfix(){
+if [ -z $(command -v ldd) ]; then
+	echo ""
+	echo -e "\r\033[K\e[0;31mFAIL\e[0;39m GLIBC is not detected."
+	sleep 1
+	echo "Install GLIBC and retry installation"
+	sleep 1
+	echo ""
+	while true; do
+		read -p "Continue install? [y/N]" yn
+		case $yn in
+			[Yy]* ) break;;
+			[Nn]* ) echo Exiting; exit;;
+			 * ) echo "Please answer yes or no.";;
+		esac
+	done
+elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
+	echo "GLIBC Fix required"
+	echo "============================"
+	sleep 1
+	echo -e "\e[0;31mWARNING!\e[0;39m ${gamename} requires GLIBC_2.15 or above"
+	sleep 1
+	echo ""
+	echo "Currently installed: GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')"
+	echo "Required: => GLIBC_2.15"
+	echo ""
+	sleep 1
+	echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with GLIBC_2.14 or less."
+	echo "note: This will NOT upgrade GLIBC on your system"
+	sleep 1
+	echo ""
+	echo "Downloading Required files"
+	echo "================================="
+	sleep 1
+	if [ "${gamename}" == "Insurgency" ];then
+		echo "Detected Insurgency"
+		sleep 1
+		echo "Downloading files for Insurgency GLIBC Fix"
+		cd "${filesdir}/bin"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
+		sleep 1
+	elif [ "${gamename}" == "Garrys's Mod" ];then
+		echo "Detected Garrys's Mod"
+		sleep 1
+		echo "Downloading files for Garrys's Mod GLIBC Fix"
+		sleep 1
+		cd "${filesdir}/bin"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
+		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+		echo ""
+	elif [ "${gamename}" == "Natural Selection 2" ];then
+		echo "Detected Natural Selection 2"
+		sleep 1
+		echo "Downloading files for Natural Selection 2 GLIBC Fix"
+		sleep 1		
+		cd "${filesdir}"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "No More Room in Hell" ];then
+		echo "Detected No More Room in Hell"
+		sleep 1
+		echo "Downloading files for No More Room in Hell GLIBC Fix"
+		sleep 1	
+		cd "${filesdir}/srcds"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/srcds/libstdc++.so.6"
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "Blade Symphony" ];then
+		echo "Detected Blade Symphony"
+		sleep 1
+		echo "Downloading files for Blade Symphony GLIBC Fix"
+		sleep 1	
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "Fistful of Frags" ];then
+		echo "Detected Fistful of Frags"
+		sleep 1
+		echo "Downloading files for Fistful of Frags GLIBC Fix"
+		sleep 1	
+		cd "${filesdir}"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "ARMA 3" ];then
+		echo "Detected ARMA 3"
+		sleep 1
+		echo "Downloading files for ARMA 3 GLIBC Fix"
+		sleep 1	
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		sleep 1
+		echo ""
+	else
+		echo "error: Unable to detect game. Fix not applied"
+	fi
+	echo "GLIBC fix has been applied!"
+	sleep 1
+	echo ""
+fi
 }
 
 fn_header(){
@@ -688,7 +785,7 @@ mkdir -pv "steamcmd"
 sleep 1
 cd "steamcmd"
 if [ ! -f steamcmd.sh ]; then
-	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
+	wget -nv -N http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
 	chmod +x steamcmd.sh
@@ -727,7 +824,7 @@ echo "================================="
 sleep 1
 mkdir -pv "${HOME}/.steam"
 mkdir -pv "${HOME}/.steam/sdk32"
-cp -v "${steamclient}" "${HOME}/.steam/sdk32/steamclient.so"
+cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
 sleep 1
 echo ""
 }
@@ -756,7 +853,7 @@ fn_getquery(){
 	while true; do
 		read -p "Do you want to install GameServerQuery? [y/N]" yn
 		case $yn in
-		[Yy]* ) wget -nv "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
+		[Yy]* ) wget -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
 		[Nn]* ) echo -e "Not installing GameServerQuery.";break;;
 		* ) echo "Please answer yes or no.";;
 	esac
@@ -808,7 +905,7 @@ fn_steaminstall
 fn_steamfix
 fn_loginstall
 fn_getquery
-fn_nmrihdeps
+fn_glibcfix
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1
