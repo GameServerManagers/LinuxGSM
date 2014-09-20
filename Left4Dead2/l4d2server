@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 170914
+# Version: 200914
 
 #### Variables ####
 
@@ -117,7 +117,7 @@ fn_printwarn(){
 fn_printwarnnl(){
 	echo -e "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
 }
-	
+
 # [ .... ]
 fn_printdots(){
     echo -en "\r\033[K[ .... ] $@"
@@ -140,8 +140,8 @@ fi
 fn_autoip(){
 # Identifies the server interface IP
 # If multiple interfaces this will need to be set manually
-getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1)
-getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0.1|wc -l)
+getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0|wc -l)
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
 		fn_printwarn "Multiple active network interfaces.\n\n"
@@ -162,28 +162,40 @@ fi
 # log manager will active if finds logs older than ${logdays}
 if [ `find "${scriptlogdir}"/* -mtime +${logdays}|wc -l` -ne "0" ]; then
 	fn_printdots "Starting log cleaner"
-	sleep 1	
+	sleep 1
 	fn_printok "Starting log cleaner"
-	sleep 1	
 	fn_scriptlog "Starting log cleaner"
 	sleep 1
 	echo -en "\n"
 	fn_printinfo "Removing logs older than ${logdays} days"
-	sleep 1
-	echo -en "\n"
 	fn_scriptlog "Removing logs older than ${logdays} days"
 	sleep 1
+	echo -en "\n"
+	if [ "${engine}" == "unreal2" ]; then
+		find "${gamelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	fi
 	find "${scriptlogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
 	find "${consolelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	if [ "${engine}" == "unreal2" ]; then
+		gamecount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	fi
 	scriptcount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
 	consolecount=$(find "${consolelogdir}"/* -mtime +${logdays}|wc -l)
 	count=$((${scriptcount} + ${consolecount}))
+	if [ "${engine}" == "unreal2" ]; then
+		count=$((${scriptcount} + ${consolecount} + ${gamecount}))
+	else
+		count=$((${scriptcount} + ${consolecount}))
+	fi
+	if [ "${engine}" == "unreal2" ]; then
+		find "${gamelogdir}"/* -mtime +${logdays} -exec rm {} \;
+	fi
 	find "${scriptlogdir}"/* -mtime +${logdays} -exec rm {} \;
 	find "${consolelogdir}"/* -mtime +${logdays} -exec rm {} \;
 	fn_printok "Log cleaner removed ${count} log files"
+	fn_scriptlog "Log cleaner removed ${count} log files"
 	sleep 1
 	echo -en "\n"
-	fn_scriptlog "Log cleaner removed ${count} log files"
 fi
 }
 
@@ -253,8 +265,8 @@ sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 1 ]; then
 	fn_printoknl "Starting ${servicename} console"
-	sleep 1
 	fn_scriptlog "Console accessed"
+	sleep 1
 	tmux attach-session -t ${servicename}
 else
 	fn_printfailnl "Starting ${servicename} console: ${servername} not running"
@@ -305,8 +317,8 @@ fi
 fn_printdots "Starting backup ${servicename}: ${servername}"
 sleep 1
 fn_printok "Starting backup ${servicename}: ${servername}"
-sleep 1
 fn_scriptlog "Backup started"
+sleep 1
 echo -en "\n"
 cd "${rootdir}"
 mkdir -pv "${backupdir}" > /dev/null 2>&1
@@ -374,9 +386,9 @@ if [ ! -z "${gamelogdir}" ]; then
 fi
 mail -s "${subject}" ${email} < "${emaillog}"
 fn_printinfo "Sent email notification to ${email}"
+fn_scriptlog "Sent email notification to ${email}"
 sleep 1
 echo -en "\n"
-fn_scriptlog "Sent email notification to ${email}"
 }
 
 fn_emailtest(){
@@ -407,11 +419,11 @@ if [ -f gsquery.py ]; then
 		port=$((${port} + 1))
 	fi
 	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
-	sleep 1	
 	fn_scriptlog "Detected gsquery.py"
+	sleep 1
 	fn_printdots "Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
-	sleep 1	
 	fn_scriptlog "Querying port: ${ip}:${port}: QUERYING"
+	sleep 1
 	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
@@ -421,9 +433,8 @@ if [ -f gsquery.py ]; then
 		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
 		if [[ -z "${secondquery}" ]]; then
 			fn_printinfo "Monitoring ${servicename}: Waiting 30 seconds to re-query"
-			sleep 1
 			fn_scriptlog "Waiting 30 seconds to re-query"
-			sleep 29
+			sleep 30
 			secondquery=1
 			fn_serverquery
 		fi
@@ -437,14 +448,14 @@ if [ -f gsquery.py ]; then
 		exit
 	elif [ "${exitcode}" == "0" ]; then
 		fn_printok "Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
-		sleep 1		
 		fn_scriptlog "Querying port: ${ip}:${port}: OK"
+		sleep 1
 		echo -en "\n"
 		exit
 	elif [ "${exitcode}" == "126" ]; then
 		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
-		sleep 1
 		fn_scriptlog "Querying port: ${ip}:${port}: ./gsquery.py: Permission denied"
+		sleep 1
 		echo -en "\n"
 		echo "Attempting to resolve automatically"
 		chmod +x -v gsquery.py
@@ -461,9 +472,9 @@ if [ -f gsquery.py ]; then
 		fi
 	else
 		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
 		sleep 1
 		echo -en "\n"
-		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
 		./gsquery.py -a ${ip} -p ${port} -e ${engine}
 		exit
 	fi
@@ -475,26 +486,26 @@ fn_rootcheck
 fn_syscheck
 fn_autoip
 fn_printdots "Monitoring ${servicename}: ${servername}"
+fn_scriptlog "Monitoring ${servername}"
 sleep 1
-if [ ! -f ${lockselfname} ]; then 
+if [ ! -f ${lockselfname} ]; then
 	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
 	sleep 1
 	echo -en "\n"
 	echo "To enable monitor run ${selfname} start"
 	exit
 fi
-fn_scriptlog "Monitoring ${servername}"
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]; then
 	fn_printdots "Monitoring ${servicename}: Checking session: CHECKING"
-	sleep 1	
 	fn_scriptlog "Checking session: CHECKING"
+	sleep 1
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 	if [ ${tmuxwc} -eq 1 ]; then
 		fn_printok "Monitoring ${servicename}: Checking session: OK"
-		sleep 1		
-		echo -en "\n"
 		fn_scriptlog "Checking session: OK"
+		sleep 1
+		echo -en "\n"
 		fn_serverquery
 		exit
 	else
@@ -513,11 +524,11 @@ if [ "${updatecheck}" = "0" ]; then
 	fi
 else
 	fn_printinfonl "Monitoring ${servicename}: Detected SteamCMD is checking for updates"
-	sleep 1
 	fn_scriptlog "Detected SteamCMD is checking for updates"
+	sleep 1
 	fn_printinfonl "Monitoring ${servicename}: When updates complete ${servicename} will start"
-	sleep 1	
 	fn_scriptlog "When updates complete ${servicename} will start"
+	sleep 1
 fi
 }
 
@@ -564,8 +575,8 @@ fn_rootcheck
 fn_syscheck
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 fn_printdots "Stopping ${servicename}: ${servername}"
-sleep 1
 fn_scriptlog "Stopping ${servername}"
+sleep 1
 if [ "${pid}" == "0" ]; then
 	fn_printfail "Stopping ${servicename}: ${servername} is already stopped"
 	fn_scriptlog "${servername} is already stopped"
@@ -588,6 +599,9 @@ fn_parms
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
+	if [ "${engine}" == "unreal2" ]; then
+		mv "${gamelog}" "${gamelogdate}"
+	fi
 	mv "${scriptlog}" "${scriptlogdate}"
 	mv "${consolelog}" "${consolelogdate}"
 fi
@@ -596,13 +610,13 @@ sleep 1
 fn_scriptlog "Starting ${servername}"
 if [ ${tmuxwc} -eq 1 ]; then
 	fn_printinfo "Starting ${servicename}: ${servername} is already running"
+	fn_scriptlog "${servername} is already running"
 	sleep 1
 	echo -en "\n"
-	fn_scriptlog "${servername} is already running"
 	exit
 fi
 # Create lock file
-date > ${lockselfname}
+date > ${rootdir}/${lockselfname}
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}"
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
@@ -677,7 +691,7 @@ mkdir -pv "steamcmd"
 sleep 1
 cd "steamcmd"
 if [ ! -f steamcmd.sh ]; then
-	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
+	wget -nv -N http://media.steampowered.com/client/steamcmd_linux.tar.gz
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
 	chmod +x steamcmd.sh
@@ -716,7 +730,7 @@ echo "================================="
 sleep 1
 mkdir -pv "${HOME}/.steam"
 mkdir -pv "${HOME}/.steam/sdk32"
-cp -v "${steamclient}" "${HOME}/.steam/sdk32/steamclient.so"
+cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
 sleep 1
 echo ""
 }
@@ -745,7 +759,7 @@ fn_getquery(){
 	while true; do
 		read -p "Do you want to install GameServerQuery? [y/N]" yn
 		case $yn in
-		[Yy]* ) wget -nv "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
+		[Yy]* ) wget -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
 		[Nn]* ) echo -e "Not installing GameServerQuery.";break;;
 		* ) echo "Please answer yes or no.";;
 	esac
