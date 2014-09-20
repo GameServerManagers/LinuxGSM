@@ -616,7 +616,7 @@ if [ ${tmuxwc} -eq 1 ]; then
 	exit
 fi
 # Create lock file
-date > ${rootdir}/${lockselfname}
+date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}"
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
@@ -724,7 +724,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
 		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
 		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
-		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+		sleep 1
 		echo ""
 	elif [ "${gamename}" == "Natural Selection 2" ];then
 		echo "Detected Natural Selection 2"
@@ -867,7 +867,7 @@ fn_getquery(){
 	while true; do
 		read -p "Do you want to install GameServerQuery? [y/N]" yn
 		case $yn in
-		[Yy]* ) wget -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py;break;;
+		[Yy]* ) cd "${rootdir}"; wget -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py; break;;
 		[Nn]* ) echo -e "Not installing GameServerQuery.";break;;
 		* ) echo "Please answer yes or no.";;
 	esac

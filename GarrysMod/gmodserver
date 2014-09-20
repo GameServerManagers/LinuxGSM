@@ -621,7 +621,7 @@ if [ ${tmuxwc} -eq 1 ]; then
 	exit
 fi
 # Create lock file
-date > ${rootdir}/${lockselfname}
+date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}"
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
