@@ -529,7 +529,7 @@ sleep 1
 fn_scriptlog "Updating ${servername}"
 cd "${rootdir}"
 cd "steamcmd"
-./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} +quit|tee -a "${scriptlog}"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} +quit|tee -a "${scriptlog}"
 }
 
 fn_validateserver(){
@@ -548,7 +548,7 @@ sleep 1
 fn_scriptlog "Validating ${servername}"
 cd "${rootdir}"
 cd "steamcmd"
-./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
 }
 
 fn_restartserver(){
@@ -817,7 +817,7 @@ echo "================================="
 sleep 1
 mkdir -pv "${filesdir}"
 cd "${rootdir}/steamcmd"
-STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} ${steampass} +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
+STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
 echo ""
 echo "================================="
 while true; do
