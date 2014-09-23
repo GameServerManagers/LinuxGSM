@@ -1,0 +1,818 @@
+#!/bin/bash
+# Left 4 Dead 2
+# Server Management Script
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 200914
+
+#### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="off"
+email="email@example.com"
+
+# Steam login
+steamuser="anonymous"
+steampass=""
+
+# Start Variables
+defaultmap="c5m1_waterfront"
+maxplayers="8"
+port="27015"
+clientport="27005"
+ip="0.0.0.0"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+
+#### Advanced Variables ####
+
+# Steam
+appid="222860"
+
+# Server Details
+servicename="l4d2-server"
+gamename="Left 4 Dead 2"
+engine="source"
+
+# Directories
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
+selfname="$0"
+lockselfname=$(echo ".${servicename}.lock")
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}/left4dead2"
+executabledir="${filesdir}"
+executable="./srcds_run"
+servercfgdir="${systemdir}/cfg"
+servercfg="${servicename}.cfg"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+defaultcfg="${servercfgdir}/server.cfg"
+backupdir="backups"
+steamclient="${rootdir}/steamcmd/linux32/steamclient.so"
+
+# Server Details
+servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+
+# Logging
+logdays="7"
+gamelogdir="${systemdir}/logs"
+scriptlogdir="${rootdir}/log/script"
+consolelogdir="${rootdir}/log/console"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+consolelog="${consolelogdir}/${servicename}-console.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
+
+##### Script #####
+# Do not edit
+# unless you know
+# what you are doing
+
+fn_scriptlog(){
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: '$1'" >> ${scriptlog}
+}
+
+# [ FAIL ]
+fn_printfail(){
+    echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+fn_printfailnl(){
+    echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+fn_printok(){
+    echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+# [  OK  ]
+fn_printoknl(){
+    echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+fn_printinfo(){
+    echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+fn_printinfonl(){
+    echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+# [ INFO ]
+fn_printokinfonl(){
+    echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+fn_printwarn(){
+	echo -en "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
+}
+
+fn_printwarnnl(){
+	echo -e "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
+}
+
+# [ .... ]
+fn_printdots(){
+    echo -en "\r\033[K[ .... ] $@"
+}
+
+fn_rootcheck(){
+if [ `whoami` = "root" ]; then
+	fn_printfailnl "Script will not run as root!"
+	exit
+fi
+}
+
+fn_syscheck(){
+if [ ! -e "${systemdir}" ]; then
+	fn_printfailnl "Cannot access ${systemdir}: No such directory"
+	exit
+fi
+}
+
+fn_autoip(){
+# Identifies the server interface IP
+# If multiple interfaces this will need to be set manually
+getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0|wc -l)
+if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
+	if [ "${getipwc}" -ge "2" ]; then
+		fn_printwarn "Multiple active network interfaces.\n\n"
+		echo -en "Manually specify the IP you want to use within the ${selfname} script.\n"
+		echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
+		echo -en "${getip}\n"
+		exit
+	else
+		ip=${getip}
+	fi
+fi
+}
+
+fn_logmanager(){
+if [ ! -e "${consolelog}" ]; then
+	touch "${consolelog}"
+fi
+# log manager will active if finds logs older than ${logdays}
+if [ `find "${scriptlogdir}"/* -mtime +${logdays}|wc -l` -ne "0" ]; then
+	fn_printdots "Starting log cleaner"
+	sleep 1
+	fn_printok "Starting log cleaner"
+	fn_scriptlog "Starting log cleaner"
+	sleep 1
+	echo -en "\n"
+	fn_printinfo "Removing logs older than ${logdays} days"
+	fn_scriptlog "Removing logs older than ${logdays} days"
+	sleep 1
+	echo -en "\n"
+	if [ "${engine}" == "unreal2" ]; then
+		find "${gamelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	fi
+	find "${scriptlogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	find "${consolelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	if [ "${engine}" == "unreal2" ]; then
+		gamecount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	fi
+	scriptcount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	consolecount=$(find "${consolelogdir}"/* -mtime +${logdays}|wc -l)
+	count=$((${scriptcount} + ${consolecount}))
+	if [ "${engine}" == "unreal2" ]; then
+		count=$((${scriptcount} + ${consolecount} + ${gamecount}))
+	else
+		count=$((${scriptcount} + ${consolecount}))
+	fi
+	if [ "${engine}" == "unreal2" ]; then
+		find "${gamelogdir}"/* -mtime +${logdays} -exec rm {} \;
+	fi
+	find "${scriptlogdir}"/* -mtime +${logdays} -exec rm {} \;
+	find "${consolelogdir}"/* -mtime +${logdays} -exec rm {} \;
+	fn_printok "Log cleaner removed ${count} log files"
+	fn_scriptlog "Log cleaner removed ${count} log files"
+	sleep 1
+	echo -en "\n"
+fi
+}
+
+fn_debugserver(){
+fn_rootcheck
+fn_syscheck
+fn_autoip
+fn_distro
+fn_uptime
+fn_load
+fn_parms
+echo ""
+echo "${gamename} Debug"
+echo "============================"
+echo ""
+echo -e "Distro: ${os}"
+echo -e "Arch: ${arch}"
+echo -e "Kernel: ${kernel}"
+echo -e "Hostname: $HOSTNAME"
+echo ""
+echo "Start parameters:"
+echo ${parms}
+echo ""
+echo -e "Use for identifying server issues only!"
+echo -e "Press CTRL+c to drop out of debug mode"
+echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
+echo ""
+while true; do
+	read -p "Continue? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1;;
+	* ) echo "Please answer yes or no.";;
+esac
+done
+fn_stopserver
+fn_printdots "Starting debug mode ${servicename}: ${servername}"
+sleep 1
+fn_printok "Starting debug mode ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Started debug mode ${servername}"
+echo -en "\n"
+cd "${executabledir}"
+${executable} ${parms} -debug
+}
+
+fn_console(){
+fn_rootcheck
+fn_syscheck
+echo ""
+echo "${gamename} Console"
+echo "============================"
+echo ""
+echo "Press \"CTRL+b d\" to exit console"
+echo -e "\e[0;31mWARNING!\e[0;39m Do NOT press CTRL+c to exit"
+echo ""
+while true; do
+	read -p "Continue? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1;;
+	* ) echo "Please answer yes or no.";;
+esac
+done
+fn_printdots "Starting ${servicename} console"
+sleep 1
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+if [ ${tmuxwc} -eq 1 ]; then
+	fn_printoknl "Starting ${servicename} console"
+	fn_scriptlog "Console accessed"
+	sleep 1
+	tmux attach-session -t ${servicename}
+else
+	fn_printfailnl "Starting ${servicename} console: ${servername} not running"
+	sleep 1
+	while true; do
+		read -p "Do you want to start the server? [y/N]" yn
+		case $yn in
+		[Yy]* ) fn_startserver; break;;
+		[Nn]* ) break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+fi
+}
+
+fn_backupserver(){
+fn_rootcheck
+fn_syscheck
+backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
+echo ""
+echo "${gamename} Backup"
+echo "============================"
+echo ""
+echo "The following backup will be created."
+echo ""
+echo "${backupdir}/${backupname}.tar.gz"
+echo ""
+fn_printdots "Starting backup ${servicename}: ${servername}"
+sleep 1
+fn_printok "Starting backup ${servicename}: ${servername}"
+fn_scriptlog "Backup started"
+sleep 1
+echo -en "\n"
+cd "${rootdir}"
+mkdir -pv "${backupdir}" > /dev/null 2>&1
+tar -cvzf "${backupdir}/${backupname}.tar.gz" --exclude "${backupdir}" *
+echo -en "\r\033[K${servicename} Backup complete"
+fn_scriptlog "Backup complete"
+}
+
+fn_distro(){
+arch=$(uname -m)
+kernel=$(uname -r)
+if [ -f /etc/lsb-release ]; then
+	os=$(lsb_release -s -d)
+elif [ -f /etc/debian_version ]; then
+	os="Debian $(cat /etc/debian_version)"
+elif [ -f /etc/redhat-release ]; then
+	os=$(cat /etc/redhat-release)
+else
+	os="$(uname -s) $(uname -r)"
+fi
+}
+
+fn_uptime(){
+uptime=$(</proc/uptime)
+uptime=${uptime%%.*}
+minutes=$(( uptime/60%60 ))
+hours=$(( uptime/60/60%24 ))
+days=$(( uptime/60/60/24 ))
+}
+
+fn_load(){
+load=$(uptime|awk -F 'load average' '{ print $2 }')
+}
+
+fn_emailnotification(){
+fn_distro
+fn_uptime
+fn_load
+{
+	echo -e "========================================\n${servicename} details\n========================================\n"
+	echo -e "Service: ${servicename}"
+	echo -e "Server: ${servername}"
+	echo -e "Game: ${gamename}"
+	echo -e "Failure reason: ${failurereason}"
+	echo -e "Action Taken: ${actiontaken}\n"
+	echo -e "========================================\nServer details\n========================================\n"
+	echo -e "Date: $(date)"
+	echo -e "Distro: ${os}"
+	echo -e "Arch: ${arch}"
+	echo -e "Kernel: ${kernel}"
+	echo -e "Hostname: $HOSTNAME"
+	echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
+	echo -e "Avg Load${load}\n"
+	echo -e "========================================\nLogs\n========================================\n"
+	echo -e "Script log\n===================\n"
+}|tee "${scriptlogdir}/${servicename}-email.log" > /dev/null 2>&1
+tail -25 "${scriptlog}" >> "${emaillog}"
+if [ ! -z "${consolelog}" ]; then
+	echo -e "\n\nConsole log\n====================\n" >> "${emaillog}"
+	tail -25 "${consolelog}" >> "${emaillog}"
+fi
+if [ ! -z "${gamelogdir}" ]; then
+	echo -e "\n\nServer log\n====================\n" >> "${emaillog}"
+	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
+fi
+mail -s "${subject}" ${email} < "${emaillog}"
+fn_printinfo "Sent email notification to ${email}"
+fn_scriptlog "Sent email notification to ${email}"
+sleep 1
+echo -en "\n"
+}
+
+fn_emailtest(){
+fn_rootcheck
+fn_syscheck
+fn_scriptlog "Emailing test notification"
+if [ "${emailnotification}" = "on" ]; then
+	subject="${servicename} Email Test Notification - Testing ${servername}"
+	failurereason="Testing ${servicename} email notification"
+	actiontaken="Sent test email...hello is this thing on?"
+	fn_emailnotification
+else
+	fn_printfailnl "Email notification not enabled"
+	fn_scriptlog "Email notification not enabled"
+fi
+sleep 1
+echo -en "\n"
+}
+
+fn_serverquery(){
+# uses gsquery.py to directly query the server
+# detects if the server locks up
+if [ -f gsquery.py ]; then
+	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+		gameport=$(grep Port= ${systemdir}/${ini}|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
+		port=$((${gameport} + 1))
+	elif [ "${engine}" == "spark" ]; then
+		port=$((${port} + 1))
+	fi
+	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
+	fn_scriptlog "Detected gsquery.py"
+	sleep 1
+	fn_printdots "Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
+	fn_scriptlog "Querying port: ${ip}:${port}: QUERYING"
+	sleep 1
+	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
+	exitcode=$?
+	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
+		sleep 1
+		echo -en "\n"
+		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
+		if [[ -z "${secondquery}" ]]; then
+			fn_printinfo "Monitoring ${servicename}: Waiting 30 seconds to re-query"
+			fn_scriptlog "Waiting 30 seconds to re-query"
+			sleep 30
+			secondquery=1
+			fn_serverquery
+		fi
+		if [ "${emailnotification}" = "on" ]; then
+			subject="${servicename} Monitor - Starting ${servername}"
+			failurereason="Failed to query ${servicename}: ${serverquery}"
+			actiontaken="restarted ${servicename}"
+			fn_emailnotification
+		fi
+		fn_restartserver
+		exit
+	elif [ "${exitcode}" == "0" ]; then
+		fn_printok "Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
+		fn_scriptlog "Querying port: ${ip}:${port}: OK"
+		sleep 1
+		echo -en "\n"
+		exit
+	elif [ "${exitcode}" == "126" ]; then
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
+		fn_scriptlog "Querying port: ${ip}:${port}: ./gsquery.py: Permission denied"
+		sleep 1
+		echo -en "\n"
+		echo "Attempting to resolve automatically"
+		chmod +x -v gsquery.py
+		exitcode=$?
+		if [ "${exitcode}" == "0" ]; then
+			fn_serverquery
+		else
+			echo -en "\nUnable to resolve automatically. Please manually fix permissions\n"
+			owner=$(ls -al gsquery.py|awk '{ print $3 }')
+			echo "As user ${owner} or root run the following command"
+			whoami=$(whoami)
+			echo -en "\nchown ${whoami}:${whoami} gsquery.py\n\n"
+		exit
+		fi
+	else
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		sleep 1
+		echo -en "\n"
+		./gsquery.py -a ${ip} -p ${port} -e ${engine}
+		exit
+	fi
+fi
+}
+
+fn_monitorserver(){
+fn_rootcheck
+fn_syscheck
+fn_autoip
+fn_printdots "Monitoring ${servicename}: ${servername}"
+fn_scriptlog "Monitoring ${servername}"
+sleep 1
+if [ ! -f ${lockselfname} ]; then
+	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
+	sleep 1
+	echo -en "\n"
+	echo "To enable monitor run ${selfname} start"
+	exit
+fi
+updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
+if [ "${updatecheck}" = "0" ]; then
+	fn_printdots "Monitoring ${servicename}: Checking session: CHECKING"
+	fn_scriptlog "Checking session: CHECKING"
+	sleep 1
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	if [ ${tmuxwc} -eq 1 ]; then
+		fn_printok "Monitoring ${servicename}: Checking session: OK"
+		fn_scriptlog "Checking session: OK"
+		sleep 1
+		echo -en "\n"
+		fn_serverquery
+		exit
+	else
+		fn_printfail "Monitoring ${servicename}: Checking session: FAIL"
+		fn_scriptlog "Checking session: FAIL"
+		sleep 1
+		echo -en "\n"
+		if [ "${emailnotification}" = "on" ]; then
+			subject="${servicename} Monitor - Starting ${servername}"
+			failurereason="${servicename} process not running"
+			actiontaken="${servicename} has been restarted"
+			fn_emailnotification
+		fi
+		fn_scriptlog "Monitor is starting ${servername}"
+		fn_startserver
+	fi
+else
+	fn_printinfonl "Monitoring ${servicename}: Detected SteamCMD is checking for updates"
+	fn_scriptlog "Detected SteamCMD is checking for updates"
+	sleep 1
+	fn_printinfonl "Monitoring ${servicename}: When updates complete ${servicename} will start"
+	fn_scriptlog "When updates complete ${servicename} will start"
+	sleep 1
+fi
+}
+
+fn_updateserver(){
+fn_rootcheck
+fn_syscheck
+fn_printdots "Updating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Updating ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Updating ${servername}"
+cd "${rootdir}"
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} +quit|tee -a "${scriptlog}"
+}
+
+fn_validateserver(){
+fn_rootcheck
+fn_syscheck
+fn_printwarn "Validating may overwrite some customised files."
+sleep 1
+echo -en "\n"
+echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
+sleep 5
+echo -en "\n"
+fn_printdots "Validating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Validating ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Validating ${servername}"
+cd "${rootdir}"
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
+}
+
+fn_restartserver(){
+fn_scriptlog "Restarting ${servername}"
+fn_stopserver
+fn_startserver
+}
+
+fn_stopserver(){
+fn_rootcheck
+fn_syscheck
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+fn_printdots "Stopping ${servicename}: ${servername}"
+fn_scriptlog "Stopping ${servername}"
+sleep 1
+if [ "${pid}" == "0" ]; then
+	fn_printfail "Stopping ${servicename}: ${servername} is already stopped"
+	fn_scriptlog "${servername} is already stopped"
+else
+	tmux kill-session -t ${servicename}
+	fn_printok "Stopping ${servicename}: ${servername}"
+	fn_scriptlog "Stopped ${servername}"
+fi
+# Remove lock file
+rm -f ${lockselfname}
+sleep 1
+echo -en "\n"
+}
+
+fn_startserver(){
+fn_rootcheck
+fn_syscheck
+fn_autoip
+fn_parms
+fn_logmanager
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+if [ ${tmuxwc} -eq 0 ]; then
+	if [ "${engine}" == "unreal2" ]; then
+		mv "${gamelog}" "${gamelogdate}"
+	fi
+	mv "${scriptlog}" "${scriptlogdate}"
+	mv "${consolelog}" "${consolelogdate}"
+fi
+fn_printdots "Starting ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Starting ${servername}"
+if [ ${tmuxwc} -eq 1 ]; then
+	fn_printinfo "Starting ${servicename}: ${servername} is already running"
+	fn_scriptlog "${servername} is already running"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
+# Create lock file
+date > "${rootdir}/${lockselfname}"
+cd "${executabledir}"
+tmux new-session -d -s ${servicename} "${executable} ${parms}"
+tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
+sleep 1
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+if [ ${tmuxwc} -eq 0 ]; then
+	fn_printfail "Starting ${servicename}: Failed to start ${servername}"
+	fn_scriptlog "failed to start ${servername}"
+else
+	fn_printok "Starting ${servicename}: ${servername}"
+	fn_scriptlog "Started ${servername}"
+fi
+sleep 1
+echo -en "\n"
+}
+
+fn_details(){
+fn_autoip
+servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${port}"
+echo "RCON password: ${rcon}"
+echo "Config file: ${servercfgfullpath}"
+echo ""
+echo "${servername} Ports"
+echo "============================"
+echo "Ports the server is currently using."
+echo ""
+echo "DIRECTION	DESCRIPTION		PORT"
+echo "INBOUND		Game/RCON port		${port}"
+if [ ! -z ${sourcetvport} ]; then
+	echo "INBOUND		SourceTV port		${sourcetvport}"
+fi
+echo "OUTBOUND	Client port		${clientport}"
+echo ""
+echo "You can change ports by editing the"
+echo "start parameters in ${selfname}."
+echo ""
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
+echo ""
+}
+
+#
+## Installer
+#
+
+fn_header(){
+clear
+echo "================================="
+echo "${gamename}"
+echo "Linux Game Server Manager"
+echo "by Daniel Gibbs"
+echo "http://danielgibbs.co.uk"
+echo "================================="
+echo ""
+}
+
+fn_steamdl(){
+echo "Installing SteamCMD"
+echo "================================="
+cd "${rootdir}"
+mkdir -pv "steamcmd"
+sleep 1
+cd "steamcmd"
+if [ ! -f steamcmd.sh ]; then
+	wget -nv -N http://media.steampowered.com/client/steamcmd_linux.tar.gz
+	tar --verbose -zxf steamcmd_linux.tar.gz
+	rm -v steamcmd_linux.tar.gz
+	chmod +x steamcmd.sh
+	sleep 1
+else
+	echo ""
+	echo "Steam already installed!"
+fi
+sleep 1
+echo ""
+}
+
+fn_steaminstall(){
+echo "Installing ${gamename} Server"
+echo "================================="
+sleep 1
+mkdir -pv "${filesdir}"
+cd "${rootdir}/steamcmd"
+STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
+echo ""
+echo "================================="
+}
+
+fn_steamfix(){
+echo "Applying steamclient.so fix"
+echo "================================="
+sleep 1
+mkdir -pv "${HOME}/.steam"
+mkdir -pv "${HOME}/.steam/sdk32"
+cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+sleep 1
+echo ""
+}
+
+fn_loginstall(){
+echo "Creating log directorys"
+echo "================================="
+sleep 1
+mkdir -pv "${rootdir}/log"
+mkdir -pv "${scriptlogdir}"
+touch "${scriptlog}"
+mkdir -pv "${consolelogdir}"
+touch "${consolelog}"
+if [ ! -h ${rootdir}/log/server ]; then
+	ln -sv "${gamelogdir}" "${rootdir}/log/server"
+else
+	echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
+fi
+sleep 1
+echo ""
+}
+
+fn_getquery(){
+	echo "GameServerQuery"
+	echo "============================"
+	cd "${rootdir}"; wget -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py; 
+	echo ""
+}
+
+fn_install(){
+fn_rootcheck
+fn_header
+echo "Install Directory:"
+pwd
+echo ""
+fn_steamdl
+fn_steaminstall
+fn_steamfix
+fn_loginstall
+fn_getquery
+echo "Configuring ${gamename} Server"
+echo "================================="
+	servername=$SERVER_NAME
+        rconpass=$RCON_PASS
+	echo "Creating server.cfg."
+	touch "${defaultcfg}"
+	echo "exec ${servicename}.cfg" > "${defaultcfg}"
+	sleep 1
+	echo "Creating ${servicename}.cfg config file."
+	touch "${servercfgfullpath}"
+	{
+		echo -e "// server name"
+		echo -e "hostname \"${servername}\""
+		echo -e ""
+		echo -e "// rcon passsword"
+		echo -e "rcon_password \"${rconpass}\""
+		echo -e ""
+		echo -e "// Server password"
+		echo -e "sv_password \"\""
+		echo -e ""
+		echo -e "// server logging"
+		echo -e "log on"
+		echo -e "sv_logbans 1"
+		echo -e "sv_logecho 1"
+		echo -e "sv_logfile 1"
+		echo -e "sv_log_onefile 0"
+	}|tee "${servercfgfullpath}" > /dev/null 2>&1
+	sleep 1
+	echo "================================="
+	echo "Install Complete!"
+	echo ""
+	echo "To start server type:"
+	echo "${selfname} start"
+	echo ""
+}
+
+case "$1" in
+	start)
+		fn_startserver;;
+	stop)
+		fn_stopserver;;
+	restart)
+		fn_restartserver;;
+	update)
+		fn_updateserver;;
+	update-restart)
+		fn_stopserver
+		fn_updateserver
+		fn_startserver;;
+	validate)
+		fn_validateserver;;
+	validate-restart)
+		fn_stopserver
+		fn_validateserver
+		fn_startserver;;
+	monitor)
+		fn_monitorserver;;
+	email-test)
+		fn_emailtest;;
+	details)
+		fn_details;;
+	backup)
+		fn_backupserver;;
+	console)
+		fn_console;;
+	debug)
+		fn_debugserver;;
+	install)
+		fn_install;;
+	*)
+	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install}"
+	exit 1;;
+esac
+exit

@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# # vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.provider "docker" do |d|
+    d.vagrant_vagrantfile = "#{ENV['VAGRANT_DIR'] || '../coreos-vagrant'}/Vagrantfile"
+    d.vagrant_machine = "core-01"
+  end
+  
+  config.vm.define "left4dead2" do |app|
+    app.vm.provider "docker" do |d|
+      d.build_dir = "./"
+      d.name = "left4dead2"
+      d.env = {
+        "SERVER_NAME" => "TestServer",
+        "RCON_PASS" => "password"
+      }
+    end
+  end
+end
