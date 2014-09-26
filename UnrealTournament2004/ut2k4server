@@ -50,7 +50,7 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 # Start Variables
 fn_parms(){
 defaultmap="DM-Rankin"
-parms="server ${defaultmap}?game=XGame.xDMGame -nohomedir ini=${ini} log=${gamelog}"
+parms="server ${defaultmap}?game=XGame.xDeathMatch -nohomedir ini=${ini} log=${gamelog}"
 }
 
 ##### Script #####
