@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://danielgibbs.co.uk
-# Version: 200914
+# Version: 011014
 
 #### Variables ####
 
@@ -45,7 +45,6 @@ executable="./arma3server"
 servercfgdir="${systemdir}"
 servercfg="${servicename}.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 
 # Server Details
@@ -73,7 +72,7 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 # what you are doing
 
 fn_scriptlog(){
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: '$1'" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> ${scriptlog}
 }
 
 # [ FAIL ]
@@ -414,6 +413,8 @@ if [ -f gsquery.py ]; then
 		port=$((${gameport} + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
+	elif [ "${engine}" == "realvirtuality" ]; then
+		port=${queryport}
 	fi
 	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
 	fn_scriptlog "Detected gsquery.py"
@@ -486,7 +487,8 @@ fn_printdots "Monitoring ${servicename}: ${servername}"
 fn_scriptlog "Monitoring ${servername}"
 sleep 1
 if [ ! -f ${lockselfname} ]; then
-	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
+	fn_printinfo "Monitoring ${servicename}: Monitor disabled: No lock file found"
+	fn_scriptlog "Monitor disabled: No lock file found"
 	sleep 1
 	echo -en "\n"
 	echo "To enable monitor run ${selfname} start"
@@ -596,6 +598,7 @@ fn_parms
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
+	fn_scriptlog "Rotating log files"
 	if [ "${engine}" == "unreal2" ]; then
 		mv "${gamelog}" "${gamelogdate}"
 	fi
@@ -632,11 +635,6 @@ echo -en "\n"
 
 fn_arma3details(){
 fn_autoip
-servername=$(grep -s hostname "${servercfgfullpath}"|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
-adminpass=$(grep -s passwordAdmin "${servercfgfullpath}"|sed -e 's/\<passwordAdmin\>//g'|tr -d '=\"; ')
-serverport=$(sed -n -e '10 p' ${servercfgfullpath} | sed 's/[\/\; ]//g' | tr -cd [:digit:])
-queryport=$(sed -n -e '14 p' ${servercfgfullpath} | sed 's/[\/\; ]//g' | tr -cd [:digit:])
-masterport=$(sed -n -e '12 p' ${servercfgfullpath} | sed 's/[\/\; ]//g' | tr -cd [:digit:])
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo ""
 echo "${gamename} Server Details"
@@ -917,7 +915,6 @@ fn_steaminstall
 fn_steamfix
 fn_loginstall
 fn_glibcfix
-fn_arma3deps
 fn_arma3config
 sleep 1
 echo ""
