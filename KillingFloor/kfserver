@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 200914
+# Version: 061014
 
 #### Variables ####
 
@@ -70,7 +70,7 @@ parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini
 # what you are doing
 
 fn_scriptlog(){
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: '$1'" >> ${scriptlog}
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> ${scriptlog}
 }
 
 # [ FAIL ]
@@ -411,6 +411,8 @@ if [ -f gsquery.py ]; then
 		port=$((${gameport} + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
+	elif [ "${engine}" == "realvirtuality" ]; then
+		port=${queryport}
 	fi
 	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
 	fn_scriptlog "Detected gsquery.py"
@@ -483,7 +485,8 @@ fn_printdots "Monitoring ${servicename}: ${servername}"
 fn_scriptlog "Monitoring ${servername}"
 sleep 1
 if [ ! -f ${lockselfname} ]; then
-	fn_printinfo "Monitoring ${servicename}: No lock file found: Monitor disabled"
+	fn_printinfo "Monitoring ${servicename}: Monitor disabled: No lock file found"
+	fn_scriptlog "Monitor disabled: No lock file found"
 	sleep 1
 	echo -en "\n"
 	echo "To enable monitor run ${selfname} start"
@@ -593,6 +596,7 @@ fn_parms
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
+	fn_scriptlog "Rotating log files"
 	if [ "${engine}" == "unreal2" ]; then
 		mv "${gamelog}" "${gamelogdate}"
 	fi
@@ -600,8 +604,8 @@ if [ ${tmuxwc} -eq 0 ]; then
 	mv "${consolelog}" "${consolelogdate}"
 fi
 fn_printdots "Starting ${servicename}: ${servername}"
-sleep 1
 fn_scriptlog "Starting ${servername}"
+sleep 1
 if [ ${tmuxwc} -eq 1 ]; then
 	fn_printinfo "Starting ${servicename}: ${servername} is already running"
 	fn_scriptlog "${servername} is already running"
@@ -612,13 +616,19 @@ fi
 # Create lock file
 date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
-tmux new-session -d -s ${servicename} "${executable} ${parms}"
+tmux new-session -d -s ${servicename} "${executable} ${parms}" 2> ${scriptlogdir}/.${servicename}-tmux-error.tmp
 tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 if [ ${tmuxwc} -eq 0 ]; then
-	fn_printfail "Starting ${servicename}: Failed to start ${servername}"
+	fn_printfailnl "Starting ${servicename}: Failed to start ${servername}"
+	echo -en "	Check log files: ${rootdir}/log"
 	fn_scriptlog "failed to start ${servername}"
+	if [ -a ${scriptlogdir}/.${servicename}-tmux-error.tmp ]; then
+		fn_scriptlog "tmux returned the following error"
+		cat ${scriptlogdir}/.${servicename}-tmux-error.tmp >> ${scriptlog}
+		rm ${scriptlogdir}/.${servicename}-tmux-error.tmp
+	fi
 else
 	fn_printok "Starting ${servicename}: ${servername}"
 	fn_scriptlog "Started ${servername}"
