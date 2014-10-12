@@ -743,6 +743,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		sleep 1
 		cd "${filesdir}"
 		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libc.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 		sleep 1
 		echo ""
