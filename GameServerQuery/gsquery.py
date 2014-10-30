@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# Source Game Server Query
+# Game Server Query
 # Author: Anonymous & Daniel Gibbs
 # # Website: http://danielgibbs.co.uk
-# Version: 251213
+# Version: 031014
 
 import optparse
 import socket
@@ -23,10 +23,14 @@ class GameServer:
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		if self.option.engine == 'spark':
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
+		if self.option.engine == 'realvirtuality':
+			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'unreal':
 			self.query_prompt_string = '\x5C\x69\x6E\x66\x6F\x5C'
 		elif self.option.engine == 'unreal2':
 			self.query_prompt_string = '\x79\x00\x00\x00\x00'
+		elif self.option.engine == 'avalanche':
+			self.query_prompt_string = '\xFE\xFD\x09\x10\x20\x30\x40'
 		self.connected = False
 		self.response = None
 		self.sanity_checks()

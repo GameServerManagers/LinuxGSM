@@ -1,5 +1,5 @@
 #!/bin/bash
-# Unreal Tournament 2004
+# Blade Symphony
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -12,46 +12,63 @@
 emailnotification="off"
 email="email@example.com"
 
+# Steam login
+steamuser="username"
+steampass="password"
+
+# Start Variables
+defaultmap="duel_winter"
+maxplayers="16"
+port="27015"
+sourcetvport="27020"
+clientport="27005"
+ip="0.0.0.0"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-autoupdate -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+
+#### Advanced Variables ####
+
+# Steam
+appid="228780"
+
+# Server Details
+servicename="bs-server"
+gamename="Blade Symphony"
+engine="source"
+
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 selfname="$0"
 lockselfname=$(echo ".${servicename}.lock")
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/System"
-executabledir="${systemdir}"
-executable="./ucc-bin"
-compressedmapsdir="${rootdir}/Maps-Compressed"
-defaultcfg="${systemdir}/UT2004.ini"
+systemdir="${filesdir}/berimbau"
+executabledir="${filesdir}"
+executable="./srcds_run.sh"
+servercfgdir="${systemdir}/cfg"
+servercfg="${servicename}.cfg"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+defaultcfg="${servercfgdir}/server.cfg"
 backupdir="backups"
 
 # Server Details
-servicename="ut2k4-server"
-gamename="Unreal Tournament 2004"
-engine="unreal2"
-ini="${servicename}.ini"
-servername=$(grep -s ServerName= ${systemdir}/${ini}|sed 's/ServerName=//g')
-ip="0.0.0.0"
+servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
 
 # Logging
 logdays="7"
-gamelogdir="${rootdir}/log/server"
+gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
-gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
-gamelogdate="${gamelogdir}/${servicename}-game-$(date '+%d-%m-%Y-%H-%M-%S').log"
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
-# Start Variables
-fn_parms(){
-defaultmap="DM-Rankin"
-parms="server ${defaultmap}?game=XGame.xDeathMatch -nohomedir ini=${ini} log=${gamelog}"
-}
 
 ##### Script #####
 # Do not edit
@@ -222,7 +239,7 @@ sleep 1
 fn_scriptlog "Started debug mode ${servername}"
 echo -en "\n"
 cd "${executabledir}"
-${executable} ${parms}
+${executable} ${parms} -debug
 }
 
 fn_console(){
@@ -518,6 +535,38 @@ else
 fi
 }
 
+fn_updateserver(){
+fn_rootcheck
+fn_syscheck
+fn_printdots "Updating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Updating ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Updating ${servername}"
+cd "${rootdir}"
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} +quit|tee -a "${scriptlog}"
+}
+
+fn_validateserver(){
+fn_rootcheck
+fn_syscheck
+fn_printwarn "Validating may overwrite some customised files."
+sleep 1
+echo -en "\n"
+echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
+sleep 5
+echo -en "\n"
+fn_printdots "Validating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Validating ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Validating ${servername}"
+cd "${rootdir}"
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
+}
+
 fn_restartserver(){
 fn_scriptlog "Restarting ${servername}"
 fn_stopserver
@@ -594,59 +643,32 @@ sleep 1
 echo -en "\n"
 }
 
-fn_utdetails(){
+fn_details(){
 fn_autoip
+servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g')
-queryport=$((${gameport} + 1))
-gsqueryport=$(grep OldQueryPortNumber= "${systemdir}/${ini}"|sed 's/\OldQueryPortNumber=//g')
-udplinkport=$((${gameport} + 2))
-webadminport=$(grep ListenPort= "${systemdir}/${ini}"|sed 's/\ListenPort=//g')
-if [ "${engine}" == "unreal" ]; then
-	webadminuser=$(grep AdminUsername= "${systemdir}/${ini}"|sed 's/\AdminUsername=//g')
-else
-	webadminuser=$(grep AdminName= "${systemdir}/${ini}"|sed 's/\AdminName=//g')
-fi
-webadminpass=$(grep AdminPassword= "${systemdir}/${ini}"|sed 's/\AdminPassword=//g')
 echo ""
 echo "${gamename} Server Details"
 echo "============================"
 echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${gameport}"
-echo "Config file: ${systemdir}/${ini}"
+echo "Server IP: ${ip}:${port}"
+echo "RCON password: ${rcon}"
+echo "Config file: ${servercfgfullpath}"
 echo ""
 echo "${servername} Ports"
 echo "============================"
 echo "Ports the server is currently using."
 echo ""
-echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
-echo "INBOUND		Game Port		${gameport} UDP	Port=${gameport}"
-echo "INBOUND		Query Port		${queryport} UDP	n/a"
-if [ "${engine}" == "unreal" ]; then
-	echo "OUTBOUND	UdpLink Port (random)	${udplinkport}+ UDP	n/a"
+echo "DIRECTION	DESCRIPTION		PORT"
+echo "INBOUND		Game/RCON port		${port}"
+if [ ! -z ${sourcetvport} ]; then
+	echo "INBOUND		SourceTV port		${sourcetvport}"
 fi
-if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
-	echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
-fi
-if [ "${appid}" == "215360" ]; then
-	echo "OUTBOUND	Master Server port 	28852 TCP/UDP	n/a"
-else
-	echo "OUTBOUND	Master Server port	28900/28902 TCP/UDP  n/a"
-fi
-if [ "${appid}" ]; then
-	if [ "${appid}" == "223250" ]; then
-		echo "OUTBOUND	Steam Port		20610 UDP	n/a"
-	else
-		echo "OUTBOUND	Steam Port		20660 UDP	n/a"
-	fi
-fi
-echo "INBOUND		WebAdmin 		${webadminport} TCP	ListenPort=${webadminport}"
+echo "OUTBOUND	Client port		${clientport}"
 echo ""
-echo "${servername} WebAdmin"
-echo "======================="
-echo "WebAdmin URL: http://${ip}:${webadminport}"
-echo "WebAdmin Username: ${webadminuser}"
-echo "WebAdmin Password: ${webadminpass}"
+echo "You can change ports by editing the"
+echo "start parameters in ${selfname}."
 echo ""
 if [ "${pid}" == "0" ]; then
 	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
@@ -656,43 +678,117 @@ fi
 echo ""
 }
 
-fn_ut2k4compressmaps(){
-fn_rootcheck
-clear
-echo "${gamename} Map Compressor"
-echo "============================"
-echo "Will compress all maps in:"
-echo ""
-pwd
-echo ""
-echo "Compressed maps saved to:"
-echo ""
-echo "${compressedmapsdir}"
-echo ""
-while true; do
-	read -p "Start compression [y/N]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1;;
-	* ) echo "Please answer yes or no.";;
-	esac
-done
-mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
-rm -rfv "${filesdir}/Maps/*.uz2"
-cd "${systemdir}"
-for map in `ls "${filesdir}/Maps"`; do
-	if [ `getconf LONG_BIT` = "64" ]; then
-		./ucc-bin-linux-amd64 compress ../Maps/${map} --nohomedir
-	else
-		./ucc-bin compress ../Maps/${map} --nohomedir
-	fi
-done
-mv -fv "${filesdir}/Maps/*.uz2" "${compressedmapsdir}"
-}
-
 #
 ## Installer
 #
+
+fn_glibcfix(){
+if [ -z $(command -v ldd) ]; then
+	echo ""
+	echo -e "\r\033[K\e[0;31mFAIL\e[0;39m GLIBC is not detected."
+	sleep 1
+	echo "Install GLIBC and retry installation"
+	sleep 1
+	echo ""
+	while true; do
+		read -p "Continue install? [y/N]" yn
+		case $yn in
+			[Yy]* ) break;;
+			[Nn]* ) echo Exiting; exit;;
+			 * ) echo "Please answer yes or no.";;
+		esac
+	done
+elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
+	echo "GLIBC Fix required"
+	echo "============================"
+	sleep 1
+	echo -e "\e[0;31mWARNING!\e[0;39m ${gamename} requires GLIBC_2.15 or above"
+	sleep 1
+	echo ""
+	echo "Currently installed: GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')"
+	echo "Required: => GLIBC_2.15"
+	echo ""
+	sleep 1
+	echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with GLIBC_2.14 or less."
+	echo "note: This will NOT upgrade GLIBC on your system"
+	sleep 1
+	echo ""
+	echo "Downloading Required files"
+	echo "================================="
+	sleep 1
+	if [ "${gamename}" == "Insurgency" ];then
+		echo "Detected Insurgency"
+		sleep 1
+		echo "Downloading files for Insurgency GLIBC Fix"
+		cd "${filesdir}/bin"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
+		sleep 1
+	elif [ "${gamename}" == "Garrys's Mod" ];then
+		echo "Detected Garrys's Mod"
+		sleep 1
+		echo "Downloading files for Garrys's Mod GLIBC Fix"
+		sleep 1
+		cd "${filesdir}/bin"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "Natural Selection 2" ];then
+		echo "Detected Natural Selection 2"
+		sleep 1
+		echo "Downloading files for Natural Selection 2 GLIBC Fix"
+		sleep 1
+		cd "${filesdir}"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "No More Room in Hell" ];then
+		echo "Detected No More Room in Hell"
+		sleep 1
+		echo "Downloading files for No More Room in Hell GLIBC Fix"
+		sleep 1
+		cd "${filesdir}/srcds"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/srcds/libstdc++.so.6"
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "Blade Symphony" ];then
+		echo "Detected Blade Symphony"
+		sleep 1
+		echo "Downloading files for Blade Symphony GLIBC Fix"
+		sleep 1
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "Fistful of Frags" ];then
+		echo "Detected Fistful of Frags"
+		sleep 1
+		echo "Downloading files for Fistful of Frags GLIBC Fix"
+		sleep 1
+		cd "${filesdir}"
+		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
+		sleep 1
+		echo ""
+	elif [ "${gamename}" == "ARMA 3" ];then
+		echo "Detected ARMA 3"
+		sleep 1
+		echo "Downloading files for ARMA 3 GLIBC Fix"
+		sleep 1
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		sleep 1
+		echo ""
+	else
+		echo "error: Unable to detect game. Fix not applied"
+	fi
+	echo "GLIBC fix has been applied!"
+	sleep 1
+	echo ""
+fi
+}
 
 fn_header(){
 clear
@@ -705,112 +801,59 @@ echo "================================="
 echo ""
 }
 
-fn_ut2k4filesdl(){
-echo "Downloading Server Files"
+fn_steamdl(){
+echo "Installing SteamCMD"
 echo "================================="
 cd "${rootdir}"
-mkdir -pv "${filesdir}"
-cd "${filesdir}"
-if [ ! -f dedicatedserver3339-bonuspack.zip ]; then
-	wget -nv -N http://downloads.unrealadmin.org/UT2004/Server/dedicatedserver3339-bonuspack.zip
-else
-	echo "dedicatedserver3339-bonuspack.zip already downloaded!"
-fi
-echo "Running MD5 checksum to verify the file"
+mkdir -pv "steamcmd"
 sleep 1
-echo "MD5 checksum: d3f28c5245c4c02802d48e4f0ffd3e34"
-md5check=$(md5sum dedicatedserver3339-bonuspack.zip|awk '{print $1;}')
-echo "File returned: ${md5check}"
-if [ "${md5check}" != "d3f28c5245c4c02802d48e4f0ffd3e34" ]; then
-	echo "MD5 checksum: FAILED!"
-	read -p "Retry download? [y/N]" yn
-	case $yn in
-	[Yy]* ) rm -fv dedicatedserver3339-bonuspack.zip; fn_ut2k4filesdl;;
-	[Nn]* ) echo Exiting; exit;;
-	* ) echo "Please answer yes or no.";;
-	esac
+cd "steamcmd"
+if [ ! -f steamcmd.sh ]; then
+	wget -nv -N http://media.steampowered.com/client/steamcmd_linux.tar.gz
+	tar --verbose -zxf steamcmd_linux.tar.gz
+	rm -v steamcmd_linux.tar.gz
+	chmod +x steamcmd.sh
+	sleep 1
 else
-	echo "MD5 checksum: PASSED"
+	echo ""
+	echo "Steam already installed!"
 fi
-if [ ! -f ut2004-lnxpatch3369-2.tar.bz2 ]; then
-	wget -nv -N http://downloads.unrealadmin.org/UT2004/Patches/Linux/ut2004-lnxpatch3369-2.tar.bz2
-else
-	echo "ut2004-lnxpatch3369-2.tar.bz2 already downloaded!"
-fi
-echo "Running MD5 checksum to verify the file"
 sleep 1
-echo "MD5 checksum: 0fa447e05fe5a38e0e32adf171be405e"
-md5check=$(md5sum ut2004-lnxpatch3369-2.tar.bz2|awk '{print $1;}')
-echo "File returned: ${md5check}"
-if [ "${md5check}" != "0fa447e05fe5a38e0e32adf171be405e" ]; then
-	echo "MD5 checksum: FAILED!"
-	read -p "Retry download? [y/N]" yn
-	case $yn in
-	[Yy]* ) rm -fv ut2004-lnxpatch3369-2.tar.bz2; fn_ut2k4filesdl;;
-	[Nn]* ) echo Exiting; exit;;
-	* ) echo "Please answer yes or no.";;
-	esac
-else
-	echo "MD5 checksum: PASSED"
-fi
 echo ""
 }
 
-fn_ut2k4key(){
-echo "Enter ${gamename} CD Key"
-echo "================================="
-sleep 1
-echo "To get your server listed on the Master Server list"
-echo "you must get a free CD key. Get a key here:"
-echo "http://www.unrealtournament.com/ut2004server/cdkey.php"
-echo ""
-echo "Once you have the key enter it below"
-echo -n "KEY: "
-read CODE
-echo ""\""CDKey"\""="\""${CODE}"\""" > "${systemdir}/cdkey"
-echo ""
-}
-
-fn_ut2k4install(){
+fn_steaminstall(){
 echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
 mkdir -pv "${filesdir}"
-cd "${filesdir}"
-echo "Extracting dedicatedserver3339-bonuspack.zip"
-sleep 1
-unzip dedicatedserver3339-bonuspack.zip
-echo "Extracting ut2004-lnxpatch3369-2.tar.bz2"
-sleep 1
-tar -xvjf ut2004-lnxpatch3369-2.tar.bz2 UT2004-Patch/ --strip-components=1
+cd "${rootdir}/steamcmd"
+STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit
+echo ""
+echo "================================="
 while true; do
 	read -p "Was the install successful? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) fn_retryinstall;;
 	* ) echo "Please answer yes or no.";;
-esac
-done
-while true; do
-	read -p "Remove ut2004-lnxpatch3369-2.tar.bz2? [y/N]" yn
-	case $yn in
-	[Yy]* ) rm -fv ut2004-lnxpatch3369-2.tar.bz2; break;;
-	[Nn]* ) break;;
-	* ) echo "Please answer yes or no.";;
-	esac
-done
-while true; do
-	read -p "Remove dedicatedserver3339-bonuspack.zip? [y/N]" yn
-	case $yn in
-	[Yy]* ) rm -fv dedicatedserver3339-bonuspack.zip; break;;
-	[Nn]* ) break;;
-	* ) echo "Please answer yes or no.";;
 	esac
 done
 echo ""
 }
 
-fn_utloginstall(){
+fn_steamfix(){
+echo "Applying steamclient.so fix"
+echo "================================="
+sleep 1
+mkdir -pv "${HOME}/.steam"
+mkdir -pv "${HOME}/.steam/sdk32"
+cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+sleep 1
+echo ""
+}
+
+fn_loginstall(){
 echo "Creating log directorys"
 echo "================================="
 sleep 1
@@ -819,8 +862,11 @@ mkdir -pv "${scriptlogdir}"
 touch "${scriptlog}"
 mkdir -pv "${consolelogdir}"
 touch "${consolelog}"
-mkdir -pv "${gamelogdir}"
-touch "${gamelog}"
+if [ ! -h ${rootdir}/log/server ]; then
+	ln -sv "${gamelogdir}" "${rootdir}/log/server"
+else
+	echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
+fi
 sleep 1
 echo ""
 }
@@ -878,48 +924,46 @@ while true; do
 	esac
 done
 fn_header
-fn_ut2k4filesdl
-fn_ut2k4install
-fn_ut2k4key
-fn_utloginstall
+fn_steamdl
+fn_steaminstall
+fn_steamfix
+fn_loginstall
 fn_getquery
+fn_glibcfix
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1
-	echo "Copying "${defaultcfg}" to ${systemdir}/${ini}"
-	cp "${defaultcfg}" "${systemdir}/${ini}"
+	read -p "Enter server name: " servername
+	read -p "Enter rcon password: " rconpass
 	sleep 1
-	echo "Applying WebAdmin ut2003.css fix!"
-	echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
-	sed -i 's/none}/none;/g' "${filesdir}/Web/ServerAdmin/ut2003.css"
-	sed -i 's/underline}/underline;/g' "${filesdir}/Web/ServerAdmin/ut2003.css"
+	echo "Creating server.cfg."
+	touch "${defaultcfg}"
+	echo "exec ${servicename}.cfg" > "${defaultcfg}"
 	sleep 1
-	echo "Applying WebAdmin CharSet fix!"
-	echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
-	sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' "${systemdir}/UWeb.int"
+	echo "Creating ${servicename}.cfg config file."
+	touch "${servercfgfullpath}"
+	{
+		echo -e "// server name"
+		echo -e "hostname \"${servername}\""
+		echo -e ""
+		echo -e "// rcon passsword"
+		echo -e "rcon_password \"${rconpass}\""
+		echo -e ""
+		echo -e "// Server password"
+		echo -e "sv_password \"\""
+		echo -e ""
+		echo -e "// server logging"
+		echo -e "log on"
+		echo -e "sv_logbans 1"
+		echo -e "sv_logecho 1"
+		echo -e "sv_logfile 1"
+		echo -e "sv_log_onefile 0"
+	}|tee "${servercfgfullpath}" > /dev/null 2>&1
 	sleep 1
-	echo "Setting WebAdmin username and password"
-	sed -i 's/AdminName=/AdminName=admin/g' "${systemdir}/${ini}"
-	sed -i 's/AdminPassword=/AdminPassword=admin/g' "${systemdir}/${ini}"
-	sleep 1
-	echo "Enabling WebAdmin"
-	sed -i 's/bEnabled=False/bEnabled=True/g' "${systemdir}/${ini}"
-	sleep 1
-	echo "Setting WebAdmin port to 8077"
-	sed -i 's/ListenPort=80/ListenPort=8077/g' "${systemdir}/${ini}"
-	sleep 1
-	echo "Forcing server to start to get ports/server name to display correctly"
-	sleep 1
-	cd "${rootdir}"
-	${selfname} start
-	sleep 5
-	${selfname} restart
-	sleep 5
-	${selfname} stop
-	sleep 5
+	echo ""
 	fn_header
 	sleep 1
-	fn_utdetails
+	fn_details
 	sleep 1
 	echo "================================="
 	echo "Install Complete!"
@@ -936,12 +980,24 @@ case "$1" in
 		fn_stopserver;;
 	restart)
 		fn_restartserver;;
+	update)
+		fn_updateserver;;
+	update-restart)
+		fn_stopserver
+		fn_updateserver
+		fn_startserver;;
+	validate)
+		fn_validateserver;;
+	validate-restart)
+		fn_stopserver
+		fn_validateserver
+		fn_startserver;;
 	monitor)
 		fn_monitorserver;;
 	email-test)
 		fn_emailtest;;
 	details)
-		fn_utdetails;;
+		fn_details;;
 	backup)
 		fn_backupserver;;
 	console)
@@ -950,10 +1006,8 @@ case "$1" in
 		fn_debugserver;;
 	install)
 		fn_install;;
-	map-compressor)
-		fn_ut2k4compressmaps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install}"
 	exit 1;;
 esac
 exit
