@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 061014
+# Version: 021114
 
 #### Variables ####
 
@@ -688,111 +688,7 @@ echo ""
 #
 
 fn_glibcfix(){
-if [ -z $(command -v ldd) ]; then
-	echo ""
-	echo -e "\r\033[K\e[0;31mFAIL\e[0;39m GLIBC is not detected."
-	sleep 1
-	echo "Install GLIBC and retry installation"
-	sleep 1
-	echo ""
-	while true; do
-		read -p "Continue install? [y/N]" yn
-		case $yn in
-			[Yy]* ) break;;
-			[Nn]* ) echo Exiting; exit;;
-			 * ) echo "Please answer yes or no.";;
-		esac
-	done
-elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
-	echo "GLIBC Fix required"
-	echo "============================"
-	sleep 1
-	echo -e "\e[0;31mWARNING!\e[0;39m ${gamename} requires GLIBC_2.15 or above"
-	sleep 1
-	echo ""
-	echo "Currently installed: GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')"
-	echo "Required: => GLIBC_2.15"
-	echo ""
-	sleep 1
-	echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with GLIBC_2.14 or less."
-	echo "note: This will NOT upgrade GLIBC on your system"
-	sleep 1
-	echo ""
-	echo "Downloading Required files"
-	echo "================================="
-	sleep 1
-	if [ "${gamename}" == "Insurgency" ];then
-		echo "Detected Insurgency"
-		sleep 1
-		echo "Downloading files for Insurgency GLIBC Fix"
-		cd "${filesdir}/bin"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
-		sleep 1
-	elif [ "${gamename}" == "Garrys's Mod" ];then
-		echo "Detected Garrys's Mod"
-		sleep 1
-		echo "Downloading files for Garrys's Mod GLIBC Fix"
-		sleep 1
-		cd "${filesdir}/bin"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "Natural Selection 2" ];then
-		echo "Detected Natural Selection 2"
-		sleep 1
-		echo "Downloading files for Natural Selection 2 GLIBC Fix"
-		sleep 1
-		cd "${filesdir}"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "No More Room in Hell" ];then
-		echo "Detected No More Room in Hell"
-		sleep 1
-		echo "Downloading files for No More Room in Hell GLIBC Fix"
-		sleep 1
-		cd "${filesdir}/srcds"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/srcds/libstdc++.so.6"
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "Blade Symphony" ];then
-		echo "Detected Blade Symphony"
-		sleep 1
-		echo "Downloading files for Blade Symphony GLIBC Fix"
-		sleep 1
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "Fistful of Frags" ];then
-		echo "Detected Fistful of Frags"
-		sleep 1
-		echo "Downloading files for Fistful of Frags GLIBC Fix"
-		sleep 1
-		cd "${filesdir}"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "ARMA 3" ];then
-		echo "Detected ARMA 3"
-		sleep 1
-		echo "Downloading files for ARMA 3 GLIBC Fix"
-		sleep 1
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		sleep 1
-		echo ""
-	else
-		echo "error: Unable to detect game. Fix not applied"
-	fi
-	echo "GLIBC fix has been applied!"
-	sleep 1
-	echo ""
-fi
+source functions/fn_glibcfix
 }
 
 fn_libsteamfix(){
@@ -815,6 +711,14 @@ echo "by Daniel Gibbs"
 echo "http://danielgibbs.co.uk"
 echo "================================="
 echo ""
+}
+
+fn_fninstall(){
+mkdir functions
+cd functions
+wget https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/fn_fninstall
+cd ${rootdir}
+source functions/fn_fninstall
 }
 
 fn_steamdl(){
@@ -940,6 +844,7 @@ while true; do
 	esac
 done
 fn_header
+fn_fninstall
 fn_steamdl
 fn_steaminstall
 fn_steamfix
