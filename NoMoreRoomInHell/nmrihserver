@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 061014
+# Version: 021114
 
 #### Variables ####
 
@@ -32,7 +32,7 @@ parms="-strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_por
 #### Advanced Variables ####
 
 # Steam
-appid="224260"
+appid="317670"
 
 # Server Details
 servicename="nmrih-server"
