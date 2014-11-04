@@ -716,7 +716,7 @@ echo ""
 fn_fninstall(){
 mkdir functions
 cd functions
-wget https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/fn_fninstall
+wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/fn_fninstall
 cd ${rootdir}
 source functions/fn_fninstall
 }
