@@ -2,7 +2,7 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 021114
+# Version: 041114
 
 fn_glibcfixmsg(){
 echo "Detected ${gamename}"
@@ -69,7 +69,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		echo ""
 	elif [ "${gamename}" == "No More Room in Hell" ];then
 		fn_glibcfixmsg
-		cd "${filesdir}/srcds"
+		cd "${filesdir}"
 		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/srcds/libstdc++.so.6"
 		sleep 1
