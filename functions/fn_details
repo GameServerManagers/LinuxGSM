@@ -1,0 +1,38 @@
+#!/bin/bash
+# LGSM fn_details function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 121114
+
+fn_autoip
+servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${port}"
+echo "RCON password: ${rcon}"
+echo "Config file: ${servercfgfullpath}"
+echo ""
+echo "${servername} Ports"
+echo "============================"
+echo "Ports the server is currently using."
+echo ""
+echo "DIRECTION	DESCRIPTION		PORT"
+echo "INBOUND		Game/RCON port		${port}"
+if [ ! -z ${sourcetvport} ]; then
+	echo "INBOUND		SourceTV port		${sourcetvport}"
+fi
+echo "OUTBOUND	Client port		${clientport}"
+echo ""
+echo "You can change ports by editing the"
+echo "start parameters in ${selfname}."
+echo ""
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
+echo ""
