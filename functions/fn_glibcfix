@@ -7,8 +7,7 @@
 fn_glibcfixmsg(){
 echo "Detected ${gamename}"
 sleep 1
-echo "Downloading files for ${gamename} GLIBC Fix"
-sleep 1	
+echo ""
 }
 
 if [ -z $(command -v ldd) ]; then
