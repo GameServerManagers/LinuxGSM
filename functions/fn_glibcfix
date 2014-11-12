@@ -2,7 +2,7 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 041114
+# Version: 121114
 
 fn_glibcfixmsg(){
 echo "Detected ${gamename}"
@@ -71,7 +71,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		fn_glibcfixmsg
 		cd "${filesdir}"
 		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/srcds/libstdc++.so.6"
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 		sleep 1
 		echo ""
 	elif [ "${gamename}" == "Blade Symphony" ];then
