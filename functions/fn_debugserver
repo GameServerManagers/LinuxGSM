@@ -21,7 +21,12 @@ echo -e "Kernel: ${kernel}"
 echo -e "Hostname: $HOSTNAME"
 echo ""
 echo "Start parameters:"
-echo ${executable} ${parms}
+if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+	echo "${executable} ${parms} -debug"
+else
+	echo "${executable} ${parms}"
+fi
+
 echo ""
 echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode"
