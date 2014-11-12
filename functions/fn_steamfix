@@ -1,0 +1,33 @@
+#!/bin/bash
+# LGSM fn_libsteamfix function
+# Required by: gmodserver
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 121114
+
+fn_steamclientfix(){
+echo "Applying steamclient.so fix"
+echo "================================="
+sleep 1
+mkdir -pv "${HOME}/.steam"
+mkdir -pv "${HOME}/.steam/sdk32"
+cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+sleep 1
+echo ""
+}
+
+fn_libsteamfix(){
+echo "Applying libsteam.so fix"
+echo "================================="
+sleep 1
+mkdir -pv "${HOME}/.steam"
+mkdir -pv "${HOME}/.steam/sdk32"
+cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+sleep 1
+echo ""
+}
+
+fn_steamclientfix
+if [ "${gamename}" == "Garrys's Mod" ];then
+	fn_libsteamfix
+fi
