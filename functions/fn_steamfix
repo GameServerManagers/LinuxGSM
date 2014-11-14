@@ -1,6 +1,5 @@
 #!/bin/bash
 # LGSM fn_libsteamfix function
-# Required by: gmodserver
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
 # Version: 121114
@@ -16,6 +15,7 @@ sleep 1
 echo ""
 }
 
+# Gary's Mod Specific
 fn_libsteamfix(){
 echo "Applying libsteam.so fix"
 echo "================================="
