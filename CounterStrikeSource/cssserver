@@ -622,8 +622,7 @@ if [ ! -d "functions" ]; then
 	mkdir functions
 fi
 echo ""
-echo "Downloading ${functionfile}"
-echo "================================="
+echo "loading ${functionfile}..."
 cd functions
 wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
 chmod +x ${functionfile}
@@ -635,14 +634,6 @@ echo ""
 #
 ## Installer
 #
-
-fn_glibcfix(){
-if [ ! -f functions/fn_glibcfix ]; then
-	functionfile="fn_glibcfix"
-	fn_fninstall
-fi	
-source functions/fn_glibcfix
-}
 
 fn_header(){
 clear
@@ -780,7 +771,6 @@ fn_steaminstall
 fn_steamfix
 fn_loginstall
 fn_getquery
-fn_glibcfix
 echo "Configuring ${gamename} Server"
 echo "================================="
 	sleep 1

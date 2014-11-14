@@ -627,8 +627,7 @@ if [ ! -d "functions" ]; then
 	mkdir functions
 fi
 echo ""
-echo "Downloading ${functionfile}"
-echo "================================="
+echo "loading ${functionfile}..."
 cd functions
 wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
 chmod +x ${functionfile}
@@ -815,7 +814,6 @@ echo "================================="
 		echo -e "sv_logfile 1"
 		echo -e "sv_log_onefile 0"
 		echo -e "lua_log_sv 0"
-
 		echo -e "sv_rcon_banpenalty 0"
 		echo -e "sv_rcon_maxfailures 20"
 		echo -e "sv_rcon_minfailures 20"

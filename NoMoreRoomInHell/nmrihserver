@@ -622,8 +622,7 @@ if [ ! -d "functions" ]; then
 	mkdir functions
 fi
 echo ""
-echo "Downloading ${functionfile}"
-echo "================================="
+echo "loading ${functionfile}..."
 cd functions
 wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
 chmod +x ${functionfile}

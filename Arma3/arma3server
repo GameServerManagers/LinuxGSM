@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://danielgibbs.co.uk
-# Version: 061014
+# Version: 121114
 
 #### Variables ####
 
@@ -196,46 +196,11 @@ fi
 }
 
 fn_debugserver(){
-fn_rootcheck
-fn_syscheck
-fn_autoip
-fn_distro
-fn_uptime
-fn_load
-fn_parms
-echo ""
-echo "${gamename} Debug"
-echo "============================"
-echo ""
-echo -e "Distro: ${os}"
-echo -e "Arch: ${arch}"
-echo -e "Kernel: ${kernel}"
-echo -e "Hostname: $HOSTNAME"
-echo ""
-echo "Start parameters:"
-echo ${parms}
-echo ""
-echo -e "Use for identifying server issues only!"
-echo -e "Press CTRL+c to drop out of debug mode"
-echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
-echo ""
-while true; do
-	read -p "Continue? [y/N]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1;;
-	* ) echo "Please answer yes or no.";;
-esac
-done
-fn_stopserver
-fn_printdots "Starting debug mode ${servicename}: ${servername}"
-sleep 1
-fn_printok "Starting debug mode ${servicename}: ${servername}"
-sleep 1
-fn_scriptlog "Started debug mode ${servername}"
-echo -en "\n"
-cd "${executabledir}"
-${executable} ${parms}
+if [ ! -f functions/fn_debugserver ]; then
+	functionfile="fn_debugserver"
+	fn_fninstall
+fi
+source functions/fn_debugserver
 }
 
 fn_console(){
@@ -639,35 +604,26 @@ sleep 1
 echo -en "\n"
 }
 
-fn_arma3details(){
-fn_autoip
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${serverport}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Admin Password: ${adminpass}"
-echo ""
-echo "${servername} Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "PROTOCOL DESCRIPTION               PORT"
-echo "UDP      Game port                 ${serverport}"
-echo "UDP      STEAM query port          ${queryport}"
-echo "UDP      STEAM master traffic port ${masterport}"
-echo ""
-echo "You can change ports by editing the"
-echo "parameters in ${servercfgfullpath}"
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fn_details(){
+if [ ! -f functions/fn_details ]; then
+	functionfile="fn_details"
+	fn_fninstall
 fi
+source functions/fn_details
+}
+
+fn_fninstall(){
+cd ${rootdir}	
+if [ ! -d "functions" ]; then
+	mkdir functions
+fi
+echo ""
+echo "loading ${functionfile}..."
+cd functions
+wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
+chmod +x ${functionfile}
+cd ${rootdir}
+sleep 1
 echo ""
 }
 
@@ -676,111 +632,23 @@ echo ""
 #
 
 fn_glibcfix(){
-if [ -z $(command -v ldd) ]; then
-	echo ""
-	echo -e "\r\033[K\e[0;31mFAIL\e[0;39m GLIBC is not detected."
-	sleep 1
-	echo "Install GLIBC and retry installation"
-	sleep 1
-	echo ""
-	while true; do
-		read -p "Continue install? [y/N]" yn
-		case $yn in
-			[Yy]* ) break;;
-			[Nn]* ) echo Exiting; exit;;
-			 * ) echo "Please answer yes or no.";;
-		esac
-	done
-elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
-	echo "GLIBC Fix required"
-	echo "============================"
-	sleep 1
-	echo -e "\e[0;31mWARNING!\e[0;39m ${gamename} requires GLIBC_2.15 or above"
-	sleep 1
-	echo ""
-	echo "Currently installed: GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')"
-	echo "Required: => GLIBC_2.15"
-	echo ""
-	sleep 1
-	echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with GLIBC_2.14 or less."
-	echo "note: This will NOT upgrade GLIBC on your system"
-	sleep 1
-	echo ""
-	echo "Downloading Required files"
-	echo "================================="
-	sleep 1
-	if [ "${gamename}" == "Insurgency" ];then
-		echo "Detected Insurgency"
-		sleep 1
-		echo "Downloading files for Insurgency GLIBC Fix"
-		cd "${filesdir}/bin"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
-		sleep 1
-	elif [ "${gamename}" == "Garrys's Mod" ];then
-		echo "Detected Garrys's Mod"
-		sleep 1
-		echo "Downloading files for Garrys's Mod GLIBC Fix"
-		sleep 1
-		cd "${filesdir}/bin"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "Natural Selection 2" ];then
-		echo "Detected Natural Selection 2"
-		sleep 1
-		echo "Downloading files for Natural Selection 2 GLIBC Fix"
-		sleep 1
-		cd "${filesdir}"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "No More Room in Hell" ];then
-		echo "Detected No More Room in Hell"
-		sleep 1
-		echo "Downloading files for No More Room in Hell GLIBC Fix"
-		sleep 1
-		cd "${filesdir}/srcds"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/srcds/libstdc++.so.6"
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "Blade Symphony" ];then
-		echo "Detected Blade Symphony"
-		sleep 1
-		echo "Downloading files for Blade Symphony GLIBC Fix"
-		sleep 1
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "Fistful of Frags" ];then
-		echo "Detected Fistful of Frags"
-		sleep 1
-		echo "Downloading files for Fistful of Frags GLIBC Fix"
-		sleep 1
-		cd "${filesdir}"
-		wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
-		sleep 1
-		echo ""
-	elif [ "${gamename}" == "ARMA 3" ];then
-		echo "Detected ARMA 3"
-		sleep 1
-		echo "Downloading files for ARMA 3 GLIBC Fix"
-		sleep 1
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		sleep 1
-		echo ""
-	else
-		echo "error: Unable to detect game. Fix not applied"
-	fi
-	echo "GLIBC fix has been applied!"
-	sleep 1
-	echo ""
-fi
+if [ ! -f functions/fn_glibcfix ]; then
+	functionfile="fn_glibcfix"
+	fn_fninstall
+fi	
+source functions/fn_glibcfix
+}
+
+fn_header(){
+clear
+echo "================================="
+echo "${gamename}"
+echo "Linux Game Server Manager"
+echo "by Daniel Gibbs"
+echo "contributions by Scarsz"
+echo "http://danielgibbs.co.uk"
+echo "================================="
+echo ""
 }
 
 fn_arma3config(){
@@ -793,18 +661,6 @@ echo "Creating ${servicename}.cfg config file."
 sleep 1
 cp -v CONFIG_Vanilla.cfg ${servercfgfullpath}
 sleep 1
-echo ""
-}
-
-fn_header(){
-clear
-echo "================================="
-echo "${gamename}"
-echo "Linux Game Server Manager"
-echo "by Daniel Gibbs"
-echo "contributions by Scarsz"
-echo "http://danielgibbs.co.uk"
-echo "================================="
 echo ""
 }
 
@@ -850,14 +706,11 @@ echo ""
 }
 
 fn_steamfix(){
-echo "Applying steamclient.so fix"
-echo "================================="
-sleep 1
-mkdir -pv "${HOME}/.steam"
-mkdir -pv "${HOME}/.steam/sdk32"
-cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
-sleep 1
-echo ""
+if [ ! -f functions/fn_steamfix ]; then
+	functionfile="fn_steamfix"
+	fn_fninstall
+fi	
+source functions/fn_steamfix
 }
 
 fn_loginstall(){
@@ -876,6 +729,20 @@ else
 fi
 sleep 1
 echo ""
+}
+
+fn_getquery(){
+	echo "GameServerQuery"
+	echo "============================"
+	while true; do
+		read -p "Do you want to install GameServerQuery? [y/N]" yn
+		case $yn in
+		[Yy]* ) cd "${rootdir}"; wget -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py; break;;
+		[Nn]* ) echo -e "Not installing GameServerQuery.";break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+	echo ""
 }
 
 fn_retryinstall(){
@@ -921,13 +788,14 @@ fn_steamdl
 fn_steaminstall
 fn_steamfix
 fn_loginstall
+fn_getquery
 fn_glibcfix
 fn_arma3config
 sleep 1
 echo ""
 fn_header
 sleep 1
-fn_arma3details
+fn_details
 sleep 1
 echo "================================="
 echo "Install Complete!"
@@ -961,7 +829,7 @@ case "$1" in
 	email-test)
 		fn_emailtest;;
 	details)
-		fn_arma3details;;
+		fn_details;;
 	backup)
 		fn_backupserver;;
 	console)
