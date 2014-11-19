@@ -2,7 +2,7 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 121114
+# Version: 191114
 
 fn_glibcfixmsg(){
 echo "Detected ${gamename}"
@@ -47,30 +47,30 @@ if [ "${gamename}" == "Insurgency" ]||[ "${gamename}" == "Garrys's Mod" ]||[ "${
 		if [ "${gamename}" == "Insurgency" ]; then
 			fn_glibcfixmsg
 			cd "${filesdir}/bin"
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
 			sleep 1
 		elif [ "${gamename}" == "Garrys's Mod" ]; then
 			fn_glibcfixmsg
 			cd "${filesdir}/bin"
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 			sleep 1
 			echo ""
 		elif [ "${gamename}" == "Natural Selection 2" ]; then
 			fn_glibcfixmsg
 			cd "${filesdir}"
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 			sleep 1
 			echo ""
 		elif [ "${gamename}" == "No More Room in Hell" ]; then
 			fn_glibcfixmsg
 			cd "${filesdir}"
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 			sleep 1
 			echo ""
@@ -85,7 +85,7 @@ if [ "${gamename}" == "Insurgency" ]||[ "${gamename}" == "Garrys's Mod" ]||[ "${
 			echo "Downloading files for ${gamename} GLIBC Fix"
 			sleep 1
 			cd "${filesdir}"
-			wget -nv -N https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
+			wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
 			sleep 1
 			echo ""
 		elif [ "${gamename}" == "ARMA 3" ]; then
