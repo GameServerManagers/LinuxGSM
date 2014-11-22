@@ -594,12 +594,12 @@ if [ ${tmuxwc} -eq 0 ]; then
 	if [ -a ${scriptlogdir}/.${servicename}-tmux-error.tmp ]; then
 		fn_scriptlog "tmux returned the following error"
 		cat ${scriptlogdir}/.${servicename}-tmux-error.tmp >> ${scriptlog}
-		rm ${scriptlogdir}/.${servicename}-tmux-error.tmp
 	fi
 else
 	fn_printok "Starting ${servicename}: ${servername}"
 	fn_scriptlog "Started ${servername}"
 fi
+rm ${scriptlogdir}/.${servicename}-tmux-error.tmp
 sleep 1
 echo -en "\n"
 }
@@ -620,7 +620,7 @@ fi
 echo ""
 echo "loading ${functionfile}..."
 cd functions
-wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
+wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
 chmod +x ${functionfile}
 cd ${rootdir}
 sleep 1
@@ -656,7 +656,7 @@ echo "Downloading CONFIG_Vanilla.cfg"
 echo "================================="
 sleep 1
 cd "${systemdir}"
-wget -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/CONFIG_Vanilla.cfg
+wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/CONFIG_Vanilla.cfg
 echo "Creating ${servicename}.cfg config file."
 sleep 1
 cp -v CONFIG_Vanilla.cfg ${servercfgfullpath}
