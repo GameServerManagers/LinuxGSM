@@ -629,6 +629,14 @@ echo ""
 ## Installer
 #
 
+fn_glibcfix(){
+if [ ! -f functions/fn_glibcfix ]; then
+	functionfile="fn_glibcfix"
+	fn_fninstall
+fi	
+source functions/fn_glibcfix
+}
+
 fn_header(){
 clear
 echo "================================="
@@ -767,18 +775,19 @@ fn_steaminstall
 fn_loginstall
 fn_jc2config
 fn_getquery
-	sleep 1
-	echo ""
-	fn_header
-	sleep 1
-	fn_details
-	sleep 1
-	echo "================================="
-	echo "Install Complete!"
-	echo ""
-	echo "To start server type:"
-	echo "${selfname} start"
-	echo ""
+fn_glibcfix
+sleep 1
+echo ""
+fn_header
+sleep 1
+fn_details
+sleep 1
+echo "================================="
+echo "Install Complete!"
+echo ""
+echo "To start server type:"
+echo "${selfname} start"
+echo ""
 }
 
 case "$1" in
