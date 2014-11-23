@@ -5,9 +5,6 @@
 # Version: 231114
 
 fn_glibcfixmsg(){
-echo "Detected ${gamename}"
-sleep 1
-echo ""
 echo "GLIBC Fix required"
 echo "============================"
 sleep 1
@@ -22,8 +19,7 @@ echo "The installer will now detect and download the required files to allow ${g
 echo "note: This will NOT upgrade GLIBC on your system."
 sleep 1
 echo ""
-echo "Downloading Required files"
-echo "================================="
+echo "loading required files..."
 sleep 1
 }
 
