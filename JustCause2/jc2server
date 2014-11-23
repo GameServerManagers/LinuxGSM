@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 121114
+# Version: 221114
 
 #### Variables ####
 
@@ -194,11 +194,11 @@ fi
 }
 
 fn_debugserver(){
-if [ ! -f functions/fn_debugserver ]; then
+if [ ! -f ${rootdir}/functions/fn_debugserver ]; then
 	functionfile="fn_debugserver"
 	fn_fninstall
 fi
-source functions/fn_debugserver
+source ${rootdir}/functions/fn_debugserver
 }
 
 fn_console(){
@@ -603,11 +603,11 @@ echo -en "\n"
 }
 
 fn_details(){
-if [ ! -f functions/fn_details ]; then
+if [ ! -f ${rootdir}/functions/fn_details ]; then
 	functionfile="fn_details"
 	fn_fninstall
 fi
-source functions/fn_details
+source ${rootdir}/functions/fn_details
 }
 
 fn_fninstall(){
@@ -630,11 +630,11 @@ echo ""
 #
 
 fn_glibcfix(){
-if [ ! -f functions/fn_glibcfix ]; then
+if [ ! -f ${rootdir}/functions/fn_glibcfix ]; then
 	functionfile="fn_glibcfix"
 	fn_fninstall
 fi	
-source functions/fn_glibcfix
+source ${rootdir}/functions/fn_glibcfix
 }
 
 fn_header(){
