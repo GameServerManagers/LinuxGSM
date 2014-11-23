@@ -1,0 +1,25 @@
+#!/bin/bash
+# LGSM fn_loginstall function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 231114
+
+echo "Creating log directorys"
+echo "================================="
+sleep 1
+# Create dir's for the script and console logs
+mkdir -pv "${rootdir}/log"
+mkdir -pv "${scriptlogdir}"
+touch "${scriptlog}"
+mkdir -pv "${consolelogdir}"
+touch "${consolelog}"
+# if a server is source or goldsource  create a symbolic link to the game server logs
+if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+	if [ ! -h ${rootdir}/log/server ]; then
+		ln -sv "${gamelogdir}" "${rootdir}/log/server"
+	else
+		echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
+	fi
+fi	
+sleep 1
+echo ""

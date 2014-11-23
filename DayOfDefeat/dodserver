@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 061014
+# Version: 231114
 
 #### Variables ####
 
@@ -695,21 +695,11 @@ source ${rootdir}/functions/fn_steamfix
 }
 
 fn_loginstall(){
-echo "Creating log directorys"
-echo "================================="
-sleep 1
-mkdir -pv "${rootdir}/log"
-mkdir -pv "${scriptlogdir}"
-touch "${scriptlog}"
-mkdir -pv "${consolelogdir}"
-touch "${consolelog}"
-if [ ! -h ${rootdir}/log/server ]; then
-	ln -sv "${gamelogdir}" "${rootdir}/log/server"
-else
-	echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
-fi
-sleep 1
-echo ""
+if [ ! -f ${rootdir}/functions/fn_loginstall ]; then
+	functionfile="fn_loginstall"
+	fn_fninstall
+fi	
+source ${rootdir}/functions/fn_loginstall
 }
 
 fn_getquery(){

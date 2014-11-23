@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 121114
+# Version: 231114
 
 #### Variables ####
 
@@ -715,17 +715,12 @@ done
 echo ""
 }
 
-fn_utloginstall(){
-echo "Creating log directorys"
-echo "================================="
-sleep 1
-mkdir -pv "${rootdir}/log"
-mkdir -pv "${scriptlogdir}"
-touch "${scriptlog}"
-mkdir -pv "${consolelogdir}"
-touch "${consolelog}"
-sleep 1
-echo ""
+fn_loginstall(){
+if [ ! -f ${rootdir}/functions/fn_loginstall ]; then
+	functionfile="fn_loginstall"
+	fn_fninstall
+fi	
+source ${rootdir}/functions/fn_loginstall
 }
 
 fn_getquery(){
