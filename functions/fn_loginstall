@@ -24,5 +24,6 @@ fi
 # If a server is unreal2 create a dir
 if [ "${engine}" == "unreal2" ]; then
 	mkdir -pv ${gamelogdir}	
+fi	
 sleep 1
 echo ""
