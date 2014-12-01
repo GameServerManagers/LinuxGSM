@@ -1,0 +1,24 @@
+#!/bin/bash
+# LGSM fn_getquery function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+echo "GameServerQuery"
+echo "============================"
+if [ -z ${autoinstall} ]; then
+	while true; do
+		read -p "Do you want to install GameServerQuery? [y/N]" yn
+		case $yn in
+		[Yy]* ) echo ""; cd "${rootdir}"; wget --no-check-certificate -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py; break;;
+		[Nn]* ) echo ""; echo "Not installing GameServerQuery.";break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+else
+	echo ""
+	cd "${rootdir}"
+	wget --no-check-certificate -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"
+	chmod +x gsquery.py
+fi
+echo ""
