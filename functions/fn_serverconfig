@@ -1,0 +1,33 @@
+#!/bin/bash
+# LGSM fn_serverconfig function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 291114
+
+echo "Downloading lgsm-default.cfg"
+echo "================================="
+sleep 1
+cd "${servercfgdir}"
+wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-config.cfg
+echo ""
+echo "Loading Configs"
+echo "================================="
+sleep 1
+echo "creating ${servicename}.cfg config file."
+cp -v lgsm-default.cfg ${servercfgfullpath}
+sleep 1
+echo "creating server.cfg."
+touch "${defaultcfg}"
+sleep 1
+echo "creating redirect."
+echo "server.cfg > ${servercfg}."
+echo "exec ${servercfg}" > "${defaultcfg}"
+sleep 1
+echo ""
+echo "Configuring ${gamename} Server"
+echo "================================="
+sleep 1
+read -p "Enter server name: " servername
+read -p "Enter rcon password: " rconpass
+sed -i "s/\"hostname\"/\"${servername}\"/g" ${servercfgfullpath}
+sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" ${servercfgfullpath}
