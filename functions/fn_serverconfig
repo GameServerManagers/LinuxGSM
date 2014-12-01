@@ -2,13 +2,18 @@
 # LGSM fn_serverconfig function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 291114
+# Version: 011214
 
-echo "Downloading lgsm-default.cfg"
+fn_arma3config(){
+echo ""
+echo "Loading Configs"
 echo "================================="
 sleep 1
-cd "${servercfgdir}"
-wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-config.cfg
+cp -v lgsm-default.cfg ${servercfgfullpath}
+sleep 1
+}
+
+fn_sourceconfig(){
 echo ""
 echo "Loading Configs"
 echo "================================="
@@ -36,3 +41,17 @@ else
 fi
 sed -i "s/\"hostname\"/\"${servername}\"/g" ${servercfgfullpath}
 sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" ${servercfgfullpath}
+}
+
+
+echo "Downloading lgsm-default.cfg"
+echo "================================="
+sleep 1
+cd "${servercfgdir}"
+if [ "${gamename}" == "ARMA 3" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/lgsm-config.cfg
+	fn_arma3config
+elif [ "${gamename}" == "Counter Strike: Source" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-config.cfg
+	fn_sourceconfig
+fi
