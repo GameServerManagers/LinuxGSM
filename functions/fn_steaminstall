@@ -1,0 +1,25 @@
+#!/bin/bash
+# LGSM fn_steaminstall function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+echo "Installing ${gamename} Server"
+echo "================================="
+sleep 1
+mkdir -pv "${filesdir}"
+cd "${rootdir}/steamcmd"
+STEAMEXE=steamcmd ./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} +quit
+if [ -z ${autoinstall} ]; then
+	echo ""
+	echo "================================="
+	while true; do
+		read -p "Was the install successful? [y/N]" yn
+		case $yn in
+		[Yy]* ) break;;
+		[Nn]* ) fn_retryinstall;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+fi
+echo ""

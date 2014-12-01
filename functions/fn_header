@@ -1,0 +1,14 @@
+#!/bin/bash
+# LGSM fn_header function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+clear
+echo "================================="
+echo "${gamename}"
+echo "Linux Game Server Manager"
+echo "by Daniel Gibbs"
+echo "http://danielgibbs.co.uk"
+echo "================================="
+echo ""
