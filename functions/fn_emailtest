@@ -1,0 +1,20 @@
+#!/bin/bash
+# LGSM fn_emailtest function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+fn_rootcheck
+fn_syscheck
+fn_scriptlog "Emailing test notification"
+if [ "${emailnotification}" = "on" ]; then
+	subject="${servicename} Email Test Notification - Testing ${servername}"
+	failurereason="Testing ${servicename} email notification"
+	actiontaken="Sent test email...hello is this thing on?"
+	fn_emailnotification
+else
+	fn_printfailnl "Email notification not enabled"
+	fn_scriptlog "Email notification not enabled"
+fi
+sleep 1
+echo -en "\n"

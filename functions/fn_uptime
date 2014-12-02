@@ -1,0 +1,11 @@
+#!/bin/bash
+# LGSM fn_uptime function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+uptime=$(</proc/uptime)
+uptime=${uptime%%.*}
+minutes=$(( uptime/60%60 ))
+hours=$(( uptime/60/60%24 ))
+days=$(( uptime/60/60/24 ))

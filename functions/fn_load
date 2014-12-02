@@ -1,0 +1,7 @@
+#!/bin/bash
+# LGSM fn_load function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+load=$(uptime|awk -F 'load average' '{ print $2 }')
