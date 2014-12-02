@@ -1,0 +1,10 @@
+#!/bin/bash
+# LGSM fn_rootcheck function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+if [ $(whoami) = "root" ]; then
+	fn_printfailnl "Script will not run as root!"
+	exit
+fi
