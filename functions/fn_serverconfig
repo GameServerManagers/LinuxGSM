@@ -56,6 +56,29 @@ sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 echo ""
 }
 
+fn_ut2k4config(){
+echo ""
+echo "Loading Configs"
+echo "================================="
+sleep 1
+cp -v "${defaultcfg}" "${systemdir}/${ini}"
+sleep 1
+echo ""
+echo "Configuring ${gamename} Server"
+echo "================================="
+sleep 1
+echo "Setting WebAdmin username and password"
+sed -i 's/AdminName=/AdminName=admin/g' "${systemdir}/${ini}"
+sed -i 's/AdminPassword=/AdminPassword=admin/g' "${systemdir}/${ini}"
+sleep 1
+echo "Enabling WebAdmin"
+sed -i 's/bEnabled=False/bEnabled=True/g' "${systemdir}/${ini}"
+sleep 1
+echo "Setting WebAdmin port to 8077"
+sed -i 's/ListenPort=80/ListenPort=8077/g' "${systemdir}/${ini}"
+echo ""
+}
+
 
 echo "Downloading lgsm-default.cfg"
 echo "================================="
@@ -70,4 +93,7 @@ elif [ "${gamename}" == "Just Cause 2" ]; then
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-default.cfg
 	fn_sourceconfig
+elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	echo "lgsm-default.cfg not required"
+	fn_ut2k4config
 fi
