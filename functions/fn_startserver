@@ -7,6 +7,10 @@
 fn_rootcheck
 fn_syscheck
 fn_autoip
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	startfix=1
+	fn_csgofix
+fi
 fn_parms
 fn_logmanager
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
