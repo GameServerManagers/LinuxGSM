@@ -34,11 +34,11 @@ touch "${systemdir}/listip.cfg"
 echo "creating banned.cfg."
 touch "${systemdir}/banned.cfg"
 sleep 1
-echo ""
-echo "Configuring ${gamename} Server"
-echo "================================="
-sleep 1
 if [ -z "${autoinstall}" ]; then
+	echo ""
+	echo "Configuring ${gamename} Server"
+	echo "================================="
+	sleep 1
 	read -p "Enter server name: " servername
 	read -p "Enter rcon password: " rconpass
 else
@@ -76,11 +76,11 @@ echo "creating redirect."
 echo "server.cfg > ${servercfg}."
 echo "exec ${servercfg}" > "${defaultcfg}"
 sleep 1
-echo ""
-echo "Configuring ${gamename} Server"
-echo "================================="
-sleep 1
 if [ -z "${autoinstall}" ]; then
+	echo ""
+	echo "Configuring ${gamename} Server"
+	echo "================================="
+	sleep 1
 	read -p "Enter server name: " servername
 	read -p "Enter rcon password: " rconpass
 else
@@ -129,13 +129,15 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 elif [ "${gamename}" == "Counter Strike 1.6" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrike/cfg/lgsm-default.cfg
 	fn_goldsourceconfig
+elif [ "${gamename}" == "Counter Strike:  Condition Zero" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/cfg/lgsm-default.cfg
+	fn_goldsourceconfig
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-default.cfg
 	fn_sourceconfig
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	echo "lgsm-default.cfg not required."
 	fn_jc2config
-
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	echo "lgsm-default.cfg not required."
 	fn_ut2k4config
