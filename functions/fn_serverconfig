@@ -132,6 +132,9 @@ elif [ "${gamename}" == "Counter Strike 1.6" ]; then
 elif [ "${gamename}" == "Counter Strike:  Condition Zero" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeConditionZero/cfg/lgsm-default.cfg
 	fn_goldsourceconfig
+elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg
+	fn_sourceconfig
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-default.cfg
 	fn_sourceconfig
