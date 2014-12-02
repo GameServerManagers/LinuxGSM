@@ -1,0 +1,43 @@
+#!/bin/bash
+# LGSM fn_console function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+fn_rootcheck
+fn_syscheck
+echo ""
+echo "${gamename} Console"
+echo "============================"
+echo ""
+echo "Press \"CTRL+b d\" to exit console"
+echo -e "\e[0;31mWARNING!\e[0;39m Do NOT press CTRL+c to exit"
+echo ""
+while true; do
+	read -p "Continue? [y/N]" yn
+	case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) echo Exiting; return 1;;
+	* ) echo "Please answer yes or no.";;
+esac
+done
+fn_printdots "Starting ${servicename} console"
+sleep 1
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
+if [ "${tmuxwc}" -eq 1 ]; then
+	fn_printoknl "Starting ${servicename} console"
+	fn_scriptlog "Console accessed"
+	sleep 1
+	tmux attach-session -t ${servicename}
+else
+	fn_printfailnl "Starting ${servicename} console: ${servername} not running"
+	sleep 1
+	while true; do
+		read -p "Do you want to start the server? [y/N]" yn
+		case $yn in
+		[Yy]* ) fn_startserver; break;;
+		[Nn]* ) break;;
+		* ) echo "Please answer yes or no.";;
+	esac
+	done
+fi

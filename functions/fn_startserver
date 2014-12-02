@@ -1,0 +1,52 @@
+#!/bin/bash
+# LGSM fn_startserver function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+fn_rootcheck
+fn_syscheck
+fn_autoip
+fn_parms
+fn_logmanager
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
+if [ "${tmuxwc}" -eq 0 ]; then
+	fn_scriptlog "Rotating log files"
+	if [ "${engine}" == "unreal2" ]; then
+		mv "${gamelog}" "${gamelogdate}"
+	fi
+	mv "${scriptlog}" "${scriptlogdate}"
+	mv "${consolelog}" "${consolelogdate}"
+fi
+fn_printdots "Starting ${servicename}: ${servername}"
+fn_scriptlog "Starting ${servername}"
+sleep 1
+if [ "${tmuxwc}" -eq 1 ]; then
+	fn_printinfo "Starting ${servicename}: ${servername} is already running"
+	fn_scriptlog "${servername} is already running"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
+# Create lock file
+date > "${rootdir}/${lockselfname}"
+cd "${executabledir}"
+tmux new-session -d -s ${servicename} "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
+sleep 1
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
+if [ "${tmuxwc}" -eq 0 ]; then
+	fn_printfailnl "Starting ${servicename}: Failed to start ${servername}"
+	echo -en "	Check log files: ${rootdir}/log"
+	fn_scriptlog "failed to start ${servername}"
+	if [ -a "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
+		fn_scriptlog "tmux returned the following error"
+		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" >> "${scriptlog}"
+	fi
+else
+	fn_printok "Starting ${servicename}: ${servername}"
+	fn_scriptlog "Started ${servername}"
+fi
+rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+sleep 1
+echo -en "\n"

@@ -9,7 +9,18 @@ echo ""
 echo "Loading Configs"
 echo "================================="
 sleep 1
-cp -v lgsm-default.cfg ${servercfgfullpath}
+cp -v lgsm-default.cfg "${servercfgfullpath}"
+sleep 1
+echo ""
+}
+
+fn_jc2config(){
+echo ""
+echo "Loading Configs"
+echo "================================="
+sleep 1
+cd "${filesdir}"
+cp -v default_config.lua config.lua
 sleep 1
 echo ""
 }
@@ -20,7 +31,7 @@ echo "Loading Configs"
 echo "================================="
 sleep 1
 echo "creating ${servicename}.cfg config file."
-cp -v lgsm-default.cfg ${servercfgfullpath}
+cp -v lgsm-default.cfg "${servercfgfullpath}"
 sleep 1
 echo "creating server.cfg."
 touch "${defaultcfg}"
@@ -33,15 +44,15 @@ echo ""
 echo "Configuring ${gamename} Server"
 echo "================================="
 sleep 1
-if [ -z ${autoinstall} ]; then
+if [ -z "${autoinstall}" ]; then
 	read -p "Enter server name: " servername
 	read -p "Enter rcon password: " rconpass
 else
 	servername="${servicename}"
 	rconpass="${rconpass}"
 fi
-sed -i "s/\"hostname\"/\"${servername}\"/g" ${servercfgfullpath}
-sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" ${servercfgfullpath}
+sed -i "s/\"hostname\"/\"${servername}\"/g" "${servercfgfullpath}"
+sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 echo ""
 }
 
@@ -53,6 +64,9 @@ cd "${servercfgdir}"
 if [ "${gamename}" == "ARMA 3" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/cfg/lgsm-default.cfg
 	fn_arma3config
+elif [ "${gamename}" == "Just Cause 2" ]; then
+	echo "lgsm-default.cfg not required"
+	fn_jc2config
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-default.cfg
 	fn_sourceconfig
