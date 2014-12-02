@@ -1,0 +1,22 @@
+#!/bin/bash
+# LGSM fn_validateserver function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+fn_rootcheck
+fn_syscheck
+fn_printwarn "Validating may overwrite some customised files."
+sleep 1
+echo -en "\n"
+echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
+sleep 5
+echo -en "\n"
+fn_printdots "Validating ${servicename}: ${servername}"
+sleep 1
+fn_printok "Validating ${servicename}: ${servername}"
+sleep 1
+fn_scriptlog "Validating ${servername}"
+cd "${rootdir}"
+cd "steamcmd"
+./steamcmd.sh +login ${steamuser} "${steampass}" +force_install_dir "${filesdir}" +app_update ${appid} validate +quit|tee -a "${scriptlog}"
