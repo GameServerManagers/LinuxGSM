@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 131114
+# Version: 011214
 
 fn_sourcedetails(){
 fn_autoip
@@ -47,7 +47,7 @@ echo ""
 fn_unrealdetails(){
 fn_autoip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g'||tr -d '\r')
+gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g'|tr -d '\r')
 queryport=$((${gameport} + 1))
 gsqueryport=$(grep OldQueryPortNumber= "${systemdir}/${ini}"|sed 's/\OldQueryPortNumber=//g')
 udplinkport=$((${gameport} + 2))
