@@ -28,7 +28,7 @@ echo "Ports the server is currently using."
 echo ""
 echo "DIRECTION DESCRIPTION             PORT"
 echo "INBOUND           Game/RCON port          ${port}"
-if [ ! -z ${sourcetvport} ]; then
+if [ ! -z "${sourcetvport}" ]; then
         echo "INBOUND           SourceTV port           ${sourcetvport}"
 fi
 echo "OUTBOUND  Client port             ${clientport}"
