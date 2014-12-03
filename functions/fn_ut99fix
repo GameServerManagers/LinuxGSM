@@ -21,3 +21,4 @@ sed -i '/master.mplayer.com/d' "${systemdir}/${ini}"
 sleep 1
 echo "inserting qtracker.com master server."
 sed -i '66i\ServerActors=IpServer.UdpServerUplink MasterServerAddress=master.qtracker.com MasterServerPort=27900' "${systemdir}/${ini}"
+echo ""
