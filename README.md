@@ -25,4 +25,4 @@ The scripts are written in BASH and Python and would probably work with other di
 <h2>Instructions</h2>
 Full documentation and instructions can be found here.
 
-<b><a href="http://danielgibbs.co.uk/scripts">http://danielgibbs.co.uk/scripts</a></b>
+<b><a href="http://danielgibbs.co.uk/scripts">http://danielgibbs.co.uk/lgsm</a></b>
