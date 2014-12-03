@@ -92,7 +92,26 @@ sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 echo ""
 }
 
-fn_ut2k4config(){
+fn_ut99config(){
+echo "Loading Configs"
+echo "================================="
+sleep 1
+echo "${defaultcfg} > ${systemdir}/${ini}"
+tr -d '\r' < "${defaultcfg}" > "${systemdir}/${ini}"
+sleep 1
+echo ""
+echo "Configuring ${gamename} Server"
+echo "================================="
+sleep 1
+echo "Enabling WebAdmin"
+sed -i 's/bEnabled=False/bEnabled=True/g' "${systemdir}/${ini}"
+sleep 1
+echo "Setting WebAdmin port to 8076"
+sed -i '467i\ListenPort=8076' "${systemdir}/${ini}"
+echo ""
+}
+
+fn_unreal2config(){
 echo ""
 echo "Loading Configs"
 echo "================================="
@@ -138,10 +157,55 @@ elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeSource/cfg/lgsm-default.cfg
 	fn_sourceconfig
+elif [ "${gamename}" == "Day of Defeat" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/DayOfDefeat/cfg/lgsm-default.cfg
+	fn_goldsourceconfig
+elif [ "${gamename}" == "Day of Defeat: Source" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/DayOfDefeatSource/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Fistful of Frags" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/FistfulOfFrags/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Garrys's Mod" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/GarrysMod/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Half Life 2: Deathmatch" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/HalfLife2Deathmatch/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Half Life: Deathmatch Classic" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/HalfLifeDeathmatchClassic/cfg/lgsm-default.cfg
+	fn_goldsourceconfig
+elif [ "${gamename}" == "Insurgency" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Insurgency/cfg/lgsm-default.cfg
+	fn_sourceconfig
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	echo "lgsm-default.cfg not required."
 	fn_jc2config
+elif [ "${gamename}" == "Killing Floor" ]; then
+	echo "lgsm-default.cfg not required."
+	fn_unreal2config
+elif [ "${gamename}" == "Left 4 Dead" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Left4Dead/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Left 4 Dead 2" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Left4Dead2/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "No More Room in Hell" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/NoMoreRoomInHell/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
+	echo "lgsm-default.cfg not required."
+	fn_unreal2config
+elif [ "${gamename}" == "Team Fortress 2" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/TeamFortress2/cfg/lgsm-default.cfg
+	fn_sourceconfig
+elif [ "${gamename}" == "Team Fortress Classic" ]; then
+	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/TeamFortressClassic/cfg/lgsm-default.cfg
+	fn_goldsourceconfig
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	echo "lgsm-default.cfg not required."
-	fn_ut2k4config
+	fn_unreal2config
+elif [ "${gamename}" == "Unreal Tournament 99" ]; then
+	echo "lgsm-default.cfg not required."
+	fn_ut99config
 fi
