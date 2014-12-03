@@ -103,11 +103,12 @@ echo ""
 echo "Configuring ${gamename} Server"
 echo "================================="
 sleep 1
-echo "Enabling WebAdmin"
+echo "enabling WebAdmin."
 sed -i 's/bEnabled=False/bEnabled=True/g' "${systemdir}/${ini}"
 sleep 1
-echo "Setting WebAdmin port to 8076"
+echo "setting WebAdmin port to 8076."
 sed -i '467i\ListenPort=8076' "${systemdir}/${ini}"
+sleep 1
 echo ""
 }
 
@@ -122,15 +123,18 @@ echo ""
 echo "Configuring ${gamename} Server"
 echo "================================="
 sleep 1
-echo "Setting WebAdmin username and password"
+echo "setting WebAdmin username and password."
 sed -i 's/AdminName=/AdminName=admin/g' "${systemdir}/${ini}"
 sed -i 's/AdminPassword=/AdminPassword=admin/g' "${systemdir}/${ini}"
 sleep 1
-echo "Enabling WebAdmin"
+echo "enabling WebAdmin"
 sed -i 's/bEnabled=False/bEnabled=True/g' "${systemdir}/${ini}"
+elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 sleep 1
-echo "Setting WebAdmin port to 8077"
-sed -i 's/ListenPort=80/ListenPort=8077/g' "${systemdir}/${ini}"
+echo "setting WebAdmin port to 8075."
+	sed -i 's/ListenPort=80/ListenPort=8075/g' "${systemdir}/${ini}"
+fi
+sleep 1
 echo ""
 }
 
