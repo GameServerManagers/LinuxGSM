@@ -2,7 +2,7 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 231114
+# Version: 011214
 
 fn_glibcfixmsg(){
 echo "GLIBC Fix required"
@@ -38,30 +38,13 @@ if [ -z $(command -v ldd) ]; then
 			 * ) echo "Please answer yes or no.";;
 		esac
 	done
-elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 213 ]; then
-	glibcversion="2.13"
-	fn_glibcfixmsg
-	# ARMA 3
-	if [ "${gamename}" == "ARMA 3" ]; then
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-	# Just Cause 2
-	elif [ "${gamename}" == "Just Cause 2" ]; then
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-	else
-		echo "error: Unable to detect game. Fix not applied"
-	fi
-	sleep 1
-	echo ""	
-	echo "GLIBC fix has been applied!"
-	sleep 1
-	echo ""		
 elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
 	glibcversion="2.15"
 	fn_glibcfixmsg
 	# Blade Symphony
 	if [ "${gamename}" == "Blade Symphony" ]; then
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-	# Fistful of Frags	
+	# Fistful of Frags
 	elif [ "${gamename}" == "Fistful of Frags" ]; then
 		cd "${filesdir}"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
@@ -87,12 +70,29 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		cd "${filesdir}"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
-		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"	
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+	elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 213 ]; then
+		glibcversion="2.13"
+		fn_glibcfixmsg
+		# ARMA 3
+		if [ "${gamename}" == "ARMA 3" ]; then
+			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		# Just Cause 2
+		elif [ "${gamename}" == "Just Cause 2" ]; then
+			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		else
+			echo "error: Unable to detect game. Fix not applied"
+		fi
+		sleep 1
+		echo ""
+		echo "GLIBC fix has been applied!"
+		sleep 1
+		echo ""
 	else
 		echo "error: Unable to detect game. Fix not applied"
 	fi
 	sleep 1
-	echo ""	
+	echo ""
 	echo "GLIBC fix has been applied!"
 	sleep 1
 	echo ""
