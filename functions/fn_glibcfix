@@ -23,6 +23,7 @@ echo "loading required files..."
 sleep 1
 }
 
+# if ldd command not detected
 if [ -z $(command -v ldd) ]; then
 	echo ""
 	echo -e "\r\033[K\e[0;31mFAIL\e[0;39m GLIBC is not detected."
@@ -38,18 +39,23 @@ if [ -z $(command -v ldd) ]; then
 			 * ) echo "Please answer yes or no.";;
 		esac
 	done
+# if Glibc less than 1.15
 elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
-	glibcversion="2.15"
-	fn_glibcfixmsg
 	# Blade Symphony
 	if [ "${gamename}" == "Blade Symphony" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# Fistful of Frags
 	elif [ "${gamename}" == "Fistful of Frags" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
 		cd "${filesdir}"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
 	# Garrys's Mod
 	elif [ "${gamename}" == "Garrys's Mod" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
 		cd "${filesdir}/bin"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
@@ -57,43 +63,44 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# Insurgency
 	elif [ "${gamename}" == "Insurgency" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
 		cd "${filesdir}/bin"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
 	# Natural Selection 2
 	elif [ "${gamename}" == "Natural Selection 2" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
 		cd "${filesdir}"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# No More Room in Hell
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
 		cd "${filesdir}"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+	# if Glibc less than 1.13
 	elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 213 ]; then
-		glibcversion="2.13"
-		fn_glibcfixmsg
 		# ARMA 3
 		if [ "${gamename}" == "ARMA 3" ]; then
+			glibcversion="2.13"
+			fn_glibcfixmsg
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 		# Just Cause 2
 		elif [ "${gamename}" == "Just Cause 2" ]; then
+			glibcversion="2.13"
+			fn_glibcfixmsg
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 		else
 			echo "error: Unable to detect game. Fix not applied"
 		fi
-		sleep 1
-		echo ""
-		echo "GLIBC fix has been applied!"
-		sleep 1
-		echo ""
 	else
 		echo "error: Unable to detect game. Fix not applied"
 	fi
-	sleep 1
-	echo ""
-	echo "GLIBC fix has been applied!"
-	sleep 1
-	echo ""
 fi
+sleep 1
+echo ""
