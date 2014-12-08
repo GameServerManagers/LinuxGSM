@@ -2,13 +2,19 @@
 # LGSM fn_autoip function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 081214
 
 # Identifies the server interface IP
 # If multiple interfaces this will need to be set manually
 
-getip=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
-getipwc=$(ip -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -vc 127.0.0)
+if [ ! -f /bin/ip ]; then
+	ipcommand="/sbin/ip"
+else
+	ipcommand="ip"
+fi
+getip=$(${ipcommand} -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+getipwc=$(${ipcommand} -o -4 addr|awk '{print $4 }'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -vc 127.0.0)
+
 if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 	if [ "${getipwc}" -ge "2" ]; then
 		fn_printwarn "Multiple active network interfaces.\n\n"
