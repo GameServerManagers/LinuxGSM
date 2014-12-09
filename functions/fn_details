@@ -173,10 +173,10 @@ echo ""
 
 fn_arma3details(){
 fn_autoip
-servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
-serverport=$(grep -s serverport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
-queryport=$(grep -s steamqueryport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
-masterport=$(grep -s steamport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
+servername=$(grep -s hostname "${servercfgfullpath}"|grep -v //|sed -e 's/\<hostname\>//g'|tr -d '=\"; ')
+serverport=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
+queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
+masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo ""
 echo "${gamename} Server Details"
