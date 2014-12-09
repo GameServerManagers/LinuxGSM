@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 081214
 
 #### Variables ####
 
@@ -47,11 +47,8 @@ servercfg="${servicename}.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="backups"
 
-# Server Details
-servername=$(grep -s hostname "${servercfgfullpath}"|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
-serverport=$(sed -n -e '10 p' ${servercfgfullpath} 2>/dev/null| sed 's/[\/\; ]//g' | tr -cd [:digit:])
-queryport=$(sed -n -e '14 p' ${servercfgfullpath} 2>/dev/null| sed 's/[\/\; ]//g' | tr -cd [:digit:])
-masterport=$(sed -n -e '12 p' ${servercfgfullpath} 2>/dev/null| sed 's/[\/\; ]//g' | tr -cd [:digit:])
+# Server Details Cont.
+servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
 
 # Logging
 logdays="7"
