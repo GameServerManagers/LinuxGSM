@@ -3,7 +3,7 @@
 # Game Server Query
 # Author: Anonymous & Daniel Gibbs
 # # Website: http://danielgibbs.co.uk
-# Version: 031014
+# Version: 091214
 
 import optparse
 import socket
@@ -99,8 +99,8 @@ if __name__ == '__main__':
 		action = 'store',
 		dest = 'engine',
 		default = False,
-		help = 'Engine type. source, goldsource, unreal, unreal2, spark'
-	)	
+		help = 'Engine type. avalanche, goldsource, realvirtuality, spark, source, unreal, unreal2,'
+	)
 	parser.add_option(
 		'-v', '--verbose',
 		action = 'store_true',
