@@ -13,6 +13,7 @@ if [ -f gsquery.py ]; then
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
 	elif [ "${engine}" == "realvirtuality" ]; then
+		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
 		port=${queryport}
 	fi
 	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"

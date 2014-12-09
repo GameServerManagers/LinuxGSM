@@ -173,6 +173,10 @@ echo ""
 
 fn_arma3details(){
 fn_autoip
+servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
+serverport=$(grep -s serverport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
+queryport=$(grep -s steamqueryport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
+masterport=$(grep -s steamport= "${servercfgfullpath}"| grep -v //|tr -cd [:digit:])
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo ""
 echo "${gamename} Server Details"
@@ -187,6 +191,10 @@ echo "Server Ports"
 echo "============================"
 echo "Ports the server is currently using."
 echo ""
+if [ -z ${serverport} ] || [ -z ${queryport} ] || [ -z ${masterport} ] ; then
+	echo -e "\e[0;31mERROR!\e[0;39m Missing/commented ports in ${servercfg}."
+	echo ""
+fi
 echo "PROTOCOL DESCRIPTION               PORT"
 echo "UDP      Game port                 ${serverport}"
 echo "UDP      STEAM query port          ${queryport}"
