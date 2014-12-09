@@ -99,7 +99,7 @@ if __name__ == '__main__':
 		action = 'store',
 		dest = 'engine',
 		default = False,
-		help = 'Engine type. avalanche, goldsource, realvirtuality, spark, source, unreal, unreal2,'
+		help = 'Engine type: avalanche, goldsource, realvirtuality, spark, source, unreal, unreal2.'
 	)
 	parser.add_option(
 		'-v', '--verbose',
