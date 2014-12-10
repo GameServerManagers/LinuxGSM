@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 081214
+# Version: 101214
 
 fn_sourcedetails(){
 fn_autoip
@@ -47,11 +47,11 @@ echo ""
 fn_unrealdetails(){
 fn_autoip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g'|tr -d '\r')
+gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
 queryport=$((${gameport} + 1))
-gsqueryport=$(grep OldQueryPortNumber= "${systemdir}/${ini}"|sed 's/\OldQueryPortNumber=//g')
+gsqueryport=$(grep OldQueryPortNumber= "${systemdir}/${ini}"|tr -d '\r'|tr -cd [:digit:])
 udplinkport=$((${gameport} + 2))
-webadminport=$(grep ListenPort= "${systemdir}/${ini}"|sed 's/\ListenPort=//g')
+webadminport=$(grep ListenPort= "${systemdir}/${ini}"|tr -d '\r'|tr -cd [:digit:])
 if [ "${engine}" == "unreal" ]; then
 	webadminuser=$(grep AdminUsername= "${systemdir}/${ini}"|sed 's/\AdminUsername=//g')
 else
@@ -174,9 +174,9 @@ echo ""
 fn_arma3details(){
 fn_autoip
 servername=$(grep -s hostname "${servercfgfullpath}"|grep -v //|sed -e 's/\<hostname\>//g'|tr -d '=\"; ')
-serverport=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
-queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
-masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
+serverport=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo ""
 echo "${gamename} Server Details"

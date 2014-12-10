@@ -2,18 +2,18 @@
 # LGSM fn_serverquery function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 081214
+# Version: 101214
 
 # uses gsquery.py to directly query the server
 # detects if the server locks up
 if [ -f gsquery.py ]; then
 	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-		gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|sed 's/\Port=//g'|tr -d '\r')
+		gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
 		port=$((${gameport} + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
 	elif [ "${engine}" == "realvirtuality" ]; then
-		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -cd [:digit:])
+		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 		port=${queryport}
 	fi
 	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
