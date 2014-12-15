@@ -22,7 +22,11 @@ echo "================================="
 sleep 1
 mkdir -pv "${HOME}/.steam"
 mkdir -pv "${HOME}/.steam/sdk32"
-cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+if [ "${gamename}" == "Garrys's Mod" ];then
+	cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+elif [ "${gamename}" == "Serious Sam 3: BFE" ];then
+	cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+fi
 sleep 1
 echo ""
 }
