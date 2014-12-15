@@ -2,7 +2,7 @@
 # LGSM fn_serverconfig function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 151214
 
 fn_arma3config(){
 echo ""
@@ -66,8 +66,7 @@ echo ""
 echo "Loading Configs"
 echo "================================="
 sleep 1
-cd "${filesdir}"
-cp -v default_config.ini ${servercfg}
+cp -v lgsm-default.ini ${servercfg}
 sleep 1
 echo ""
 }
