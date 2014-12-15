@@ -61,6 +61,17 @@ sleep 1
 echo ""
 }
 
+fn_serious3config(){
+echo ""
+echo "Loading Configs"
+echo "================================="
+sleep 1
+cd "${filesdir}"
+cp -v default_config.ini ${servercfg}
+sleep 1
+echo ""
+}
+
 fn_sourceconfig(){
 echo ""
 echo "Loading Configs"
@@ -200,6 +211,9 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 	echo "lgsm-default.cfg not required."
 	fn_unreal2config
+elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
+	wget --no-check-certificate -nv -N https://github.com/dgibbs64/linuxgameservers/blob/master/SeriousSam3BFE/cfg/lgsm-default.ini
+	fn_serious3config
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/TeamFortress2/cfg/lgsm-default.cfg
 	fn_sourceconfig
