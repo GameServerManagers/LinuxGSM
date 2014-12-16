@@ -2,7 +2,111 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 101214
+# Version: 161214
+
+fn_avalanchedetails(){
+fn_autoip
+servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${port}"
+echo "Config file: ${servercfgfullpath}"
+echo ""
+echo "Server Ports"
+echo "============================"
+echo "Ports the server is currently using."
+echo ""
+echo "DIRECTION   DESCRIPTION   PORT"
+echo "INBOUND     Game port     ${port}"
+echo ""
+echo "You can change ports by editing the"
+echo "start parameters in ${selfname}."
+echo ""
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
+echo ""
+}
+
+fn_realvirtualitydetails(){
+fn_autoip
+servername=$(grep -s hostname "${servercfgfullpath}"|grep -v //|sed -e 's/\<hostname\>//g'|tr -d '=\"; ')
+serverport=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${serverport}"
+echo "Config file: ${servercfgfullpath}"
+echo ""
+echo "Admin Password: ${adminpass}"
+echo ""
+echo "Server Ports"
+echo "============================"
+echo "Ports the server is currently using."
+echo ""
+if [ -z ${serverport} ] || [ -z ${queryport} ] || [ -z ${masterport} ] ; then
+	echo -e "\e[0;31mERROR!\e[0;39m Missing/commented ports in ${servercfg}."
+	echo ""
+fi
+echo "PROTOCOL DESCRIPTION               PORT"
+echo "UDP      Game port                 ${serverport}"
+echo "UDP      STEAM query port          ${queryport}"
+echo "UDP      STEAM master traffic port ${masterport}"
+echo ""
+echo "You can change ports by editing the"
+echo "parameters in ${servercfgfullpath}"
+echo ""
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
+echo ""
+}
+
+fn_seriousengine35details(){
+fn_autoip
+fn_parms
+servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
+rcon=$(grep -s rcts_strAdminPassword "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
+gameport=$(grep -s prj_uwPort "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+queryport=$((${gameport} + 1))
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${port}"
+echo "RCON password: ${rcon}"
+echo "Config file: ${servercfgfullpath}"
+echo ""
+echo "Server Ports"
+echo "============================"
+echo "Ports the server is currently using."
+echo ""
+echo "DIRECTION	DESCRIPTION		PORT"
+echo "INBOUND		Game/RCON port		${port}"
+echo "INBOUND		Query port		${queryport}"
+echo ""
+echo "You can change ports by editing the"
+echo "parameters in ${servercfgfullpath}"
+echo ""
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
+echo ""
+}
 
 fn_sourcedetails(){
 fn_autoip
@@ -44,6 +148,42 @@ fi
 echo ""
 }
 
+fn_sparkdetails(){
+fn_autoip
+queryport=$((${port} + 1))
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo ""
+echo "${gamename} Server Details"
+echo "============================"
+echo "Server name: ${servername}"
+echo "Server IP: ${ip}:${port}"
+echo ""
+echo "Server Ports"
+echo "============================"
+echo "Ports the server is currently using."
+echo ""
+echo "DIRECTION	DESCRIPTION		PORT"
+echo "INBOUND		Game/RCON port		${port}"
+echo "INBOUND		Query port		${queryport}"
+echo "INBOUND		WebAdmin 		${webadminport}"
+echo ""
+echo "${servername} WebAdmin"
+echo "======================="
+echo "WebAdmin URL: http://${ip}:${webadminport}/index.html"
+echo "WebAdmin Username: ${webadminuser}"
+echo "WebAdmin Password: ${webadminpass}"
+echo ""
+echo "You can change various parameters by editing the"
+echo "start parameters in ${selfname}."
+echo ""
+if [ "${pid}" == "0" ]; then
+	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
+else
+	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+fi
+echo ""
+}
+
 fn_unrealdetails(){
 fn_autoip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
@@ -70,24 +210,24 @@ echo "============================"
 echo "Ports the server is currently using."
 echo ""
 echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
-echo "INBOUND		Game Port		${gameport} UDP	Port=${gameport}"
-echo "INBOUND		Query Port		${queryport} UDP	n/a"
+echo "INBOUND		Game port		${gameport} UDP	Port=${gameport}"
+echo "INBOUND		Query port		${queryport} UDP	n/a"
 if [ "${engine}" == "unreal" ]; then
 	echo "OUTBOUND	UdpLink Port (random)	${udplinkport}+ UDP	n/a"
 fi
 if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
-	echo "INBOUND		GameSpy Query Port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
+	echo "INBOUND		GameSpy query port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
 fi
 if [ "${appid}" == "215360" ]; then
-	echo "OUTBOUND	Master Server port 	28852 TCP/UDP	n/a"
+	echo "OUTBOUND	Master server port 	28852 TCP/UDP	n/a"
 else
-	echo "OUTBOUND	Master Server port	28900/28902 TCP/UDP  n/a"
+	echo "OUTBOUND	Master server port	28900/28902 TCP/UDP  n/a"
 fi
 if [ "${appid}" ]; then
 	if [ "${appid}" == "223250" ]; then
-		echo "OUTBOUND	Steam Port		20610 UDP	n/a"
+		echo "OUTBOUND	Steam port		20610 UDP	n/a"
 	else
-		echo "OUTBOUND	Steam Port		20660 UDP	n/a"
+		echo "OUTBOUND	Steam port		20660 UDP	n/a"
 	fi
 fi
 echo "INBOUND		WebAdmin 		${webadminport} TCP	ListenPort=${webadminport}"
@@ -106,121 +246,18 @@ fi
 echo ""
 }
 
-fn_ns2details(){
-fn_autoip
-queryport=$((${port} + 1))
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game/RCON port		${port}"
-echo "INBOUND		Query Port		${queryport}"
-echo "INBOUND		WebAdmin 		${webadminport}"
-echo ""
-echo "${servername} WebAdmin"
-echo "======================="
-echo "WebAdmin URL: http://${ip}:${webadminport}/index.html"
-echo "WebAdmin Username: ${webadminuser}"
-echo "WebAdmin Password: ${webadminpass}"
-echo ""
-echo "You can change various parameters by editing the"
-echo "start parameters in ${selfname}."
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
-}
-
-fn_jc2details(){
-fn_autoip
-servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION   DESCRIPTION   PORT"
-echo "INBOUND     Game port     ${port}"
-echo ""
-echo "You can change ports by editing the"
-echo "start parameters in ${selfname}."
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
-}
-
-fn_arma3details(){
-fn_autoip
-servername=$(grep -s hostname "${servercfgfullpath}"|grep -v //|sed -e 's/\<hostname\>//g'|tr -d '=\"; ')
-serverport=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${serverport}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Admin Password: ${adminpass}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-if [ -z ${serverport} ] || [ -z ${queryport} ] || [ -z ${masterport} ] ; then
-	echo -e "\e[0;31mERROR!\e[0;39m Missing/commented ports in ${servercfg}."
-	echo ""
-fi
-echo "PROTOCOL DESCRIPTION               PORT"
-echo "UDP      Game port                 ${serverport}"
-echo "UDP      STEAM query port          ${queryport}"
-echo "UDP      STEAM master traffic port ${masterport}"
-echo ""
-echo "You can change ports by editing the"
-echo "parameters in ${servercfgfullpath}"
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
-}
-
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+if [ "${engine}" == "avalanche" ]; then
+	fn_avalanchedetails
+elif [ "${engine}" == "realvirtuality" ]; then
+	fn_realvirtualitydetails
+elif [ "${engine}" == "seriousengine35" ]; then
+	fn_seriousengine35details
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_sourcedetails
+elif [ "${engine}" == "spark" ]; then
+	fn_sparkdetails
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_unrealdetails
-elif [ "${engine}" == "spark" ]; then
-	fn_ns2details
-elif [ "${engine}" == "avalanche" ]; then
-	fn_jc2details
-elif [ "${engine}" == "realvirtuality" ]; then
-	fn_arma3details
 else
 	echo "error: Unable to detect server engine!"
 fi
