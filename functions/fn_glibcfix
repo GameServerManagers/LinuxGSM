@@ -2,7 +2,7 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 171214
 
 fn_glibcfixmsg(){
 echo "GLIBC Fix required"
@@ -95,6 +95,11 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 			glibcversion="2.13"
 			fn_glibcfixmsg
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+		# Serious Sam 3: BFE
+		elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
+			glibcversion="2.13"
+			fn_glibcfixmsg
+			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/Bin/libstdc++.so.6"
 		else
 			echo "error: Unable to detect game. Fix not applied"
 		fi
