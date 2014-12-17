@@ -14,7 +14,7 @@ email="email@example.com"
 
 # Steam login
 steamuser="username"
-steampass="passwprd"
+steampass="password"
 
 # Start Variables
 ip="0.0.0.0"
@@ -238,6 +238,11 @@ source "${rootdir}/functions/${functionfile}"
 ## Installer
 #
 
+fn_glibcfix(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_header(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -293,6 +298,7 @@ fi
 fn_steamdl
 fn_steaminstall
 fn_steamfix
+fn_glibcfix
 fn_loginstall
 fn_serverconfig
 fn_header
