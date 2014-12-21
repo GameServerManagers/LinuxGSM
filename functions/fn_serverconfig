@@ -2,7 +2,7 @@
 # LGSM fn_serverconfig function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 151214
+# Version: 211214
 
 fn_arma3config(){
 echo ""
@@ -122,6 +122,15 @@ sleep 1
 echo ""
 }
 
+fn_unity3dconfig(){
+echo ""
+echo "Loading Configs"
+echo "================================="
+sleep 1
+cp -v serverconfig.xml ${servercfg}
+sleep 1
+}
+
 fn_unreal2config(){
 echo ""
 echo "Loading Configs"
@@ -148,12 +157,16 @@ sleep 1
 echo ""
 }
 
-
+echo ""
 echo "Downloading lgsm-default.cfg"
 echo "================================="
 sleep 1
 cd "${servercfgdir}"
-if [ "${gamename}" == "ARMA 3" ]; then
+
+
+if [ "${gamename}" == "7 Days To Die" ]; then
+	fn_unity3dconfig
+elif [ "${gamename}" == "ARMA 3" ]; then
 	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/Arma3/cfg/lgsm-default.cfg
 	fn_arma3config
 elif [ "${gamename}" == "Blade Symphony" ]; then
