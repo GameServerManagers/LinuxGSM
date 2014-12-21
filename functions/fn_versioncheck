@@ -19,13 +19,13 @@ if [ -z "${availableversion}" ]; then
 elif [ "${installedversion}" -ne "${availableversion}" ]; then
 	fn_printok "Checking ${servicename}: Checking for updates via steamdb.info"
 	sleep 1
-	echo -e ""
+	echo -e "\n"
 	echo -e "Update available:"
 	sleep 1
 	echo -e "	Installed version: \e[0;31m${installedversion}\e[0;39m"
 	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
 	echo -e ""
-	echo -e "	https://steamdb.info/app/261140/"
+	echo -e "	https://steamdb.info/app/${appid}/"
 	sleep 1
 	echo ""
 	echo -ne "Applying update.\r"
@@ -35,8 +35,13 @@ elif [ "${installedversion}" -ne "${availableversion}" ]; then
 	echo -ne "Applying update...\r"
 	sleep 1
 	echo -ne "\n"
-	fn_stopserver
-	fn_updateserver
+	if [ ! -z "${norestart}" ]; then
+		fn_updateserver
+	else
+		fn_stopserver
+		fn_updateserver
+		fn_startserver
+	fi
 else
 	fn_printok "Checking ${servicename}: Checking for updates via steamdb.info"
 	sleep 1
@@ -44,7 +49,7 @@ else
 	echo -e "No update available:"
 	echo -e "	Installed version: \e[0;32m${installedversion}\e[0;39m"
 	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
-	echo -e "	https://steamdb.info/app/261140/"
+	echo -e "	https://steamdb.info/app/${appid}/"
 	echo -e ""
 fi
 }
@@ -58,8 +63,13 @@ if [ "${requestrestart}" -ge "1" ]; then
 	fn_printok "Checking ${servicename}: Checking logs for update requests"
 	sleep 1
 	fn_printoknl "Checking ${servicename}: Server requesting update"
-	fn_stopserver
-	fn_updateserver
+	if [ ! -z "${norestart}" ]; then
+		fn_updateserver
+	else
+		fn_stopserver
+		fn_updateserver
+		fn_startserver
+	fi
 else
 	fn_printok "Checking ${servicename}: Checking logs for update requests"
 	sleep 1
