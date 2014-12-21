@@ -26,4 +26,7 @@ fi
 if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
 	mkdir -pv ${gamelogdir}
 fi
+if [ "${engine}" == "unity3d" ]; then
+	ln -sv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
+fi
 sleep 1
