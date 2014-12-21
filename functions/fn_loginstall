@@ -2,8 +2,9 @@
 # LGSM fn_loginstall function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 241114
+# Version: 211214
 
+echo ""
 echo "Creating log directorys"
 echo "================================="
 sleep 1
@@ -21,9 +22,8 @@ if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 		echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
 	fi
 fi
-# If a server is unreal2 create a dir
-if [ "${engine}" == "unreal2" ]; then
-	mkdir -pv ${gamelogdir}	
-fi	
+# If a server is unreal2 or unity3d create a dir
+if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
+	mkdir -pv ${gamelogdir}
+fi
 sleep 1
-echo ""
