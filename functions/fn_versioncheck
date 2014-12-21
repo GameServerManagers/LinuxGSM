@@ -1,0 +1,124 @@
+#!/bin/bash
+# LGSM fn_versioncheck function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 191214
+
+
+fn_steamdbcheck(){
+# Checks for server update from SteamDB.info API.
+fn_printdots "Checking ${servicename}: Checking for updates via steamdb.info"
+installedversion=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+availableversion=$(wget -qO- "http://steamdb.info/api/GetRawDepots/?appid=${appid}" | sed 's/\\n/\n/g' | grep -EA 1000 "^\s+\[branches\]" | grep -EA 5 "^\s+\[public\]" | grep -m 1 -EB 10 "^\s+\)$" | grep -E "^\s+\[buildid\]\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f4)
+sleep 1
+if [ -z "${availableversion}" ]; then
+	fn_printfail "Checking ${servicename}: steamdb.info not returning version info"
+	sleep 1
+	echo ""
+	fn_logupdaterequest
+elif [ "${installedversion}" -ne "${availableversion}" ]; then
+	fn_printok "Checking ${servicename}: Checking for updates via steamdb.info"
+	sleep 1
+	echo -e ""
+	echo -e "Update available:"
+	sleep 1
+	echo -e "	Installed version: \e[0;31m${installedversion}\e[0;39m"
+	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
+	echo -e ""
+	echo -e "	https://steamdb.info/app/261140/"
+	sleep 1
+	echo ""
+	echo -ne "Applying update.\r"
+	sleep 1
+	echo -ne "Applying update..\r"
+	sleep 1
+	echo -ne "Applying update...\r"
+	sleep 1
+	echo -ne "\n"
+	fn_stopserver
+	fn_updateserver
+else
+	fn_printok "Checking ${servicename}: Checking for updates via steamdb.info"
+	sleep 1
+	echo -e "\n"
+	echo -e "No update available:"
+	echo -e "	Installed version: \e[0;32m${installedversion}\e[0;39m"
+	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
+	echo -e "	https://steamdb.info/app/261140/"
+	echo -e ""
+fi
+}
+
+fn_logupdaterequest(){
+# Checks for server update from server logs.
+fn_printdots "Checking ${servicename}: Checking logs for update requests"
+sleep 1
+requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
+if [ "${requestrestart}" -ge "1" ]; then
+	fn_printok "Checking ${servicename}: Checking logs for update requests"
+	sleep 1
+	fn_printoknl "Checking ${servicename}: Server requesting update"
+	fn_stopserver
+	fn_updateserver
+else
+	fn_printok "Checking ${servicename}: Checking logs for update requests"
+	sleep 1
+	fn_printok "Checking ${servicename}: No update request detected"
+	sleep 1
+	echo ""
+fi
+}
+
+
+
+fn_appmanifestinfo(){
+	appmanifestfile=$(find "${filesdir}" -type f -name "appmanifest_${appid}.acf")
+	appmanifestfilewc=$(find "${filesdir}" -type f -name "appmanifest_${appid}.acf"|wc -l)
+}
+
+fn_appmanifestcheck(){
+fn_appmanifestinfo
+# Multiple matching appmanifest files may sometimes be present.
+# This is an error is corrected below if required.
+if [ "${appmanifestfilewc}" -ge "2" ]; then
+	sleep 1
+	fn_printwarn "Checking ${servicename}: Multiple appmanifest_${appid}.acf files found"
+	sleep 2
+	fn_printdots "Checking ${servicename}: Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
+	sleep 1
+	for appfile in ${appmanifestfile}; do
+		rm "${appfile}"
+	done
+	appmanifestfilewc1="${appmanifestfilewc}"
+	fn_appmanifestinfo
+	if [ "${appmanifestfilewc}" -ge "2" ]; then
+		fn_printfail "Checking ${servicename}: Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
+		sleep 1
+		echo ""
+		echo "	Check user permissions"
+		for appfile in ${appmanifestfile}; do
+			echo "	${appfile}"
+		done
+		exit
+	else
+		sleep 1
+		fn_printok "Checking ${servicename}: Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
+		sleep 1
+		fn_printinfonl "Checking ${servicename}: Forcing update to correct issue"
+		sleep 1
+		fn_updateserver
+		fn_versioncheck
+	fi
+elif [ "${appmanifestfilewc}" -eq "0" ]; then
+	fn_printwarn "Checking ${servicename}: No appmanifest_${appid}.acf found"
+	sleep 2
+	fn_printinfonl "Checking ${servicename}: Forcing update to correct issue"
+	sleep 1
+	fn_updateserver
+	fn_logupdaterequest
+fi
+}
+
+fn_printdots "Checking ${servicename}: Checking for updates"
+fn_appmanifestcheck
+fn_steamdbcheck
