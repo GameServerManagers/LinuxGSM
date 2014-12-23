@@ -2,7 +2,7 @@
 # LGSM fn_serverquery function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 101214
+# Version: 231214
 
 # uses gsquery.py to directly query the server
 # detects if the server locks up
@@ -15,20 +15,23 @@ if [ -f gsquery.py ]; then
 	elif [ "${engine}" == "realvirtuality" ]; then
 		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 		port=${queryport}
+	elif [ "${engine}" == "unity3d" ]; then
+		gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+		port=$((${gameport} + 1))
 	fi
 	fn_printinfo "Monitoring ${servicename}: Detected gsquery.py"
 	fn_scriptlog "Detected gsquery.py"
 	sleep 1
-	fn_printdots "Monitoring ${servicename}: Querying port: ${ip}:${port}: QUERYING"
-	fn_scriptlog "Querying port: ${ip}:${port}: QUERYING"
+	fn_printdots "Monitoring ${servicename}: Querying port: ${ip}:${port} : QUERYING"
+	fn_scriptlog "Querying port: ${ip}:${port} : QUERYING"
 	sleep 1
 	serverquery=$(./gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
-		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ${serverquery}"
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port} : ${serverquery}"
 		sleep 1
 		echo -en "\n"
-		fn_scriptlog "Querying port: ${ip}:${port}: ${serverquery}"
+		fn_scriptlog "Querying port: ${ip}:${port} : ${serverquery}"
 		if [[ -z "${secondquery}" ]]; then
 			fn_printinfo "Monitoring ${servicename}: Waiting 30 seconds to re-query"
 			fn_scriptlog "Waiting 30 seconds to re-query"
@@ -45,14 +48,14 @@ if [ -f gsquery.py ]; then
 		fn_restartserver
 		exit
 	elif [ "${exitcode}" == "0" ]; then
-		fn_printok "Monitoring ${servicename}: Querying port: ${ip}:${port}: OK"
-		fn_scriptlog "Querying port: ${ip}:${port}: OK"
+		fn_printok "Monitoring ${servicename}: Querying port: ${ip}:${port} : OK"
+		fn_scriptlog "Querying port: ${ip}:${port} : OK"
 		sleep 1
 		echo -en "\n"
 		exit
 	elif [ "${exitcode}" == "126" ]; then
-		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: ERROR: ./gsquery.py: Permission denied"
-		fn_scriptlog "Querying port: ${ip}:${port}: ./gsquery.py: Permission denied"
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port} : ERROR: ./gsquery.py: Permission denied"
+		fn_scriptlog "Querying port: ${ip}:${port} : ./gsquery.py: Permission denied"
 		sleep 1
 		echo -en "\n"
 		echo "Attempting to resolve automatically"
@@ -69,8 +72,8 @@ if [ -f gsquery.py ]; then
 		exit
 		fi
 	else
-		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port}: UNKNOWN ERROR"
-		fn_scriptlog "Querying port: ${ip}:${port}: UNKNOWN ERROR"
+		fn_printfail "Monitoring ${servicename}: Querying port: ${ip}:${port} : UNKNOWN ERROR"
+		fn_scriptlog "Querying port: ${ip}:${port} : UNKNOWN ERROR"
 		sleep 1
 		echo -en "\n"
 		./gsquery.py -a ${ip} -p ${port} -e ${engine}

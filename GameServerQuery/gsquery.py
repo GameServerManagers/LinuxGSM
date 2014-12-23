@@ -3,7 +3,7 @@
 # Game Server Query
 # Author: Anonymous & Daniel Gibbs
 # # Website: http://danielgibbs.co.uk
-# Version: 091214
+# Version: 231214
 
 import optparse
 import socket
@@ -24,6 +24,8 @@ class GameServer:
 		if self.option.engine == 'spark':
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		if self.option.engine == 'realvirtuality':
+			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
+		if self.option.engine == 'unity3d':
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'unreal':
 			self.query_prompt_string = '\x5C\x69\x6E\x66\x6F\x5C'
