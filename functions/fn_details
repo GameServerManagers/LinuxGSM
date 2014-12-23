@@ -190,6 +190,7 @@ pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
 gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
 queryport=$((${gameport} + 1))
+webadminenabled=$(grep ControlPanelEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
 webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
 telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
 webadminuser=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
@@ -197,7 +198,7 @@ echo ""
 echo "${gamename} Server Details"
 echo "============================"
 echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
+echo "Server IP: ${ip}:${gameport}"
 echo "Config file: ${servercfgfullpath}"
 echo ""
 echo "Server Ports"
@@ -212,6 +213,7 @@ echo "INBOUND		Telnet 			${telnetport}"
 echo ""
 echo "${servername} WebAdmin"
 echo "======================="
+echo "WebAdmin Enabled: ${webadminenabled}"
 echo "WebAdmin URL: http://${ip}:${webadminport}"
 echo "WebAdmin Username: ${webadminuser}"
 echo ""
