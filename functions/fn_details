@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 161214
+# Version: 231214
 
 fn_avalanchedetails(){
 fn_autoip
@@ -188,7 +188,8 @@ fn_unity3ddetails(){
 fn_autoip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+queryport=$((${gameport} + 1))
 webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
 telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
 webadminuser=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
@@ -204,7 +205,8 @@ echo "============================"
 echo "Ports the server is currently using."
 echo ""
 echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game port		${port}"
+echo "INBOUND		Game port		${gameport}"
+echo "INBOUND		Query port		${queryport}"
 echo "INBOUND		WebAdmin 		${webadminport}"
 echo "INBOUND		Telnet 			${telnetport}"
 echo ""
