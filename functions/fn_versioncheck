@@ -4,9 +4,8 @@
 # Website: http://danielgibbs.co.uk
 # Version: 231214
 
-
 fn_steamcmdcheck(){
-# Checks for server update from SteamDB.info API.
+# Checks for server update from SteamCMD
 fn_printdots "Checking ${servicename}: Checking for updates via SteamCMD"
 installedversion=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 availableversion=$(steamcmd/steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print ${appid} +app_info_print ${appid} +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
@@ -17,11 +16,12 @@ if [ -z "${availableversion}" ]; then
 	fn_printfail "Checking ${servicename}: SteamCMD is not returning version info"
 	sleep 2
 else
-		fn_printok "Checking ${servicename}: Checking for updates via SteamCMD"
-		sleep 1
+	fn_printok "Checking ${servicename}: Checking for updates via SteamCMD"
+	sleep 1
 fi
 
 if [ -z "${availableversion}" ]; then
+	# Checks for server update from SteamDB.info if SteamCMD fails
 	echo ""
 	fn_printdots "Checking ${servicename}: Checking for updates via SteamDB.info"
 	availableversion=$(wget -qO- "http://steamdb.info/api/GetRawDepots/?appid=${appid}" | sed 's/\\n/\n/g' | grep -EA 1000 "^\s+\[branches\]" | grep -EA 5 "^\s+\[public\]" | grep -m 1 -EB 10 "^\s+\)$" | grep -E "^\s+\[buildid\]\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f4)
@@ -75,7 +75,7 @@ fi
 }
 
 fn_logupdaterequest(){
-# Checks for server update from server logs.
+# Checks for server update requiests from server logs.
 echo ""
 fn_printdots "Checking ${servicename}: Checking server logs for update requests"
 requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
@@ -118,7 +118,7 @@ fn_appmanifestinfo(){
 
 fn_appmanifestcheck(){
 fn_appmanifestinfo
-# Multiple matching appmanifest files may sometimes be present.
+# Multiple or no matching appmanifest files may sometimes be available.
 # This is an error is corrected below if required.
 if [ "${appmanifestfilewc}" -ge "2" ]; then
 	sleep 1
