@@ -2,23 +2,27 @@
 # LGSM fn_getquery function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 231214
 
+fn_dlgsquery(){
+cd "${rootdir}"
+echo -e "downloading lgsm-default.cfg...\c"
+wget --no-check-certificate /dev/null "http://danielgibbs.co.uk/dl/gsquery.py" 2>&1 | grep -F "HTTP" | grep -v "Moved Permanently" | cut -c45-
+chmod +x gsquery.py
+}
+
+echo ""
 echo "GameServerQuery"
 echo "============================"
 if [ -z ${autoinstall} ]; then
 	while true; do
 		read -p "Do you want to install GameServerQuery? [y/N]" yn
 		case $yn in
-		[Yy]* ) echo ""; cd "${rootdir}"; wget --no-check-certificate -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"; chmod +x gsquery.py; break;;
+		[Yy]* ) fn_dlgsquery;break;;
 		[Nn]* ) echo ""; echo "Not installing GameServerQuery.";break;;
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
 else
-	echo ""
-	cd "${rootdir}"
-	wget --no-check-certificate -nv -N "http://danielgibbs.co.uk/dl/gsquery.py"
-	chmod +x gsquery.py
+	fn_dlgsquery
 fi
-echo ""
