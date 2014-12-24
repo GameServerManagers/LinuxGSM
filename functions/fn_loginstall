@@ -2,17 +2,17 @@
 # LGSM fn_loginstall function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 211214
+# Version: 241214
 
 echo ""
 echo "Creating log directorys"
 echo "================================="
 sleep 1
 # Create dir's for the script and console logs
-mkdir -pv "${rootdir}/log"
-mkdir -pv "${scriptlogdir}"
+mkdir -v "${rootdir}/log"
+mkdir -v "${scriptlogdir}"
 touch "${scriptlog}"
-mkdir -pv "${consolelogdir}"
+mkdir -v "${consolelogdir}"
 touch "${consolelog}"
 # If a server is source or goldsource create a symbolic link to the game server logs
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
@@ -26,7 +26,7 @@ fi
 if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
 	mkdir -pv ${gamelogdir}
 fi
-if [ "${engine}" == "unity3d" ]; then
+if [ "${gamename}" == "7 Days To Die" ]; then
 	ln -sv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
 fi
 sleep 1
