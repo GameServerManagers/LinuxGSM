@@ -1,0 +1,10 @@
+#!/bin/bash
+# LGSM fn_systemdircheck function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 241214
+
+if [ ! -e "${systemdir}" ]; then
+	fn_printfailnl "Cannot access ${systemdir}: No such directory"
+	exit
+fi
