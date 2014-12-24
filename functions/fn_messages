@@ -1,0 +1,54 @@
+#!/bin/bash
+# LGSM fn_messages function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 241214
+#
+# Description: Defines on-screen messages such as and now script logs look
+
+# Displays date and servicename for log files
+fn_scriptlog(){
+	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
+}
+
+# [ FAIL ]
+fn_printfail(){
+    echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+fn_printfailnl(){
+    echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
+}
+
+# [  OK  ]
+fn_printok(){
+    echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+fn_printoknl(){
+    echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
+}
+
+# [ INFO ]
+fn_printinfo(){
+    echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+fn_printinfonl(){
+    echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
+}
+
+# [ WARN ]
+fn_printwarn(){
+	echo -en "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
+}
+
+fn_printwarnnl(){
+	echo -e "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
+}
+
+# [ .... ]
+fn_printdots(){
+    echo -en "\r\033[K[ .... ] $@"
+}
+
