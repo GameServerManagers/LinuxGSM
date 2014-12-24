@@ -52,12 +52,18 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+
+fn_logmanager(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_monitorserver(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_logmanager(){
+fn_messages(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
