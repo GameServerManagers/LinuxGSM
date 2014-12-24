@@ -138,6 +138,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_installcomplete(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_loginstall(){
 functionfile="${FUNCNAME}"
 fn_runfunction
