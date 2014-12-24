@@ -114,6 +114,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_versioncheck(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 #
 ## Installer functions
 #
