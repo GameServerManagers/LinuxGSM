@@ -2,7 +2,7 @@
 # LGSM fn_steamdl function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 231214
+# Version: 241214
 
 echo ""
 echo "Installing SteamCMD"
@@ -13,7 +13,7 @@ sleep 1
 cd "steamcmd"
 if [ ! -f steamcmd.sh ]; then
 	echo -e "downloading steamcmd_linux.tar.gz...\c"
-	wget --no-check-certificate /dev/null http://media.steampowered.com/client/steamcmd_linux.tar.gz 2>&1 | grep -F HTTP | cut -c45-
+	wget -N --no-check-certificate /dev/null http://media.steampowered.com/client/steamcmd_linux.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 	tar --verbose -zxf steamcmd_linux.tar.gz
 	rm -v steamcmd_linux.tar.gz
 	chmod +x steamcmd.sh

@@ -2,8 +2,9 @@
 # LGSM fn_serverdirectory function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 241214
 
+echo ""
 echo "Server Directory"
 echo "================================="
 echo ""

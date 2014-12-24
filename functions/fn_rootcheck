@@ -2,9 +2,9 @@
 # LGSM fn_rootcheck function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 241214
 
 if [ $(whoami) = "root" ]; then
-	fn_printfailnl "Script will not run as root!"
+	fn_printfailnl "Do NOT run this script as root!"
 	exit
 fi

@@ -2,9 +2,10 @@
 # LGSM fn_libsteamfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 151214
+# Version: 241214
 
 fn_steamclientfix(){
+echo ""
 echo "Applying steamclient.so fix"
 echo "================================="
 sleep 1
@@ -17,6 +18,7 @@ echo ""
 
 # Gary's Mod Specific
 fn_libsteamfix(){
+echo ""
 echo "Applying libsteam.so fix"
 echo "================================="
 sleep 1
