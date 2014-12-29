@@ -2,10 +2,10 @@
 # LGSM fn_autoip function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 081214
+# Version: 291214
 
-# Identifies the server interface IP
-# If multiple interfaces this will need to be set manually
+# Identifies the server interface IP.
+# If multiple interfaces this will need to be set manually.
 
 if [ ! -f /bin/ip ]; then
 	ipcommand="/sbin/ip"
