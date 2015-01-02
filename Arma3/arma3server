@@ -21,7 +21,7 @@ steampass="password"
 ip="0.0.0.0"
 
 fn_parms(){
-parms="-netlog -port=${serverport} -ip=${ip} -config=${servercfg}"
+parms="-netlog -ip=${ip} -config=${servercfg}"
 }
 
 #### Advanced Variables ####
