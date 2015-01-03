@@ -99,6 +99,16 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_unreal2compressmaps(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_ut99compressmaps(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_updateserver(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -148,12 +158,22 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_kffix(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_loginstall(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
 fn_retryinstall(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_rofix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -179,6 +199,21 @@ fn_runfunction
 }
 
 fn_steaminstall(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_ut2k4install(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_ut2k4fix(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_ut99install(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
