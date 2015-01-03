@@ -2,13 +2,17 @@
 # LGSM fn_csgofix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Resolves various issues with csgo.
+
+# Fixed server not always creating steam_appid.txt file.
 fn_csgoappfix(){
 if [ ! -f "${filesdir}/steam_appid.txt" ]; then
 	fn_printdots "Applying 730 steam_appid.txt Fix."
 	sleep 1
 	fn_printinfo "Applying 730 steam_appid.txt Fix."
+	fn_scriptlog "Applying 730 steam_appid.txt Fix"
 	sleep 1
 	echo -en "\n"
 	echo -n "730" >> "${filesdir}/steam_appid.txt"
@@ -16,8 +20,8 @@ fi
 }
 
 fn_csgofixes(){
-# Fixes the following error
-# Error parsing BotProfile.db - unknown attribute 'Rank"
+# Fixes the following error:
+# Error parsing BotProfile.db - unknown attribute 'Rank".
 if ! grep -q "//Rank" "${systemdir}/botprofile.db" ; then
 	echo "botprofile.db fix removes the following error from appearing on the console:"
 	echo "	Error parsing BotProfile.db - unknown attribute 'Rank"
@@ -31,8 +35,8 @@ if ! grep -q "//Rank" "${systemdir}/botprofile.db" ; then
 	echo ""
 fi
 
-# Fixes errors simular to the following
-# Unknown command "cl_bobamt_vert"
+# Fixes errors simular to the following:
+# Unknown command "cl_bobamt_vert".
 if ! grep -q "//exec default" "${servercfgdir}/valve.rc" || ! grep -q "//exec joystick" "${servercfgdir}/valve.rc"; then
 	echo "valve.rc fix removes the following error from appearing on the console:"
 	echo "	Unknown command \"cl_bobamt_vert\""
@@ -47,8 +51,8 @@ if ! grep -q "//exec default" "${servercfgdir}/valve.rc" || ! grep -q "//exec jo
 	echo ""
 fi
 
-# Fixes errors simular to the following
-# http://forums.steampowered.com/forums/showthread.php?t=3170366
+# Fixes errors simular to the following:
+# http://forums.steampowered.com/forums/showthread.php?t=3170366.
 if [ -f "${systemdir}/subscribed_collection_ids.txt" ]||[ -f "${systemdir}/subscribed_file_ids.txt" ]||[ -f "${systemdir}/ugc_collection_cache.txt" ]; then
 	echo "workshopmapfix fixes the following error:"
 	echo "	http://forums.steampowered.com/forums/showthread.php?t=3170366"

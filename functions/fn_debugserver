@@ -2,8 +2,11 @@
 # LGSM fn_debugserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 121114
+# Version: 010115
 
+# Description: Runs the server without tmux. Runs direct from the terminal.
+
+local modulename="Debug"
 fn_rootcheck
 fn_syscheck
 fn_autoip
@@ -26,11 +29,10 @@ if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 else
 	echo "${executable} ${parms}"
 fi
-
 echo ""
 echo -e "Use for identifying server issues only!"
-echo -e "Press CTRL+c to drop out of debug mode"
-echo -e "\e[0;31mWARNING!\e[0;39m If ${servicename} is already running it will be stopped"
+echo -e "Press CTRL+c to drop out of debug mode."
+fn_printwarningnl "If ${servicename} is already running it will be stopped."
 echo ""
 while true; do
 	read -p "Continue? [y/N]" yn
@@ -40,12 +42,16 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
+fn_scriptlog "Starting debug"
+fn_printinfonl "Stopping any running servers"
+fn_scriptlog "Stopping any running servers"
+sleep 1
 fn_stopserver
-fn_printdots "Starting debug mode ${servicename}: ${servername}"
+fn_printdots "Starting debug"
 sleep 1
-fn_printok "Starting debug mode ${servicename}: ${servername}"
+fn_printok "Starting debug"
+fn_scriptlog "Started debug"
 sleep 1
-fn_scriptlog "Started debug mode ${servername}"
 echo -en "\n"
 cd "${executabledir}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then

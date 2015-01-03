@@ -2,13 +2,13 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 171214
+# Version: 281214
 
 fn_glibcfixmsg(){
 echo "GLIBC Fix required"
 echo "============================"
 sleep 1
-echo -e "\e[0;31mWARNING!\e[0;39m ${gamename} requires GLIBC_${glibcversion} or above"
+fn_printwarningnl "${gamename} requires GLIBC_${glibcversion} or above"
 sleep 1
 echo ""
 echo -e "Currently installed:\e[0;31m GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')\e[0;39m"
@@ -19,16 +19,21 @@ echo "The installer will now detect and download the required files to allow ${g
 echo "note: This will NOT upgrade GLIBC on your system."
 sleep 1
 echo ""
-echo "loading required files..."
+echo -en "loading required files.\r"
 sleep 1
+echo -en "loading required files..\r"
+sleep 1
+echo -en "loading required files...\r"
+sleep 1
+echo -en "\n"
 }
 
 # if ldd command not detected
 if [ -z $(command -v ldd) ]; then
 	echo ""
-	echo -e "\r\033[K\e[0;31mFAIL\e[0;39m GLIBC is not detected."
+	fn_printfailurenl "GLIBC is not detected"
 	sleep 1
-	echo "Install GLIBC and retry installation"
+	echo "Install GLIBC and retry installation."
 	sleep 1
 	echo ""
 	while true; do
@@ -101,10 +106,10 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 			fn_glibcfixmsg
 			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/Bin/libstdc++.so.6"
 		else
-			echo "error: Unable to detect game. Fix not applied"
+			fn_printfailurenl "Unable to detect game. Fix not applied"
 		fi
 	else
-		echo "error: Unable to detect game. Fix not applied"
+		fn_printfailurenl "Unable to detect game. Fix not applied"
 	fi
 fi
 sleep 1

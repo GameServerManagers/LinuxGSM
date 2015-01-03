@@ -2,16 +2,19 @@
 # LGSM fn_console function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Gives access to the server tmux console.
+
+local modulename="Console"
 fn_rootcheck
 fn_syscheck
 echo ""
 echo "${gamename} Console"
 echo "============================"
 echo ""
-echo "Press \"CTRL+b d\" to exit console"
-echo -e "\e[0;31mWARNING!\e[0;39m Do NOT press CTRL+c to exit"
+echo "Press \"CTRL+b d\" to exit console."
+fn_printwarningnl "Do NOT press CTRL+c to exit."
 echo ""
 while true; do
 	read -p "Continue? [y/N]" yn
@@ -21,16 +24,17 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-fn_printdots "Starting ${servicename} console"
+fn_printdots "Starting"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
-	fn_printoknl "Starting ${servicename} console"
-	fn_scriptlog "Console accessed"
+	fn_printoknl "Starting"
+	fn_scriptlog "accessed"
 	sleep 1
 	tmux attach-session -t ${servicename}
 else
-	fn_printfailnl "Starting ${servicename} console: ${servername} not running"
+	fn_printfailnl "Server not running"
+	fn_scriptlog "Failed to access: Server not running"
 	sleep 1
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn

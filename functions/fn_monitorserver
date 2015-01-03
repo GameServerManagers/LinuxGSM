@@ -2,17 +2,21 @@
 # LGSM fn_monitorserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Monitors server by checking for running proccesses
+# then passes to fn_serverquery.
+
+local modulename="Monitor"
 fn_rootcheck
 fn_syscheck
 fn_autoip
-fn_printdots "Monitoring ${servicename}: ${servername}"
-fn_scriptlog "Monitoring ${servername}"
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
 sleep 1
 if [ ! -f "${lockselfname}" ]; then
-	fn_printinfo "Monitoring ${servicename}: Monitor disabled: No lock file found"
-	fn_scriptlog "Monitor disabled: No lock file found"
+	fn_printinfo "Disabled: No lock file found"
+	fn_scriptlog "Disabled: No lock file found"
 	sleep 1
 	echo -en "\n"
 	echo "To enable monitor run ${selfname} start"
@@ -20,19 +24,19 @@ if [ ! -f "${lockselfname}" ]; then
 fi
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]; then
-	fn_printdots "Monitoring ${servicename}: Checking session: CHECKING"
+	fn_printdots "Checking session: CHECKING"
 	fn_scriptlog "Checking session: CHECKING"
 	sleep 1
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
 	if [ "${tmuxwc}" -eq 1 ]; then
-		fn_printok "Monitoring ${servicename}: Checking session: OK"
+		fn_printok "Checking session: OK"
 		fn_scriptlog "Checking session: OK"
 		sleep 1
 		echo -en "\n"
 		fn_serverquery
 		exit
 	else
-		fn_printfail "Monitoring ${servicename}: Checking session: FAIL"
+		fn_printfail "Checking session: FAIL"
 		fn_scriptlog "Checking session: FAIL"
 		sleep 1
 		echo -en "\n"
@@ -46,10 +50,10 @@ if [ "${updatecheck}" = "0" ]; then
 		fn_startserver
 	fi
 else
-	fn_printinfonl "Monitoring ${servicename}: Detected SteamCMD is checking for updates"
-	fn_scriptlog "Detected SteamCMD is checking for updates"
+	fn_printinfonl "SteamCMD is currently checking for updates"
+	fn_scriptlog "SteamCMD is currently checking for updates"
 	sleep 1
-	fn_printinfonl "Monitoring ${servicename}: When updates complete ${servicename} will start"
-	fn_scriptlog "When updates complete ${servicename} will start"
+	fn_printinfonl "When update is complete ${servicename} will start"
+	fn_scriptlog "When update is complete ${servicename} will start"
 	sleep 1
 fi

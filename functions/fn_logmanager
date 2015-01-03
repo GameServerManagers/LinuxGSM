@@ -2,17 +2,20 @@
 # LGSM fn_logmanager function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Acts as a log rotater, removing old logs.
+
+local modulename="Log Manager"
 if [ ! -e "${consolelog}" ]; then
 	touch "${consolelog}"
 fi
 # log manager will active if finds logs older than ${logdays}
 if [ $(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l) -ne "0" ]; then
-	fn_printdots "Starting log cleaner"
+	fn_printdots "Starting"
 	sleep 1
-	fn_printok "Starting log cleaner"
-	fn_scriptlog "Starting log cleaner"
+	fn_printok "Starting"
+	fn_scriptlog "Starting"
 	sleep 1
 	echo -en "\n"
 	fn_printinfo "Removing logs older than ${logdays} days"
@@ -40,8 +43,8 @@ if [ $(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l) -ne "0" ]; then
 	fi
 	find "${scriptlogdir}"/* -mtime +${logdays} -exec rm {} \;
 	find "${consolelogdir}"/* -mtime +${logdays} -exec rm {} \;
-	fn_printok "Log cleaner removed ${count} log files"
-	fn_scriptlog "Log cleaner removed ${count} log files"
+	fn_printok "Removed ${count} log files"
+	fn_scriptlog "Removed ${count} log files"
 	sleep 1
 	echo -en "\n"
 fi

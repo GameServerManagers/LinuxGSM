@@ -2,7 +2,7 @@
 # LGSM fn_serverdirectory function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 241214
+# Version: 010115
 
 echo ""
 echo "Server Directory"
@@ -11,7 +11,7 @@ echo ""
 pwd
 echo ""
 if [ -d "${filesdir}" ]; then
-	echo -e "\e[0;31mWARNING!\e[0;39m A server is already installed here"
+	fn_printwarningnl "A server is already installed here."
 fi
 while true; do
 	read -p "Continue [y/N]" yn

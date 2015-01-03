@@ -2,8 +2,12 @@
 # LGSM fn_emailnotification function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Sends email notification if monitor picks up a failure.
+
+local modulename="Email"
+fn_printdots "Sending notification to ${email}"
 fn_distro
 fn_uptime
 fn_load
@@ -35,7 +39,7 @@ if [ ! -z "${gamelogdir}" ]; then
 	tail "${gamelogdir}"/*|grep -v "==>"|sed '/^$/d'|tail -25 >> "${emaillog}"
 fi
 mail -s "${subject}" ${email} < "${emaillog}"
-fn_printinfo "Sent email notification to ${email}"
-fn_scriptlog "Sent email notification to ${email}"
+fn_printok "Sending notification to ${email}"
+fn_scriptlog "Sent notification to ${email}"
 sleep 1
 echo -en "\n"

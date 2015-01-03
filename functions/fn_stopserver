@@ -2,20 +2,23 @@
 # LGSM fn_stopserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Stops the server.
+
+modulename="Stopping"
 fn_rootcheck
 fn_syscheck
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-fn_printdots "Stopping ${servicename}: ${servername}"
-fn_scriptlog "Stopping ${servername}"
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
 sleep 1
 if [ "${pid}" == "0" ]; then
-	fn_printfail "Stopping ${servicename}: ${servername} is already stopped"
+	fn_printfail "${servername} is already stopped"
 	fn_scriptlog "${servername} is already stopped"
 else
 	tmux kill-session -t ${servicename}
-	fn_printok "Stopping ${servicename}: ${servername}"
+	fn_printok "${servername}"
 	fn_scriptlog "Stopped ${servername}"
 fi
 # Remove lock file

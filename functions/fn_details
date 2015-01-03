@@ -2,7 +2,9 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 231214
+# Version: 291214
+
+# Description: Displays server infomation.
 
 fn_avalanchedetails(){
 fn_autoip

@@ -2,8 +2,11 @@
 # LGSM fn_backupserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
+# Description: Creates a .tar.gz file in the backup directory.
+
+local modulename="Backup"
 fn_rootcheck
 fn_syscheck
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
@@ -11,7 +14,7 @@ echo ""
 echo "${gamename} Backup"
 echo "============================"
 echo ""
-echo "The following backup will be created."
+echo "The following backup will be created:"
 echo ""
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
@@ -25,9 +28,11 @@ esac
 done
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
-	echo -e "\e[0;31mWARNING!\e[0;39m ${servicename} is currently running"
+	echo ""
+	fn_printwarningnl "${servicename} is currently running."
+	sleep 1
 	while true; do
-		read -p "Would you like to stop ${servicename} while running the backup? [y/N]" yn
+		read -p "Stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
 		[Yy]* ) fn_stopserver; break;;
 		[Nn]* ) break;;
@@ -35,14 +40,22 @@ if [ "${tmuxwc}" -eq 1 ]; then
 	esac
 	done
 fi
-fn_printdots "Starting backup ${servicename}: ${servername}"
+fn_scriptlog "Started"
+echo -en "starting backup.\r"
 sleep 1
-fn_printok "Starting backup ${servicename}: ${servername}"
-fn_scriptlog "Backup started"
+echo -en "starting backup..\r"
+sleep 1
+echo -en "starting backup...\r"
 sleep 1
 echo -en "\n"
 cd "${rootdir}"
 mkdir -pv "${backupdir}" > /dev/null 2>&1
 tar -cvzf "${backupdir}/${backupname}.tar.gz" --exclude "${backupdir}" ./*
-echo -en "\r\033[K${servicename} Backup complete"
-fn_scriptlog "Backup complete"
+echo ""
+echo "Backup created: ${backupdir}/${backupname}.tar.gz"
+fn_scriptlog "Created: ${backupdir}/${backupname}.tar.gz"
+sleep 1
+echo ""
+fn_printcompletenl "Complete."
+fn_scriptlog "Complete"
+echo ""

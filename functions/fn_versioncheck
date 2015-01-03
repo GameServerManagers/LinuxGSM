@@ -2,37 +2,49 @@
 # LGSM fn_versioncheck function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 231214
+# Version: 010115
+
+# Description: Checks if a server update is available.
+
+modulename="Update"
 
 fn_steamcmdcheck(){
 # Checks for server update from SteamCMD
-fn_printdots "Checking ${servicename}: Checking for updates via SteamCMD"
+fn_printdots "Checking for update: SteamCMD"
+fn_scriptlog "Checking for update: SteamCMD"
 installedversion=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 availableversion=$(steamcmd/steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print ${appid} +app_info_print ${appid} +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 sleep 1
 if [ -z "${availableversion}" ]; then
-	fn_printfail "Checking ${servicename}: Checking for updates via SteamCMD"
+	fn_printfail "Checking for update: SteamCMD"
+	fn_scriptlog "Failure! Checking for update: SteamCMD"
 	sleep 1
-	fn_printfail "Checking ${servicename}: SteamCMD is not returning version info"
+	fn_printfail "Checking for update: SteamCMD: Not returning version info"
+	fn_scriptlog "Failure! Checking for update: SteamCMD: Not returning version info"
 	sleep 2
 else
-	fn_printok "Checking ${servicename}: Checking for updates via SteamCMD"
+	fn_printok "Checking for update: SteamCMD"
+	fn_scriptlog "Success! Checking for update: SteamCMD"
 	sleep 1
 fi
 
 if [ -z "${availableversion}" ]; then
 	# Checks for server update from SteamDB.info if SteamCMD fails
 	echo ""
-	fn_printdots "Checking ${servicename}: Checking for updates via SteamDB.info"
+	fn_printdots "Checking for update: SteamDB.info"
+	fn_scriptlog "Checking for update: SteamDB.info"
 	availableversion=$(wget -qO- "http://steamdb.info/api/GetRawDepots/?appid=${appid}" | sed 's/\\n/\n/g' | grep -EA 1000 "^\s+\[branches\]" | grep -EA 5 "^\s+\[public\]" | grep -m 1 -EB 10 "^\s+\)$" | grep -E "^\s+\[buildid\]\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f4)
 	sleep 1
 	if [ -z "${availableversion}" ]; then
-		fn_printfail "Checking ${servicename}: Checking for updates via SteamDB.info"
+		fn_printfail "Checking for update: SteamDB.info"
+		fn_scriptlog "Failure! Checking for update: SteamDB.info"
 		sleep 1
-		fn_printfail "Checking ${servicename}: SteamDB.info is not returning version info"
+		fn_printfail "Checking for update: SteamDB.info: Not returning version info"
+		fn_scriptlog "Failure! Checking for update: SteamDB.info: Not returning version info"
 		sleep 2
 	else
-		fn_printok "Checking ${servicename}: Checking for updates via SteamDB.info"
+		fn_printok "Checking for update via SteamDB.info"
+		fn_scriptlog "Success! Checking for update: SteamDB.info"
 		sleep 1
 	fi
 fi
@@ -50,13 +62,14 @@ if [ "${installedversion}" -ne "${availableversion}" ]; then
 	echo -e "	https://steamdb.info/app/${appid}/"
 	sleep 1
 	echo ""
-	echo -ne "Applying update.\r"
+	echo -en "Applying update.\r"
 	sleep 1
-	echo -ne "Applying update..\r"
+	echo -en "Applying update..\r"
 	sleep 1
-	echo -ne "Applying update...\r"
+	echo -en "Applying update...\r"
 	sleep 1
-	echo -ne "\n"
+	echo -en "\n"
+	fn_scriptlog "Update available"
 	if [ ! -z "${norestart}" ]; then
 		fn_updateserver
 	else
@@ -71,19 +84,22 @@ else
 	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
 	echo -e "	https://steamdb.info/app/${appid}/"
 	echo -e ""
+	fn_printok "No update available"
+	fn_scriptlog "No update available"
 fi
 }
 
 fn_logupdaterequest(){
-# Checks for server update requiests from server logs.
+# Checks for server update requests from server logs.
 echo ""
-fn_printdots "Checking ${servicename}: Checking server logs for update requests"
-requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
+fn_printdots "Checking server logs for update requests"
 sleep 1
+fn_printok "Checking server logs for update requests"
+fn_scriptlog "Checking server logs for update requests"
+sleep 1
+requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
 if [ "${requestrestart}" -ge "1" ]; then
-	fn_printok "Checking ${servicename}: Checking server logs for update requests"
-	sleep 1
-	fn_printoknl "Checking ${servicename}: Server requesting update"
+	fn_printoknl "Server requesting update"
 	sleep 1
 	echo ""
 	echo -ne "Applying update.\r"
@@ -101,9 +117,7 @@ if [ "${requestrestart}" -ge "1" ]; then
 		fn_startserver
 	fi
 else
-	fn_printok "Checking ${servicename}: Checking logs for update requests"
-	sleep 1
-	fn_printok "Checking ${servicename}: No update request detected"
+	fn_printok "No update request detected"
 	sleep 1
 fi
 echo ""
@@ -122,9 +136,10 @@ fn_appmanifestinfo
 # This is an error is corrected below if required.
 if [ "${appmanifestfilewc}" -ge "2" ]; then
 	sleep 1
-	fn_printwarn "Checking ${servicename}: Multiple appmanifest_${appid}.acf files found"
+	fn_printwarn "Multiple appmanifest_${appid}.acf files found"
+	fn_scriptlog "Warning! Multiple appmanifest_${appid}.acf files found"
 	sleep 2
-	fn_printdots "Checking ${servicename}: Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
+	fn_printdots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
 	sleep 1
 	for appfile in ${appmanifestfile}; do
 		rm "${appfile}"
@@ -132,7 +147,8 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 	appmanifestfilewc1="${appmanifestfilewc}"
 	fn_appmanifestinfo
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
-		fn_printfail "Checking ${servicename}: Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
+		fn_printfail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
+		fn_scriptlog "Failure! Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 		sleep 1
 		echo ""
 		echo "	Check user permissions"
@@ -142,23 +158,27 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 		exit
 	else
 		sleep 1
-		fn_printok "Checking ${servicename}: Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
+		fn_printok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
+		fn_scriptlog "Success! Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 		sleep 1
-		fn_printinfonl "Checking ${servicename}: Forcing update to correct issue"
+		fn_printinfonl "Forcing update to correct issue"
+		fn_scriptlog "Forcing update to correct issue"
 		sleep 1
 		fn_updateserver
 		fn_versioncheck
 	fi
 elif [ "${appmanifestfilewc}" -eq "0" ]; then
-	fn_printwarn "Checking ${servicename}: No appmanifest_${appid}.acf found"
+	fn_printwarn "No appmanifest_${appid}.acf found"
+	fn_scriptlog "Warning! No appmanifest_${appid}.acf found"
 	sleep 2
-	fn_printinfonl "Checking ${servicename}: Forcing update to correct issue"
+	fn_printinfonl "Forcing update to correct issue"
+	fn_scriptlog "Forcing update to correct issue"
 	sleep 1
 	fn_updateserver
 	fn_logupdaterequest
 fi
 }
 
-fn_printdots "Checking ${servicename}: Checking for updates"
+fn_printdots "Checking for update"
 fn_appmanifestcheck
 fn_steamcmdcheck

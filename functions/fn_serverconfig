@@ -116,7 +116,7 @@ echo "setting WebAdmin username and password."
 sed -i 's/AdminName=/AdminName=admin/g' "${systemdir}/${ini}"
 sed -i 's/AdminPassword=/AdminPassword=admin/g' "${systemdir}/${ini}"
 sleep 1
-echo "enabling WebAdmin"
+echo "enabling WebAdmin."
 sed -i 's/bEnabled=False/bEnabled=True/g' "${systemdir}/${ini}"
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	sleep 1
