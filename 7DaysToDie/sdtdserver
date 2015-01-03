@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 241214
+# Version: 010115
 
 #### Variables ####
 
@@ -119,8 +119,7 @@ case "$1" in
 	restart)
 		fn_restartserver;;
 	update)
-		fn_update;;
-	auto-update)
+		norestart=1;
 		fn_versioncheck;;
 	update-restart)
 		fn_versioncheck;;
@@ -147,7 +146,7 @@ case "$1" in
 	auto-install)
 		fn_autoinstall;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|auto-update|validate|validate-restart|monitor|email-test|details|backup|console|debug|install|auto-install}"
+	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install|auto-install}"
 	exit 1;;
 esac
 exit
