@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 010115
 
 #### Variables ####
 
@@ -40,7 +40,7 @@ gamename="Insurgency"
 engine="source"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$0"
 lockselfname=$(echo ".${servicename}.lock")
 filesdir="${rootdir}/serverfiles"
@@ -72,229 +72,6 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 
 ##### Script #####
 # Do not edit
-# unless you know
-# what you are doing
-
-fn_scriptlog(){
-	echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
-}
-
-# [ FAIL ]
-fn_printfail(){
-    echo -en "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
-}
-
-fn_printfailnl(){
-    echo -e "\r\033[K[\e[0;31m FAIL \e[0;39m] $@"
-}
-
-# [  OK  ]
-fn_printok(){
-    echo -en "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
-}
-
-fn_printoknl(){
-    echo -e "\r\033[K[\e[0;32m  OK  \e[0;39m] $@"
-}
-
-# [ INFO ]
-fn_printinfo(){
-    echo -en "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
-}
-
-fn_printinfonl(){
-    echo -e "\r\033[K[\e[0;36m INFO \e[0;39m] $@"
-}
-
-# [ WARN ]
-fn_printwarn(){
-	echo -en "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
-}
-
-fn_printwarnnl(){
-	echo -e "\r\033[K[\e[1;33m WARN \e[0;39m] $@"
-}
-
-# [ .... ]
-fn_printdots(){
-    echo -en "\r\033[K[ .... ] $@"
-}
-
-fn_rootcheck(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_syscheck(){
-if [ ! -e "${systemdir}" ]; then
-	fn_printfailnl "Cannot access ${systemdir}: No such directory"
-	exit
-fi
-}
-
-fn_autoip(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_logmanager(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_debugserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_console(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_backupserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_distro(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_uptime(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_load(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_emailnotification(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_emailtest(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_serverquery(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_monitorserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_updateserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_validateserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_restartserver(){
-fn_scriptlog "Restarting ${servername}"
-fn_stopserver
-fn_startserver
-}
-
-fn_stopserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_startserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_details(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_runfunction(){
-# Download function if missing
-if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
-	cd "${rootdir}"
-	if [ ! -d "functions" ]; then
-		mkdir functions
-	fi
-	echo "loading ${functionfile}..."
-	cd functions
-	wget --no-check-certificate -nv -N https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile}
-	chmod +x "${functionfile}"
-	cd "${rootdir}"
-	sleep 1
-	echo ""
-fi
-# Run function
-source "${rootdir}/functions/${functionfile}"
-}
-
-#
-## Installer
-#
-
-fn_header(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_steamdl(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_steaminstall(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_steamfix(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_glibcfix(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_loginstall(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_getquery(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_retryinstall(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_serverdirectory(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_serverconfig(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
 fn_install(){
 fn_rootcheck
@@ -312,18 +89,33 @@ fn_getquery
 fn_serverconfig
 fn_header
 fn_details
-echo "================================="
-echo "Install Complete!"
-echo ""
-echo "To start server type:"
-echo "${selfname} start"
-echo ""
+fn_installcomplete
 }
 
-fn_autoinstall(){
-autoinstall=1
-fn_install
+fn_functions(){
+# Functions are defines in fn_functions.
+functionfile="${FUNCNAME}"
+fn_runfunction
 }
+
+fn_runfunction(){
+# Functions are downloaded and run with this function
+if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
+	cd "${rootdir}"
+	if [ ! -d "functions" ]; then
+		mkdir functions
+	fi
+	cd functions
+	echo -e "loading ${functionfile}...\c"
+	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
+	chmod +x "${functionfile}"
+	cd "${rootdir}"
+	sleep 1
+fi
+source "${rootdir}/functions/${functionfile}"
+}
+
+fn_functions
 
 case "$1" in
 	start)
@@ -333,11 +125,10 @@ case "$1" in
 	restart)
 		fn_restartserver;;
 	update)
-		fn_updateserver;;
+		norestart=1;
+		fn_versioncheck;;
 	update-restart)
-		fn_stopserver
-		fn_updateserver
-		fn_startserver;;
+		fn_versioncheck;;
 	validate)
 		fn_validateserver;;
 	validate-restart)

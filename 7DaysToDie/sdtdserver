@@ -118,7 +118,7 @@ case "$1" in
 	restart)
 		fn_restartserver;;
 	update)
-		norestart=1;;
+		norestart=1;
 		fn_versioncheck;;
 	update-restart)
 		fn_versioncheck;;
