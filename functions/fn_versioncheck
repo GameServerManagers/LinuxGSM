@@ -43,7 +43,7 @@ if [ -z "${availableversion}" ]; then
 		fn_scriptlog "Failure! Checking for update: SteamDB.info: Not returning version info"
 		sleep 2
 	else
-		fn_printok "Checking for update via SteamDB.info"
+		fn_printok "Checking for update: SteamDB.info"
 		fn_scriptlog "Success! Checking for update: SteamDB.info"
 		sleep 1
 	fi
@@ -84,7 +84,7 @@ else
 	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
 	echo -e "	https://steamdb.info/app/${appid}/"
 	echo -e ""
-	fn_printok "No update available"
+	fn_printoknl "No update available"
 	fn_scriptlog "No update available"
 fi
 }
