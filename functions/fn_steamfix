@@ -2,7 +2,7 @@
 # LGSM fn_libsteamfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 241214
+# Version: 010115
 
 fn_steamclientfix(){
 echo ""
@@ -24,9 +24,9 @@ echo "================================="
 sleep 1
 mkdir -pv "${HOME}/.steam"
 mkdir -pv "${HOME}/.steam/sdk32"
-if [ "${gamename}" == "Garrys's Mod" ];then
+if [ "${gamename}" == "Garrys's Mod" ]; then
 	cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
-elif [ "${gamename}" == "Serious Sam 3: BFE" ];then
+elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	mkdir "${HOME}/.steam/bin32"
 	cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
 fi
@@ -35,6 +35,6 @@ echo ""
 }
 
 fn_steamclientfix
-if [ "${gamename}" == "Garrys's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ];then
+if [ "${gamename}" == "Garrys's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_libsteamfix
 fi
