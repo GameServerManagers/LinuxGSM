@@ -12,9 +12,10 @@ fn_steamcmdcheck(){
 # Checks for server update from SteamCMD
 fn_printdots "Checking for update: SteamCMD"
 fn_scriptlog "Checking for update: SteamCMD"
-installedversion=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
-availableversion=$(steamcmd/steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print ${appid} +app_info_print ${appid} +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 sleep 1
+installedversion=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+cd "${rootdir}/steamcmd"
+availableversion=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print ${appid} +app_info_print ${appid} +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 if [ -z "${availableversion}" ]; then
 	fn_printfail "Checking for update: SteamCMD"
 	fn_scriptlog "Failure! Checking for update: SteamCMD"
@@ -175,7 +176,7 @@ elif [ "${appmanifestfilewc}" -eq "0" ]; then
 	fn_scriptlog "Forcing update to correct issue"
 	sleep 1
 	fn_updateserver
-	fn_logupdaterequest
+	fn_versioncheck
 fi
 }
 
