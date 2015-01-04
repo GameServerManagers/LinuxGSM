@@ -13,10 +13,10 @@ fn_steamcmdcheck(){
 fn_printdots "Checking for update: SteamCMD"
 fn_scriptlog "Checking for update: SteamCMD"
 sleep 1
-installedversion=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+currentbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 cd "${rootdir}/steamcmd"
-availableversion=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print ${appid} +app_info_print ${appid} +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
-if [ -z "${availableversion}" ]; then
+availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print ${appid} +app_info_print ${appid} +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: SteamCMD"
 	fn_scriptlog "Failure! Checking for update: SteamCMD"
 	sleep 1
@@ -29,14 +29,14 @@ else
 	sleep 1
 fi
 
-if [ -z "${availableversion}" ]; then
+if [ -z "${availablebuild}" ]; then
 	# Checks for server update from SteamDB.info if SteamCMD fails
 	echo ""
 	fn_printdots "Checking for update: SteamDB.info"
 	fn_scriptlog "Checking for update: SteamDB.info"
-	availableversion=$(wget -qO- "http://steamdb.info/api/GetRawDepots/?appid=${appid}" | sed 's/\\n/\n/g' | grep -EA 1000 "^\s+\[branches\]" | grep -EA 5 "^\s+\[public\]" | grep -m 1 -EB 10 "^\s+\)$" | grep -E "^\s+\[buildid\]\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f4)
+	availablebuild=$(wget -qO- "http://steamdb.info/api/GetRawDepots/?appid=${appid}" | sed 's/\\n/\n/g' | grep -EA 1000 "^\s+\[branches\]" | grep -EA 5 "^\s+\[public\]" | grep -m 1 -EB 10 "^\s+\)$" | grep -E "^\s+\[buildid\]\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f4)
 	sleep 1
-	if [ -z "${availableversion}" ]; then
+	if [ -z "${availablebuild}" ]; then
 		fn_printfail "Checking for update: SteamDB.info"
 		fn_scriptlog "Failure! Checking for update: SteamDB.info"
 		sleep 1
@@ -49,16 +49,16 @@ if [ -z "${availableversion}" ]; then
 		sleep 1
 	fi
 fi
-if [ -z "${availableversion}" ]; then
+if [ -z "${availablebuild}" ]; then
 	fn_logupdaterequest
 fi
 
-if [ "${installedversion}" -ne "${availableversion}" ]; then
+if [ "${currentbuild}" -ne "${availablebuild}" ]; then
 	echo -e "\n"
 	echo -e "Update available:"
 	sleep 1
-	echo -e "	Installed version: \e[0;31m${installedversion}\e[0;39m"
-	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
+	echo -e "	Current build: \e[0;31m${currentbuild}\e[0;39m"
+	echo -e "	Available build: \e[0;32m${availablebuild}\e[0;39m"
 	echo -e ""
 	echo -e "	https://steamdb.info/app/${appid}/"
 	sleep 1
@@ -71,6 +71,9 @@ if [ "${installedversion}" -ne "${availableversion}" ]; then
 	sleep 1
 	echo -en "\n"
 	fn_scriptlog "Update available"
+	fn_scriptlog "Current build: ${currentbuild}"
+	fn_scriptlog "Available build: ${availablebuild}"
+	fn_scriptlog "${currentbuild} > ${availablebuild}"
 	if [ ! -z "${norestart}" ]; then
 		fn_updateserver
 	else
@@ -81,12 +84,13 @@ if [ "${installedversion}" -ne "${availableversion}" ]; then
 else
 	echo -e "\n"
 	echo -e "No update available:"
-	echo -e "	Installed version: \e[0;32m${installedversion}\e[0;39m"
-	echo -e "	Available version: \e[0;32m${availableversion}\e[0;39m"
+	echo -e "	Current version: \e[0;32m${currentbuild}\e[0;39m"
+	echo -e "	Available version: \e[0;32m${availablebuild}\e[0;39m"
 	echo -e "	https://steamdb.info/app/${appid}/"
 	echo -e ""
 	fn_printoknl "No update available"
-	fn_scriptlog "No update available"
+	fn_scriptlog "Current build: ${currentbuild}"
+	fn_scriptlog "Available build: ${availablebuild}"
 fi
 }
 
