@@ -6,7 +6,7 @@
 
 # Description: Checks if a server update is available.
 
-modulename="Update"
+local modulename="Update"
 
 fn_steamcmdcheck(){
 # Checks for server update from SteamCMD
