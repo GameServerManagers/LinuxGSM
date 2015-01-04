@@ -99,6 +99,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_tmuxcheck(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_unreal2compressmaps(){
 functionfile="${FUNCNAME}"
 fn_runfunction

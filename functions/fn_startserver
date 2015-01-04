@@ -6,7 +6,7 @@
 
 # Description: Starts the server.
 
-modulename="Starting"
+local modulename="Starting"
 fn_rootcheck
 fn_syscheck
 fn_autoip
@@ -16,6 +16,10 @@ if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 fi
 fn_parms
 fn_logmanager
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
+fn_tmuxcheck
+sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_scriptlog "Rotating log files"
@@ -25,9 +29,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 	mv "${scriptlog}" "${scriptlogdate}"
 	mv "${consolelog}" "${consolelogdate}"
 fi
-fn_printdots "${servername}"
-fn_scriptlog "${servername}"
-sleep 1
+
 if [ "${tmuxwc}" -eq 1 ]; then
 	fn_printinfo "${servername} is already running"
 	fn_scriptlog "${servername} is already running"

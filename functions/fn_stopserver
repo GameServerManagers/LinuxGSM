@@ -6,13 +6,14 @@
 
 # Description: Stops the server.
 
-modulename="Stopping"
+local modulename="Stopping"
 fn_rootcheck
 fn_syscheck
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
+fn_tmuxcheck
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
 if [ "${pid}" == "0" ]; then
 	fn_printfail "${servername} is already stopped"
 	fn_scriptlog "${servername} is already stopped"
