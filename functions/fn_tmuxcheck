@@ -1,0 +1,17 @@
+#!/bin/bash
+# LGSM fn_tmuxcheck function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 011214
+
+# Checks if tmux is installed as too many users do not RTFM or know how to use Google.
+
+if [ -z $(command -v tmux) ]; then
+	fn_printfailnl "Tmux not installed"
+	sleep 1
+	fn_scriptlog "Tmux is not installed"
+	echo "	* Tmux is required to run this server."
+	# Suitable passive agressive message
+	echo "	* Please see 'Prerequisites' section of installation instructions."
+	exit
+fi
