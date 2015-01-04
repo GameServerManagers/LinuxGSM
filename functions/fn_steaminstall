@@ -2,11 +2,10 @@
 # LGSM fn_steaminstall function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 281214
+# Version: 040115
 
 fn_steaminstallcommand(){
-echo "0x402" > .fn_steaminstall.tmp
-while [ "$(grep -c 0x402 .fn_steaminstall.tmp)" -ge "1" ]; do
+while [ -z "${counter}" ]||[ "$(grep -wc 0x402 .fn_steaminstall.tmp)" -ge "1" ]||[ "$(grep -wc 0x406 .fn_steaminstall.tmp)" -ge "1" ]||[ "$(grep -wc 0x6 .fn_steaminstall.tmp)" -ge "1" ]||[ "$(grep -wc 0x106 .fn_steaminstall.tmp)" -ge "1" ]; do
 	counter=$((counter+1))
 	if [ "${counter}" -le "10" ]; then
 		if [ "${counter}" -ge "2" ]; then
