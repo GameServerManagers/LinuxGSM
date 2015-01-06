@@ -143,6 +143,11 @@ autoinstall=1
 fn_install
 }
 
+fn_csgofix(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_getquery(){
 functionfile="${FUNCNAME}"
 fn_runfunction
