@@ -2,7 +2,7 @@
 # LGSM fn_startserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 090115
 
 # Description: Starts the server.
 
@@ -18,8 +18,9 @@ fn_parms
 fn_logmanager
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
-fn_tmuxcheck
 sleep 1
+fn_tmuxcheck
+fn_steamdl
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_scriptlog "Rotating log files"

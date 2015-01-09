@@ -2,7 +2,7 @@
 # LGSM fn_updateserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 090115
 
 # Description: Runs a server update.
 
@@ -11,6 +11,7 @@ fn_rootcheck
 fn_syscheck
 fn_printdots "Updating ${servername}"
 sleep 1
+fn_steamdl
 fn_printok "Updating ${servername}"
 fn_scriptlog "Updating ${servername}"
 sleep 1
