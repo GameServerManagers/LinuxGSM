@@ -2,9 +2,10 @@
 # LGSM fn_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 281214
+# Version: 1501214
 
 fn_glibcfixmsg(){
+echo ""
 echo "GLIBC Fix required"
 echo "============================"
 sleep 1
