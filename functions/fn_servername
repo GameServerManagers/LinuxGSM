@@ -1,0 +1,23 @@
+#!/bin/bash
+# LGSM fn_servername function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 150115
+
+# Description: Gets the server name.
+
+if [ "${engine}" == "avalanche" ]; then
+	 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g' | tr -d '=\"; '|sed 's/,//g')
+elif [ "${engine}" == "realvirtuality" ]; then
+	servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
+elif [ "${engine}" == "seriousengine35" ]; then
+	fn_seriousengine35details
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+	servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+elif [ "${engine}" == "spark" ]; then
+	: # Not in config file
+elif [ "${engine}" == "unity3d" ]; then
+	servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+	servername=$(grep -s ServerName= ${systemdir}/${ini}|sed 's/ServerName=//g')
+fi
