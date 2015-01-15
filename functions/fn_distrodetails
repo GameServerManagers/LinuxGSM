@@ -7,8 +7,8 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for fn_details, fn_debugserver and fn_emailnotification.
 
-# Distro infomation
-# Returns architecture, kernel and distro/os
+## Distro infomation
+# Returns architecture, kernel and distro/os.
 arch=$(uname -m)
 kernel=$(uname -r)
 if [ -f /etc/lsb-release ]; then
@@ -33,18 +33,25 @@ else
 	tmuxv=$(tmux -V)
 fi
 
-# Performance
+## Performance
 
 # Average server load
 load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
 # Memory
-physmemtotal=$(free -h|grep "Mem:" | awk '{print $2}')
-physmemused=$(free -h|grep "Mem:" | awk '{print $3}')
-physmemfree=$(free -h|grep "Mem:" | awk '{print $4}')
-swaptotal=$(free -h|grep "Swap:" | awk '{print $2}')
-swapused=$(free -h|grep "Swap:" | awk '{print $3}')
-swapfree=$(free -h|grep "Swap:" | awk '{print $4}')
+
+# Older versions of free do not support -h option.
+if [ "$(free -h > /dev/null 2>&1; echo $?)" -ne "0" ]; then
+	option="-m"
+else
+	option="-h"
+fi
+	physmemtotal=$(free ${option} | grep "Mem:" | awk '{print $2}')
+	physmemused=$(free  ${option} | grep "Mem:" | awk '{print $3}')
+	physmemfree=$(free  ${option} | grep "Mem:" | awk '{print $4}')
+	swaptotal=$(free  ${option} | grep "Swap:" | awk '{print $2}')
+	swapused=$(free  ${option} | grep "Swap:" | awk '{print $3}')
+	swapfree=$(free  ${option} | grep "Swap:" | awk '{print $4}')
 
 # Uptime
 uptime=$(</proc/uptime)
@@ -54,9 +61,9 @@ hours=$(( uptime/60/60%24 ))
 days=$(( uptime/60/60/24 ))
 
 # Disk usage
-# available space on the partition
+# available space on the partition.
 availspace=$(df -hP ${rootdir} | grep -v "Filesystem" | awk '{print $4}')
-# used space in serverfiles dir
+# used space in serverfiles dir.
 serverfilesdu=$(du -sh ${serverfiles} | awk '{print $1}')
 if [ -z ${serverfilesdu} ]; then
 	serverfilesdu="0M"
@@ -64,18 +71,18 @@ fi
 
 # Backup info
 if [ -d "${backupdir}" ]; then
-	# used space in backups dir
+	# used space in backups dir.
 	backupdirdu=$(du -sh ${backupdir} | awk '{print $1}')
 	if [ -z ${backupdirdu} ]; then
 		backupdirdu="0M"
 	fi
-	# number of backups
+	# number of backups.
 	backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
-	# most recent backup
+	# most recent backup.
 	lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
-	# date of most recent backup
+	# date of most recent backup.
 	lastbackupdate=$(date -r ${lastbackup})
-	# size of most recent backup
+	# size of most recent backup.
 	lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
 
 fi
