@@ -2,7 +2,7 @@
 # LGSM fn_debugserver function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 140115
 
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
@@ -10,9 +10,7 @@ local modulename="Debug"
 fn_rootcheck
 fn_syscheck
 fn_autoip
-fn_distro
-fn_uptime
-fn_load
+fn_distrodetails
 fn_parms
 echo ""
 echo "${gamename} Debug"

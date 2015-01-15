@@ -32,7 +32,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-# Depricated: fn_distrodetails has replaced this function.
+# Deprecated: fn_distrodetails has replaced this function.
 fn_distro(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -52,7 +52,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-# Depricated: fn_distrodetails has replaced this function.
+# Deprecated: fn_distrodetails has replaced this function.
 fn_load(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -130,7 +130,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-# Depricated: fn_distrodetails has replaced this function.
+# Deprecated: fn_distrodetails has replaced this function.
 fn_uptime(){
 functionfile="${FUNCNAME}"
 fn_runfunction

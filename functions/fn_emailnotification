@@ -2,15 +2,13 @@
 # LGSM fn_emailnotification function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 150115
 
 # Description: Sends email notification if monitor picks up a failure.
 
 local modulename="Email"
 fn_printdots "Sending notification to ${email}"
-fn_distro
-fn_uptime
-fn_load
+fn_distrodetails
 {
 	echo -e "========================================\n${servicename} details\n========================================\n"
 	echo -e "Service: ${servicename}"
