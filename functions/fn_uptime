@@ -2,7 +2,8 @@
 # LGSM fn_uptime function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 011214
+# Version: 141214
+# Depricated: fn_distrodetails has replaced this function.
 
 uptime=$(</proc/uptime)
 uptime=${uptime%%.*}
