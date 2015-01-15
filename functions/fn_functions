@@ -85,6 +85,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_servername(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_serverquery(){
 functionfile="${FUNCNAME}"
 fn_runfunction
