@@ -11,7 +11,7 @@ if [ "${engine}" == "avalanche" ]; then
 elif [ "${engine}" == "realvirtuality" ]; then
 	servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
 elif [ "${engine}" == "seriousengine35" ]; then
-	fn_seriousengine35details
+	servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
 elif [ "${engine}" == "spark" ]; then
