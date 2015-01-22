@@ -3,7 +3,7 @@
 # Game Server Query
 # Author: Anonymous & Daniel Gibbs
 # # Website: http://danielgibbs.co.uk
-# Version: 231214
+# Version: 210115
 
 import optparse
 import socket
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 		action = 'store',
 		dest = 'engine',
 		default = False,
-		help = 'Engine type: avalanche, goldsource, realvirtuality, spark, source, unreal, unreal2.'
+		help = 'Engine type: avalanche, goldsource, realvirtuality, spark, source, unity3d, unreal, unreal2.'
 	)
 	parser.add_option(
 		'-v', '--verbose',

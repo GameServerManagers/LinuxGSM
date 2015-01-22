@@ -2,294 +2,384 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 291214
+# Version: 210115
 
 # Description: Displays server infomation.
 
-fn_avalanchedetails(){
-fn_autoip
-servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION   DESCRIPTION   PORT"
-echo "INBOUND     Game port     ${port}"
-echo ""
-echo "You can change ports by editing the"
-echo "start parameters in ${selfname}."
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
+# Standard Details
+# This applies to all engines
+
+fn_details_os(){
+echo -e ""
+echo -e "\e[93mDistro Details\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mDistro:£\e[0m${os}" >> .fn_details_distro
+echo -e "\e[34mArch:£\e[0m${arch}" >> .fn_details_distro
+echo -e "\e[34mKernel:£\e[0m${kernel}" >> .fn_details_distro
+echo -e "\e[34mHostname:£\e[0m$HOSTNAME" >> .fn_details_distro
+echo -e "\e[34mtmux:£\e[0m${tmuxv}" >> .fn_details_distro
+echo -e "\e[34mGLIBC:£\e[0m${glibcv}" >> .fn_details_distro
+column -s '£' -t .fn_details_distro
+rm -f .fn_details_distro
+}
+
+fn_details_performance(){
+echo -e ""
+echo -e "\e[93mPerformance\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mUptime:£\e[0m${days}d, ${hours}h, ${minutes}m" >> .fn_details_performance
+echo -e "\e[34mAvg Load:£\e[0m${load}" >> .fn_details_performance
+column -s '£' -t .fn_details_performance
+rm -f .fn_details_performance
+echo -e ""
+echo -e "\e[34mMem:£\e[34mtotal£ used£ free\e[0m" >> .fn_details_performance
+echo -e "\e[34mPhysical:£\e[0m${physmemtotal}£${physmemused}£${physmemfree}\e[0m" >> .fn_details_performance
+echo -e "\e[34mSwap:£\e[0m${swaptotal}£${swapused}£${swapfree}\e[0m" >> .fn_details_performance
+column -s '£' -t .fn_details_performance
+rm -f .fn_details_performance
+}
+
+fn_details_disk(){
+echo -e ""
+echo -e "\e[93mDisk Usage\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mDisk available:£\e[0m${availspace}" >> .fn_details_disk
+echo -e "\e[34mServerfiles:£\e[0m${serverfilesdu}" >> .fn_details_disk
+if [ -d "${backupdir}" ]; then
+	echo -e "\e[34mBackups:£\e[0m${backupdirdu}" >> .fn_details_disk
 fi
-echo ""
+column -s '£' -t .fn_details_disk
+rm -f .fn_details_disk
+}
+
+fn_details_gameserver(){
+if [ ! -e ${servercfgfullpath} ]; then
+	servername="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	rcon="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	servercfgfullpath="${servercfgfullpath} \e[0;31mCONFIG FILE MISSING!!\e[0m"
+fi
+echo -e ""
+echo -e "\e[92m${gamename} Server Details\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mServer name:£\e[0m${servername}" >> .fn_details_gameserver
+echo -e "\e[34mServer IP:£\e[0m${ip}:${port}" >> .fn_details_gameserver
+if [ ! -z "${rcon}" ]; then
+	echo -e "\e[34mRCON password:£\e[0m${rcon}" >> .fn_details_gameserver
+fi
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+if [ "${pid}" == "0" ]; then
+        echo -e "\e[34mStatus:£\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
+else
+        echo -e "\e[34mStatus:£\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
+fi
+column -s '£' -t .fn_details_gameserver
+rm -f .fn_details_gameserver
+echo -e ""
+echo -e "\e[34mService name:£\e[0m${servicename}" >> .fn_details_gameserver
+echo -e "\e[34mUser:£\e[0m$(whoami)" >> .fn_details_gameserver
+echo -e "\e[34mLocation:£\e[0m${rootdir}" >> .fn_details_gameserver
+if [ ! -z "${servercfgfullpath}" ]; then
+	echo -e "\e[34mConfig file:£\e[0m${servercfgfullpath}" >> .fn_details_gameserver
+fi
+column -s '£' -t .fn_details_gameserver
+rm -f .fn_details_gameserver
+}
+
+fn_details_backup(){
+echo -e ""
+echo -e "\e[92mBackups\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
+	echo -e "No Backups created"
+else
+	echo -e "\e[34mNo. of backups:£\e[0m${backupcount}" >> .fn_details_backup
+	echo -e "\e[34mLatest backup:\e[0m" >> .fn_details_backup
+	echo -e "\e[34m    date:£\e[0m${lastbackupdate}" >> .fn_details_backup
+	echo -e "\e[34m    file:£\e[0m${lastbackup}"  >> .fn_details_backup
+	echo -e "\e[34m    size:£\e[0m${lastbackupsize}" >> .fn_details_backup
+	column -s '£' -t .fn_details_backup
+	rm -f .fn_details_backup
+fi
+}
+
+fn_details_commandlineparms(){
+echo -e ""
+echo -e "\e[92mCommand-line Parameters\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "${executable} ${parms}"
+}
+
+fn_details_statusbottom(){
+echo -e ""
+if [ "${pid}" == "0" ]; then
+        echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
+else
+        echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
+fi
+echo -e ""
+}
+
+# Engine Specific details
+
+fn_avalanchedetails(){
+fn_check_ip
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${selfname}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep Jcmp-Server"
+echo -e ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON£INBOUND£${port}£udp" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 fn_realvirtualitydetails(){
-fn_autoip
-servername=$(grep -s hostname "${servercfgfullpath}"|grep -v //|sed -e 's/\<hostname\>//g'|tr -d '=\"; ')
-serverport=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+fn_check_ip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${serverport}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Admin Password: ${adminpass}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-if [ -z ${serverport} ] || [ -z ${queryport} ] || [ -z ${masterport} ] ; then
-	echo -e "\e[0;31mERROR!\e[0;39m Missing/commented ports in ${servercfg}."
-	echo ""
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep arma3server"
+echo -e ""
+if [ -z ${port} ] || [ -z ${queryport} ] || [ -z ${masterport} ] ; then
+	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+	echo -e ""
 fi
-echo "PROTOCOL DESCRIPTION               PORT"
-echo "UDP      Game port                 ${serverport}"
-echo "UDP      STEAM query port          ${queryport}"
-echo "UDP      STEAM master traffic port ${masterport}"
-echo ""
-echo "You can change ports by editing the"
-echo "parameters in ${servercfgfullpath}"
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
+echo -e "> Game£INBOUND£${port}£udp" >> .fn_details_ports
+echo -e "> Steam: Query£INBOUND£${queryport}£udp" >> .fn_details_ports
+echo -e "> Steam: Master traffic£INBOUND£${masterport}£udp" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 fn_seriousengine35details(){
-fn_autoip
-fn_parms
-servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
-rcon=$(grep -s rcts_strAdminPassword "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
-gameport=$(grep -s prj_uwPort "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
-queryport=$((${gameport} + 1))
+fn_check_ip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
-echo "RCON password: ${rcon}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game/RCON port		${port}"
-echo "INBOUND		Query port		${queryport}"
-echo ""
-echo "You can change ports by editing the"
-echo "parameters in ${servercfgfullpath}"
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep Sam3_Dedicate"
+echo -e ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON£INBOUND£${port}£tcp" >> .fn_details_ports
+echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 fn_sourcedetails(){
-fn_autoip
+fn_check_ip
 fn_parms
-servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
-rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
-echo "RCON password: ${rcon}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Start Parameters"
-echo "============================"
-echo "${executable} ${parms}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION DESCRIPTION             PORT"
-echo "INBOUND           Game/RCON port          ${port}"
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${selfname}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep srcds_linux"
+echo -e ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON£INBOUND£${port}£tcp/udp" >> .fn_details_ports
 if [ ! -z "${sourcetvport}" ]; then
-        echo "INBOUND           SourceTV port           ${sourcetvport}"
+        echo -e "> SourceTV£INBOUND£${sourcetvport}£udp" >> .fn_details_ports
 fi
-echo "OUTBOUND  Client port             ${clientport}"
-echo ""
-echo "You can change ports by editing the"
-echo "start parameters in ${selfname}."
-echo ""
-if [ "${pid}" == "0" ]; then
-        echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-        echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
+echo -e "< Client£OUTBOUND£${clientport}£udp" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 fn_sparkdetails(){
-fn_autoip
-queryport=$((${port} + 1))
+fn_check_ip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${port}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game/RCON port		${port}"
-echo "INBOUND		Query port		${queryport}"
-echo "INBOUND		WebAdmin 		${webadminport}"
-echo ""
-echo "${servername} WebAdmin"
-echo "======================="
-echo "WebAdmin URL: http://${ip}:${webadminport}/index.html"
-echo "WebAdmin Username: ${webadminuser}"
-echo "WebAdmin Password: ${webadminpass}"
-echo ""
-echo "You can change various parameters by editing the"
-echo "start parameters in ${selfname}."
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${selfname}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep server_linux3"
+echo -e ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON£INBOUND£${port}£udp" >> .fn_details_ports
+echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
+echo -e "> WebAdmin£INBOUND£${webadminport}£tcp" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+echo -e ""
+echo -e "\e[92m${servername} WebAdmin\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mWebAdmin url:£\e[0mhttp://${ip}:${webadminport}/index.html" >> .fn_details_ports
+echo -e "\e[34mWebAdmin username:£\e[0m${webadminuser}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin password:£\e[0m${webadminpass}" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 fn_unity3ddetails(){
-fn_autoip
+fn_check_ip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
-queryport=$((${gameport} + 1))
-webadminenabled=$(grep ControlPanelEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
-telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
-webadminuser=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${gameport}"
-echo "Config file: ${servercfgfullpath}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION	DESCRIPTION		PORT"
-echo "INBOUND		Game port		${gameport}"
-echo "INBOUND		Query port		${queryport}"
-echo "INBOUND		WebAdmin 		${webadminport}"
-echo "INBOUND		Telnet 			${telnetport}"
-echo ""
-echo "${servername} WebAdmin"
-echo "======================="
-echo "WebAdmin Enabled: ${webadminenabled}"
-echo "WebAdmin URL: http://${ip}:${webadminport}"
-echo "WebAdmin Username: ${webadminuser}"
-echo ""
-echo "You can change ports by editing the"
-echo "parameters in ${servercfgfullpath}"
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep 7DaysToDie"
+echo -e ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON£INBOUND£${port}£udp" >> .fn_details_ports
+echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
+echo -e "> WebAdmin£INBOUND£${webadminport}£tcp" >> .fn_details_ports
+echo -e "> Telnet£INBOUND£${telnetport}£tcp" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+echo -e ""
+echo -e "\e[92m${servername} WebAdmin\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mWebAdmin enabled:£\e[0m${webadminenabled}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin url:£\e[0mhttp://${ip}:${webadminport}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin password:£\e[0m${webadminpass}" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+echo -e ""
+echo -e "\e[92m${servername} Telnet\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mTelnet enabled:£\e[0m${telnetenabled}" >> .fn_details_ports
+echo -e "\e[34mTelnet address:£\e[0m${ip}:${telnetport}" >> .fn_details_ports
+echo -e "\e[34mTelnet password:£\e[0m${telnetpass}" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 fn_unrealdetails(){
-fn_autoip
+fn_check_ip
 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-gameport=$(grep Port= "${systemdir}/${ini}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
-queryport=$((${gameport} + 1))
-gsqueryport=$(grep OldQueryPortNumber= "${systemdir}/${ini}"|tr -d '\r'|tr -cd [:digit:])
-udplinkport=$((${gameport} + 2))
-webadminport=$(grep ListenPort= "${systemdir}/${ini}"|tr -d '\r'|tr -cd [:digit:])
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep ucc-bin"
+echo -e ""
+echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL£INI VARIABLE" >> .fn_details_ports
+echo -e "> Game£INBOUND£${port}£udp£Port=${port}" >> .fn_details_ports
+echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
 if [ "${engine}" == "unreal" ]; then
-	webadminuser=$(grep AdminUsername= "${systemdir}/${ini}"|sed 's/\AdminUsername=//g')
-else
-	webadminuser=$(grep AdminName= "${systemdir}/${ini}"|sed 's/\AdminName=//g')
-fi
-webadminpass=$(grep AdminPassword= "${systemdir}/${ini}"|sed 's/\AdminPassword=//g')
-echo ""
-echo "${gamename} Server Details"
-echo "============================"
-echo "Server name: ${servername}"
-echo "Server IP: ${ip}:${gameport}"
-echo "Config file: ${systemdir}/${ini}"
-echo ""
-echo "Server Ports"
-echo "============================"
-echo "Ports the server is currently using."
-echo ""
-echo "DIRECTION	DESCRIPTION		PORT		INI VARIABLE"
-echo "INBOUND		Game port		${gameport} UDP	Port=${gameport}"
-echo "INBOUND		Query port		${queryport} UDP	n/a"
-if [ "${engine}" == "unreal" ]; then
-	echo "OUTBOUND	UdpLink Port (random)	${udplinkport}+ UDP	n/a"
+	echo -e "< UdpLink Port (random)£OUTBOUND£${udplinkport}+£udp" >> .fn_details_ports
 fi
 if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
-	echo "INBOUND		GameSpy query port	${gsqueryport} UDP	OldQueryPortNumber=${gsqueryport}"
+	echo -e "> GameSpy query£INBOUND£${gsqueryport}£udp£OldQueryPortNumber=${gsqueryport}" >> .fn_details_ports
 fi
 if [ "${appid}" == "215360" ]; then
-	echo "OUTBOUND	Master server port 	28852 TCP/UDP	n/a"
+	echo -e "< Master server£OUTBOUND£28852£tcp/udp" >> .fn_details_ports
 else
-	echo "OUTBOUND	Master server port	28900/28902 TCP/UDP  n/a"
+	echo -e "< Master server£OUTBOUND£28900/28902£tcp/udp" >> .fn_details_ports
 fi
 if [ "${appid}" ]; then
 	if [ "${appid}" == "223250" ]; then
-		echo "OUTBOUND	Steam port		20610 UDP	n/a"
+		echo -e "< Steam£OUTBOUND£20610£udp" >> .fn_details_ports
 	else
-		echo "OUTBOUND	Steam port		20660 UDP	n/a"
+		echo -e "< Steam£OUTBOUND£20660£udp" >> .fn_details_ports
 	fi
 fi
-echo "INBOUND		WebAdmin 		${webadminport} TCP	ListenPort=${webadminport}"
-echo ""
-echo "${servername} WebAdmin"
-echo "======================="
-echo "WebAdmin URL: http://${ip}:${webadminport}"
-echo "WebAdmin Username: ${webadminuser}"
-echo "WebAdmin Password: ${webadminpass}"
-echo ""
-if [ "${pid}" == "0" ]; then
-	echo -e "Status:\e[0;31m OFFLINE\e[0;39m"
-else
-	echo -e "Status:\e[0;32m ONLINE\e[0;39m"
-fi
-echo ""
+echo -e "> WebAdmin£INBOUND£${webadminport}£tcp£ListenPort=${webadminport}" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+echo -e ""
+echo -e "\e[92m${servername} WebAdmin\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\e[34mWebAdmin enabled:£\e[0m${webadminenabled}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin url:£\e[0mhttp://${ip}:${webadminport}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin user:£\e[0m${webadminuser}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin password:£\e[0m${webadminpass}" >> .fn_details_ports
+column -s '£' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
 }
 
 if [ "${engine}" == "avalanche" ]; then
@@ -307,5 +397,5 @@ elif [ "${engine}" == "unity3d" ]; then
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_unrealdetails
 else
-	echo "error: Unable to detect server engine!"
+	fn_printerrornl "Unable to detect server engine."
 fi

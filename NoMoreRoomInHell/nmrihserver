@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 210115
 
 #### Variables ####
 
@@ -51,11 +51,7 @@ servercfgdir="${systemdir}/cfg"
 servercfg="${servicename}.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
-backupdir="backups"
-
-# Server Details
-servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
-rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
@@ -72,31 +68,6 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 
 ##### Script #####
 # Do not edit
-
-fn_install(){
-fn_rootcheck
-fn_header
-if [ -z "${autoinstall}" ]; then
-	fn_serverdirectory
-	fn_header
-fi
-fn_steamdl
-fn_steaminstall
-fn_steamfix
-fn_glibcfix
-fn_loginstall
-fn_getquery
-fn_serverconfig
-fn_header
-fn_details
-fn_installcomplete
-}
-
-fn_functions(){
-# Functions are defines in fn_functions.
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
 fn_runfunction(){
 # Functions are downloaded and run with this function
@@ -115,44 +86,13 @@ fi
 source "${rootdir}/functions/${functionfile}"
 }
 
+fn_functions(){
+# Functions are defined in fn_functions.
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_functions
 
-case "$1" in
-	start)
-		fn_startserver;;
-	stop)
-		fn_stopserver;;
-	restart)
-		fn_restartserver;;
-	update)
-		norestart=1;
-		fn_versioncheck;;
-	update-restart)
-		fn_versioncheck;;
-	validate)
-		fn_validateserver;;
-	validate-restart)
-		fn_stopserver
-		fn_validateserver
-		fn_startserver;;
-	monitor)
-		fn_monitorserver;;
-	email-test)
-		fn_emailtest;;
-	details)
-		fn_details;;
-	backup)
-		fn_backupserver;;
-	console)
-		fn_console;;
-	debug)
-		fn_debugserver;;
-	install)
-		fn_install;;
-	auto-install)
-		fn_autoinstall;;
-	*)
-	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install|auto-install}"
-	exit 1;;
-esac
-exit
+getopt=$1
+fn_getopt

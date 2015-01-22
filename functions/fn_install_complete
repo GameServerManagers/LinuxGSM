@@ -1,0 +1,12 @@
+#!/bin/bash
+# LGSM fn_install_complete function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 210115
+
+echo "================================="
+echo "Install Complete!"
+echo ""
+echo "To start server type:"
+echo "${selfname} start"
+echo ""

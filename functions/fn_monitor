@@ -1,0 +1,60 @@
+#!/bin/bash
+# LGSM fn_monitor function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 210115
+
+# Description: Monitors server by checking for running proccesses
+# then passes to fn_monitor_query.
+
+local modulename="Monitor"
+fn_check_root
+fn_check_systemdir
+fn_check_ip
+fn_details_config
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
+sleep 1
+if [ ! -f "${lockselfname}" ]; then
+	fn_printinfo "Disabled: No lock file found"
+	fn_scriptlog "Disabled: No lock file found"
+	sleep 1
+	echo -en "\n"
+	echo "To enable monitor run ${selfname} start"
+	exit
+fi
+updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
+if [ "${updatecheck}" = "0" ]; then
+	fn_printdots "Checking session: CHECKING"
+	fn_scriptlog "Checking session: CHECKING"
+	sleep 1
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	if [ "${tmuxwc}" -eq 1 ]; then
+		fn_printok "Checking session: OK"
+		fn_scriptlog "Checking session: OK"
+		sleep 1
+		echo -en "\n"
+		fn_monitor_query
+		exit
+	else
+		fn_printfail "Checking session: FAIL"
+		fn_scriptlog "Checking session: FAIL"
+		sleep 1
+		echo -en "\n"
+		if [ "${emailnotification}" = "on" ]; then
+			subject="${servicename} Monitor - Starting ${servername}"
+			failurereason="${servicename} process not running"
+			actiontaken="${servicename} has been restarted"
+			fn_email
+		fi
+		fn_scriptlog "Monitor is starting ${servername}"
+		fn_start
+	fi
+else
+	fn_printinfonl "SteamCMD is currently checking for updates"
+	fn_scriptlog "SteamCMD is currently checking for updates"
+	sleep 1
+	fn_printinfonl "When update is complete ${servicename} will start"
+	fn_scriptlog "When update is complete ${servicename} will start"
+	sleep 1
+fi

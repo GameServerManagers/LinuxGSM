@@ -1,0 +1,69 @@
+#!/bin/bash
+# LGSM fn_start function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 210115
+
+# Description: Starts the server.
+
+local modulename="Starting"
+fn_check_root
+fn_check_systemdir
+fn_check_ip
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	startfix=1
+	fn_csgofix
+fi
+fn_details_config
+fn_parms
+fn_logs
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
+sleep 1
+fn_check_tmux
+fn_check_steamcmd
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
+if [ "${tmuxwc}" -eq 0 ]; then
+	fn_scriptlog "Rotating log files"
+	if [ "${engine}" == "unreal2" ]; then
+		mv "${gamelog}" "${gamelogdate}"
+	fi
+	mv "${scriptlog}" "${scriptlogdate}"
+	mv "${consolelog}" "${consolelogdate}"
+fi
+
+if [ "${tmuxwc}" -eq 1 ]; then
+	fn_printinfo "${servername} is already running"
+	fn_scriptlog "${servername} is already running"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
+# Create lock file
+date > "${rootdir}/${lockselfname}"
+cd "${executabledir}"
+tmux new-session -d -s ${servicename} "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+# tmux pipe-pane not supported in tmux versions < 1.6
+if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:]|tail -c 3)" -lt "16" ]; then
+	echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
+	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
+else
+	tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
+fi
+sleep 1
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
+if [ "${tmuxwc}" -eq 0 ]; then
+	fn_printfailnl "Unable to start ${servername}"
+	fn_scriptlog "Unable to start ${servername}"
+	echo -en "	Check log files: ${rootdir}/log"
+	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
+		fn_scriptlog "tmux returned the following error"
+		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" >> "${scriptlog}"
+	fi
+else
+	fn_printok "${servername}"
+	fn_scriptlog "Started ${servername}"
+fi
+rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+sleep 1
+echo -en "\n"

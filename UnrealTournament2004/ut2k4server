@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 210115
 
 #### Variables ####
 
@@ -11,6 +11,19 @@
 # (on|off)
 emailnotification="off"
 email="email@example.com"
+
+# Start Variables
+defaultmap="DM-Rankin"
+ip="0.0.0.0"
+
+fn_parms(){
+parms="server ${defaultmap}?game=XGame.xDeathMatch -nohomedir ini=${servercfg} log=${gamelog}"
+}
+
+# Server Details
+servicename="ut2k4-server"
+gamename="Unreal Tournament 2004"
+engine="unreal2"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,17 +33,12 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"
 executable="./ucc-bin"
+servercfgdir="${systemdir}"
+servercfg="${servicename}.ini"
+servercfgfullpath="${servercfgdir}/${servercfg}"
 compressedmapsdir="${rootdir}/Maps-Compressed"
 defaultcfg="${systemdir}/UT2004.ini"
-backupdir="backups"
-
-# Server Details
-servicename="ut2k4-server"
-gamename="Unreal Tournament 2004"
-engine="unreal2"
-ini="${servicename}.ini"
-servername=$(grep -s ServerName= ${systemdir}/${ini}|sed 's/ServerName=//g')
-ip="0.0.0.0"
+backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
@@ -47,39 +55,8 @@ gamelogdate="${gamelogdir}/${servicename}-game-$(date '+%d-%m-%Y-%H-%M-%S').log"
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
-# Start Variables
-fn_parms(){
-defaultmap="DM-Rankin"
-parms="server ${defaultmap}?game=XGame.xDeathMatch -nohomedir ini=${ini} log=${gamelog}"
-}
-
 ##### Script #####
 # Do not edit
-
-fn_install(){
-fn_rootcheck
-fn_header
-if [ -z "${autoinstall}" ]; then
-	fn_serverdirectory
-	fn_header
-fi
-fn_ut2k4filesdl
-fn_ut2k4install
-fn_ut2k4key
-fn_loginstall
-fn_getquery
-fn_serverconfig
-fn_ut2k4fix
-fn_header
-fn_details
-fn_installcomplete
-}
-
-fn_functions(){
-# Functions are defines in fn_functions.
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
 fn_runfunction(){
 # Functions are downloaded and run with this function
@@ -98,33 +75,13 @@ fi
 source "${rootdir}/functions/${functionfile}"
 }
 
+fn_functions(){
+# Functions are defined in fn_functions.
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_functions
 
-case "$1" in
-	start)
-		fn_startserver;;
-	stop)
-		fn_stopserver;;
-	restart)
-		fn_restartserver;;
-	monitor)
-		fn_monitorserver;;
-	email-test)
-		fn_emailtest;;
-	details)
-		fn_details;;
-	backup)
-		fn_backupserver;;
-	console)
-		fn_console;;
-	debug)
-		fn_debugserver;;
-	install)
-		fn_install;;
-	map-compressor)
-		fn_unreal2compressmaps;;
-	*)
-	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor}"
-	exit 1;;
-esac
-exit
+getopt=$1
+fn_getopt

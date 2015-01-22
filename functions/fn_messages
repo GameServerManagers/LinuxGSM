@@ -2,7 +2,7 @@
 # LGSM fn_messages function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 010115
+# Version: 210115
 
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
@@ -117,4 +117,13 @@ fn_printfailure(){
 
 fn_printfailurenl(){
     echo -e "\e[0;31mFailure!\e[0m $@"
+}
+
+# Error!
+fn_printerror(){
+    echo -en "\e[0;31mError!\e[0m $@"
+}
+
+fn_printerrornl(){
+    echo -e "\e[0;31mError!\e[0m $@"
 }

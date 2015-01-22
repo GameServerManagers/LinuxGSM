@@ -2,10 +2,11 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 190115
+# Version: 210115
 
 # Description: getopt arguments.
 
+fn_getopt_generic(){
 case "$getopt" in
 	start)
 		fn_start;;
@@ -45,3 +46,124 @@ case "$getopt" in
 	exit 1;;
 esac
 exit
+}
+
+fn_getopt_unreal(){
+case "$getopt" in
+	start)
+		fn_start;;
+	stop)
+		fn_stop;;
+	restart)
+		fn_restart;;
+	monitor)
+		fn_monitor;;
+	email-test)
+		fn_email_test;;
+	details)
+		fn_details;;
+	backup)
+		fn_backup;;
+	console)
+		fn_console;;
+	debug)
+		fn_debug;;
+	install)
+		fn_install;;
+	map-compressor)
+		fn_compress_ut99maps;;
+	*)
+	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	exit 1;;
+esac
+exit
+}
+
+
+fn_getopt_unreal2(){
+case "$getopt" in
+	start)
+		fn_start;;
+	stop)
+		fn_stop;;
+	restart)
+		fn_restart;;
+	update)
+		norestart=1;
+		fn_update_check;;
+	update-restart)
+		fn_update_check;;
+	validate)
+		fn_validate;;
+	validate-restart)
+		fn_stop
+		fn_validate
+		fn_start;;
+	monitor)
+		fn_monitor;;
+	email-test)
+		fn_email_test;;
+	details)
+		fn_details;;
+	backup)
+		fn_backup;;
+	console)
+		fn_console;;
+	debug)
+		fn_debug;;
+	install)
+		fn_install;;
+	auto-install)
+		fn_autoinstall;;
+	map-compressor)
+		fn_compress_unreal2maps;;
+	*)
+	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
+	exit 1;;
+esac
+exit
+}
+
+
+fn_getopt_ut2k4(){
+case "$getopt" in
+	start)
+		fn_start;;
+	stop)
+		fn_stop;;
+	restart)
+		fn_restart;;
+	monitor)
+		fn_monitor;;
+	email-test)
+		fn_email_test;;
+	details)
+		fn_details;;
+	backup)
+		fn_backup;;
+	console)
+		fn_console;;
+	debug)
+		fn_debug;;
+	install)
+		fn_install;;
+	map-compressor)
+		fn_compress_unreal2maps;;
+	*)
+	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	exit 1;;
+esac
+exit
+}
+
+if [ "${engine}" == "unreal2" ]; then
+	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+		fn_getopt_ut2k4
+	else
+		fn_getopt_unreal2
+	fi
+elif [ "${engine}" == "unreal" ]; then
+	fn_getopt_unreal
+else
+	fn_getopt_generic
+fi

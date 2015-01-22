@@ -1,0 +1,59 @@
+#!/bin/bash
+# LGSM fn_details_config function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 210115
+
+# Description: Gets specific details from config files.
+
+if [ "${engine}" == "avalanche" ]; then
+	 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g' | tr -d '=\"; '|sed 's/,//g')
+
+elif [ "${engine}" == "realvirtuality" ]; then
+	servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
+	port=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+	queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+	masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+
+elif [ "${engine}" == "seriousengine35" ]; then
+	servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
+	rcon=$(grep -s rcts_strAdminPassword "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
+	port=$(grep -s prj_uwPort "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+	queryport=$((${port} + 1))
+
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+	servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+	rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+
+elif [ "${engine}" == "spark" ]; then
+	queryport=$((${port} + 1))
+
+elif [ "${engine}" == "unity3d" ]; then
+	servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+	port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+	queryport=$((${port} + 1))
+	webadminenabled=$(grep ControlPanelEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+	webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
+	webadminpass=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+	telnetenabled=$(grep TelnetEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+	telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
+	telnetpass=$(grep TelnetPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+
+elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+	servername=$(grep -s ServerName= ${servercfgfullpath}|sed 's/ServerName=//g')
+	port=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
+	queryport=$((${port} + 1))
+	gsqueryport=$(grep OldQueryPortNumber= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+	udplinkport=$((${port} + 2))
+	webadminenabled=$(grep bEnabled= "${servercfgfullpath}"|sed 's/bEnabled=//g'|tr -d '\r')
+	webadminport=$(grep ListenPort= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+	if [ "${engine}" == "unreal" ]; then
+		webadminuser=$(grep AdminUsername= "${servercfgfullpath}"|sed 's/\AdminUsername=//g')
+		webadminpass=$(grep  UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword= |sed 's/\AdminPassword=//g')
+	else
+		webadminuser=$(grep AdminName= "${servercfgfullpath}"|sed 's/\AdminName=//g')
+		webadminpass=$(grep AdminPassword= "${servercfgfullpath}"|sed 's/\AdminPassword=//g')
+	fi
+
+
+fi

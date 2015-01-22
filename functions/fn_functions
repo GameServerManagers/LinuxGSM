@@ -2,17 +2,37 @@
 # LGSM fn_functions function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 150115
+# Version: 210115
 
 # Description: Defines all functions to allow download and execution of functions using fn_runfunction.
 # This function is called first before any other function. Without this file other functions would not load.
 
-fn_autoip(){
+fn_backup(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_backupserver(){
+fn_check_ip(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_check_root(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_check_steamcmd(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_check_systemdir(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_check_tmux(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -22,7 +42,22 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_debugserver(){
+fn_compress_unreal2maps(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_compress_ut99maps(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_csgofix(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_debug(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -32,39 +67,31 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-# Deprecated: fn_distrodetails has replaced this function.
-fn_distro(){
+fn_details_config(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_distrodetails(){
+fn_details_distro(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
-fn_emailnotification(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_emailtest(){
+fn_email(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-# Deprecated: fn_distrodetails has replaced this function.
-fn_load(){
+fn_email_test(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-
-fn_logmanager(){
+fn_getopt(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_monitorserver(){
+fn_logs(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -74,74 +101,45 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_restartserver(){
-fn_scriptlog "Restarting ${servername}"
-fn_stopserver
-fn_startserver
-}
-
-fn_rootcheck(){
+fn_monitor(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_servername(){
+fn_monitor_query(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_serverquery(){
+fn_restart(){
+local modulename="Restarting"
+fn_details_config
+fn_scriptlog "${servername}"
+fn_stop
+fn_start
+}
+
+fn_start(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_startserver(){
+fn_stop(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_stopserver(){
+fn_update_dl(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_syscheck(){
+fn_validate(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_tmuxcheck(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_unreal2compressmaps(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_ut99compressmaps(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_updateserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-# Deprecated: fn_distrodetails has replaced this function.
-fn_uptime(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_validateserver(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_versioncheck(){
+fn_update_check(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -155,97 +153,107 @@ autoinstall=1
 fn_install
 }
 
-fn_csgofix(){
+fn_install(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_getquery(){
+fn_install_complete(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_glibcfix(){
+fn_install_config(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_header(){
+fn_install_glibcfix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_installcomplete(){
+fn_install_gsquery(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_kffix(){
+fn_install_header(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_loginstall(){
+fn_install_kffix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_retryinstall(){
+fn_install_logs(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_rofix(){
+fn_install_retry(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_serverdirectory(){
+fn_install_rofix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_serverconfig(){
+fn_install_serverdir(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_steamdl(){
+fn_install_serverfiles(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_steamfix(){
+fn_install_steamcmd(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_steaminstall(){
+fn_install_steamfix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_ut2k4filesdl(){
+fn_install_ut2k4(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_ut2k4install(){
+fn_install_ut2k4filesdl(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_ut2k4fix(){
+fn_install_ut2k4fix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_ut99filesdl(){
+fn_install_ut2k4key(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_ut99install(){
+fn_install_ut99(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_install_ut99filesdl(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_install_ut99fix(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
