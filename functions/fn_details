@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 220115
 
 # Description: Displays server infomation.
 
@@ -213,6 +213,7 @@ fn_details_statusbottom
 fn_sourcedetails(){
 fn_check_ip
 fn_parms
+fn_details_config
 fn_details_distro
 fn_details_os
 fn_details_performance
