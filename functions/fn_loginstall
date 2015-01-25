@@ -17,7 +17,7 @@ touch "${consolelog}"
 # If a server is source or goldsource create a symbolic link to the game server logs
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	if [ ! -h "${rootdir}/log/server" ]; then
-		ln -sv "${gamelogdir}" "${rootdir}/log/server"
+		ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
 	else
 		echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
 	fi
@@ -28,13 +28,13 @@ if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
 fi
 if [ "${gamename}" == "7 Days To Die" ]; then
 	if [ ! -h "${gamelogdir}/output_log.txt" ]; then
-		ln -sv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
+		ln -nfsv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
 	fi
 fi
 # If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -h "${rootdir}/log/steamcmd" ]; then
-		ln -sv "${rootdir}/Steam/logs" "${rootdir}/log/steamcmd"
+		ln -nfsv "${rootdir}/Steam/logs" "${rootdir}/log/steamcmd"
 	else
 		echo "Symbolic link ${rootdir}/Steam/logs => ${rootdir}/log/steamcmd already exists!"
 	fi
