@@ -30,7 +30,7 @@ engine="source"
 
 # Directorys
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
-selfname="$0"
+selfname="$(basename $0)"
 filesdir="${rootdir}/serverfiles"
 servercfg="${filesdir}/hidden/cfg/${servicename}.cfg"
 backupdir="backups"

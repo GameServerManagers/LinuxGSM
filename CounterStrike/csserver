@@ -40,7 +40,7 @@ engine="goldsource"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
-selfname="$0"
+selfname="$(basename $0)"
 lockselfname=$(echo ".${servicename}.lock")
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/cstrike"

@@ -18,8 +18,8 @@ servicename="mumble-server"
 
 # Directorys
 rootdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-selfname="$0"
-lockselfname=$(echo ".${servicename}.lock")
+selfname="$(basename $0)"
+lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 ini="murmur.ini"
 executable="./murmur.x86 -fg -ini ${ini}"

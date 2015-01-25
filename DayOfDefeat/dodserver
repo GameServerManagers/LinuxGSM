@@ -40,8 +40,8 @@ engine="goldsource"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-selfname="$0"
-lockselfname=$(echo ".${servicename}.lock")
+selfname="$(basename $0)"
+lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/dod"
 executabledir="${filesdir}"
