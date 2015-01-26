@@ -48,12 +48,12 @@ if [ "$(free -h > /dev/null 2>&1; echo $?)" -ne "0" ]; then
 else
 	option="-h"
 fi
-	physmemtotal=$(free ${option} | grep "Mem:" | awk '{print $2}')
-	physmemused=$(free  ${option} | grep "Mem:" | awk '{print $3}')
-	physmemfree=$(free  ${option} | grep "Mem:" | awk '{print $4}')
-	swaptotal=$(free  ${option} | grep "Swap:" | awk '{print $2}')
-	swapused=$(free  ${option} | grep "Swap:" | awk '{print $3}')
-	swapfree=$(free  ${option} | grep "Swap:" | awk '{print $4}')
+physmemtotal=$(free ${option} | awk '/Mem:/ {print $2}')
+physmemused=$(free ${option} | awk '/Mem:/ {print $3}')
+physmemfree=$(free ${option} | awk '/Mem:/ {print $4}')
+swaptotal=$(free ${option} | | awk '/Swap:/ {print $2}')
+swapused=$(free ${option} | awk '/Swap:/ {print $3}')
+swapfree=$(free ${option} | awk '/Swap:/ {print $4}')
 
 # Uptime
 uptime=$(</proc/uptime)
