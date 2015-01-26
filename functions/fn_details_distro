@@ -2,7 +2,7 @@
 # LGSM fn_details_distro function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 260115
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for fn_details, fn_debug and fn_email.

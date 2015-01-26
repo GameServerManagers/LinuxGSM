@@ -2,7 +2,7 @@
 # LGSM fn_install_logs function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 260115
 
 echo ""
 echo "Creating log directorys"
