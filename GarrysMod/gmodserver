@@ -1,5 +1,5 @@
 #!/bin/bash
-# Garrys's Mod
+# Garry's Mod
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -41,7 +41,7 @@ appid="4020"
 
 # Server Details
 servicename="gmod-server"
-gamename="Garrys's Mod"
+gamename="Garry's Mod"
 engine="source"
 
 # Directories

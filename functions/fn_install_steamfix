@@ -23,7 +23,7 @@ echo "================================="
 sleep 1
 mkdir -pv "${HOME}/.steam"
 mkdir -pv "${HOME}/.steam/sdk32"
-if [ "${gamename}" == "Garrys's Mod" ]; then
+if [ "${gamename}" == "Garry's Mod" ]; then
 	cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	mkdir "${HOME}/.steam/bin32"
@@ -33,6 +33,6 @@ sleep 1
 }
 
 fn_steamclientfix
-if [ "${gamename}" == "Garrys's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]; then
+if [ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_libsteamfix
 fi

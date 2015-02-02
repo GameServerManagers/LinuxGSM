@@ -58,8 +58,8 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		fn_glibcfixmsg
 		cd "${filesdir}"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
-	# Garrys's Mod
-	elif [ "${gamename}" == "Garrys's Mod" ]; then
+	# Garry's Mod
+	elif [ "${gamename}" == "Garry's Mod" ]; then
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}/bin"
