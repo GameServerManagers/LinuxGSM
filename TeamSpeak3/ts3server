@@ -16,10 +16,6 @@ gamename="Teamspeak 3"
 servername="Teamspeak 3 Server"
 servicename="ts3-server"
 
-fn_parms(){
-parms="-game fof -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
-}
-
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
