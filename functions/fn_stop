@@ -2,11 +2,34 @@
 # LGSM fn_stop function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 080214
 
 # Description: Stops the server.
 
 local modulename="Stopping"
+
+fn_stop_teamspeak3(){
+fn_check_root
+fn_check_systemdir
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
+sleep 1
+fn_check_ts3status
+if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ];then
+	fn_printfail "${servername} is already stopped"
+	fn_scriptlog "${servername} is already stopped"
+else
+	${filesdir}/ts3server_startscript.sh stop inifile=${ini} > /dev/null 2>&1
+	fn_printok "${servername}"
+	fn_scriptlog "Stopped ${servername}"
+fi
+# Remove lock file
+rm -f "${rootdir}/${lockselfname}"
+sleep 1
+echo -en "\n"
+}
+
+fn_stop_tmux(){
 fn_check_root
 fn_check_systemdir
 fn_details_config
@@ -24,6 +47,13 @@ else
 	fn_scriptlog "Stopped ${servername}"
 fi
 # Remove lock file
-rm -f "${lockselfname}"
+rm -f "${rootdir}/${lockselfname}"
 sleep 1
 echo -en "\n"
+}
+
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_stop_teamspeak3
+else
+	fn_stop_tmux
+fi

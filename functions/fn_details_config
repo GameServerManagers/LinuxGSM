@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 080215
 
 # Description: Gets specific details from config files.
 
@@ -27,7 +27,18 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 
 elif [ "${engine}" == "spark" ]; then
 	queryport=$((${port} + 1))
-
+elif [ "${gamename}" == "Teamspeak 3" ]; then
+	if  [ -s "${servercfgfullpath}" ]; then
+		port=$(grep default_voice_port= "${servercfgfullpath}"|tr -cd [:digit:])
+		queryport=$(grep query_port= "${servercfgfullpath}"|tr -cd [:digit:])
+		fileport=$(grep filetransfer_port= "${servercfgfullpath}"|tr -cd [:digit:])
+		ip=$(grep voice_ip= "${servercfgfullpath}"|sed 's/\voice_ip=//g')
+		dbplugin=$(grep dbplugin= "${servercfgfullpath}"|sed 's/\dbplugin=//g')
+	else
+		port="9987"
+		queryport="10011"
+		fileport="30033"
+	fi
 elif [ "${engine}" == "unity3d" ]; then
 	servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
 	port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
@@ -49,11 +60,9 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	webadminport=$(grep ListenPort= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
 	if [ "${engine}" == "unreal" ]; then
 		webadminuser=$(grep AdminUsername= "${servercfgfullpath}"|sed 's/\AdminUsername=//g')
-		webadminpass=$(grep  UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword= |sed 's/\AdminPassword=//g')
+		webadminpass=$(grep  UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword=|sed 's/\AdminPassword=//g')
 	else
 		webadminuser=$(grep AdminName= "${servercfgfullpath}"|sed 's/\AdminName=//g')
 		webadminpass=$(grep AdminPassword= "${servercfgfullpath}"|sed 's/\AdminPassword=//g')
 	fi
-
-
 fi

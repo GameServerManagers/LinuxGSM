@@ -2,11 +2,71 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 080214
 
 # Description: Starts the server.
 
 local modulename="Starting"
+
+fn_start_teamspeak3(){
+# Create any missing log dirs
+if [ ! -d ${scriptlogdir} ];then
+	mkdir ${rootdir}/log
+	mkdir ${scriptlogdir}
+	fn_printinfo  "Creating log directorys ${scriptlogdir}"
+	fn_scriptlog "Creating log directorys ${scriptlogdir}"
+fi
+if [ ! -h ${rootdir}/log/server ]; then
+	ln -sv ${gamelogdir} ${rootdir}/log/server
+fi
+
+fn_check_root
+fn_check_systemdir
+fn_check_ts3status
+if [ "${ts3status}" = "Server is running" ]; then
+	fn_printinfo "${servername} is already running"
+	fn_scriptlog "${servername} is already running"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
+if [ ! -e ${servercfgfullpath} ]; then
+	fn_printwarn "${servercfgfullpath} is missing"
+	fn_scriptlog "${servercfgfullpath} is missing"
+	sleep 1
+	fn_printinfo "Creating blank ${servercfgfullpath}"
+	fn_scriptlog "Creating blank ${servercfgfullpath}"
+	sleep 1
+	fn_printinfo "${servercfgfullpath} can remain blank by default."
+	fn_scriptlog "${servercfgfullpath} can remain blank by default."
+	sleep 1
+	touch "${servercfgfullpath}"
+fi
+fn_logs
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
+sleep 1
+mv "${scriptlog}" "${scriptlogdate}"
+# Create lock file
+date > "${rootdir}/${lockselfname}"
+cd "${executabledir}"
+./ts3server_startscript.sh start inifile=${servercfgfullpath} > /dev/null 2>&1
+sleep 1
+fn_check_ts3status
+#
+if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ];then
+	fn_printfailnl "Unable to start ${servername}"
+	fn_scriptlog "Unable to start ${servername}"
+	echo -en "	Check log files: ${rootdir}/log"
+else
+	fn_printok "${servername}"
+	fn_scriptlog "Started ${servername}"
+fi
+sleep 0.5
+echo -en "\n"
+}
+
+fn_start_tmux(){
 fn_check_root
 fn_check_systemdir
 fn_check_ip
@@ -67,3 +127,10 @@ fi
 rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 sleep 1
 echo -en "\n"
+}
+
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_start_teamspeak3
+else
+	fn_start_tmux
+fi
