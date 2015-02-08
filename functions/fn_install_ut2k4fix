@@ -25,8 +25,8 @@ sleep 0.5
 echo -en "\n"
 sleep 0.5
 cd "${rootdir}"
-${selfname} start
+./${selfname} start
 sleep 5
-${selfname} restart
+./${selfname} restart
 sleep 5
-${selfname} stop
+./${selfname} stop

@@ -20,8 +20,8 @@ sleep 1
 echo "forcing server restart..."
 sleep 1
 cd "${rootdir}"
-${selfname} start
+./${selfname} start
 sleep 5
-${selfname} restart
+./${selfname} restart
 sleep 5
-${selfname} stop
+./${selfname} stop
