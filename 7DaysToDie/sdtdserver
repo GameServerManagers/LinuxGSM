@@ -24,10 +24,6 @@ fn_parms(){
 parms="-configfile=\"${servercfgfullpath}\" -dedicated"
 }
 
-# Logging
-# Number of days to keep script logs
-logdays="7"
-
 #### Advanced Variables ####
 
 # Steam
@@ -53,6 +49,7 @@ defaultcfg="${filesdir}/serverconfig.xml"
 backupdir="${rootdir}/backups"
 
 # Logging
+logdays="7"
 gamelogdir="${rootdir}/log/server"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
