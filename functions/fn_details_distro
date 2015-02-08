@@ -51,7 +51,7 @@ fi
 physmemtotal=$(free ${option} | awk '/Mem:/ {print $2}')
 physmemused=$(free ${option} | awk '/Mem:/ {print $3}')
 physmemfree=$(free ${option} | awk '/Mem:/ {print $4}')
-swaptotal=$(free ${option} | | awk '/Swap:/ {print $2}')
+swaptotal=$(free ${option} | awk '/Swap:/ {print $2}')
 swapused=$(free ${option} | awk '/Swap:/ {print $3}')
 swapfree=$(free ${option} | awk '/Swap:/ {print $4}')
 
