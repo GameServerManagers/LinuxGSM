@@ -49,7 +49,7 @@ exit
 }
 
 fn_getopt_teamspeak3(){
-case "$1" in
+case "$getopt" in
 	start)
 		fn_start;;
 	stop)
