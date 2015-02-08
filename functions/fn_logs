@@ -29,7 +29,6 @@ if [ $(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l) -ne "0" ]; then
 		find "${gamelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
 	fi
 	find "${scriptlogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
-	if
 	if [ -n "${consolelog}" ]; then
 		find "${consolelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
 	fi
