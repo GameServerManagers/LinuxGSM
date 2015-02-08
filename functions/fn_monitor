@@ -2,7 +2,7 @@
 # LGSM fn_monitor function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 080214
+# Version: 080215
 
 # Description: Monitors server by checking for running proccesses
 # then passes to fn_monitor_query.
@@ -10,40 +10,47 @@
 local modulename="Monitor"
 
 fn_monitor_teamspeak3(){
-fn_rootcheck
-fn_syscheck
-fn_logmanager
-fn_printfail "Monitor is checking ${servicename}: ${servername}"
-fn_scriptlog "Monitor is checking ${servername}"
-sleep 0.5
-fn_runcheck
-fn_printwarn "Monitor detected ${servername} had stopped!\n"
-fn_scriptlog "Monitor detected ${servername} had stopped!"
+fn_check_root
+fn_check_systemdir
+fn_logs
+fn_printdots "${servername}"
+fn_scriptlog "${servername}"
 sleep 1
-fn_status
-if [ "${ts3status}" = "Server seems to have died" ]; then
-	fn_printinfo "${servername} Server seems to have died"
-	fn_scriptlog "${servername} Server seems to have died"
-	failurereason="Server seems to have died"
-elif [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
-	fn_printinfo "${servername} No server running (ts3server.pid is missing)"
-	fn_scriptlog "${servername} No server running (ts3server.pid is missing)"
-	failurereason="No server running (ts3server.pid is missing)"
+if [ ! -f "${lockselfname}" ]; then
+	fn_printinfo "Disabled: No lock file found"
+	fn_scriptlog "Disabled: No lock file found"
+	sleep 1
+	echo -en "\n"
+	echo "To enable monitor run ./${selfname} start"
+	exit
+fi
+fn_printdots "Checking session: CHECKING"
+fn_scriptlog "Checking session: CHECKING"
+sleep 1
+fn_check_ts3status
+if [ "${ts3status}" = "Server is running" ]; then
+	fn_printok "Checking session: OK"
+	fn_scriptlog "Checking session: OK"
+	sleep 1
+	sleep 0.5
+	echo -en "\n"
+	exit
 else
-	fn_printinfo "${servername} Unknown error"
-	fn_scriptlog "${servername} Unknown error"
-	failurereason="Unknown error"
+	fn_printfail "Checking session: FAIL"
+	fn_scriptlog "Checking session: FAIL"
+	sleep 1
+	fn_printfail "Checking session: FAIL: ${ts3status}"
+	fn_scriptlog "Checking session: FAIL: ${ts3status}"
+	failurereason="${ts3status}"
+	if [ "${emailnotification}" = "on" ]; then
+		subject="${servicename} Monitor - Restarting ${servername}"
+		actiontaken="restarted ${servername}"
+		fn_emailnotification
+	fi
 fi
 sleep 0.5
 echo -en "\n"
-if [ "${emailnotification}" = "on" ]; then
-	subject="${servicename} Monitor - Restarting ${servername}"
-	actiontaken="restarted ${servername}"
-	fn_emailnotification
-fi
-sleep 0.5
-echo -en "\n"
-fn_restartserver
+fn_restart
 }
 
 fn_monitor_tmux(){
