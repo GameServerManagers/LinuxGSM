@@ -2,12 +2,51 @@
 # LGSM fn_monitor function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 080214
 
 # Description: Monitors server by checking for running proccesses
 # then passes to fn_monitor_query.
 
 local modulename="Monitor"
+
+fn_monitor_teamspeak3(){
+fn_rootcheck
+fn_syscheck
+fn_logmanager
+fn_printfail "Monitor is checking ${servicename}: ${servername}"
+fn_scriptlog "Monitor is checking ${servername}"
+sleep 0.5
+fn_runcheck
+fn_printwarn "Monitor detected ${servername} had stopped!\n"
+fn_scriptlog "Monitor detected ${servername} had stopped!"
+sleep 1
+fn_status
+if [ "${ts3status}" = "Server seems to have died" ]; then
+	fn_printinfo "${servername} Server seems to have died"
+	fn_scriptlog "${servername} Server seems to have died"
+	failurereason="Server seems to have died"
+elif [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
+	fn_printinfo "${servername} No server running (ts3server.pid is missing)"
+	fn_scriptlog "${servername} No server running (ts3server.pid is missing)"
+	failurereason="No server running (ts3server.pid is missing)"
+else
+	fn_printinfo "${servername} Unknown error"
+	fn_scriptlog "${servername} Unknown error"
+	failurereason="Unknown error"
+fi
+sleep 0.5
+echo -en "\n"
+if [ "${emailnotification}" = "on" ]; then
+	subject="${servicename} Monitor - Restarting ${servername}"
+	actiontaken="restarted ${servername}"
+	fn_emailnotification
+fi
+sleep 0.5
+echo -en "\n"
+fn_restartserver
+}
+
+fn_monitor_tmux(){
 fn_check_root
 fn_check_systemdir
 fn_check_ip
@@ -57,4 +96,11 @@ else
 	fn_printinfonl "When update is complete ${servicename} will start"
 	fn_scriptlog "When update is complete ${servicename} will start"
 	sleep 1
+fi
+}
+
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_monitor_teamspeak3
+else
+	fn_monitor_tmux
 fi
