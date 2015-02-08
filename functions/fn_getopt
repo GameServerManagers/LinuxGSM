@@ -180,8 +180,9 @@ case "$getopt" in
 esac
 exit
 }
-
-if [ "${engine}" == "unreal2" ]; then
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_getopt_teamspeak3
+elif [ "${engine}" == "unreal2" ]; then
 	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fn_getopt_ut2k4
 	else
