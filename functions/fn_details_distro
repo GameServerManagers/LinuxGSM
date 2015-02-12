@@ -2,7 +2,7 @@
 # LGSM fn_details_distro function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 260115
+# Version: 120215
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for fn_details, fn_debug and fn_email.
@@ -11,7 +11,7 @@
 # Returns architecture, kernel and distro/os.
 arch=$(uname -m)
 kernel=$(uname -r)
-if [ -f /etc/lsb-release ]; then
+if [ -z $(command -v lsb_release) ]; then
 	os=$(lsb_release -s -d)
 elif [ -f /etc/debian_version ]; then
 	os="Debian $(cat /etc/debian_version)"
