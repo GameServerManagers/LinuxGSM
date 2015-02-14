@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 080214
+# Version: 140214
 
 # Description: Starts the server.
 
@@ -104,7 +104,7 @@ date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
 tmux new-session -d -s ${servicename} "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 # tmux pipe-pane not supported in tmux versions < 1.6
-if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:]|tail -c 3)" -lt "16" ]; then
+if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -lt "16" ]; then
 	echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
 	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 else
