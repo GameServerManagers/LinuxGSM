@@ -19,7 +19,7 @@ servicename="ts3-server"
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
-lockselfname=".${servicename}.lock"
+lockselfname="${servicename}.pid"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
