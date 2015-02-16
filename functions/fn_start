@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 140214
+# Version: 160214
 
 # Description: Starts the server.
 
@@ -58,6 +58,7 @@ if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No se
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	echo -en "	Check log files: ${rootdir}/log"
+	echo -en "	Run debug mode: ./${selfname} debug"
 else
 	fn_printok "${servername}"
 	fn_scriptlog "Started ${servername}"
@@ -107,6 +108,9 @@ tmux new-session -d -s ${servicename} "${executable} ${parms}" 2> "${scriptlogdi
 if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -lt "16" ]; then
 	echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
 	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
+elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -eq "18" ]; then
+	echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
+	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 else
 	tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 fi
@@ -116,6 +120,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	echo -en "	Check log files: ${rootdir}/log"
+	echo -en "	Run debug mode: ./${selfname} debug"
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
 		fn_scriptlog "tmux returned the following error"
 		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" >> "${scriptlog}"
