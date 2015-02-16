@@ -53,12 +53,10 @@ cd "${executabledir}"
 ./ts3server_startscript.sh start inifile=${servercfgfullpath} > /dev/null 2>&1
 sleep 1
 fn_check_ts3status
-#
 if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ];then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
-	echo -en "	Check log files: ${rootdir}/log"
-	echo -en "	Run debug mode: ./${selfname} debug"
+	echo -e "	Check log files: ${rootdir}/log"
 else
 	fn_printok "${servername}"
 	fn_scriptlog "Started ${servername}"
@@ -121,7 +119,7 @@ tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
-	echo -en "	Check log files: ${rootdir}/log"
+	echo -e "	Check log files: ${rootdir}/log"
 	echo -en "	Run debug mode: ./${selfname} debug"
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
 		fn_scriptlog "tmux returned the following error"

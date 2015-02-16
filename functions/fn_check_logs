@@ -3,6 +3,7 @@
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
 # Version: 160215
+# Description: Checks that log files exist on server start
 
 # Create dir's for the script and console logs
 if [ ! -f "${scriptlog}" ]; then

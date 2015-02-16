@@ -66,11 +66,21 @@ echo -e "\e[34mServer IP:£\e[0m${ip}:${port}" >> .fn_details_gameserver
 if [ ! -z "${rcon}" ]; then
 	echo -e "\e[34mRCON password:£\e[0m${rcon}" >> .fn_details_gameserver
 fi
-pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
-if [ "${pid}" == "0" ]; then
-        echo -e "\e[34mStatus:£\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
+
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_check_ts3status
+	if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
+		echo -e "\e[34mStatus:£\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
+	else
+		echo -e "\e[34mStatus:£\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
+	fi
 else
-        echo -e "\e[34mStatus:£\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
+	pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+	if [ "${pid}" == "0" ]; then
+		echo -e "\e[34mStatus:£\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
+	else
+		echo -e "\e[34mStatus:£\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
+	fi
 fi
 column -s '£' -t .fn_details_gameserver
 rm -f .fn_details_gameserver
@@ -114,10 +124,18 @@ echo -e "${executable} ${parms}"
 
 fn_details_statusbottom(){
 echo -e ""
-if [ "${pid}" == "0" ]; then
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
         echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
+	else
+		echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
+	fi
 else
-        echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
+	if [ "${pid}" == "0" ]; then
+		echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
+	else
+		echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
+	fi
 fi
 echo -e ""
 }
