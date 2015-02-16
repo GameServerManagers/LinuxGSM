@@ -71,6 +71,7 @@ fn_start_tmux(){
 fn_check_root
 fn_check_systemdir
 fn_check_ip
+fn_check_logs
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
 	fn_csgofix
@@ -112,6 +113,7 @@ elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -eq "18" ]; th
 	echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
 	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 else
+	touch "${consolelog}"
 	tmux pipe-pane -o -t ${servicename} "exec cat >> '${consolelog}'"
 fi
 sleep 1
