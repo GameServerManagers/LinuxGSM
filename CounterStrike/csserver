@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 010215
 
 #### Variables ####
 
@@ -31,7 +31,7 @@ parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clien
 #### Advanced Variables ####
 
 # Steam
-appid="90"
+appid="90 +app_set_config 90 mod cstrike"
 
 # Server Details
 servicename="cs-server"
