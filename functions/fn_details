@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 080214
+# Version: 170214
 
 # Description: Displays server infomation.
 
@@ -13,13 +13,13 @@ fn_details_os(){
 echo -e ""
 echo -e "\e[93mDistro Details\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mDistro:£\e[0m${os}" >> .fn_details_distro
-echo -e "\e[34mArch:£\e[0m${arch}" >> .fn_details_distro
-echo -e "\e[34mKernel:£\e[0m${kernel}" >> .fn_details_distro
-echo -e "\e[34mHostname:£\e[0m$HOSTNAME" >> .fn_details_distro
-echo -e "\e[34mtmux:£\e[0m${tmuxv}" >> .fn_details_distro
-echo -e "\e[34mGLIBC:£\e[0m${glibcv}" >> .fn_details_distro
-column -s '£' -t .fn_details_distro
+echo -e "\e[34mDistro:\t\e[0m${os}" >> .fn_details_distro
+echo -e "\e[34mArch:\t\e[0m${arch}" >> .fn_details_distro
+echo -e "\e[34mKernel:\t\e[0m${kernel}" >> .fn_details_distro
+echo -e "\e[34mHostname:\t\e[0m$HOSTNAME" >> .fn_details_distro
+echo -e "\e[34mtmux:\t\e[0m${tmuxv}" >> .fn_details_distro
+echo -e "\e[34mGLIBC:\t\e[0m${glibcv}" >> .fn_details_distro
+column -s $'\t' -t .fn_details_distro
 rm -f .fn_details_distro
 }
 
@@ -27,15 +27,15 @@ fn_details_performance(){
 echo -e ""
 echo -e "\e[93mPerformance\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mUptime:£\e[0m${days}d, ${hours}h, ${minutes}m" >> .fn_details_performance
-echo -e "\e[34mAvg Load:£\e[0m${load}" >> .fn_details_performance
-column -s '£' -t .fn_details_performance
+echo -e "\e[34mUptime:\t\e[0m${days}d, ${hours}h, ${minutes}m" >> .fn_details_performance
+echo -e "\e[34mAvg Load:\t\e[0m${load}" >> .fn_details_performance
+column -s $'\t' -t .fn_details_performance
 rm -f .fn_details_performance
 echo -e ""
-echo -e "\e[34mMem:£\e[34mtotal£ used£ free\e[0m" >> .fn_details_performance
-echo -e "\e[34mPhysical:£\e[0m${physmemtotal}£${physmemused}£${physmemfree}\e[0m" >> .fn_details_performance
-echo -e "\e[34mSwap:£\e[0m${swaptotal}£${swapused}£${swapfree}\e[0m" >> .fn_details_performance
-column -s '£' -t .fn_details_performance
+echo -e "\e[34mMem:\t\e[34mtotal\t used\t free\e[0m" >> .fn_details_performance
+echo -e "\e[34mPhysical:\t\e[0m${physmemtotal}\t${physmemused}\t${physmemfree}\e[0m" >> .fn_details_performance
+echo -e "\e[34mSwap:\t\e[0m${swaptotal}\t${swapused}\t${swapfree}\e[0m" >> .fn_details_performance
+column -s $'\t' -t .fn_details_performance
 rm -f .fn_details_performance
 }
 
@@ -43,12 +43,12 @@ fn_details_disk(){
 echo -e ""
 echo -e "\e[93mDisk Usage\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mDisk available:£\e[0m${availspace}" >> .fn_details_disk
-echo -e "\e[34mServerfiles:£\e[0m${serverfilesdu}" >> .fn_details_disk
+echo -e "\e[34mDisk available:\t\e[0m${availspace}" >> .fn_details_disk
+echo -e "\e[34mServerfiles:\t\e[0m${serverfilesdu}" >> .fn_details_disk
 if [ -d "${backupdir}" ]; then
-	echo -e "\e[34mBackups:£\e[0m${backupdirdu}" >> .fn_details_disk
+	echo -e "\e[34mBackups:\t\e[0m${backupdirdu}" >> .fn_details_disk
 fi
-column -s '£' -t .fn_details_disk
+column -s $'\t' -t .fn_details_disk
 rm -f .fn_details_disk
 }
 
@@ -61,40 +61,40 @@ fi
 echo -e ""
 echo -e "\e[92m${gamename} Server Details\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mServer name:£\e[0m${servername}" >> .fn_details_gameserver
-echo -e "\e[34mServer IP:£\e[0m${ip}:${port}" >> .fn_details_gameserver
+echo -e "\e[34mServer name:\t\e[0m${servername}" >> .fn_details_gameserver
+echo -e "\e[34mServer IP:\t\e[0m${ip}:${port}" >> .fn_details_gameserver
 if [ ! -z "${rcon}" ]; then
-	echo -e "\e[34mRCON password:£\e[0m${rcon}" >> .fn_details_gameserver
+	echo -e "\e[34mRCON password:\t\e[0m${rcon}" >> .fn_details_gameserver
 fi
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_check_ts3status
 	if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
-		echo -e "\e[34mStatus:£\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
+		echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
 	else
-		echo -e "\e[34mStatus:£\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
+		echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
 	fi
 else
 	pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 	if [ "${pid}" == "0" ]; then
-		echo -e "\e[34mStatus:£\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
+		echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m" >> .fn_details_gameserver
 	else
-		echo -e "\e[34mStatus:£\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
+		echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
 	fi
 fi
-column -s '£' -t .fn_details_gameserver
+column -s $'\t' -t .fn_details_gameserver
 rm -f .fn_details_gameserver
 echo -e ""
-echo -e "\e[34mService name:£\e[0m${servicename}" >> .fn_details_gameserver
-echo -e "\e[34mUser:£\e[0m$(whoami)" >> .fn_details_gameserver
-echo -e "\e[34mLocation:£\e[0m${rootdir}" >> .fn_details_gameserver
+echo -e "\e[34mService name:\t\e[0m${servicename}" >> .fn_details_gameserver
+echo -e "\e[34mUser:\t\e[0m$(whoami)" >> .fn_details_gameserver
+echo -e "\e[34mLocation:\t\e[0m${rootdir}" >> .fn_details_gameserver
 if [ ! -z "${servercfgfullpath}" ]; then
-	echo -e "\e[34mConfig file:£\e[0m${servercfgfullpath}" >> .fn_details_gameserver
+	echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}" >> .fn_details_gameserver
 fi
 if [ "${gamename}" == "Teamspeak 3" ]; then
-	echo -e "\e[34mdbplugin:£\e[0m${dbplugin}" >> .fn_details_gameserver
+	echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}" >> .fn_details_gameserver
 fi
-column -s '£' -t .fn_details_gameserver
+column -s $'\t' -t .fn_details_gameserver
 rm -f .fn_details_gameserver
 }
 
@@ -105,12 +105,12 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 	echo -e "No Backups created"
 else
-	echo -e "\e[34mNo. of backups:£\e[0m${backupcount}" >> .fn_details_backup
+	echo -e "\e[34mNo. of backups:\t\e[0m${backupcount}" >> .fn_details_backup
 	echo -e "\e[34mLatest backup:\e[0m" >> .fn_details_backup
-	echo -e "\e[34m    date:£\e[0m${lastbackupdate}" >> .fn_details_backup
-	echo -e "\e[34m    file:£\e[0m${lastbackup}"  >> .fn_details_backup
-	echo -e "\e[34m    size:£\e[0m${lastbackupsize}" >> .fn_details_backup
-	column -s '£' -t .fn_details_backup
+	echo -e "\e[34m    date:\t\e[0m${lastbackupdate}" >> .fn_details_backup
+	echo -e "\e[34m    file:\t\e[0m${lastbackup}"  >> .fn_details_backup
+	echo -e "\e[34m    size:\t\e[0m${lastbackupsize}" >> .fn_details_backup
+	column -s $'\t' -t .fn_details_backup
 	rm -f .fn_details_backup
 fi
 }
@@ -161,9 +161,9 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep Jcmp-Server"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Game/RCON£INBOUND£${port}£udp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON\tINBOUND\t${port}\tudp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -193,11 +193,11 @@ if [ -z ${port} ] || [ -z ${queryport} ] || [ -z ${masterport} ] ; then
 	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
 	echo -e ""
 fi
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Game£INBOUND£${port}£udp" >> .fn_details_ports
-echo -e "> Steam: Query£INBOUND£${queryport}£udp" >> .fn_details_ports
-echo -e "> Steam: Master traffic£INBOUND£${masterport}£udp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game\tINBOUND\t${port}\tudp" >> .fn_details_ports
+echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp" >> .fn_details_ports
+echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -223,10 +223,10 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep Sam3_Dedicate"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Game/RCON£INBOUND£${port}£tcp" >> .fn_details_ports
-echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON\tINBOUND\t${port}\ttcp" >> .fn_details_ports
+echo -e "> Query\tINBOUND\t${queryport}\tudp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -251,13 +251,13 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep srcds_linux"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Game/RCON£INBOUND£${port}£tcp/udp" >> .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp" >> .fn_details_ports
 if [ ! -z "${sourcetvport}" ]; then
-        echo -e "> SourceTV£INBOUND£${sourcetvport}£udp" >> .fn_details_ports
+        echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp" >> .fn_details_ports
 fi
-echo -e "< Client£OUTBOUND£${clientport}£udp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "< Client\tOUTBOUND\t${clientport}\tudp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -283,19 +283,19 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep server_linux3"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Game/RCON£INBOUND£${port}£udp" >> .fn_details_ports
-echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
-echo -e "> WebAdmin£INBOUND£${webadminport}£tcp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON\tINBOUND\t${port}\tudp" >> .fn_details_ports
+echo -e "> Query\tINBOUND\t${queryport}\tudp" >> .fn_details_ports
+echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 echo -e ""
 echo -e "\e[92m${servername} WebAdmin\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mWebAdmin url:£\e[0mhttp://${ip}:${webadminport}/index.html" >> .fn_details_ports
-echo -e "\e[34mWebAdmin username:£\e[0m${webadminuser}" >> .fn_details_ports
-echo -e "\e[34mWebAdmin password:£\e[0m${webadminpass}" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}/index.html" >> .fn_details_ports
+echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -318,11 +318,11 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep ts3server"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Voice£INBOUND£${port}£udp" >> .fn_details_ports
-echo -e "> ServerQuery£INBOUND£${queryport}£tcp" >> .fn_details_ports
-echo -e "> File transfer£INBOUND£${fileport}£tcp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Voice\tINBOUND\t${port}\tudp" >> .fn_details_ports
+echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp" >> .fn_details_ports
+echo -e "> File transfer\tINBOUND\t${fileport}\ttcp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -348,28 +348,28 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep 7DaysToDie"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL" >> .fn_details_ports
-echo -e "> Game/RCON£INBOUND£${port}£udp" >> .fn_details_ports
-echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
-echo -e "> WebAdmin£INBOUND£${webadminport}£tcp" >> .fn_details_ports
-echo -e "> Telnet£INBOUND£${telnetport}£tcp" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON\tINBOUND\t${port}\tudp" >> .fn_details_ports
+echo -e "> Query\tINBOUND\t${queryport}\tudp" >> .fn_details_ports
+echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp" >> .fn_details_ports
+echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 echo -e ""
 echo -e "\e[92m${servername} WebAdmin\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mWebAdmin enabled:£\e[0m${webadminenabled}" >> .fn_details_ports
-echo -e "\e[34mWebAdmin url:£\e[0mhttp://${ip}:${webadminport}" >> .fn_details_ports
-echo -e "\e[34mWebAdmin password:£\e[0m${webadminpass}" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 echo -e ""
 echo -e "\e[92m${servername} Telnet\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mTelnet enabled:£\e[0m${telnetenabled}" >> .fn_details_ports
-echo -e "\e[34mTelnet address:£\e[0m${ip}:${telnetport}" >> .fn_details_ports
-echo -e "\e[34mTelnet password:£\e[0m${telnetpass}" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}" >> .fn_details_ports
+echo -e "\e[34mTelnet address:\t\e[0m${ip}:${telnetport}" >> .fn_details_ports
+echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
@@ -395,38 +395,38 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep ucc-bin"
 echo -e ""
-echo -e "DESCRIPTION£DIRECTION£PORT£PROTOCOL£INI VARIABLE" >> .fn_details_ports
-echo -e "> Game£INBOUND£${port}£udp£Port=${port}" >> .fn_details_ports
-echo -e "> Query£INBOUND£${queryport}£udp" >> .fn_details_ports
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE" >> .fn_details_ports
+echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}" >> .fn_details_ports
+echo -e "> Query\tINBOUND\t${queryport}\tudp" >> .fn_details_ports
 if [ "${engine}" == "unreal" ]; then
-	echo -e "< UdpLink Port (random)£OUTBOUND£${udplinkport}+£udp" >> .fn_details_ports
+	echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp" >> .fn_details_ports
 fi
 if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
-	echo -e "> GameSpy query£INBOUND£${gsqueryport}£udp£OldQueryPortNumber=${gsqueryport}" >> .fn_details_ports
+	echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}" >> .fn_details_ports
 fi
 if [ "${appid}" == "215360" ]; then
-	echo -e "< Master server£OUTBOUND£28852£tcp/udp" >> .fn_details_ports
+	echo -e "< Master server\tOUTBOUND\t28852\ttcp/udp" >> .fn_details_ports
 else
-	echo -e "< Master server£OUTBOUND£28900/28902£tcp/udp" >> .fn_details_ports
+	echo -e "< Master server\tOUTBOUND\t28900/28902\ttcp/udp" >> .fn_details_ports
 fi
 if [ "${appid}" ]; then
 	if [ "${appid}" == "223250" ]; then
-		echo -e "< Steam£OUTBOUND£20610£udp" >> .fn_details_ports
+		echo -e "< Steam\tOUTBOUND\t20610\tudp" >> .fn_details_ports
 	else
-		echo -e "< Steam£OUTBOUND£20660£udp" >> .fn_details_ports
+		echo -e "< Steam\tOUTBOUND\t20660\tudp" >> .fn_details_ports
 	fi
 fi
-echo -e "> WebAdmin£INBOUND£${webadminport}£tcp£ListenPort=${webadminport}" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 echo -e ""
 echo -e "\e[92m${servername} WebAdmin\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "\e[34mWebAdmin enabled:£\e[0m${webadminenabled}" >> .fn_details_ports
-echo -e "\e[34mWebAdmin url:£\e[0mhttp://${ip}:${webadminport}" >> .fn_details_ports
-echo -e "\e[34mWebAdmin user:£\e[0m${webadminuser}" >> .fn_details_ports
-echo -e "\e[34mWebAdmin password:£\e[0m${webadminpass}" >> .fn_details_ports
-column -s '£' -t .fn_details_ports
+echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin user:\t\e[0m${webadminuser}" >> .fn_details_ports
+echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
