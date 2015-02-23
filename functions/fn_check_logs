@@ -2,7 +2,7 @@
 # LGSM fn_check_logs function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 160215
+# Version: 230215
 # Description: Checks that log files exist on server start
 
 # Create dir's for the script and console logs
@@ -34,6 +34,14 @@ if [ ! -f "${scriptlog}" ]; then
 			ln -nfsv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
 		fi
 	fi
+	# If a server is starbound create a symbolic link to the game server logs
+	if [ "${engine}" == "starbound" ]; then
+		if [ ! -h "${rootdir}/log/server" ]; then
+			ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
+		else
+			echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
+		fi
+	fi
 	# If server uses SteamCMD create a symbolic link to the Steam logs
 	if [ -d "${rootdir}/Steam/logs" ]; then
 		if [ ! -h "${rootdir}/log/steamcmd" ]; then
@@ -42,4 +50,5 @@ if [ ! -f "${scriptlog}" ]; then
 			echo "Symbolic link ${rootdir}/Steam/logs => ${rootdir}/log/steamcmd already exists!"
 		fi
 	fi
+	sleep 1
 fi

@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 170214
+# Version: 230214
 
 # Description: Displays server infomation.
 
@@ -300,6 +300,36 @@ rm -f .fn_details_ports
 fn_details_statusbottom
 }
 
+fn_details_starbound(){
+fn_check_ip
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${selfname}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep starbound"
+echo -e ""
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game\tINBOUND\t${port}\ttcp" >> .fn_details_ports
+echo -e "> Query\tINBOUND\t${queryport}\ttcp" >> .fn_details_ports
+echo -e "> Rcon\tINBOUND\t${rconport}\ttcp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
+
+}
+
 fn_details_teamspeak3(){
 fn_details_config
 fn_details_distro
@@ -441,6 +471,8 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_details_source
 elif [ "${engine}" == "spark" ]; then
 	fn_details_spark
+elif [ "${engine}" == "starbound" ]; then
+	fn_details_starbound
 elif [ "${engine}" == "unity3d" ]; then
 	fn_details_unity3d
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
