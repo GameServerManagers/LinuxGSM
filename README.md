@@ -22,7 +22,17 @@ The Linux Game Server Manager is tested to work on the following Linux systems.
 </ul>
 The scripts are written in BASH and Python and would probably work with other distros.
 
-<h2>Instructions</h2>
-Full documentation and instructions can be found here.
+<h2>"I've found a bug", "Something isn't working for me"</h2>
+Before submitting an issue about a script error, try deleting the "functions" folder located where the script is. (ie. /home/tf2/tf2server would be /home/tf2/functions)
+This will grab the latest scripts from the repository meaning that if we've already fixed the bug you would be asking about, you'd get the patch that way.
 
+<h2>FAQ</h2>
+<strong>Q: How do I install a script on my Linux server?</strong>
+- Full documentation and instructions can be found here.
 <b><a href="http://danielgibbs.co.uk/scripts">http://danielgibbs.co.uk/lgsm</a></b>
+
+<strong>Q: There's a feature that I'd like to see implemented, how can I get it put in?</strong>
+- Create an issue report and we'll tag it as an enhancement, if you are able to program in Bash feel free to send us a pull request, it's much likely to be included as well as faster that way.
+
+<strong>Q: Can you go on my server through SSH and install the server for me?</strong>
+- Unfortunately, no, the scripts are very easy to install and shouldn't require much help in the first place. If there's a error that you're experiencing, send us an issue report.
