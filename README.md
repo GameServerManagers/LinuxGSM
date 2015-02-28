@@ -1,4 +1,4 @@
-<h1>Linux Game Server Manager</h1>
+<h1>Linux Game Server Manager - <a href="https://github.com/dgibbs64/linuxgameservers/issues?q=is%3Aopen+-label%3A%22non+script+issue%22+-label%3A%22server+request%22+-label%3Aenhancement">Issues</a></h1>
 
 <a href="http://danielgibbs.co.uk/scripts"><img src="http://danielgibbs.co.uk/wp-content/uploads/2014/02/linux-game-server-manager-full.png" alt="linux game server manager" width="600" /></a>
 
