@@ -51,7 +51,11 @@ if [ $usesrvcfg -eq 1 ]; then
 
     # it's invalid cfg setting
     if [ $invalidcfg -eq 1 ]; then
-      fn_printwarn "$getsrvcfg configuration file doesn't exist, use one of the available ones ($appendextra)\n"
+      if [ -z "$getsrvcfg" ]; then
+        fn_printwarn "configuration file not specified, use one of the available ones ($appendextra)\n"
+      else
+        fn_printwarn "$getsrvcfg configuration file does not exist, use one of the available ones ($appendextra)\n"
+      fi
       getopt=
       fn_getopt
     else
