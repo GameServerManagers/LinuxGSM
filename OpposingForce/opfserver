@@ -34,7 +34,7 @@ parms="-game gearbox -strictportbind -ip ${ip} -port ${port} +clientport ${clien
 appid="90 +app_set_config 90 mod gearbox"
 
 # Server Details
-servicename="op4-server"
+servicename="opf-server"
 gamename="Half-Life: Opposing Force"
 engine="goldsource"
 
