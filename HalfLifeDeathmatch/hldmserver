@@ -1,9 +1,9 @@
 #!/bin/bash
-# Half Life: Deathmatch Classic
+# Half Life: Deathmatch
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 210115
+# Website: http://gameservermanagers.com
+# Version: 150315
 
 #### Variables ####
 
@@ -34,8 +34,8 @@ parms="-game valve -strictportbind -ip ${ip} -port ${port} +clientport ${clientp
 appid="90"
 
 # Server Details
-servicename="hldmc-server"
-gamename="Half Life: Deathmatch Classic"
+servicename="hldm-server"
+gamename="Half Life: Deathmatch"
 engine="goldsource"
 
 # Directories
