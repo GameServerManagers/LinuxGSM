@@ -1,9 +1,9 @@
 #!/bin/bash
-# Half-Life: Deathmatch Classic
+# Deathmatch Classic
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 210115
+# Website: http://gameservermanagers.com
+# Version: 150315
 
 #### Variables ####
 
