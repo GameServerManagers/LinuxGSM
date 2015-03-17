@@ -17,7 +17,7 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="opfor_bootcamp"
+defaultmap="op4_bootcamp"
 maxplayers="16"
 port="27015"
 clientport="27005"
@@ -34,7 +34,7 @@ parms="-game gearbox -strictportbind -ip ${ip} -port ${port} +clientport ${clien
 appid="90 +app_set_config 90 mod gearbox"
 
 # Server Details
-servicename="opf-server"
+servicename="opfor-server"
 gamename="Half-Life: Opposing Force"
 engine="goldsource"
 
