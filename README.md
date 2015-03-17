@@ -29,7 +29,7 @@ This will grab the latest scripts from the repository meaning that if we've alre
 <h2>FAQ</h2>
 <strong>Q: How do I install a script on my Linux server?</strong>
 - Full documentation and instructions can be found here.
-<b><a href="http://danielgibbs.co.uk/scripts">http://danielgibbs.co.uk/lgsm</a></b>
+<b><a href="http://wiki.gameservermanagers.com/index.php?title=Getting_Started">http://wiki.gameservermanagers.com/</a></b>
 
 <strong>Q: There's a feature that I'd like to see implemented, how can I get it put in?</strong>
 - Create an issue report and we'll tag it as an enhancement, if you are able to program in Bash feel free to send us a pull request, it's much likely to be included as well as faster that way.
