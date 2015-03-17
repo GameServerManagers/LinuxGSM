@@ -23,6 +23,7 @@ workshopcollectionid=""
 
 # Start Variables
 defaultmap="gm_construct"
+gamemode="sandbox"
 maxplayers="16"
 port="27015"
 sourcetvport="27020"
@@ -31,7 +32,7 @@ ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game garrysmod -strictportbind -ip ${ip} -port ${port} +host_workshop_collection ${workshopcollectionid} -authkey ${workshopauth} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game garrysmod -strictportbind -ip ${ip} -port ${port} +host_workshop_collection ${workshopcollectionid} -authkey ${workshopauth} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +gamemode ${gamemode} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
