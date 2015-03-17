@@ -35,7 +35,7 @@ appid="90 +app_set_config 90 mod dmc"
 
 # Server Details
 servicename="dmc-server"
-gamename="Half-Life: Deathmatch Classic"
+gamename="Deathmatch Classic"
 engine="goldsource"
 
 # Directories
