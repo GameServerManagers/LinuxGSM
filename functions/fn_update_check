@@ -67,10 +67,10 @@ fi
 fn_logupdaterequest(){
 # Checks for server update requests from server logs.
 echo ""
-fn_printdots "Checking server logs for update requests"
+fn_printdots "Checking for update: Server logs"
 sleep 1
-fn_printok "Checking server logs for update requests"
-fn_scriptlog "Checking server logs for update requests"
+fn_printok "Checking for update: Server logs"
+fn_scriptlog "Checking for update: Server logs"
 sleep 1
 requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
 if [ "${requestrestart}" -ge "1" ]; then
@@ -92,14 +92,14 @@ if [ "${requestrestart}" -ge "1" ]; then
 		fn_start
 	fi
 else
-	fn_printok "No update request detected"
+	fn_printok "Checking for update: Server logs: No update requested"
 	sleep 1
 fi
 echo ""
-exit
 }
 
 fn_steamcmdcheck(){
+fn_appmanifestcheck
 # Checks for server update from SteamCMD
 fn_printdots "Checking for update: SteamCMD"
 fn_scriptlog "Checking for update: SteamCMD"
@@ -118,7 +118,6 @@ if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: SteamCMD: Not returning version info"
 	fn_scriptlog "Failure! Checking for update: SteamCMD: Not returning version info"
 	sleep 2
-	fn_logupdaterequest
 else
 	fn_printok "Checking for update: SteamCMD"
 	fn_scriptlog "Success! Checking for update: SteamCMD"
@@ -270,6 +269,6 @@ fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
 else
-	fn_appmanifestcheck
+	fn_logupdaterequest
 	fn_steamcmdcheck
 fi
