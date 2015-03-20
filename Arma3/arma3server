@@ -21,10 +21,18 @@ steampass="password"
 ip="0.0.0.0"
 
 fn_parms(){
-parms="-netlog -ip=${ip} -config=${servercfg}"
+parms="-netlog -ip=${ip} -config=${servercfg} -mod=${mods}"
 }
 
 #### Advanced Variables ####
+
+# ARMA 3 Modules
+# add mods with relative paths: 
+# mods/\@CBA_A3\;
+# or several mods as:
+# mods/\@CBA_A3\;mods/\@task_force_radio
+# and chmod modules directories to 775
+mods=""
 
 # Steam
 appid="233780"
