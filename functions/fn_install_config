@@ -5,7 +5,7 @@
 # Version: 200315
 
 fn_arma3config(){
-touch "${servercfgdir}"
+mkdir -pv "${servercfgdir}"
 cp -v lgsm-default.server.cfg "${servercfgfullpath}"
 cp -v lgsm-default.network.cfg "${networkcfgfullpath}"
 sleep 1
