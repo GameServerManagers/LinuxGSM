@@ -2,10 +2,12 @@
 # LGSM fn_server function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 200315
 
 fn_arma3config(){
+touch "${servercfgdir}"
 cp -v lgsm-default.cfg "${servercfgfullpath}"
+cp -v lgsm-default.network.cfg "${networkcfgfullpath}"
 sleep 1
 echo ""
 }
