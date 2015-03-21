@@ -21,7 +21,7 @@ steampass="password"
 ip="0.0.0.0"
 
 fn_parms(){
-parms="-netlog -ip=${ip} -config=${servercfg} -mod=${mods}"
+parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods}"
 }
 
 #### Advanced Variables ####
@@ -50,9 +50,11 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./arma3server"
-servercfgdir="${systemdir}"
-servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
+servercfg="${servicename}.server.cfg"
+networkcfg="${servicename}.network.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+networkcfgfullpath="${servercfgdir}/${networkcfg}"
 backupdir="${rootdir}/backups"
 
 # Logging
