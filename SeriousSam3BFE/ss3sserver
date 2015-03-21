@@ -19,7 +19,7 @@ steampass="password"
 # Start Variables
 ip="0.0.0.0"
 
-# https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/SeriousSam3BFE/help/DedicatedServer_Readme.txt
+# https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/SeriousSam3BFE/help/DedicatedServer_Readme.txt
 fn_parms(){
 parms="+ip ${ip} +logfile ${gamelog} +exec ${servercfgfullpath}"
 }
@@ -74,7 +74,7 @@ if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
 	fi
 	cd functions
 	echo -e "loading ${functionfile}...\c"
-	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
+	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
 	chmod +x "${functionfile}"
 	cd "${rootdir}"
 	sleep 1
