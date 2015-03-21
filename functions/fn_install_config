@@ -6,7 +6,7 @@
 
 fn_arma3config(){
 touch "${servercfgdir}"
-cp -v lgsm-default.cfg "${servercfgfullpath}"
+cp -v lgsm-default.server.cfg "${servercfgfullpath}"
 cp -v lgsm-default.network.cfg "${networkcfgfullpath}"
 sleep 1
 echo ""
