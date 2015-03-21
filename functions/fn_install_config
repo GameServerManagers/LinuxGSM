@@ -135,8 +135,9 @@ echo "================================="
 sleep 1
 if [ "${gamename}" == "ARMA 3" ]; then
 	cd "${systemdir}"
-elif [
-	cd "${servercfgdir}"  ]; then
+else
+	cd "${servercfgdir}"
+fi
 	#statements
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_unity3dconfig
