@@ -63,37 +63,37 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}"
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/FistfulOfFrags/dependencies/libm.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/FistfulOfFrags/dependencies/libm.so.6
 	# Garry's Mod
 	elif [ "${gamename}" == "Garry's Mod" ]; then
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}/bin"
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libc.so.6
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libm.so.6
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/GarrysMod/dependencies/libpthread.so.0
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/GarrysMod/dependencies/libc.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/GarrysMod/dependencies/libm.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/GarrysMod/dependencies/libpthread.so.0
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# Insurgency
 	elif [ "${gamename}" == "Insurgency" ]; then
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}/bin"
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libc.so.6
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/librt.so.1
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/Insurgency/dependencies/libpthread.so.0
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libc.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/librt.so.1
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libpthread.so.0
 	# Natural Selection 2
 	elif [ "${gamename}" == "Natural Selection 2" ]; then
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}"
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NaturalSelection2/dependencies/libm.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/NaturalSelection2/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# No More Room in Hell
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}"
-		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgameservers/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# if Glibc less than 1.13
 	elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 213 ]; then
