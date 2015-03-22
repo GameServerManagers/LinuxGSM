@@ -1,8 +1,8 @@
 #!/bin/bash
 # LGSM fn_monitor_query function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 210115
+# Website: http://gameservermanagers.com
+# Version: 220315
 
 # Description: uses gsquery.py to directly query the server.
 # Detects if the server has frozen.
@@ -35,9 +35,16 @@ if [ -f gsquery.py ]; then
 		sleep 1
 		echo -en "\n"
 		if [[ -z "${secondquery}" ]]; then
-			fn_printinfo "Waiting 30 seconds to re-query"
-			fn_scriptlog "Waiting 30 seconds to re-query"
-			sleep 30
+			if [ "${engine}" == "unreal2" ]; then
+				# unreal 2: Map change can take around 60 seconds
+				fn_printinfo "Waiting 60 seconds to re-query"
+				fn_scriptlog "Waiting 60 seconds to re-query"
+				sleep 60
+			else
+				fn_printinfo "Waiting 30 seconds to re-query"
+				fn_scriptlog "Waiting 30 seconds to re-query"
+				sleep 30
+			fi
 			secondquery=1
 			fn_monitor_query
 		fi
