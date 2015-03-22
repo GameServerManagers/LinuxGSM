@@ -1,8 +1,8 @@
 #!/bin/bash
 # LGSM fn_install_glibcfix function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 210115
+# Website: http://gameservermanagers.com
+# Version: 220315
 
 fn_glibcfixmsg(){
 echo ""
@@ -52,6 +52,12 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+	# Double Action: Boogaloo
+	elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
+		cd "${filesdir}"
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/blob/master/DoubleActionBoogaloo/dependencies/libm.so.6
 	# Fistful of Frags
 	elif [ "${gamename}" == "Fistful of Frags" ]; then
 		glibcversion="2.15"

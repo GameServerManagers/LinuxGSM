@@ -1,8 +1,8 @@
 #!/bin/bash
 # LGSM fn_server function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 210115
+# Website: http://gameservermanagers.com
+# Version: 220315
 
 fn_arma3config(){
 cp -v lgsm-default.cfg "${servercfgfullpath}"
@@ -172,6 +172,11 @@ elif [ "${gamename}" == "Day of Defeat" ]; then
 elif [ "${gamename}" == "Day of Defeat: Source" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/DayOfDefeatSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig
+elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Fistful of Frags" ]; then
