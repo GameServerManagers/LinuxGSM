@@ -69,8 +69,10 @@ if [ ! -f "${lockselfname}" ]; then
 	echo "To enable monitor run ${selfname} start"
 	exit
 fi
+
+
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
-if [ "${updatecheck}" = "0" ]; then
+if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_printdots "Checking session: CHECKING"
 	fn_scriptlog "Checking session: CHECKING"
 	sleep 1

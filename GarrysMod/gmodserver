@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 160315
 
 #### Variables ####
 
@@ -23,6 +23,7 @@ workshopcollectionid=""
 
 # Start Variables
 defaultmap="gm_construct"
+gamemode="sandbox"
 maxplayers="16"
 port="27015"
 sourcetvport="27020"
@@ -31,7 +32,7 @@ ip="0.0.0.0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game garrysmod -strictportbind -ip ${ip} -port ${port} +host_workshop_collection ${workshopcollectionid} -authkey ${workshopauth} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game garrysmod -strictportbind -ip ${ip} -port ${port} +host_workshop_collection ${workshopcollectionid} -authkey ${workshopauth} +clientport ${clientport} +tv_port ${sourcetvport} +gamemode ${gamemode} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -83,7 +84,7 @@ if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
 	fi
 	cd functions
 	echo -e "loading ${functionfile}...\c"
-	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
+	wget -N --no-check-certificate /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
 	chmod +x "${functionfile}"
 	cd "${rootdir}"
 	sleep 1

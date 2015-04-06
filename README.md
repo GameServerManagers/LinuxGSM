@@ -1,38 +1,46 @@
-<h1>Linux Game Server Manager - <a href="https://github.com/dgibbs64/linuxgameservers/issues?q=is%3Aopen+-label%3A%22non+script+issue%22+-label%3A%22server+request%22+-label%3Aenhancement">Issues</a></h1>
-
-<a href="http://danielgibbs.co.uk/scripts"><img src="http://danielgibbs.co.uk/wp-content/uploads/2014/02/linux-game-server-manager-full.png" alt="linux game server manager" width="600" /></a>
+<h1>Linux Game Server Managers_ <a href="http://wiki.gameservermanagers.com/wiki/Getting_Started">Install</a></h1>
+<a href="http://gameservermanagers.com"><img src="http://wiki.gameservermanagers.com/w//images/9/9d/Lgsm_full-2.png" alt="linux Game Server Managers" width="600" /></a>
 
 The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice comms servers.
-
 <h2>Main features</h2>
-
 <ul>
-	<li>Server installer (SteamCMD).</li>
-	<li>Start/Stop/Restart server.</li>
-	<li>Server update (SteamCMD).</li>
-	<li>Server monitor (including email notification).</li>
-	<li>Server backup.</li>
-	<li>Server console.</li>
+	<li>Backup</li>
+	<li>Console</li>
+	<li>Details</li>
+	<li>Installer (SteamCMD)</li>
+	<li>Monitor (including email notification)</li>
+	<li>Update (SteamCMD)</li>
+	<li>Start/Stop/Restart server</li>
 </ul>
 <h2>Compatibility</h2>
-The Linux Game Server Manager is tested to work on the following Linux systems.
+The Linux Game Server Managers are tested to work on the following Linux distros.
 <ul>
-	<li>Debian based distros (Ubuntu, Mint etc.).</li>
-	<li>Redhat based distros (CentOS, Fedora etc.).</li>
+	<li>Debian based (Ubuntu, Mint etc.).</li>
+	<li>Redhat based (CentOS, Fedora etc.).</li>
 </ul>
-The scripts are written in BASH and Python and would probably work with other distros.
-
-<h2>"I've found a bug", "Something isn't working for me"</h2>
-Before submitting an issue about a script error, try deleting the "functions" folder located where the script is. (ie. /home/tf2/tf2server would be /home/tf2/functions)
-This will grab the latest scripts from the repository meaning that if we've already fixed the bug you would be asking about, you'd get the patch that way.
-
+Other distros are likely to work but are not fully tested.
+<h3>Specific Requirements</h3>
+<ul>
+	<li><a href="http://wiki.gameservermanagers.com/wiki/Glibc">GLIBC</a> >= 2.15 recommended [<a href="http://wiki.gameservermanagers.com/wiki/Glibc#Server_Requirements">specific requirements</a>].</li>
+	<li><a href="http://wiki.gameservermanagers.com/wiki/Tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
+</ul>
 <h2>FAQ</h2>
-<strong>Q: How do I install a script on my Linux server?</strong>
-- Full documentation and instructions can be found here.
-<b><a href="http://danielgibbs.co.uk/scripts">http://danielgibbs.co.uk/lgsm</a></b>
+All FAQ can be found here.
 
-<strong>Q: There's a feature that I'd like to see implemented, how can I get it put in?</strong>
-- Create an issue report and we'll tag it as an enhancement, if you are able to program in Bash feel free to send us a pull request, it's much likely to be included as well as faster that way.
-
-<strong>Q: Can you go on my server through SSH and install the server for me?</strong>
-- Unfortunately, no, the scripts are very easy to install and shouldn't require much help in the first place. If there's a error that you're experiencing, send us an issue report.
+<a href="http://wiki.gameservermanagers.com/wiki/FAQ">http://wiki.gameservermanagers.com/wiki/FAQ</a>
+<h2>Donate</h2>
+If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show there support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
+<ul>
+<li><a href="http://gameservermanagers.com/#donate">Donate</a></li>
+</ul>
+<h2>Useful Links</h2>
+<ul>
+	<li><a href="http://gameservermanagers.com">Homepage</li>
+	<li><a href="http://gameservermanagers.com">Wiki</li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</li>
+	<li><a href="http://wiki.gameservermanagers.com/wiki/Getting_Started">Steam Group</li>
+	<li><a href="http://wiki.gameservermanagers.com/wiki/Getting_Started">Twitter</li>
+	<li><a href="http://wiki.gameservermanagers.com/wiki/Getting_Started">Facebook</li>
+	<li><a href="http://wiki.gameservermanagers.com/wiki/Getting_Started">Google+</li>
+</ul>

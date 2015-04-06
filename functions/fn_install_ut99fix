@@ -2,7 +2,7 @@
 # LGSM fn_install_ut99fix function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 070215
 
 echo "Applying ${gamename} Server Fixes"
 echo "================================="
@@ -15,6 +15,9 @@ echo "MasterServerAddress=unreal.epicgames.com"
 echo "MasterServerPort=27900"
 echo "Region=0"
 }|tee -a "${servercfgfullpath}" > /dev/null 2>&1
+sleep 1
+echo "removing dead gamespy.com master server."
+sed -i '/master0.gamespy.com/d' "${servercfgfullpath}"
 sleep 1
 echo "removing dead mplayer.com master server."
 sed -i '/master.mplayer.com/d' "${servercfgfullpath}"
