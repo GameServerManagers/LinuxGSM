@@ -56,7 +56,7 @@ if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	if [ "${gamename}" == "Insurgency" ]; then
 		fn_insfix
 	fi
-	${executable} ${parms} -fn_debug
+	${executable} ${parms} -debug
 else
 	${executable} ${parms}
 fi
