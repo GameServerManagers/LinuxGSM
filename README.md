@@ -36,11 +36,11 @@ If you want to donate to the project you can via PayPal, Flattr or Gratipay. I h
 <h2>Useful Links</h2>
 <ul>
 	<li><a href="http://gameservermanagers.com">Homepage</li>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Main_Page">Wiki</li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki">Wiki</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</li>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Getting_Started">Steam Group</li>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Getting_Started">Twitter</li>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Getting_Started">Facebook</li>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Getting_Started">Google+</li>
+	<li><a href="http://steamcommunity.com/groups/linuxgsm">Steam Group</li>
+	<li><a href="https://twitter.com/dangibbsuk">Twitter</li>
+	<li><a href="https://www.facebook.com/linuxgsm">Facebook</li>
+	<li><a href="https://plus.google.com/+Gameservermanagers1">Google+</li>
 </ul>
