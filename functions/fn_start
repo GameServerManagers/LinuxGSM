@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 160214
+# Version: 110415
 
 # Description: Starts the server.
 
@@ -73,6 +73,9 @@ fn_check_logs
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
 	fn_csgofix
+fi
+if [ "${gamename}" == "Insurgency" ]; then
+	fn_insfix
 fi
 fn_details_config
 fn_parms

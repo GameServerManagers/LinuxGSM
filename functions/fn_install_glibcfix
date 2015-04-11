@@ -2,7 +2,7 @@
 # LGSM fn_install_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 220315
+# Version: 110415
 
 fn_glibcfixmsg(){
 echo ""
@@ -79,6 +79,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		fn_glibcfixmsg
 		cd "${filesdir}/bin"
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libc.so.6
+		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libm.so.6
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/librt.so.1
 		wget -nv -N --no-check-certificate https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libpthread.so.0
 	# Natural Selection 2
