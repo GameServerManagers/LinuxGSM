@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 150315
+# Version: 150415
 
 # Description: Checks if a server update is available.
 
@@ -84,12 +84,13 @@ if [ "${requestrestart}" -ge "1" ]; then
 	echo -ne "Applying update...\r"
 	sleep 1
 	echo -ne "\n"
-	if [ ! -z "${norestart}" ]; then
-		fn_update_dl
-	else
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop
 		fn_update_dl
 		fn_start
+	else
+		fn_update_dl
 	fi
 else
 	fn_printok "Checking for update: Server logs: No update requested"
@@ -145,12 +146,14 @@ if [ "${currentbuild}" -ne "${availablebuild}" ]; then
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
-	if [ ! -z "${norestart}" ]; then
-		fn_update_dl
-	else
+
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop
 		fn_update_dl
 		fn_start
+	else
+		fn_update_dl
 	fi
 else
 	echo -e "\n"
