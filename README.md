@@ -1,7 +1,11 @@
-<h1>Linux Game Server Managers_ <a href="http://wiki.gameservermanagers.com/index.php?title=Getting_Started">Install</a></h1>
-<a href="http://gameservermanagers.com"><img src="http://wiki.gameservermanagers.com/images/thumb/9/9d/Lgsm_full-2.png/500px-Lgsm_full-2.png" alt="linux Game Server Managers" width="600" /></a>
+<h1>Linux Game Server Managers_</h1>
+<a href="http://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
 
 The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice comms servers.
+
+<h2>Hassle Free Dedicated Servers</h2>
+Game servers traditionally are not easy to manage yourself. Admins often have to spend hours just messing around trying to get there server working. LGSM is designed to be a simple as possible allowing Admins to spend less time on management and more time on the fun stuff.
+
 <h2>Main features</h2>
 <ul>
 	<li>Backup</li>
@@ -21,13 +25,13 @@ The Linux Game Server Managers are tested to work on the following Linux distros
 Other distros are likely to work but are not fully tested.
 <h3>Specific Requirements</h3>
 <ul>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Glibc">GLIBC</a> >= 2.15 recommended [<a href="http://wiki.gameservermanagers.com/index.php?title=Glibc#Server_Requirements">specific requirements</a>].</li>
-	<li><a href="http://wiki.gameservermanagers.com/index.php?title=Tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki/Glibc">GLIBC</a> >= 2.15 recommended [<a href="https://github.com/dgibbs64/linuxgsm/wiki/Glibc#server-requirements">specific requirements</a>].</li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki/Tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
 </ul>
 <h2>FAQ</h2>
 All FAQ can be found here.
 
-<a href="http://wiki.gameservermanagers.com/index.php?title=FAQ">http://wiki.gameservermanagers.com/index.php?title=FAQ</a>
+<a href="https://github.com/dgibbs64/linuxgsm/wiki/FAQ">https://github.com/dgibbs64/linuxgsm/wiki/FAQ</a>
 <h2>Donate</h2>
 If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show there support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
