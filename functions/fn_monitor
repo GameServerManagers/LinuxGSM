@@ -76,7 +76,7 @@ if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "$
 	fn_printdots "Checking session: CHECKING"
 	fn_scriptlog "Checking session: CHECKING"
 	sleep 1
-	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_printok "Checking session: OK"
 		fn_scriptlog "Checking session: OK"

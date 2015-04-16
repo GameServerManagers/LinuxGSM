@@ -29,7 +29,7 @@ fn_scriptlog "Checking complete"
 
 fn_check_root
 fn_check_systemdir
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
 	fn_stop
 	fn_validation
