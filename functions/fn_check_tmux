@@ -15,6 +15,6 @@ else
 	echo "	* Tmux is required to run this server."
 	# Suitable passive agressive message
 	echo "	* Please see the the following link."
-	echo "  * http://gameservermanagers.com/dependencies"
+	echo "  * http://gameservermanagers.com/tmux"
 	exit
 fi
