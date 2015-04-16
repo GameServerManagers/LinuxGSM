@@ -2,12 +2,16 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 080215
+# Version: 160415
 
 # Description: Gets specific details from config files.
 
 if [ "${engine}" == "avalanche" ]; then
-	 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g' | tr -d '=\"; '|sed 's/,//g')
+	 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
+
+elif [ "${engine}" == "projectzomboid" ]; then
+	servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
+	port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
 
 elif [ "${engine}" == "realvirtuality" ]; then
 	servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
@@ -39,6 +43,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 		queryport="10011"
 		fileport="30033"
 	fi
+
 elif [ "${engine}" == "unity3d" ]; then
 	servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
 	port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])

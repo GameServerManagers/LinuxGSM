@@ -2,7 +2,7 @@
 # LGSM fn_check_logs function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 230215
+# Version: 160415
 # Description: Checks that log files exist on server start
 
 # Create dir's for the script and console logs
@@ -17,6 +17,12 @@ if [ ! -f "${scriptlog}" ]; then
 	touch "${scriptlog}"
 	mkdir -v "${consolelogdir}"
 	touch "${consolelog}"
+
+	# If a server is Project Zomboid create a symbolic link to the game server logs
+	if [ "${engine}" == "projectzomboid" ]; then
+		ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
+	fi
+
 	# If a server is source or goldsource create a symbolic link to the game server logs
 	if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 		if [ ! -h "${rootdir}/log/server" ]; then
@@ -25,6 +31,7 @@ if [ ! -f "${scriptlog}" ]; then
 			echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
 		fi
 	fi
+
 	# If a server is unreal2 or unity3d create a dir
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
 		mkdir -pv "${gamelogdir}"
@@ -34,6 +41,7 @@ if [ ! -f "${scriptlog}" ]; then
 			ln -nfsv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
 		fi
 	fi
+
 	# If a server is starbound create a symbolic link to the game server logs
 	if [ "${engine}" == "starbound" ]; then
 		if [ ! -h "${rootdir}/log/server" ]; then
@@ -42,6 +50,7 @@ if [ ! -f "${scriptlog}" ]; then
 			echo "Symbolic link ${gamelogdir} => ${rootdir}/log/server already exists!"
 		fi
 	fi
+
 	# If server uses SteamCMD create a symbolic link to the Steam logs
 	if [ -d "${rootdir}/Steam/logs" ]; then
 		if [ ! -h "${rootdir}/log/steamcmd" ]; then
