@@ -84,7 +84,7 @@ if [ "${requestrestart}" -ge "1" ]; then
 	echo -ne "Applying update...\r"
 	sleep 1
 	echo -ne "\n"
-	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop
 		fn_update_dl
@@ -147,7 +147,7 @@ if [ "${currentbuild}" -ne "${availablebuild}" ]; then
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
 
-	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop
 		fn_update_dl
@@ -271,9 +271,9 @@ fi
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
-if [ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "goldsource" ]; then
 	# Goldsource servers bypass checks as fn_steamcmdcheck does not work for appid 90 servers.
-	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -E "^${servicename}:"|wc -l)
+	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop
 		fn_update_dl
