@@ -2,7 +2,7 @@
 # LGSM fn_check_ip function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 260115
+# Version: 170415
 
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manualy set using ip="0.0.0.0".
@@ -21,6 +21,8 @@ if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		echo -en "Manually specify the IP you want to use within the ${selfname} script.\n"
 		echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 		echo -en "${getip}\n"
+		echo -en ""
+		echo -en "http://gameservermanagers.com/network-interfaces"
 		exit
 	else
 		ip=${getip}
