@@ -62,7 +62,7 @@ case "$getopt" in
 	backup)
 		fn_backup;;
 	*)
-		echo "Usage: $0 {start|stop|restart|backup|monitor|email-test|details|backup}"
+		echo "Usage: $0 {start|stop|restart|update|backup|monitor|email-test|details|backup}"
 		exit 1;;
 esac
 exit
