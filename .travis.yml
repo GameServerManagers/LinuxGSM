@@ -4,7 +4,6 @@ before_script:
     - curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.0.3.tgz" | tar zx
 
 script:
-    - bash CounterStrikeGlobalOffensive/csgoserver install
     - bash CounterStrikeGlobalOffensive/csgoserver auto-install
     - bash CounterStrikeGlobalOffensive/csgoserver start
     - bash CounterStrikeGlobalOffensive/csgoserver stop
@@ -15,5 +14,3 @@ script:
     - bash CounterStrikeGlobalOffensive/csgoserver email-test
     - bash CounterStrikeGlobalOffensive/csgoserver details
     - bash CounterStrikeGlobalOffensive/csgoserver backup
-    - bash CounterStrikeGlobalOffensive/csgoserver console
-    - bash CounterStrikeGlobalOffensive/csgoserver debug
