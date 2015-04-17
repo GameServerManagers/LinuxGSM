@@ -36,9 +36,13 @@ if [ $(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l) -ne "0" ]; then
 		gamecount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
 	fi
 	scriptcount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	echo "${consolelog}"
 	if [ -n "${consolelog}" ]; then
 		consolecount=$(find "${consolelogdir}"/* -mtime +${logdays}|wc -l)
+	else
+		consolecount=0
 	fi
+
 	count=$((${scriptcount} + ${consolecount}))
 	if [ "${engine}" == "unreal2" ]; then
 		count=$((${scriptcount} + ${consolecount} + ${gamecount}))
