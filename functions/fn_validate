@@ -26,7 +26,7 @@ cd "steamcmd"
 fn_scriptlog "Checking complete"
 
 # addition for 7 Days to Die - very popular server addon run on most dedicated servers
-# file validation breaks the mod and it needs reinstalling.
+# file validation breaks this addon and it requires re-installation each time.
 if [ "${allocsfixes}" = true ]; then
         sleep 5
         fn_scriptlog "Installing Alloc's Server Fixes"
