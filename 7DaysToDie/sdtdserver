@@ -13,11 +13,27 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="username"
-steampass="password"
+steamuser="username"  # 7 Days requires a registered user for downloads
+steampass="password"  # enter your password
 
 # Start Variables
-ip="0.0.0.0"
+ip="0.0.0.0"  # can leave to answer on any IP
+
+# Telnet Variables - used for graceful shutdown
+telnetip="127.0.0.1"  # if 127.0.0.1 doesn't work, enter your public IP
+telnetport="8081"     # change to your customized port number
+telnetpass="password" # set for your telnet password
+
+# Mod Variables
+
+# If you are using or want to use Alloc's Server Fixes,
+# uncomment the variable below
+# *****Note: It has happened where the core gets updated, but
+# Alloc's fixes weren't updated yet. If this happens
+# you may need to comment out or set to false temporarily
+# until Alloc's patch is updated.  Please see 7 Days To Die
+# forum for details.  Many people use this patch.
+allocsfixes=true  # set to true if you want installed, false or comment if not
 
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){
