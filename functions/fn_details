@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 160414
+# Version: 190414
 
 # Description: Displays server infomation.
 
@@ -424,7 +424,7 @@ echo -e ""
 echo -e "\e[92m${servername} Telnet\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}" >> .fn_details_ports
-echo -e "\e[34mTelnet address:\t\e[0m${ip}:${telnetport}" >> .fn_details_ports
+echo -e "\e[34mTelnet address:\t\e[0m${ip} ${telnetport}" >> .fn_details_ports
 echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}" >> .fn_details_ports
 column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
