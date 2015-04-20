@@ -39,40 +39,47 @@ sleep 1
 fn_check_tmux
 
 if [ "${gamename}" == "7 Days To Die" ] ; then
-        # if game is 7 Days To Die, we need special, graceful shutdown via telnet connection.
-        # Set below variable to be called for expect to operate correctly..
-
-                sdtdshutdown=$( expect -c '
-                proc abort {} {
-                        puts "Timeout or EOF\n"
-                        exit 1
-                }
-                spawn telnet '"${telnetip}"' '"${telnetport}"'
-                expect {
-                        "password:"     { send "'"${telnetpass}"'\r" }
-                        default         abort
-                }
-                expect {
-                        "session."  { send "shutdown\r" }
-                        default         abort
-                }
-                expect { eof }
-                puts "Completed.\n"
-                ')
-                echo -en "\n ${sdtdshutdown}"
-                fn_printok "${servername}"
-                fn_scriptlog "Performmed graceful shutdown of ${servername}"
-else
-    	pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-        if [ "${pid}" == "0" ]; then
-                fn_printfail "${servername} is already stopped"
-                fn_scriptlog "${servername} is already stopped"
-        else
-            	tmux kill-session -t ${servicename}
-                fn_printok "${servername}"
-                fn_scriptlog "Stopped ${servername}"
-        fi
+    # if game is 7 Days To Die, we need special, graceful shutdown via telnet connection.
+    # Set below variable to be called for expect to operate correctly..
+    fn_printdots "Attempting graceful shutdown via telnet"
+    fn_scriptlog "Attempting graceful shutdown via telnet"
+    sleep 1
+    telnetip=127.0.0.1
+    sdtdshutdown=$( expect -c '
+    proc abort {} {
+        puts "Timeout or EOF\n"
+        exit 1
+    }
+    spawn telnet '"${telnetip}"' '"${telnetport}"'
+    expect {
+        "password:"     { send "'"${telnetpass}"'\r" }
+        default         abort
+    }
+    expect {
+        "session."  { send "shutdown\r" }
+        default         abort
+    }
+    expect { eof }
+    puts "Completed.\n"
+    ')
+    echo -en "\n ${sdtdshutdown}"
+    fn_printok "Attempting graceful shutdown via telnet"
+    fn_scriptlog "Attempting graceful shutdown succeeded"
+    sleep 1
+    fn_printdots "${servername}"
+    fn_scriptlog "${servername}"
+    sleep 1
 fi
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
+if [ "${pid}" == "0" ]; then
+    fn_printfail "${servername} is already stopped"
+    fn_scriptlog "${servername} is already stopped"
+else
+    tmux kill-session -t ${servicename}
+    fn_printok "${servername}"
+    fn_scriptlog "Stopped ${servername}"
+fi
+}
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_stop_teamspeak3
