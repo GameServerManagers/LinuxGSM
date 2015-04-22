@@ -4,6 +4,7 @@ before_script:
     - curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.0.3.tgz" | tar zx
 
 script:
+    - bash touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
     - bash 7DaysToDie/sdtdserver auto-install
     - bash 7DaysToDie/sdtdserver start
     - bash 7DaysToDie/sdtdserver stop
