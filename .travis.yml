@@ -2,9 +2,28 @@ language: bash
 
 before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
+
+
     - mkdir /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles
     - touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
 
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrike/serverfiles/cstrike
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/csgo
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/JustCause2/serverfiles/
+    - touch  /home/travis/build/dgibbs64/linuxgsm/JustCause2/serverfiles/default_config.lua
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/KillingFloor/serverfiles/System
+    - touch /home/travis/build/dgibbs64/linuxgsm/KillingFloor/serverfiles/System/Default.ini
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/Zomboid/Server
+    - mkdir  /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/serverfiles/projectzomboid
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/SeriousSam3
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/SeriousSam3/Config
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Bin
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/UnrealTournament2004/serverfiles/System
+    - touch /home/travis/build/dgibbs64/linuxgsm/UnrealTournament2004/serverfiles/System/ut2k4-server.ini
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/UnrealTournament99/serverfiles/System
+    - touch /home/travis/build/dgibbs64/linuxgsm/UnrealTournament99/serverfiles/System/ut99-server.ini
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/TeamSpeak3/serverfiles
 script:
 
     - bash 7DaysToDie/sdtdserver auto-install
@@ -100,7 +119,6 @@ script:
     - bash UnrealTournament2004/ut2k4server start
     - bash UnrealTournament2004/ut2k4server stop
     - bash UnrealTournament2004/ut2k4server restart
-    - bash UnrealTournament2004/ut2k4server validate
     - bash UnrealTournament2004/ut2k4server monitor
     - bash UnrealTournament2004/ut2k4server email-test
     - bash UnrealTournament2004/ut2k4server details
@@ -108,7 +126,6 @@ script:
     - bash UnrealTournament99/ut99server start
     - bash UnrealTournament99/ut99server stop
     - bash UnrealTournament99/ut99server restart
-    - bash UnrealTournament99/ut99server validate
     - bash UnrealTournament99/ut99server monitor
     - bash UnrealTournament99/ut99server email-test
     - bash UnrealTournament99/ut99server details
