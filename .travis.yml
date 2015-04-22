@@ -1,10 +1,11 @@
 language: bash
 
 before_script:
-    - curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.0.3.tgz" | tar zx
+    - curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.1.6.tgz" | tar zx
 
 script:
-    - bash touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
+    - bash tests/myscript_tests.sh
+    - bash printenv
     - bash 7DaysToDie/sdtdserver auto-install
     - bash 7DaysToDie/sdtdserver start
     - bash 7DaysToDie/sdtdserver stop
