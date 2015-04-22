@@ -13,7 +13,6 @@ script:
     - bash 7DaysToDie/sdtdserver monitor
     - bash 7DaysToDie/sdtdserver email-test
     - bash 7DaysToDie/sdtdserver details
-    - bash 7DaysToDie/sdtdserver backup
 
     - bash Arma3/arma3server auto-install
     - bash Arma3/arma3server start
@@ -23,7 +22,6 @@ script:
     - bash Arma3/arma3server monitor
     - bash Arma3/arma3server email-test
     - bash Arma3/arma3server details
-    - bash Arma3/arma3server backup
 
     - bash CounterStrike/csserver auto-install
     - bash CounterStrike/csserver start
@@ -33,7 +31,6 @@ script:
     - bash CounterStrike/csserver monitor
     - bash CounterStrike/csserver email-test
     - bash CounterStrike/csserver details
-    - bash CounterStrike/csserver backup
 
     - bash CounterStrikeGlobalOffensive/csgoserver auto-install
     - bash CounterStrikeGlobalOffensive/csgoserver start
@@ -43,7 +40,6 @@ script:
     - bash CounterStrikeGlobalOffensive/csgoserver monitor
     - bash CounterStrikeGlobalOffensive/csgoserver email-test
     - bash CounterStrikeGlobalOffensive/csgoserver details
-    - bash CounterStrikeGlobalOffensive/csgoserver backup
 
     - bash JustCause2/jc2server auto-install
     - bash JustCause2/jc2server start
@@ -53,7 +49,6 @@ script:
     - bash JustCause2/jc2server monitor
     - bash JustCause2/jc2server email-test
     - bash JustCause2/jc2server details
-    - bash JustCause2/jc2server backup
 
     - bash KillingFloor/kfserver auto-install
     - bash KillingFloor/kfserver start
@@ -63,7 +58,6 @@ script:
     - bash KillingFloor/kfserver monitor
     - bash KillingFloor/kfserver email-test
     - bash KillingFloor/kfserver details
-    - bash KillingFloor/kfserver backup
 
     - bash NaturalSelection2/ns2server auto-install
     - bash NaturalSelection2/ns2server start
@@ -73,7 +67,6 @@ script:
     - bash NaturalSelection2/ns2server monitor
     - bash NaturalSelection2/ns2server email-test
     - bash NaturalSelection2/ns2server details
-    - bash NaturalSelection2/ns2server backup
 
     - bash ProjectZomboid/pzserver auto-install
     - bash ProjectZomboid/pzserver start
@@ -83,7 +76,6 @@ script:
     - bash ProjectZomboid/pzserver monitor
     - bash ProjectZomboid/pzserver email-test
     - bash ProjectZomboid/pzserver details
-    - bash ProjectZomboid/pzserver backup
 
     - bash SeriousSam3BFE/ss3sserver auto-install
     - bash SeriousSam3BFE/ss3sserver start
@@ -93,7 +85,6 @@ script:
     - bash SeriousSam3BFE/ss3sserver monitor
     - bash SeriousSam3BFE/ss3sserver email-test
     - bash SeriousSam3BFE/ss3sserver details
-    - bash SeriousSam3BFE/ss3sserver backup
 
     - bash StarBound/sbserver auto-install
     - bash StarBound/sbserver start
@@ -103,7 +94,6 @@ script:
     - bash StarBound/sbserver monitor
     - bash StarBound/sbserver email-test
     - bash StarBound/sbserver details
-    - bash StarBound/sbserver backup
 
     - bash UnrealTournament2004/ut2k4server start
     - bash UnrealTournament2004/ut2k4server stop
@@ -112,7 +102,6 @@ script:
     - bash UnrealTournament2004/ut2k4server monitor
     - bash UnrealTournament2004/ut2k4server email-test
     - bash UnrealTournament2004/ut2k4server details
-    - bash UnrealTournament2004/ut2k4server backup
 
     - bash UnrealTournament99/ut99server start
     - bash UnrealTournament99/ut99server stop
@@ -121,7 +110,6 @@ script:
     - bash UnrealTournament99/ut99server monitor
     - bash UnrealTournament99/ut99server email-test
     - bash UnrealTournament99/ut99server details
-    - bash UnrealTournament99/ut99server backup
 
     - bash TeamSpeak3/ts3server start
     - bash TeamSpeak3/ts3server stop
@@ -130,4 +118,3 @@ script:
     - bash TeamSpeak3/ts3server monitor
     - bash TeamSpeak3/ts3server email-test
     - bash TeamSpeak3/ts3server details
-    - bash TeamSpeak3/ts3server backup
