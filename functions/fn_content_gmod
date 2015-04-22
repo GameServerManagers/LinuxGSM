@@ -79,6 +79,8 @@ if [ "$installcontent" == 1 ]; then
 elif [ "$installcontent" == 0 ]; then
 	if [ -d "$contentfolder" ]; then
 		rm -rf $contentfolder
+		echo ""
+		echo "$parm_type was succesfully deleted"
 	else
 		echo "$parm_type was not installed on the Server before"
 	fi
@@ -88,6 +90,8 @@ elif [ "$installcontent" == 2 ]; then
 		echo "$parm_type was not installed before"
 		exit 1
 	fi
+
+	fn_update_check
 
 elif [ "$installcontent" == 2 ]; then
 	if [ ! -d "$contentfolder" ]; then
