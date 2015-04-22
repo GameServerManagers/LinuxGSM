@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 170415
+# Version: 220415
 
 # Description: Checks if a server update is available.
 
@@ -203,17 +203,29 @@ currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egr
 ts3arch=$(ls $(find ${filesdir}/ -name 'ts3server_*_*' 2> /dev/null | grep -v 'ts3server_minimal_runscript.sh' | sort | tail -1) | egrep -o '(amd64|x86)' | tail -1)
 
 # Gets availablebuild info
-wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers.tmp
+
+# Grabs all version numbers not in correct order
+wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
+
+# removes digits to allow sorting of numbers
+cat .ts3_version_numbers_unsort.tmp |tr -cd "[:digit:][*\n]" > .ts3_version_numbers_digit.tmp
+# Sorts numbers in to correct order
+# merges two files in to one with two columns sorts the numbers in to order then only outputs the second to the ts3_version_numbers.tmp
+paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp |sort -rn|awk '{ print $2 }' > .ts3_version_numbers.tmp
+
 # Finds directory with most recent server version.
 while read ts3_version_number; do
 	wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz"
 	if [[ $? == 0 ]]; then
 		availablebuild="${ts3_version_number}"
 		# Break while-loop, if the latest release could be found
+		echo "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.g"
 		break
 	fi
 done < .ts3_version_numbers.tmp
-rm .ts3_version_numbers.tmp
+rm -f .ts3_version_numbers_digit.tmp
+rm -f .ts3_version_numbers_unsorted.tmp
+rm -f .ts3_version_numbers.tmp
 
 # Checks availablebuild info is available
 if [ -z "${availablebuild}" ]; then
