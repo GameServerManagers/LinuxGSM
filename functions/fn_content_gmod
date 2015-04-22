@@ -34,8 +34,6 @@ elif [ "$parm_action" == "validate" ]; then
 	installcontent=3
 else
 	usage_content
-	#For debugging
-	echo "$parm_action $parm_type $rootdir"
 	exit 1
 fi
 
