@@ -4,13 +4,11 @@ before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
 
 script:
-    - bash printenv
-    - bash touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
+
     - bash 7DaysToDie/sdtdserver auto-install
     - bash 7DaysToDie/sdtdserver start
     - bash 7DaysToDie/sdtdserver stop
     - bash 7DaysToDie/sdtdserver restart
-    - bash 7DaysToDie/sdtdserver update
     - bash 7DaysToDie/sdtdserver validate
     - bash 7DaysToDie/sdtdserver monitor
     - bash 7DaysToDie/sdtdserver email-test
@@ -21,7 +19,6 @@ script:
     - bash Arma3/arma3server start
     - bash Arma3/arma3server stop
     - bash Arma3/arma3server restart
-    - bash Arma3/arma3server update
     - bash Arma3/arma3server validate
     - bash Arma3/arma3server monitor
     - bash Arma3/arma3server email-test
@@ -32,7 +29,6 @@ script:
     - bash CounterStrike/csserver start
     - bash CounterStrike/csserver stop
     - bash CounterStrike/csserver restart
-    - bash CounterStrike/csserver update
     - bash CounterStrike/csserver validate
     - bash CounterStrike/csserver monitor
     - bash CounterStrike/csserver email-test
@@ -43,7 +39,6 @@ script:
     - bash CounterStrikeGlobalOffensive/csgoserver start
     - bash CounterStrikeGlobalOffensive/csgoserver stop
     - bash CounterStrikeGlobalOffensive/csgoserver restart
-    - bash CounterStrikeGlobalOffensive/csgoserver update
     - bash CounterStrikeGlobalOffensive/csgoserver validate
     - bash CounterStrikeGlobalOffensive/csgoserver monitor
     - bash CounterStrikeGlobalOffensive/csgoserver email-test
@@ -54,7 +49,6 @@ script:
     - bash JustCause2/jc2server start
     - bash JustCause2/jc2server stop
     - bash JustCause2/jc2server restart
-    - bash JustCause2/jc2server update
     - bash JustCause2/jc2server validate
     - bash JustCause2/jc2server monitor
     - bash JustCause2/jc2server email-test
@@ -65,7 +59,6 @@ script:
     - bash KillingFloor/kfserver start
     - bash KillingFloor/kfserver stop
     - bash KillingFloor/kfserver restart
-    - bash KillingFloor/kfserver update
     - bash KillingFloor/kfserver validate
     - bash KillingFloor/kfserver monitor
     - bash KillingFloor/kfserver email-test
@@ -76,7 +69,6 @@ script:
     - bash NaturalSelection2/ns2server start
     - bash NaturalSelection2/ns2server stop
     - bash NaturalSelection2/ns2server restart
-    - bash NaturalSelection2/ns2server update
     - bash NaturalSelection2/ns2server validate
     - bash NaturalSelection2/ns2server monitor
     - bash NaturalSelection2/ns2server email-test
@@ -87,7 +79,6 @@ script:
     - bash ProjectZomboid/pzserver start
     - bash ProjectZomboid/pzserver stop
     - bash ProjectZomboid/pzserver restart
-    - bash ProjectZomboid/pzserver update
     - bash ProjectZomboid/pzserver validate
     - bash ProjectZomboid/pzserver monitor
     - bash ProjectZomboid/pzserver email-test
@@ -98,7 +89,6 @@ script:
     - bash SeriousSam3BFE/ss3sserver start
     - bash SeriousSam3BFE/ss3sserver stop
     - bash SeriousSam3BFE/ss3sserver restart
-    - bash SeriousSam3BFE/ss3sserver update
     - bash SeriousSam3BFE/ss3sserver validate
     - bash SeriousSam3BFE/ss3sserver monitor
     - bash SeriousSam3BFE/ss3sserver email-test
@@ -109,29 +99,24 @@ script:
     - bash StarBound/sbserver start
     - bash StarBound/sbserver stop
     - bash StarBound/sbserver restart
-    - bash StarBound/sbserver update
     - bash StarBound/sbserver validate
     - bash StarBound/sbserver monitor
     - bash StarBound/sbserver email-test
     - bash StarBound/sbserver details
     - bash StarBound/sbserver backup
 
-    - bash UnrealTournament2004/ut2k4server auto-install
     - bash UnrealTournament2004/ut2k4server start
     - bash UnrealTournament2004/ut2k4server stop
     - bash UnrealTournament2004/ut2k4server restart
-    - bash UnrealTournament2004/ut2k4server update
     - bash UnrealTournament2004/ut2k4server validate
     - bash UnrealTournament2004/ut2k4server monitor
     - bash UnrealTournament2004/ut2k4server email-test
     - bash UnrealTournament2004/ut2k4server details
     - bash UnrealTournament2004/ut2k4server backup
 
-    - bash UnrealTournament99/ut99server auto-install
     - bash UnrealTournament99/ut99server start
     - bash UnrealTournament99/ut99server stop
     - bash UnrealTournament99/ut99server restart
-    - bash UnrealTournament99/ut99server update
     - bash UnrealTournament99/ut99server validate
     - bash UnrealTournament99/ut99server monitor
     - bash UnrealTournament99/ut99server email-test
