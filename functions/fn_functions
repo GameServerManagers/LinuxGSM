@@ -273,5 +273,10 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_content_gmod(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 # Calls on-screen messages
 fn_messages
