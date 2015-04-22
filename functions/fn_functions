@@ -275,6 +275,7 @@ fn_runfunction
 
 fn_content_gmod(){
 functionfile="${FUNCNAME}"
+fn_update_check
 fn_runfunction
 }
 
