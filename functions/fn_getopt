@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 150314
+# Version: 150414
 
 # Description: getopt arguments.
 
@@ -15,16 +15,9 @@ case "$getopt" in
 	restart)
 		fn_restart;;
 	update)
-		norestart=1;
-		fn_update_check;;
-	update-restart)
 		fn_update_check;;
 	validate)
 		fn_validate;;
-	validate-restart)
-		fn_stop
-		fn_validate
-		fn_start;;
 	monitor)
 		fn_monitor;;
 	email-test)
@@ -42,7 +35,7 @@ case "$getopt" in
 	auto-install)
 		fn_autoinstall;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install|auto-install} $appendextra"
+	echo "Usage: $0 {start|stop|restart|update|validate|monitor|email-test|details|backup|console|debug|install|auto-install} $appendextra"
 	exit 1;;
 esac
 exit
@@ -58,8 +51,6 @@ case "$getopt" in
 		fn_restart;;
 	update)
 		fn_update_check;;
-	backup)
-		fn_backup;;
 	monitor)
 		fn_monitor;;
 	email-test)
@@ -69,7 +60,7 @@ case "$getopt" in
 	backup)
 		fn_backup;;
 	*)
-		echo "Usage: $0 {start|stop|restart|backup|monitor|email-test|details|backup} $appendextra"
+		echo "Usage: $0 {start|stop|restart|update|monitor|email-test|details|backup} $appendextra"
 		exit 1;;
 esac
 exit
@@ -116,16 +107,9 @@ case "$getopt" in
 	restart)
 		fn_restart;;
 	update)
-		norestart=1;
-		fn_update_check;;
-	update-restart)
 		fn_update_check;;
 	validate)
 		fn_validate;;
-	validate-restart)
-		fn_stop
-		fn_validate
-		fn_start;;
 	monitor)
 		fn_monitor;;
 	email-test)
@@ -145,7 +129,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_unreal2maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|update-restart|validate|validate-restart|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor} $appendextra"
+	echo "Usage: $0 {start|stop|restart|update|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor} $appendextra"
 	exit 1;;
 esac
 exit

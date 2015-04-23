@@ -1,0 +1,9 @@
+#!/bin/bash
+# LGSM fn_insfix function
+# Author: Daniel Gibbs
+# Website: http://danielgibbs.co.uk
+# Version: 110415
+
+# Description: Resolves ./srcds_linux: error while loading shared libraries: libtier0.so: cannot open shared object file: No such file or directory
+
+export LD_LIBRARY_PATH=:${filesdir}:${filesdir}/bin:{$LD_LIBRARY_PATH}

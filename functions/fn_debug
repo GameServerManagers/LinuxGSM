@@ -2,7 +2,7 @@
 # LGSM fn_debug function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 210115
+# Version: 160415
 
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
@@ -10,6 +10,7 @@ local modulename="Debug"
 fn_check_root
 fn_check_systemdir
 fn_check_ip
+fn_check_logs
 fn_details_distro
 fn_parms
 echo ""
@@ -53,6 +54,9 @@ sleep 1
 echo -en "\n"
 cd "${executabledir}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+	if [ "${gamename}" == "Insurgency" ]; then
+		fn_insfix
+	fi
 	${executable} ${parms} -debug
 else
 	${executable} ${parms}

@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 230214
+# Version: 190414
 
 # Description: Displays server infomation.
 
@@ -167,6 +167,33 @@ column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
+
+fn_details_projectzomboid(){
+fn_check_ip
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${selfname}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep java"
+echo -e ""
+echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
+echo -e "> Game/RCON\tINBOUND\t${port}\tudp" >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
+}
+
 
 fn_details_realvirtuality(){
 fn_check_ip
@@ -397,7 +424,7 @@ echo -e ""
 echo -e "\e[92m${servername} Telnet\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}" >> .fn_details_ports
-echo -e "\e[34mTelnet address:\t\e[0m${ip}:${telnetport}" >> .fn_details_ports
+echo -e "\e[34mTelnet address:\t\e[0m${ip} ${telnetport}" >> .fn_details_ports
 echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}" >> .fn_details_ports
 column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
@@ -463,6 +490,8 @@ fn_details_statusbottom
 
 if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
+elif [ "${engine}" == "projectzomboid" ]; then
+	fn_details_projectzomboid
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_details_realvirtuality
 elif [ "${engine}" == "seriousengine35" ]; then

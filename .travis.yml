@@ -1,0 +1,155 @@
+language: bash
+
+before_script:
+    - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
+
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles
+    - touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrike/serverfiles/
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrike/serverfiles/cstrike
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/csgo
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/csgo/cfg
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/JustCause2/serverfiles/
+    - touch  /home/travis/build/dgibbs64/linuxgsm/JustCause2/serverfiles/default_config.lua
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/KillingFloor/serverfiles
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/KillingFloor/serverfiles/System
+    - touch /home/travis/build/dgibbs64/linuxgsm/KillingFloor/serverfiles/System/Default.ini
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/Zomboid
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/Zomboid/Server
+    - mkdir  /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/serverfiles
+    - mkdir  /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/serverfiles/projectzomboid
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/SeriousSam3
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/SeriousSam3/Config
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Bin
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/UnrealTournament2004/serverfiles
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/UnrealTournament2004/serverfiles/System
+    - touch /home/travis/build/dgibbs64/linuxgsm/UnrealTournament2004/serverfiles/System/ut2k4-server.ini
+
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/UnrealTournament99/serverfiles
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/UnrealTournament99/serverfiles/System
+    - touch /home/travis/build/dgibbs64/linuxgsm/UnrealTournament99/serverfiles/System/ut99-server.ini
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/TeamSpeak3/serverfiles
+script:
+
+    - bash 7DaysToDie/sdtdserver auto-install
+    - bash 7DaysToDie/sdtdserver start
+    - bash 7DaysToDie/sdtdserver stop
+    - bash 7DaysToDie/sdtdserver restart
+    - bash 7DaysToDie/sdtdserver validate
+    - bash 7DaysToDie/sdtdserver monitor
+    - bash 7DaysToDie/sdtdserver email-test
+    - bash 7DaysToDie/sdtdserver details
+
+    - bash Arma3/arma3server auto-install
+    - bash Arma3/arma3server start
+    - bash Arma3/arma3server stop
+    - bash Arma3/arma3server restart
+    - bash Arma3/arma3server validate
+    - bash Arma3/arma3server monitor
+    - bash Arma3/arma3server email-test
+    - bash Arma3/arma3server details
+
+    - bash CounterStrike/csserver auto-install
+    - bash CounterStrike/csserver start
+    - bash CounterStrike/csserver stop
+    - bash CounterStrike/csserver restart
+    - bash CounterStrike/csserver validate
+    - bash CounterStrike/csserver monitor
+    - bash CounterStrike/csserver email-test
+    - bash CounterStrike/csserver details
+
+    - bash CounterStrikeGlobalOffensive/csgoserver auto-install
+    - bash CounterStrikeGlobalOffensive/csgoserver start
+    - bash CounterStrikeGlobalOffensive/csgoserver stop
+    - bash CounterStrikeGlobalOffensive/csgoserver restart
+    - bash CounterStrikeGlobalOffensive/csgoserver validate
+    - bash CounterStrikeGlobalOffensive/csgoserver monitor
+    - bash CounterStrikeGlobalOffensive/csgoserver email-test
+    - bash CounterStrikeGlobalOffensive/csgoserver details
+
+    - bash JustCause2/jc2server auto-install
+    - bash JustCause2/jc2server start
+    - bash JustCause2/jc2server stop
+    - bash JustCause2/jc2server restart
+    - bash JustCause2/jc2server validate
+    - bash JustCause2/jc2server monitor
+    - bash JustCause2/jc2server email-test
+    - bash JustCause2/jc2server details
+
+    - bash KillingFloor/kfserver auto-install
+    - bash KillingFloor/kfserver start
+    - bash KillingFloor/kfserver stop
+    - bash KillingFloor/kfserver restart
+    - bash KillingFloor/kfserver validate
+    - bash KillingFloor/kfserver monitor
+    - bash KillingFloor/kfserver email-test
+    - bash KillingFloor/kfserver details
+
+    - bash NaturalSelection2/ns2server auto-install
+    - bash NaturalSelection2/ns2server start
+    - bash NaturalSelection2/ns2server stop
+    - bash NaturalSelection2/ns2server restart
+    - bash NaturalSelection2/ns2server validate
+    - bash NaturalSelection2/ns2server monitor
+    - bash NaturalSelection2/ns2server email-test
+    - bash NaturalSelection2/ns2server details
+
+    - bash ProjectZomboid/pzserver auto-install
+    - bash ProjectZomboid/pzserver start
+    - bash ProjectZomboid/pzserver stop
+    - bash ProjectZomboid/pzserver restart
+    - bash ProjectZomboid/pzserver validate
+    - bash ProjectZomboid/pzserver monitor
+    - bash ProjectZomboid/pzserver email-test
+    - bash ProjectZomboid/pzserver details
+
+    - bash SeriousSam3BFE/ss3sserver auto-install
+    - bash SeriousSam3BFE/ss3sserver start
+    - bash SeriousSam3BFE/ss3sserver stop
+    - bash SeriousSam3BFE/ss3sserver restart
+    - bash SeriousSam3BFE/ss3sserver validate
+    - bash SeriousSam3BFE/ss3sserver monitor
+    - bash SeriousSam3BFE/ss3sserver email-test
+    - bash SeriousSam3BFE/ss3sserver details
+
+    - bash StarBound/sbserver auto-install
+    - bash StarBound/sbserver start
+    - bash StarBound/sbserver stop
+    - bash StarBound/sbserver restart
+    - bash StarBound/sbserver validate
+    - bash StarBound/sbserver monitor
+    - bash StarBound/sbserver email-test
+    - bash StarBound/sbserver details
+
+    - bash UnrealTournament2004/ut2k4server start
+    - bash UnrealTournament2004/ut2k4server stop
+    - bash UnrealTournament2004/ut2k4server restart
+    - bash UnrealTournament2004/ut2k4server monitor
+    - bash UnrealTournament2004/ut2k4server email-test
+    - bash UnrealTournament2004/ut2k4server details
+
+    - bash UnrealTournament99/ut99server start
+    - bash UnrealTournament99/ut99server stop
+    - bash UnrealTournament99/ut99server restart
+    - bash UnrealTournament99/ut99server monitor
+    - bash UnrealTournament99/ut99server email-test
+    - bash UnrealTournament99/ut99server details
+
+    - bash TeamSpeak3/ts3server start
+    - bash TeamSpeak3/ts3server stop
+    - bash TeamSpeak3/ts3server restart
+    - bash TeamSpeak3/ts3server update
+    - bash TeamSpeak3/ts3server monitor
+    - bash TeamSpeak3/ts3server email-test
+    - bash TeamSpeak3/ts3server details

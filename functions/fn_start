@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 160214
+# Version: 220415
 
 # Description: Starts the server.
 
@@ -10,14 +10,14 @@ local modulename="Starting"
 
 fn_start_teamspeak3(){
 # Create any missing log dirs
-if [ ! -d ${scriptlogdir} ];then
-	mkdir ${rootdir}/log
-	mkdir ${scriptlogdir}
+if [ ! -d "${scriptlogdir}" ];then
+	mkdir "${rootdir}/log"
+	mkdir "${scriptlogdir}"
 	fn_printinfo  "Creating log directorys ${scriptlogdir}"
 	fn_scriptlog "Creating log directorys ${scriptlogdir}"
 fi
-if [ ! -h ${rootdir}/log/server ]; then
-	ln -sv ${gamelogdir} ${rootdir}/log/server
+if [ ! -h "${rootdir}/log/server" ]; then
+	ln -sv "${gamelogdir} ${rootdir}/log/server"
 fi
 
 fn_check_root
@@ -30,7 +30,7 @@ if [ "${ts3status}" = "Server is running" ]; then
 	echo -en "\n"
 	exit
 fi
-if [ ! -e ${servercfgfullpath} ]; then
+if [ ! -e "${servercfgfullpath}" ]; then
 	fn_printwarn "${servercfgfullpath} is missing"
 	fn_scriptlog "${servercfgfullpath} is missing"
 	sleep 1
@@ -50,7 +50,7 @@ mv "${scriptlog}" "${scriptlogdate}"
 # Create lock file
 date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
-./ts3server_startscript.sh start inifile=${servercfgfullpath} > /dev/null 2>&1
+./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 sleep 1
 fn_check_ts3status
 if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ];then
@@ -73,6 +73,9 @@ fn_check_logs
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
 	fn_csgofix
+fi
+if [ "${gamename}" == "Insurgency" ]; then
+	fn_insfix
 fi
 fn_details_config
 fn_parms
@@ -116,21 +119,59 @@ else
 fi
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
+
+# If the server fails to start
 if [ "${tmuxwc}" -eq 0 ]; then
-	fn_printfailnl "Unable to start ${servername}"
+	fn_printfail "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
-	echo -e "	Check log files: ${rootdir}/log"
-	echo -en "	Run debug mode: ./${selfname} debug"
+	sleep 1
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
+		fn_printfail "Unable to start ${servername}: Tmux returned the following error:"
 		fn_scriptlog "tmux returned the following error"
+		sleep 1
+		echo -en "\n"
+		echo ""
+		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" >> "${scriptlog}"
+		sleep 1
+		echo ""
+		# Detected error http://gameservermanagers.com/issues
+		if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ];then
+			if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ];then
+				echo "================================="
+				echo "$(whoami) is not part of the tty group."
+				fn_scriptlog "$(whoami) is not part of the tty group."
+				group=$(grep tty /etc/group)
+				echo ""
+				echo "	${group}"
+				fn_scriptlog "${group}"
+				echo ""
+				echo "Run the following command with root privileges."
+				echo ""
+				echo "	usermod -G tty $(whoami)"
+				echo ""
+				echo "http://gameservermanagers.com/tmux-op-perm"
+				fn_scriptlog "http://gameservermanagers.com/tmux-op-perm"
+				echo "================================="
+			else
+				echo "$(whoami) is part of the tty group."
+				group=$(grep tty /etc/group)
+				echo ""
+				echo "	${group}"
+				fn_scriptlog "${group}"
+				echo ""
+				echo "No known fix currently."
+				fn_scriptlog "No known fix currently."
+				echo "http://gameservermanagers.com/issues"
+				fn_scriptlog "http://gameservermanagers.com/issues"
+			fi
+		fi
+	else
+		fn_printok "${servername}"
+		fn_scriptlog "Started ${servername}"
 	fi
-else
-	fn_printok "${servername}"
-	fn_scriptlog "Started ${servername}"
 fi
-rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
-sleep 1
+#rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 echo -en "\n"
 }
 

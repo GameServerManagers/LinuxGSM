@@ -1,5 +1,5 @@
 #!/bin/bash
-# 7 Days To Die
+# NS2: Combat
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
@@ -17,33 +17,36 @@ steamuser="username"
 steampass="password"
 
 # Start Variables
-ip="0.0.0.0"  # can leave to answer on any IP
+defaultmap="co_core"
+port="27015"
+maxplayers="24"
+ip="0.0.0.0"
+servername="NS2C Server"
+webadminuser="admin"
+webadminpass="admin"
+webadminport="8080"
+configpath="server1"
+modstorage="server1/Workshop"
+mods=""
+password=""
+# Add the following line to the parms if you want a private server. Ensuring
+# that the password variable above is not left empty.
+# -password \"${password}\"
 
-# Mod Variables
-
-# If you are using or want to use Alloc's Server Fixes,
-# uncomment the variable below
-# *****Note: It has happened where the core gets updated, but
-# Alloc's fixes weren't updated yet. If this happens
-# you may need to comment out or set to false temporarily
-# until Alloc's patch is updated.  Please see 7 Days To Die
-# forum for details.  Many people use this patch.
-allocsfixes=true  # set to true if you want installed, false or comment if not
-
-# http://7daystodie.gamepedia.com/Server
+# http://wiki.unknownworlds.com/ns2/Dedicated_Server
 fn_parms(){
-parms="-configfile=\"${servercfgfullpath}\" -dedicated"
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
 }
 
 #### Advanced Variables ####
 
 # Steam
-appid="294420"
+appid="313900"
 
 # Server Details
-servicename="sdtd-server"
-gamename="7 Days To Die"
-engine="unity3d"
+servicename="ns2c-server"
+gamename="NS2: Combat"
+engine="spark"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -51,21 +54,16 @@ selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
-executabledir="${filesdir}"
-executable="./7DaysToDie.sh"
-servercfgdir="${filesdir}"
-servercfg="${servicename}.xml"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${filesdir}/serverconfig.xml"
+executabledir="${filesdir}/ia32"
+executable="./ns2combatserver_linux32"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${rootdir}/log/server"
+gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
-gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
