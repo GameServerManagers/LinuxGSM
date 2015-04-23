@@ -3,7 +3,7 @@ language: bash
 before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
 
-
+# hello
     - mkdir /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles
     - touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
 
