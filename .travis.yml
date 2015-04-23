@@ -25,6 +25,7 @@ before_script:
     - mkdir  /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/serverfiles
     - mkdir  /home/travis/build/dgibbs64/linuxgsm/ProjectZomboid/serverfiles/projectzomboid
 
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles
     - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/
     - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/SeriousSam3
     - mkdir /home/travis/build/dgibbs64/linuxgsm/SeriousSam3BFE/serverfiles/Content/SeriousSam3/Config
