@@ -25,34 +25,6 @@ cd "steamcmd"
 ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" validate +quit|tee -a "${scriptlog}"
 fn_scriptlog "Checking complete"
 
-# addition for 7 Days to Die - very popular server addon run on most dedicated servers
-# file validation breaks this addon and it requires re-installation each time.
-if [ "${allocsfixes}" = true ]; then
-        sleep 5
-        fn_scriptlog "Installing Alloc's Server Fixes"
-        echo -en "\n"
-        sleep 5
-        echo -en "Installing Alloc's Server Fixes\n"
-        cd "${rootdir}"/serverfiles/
-        rm -rf server_fixes.tar.gz
-        wget http://illy.bz/fi/7dtd/server_fixes.tar.gz
-        if [ -f "server_fixes.tar.gz" ]; then
-                tar -xzf server_fixes.tar.gz
-                rm -rf server_fixes.tar.gz
-                fn_scriptlog "Server Fixes Installed"
-                echo -en "Alloc's Server Fixes have been installed.\n"
-        else
-            	if [ ! -f "server_fixes.tar.gz" ]; then
-                        fn_scriptlog "Error downloading Server Fixes!"
-                fi
-                echo -en "There was a problem installing Alloc's Server Fixes!"
-        fi
-
-	fn_scriptlog "Alloc's Server Fixes installed."
-        echo -en "FAlloc's Server Fixes installed.\n"
-fi
-}
-
 fn_check_root
 fn_check_systemdir
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
