@@ -13,16 +13,11 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="username"  # 7 Days requires a registered user for downloads
-steampass="password"  # enter your password
+steamuser="username"
+steampass="password"
 
 # Start Variables
 ip="0.0.0.0"  # can leave to answer on any IP
-
-# Telnet Variables - used for graceful shutdown
-telnetip="127.0.0.1"  # if 127.0.0.1 doesn't work, enter your public IP
-telnetport="8081"     # change to your customized port number
-telnetpass="password" # set for your telnet password
 
 # Mod Variables
 
