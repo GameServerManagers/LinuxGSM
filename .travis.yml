@@ -12,6 +12,7 @@ before_script:
 
     - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/
     - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/csgo
+    - mkdir /home/travis/build/dgibbs64/linuxgsm/CounterStrikeGlobalOffensive/serverfiles/csgo/cfg
 
     - mkdir /home/travis/build/dgibbs64/linuxgsm/JustCause2/serverfiles/
     - touch  /home/travis/build/dgibbs64/linuxgsm/JustCause2/serverfiles/default_config.lua
