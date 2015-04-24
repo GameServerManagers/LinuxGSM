@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://danielgibbs.co.uk
-# Version: 200315
+# Version: 240415
 
 #### Variables ####
 
@@ -27,7 +27,7 @@ parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath}
 #### Advanced Variables ####
 
 # ARMA 3 Modules
-# add mods with relative paths: 
+# add mods with relative paths:
 # mods/\@CBA_A3\;
 # or several mods as:
 # mods/\@CBA_A3\;mods/\@task_force_radio
@@ -35,7 +35,10 @@ parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath}
 mods=""
 
 # Steam
+# Stable
 appid="233780"
+# Development
+# appid="233780 -beta development"
 
 # Server Details
 servicename="arma3-server"
