@@ -166,10 +166,10 @@ if [ "${tmuxwc}" -eq 0 ]; then
 				fn_scriptlog "http://gameservermanagers.com/issues"
 			fi
 		fi
-	else
-		fn_printok "${servername}"
-		fn_scriptlog "Started ${servername}"
 	fi
+else
+	fn_printok "${servername}"
+	fn_scriptlog "Started ${servername}"	
 fi
 #rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 echo -en "\n"
