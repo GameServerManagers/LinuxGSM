@@ -2,7 +2,7 @@
 # LGSM fn_logs function
 # Author: Daniel Gibbs
 # Website: http://danielgibbs.co.uk
-# Version: 080214
+# Version: 260415
 
 # Description: Acts as a log rotater, removing old logs.
 
@@ -14,7 +14,7 @@ if [ -n "${consolelog}" ]; then
 	fi
 fi
 # log manager will active if finds logs older than ${logdays}
-if [ $(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l) -ne "0" ]; then
+if [ $(find "${scriptlogdir}"/ -mtime +${logdays}|wc -l) -ne "0" ]; then
 	fn_printdots "Starting"
 	sleep 1
 	fn_printok "Starting"
@@ -25,36 +25,38 @@ if [ $(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l) -ne "0" ]; then
 	fn_scriptlog "Removing logs older than ${logdays} days"
 	sleep 1
 	echo -en "\n"
-	if [ "${engine}" == "unreal2" ]; then
-		find "${gamelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
+		find "${gamelogdir}"/ -mtime +${logdays}|tee >> "${scriptlog}"
 	fi
-	find "${scriptlogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+	find "${scriptlogdir}"/ -mtime +${logdays}|tee >> "${scriptlog}"
 	if [ -n "${consolelog}" ]; then
-		find "${consolelogdir}"/* -mtime +${logdays}|tee >> "${scriptlog}"
+		find "${consolelogdir}"/ -mtime +${logdays}|tee >> "${scriptlog}"
 	fi
-	if [ "${engine}" == "unreal2" ]; then
-		gamecount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
+		gamecount=$(find "${scriptlogdir}"/ -mtime +${logdays}|wc -l)
 	fi
-	scriptcount=$(find "${scriptlogdir}"/* -mtime +${logdays}|wc -l)
+	scriptcount=$(find "${scriptlogdir}"/ -mtime +${logdays}|wc -l)
 	echo "${consolelog}"
 	if [ -n "${consolelog}" ]; then
-		consolecount=$(find "${consolelogdir}"/* -mtime +${logdays}|wc -l)
+		consolecount=$(find "${consolelogdir}"/ -mtime +${logdays}|wc -l)
 	else
 		consolecount=0
 	fi
 
 	count=$((${scriptcount} + ${consolecount}))
-	if [ "${engine}" == "unreal2" ]; then
+	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
 		count=$((${scriptcount} + ${consolecount} + ${gamecount}))
 	else
 		count=$((${scriptcount} + ${consolecount}))
 	fi
-	if [ "${engine}" == "unreal2" ]; then
-		find "${gamelogdir}"/* -mtime +${logdays} -exec rm {} \;
+
+
+	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
+		find "${gamelogdir}"/ -mtime +${logdays} -exec rm {} \;
 	fi
-	find "${scriptlogdir}"/* -mtime +${logdays} -exec rm {} \;
+	find "${scriptlogdir}"/ -mtime +${logdays} -exec rm {} \;
 	if [ -n "${consolelog}" ]; then
-		find "${consolelogdir}"/* -mtime +${logdays} -exec rm {} \;
+		find "${consolelogdir}"/ -mtime +${logdays} -exec rm {} \;
 	fi
 	fn_printok "Removed ${count} log files"
 	fn_scriptlog "Removed ${count} log files"
