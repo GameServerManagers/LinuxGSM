@@ -72,7 +72,8 @@ sleep 1
 fn_printok "Checking for update: Server logs"
 fn_scriptlog "Checking for update: Server logs"
 sleep 1
-requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
+requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
+echo "${requestrestart}"
 if [ "${requestrestart}" -ge "1" ]; then
 	fn_printoknl "Server requesting update"
 	sleep 1
