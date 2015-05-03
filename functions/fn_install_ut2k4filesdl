@@ -10,7 +10,7 @@ cd "${rootdir}"
 mkdir -pv "${filesdir}"
 cd "${filesdir}"
 if [ ! -f dedicatedserver3339-bonuspack.zip ]; then
-	wget http://danielgibbs.co.uk/wp-content/uploads/ut2004/dedicatedserver3339-bonuspack.zip
+	wget http://gameservermanagers.com/files/ut2004/dedicatedserver3339-bonuspack.zip
 else
 	echo "dedicatedserver3339-bonuspack.zip already downloaded!"
 fi
@@ -31,7 +31,7 @@ else
 	echo "MD5 checksum: PASSED"
 fi
 if [ ! -f ut2004-lnxpatch3369-2.tar.bz2 ]; then
-	wget http://danielgibbs.co.uk/wp-content/uploads/ut2004/ut2004-lnxpatch3369-2.tar.bz2
+	wget http://gameservermanagers.com/files/ut2004/ut2004-lnxpatch3369-2.tar.bz2
 else
 	echo "ut2004-lnxpatch3369-2.tar.bz2 already downloaded!"
 fi
