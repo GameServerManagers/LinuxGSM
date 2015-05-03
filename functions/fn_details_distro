@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_details_distro function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 140215
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_check_ip function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 170415
 
 # Description: Automatically identifies the server interface IP.

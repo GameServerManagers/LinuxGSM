@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 220415
 
 # Description: Checks if a server update is available.

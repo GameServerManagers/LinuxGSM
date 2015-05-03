@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_check_tmux function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 170415
 
 # Checks if tmux is installed as too many users do not RTFM or know how to use Google.

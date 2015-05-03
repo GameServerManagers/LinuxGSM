@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_start function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 220415
 
 # Description: Starts the server.
@@ -169,7 +169,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 	fi
 else
 	fn_printok "${servername}"
-	fn_scriptlog "Started ${servername}"	
+	fn_scriptlog "Started ${servername}"
 fi
 #rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 echo -en "\n"

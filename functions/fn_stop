@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_stop function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 080214
 
 # Description: Stops the server.
