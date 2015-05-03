@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_check_steamcmd function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 210115
 
 # Description: Downloads SteamCMD on install and checks if missing before running functions that require SteamCMD
@@ -15,7 +15,7 @@ sleep 1
 cd "steamcmd"
 if [ ! -f steamcmd.sh ]; then
 		echo -e "downloading steamcmd_linux.tar.gz...\c"
-		wget -N --no-check-certificate /dev/null http://media.steampowered.com/client/steamcmd_linux.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
+		wget -N /dev/null http://media.steampowered.com/client/steamcmd_linux.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 		tar --verbose -zxf steamcmd_linux.tar.gz
 		rm -v steamcmd_linux.tar.gz
 		chmod +x steamcmd.sh

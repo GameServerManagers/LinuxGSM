@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_update_dl function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 150315
 
 # Description: Runs a server update.
@@ -35,7 +35,7 @@ sleep 1
 cd "${rootdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 fn_scriptlog "Downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
-wget -N --no-check-certificate /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
+wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
 echo -e "extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 fn_scriptlog "Extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
