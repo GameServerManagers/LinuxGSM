@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 220415
+# Version: 060515
 
 # Description: Checks if a server update is available.
 
@@ -284,7 +284,7 @@ fi
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
-elif [ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# Goldsource servers bypass checks as fn_steamcmdcheck does not work for appid 90 servers.
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
