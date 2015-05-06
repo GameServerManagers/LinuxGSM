@@ -286,6 +286,7 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
 elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# Goldsource servers bypass checks as fn_steamcmdcheck does not work for appid 90 servers.
+	# forceupdate bypasses checks
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop

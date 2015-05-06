@@ -19,6 +19,9 @@ case "$getopt" in
 	force-update)
 		forceupdate=1;
 		fn_update_check;;
+	update-restart)
+		forceupdate=1;
+		fn_update_check;;
 	validate)
 		fn_validate;;
 	monitor)
