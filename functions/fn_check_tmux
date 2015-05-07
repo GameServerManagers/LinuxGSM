@@ -6,7 +6,7 @@
 
 # Checks if tmux is installed as too many users do not RTFM or know how to use Google.
 
-if [ "$(command -v tmux)" ]||[ "$(which tmux)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+if [ "$(command -v tmux)" ]||[ "$(which tmux >/dev/null 2>&1)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
 	:
 else
 	fn_printfailnl "Tmux not installed"
@@ -15,6 +15,6 @@ else
 	echo "	* Tmux is required to run this server."
 	# Suitable passive agressive message
 	echo "	* Please see the the following link."
-	echo "  * http://gameservermanagers.com/tmux"
+	echo "	* http://gameservermanagers.com/tmux"
 	exit
 fi
