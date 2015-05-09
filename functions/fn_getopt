@@ -41,7 +41,7 @@ case "$getopt" in
 	auto-install)
 		fn_autoinstall;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|force-update|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
+	echo "Usage: $0 {start|stop|restart|update|force-update|validate|monitor|email-test|details|backup|console|debug|install|auto-install} $appendextra"
 	exit 1;;
 esac
 exit
@@ -66,7 +66,7 @@ case "$getopt" in
 	backup)
 		fn_backup;;
 	*)
-		echo "Usage: $0 {start|stop|restart|update|monitor|email-test|details|backup}"
+		echo "Usage: $0 {start|stop|restart|update|monitor|email-test|details|backup} $appendextra"
 		exit 1;;
 esac
 exit
@@ -97,7 +97,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_ut99maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor} $appendextra"
 	exit 1;;
 esac
 exit
@@ -135,7 +135,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_unreal2maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|update|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor} $appendextra"
 	exit 1;;
 esac
 exit
@@ -167,7 +167,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_unreal2maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|monitor|email-test|details|backup|console|debug|install|map-compressor} $appendextra"
 	exit 1;;
 esac
 exit
