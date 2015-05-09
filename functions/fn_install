@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_install function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 060315
 
 fn_check_root

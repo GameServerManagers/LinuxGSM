@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_compress_ut99maps function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 210115
 
 fn_check_root

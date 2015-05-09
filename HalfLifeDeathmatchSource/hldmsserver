@@ -1,9 +1,9 @@
 #!/bin/bash
-# Ricochet
+# Half-Life Deathmatch: Source
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030515
+# Version: 050515
 
 #### Variables ####
 
@@ -17,36 +17,37 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="rc_arena"
+defaultmap="crossfire"
 maxplayers="16"
 port="27015"
+sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game ricochet -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms="-game hl1mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod ricochet"
+appid="255470"
 
 # Server Details
-servicename="ricochet-server"
-gamename="Ricochet"
-engine="goldsource"
+servicename="hldms-server"
+gamename="Half-Life Deathmatch: Source"
+engine="source"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/ricochet"
+systemdir="${filesdir}/hl1mp"
 executabledir="${filesdir}"
-executable="./hlds_run"
-servercfgdir="${systemdir}"
+executable="./srcds_run"
+servercfgdir="${systemdir}/cfg"
 servercfg="${servicename}.cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 defaultcfg="${servercfgdir}/server.cfg"
