@@ -1,0 +1,84 @@
+#!/bin/bash
+# LGSM fn_select function
+# Author: Ilija Matoski (ilijamt@gmail.com)
+# Website: https://matoski.com
+# Version: 010316
+
+# Description: Automatically selects a created server from the available ones defined in the root
+# If no server files found <name>.<appid> it will default to the data in the game file
+
+if [ $usesrvcfg -eq 1 ]; then
+
+    if [ -z "$appid" ]; then
+      fn_printwarn "appid not found for $gamename, this is not supported.\n\n"
+      exit
+    fi
+
+    # get all the available configs for the appid
+    cfgs=()
+    filelist=(`find $rootdir -type f -name "*.$appid"`)
+    for file in "${filelist[@]}"; do
+      cfg=${file:${#rootdir}+1}
+      cfg=${cfg:0:${#cfg} - 4}
+      cfgs+=("$cfg")
+    done
+
+    # create the append extra list for the options
+    appendextra=$(printf "|%s" "${cfgs[@]}")
+    appendextra=${appendextra:1}
+    loadcfg=
+    invalidcfg=0
+    reinit=0
+
+    # if we don't have any config files proced as normal so skip the next part
+    if [ ${#cfgs[@]} -eq 1 ]; then
+        # we have only one config file so we load that one only unless the user specifies it manually, then we verify
+        loadcfg="${cfgs[0]}";
+        if [ ! -z "$getsrvcfg" ] && [ ! -f "${getsrvcfg}.${appid}" ]; then
+            invalidcfg=1
+        fi
+    elif [ ${#cfgs[@]} -gt 0 ]; then
+        # we have more than one files available so we continue on the verification if the file is present
+        loadcfg="$getsrvcfg";
+        if [ -z "$getsrvcfg" ] || [ ! -f "${getsrvcfg}.${appid}" ]; then
+            invalidcfg=1
+        fi
+    else
+        # we don't have anything so we need to continue on without touching anything
+        reinit=0
+        loadcfg=
+    fi
+
+    # it's invalid cfg setting
+    if [ $invalidcfg -eq 1 ]; then
+      if [ -z "$getsrvcfg" ]; then
+        fn_printwarn "configuration file not specified, use one of the available ones ($appendextra)\n"
+      else
+        fn_printwarn "$getsrvcfg configuration file does not exist, use one of the available ones ($appendextra)\n"
+      fi
+      getopt=
+      fn_getopt
+    else
+      if [ ! -z "$loadcfg" ] && [ -f "${getsrvcfg}.${appid}" ]; then
+        # everything OK, load the config file and reinit the variables
+        source "${loadcfg}.${appid}"
+        reinit=1
+      fi
+    fi
+
+    if [ $reinit -eq 1 ]; then
+        case "$appid" in
+            *)
+            lockselfname=".${servicename}.lock"
+            servercfg="${servicename}.cfg"
+            servercfgfullpath="${servercfgdir}/${servercfg}"
+            scriptlog="${scriptlogdir}/${servicename}-script.log"
+            consolelog="${consolelogdir}/${servicename}-console.log"
+            emaillog="${scriptlogdir}/${servicename}-email.log"
+            scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+            consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
+            ;;
+        esac
+    fi
+
+fi
