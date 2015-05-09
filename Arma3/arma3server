@@ -18,11 +18,12 @@ steamuser="username"
 steampass="password"
 
 # Start Variables
+port="2302"
 ip="0.0.0.0"
 updateonstart="no"
 
 fn_parms(){
-parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods}"
+parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods}"
 }
 
 #### Advanced Variables ####
