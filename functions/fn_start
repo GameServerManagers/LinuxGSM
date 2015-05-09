@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070515
+# Version: 090515
 
 # Description: Starts the server.
 
@@ -171,9 +171,14 @@ else
 	fn_printok "${servername}"
 	fn_scriptlog "Started ${servername}"
 fi
-#rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 echo -en "\n"
 }
+
+# Will check for updates is updateonstart is yes
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
+	fn_update_check
+fi
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_start_teamspeak3
