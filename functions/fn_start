@@ -43,6 +43,12 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	touch "${servercfgfullpath}"
 fi
 fn_logs
+
+# Will check for updates is updateonstart is yes
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
+	fn_update_check
+fi
+
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
@@ -102,6 +108,12 @@ if [ "${tmuxwc}" -eq 1 ]; then
 	echo -en "\n"
 	exit
 fi
+
+# Will check for updates is updateonstart is yes
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
+	fn_update_check
+fi
+
 # Create lock file
 date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
@@ -174,11 +186,6 @@ fi
 rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 echo -en "\n"
 }
-
-# Will check for updates is updateonstart is yes
-if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
-	fn_update_check
-fi
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_start_teamspeak3
