@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_check_systemdir function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 210115
 
 if [ ! -e "${systemdir}" ]; then

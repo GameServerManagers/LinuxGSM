@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_email_test function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 210115
 
 # Description: Sends a test email notification.

@@ -1,8 +1,8 @@
 #!/bin/bash
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 170415
+# Website: http://gameservermanagers.com
+# Version: 080515
 
 # Description: Checks if a server update is available.
 
@@ -72,7 +72,8 @@ sleep 1
 fn_printok "Checking for update: Server logs"
 fn_scriptlog "Checking for update: Server logs"
 sleep 1
-requestrestart=$(grep -sc "MasterRequestRestart" "${consolelog}")
+requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
+echo "${requestrestart}"
 if [ "${requestrestart}" -ge "1" ]; then
 	fn_printoknl "Server requesting update"
 	sleep 1
@@ -111,7 +112,7 @@ currentbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s '
 
 # Gets availablebuild info
 cd "${rootdir}/steamcmd"
-availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: SteamCMD"
 	fn_scriptlog "Failure! Checking for update: SteamCMD"
@@ -203,17 +204,29 @@ currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egr
 ts3arch=$(ls $(find ${filesdir}/ -name 'ts3server_*_*' 2> /dev/null | grep -v 'ts3server_minimal_runscript.sh' | sort | tail -1) | egrep -o '(amd64|x86)' | tail -1)
 
 # Gets availablebuild info
-wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers.tmp
+
+# Grabs all version numbers not in correct order
+wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
+
+# removes digits to allow sorting of numbers
+cat .ts3_version_numbers_unsort.tmp |tr -cd "[:digit:][*\n]" > .ts3_version_numbers_digit.tmp
+# Sorts numbers in to correct order
+# merges two files in to one with two columns sorts the numbers in to order then only outputs the second to the ts3_version_numbers.tmp
+paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp |sort -rn|awk '{ print $2 }' > .ts3_version_numbers.tmp
+
 # Finds directory with most recent server version.
 while read ts3_version_number; do
 	wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz"
 	if [[ $? == 0 ]]; then
 		availablebuild="${ts3_version_number}"
 		# Break while-loop, if the latest release could be found
+		echo "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.g"
 		break
 	fi
 done < .ts3_version_numbers.tmp
-rm .ts3_version_numbers.tmp
+rm -f .ts3_version_numbers_digit.tmp
+rm -f .ts3_version_numbers_unsorted.tmp
+rm -f .ts3_version_numbers.tmp
 
 # Checks availablebuild info is available
 if [ -z "${availablebuild}" ]; then
@@ -271,8 +284,9 @@ fi
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
-elif [ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# Goldsource servers bypass checks as fn_steamcmdcheck does not work for appid 90 servers.
+	# forceupdate bypasses checks
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
 		fn_stop

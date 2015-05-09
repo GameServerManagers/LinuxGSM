@@ -1,8 +1,8 @@
 #!/bin/bash
 # LGSM fn_update_dl function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 150315
+# Website: http://gameservermanagers.com
+# Version: 050515
 
 # Description: Runs a server update.
 
@@ -20,7 +20,13 @@ fn_scriptlog "Updating ${servername}"
 sleep 1
 cd "${rootdir}"
 cd "steamcmd"
-./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
+
+# Detects if unbuffer command is available.
+if [ $(command -v unbuffer) ]; then
+	unbuffer=unbuffer
+fi
+
+${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
 }
 
 fn_teamspeak3_dl(){
@@ -32,10 +38,10 @@ sleep 1
 fn_printoknl "Updating ${servername}"
 fn_scriptlog "Updating ${servername}"
 sleep 1
-cd ${rootdir}
+cd "${rootdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 fn_scriptlog "Downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
-wget -N --no-check-certificate /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
+wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
 echo -e "extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 fn_scriptlog "Extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
@@ -55,7 +61,7 @@ else
 fi
 echo -e "copying to ${filesdir}...\c"
 fn_scriptlog "Copying to ${filesdir}"
-cp -R ${rootdir}/teamspeak3-server_linux-${ts3arch}/* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
+cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/*" "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -70,7 +76,7 @@ else
 	exit
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
-rm -rf ${rootdir}/teamspeak3-server_linux-${ts3arch}
+rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then

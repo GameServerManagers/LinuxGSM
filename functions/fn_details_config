@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 160415
 
 # Description: Gets specific details from config files.

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_install_ut99fix function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 070215
 
 echo "Applying ${gamename} Server Fixes"

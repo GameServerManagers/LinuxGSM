@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_debug function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 160415
 
 # Description: Runs the server without tmux. Runs direct from the terminal.

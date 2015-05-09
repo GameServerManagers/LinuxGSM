@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_backup function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 210115
 
 # Description: Creates a .tar.gz file in the backup directory.

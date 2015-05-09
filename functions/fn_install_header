@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_install_header function
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
+# Website: http://gameservermanagers.com
 # Version: 210115
 
 clear
@@ -14,5 +14,5 @@ if [ "${gamename}" == "ARMA 3" ]; then
 elif [ "${gamename}" == "Left 4 Dead" ]; then
 	echo "contributions by Summit Singh Thakur"
 fi
-echo "http://danielgibbs.co.uk"
+echo "http://gameservermanagers.com"
 echo "================================="
