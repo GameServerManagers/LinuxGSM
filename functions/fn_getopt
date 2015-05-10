@@ -41,7 +41,7 @@ case "$getopt" in
 	auto-install)
 		fn_autoinstall;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|force-update|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
+	echo "Usage: $0 {start|stop|restart|update|force-update|validate|monitor|email-test|details|backup|console|debug|install|auto-install} $appendextra"
 	exit 1;;
 esac
 exit

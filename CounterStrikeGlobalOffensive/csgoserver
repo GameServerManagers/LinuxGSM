@@ -112,5 +112,12 @@ fn_runfunction
 
 fn_functions
 
+# init the getopt function variables
 getopt=$1
+
+# init the select function variables
+usesrvcfg=1
+getsrvcfg=$2
+
+fn_select
 fn_getopt
