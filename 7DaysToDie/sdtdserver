@@ -20,17 +20,6 @@ steampass="password"
 ip="0.0.0.0"
 updateonstart="no"
 
-# Mod Variables
-
-# If you are using or want to use Alloc's Server Fixes,
-# uncomment the variable below
-# *****Note: It has happened where the core gets updated, but
-# Alloc's fixes weren't updated yet. If this happens
-# you may need to comment out or set to false temporarily
-# until Alloc's patch is updated.  Please see 7 Days To Die
-# forum for details.  Many people use this patch.
-allocsfixes=true  # set to true if you want installed, false or comment if not
-
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){
 parms="-configfile=\"${servercfgfullpath}\" -dedicated"
