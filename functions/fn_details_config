@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+# Version: 160415
 
 # Description: Gets specific details from config files.
 
@@ -15,9 +15,7 @@ elif [ "${engine}" == "projectzomboid" ]; then
 
 elif [ "${engine}" == "realvirtuality" ]; then
 	servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
-	if [ -z "${port}" ]; then
-		port=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-	fi
+	port=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 	queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 	masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 
