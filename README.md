@@ -1,7 +1,7 @@
 <h1>Linux Game Server Managers_</h1>
 <a href="http://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
 
-[![Build Status](https://travis-ci.org/dgibbs64/linuxgsm.svg?branch=development)](https://travis-ci.org/dgibbs64/linuxgsm)
+[![Build Status](https://travis-ci.org/dgibbs64/linuxgsm.svg?branch=master)](https://travis-ci.org/dgibbs64/linuxgsm)
 
 The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice comms servers.
 
