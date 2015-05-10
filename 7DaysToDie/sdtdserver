@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030515
+# Version: 090515
 
 #### Variables ####
 
@@ -17,7 +17,8 @@ steamuser="username"
 steampass="password"
 
 # Start Variables
-ip="0.0.0.0"  # can leave to answer on any IP
+ip="0.0.0.0"
+updateonstart="no"
 
 # Mod Variables
 

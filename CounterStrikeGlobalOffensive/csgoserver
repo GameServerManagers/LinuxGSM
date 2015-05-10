@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030515
+# Version: 090515
 
 #### Variables ####
 
@@ -34,6 +34,7 @@ port="27015"
 sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
+updateonstart="no"
 # Optional: Workshop Parameters
 # https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
 # To get an authkey visit - http://steamcommunity.com/dev/apikey
@@ -111,12 +112,5 @@ fn_runfunction
 
 fn_functions
 
-# init the getopt function variables
 getopt=$1
-
-# init the select function variables
-usesrvcfg=1
-getsrvcfg=$2
-
-fn_select
 fn_getopt

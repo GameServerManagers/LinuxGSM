@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030515
+# Version: 090515
 
 #### Variables ####
 
@@ -18,6 +18,7 @@ steampass=""
 
 # Start Variables
 ip="0.0.0.0"
+updateonstart="no"
 
 fn_parms(){
 parms=""

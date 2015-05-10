@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030515
+# Version: 090515
 
 #### Variables ####
 
@@ -11,6 +11,9 @@
 # (on|off)
 emailnotification="off"
 email="email@example.com"
+
+# Start Variables
+updateonstart="no"
 
 # Server Details
 gamename="Teamspeak 3"

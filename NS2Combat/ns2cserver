@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030515
+# Version: 090515
 
 #### Variables ####
 
@@ -21,6 +21,7 @@ defaultmap="co_core"
 port="27015"
 maxplayers="24"
 ip="0.0.0.0"
+updateonstart="no"
 servername="NS2C Server"
 webadminuser="admin"
 webadminpass="admin"
