@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070515
+# Version: 090515
 
 # Description: Starts the server.
 
@@ -43,6 +43,12 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	touch "${servercfgfullpath}"
 fi
 fn_logs
+
+# Will check for updates is updateonstart is yes
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
+	fn_update_check
+fi
+
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
@@ -102,6 +108,12 @@ if [ "${tmuxwc}" -eq 1 ]; then
 	echo -en "\n"
 	exit
 fi
+
+# Will check for updates is updateonstart is yes
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
+	fn_update_check
+fi
+
 # Create lock file
 date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
@@ -171,7 +183,7 @@ else
 	fn_printok "${servername}"
 	fn_scriptlog "Started ${servername}"
 fi
-#rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 echo -en "\n"
 }
 
