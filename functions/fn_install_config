@@ -2,7 +2,7 @@
 # LGSM fn_server function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 220315
+# Version: 120515
 
 fn_arma3config(){
 mkdir -pv "${servercfgdir}"
@@ -55,6 +55,9 @@ fn_serious3config(){
 cp -v lgsm-default.ini ${servercfg}
 sleep 1
 echo ""
+echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
+echo "http://mrag.nl/sgui3/"
+sleep 1
 }
 
 fn_sourceconfig(){
