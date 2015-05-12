@@ -18,6 +18,8 @@ echo ""
 sleep 1
 echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with less than GLIBC_${glibcversion}."
 echo "note: This will NOT upgrade GLIBC on your system."
+echo ""
+echo "http://gameservermanagers.com/glibcfix"
 sleep 1
 echo ""
 echo -en "loading required files.\r"
