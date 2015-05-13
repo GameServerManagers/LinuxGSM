@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 080515
+# Version: 130515
 
 # Description: Checks if a server update is available.
 
@@ -189,7 +189,8 @@ if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 	fn_printinfonl "Checking for update: teamspeak.com: Forcing server restart"
 	fn_scriptlog "Checking for update: teamspeak.com: Forcing server restart"
 	sleep 2
-	./${selfname} restart
+	fn_stop
+	fn_start
 	sleep 2
 	# If still failing will exit
 	if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
@@ -209,7 +210,7 @@ ts3arch=$(ls $(find ${filesdir}/ -name 'ts3server_*_*' 2> /dev/null | grep -v 't
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
 
 # removes digits to allow sorting of numbers
-cat .ts3_version_numbers_unsort.tmp |tr -cd "[:digit:][*\n]" > .ts3_version_numbers_digit.tmp
+cat .ts3_version_numbers_unsorted.tmp |tr -cd "[:digit:][*\n]" > .ts3_version_numbers_digit.tmp
 # Sorts numbers in to correct order
 # merges two files in to one with two columns sorts the numbers in to order then only outputs the second to the ts3_version_numbers.tmp
 paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp |sort -rn|awk '{ print $2 }' > .ts3_version_numbers.tmp
@@ -220,7 +221,7 @@ while read ts3_version_number; do
 	if [[ $? == 0 ]]; then
 		availablebuild="${ts3_version_number}"
 		# Break while-loop, if the latest release could be found
-		echo "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.g"
+		echo "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz"
 		break
 	fi
 done < .ts3_version_numbers.tmp
@@ -266,9 +267,17 @@ if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
-	fn_stop
-	fn_update_dl
-	fn_start
+	fn_check_ts3status
+	if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ];then
+		fn_update_dl
+		fn_start
+		sleep 5
+		fn_stop
+	else
+		fn_stop
+		fn_update_dl
+		fn_start
+	fi
 else
 	echo -e "\n"
 	echo -e "No update available:"
