@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 130515
+# Version: 160515
 
 # Description: Checks if a server update is available.
 
@@ -221,7 +221,6 @@ while read ts3_version_number; do
 	if [[ $? == 0 ]]; then
 		availablebuild="${ts3_version_number}"
 		# Break while-loop, if the latest release could be found
-		echo "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz"
 		break
 	fi
 done < .ts3_version_numbers.tmp
