@@ -2,7 +2,7 @@
 # LGSM fn_install_rofix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 150515
 
 echo "Applying ${gamename} Server Fixes"
 echo "================================="
@@ -19,9 +19,9 @@ echo "applying server name fix."
 sleep 1
 echo "forcing server restart..."
 sleep 1
-cd "${rootdir}"
-./${selfname} start
+fn_start
 sleep 5
-./${selfname} restart
+fn_stop
+fn_start
 sleep 5
-./${selfname} stop
+fn_stop

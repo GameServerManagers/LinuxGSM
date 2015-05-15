@@ -2,7 +2,7 @@
 # LGSM fn_install_ut2k4fix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 150515
 
 echo "Applying ${gamename} Server Fixes"
 echo "================================="
@@ -24,9 +24,9 @@ echo -en "forcing server restart...\r"
 sleep 0.5
 echo -en "\n"
 sleep 0.5
-cd "${rootdir}"
-./${selfname} start
+fn_start
 sleep 5
-./${selfname} restart
+fn_stop
+fn_start
 sleep 5
-./${selfname} stop
+fn_stop
