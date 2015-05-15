@@ -2,7 +2,7 @@
 # LGSM fn_check_logs function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 160415
+# Version: 160515
 # Description: Checks that log files exist on server start
 
 # Create dir's for the script and console logs
@@ -36,6 +36,8 @@ if [ ! -f "${scriptlog}" ]; then
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
 		mkdir -pv "${gamelogdir}"
 	fi
+
+	# If a server is 7 Days to Die
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		if [ ! -h "${gamelogdir}/output_log.txt" ]; then
 			ln -nfsv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
@@ -57,6 +59,17 @@ if [ ! -f "${scriptlog}" ]; then
 			ln -nfsv "${rootdir}/Steam/logs" "${rootdir}/log/steamcmd"
 		else
 			echo "Symbolic link ${rootdir}/Steam/logs => ${rootdir}/log/steamcmd already exists!"
+		fi
+	fi
+
+	# If server is Teamspeak 3
+	if [ "${engine}" == "Teamspeak 3" ]; then
+		if [ ! -d "${scriptlogdir}" ];then
+			mkdir "${rootdir}/log"
+			mkdir "${scriptlogdir}"
+		fi
+		if [ ! -h "${rootdir}/log/server" ]; then
+			ln -sv "${gamelogdir}" "${rootdir}/log/server"
 		fi
 	fi
 	sleep 1
