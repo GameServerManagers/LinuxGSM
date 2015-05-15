@@ -9,19 +9,9 @@
 local modulename="Starting"
 
 fn_start_teamspeak3(){
-# Create any missing log dirs
-if [ ! -d "${scriptlogdir}" ];then
-	mkdir "${rootdir}/log"
-	mkdir "${scriptlogdir}"
-	fn_printinfo  "Creating log directorys ${scriptlogdir}"
-	fn_scriptlog "Creating log directorys ${scriptlogdir}"
-fi
-if [ ! -h "${rootdir}/log/server" ]; then
-	ln -sv "${gamelogdir} ${rootdir}/log/server"
-fi
-
 fn_check_root
 fn_check_systemdir
+fn_check_logs
 fn_check_ts3status
 if [ "${ts3status}" = "Server is running" ]; then
 	fn_printinfo "${servername} is already running"
