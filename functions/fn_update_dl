@@ -2,7 +2,7 @@
 # LGSM fn_update_dl function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 050515
+# Version: 160515
 
 # Description: Runs a server update.
 
@@ -61,7 +61,7 @@ else
 fi
 echo -e "copying to ${filesdir}...\c"
 fn_scriptlog "Copying to ${filesdir}"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/*" "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
+cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
