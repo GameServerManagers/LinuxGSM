@@ -15,6 +15,7 @@ fn_details_config
 fn_printdots "Updating ${servername}"
 sleep 1
 fn_check_steamcmd
+fn_check_steamuser
 fn_printoknl "Updating ${servername}"
 fn_scriptlog "Updating ${servername}"
 sleep 1
