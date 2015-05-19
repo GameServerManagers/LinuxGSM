@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 160515
+# Version: 190515
 
 # Description: Checks if a server update is available.
 
@@ -101,6 +101,8 @@ echo ""
 }
 
 fn_steamcmdcheck(){
+fn_check_steamcmd
+fn_check_steamuser
 fn_appmanifestcheck
 # Checks for server update from SteamCMD
 fn_printdots "Checking for update: SteamCMD"
