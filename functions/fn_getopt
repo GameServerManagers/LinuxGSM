@@ -69,8 +69,12 @@ case "$getopt" in
 		fn_details;;
 	backup)
 		fn_backup;;
+	install)
+		fn_install;;
+	auto-install)
+		fn_autoinstall;;
 	*)
-		echo "Usage: $0 {start|stop|restart|update|update-funtions|monitor|email-test|details|backup}"
+		echo "Usage: $0 {start|stop|restart|update|update-funtions|monitor|email-test|details|backup|install|auto-install}"
 		exit 1;;
 esac
 exit
