@@ -54,8 +54,8 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 	fi
 elif [ "${appmanifestfilewc}" -eq "0" ]; then
 	if [ "${forceupdate}" -eq "1" ]; then
-		fn_printfail "Still no appmanifest_${appid}.acf found: unable to update"
-		fn_scriptlog "Warning! Still no appmanifest_${appid}.acf found: unable to update"
+		fn_printfail "Still no appmanifest_${appid}.acf found: Unable to update"
+		fn_scriptlog "Warning! Still no appmanifest_${appid}.acf found: Unable to update"
 		exit
 	fi
 	forceupdate=1
