@@ -23,7 +23,7 @@ case "$getopt" in
 		forceupdate=1;
 		fn_update_check;;
 	update-functions)
-		fn_update_funtions;;
+		fn_update_functions;;
 	validate)
 		fn_validate;;
 	monitor)
@@ -60,7 +60,7 @@ case "$getopt" in
 	update)
 		fn_update_check;;
 	update-functions)
-		fn_update_funtions;;
+		fn_update_functions;;
 	monitor)
 		fn_monitor;;
 	email-test)
@@ -85,7 +85,7 @@ case "$getopt" in
 	restart)
 		fn_restart;;
 	update-functions)
-		fn_update_funtions;;
+		fn_update_functions;;
 	monitor)
 		fn_monitor;;
 	email-test)
@@ -127,7 +127,7 @@ case "$getopt" in
 		forceupdate=1;
 		fn_update_check;;
 	update-functions)
-		fn_update_funtions;;
+		fn_update_functions;;
 	validate)
 		fn_validate;;
 	monitor)
@@ -165,7 +165,7 @@ case "$getopt" in
 	restart)
 		fn_restart;;
 	update-functions)
-		fn_update_funtions;;
+		fn_update_functions;;
 	monitor)
 		fn_monitor;;
 	email-test)
