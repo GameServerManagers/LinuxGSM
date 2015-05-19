@@ -1,0 +1,9 @@
+#!/bin/bash
+# LGSM fn_update_funtions function
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+# Version: 190515
+
+# Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
+
+rm -rfv "${rootdir}/functions/"*
