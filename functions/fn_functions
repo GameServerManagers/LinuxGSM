@@ -164,7 +164,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_update_funtions(){
+fn_update_functions(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
