@@ -2,7 +2,7 @@
 # LGSM fn_functions function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 160515
+# Version: 190515
 
 # Description: Defines all functions to allow download and execution of functions using fn_runfunction.
 # This function is called first before any other function. Without this file other functions would not load.
@@ -149,17 +149,27 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_update_check(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_update_functions(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_update_dl(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_validate(){
+fn_update_functions(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_update_check(){
+fn_validate(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
