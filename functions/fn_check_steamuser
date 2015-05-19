@@ -4,8 +4,8 @@
 # Website: http://gameservermanagers.com
 # Version: 190515
 
-if [ -z "${steamuser}" ]||[ "${steamuser}" == "username" ];; then
-		fn_printwarningnl "Steam Login not set. Using anonymous login."
+if [ -z "${steamuser}" ]||[ "${steamuser}" == "username" ]; then
+		fn_printwarnnl "Steam login not set. Using anonymous login."
 		fn_scriptlog "Steam Login not set. Using anonymous login."
 		if [ "${steamuser}" == "username" ]; then
 			echo "	* Change steamuser=\"username\" to a valid steam login."
