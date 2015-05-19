@@ -9,6 +9,7 @@
 fn_printdotsnl "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
+echo -ne "\n"
 rm -rfv "${rootdir}/functions/"*
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
