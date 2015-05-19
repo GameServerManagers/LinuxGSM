@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 060515
+# Version: 190515
 
 # Description: getopt arguments.
 
@@ -113,6 +113,12 @@ case "$getopt" in
 	restart)
 		fn_restart;;
 	update)
+		fn_update_check;;
+	force-update)
+		forceupdate=1;
+		fn_update_check;;
+	update-restart)
+		forceupdate=1;
 		fn_update_check;;
 	validate)
 		fn_validate;;
