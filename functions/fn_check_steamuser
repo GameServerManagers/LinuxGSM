@@ -2,7 +2,7 @@
 # LGSM fn_check_steamuser function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 160515
+# Version: 190515
 
 if [ -z "${steamuser}" ]||[ "${steamuser}" == "username" ];; then
 		fn_printwarningnl "Steam Login not set. Using anonymous login."
