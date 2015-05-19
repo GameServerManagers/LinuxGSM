@@ -6,7 +6,7 @@
 
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
-fn_printdots "Updating functions"
+fn_printdotsnl "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 rm -rfv "${rootdir}/functions/"*
