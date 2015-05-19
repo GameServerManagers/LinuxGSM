@@ -74,14 +74,11 @@ fn_logupdaterequest(){
 # Checks for server update requests from server logs.
 echo ""
 fn_printdots "Checking for update: Server logs"
-sleep 1
-fn_printok "Checking for update: Server logs"
 fn_scriptlog "Checking for update: Server logs"
 sleep 1
 requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
-echo "${requestrestart}"
 if [ "${requestrestart}" -ge "1" ]; then
-	fn_printoknl "Server requesting update"
+	fn_printoknl "Checking for update: Server logs: Update requested"
 	sleep 1
 	echo ""
 	echo -ne "Applying update.\r"
@@ -128,6 +125,7 @@ if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: SteamCMD: Not returning version info"
 	fn_scriptlog "Failure! Checking for update: SteamCMD: Not returning version info"
 	sleep 2
+	exit
 else
 	fn_printok "Checking for update: SteamCMD"
 	fn_scriptlog "Success! Checking for update: SteamCMD"
