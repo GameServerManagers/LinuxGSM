@@ -89,4 +89,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		${rootdir}/gsquery.py -a ${ip} -p ${port} -e ${engine}
 		exit
 	fi
+else
+	fn_printfail "Could not find ${rootdir}/gsquery.py"
+	fn_scriptlog "Could not find ${rootdir}/gsquery.py"
 fi
