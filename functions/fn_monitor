@@ -16,7 +16,7 @@ fn_logs
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-if [ ! -f "${lockselfname}" ]; then
+if [ ! -f "${rootdir}/${lockselfname}" ]; then
 	fn_printinfo "Disabled: No lock file found"
 	fn_scriptlog "Disabled: No lock file found"
 	sleep 1
@@ -61,7 +61,7 @@ fn_details_config
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-if [ ! -f "${lockselfname}" ]; then
+if [ ! -f "${rootdir}/${lockselfname}" ]; then
 	fn_printinfo "Disabled: No lock file found"
 	fn_scriptlog "Disabled: No lock file found"
 	sleep 1
