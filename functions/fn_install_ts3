@@ -2,11 +2,18 @@
 # LGSM fn_install_ts3 function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 120515
+# Version: 240515
 
-fn_details_config
+fn_details_distro
 # Gets the teamspeak server architecture
-ts3arch=${arch}
+if [ "${arch}" == "x86_64" ]; then
+	ts3arch="amd64"
+elif [ "${arch}" == "i386" ]; then
+	ts3arch="x86"
+else
+	fn_printfailure "${arch} is an unsupported architecture"
+	exit
+fi
 
 # Grabs all version numbers not in correct order
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
@@ -22,6 +29,7 @@ while read ts3_version_number; do
 	wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz"
 	if [[ $? == 0 ]]; then
 		availablebuild="${ts3_version_number}"
+		echo "Latest Build: ${availablebuild}"
 		# Break while-loop, if the latest release could be found
 		echo "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-66server_linux-${ts3arch}-${ts3_version_number}.tar.g"
 		break
@@ -34,51 +42,52 @@ rm -f .ts3_version_numbers.tmp
 # Checks availablebuild info is available
 if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: teamspeak.com"
-	fn_scriptlog "Checking for update: teamspeak.com"
 	sleep 1
 	fn_printfail "Checking for update: teamspeak.com: Not returning version info"
-	fn_scriptlog "Failure! Checking for update: teamspeak.com: Not returning version info"
 	sleep 2
 	exit
 fi
 
 cd "${rootdir}"
+mkdir "${filesdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
-fn_scriptlog "Downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
 wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
 echo -e "extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
-fn_scriptlog "Extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
-tar -xf "teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz" 2> "${scriptlogdir}/.${servicename}-tar-error.tmp"
+tar -xf "teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz" 2> ".${servicename}-tar-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
 else
 	echo "FAIL - Exit status ${status}"
-	fn_scriptlog "Failed to extract - Exit status ${status}"
 	sleep 1
-	cat "${scriptlogdir}/.${servicename}-tar-error.tmp"
-	cat "${scriptlogdir}/.${servicename}-tar-error.tmp" >> "${scriptlog}"
-	rm "${scriptlogdir}/.${servicename}-tar-error.tmp"
-	fn_scriptlog "Failure! Unable to update"
+	cat ".${servicename}-tar-error.tmp"
+	rm ".${servicename}-tar-error.tmp"
 	exit
 fi
 echo -e "copying to ${filesdir}...\c"
-fn_scriptlog "Copying to ${filesdir}"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/*" "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
+cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> ".${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
 else
 	echo "FAIL - Exit status ${status}"
-	fn_scriptlog "Failed to copy - Exit status ${status}"
 	sleep 1
-	cat "${scriptlogdir}/.${servicename}-cp-error.tmp"
-	cat "${scriptlogdir}/.${servicename}-cp-error.tmp" >> "${scriptlog}"
-	rm "${scriptlogdir}/.${servicename}-cp-error.tmp"
-	fn_scriptlog "Failure! Unable to update"
+	cat ".${servicename}-cp-error.tmp"
+	rm ".${servicename}-cp-error.tmp"
 	exit
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
 rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
 
+## Get privilege key
+echo ""
+echo "Getting privilege key"
+echo "================================="
+sleep 1
+echo "IMPORANT! Save these details for later."
+sleep 1
+cd "${executabledir}"
+./ts3server_startscript.sh start
+sleep 5
+./ts3server_startscript.sh stop
