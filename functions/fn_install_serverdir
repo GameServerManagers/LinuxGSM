@@ -2,7 +2,7 @@
 # LGSM fn_install_serverdir function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 240515
 
 echo ""
 echo "Server Directory"
@@ -17,7 +17,7 @@ while true; do
 	read -p "Continue [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1;;
+	[Nn]* ) exit;;
 	* ) echo "Please answer yes or no.";;
 	esac
 done
