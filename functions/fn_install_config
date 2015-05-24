@@ -2,7 +2,7 @@
 # LGSM fn_server function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 120515
+# Version: 240515
 
 fn_arma3config(){
 mkdir -pv "${servercfgdir}"
@@ -85,6 +85,16 @@ fi
 sed -i "s/\"hostname\"/\"${servername}\"/g" "${servercfgfullpath}"
 sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 echo ""
+}
+
+fn_ts3config(){
+echo  "Creating blank ${servercfg}"
+sleep 1
+echo  "${servercfg} can remain blank by default."
+sleep 1
+echo  "${servercfg} is located in ${servercfgfullpath}."
+sleep 1
+touch "${servercfgfullpath}"
 }
 
 fn_ut99config(){
@@ -245,6 +255,8 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/SeriousSam3BFE/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_serious3config
+elif [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_ts3config
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

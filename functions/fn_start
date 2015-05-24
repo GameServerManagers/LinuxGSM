@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+# Version: 240515
 
 # Description: Starts the server.
 
@@ -23,13 +23,17 @@ fi
 if [ ! -e "${servercfgfullpath}" ]; then
 	fn_printwarn "${servercfgfullpath} is missing"
 	fn_scriptlog "${servercfgfullpath} is missing"
-	sleep 1
-	fn_printinfo "Creating blank ${servercfgfullpath}"
-	fn_scriptlog "Creating blank ${servercfgfullpath}"
-	sleep 1
-	fn_printinfo "${servercfgfullpath} can remain blank by default."
+	sleep 2
+	echo -en "\n"
+	echo  "	* Creating blank ${servercfg}"
+	fn_scriptlog "Creating blank ${servercfg}"
+	sleep 2
+	echo  "	* ${servercfg} can remain blank by default."
 	fn_scriptlog "${servercfgfullpath} can remain blank by default."
-	sleep 1
+	sleep 2
+	echo  "	* ${servercfg} is located in ${servercfgfullpath}."
+	fn_scriptlog "${servercfg} is located in ${servercfgfullpath}."
+	sleep 5
 	touch "${servercfgfullpath}"
 fi
 fn_logs
