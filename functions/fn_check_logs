@@ -6,7 +6,7 @@
 # Description: Checks that log files exist on server start
 
 # Create dir's for the script and console logs
-if [ ! -f "${scriptlogdir}" ]; then
+if [ ! -d "${scriptlogdir}" ]; then
 	fn_printdots "Checking for log files"
 	sleep 1
 	fn_printinfo "Checking for log files: Creating log files"
