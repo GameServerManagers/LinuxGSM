@@ -31,7 +31,7 @@ executable="./ts3server_startscript.sh"
 servercfgdir="${filesdir}"
 servercfg="${servicename}.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${servercfgfullpath}" #
+defaultcfg="${servercfgfullpath}"
 backupdir="${rootdir}/backups"
 
 # Logging
