@@ -129,6 +129,8 @@ else
         fn_scriptlog "Stopped ${servername}"
     fi
 fi
+    # Remove lock file
+    rm -f "${rootdir}/${lockselfname}"
     sleep 1
     echo -en "\n"
 }
