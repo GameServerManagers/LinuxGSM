@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Summit Singh Thakur
 # Website: http://gameservermanagers.com
-# Version: 090515
+# Version: 260515
 
 #### Variables ####
 
@@ -27,7 +27,7 @@ updateonstart="no"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
