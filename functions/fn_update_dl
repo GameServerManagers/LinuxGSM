@@ -2,7 +2,7 @@
 # LGSM fn_update_dl function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 160515
+# Version: 280515
 
 # Description: Runs a server update.
 
@@ -26,6 +26,7 @@ if [ $(command -v unbuffer) ]; then
 fi
 
 ${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then echo -e '\n'; fn_csgofix; fi
 }
 
 fn_teamspeak3_dl(){
