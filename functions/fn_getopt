@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 240515
+# Version: 280515
 
 # Description: getopt arguments.
 
@@ -43,7 +43,7 @@ case "$getopt" in
 	auto-install)
 		fn_autoinstall;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|force-update|update-funtions|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
+	echo "Usage: $0 {start|stop|restart|update|force-update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
 	exit 1;;
 esac
 exit
@@ -74,7 +74,7 @@ case "$getopt" in
 	auto-install)
 		fn_autoinstall;;
 	*)
-		echo "Usage: $0 {start|stop|restart|update|update-funtions|monitor|email-test|details|backup|install|auto-install}"
+		echo "Usage: $0 {start|stop|restart|update|update-functions|monitor|email-test|details|backup|install|auto-install}"
 		exit 1;;
 esac
 exit
@@ -107,7 +107,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_ut99maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update-funtions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
 	exit 1;;
 esac
 exit
@@ -153,7 +153,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_unreal2maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update|update-funtions|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
 	exit 1;;
 esac
 exit
@@ -187,7 +187,7 @@ case "$getopt" in
 	map-compressor)
 		fn_compress_unreal2maps;;
 	*)
-	echo "Usage: $0 {start|stop|restart|update-funtions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
+	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
 	exit 1;;
 esac
 exit
