@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 240515
+# Version: 310515
 
 # Description: Starts the server.
 
@@ -84,7 +84,9 @@ fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 fn_check_tmux
-fn_check_steamcmd
+if [ "${gamename}" != "Mumble" ]; then
+	fn_check_steamcmd
+fi
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_scriptlog "Rotating log files"
