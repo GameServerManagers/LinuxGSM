@@ -2,7 +2,7 @@
 # LGSM fn_monitor function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 230315
+# Version: 310515
 
 # Description: Monitors server by checking for running proccesses
 # then passes to fn_monitor_query.
@@ -70,7 +70,6 @@ if [ ! -f "${rootdir}/${lockselfname}" ]; then
 	exit
 fi
 
-
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
 if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_printdots "Checking session: CHECKING"
@@ -82,7 +81,9 @@ if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "$
 		fn_scriptlog "Checking session: OK"
 		sleep 1
 		echo -en "\n"
-		fn_monitor_query
+		if [ "${gamename}" != "Mumble" ]; then
+			fn_monitor_query
+		fi
 		exit
 	else
 		fn_printfail "Checking session: FAIL"

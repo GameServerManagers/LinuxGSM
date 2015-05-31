@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 280515
+# Version: 250515
 
 # Description: getopt arguments.
 
@@ -75,6 +75,33 @@ case "$getopt" in
 		fn_autoinstall;;
 	*)
 		echo "Usage: $0 {start|stop|restart|update|update-functions|monitor|email-test|details|backup|install|auto-install}"
+		exit 1;;
+esac
+exit
+}
+
+fn_getopt_mumble(){
+case "$getopt" in
+	start)
+		fn_start;;
+	stop)
+		fn_stop;;
+	restart)
+		fn_restart;;
+	update-functions)
+		fn_update_functions;;
+	monitor)
+		fn_monitor;;
+	email-test)
+		fn_email_test;;
+	backup)
+		fn_backup;;
+	console)
+		fn_console;;
+	debug)
+		fn_debug;;
+	*)
+		echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|backup|console|debug}"
 		exit 1;;
 esac
 exit
@@ -192,7 +219,10 @@ case "$getopt" in
 esac
 exit
 }
-if [ "${gamename}" == "Teamspeak 3" ]; then
+
+if [ "${gamename}" == "Mumble" ]; then
+	fn_getopt_mumble
+elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${engine}" == "unreal2" ]; then
 	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
