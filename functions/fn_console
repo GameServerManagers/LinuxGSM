@@ -2,7 +2,7 @@
 # LGSM fn_console function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 260515
 
 # Description: Gives access to the server tmux console.
 

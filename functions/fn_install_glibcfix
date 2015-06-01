@@ -2,7 +2,7 @@
 # LGSM fn_install_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 110415
+# Version: 260515
 
 fn_glibcfixmsg(){
 echo ""
