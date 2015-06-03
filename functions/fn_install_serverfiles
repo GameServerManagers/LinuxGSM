@@ -2,13 +2,14 @@
 # LGSM fn_install_serverfiles function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 190515
+# Version: 030615
 
 fn_steaminstallcommand(){
 fn_check_steamuser
 counter="0"
 while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .fn_install_serverfiles.tmp)" -ge "1" ]||[ "$(grep -wc 0x406 .fn_install_serverfiles.tmp)" -ge "1" ]||[ "$(grep -wc 0x6 .fn_install_serverfiles.tmp)" -ge "1" ]||[ "$(grep -wc 0x106 .fn_install_serverfiles.tmp)" -ge "1" ]; do
 	counter=$((counter+1))
+	cd "${rootdir}/steamcmd"
 	if [ "${counter}" -le "10" ]; then
 		# Attempt 1-4: Standard attempt
 		# Attempt 5-6: Validate attempt
