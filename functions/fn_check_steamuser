@@ -6,7 +6,7 @@
 
 if [ -z "${steamuser}" ]||[ "${steamuser}" == "username" ]; then
 		fn_printwarnnl "Steam login not set. Using anonymous login."
-		fn_scriptlog "Steam Login not set. Using anonymous login."
+		fn_scriptlog "Steam login not set. Using anonymous login."
 		if [ "${steamuser}" == "username" ]; then
 			echo "	* Change steamuser=\"username\" to a valid steam login."
 			fn_scriptlog "Change steamuser=\"username\" to a valid steam login."
