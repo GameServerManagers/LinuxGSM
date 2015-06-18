@@ -13,8 +13,8 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="anonymous"
-steampass=""
+steamuser="username"
+steampass="password"
 
 # Start Variables
 ip="0.0.0.0"
