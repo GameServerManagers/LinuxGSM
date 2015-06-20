@@ -42,7 +42,7 @@ case "$getopt" in
 		fn_install;;
 	auto-install)
 		fn_autoinstall;;
-	depdetect)
+	depsdetect)
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update|force-update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
@@ -75,7 +75,7 @@ case "$getopt" in
 		fn_install;;
 	auto-install)
 		fn_autoinstall;;
-	depdetect)
+	depsdetect)
 		fn_deps_detect;;		
 	*)
 		echo "Usage: $0 {start|stop|restart|update|update-functions|monitor|email-test|details|backup|install|auto-install}"
@@ -104,7 +104,7 @@ case "$getopt" in
 		fn_console;;
 	debug)
 		fn_debug;;
-	depdetect)
+	depsdetect)
 		fn_deps_detect;;		
 	*)
 		echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|backup|console|debug}"
@@ -139,7 +139,7 @@ case "$getopt" in
 		fn_install;;
 	map-compressor)
 		fn_compress_ut99maps;;
-	depdetect)
+	depsdetect)
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
@@ -187,7 +187,7 @@ case "$getopt" in
 		fn_autoinstall;;
 	map-compressor)
 		fn_compress_unreal2maps;;
-	depdetect)
+	depsdetect)
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
@@ -223,7 +223,7 @@ case "$getopt" in
 		fn_install;;
 	map-compressor)
 		fn_compress_unreal2maps;;
-	depdetect)
+	depsdetect)
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
