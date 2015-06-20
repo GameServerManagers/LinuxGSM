@@ -65,9 +65,10 @@ echo "================================="
 cat ${rootdir}/.depdetect_debian_line
 echo ""
 if [ "${unknownlib}" == "1" ];then
+	echo ""
 	echo "Unknown shared Library"
 	echo "================================="
-	${rootdir}/.depdetect_unknown
+	cat ${rootdir}/.depdetect_unknown
 fi
 echo ""
 echo "Required Librarys"
