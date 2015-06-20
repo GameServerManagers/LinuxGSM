@@ -67,8 +67,12 @@ echo ""
 if [ "${unknownlib}" == "1" ];then
 	echo "Unknown shared Library"
 	echo "================================="
-	cat ${rootdir}/.depdetect_debian_uniq
+	${rootdir}/.depdetect_unknown
 fi
+echo ""
+echo "Required Librarys"
+echo "================================="
+sort ${rootdir}/.depdetect_readelf |uniq
 echo -en "\n"
 
 rm -f ${rootdir}/.depdetect_centos_line
