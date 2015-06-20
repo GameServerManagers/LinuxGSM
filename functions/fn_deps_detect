@@ -10,6 +10,11 @@ local modulename="Backup"
 fn_check_root
 fn_check_systemdir
 cd ${executabledir}
+if [ "${executable}" ==  "./hlds_run" ];then
+	executable=hlds_linux
+elif [ "${executable}" ==  "./srcds_run" ]||[ "${executable}" ==  "./dabds.sh" ];then
+	executable=srcds_linux	
+fi	
 readelf -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > ${rootdir}/.depdetect_readelf
 
 
@@ -18,15 +23,22 @@ echo "apt-get install " > ${rootdir}/.depdetect_ubuntu_list_uniq
 echo "apt-get install " > ${rootdir}/.depdetect_debian_list_uniq
 while read lib; do
 	sharedlib=${lib}
-	if [ "${lib}" == "libm.so.6" ]||[ ${lib} == "libc.so.6" ]||[ ${lib} == "libpthread.so.0" ]||[ ${lib} == "libdl.so.2" ]||[ ${lib} == "libnsl.so.1" ];then
+	if [ "${lib}" == "libm.so.6" ]||[ ${lib} == "libc.so.6" ]||[ ${lib} == "libpthread.so.0" ]||[ ${lib} == "libdl.so.2" ]||[ ${lib} == "libnsl.so.1" ]||[ "${lib}" == "libgcc_s.so.1" ]||[ "${lib}" == "librt.so.1" ]||[ "${lib}" == "ld-linux.so.2" ];then
 		echo "glibc.i386" >> ${rootdir}/.depdetect_centos_list
 		echo "lib32gcc1" >> ${rootdir}/.depdetect_ubuntu_list
 		echo "lib32gcc1" >> ${rootdir}/.depdetect_debian_list
+	
 	elif [ "${lib}" == "libstdc++.so.6" ];then
 		echo "libstdc++.i686" >> ${rootdir}/.depdetect_centos_list
 		echo "libstdc++6:i386" >> ${rootdir}/.depdetect_ubuntu_list
 		echo "libstdc++6:i386" >> ${rootdir}/.depdetect_debian_list
-	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ];then
+	
+	elif [ "${lib}" == "libstdc++.so.5" ];then
+		echo "compat-libstdc++-33.i686" >> ${rootdir}/.depdetect_centos_list
+		echo "libstdc++5:i386" >> ${rootdir}/.depdetect_ubuntu_list
+		echo "libstdc++5:i386" >> ${rootdir}/.depdetect_debian_list		
+
+	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ];then
 		# Known shared libs what dont requires dependencies
 		:
 	else
