@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 250515
+# Version: 200615
 
 # Description: getopt arguments.
 
@@ -42,6 +42,8 @@ case "$getopt" in
 		fn_install;;
 	auto-install)
 		fn_autoinstall;;
+	depdetect)
+		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update|force-update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
 	exit 1;;
@@ -73,6 +75,8 @@ case "$getopt" in
 		fn_install;;
 	auto-install)
 		fn_autoinstall;;
+	depdetect)
+		fn_deps_detect;;		
 	*)
 		echo "Usage: $0 {start|stop|restart|update|update-functions|monitor|email-test|details|backup|install|auto-install}"
 		exit 1;;
@@ -100,6 +104,8 @@ case "$getopt" in
 		fn_console;;
 	debug)
 		fn_debug;;
+	depdetect)
+		fn_deps_detect;;		
 	*)
 		echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|backup|console|debug}"
 		exit 1;;
@@ -133,6 +139,8 @@ case "$getopt" in
 		fn_install;;
 	map-compressor)
 		fn_compress_ut99maps;;
+	depdetect)
+		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
 	exit 1;;
@@ -179,6 +187,8 @@ case "$getopt" in
 		fn_autoinstall;;
 	map-compressor)
 		fn_compress_unreal2maps;;
+	depdetect)
+		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
 	exit 1;;
@@ -213,6 +223,8 @@ case "$getopt" in
 		fn_install;;
 	map-compressor)
 		fn_compress_unreal2maps;;
+	depdetect)
+		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
 	exit 1;;

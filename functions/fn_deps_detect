@@ -1,0 +1,35 @@
+#!/bin/bash
+# LGSM fn_dep_detect function
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+# Version: 200615
+
+# Description: Detects dependencies the server binary requires.
+
+local modulename="Backup"
+fn_check_root
+fn_check_systemdir
+cd ${executabledir}
+readelf -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > ${rootdir}/.depdetect_readelf
+
+
+echo "yum install " > ${rootdir}/.depdetect_centos
+echo "apt-get install " > ${rootdir}/.depdetect_ubuntu
+echo "apt-get install " > ${rootdir}/.depdetect_debian
+while read lib; do
+	sharedlib=${lib}
+	if [ ${lib} == "libm.so.6" ]||[ ${lib} == "libc.so.6" ]||[ ${lib} == "libpthread.so.0" ]||[ ${lib} == "libdl.so.2" ]||[ ${lib} == "libnsl.so.1" ];then
+		echo "glibc.i386" >> ${rootdir}/.depdetect_centos_list
+		echo "lib32gcc1" >> ${rootdir}/.depdetect_ubuntu_list
+		echo "lib32gcc1" >> ${rootdir}/.depdetect_debian_list
+	elif [ ${lib} == "libstdc++.so.6" ];then
+		echo "libstdc++.i686" >> ${rootdir}/.depdetect_centos_list
+		echo "libstdc++6:i386" >> ${rootdir}/.depdetect_ubuntu_list
+		echo "libstdc++6:i386" >> ${rootdir}/.depdetect_debian_list
+	else
+		echo "${lib}" >> ${rootdir}/.depdetect_unknown
+	fi
+done < ${rootdir}/.depdetect_readelf
+uniq ${rootdir}/.depdetect_centos_list > ${rootdir}/.depdetect_centos_list_uniq
+uniq ${rootdir}/.depdetect_ubuntu_list > ${rootdir}/.depdetect_ubuntu_list_uniq
+uniq ${rootdir}/.depdetect_debian_list > ${rootdir}/.depdetect_debian_list_uniq
