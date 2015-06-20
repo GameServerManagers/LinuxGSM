@@ -26,7 +26,7 @@ while read lib; do
 		echo "libstdc++.i686" >> ${rootdir}/.depdetect_centos_list
 		echo "libstdc++6:i386" >> ${rootdir}/.depdetect_ubuntu_list
 		echo "libstdc++6:i386" >> ${rootdir}/.depdetect_debian_list
-	elif [ "${lib}" == "libtier0.so" ];then
+	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ];then
 		# Known shared libs what dont requires dependencies
 		:
 	else
