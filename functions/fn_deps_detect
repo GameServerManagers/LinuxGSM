@@ -12,11 +12,19 @@ fn_check_systemdir
 cd ${executabledir}
 if [ "${executable}" ==  "./hlds_run" ];then
 	executable=hlds_linux
-elif [ "${executable}" ==  "./srcds_run" ]||[ "${executable}" ==  "./dabds.sh" ];then
+elif [ "${executable}" ==  "./srcds_run" ]||[ "${executable}" ==  "./dabds.sh" ]||[ "${executable}" ==  "./srcds_run.sh" ];then
 	executable=srcds_linux
 elif [ "${executable}" ==  "./server_linux32" ];then
-	executable=libSpark_Core.so		
-fi	
+	executable=libSpark_Core.so
+elif [ "${executable}" ==  "./runSam3_DedicatedServer.sh" ];then
+	executable=Sam3_DedicatedServer
+elif [ "${executable}" ==  "./7DaysToDie.sh" ];then
+	executable=7DaysToDie.x86
+elif [ "${executable}" ==  "./ucc-bin" ];then
+	executable=ucc-bin-real
+elif [ "${executable}" ==  "./ts3server_startscript.sh" ];then
+	executable=ts3server_linux_amd64		
+fi
 readelf -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > ${rootdir}/.depdetect_readelf
 
 
@@ -49,7 +57,7 @@ while read lib; do
 		echo "libtbb2:i386" >> ${rootdir}/.depdetect_ubuntu_list
 		echo "libtbb2:i386" >> ${rootdir}/.depdetect_debian_list
 
-	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ];then
+	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ];then
 		# Known shared libs what dont requires dependencies
 		:
 	else
