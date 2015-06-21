@@ -22,6 +22,12 @@ elif [ "${executable}" ==  "./7DaysToDie.sh" ];then
 	executable=7DaysToDie.x86
 elif [ "${executable}" ==  "./ucc-bin" ];then
 	executable=ucc-bin-real
+elif [ "${executable}" ==  "./ucc-bin" ];then
+	if [ -f "${executabledir}/ucc-bin-real" ]; then
+		executable=ucc-bin-real
+	else
+		executable=ut-bin
+	fi	
 elif [ "${executable}" ==  "./ts3server_startscript.sh" ];then
 	executable=ts3server_linux_amd64		
 fi
@@ -51,11 +57,6 @@ while read lib; do
 		echo "speex.i686" >> ${rootdir}/.depdetect_centos_list
 		echo "speex:i386" >> ${rootdir}/.depdetect_ubuntu_list
 		echo "speex:i386" >> ${rootdir}/.depdetect_debian_list
-
-	elif [ "${lib}" == "libtbb.so.2" ];then
-		echo "tbb.i686" >> ${rootdir}/.depdetect_centos_list
-		echo "libtbb2:i386" >> ${rootdir}/.depdetect_ubuntu_list
-		echo "libtbb2:i386" >> ${rootdir}/.depdetect_debian_list
 
 	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ];then
 		# Known shared libs what dont requires dependencies
