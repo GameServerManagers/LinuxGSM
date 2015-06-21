@@ -66,6 +66,11 @@ while read lib; do
 		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_debian_list"		
 
+	elif [ "${lib}" == "libtbb.so.2" ];then 
+		echo "tbb.i686" >> "${rootdir}/.depdetect_centos_list"
+		echo "libtbb2" >> "${rootdir}/.depdetect_ubuntu_list"
+		echo "libtbb2" >> "${rootdir}/.depdetect_debian_list"
+
 	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ];then
 		# Known shared libs what dont requires dependencies
 		:
