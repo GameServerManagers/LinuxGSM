@@ -1,8 +1,12 @@
 #!/bin/bash
-# LGSM fn_server function
+# LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 120615
+# Version: 210615
+
+fn_arkconfig(){
+echo ""
+}
 
 fn_arma3config(){
 mkdir -pv "${servercfgdir}"
@@ -154,6 +158,8 @@ fi
 	#statements
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_unity3dconfig
+elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	fn_arkconfig
 elif [ "${gamename}" == "ARMA 3" ]; then
 	echo -e "downloading lgsm-default.server.cfg & lgsm-default.network.cfg...\c"
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Arma3/cfg/lgsm-default.server.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
