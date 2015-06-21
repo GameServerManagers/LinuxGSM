@@ -2,7 +2,7 @@
 # LGSM fn_dep_detect function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 200615
+# Version: 210615
 
 # Description: Detects dependencies the server binary requires.
 
@@ -55,10 +55,16 @@ while read lib; do
 		echo "compat-libstdc++-33.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "libstdc++5:i386" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "libstdc++5:i386" >> "${rootdir}/.depdetect_debian_list"
+
 	elif [ "${lib}" == "libspeex.so.1" ]||[ "${lib}" == "libspeexdsp.so.1" ];then 
 		echo "speex.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "speex:i386" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "speex:i386" >> "${rootdir}/.depdetect_debian_list"
+
+	elif [ "${lib}" == "./libSDL-1.2.so.0" ]||[ "${lib}" == "libSDL-1.2.so.0" ];then 
+		echo "SDL.i686" >> "${rootdir}/.depdetect_centos_list"
+		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_ubuntu_list"
+		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_debian_list"		
 
 	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ];then
 		# Known shared libs what dont requires dependencies
