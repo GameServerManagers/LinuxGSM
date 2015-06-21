@@ -25,6 +25,8 @@ elif [ "${executable}" ==  "./ucc-bin" ];then
 elif [ "${executable}" ==  "./ucc-bin" ];then
 	if [ -f "${executabledir}/ucc-bin-real" ]; then
 		executable=ucc-bin-real
+	if [ -f "${executabledir}/ut2004-bin" ]; then
+		executable=ut2004-bin
 	else
 		executable=ut-bin
 	fi	
