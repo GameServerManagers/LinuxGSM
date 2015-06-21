@@ -21,15 +21,15 @@ elif [ "${executable}" ==  "./runSam3_DedicatedServer.sh" ];then
 elif [ "${executable}" ==  "./7DaysToDie.sh" ];then
 	executable=7DaysToDie.x86
 elif [ "${executable}" ==  "./ucc-bin" ];then
-	executable=ucc-bin-real
-elif [ "${executable}" ==  "./ucc-bin" ];then
+
 	if [ -f "${executabledir}/ucc-bin-real" ]; then
 		executable=ucc-bin-real
 	elif [ -f "${executabledir}/ut2004-bin" ]; then
 		executable=ut2004-bin
 	else
 		executable=ut-bin
-	fi	
+	fi
+		
 elif [ "${executable}" ==  "./ts3server_startscript.sh" ];then
 	executable=ts3server_linux_amd64		
 fi
