@@ -71,7 +71,7 @@ while read lib; do
 		echo "libtbb2" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "libtbb2" >> "${rootdir}/.depdetect_debian_list"
 
-	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ];then
+	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ]||[ "${lib}" == "libPhysX3_x86.so" ]||[ "${lib}" == "libPhysX3Common_x86.so" ]||[ "${lib}" == "libPhysX3Cooking_x86.so" ];then
 		# Known shared libs what dont requires dependencies
 		:
 	else
