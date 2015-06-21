@@ -31,7 +31,7 @@ elif [ "${executable}" ==  "./ucc-bin" ];then
 	fi
 
 elif [ "${executable}" ==  "./ts3server_startscript.sh" ];then
-	
+	executable=ts3server_linux_amd64	
 fi
 readelf -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > "${rootdir}/.depdetect_readelf"
 
