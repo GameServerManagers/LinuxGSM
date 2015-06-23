@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+# Version: 220615
 
 #### Variables ####
 
@@ -13,8 +13,8 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="username"
-steampass="password"
+steamuser="anonymous"
+steampass=""
 
 # Start Variables
 ip="0.0.0.0"
