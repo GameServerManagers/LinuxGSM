@@ -2,7 +2,7 @@
 # LGSM fn_dep_detect function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210615
+# Version: 290615
 
 # Description: Detects dependencies the server binary requires.
 
@@ -33,7 +33,14 @@ elif [ "${executable}" ==  "./ucc-bin" ];then
 elif [ "${executable}" ==  "./ts3server_startscript.sh" ];then
 	executable=ts3server_linux_amd64	
 fi
-readelf -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > "${rootdir}/.depdetect_readelf"
+
+if [ -n "$(command -v eu-readelf)" ]; then
+	readelf=eu-readelf
+else
+	readelf=readelf
+fi
+
+${readelf} -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > "${rootdir}/.depdetect_readelf"
 
 
 echo "yum install " > "${rootdir}/.depdetect_centos_list_uniq"
@@ -119,16 +126,24 @@ echo ""
 echo "Required Librarys"
 echo "================================="
 sort "${rootdir}/.depdetect_readelf" |uniq
+echo ""
+echo "ldd"
+echo "================================="
+ldd ${executable}
 echo -en "\n"
-
 rm -f "${rootdir}/.depdetect_centos_line"
 rm -f "${rootdir}/.depdetect_centos_list"
-rm -f "${rootdir}/.depdetect_centos_list"
 rm -f "${rootdir}/.depdetect_centos_list_uniq"
+
+rm -f "${rootdir}/.depdetect_debian_line"
 rm -f "${rootdir}/.depdetect_debian_list"
 rm -f "${rootdir}/.depdetect_debian_list_uniq"
-rm -f "${rootdir}/.depdetect_readelf"
+
+rm -f "${rootdir}/.depdetect_ubuntu_line"
 rm -f "${rootdir}/.depdetect_ubuntu_list"
 rm -f "${rootdir}/.depdetect_ubuntu_list_uniq"
+
+rm -f "${rootdir}/.depdetect_readelf"
+
 rm -f "${rootdir}/.depdetect_unknown"
 rm -f "${rootdir}/.depdetect_unknown_uniq"
