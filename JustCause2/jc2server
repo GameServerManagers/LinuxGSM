@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -44,9 +44,10 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./Jcmp-Server"
-servercfgdir="${filesdir}"
 servercfg="config.lua"
+servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/default_config.lua"
 backupdir="${rootdir}/backups"
 
 # Logging

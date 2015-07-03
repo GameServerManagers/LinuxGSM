@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Summit Singh Thakur
 # Website: http://gameservermanagers.com
-# Version: 260515
+version="010715"
 
 #### Variables ####
 
@@ -48,10 +48,10 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/left4dead"
 executabledir="${filesdir}"
 executable="./srcds_run"
-servercfgdir="${systemdir}/cfg"
 servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${servercfgdir}/server.cfg"
+servercfgdefault="${servercfgdir}/server.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

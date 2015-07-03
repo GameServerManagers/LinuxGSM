@@ -2,10 +2,10 @@
 # Mumble
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://danielgibbs.co.uk
-# Version: 310515
+# Website: http://gameservermanagers.com
+version="010715"
 
-### Variables ####
+#### Variables ####
 
 # Notification Email
 # (on|off)
@@ -16,7 +16,7 @@ email="email@example.com"
 gamename="Mumble"
 servicename="mumble-server"
 
-# Directorys
+# Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
@@ -24,8 +24,8 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./murmur.x86"
-servercfgdir="${filesdir}"
 servercfg="murmur.ini"
+servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
 

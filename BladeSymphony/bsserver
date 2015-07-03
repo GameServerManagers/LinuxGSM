@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -41,17 +41,17 @@ gamename="Blade Symphony"
 engine="source"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/berimbau"
 executabledir="${filesdir}"
 executable="./srcds_run.sh"
-servercfgdir="${systemdir}/cfg"
 servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${servercfgdir}/server.cfg"
+servercfgdefault="${servercfgdir}/server.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

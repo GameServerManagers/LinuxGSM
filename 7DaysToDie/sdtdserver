@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -43,10 +43,10 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./7DaysToDie.sh"
-servercfgdir="${filesdir}"
 servercfg="${servicename}.xml"
+servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${filesdir}/serverconfig.xml"
+servercfgdefault="${servercfgdir}/serverconfig.xml"
 backupdir="${rootdir}/backups"
 
 # Logging

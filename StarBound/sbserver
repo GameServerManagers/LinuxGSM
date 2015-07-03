@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -42,11 +42,9 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}/linux64"
 executable="./starbound_server"
-servercfgdir="${executabledir}"
 servercfg="sbboot.config"
-servercfgfullpath="${executabledir}"
+servercfgdir="${executabledir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="sbboot.config"
 backupdir="${rootdir}/backups"
 
 # Logging

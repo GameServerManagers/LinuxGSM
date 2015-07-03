@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 180615
+version="010715"
 
 #### Variables ####
 
@@ -42,10 +42,9 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/projectzomboid"
 executabledir="${filesdir}"
 executable="./projectzomboid-dedi-server.sh"
-servercfgdir="${rootdir}/Zomboid/Server"
 servercfg="servertest.ini"
+servercfgdir="${rootdir}/Zomboid/Server"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${servercfgdir}/servertest.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

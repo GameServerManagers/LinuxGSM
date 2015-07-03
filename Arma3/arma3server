@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -25,8 +25,6 @@ fn_parms(){
 parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods}"
 }
 
-#### Advanced Variables ####
-
 # ARMA 3 Modules
 # add mods with relative paths:
 # mods/\@CBA_A3\;
@@ -34,6 +32,8 @@ parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath}
 # mods/\@CBA_A3\;mods/\@task_force_radio
 # and chmod modules directories to 775
 mods=""
+
+#### Advanced Variables ####
 
 # Steam
 # Stable
@@ -47,18 +47,20 @@ gamename="ARMA 3"
 engine="realvirtuality"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./arma3server"
-servercfgdir="${systemdir}/cfg"
 servercfg="${servicename}.server.cfg"
 networkcfg="${servicename}.network.cfg"
+servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 networkcfgfullpath="${servercfgdir}/${networkcfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.server.cfg"
+networkcfgdefault="${servercfgdir}/lgsm-default.network.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

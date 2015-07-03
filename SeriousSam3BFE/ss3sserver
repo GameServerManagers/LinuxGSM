@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 220615
+version="010715"
 
 #### Variables ####
 
@@ -41,11 +41,12 @@ selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/Bin"
-executabledir="${systemdir}"
 executable="./runSam3_DedicatedServer.sh"
-servercfgdir="${filesdir}/Content/SeriousSam3/Config"
+executabledir="${systemdir}"
 servercfg="${servicename}.ini"
+servercfgdir="${filesdir}/Content/SeriousSam3/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

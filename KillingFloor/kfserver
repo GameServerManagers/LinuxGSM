@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -31,13 +31,13 @@ parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini
 
 #### Advanced Variables ####
 
+# Steam
+appid="215360"
+
 # Server Details
 servicename="kf-server"
 gamename="Killing Floor"
 engine="unreal2"
-
-# Steam
-appid="215360"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -47,11 +47,11 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"
 executable="./ucc-bin"
-servercfgdir="${systemdir}"
 servercfg="${servicename}.ini"
+servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/Default.ini"
 compressedmapsdir="${rootdir}/Maps-Compressed"
-defaultcfg="${systemdir}/Default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

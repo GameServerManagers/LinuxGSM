@@ -2,36 +2,52 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210615
+# Version: 010715
 
 fn_arkconfig(){
 echo ""
 }
 
 fn_arma3config(){
-mkdir -pv "${servercfgdir}"
-mv -v lgsm-default.server.cfg "${servercfgfullpath}"
-mv -v lgsm-default.network.cfg "${networkcfgfullpath}"
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
+sleep 1
+echo "creating ${networkcfg} config file."
+cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
+sleep 1
+echo ""
+}
+
+fn_dstconfig(){
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
 echo ""
 }
 
 fn_goldsourceconfig(){
-echo "creating ${servicename}.cfg config file."
-cp -v lgsm-default.cfg "${servercfgfullpath}"
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
+
+# server.cfg redirects to ${servercfg} for added security
 echo "creating server.cfg."
 touch "${defaultcfg}"
 sleep 1
 echo "creating redirect."
 echo "server.cfg > ${servercfg}."
 echo "exec ${servercfg}" > "${defaultcfg}"
+sleep 1
+
+# creating other files required
 echo "creating listip.cfg."
 sleep 1
 touch "${systemdir}/listip.cfg"
 echo "creating banned.cfg."
 touch "${systemdir}/banned.cfg"
 sleep 1
+
+# allow user to input server name and password
 if [ -z "${autoinstall}" ]; then
 	echo ""
 	echo "Configuring ${gamename} Server"
@@ -49,25 +65,29 @@ echo ""
 }
 
 fn_jc2config(){
-cd "${filesdir}"
-cp -v default_config.lua config.lua
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
 echo ""
 }
 
 fn_serious3config(){
-cp -v lgsm-default.ini ${servercfg}
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
 echo ""
 echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
 echo "http://mrag.nl/sgui3/"
 sleep 1
+echo ""
 }
 
 fn_sourceconfig(){
-echo "creating ${servicename}.cfg config file."
-cp -v lgsm-default.cfg "${servercfgfullpath}"
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
+
+# server.cfg redirects to ${servercfg} for added security
 echo "creating server.cfg."
 touch "${defaultcfg}"
 sleep 1
@@ -75,6 +95,8 @@ echo "creating redirect."
 echo "server.cfg > ${servercfg}."
 echo "exec ${servercfg}" > "${defaultcfg}"
 sleep 1
+
+# allow user to input server name and password
 if [ -z "${autoinstall}" ]; then
 	echo ""
 	echo "Configuring ${gamename} Server"
@@ -92,7 +114,7 @@ echo ""
 }
 
 fn_ts3config(){
-echo  "Creating blank ${servercfg}"
+echo "creating blank ${servercfg} config file."
 sleep 1
 echo  "${servercfg} can remain blank by default."
 sleep 1
@@ -103,7 +125,7 @@ touch "${servercfgfullpath}"
 
 fn_ut99config(){
 echo "${defaultcfg} > ${servercfgfullpath}"
-tr -d '\r' < "${defaultcfg}" > "${servercfgfullpath}"
+tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
 sleep 1
 echo ""
 echo "Configuring ${gamename} Server"
@@ -119,13 +141,15 @@ echo ""
 }
 
 fn_unity3dconfig(){
-cp -v serverconfig.xml ${servercfg}
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
 echo ""
 }
 
 fn_unreal2config(){
-cp -v "${defaultcfg}" "${servercfgfullpath}"
+echo "creating ${servercfg} config file."
+cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
 echo ""
 echo "Configuring ${gamename} Server"
@@ -150,6 +174,16 @@ echo ""
 echo "Creating Configs"
 echo "================================="
 sleep 1
+if [ ! -d "${servercfgdir}" ]; then
+	echo -e "creating ${servercfgdir} dir...\c"
+	mkdir -pv "${servercfgdir}"
+	if [[ $? == 0 ]]; then
+		echo -e  "OK"
+	else
+		echo -e  "FAIL"
+	fi
+fi
+
 if [ "${gamename}" == "ARMA 3" ]; then
 	cd "${systemdir}"
 else
@@ -206,11 +240,16 @@ elif [ "${gamename}" == "Day of Defeat: Source" ]; then
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DayOfDefeatSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
-elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+elif [ "${gamename}" == "Dont Starve Together" ]; then
+	echo -e "downloading lgsm-default.ini...\c"
+	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_sourceconfig
+	fn_dstconfig
+	elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
+		echo -e "downloading lgsm-default.cfg...\c"
+		wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+		sleep 1
+		fn_sourceconfig
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

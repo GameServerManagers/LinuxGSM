@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090515
+version="010715"
 
 #### Variables ####
 
@@ -43,11 +43,11 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/system"
 executabledir="${systemdir}"
 executable="./ucc-bin"
-servercfgdir="${systemdir}"
 servercfg="${servicename}.ini"
+servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/default.ini"
 compressedmapsdir="${rootdir}/Maps-Compressed"
-defaultcfg="${systemdir}/default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging
