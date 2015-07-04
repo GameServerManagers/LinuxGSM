@@ -1,0 +1,98 @@
+#!/bin/bash
+# Chivalry: Medieval Warfare
+# Server Management Script
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+version="040715"
+
+#### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="off"
+email="email@example.com"
+
+# Steam login
+steamuser="anonymous"
+steampass=""
+
+# Start Variables
+defaultmap="aocffa-moor_p"
+maxplayers="16"
+port="7000"
+queryport="7010"
+clientport="27005"
+adminpassword="adminpassword"
+ip="0.0.0.0"
+updateonstart="no"
+
+fn_parms(){
+parms="${defaultmap}\?steamsockets\?adminpassword=${adminpassword}\?port=${port}\?queryport=${queryport} -seekfreeloadingserver"
+}
+
+#### Advanced Variables ####
+
+# Steam
+appid="220070"
+
+# Server Details
+servicename="cmw-server"
+gamename="Chivalry: Medieval Warfare"
+engine="unreal3"
+
+# Directories
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+selfname="$(basename $0)"
+lockselfname=".${servicename}.lock"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}"
+executabledir="${filesdir}/Binaries/Linux"
+executable="./UDKGameServer-Linux"
+servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/server.cfg"
+backupdir="${rootdir}/backups"
+
+# Logging
+logdays="7"
+gamelogdir="${systemdir}/logs"
+scriptlogdir="${rootdir}/log/script"
+consolelogdir="${rootdir}/log/console"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+consolelog="${consolelogdir}/${servicename}-console.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
+
+##### Script #####
+# Do not edit
+
+fn_runfunction(){
+# Functions are downloaded and run with this function
+if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
+	cd "${rootdir}"
+	if [ ! -d "functions" ]; then
+		mkdir functions
+	fi
+	cd functions
+	echo -e "    loading ${functionfile}...\c"
+	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
+	chmod +x "${functionfile}"
+	cd "${rootdir}"
+fi
+source "${rootdir}/functions/${functionfile}"
+}
+
+fn_functions(){
+# Functions are defined in fn_functions.
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_functions
+
+getopt=$1
+fn_getopt
