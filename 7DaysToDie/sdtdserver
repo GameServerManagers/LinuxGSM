@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="010715"
+version="040715"
 
 #### Variables ####
 
@@ -22,7 +22,7 @@ updateonstart="no"
 
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){
-parms="-configfile=\"${servercfgfullpath}\" -dedicated"
+parms="-configfile=${servercfgfullpath} -dedicated"
 }
 
 #### Advanced Variables ####
@@ -42,7 +42,7 @@ lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="./7DaysToDie.sh"
+executable="./startserver.sh"
 servercfg="${servicename}.xml"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
