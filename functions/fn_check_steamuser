@@ -2,14 +2,18 @@
 # LGSM fn_check_steamuser function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 190515
+# Version: 040715
 
 if [ -z "${steamuser}" ]||[ "${steamuser}" == "username" ]; then
 		fn_printwarnnl "Steam login not set. Using anonymous login."
-		fn_scriptlog "Steam login not set. Using anonymous login."
+		if [ -d ${scriptlogdir} ]; then
+			fn_scriptlog "Steam login not set. Using anonymous login."
+		fi
 		if [ "${steamuser}" == "username" ]; then
 			echo "	* Change steamuser=\"username\" to a valid steam login."
-			fn_scriptlog "Change steamuser=\"username\" to a valid steam login."
+			if [ -d ${scriptlogdir} ]; then
+				fn_scriptlog "Change steamuser=\"username\" to a valid steam login."
+			fi
 		fi
 		steamuser="anonymous"
 		steampass=""
