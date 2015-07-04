@@ -32,7 +32,8 @@ parms="-game dmc -strictportbind -ip ${ip} -port ${port} +clientport ${clientpor
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod dmc"
+appid="90"
+appidmod="dmc"
 
 # Server Details
 servicename="dmc-server"

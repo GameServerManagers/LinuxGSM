@@ -32,7 +32,8 @@ parms="-game dod -strictportbind -ip ${ip} -port ${port} +clientport ${clientpor
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod dod"
+appid="90"
+appidmod="dod"
 
 # Server Details
 servicename="dod-server"

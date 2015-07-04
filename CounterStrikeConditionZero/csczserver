@@ -32,7 +32,8 @@ parms="-game czero -strictportbind -ip ${ip} -port ${port} +clientport ${clientp
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod czero"
+appid="90"
+appidmod="czero"
 
 # Server Details
 servicename="cscz-server"

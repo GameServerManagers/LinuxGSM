@@ -32,7 +32,8 @@ parms="-game gearbox -strictportbind -ip ${ip} -port ${port} +clientport ${clien
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod gearbox"
+appid="90"
+appidmod="gearbox"
 
 # Server Details
 servicename="opfor-server"

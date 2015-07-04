@@ -32,7 +32,8 @@ parms="-game ricochet -strictportbind -ip ${ip} -port ${port} +clientport ${clie
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod ricochet"
+appid="90"
+appidmod="ricochet"
 
 # Server Details
 servicename="ricochet-server"

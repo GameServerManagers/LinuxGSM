@@ -32,7 +32,8 @@ parms="-game tfc -strictportbind -ip ${ip} -port ${port} +clientport ${clientpor
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod tfc"
+appid="90"
+appidmos="tfc"
 
 # Server Details
 servicename="tfc-server"

@@ -32,7 +32,8 @@ parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clien
 #### Advanced Variables ####
 
 # Steam
-appid="90 +app_set_config 90 mod cstrike"
+appid="90"
+appidmod="cstrike"
 
 # Server Details
 servicename="cs-server"

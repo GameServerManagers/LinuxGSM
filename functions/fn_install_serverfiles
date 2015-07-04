@@ -2,7 +2,7 @@
 # LGSM fn_install_serverfiles function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030615
+# Version: 040715
 
 fn_steaminstallcommand(){
 fn_check_steamuser
@@ -36,9 +36,17 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .fn_install_serverfiles.tmp)"
 		fi
 
 		if [ "${counter}" -le "4" ]; then
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit |tee .fn_install_serverfiles.tmp
+			if [ "${engine}" == "goldsource" ]; then
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit |tee .fn_install_serverfiles.tmp
+			else
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit |tee .fn_install_serverfiles.tmp
+			fi
 		elif [ "${counter}" -ge "5" ]; then
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+			if [ "${engine}" == "goldsource" ]; then
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+			else
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+			fi
 		fi
 	elif [ "${counter}" -ge "11" ]; then
 		fn_printfailurenl "SteamCMD did not complete the download, too many retrys"
@@ -53,7 +61,7 @@ if [ "${engine}" == "goldsource" ]; then
 	counter="0"
 	while [ "${counter}" -le "4" ]; do
 		counter=$((counter+1))
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
 	done
 fi
 rm -f .fn_install_serverfiles.tmp
