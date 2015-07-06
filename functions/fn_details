@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 270515
+# Version: 060715
 
 # Description: Displays server infomation.
 
@@ -89,6 +89,9 @@ column -s $'\t' -t .fn_details_gameserver
 rm -f .fn_details_gameserver
 echo -e ""
 echo -e "\e[34mService name:\t\e[0m${servicename}" >> .fn_details_gameserver
+if [ -n ${version} ]; then
+	echo -e "\e[34m${selfname} version:\t\e[0m${version}" >> .fn_details_gameserver
+fi
 echo -e "\e[34mUser:\t\e[0m$(whoami)" >> .fn_details_gameserver
 echo -e "\e[34mLocation:\t\e[0m${rootdir}" >> .fn_details_gameserver
 if [ ! -z "${servercfgfullpath}" ]; then
