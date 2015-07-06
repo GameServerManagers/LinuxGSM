@@ -27,7 +27,7 @@ echo ""
 
 fn_goldsourceconfig(){
 echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
+cp -v "lgsm-default.cfg" "${servercfgfullpath}"
 sleep 1
 
 # server.cfg redirects to ${servercfg} for added security
@@ -84,16 +84,16 @@ echo ""
 
 fn_sourceconfig(){
 echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
+cp -v "lgsm-default.cfg" "${servercfgfullpath}"
 sleep 1
 
 # server.cfg redirects to ${servercfg} for added security
 echo "creating server.cfg."
-touch "${defaultcfg}"
+touch "${servercfgdefault}"
 sleep 1
 echo "creating redirect."
 echo "server.cfg > ${servercfg}."
-echo "exec ${servercfg}" > "${defaultcfg}"
+echo "exec ${servercfg}" > "${servercfgdefault}"
 sleep 1
 
 # allow user to input server name and password
