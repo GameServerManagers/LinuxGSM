@@ -9,6 +9,10 @@
 if [ "${engine}" == "avalanche" ]; then
 	 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
 
+elif [ "${engine}" == "dontstarve" ]; then
+	servername=$(grep -s "default_server_name = " "${servercfgfullpath}"|sed 's/default_server_name = //g'|tr -d '=\";'|sed 's/,//g')
+	port=$(grep -s "server_port = " "${servercfgfullpath}"|sed 's/server_port = //g'|tr -cd [:digit:])
+
 elif [ "${engine}" == "projectzomboid" ]; then
 	servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
 	port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
@@ -31,6 +35,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 
 elif [ "${engine}" == "spark" ]; then
 	queryport=$((${port} + 1))
+
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	if  [ -s "${servercfgfullpath}" ]; then
 		port=$(grep default_voice_port= "${servercfgfullpath}"|tr -cd [:digit:])
