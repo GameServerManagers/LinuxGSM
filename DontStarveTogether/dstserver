@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="040715"
+version="070715"
 
 #### Variables ####
 
@@ -27,7 +27,7 @@ parms=""
 #### Advanced Variables ####
 
 # Steam
-appid="232330"
+appid="343050"
 
 # Server Details
 servicename="dst-server"
