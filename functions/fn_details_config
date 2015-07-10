@@ -15,6 +15,9 @@ if [ -e "${servercfgfullpath}" ]; then
 
 	elif [ "${engine}" == "projectzomboid" ]; then
 		servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
+		if [ -z "${servername}" ]; then
+			telnetpass="\e[0;31mno server name set\e[0m"
+		fi
 		port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
 
 	elif [ "${engine}" == "realvirtuality" ]; then
