@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 060715
+# Version: 100715
 
 # Description: Displays server infomation.
 
@@ -56,11 +56,6 @@ rm -f .fn_details_disk
 }
 
 fn_details_gameserver(){
-if [ ! -e ${servercfgfullpath} ]; then
-	servername="\e[0;31mCONFIG FILE MISSING!\e[0m"
-	rcon="\e[0;31mCONFIG FILE MISSING!\e[0m"
-	servercfgfullpath="${servercfgfullpath} \e[0;31mCONFIG FILE MISSING!!\e[0m"
-fi
 echo -e ""
 echo -e "\e[92m${gamename} Server Details\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -519,6 +514,21 @@ column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
 }
+
+if [ ! -e ${servercfgfullpath} ]; then
+	echo ""
+	fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
+	echo "${servercfgfullpath}"
+	echo "Some details cannot be displayed"
+
+	echo -en ".\r"
+	sleep 1
+	echo -en "..\r"
+	sleep 1
+	echo -en "...\r"
+	sleep 1
+	echo -en "   \r"
+fi
 
 if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
