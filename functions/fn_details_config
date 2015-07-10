@@ -59,7 +59,9 @@ if [ -e "${servercfgfullpath}" ]; then
 		telnetenabled=$(grep TelnetEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
 		telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
 		telnetpass=$(grep TelnetPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-
+		if [ -z "${telnetpass}" ]; then
+			telnetpass="\e[0;31mno password set\e[0m"
+		fi
 	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		servername=$(grep -s ServerName= ${servercfgfullpath}|sed 's/ServerName=//g')
 		port=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
