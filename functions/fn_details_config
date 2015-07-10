@@ -2,77 +2,90 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 060715
+# Version: 100715
 
 # Description: Gets specific details from config files.
+if [ -e ${servercfgfullpath} ]; then
+	if [ "${engine}" == "avalanche" ]; then
+		 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
 
-if [ "${engine}" == "avalanche" ]; then
-	 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
+	elif [ "${engine}" == "dontstarve" ]; then
+		servername=$(grep -s "default_server_name = " "${servercfgfullpath}"|sed 's/default_server_name = //g'|tr -d '=\";'|sed 's/,//g')
+		port=$(grep -s "server_port = " "${servercfgfullpath}"|sed 's/server_port = //g'|tr -cd [:digit:])
 
-elif [ "${engine}" == "dontstarve" ]; then
-	servername=$(grep -s "default_server_name = " "${servercfgfullpath}"|sed 's/default_server_name = //g'|tr -d '=\";'|sed 's/,//g')
-	port=$(grep -s "server_port = " "${servercfgfullpath}"|sed 's/server_port = //g'|tr -cd [:digit:])
+	elif [ "${engine}" == "projectzomboid" ]; then
+		servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
+		port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
 
-elif [ "${engine}" == "projectzomboid" ]; then
-	servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
-	port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
+	elif [ "${engine}" == "realvirtuality" ]; then
+		servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
+		port=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+		masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 
-elif [ "${engine}" == "realvirtuality" ]; then
-	servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
-	port=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-	queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-	masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+	elif [ "${engine}" == "seriousengine35" ]; then
+		servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
+		rcon=$(grep -s rcts_strAdminPassword "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
+		port=$(grep -s prj_uwPort "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+		queryport=$((${port} + 1))
 
-elif [ "${engine}" == "seriousengine35" ]; then
-	servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
-	rcon=$(grep -s rcts_strAdminPassword "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
-	port=$(grep -s prj_uwPort "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
-	queryport=$((${port} + 1))
+	elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+		servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+		rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
 
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-	servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
-	rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+	elif [ "${engine}" == "spark" ]; then
+		queryport=$((${port} + 1))
 
-elif [ "${engine}" == "spark" ]; then
-	queryport=$((${port} + 1))
+	elif [ "${gamename}" == "Teamspeak 3" ]; then
+		if  [ -s "${servercfgfullpath}" ]; then
+			port=$(grep default_voice_port= "${servercfgfullpath}"|tr -cd [:digit:])
+			queryport=$(grep query_port= "${servercfgfullpath}"|tr -cd [:digit:])
+			fileport=$(grep filetransfer_port= "${servercfgfullpath}"|tr -cd [:digit:])
+			ip=$(grep voice_ip= "${servercfgfullpath}"|sed 's/\voice_ip=//g')
+			dbplugin=$(grep dbplugin= "${servercfgfullpath}"|sed 's/\dbplugin=//g')
+		else
+			port="9987"
+			queryport="10011"
+			fileport="30033"
+		fi
 
-elif [ "${gamename}" == "Teamspeak 3" ]; then
-	if  [ -s "${servercfgfullpath}" ]; then
-		port=$(grep default_voice_port= "${servercfgfullpath}"|tr -cd [:digit:])
-		queryport=$(grep query_port= "${servercfgfullpath}"|tr -cd [:digit:])
-		fileport=$(grep filetransfer_port= "${servercfgfullpath}"|tr -cd [:digit:])
-		ip=$(grep voice_ip= "${servercfgfullpath}"|sed 's/\voice_ip=//g')
-		dbplugin=$(grep dbplugin= "${servercfgfullpath}"|sed 's/\dbplugin=//g')
-	else
-		port="9987"
-		queryport="10011"
-		fileport="30033"
+	elif [ "${engine}" == "unity3d" ]; then
+		servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+		queryport=$((${port} + 1))
+		webadminenabled=$(grep ControlPanelEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
+		webadminpass=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		telnetenabled=$(grep TelnetEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
+		telnetpass=$(grep TelnetPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+
+	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+		servername=$(grep -s ServerName= ${servercfgfullpath}|sed 's/ServerName=//g')
+		port=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
+		queryport=$((${port} + 1))
+		gsqueryport=$(grep OldQueryPortNumber= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+		udplinkport=$((${port} + 2))
+		webadminenabled=$(grep bEnabled= "${servercfgfullpath}"|sed 's/bEnabled=//g'|tr -d '\r')
+		webadminport=$(grep ListenPort= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+		if [ "${engine}" == "unreal" ]; then
+			webadminuser=$(grep AdminUsername= "${servercfgfullpath}"|sed 's/\AdminUsername=//g')
+			webadminpass=$(grep  UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword=|sed 's/\AdminPassword=//g')
+		else
+			webadminuser=$(grep AdminName= "${servercfgfullpath}"|sed 's/\AdminName=//g')
+			webadminpass=$(grep AdminPassword= "${servercfgfullpath}"|sed 's/\AdminPassword=//g')
+		fi
 	fi
-
-elif [ "${engine}" == "unity3d" ]; then
-	servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-	port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
-	queryport=$((${port} + 1))
-	webadminenabled=$(grep ControlPanelEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-	webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
-	webadminpass=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-	telnetenabled=$(grep TelnetEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-	telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
-	telnetpass=$(grep TelnetPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-
-elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-	servername=$(grep -s ServerName= ${servercfgfullpath}|sed 's/ServerName=//g')
-	port=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
-	queryport=$((${port} + 1))
-	gsqueryport=$(grep OldQueryPortNumber= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
-	udplinkport=$((${port} + 2))
-	webadminenabled=$(grep bEnabled= "${servercfgfullpath}"|sed 's/bEnabled=//g'|tr -d '\r')
-	webadminport=$(grep ListenPort= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
-	if [ "${engine}" == "unreal" ]; then
-		webadminuser=$(grep AdminUsername= "${servercfgfullpath}"|sed 's/\AdminUsername=//g')
-		webadminpass=$(grep  UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword=|sed 's/\AdminPassword=//g')
-	else
-		webadminuser=$(grep AdminName= "${servercfgfullpath}"|sed 's/\AdminName=//g')
-		webadminpass=$(grep AdminPassword= "${servercfgfullpath}"|sed 's/\AdminPassword=//g')
-	fi
+else
+	servername="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	port="0"
+	queryport="0"
+	webadminenabled="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	webadminport="0"
+	webadminpass="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	telnetenabled="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	telnetport="0"
+	telnetpass="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	rcon="\e[0;31mCONFIG FILE MISSING!\e[0m"
+	servercfgfullpath="${servercfgfullpath} \e[0;31mCONFIG FILE MISSING!!\e[0m"
 fi
