@@ -5,7 +5,7 @@
 # Version: 120715
 
 # Description: Gets specific details from config files.
-if [ -e "${servercfgfullpath}" ]||[ "${engine}" == "spark" ]; then
+if [ -e "${servercfgfullpath}" ]||[ "${engine}" == "spark" ]||[ "${gamename}" == "Teamspeak 3" ]; then
 	if [ "${engine}" == "avalanche" ]; then
 		 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
 
