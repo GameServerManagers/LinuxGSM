@@ -2,10 +2,10 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 100715
+# Version: 120715
 
 # Description: Gets specific details from config files.
-if [ -e "${servercfgfullpath}" ]; then
+if [ -e "${servercfgfullpath}" ]||[ "${engine}" == "spark" ]; then
 	if [ "${engine}" == "avalanche" ]; then
 		 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
 
@@ -15,9 +15,6 @@ if [ -e "${servercfgfullpath}" ]; then
 
 	elif [ "${engine}" == "projectzomboid" ]; then
 		servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
-		if [ -z "${servername}" ]; then
-			telnetpass="\e[0;31mno server name set\e[0m"
-		fi
 		port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
 
 	elif [ "${engine}" == "realvirtuality" ]; then
