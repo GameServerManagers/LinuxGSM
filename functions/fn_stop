@@ -40,7 +40,7 @@ if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ];then
     fn_printfail "${servername} is already stopped"
     fn_scriptlog "${servername} is already stopped"
 else
-    ${filesdir}/ts3server_startscript.sh stop inifile=${ini} > /dev/null 2>&1
+    ${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
     fn_printok "${servername}"
     fn_scriptlog "Stopped ${servername}"
 fi
