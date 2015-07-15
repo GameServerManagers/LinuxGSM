@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 180615
+# Version: 150715
 
 # Description: Starts the server.
 
@@ -39,7 +39,7 @@ fi
 fn_logs
 
 # Will check for updates is updateonstart is yes
-if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
 	fn_update_check
 fi
 
