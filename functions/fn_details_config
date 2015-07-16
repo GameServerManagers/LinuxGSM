@@ -2,12 +2,21 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 120715
+# Version: 160715
 
 # Description: Gets specific details from config files.
+
 if [ -e "${servercfgfullpath}" ]||[ "${engine}" == "spark" ]||[ "${gamename}" == "Teamspeak 3" ]; then
 	if [ "${engine}" == "avalanche" ]; then
-		 servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
+		servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		configipcheck=$(grep BindIP "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=\"; '|sed 's/,//g')
+		if [ -n "${configipcheck}" ]; then
+			ip=$(grep BindIP "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=\"; '|sed 's/,//g')
+		fi
+		port=$(grep BindPort "${servercfgfullpath}"|sed 's/BindPort//g'|tr -d '=\"; '|sed 's/,//g')
+		serverpassword=$(grep -s Password "${servercfgfullpath}"|sed 's/Password//g'|tr -d '=\"; '|sed 's/,//g')
+		slots=$(grep -s MaxPlayers "${servercfgfullpath}"|sed 's/MaxPlayers//g'|tr -d '=\"; '|sed 's/,//g')
 
 	elif [ "${engine}" == "dontstarve" ]; then
 		servername=$(grep -s "default_server_name = " "${servercfgfullpath}"|sed 's/default_server_name = //g'|tr -d '=\";'|sed 's/,//g')
