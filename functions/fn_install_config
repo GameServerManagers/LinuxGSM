@@ -174,23 +174,22 @@ echo ""
 echo "Creating Configs"
 echo "================================="
 sleep 1
-if [ -z ${servercfgdir+x} ];
-	if [ ! -d "${servercfgdir}" ]; then
-		echo -e "creating ${servercfgdir} dir...\c"
-		mkdir -pv "${servercfgdir}"
-		if [[ $? == 0 ]]; then
-			echo -e  "OK"
-		else
-			echo -e  "FAIL"
-		fi
+if [ ! -d "${servercfgdir}" ]; then
+	echo -e "creating ${servercfgdir} dir...\c"
+	mkdir -pv "${servercfgdir}"
+	if [[ $? == 0 ]]; then
+		echo -e  "OK"
+	else
+		echo -e  "FAIL"
 	fi
 fi
+
 if [ "${gamename}" == "ARMA 3" ]; then
 	cd "${systemdir}"
 else
 	cd "${servercfgdir}"
 fi
-
+	#statements
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_unity3dconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
