@@ -19,4 +19,20 @@ else
 	fn_printokfail "Updating functions"
 	fn_scriptlog "Failure! Updating functions"
 fi
+sleep 1
+fn_printdots "Checking for ${selfname} script update"
+fn_scriptlog "Checking for ${selfname} script update"
+
+currentversion=$(wget -O- -q https://gameservermanagers.com/dl/${selfname}|grep version=)
+
+currentversion
+
+if [ "${version}" == "${currentversion}" ]; then
+	fn_printok "New version of ${selfname} available"
+	fn_scriptlog "New version of ${selfname} available"
+else
+	fn_printok "${selfname} is up to date"
+	fn_printok "${selfname} is up to date"
+fi
+
 echo -ne "\n"
