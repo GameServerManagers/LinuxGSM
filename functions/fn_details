@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 100715
+# Version: 180715
 
 # Description: Displays server infomation.
 
@@ -57,14 +57,38 @@ rm -f .fn_details_disk
 
 fn_details_gameserver(){
 echo -e ""
+
+## server details
 echo -e "\e[92m${gamename} Server Details\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+
+# server name
 echo -e "\e[34mServer name:\t\e[0m${servername}" >> .fn_details_gameserver
+
+# server ip
 echo -e "\e[34mServer IP:\t\e[0m${ip}:${port}" >> .fn_details_gameserver
-if [ ! -z "${rcon}" ]; then
+
+# rcon password
+if [ -n "${rcon}" ]; then
 	echo -e "\e[34mRCON password:\t\e[0m${rcon}" >> .fn_details_gameserver
 fi
 
+# server password
+if [ -n "${serverpassword}" ]; then
+	echo -e "\e[34mServer password:\t\e[0m${serverpassword}" >> .fn_details_gameserver
+fi
+
+# admin password
+if [ -n "${adminpassword}" ]; then
+	echo -e "\e[34mAdmin password:\t\e[0m${adminpassword}" >> .fn_details_gameserver
+fi
+
+# slots
+if [ -n "${slots}" ]; then
+	echo -e "\e[34mSlots:\t\e[0m${slots}" >> .fn_details_gameserver
+fi
+
+# online status
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_check_ts3status
 	if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
@@ -80,21 +104,62 @@ else
 		echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m" >> .fn_details_gameserver
 	fi
 fi
+
+# teamspeak dbplugin
+if [ -n "${dbplugin}" ]; then
+	echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}" >> .fn_details_gameserver
+fi
+
 column -s $'\t' -t .fn_details_gameserver
 rm -f .fn_details_gameserver
 echo -e ""
+
+## script details
+echo -e "\e[92m${selfname} Script Details\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+
+# service name
 echo -e "\e[34mService name:\t\e[0m${servicename}" >> .fn_details_gameserver
-if [ -n ${version} ]; then
+
+# script version
+if [ -n "${version}" ]; then
 	echo -e "\e[34m${selfname} version:\t\e[0m${version}" >> .fn_details_gameserver
 fi
+
+# script user
 echo -e "\e[34mUser:\t\e[0m$(whoami)" >> .fn_details_gameserver
+
+# GLIBC required
+if [ -n "${glibcrequired}" ]; then
+	if [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" ]; then
+		if [ "${glibcfix}" == "yes" ]; then
+			echo -e "\e[34mGLIBC Required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)" >> .fn_details_gameserver
+		else
+			echo -e "\e[34mGLIBC Required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)" >> .fn_details_gameserver
+		fi
+	else
+		echo -e "\e[34mGLIBC Required:\t\e[0;32m${glibcrequired}\e[0m" >> .fn_details_gameserver
+	fi
+fi
+
+# email notification
+if [ -n "${emailnotification}" ]; then
+	echo -e "\e[34mEmail notification:\t\e[0m${emailnotification}" >> .fn_details_gameserver
+fi
+
+# update on start
+if [ -n "${updateonstart}" ]; then
+	echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}" >> .fn_details_gameserver
+fi
+
+# script location
 echo -e "\e[34mLocation:\t\e[0m${rootdir}" >> .fn_details_gameserver
-if [ ! -z "${servercfgfullpath}" ]; then
+
+# config file location
+if [ -n "${servercfgfullpath}" ]; then
 	echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}" >> .fn_details_gameserver
 fi
-if [ "${gamename}" == "Teamspeak 3" ]; then
-	echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}" >> .fn_details_gameserver
-fi
+
 column -s $'\t' -t .fn_details_gameserver
 rm -f .fn_details_gameserver
 }
@@ -156,14 +221,14 @@ pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -E "^${servicename}:"|wc -l)
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${selfname}."
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
 echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep Jcmp-Server"
 echo -e ""
 echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
-echo -e "> Game/RCON\tINBOUND\t${port}\tudp" >> .fn_details_ports
+echo -e "> Game\tINBOUND\t${port}\tudp" >> .fn_details_ports
 column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
 fn_details_statusbottom
@@ -307,7 +372,7 @@ echo -e "netstat -atunp | grep srcds_linux"
 echo -e ""
 echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL" >> .fn_details_ports
 echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp" >> .fn_details_ports
-if [ ! -z "${sourcetvport}" ]; then
+if [ -n "${sourcetvport}" ]; then
         echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp" >> .fn_details_ports
 fi
 echo -e "< Client\tOUTBOUND\t${clientport}\tudp" >> .fn_details_ports
@@ -520,7 +585,6 @@ if [ ! -e ${servercfgfullpath} ]; then
 	fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
 	echo "${servercfgfullpath}"
 	echo "Some details cannot be displayed"
-
 	echo -en ".\r"
 	sleep 1
 	echo -en "..\r"
@@ -529,6 +593,8 @@ if [ ! -e ${servercfgfullpath} ]; then
 	sleep 1
 	echo -en "   \r"
 fi
+
+fn_details_glibc
 
 if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
