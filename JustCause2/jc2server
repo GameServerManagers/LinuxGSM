@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="040715"
+version="150715"
 
 #### Variables ####
 
@@ -17,13 +17,10 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-maxplayers="10"
-port="7777"
-ip="0.0.0.0"
-updateonstart="no"
+updateonstart="off"
 
 fn_parms(){
-parms="--maxplayers ${maxplayers} --bindip ${ip} --bindport ${port}"
+parms=""
 }
 
 #### Advanced Variables ####
