@@ -8,50 +8,54 @@
 
 if [ -e "${servercfgfullpath}" ]||[ "${engine}" == "spark" ]||[ "${gamename}" == "Teamspeak 3" ]; then
 	if [ "${engine}" == "avalanche" ]; then
-		servername=$(grep -s Name "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
+		servername=$(grep -s "Name" "${servercfgfullpath}"|sed 's/Name//g'|tr -d '=\"; '|sed 's/,//g')
 		# check if the ip exists in the config file. Failing this will fall back to the default.
-		configipcheck=$(grep BindIP "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=\"; '|sed 's/,//g')
+		configipcheck=$(grep "BindIP" "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=\"; '|sed 's/,//g')
 		if [ -n "${configipcheck}" ]; then
-			ip=$(grep BindIP "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=\"; '|sed 's/,//g')
+			ip=$(grep "BindIP" "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=\"; '|sed 's/,//g')
 		fi
-		port=$(grep BindPort "${servercfgfullpath}"|sed 's/BindPort//g'|tr -d '=\"; '|sed 's/,//g')
-		serverpassword=$(grep -s Password "${servercfgfullpath}"|sed 's/Password//g'|tr -d '=\"; '|sed 's/,//g')
-		slots=$(grep -s MaxPlayers "${servercfgfullpath}"|sed 's/MaxPlayers//g'|tr -d '=\"; '|sed 's/,//g')
+		port=$(grep "BindPort" "${servercfgfullpath}"|tr -cd [:digit:])
+		serverpassword=$(grep -s "Password" "${servercfgfullpath}"|sed 's/Password//g'|tr -d '=\"; '|sed 's/,//g')
+		slots=$(grep -s "MaxPlayers" "${servercfgfullpath}"|tr -cd [:digit:])
 
 	elif [ "${engine}" == "dontstarve" ]; then
 		servername=$(grep -s "default_server_name = " "${servercfgfullpath}"|sed 's/default_server_name = //g'|tr -d '=\";'|sed 's/,//g')
-		port=$(grep -s "server_port = " "${servercfgfullpath}"|sed 's/server_port = //g'|tr -cd [:digit:])
+		port=$(grep -s "server_port" "${servercfgfullpath}"|grep -v "#"|tr -cd "[:digit:]")
+		serverpassword=$(grep -s "server_password = " "${servercfgfullpath}"|grep -v "#"|sed 's/server_password = //g'|tr -d '=\"; '|sed 's/,//g')
+		slots=$(grep -s "max_players" "${servercfgfullpath}"|grep -v "#"|tr -cd [:digit:])
+		gamemode=$(grep -s "game_mode = " "${servercfgfullpath}"|grep -v "#"|sed 's/game_mode = //g'|tr -d '=\"; '|sed 's/,//g')
+		tickrate=$(grep -s "tick_rate" "${servercfgfullpath}"|grep -v "#"|tr -cd [:digit:])
 
 	elif [ "${engine}" == "projectzomboid" ]; then
-		servername=$(grep -s PublicName= "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
-		port=$(grep -s DefaultPort= "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
+		servername=$(grep -s "PublicName=" "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=\";'|sed 's/,//g')
+		port=$(grep -s "DefaultPort=" "${servercfgfullpath}"|sed 's/DefaultPort=//g'|tr -cd [:digit:])
 
 	elif [ "${engine}" == "realvirtuality" ]; then
-		servername=$(grep -s hostname "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
-		port=$(grep -s serverport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
-		masterport=$(grep -s steamport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+		servername=$(grep -s "hostname" "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
+		port=$(grep -s "serverport=" "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+		queryport=$(grep -s "steamqueryport=" "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+		masterport=$(grep -s "steamport=" "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
 
 	elif [ "${engine}" == "seriousengine35" ]; then
-		servername=$(grep -s prj_strMultiplayerSessionName "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
-		rcon=$(grep -s rcts_strAdminPassword "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
-		port=$(grep -s prj_uwPort "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+		servername=$(grep -s "prj_strMultiplayerSessionName" "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|sed 's/"//g'|sed 's/;//g')
+		rcon=$(grep -s "rcts_strAdminPassword" "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|sed 's/"//g'|sed 's/;//g')
+		port=$(grep -s "prj_uwPort" "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
 		queryport=$((${port} + 1))
 
 	elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-		servername=$(grep -s hostname "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
-		rcon=$(grep -s rcon_password "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+		servername=$(grep -s "hostname" "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
+		rcon=$(grep -s "rcon_password" "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
 
 	elif [ "${engine}" == "spark" ]; then
 		queryport=$((${port} + 1))
 
 	elif [ "${gamename}" == "Teamspeak 3" ]; then
 		if  [ -s "${servercfgfullpath}" ]; then
-			port=$(grep default_voice_port= "${servercfgfullpath}"|tr -cd [:digit:])
-			queryport=$(grep query_port= "${servercfgfullpath}"|tr -cd [:digit:])
-			fileport=$(grep filetransfer_port= "${servercfgfullpath}"|tr -cd [:digit:])
-			ip=$(grep voice_ip= "${servercfgfullpath}"|sed 's/\voice_ip=//g')
-			dbplugin=$(grep dbplugin= "${servercfgfullpath}"|sed 's/\dbplugin=//g')
+			port=$(grep "default_voice_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+			queryport=$(grep "query_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+			fileport=$(grep "filetransfer_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+			ip=$(grep "voice_ip=" "${servercfgfullpath}"|sed 's/\voice_ip=//g')
+			dbplugin=$(grep "dbplugin=" "${servercfgfullpath}"|sed 's/\dbplugin=//g')
 		else
 			port="9987"
 			queryport="10011"
@@ -59,15 +63,15 @@ if [ -e "${servercfgfullpath}" ]||[ "${engine}" == "spark" ]||[ "${gamename}" ==
 		fi
 
 	elif [ "${engine}" == "unity3d" ]; then
-		servername=$(grep ServerName "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		port=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+		servername=$(grep "ServerName" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		port=$(grep "ServerPort" "${servercfgfullpath}"|tr -cd [:digit:])
 		queryport=$((${port} + 1))
-		webadminenabled=$(grep ControlPanelEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		webadminport=$(grep ControlPanelPort "${servercfgfullpath}"|tr -cd [:digit:])
-		webadminpass=$(grep ControlPanelPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		telnetenabled=$(grep TelnetEnabled "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		telnetport=$(grep TelnetPort "${servercfgfullpath}"|tr -cd [:digit:])
-		telnetpass=$(grep TelnetPassword "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}"|tr -cd [:digit:])
+		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		telnetport=$(grep "TelnetPort" "${servercfgfullpath}"|tr -cd [:digit:])
+		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
 		if [ -z "${telnetpass}" ]; then
 			telnetpass="\e[0;31mno password set\e[0m"
 		fi
