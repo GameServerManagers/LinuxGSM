@@ -88,6 +88,16 @@ if [ -n "${slots}" ]; then
 	echo -e "\e[34mSlots:\t\e[0m${slots}" >> .fn_details_gameserver
 fi
 
+# game mode
+if [ -n "${gamemode}" ]; then
+	echo -e "\e[34mGame Mode:\t\e[0m${gamemode}" >> .fn_details_gameserver
+fi
+
+# tick rate
+if [ -n "${tickrate}" ]; then
+	echo -e "\e[34mTick rate:\t\e[0m${tickrate}" >> .fn_details_gameserver
+fi
+
 # online status
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_check_ts3status
