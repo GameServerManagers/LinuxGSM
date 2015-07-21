@@ -184,19 +184,18 @@ if [ ! -d "${servercfgdir}" ]; then
 	fi
 fi
 
-if [ "${gamename}" == "ARMA 3" ]; then
-	cd "${systemdir}"
-else
-	cd "${servercfgdir}"
-fi
-	#statements
+cd "${servercfgdir}"
+
+# statements
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_unity3dconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_arkconfig
 elif [ "${gamename}" == "ARMA 3" ]; then
-	echo -e "downloading lgsm-default.server.cfg & lgsm-default.network.cfg...\c"
+	echo -e "downloading lgsm-default.server.cfg...\c"
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Arma3/cfg/lgsm-default.server.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	echo -e "downloading lgsm-default.network.cfg...\c"
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Arma3/cfg/lgsm-default.network.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_arma3config
