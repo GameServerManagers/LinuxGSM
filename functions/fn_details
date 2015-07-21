@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 180715
+# Version: 210715
 
 # Description: Displays server infomation.
 
@@ -143,12 +143,12 @@ echo -e "\e[34mUser:\t\e[0m$(whoami)" >> .fn_details_gameserver
 if [ -n "${glibcrequired}" ]; then
 	if [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" ]; then
 		if [ "${glibcfix}" == "yes" ]; then
-			echo -e "\e[34mGLIBC Required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)" >> .fn_details_gameserver
+			echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)" >> .fn_details_gameserver
 		else
-			echo -e "\e[34mGLIBC Required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)" >> .fn_details_gameserver
+			echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)" >> .fn_details_gameserver
 		fi
 	else
-		echo -e "\e[34mGLIBC Required:\t\e[0;32m${glibcrequired}\e[0m" >> .fn_details_gameserver
+		echo -e "\e[34mGLIBC required:\t\e[0;32m${glibcrequired}\e[0m" >> .fn_details_gameserver
 	fi
 fi
 
@@ -168,6 +168,11 @@ echo -e "\e[34mLocation:\t\e[0m${rootdir}" >> .fn_details_gameserver
 # config file location
 if [ -n "${servercfgfullpath}" ]; then
 	echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}" >> .fn_details_gameserver
+fi
+
+# network config file location (ARMA 3)
+if [ -n "${networkcfgfullpath}" ]; then
+	echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}" >> .fn_details_gameserver
 fi
 
 column -s $'\t' -t .fn_details_gameserver
