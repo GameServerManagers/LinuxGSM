@@ -5,8 +5,8 @@
 
 The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice comms servers.
 
-<h2>Hassle Free Dedicated Servers</h2>
-Game servers traditionally are not easy to manage yourself. Admins often have to spend hours just messing around trying to get there server working. LGSM is designed to be a simple as possible allowing Admins to spend less time on management and more time on the fun stuff.
+<h2>Hassle-Free Dedicated Servers</h2>
+Game servers traditionally are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LGSM is designed to be a simple as possible allowing Admins to spend less time on management and more time on the fun stuff.
 
 <h2>Main features</h2>
 <ul>
@@ -35,7 +35,7 @@ All FAQ can be found here.
 
 <a href="https://github.com/dgibbs64/linuxgsm/wiki/FAQ">https://github.com/dgibbs64/linuxgsm/wiki/FAQ</a>
 <h2>Donate</h2>
-If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show there support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
+If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
 <li><a href="http://gameservermanagers.com/#donate">Donate</a></li>
 </ul>
