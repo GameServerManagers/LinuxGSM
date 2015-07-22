@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210715
+# Version: 220715
 
 # Description: Displays server infomation.
 
@@ -90,7 +90,12 @@ fi
 
 # game mode
 if [ -n "${gamemode}" ]; then
-	echo -e "\e[34mGame Mode:\t\e[0m${gamemode}" >> .fn_details_gameserver
+	echo -e "\e[34mGame mode:\t\e[0m${gamemode}" >> .fn_details_gameserver
+fi
+
+# game world
+if [ -n "${gameworld}" ]; then
+	echo -e "\e[34mGame world:\t\e[0m${gamemode}" >> .fn_details_gameserver
 fi
 
 # tick rate
