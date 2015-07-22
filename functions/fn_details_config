@@ -466,7 +466,7 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	# telnet port
 	if [ -f "${servercfgfullpath}" ]; then
-		telnetport=$(grep "ControlPanelPort" "${servercfgfullpath}"|tr -cd [:digit:])
+		telnetport=$(grep "TelnetPort" "${servercfgfullpath}"|tr -cd [:digit:])
 	fi
 	if [ ! -n "${telnetport}" ]; then
 		telnetport="0"
