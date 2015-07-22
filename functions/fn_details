@@ -95,7 +95,7 @@ fi
 
 # game world
 if [ -n "${gameworld}" ]; then
-	echo -e "\e[34mGame world:\t\e[0m${gamemode}" >> .fn_details_gameserver
+	echo -e "\e[34mGame world:\t\e[0m${gameworld}" >> .fn_details_gameserver
 fi
 
 # tick rate
