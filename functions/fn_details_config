@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 220715
+# Version: 250715
 
 # Description: Gets specific details from config files.
 
@@ -20,14 +20,6 @@ fi
 
 ## Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
-	# ip
-	if [ -f "${servercfgfullpath}" ]; then
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		configipcheck=$(grep "BindIP" "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=", \n')
-	fi
-	if [ -n "${configipcheck}" ]; then
-		ip=$(grep "BindIP" "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=", \n')
-	fi
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
@@ -36,15 +28,16 @@ if [ "${engine}" == "avalanche" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-	# port
+	# ip
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "BindPort" "${servercfgfullpath}"|tr -cd [:digit:])
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		configipcheck=$(grep "BindIP" "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=", \n')
 	fi
-	if [ ! -n "${port}" ]; then
-		port="0"
+	if [ -n "${configipcheck}" ]; then
+		ip=$(grep "BindIP" "${servercfgfullpath}"|sed 's/BindIP//g'|tr -d '=", \n')
 	fi
 
 	# server password
@@ -67,10 +60,19 @@ if [ "${engine}" == "avalanche" ]; then
 		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep "BindPort" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
 	fn_servercfgfullpath
 
 ## Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
+
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep -s "default_server_name = " "${servercfgfullpath}"|sed 's/default_server_name = //g')
@@ -78,15 +80,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# port
-	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep -s "server_port" "${servercfgfullpath}"|grep -v "#"|tr -cd "[:digit:]")
-	fi
-	if [ ! -n "${port}" ]; then
-		port="0"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# server password
@@ -129,8 +123,19 @@ elif [ "${engine}" == "dontstarve" ]; then
 		tickrate="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep -s "server_port" "${servercfgfullpath}"|grep -v "#"|tr -cd "[:digit:]")
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
+	fn_servercfgfullpath
+
 ## Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then
+
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep -s "PublicName=" "${servercfgfullpath}"|sed 's/PublicName=//g'|tr -d '=", \n')
@@ -138,15 +143,7 @@ elif [ "${engine}" == "projectzomboid" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# port
-	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep -s "DefaultPort=" "${servercfgfullpath}"|tr -cd [:digit:])
-	fi
-	if [ ! -n "${port}" ]; then
-		port="0"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# slots
@@ -159,9 +156,18 @@ elif [ "${engine}" == "projectzomboid" ]; then
 		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep -s "DefaultPort=" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
 	fn_servercfgfullpath
 
 elif [ "${engine}" == "realvirtuality" ]; then
+
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep -s "hostname" "${servercfgfullpath}"| grep -v //|sed -e 's/\<hostname\>//g'| tr -d '=\"; ')
@@ -169,7 +175,37 @@ elif [ "${engine}" == "realvirtuality" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# admin password
+	if [ -f "${servercfgfullpath}" ]; then
+	adminpassword=$(grep -s "password =" "${servercfgfullpath}"|grep -v //|sed -e 's/\password//g'|tr -d '=\"; ')
+		if [ ! -n "${adminpassword}" ]; then
+			adminpassword="NOT SET"
+		fi
+	else
+		adminpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# server password
+	if [ -f "${servercfgfullpath}" ]; then
+	serverpassword=$(grep -s "passwordAdmin" "${servercfgfullpath}"|grep -v //|sed -e 's/\passwordAdmin//g'|tr -d '=\"; ')
+		if [ ! -n "${adminpassword}" ]; then
+			serverpassword="NOT SET"
+		fi
+	else
+		serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# slots
+	if [ -f "${servercfgfullpath}" ]; then
+			slots=$(grep -s "maxPlayers" "${servercfgfullpath}"|grep -v "#"|tr -cd [:digit:])
+		if [ ! -n "${slots}" ]; then
+			slots="NOT SET"
+		fi
+	else
+		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# port
@@ -196,39 +232,10 @@ elif [ "${engine}" == "realvirtuality" ]; then
 		masterport="0"
 	fi
 
-	# slots
-	if [ -f "${servercfgfullpath}" ]; then
-			slots=$(grep -s "maxPlayers" "${servercfgfullpath}"|grep -v "#"|tr -cd [:digit:])
-		if [ ! -n "${slots}" ]; then
-			slots="NOT SET"
-		fi
-	else
-		slots="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# admin password
-	if [ -f "${servercfgfullpath}" ]; then
-	adminpassword=$(grep -s "password =" "${servercfgfullpath}"|grep -v //|sed -e 's/\password//g'|tr -d '=\"; ')
-		if [ ! -n "${adminpassword}" ]; then
-			adminpassword="NOT SET"
-		fi
-	else
-		adminpassword="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# server password
-	if [ -f "${servercfgfullpath}" ]; then
-	serverpassword=$(grep -s "passwordAdmin" "${servercfgfullpath}"|grep -v //|sed -e 's/\passwordAdmin//g'|tr -d '=\"; ')
-		if [ ! -n "${adminpassword}" ]; then
-			serverpassword="NOT SET"
-		fi
-	else
-		serverpassword="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
 	fn_servercfgfullpath
 
 elif [ "${engine}" == "seriousengine35" ]; then
+
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep -s "prj_strMultiplayerSessionName" "${servercfgfullpath}"|sed 's/prj_strMultiplayerSessionName = //g'|tr -d '=\"; ')
@@ -236,33 +243,17 @@ elif [ "${engine}" == "seriousengine35" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-	# rcon
+	# rcon password
 	if [ -f "${servercfgfullpath}" ]; then
 		rcon=$(grep -s "rcts_strAdminPassword" "${servercfgfullpath}"|sed 's/rcts_strAdminPassword = //g'|tr -d '=\"; ')
 		if [ ! -n "${rcon}" ]; then
 			rcon="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# port
-	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep -s "prj_uwPort" "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
-	fi
-	if [ ! -n "${port}" ]; then
-		port="0"
-	fi
-
-	# query port
-	if [ -f "${servercfgfullpath}" ]; then
-			queryport=$((${port} + 1))
-	fi
-	if [ ! -n "${queryport}" ]; then
-		queryport="0"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# slots
@@ -285,7 +276,26 @@ elif [ "${engine}" == "seriousengine35" ]; then
 		gamemode="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep -s "prj_uwPort" "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
+	# query port
+	if [ -f "${servercfgfullpath}" ]; then
+			queryport=$((${port} + 1))
+	fi
+	if [ ! -n "${queryport}" ]; then
+		queryport="0"
+	fi
+
+	fn_servercfgfullpath
+
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep -s "hostname" "${servercfgfullpath}"|sed 's/hostname //g'|sed 's/"//g')
@@ -293,17 +303,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# rcon
-	if [ -f "${servercfgfullpath}" ]; then
-		rcon=$(grep -s "rcon_password" "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
-		if [ ! -n "${rcon}" ]; then
-			rcon="NOT SET"
-		fi
-	else
-			rcon="\e[0;31mUNAVAILABLE\e[0m"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# server password
@@ -313,12 +313,22 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 			serverpassword="NOT SET"
 		fi
 	else
-			serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+		serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# rcon password
+	if [ -f "${servercfgfullpath}" ]; then
+		rcon=$(grep -s "rcon_password" "${servercfgfullpath}"|sed 's/rcon_password //g'|sed 's/"//g')
+		if [ ! -n "${rcon}" ]; then
+			rcon="NOT SET"
+		fi
+	else
+		rcon="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-			slots=$(grep -s "gam_ctMaxPlayers" "${servercfgfullpath}"|grep -v "#"|tr -cd [:digit:])
+		slots=$(grep -s "gam_ctMaxPlayers" "${servercfgfullpath}"|grep -v "#"|tr -cd [:digit:])
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -327,6 +337,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fi
 
 elif [ "${engine}" == "spark" ]; then
+
 	# query port
 	if [ -f "${servercfgfullpath}" ]; then
 			queryport=$((${port} + 1))
@@ -336,50 +347,52 @@ elif [ "${engine}" == "spark" ]; then
 	fi
 
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-		# port
-		if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "default_voice_port=" "${servercfgfullpath}"|tr -cd [:digit:])
-		fi
-		if [ ! -n "${port}" ]; then
-			port="9987"
-		fi
 
-		# query port
-		if [ -f "${servercfgfullpath}" ]; then
-				queryport=$(grep "query_port=" "${servercfgfullpath}"|tr -cd [:digit:])
-		fi
-		if [ ! -n "${queryport}" ]; then
-			queryport="10011"
-		fi
+	# ip
+	if [ -f "${servercfgfullpath}" ]; then
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		configipcheck=$(grep "voice_ip=" "${servercfgfullpath}"|sed 's/\voice_ip=//g')
+	fi
+	if [ -n "${configipcheck}" ]; then
+		ip=$(grep "voice_ip=" "${servercfgfullpath}"|sed 's/\voice_ip=//g')
+	fi
 
-		# fileport port
-		if [ -f "${servercfgfullpath}" ]; then
-				fileport=$(grep "filetransfer_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+	# dbplugin
+	if [ -f "${servercfgfullpath}" ]; then
+		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}"|sed 's/\dbplugin=//g')
+		if [ ! -n "${serverpassword}" ]; then
+			dbplugin="NOT SET"
 		fi
-		if [ ! -n "${fileport}" ]; then
-			fileport="30033"
-		fi
+	else
+		dbplugin="\e[0;31mUNAVAILABLE\e[0m"
+	fi
 
-		# ip
-		if [ -f "${servercfgfullpath}" ]; then
-			# check if the ip exists in the config file. Failing this will fall back to the default.
-			configipcheck=$(grep "voice_ip=" "${servercfgfullpath}"|sed 's/\voice_ip=//g')
-		fi
-		if [ -n "${configipcheck}" ]; then
-			ip=$(grep "voice_ip=" "${servercfgfullpath}"|sed 's/\voice_ip=//g')
-		fi
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+	port=$(grep "default_voice_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${port}" ]; then
+		port="9987"
+	fi
 
-		# dbplugin
-		if [ -f "${servercfgfullpath}" ]; then
-			dbplugin=$(grep "dbplugin=" "${servercfgfullpath}"|sed 's/\dbplugin=//g')
-			if [ ! -n "${serverpassword}" ]; then
-				dbplugin="NOT SET"
-			fi
-		else
-				dbplugin="\e[0;31mUNAVAILABLE\e[0m"
-		fi
+	# query port
+	if [ -f "${servercfgfullpath}" ]; then
+			queryport=$(grep "query_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${queryport}" ]; then
+		queryport="10011"
+	fi
+
+	# fileport port
+	if [ -f "${servercfgfullpath}" ]; then
+			fileport=$(grep "filetransfer_port=" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${fileport}" ]; then
+		fileport="30033"
+	fi
 
 elif [ "${engine}" == "unity3d" ]; then
+
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep "ServerName" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
@@ -387,7 +400,7 @@ elif [ "${engine}" == "unity3d" ]; then
 			servername="NOT SET"
 		fi
 	else
-			servername="\e[0;31mUNAVAILABLE\e[0m"
+		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# server password
@@ -397,7 +410,103 @@ elif [ "${engine}" == "unity3d" ]; then
 			serverpassword="NOT SET"
 		fi
 	else
-			serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+		serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# webadmin enabled
+	if [ -f "${servercfgfullpath}" ]; then
+		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${webadminenabled}" ]; then
+			webadminenabled="NOT SET"
+		fi
+	else
+		webadminenabled="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# webadmin port
+	if [ -f "${servercfgfullpath}" ]; then
+		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${webadminport}" ]; then
+		webadminport="0"
+	fi
+
+	# webadmin enabled
+	if [ -f "${servercfgfullpath}" ]; then
+		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${webadminenabled}" ]; then
+			webadminenabled="NOT SET"
+		fi
+	else
+		webadminenabled="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# webadmin password
+	if [ -f "${servercfgfullpath}" ]; then
+		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${webadminpass}" ]; then
+			webadminpass="NOT SET"
+		fi
+	else
+		webadminpass="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# telnet enabled
+	if [ -f "${servercfgfullpath}" ]; then
+		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${telnetenabled}" ]; then
+			telnetenabled="NOT SET"
+		fi
+	else
+		telnetenabled="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# telnet port
+	if [ -f "${servercfgfullpath}" ]; then
+		telnetport=$(grep "TelnetPort" "${servercfgfullpath}"|tr -cd [:digit:])
+	fi
+	if [ ! -n "${telnetport}" ]; then
+		telnetport="0"
+	fi
+
+	# telnet password
+	if [ -f "${servercfgfullpath}" ]; then
+		telnetpass=$(grep "TelnetEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${telnetenabled}" ]; then
+			telnetpass="NOT SET"
+		fi
+	else
+		telnetpass="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# slots
+	if [ -f "${servercfgfullpath}" ]; then
+		slots=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}"|tr -cd [:digit:])
+		if [ ! -n "${slots}" ]; then
+			slots="NOT SET"
+		fi
+	else
+		slots="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# game mode
+	if [ -f "${servercfgfullpath}" ]; then
+		gamemode=$(grep "GameMode" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${gamemode}" ]; then
+			gamemode="NOT SET"
+		fi
+	else
+		gamemode="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# game world
+	if [ -f "${servercfgfullpath}" ]; then
+		gameworld=$(grep "GameWorld" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		if [ ! -n "${gameworld}" ]; then
+			gameworld="NOT SET"
+		fi
+	else
+		gameworld="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# port
@@ -416,115 +525,111 @@ elif [ "${engine}" == "unity3d" ]; then
 		queryport="0"
 	fi
 
+elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+
+	# server name
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(grep -s ServerName= ${servercfgfullpath}|sed 's/ServerName=//g')
+		if [ ! -n "${servername}" ]; then
+			servername="NOT SET"
+		fi
+	else
+		servername="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
+	# query port
+	if [ -f "${servercfgfullpath}" ]; then
+		queryport=$((${port} + 1))
+	fi
+	if [ ! -n "${queryport}" ]; then
+		queryport="0"
+	fi
+
+	# gamespy query port
+	if [ -f "${servercfgfullpath}" ]; then
+		gsqueryport=$(grep OldQueryPortNumber= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
+	fi
+	if [ ! -n "${gsqueryport}" ]; then
+		gsqueryport="0"
+	fi
+
+	# query port
+	if [ -f "${servercfgfullpath}" ]; then
+		udplinkport=$((${port} + 2))
+	fi
+	if [ ! -n "${udplinkport}" ]; then
+		udplinkport="0"
+	fi
+
 	# webadmin enabled
 	if [ -f "${servercfgfullpath}" ]; then
-		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
+		webadminenabled=$(grep bEnabled= "${servercfgfullpath}"|sed 's/bEnabled=//g'|tr -d '\r')
 		if [ ! -n "${webadminenabled}" ]; then
 			webadminenabled="NOT SET"
 		fi
 	else
-			webadminenabled="\e[0;31mUNAVAILABLE\e[0m"
+		webadminenabled="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 	# webadmin port
 	if [ -f "${servercfgfullpath}" ]; then
-		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}"|tr -cd [:digit:])
+		webadminport=$(grep ListenPort= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
 	fi
 	if [ ! -n "${webadminport}" ]; then
 		webadminport="0"
 	fi
 
-	# webadmin enabled
-	if [ -f "${servercfgfullpath}" ]; then
-		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		if [ ! -n "${webadminenabled}" ]; then
-			webadminenabled="NOT SET"
-		fi
-	else
-			webadminenabled="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# webadmin password
-	if [ -f "${servercfgfullpath}" ]; then
-		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		if [ ! -n "${webadminpass}" ]; then
-			webadminpass="NOT SET"
-		fi
-	else
-			webadminpass="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# telnet enabled
-	if [ -f "${servercfgfullpath}" ]; then
-		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		if [ ! -n "${telnetenabled}" ]; then
-			telnetenabled="NOT SET"
-		fi
-	else
-			telnetenabled="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# telnet port
-	if [ -f "${servercfgfullpath}" ]; then
-		telnetport=$(grep "TelnetPort" "${servercfgfullpath}"|tr -cd [:digit:])
-	fi
-	if [ ! -n "${telnetport}" ]; then
-		telnetport="0"
-	fi
-
-	# telnet password
-	if [ -f "${servercfgfullpath}" ]; then
-		telnetpass=$(grep "TelnetEnabled" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		if [ ! -n "${telnetenabled}" ]; then
-			telnetpass="NOT SET"
-		fi
-	else
-			telnetpass="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# slots
-	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}"|tr -cd [:digit:])
-		if [ ! -n "${slots}" ]; then
-			slots="NOT SET"
-		fi
-	else
-		slots="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# game mode
-	if [ -f "${servercfgfullpath}" ]; then
-			gamemode=$(grep "GameMode" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		if [ ! -n "${gamemode}" ]; then
-			gamemode="NOT SET"
-		fi
-	else
-		gamemode="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-	# game world
-	if [ -f "${servercfgfullpath}" ]; then
-			gameworld=$(grep "GameWorld" "${servercfgfullpath}"|sed 's/^.*value="//'|cut -f1 -d"\"")
-		if [ ! -n "${gameworld}" ]; then
-			gameworld="NOT SET"
-		fi
-	else
-		gameworld="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
-elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-	servername=$(grep -s ServerName= ${servercfgfullpath}|sed 's/ServerName=//g')
-	port=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
-	queryport=$((${port} + 1))
-	gsqueryport=$(grep OldQueryPortNumber= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
-	udplinkport=$((${port} + 2))
-	webadminenabled=$(grep bEnabled= "${servercfgfullpath}"|sed 's/bEnabled=//g'|tr -d '\r')
-	webadminport=$(grep ListenPort= "${servercfgfullpath}"|tr -d '\r'|tr -cd [:digit:])
 	if [ "${engine}" == "unreal" ]; then
-		webadminuser=$(grep AdminUsername= "${servercfgfullpath}"|sed 's/\AdminUsername=//g')
-		webadminpass=$(grep UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword=|sed 's/\AdminPassword=//g')
+
+		# webadmin user
+		if [ -f "${servercfgfullpath}" ]; then
+			webadminuser=$(grep AdminUsername= "${servercfgfullpath}"|sed 's/\AdminUsername=//g')
+			if [ ! -n "${webadminpass}" ]; then
+				webadminpass="NOT SET"
+			fi
+		else
+			webadminpass="\e[0;31mUNAVAILABLE\e[0m"
+		fi
+
+		# webadmin password
+		if [ -f "${servercfgfullpath}" ]; then
+			webadminpass=$(grep UTServerAdmin.UTServerAdmin "${servercfgfullpath}" -A 2| grep AdminPassword=|sed 's/\AdminPassword=//g')
+			if [ ! -n "${webadminpass}" ]; then
+				webadminpass="NOT SET"
+			fi
+		else
+			webadminpass="\e[0;31mUNAVAILABLE\e[0m"
+		fi
+
 	else
-		webadminuser=$(grep AdminName= "${servercfgfullpath}"|sed 's/\AdminName=//g')
-		webadminpass=$(grep AdminPassword= "${servercfgfullpath}"|sed 's/\AdminPassword=//g')
+
+		# webadmin user
+		if [ -f "${servercfgfullpath}" ]; then
+			webadminuser=$(grep AdminName= "${servercfgfullpath}"|sed 's/\AdminName=//g')
+			if [ ! -n "${webadminpass}" ]; then
+				webadminpass="NOT SET"
+			fi
+		else
+			webadminpass="\e[0;31mUNAVAILABLE\e[0m"
+		fi
+
+		# webadmin password
+		if [ -f "${servercfgfullpath}" ]; then
+			webadminpass=$(grep AdminPassword= "${servercfgfullpath}"|sed 's/\AdminPassword=//g')
+			if [ ! -n "${webadminpass}" ]; then
+				webadminpass="NOT SET"
+			fi
+		else
+			webadminpass="\e[0;31mUNAVAILABLE\e[0m"
+		fi
+
 	fi
 fi
