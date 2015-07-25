@@ -529,7 +529,7 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
-		servername=$(grep "ServerName=" ${servercfgfullpath}|sed 's/ServerName=//g')
+		servername=$(grep "ServerName=" "${servercfgfullpath}"|sed 's/ServerName=//g')
 		if [ ! -n "${servername}" ]; then
 			servername="NOT SET"
 		fi
@@ -539,7 +539,7 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
-		serverpassword=$(grep "GamePassword=" ${servercfgfullpath}|sed 's/GamePassword=//g')
+		serverpassword=$(grep "GamePassword=" "${servercfgfullpath}"|sed 's/GamePassword=//g')
 		if [ ! -n "${serverpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
@@ -549,7 +549,7 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 
 	# admin password
 	if [ -f "${servercfgfullpath}" ]; then
-		adminpassword=$(grep "AdminPassword=" ${servercfgfullpath}|sed 's/AdminPassword=//g')
+		adminpassword=$(grep "AdminPassword=" "${servercfgfullpath}"|sed 's/AdminPassword=//g')
 		if [ ! -n "${adminpassword}" ]; then
 			adminpassword="NOT SET"
 		fi
