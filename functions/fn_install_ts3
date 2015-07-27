@@ -2,13 +2,13 @@
 # LGSM fn_install_ts3 function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 240515
+# Version: 270715
 
 fn_details_distro
 # Gets the teamspeak server architecture
 if [ "${arch}" == "x86_64" ]; then
 	ts3arch="amd64"
-elif [ "${arch}" == "i386" ]; then
+elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
 	fn_printfailure "${arch} is an unsupported architecture"
