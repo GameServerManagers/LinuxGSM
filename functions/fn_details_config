@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 270715
+# Version: 280715
 
 # Description: Gets specific details from config files.
 
@@ -166,6 +166,7 @@ elif [ "${engine}" == "projectzomboid" ]; then
 
 	fn_servercfgfullpath
 
+# ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 
 	# server name
@@ -180,7 +181,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	# admin password
 	if [ -f "${servercfgfullpath}" ]; then
-	adminpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\password//g' | tr -d '=\"; ')
+	adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\passwordAdmin//g' | tr -d '=\"; ')
 		if [ ! -n "${adminpassword}" ]; then
 			adminpassword="NOT SET"
 		fi
@@ -190,7 +191,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
-	serverpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\passwordAdmin//g' | tr -d '=\"; ')
+	serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\password//g' | tr -d '=\"; ')
 		if [ ! -n "${adminpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
