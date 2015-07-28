@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 270715
+# Version: 280715
 
 # Description: Displays server infomation.
 
@@ -188,8 +188,8 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 		echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
 	fi
 } >> .fn_details_script
-column -s $'\t' -t .fn_details_gameserver
-rm -f .fn_details_gameserver
+column -s $'\t' -t .fn_details_script
+rm -f .fn_details_script
 }
 
 fn_details_backup(){
