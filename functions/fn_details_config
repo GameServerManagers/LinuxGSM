@@ -326,16 +326,6 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 		rcon="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-	# slots
-	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "gam_ctMaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
-		if [ ! -n "${slots}" ]; then
-			slots="NOT SET"
-		fi
-	else
-		slots="\e[0;31mUNAVAILABLE\e[0m"
-	fi
-
 elif [ "${engine}" == "spark" ]; then
 
 	# query port
@@ -383,7 +373,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 		queryport="10011"
 	fi
 
-	# fileport port
+	# file port
 	if [ -f "${servercfgfullpath}" ]; then
 			fileport=$(grep "filetransfer_port=" "${servercfgfullpath}" | tr -cd "[:digit:]")
 	fi
