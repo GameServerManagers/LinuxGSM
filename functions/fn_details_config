@@ -685,4 +685,27 @@ elif [ "${engine}" == "unreal4" ]; then
 		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep "Port=" "${servercfgfullpath}" | grep -v  "RCONPort=" | grep -v  "QueryPort=" | tr -cd "[:digit:]")
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
+	# rcon port
+	if [ -f "${servercfgfullpath}" ]; then
+		rcon=$(grep "RCONPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+	fi
+	if [ ! -n "${rcon}" ]; then
+		rcon="0"
+	fi
+
+	# query port
+	if [ -f "${servercfgfullpath}" ]; then
+			queryport=$(grep "QueryPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+	fi
+	if [ ! -n "${queryport}" ]; then
+		queryport="0"
+	fi
 fi
