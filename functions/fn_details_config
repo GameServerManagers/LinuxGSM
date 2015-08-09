@@ -643,7 +643,7 @@ elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 		fi
 
 	fi
-elif [ "${engine}" == "unreal4" ]; then
+elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then

@@ -640,7 +640,7 @@ rm -f .fn_details_webadmin
 fn_details_statusbottom
 }
 
-fn_details_unreal4(){
+fn_details_ark(){
 fn_check_ip
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
@@ -707,8 +707,8 @@ elif [ "${engine}" == "unity3d" ]; then
 	fn_details_unity3d
 elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 	fn_details_unreal
-elif [ "${engine}" == "unreal4" ]; then
-	fn_details_unreal4
+elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	fn_details_ark
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_details_teamspeak3
 else
