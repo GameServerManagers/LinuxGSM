@@ -634,6 +634,37 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
 	echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
 	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+} >> .fn_details_webadmin
+column -s $'\t' -t .fn_details_webadmin
+rm -f .fn_details_webadmin
+fn_details_statusbottom
+}
+
+fn_details_unreal4(){
+fn_check_ip
+pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep ShooterGame"
+echo -e ""
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
+	echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
+	echo -e "> Query\tINBOUND\t${queryport}\tudp"
 } >> .fn_details_ports
 column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
@@ -676,6 +707,8 @@ elif [ "${engine}" == "unity3d" ]; then
 	fn_details_unity3d
 elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 	fn_details_unreal
+elif [ "${engine}" == "unreal4" ]; then
+	fn_details_unreal4
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_details_teamspeak3
 else
