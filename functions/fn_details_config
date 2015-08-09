@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 280715
+# Version: 090815
 
 # Description: Gets specific details from config files.
 
@@ -295,7 +295,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	fn_servercfgfullpath
 
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
@@ -516,7 +516,7 @@ elif [ "${engine}" == "unity3d" ]; then
 		queryport="0"
 	fi
 
-elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
@@ -643,4 +643,16 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		fi
 
 	fi
+elif [ "${engine}" == "unreal4" ]; then
+
+	# server name
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(grep "SessionName=" "${servercfgfullpath}" | sed 's/SessionName=//g')
+		if [ ! -n "${servername}" ]; then
+			servername="NOT SET"
+		fi
+	else
+		servername="\e[0;31mUNAVAILABLE\e[0m"
+	fi	
+
 fi
