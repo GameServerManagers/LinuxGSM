@@ -52,7 +52,6 @@ executable="./ShooterGameServer"
 servercfgdir="${systemdir}/Saved/Config/LinuxServer"
 servercfg="GameUserSettings.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-defaultcfg="${servercfgdir}/server.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
