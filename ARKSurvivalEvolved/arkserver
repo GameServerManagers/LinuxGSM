@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="040715"
+version="090815"
 
 #### Variables ####
 
@@ -17,18 +17,11 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="de_dust2"
-maxplayers="16"
-port="27016"
-queryport="7779"
-serverpass="serverpassword"
-serveradminpass="adminpassword"
 ip="0.0.0.0"
 updateonstart="no"
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="TheIsland?listen?SessionName=${servicename}?ServerAdminPassword=${serveradminpass}?ServerPassword=${serverpass}?QueryPort=${queryport}?Port=${port}?ServerAdminPassword=${serveradminpass} -server -log"
+parms="TheIsland?listen"
 }
 
 #### Advanced Variables ####
