@@ -2,9 +2,12 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 010715
+# Version: 090815
 
 fn_arkconfig(){
+echo "creating ${servercfg} config file."
+cp -v "lgsm-default.ini" "${servercfgfullpath}"
+sleep 1
 echo ""
 }
 
@@ -190,6 +193,9 @@ cd "${servercfgdir}"
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_unity3dconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/ARKSurvivalEvolved/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	echo -e "downloading lgsm-default.ini...\c"
 	fn_arkconfig
 elif [ "${gamename}" == "ARMA 3" ]; then
 	echo -e "downloading lgsm-default.server.cfg...\c"
@@ -244,11 +250,11 @@ elif [ "${gamename}" == "Dont Starve Together" ]; then
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_dstconfig
-	elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
-		echo -e "downloading lgsm-default.cfg...\c"
-		wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-		sleep 1
-		fn_sourceconfig
+elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
