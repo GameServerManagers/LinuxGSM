@@ -655,4 +655,34 @@ elif [ "${engine}" == "unreal4" ]; then
 		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi	
 
+	# server password
+	if [ -f "${servercfgfullpath}" ]; then
+		serverpassword=$(grep "ServerPassword=" "${servercfgfullpath}" | sed 's/ServerPassword=//g')
+		if [ ! -n "${serverpassword}" ]; then
+			serverpassword="NOT SET"
+		fi
+	else
+		serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# admin password
+	if [ -f "${servercfgfullpath}" ]; then
+	adminpassword=$(grep "ServerAdminPassword=" "${servercfgfullpath}" | sed 's/ServerAdminPassword=//g')
+		if [ ! -n "${adminpassword}" ]; then
+			adminpassword="NOT SET"
+		fi
+	else
+		adminpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi	
+
+	# slots
+	if [ -f "${servercfgfullpath}" ]; then
+		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		if [ ! -n "${slots}" ]; then
+			slots="NOT SET"
+		fi
+	else
+		slots="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
 fi
