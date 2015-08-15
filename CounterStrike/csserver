@@ -22,7 +22,7 @@ maxplayers="16"
 port="27015"
 clientport="27005"
 ip="0.0.0.0"
-updateonstart="no"
+updateonstart="off"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){

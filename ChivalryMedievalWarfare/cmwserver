@@ -24,7 +24,7 @@ queryport="7010"
 clientport="27005"
 adminpassword="adminpassword"
 ip="0.0.0.0"
-updateonstart="no"
+updateonstart="off"
 
 fn_parms(){
 parms="${defaultmap}\?steamsockets\?adminpassword=${adminpassword}\?port=${port}\?queryport=${queryport} -seekfreeloadingserver"

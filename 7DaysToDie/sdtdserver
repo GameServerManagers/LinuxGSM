@@ -18,7 +18,7 @@ steampass="password"
 
 # Start Variables
 ip="0.0.0.0"
-updateonstart="no"
+updateonstart="off"
 
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){

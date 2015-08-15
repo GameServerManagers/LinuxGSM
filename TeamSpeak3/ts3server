@@ -13,7 +13,7 @@ emailnotification="off"
 email="email@example.com"
 
 # Start Variables
-updateonstart="no"
+updateonstart="off"
 
 # Server Details
 gamename="Teamspeak 3"
