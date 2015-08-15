@@ -2,7 +2,7 @@
 # LGSM fn_monitor function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070715
+# Version: 150815
 
 # Description: Monitors server by checking for running proccesses
 # then passes to fn_monitor_query.
@@ -83,7 +83,6 @@ if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "$
 		echo -en "\n"
 
 		if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-			echo "${gamename}"
 			fn_monitor_query
 		fi
 		exit
