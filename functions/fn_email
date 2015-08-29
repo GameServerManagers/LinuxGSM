@@ -2,7 +2,7 @@
 # LGSM fn_email function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 290815
 
 # Description: Sends email notification if monitor picks up a failure.
 
@@ -27,7 +27,7 @@ fn_details_distro
 	echo -e "========================================\nLogs\n========================================\n"
 	echo -e "Script log\n===================\n"
 	fn_details
-}|tee "${scriptlogdir}/${servicename}-email.log" > /dev/null 2>&1
+|sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"|tee "${scriptlogdir}/${servicename}-email.log"
 tail -25 "${scriptlog}" >> "${emaillog}"
 if [ ! -z "${consolelog}" ]; then
 	echo -e "\n\nConsole log\n====================\n" >> "${emaillog}"
