@@ -50,7 +50,8 @@ backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${filesdir}/giraffe_storage"
+# Terraria Doesn't Have a Server Log
+gamelogdir=""
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
