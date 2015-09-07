@@ -2,7 +2,7 @@
 # LGSM fn_install_logs function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070915
+# Version: 240415
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
