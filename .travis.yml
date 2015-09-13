@@ -132,6 +132,15 @@ script:
     - bash StarBound/sbserver email-test
     - bash StarBound/sbserver details
 
+    - bash Terraria/terrariaserver auto-install
+    - bash Terraria/terrariaserver start
+    - bash Terraria/terrariaserver stop
+    - bash Terraria/terrariaserver restart
+    - bash Terraria/terrariaserver validate
+    - bash Terraria/terrariaserver monitor
+    - bash Terraria/terrariaserver email-test
+    - bash Terraria/terrariaserver details
+
     - bash UnrealTournament2004/ut2k4server start
     - bash UnrealTournament2004/ut2k4server stop
     - bash UnrealTournament2004/ut2k4server restart
