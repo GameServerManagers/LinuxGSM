@@ -2,8 +2,9 @@
 # Project Zomboid
 # Server Management Script
 # Author: Daniel Gibbs
+# Contributions: Bryce Van Dyk (SingingTree)
 # Website: http://gameservermanagers.com
-version="100715"
+version="031015"
 
 #### Variables ####
 
@@ -27,7 +28,7 @@ parms=""
 #### Advanced Variables ####
 
 # Steam
-appid="108600"
+appid="380870"
 
 # Server Details
 servicename="pz-server"
@@ -39,9 +40,9 @@ rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/projectzomboid"
+systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="./projectzomboid-dedi-server.sh"
+executable="./start-server.sh"
 servercfg="servertest.ini"
 servercfgdir="${HOME}/Zomboid/Server"
 servercfgfullpath="${servercfgdir}/${servercfg}"
