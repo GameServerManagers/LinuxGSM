@@ -64,5 +64,5 @@
 #npcstream=60
 
 #Default system priority 0:Realtime, 1:High, 2:AboveNormal, 3:Normal, 4:BelowNormal, 5:Idle
-priority=1
+#priority=1
 
