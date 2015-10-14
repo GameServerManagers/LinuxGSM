@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070915
+# Version: 141015
 
 # Description: Displays server infomation.
 
@@ -497,38 +497,6 @@ fn_details_statusbottom
 
 }
 
-fn_details_terraria(){
-fn_check_ip
-fn_parms
-fn_details_config
-fn_details_distro
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${selfname}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep terraia"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\ttcp"
-	echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
-fn_details_statusbottom
-
-}
-
 fn_details_teamspeak3(){
 fn_details_config
 fn_details_distro
@@ -552,6 +520,66 @@ echo -e ""
 	echo -e "> Voice\tINBOUND\t${port}\tudp"
 	echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp"
 	echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
+} >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
+}
+
+fn_details_teeworlds(){
+fn_check_ip
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${selfname}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep terraia"
+echo -e ""
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+	echo -e "> Game\tINBOUND\t${port}\ttcp"
+} >> .fn_details_ports
+column -s $'\t' -t .fn_details_ports
+rm -f .fn_details_ports
+fn_details_statusbottom
+}
+
+fn_details_terraria(){
+fn_check_ip
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the command-line"
+echo -e "parameters in ${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep terraia"
+echo -e ""
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+	echo -e "> Game\tINBOUND\t${port}\ttcp"
+	echo -e "> Query\tINBOUND\t${queryport}\ttcp"
+	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 } >> .fn_details_ports
 column -s $'\t' -t .fn_details_ports
 rm -f .fn_details_ports
@@ -735,6 +763,8 @@ elif [ "${engine}" == "spark" ]; then
 	fn_details_spark
 elif [ "${engine}" == "starbound" ]; then
 	fn_details_starbound
+elif [ "${engine}" == "teeworlds" ]; then
+	fn_details_teeworlds
 elif [ "${engine}" == "terraria" ]; then
 	fn_details_terraria
 elif [ "${engine}" == "unity3d" ]; then

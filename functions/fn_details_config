@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 090815
+# Version: 141015
 
 # Description: Gets specific details from config files.
 
@@ -382,6 +382,16 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 		fileport="30033"
 	fi
 
+elif [ "${engine}" == "teeworlds" ]; then
+
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+	fi
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
 elif [ "${engine}" == "unity3d" ]; then
 
 	# server name
@@ -502,7 +512,7 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd "[:digit:]")
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
