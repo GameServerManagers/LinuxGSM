@@ -382,7 +382,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 		fileport="30033"
 	fi
 
-elif [ "${gamename}" == "Teeworlds" ]; then
+elif [ "${engine}" == "teeworlds" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
