@@ -124,6 +124,8 @@ else
         fn_printfail "${servername} is already stopped"
         fn_scriptlog "${servername} is already stopped"
     else
+        tmux send -t "${servicename}" quit ENTER
+        sleep 20
         tmux kill-session -t "${servicename}"
         fn_printok "${servername}"
         fn_scriptlog "Stopped ${servername}"
