@@ -46,6 +46,7 @@ executable="./TerrariaServer"
 servercfg="${servicename}.txt"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.txt"
 backupdir="${rootdir}/backups"
 
 # Logging
