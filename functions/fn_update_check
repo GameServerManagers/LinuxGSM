@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 261015
+# Version: 030615
 
 # Description: Checks if a server update is available.
 
@@ -95,7 +95,6 @@ if [ "${requestrestart}" -ge "1" ]; then
 	else
 		fn_update_dl
 	fi
-	exit
 else
 	fn_printok "Checking for update: Server logs: No update requested"
 	sleep 1
