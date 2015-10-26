@@ -388,7 +388,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 	if [ -f "${servercfgfullpath}" ]; then
 		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
 	fi
-
+	
 elif [ "${engine}" == "terraria" ]; then
 
 	# port
