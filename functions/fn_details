@@ -541,7 +541,7 @@ echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${selfname}."
+echo -e "parameters in ${servercfgfullpath}."
 echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep terraia"
