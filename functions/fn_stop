@@ -2,7 +2,7 @@
 # LGSM fn_stop function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 180615
+# Version: 261015
 
 # Description: Stops the server.
 
@@ -27,7 +27,6 @@ sdtd_telnet(){
     puts "Completed.\n"
     ')
 }
-
 
 fn_stop_teamspeak3(){
 fn_check_root
@@ -65,8 +64,6 @@ if [ "${gamename}" == "7 Days To Die" ] ; then
     fn_printdots "Attempting graceful shutdown via telnet"
     fn_scriptlog "Attempting graceful shutdown via telnet"
     sleep 1
-
-
     telnetip=127.0.0.1
     sdtd_telnet
 
@@ -124,9 +121,30 @@ else
         fn_printfail "${servername} is already stopped"
         fn_scriptlog "${servername} is already stopped"
     else
-        tmux send -t "${servicename}" quit ENTER
-        sleep 20
-        tmux kill-session -t "${servicename}"
+
+        if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+            sleep 1
+            fn_printdots "Attempting graceful shutdown"
+            fn_scriptlog "Attempting graceful shutdown"
+            tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
+            counter=0
+            while [ "${pid}" != "0" ]; do
+                pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
+                sleep 1
+                let counter=counter+1
+                if [  "${counter}" -gt "1" ];then
+                    fn_printdots "Attempting graceful shutdown: ${counter}"
+                fi    
+            done
+            pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
+            if [ "${pid}" == "0" ];then
+                fn_printok "Attempting graceful shutdown"
+            else
+                fn_printfail "Attempting graceful shutdown"
+            fi
+        fi
+
+        tmux kill-session -t "${servicename}" > /dev/null 2>&1
         fn_printok "${servername}"
         fn_scriptlog "Stopped ${servername}"
     fi
