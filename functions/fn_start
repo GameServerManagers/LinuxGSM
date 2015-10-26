@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 150715
+# Version: 261015
 
 # Description: Starts the server.
 
@@ -13,13 +13,14 @@ fn_check_root
 fn_check_systemdir
 fn_check_logs
 fn_check_ts3status
-if [ "${ts3status}" = "Server is running" ]; then
-	fn_printinfo "${servername} is already running"
-	fn_scriptlog "${servername} is already running"
-	sleep 1
-	echo -en "\n"
-	exit
+
+if [ "${ts3status}" != "Server is running" ]; then
+	# Will check for updates is updateonstart is yes
+	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
+		fn_update_check
+	fi	
 fi
+
 if [ ! -e "${servercfgfullpath}" ]; then
 	fn_printwarn "${servercfgfullpath} is missing"
 	fn_scriptlog "${servercfgfullpath} is missing"
@@ -36,16 +37,21 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	sleep 5
 	touch "${servercfgfullpath}"
 fi
-fn_logs
 
-# Will check for updates is updateonstart is yes
-if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
-	fn_update_check
-fi
+fn_logs
 
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
+
+if [ "${ts3status}" == "Server is running" ]; then
+	fn_printinfo "${servername} is already running"
+	fn_scriptlog "${servername} is already running"
+	sleep 1
+	echo -en "\n"
+	exit
+fi
+
 mv "${scriptlog}" "${scriptlogdate}"
 # Create lock file
 date > "${rootdir}/${lockselfname}"
@@ -80,20 +86,24 @@ fi
 fn_details_config
 fn_parms
 fn_logs
+
+tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
+# Will check for updates if updateonstart is yes
+if [ "${tmuxwc}" -eq 0 ]; then
+	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
+		fn_update_check
+	fi
+fi
+
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 fn_check_tmux
+
 if [ "${gamename}" != "Mumble" ]; then
 	fn_check_steamcmd
 fi
 
-# Will check for updates if updateonstart is yes
-if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]; then
-	fn_update_check
-fi
-
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_scriptlog "Rotating log files"
 	if [ "${engine}" == "unreal2" ]; then
