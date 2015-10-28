@@ -2,7 +2,7 @@
 # LGSM fn_install_logs function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 240415
+# Version: 281015
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
@@ -27,7 +27,7 @@ if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${gamename}"
 fi
 
 # If a server is unreal2 or unity3d create a dir.
-if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]; then
+if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Teeworlds" ]; then
 	mkdir -pv "${gamelogdir}"
 fi
 

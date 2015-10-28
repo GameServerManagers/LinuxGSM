@@ -119,6 +119,7 @@ echo ""
 fn_teeworldsconfig(){
 echo "creating ${servercfg} config file."
 cp -v "${servercfgdefault}" "${servercfgfullpath}"
+sed -i "s/\"logfile\"/\"logfile ${gamelog}\"/g" "${servercfgfullpath}"
 sleep 1
 echo ""
 }
