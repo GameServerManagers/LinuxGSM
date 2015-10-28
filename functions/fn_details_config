@@ -394,6 +394,26 @@ elif [ "${engine}" == "teeworlds" ]; then
 		servername="unnamed server"
 	fi
 
+	# password
+	if [ -f "${servercfgfullpath}" ]; then
+		rconpassword=$(grep "password " "${servercfgfullpath}" | sed 's/password //g' | tr -d '=\"; ')
+		if [ ! -n "${rconpassword}" ]; then
+			rconpassword="NOT SET"
+		fi
+	else
+		servername="\e[0;31mUNAVAILABLE\e[0m"
+	fi	
+
+	# rcon password
+	if [ -f "${servercfgfullpath}" ]; then
+		rconpassword=$(grep "sv_rcon_password" "${servercfgfullpath}" | sed 's/sv_rcon_password //g' | tr -d '=\"; ')
+		if [ ! -n "${rconpassword}" ]; then
+			rconpassword="NOT SET"
+		fi
+	else
+		servername="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
 		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd "[:digit:]")
