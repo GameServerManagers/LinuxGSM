@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030615
+# Version: 281015
 
 # Description: Checks if a server update is available.
 
@@ -126,9 +126,8 @@ if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: SteamCMD"
 	fn_scriptlog "Failure! Checking for update: SteamCMD"
 	sleep 1
-	fn_printfail "Checking for update: SteamCMD: Not returning version info"
+	fn_printfailnl "Checking for update: SteamCMD: Not returning version info"
 	fn_scriptlog "Failure! Checking for update: SteamCMD: Not returning version info"
-	sleep 2
 	exit
 else
 	fn_printok "Checking for update: SteamCMD"
