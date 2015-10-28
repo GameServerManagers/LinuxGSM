@@ -386,7 +386,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
-		servername=$(grep "sv_name" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		servername=$(grep "sv_name" "${servercfgfullpath}" | sed 's/sv_name //g' | sed 's/"//g')
 		if [ ! -n "${servername}" ]; then
 			servername="unnamed server"
 		fi
