@@ -382,6 +382,37 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 		fileport="30033"
 	fi
 
+elif [ "${engine}" == "teeworlds" ]; then
+
+	# server name
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(grep "sv_name" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		if [ ! -n "${servername}" ]; then
+			servername="unnamed server"
+		fi
+	else
+		servername="unnamed server"
+	fi
+
+	# port
+	if [ -f "${servercfgfullpath}" ]; then
+		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd "[:digit:]")
+	fi
+	if [ ! -n "${port}" ]; then
+		port="8303"
+	fi
+
+	# slots
+	if [ -f "${servercfgfullpath}" ]; then
+		slots=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		if [ ! -n "${slots}" ]; then
+			slots="12"
+		fi
+	else
+		slots="12"
+	fi
+
+
 elif [ "${engine}" == "terraria" ]; then
 
 	# port
