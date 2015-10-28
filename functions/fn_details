@@ -544,7 +544,7 @@ echo -e "Change ports by editing the command-line"
 echo -e "parameters in ${servercfgfullpath}."
 echo -e ""
 echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep teeworlds"
+echo -e "netstat -atunp | grep teeworlds_srv"
 echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
