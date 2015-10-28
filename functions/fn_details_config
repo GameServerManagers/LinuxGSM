@@ -2,7 +2,7 @@
 # LGSM fn_details_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 141015
+# Version: 281015
 
 # Description: Gets specific details from config files.
 
@@ -249,9 +249,9 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	# rcon password
 	if [ -f "${servercfgfullpath}" ]; then
-		rcon=$(grep "rcts_strAdminPassword" "${servercfgfullpath}" | sed 's/rcts_strAdminPassword = //g' | tr -d '=\"; ')
-		if [ ! -n "${rcon}" ]; then
-			rcon="NOT SET"
+		rconpassword=$(grep "rcts_strAdminPassword" "${servercfgfullpath}" | sed 's/rcts_strAdminPassword = //g' | tr -d '=\"; ')
+		if [ ! -n "${rconpassword}" ]; then
+			rconpassword="NOT SET"
 		fi
 	else
 		servername="\e[0;31mUNAVAILABLE\e[0m"
@@ -319,12 +319,12 @@ elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
 
 	# rcon password
 	if [ -f "${servercfgfullpath}" ]; then
-		rcon=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g')
-		if [ ! -n "${rcon}" ]; then
-			rcon="NOT SET"
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g')
+		if [ ! -n "${rconpassword}" ]; then
+			rconpassword="NOT SET"
 		fi
 	else
-		rcon="\e[0;31mUNAVAILABLE\e[0m"
+		rconpassword="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
 elif [ "${engine}" == "spark" ]; then
@@ -382,13 +382,6 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 		fileport="30033"
 	fi
 
-elif [ "${engine}" == "teeworlds" ]; then
-
-	# port
-	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
-	fi
-	
 elif [ "${engine}" == "terraria" ]; then
 
 	# port
@@ -712,10 +705,10 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# rcon port
 	if [ -f "${servercfgfullpath}" ]; then
-		rcon=$(grep "RCONPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		rconport=$(grep "RCONPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
 	fi
-	if [ ! -n "${rcon}" ]; then
-		rcon="0"
+	if [ ! -n "${rconport}" ]; then
+		rconport="0"
 	fi
 
 	# query port

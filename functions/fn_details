@@ -77,8 +77,8 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mServer IP:\t\e[0m${ip}:${port}"
 
 	# rcon password
-	if [ -n "${rcon}" ]; then
-		echo -e "\e[34mRCON password:\t\e[0m${rcon}"
+	if [ -n "${rconpassword}" ]; then
+		echo -e "\e[34mRCON password:\t\e[0m${rconpassword}"
 	fi
 
 	# server password
