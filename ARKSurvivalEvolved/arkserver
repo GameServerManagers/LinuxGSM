@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="090815"
+version="291015"
 
 #### Variables ####
 
@@ -45,6 +45,7 @@ executable="./ShooterGameServer"
 servercfgdir="${systemdir}/Saved/Config/LinuxServer"
 servercfg="GameUserSettings.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging
