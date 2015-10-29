@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 261015
+# Version: 291015
 
 # Description: Starts the server.
 
@@ -128,9 +128,11 @@ tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlog
 # tmux pipe-pane not supported in tmux versions < 1.6
 if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -lt "16" ]; then
 	echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
+	echo "http://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
 	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -eq "18" ]; then
 	echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
+	echo "http://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
 	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 else
 	touch "${consolelog}"
