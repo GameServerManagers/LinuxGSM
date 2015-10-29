@@ -128,7 +128,7 @@ else
             fn_scriptlog "Attempting graceful shutdown"
             tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
             counter=0
-            while [ "${pid}" != "0" ]; do
+            while [ "${pid}" != "0" -a $counter -lt 30 ]; do
                 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
                 sleep 1
                 let counter=counter+1
