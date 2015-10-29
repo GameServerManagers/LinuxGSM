@@ -2,50 +2,38 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 281015
+# Version: 291015
 
-fn_arkconfig(){
-echo "creating ${servercfg} config file."
-cp -v "lgsm-default.ini" "${servercfgfullpath}"
-sleep 1
-echo ""
-}
-
-fn_arma3config(){
+fn_defaultconfig(){
 echo "creating ${servercfg} config file."
 cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
+}
+
+fn_arma3config(){
+fn_defaultconfig
 echo "creating ${networkcfg} config file."
 cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
 sleep 1
 echo ""
 }
 
-fn_dstconfig(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
-echo ""
-}
-
 fn_goldsourceconfig(){
-echo "creating ${servercfg} config file."
-cp -v "lgsm-default.cfg" "${servercfgfullpath}"
-sleep 1
+fn_defaultconfig
 
 # server.cfg redirects to ${servercfg} for added security
 echo "creating server.cfg."
-touch "${defaultcfg}"
+touch "server.cfg"
 sleep 1
 echo "creating redirect."
 echo "server.cfg > ${servercfg}."
-echo "exec ${servercfg}" > "${defaultcfg}"
+echo "exec ${servercfg}" > "server.cfg"
 sleep 1
 
 # creating other files required
 echo "creating listip.cfg."
-sleep 1
 touch "${systemdir}/listip.cfg"
+sleep 1
 echo "creating banned.cfg."
 touch "${systemdir}/banned.cfg"
 sleep 1
@@ -62,22 +50,13 @@ else
 	servername="${servicename}"
 	rconpass="rconpassword"
 fi
-sed -i "s/\"hostname\"/\"${servername}\"/g" "${servercfgfullpath}"
-sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" "${servercfgfullpath}"
-echo ""
-}
-
-fn_jc2config(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
+sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
+sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 echo ""
 }
 
 fn_serious3config(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
+fn_defaultconfig
 echo ""
 echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
 echo "http://mrag.nl/sgui3/"
@@ -86,17 +65,15 @@ echo ""
 }
 
 fn_sourceconfig(){
-echo "creating ${servercfg} config file."
-cp -v "lgsm-default.cfg" "${servercfgfullpath}"
-sleep 1
+fn_defaultconfig
 
 # server.cfg redirects to ${servercfg} for added security
 echo "creating server.cfg."
-touch "${servercfgdefault}"
+touch "server.cfg"
 sleep 1
 echo "creating redirect."
 echo "server.cfg > ${servercfg}."
-echo "exec ${servercfg}" > "${servercfgdefault}"
+echo "exec ${servercfg}" > "server.cfg"
 sleep 1
 
 # allow user to input server name and password
@@ -111,22 +88,15 @@ else
 	servername="${servicename}"
 	rconpass="rconpassword"
 fi
-sed -i "s/\"hostname\"/\"${servername}\"/g" "${servercfgfullpath}"
-sed -i "s/\"rconpassword\"/\"${rconpass}\"/g" "${servercfgfullpath}"
+sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
+sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 echo ""
 }
 
 fn_teeworldsconfig(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
+fn_defaultconfig
+echo "adding logfile location to config."
 sed -i "s/\"logfile\"/\"logfile ${gamelog}\"/g" "${servercfgfullpath}"
-sleep 1
-echo ""
-}
-
-fn_terrariaconfig(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
 sleep 1
 echo ""
 }
@@ -158,17 +128,8 @@ sleep 1
 echo ""
 }
 
-fn_unity3dconfig(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
-echo ""
-}
-
 fn_unreal2config(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
+fn_defaultconfig
 echo ""
 echo "Configuring ${gamename} Server"
 echo "================================="
@@ -204,114 +165,115 @@ fi
 
 cd "${servercfgdir}"
 
-# statements
+githuburl="https://raw.githubusercontent.com/dgibbs64/linuxgsm/master"
+
 if [ "${gamename}" == "7 Days To Die" ]; then
-	fn_unity3dconfig
+	fn_defaultconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/ARKSurvivalEvolved/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/ARKSurvivalEvolved/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	echo -e "downloading lgsm-default.ini...\c"
-	fn_arkconfig
+	fn_defaultconfig
 elif [ "${gamename}" == "ARMA 3" ]; then
 	echo -e "downloading lgsm-default.server.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Arma3/cfg/lgsm-default.server.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.server.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	echo -e "downloading lgsm-default.network.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Arma3/cfg/lgsm-default.network.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.network.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_arma3config
 elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/BlackMesa/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/BlackMesa/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Blade Symphony" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/BladeSymphony/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/BladeSymphony/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Counter Strike 1.6" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrike/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/CounterStrike/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Counter Strike: Condition Zero" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeConditionZero/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/CounterStrikeConditionZero/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/CounterStrikeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Day of Defeat" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DayOfDefeat/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/DayOfDefeat/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Day of Defeat: Source" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DayOfDefeatSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/DayOfDefeatSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Dont Starve Together" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_dstconfig
+	fn_defaultconfig
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Garry's Mod" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/GarrysMod/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/GarrysMod/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Half Life 2: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/HalfLife2Deathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/HalfLife2Deathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Half Life: Deathmatch Classic" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/HalfLifeDeathmatchClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/HalfLifeDeathmatchClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Insurgency" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Insurgency/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Insurgency/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Just Cause 2" ]; then
-	fn_jc2config
+	fn_defaultconfig
 elif [ "${gamename}" == "Killing Floor" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Left 4 Dead" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Left4Dead/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Left4Dead/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Left 4 Dead 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Left4Dead2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Left4Dead2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/NoMoreRoomInHell/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/NoMoreRoomInHell/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Natural Selection 2" ]; then
@@ -322,39 +284,39 @@ elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/SeriousSam3BFE/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/SeriousSam3BFE/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_serious3config
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_ts3config
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Team Fortress Classic" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/TeamFortressClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/TeamFortressClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Teeworlds" ]; then
 	echo -e "downloading ctf.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Teeworlds/cfg/ctf.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Teeworlds/cfg/ctf.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	echo -e "downloading dm.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Teeworlds/cfg/dm.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Teeworlds/cfg/dm.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	echo -e "downloading duel.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Teeworlds/cfg/duel.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Teeworlds/cfg/duel.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	echo -e "downloading tdm.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Teeworlds/cfg/tdm.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Teeworlds/cfg/tdm.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Teeworlds/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Teeworlds/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_teeworldsconfig
 elif [ "${gamename}" == "Terraria" ]; then
 	echo -e "downloading lgsm-default.txt...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/Terraria/cfg/lgsm-default.txt 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Terraria/cfg/lgsm-default.txt 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_terrariaconfig
+	fn_defaultconfig
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
