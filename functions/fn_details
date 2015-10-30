@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 281015
+# Version: 301015
 
 # Description: Displays server infomation.
 
@@ -20,9 +20,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mHostname:\t\e[0m$HOSTNAME"
 	echo -e "\e[34mtmux:\t\e[0m${tmuxv}"
 	echo -e "\e[34mGLIBC:\t\e[0m${glibcv}"
-} >> .fn_details_distro
-column -s $'\t' -t .fn_details_distro
-rm -f .fn_details_distro
+} | column -s $'\t' -t 
 }
 
 fn_details_performance(){
@@ -32,17 +30,13 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 {
 	echo -e "\e[34mUptime:\t\e[0m${days}d, ${hours}h, ${minutes}m"
 	echo -e "\e[34mAvg Load:\t\e[0m${load}"
-} >> .fn_details_performance
-column -s $'\t' -t .fn_details_performance
-rm -f .fn_details_performance
+} | column -s $'\t' -t 
 echo -e ""
 {
 	echo -e "\e[34mMem:\t\e[34mtotal\t used\t free\e[0m"
 	echo -e "\e[34mPhysical:\t\e[0m${physmemtotal}\t${physmemused}\t${physmemfree}\e[0m"
 	echo -e "\e[34mSwap:\t\e[0m${swaptotal}\t${swapused}\t${swapfree}\e[0m"
-} >> .fn_details_performance
-column -s $'\t' -t .fn_details_performance
-rm -f .fn_details_performance
+} | column -s $'\t' -t 
 }
 
 fn_details_disk(){
@@ -58,9 +52,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	if [ -d "${backupdir}" ]; then
 		echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
 	fi
-} >> .fn_details_disk
-column -s $'\t' -t .fn_details_disk
-rm -f .fn_details_disk
+} | column -s $'\t' -t 
 }
 
 fn_details_gameserver(){
@@ -132,9 +124,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	if [ -n "${dbplugin}" ]; then
 		echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}"
 	fi
-} >> .fn_details_gameserver
-column -s $'\t' -t .fn_details_gameserver
-rm -f .fn_details_gameserver
+} | column -s $'\t' -t 
 echo -e ""
 
 ## script details
@@ -187,9 +177,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	if [ -n "${networkcfgfullpath}" ]; then
 		echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
 	fi
-} >> .fn_details_script
-column -s $'\t' -t .fn_details_script
-rm -f .fn_details_script
+} | column -s $'\t' -t 
 }
 
 fn_details_backup(){
@@ -205,9 +193,7 @@ else
 		echo -e "\e[34m    date:\t\e[0m${lastbackupdate}"
 		echo -e "\e[34m    file:\t\e[0m${lastbackup}"
 		echo -e "\e[34m    size:\t\e[0m${lastbackupsize}"
-	} >> .fn_details_backup
-	column -s $'\t' -t .fn_details_backup
-	rm -f .fn_details_backup
+	} | column -s $'\t' -t 
 fi
 }
 
@@ -260,9 +246,8 @@ echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 	echo -e "> Game\tINBOUND\t${port}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t 
+
 fn_details_statusbottom
 }
 
@@ -288,9 +273,8 @@ echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 	echo -e "> Game\tINBOUND\t${port}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t 
+
 fn_details_statusbottom
 }
 
@@ -316,9 +300,8 @@ echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 	echo -e "> Game\tINBOUND\t${port}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t 
+
 fn_details_statusbottom
 }
 
@@ -353,9 +336,8 @@ fi
 	echo -e "> Game\tINBOUND\t${port}\tudp"
 	echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
 	echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t 
+
 fn_details_statusbottom
 }
 
@@ -384,9 +366,8 @@ echo -e ""
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 	echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
 	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t 
+
 fn_details_statusbottom
 }
 
@@ -417,9 +398,8 @@ echo -e ""
 	        echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
 	fi
 	echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -449,9 +429,7 @@ echo -e ""
 	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 	echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
 echo -e ""
 echo -e "\e[92m${servername} WebAdmin\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -459,9 +437,8 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}/index.html"
 	echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
 	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -490,9 +467,8 @@ echo -e ""
 	echo -e "> Game\tINBOUND\t${port}\ttcp"
 	echo -e "> Query\tINBOUND\t${queryport}\ttcp"
 	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 
 }
@@ -520,9 +496,8 @@ echo -e ""
 	echo -e "> Voice\tINBOUND\t${port}\tudp"
 	echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp"
 	echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -549,9 +524,8 @@ echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 	echo -e "> Game\tINBOUND\t${port}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -580,9 +554,8 @@ echo -e ""
 	echo -e "> Game\tINBOUND\t${port}\ttcp"
 	echo -e "> Query\tINBOUND\t${queryport}\ttcp"
 	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -613,9 +586,7 @@ echo -e ""
 	echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
 	echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
 echo -e ""
 echo -e "\e[92m${servername} WebAdmin\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -623,9 +594,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
 	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
 	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
 echo -e ""
 echo -e "\e[92m${servername} Telnet\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -633,9 +602,8 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}"
 	echo -e "\e[34mTelnet address:\t\e[0m${ip} ${telnetport}"
 	echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -683,9 +651,7 @@ echo -e ""
 		fi
 	fi
 	echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
 echo -e ""
 echo -e "\e[92m${servername} WebAdmin\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -694,9 +660,8 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
 	echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
 	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
-} >> .fn_details_webadmin
-column -s $'\t' -t .fn_details_webadmin
-rm -f .fn_details_webadmin
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
@@ -725,9 +690,8 @@ echo -e ""
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
 	echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
 	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-} >> .fn_details_ports
-column -s $'\t' -t .fn_details_ports
-rm -f .fn_details_ports
+} | column -s $'\t' -t
+
 fn_details_statusbottom
 }
 
