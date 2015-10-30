@@ -3,6 +3,7 @@ language: bash
 before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
 
+    - sudo apt-get install tmux mailutils postfix lib32gcc1 libstdc++6 libstdc++6:i386 
 
     - mkdir /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles
     - touch /home/travis/build/dgibbs64/linuxgsm/7DaysToDie/serverfiles/serverconfig.xml
