@@ -8,7 +8,7 @@
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
-# tr -cd [:digit:] leave only digits
+# tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected charectors =\";
 # grep -v "foo" filter out lines that contain foo
 
