@@ -402,7 +402,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
-		serverpassword=$(grep "password " "${servercfgfullpath}" | sed 's/password //g' | tr -d '=\"; ')
+		serverpassword=$(grep "password " "${servercfgfullpath}" | awk '!/sv_rcon_password/'| sed 's/password //g' | tr -d '=\"; ')
 		if [ ! -n "${rconpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
