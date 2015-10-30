@@ -192,7 +192,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
 		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\password//g' | tr -d '=\"; ')
-		if [ ! -n "${adminpassword}" ]; then
+		if [ ! -n "${serverpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
 	else
@@ -403,7 +403,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
 		serverpassword=$(grep "password " "${servercfgfullpath}" | awk '!/sv_rcon_password/'| sed 's/password //g' | tr -d '=\"; ')
-		if [ ! -n "${rconpassword}" ]; then
+		if [ ! -n "${serverpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
 	else
@@ -531,7 +531,7 @@ elif [ "${engine}" == "unity3d" ]; then
 	# telnet password
 	if [ -f "${servercfgfullpath}" ]; then
 		telnetpass=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		if [ ! -n "${telnetenabled}" ]; then
+		if [ ! -n "${telnetpass}" ]; then
 			telnetpass="NOT SET"
 		fi
 	else
