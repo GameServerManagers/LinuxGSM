@@ -309,7 +309,7 @@ elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
 
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
-		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password//g' | sed 's/"//g')
+		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g')
 		if [ ! -n "${serverpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
