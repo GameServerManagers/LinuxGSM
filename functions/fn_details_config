@@ -52,7 +52,7 @@ if [ "${engine}" == "avalanche" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "MaxPlayers" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		slots=$(grep "MaxPlayers" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -62,7 +62,7 @@ if [ "${engine}" == "avalanche" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "BindPort" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "BindPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -95,7 +95,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "max_players" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
+		slots=$(grep "max_players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -115,7 +115,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 
 	# tickrate
 	if [ -f "${servercfgfullpath}" ]; then
-		tickrate=$(grep "tick_rate" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
+		tickrate=$(grep "tick_rate" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ ! -n "${tickrate}" ]; then
 			tickrate="NOT SET"
 		fi
@@ -125,7 +125,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
+		port=$(grep "server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -148,7 +148,7 @@ elif [ "${engine}" == "projectzomboid" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
+		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -158,7 +158,7 @@ elif [ "${engine}" == "projectzomboid" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -201,7 +201,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
+		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -211,7 +211,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "serverport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd "[:digit:]")
+		port=$(grep "serverport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -219,7 +219,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	# query port
 	if [ -f "${servercfgfullpath}" ]; then
-		queryport=$(grep "steamqueryport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd "[:digit:]")
+		queryport=$(grep "steamqueryport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"
@@ -227,7 +227,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	# master port
 	if [ -f "${servercfgfullpath}" ]; then
-		masterport=$(grep "steamport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd "[:digit:]")
+		masterport=$(grep "steamport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${masterport}" ]; then
 		masterport="0"
@@ -259,7 +259,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "gam_ctMaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd "[:digit:]")
+		slots=$(grep "gam_ctMaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -279,7 +279,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "prj_uwPort" "${servercfgfullpath}" | tr -d '\r' | tr -cd "[:digit:]")
+		port=$(grep "prj_uwPort" "${servercfgfullpath}" | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -364,7 +364,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "default_voice_port=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "default_voice_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="9987"
@@ -372,7 +372,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 
 	# query port
 	if [ -f "${servercfgfullpath}" ]; then
-		queryport=$(grep "query_port=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		queryport=$(grep "query_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${queryport}" ]; then
 		queryport="10011"
@@ -380,7 +380,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 
 	# file port
 	if [ -f "${servercfgfullpath}" ]; then
-		fileport=$(grep "filetransfer_port=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		fileport=$(grep "filetransfer_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${fileport}" ]; then
 		fileport="30033"
@@ -422,7 +422,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="8303"
@@ -430,7 +430,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		slots=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="12"
 		fi
@@ -444,7 +444,7 @@ elif [ "${engine}" == "terraria" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "port=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -484,7 +484,7 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	# webadmin port
 	if [ -f "${servercfgfullpath}" ]; then
-		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${webadminport}" ]; then
 		webadminport="0"
@@ -522,7 +522,7 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	# telnet port
 	if [ -f "${servercfgfullpath}" ]; then
-		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${telnetport}" ]; then
 		telnetport="0"
@@ -540,7 +540,7 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		slots=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -570,7 +570,7 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -620,7 +620,7 @@ elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "Port=" "${servercfgfullpath}" | grep -v "Master" | grep -v "LAN" | grep -v "Proxy" | grep -v "Listen" | tr -d '\r' | tr -cd "[:digit:]")
+		port=$(grep "Port=" "${servercfgfullpath}" | grep -v "Master" | grep -v "LAN" | grep -v "Proxy" | grep -v "Listen" | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -636,7 +636,7 @@ elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 
 	# gamespy query port
 	if [ -f "${servercfgfullpath}" ]; then
-		gsqueryport=$(grep "OldQueryPortNumber=" "${servercfgfullpath}" | tr -d '\r' | tr -cd "[:digit:]")
+		gsqueryport=$(grep "OldQueryPortNumber=" "${servercfgfullpath}" | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${gsqueryport}" ]; then
 		gsqueryport="0"
@@ -662,7 +662,7 @@ elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 
 	# webadmin port
 	if [ -f "${servercfgfullpath}" ]; then
-		webadminport=$(grep "ListenPort=" "${servercfgfullpath}" | tr -d '\r' | tr -cd "[:digit:]")
+		webadminport=$(grep "ListenPort=" "${servercfgfullpath}" | tr -d '\r' | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${webadminport}" ]; then
 		webadminport="0"
@@ -750,7 +750,7 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# slots
 	if [ -f "${servercfgfullpath}" ]; then
-		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		if [ ! -n "${slots}" ]; then
 			slots="NOT SET"
 		fi
@@ -760,7 +760,7 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# port
 	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "Port=" "${servercfgfullpath}" | grep -v  "RCONPort=" | grep -v  "QueryPort=" | tr -cd "[:digit:]")
+		port=$(grep "Port=" "${servercfgfullpath}" | grep -v  "RCONPort=" | grep -v  "QueryPort=" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${port}" ]; then
 		port="0"
@@ -768,7 +768,7 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# rcon port
 	if [ -f "${servercfgfullpath}" ]; then
-		rconport=$(grep "RCONPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+		rconport=$(grep "RCONPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${rconport}" ]; then
 		rconport="0"
@@ -776,7 +776,7 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# query port
 	if [ -f "${servercfgfullpath}" ]; then
-			queryport=$(grep "QueryPort=" "${servercfgfullpath}" | tr -cd "[:digit:]")
+			queryport=$(grep "QueryPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"
