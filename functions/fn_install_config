@@ -25,7 +25,7 @@ else
 fi
 echo "changing hostname."
 sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
-sleep1
+sleep 1
 echo "changing rconpassword."
 sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 sleep 1
