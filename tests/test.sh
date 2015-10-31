@@ -35,6 +35,7 @@ engine="avalanche"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/jc2server"
+mkdir "${rootdir}"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
@@ -143,7 +144,6 @@ echo "Using: ${gamename}"
 echo "================================="
 echo ""
 sleep 1
-mkdir ${rootfdir}
 
 
 echo "1.0 - start - no files"
@@ -396,7 +396,7 @@ echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-fn_monitor
+(fn_monitor)
 echo ""
 fn_printinfonl "Reseting ${servercfg}."
 fn_install_config
