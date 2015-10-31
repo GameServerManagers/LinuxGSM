@@ -2,7 +2,7 @@
 # LGSM fn_console function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 260515
+# Version: 311015
 
 # Description: Gives access to the server tmux console.
 
@@ -20,7 +20,7 @@ while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1;;
+	[Nn]* ) echo Exiting; return;;
 	* ) echo "Please answer yes or no.";;
 esac
 done

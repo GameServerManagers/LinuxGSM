@@ -2,7 +2,7 @@
 # LGSM fn_update_dl function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 040715
+# Version: 311015
 
 # Description: Runs a server update.
 
@@ -66,7 +66,7 @@ else
 	cat "${scriptlogdir}/.${servicename}-tar-error.tmp" >> "${scriptlog}"
 	rm "${scriptlogdir}/.${servicename}-tar-error.tmp"
 	fn_scriptlog "Failure! Unable to update"
-	exit
+	exit ${status}
 fi
 echo -e "copying to ${filesdir}...\c"
 fn_scriptlog "Copying to ${filesdir}"
@@ -82,7 +82,7 @@ else
 	cat "${scriptlogdir}/.${servicename}-cp-error.tmp" >> "${scriptlog}"
 	rm "${scriptlogdir}/.${servicename}-cp-error.tmp"
 	fn_scriptlog "Failure! Unable to update"
-	exit
+	exit ${status}
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
 rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"

@@ -2,7 +2,7 @@
 # LGSM fn_compress_unreal2maps function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 311015
 
 fn_check_root
 clear
@@ -20,7 +20,7 @@ while true; do
 	read -p "Start compression [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1;;
+	[Nn]* ) echo Exiting; return;;
 	* ) echo "Please answer yes or no.";;
 	esac
 done

@@ -2,9 +2,9 @@
 # LGSM fn_check_root function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 311015
 
 if [ $(whoami) = "root" ]; then
 	fn_printfailnl "Do NOT run this script as root!"
-	exit
+	exit 1
 fi
