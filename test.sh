@@ -34,7 +34,7 @@ gamename="Just Cause 2"
 engine="avalanche"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/jc2server"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
@@ -136,7 +136,14 @@ echo "by Daniel Gibbs"
 echo "http://gameservermanagers.com"
 echo "================================="
 echo ""
-
+sleep 1
+echo "================================="
+echo "Generic Server Tests"
+echo "Using: ${gamename}"
+echo "================================="
+echo ""
+sleep 1
+mkdir ${rootfdir}
 
 
 echo "1.0 - start - no files"
@@ -189,7 +196,21 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
-echo "3.3 - stop"
+echo "3.3 - start - updateonstart"
+echo "================================="
+echo "Description:"
+echo "will update server on start."
+requiredstatus="ONLINE"
+fn_setstatus
+(
+	updateonstart="on"
+	fn_start
+)
+echo ""
+echo "Test complete!"
+sleep 1
+echo ""
+echo "3.4 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
@@ -200,7 +221,7 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
-echo "3.4 - stop - offline"
+echo "3.5 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
@@ -211,7 +232,7 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
-echo "3.5 - restart"
+echo "3.6 - restart"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename}."
@@ -222,7 +243,7 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
-echo "3.5 - restart - offline"
+echo "3.7 - restart - offline"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename} while already stopped."
@@ -397,3 +418,67 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
+
+echo "================================="
+echo "Generic Server Tests - Complete!"
+echo "Using: ${gamename}"
+echo "================================="
+echo ""
+sleep 1
+fn_printinfo "Tidying up directories."
+sleep 1
+rm -rfv ${rootdir}
+echo "END"
+
+#!/bin/bash
+# Teamspeak 3
+# Server Management Script
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+version="040715"
+
+#### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="on"
+email="me@Danielgibbs.co.uk"
+
+# Start Variables
+updateonstart="off"
+
+# Server Details
+gamename="Teamspeak 3"
+servername="Teamspeak 3 Server"
+servicename="ts3-server"
+
+# Directories
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ts3server"
+selfname="$(basename $0)"
+lockselfname=".${servicename}.lock"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+executable="./ts3server_startscript.sh"
+servercfg="${servicename}.ini"
+servercfgdir="${filesdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+backupdir="${rootdir}/backups"
+
+# Logging
+logdays="7"
+gamelogdir="${filesdir}/logs"
+scriptlogdir="${rootdir}/log/script"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+
+
+echo "================================="
+echo "Generic Server Tests"
+echo "Using: ${gamename}"
+echo "================================="
+echo ""
+sleep 1
