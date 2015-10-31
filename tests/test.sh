@@ -430,3 +430,55 @@ sleep 1
 rm -rfv ${rootdir}
 echo "END"
 
+#!/bin/bash
+# Teamspeak 3
+# Server Management Script
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+version="040715"
+
+#### Variables ####
+
+# Notification Email
+# (on|off)
+emailnotification="on"
+email="me@Danielgibbs.co.uk"
+
+# Start Variables
+updateonstart="off"
+
+# Server Details
+gamename="Teamspeak 3"
+servername="Teamspeak 3 Server"
+servicename="ts3-server"
+
+# Directories
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ts3server"
+selfname="$(basename $0)"
+lockselfname=".${servicename}.lock"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+executable="./ts3server_startscript.sh"
+servercfg="${servicename}.ini"
+servercfgdir="${filesdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+backupdir="${rootdir}/backups"
+
+# Logging
+logdays="7"
+gamelogdir="${filesdir}/logs"
+scriptlogdir="${rootdir}/log/script"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+
+
+echo "================================="
+echo "Generic Server Tests"
+echo "Using: ${gamename}"
+echo "================================="
+echo ""
+sleep 1
