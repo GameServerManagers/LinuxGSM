@@ -2,9 +2,9 @@
 # LGSM fn_check_systemdir function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 311015
 
 if [ ! -e "${systemdir}" ]; then
 	fn_printfailnl "Cannot access ${systemdir}: No such directory"
-	exit
+	exit 1
 fi

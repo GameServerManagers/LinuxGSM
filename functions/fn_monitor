@@ -2,7 +2,7 @@
 # LGSM fn_monitor function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 150815
+# Version: 311015
 
 # Description: Monitors server by checking for running proccesses
 # then passes to fn_monitor_query.
@@ -22,7 +22,7 @@ if [ ! -f "${rootdir}/${lockselfname}" ]; then
 	sleep 1
 	echo -en "\n"
 	echo "To enable monitor run ./${selfname} start"
-	exit
+	exit 1
 fi
 fn_printdots "Checking session: CHECKING"
 fn_scriptlog "Checking session: CHECKING"
@@ -67,7 +67,7 @@ if [ ! -f "${rootdir}/${lockselfname}" ]; then
 	sleep 1
 	echo -en "\n"
 	echo "To enable monitor run ./${selfname} start"
-	exit
+	exit 1
 fi
 
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
@@ -85,7 +85,7 @@ if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "$
 		if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 			fn_monitor_query
 		fi
-		exit
+		exit $?
 	else
 		fn_printfail "Checking session: FAIL"
 		fn_scriptlog "Checking session: FAIL"
