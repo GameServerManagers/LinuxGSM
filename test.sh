@@ -9,8 +9,8 @@ version="150715"
 
 # Notification Email
 # (on|off)
-emailnotification="off"
-email="email@example.com"
+emailnotification="on"
+email="me@danielgibbs.co.uk"
 
 # Steam login
 steamuser="anonymous"
@@ -103,14 +103,24 @@ fn_setstatus(){
 	
 	echo""
 	echo "Required status: ${requiredstatus}"
+	counter=0
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
+    	counter=$((counter+1))
     	fn_currentstatus
+	
     	echo -ne "Current status:  ${currentstatus}\\r"
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			(fn_start > /dev/null 2>&1)
 		else
 			(fn_stop > /dev/null 2>&1)
 		fi
+    	if [ "${counter}" -gt "5" ]; then
+    		currentstatus="FAIL"
+    		echo "Current status:  ${currentstatus}"
+    		echo ""
+    		echo "Unable to start or stop server."
+    		exit
+    	fi
     done
     echo -ne "Current status:  ${currentstatus}\\r"
     echo -e "\n"
@@ -118,6 +128,16 @@ fn_setstatus(){
     echo ""
     sleep 0.5
 }
+
+echo "================================="
+echo "TravisCI Tests"
+echo "Linux Game Server Manager"
+echo "by Daniel Gibbs"
+echo "http://gameservermanagers.com"
+echo "================================="
+echo ""
+
+
 
 echo "1.0 - start - no files"
 echo "================================="
@@ -130,6 +150,9 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
+
+
+
 echo "2.0 - install"
 echo "================================="
 echo "Description:"
@@ -141,6 +164,9 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
+
+
+
 echo "3.1 - start"
 echo "================================="
 echo "Description:"
@@ -207,6 +233,8 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
+
+
 
 echo "4.1 - update"
 echo "================================="
@@ -302,6 +330,9 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
+
+
+
 echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"
@@ -316,7 +347,7 @@ echo ""
 echo "5.2 - monitor - offline - no lockfile"
 echo "================================="
 echo "Description:"
-echo "run monitor while server is offline with no lockfile"
+echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
 (fn_monitor)
@@ -324,10 +355,10 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
-echo "5.2 - monitor - offline - with lockfile"
+echo "5.3 - monitor - offline - with lockfile"
 echo "================================="
 echo "Description:"
-echo "run monitor while server is offline with no lockfile"
+echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "creating lockfile."
@@ -337,17 +368,32 @@ echo ""
 echo "Test complete!"
 sleep 1
 echo ""
-echo "5.2 - monitor - gsquery.py failure"
+echo "5.4 - monitor - gsquery.py failure"
 echo "================================="
 echo "Description:"
-echo "gsquery.py will fail to query port"
+echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
-port=${port+1}
-(fn_monitor)
-port=${port-1}
+sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
+fn_monitor
+echo ""
+fn_printinfonl "Reseting ${servercfg}."
+fn_install_config
 echo ""
 echo "Test complete!"
 sleep 1
 echo ""
 
+
+
+echo "6.0 - details"
+echo "================================="
+echo "Description:"
+echo "gsquery.py will fail to query port."
+requiredstatus="ONLINE"
+fn_setstatus
+fn_details
+echo ""
+echo "Test complete!"
+sleep 1
+echo ""
