@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 200615
+# Version: 311015
 
 # Description: getopt arguments.
 
@@ -46,7 +46,6 @@ case "$getopt" in
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update|force-update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install}"
-	exit 1;;
 esac
 exit
 }
@@ -79,7 +78,6 @@ case "$getopt" in
 		fn_deps_detect;;		
 	*)
 		echo "Usage: $0 {start|stop|restart|update|update-functions|monitor|email-test|details|backup|install|auto-install}"
-		exit 1;;
 esac
 exit
 }
@@ -108,7 +106,6 @@ case "$getopt" in
 		fn_deps_detect;;		
 	*)
 		echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|backup|console|debug}"
-		exit 1;;
 esac
 exit
 }
@@ -143,7 +140,6 @@ case "$getopt" in
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
-	exit 1;;
 esac
 exit
 }
@@ -191,7 +187,6 @@ case "$getopt" in
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update|update-functions|validate|monitor|email-test|details|backup|console|debug|install|auto-install|map-compressor}"
-	exit 1;;
 esac
 exit
 }
@@ -227,7 +222,6 @@ case "$getopt" in
 		fn_deps_detect;;		
 	*)
 	echo "Usage: $0 {start|stop|restart|update-functions|monitor|email-test|details|backup|console|debug|install|map-compressor}"
-	exit 1;;
 esac
 exit
 }
