@@ -2,7 +2,7 @@
 # LGSM fn_install_ts3 function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 270715
+# Version: 311015
 
 fn_details_distro
 # Gets the teamspeak server architecture
@@ -19,7 +19,7 @@ fi
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
 
 # removes digits to allow sorting of numbers
-cat .ts3_version_numbers_unsorted.tmp |tr -cd "[:digit:][*\n]" > .ts3_version_numbers_digit.tmp
+cat .ts3_version_numbers_unsorted.tmp |tr -cd '[:digit:][*\n]' > .ts3_version_numbers_digit.tmp
 # Sorts numbers in to correct order
 # merges two files in to one with two columns sorts the numbers in to order then only outputs the second to the ts3_version_numbers.tmp
 paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp |sort -rn|awk '{ print $2 }' > .ts3_version_numbers.tmp
