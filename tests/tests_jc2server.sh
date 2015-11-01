@@ -1,9 +1,10 @@
 #!/bin/bash
-# Just Cause 2
+# TravisCI Tests
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="150715"
+
+version="011115"
 
 #### Variables ####
 
@@ -34,7 +35,7 @@ gamename="Just Cause 2"
 engine="avalanche"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/jc2server"
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
@@ -138,21 +139,30 @@ echo "================================="
 echo ""
 sleep 1
 echo "================================="
-echo "Generic Server Tests"
+echo "Server Tests"
 echo "Using: ${gamename}"
 echo "================================="
 echo ""
 sleep 1
-mkdir ${rootfdir}
+
 
 
 echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
-echo "Test script reaction to missing server files."
-requiredstatus="OFFLINE"
-fn_setstatus
+echo "test script reaction to missing server files."
+echo ""
 (fn_start)
+echo ""
+echo "Test complete!"
+sleep 1
+echo ""
+echo "1.1 - getopt"
+echo "================================="
+echo "Description:"
+echo "displaying options messages."
+echo ""
+(fn_getopt)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -164,8 +174,6 @@ echo "2.0 - install"
 echo "================================="
 echo "Description:"
 echo "install ${gamename} server."
-requiredstatus="OFFLINE"
-fn_setstatus
 fn_autoinstall
 echo ""
 echo "Test complete!"
@@ -200,7 +208,7 @@ echo "3.3 - start - updateonstart"
 echo "================================="
 echo "Description:"
 echo "will update server on start."
-requiredstatus="ONLINE"
+requiredstatus="OFFLINE"
 fn_setstatus
 (
 	updateonstart="on"
@@ -396,7 +404,7 @@ echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-fn_monitor
+(fn_monitor)
 echo ""
 fn_printinfonl "Reseting ${servercfg}."
 fn_install_config
@@ -410,7 +418,7 @@ echo ""
 echo "6.0 - details"
 echo "================================="
 echo "Description:"
-echo "gsquery.py will fail to query port."
+echo "display details."
 requiredstatus="ONLINE"
 fn_setstatus
 fn_details
@@ -420,65 +428,13 @@ sleep 1
 echo ""
 
 echo "================================="
-echo "Generic Server Tests - Complete!"
+echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
 echo "================================="
 echo ""
 sleep 1
 fn_printinfo "Tidying up directories."
 sleep 1
-rm -rfv ${rootdir}
+rm -rfv ${serverfiles}
 echo "END"
 
-#!/bin/bash
-# Teamspeak 3
-# Server Management Script
-# Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
-version="040715"
-
-#### Variables ####
-
-# Notification Email
-# (on|off)
-emailnotification="on"
-email="me@Danielgibbs.co.uk"
-
-# Start Variables
-updateonstart="off"
-
-# Server Details
-gamename="Teamspeak 3"
-servername="Teamspeak 3 Server"
-servicename="ts3-server"
-
-# Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ts3server"
-selfname="$(basename $0)"
-lockselfname=".${servicename}.lock"
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
-executabledir="${filesdir}"
-executable="./ts3server_startscript.sh"
-servercfg="${servicename}.ini"
-servercfgdir="${filesdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-backupdir="${rootdir}/backups"
-
-# Logging
-logdays="7"
-gamelogdir="${filesdir}/logs"
-scriptlogdir="${rootdir}/log/script"
-
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
-
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
-
-echo "================================="
-echo "Generic Server Tests"
-echo "Using: ${gamename}"
-echo "================================="
-echo ""
-sleep 1
