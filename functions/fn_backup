@@ -2,7 +2,7 @@
 # LGSM fn_backup function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+# Version: 311015
 
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -22,7 +22,7 @@ while true; do
 	read -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return 1;;
+	[Nn]* ) echo Exiting; return;;
 	* ) echo "Please answer yes or no.";;
 esac
 done
