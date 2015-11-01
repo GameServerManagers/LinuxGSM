@@ -124,7 +124,7 @@ fn_setstatus(){
     		echo "Current status:  ${currentstatus}"
     		echo ""
     		echo "Unable to start or stop server."
-    		exit
+    		exit 1
     	fi
     done
     echo -ne "Current status:  ${currentstatus}\\r"
