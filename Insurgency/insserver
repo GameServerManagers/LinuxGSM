@@ -115,7 +115,7 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 
 fn_runfunction(){
 functiondir="${rootdir}/functions"
-functionpath"${functiondir}/${functionfile}"
+functionpath="${functiondir}/${functionfile}"
 # Functions are downloaded and run with this function
 if [ ! -f "${functionpath}" ]; then
 #	cd "${rootdir}"
