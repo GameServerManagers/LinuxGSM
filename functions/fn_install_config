@@ -2,7 +2,7 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 291015
+# Version: 051115
 
 fn_defaultconfig(){
 echo "creating ${servercfg} config file."
@@ -281,6 +281,11 @@ elif [ "${gamename}" == "Natural Selection 2" ]; then
 	echo -e "no configs required."
 	sleep 1
 	echo ""
+elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/PiratesVikingandKnightsII/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig	
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
