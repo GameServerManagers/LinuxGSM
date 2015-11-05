@@ -144,6 +144,7 @@ echo "Using: ${gamename}"
 echo "================================="
 echo ""
 sleep 1
+mkdir ${rootfdir}
 
 
 echo "1.0 - start - no files"
