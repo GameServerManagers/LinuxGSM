@@ -2,7 +2,7 @@
 # LGSM fn_debug function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 311015
+# Version: 051115
 
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
@@ -34,7 +34,7 @@ echo -e "Press CTRL+c to drop out of debug mode."
 fn_printwarningnl "If ${servicename} is already running it will be stopped."
 echo ""
 while true; do
-	read -p "Continue? [y/N]" yn
+	read -e -i "y" -p "Continue? [Y/n]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return;;

@@ -2,7 +2,7 @@
 # LGSM fn_install_serverfiles function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 040715
+# Version: 051115
 
 fn_steaminstallcommand(){
 fn_check_steamuser
@@ -78,7 +78,7 @@ if [ -z "${autoinstall}" ]; then
 	echo ""
 	echo "================================="
 	while true; do
-	read -p "Was the install successful? [y/N]" yn
+	read -e -i "y" -p "Was the install successful? [Y/n]" yn
 		case $yn in
 			[Yy]* ) break;;
 			[Nn]* ) fn_install_retry;;
