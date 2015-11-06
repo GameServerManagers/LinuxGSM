@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 311015
+lgsm_version="061115"
+
 
 # Description: Monitors server by checking for running proccesses
 # then passes to fn_monitor_query.

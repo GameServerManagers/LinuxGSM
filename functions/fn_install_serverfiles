@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 040715
+lgsm_version="061115"
+
 
 fn_steaminstallcommand(){
 fn_check_steamuser

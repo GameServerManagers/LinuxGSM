@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 311015
+lgsm_version="061115"
+
 
 # Description: Creates a .tar.gz file in the backup directory.
 

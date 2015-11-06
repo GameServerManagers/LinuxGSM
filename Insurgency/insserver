@@ -3,22 +3,27 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="031115"
+version="061115"
 
 #### Variables ####
-
-# The name of this script file, used to show the LGSM link properly
-selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
-
-# Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-scriptcfgdir="${rootdir}/cfg/servers"
-
-# Settings to get before config parsing begins
 engine="source"
 game="insurgency"
 gamename="Insurgency"
+
+#File fetching settings
+githubuser="jballou"
+githubrepo="linuxgsm"
+githubbranch="master"
+
+# The name of this script file, used to show the LGSM link properly
+selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
 servicename="$(basename $0)"
+
+# Directories
+rootdir="$(dirname "${selfname}")"
+scriptcfgdir="${rootdir}/cfg/servers"
+
+# Settings to get before config parsing begins
 
 #ipaddr=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 
@@ -29,58 +34,6 @@ cfg_instance="${scriptcfgdir}/${servicename}.cfg"
 
 #If config directory does not exist, create it
 if [ ! -e $scriptcfgdir ]; then mkdir -p "$scriptcfgdir"; fi
-
-# If default config does not exist, create it. This should come from Git, and will be overwritten by updates.
-# Rather than try to wget it from Github or other fancy ways to get it, the simplest way to ensure it works is to simply create it here.
-fn_create_default_config(){
-cat <<'EOF' >> $cfg_default
-# Default config - Changes will be overwritten by updates.
-# Your settings for all servers go in _common.cfg
-# Server-specific settings go into $SERVER.cfg
-appid="237410"
-beta="" #To enable beta, use " -beta beta"
-clientport="27005"
-defaultmap="ministry"
-defaultmode="checkpoint"
-email="email@example.com"
-emailnotification="off" # (on|off)
-ip="0.0.0.0"
-lgsm_version="031115"
-logdays="7"
-mapcyclefile="mapcycle.txt"
-maxplayers="16"
-playlist="custom"
-port="27015"
-sourcetvport="27020"
-srcds_parms=""
-steampass=""
-steamuser="anonymous"
-updateonstart="off"
-EOF
-}
-if [ ! -f $cfg_default ]
-then
-	fn_create_default_config
-fi
-
-# Load defaults
-source $cfg_default
-
-#If defaults are from an older version, overwrite the file
-if [ "${lgsm_version}" != "${version}" ]; then fn_create_default_config; fi
-
-# Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
-if [ ! -f $cfg_common ]; then touch $cfg_common; else source $cfg_common; fi
-
-# Load instance specific settings
-if [ ! -f $cfg_instance ]; then touch $cfg_instance; else source $cfg_instance; fi
-
-# Set the paramaters to send to srcds
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-fn_parms(){
-#TODO: Put in some conditional logic to handle generating the parm string so we can make this a little less game specific
-parms="-game ${game} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_playlist ${playlist} +mapcyclefile ${mapcyclefile}+servercfgfile ${servercfg} +map ${defaultmap} ${defaultmode} -maxplayers ${maxplayers} ${srcds_parms}"
-}
 
 #### Advanced Variables ####
 # Directories
@@ -110,29 +63,71 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
+# Set the paramaters to send to srcds
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+	#TODO: Put in some conditional logic to handle generating the parm string so we can make this a little less game specific
+	parms="-game ${game} -strictportbind -ip ${ip} -port ${port} -maxplayers ${maxplayers} ${srcds_parms} +clientport ${clientport} +tv_port ${sourcetvport} +sv_playlist ${playlist} +mapcyclefile ${mapcyclefile} +servercfgfile ${servercfg} +map ${defaultmap} ${defaultmode}"
+}
 ##### Script #####
 # Do not edit
 
-fn_runfunction(){
-functiondir="${rootdir}/functions"
-functionpath="${functiondir}/${functionfile}"
-# Functions are downloaded and run with this function
-if [ ! -f "${functionpath}" ]; then
-#	cd "${rootdir}"
-	if [ ! -d "${functiondir}" ]; then
-		mkdir -p "${functiondir}"
+fn_getgithubfile() {
+	filename=$1
+	exec=$2
+	url=${3:-$filename}
+	filepath="${rootdir}/${filename}"
+	filedir=$(dirname "${filepath}")
+
+	# If file is missing, then download
+	if [ ! -f "${filepath}" ]
+	then
+		download=1
+	else
+		# Get the lgsm_version from the file, and download if out of date
+		script_version=$(grep lgsm_version "${filepath}" 2>&1 | cut -d'=' -f2 | sed -e 's/"//g')
+		if [ "${script_version}" != "" ] && [ "${script_version}" != "${version}" ]
+		then
+			echo $script_version
+			download=1
+		fi
 	fi
-	echo -e "    loading ${functionfile}...\c"
-	wget -N /dev/null "https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile}" -O "${functionpath}" 2>&1 | grep -F HTTP | cut -c45-
-	chmod +x "${functionpath}"
-fi
-source "${functionpath}"
+	if [ "$download" ]
+	then
+		if [ ! -d "${filedir}" ]; then
+			mkdir -p "${filedir}"
+		fi
+		echo -e "    fetching ${filename}...\c"
+		wget -N /dev/null "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${url}" -O "${filepath}" 2>&1 | grep -F HTTP | cut -c45-
+		if [ "$exec" ]
+		then
+			chmod +x "${functionpath}"
+		fi
+	fi
+	if [ "$exec" ]
+	then
+		source "${filepath}"
+	fi
+}
+
+
+# If default config does not exist, create it. This should come from Git, and will be overwritten by updates.
+fn_getgithubfile "cfg/servers/_default.cfg" 1 "${gamename}/cfg/servers/_default.cfg"
+
+# Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
+if [ ! -f $cfg_common ]; then touch $cfg_common; else source $cfg_common; fi
+
+# Load instance specific settings
+if [ ! -f $cfg_instance ]; then touch $cfg_instance; else source $cfg_instance; fi
+
+fn_runfunction(){
+	fn_getgithubfile "functions/${functionfile}" 1
 }
 
 fn_functions(){
-# Functions are defined in fn_functions.
-functionfile="${FUNCNAME}"
-fn_runfunction
+	# Functions are defined in fn_functions.
+	functionfile="${FUNCNAME}"
+	fn_runfunction
 }
 
 fn_functions

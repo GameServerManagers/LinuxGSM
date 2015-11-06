@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 301015
+lgsm_version="061115"
+
 
 # Description: Displays server infomation.
 

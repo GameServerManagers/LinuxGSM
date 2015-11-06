@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 070715
+lgsm_version="061115"
+
 
 fn_dlgsquery(){
 cd "${rootdir}"

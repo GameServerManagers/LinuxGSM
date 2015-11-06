@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 070215
+lgsm_version="061115"
+
 
 echo "Applying ${gamename} Server Fixes"
 echo "================================="

@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 281015
+lgsm_version="061115"
+
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""

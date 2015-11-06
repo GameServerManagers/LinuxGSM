@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 190515
+lgsm_version="061115"
+
 
 fn_check_root
 fn_install_header

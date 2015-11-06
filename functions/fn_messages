@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 260115
+lgsm_version="061115"
+
 
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 

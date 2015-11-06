@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 311015
+lgsm_version="061115"
+
 
 # Description: uses gsquery.py to directly query the server.
 # Detects if the server has frozen.

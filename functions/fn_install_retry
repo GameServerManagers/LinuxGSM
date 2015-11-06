@@ -3,6 +3,8 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 210115
+lgsm_version="061115"
+
 
 while true; do
 	read -p "Retry install? [y/N]" yn
