@@ -11,7 +11,7 @@ game="insurgency"
 gamename="Insurgency"
 
 #File fetching settings
-githubuser="jballou"
+githubuser="jaredballou"
 githubrepo="linuxgsm"
 githubbranch="master"
 
@@ -75,10 +75,10 @@ fn_parms(){
 fn_getgithubfile() {
 	filename=$1
 	exec=$2
-	url=${3:-$filename}
+	fileurl=${3:-$filename}
 	filepath="${rootdir}/${filename}"
 	filedir=$(dirname "${filepath}")
-
+	download=0
 	# If file is missing, then download
 	if [ ! -f "${filepath}" ]
 	then
@@ -92,16 +92,17 @@ fn_getgithubfile() {
 			download=1
 		fi
 	fi
-	if [ "$download" ]
+	if [ $download -gt 0 ]
 	then
 		if [ ! -d "${filedir}" ]; then
 			mkdir -p "${filedir}"
 		fi
-		echo -e "    fetching ${filename}...\c"
-		wget -N /dev/null "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${url}" -O "${filepath}" 2>&1 | grep -F HTTP | cut -c45-
+		url="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
+		echo -e "    fetching ${filename} (${url})...\c"
+		wget -N /dev/null "${url}" -O "${filepath}" 2>&1 | grep -F HTTP | cut -c45-
 		if [ "$exec" ]
 		then
-			chmod +x "${functionpath}"
+			chmod +x "${filepath}"
 		fi
 	fi
 	if [ "$exec" ]
