@@ -2,7 +2,7 @@
 # LGSM fn_install_gsquery function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070715
+# Version: 051115
 
 fn_dlgsquery(){
 cd "${rootdir}"
@@ -17,7 +17,7 @@ if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}
 	echo "============================"
 	if [ -z ${autoinstall} ]; then
 		while true; do
-			read -p "Do you want to install GameServerQuery? [y/N]" yn
+			read -e -i "y" -p "Do you want to install GameServerQuery? [Y/n]" yn
 			case $yn in
 			[Yy]* ) fn_dlgsquery;break;;
 			[Nn]* ) echo ""; echo "Not installing GameServerQuery.";break;;

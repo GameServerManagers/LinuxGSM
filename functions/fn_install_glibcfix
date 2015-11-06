@@ -2,7 +2,7 @@
 # LGSM fn_install_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 301015
+# Version: 051115
 
 fn_glibcfixmsg(){
 echo ""
@@ -40,7 +40,7 @@ if [ -z $(command -v ldd) ]; then
 	sleep 1
 	echo ""
 	while true; do
-		read -p "Continue install? [y/N]" yn
+		read -e -i "y" -p "Continue install? [Y/n]" yn
 		case $yn in
 			[Yy]* ) break;;
 			[Nn]* ) echo Exiting; exit;;

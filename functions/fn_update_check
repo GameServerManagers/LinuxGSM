@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 311015
+# Version: 011115
 
 # Description: Checks if a server update is available.
 
@@ -53,7 +53,7 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 		fn_update_check
 	fi
 elif [ "${appmanifestfilewc}" -eq "0" ]; then
-	if [ "${forceupdate}" -eq "1" ]; then
+	if [ "${forceupdate}" == "1" ]; then
 		fn_printfail "Still no appmanifest_${appid}.acf found: Unable to update"
 		fn_scriptlog "Warning! Still no appmanifest_${appid}.acf found: Unable to update"
 		exit 1
@@ -135,7 +135,7 @@ else
 	sleep 1
 fi
 
-if [ "${currentbuild}" -ne "${availablebuild}" ]; then
+if [ "${currentbuild}" != "${availablebuild}" ]; then
 	echo -e "\n"
 	echo -e "Update available:"
 	sleep 1
