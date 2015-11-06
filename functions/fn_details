@@ -372,6 +372,7 @@ fn_details_statusbottom
 }
 
 fn_details_source(){
+pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_check_ip
 fn_parms
 fn_details_config
