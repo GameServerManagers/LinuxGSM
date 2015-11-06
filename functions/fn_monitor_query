@@ -2,7 +2,7 @@
 # LGSM fn_monitor_query function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030715
+# Version: 311015
 
 # Description: uses gsquery.py to directly query the server.
 # Detects if the server has frozen.
@@ -10,15 +10,15 @@
 local modulename="Monitor"
 if [ -f "${rootdir}/gsquery.py" ]; then
 	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-		gameport=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd [:digit:])
+		gameport=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd '[:digit:]')
 		port=$((${gameport} + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((${port} + 1))
 	elif [ "${engine}" == "realvirtuality" ]; then
-		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd [:digit:])
+		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd '[:digit:]')
 		port=${queryport}
 	elif [ "${engine}" == "unity3d" ]; then
-		gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd [:digit:])
+		gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd '[:digit:]')
 		port=$((${gameport} + 1))
 	fi
 	fn_printinfo "Detected gsquery.py"
@@ -56,7 +56,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 			fn_email
 		fi
 		fn_restart
-		exit
+		exit 1
 	elif [ "${exitcode}" == "0" ]; then
 		fn_printok "Querying port: ${ip}:${port} : OK"
 		fn_scriptlog "Querying port: ${ip}:${port} : OK"
@@ -79,7 +79,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 			echo "As user ${owner} or root run the following command."
 			whoami=$(whoami)
 			echo -en "\nchown ${whoami}:${whoami} ${rootdir}/gsquery.py\n\n"
-		exit
+		exit 1
 		fi
 	else
 		fn_printfail "Querying port: ${ip}:${port} : UNKNOWN ERROR"
@@ -87,7 +87,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		sleep 1
 		echo -en "\n"
 		${rootdir}/gsquery.py -a ${ip} -p ${port} -e ${engine}
-		exit
+		exit 1
 	fi
 else
 	fn_printfailnl "Could not find ${rootdir}/gsquery.py"

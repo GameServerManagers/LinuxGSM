@@ -2,7 +2,7 @@
 # LGSM fn_details_distro function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 270515
+# Version: 301015
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for fn_details, fn_debug and fn_email.
@@ -29,7 +29,7 @@ glibcv=$(ldd --version |grep ldd|awk '{print $NF}')
 # e.g: tmux 1.6
 if [ -z "$(command -v tmux)" ]; then
 	tmuxv="\e[0;31mNOT INSTALLED!\e[0m"
-elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd [:digit:])" -lt "16" ]; then
+elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
 	tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 else
 	tmuxv=$(tmux -V)

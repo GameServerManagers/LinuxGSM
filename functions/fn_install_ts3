@@ -2,7 +2,7 @@
 # LGSM fn_install_ts3 function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 270715
+# Version: 311015
 
 fn_details_distro
 # Gets the teamspeak server architecture
@@ -12,14 +12,14 @@ elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
 	fn_printfailure "${arch} is an unsupported architecture"
-	exit
+	exit 1
 fi
 
 # Grabs all version numbers not in correct order
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
 
 # removes digits to allow sorting of numbers
-cat .ts3_version_numbers_unsorted.tmp |tr -cd "[:digit:][*\n]" > .ts3_version_numbers_digit.tmp
+cat .ts3_version_numbers_unsorted.tmp |tr -cd '[:digit:][*\n]' > .ts3_version_numbers_digit.tmp
 # Sorts numbers in to correct order
 # merges two files in to one with two columns sorts the numbers in to order then only outputs the second to the ts3_version_numbers.tmp
 paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp |sort -rn|awk '{ print $2 }' > .ts3_version_numbers.tmp
@@ -45,7 +45,7 @@ if [ -z "${availablebuild}" ]; then
 	sleep 1
 	fn_printfail "Checking for update: teamspeak.com: Not returning version info"
 	sleep 2
-	exit
+	exit 1
 fi
 
 cd "${rootdir}"
@@ -63,7 +63,7 @@ else
 	sleep 1
 	cat ".${servicename}-tar-error.tmp"
 	rm ".${servicename}-tar-error.tmp"
-	exit
+	exit $?
 fi
 echo -e "copying to ${filesdir}...\c"
 cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> ".${servicename}-cp-error.tmp"
@@ -75,7 +75,7 @@ else
 	sleep 1
 	cat ".${servicename}-cp-error.tmp"
 	rm ".${servicename}-cp-error.tmp"
-	exit
+	exit $?
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
 rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"

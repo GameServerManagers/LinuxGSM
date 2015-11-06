@@ -2,7 +2,7 @@
 # LGSM fn_install_glibcfix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 050715
+# Version: 051115
 
 fn_glibcfixmsg(){
 echo ""
@@ -40,7 +40,7 @@ if [ -z $(command -v ldd) ]; then
 	sleep 1
 	echo ""
 	while true; do
-		read -p "Continue install? [y/N]" yn
+		read -e -i "y" -p "Continue install? [Y/n]" yn
 		case $yn in
 			[Yy]* ) break;;
 			[Nn]* ) echo Exiting; exit;;
@@ -48,7 +48,7 @@ if [ -z $(command -v ldd) ]; then
 		esac
 	done
 # if Glibc less than 1.15
-elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 ]; then
+elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 215 ]; then
 	# Blade Symphony
 	if [ "${gamename}" == "Blade Symphony" ]; then
 		glibcversion="2.15"
@@ -110,7 +110,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 215 
 		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/NoMoreRoomInHell/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# if Glibc less than 1.13
-	elif [ "$(ldd --version | sed -n '1 p' | tr -cd [:digit:] | tail -c 3)" -lt 213 ]; then
+	elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 213 ]; then
 		# ARMA 3
 		if [ "${gamename}" == "ARMA 3" ]; then
 			glibcversion="2.13"

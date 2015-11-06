@@ -1,10 +1,9 @@
 #!/bin/bash
-# ARMA 3
+# No More Room in Hell
 # Server Management Script
 # Author: Daniel Gibbs
-# Contributor: Scarsz
 # Website: http://gameservermanagers.com
-version="040715"
+version="051115"
 
 #### Variables ####
 
@@ -14,58 +13,50 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="username"
-steampass="password"
+steamuser="anonymous"
+steampass=""
 
 # Start Variables
+defaultmap="bt_island"
+maxplayers="24"
+port="27015"
+sourcetvport="27020"
+clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
 
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods}"
+parms="-game pvkii -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-
-# ARMA 3 Modules
-# add mods with relative paths:
-# mods/\@CBA_A3\;
-# or several mods as:
-# mods/\@CBA_A3\;mods/\@task_force_radio
-# and chmod modules directories to 775
-mods=""
 
 #### Advanced Variables ####
 
 # Steam
-# Stable
-appid="233780"
-# Development
-# appid="233780 -beta development"
+appid="17575"
 
 # Server Details
-servicename="arma3-server"
-gamename="ARMA 3"
-engine="realvirtuality"
+servicename="pvkii-server"
+gamename="Pirates, Vikings, and Knights II"
+engine="source"
 
 # Directories
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
+systemdir="${filesdir}/pvkii"
 executabledir="${filesdir}"
-executable="./arma3server"
-servercfg="${servicename}.server.cfg"
-networkcfg="${servicename}.network.cfg"
+executable="./srcds_run"
+servercfg="${servicename}.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-networkcfgfullpath="${servercfgdir}/${networkcfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.server.cfg"
-networkcfgdefault="${servercfgdir}/lgsm-default.network.cfg"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-#gamelogdir="" # No server logs available
+gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
