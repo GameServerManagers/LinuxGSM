@@ -113,6 +113,7 @@ fn_setstatus(){
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
     	counter=$((counter+1))
     	fn_currentstatus
+    	echo "REQ: ${requiredstatus} CUR:${currentstatus}"
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
