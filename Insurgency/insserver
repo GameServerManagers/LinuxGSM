@@ -20,7 +20,7 @@ selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
 servicename="$(basename $0)"
 
 # Directories
-rootdir="$(dirname "${selfname}")"
+rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 scriptcfgdir="${rootdir}/cfg/servers"
 
 # Settings to get before config parsing begins
