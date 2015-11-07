@@ -1,9 +1,9 @@
 #!/bin/bash
-# Just Cause 2
+# TravisCI Tests
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="150715"
+version="071115"
 
 #### Variables ####
 
@@ -34,8 +34,7 @@ gamename="Just Cause 2"
 engine="avalanche"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/jc2server"
-mkdir "${rootdir}"
+rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 selfname="$(basename $0)"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
@@ -88,28 +87,36 @@ fn_runfunction
 
 fn_functions
 
-getopt=$1
-
-fn_currentstatus(){
+fn_currentstatus_tmux(){
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-if [ "${pid}" == "0" ]; then
-	currentstatus="OFFLINE"
-else
+if [ "${pid}" != "0" ]; then
 	currentstatus="ONLINE"
+else
+	currentstatus="OFFLINE"	
+fi
+}
+
+fn_currentstatus_ts3(){
+ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
+
+if [ "${ts3status}" == "Server is running" ]; then
+	currentstatus="ONLINE"
+else
+	currentstatus="OFFLINE"	
 fi
 }
 	
 fn_setstatus(){
-	fn_currentstatus
-	
+	fn_currentstatus_tmux
 	echo""
 	echo "Required status: ${requiredstatus}"
 	counter=0
+	echo "Current status:  ${currentstatus}"
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
     	counter=$((counter+1))
-    	fn_currentstatus
-	
-    	echo -ne "Current status:  ${currentstatus}\\r"
+    	fn_currentstatus_tmux
+		echo -ne "New status:  ${currentstatus}\\r"
+    	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			(fn_start > /dev/null 2>&1)
 		else
@@ -120,10 +127,10 @@ fn_setstatus(){
     		echo "Current status:  ${currentstatus}"
     		echo ""
     		echo "Unable to start or stop server."
-    		exit
+    		exit 1
     	fi
     done
-    echo -ne "Current status:  ${currentstatus}\\r"
+    echo -ne "New status:  ${currentstatus}\\r"
     echo -e "\n"
     echo "Test starting:"
     echo ""
@@ -139,21 +146,31 @@ echo "================================="
 echo ""
 sleep 1
 echo "================================="
-echo "Generic Server Tests"
+echo "Server Tests"
 echo "Using: ${gamename}"
 echo "================================="
 echo ""
 sleep 1
-mkdir ${rootfdir}
+mkdir ${rootdir}
+
 
 
 echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
-echo "Test script reaction to missing server files."
-requiredstatus="OFFLINE"
-fn_setstatus
+echo "test script reaction to missing server files."
+echo ""
 (fn_start)
+echo ""
+echo "Test complete!"
+sleep 1
+echo ""
+echo "1.1 - getopt"
+echo "================================="
+echo "Description:"
+echo "displaying options messages."
+echo ""
+(fn_getopt)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -165,8 +182,6 @@ echo "2.0 - install"
 echo "================================="
 echo "Description:"
 echo "install ${gamename} server."
-requiredstatus="OFFLINE"
-fn_setstatus
 fn_autoinstall
 echo ""
 echo "Test complete!"
@@ -201,7 +216,7 @@ echo "3.3 - start - updateonstart"
 echo "================================="
 echo "Description:"
 echo "will update server on start."
-requiredstatus="ONLINE"
+requiredstatus="OFFLINE"
 fn_setstatus
 (
 	updateonstart="on"
@@ -411,7 +426,7 @@ echo ""
 echo "6.0 - details"
 echo "================================="
 echo "Description:"
-echo "gsquery.py will fail to query port."
+echo "display details."
 requiredstatus="ONLINE"
 fn_setstatus
 fn_details
@@ -421,65 +436,14 @@ sleep 1
 echo ""
 
 echo "================================="
-echo "Generic Server Tests - Complete!"
+echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
 echo "================================="
 echo ""
+requiredstatus="OFFLINE"
+fn_setstatus
 sleep 1
 fn_printinfo "Tidying up directories."
 sleep 1
-rm -rfv ${rootdir}
+rm -rfv ${serverfiles}
 echo "END"
-
-#!/bin/bash
-# Teamspeak 3
-# Server Management Script
-# Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
-version="040715"
-
-#### Variables ####
-
-# Notification Email
-# (on|off)
-emailnotification="on"
-email="me@Danielgibbs.co.uk"
-
-# Start Variables
-updateonstart="off"
-
-# Server Details
-gamename="Teamspeak 3"
-servername="Teamspeak 3 Server"
-servicename="ts3-server"
-
-# Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ts3server"
-selfname="$(basename $0)"
-lockselfname=".${servicename}.lock"
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
-executabledir="${filesdir}"
-executable="./ts3server_startscript.sh"
-servercfg="${servicename}.ini"
-servercfgdir="${filesdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-backupdir="${rootdir}/backups"
-
-# Logging
-logdays="7"
-gamelogdir="${filesdir}/logs"
-scriptlogdir="${rootdir}/log/script"
-
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
-
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
-
-echo "================================="
-echo "Generic Server Tests"
-echo "Using: ${gamename}"
-echo "================================="
-echo ""
-sleep 1

@@ -63,6 +63,7 @@ if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No se
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	echo -e "	Check log files: ${rootdir}/log"
+	exit 1
 else
 	fn_printok "${servername}"
 	fn_scriptlog "Started ${servername}"
@@ -188,6 +189,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 			fi
 		fi
 	fi
+exit 1	
 else
 	fn_printok "${servername}"
 	fn_scriptlog "Started ${servername}"
