@@ -95,7 +95,7 @@ else
 	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fi
 
-#echo "${ts3status}"
+pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 if [ "${pid}" == "0" ]||[ "${ts3status}" != "Server is running" ]; then
 	currentstatus="OFFLINE"
 else
