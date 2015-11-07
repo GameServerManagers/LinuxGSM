@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="011115"
+version="071115"
 
 #### Variables ####
 
@@ -87,15 +87,19 @@ fn_runfunction
 
 fn_functions
 
-fn_currentstatus(){
-if [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_check_ts3status
-	ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
+fn_currentstatus_tmux(){
+pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
+if [ "${pid}" != "0" ]; then
+	currentstatus="ONLINE"
 else
-	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
+	currentstatus="OFFLINE"	
 fi
+}
 
-if [ "${pid}" != "0" ]||[ "${ts3status}" == "Server is running" ]; then
+fn_currentstatus_ts3(){
+ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
+
+if [ "${ts3status}" == "Server is running" ]; then
 	currentstatus="ONLINE"
 else
 	currentstatus="OFFLINE"	
@@ -103,15 +107,14 @@ fi
 }
 	
 fn_setstatus(){
-	fn_currentstatus
-	
+	fn_currentstatus_tmux
 	echo""
 	echo "Required status: ${requiredstatus}"
 	counter=0
 	echo "Current status:  ${currentstatus}"
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
     	counter=$((counter+1))
-    	fn_currentstatus
+    	fn_currentstatus_tmux
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then

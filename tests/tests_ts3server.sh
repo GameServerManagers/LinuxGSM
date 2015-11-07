@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="011115"
+version="071115"
 
 #### Variables ####
 
@@ -349,6 +349,8 @@ echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
 echo "================================="
 echo ""
+requiredstatus="OFFLINE"
+fn_setstatus
 sleep 1
 fn_printinfo "Tidying up directories."
 sleep 1
