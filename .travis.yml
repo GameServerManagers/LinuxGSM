@@ -20,7 +20,10 @@ addons:
     - telnet 
     - expect
 
-script:
+install:
+  	- ./build/install.sh
 
+script:
+  	- ./build/build.sh
     - bash tests/tests_jc2server.sh
     - bash tests/tests_ts3server.sh

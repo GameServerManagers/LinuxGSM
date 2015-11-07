@@ -1,0 +1,8 @@
+language: ruby
+install:
+  - ./install.sh
+script:
+  - ./build.sh
+notifications:
+  email: false
+sudo: required
