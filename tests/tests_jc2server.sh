@@ -127,7 +127,7 @@ fn_setstatus(){
     		exit 1
     	fi
     done
-    echo -ne "Current status:  ${currentstatus}\\r"
+    echo -ne "New status:  ${currentstatus}\\r"
     echo -e "\n"
     echo "Test starting:"
     echo ""
