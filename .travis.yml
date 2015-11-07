@@ -21,9 +21,9 @@ addons:
     - expect
 
 install:
-    - ./build/install.sh
+    - bash build/install.sh
 
 script:
-  	- ./build/build.sh
+  	- bash build/build.sh
     - bash tests/tests_jc2server.sh
     - bash tests/tests_ts3server.sh
