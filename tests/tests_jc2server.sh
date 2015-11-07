@@ -95,12 +95,10 @@ else
 	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fi
 
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-echo "PID: ${pid}"
-if [ "${pid}" == "0" ]; then
-	currentstatus="OFFLINE"
-else
+if [ "${pid}" != "0" ]||[ "${ts3status}" == "Server is running" ]; then
 	currentstatus="ONLINE"
+else
+	currentstatus="OFFLINE"	
 fi
 }
 	
@@ -114,11 +112,10 @@ fn_setstatus(){
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
     	counter=$((counter+1))
     	fn_currentstatus
-    	echo "REQ: ${requiredstatus} CUR:${currentstatus}"
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start)
+			(fn_start > /dev/null 2>&1)
 		else
 			(fn_stop > /dev/null 2>&1)
 		fi
