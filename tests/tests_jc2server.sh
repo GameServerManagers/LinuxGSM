@@ -116,7 +116,7 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start > /dev/null 2>&1)
+			(fn_start)
 		else
 			(fn_stop > /dev/null 2>&1)
 		fi
