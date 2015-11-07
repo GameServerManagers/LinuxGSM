@@ -149,7 +149,7 @@ echo "Using: ${gamename}"
 echo "================================="
 echo ""
 sleep 1
-mkdir ${rootfdir}
+mkdir ${rootdir}
 
 
 
