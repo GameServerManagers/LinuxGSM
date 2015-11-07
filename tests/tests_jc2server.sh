@@ -109,11 +109,12 @@ fn_setstatus(){
 	echo""
 	echo "Required status: ${requiredstatus}"
 	counter=0
+	echo "Current status:  ${currentstatus}"
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
     	counter=$((counter+1))
     	fn_currentstatus
-	
-    	echo -ne "Current status:  ${currentstatus}\\r"
+		echo -ne "New status:  ${currentstatus}\\r"
+    	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			(fn_start > /dev/null 2>&1)
 		else
