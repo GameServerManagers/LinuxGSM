@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 301015
+# Version: 011115
 
 # Description: Displays server infomation.
 
@@ -213,6 +213,7 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 		echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
 	fi
 else
+	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 	if [ "${pid}" == "0" ]; then
 		echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
 	else
@@ -233,7 +234,6 @@ fn_details_performance
 fn_details_disk
 fn_details_gameserver
 fn_details_backup
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -260,7 +260,6 @@ fn_details_performance
 fn_details_disk
 fn_details_gameserver
 fn_details_backup
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -287,7 +286,6 @@ fn_details_performance
 fn_details_disk
 fn_details_gameserver
 fn_details_backup
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -308,7 +306,6 @@ fn_details_statusbottom
 
 fn_details_realvirtuality(){
 fn_check_ip
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
 fn_details_config
 fn_details_distro
@@ -343,7 +340,6 @@ fn_details_statusbottom
 
 fn_details_seriousengine35(){
 fn_check_ip
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
 fn_details_config
 fn_details_distro
@@ -372,7 +368,6 @@ fn_details_statusbottom
 }
 
 fn_details_source(){
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_check_ip
 fn_parms
 fn_details_config
@@ -406,7 +401,6 @@ fn_details_statusbottom
 
 fn_details_spark(){
 fn_check_ip
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
 fn_details_config
 fn_details_distro
@@ -562,7 +556,6 @@ fn_details_statusbottom
 
 fn_details_unity3d(){
 fn_check_ip
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
 fn_details_config
 fn_details_distro
@@ -610,7 +603,6 @@ fn_details_statusbottom
 
 fn_details_unreal(){
 fn_check_ip
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
 fn_details_config
 fn_details_distro
@@ -668,7 +660,6 @@ fn_details_statusbottom
 
 fn_details_ark(){
 fn_check_ip
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fn_parms
 fn_details_config
 fn_details_distro
