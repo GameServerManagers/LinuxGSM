@@ -1,2 +1,0 @@
-#!/bin/ksh
-echo "hi"
