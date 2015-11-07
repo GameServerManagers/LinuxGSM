@@ -21,7 +21,7 @@ addons:
     - expect
 
 install:
-  	- ./build/install.sh
+    - ./build/install.sh
 
 script:
   	- ./build/build.sh
