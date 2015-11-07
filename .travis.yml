@@ -1,7 +1,26 @@
 language: bash
-install:
-  - ./build/install.sh
+sudo: false
+env:
+- DISTRO=ubuntu-trusty
+
+before_script:
+    - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - tmux
+    - mailutils
+    - postfix 
+    - lib32gcc1 
+    - libstdc++6 
+    - libstdc++6:i386 
+    - telnet 
+    - expect
+
 script:
-  - ./build.sh
-notifications:
-  email: false
+
+    - bash tests/tests_jc2server.sh
+    - bash tests/tests_ts3server.sh
