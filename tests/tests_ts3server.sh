@@ -77,7 +77,7 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 else
 	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fi
-
+echo "TS3STATUS: ${ts3status}"
 if [ "${pid}" != "0" ]||[ "${ts3status}" == "Server is running" ]; then
 	currentstatus="ONLINE"
 else
@@ -98,9 +98,9 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start > /dev/null 2>&1)
+			(fn_start)
 		else
-			(fn_stop > /dev/null 2>&1)
+			(fn_stop)
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
