@@ -71,12 +71,17 @@ fn_runfunction
 fn_functions
 
 fn_currentstatus(){
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-fn_check_ts3status
-if [ "${pid}" == "0" ]||[ "${ts3status}" != "Server is running" ]; then
-	currentstatus="OFFLINE"
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_check_ts3status
+	ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
 else
+	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
+fi
+
+if [ "${pid}" != "0" ]||[ "${ts3status}" == "Server is running" ]; then
 	currentstatus="ONLINE"
+else
+	currentstatus="OFFLINE"	
 fi
 }
 	
@@ -86,11 +91,12 @@ fn_setstatus(){
 	echo""
 	echo "Required status: ${requiredstatus}"
 	counter=0
+	echo "Current status:  ${currentstatus}"
     while [  "${requiredstatus}" != "${currentstatus}" ]; do
     	counter=$((counter+1))
     	fn_currentstatus
-	
-    	echo -ne "Current status:  ${currentstatus}\\r"
+		echo -ne "New status:  ${currentstatus}\\r"
+    	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			(fn_start > /dev/null 2>&1)
 		else
@@ -104,7 +110,7 @@ fn_setstatus(){
     		exit 1
     	fi
     done
-    echo -ne "Current status:  ${currentstatus}\\r"
+    echo -ne "New status:  ${currentstatus}\\r"
     echo -e "\n"
     echo "Test starting:"
     echo ""
