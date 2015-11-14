@@ -14,7 +14,7 @@ emailnotification="off"
 email="email@example.com"
 
 # Steam login
-steamuser="username"
+steamuser="anonymous"
 steampass="password"
 
 # Start Variables
