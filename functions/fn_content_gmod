@@ -1,108 +1,78 @@
 #!/bin/bash
 # LGSM fn_content_gmod function
-# Author: Christian Birk
-# E-Mail: github@birkc.de
-# Version: 20150416
+# Author: Daniel Gibbs
+# E-Mail: me@danielgibbs.co.uk
+# Version: 091215
 
-# Check Root
-fn_check_root
+contentdir="${filesdir}/content"
 
-# Variables
-installcontent=-1
-contentid=0
-
-# funktions
-usage_content(){
-	echo "Usage: ./$selfname content [install|update|validate|remove] [css|tf2|portal2]"
+fn_gmod_content_usage(){
+	echo "Usage: $0 [option]"
+	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "http://gameservermanagers.com/${selfname}"
+	echo -e ""
+	echo -e "\e[93mCommands\e[0m"
+	{
+		echo -e "\e[34minstall-content-all\t\e[0mStart the server."
+		echo -e "\e[34minstall-content-css\t\e[0mStart the server."
+		echo -e "\e[34minstall-content-tf2\t\e[0mStart the server."		
+	} | column -s $'\t' -t 
 }
 
+fn_content_mode(){
+if [ "${gmod-content-mode}" == "all" ]; then
+	:
+elif [ "${gmod-content-mode}" == "css" ]; then
+	# Counter Strike: Source
+	appid=232330
+	
+	filesdir="${contentdir}/css"
+elif [ "${gmod-content-mode}" == "tf2" ]; then
+	# Team Fortress 2
+	appid=232250
+	
+	filesdir="${contentdir}/tf2"
 
-# Server installed
-if [ ! -d "$filesdir" ]; then
-	echo "It seems that Garry's Mod is not installed please check \$filesdir"
-	exit 1
-fi
+elif [ "${gmod-content-mode}" == "3" ]; then
+	# Half Life 2
+	appid=220
+	
+	filesdir="${contentdir}/hl2"
+	fn_update_check
+elif [ "${gmod-content-mode}" == "3" ]; then
+	# Half LIfe 2: Episode 1
+	appid=380
+	
+	filesdir="${contentdir}/hl2ep1"
+	fn_update_check
+elif [ "${gmod-content-mode}" == "4" ]; then
+	# Half LIfe 2: Episode 2
+	appid=420
+	
+	filesdir="${contentdir}/hl2ep2"
+	fn_update_check
+elif [ "${gmod-content-mode}" == "5" ]; then
+	# Portal
+	appid=420
+	
+	filesdir="${contentdir}/portal"
+	fn_update_check
+fi	
+}
 
-# Install or Remove game ?
-if [ "$parm_action" == "install" ]; then
-	installcontent=1
-elif [ "$parm_action" == "remove" ]; then
-	installcontent=0
-elif [ "$parm_action" == "update" ]; then
-	installcontent=2
-elif [ "$parm_action" == "validate" ]; then
-	installcontent=3
-else
-	usage_content
-	exit 1
-fi
-
-# Detect content
-if [ "$parm_type" == "css" ]; then
-	contentid=232330
-	contentfolder="$filesdir/content/css"
-elif [ "$parm_type" == "tf2" ]; then
-	contentid=232250
-	contentfolder="$filesdir/content/tf2"
-elif [ "$parm_type" == "portal2" ]; then
-	contentid=
-	contentfolder="$filesdir/content/portal2"
-else
-	usage_content
-	exit 1
-fi
-
-#Set ContentID
-appid=${contentid}
-
-#Set FilesDir
-filesdir=${contentfolder}
-
-# Contentdir already created ?
-if [ ! -d "$filesdir/content" ]; then
-	mkdir $rootdir/content
-fi
-
-if [ "$installcontent" == 1 ]; then
-	if [ ! -d "$contentfolder" ]; then
-		mkdir $contentfolder
-	fi
-
-	echo " "
-	echo "Installing ${parm_type} Content"
-	echo "================================="
-	fn_scriptlog "Installing ${parm_type} Content"
+fn_install-content(){
 
 	fn_install_serverfiles
-	fn_install_complete
+	fn_install_complete		
+}
 
-elif [ "$installcontent" == 0 ]; then
-	if [ -d "$contentfolder" ]; then
-		rm -rf $contentfolder
-		echo ""
-		echo "$parm_type was succesfully deleted"
-	else
-		echo "$parm_type was not installed on the Server before"
+fn_content_update(){
+for d in ${contentdir} ; do
+	if [ "${d}" == "${contentdir}/css"]; then
+		gmod-content-mode="css"
+	elif [ "${d}" == "${contentdir}/tf2"]; then
+		gmod-content-mode="tf2"
 	fi
-
-elif [ "$installcontent" == 2 ]; then
-	if [ ! -d "$contentfolder" ]; then
-		echo "$parm_type was not installed before"
-		exit 1
-	fi
-
-	fn_update_check
-
-elif [ "$installcontent" == 2 ]; then
-	if [ ! -d "$contentfolder" ]; then
-		echo "$parm_type was not installed before"
-	fi
-	echo " "
-	echo "Validate ${parm_type} Content"
-	echo "================================="
-
-	fn_validate
-
-else
-	#do Nothing
-fi
+fn_install-content		
+done
+}

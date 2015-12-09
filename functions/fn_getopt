@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 011115
+# Version: 091215
 
 # Description: getopt arguments.
 
@@ -195,9 +195,42 @@ case "$getopt" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		fn_deps_detect;;
-	gc|gmod-content)
+	co|content)
+		fn_content_gmod;;		
+	ica|install-content-all)
+		gmod-content-mode=0
 		fn_content_gmod;;
+	iccss|install-content-css)
+		gmod-content-mode=1
+		fn_content_gmod;;
+	ictf2|install-content-tf2)
+		gmod-content-mode=2
+		fn_content_gmod;;
+	icp2|install-content-p2)
+		gmod-content-mode=3
+		fn_content_gmod;;
+	rca|remove-content-all)
+		gmod-content-mode=4
+		fn_content_gmod;;
+	rccss|remove-content-css)
+		gmod-content-mode=5
+		fn_content_gmod;;
+	rctf2|remove-content-tf2)
+		gmod-content-mode=6
+		fn_content_gmod;;
+	rcp2|remove-content-p2)
+		gmod-content-mode=7
+		fn_content_gmod;;		
+	uc|update-content)
+		gmod-content-mode=7
+		fn_content_gmod;;
+	vc|validate-content)
+		gmod-content-mode=8
+		fn_content_gmod;;						
 	*)
+	} | column -s $'\t' -t 
+	esac
+exit
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "http://gameservermanagers.com/${selfname}"
@@ -220,6 +253,7 @@ case "$getopt" in
 		echo -e "\e[34minstall\t\e[0mInstall the server."
 		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
 		echo -e "\e[34mgmod-content\t\e[0mDownload gmod add-on content."
+		echo -e "\e[34mcontent\t\e[0mList options for content mounting on ${gamename} server."
 	} | column -s $'\t' -t 
 	esac
 exit
