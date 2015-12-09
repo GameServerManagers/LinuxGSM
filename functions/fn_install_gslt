@@ -3,22 +3,30 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 # Version: 091215
+if [ -z "${autoinstall}" ]; then
+	echo ""
+	echo "Game Server Login Token"
+	echo "============================"
+	sleep 1
+	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+		echo "GSLT is required to run a public ${gamename} server"
+	else
+		echo "GSLT is an optional feature when ${gamename} server"
+	fi
 
-echo ""
-echo "Game Server Login Token"
-echo "============================"
-sleep 1
-if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
-	echo "GSLT is required to run a public ${gamename} server"
+	echo "Get more infomation and a token here:"
+	echo "http://gameservermanagers.com/gslt"
+	echo ""
+	echo "Enter token below"
+	echo -n "TOKEN: "
+	read token
+	sed -i -e "s/gslt=\"\"/gslt=\"${token}\"/g" > "${selfname}"
+	echo ""
 else
-	echo "GSLT is an optional feature when ${gamename} server"
+	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+		fn_printinfo "GSLT is required to run a public ${gamename} server"
+	else
+		fn_printinfo "GSLT is an optional feature when ${gamename} server"
+	fi
+	sleep 2
 fi
-
-echo "Get more infomation and a token here:"
-echo "http://gameservermanagers.com/gslt"
-echo ""
-echo "Enter token below"
-echo -n "TOKEN: "
-read token
-sed -i -e "s/gslt=\"\"/gslt=\"${token}\"/g" > "${selfname}"
-echo ""
