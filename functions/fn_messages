@@ -129,10 +129,10 @@ fn_printerrornl(){
 }
 
 # Info!
-fn_printinfo(){
+fn_printinfomation(){
     echo -en "\e[0;36mInfo!\e[0m $@"
 }
 
-fn_printinfonl(){
+fn_printinfomationnl(){
     echo -e "\e[0;36mInfo!\e[0m $@"
 }
