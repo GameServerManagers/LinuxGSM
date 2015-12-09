@@ -1,0 +1,24 @@
+#!/bin/bash
+# LGSM fn_install_gslt function
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+# Version: 091215
+
+echo ""
+echo "Game Server Login Token"
+echo "============================"
+sleep 1
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	echo "GSLT is required to run a public ${gamename} server"
+else
+	echo "GSLT is an optional feature when ${gamename} server"
+fi
+
+echo "Get more infomation and a token here:"
+echo "http://gameservermanagers.com/gslt"
+echo ""
+echo "Enter token below"
+echo -n "TOKEN: "
+read token
+sed -i -e "s/gslt=\"\"/gslt=\"${token}\"/g" > "${selfname}"
+echo ""
