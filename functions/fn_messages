@@ -2,7 +2,7 @@
 # LGSM fn_messages function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 260115
+# Version: 091215
 
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
@@ -126,4 +126,13 @@ fn_printerror(){
 
 fn_printerrornl(){
     echo -e "\e[0;31mError!\e[0m $@"
+}
+
+# Info!
+fn_printinfo(){
+    echo -en "\e[0;36mInfo!\e[0m $@"
+}
+
+fn_printinfonl(){
+    echo -e "\e[0;36mInfo!\e[0m $@"
 }
