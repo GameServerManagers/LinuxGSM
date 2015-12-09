@@ -34,6 +34,8 @@ fn_install_config
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	fn_csgofix
 	fn_install_gslt
+elif [ "${gamename}" == "Team Fortress 2" ]; then
+	fn_install_gslt
 elif [ "${gamename}" == "Killing Floor" ]; then
 	fn_install_kffix
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
