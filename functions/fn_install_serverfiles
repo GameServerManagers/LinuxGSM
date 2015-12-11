@@ -2,7 +2,7 @@
 # LGSM fn_install_serverfiles function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 051115
+lgsm_version="061115"
 
 fn_steaminstallcommand(){
 fn_check_steamuser

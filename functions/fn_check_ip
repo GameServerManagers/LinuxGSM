@@ -2,7 +2,7 @@
 # LGSM fn_check_ip function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 311015
+lgsm_version="061115"
 
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manualy set using ip="0.0.0.0".

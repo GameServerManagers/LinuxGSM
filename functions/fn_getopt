@@ -2,7 +2,7 @@
 # LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 011115
+lgsm_version="061115"
 
 # Description: getopt arguments.
 

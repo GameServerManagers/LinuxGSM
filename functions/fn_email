@@ -2,7 +2,7 @@
 # LGSM fn_email function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 290815
+lgsm_version="061115"
 
 # Description: Sends email notification if monitor picks up a failure.
 

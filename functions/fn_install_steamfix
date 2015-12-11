@@ -2,7 +2,7 @@
 # LGSM fn_install_steamfix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 091215
+lgsm_version="061115"
 
 fn_steamclientfix(){
 echo ""
