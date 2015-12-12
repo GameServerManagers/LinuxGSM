@@ -53,8 +53,8 @@ gamename="Team Fortress 2"
 engine="source"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-selfname="$(basename $0)"
+rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/tf"
@@ -95,10 +95,9 @@ if [ ! -f "${filepath}" ]; then
 	fi
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 	echo -e "    fetching ${filename}...\c"
-	#wget -N /dev/null "${githuburl}" -O "${filepath}" 2>&1 | grep -F HTTP | cut -c45-
     if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
     	echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "Curl is not installed"
+		echo "Curl is not installed!"
 		echo -e ""
 		exit    	
     fi	
@@ -111,11 +110,11 @@ if [ ! -f "${filepath}" ]; then
 	else
 		echo -e "\e[0;32mOK\e[0m"
 	fi	
-	if [ "$exec" ]; then
+	if [ "${exec}" ]; then
 		chmod +x "${filepath}"
 	fi
 fi
-if [ "$exec" ]; then
+if [ "${exec}" ]; then
 	source "${filepath}"
 fi
 }
