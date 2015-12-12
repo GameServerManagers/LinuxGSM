@@ -2,7 +2,7 @@
 # LGSM fn_stop function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 261015
+lgsm_version="061115"
 
 # Description: Stops the server.
 

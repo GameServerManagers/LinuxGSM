@@ -2,7 +2,8 @@
 # LGSM fn_check_logs function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 190515
+lgsm_version="061115"
+
 # Description: Checks that log files exist on server start
 
 # Create dir's for the script and console logs

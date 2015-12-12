@@ -2,7 +2,7 @@
 # LGSM fn_install function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 190515
+lgsm_version="061115"
 
 fn_check_root
 fn_install_header
@@ -32,7 +32,10 @@ fn_install_logs
 fn_install_gsquery
 fn_install_config
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	fn_install_gslt
 	fn_csgofix
+elif [ "${gamename}" == "Team Fortress 2" ]; then
+	fn_install_gslt
 elif [ "${gamename}" == "Killing Floor" ]; then
 	fn_install_kffix
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then

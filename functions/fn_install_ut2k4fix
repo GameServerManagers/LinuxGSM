@@ -2,7 +2,7 @@
 # LGSM fn_install_ut2k4fix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 150515
+lgsm_version="061115"
 
 echo "Applying ${gamename} Server Fixes"
 echo "================================="

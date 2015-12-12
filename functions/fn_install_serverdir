@@ -2,7 +2,7 @@
 # LGSM fn_install_serverdir function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 240515
+lgsm_version="061115"
 
 echo ""
 echo "Server Directory"

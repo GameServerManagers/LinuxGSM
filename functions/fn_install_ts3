@@ -2,7 +2,7 @@
 # LGSM fn_install_ts3 function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 311015
+lgsm_version="061115"
 
 fn_details_distro
 # Gets the teamspeak server architecture

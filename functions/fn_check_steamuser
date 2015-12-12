@@ -2,7 +2,7 @@
 # LGSM fn_check_steamuser function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 040715
+lgsm_version="061115"
 
 if [ "${steamuser}" == "username" ]; then
 	fn_printfailnl "Steam login not set. Update steamuser."	

@@ -2,7 +2,7 @@
 # LGSM fn_logs function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 030715
+lgsm_version="061115"
 
 # Description: Acts as a log rotater, removing old logs.
 

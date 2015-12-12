@@ -2,7 +2,7 @@
 # LGSM fn_compress_ut99maps function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 311015
+lgsm_version="061115"
 
 fn_check_root
 clear

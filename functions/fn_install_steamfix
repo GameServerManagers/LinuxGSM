@@ -2,7 +2,7 @@
 # LGSM fn_install_steamfix function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 210115
+lgsm_version="061115"
 
 fn_steamclientfix(){
 echo ""
@@ -12,6 +12,9 @@ sleep 1
 mkdir -pv "${HOME}/.steam"
 mkdir -pv "${HOME}/.steam/sdk32"
 cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+	if [[ $? != 0 ]]; then
+		fn_printfailurenl "Cannot start apply steamclient.so fix."
+	fi	
 sleep 1
 }
 
@@ -29,6 +32,9 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	mkdir "${HOME}/.steam/bin32"
 	cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
 fi
+if [[ $? != 0 ]]; then
+	fn_printfailurenl "Cannot start apply libsteam.so fix."
+fi	
 sleep 1
 }
 
