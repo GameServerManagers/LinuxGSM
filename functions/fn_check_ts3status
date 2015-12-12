@@ -2,7 +2,7 @@
 # LGSM fn_check_ts3status function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 070215
+lgsm_version="061115"
 
 # Checks the status of Teamspeak 3.
 

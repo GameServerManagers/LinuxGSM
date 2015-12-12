@@ -2,7 +2,7 @@
 # LGSM fn_validate function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 040715
+lgsm_version="061115"
 
 # Description: Runs a server validation.
 

@@ -2,7 +2,7 @@
 # LGSM fn_update_dl function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 311015
+lgsm_version="061115"
 
 # Description: Runs a server update.
 

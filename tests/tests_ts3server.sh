@@ -21,8 +21,8 @@ servername="Teamspeak 3 Server"
 servicename="ts3-server"
 
 # Directories
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-selfname="$(basename $0)"
+rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"

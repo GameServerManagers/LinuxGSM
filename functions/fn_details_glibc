@@ -2,7 +2,7 @@
 # LGSM fn_details_glibc function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-# Version: 180715
+lgsm_version="061115"
 
 # Description: stores details on servers Glibc requirements.
 
