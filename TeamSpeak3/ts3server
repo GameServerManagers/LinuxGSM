@@ -66,16 +66,18 @@ if [ ! -f "${filepath}" ]; then
 	fi
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 	echo -e "    fetching ${filename}...\c"
-    if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
-    	echo -e "\e[0;31mFAIL\e[0m\n"
+	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
+		:
+	else	
+		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
-		exit    	
-    fi	
-    CURL=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
+		exit
+	fi
+	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
 	if [ $? -ne 0 ]; then
 		echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "		$CURL"|grep "curl:"
+		echo "		${curl}"|grep "curl:"
 		echo -e "${githuburl}\n"
 		exit
 	else
