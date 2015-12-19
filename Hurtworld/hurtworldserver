@@ -29,7 +29,7 @@ updateonstart="off"
 loadsave="" #For maintenance only
 logfile="gamelog.txt"
 
-# http://7daystodie.gamepedia.com/Server
+# http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
 parms="-batchmode -nographics -exec \"host ${hostport} ${map} ${save};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode}\" -logfile \"${logfile}\" "
 }
