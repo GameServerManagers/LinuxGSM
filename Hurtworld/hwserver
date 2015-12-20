@@ -41,7 +41,7 @@ parms="-batchmode -nographics -exec \"host ${hostport} ${map} ${save};queryport 
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="master"
+githubbranch="hurt-world"
 
 # Steam
 appid="405100"
