@@ -26,4 +26,3 @@ fi
 if [ ! -d "${filesdir}" ]; then
 	mkdir -v "${filesdir}"
 fi	
-echo ""
