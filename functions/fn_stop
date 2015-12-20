@@ -2,7 +2,7 @@
 # LGSM fn_stop function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: Stops the server.
 
@@ -35,7 +35,7 @@ fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 fn_check_ts3status
-if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ];then
+if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
     fn_printfail "${servername} is already stopped"
     fn_scriptlog "${servername} is already stopped"
 else
@@ -132,12 +132,12 @@ else
                 pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
                 sleep 1
                 let counter=counter+1
-                if [  "${counter}" -gt "1" ];then
+                if [  "${counter}" -gt "1" ]; then
                     fn_printdots "Attempting graceful shutdown: ${counter}"
                 fi    
             done
             pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-            if [ "${pid}" == "0" ];then
+            if [ "${pid}" == "0" ]; then
                 fn_printok "Attempting graceful shutdown"
             else
                 fn_printfail "Attempting graceful shutdown"

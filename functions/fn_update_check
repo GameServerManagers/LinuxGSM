@@ -2,7 +2,7 @@
 # LGSM fn_update_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: Checks if a server update is available.
 
@@ -276,7 +276,7 @@ if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
 	fn_check_ts3status
-	if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ];then
+	if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
 		fn_update_dl
 		fn_start
 		sleep 5

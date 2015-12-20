@@ -2,7 +2,7 @@
 # LGSM fn_start function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: Starts the server.
 
@@ -59,7 +59,7 @@ cd "${executabledir}"
 ./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 sleep 1
 fn_check_ts3status
-if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ];then
+if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	echo -e "	Check log files: ${rootdir}/log"
@@ -163,11 +163,11 @@ if [ "${tmuxwc}" -eq 0 ]; then
 		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" >> "${scriptlog}"
 
 		# Detected error http://gameservermanagers.com/issues
-		if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ];then
+		if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
 		echo ""
 		echo "Fix"
 		echo "================================="
-			if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ];then
+			if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ]; then
 				echo "$(whoami) is not part of the tty group."
 				fn_scriptlog "$(whoami) is not part of the tty group."
 				group=$(grep tty /etc/group)
