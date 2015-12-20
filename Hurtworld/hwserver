@@ -26,7 +26,6 @@ steampass=""
 # Start Variables
 servername="Hurtworld LGSM Server"
 logfile="gamelog.txt"
-ip="0.0.0.0"
 hostport="12871"
 queryport="12881"
 maxplayers="20"
