@@ -4,6 +4,12 @@
 # Author: Daniel Gibbs
 # Contributor: Scarsz
 # Website: http://gameservermanagers.com
+if [ -f ".dev-debug" ]; then
+	exec 5>dev-debug.log
+	BASH_XTRACEFD="5"
+	set -x
+fi
+
 version="201215"
 
 #### Variables ####

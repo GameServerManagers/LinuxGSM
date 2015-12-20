@@ -35,6 +35,8 @@ case "$getopt" in
 		fn_console;;
 	d|debug)
 		fn_debug;;
+	dev|dev-debug)
+		fn_debug_dev;;
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -88,6 +90,8 @@ case "$getopt" in
 		fn_details;;
 	b|backup)
 		fn_backup;;
+	dev|dev-debug)
+		fn_debug_dev;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -133,6 +137,8 @@ case "$getopt" in
 		fn_email_test;;
 	b|backup)
 		fn_backup;;
+	dev|dev-debug)
+		fn_debug_dev;;		
 	console)
 		fn_console;;
 	d|debug)
@@ -189,6 +195,8 @@ case "$getopt" in
 		fn_console;;
 	d|debug)
 		fn_debug;;
+	dev|dev-debug)
+		fn_debug_dev;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -247,6 +255,8 @@ case "$getopt" in
 		fn_console;;
 	d|debug)
 		fn_debug;;
+	dev|dev-debug)
+		fn_debug_dev;;		
 	i|install)
 		fn_install;;
 	mc|map-compressor)
@@ -307,6 +317,8 @@ case "$getopt" in
 		fn_console;;
 	d|debug)
 		fn_debug;;
+	dev|dev-debug)
+		fn_debug_dev;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -366,6 +378,8 @@ case "$getopt" in
 		fn_console;;
 	d|debug)
 		fn_debug;;
+	dev|dev-debug)
+		fn_debug_dev;;		
 	i|install)
 		fn_install;;
 	mc|map-compressor)
