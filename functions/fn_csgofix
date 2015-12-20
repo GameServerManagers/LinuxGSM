@@ -30,7 +30,7 @@ if ! grep -q "//Rank" "${systemdir}/botprofile.db" > /dev/null 2>&1; then
 	echo "	Error parsing BotProfile.db - unknown attribute 'Rank"
 	sleep 1
 	sed -i 's/\tRank/\t\/\/Rank/g' "${systemdir}/botprofile.db" > /dev/null 2>&1
-	if [[ $? != 0 ]]; then
+	if [ $? -ne 0 ]; then
 		fn_printfailure "Applying botprofile.db fix."
 	else
 		fn_printcomplete "Applying botprofile.db fix."
@@ -50,7 +50,7 @@ if ! grep -q "//exec default" "${servercfgdir}/valve.rc" > /dev/null 2>&1 || ! g
 	sleep 1
 	sed -i 's/exec default.cfg/\/\/exec default.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
 	sed -i 's/exec joystick.cfg/\/\/exec joystick.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
-	if [[ $? != 0 ]]; then
+	if [ $? -ne 0 ]; then
 		fn_printfailure "Applying valve.rc fix."
 	else
 		fn_printcomplete "Applying valve.rc fix."
@@ -71,7 +71,7 @@ if [ -f "${systemdir}/subscribed_collection_ids.txt" ]||[ -f "${systemdir}/subsc
 	rm -f "${systemdir}/subscribed_collection_ids.txt"
 	rm -f "${systemdir}/subscribed_file_ids.txt"
 	rm -f "${systemdir}/ugc_collection_cache.txt"
-	if [[ $? != 0 ]]; then
+	if [ $? -ne 0 ]; then
 		fn_printfailure "Applying workshopmap fix."
 	else
 		fn_printcomplete "Applying workshopmap fix."
