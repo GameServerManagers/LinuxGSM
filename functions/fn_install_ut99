@@ -7,7 +7,6 @@ lgsm_version="061115"
 echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
-mkdir -pv "${filesdir}"
 cd "${filesdir}"
 echo "Extracting ut-server-436.tar.gz"
 sleep 1
