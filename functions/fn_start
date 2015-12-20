@@ -82,6 +82,8 @@ if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	fn_csgofix
 elif [ "${gamename}" == "Insurgency" ]; then
 	fn_insfix
+elif [ "${gamename}" == "ARMA 3" ]; then
+	fn_arma3fix	
 fi
 
 fn_details_config
