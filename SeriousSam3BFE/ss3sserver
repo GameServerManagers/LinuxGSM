@@ -44,7 +44,7 @@ engine="seriousengine35"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
+selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/Bin"
@@ -98,7 +98,7 @@ if [ ! -f "${filepath}" ]; then
 	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
 	if [ $? -ne 0 ]; then
 		echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "		${curl}"|grep "curl:"
+		echo "${curl}"
 		echo -e "${githuburl}\n"
 		exit
 	else
