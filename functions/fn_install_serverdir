@@ -23,5 +23,7 @@ if [ -z "${autoinstall}" ]; then
 		esac
 	done
 fi
-mkdir "${filesdir}"
+if [ ! -d "${filesdir}" ]; then
+	mkdir -v "${filesdir}"
+fi	
 echo ""
