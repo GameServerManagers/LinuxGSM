@@ -2,7 +2,7 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 fn_defaultconfig(){
 echo "creating ${servercfg} config file."
@@ -154,20 +154,9 @@ echo ""
 echo "Creating Configs"
 echo "================================="
 sleep 1
-if [ ! -d "${servercfgdir}" ]; then
-	echo -e "creating ${servercfgdir} dir...\c"
-	mkdir -pv "${servercfgdir}"
-	if [[ $? == 0 ]]; then
-		echo -e  "OK"
-	else
-		echo -e  "FAIL"
-	fi
-fi
-
+mkdir -pv "${servercfgdir}"
 cd "${servercfgdir}"
-
-githuburl="https://raw.githubusercontent.com/dgibbs64/linuxgsm/master"
-
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_defaultconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
