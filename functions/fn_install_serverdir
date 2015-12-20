@@ -25,4 +25,5 @@ if [ -z "${autoinstall}" ]; then
 fi
 if [ ! -d "${filesdir}" ]; then
 	mkdir -v "${filesdir}"
-fi	
+fi
+sleep 1
