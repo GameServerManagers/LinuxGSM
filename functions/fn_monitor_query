@@ -2,7 +2,7 @@
 # LGSM fn_monitor_query function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: uses gsquery.py to directly query the server.
 # Detects if the server has frozen.
@@ -34,7 +34,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		fn_scriptlog "Querying port: ${ip}:${port} : ${serverquery}"
 		sleep 1
 		echo -en "\n"
-		if [[ -z "${secondquery}" ]]; then
+		if [ -z "${secondquery}" ]; then
 			if [ "${engine}" == "unreal2" ]; then
 				# unreal 2: Map change can take around 60 seconds
 				fn_printinfo "Waiting 60 seconds to re-query"

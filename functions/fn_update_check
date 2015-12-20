@@ -227,7 +227,7 @@ paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp |sort -rn
 # Finds directory with most recent server version.
 while read ts3_version_number; do
 	wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz"
-	if [[ $? == 0 ]]; then
+	if [ $? -eq 0 ]; then
 		availablebuild="${ts3_version_number}"
 		# Break while-loop, if the latest release could be found
 		break

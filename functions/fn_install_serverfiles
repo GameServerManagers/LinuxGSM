@@ -11,7 +11,7 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .fn_install_serverfiles.tmp)"
 	counter=$((counter+1))
 	cd "${rootdir}/steamcmd"
 	./steamcmd.sh +quit > /dev/null 2>&1
-	if [[ $? != 0 ]]; then
+	if [ $? -ne 0 ]; then
 		fn_printfailurenl "Cannot start SteamCMD. Are dependencies installed?"
 	fi	
 	if [ "${counter}" -le "10" ]; then
