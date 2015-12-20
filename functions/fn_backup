@@ -2,7 +2,7 @@
 # LGSM fn_backup function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -49,7 +49,9 @@ echo -en "starting backup...\r"
 sleep 1
 echo -en "\n"
 cd "${rootdir}"
-mkdir -pv "${backupdir}" > /dev/null 2>&1
+if [ ! -d "${backupdir}" ]; then
+	mkdir -v "${backupdir}"
+fi
 tar -cvzf "${backupdir}/${backupname}.tar.gz" --exclude "${backupdir}" ./*
 echo ""
 echo "Backup created: ${backupdir}/${backupname}.tar.gz"
