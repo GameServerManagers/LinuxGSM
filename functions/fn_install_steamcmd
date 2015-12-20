@@ -10,13 +10,11 @@ echo ""
 echo "Installing SteamCMD"
 echo "================================="
 steamcmddir="${rootdir}/steamcmd"
-if [ ! -d "${steamcmddir}" ]; then
-	mkdir -v "${steamcmddir}"
-fi	
-sleep 1
-cd "${steamcmddir}"
-if [ ! -f steamcmd.sh ]; then
-	curl=$(curl --fail -o "${rootdir}/steamcmd/steamcmd_linux.tar.gz" "http://media.steampowered.com/client/steamcmd_linux.tar.gz" 2>&1)
+if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
+	if [ ! -d "${steamcmddir}" ]; then
+		mkdir -v "${steamcmddir}"
+	fi
+	curl=$(curl --fail -o "${steamcmddir}/steamcmd_linux.tar.gz" "http://media.steampowered.com/client/steamcmd_linux.tar.gz" 2>&1)
 	exitcode=$?
 	echo -e "downloading steamcmd_linux.tar.gz...\c"
 	if [ $exitcode -eq 0 ]; then
@@ -27,10 +25,9 @@ if [ ! -f steamcmd.sh ]; then
 		echo -e "${githuburl}\n"
 		exit $exitcode
 	fi
-	tar --verbose -zxf steamcmd_linux.tar.gz
-	rm -v steamcmd_linux.tar.gz
-	chmod +x steamcmd.sh
-	sleep 1
+	tar --verbose -zxf "${steamcmddir}/steamcmd_linux.tar.gz" -C "${steamcmddir}"
+	rm -v "${steamcmddir}/steamcmd_linux.tar.gz"
+	chmod +x "${steamcmddir}/steamcmd.sh"
 else
 	echo "SteamCMD already installed!"
 fi
