@@ -2,13 +2,15 @@
 # LGSM fn_validate function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: Runs a server validation.
 
 local modulename="Validate"
 
 fn_validation(){
+fn_check_steamcmd
+fn_check_steamuser	
 fn_printwarn "Validating may overwrite some customised files."
 sleep 1
 echo -en "\n"
@@ -20,10 +22,8 @@ sleep 1
 fn_printok "Checking server files"
 fn_scriptlog "Checking server files"
 sleep 1
-cd "${rootdir}"
-cd "steamcmd"
-fn_check_steamcmd
-fn_check_steamuser
+
+cd "${rootdir}/steamcmd"
 
 if [ $(command -v unbuffer) ]; then
 	unbuffer=unbuffer

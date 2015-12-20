@@ -9,7 +9,7 @@ lgsm_version="061115"
 
 if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]; then
 	: # These servers do not require SteamCMD. Check is skipped.
-elif [ "${modulename}" == "Starting" ]||[ "${modulename}" == "Update" ]; then
+elif [ "${modulename}" == "Starting" ]||[ "${modulename}" == "Update" ]||[ "${modulename}" == "Validate" ]; then
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Re-installs if missing.
 	steamcmddir="${rootdir}/steamcmd"
