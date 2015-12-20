@@ -34,5 +34,12 @@ elif [ "${modulename}" == "Starting" ]||[ "${modulename}" == "Update" ]||[ "${mo
 		tar --verbose -zxf "${steamcmddir}/steamcmd_linux.tar.gz" -C "${steamcmddir}"
 		rm -v "${steamcmddir}/steamcmd_linux.tar.gz"
 		chmod +x "${steamcmddir}/steamcmd.sh"
-	fi
+	fi		
+	if [ "${modulename}" == "Update" ]||[ "${modulename}" == "Validate" ]; then
+		# Checks that steamcmd is working correctly and will prompt Steam Guard if required.
+		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
+		if [ $? -ne 0 ]; then
+			fn_printfailurenl "Error running SteamCMD"	
+		fi		
+	fi	
 fi

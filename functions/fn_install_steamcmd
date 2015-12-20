@@ -31,4 +31,9 @@ if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 else
 	echo "SteamCMD already installed!"
 fi
+	# Checks that steamcmd is working correctly and will prompt Steam Guard if required.
+	"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
+	if [ $? -ne 0 ]; then
+		fn_printfailurenl "Error running SteamCMD"
+	fi	
 sleep 1
