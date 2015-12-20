@@ -27,7 +27,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 	fn_printdots "Querying port: ${ip}:${port} : QUERYING"
 	fn_scriptlog "Querying port: ${ip}:${port} : QUERYING"
 	sleep 1
-	serverquery=$(${rootdir}/gsquery.py -a ${ip} -p ${port} -e ${engine} 2>&1)
+	serverquery=$("${rootdir}/gsquery.py" -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
 		fn_printfail "Querying port: ${ip}:${port} : ${serverquery}"
@@ -70,8 +70,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		echo -en "\n"
 		echo "Attempting to resolve automatically"
 		chmod +x -v "${rootdir}/gsquery.py"
-		exitcode=$?
-		if [ "${exitcode}" == "0" ]; then
+		if [ $? -eq 0 ]; then
 			fn_monitor_query
 		else
 			fn_printfailure "Unable to resolve automatically. Please manually fix permissions.\n"

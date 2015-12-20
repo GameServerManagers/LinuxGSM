@@ -2,7 +2,7 @@
 # LGSM fn_details_distro function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="201215"
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for fn_details, fn_debug and fn_email.
@@ -64,13 +64,13 @@ days=$(( uptime/60/60/24 ))
 
 # Disk usage
 # available space on the partition.
-filesystem=$(df -hP ${rootdir} | grep -v "Filesystem" | awk '{print $1}')
-totalspace=$(df -hP ${rootdir} | grep -v "Filesystem" | awk '{print $2}')
-usedspace=$(df -hP ${rootdir} | grep -v "Filesystem" | awk '{print $3}')
-availspace=$(df -hP ${rootdir} | grep -v "Filesystem" | awk '{print $4}')
+filesystem=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')
+totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
+usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
+availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
 
 # used space in serverfiles dir.
-serverfilesdu=$(du -sh ${serverfiles} | awk '{print $1}')
+serverfilesdu=$(du -sh "${serverfiles}" | awk '{print $1}')
 if [ -z ${serverfilesdu} ]; then
 	serverfilesdu="0M"
 fi
@@ -78,7 +78,7 @@ fi
 # Backup info
 if [ -d "${backupdir}" ]; then
 	# used space in backups dir.
-	backupdirdu=$(du -sh ${backupdir} | awk '{print $1}')
+	backupdirdu=$(du -sh "${backupdir}" | awk '{print $1}')
 	if [ -z ${backupdirdu} ]; then
 		backupdirdu="0M"
 	fi
