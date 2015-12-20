@@ -80,10 +80,10 @@ fn_check_logs
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
 	fn_csgofix
-fi
-if [ "${gamename}" == "Insurgency" ]; then
+elif [ "${gamename}" == "Insurgency" ]; then
 	fn_insfix
 fi
+
 fn_details_config
 fn_parms
 fn_logs
