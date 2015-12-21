@@ -2,7 +2,7 @@
 # LGSM fn_details function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="211215"
 
 # Description: Displays server infomation.
 
@@ -48,7 +48,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mTotal:\t\e[0m${totalspace}"
 	echo -e "\e[34mUsed:\t\e[0m${usedspace}"
 	echo -e "\e[34mAvailable:\t\e[0m${availspace}"
-	echo -e "\e[34mServerfiles:\t\e[0m${serverfilesdu}"
+	echo -e "\e[34mServerfiles:\t\e[0m${filesdirdu}"
 	if [ -d "${backupdir}" ]; then
 		echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
 	fi
