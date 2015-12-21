@@ -25,14 +25,16 @@ steampass=""
 
 # Start Variables
 servername="Hurtworld LGSM Server"
+ip="0.0.0.0"
 port="12871"
 queryport="12881"
-ip="0.0.0.0" #For server monitoring
 maxplayers="20"
 map=""
 creativemode="0"  #Free Build (0 is off)
 updateonstart="off"
-loadsave="" #For maintenance only
+
+# Maintenance Variables
+loadsave=""
 logfile="gamelog.txt"
 
 # http://hurtworld.wikia.com/wiki/Hosting_A_Server
@@ -65,10 +67,6 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./Hurtworld.x86"
-servercfg="${servicename}.xml"
-servercfgdir="${filesdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/serverconfig.xml"
 backupdir="${rootdir}/backups"
 
 # Logging
