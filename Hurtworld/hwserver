@@ -54,7 +54,7 @@ appid="405100"
 
 # Server Details
 servicename="hurtworld-server"
-gamename="hurtworld"
+gamename="Hurtworld"
 engine="hwunity3d"
 
 # Directories
