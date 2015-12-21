@@ -28,7 +28,7 @@ ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
-parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -autoinit -loadmissiontomemory"
+parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
 }
 
 # ARMA 3 Modules
@@ -39,6 +39,7 @@ parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath}
 # and chmod modules directories to 775
 mods=""
 servermods=""
+bepath=""
 
 #### Advanced Variables ####
 
