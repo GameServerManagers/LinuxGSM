@@ -34,6 +34,6 @@ sleep 1
 }
 
 fn_steamclientfix
-if [ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]; then
+if [ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]||[ "${gamename}" == "Hurtworld" ]; then
 	fn_libsteamfix
 fi
