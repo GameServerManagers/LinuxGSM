@@ -209,29 +209,29 @@ elif [ "${engine}" == "realvirtuality" ]; then
 		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-	# port
-	if [ -f "${servercfgfullpath}" ]; then
-		port=$(grep "serverport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd '[:digit:]')
-	fi
-	if [ ! -n "${port}" ]; then
-		port="0"
-	fi
+        # port
+        if [ "${srvport}" != "" ]; then
+                        port=${srvport}
+        fi
+        if [ ! -n "${port}" ]; then
+                port="0"
+        fi
 
-	# query port
-	if [ -f "${servercfgfullpath}" ]; then
-		queryport=$(grep "steamqueryport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd '[:digit:]')
-	fi
-	if [ ! -n "${queryport}" ]; then
-		queryport="0"
-	fi
+        # query port
+        if [ "${srvport}" != "" ]; then
+                queryport=$((srvport+1))
+        fi
+        if [ ! -n "${queryport}" ]; then
+                queryport="0"
+        fi
 
-	# master port
-	if [ -f "${servercfgfullpath}" ]; then
-		masterport=$(grep "steamport=" "${servercfgfullpath}" | grep -v // | tr -d '\r' | tr -cd '[:digit:]')
-	fi
-	if [ ! -n "${masterport}" ]; then
-		masterport="0"
-	fi
+        # master port
+        if [ "${srvport}" != "" ]; then
+                masterport=$((srvport+2))
+        fi
+        if [ ! -n "${masterport}" ]; then
+                masterport="0"
+        fi
 
 	fn_servercfgfullpath
 
