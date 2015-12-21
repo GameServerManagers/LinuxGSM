@@ -42,5 +42,7 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_install_ut2k4fix
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fn_install_ut99fix
+elif [ "${gamename}" == "Hurtworld" ]; then
+	fn_install_hwfix
 fi
 fn_install_complete
