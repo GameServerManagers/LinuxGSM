@@ -25,10 +25,11 @@ steampass="password"
 
 # Start Variables
 ip="0.0.0.0"
+srvport="2302"
 updateonstart="off"
 
 fn_parms(){
-parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
+parms="-netlog -ip=${ip} -port=${srvport} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
 }
 
 # ARMA 3 Modules
@@ -38,7 +39,12 @@ parms="-netlog -ip=${ip} -cfg=${networkcfgfullpath} -config=${servercfgfullpath}
 # mods/\@CBA_A3\;mods/\@task_force_radio
 # and chmod modules directories to 775
 mods=""
+
+# Server-side Mods
 servermods=""
+
+# Path to BattlEye
+# leave empty for default
 bepath=""
 
 #### Advanced Variables ####
