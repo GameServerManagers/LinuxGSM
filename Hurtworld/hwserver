@@ -25,9 +25,9 @@ steampass=""
 
 # Start Variables
 servername="Hurtworld LGSM Server"
-logfile="gamelog.txt"
-hostport="12871"
+port="12871"
 queryport="12881"
+ip="0.0.0.0" #For server monitoring
 maxplayers="20"
 map=""
 creativemode="0"  #Free Build (0 is off)
@@ -37,7 +37,7 @@ logfile="gamelog.txt"
 
 # http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
-parms="-batchmode -nographics -exec \"host ${hostport} ${map} ${save};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode}\" -logfile \"${logfile}\" "
+parms="-batchmode -nographics -exec \"host ${port} ${map} ${save};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode}\" -logfile \"${logfile}\" "
 }
 
 #### Advanced Variables ####
@@ -55,7 +55,7 @@ appid="405100"
 # Server Details
 servicename="hurtworld-server"
 gamename="hurtworld"
-engine="unity3d"
+engine="hwunity3d"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
