@@ -601,6 +601,37 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 fn_details_statusbottom
 }
 
+fn_details_hurtworld(){
+fn_check_ip
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "hwserver script"
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep Hurtworld.x86"
+echo -e ""
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+	echo -e "> Query\tINBOUND\t${queryport}\tudp"
+
+} | column -s $'\t' -t
+echo -e ""
+
+fn_details_statusbottom
+}
+
 fn_details_unreal(){
 fn_check_ip
 fn_parms
