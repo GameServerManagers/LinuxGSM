@@ -729,6 +729,8 @@ elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 	fn_details_unreal
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_details_ark
+elif [ "${gamename}" == "Hurtworld" ]; then
+	fn_details_hurtworld
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_details_teamspeak3
 else
