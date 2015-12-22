@@ -5,9 +5,11 @@
 lgsm_version="201215"
 
 fn_defaultconfig(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
+if [ "${gamename}" != "Hurtworld" ]; then
+	echo "creating ${servercfg} config file."
+	cp -v "${servercfgdefault}" "${servercfgfullpath}"
+	sleep 1
+fi
 }
 
 fn_userinputconfig(){
