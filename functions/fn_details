@@ -720,19 +720,20 @@ fn_details_statusbottom
 
 if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${gamename}" == "Hurtworld"]; then
-		echo "No config file"
+		echo "No config file set or required"
 	else
-	echo ""
-	fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
-	echo "${servercfgfullpath}"
-	echo "Some details cannot be displayed"
-	echo -en ".\r"
-	sleep 1
-	echo -en "..\r"
-	sleep 1
-	echo -en "...\r"
-	sleep 1
-	echo -en "   \r"
+		echo ""
+		fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
+		echo "${servercfgfullpath}"
+		echo "Some details cannot be displayed"
+		echo -en ".\r"
+		sleep 1
+		echo -en "..\r"
+		sleep 1
+		echo -en "...\r"
+		sleep 1
+		echo -en "   \r"
+	fi
 fi
 
 fn_details_glibc
