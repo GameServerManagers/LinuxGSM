@@ -57,7 +57,7 @@ appid="405100"
 # Server Details
 servicename="hurtworld-server"
 gamename="Hurtworld"
-engine="hwunity3d"
+engine="unity3d"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
