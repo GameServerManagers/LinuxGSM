@@ -31,23 +31,21 @@ queryport="12881"
 maxplayers="20"
 map="" #Optional
 creativemode="0" #Free Build
-
-# Adding first admins
-# Syntax : addadmin STEAMID64; addadmin STEAMID64-bis
-# Example : addadmin="addadmin 012345678901234567; addadmin 987654321098765432"
-addadmin=""
-
-# Maintenance settings
 logfile="gamelog.txt"
-loadsave=""
 
-# EXPERIMENTAL ! Use at your own risk
-# Setting this to 1 runs the server with the x64 bits exectutable
+# Adding admins using STEAMID64
+# Example : admins="addadmin 012345678901234567; addadmin 987654321098765432"
+admins=""
+
+# Advanced
+# Rollback server state (remove after start command)
+loadsave=""
+# Use unstable 64 bit server executable (O/1)
 x64mode="0"
 
 # http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
-parms="-batchmode -nographics -exec \"host ${port} ${map} ${save};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${addadmin}\" -logfile \"${logfile}\" "
+parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
 }
 
 #### Advanced Variables ####
