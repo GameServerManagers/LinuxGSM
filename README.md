@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/dgibbs64/linuxgsm.png?label=ready&title=Ready)](https://waffle.io/dgibbs64/linuxgsm)
 <h1>Linux Game Server Managers_</h1>
 <a href="http://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
 
