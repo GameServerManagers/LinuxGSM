@@ -2,7 +2,7 @@
 # LGSM fn_install_gsquery function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="221215"
 
 fn_dlgsquery(){
 cd "${rootdir}"
