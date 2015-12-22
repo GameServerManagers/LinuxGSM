@@ -617,7 +617,7 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 	if [ -n "${map}" ]; then
 		gameworld="${map}"
 	else
-		gameworld="\e[0;31mUNAVAILABLE\e[0m"
+		gameworld="NO MAP SET"
 	fi
 
 	# port
