@@ -608,7 +608,7 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 
 	# slots
 	if [ -n "${maxplayers}" ]; then
-		slots="{maxplayers}"
+		slots="${maxplayers}"
 	else
 		slots="NOT SET"
 	fi
