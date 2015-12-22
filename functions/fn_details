@@ -719,7 +719,7 @@ fn_details_statusbottom
 }
 
 if [ ! -e "${servercfgfullpath}" ]; then
-	if [ "${gamename}" == "Hurtworld"]; then
+	if [ "${gamename}" == "Hurtworld" ]; then
 		echo "No config file set or required"
 	else
 		echo ""
