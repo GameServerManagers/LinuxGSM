@@ -5,11 +5,9 @@
 lgsm_version="201215"
 
 fn_defaultconfig(){
-if [ "${gamename}" != "Hurtworld" ]; then
 	echo "creating ${servercfg} config file."
 	cp -v "${servercfgdefault}" "${servercfgfullpath}"
 	sleep 1
-fi
 }
 
 fn_userinputconfig(){
@@ -156,9 +154,12 @@ echo ""
 echo "Creating Configs"
 echo "================================="
 sleep 1
-mkdir -pv "${servercfgdir}"
-cd "${servercfgdir}"
-githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
+if [ "${gamename}" != "Hurtworld" ]; then
+	mkdir -pv "${servercfgdir}"
+	cd "${servercfgdir}"
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
+fi
+
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_defaultconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
