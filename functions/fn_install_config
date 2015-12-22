@@ -151,10 +151,10 @@ echo ""
 }
 
 echo ""
+if [ "${gamename}" != "Hurtworld" ]; then
 echo "Creating Configs"
 echo "================================="
 sleep 1
-if [ "${gamename}" != "Hurtworld" ]; then
 	mkdir -pv "${servercfgdir}"
 	cd "${servercfgdir}"
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
