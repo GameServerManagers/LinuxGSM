@@ -34,7 +34,7 @@ creativemode="0" #Free Build
 logfile="gamelog.txt"
 
 # Adding admins using STEAMID64
-# Example : admins="addadmin 012345678901234567; addadmin 987654321098765432"
+# Example : addadmin 012345678901234567; addadmin 987654321098765432
 admins=""
 
 # Advanced
