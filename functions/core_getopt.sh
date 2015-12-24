@@ -34,9 +34,9 @@ case "$getopt" in
 	c|console)
 		fn_console;;
 	d|debug)
-		fn_debug;;
+		command_debug.sh;;
 	dev|dev-debug)
-		fn_debug_dev;;
+		command_debug.sh_dev;;
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -91,7 +91,7 @@ case "$getopt" in
 	b|backup)
 		fn_backup;;
 	dev|dev-debug)
-		fn_debug_dev;;		
+		command_debug.sh_dev;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -138,11 +138,11 @@ case "$getopt" in
 	b|backup)
 		fn_backup;;
 	dev|dev-debug)
-		fn_debug_dev;;		
+		command_debug.sh_dev;;		
 	console)
 		fn_console;;
 	d|debug)
-		fn_debug;;
+		command_debug.sh;;
 	dd|depsdetect)
 		fn_deps_detect;;
 	*)
@@ -194,9 +194,9 @@ case "$getopt" in
 	c|console)
 		fn_console;;
 	d|debug)
-		fn_debug;;
+		command_debug.sh;;
 	dev|dev-debug)
-		fn_debug_dev;;		
+		command_debug.sh_dev;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -254,9 +254,9 @@ case "$getopt" in
 	c|console)
 		fn_console;;
 	d|debug)
-		fn_debug;;
+		command_debug.sh;;
 	dev|dev-debug)
-		fn_debug_dev;;		
+		command_debug.sh_dev;;		
 	i|install)
 		fn_install;;
 	mc|map-compressor)
@@ -316,9 +316,9 @@ case "$getopt" in
 	c|console)
 		fn_console;;
 	d|debug)
-		fn_debug;;
+		command_debug.sh;;
 	dev|dev-debug)
-		fn_debug_dev;;		
+		command_debug.sh_dev;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
@@ -377,9 +377,9 @@ case "$getopt" in
 	c|console)
 		fn_console;;
 	d|debug)
-		fn_debug;;
+		command_debug.sh;;
 	dev|dev-debug)
-		fn_debug_dev;;		
+		command_debug.sh_dev;;		
 	i|install)
 		fn_install;;
 	mc|map-compressor)
