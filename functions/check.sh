@@ -17,17 +17,21 @@ fn_module_compare() {
 check_root.sh
 
 if [ "${module}" != "install" ]; then
-	check_executable.sh
+	check_systemdir.sh
 fi
 
-no_check_logs=( details install map-compressor)
-fn_module_compare "${module}" "${no_check_logs[@]}"
+no_check_logs=( details install map-compressor )
+fn_module_compare "${cmd}" "${no_check_logs[@]}"
 if [ $? != 0 ]; then
 	fn_check_logs
 fi
 
+check_ip=( debug )
+fn_module_compare "${cmd}" "${no_check_logs[@]}"
+if [ $? != 0 ]; then
+	check_ip.sh
+fi
 
-fn_check_ip
 fn_check_steamcmd
 fn_check_steamuser
 fn_check_tmux

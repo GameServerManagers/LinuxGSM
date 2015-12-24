@@ -17,12 +17,12 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_ip(){
+check_ip.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_logs(){
+check_logs.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -77,7 +77,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_debug(){
+command_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
