@@ -16,11 +16,11 @@ fn_module_compare() {
 
 check_root.sh
 
-if [ "${module}" != "install" ]; then
+if [ "${cmd}" != "install" ]; then
 	check_systemdir.sh
 fi
 
-no_check_logs=( details install map-compressor )
+no_check_logs=( debug details install map-compressor )
 fn_module_compare "${cmd}" "${no_check_logs[@]}"
 if [ $? != 0 ]; then
 	fn_check_logs
@@ -32,8 +32,17 @@ if [ $? != 0 ]; then
 	check_ip.sh
 fi
 
-fn_check_steamcmd
-fn_check_steamuser
-fn_check_tmux
+check_ip=( debug )
+fn_module_compare "${cmd}" "${no_check_logs[@]}"
+if [ $? != 0 ]; then
+	check_steamuser.sh
+	check_steamcmd.sh
+fi
 
-fn_check_ts3status # may need to move out of checks
+check_ip=( start )
+fn_module_compare "${cmd}" "${no_check_logs[@]}"
+if [ $? != 0 ]; then
+	check_tmux.sh
+fi
+
+#fn_check_ts3status # may need to move out of checks
