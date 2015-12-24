@@ -235,6 +235,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
 	fn_servercfgfullpath
 
+# Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
 
 	# server name
@@ -295,6 +296,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	fn_servercfgfullpath
 
+# Source Engine Games
 elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
 
 	# server name
@@ -329,6 +331,7 @@ elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
 
 	fn_servercfgfullpath
 
+# Spark (NS2: Combat)
 elif [ "${engine}" == "spark" ]; then
 
 	# query port
@@ -341,6 +344,7 @@ elif [ "${engine}" == "spark" ]; then
 
 	fn_servercfgfullpath
 
+# Teamspeak 3
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 
 	# ip
@@ -388,6 +392,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 
 	fn_servercfgfullpath
 
+# Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 
 	# server name
@@ -440,6 +445,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 
 	fn_servercfgfullpath
 
+# Terraria
 elif [ "${engine}" == "terraria" ]; then
 
 	# port
@@ -450,7 +456,8 @@ elif [ "${engine}" == "terraria" ]; then
 		port="0"
 	fi
 
-elif [ "${engine}" == "unity3d" ]; then
+# 7 Day To Die (unity3d)
+elif [ "${gamename}" == "7 Days To Die" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
@@ -586,6 +593,48 @@ elif [ "${engine}" == "unity3d" ]; then
 
 	fn_servercfgfullpath
 
+# Hurtworld (unity3d)
+elif [ "${gamename}" == "Hurtworld" ]; then
+
+	# server name
+	if [ -n "${servername}" ]; then
+		servername="${servername}"
+	else
+		servername="\e[0;31mUNAVAILABLE\e[0m"	
+	fi
+
+	# server password
+	# not available yet
+
+	# slots
+	if [ -n "${maxplayers}" ]; then
+		slots="${maxplayers}"
+	else
+		slots="NOT SET"
+	fi
+
+	# game world
+	if [ -n "${map}" ]; then
+		gameworld="${map}"
+	else
+		gameworld="NO MAP SET"
+	fi
+
+	# port
+	if [ -n "${port}" ]; then
+		port="${port}"
+	else
+		port="0"
+	fi
+
+	# query port
+	if [ -n "${queryport}" ]; then
+		queryport="${queryport}"
+	else
+		queryport="0"
+	fi
+
+# Unreal Tournament 
 elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 
 	# server name
@@ -716,6 +765,7 @@ elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 
 	fn_servercfgfullpath
 
+# ARK: Survivaial Evolved
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
 	# server name

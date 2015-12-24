@@ -17,9 +17,12 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 	elif [ "${engine}" == "realvirtuality" ]; then
 		queryport=$(grep -s steamqueryport= "${servercfgfullpath}"|grep -v //|tr -d '\r'|tr -cd '[:digit:]')
 		port=${queryport}
-	elif [ "${engine}" == "unity3d" ]; then
+	elif [ "${gamename}" == "7 Days To Die" ]; then
 		gameport=$(grep ServerPort "${servercfgfullpath}"|tr -cd '[:digit:]')
 		port=$((${gameport} + 1))
+	elif [ "${gamename}" == "Hurtworld" ]; then
+		gameport="${port}"
+		port="${queryport}"
 	fi
 	fn_printinfo "Detected gsquery.py"
 	fn_scriptlog "Detected gsquery.py"

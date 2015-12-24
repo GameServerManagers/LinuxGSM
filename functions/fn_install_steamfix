@@ -14,10 +14,10 @@ cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamcl
 sleep 1
 }
 
-# Gary's Mod Specific
+# Server specific
 fn_libsteamfix(){
 echo ""
-echo "Applying libsteam.so fix"
+echo "Applying libsteam.so and steamclient.so fixes"
 echo "================================="
 sleep 1
 if [ "${gamename}" == "Garry's Mod" ]; then
@@ -26,11 +26,14 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	mkdir -pv "${HOME}/.steam/bin32"
 	cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
+elif [ "${gamename}" == "Hurtworld" ]; then
+	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so"
+	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so"
 fi
 sleep 1
 }
 
 fn_steamclientfix
-if [ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]; then
+if [ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Serious Sam 3: BFE" ]||[ "${gamename}" == "Hurtworld" ]; then
 	fn_libsteamfix
 fi
