@@ -4,7 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
 
-if [ ! -e "${systemdir}" ]; then
+if [ ! -f "${systemdir}" ]; then
 	fn_printfailnl "Cannot access ${systemdir}: No such directory"
 	exit 1
 fi

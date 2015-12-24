@@ -10,7 +10,7 @@ lgsm_version="061115"
 local modulename="Monitor"
 
 fn_monitor_teamspeak3(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_logs
 fn_printdots "${servername}"
@@ -54,7 +54,7 @@ fn_restart
 }
 
 fn_monitor_tmux(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_check_ip
 fn_details_config

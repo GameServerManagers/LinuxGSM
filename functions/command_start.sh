@@ -9,7 +9,7 @@ lgsm_version="201215"
 local modulename="Starting"
 
 fn_start_teamspeak3(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_check_logs
 fn_check_ts3status
@@ -73,7 +73,7 @@ echo -en "\n"
 }
 
 fn_start_tmux(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_check_ip
 fn_check_logs

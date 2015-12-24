@@ -7,7 +7,7 @@ lgsm_version="061115"
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
 local modulename="Debug"
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_check_ip
 fn_check_logs

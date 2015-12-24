@@ -4,7 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="201215"
 
-fn_check_root
+check_root.sh
 fn_install_header
 fn_install_serverdir
 

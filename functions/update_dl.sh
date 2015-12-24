@@ -9,7 +9,7 @@ lgsm_version="061115"
 local modulename="Update"
 
 fn_steamcmd_dl(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_details_config
 fn_printdots "Updating ${servername}"
@@ -39,7 +39,7 @@ fi
 }
 
 fn_teamspeak3_dl(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_details_config
 fn_printdots "Updating ${servername}"

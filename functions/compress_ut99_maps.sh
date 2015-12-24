@@ -1,10 +1,10 @@
 #!/bin/bash
-# LGSM fn_compress_unreal2maps function
+# LGSM fn_compress_ut99maps function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
 
-fn_check_root
+check_root.sh
 clear
 echo "${gamename} Map Compressor"
 echo "============================"
@@ -25,9 +25,9 @@ while true; do
 	esac
 done
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
-rm -rfv "${filesdir}/Maps/*.uz2"
+rm -rfv "${filesdir}/Maps/*.unr.uz"
 cd "${systemdir}"
 for map in "${filesdir}/Maps/*"; do
-	./ucc-bin compress "../Maps/${map}" --nohomedir
+	./ucc-bin compress ../Maps/${map} --nohomedir
 done
-mv -fv "${filesdir}/Maps/*.uz2" "${compressedmapsdir}"
+mv -fv "${filesdir}/Maps/*.unr.uz" "${compressedmapsdir}"

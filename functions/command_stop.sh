@@ -29,7 +29,7 @@ sdtd_telnet(){
 }
 
 fn_stop_teamspeak3(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
@@ -50,7 +50,7 @@ echo -en "\n"
 }
 
 fn_stop_tmux(){
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_details_config
 fn_printdots "${servername}"

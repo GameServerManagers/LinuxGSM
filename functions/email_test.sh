@@ -7,7 +7,7 @@ lgsm_version="061115"
 # Description: Sends a test email notification.
 
 local modulename="Email"
-fn_check_root
+check_root.sh
 fn_check_systemdir
 fn_details_config
 if [ "${emailnotification}" = "on" ]; then

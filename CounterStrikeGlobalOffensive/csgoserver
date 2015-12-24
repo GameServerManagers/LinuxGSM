@@ -155,7 +155,4 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_functions
-
-getopt=$1
-fn_getopt
+core_functions.sh

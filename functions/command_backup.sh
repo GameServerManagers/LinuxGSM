@@ -7,7 +7,7 @@ lgsm_version="201215"
 # Description: Creates a .tar.gz file in the backup directory.
 
 local modulename="Backup"
-fn_check_root
+check_root.sh
 fn_check_systemdir
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""

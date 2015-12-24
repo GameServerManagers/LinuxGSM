@@ -27,7 +27,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_root(){
+check_root.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

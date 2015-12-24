@@ -7,7 +7,7 @@ lgsm_version="061115"
 # Description: Gives access to the server tmux console.
 
 local modulename="Console"
-fn_check_root
+check_root.sh
 fn_check_systemdir
 echo ""
 echo "${gamename} Console"

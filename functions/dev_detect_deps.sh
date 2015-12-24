@@ -7,7 +7,7 @@ lgsm_version="201215"
 # Description: Detects dependencies the server binary requires.
 
 local modulename="Backup"
-fn_check_root
+check_root.sh
 fn_check_systemdir
 cd "${executabledir}"
 if [ "${executable}" ==  "./hlds_run" ]; then
