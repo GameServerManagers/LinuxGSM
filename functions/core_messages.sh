@@ -146,6 +146,3 @@ fn_printokeol(){
 fn_printfaileol(){
 	echo -e "\e[0;31mFAIL\e[0m\n"
 }
-
-getopt=$1
-core_getopt.sh

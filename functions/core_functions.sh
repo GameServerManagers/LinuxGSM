@@ -122,7 +122,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_getopt(){
+core_getopt.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -137,7 +137,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_messages(){
+core_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -320,4 +320,4 @@ fn_runfunction
 }
 
 # Calls on-screen messages
-fn_messages
+core_messages.sh
