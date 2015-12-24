@@ -42,7 +42,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_systemdir(){
+check_systemdir.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
