@@ -554,7 +554,7 @@ echo -e ""
 fn_details_statusbottom
 }
 
-fn_details_unity3d(){
+fn_details_sdtd(){
 fn_check_ip
 fn_parms
 fn_details_config
@@ -719,17 +719,19 @@ fn_details_statusbottom
 }
 
 if [ ! -e "${servercfgfullpath}" ]; then
-	echo ""
-	fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
-	echo "${servercfgfullpath}"
-	echo "Some details cannot be displayed"
-	echo -en ".\r"
-	sleep 1
-	echo -en "..\r"
-	sleep 1
-	echo -en "...\r"
-	sleep 1
-	echo -en "   \r"
+	if [ "${gamename}" != "Hurtworld" ]; then
+		echo ""
+		fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
+		echo "${servercfgfullpath}"
+		echo "Some details cannot be displayed"
+		echo -en ".\r"
+		sleep 1
+		echo -en "..\r"
+		sleep 1
+		echo -en "...\r"
+		sleep 1
+		echo -en "   \r"
+	fi
 fi
 
 fn_details_glibc
@@ -754,14 +756,14 @@ elif [ "${engine}" == "teeworlds" ]; then
 	fn_details_teeworlds
 elif [ "${engine}" == "terraria" ]; then
 	fn_details_terraria
-elif [ "${engine}" == "unity3d" ]; then
-	fn_details_unity3d
 elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
 	fn_details_unreal
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_details_ark
 elif [ "${gamename}" == "Hurtworld" ]; then
 	fn_details_hurtworld
+elif [ "${gamename}" == "7 Days To Die" ]; then
+	fn_details_sdtd
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_details_teamspeak3
 else
