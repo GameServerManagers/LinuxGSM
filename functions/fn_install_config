@@ -2,7 +2,7 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="251215"
 
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
@@ -100,16 +100,6 @@ sleep 1
 
 fn_userinputconfig
 echo ""
-}
-
-fn_ts3config(){
-echo "creating blank ${servercfg} config file."
-sleep 1
-echo  "${servercfg} can remain blank by default."
-sleep 1
-echo  "${servercfg} is located in ${servercfgfullpath}."
-sleep 1
-touch "${servercfgfullpath}"
 }
 
 fn_ut99config(){
@@ -286,7 +276,10 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	sleep 1
 	fn_serious3config
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_ts3config
+	echo -e "downloading lgsm-default.ini...\c"
+	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
