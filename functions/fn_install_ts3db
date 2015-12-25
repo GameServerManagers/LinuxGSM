@@ -2,7 +2,7 @@
 # LGSM fn_install_ts3_mariadb function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="241215"
+lgsm_version="251215"
 
 fn_install_ts3db_mariadb(){
 	echo ""

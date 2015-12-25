@@ -2,7 +2,7 @@
 # LGSM fn_install_config function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="251215"
 
 fn_defaultconfig(){
 echo "creating ${servercfg} config file."
