@@ -6,7 +6,18 @@ lgsm_version="251215"
 
 fn_install_ts3db_mariadb(){
 	echo ""
-	echo "Configuring ${gamename} Server for MariaDB"
+	echo "checking if libmariadb2 is installed"
+	echo "================================="
+	ldd ${filesdir}/libts3db_mariadb.so | grep "libmariadb.so.2 => not found"
+	if [ $? -eq 0 ]; then
+		echo "libmariadb2 not installed. Please install it first."
+		echo "exiting..."
+		exit
+	else
+		echo "libmariadb2 installed."
+	fi
+	echo ""
+	echo "Configuring ${gamename} Server for MariaDB/MySQL"
 	echo "================================="
 	sleep 1
 	read -p "Enter MariaDB hostname: " mariahostname
