@@ -102,16 +102,6 @@ fn_userinputconfig
 echo ""
 }
 
-fn_ts3config(){
-echo "creating blank ${servercfg} config file."
-sleep 1
-echo  "${servercfg} can remain blank by default."
-sleep 1
-echo  "${servercfg} is located in ${servercfgfullpath}."
-sleep 1
-touch "${servercfgfullpath}"
-}
-
 fn_ut99config(){
 echo "${defaultcfg} > ${servercfgfullpath}"
 tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
@@ -283,7 +273,10 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	sleep 1
 	fn_serious3config
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_ts3config
+	echo -e "downloading lgsm-default.ini...\c"
+	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

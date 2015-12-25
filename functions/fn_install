@@ -32,6 +32,8 @@ fn_install_config
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	fn_install_gslt
 	fn_csgofix
+elif [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_install_ts3db
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	fn_install_gslt
 elif [ "${gamename}" == "Killing Floor" ]; then

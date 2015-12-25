@@ -284,6 +284,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_install_ts3db(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_install_ut2k4(){
 functionfile="${FUNCNAME}"
 fn_runfunction

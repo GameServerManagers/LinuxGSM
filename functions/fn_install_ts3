@@ -79,15 +79,3 @@ else
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
 rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
-
-## Get privilege key
-echo ""
-echo "Getting privilege key"
-echo "================================="
-sleep 1
-echo "IMPORANT! Save these details for later."
-sleep 1
-cd "${executabledir}"
-./ts3server_startscript.sh start
-sleep 5
-./ts3server_startscript.sh stop
