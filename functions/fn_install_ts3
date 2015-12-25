@@ -49,7 +49,6 @@ if [ -z "${availablebuild}" ]; then
 fi
 
 cd "${rootdir}"
-mkdir "${filesdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
