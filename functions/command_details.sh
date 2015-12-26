@@ -701,7 +701,7 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	echo -en "   \r"
 fi
 
-command_details.sh_glibc
+info_glibc.sh
 
 if [ "${engine}" == "avalanche" ]; then
 	command_details.sh_avalanche

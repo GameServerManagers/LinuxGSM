@@ -102,7 +102,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-command_details.sh_glibc(){
+info_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
