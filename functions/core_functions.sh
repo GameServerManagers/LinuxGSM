@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_functions function
+# LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="261215"
@@ -206,10 +206,10 @@ fn_runfunction
 
 fn_autoinstall(){
 autoinstall=1
-fn_install
+command_install.sh(
 }
 
-fn_install(){
+command_install.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

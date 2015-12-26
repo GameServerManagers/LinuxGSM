@@ -38,7 +38,7 @@ case "$getopt" in
 	dev|dev-debug)
 		dev_debug.sh;;
 	i|install)
-		fn_install;;
+		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
@@ -93,7 +93,7 @@ case "$getopt" in
 	dev|dev-debug)
 		dev_debug.sh;;		
 	i|install)
-		fn_install;;
+		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
@@ -198,7 +198,7 @@ case "$getopt" in
 	dev|dev-debug)
 		dev_debug.sh;;		
 	i|install)
-		fn_install;;
+		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
@@ -258,7 +258,7 @@ case "$getopt" in
 	dev|dev-debug)
 		dev_debug.sh;;		
 	i|install)
-		fn_install;;
+		command_install.sh;;
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
@@ -320,7 +320,7 @@ case "$getopt" in
 	dev|dev-debug)
 		dev_debug.sh;;		
 	i|install)
-		fn_install;;
+		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
@@ -381,7 +381,7 @@ case "$getopt" in
 	dev|dev-debug)
 		dev_debug.sh;;		
 	i|install)
-		fn_install;;
+		command_install.sh;;
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
 	dd|depsdetect)

@@ -7,7 +7,7 @@ lgsm_version="061115"
 while true; do
 	read -e -i "y" -p "Retry install? [Y/n]" yn
 	case $yn in
-	[Yy]* ) fn_install; exit;;
+	[Yy]* ) command_install.sh; exit;;
 	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 	esac
