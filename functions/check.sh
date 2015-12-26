@@ -23,7 +23,7 @@ fi
 no_check_logs=( debug details install map-compressor )
 fn_module_compare "${cmd}" "${no_check_logs[@]}"
 if [ $? != 0 ]; then
-	fn_check_logs
+	check_logs.sh
 fi
 
 check_ip=( debug )
@@ -45,4 +45,4 @@ if [ $? != 0 ]; then
 	check_tmux.sh
 fi
 
-#fn_check_ts3status # may need to move out of checks
+#check_ts3status.sh # may need to move out of checks

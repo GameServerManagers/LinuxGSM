@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_start function
+# LGSM command_start.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"
@@ -8,16 +8,16 @@ lgsm_version="201215"
 
 local modulename="Starting"
 
-fn_start_teamspeak3(){
+command_start.sh_teamspeak3(){
 check_root.sh
 fn_check_systemdir
-fn_check_logs
-fn_check_ts3status
+check_logs.sh
+check_ts3status.sh
 
 if [ "${ts3status}" != "Server is running" ]; then
 	# Will check for updates is updateonstart is yes
 	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
-		fn_update_check
+		update_check.sh
 	fi	
 fi
 
@@ -38,7 +38,7 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	touch "${servercfgfullpath}"
 fi
 
-fn_logs
+logs.sh
 
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
@@ -58,7 +58,7 @@ date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
 ./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 sleep 1
-fn_check_ts3status
+check_ts3status.sh
 if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
@@ -72,39 +72,39 @@ sleep 0.5
 echo -en "\n"
 }
 
-fn_start_tmux(){
+command_start.sh_tmux(){
 check_root.sh
 fn_check_systemdir
-fn_check_ip
-fn_check_logs
+check_ip.sh
+check_logs.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
-	fn_csgofix
+	fix_csgo.sh
 elif [ "${gamename}" == "Insurgency" ]; then
-	fn_insfix
+	fix_ins.sh
 elif [ "${gamename}" == "ARMA 3" ]; then
-	fn_arma3fix	
+	fix_arma3.sh	
 fi
 
-fn_details_config
+info_config.sh
 fn_parms
-fn_logs
+logs.sh
 
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 # Will check for updates if updateonstart is yes
 if [ "${tmuxwc}" -eq 0 ]; then
 	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
-		fn_update_check
+		update_check.sh
 	fi
 fi
 
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-fn_check_tmux
+check_tmux.sh
 
 if [ "${gamename}" != "Mumble" ]; then
-	fn_check_steamcmd
+	check_steamcmd.sh
 fi
 
 if [ "${tmuxwc}" -eq 0 ]; then
@@ -201,7 +201,7 @@ echo -en "\n"
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_start_teamspeak3
+	command_start.sh_teamspeak3
 else
-	fn_start_tmux
+	command_start.sh_tmux
 fi

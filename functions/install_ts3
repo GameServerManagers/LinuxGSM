@@ -1,10 +1,10 @@
 #!/bin/bash
-# LGSM fn_install_ts3 function
+# LGSM install_ts3.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
 
-fn_details_distro
+info_distro.sh
 # Gets the teamspeak server architecture
 if [ "${arch}" == "x86_64" ]; then
 	ts3arch="amd64"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_ut2k4fix function
+# LGSM install_fix_ut2k4.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -24,9 +24,9 @@ echo -en "forcing server restart...\r"
 sleep 0.5
 echo -en "\n"
 sleep 0.5
-fn_start
+command_start.sh
 sleep 5
-fn_stop
-fn_start
+command_stop.sh
+command_start.sh
 sleep 5
-fn_stop
+command_stop.sh

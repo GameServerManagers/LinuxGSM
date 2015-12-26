@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_update_check function
+# LGSM update_check.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"
@@ -49,8 +49,8 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 		fn_printinfonl "Forcing update to correct issue"
 		fn_scriptlog "Forcing update to correct issue"
 		sleep 1
-		fn_update_dl
-		fn_update_check
+		update_dl.sh
+		update_check.sh
 	fi
 elif [ "${appmanifestfilewc}" -eq "0" ]; then
 	if [ "${forceupdate}" == "1" ]; then
@@ -65,8 +65,8 @@ elif [ "${appmanifestfilewc}" -eq "0" ]; then
 	fn_printinfonl "Forcing update to correct issue"
 	fn_scriptlog "Forcing update to correct issue"
 	sleep 1
-	fn_update_dl
-	fn_update_check
+	update_dl.sh
+	update_check.sh
 fi
 }
 
@@ -89,11 +89,11 @@ if [ "${requestrestart}" -ge "1" ]; then
 	echo -ne "\n"
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
-		fn_stop
-		fn_update_dl
-		fn_start
+		command_stop.sh
+		update_dl.sh
+		command_start.sh
 	else
-		fn_update_dl
+		update_dl.sh
 	fi
 else
 	fn_printok "Checking for update: Server logs: No update requested"
@@ -102,8 +102,8 @@ fi
 }
 
 fn_steamcmdcheck(){
-fn_check_steamcmd
-fn_check_steamuser
+check_steamcmd.sh
+check_steamuser.sh
 fn_appmanifestcheck
 # Checks for server update from SteamCMD
 fn_printdots "Checking for update: SteamCMD"
@@ -158,11 +158,11 @@ if [ "${currentbuild}" != "${availablebuild}" ]; then
 
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
-		fn_stop
-		fn_update_dl
-		fn_start
+		command_stop.sh
+		update_dl.sh
+		command_start.sh
 	else
-		fn_update_dl
+		update_dl.sh
 	fi
 else
 	echo -e "\n"
@@ -197,8 +197,8 @@ if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 	fn_printinfonl "Checking for update: teamspeak.com: Forcing server restart"
 	fn_scriptlog "Checking for update: teamspeak.com: Forcing server restart"
 	sleep 2
-	fn_stop
-	fn_start
+	command_stop.sh
+	command_start.sh
 	sleep 2
 	# If still failing will exit
 	if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
@@ -274,16 +274,16 @@ if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
-	fn_check_ts3status
+	check_ts3status.sh
 	if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
-		fn_update_dl
-		fn_start
+		update_dl.sh
+		command_start.sh
 		sleep 5
-		fn_stop
+		command_stop.sh
 	else
-		fn_stop
-		fn_update_dl
-		fn_start
+		command_stop.sh
+		update_dl.sh
+		command_start.sh
 	fi
 else
 	echo -e "\n"
@@ -297,7 +297,7 @@ else
 fi
 }
 
-fn_check_logs
+check_logs.sh
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
@@ -306,11 +306,11 @@ elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses checks
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 	if [ "${tmuxwc}" -eq 1 ]; then
-		fn_stop
-		fn_update_dl
-		fn_start
+		command_stop.sh
+		update_dl.sh
+		command_start.sh
 	else
-		fn_update_dl
+		update_dl.sh
 	fi
 else
 	fn_logupdaterequest

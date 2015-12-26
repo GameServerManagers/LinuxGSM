@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_debug function
+# LGSM command_debug.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -9,9 +9,9 @@ lgsm_version="061115"
 local modulename="Debug"
 check_root.sh
 fn_check_systemdir
-fn_check_ip
-fn_check_logs
-fn_details_distro
+check_ip.sh
+check_logs.sh
+info_distro.sh
 fn_parms
 echo ""
 echo "${gamename} Debug"
@@ -45,7 +45,7 @@ fn_scriptlog "Starting debug"
 fn_printinfonl "Stopping any running servers"
 fn_scriptlog "Stopping any running servers"
 sleep 1
-fn_stop
+command_stop.sh
 fn_printdots "Starting debug"
 sleep 1
 fn_printok "Starting debug"
@@ -56,11 +56,11 @@ cd "${executabledir}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 		startfix=1
-		fn_csgofix
+		fix_csgo.sh
 	elif [ "${gamename}" == "Insurgency" ]; then
-		fn_insfix
+		fix_ins.sh
 	elif [ "${gamename}" == "ARMA 3" ]; then
-		fn_arma3fix	
+		fix_arma3.sh	
 	fi
 	${executable} ${parms} -debug
 else

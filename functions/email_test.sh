@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_email_test function
+# LGSM email_test.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -9,13 +9,13 @@ lgsm_version="061115"
 local modulename="Email"
 check_root.sh
 fn_check_systemdir
-fn_details_config
+info_config.sh
 if [ "${emailnotification}" = "on" ]; then
 	fn_scriptlog "Sending test notification"
 	subject="${servicename} Email Test Notification - Testing ${servername}"
 	failurereason="Testing ${servicename} email notification"
 	actiontaken="Sent test email...hello is this thing on?"
-	fn_email
+	email.sh
 else
 	fn_printfailnl "Notifications not enabled"
 	fn_scriptlog "Notifications not enabled"

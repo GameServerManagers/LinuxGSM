@@ -34,7 +34,7 @@ if [ "${tmuxwc}" -eq 1 ]; then
 	while true; do
 		read -p "Stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
-		[Yy]* ) fn_stop; break;;
+		[Yy]* ) command_stop.sh; break;;
 		[Nn]* ) break;;
 		* ) echo "Please answer yes or no.";;
 	esac

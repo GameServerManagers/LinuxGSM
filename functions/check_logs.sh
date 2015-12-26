@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_check_logs function
+# LGSM check_logs.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -13,5 +13,5 @@ if [ ! -d "${scriptlogdir}" ]; then
 	fn_printinfo "Checking for log files: Creating log files"
 	echo -en "\n"
 	checklogs=1
-	fn_install_logs
+	install_logs.sh
 fi

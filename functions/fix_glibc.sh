@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_glibcfix function
+# LGSM fix_glibc.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

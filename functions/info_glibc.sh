@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_details_glibc function
+# LGSM command_details.sh_glibc function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

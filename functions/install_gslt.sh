@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_gslt function
+# LGSM install_gslt.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="091215"

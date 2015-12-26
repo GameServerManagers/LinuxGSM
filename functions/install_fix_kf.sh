@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_kffix function
+# LGSM install_fix_kf.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -19,9 +19,9 @@ echo "applying server name fix."
 sleep 1
 echo "forcing server restart..."
 sleep 1
-fn_start
+command_start.sh
 sleep 5
-fn_stop
-fn_start
+command_stop.sh
+command_start.sh
 sleep 5
-fn_stop
+command_stop.sh

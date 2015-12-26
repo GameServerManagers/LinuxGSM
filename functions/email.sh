@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_email function
+# LGSM email.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -9,7 +9,7 @@ lgsm_version="061115"
 local modulename="Email"
 fn_printdots "Sending notification to ${email}"
 echo -en "\n"
-fn_details_distro
+info_distro.sh
 {
 	echo -e "========================================\n${servicename} details\n========================================\n"
 	echo -e "Service: ${servicename}"
@@ -27,7 +27,7 @@ fn_details_distro
 	echo -e "Avg Load${load}\n"
 	echo -e "========================================\nLogs\n========================================\n"
 	echo -e "Script log\n===================\n"
-	fn_details
+	command_details.sh
 }|sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"|tee "${scriptlogdir}/${servicename}-email.log"
 tail -25 "${scriptlog}" >> "${emaillog}"
 if [ ! -z "${consolelog}" ]; then

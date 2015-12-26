@@ -1,18 +1,18 @@
 #!/bin/bash
-# LGSM fn_monitor function
+# LGSM command_monitor.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
 
 # Description: Monitors server by checking for running proccesses
-# then passes to fn_monitor_query.
+# then passes to monitor_gsquery.sh.
 
 local modulename="Monitor"
 
-fn_monitor_teamspeak3(){
+command_monitor.sh_teamspeak3(){
 check_root.sh
 fn_check_systemdir
-fn_logs
+logs.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
@@ -27,7 +27,7 @@ fi
 fn_printdots "Checking session: CHECKING"
 fn_scriptlog "Checking session: CHECKING"
 sleep 1
-fn_check_ts3status
+check_ts3status.sh
 if [ "${ts3status}" = "Server is running" ]; then
 	fn_printok "Checking session: OK"
 	fn_scriptlog "Checking session: OK"
@@ -45,7 +45,7 @@ else
 	if [ "${emailnotification}" = "on" ]; then
 		subject="${servicename} Monitor - Restarting ${servername}"
 		actiontaken="restarted ${servername}"
-		fn_emailnotification
+		email.shnotification
 	fi
 fi
 sleep 0.5
@@ -53,11 +53,11 @@ echo -en "\n"
 fn_restart
 }
 
-fn_monitor_tmux(){
+command_monitor.sh_tmux(){
 check_root.sh
 fn_check_systemdir
-fn_check_ip
-fn_details_config
+check_ip.sh
+info_config.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
@@ -83,7 +83,7 @@ if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "$
 		echo -en "\n"
 
 		if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-			fn_monitor_query
+			monitor_gsquery.sh
 		fi
 		exit $?
 	else
@@ -95,10 +95,10 @@ if [ "${updatecheck}" = "0" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "$
 			subject="${servicename} Monitor - Starting ${servername}"
 			failurereason="${servicename} process not running"
 			actiontaken="${servicename} has been restarted"
-			fn_email
+			email.sh
 		fi
 		fn_scriptlog "Monitor is starting ${servername}"
-		fn_start
+		command_start.sh
 	fi
 else
 	fn_printinfonl "SteamCMD is currently checking for updates"
@@ -111,7 +111,7 @@ fi
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_monitor_teamspeak3
+	command_monitor.sh_teamspeak3
 else
-	fn_monitor_tmux
+	command_monitor.sh_tmux
 fi

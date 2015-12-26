@@ -9,40 +9,40 @@ lgsm_version="061115"
 fn_getopt_generic(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	u|update)
-		fn_update_check;;
+		update_check.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		fn_update_check;;
+		update_check.sh;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	v|validate)
-		fn_validate;;
+		command_validate.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	d|details)
-		fn_details;;
+		command_details.sh;;
 	b|backup)
 		fn_backup;;
 	c|console)
-		fn_console;;
+		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_debug.sh_dev;;
+		dev_debug.sh;;
 	i|install)
 		fn_install;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		fn_deps_detect;;
+		dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -73,31 +73,31 @@ exit
 fn_getopt_teamspeak3(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	u|update)
-		fn_update_check;;
+		update_check.sh;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	d|details)
-		fn_details;;
+		command_details.sh;;
 	b|backup)
 		fn_backup;;
 	dev|dev-debug)
-		command_debug.sh_dev;;		
+		dev_debug.sh;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		fn_deps_detect;;
+		dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -124,27 +124,27 @@ exit
 fn_getopt_mumble(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	b|backup)
 		fn_backup;;
 	dev|dev-debug)
-		command_debug.sh_dev;;		
+		dev_debug.sh;;		
 	console)
-		fn_console;;
+		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dd|depsdetect)
-		fn_deps_detect;;
+		dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -169,40 +169,40 @@ exit
 fn_getopt_gmodserver(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	u|update)
-		fn_update_check;;
+		update_check.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		fn_update_check;;
+		update_check.sh;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	v|validate)
-		fn_validate;;
+		command_validate.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	d|details)
-		fn_details;;
+		command_details.sh;;
 	b|backup)
 		fn_backup;;
 	c|console)
-		fn_console;;
+		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_debug.sh_dev;;		
+		dev_debug.sh;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		fn_deps_detect;;
+		dev_detect_deps.sh;;
 	gc|gmod-content)
 		fn_content_gmod;;
 	*)
@@ -236,33 +236,33 @@ exit
 fn_getopt_unreal(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	d|details)
-		fn_details;;
+		command_details.sh;;
 	b|backup)
 		fn_backup;;
 	c|console)
-		fn_console;;
+		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_debug.sh_dev;;		
+		dev_debug.sh;;		
 	i|install)
 		fn_install;;
 	mc|map-compressor)
-		fn_compress_ut99maps;;
+		compress_ut99_maps.sh;;
 	dd|depsdetect)
-		fn_deps_detect;;		
+		dev_detect_deps.sh;;		
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -291,42 +291,42 @@ exit
 fn_getopt_unreal2(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	u|update)
-		fn_update_check;;
+		update_check.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		fn_update_check;;
+		update_check.sh;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	v|validate)
-		fn_validate;;
+		command_validate.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	d|details)
-		fn_details;;
+		command_details.sh;;
 	b|backup)
 		fn_backup;;
 	c|console)
-		fn_console;;
+		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_debug.sh_dev;;		
+		dev_debug.sh;;		
 	i|install)
 		fn_install;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		fn_deps_detect;;
+		dev_detect_deps.sh;;
 	mc|map-compressor)
-		fn_compress_unreal2maps;;
+		compress_unreal2_maps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -359,33 +359,33 @@ exit
 fn_getopt_ut2k4(){
 case "$getopt" in
 	st|start)
-		fn_start;;
+		command_start.sh;;
 	sp|stop)
-		fn_stop;;
+		command_stop.sh;;
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		fn_update_functions;;
+		update_functions.sh;;
 	m|monitor)
-		fn_monitor;;
+		command_monitor.sh;;
 	et|email-test)
-		fn_email_test;;
+		email_test.sh;;
 	d|details)
-		fn_details;;
+		command_details.sh;;
 	b|backup)
 		fn_backup;;
 	c|console)
-		fn_console;;
+		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_debug.sh_dev;;		
+		dev_debug.sh;;		
 	i|install)
 		fn_install;;
 	mc|map-compressor)
-		fn_compress_ut99maps;;
+		compress_ut99_maps.sh;;
 	dd|depsdetect)
-		fn_deps_detect;;		
+		dev_detect_deps.sh;;		
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"

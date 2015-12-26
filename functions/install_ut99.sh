@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_ut99 function
+# LGSM install_ut99.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -18,7 +18,7 @@ while true; do
 	read -p "Was the install successful? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) fn_install_retry;;
+	[Nn]* ) install_retry.sh;;
 	* ) echo "Please answer yes or no.";;
 esac
 done

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_details_config function
+# LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

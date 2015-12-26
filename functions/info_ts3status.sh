@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_check_ts3status function
+# LGSM check_ts3status.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

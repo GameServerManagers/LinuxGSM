@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_console function
+# LGSM command_console.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -26,7 +26,7 @@ esac
 done
 fn_printdots "Starting"
 sleep 1
-fn_check_tmux
+check_tmux.sh
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
 	fn_printoknl "Starting"
@@ -40,7 +40,7 @@ else
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn
 		case $yn in
-		[Yy]* ) fn_start; break;;
+		[Yy]* ) command_start.sh; break;;
 		[Nn]* ) break;;
 		* ) echo "Please answer yes or no.";;
 	esac

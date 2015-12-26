@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_csgofix function
+# LGSM fix_csgo.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -19,7 +19,7 @@ if [ ! -f "${filesdir}/steam_appid.txt" ]; then
 fi
 }
 
-fn_csgofixes(){
+fix_csgo.shes(){
 # Fixes the following error:
 # Error parsing BotProfile.db - unknown attribute 'Rank".
 if ! grep -q "//Rank" "${systemdir}/botprofile.db" > /dev/null 2>&1; then
@@ -84,5 +84,5 @@ fi
 if [ ! -z "${startfix}" ]; then
 	fn_csgoappfix
 else
-	fn_csgofixes
+	fix_csgo.shes
 fi

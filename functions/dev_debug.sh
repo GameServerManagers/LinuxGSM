@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_debug_dev function
+# LGSM dev_debug.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

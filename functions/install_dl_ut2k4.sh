@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_ut2k4filesdl function
+# LGSM install_dl_ut2k4.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -21,7 +21,7 @@ if [ "${md5check}" != "d3f28c5245c4c02802d48e4f0ffd3e34" ]; then
 	echo "MD5 checksum: FAILED!"
 	read -p "Retry download? [y/N]" yn
 	case $yn in
-	[Yy]* ) rm -fv dedicatedserver3339-bonuspack.zip; fn_install_ut2k4filesdl;;
+	[Yy]* ) rm -fv dedicatedserver3339-bonuspack.zip; install_dl_ut2k4.sh;;
 	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 	esac
@@ -42,7 +42,7 @@ if [ "${md5check}" != "0fa447e05fe5a38e0e32adf171be405e" ]; then
 	echo "MD5 checksum: FAILED!"
 	read -p "Retry download? [y/N]" yn
 	case $yn in
-	[Yy]* ) rm -fv ut2004-lnxpatch3369-2.tar.bz2; fn_install_ut2k4filesdl;;
+	[Yy]* ) rm -fv ut2004-lnxpatch3369-2.tar.bz2; install_dl_ut2k4.sh;;
 	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 	esac

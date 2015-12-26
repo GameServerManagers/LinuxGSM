@@ -1,11 +1,11 @@
 #!/bin/bash
-# LGSM fn_details_distro function
+# LGSM info_distro.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="211215"
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
-# Used for fn_details, fn_debug and fn_email.
+# Used for command_details.sh, command_debug.sh and email.sh.
 
 ## Distro infomation
 # Returns architecture, kernel and distro/os.

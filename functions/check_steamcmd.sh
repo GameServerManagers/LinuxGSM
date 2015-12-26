@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_check_steamcmd function
+# LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

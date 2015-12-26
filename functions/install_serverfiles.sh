@@ -1,13 +1,13 @@
 #!/bin/bash
-# LGSM fn_install_serverfiles function
+# LGSM finstall_serverfiles.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
 
 fn_steaminstallcommand(){
-fn_check_steamuser
+check_steamuser.sh
 counter="0"
-while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .fn_install_serverfiles.tmp)" -ge "1" ]||[ "$(grep -wc 0x406 .fn_install_serverfiles.tmp)" -ge "1" ]||[ "$(grep -wc 0x6 .fn_install_serverfiles.tmp)" -ge "1" ]||[ "$(grep -wc 0x106 .fn_install_serverfiles.tmp)" -ge "1" ]; do
+while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .finstall_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x406 .finstall_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x6 .finstall_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x106 .finstall_serverfiles.sh.tmp)" -ge "1" ]; do
 	counter=$((counter+1))
 	cd "${rootdir}/steamcmd"
 	if [ "${counter}" -le "10" ]; then
@@ -27,7 +27,7 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .fn_install_serverfiles.tmp)"
 		fi
 		if [ "${counter}" -ge "9" ]; then
 			rm -rf "${rootdir}/steamcmd"
-			fn_check_steamcmd
+			check_steamcmd.sh
 		fi
 
 		# Detects if unbuffer command is available.
@@ -37,15 +37,15 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .fn_install_serverfiles.tmp)"
 
 		if [ "${counter}" -le "4" ]; then
 			if [ "${engine}" == "goldsource" ]; then
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit |tee .fn_install_serverfiles.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit |tee .finstall_serverfiles.sh.tmp
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit |tee .fn_install_serverfiles.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit |tee .finstall_serverfiles.sh.tmp
 			fi
 		elif [ "${counter}" -ge "5" ]; then
 			if [ "${engine}" == "goldsource" ]; then
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .finstall_serverfiles.sh.tmp
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .finstall_serverfiles.sh.tmp
 			fi
 		fi
 	elif [ "${counter}" -ge "11" ]; then
@@ -61,10 +61,10 @@ if [ "${engine}" == "goldsource" ]; then
 	counter="0"
 	while [ "${counter}" -le "4" ]; do
 		counter=$((counter+1))
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .fn_install_serverfiles.tmp
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .finstall_serverfiles.sh.tmp
 	done
 fi
-rm -f .fn_install_serverfiles.tmp
+rm -f .finstall_serverfiles.sh.tmp
 }
 
 echo ""
@@ -80,7 +80,7 @@ if [ -z "${autoinstall}" ]; then
 	read -e -i "y" -p "Was the install successful? [Y/n]" yn
 		case $yn in
 			[Yy]* ) break;;
-			[Nn]* ) fn_install_retry;;
+			[Nn]* ) install_retry.sh;;
 			* ) echo "Please answer yes or no.";;
 		esac
 	done

@@ -118,9 +118,9 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start > /dev/null 2>&1)
+			(command_start.sh > /dev/null 2>&1)
 		else
-			(fn_stop > /dev/null 2>&1)
+			(command_stop.sh > /dev/null 2>&1)
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
@@ -160,7 +160,7 @@ echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo ""
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -196,7 +196,7 @@ echo "Description:"
 echo "start ${gamename} server."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_start
+command_start.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -207,7 +207,7 @@ echo "Description:"
 echo "start ${gamename} server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -220,7 +220,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 (
 	updateonstart="on"
-	fn_start
+	command_start.sh
 )
 echo ""
 echo "Test complete!"
@@ -232,7 +232,7 @@ echo "Description:"
 echo "stop ${gamename} server."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_stop
+command_stop.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -243,7 +243,7 @@ echo "Description:"
 echo "stop ${gamename} server while already stopped."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_stop)
+(command_stop.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -279,7 +279,7 @@ echo "Description:"
 echo "check for updates."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -292,7 +292,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -305,7 +305,7 @@ requiredstatus="ONLINE"
 fn_setstatus
 fn_printinfonl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -318,7 +318,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "removed appmanifest_${appid}.acf."
 rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -329,7 +329,7 @@ echo "Description:"
 echo "force-update bypassing update check."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -340,7 +340,7 @@ echo "Description:"
 echo "force-update bypassing update check server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -351,7 +351,7 @@ echo "Description:"
 echo "validate server files."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_validate
+command_validate.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -362,7 +362,7 @@ echo "Description:"
 echo "validate server files while server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_validate
+command_validate.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -376,7 +376,7 @@ echo "Description:"
 echo "run monitor server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -387,7 +387,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -400,7 +400,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -412,10 +412,10 @@ echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 fn_printinfonl "Reseting ${servercfg}."
-fn_install_config
+install_config.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -429,7 +429,7 @@ echo "Description:"
 echo "display details."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_details
+command_details.sh
 echo ""
 echo "Test complete!"
 sleep 1

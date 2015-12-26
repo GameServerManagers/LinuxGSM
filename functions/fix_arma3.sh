@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_arma3fix function
+# LGSM fix_arma3.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"

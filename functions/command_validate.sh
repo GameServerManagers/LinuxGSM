@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_validate function
+# LGSM command_validate.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"
@@ -9,8 +9,8 @@ lgsm_version="201215"
 local modulename="Validate"
 
 fn_validation(){
-fn_check_steamcmd
-fn_check_steamuser	
+check_steamcmd.sh
+check_steamuser.sh	
 fn_printwarn "Validating may overwrite some customised files."
 sleep 1
 echo -en "\n"
@@ -37,7 +37,7 @@ fi
 
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	echo -e '\n'
-	fn_csgofix
+	fix_csgo.sh
 fi
 fn_scriptlog "Checking complete"
 }
@@ -46,9 +46,9 @@ fn_check_root
 fn_check_systemdir
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
-    fn_stop
+    command_stop.sh
     fn_validation
-    fn_start
+    command_start.sh
 else
     fn_validation
 fi

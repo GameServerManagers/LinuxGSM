@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_monitor_query function
+# LGSM monitor_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"
@@ -46,14 +46,14 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 				sleep 30
 			fi
 			secondquery=1
-			fn_monitor_query
+			monitor_gsquery.sh
 		fi
 		if [ "${emailnotification}" = "on" ]; then
-			fn_details_config
+			info_config.sh
 			subject="${servicename} Monitor - Starting ${servername}"
 			failurereason="Failed to query ${servicename}: ${serverquery}"
 			actiontaken="restarted ${servicename}"
-			fn_email
+			email.sh
 		fi
 		fn_restart
 		exit 1
@@ -71,7 +71,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		echo "Attempting to resolve automatically"
 		chmod +x -v "${rootdir}/gsquery.py"
 		if [ $? -eq 0 ]; then
-			fn_monitor_query
+			monitor_gsquery.sh
 		else
 			fn_printfailure "Unable to resolve automatically. Please manually fix permissions.\n"
 			owner=$(ls -al ${rootdir}/gsquery.py|awk '{ print $3 }')

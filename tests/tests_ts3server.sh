@@ -101,9 +101,9 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start)
+			(command_start.sh)
 		else
-			(fn_stop)
+			(command_stop.sh)
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
@@ -142,7 +142,7 @@ echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo ""
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -178,7 +178,7 @@ echo "Description:"
 echo "start ${gamename} server."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_start
+command_start.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -189,7 +189,7 @@ echo "Description:"
 echo "start ${gamename} server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -202,7 +202,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 (
 	updateonstart="on"
-	fn_start
+	command_start.sh
 )
 echo ""
 echo "Test complete!"
@@ -214,7 +214,7 @@ echo "Description:"
 echo "stop ${gamename} server."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_stop
+command_stop.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -225,7 +225,7 @@ echo "Description:"
 echo "stop ${gamename} server while already stopped."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_stop)
+(command_stop.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -261,7 +261,7 @@ echo "Description:"
 echo "check for updates."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -273,7 +273,7 @@ echo "change the version number tricking LGSM to update."
 requiredstatus="OFFLINE"
 sed -i 's/[0-9]\+/0/g' ${gamelogdir}/ts3server*_0.log
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -285,7 +285,7 @@ echo "Description:"
 echo "run monitor server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -296,7 +296,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -309,7 +309,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -321,10 +321,10 @@ echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 fn_printinfonl "Reseting ${servercfg}."
-fn_install_config
+install_config.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -338,7 +338,7 @@ echo "Description:"
 echo "display details."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_details
+command_details.sh
 echo ""
 echo "Test complete!"
 sleep 1

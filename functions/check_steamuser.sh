@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_check_steamuser function
+# LGSM check_steamuser.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

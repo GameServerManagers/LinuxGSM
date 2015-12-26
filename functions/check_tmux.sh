@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_check_tmux function
+# LGSM check_tmux.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_serverdir function
+# LGSM install_serverdir.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"

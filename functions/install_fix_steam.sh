@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_steamfix function
+# LGSM install_steamfix.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"

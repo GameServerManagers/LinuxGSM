@@ -5,42 +5,42 @@
 lgsm_version="201215"
 
 check_root.sh
-fn_install_header
-fn_install_serverdir
+install_header.sh
+install_serverdir.sh
 
 # Download and install
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	fn_install_ut2k4filesdl
-	fn_install_ut2k4
-	fn_install_ut2k4key
+	install_dl_ut2k4.sh
+	install_ut2k4.sh
+	install_ut2k4_key.sh
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-	fn_install_ut99filesdl
-	fn_install_ut99
+	install_dl_ut99.sh
+	install_ut99.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_install_ts3
+	install_ts3.sh
 elif [ ! -z "${appid}" ]; then
 	fn_install_steamcmd
-	fn_install_serverfiles
-	fn_install_steamfix
+	finstall_serverfiles.sh
+	install_steamfix.sh
 fi
 
 # Configuration
-fn_install_glibcfix
-fn_install_logs
-fn_install_gsquery
-fn_install_config
+fix_glibc.sh
+install_logs.sh
+install_gsquery.sh
+install_config.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
-	fn_install_gslt
-	fn_csgofix
+	install_gslt.sh
+	fix_csgo.sh
 elif [ "${gamename}" == "Team Fortress 2" ]; then
-	fn_install_gslt
+	install_gslt.sh
 elif [ "${gamename}" == "Killing Floor" ]; then
-	fn_install_kffix
+	install_fix_kf.sh
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
-	fn_install_rofix
+	install_fix_ro.sh
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	fn_install_ut2k4fix
+	install_fix_ut2k4.sh
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-	fn_install_ut99fix
+	install_fix_ut99.sh
 fi
-fn_install_complete
+install_complete.sh

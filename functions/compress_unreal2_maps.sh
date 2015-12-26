@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_compress_unreal2maps function
+# LGSM compress_unreal2_maps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

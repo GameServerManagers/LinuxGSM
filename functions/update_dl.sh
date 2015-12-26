@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_update_dl function
+# LGSM update_dl.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"
@@ -11,7 +11,7 @@ local modulename="Update"
 fn_steamcmd_dl(){
 check_root.sh
 fn_check_systemdir
-fn_details_config
+info_config.sh
 fn_printdots "Updating ${servername}"
 sleep 1
 fn_printoknl "Updating ${servername}"
@@ -34,14 +34,14 @@ fi
 
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	echo -e '\n'
-	fn_csgofix
+	fix_csgo.sh
 fi
 }
 
 fn_teamspeak3_dl(){
 check_root.sh
 fn_check_systemdir
-fn_details_config
+info_config.sh
 fn_printdots "Updating ${servername}"
 sleep 1
 fn_printoknl "Updating ${servername}"

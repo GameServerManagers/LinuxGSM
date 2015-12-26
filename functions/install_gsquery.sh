@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_install_gsquery function
+# LGSM install_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="061115"

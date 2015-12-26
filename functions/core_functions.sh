@@ -7,12 +7,17 @@ lgsm_version="201215"
 # Description: Defines all functions to allow download and execution of functions using fn_runfunction.
 # This function is called first before any other function. Without this file other functions would not load.
 
-fn_arma3fix(){
+fix_arma3.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_backup(){
+command_backup.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+check.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -32,12 +37,12 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_steamcmd(){
+check_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_steamuser(){
+check_steamuser.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -47,32 +52,32 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_tmux(){
+check_tmux.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_check_ts3status(){
+check_ts3status.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_console(){
+command_console.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_compress_unreal2maps(){
+compress_unreal2_maps.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_compress_ut99maps(){
+compress_ut99_maps.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_csgofix(){
+fix_csgo.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -82,42 +87,42 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_details(){
+command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_details_config(){
+info_config.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_details_distro(){
+info_distro.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_details_glibc(){
+command_details.sh_glibc(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_debug_dev(){
+dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_deps_detect(){
+dev_detect_deps.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_email(){
+email.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_email_test(){
+email_test.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -127,12 +132,12 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_insfix(){
+fix_ins.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_logs(){
+logs.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -142,55 +147,55 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_monitor(){
+command_monitor.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_monitor_query(){
+monitor_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
 fn_restart(){
 local modulename="Restarting"
-fn_details_config
+info_config.sh
 fn_scriptlog "${servername}"
-fn_stop
-fn_start
+command_stop.sh
+command_start.sh
 }
 
-fn_start(){
+command_start.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_stop(){
+command_stop.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_update_check(){
+update_check.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_update_functions(){
+update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_update_dl(){
+update_dl.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_update_functions(){
+update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_validate(){
+command_validate.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -209,112 +214,111 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_complete(){
+install_complete.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_config(){
+install_config.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_glibcfix(){
+fix_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_gsquery(){
+install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_gslt(){
+install_gslt.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_header(){
+install_header.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_kffix(){
+install_fix_kf.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_logs(){
+install_logs.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_retry(){
+install_retry.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_rofix(){
+install_fix_ro.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_serverdir(){
+install_serverdir.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+install_serverfiles.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_serverfiles(){
+install_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_steamcmd(){
+install_steamfix.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_steamfix(){
+install_ts3.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ts3(){
+install_ut2k4.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ut2k4(){
+install_dl_ut2k4.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ut2k4filesdl(){
+install_fix_ut2k4.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ut2k4fix(){
+install_ut2k4_key.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ut2k4key(){
+install_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ut99(){
+install_dl_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_install_ut99filesdl(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-fn_install_ut99fix(){
+install_fix_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

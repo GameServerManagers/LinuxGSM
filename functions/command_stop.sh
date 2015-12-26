@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_stop function
+# LGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"
@@ -28,13 +28,13 @@ sdtd_telnet(){
     ')
 }
 
-fn_stop_teamspeak3(){
+command_stop.sh_teamspeak3(){
 check_root.sh
 fn_check_systemdir
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-fn_check_ts3status
+check_ts3status.sh
 if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
     fn_printfail "${servername} is already stopped"
     fn_scriptlog "${servername} is already stopped"
@@ -49,14 +49,14 @@ sleep 1
 echo -en "\n"
 }
 
-fn_stop_tmux(){
+command_stop.sh_tmux(){
 check_root.sh
 fn_check_systemdir
-fn_details_config
+info_config.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-fn_check_tmux
+check_tmux.sh
 
 if [ "${gamename}" == "7 Days To Die" ] ; then
     # if game is 7 Days To Die, we need special, graceful shutdown via telnet connection.
@@ -70,7 +70,7 @@ if [ "${gamename}" == "7 Days To Die" ] ; then
     # If failed using localhost will use servers ip
     refused=$(echo -en "\n ${sdtdshutdown}"| grep "Timeout or EOF")
     if [ -n "${refused}" ]; then
-        fn_check_ip
+        check_ip.sh
         telnetip=${ip}
         fn_printwarn "Attempting graceful shutdown via telnet: localhost failed"
         fn_scriptlog "Warning! Attempting graceful shutdown failed using localhost"
@@ -156,7 +156,7 @@ fi
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
-    fn_stop_teamspeak3
+    command_stop.sh_teamspeak3
 else
-    fn_stop_tmux
+    command_stop.sh_tmux
 fi
