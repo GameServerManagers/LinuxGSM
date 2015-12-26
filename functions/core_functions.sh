@@ -206,7 +206,7 @@ fn_runfunction
 
 fn_autoinstall(){
 autoinstall=1
-command_install.sh(
+command_install.sh
 }
 
 command_install.sh(){
