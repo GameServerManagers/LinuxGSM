@@ -45,7 +45,7 @@ else
 	if [ "${emailnotification}" = "on" ]; then
 		subject="${servicename} Monitor - Restarting ${servername}"
 		actiontaken="restarted ${servername}"
-		email.shnotification
+		email.sh
 	fi
 fi
 sleep 0.5
