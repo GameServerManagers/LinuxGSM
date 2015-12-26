@@ -278,7 +278,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-install_steamfix.sh(){
+install_fix_steam.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

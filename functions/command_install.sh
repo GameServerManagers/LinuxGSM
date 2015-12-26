@@ -21,7 +21,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 elif [ ! -z "${appid}" ]; then
 	install_steamcmd.sh
 	install_serverfiles.sh
-	install_steamfix.sh
+	install_fix_steam.sh
 fi
 
 # Configuration
