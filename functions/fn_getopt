@@ -6,7 +6,7 @@ lgsm_version="201215"
 
 # Description: Redirect to new core_getopt.sh
 
-fn_functions.sh(){
+fn_functions(){
 # Functions are defined in fn_functions.
 functionfile="${FUNCNAME}"
 fn_runfunction
