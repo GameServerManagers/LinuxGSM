@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fn_backup function
+# LGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="201215"

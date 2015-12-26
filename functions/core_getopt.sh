@@ -30,7 +30,7 @@ case "$getopt" in
 	d|details)
 		command_details.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	c|console)
 		command_console.sh;;
 	d|debug)
@@ -89,7 +89,7 @@ case "$getopt" in
 	d|details)
 		command_details.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	dev|dev-debug)
 		dev_debug.sh;;		
 	i|install)
@@ -136,7 +136,7 @@ case "$getopt" in
 	et|email-test)
 		email_test.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	dev|dev-debug)
 		dev_debug.sh;;		
 	console)
@@ -190,7 +190,7 @@ case "$getopt" in
 	d|details)
 		command_details.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	c|console)
 		command_console.sh;;
 	d|debug)
@@ -250,7 +250,7 @@ case "$getopt" in
 	d|details)
 		command_details.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	c|console)
 		command_console.sh;;
 	d|debug)
@@ -312,7 +312,7 @@ case "$getopt" in
 	d|details)
 		command_details.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	c|console)
 		command_console.sh;;
 	d|debug)
@@ -373,7 +373,7 @@ case "$getopt" in
 	d|details)
 		command_details.sh;;
 	b|backup)
-		fn_backup;;
+		command_backup.sh;;
 	c|console)
 		command_console.sh;;
 	d|debug)
