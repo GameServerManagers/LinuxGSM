@@ -12,4 +12,9 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+fn_getopt(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 core_functions.sh
