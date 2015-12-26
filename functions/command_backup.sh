@@ -8,7 +8,7 @@ lgsm_version="201215"
 
 local modulename="Backup"
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""
 echo "${gamename} Backup"

@@ -43,7 +43,7 @@ fn_scriptlog "Checking complete"
 }
 
 fn_check_root
-fn_check_systemdir
+check_systemdir.sh
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
     command_stop.sh

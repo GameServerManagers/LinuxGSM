@@ -10,7 +10,7 @@ local modulename="Update"
 
 fn_steamcmd_dl(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 info_config.sh
 fn_printdots "Updating ${servername}"
 sleep 1
@@ -40,7 +40,7 @@ fi
 
 fn_teamspeak3_dl(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 info_config.sh
 fn_printdots "Updating ${servername}"
 sleep 1

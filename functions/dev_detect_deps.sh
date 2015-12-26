@@ -8,7 +8,7 @@ lgsm_version="201215"
 
 local modulename="Backup"
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 cd "${executabledir}"
 if [ "${executable}" ==  "./hlds_run" ]; then
 	executable=hlds_linux

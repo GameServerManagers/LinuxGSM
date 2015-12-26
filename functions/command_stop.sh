@@ -30,7 +30,7 @@ sdtd_telnet(){
 
 command_stop.sh_teamspeak3(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
@@ -51,7 +51,7 @@ echo -en "\n"
 
 command_stop.sh_tmux(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 info_config.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"

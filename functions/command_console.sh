@@ -8,7 +8,7 @@ lgsm_version="061115"
 
 local modulename="Console"
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 echo ""
 echo "${gamename} Console"
 echo "============================"

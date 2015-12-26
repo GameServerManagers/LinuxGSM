@@ -11,7 +11,7 @@ local modulename="Monitor"
 
 command_monitor.sh_teamspeak3(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 logs.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
@@ -55,7 +55,7 @@ fn_restart
 
 command_monitor.sh_tmux(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 check_ip.sh
 info_config.sh
 fn_printdots "${servername}"

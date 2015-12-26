@@ -8,7 +8,7 @@ lgsm_version="061115"
 
 local modulename="Email"
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 info_config.sh
 if [ "${emailnotification}" = "on" ]; then
 	fn_scriptlog "Sending test notification"

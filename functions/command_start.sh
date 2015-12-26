@@ -10,7 +10,7 @@ local modulename="Starting"
 
 command_start.sh_teamspeak3(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 check_logs.sh
 check_ts3status.sh
 
@@ -74,7 +74,7 @@ echo -en "\n"
 
 command_start.sh_tmux(){
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 check_ip.sh
 check_logs.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then

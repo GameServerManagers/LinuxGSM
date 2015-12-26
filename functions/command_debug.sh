@@ -8,7 +8,7 @@ lgsm_version="061115"
 
 local modulename="Debug"
 check_root.sh
-fn_check_systemdir
+check_systemdir.sh
 check_ip.sh
 check_logs.sh
 info_distro.sh
