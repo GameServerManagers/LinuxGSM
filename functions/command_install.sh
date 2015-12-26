@@ -19,7 +19,7 @@ elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3.sh
 elif [ ! -z "${appid}" ]; then
-	fn_install_steamcmd
+	install_steamcmd.sh
 	finstall_serverfiles.sh
 	install_steamfix.sh
 fi
