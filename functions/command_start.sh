@@ -8,7 +8,7 @@ lgsm_version="201215"
 
 local modulename="Starting"
 
-command_start.sh_teamspeak3(){
+fn_start_teamspeak3(){
 check_root.sh
 check_systemdir.sh
 check_logs.sh
@@ -72,7 +72,7 @@ sleep 0.5
 echo -en "\n"
 }
 
-command_start.sh_tmux(){
+fn_start_tmux(){
 check_root.sh
 check_systemdir.sh
 check_ip.sh
@@ -201,7 +201,7 @@ echo -en "\n"
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
-	command_start.sh_teamspeak3
+	fn_start_teamspeak3
 else
-	command_start.sh_tmux
+	fn_start_tmux
 fi

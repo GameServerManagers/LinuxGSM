@@ -2,7 +2,7 @@
 # LGSM fn_functions function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="261215"
 
 # Description: Redirect to new core_functions.sh
 
@@ -16,5 +16,3 @@ fn_getopt(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
-
-core_functions.sh

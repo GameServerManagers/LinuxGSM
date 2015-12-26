@@ -2,7 +2,7 @@
 # LGSM install_ts3.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="251215"
 
 info_distro.sh
 # Gets the teamspeak server architecture
@@ -49,7 +49,6 @@ if [ -z "${availablebuild}" ]; then
 fi
 
 cd "${rootdir}"
-mkdir "${filesdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
@@ -79,15 +78,3 @@ else
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
 rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
-
-## Get privilege key
-echo ""
-echo "Getting privilege key"
-echo "================================="
-sleep 1
-echo "IMPORANT! Save these details for later."
-sleep 1
-cd "${executabledir}"
-./ts3server_startscript.sh start
-sleep 5
-./ts3server_startscript.sh stop

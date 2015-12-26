@@ -2,7 +2,7 @@
 # LGSM fn_install function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="261215"
 
 check_root.sh
 install_header.sh
@@ -32,6 +32,8 @@ install_config.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	install_gslt.sh
 	fix_csgo.sh
+elif [ "${gamename}" == "Teamspeak 3" ]; then
+	fn_install_ts3db
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "Killing Floor" ]; then

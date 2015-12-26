@@ -28,7 +28,7 @@ sdtd_telnet(){
     ')
 }
 
-command_stop.sh_teamspeak3(){
+fn_stop_teamspeak3(){
 check_root.sh
 check_systemdir.sh
 fn_printdots "${servername}"
@@ -49,7 +49,7 @@ sleep 1
 echo -en "\n"
 }
 
-command_stop.sh_tmux(){
+fn_stop_tmux(){
 check_root.sh
 check_systemdir.sh
 info_config.sh
@@ -156,7 +156,7 @@ fi
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
-    command_stop.sh_teamspeak3
+    fn_stop_teamspeak3
 else
-    command_stop.sh_tmux
+    fn_stop_tmux
 fi

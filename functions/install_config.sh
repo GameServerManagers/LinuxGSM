@@ -2,12 +2,12 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="251215"
 
 fn_defaultconfig(){
-echo "creating ${servercfg} config file."
-cp -v "${servercfgdefault}" "${servercfgfullpath}"
-sleep 1
+	echo "creating ${servercfg} config file."
+	cp -v "${servercfgdefault}" "${servercfgfullpath}"
+	sleep 1
 }
 
 fn_userinputconfig(){
@@ -102,16 +102,6 @@ fn_userinputconfig
 echo ""
 }
 
-fn_ts3config(){
-echo "creating blank ${servercfg} config file."
-sleep 1
-echo  "${servercfg} can remain blank by default."
-sleep 1
-echo  "${servercfg} is located in ${servercfgfullpath}."
-sleep 1
-touch "${servercfgfullpath}"
-}
-
 fn_ut99config(){
 echo "${defaultcfg} > ${servercfgfullpath}"
 tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
@@ -151,12 +141,15 @@ echo ""
 }
 
 echo ""
+if [ "${gamename}" != "Hurtworld" ]; then
 echo "Creating Configs"
 echo "================================="
 sleep 1
-mkdir -pv "${servercfgdir}"
-cd "${servercfgdir}"
-githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
+	mkdir -pv "${servercfgdir}"
+	cd "${servercfgdir}"
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
+fi
+
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_defaultconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
@@ -283,7 +276,10 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	sleep 1
 	fn_serious3config
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_ts3config
+	echo -e "downloading lgsm-default.ini...\c"
+	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

@@ -9,7 +9,7 @@ lgsm_version="061115"
 
 local modulename="Monitor"
 
-command_monitor.sh_teamspeak3(){
+fn_monitor_teamspeak3(){
 check_root.sh
 check_systemdir.sh
 logs.sh
@@ -53,7 +53,7 @@ echo -en "\n"
 fn_restart
 }
 
-command_monitor.sh_tmux(){
+fn_monitor_tmux(){
 check_root.sh
 check_systemdir.sh
 check_ip.sh
@@ -111,7 +111,7 @@ fi
 }
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
-	command_monitor.sh_teamspeak3
+	fn_monitor_teamspeak3
 else
-	command_monitor.sh_tmux
+	fn_monitor_tmux
 fi

@@ -2,14 +2,14 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="211215"
+lgsm_version="261215"
 
 # Description: Displays server infomation.
 
 # Standard Details
 # This applies to all engines
 
-command_details.sh_os(){
+fn_details_os(){
 echo -e ""
 echo -e "\e[93mDistro Details\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -23,7 +23,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 } | column -s $'\t' -t 
 }
 
-command_details.sh_performance(){
+fn_details_performance(){
 echo -e ""
 echo -e "\e[93mPerformance\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -39,7 +39,7 @@ echo -e ""
 } | column -s $'\t' -t 
 }
 
-command_details.sh_disk(){
+fn_details_disk(){
 echo -e ""
 echo -e "\e[93mStorage\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -55,7 +55,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 } | column -s $'\t' -t 
 }
 
-command_details.sh_gameserver(){
+fn_details_gameserver(){
 echo -e ""
 
 ## server details
@@ -180,7 +180,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 } | column -s $'\t' -t 
 }
 
-command_details.sh_backup(){
+fn_details_backup(){
 echo -e ""
 echo -e "\e[92mBackups\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -197,14 +197,14 @@ else
 fi
 }
 
-command_details.sh_commandlineparms(){
+fn_details_commandlineparms(){
 echo -e ""
 echo -e "\e[92mCommand-line Parameters\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo -e "${executable} ${parms}"
 }
 
-command_details.sh_statusbottom(){
+fn_details_statusbottom(){
 echo -e ""
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
@@ -225,15 +225,15 @@ echo -e ""
 
 # Engine Specific details
 
-command_details.sh_avalanche(){
+fn_details_avalanche(){
 check_ip.sh
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -248,18 +248,18 @@ echo -e ""
 	echo -e "> Game\tINBOUND\t${port}\tudp"
 } | column -s $'\t' -t 
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_dontstarve(){
+fn_details_dontstarve(){
 check_ip.sh
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -274,18 +274,18 @@ echo -e ""
 	echo -e "> Game\tINBOUND\t${port}\tudp"
 } | column -s $'\t' -t 
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_projectzomboid(){
+fn_details_projectzomboid(){
 check_ip.sh
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -300,21 +300,21 @@ echo -e ""
 	echo -e "> Game\tINBOUND\t${port}\tudp"
 } | column -s $'\t' -t 
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
 
-command_details.sh_realvirtuality(){
+fn_details_realvirtuality(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -335,20 +335,20 @@ fi
 	echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
 } | column -s $'\t' -t 
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_seriousengine35(){
+fn_details_seriousengine35(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -364,20 +364,20 @@ echo -e ""
 	echo -e "> Query\tINBOUND\t${queryport}\tudp"
 } | column -s $'\t' -t 
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_source(){
+fn_details_source(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -396,20 +396,20 @@ echo -e ""
 	echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_spark(){
+fn_details_spark(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -434,20 +434,20 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_starbound(){
+fn_details_starbound(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -464,19 +464,19 @@ echo -e ""
 	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 
 }
 
-command_details.sh_teamspeak3(){
+fn_details_teamspeak3(){
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -493,20 +493,20 @@ echo -e ""
 	echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_teeworlds(){
+fn_details_teeworlds(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -521,20 +521,20 @@ echo -e ""
 	echo -e "> Game\tINBOUND\t${port}\ttcp"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_terraria(){
+fn_details_terraria(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -551,20 +551,20 @@ echo -e ""
 	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_unity3d(){
-check_ip.sh
+fn_details_sdtd(){
+fn_check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -598,20 +598,51 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_unreal(){
+fn_details_hurtworld(){
+check_ip.sh
+fn_parms
+fn_details_config
+fn_details_distro
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "hwserver script"
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep Hurtworld.x86"
+echo -e ""
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+	echo -e "> Query\tINBOUND\t${queryport}\tudp"
+
+} | column -s $'\t' -t
+echo -e ""
+
+fn_details_statusbottom
+}
+
+fn_details_unreal(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -655,20 +686,20 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
-command_details.sh_ark(){
+fn_details_ark(){
 check_ip.sh
 fn_parms
 info_config.sh
 info_distro.sh
-command_details.sh_os
-command_details.sh_performance
-command_details.sh_disk
-command_details.sh_gameserver
-command_details.sh_backup
-command_details.sh_commandlineparms
+fn_details_os
+fn_details_performance
+fn_details_disk
+fn_details_gameserver
+fn_details_backup
+fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -684,53 +715,57 @@ echo -e ""
 	echo -e "> Query\tINBOUND\t${queryport}\tudp"
 } | column -s $'\t' -t
 
-command_details.sh_statusbottom
+fn_details_statusbottom
 }
 
 if [ ! -e "${servercfgfullpath}" ]; then
-	echo ""
-	fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
-	echo "${servercfgfullpath}"
-	echo "Some details cannot be displayed"
-	echo -en ".\r"
-	sleep 1
-	echo -en "..\r"
-	sleep 1
-	echo -en "...\r"
-	sleep 1
-	echo -en "   \r"
+	if [ "${gamename}" != "Hurtworld" ]; then
+		echo ""
+		fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
+		echo "${servercfgfullpath}"
+		echo "Some details cannot be displayed"
+		echo -en ".\r"
+		sleep 1
+		echo -en "..\r"
+		sleep 1
+		echo -en "...\r"
+		sleep 1
+		echo -en "   \r"
+	fi
 fi
 
 info_glibc.sh
 
 if [ "${engine}" == "avalanche" ]; then
-	command_details.sh_avalanche
+	fn_details_avalanche
 elif [ "${engine}" == "dontstarve" ]; then
-		command_details.sh_dontstarve
+		fn_details_dontstarve
 elif [ "${engine}" == "projectzomboid" ]; then
-	command_details.sh_projectzomboid
+	fn_details_projectzomboid
 elif [ "${engine}" == "realvirtuality" ]; then
-	command_details.sh_realvirtuality
+	fn_details_realvirtuality
 elif [ "${engine}" == "seriousengine35" ]; then
-	command_details.sh_seriousengine35
+	fn_details_seriousengine35
 elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
-	command_details.sh_source
+	fn_details_source
 elif [ "${engine}" == "spark" ]; then
-	command_details.sh_spark
+	fn_details_spark
 elif [ "${engine}" == "starbound" ]; then
-	command_details.sh_starbound
+	fn_details_starbound
 elif [ "${engine}" == "teeworlds" ]; then
-	command_details.sh_teeworlds
+	fn_details_teeworlds
 elif [ "${engine}" == "terraria" ]; then
-	command_details.sh_terraria
-elif [ "${engine}" == "unity3d" ]; then
-	command_details.sh_unity3d
+	fn_details_terraria
 elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
-	command_details.sh_unreal
+	fn_details_unreal
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
-	command_details.sh_ark
+	fn_details_ark
+elif [ "${gamename}" == "Hurtworld" ]; then
+	fn_details_hurtworld
+elif [ "${gamename}" == "7 Days To Die" ]; then
+	fn_details_sdtd
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	command_details.sh_teamspeak3
+	fn_details_teamspeak3
 else
 	fn_printerrornl "Unable to detect server engine."
 fi

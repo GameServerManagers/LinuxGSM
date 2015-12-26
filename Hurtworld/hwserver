@@ -1,7 +1,8 @@
 #!/bin/bash
-# Teamspeak 3
+# Hurtworld
 # Server Management Script
-# Author: Daniel Gibbs
+# Author: Daniel Gibbs,
+# Contributor: UltimateByte
 # Website: http://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
@@ -9,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="251215"
+version="191215"
 
 #### Variables ####
 
@@ -18,44 +19,79 @@ version="251215"
 emailnotification="off"
 email="email@example.com"
 
-# Start Variables
-updateonstart="off"
+# Steam login
+steamuser="anonymous"
+steampass=""
 
-# Server Details
-gamename="Teamspeak 3"
-servername="Teamspeak 3 Server"
-servicename="ts3-server"
+# Server settings
+servername="Hurtworld LGSM Server"
+ip="0.0.0.0"
+port="12871"
+queryport="12881"
+maxplayers="20"
+map="" #Optional
+creativemode="0" #Free Build
+logfile="gamelog.txt"
 
-# Directories
-rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-lockselfname=".${servicename}.lock"
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
-executabledir="${filesdir}"
-executable="./ts3server_startscript.sh"
-servercfg="${servicename}.ini"
-servercfgdir="${filesdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
-backupdir="${rootdir}/backups"
+# Adding admins using STEAMID64
+# Example : addadmin 012345678901234567; addadmin 987654321098765432
+admins=""
 
-# Logging
-logdays="7"
-gamelogdir="${filesdir}/logs"
-scriptlogdir="${rootdir}/log/script"
+# Advanced
+# Rollback server state (remove after start command)
+loadsave=""
+# Use unstable 64 bit server executable (O/1)
+x64mode="0"
 
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
+# http://hurtworld.wikia.com/wiki/Hosting_A_Server
+fn_parms(){
+parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
+}
 
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+#### Advanced Variables ####
 
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="master"
+githubbranch="hurt-world"
+
+# Steam
+appid="405100"
+
+# Server Details
+servicename="hurtworld-server"
+gamename="Hurtworld"
+engine="unity3d"
+
+# Directories
+rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
+lockselfname=".${servicename}.lock"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+if [ "${x64mode}" == "1" ]; then
+	executable="./Hurtworld.x86_64"
+else
+	executable="./Hurtworld.x86"
+fi
+backupdir="${rootdir}/backups"
+
+# Logging
+logdays="7"
+gamelogdir="${rootdir}/log/server"
+scriptlogdir="${rootdir}/log/script"
+consolelogdir="${rootdir}/log/console"
+
+gamelog="${gamelogdir}/${servicename}-game.log"
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+consolelog="${consolelogdir}/${servicename}-console.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
 ##### Script #####
 # Do not edit
@@ -84,7 +120,7 @@ if [ ! -f "${filepath}" ]; then
 	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
 	if [ $? -ne 0 ]; then
 		echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "${curl}"
+		echo "		${curl}"|grep "curl:"
 		echo -e "${githuburl}\n"
 		exit
 	else
@@ -113,3 +149,4 @@ fn_functions
 
 getopt=$1
 fn_getopt
+
