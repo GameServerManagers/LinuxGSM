@@ -182,7 +182,7 @@ sleep 1
 echo "================================="
 echo "Server Tests"
 echo "Using: ${gamename}"
-echo "Testing Branch $TRAVIS_BRANCH"
+echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 echo ""
 sleep 1
