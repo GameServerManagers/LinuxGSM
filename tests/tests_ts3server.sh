@@ -62,13 +62,13 @@ fi
 source "${rootdir}/functions/${functionfile}"
 }
 
-fn_functions(){
-# Functions are defined in fn_functions.
+core_functions.sh(){
+# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_functions
+core_functions.sh
 
 fn_currentstatus_tmux(){
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
@@ -152,7 +152,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
-(fn_getopt)
+(core_getopt.sh)
 echo ""
 echo "Test complete!"
 sleep 1

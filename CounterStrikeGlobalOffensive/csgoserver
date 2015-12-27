@@ -149,8 +149,8 @@ fn_runfunction(){
 	fn_getgithubfile "functions/${functionfile}" 1
 }
 
-fn_functions(){
-# Functions are defined in fn_functions.
+core_functions.sh(){
+# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
