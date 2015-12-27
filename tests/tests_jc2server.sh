@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="071115"
+version="271215"
 
 #### Variables ####
 
@@ -121,9 +121,6 @@ fn_runfunction
 
 core_functions.sh
 
-getopt=$1
-core_getopt.sh
-
 fn_currentstatus_tmux(){
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 if [ "${pid}" != "0" ]; then
@@ -207,7 +204,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
-(fn_getopt)
+(core_getopt.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -484,3 +481,4 @@ fn_printinfo "Tidying up directories."
 sleep 1
 rm -rfv ${serverfiles}
 echo "END"
+
