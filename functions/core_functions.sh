@@ -260,7 +260,6 @@ autoinstall=1
 command_install.sh
 }
 
-
 install_complete.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
