@@ -2,7 +2,7 @@
 # LGSM install_gslt.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="091215"
+lgsm_version="271215"
 
 # Description: Configures GSLT.
 

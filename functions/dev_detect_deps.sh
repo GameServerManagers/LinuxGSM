@@ -2,7 +2,7 @@
 # LGSM fn_dep_detect function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="271215"
 
 # Description: Detects dependencies the server binary requires.
 

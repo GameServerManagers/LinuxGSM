@@ -2,7 +2,7 @@
 # LGSM install_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="271215"
 
 # Description: Downloads SteamCMD on install.
 

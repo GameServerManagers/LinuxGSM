@@ -2,7 +2,7 @@
 # LGSM info_distro.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="211215"
+lgsm_version="271215"
 
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and email.sh.

@@ -2,7 +2,7 @@
 # LGSM update_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="271215"
 
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 

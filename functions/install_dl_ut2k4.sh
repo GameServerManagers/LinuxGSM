@@ -2,7 +2,7 @@
 # LGSM install_dl_ut2k4.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="271215"
 
 echo "Downloading Server Files"
 echo "================================="

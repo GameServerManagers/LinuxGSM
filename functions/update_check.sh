@@ -2,7 +2,7 @@
 # LGSM update_check.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="201215"
+lgsm_version="271215"
 
 # Description: Checks if a server update is available.
 

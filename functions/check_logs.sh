@@ -2,7 +2,7 @@
 # LGSM check_logs.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="261215"
+lgsm_version="271215"
 
 # Description: Checks that log files exist on server start
 

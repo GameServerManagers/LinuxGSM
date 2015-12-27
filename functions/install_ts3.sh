@@ -2,7 +2,7 @@
 # LGSM install_ts3.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="251215"
+lgsm_version="271215"
 
 info_distro.sh
 # Gets the teamspeak server architecture

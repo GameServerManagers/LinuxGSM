@@ -2,7 +2,7 @@
 # LGSM install_ut2k4_key.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="271215"
 
 echo "Enter ${gamename} CD Key"
 echo "================================="

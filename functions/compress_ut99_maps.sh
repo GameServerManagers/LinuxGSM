@@ -2,7 +2,7 @@
 # LGSM compress_ut99_maps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="271215"
 
 check_root.sh
 clear

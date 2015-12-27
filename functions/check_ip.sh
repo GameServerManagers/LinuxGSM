@@ -2,7 +2,7 @@
 # LGSM check_ip.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="261215"
+lgsm_version="271215"
 
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manualy set using ip="0.0.0.0".

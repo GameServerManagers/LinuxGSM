@@ -2,7 +2,7 @@
 # LGSM core_getopt.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="271215"
 
 # Description: getopt arguments.
 
