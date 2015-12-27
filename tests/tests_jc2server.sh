@@ -42,7 +42,7 @@ engine="avalanche"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
+selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
