@@ -131,11 +131,6 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-info_ts3status.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
 
 # Compress
 
@@ -194,6 +189,11 @@ fn_runfunction
 }
 
 info_glibc.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+info_ts3status.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
