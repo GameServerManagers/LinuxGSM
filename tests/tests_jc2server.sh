@@ -25,6 +25,13 @@ parms=""
 
 #### Advanced Variables ####
 
+# Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="dgibbs64"
+githubrepo="linuxgsm"
+githubbranch="$TRAVIS_BRANCH"
+
 # Steam
 appid="261140"
 
@@ -63,20 +70,47 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 ##### Script #####
 # Do not edit
 
-fn_runfunction(){
-# Functions are downloaded and run with this function
-if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
-	cd "${rootdir}"
-	if [ ! -d "functions" ]; then
-		mkdir functions
+fn_getgithubfile(){
+filename=$1
+exec=$2
+fileurl=${3:-$filename}
+filepath="${rootdir}/${filename}"
+filedir=$(dirname "${filepath}")
+# If the function file is missing, then download
+if [ ! -f "${filepath}" ]; then
+	if [ ! -d "${filedir}" ]; then
+		mkdir "${filedir}"
 	fi
-	cd functions
-	echo -e "    loading ${functionfile}...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
-	chmod +x "${functionfile}"
-	cd "${rootdir}"
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
+	echo -e "    fetching ${filename}...\c"
+	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
+		:
+	else	
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "Curl is not installed!"
+		echo -e ""
+		exit
+	fi
+	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
+	if [ $? -ne 0 ]; then
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "${curl}"
+		echo -e "${githuburl}\n"
+		exit
+	else
+		echo -e "\e[0;32mOK\e[0m"
+	fi	
+	if [ "${exec}" ]; then
+		chmod +x "${filepath}"
+	fi
 fi
-source "${rootdir}/functions/${functionfile}"
+if [ "${exec}" ]; then
+	source "${filepath}"
+fi
+}
+
+fn_runfunction(){
+	fn_getgithubfile "functions/${functionfile}" 1
 }
 
 fn_functions(){
@@ -85,7 +119,10 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_functions
+core_functions.sh
+
+getopt=$1
+core_getopt.sh
 
 fn_currentstatus_tmux(){
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
