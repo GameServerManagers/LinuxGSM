@@ -41,15 +41,19 @@ fn_install_ts3db_mariadb(){
 	sleep 1
 }
 
-echo ""
-while true; do
-	read -e -i "n" -p "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)? [y/N]" yn
-	case $yn in
-	[Yy]* ) fn_install_ts3db_mariadb && break;;
-	[Nn]* ) break;;
-	* ) echo "Please answer yes or no.";;
-	esac
-done
+if [ -z "${autoinstall}" ]; then
+	echo ""
+	while true; do
+		read -e -i "n" -p "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)? [y/N]" yn
+		case $yn in
+		[Yy]* ) fn_install_ts3db_mariadb && break;;
+		[Nn]* ) break;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+else
+fn_printwarningnl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
+fi
 
 ## Get privilege key
 echo ""
