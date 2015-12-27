@@ -2,7 +2,7 @@
 # LGSM check_tmux.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="061115"
+lgsm_version="261215"
 
 # Checks if tmux is installed as too many users do not RTFM or know how to use Google.
 

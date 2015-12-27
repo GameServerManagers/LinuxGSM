@@ -33,7 +33,7 @@ if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	install_gslt.sh
 	fix_csgo.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_install_ts3db
+	install_ts3db.sh
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "Killing Floor" ]; then

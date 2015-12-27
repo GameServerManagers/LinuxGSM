@@ -2,7 +2,7 @@
 # LGSM check_systemdir.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="161215"
+lgsm_version="261215"
 
 if [ ! -d "${systemdir}" ]; then
 	fn_printfailnl "Cannot access ${systemdir}: No such directory"
