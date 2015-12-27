@@ -6,7 +6,7 @@ lgsm_version="271215"
 
 # Description: getopt arguments.
 
-core_getopt.sh_generic(){
+fn_getopt_generic(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -70,7 +70,7 @@ case "$getopt" in
 exit
 }
 
-core_getopt.sh_teamspeak3(){
+fn_getopt_teamspeak3(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -121,7 +121,7 @@ case "$getopt" in
 exit
 }
 
-core_getopt.sh_mumble(){
+fn_getopt_mumble(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -166,7 +166,7 @@ case "$getopt" in
 exit
 }
 
-core_getopt.sh_gmodserver(){
+fn_getopt_gmodserver(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -233,7 +233,7 @@ case "$getopt" in
 exit
 }
 
-core_getopt.sh_unreal(){
+fn_getopt_unreal(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -288,7 +288,7 @@ exit
 }
 
 
-core_getopt.sh_unreal2(){
+fn_getopt_unreal2(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -356,7 +356,7 @@ exit
 }
 
 
-core_getopt.sh_ut2k4(){
+fn_getopt_ut2k4(){
 case "$getopt" in
 	st|start)
 		command_start.sh;;
@@ -411,17 +411,17 @@ exit
 }
 
 if [ "${gamename}" == "Mumble" ]; then
-	core_getopt.sh_mumble
+	fn_getopt__mumble
 elif [ "${gamename}" == "Teamspeak 3" ]; then
-	core_getopt.sh_teamspeak3
+	fn_getopt_teamspeak3
 elif [ "${engine}" == "unreal2" ]; then
 	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
-		core_getopt.sh_ut2k4
+		fn_getopt_ut2k4
 	else
-		core_getopt.sh_unreal2
+		fn_getopt_unreal2
 	fi
 elif [ "${engine}" == "unreal" ]; then
-	core_getopt.sh_unreal
+	fn_getopt_unreal
 else
-	core_getopt.sh_generic
+	fn_getopt_generic
 fi

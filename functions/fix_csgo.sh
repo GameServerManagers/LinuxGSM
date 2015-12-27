@@ -19,7 +19,7 @@ if [ ! -f "${filesdir}/steam_appid.txt" ]; then
 fi
 }
 
-fix_csgo.shes(){
+fn_csgofixes(){
 # Fixes the following error:
 # Error parsing BotProfile.db - unknown attribute 'Rank".
 if ! grep -q "//Rank" "${systemdir}/botprofile.db" > /dev/null 2>&1; then
@@ -84,5 +84,5 @@ fi
 if [ ! -z "${startfix}" ]; then
 	fn_csgoappfix
 else
-	fix_csgo.shes
+	fn_csgofixes
 fi
