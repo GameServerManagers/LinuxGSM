@@ -44,5 +44,3 @@ fn_module_compare "${cmd}" "${no_check_logs[@]}"
 if [ $? != 0 ]; then
 	check_tmux.sh
 fi
-
-#info_ts3status.sh # may need to move out of checks
