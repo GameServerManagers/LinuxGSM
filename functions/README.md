@@ -3,7 +3,7 @@
 These functions are universal functions that work in all scripts.
 
 <h2>Function Names</h2>
-Functions have been named to give an idea of what the function does
+Functions have been named to give an idea of what the function does.
 
 * core: Essential functions that are will always run first.
 * command: Primary command function.
