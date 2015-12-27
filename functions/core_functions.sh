@@ -7,7 +7,45 @@ lgsm_version="271215"
 # Description: Defines all functions to allow download and execution of functions using fn_runfunction.
 # This function is called first before any other function. Without this file other functions would not load.
 
-fix_arma3.sh(){
+#Legacy functions
+
+fn_functions(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_getopt(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+
+# Core
+
+core_getopt.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+core_messages.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+
+# Command
+
+command_console.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_debug.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -16,6 +54,42 @@ command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
+
+command_monitor.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_start.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_stop.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_validate.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_install.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fn_restart(){
+local modulename="Restarting"
+info_config.sh
+fn_scriptlog "${servername}"
+command_stop.sh
+command_start.sh
+}
+
+
+# Checks
 
 check.sh(){
 functionfile="${FUNCNAME}"
@@ -62,10 +136,8 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-command_console.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
+
+# Compress
 
 compress_unreal2_maps.sh(){
 functionfile="${FUNCNAME}"
@@ -77,20 +149,39 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+
+# Dev
+
+dev_debug.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+dev_detect_deps.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+
+# Fix
+
+fix_arma3.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fix_csgo.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-command_debug.sh(){
+fix_ins.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-command_details.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
+
+# Info
 
 info_config.sh(){
 functionfile="${FUNCNAME}"
@@ -107,15 +198,8 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-dev_debug.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
-dev_detect_deps.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
+# Email
 
 email.sh(){
 functionfile="${FUNCNAME}"
@@ -127,53 +211,24 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-core_getopt.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
-fix_ins.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
+# Logs
 
 logs.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-core_messages.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
-command_monitor.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
+# Monitor
 
 monitor_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_restart(){
-local modulename="Restarting"
-info_config.sh
-fn_scriptlog "${servername}"
-command_stop.sh
-command_start.sh
-}
 
-command_start.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-command_stop.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
+# Update
 
 update_check.sh(){
 functionfile="${FUNCNAME}"
@@ -195,10 +250,6 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-command_validate.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
 #
 ## Installer functions
@@ -209,10 +260,6 @@ autoinstall=1
 command_install.sh
 }
 
-command_install.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
 
 install_complete.sh(){
 functionfile="${FUNCNAME}"
