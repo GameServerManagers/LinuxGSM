@@ -27,7 +27,7 @@ fi
 fn_printdots "Checking session: CHECKING"
 fn_scriptlog "Checking session: CHECKING"
 sleep 1
-check_ts3status.sh
+info_ts3status.sh
 if [ "${ts3status}" = "Server is running" ]; then
 	fn_printok "Checking session: OK"
 	fn_scriptlog "Checking session: OK"

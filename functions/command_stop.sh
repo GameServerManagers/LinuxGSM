@@ -34,7 +34,7 @@ check_systemdir.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-check_ts3status.sh
+info_ts3status.sh
 if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
     fn_printfail "${servername} is already stopped"
     fn_scriptlog "${servername} is already stopped"

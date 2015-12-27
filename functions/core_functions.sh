@@ -131,7 +131,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-check_ts3status.sh(){
+info_ts3status.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

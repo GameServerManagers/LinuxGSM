@@ -105,7 +105,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 
 	# online status
 	if [ "${gamename}" == "Teamspeak 3" ]; then
-		check_ts3status.sh
+		info_ts3status.sh
 		if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 			echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
 		else

@@ -274,7 +274,7 @@ if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
-	check_ts3status.sh
+	info_ts3status.sh
 	if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
 		update_dl.sh
 		command_start.sh

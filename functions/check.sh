@@ -45,4 +45,4 @@ if [ $? != 0 ]; then
 	check_tmux.sh
 fi
 
-#check_ts3status.sh # may need to move out of checks
+#info_ts3status.sh # may need to move out of checks

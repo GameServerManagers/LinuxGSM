@@ -12,7 +12,7 @@ fn_start_teamspeak3(){
 check_root.sh
 check_systemdir.sh
 check_logs.sh
-check_ts3status.sh
+info_ts3status.sh
 
 if [ "${ts3status}" != "Server is running" ]; then
 	# Will check for updates is updateonstart is yes
@@ -58,7 +58,7 @@ date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
 ./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 sleep 1
-check_ts3status.sh
+info_ts3status.sh
 if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
