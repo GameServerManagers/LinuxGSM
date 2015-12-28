@@ -30,7 +30,6 @@ local allowed_commands_array=( backup console debug details map-compressor monit
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${getopt}" ]; then
-		echo "OK logs"
 		check_logs.sh
 	fi
 done
