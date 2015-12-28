@@ -143,11 +143,11 @@ sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
 # If the server fails to start
 if [ "${tmuxwc}" -eq 0 ]; then
-	fn_printfail "Unable to start ${servername}"
+	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	sleep 1
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
-		fn_printfail "Unable to start ${servername}: Tmux error:"
+		fn_printfailnl "Unable to start ${servername}: Tmux error:"
 		fn_scriptlog "Tmux error"
 		sleep 1
 		echo -en "\n"
