@@ -297,7 +297,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 	fn_servercfgfullpath
 
 # Source Engine Games
-elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
@@ -635,7 +635,7 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 	fi
 
 # Unreal Tournament 
-elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
+elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 
 	# server name
 	if [ -f "${servercfgfullpath}" ]; then
