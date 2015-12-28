@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="191215"
+version="271215"
 
 #### Variables ####
 
@@ -55,7 +55,7 @@ parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport 
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="hurt-world"
+githubbranch="master"
 
 # Steam
 appid="405100"
