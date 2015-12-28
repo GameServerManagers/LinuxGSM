@@ -380,7 +380,7 @@ case "$getopt" in
 	i|install)
 		command_install.sh;;
 	mc|map-compressor)
-		compress_ut99_maps.sh;;
+		compress_unreal2_maps.sh;;
 	dd|depsdetect)
 		dev_detect_deps.sh;;		
 	*)
