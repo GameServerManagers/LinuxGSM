@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 check.sh
 clear
 echo "${gamename} Map Compressor"

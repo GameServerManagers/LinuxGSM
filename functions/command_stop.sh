@@ -7,6 +7,7 @@ lgsm_version="271215"
 # Description: Stops the server.
 
 local modulename="Stopping"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 sdtd_telnet(){
     sdtdshutdown=$( expect -c '

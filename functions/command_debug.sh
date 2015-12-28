@@ -7,6 +7,8 @@ lgsm_version="271215"
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
 local modulename="Debug"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 check.sh
 info_distro.sh
 fn_parms

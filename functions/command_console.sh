@@ -7,6 +7,8 @@ lgsm_version="271215"
 # Description: Gives access to the server tmux console.
 
 local modulename="Console"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 check.sh
 echo ""
 echo "${gamename} Console"

@@ -6,6 +6,8 @@ lgsm_version="271215"
 
 # Description: Displays server infomation.
 
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 # Standard Details
 # This applies to all engines
 

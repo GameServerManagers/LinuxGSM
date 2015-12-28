@@ -19,41 +19,40 @@ array_contains () {
     return $in
 }
 
-
 check_root.sh
 
-if [ "${getopt}" != "install" ]||[ "${getopt}" != "auto-install" ]; then
+if [ "${function_selfname}" != "install" ]||[ "${function_selfname}" != "auto-install" ]; then
 	check_systemdir.sh
 fi
 
-local allowed_commands_array=( backup console debug details map-compressor monitor start stop update validate )
+local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh command_update.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
-	if [ "${allowed_command}" == "${getopt}" ]; then
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_logs.sh
 	fi
 done
 
-local allowed_commands_array=( debug details monitor start stop )
+local allowed_commands_array=( command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
-	if [ "${allowed_command}" == "${getopt}" ]; then
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_ip.sh
 	fi
 done
 
-local allowed_commands_array=( debug install start stop update validate )
+local allowed_commands_array=( command_debug.sh command_start.sh command_stop.sh command_update.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
-	if [ "${allowed_command}" == "${getopt}" ]; then
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_steamcmd.sh
 	fi
 done
 
-local allowed_commands_array=( console start stop )
+local allowed_commands_array=( command_console.sh command_start.sh command_stop.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
-	if [ "${allowed_command}" == "${getopt}" ]; then
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_tmux.sh
 	fi
 done

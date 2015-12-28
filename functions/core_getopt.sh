@@ -203,8 +203,6 @@ case "$getopt" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		dev_detect_deps.sh;;
-	gc|gmod-content)
-		fn_content_gmod;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -227,7 +225,6 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
 		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
-		echo -e "\e[34mgmod-content\t\e[0mDownload gmod add-on content."
 	} | column -s $'\t' -t 
 	esac
 exit

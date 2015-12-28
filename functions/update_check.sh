@@ -7,6 +7,7 @@ lgsm_version="271215"
 # Description: Checks if a server update is available.
 
 local modulename="Update"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ### SteamCMD Update Checker ###
 
@@ -296,7 +297,7 @@ else
 fi
 }
 
-check_logs.sh
+check.sh
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check

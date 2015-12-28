@@ -8,6 +8,7 @@ lgsm_version="271215"
 # then passes to monitor_gsquery.sh.
 
 local modulename="Monitor"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_monitor_teamspeak3(){
 check.sh

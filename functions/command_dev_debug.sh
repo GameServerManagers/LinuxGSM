@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 if [ -f ".dev-debug" ]; then
 	rm .dev-debug
 	fn_printoknl "Disabled dev-debug"
