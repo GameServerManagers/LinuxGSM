@@ -102,8 +102,7 @@ fi
 }
 
 fn_steamcmdcheck(){
-check_steamcmd.sh
-check_steamuser.sh
+check.sh
 fn_appmanifestcheck
 # Checks for server update from SteamCMD
 fn_printdots "Checking for update: SteamCMD"

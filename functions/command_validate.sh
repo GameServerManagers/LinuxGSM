@@ -9,8 +9,6 @@ lgsm_version="271215"
 local modulename="Validate"
 
 fn_validation(){
-check_steamcmd.sh
-check_steamuser.sh	
 fn_printwarn "Validating may overwrite some customised files."
 sleep 1
 echo -en "\n"
@@ -42,8 +40,7 @@ fi
 fn_scriptlog "Checking complete"
 }
 
-check_root.sh
-check_systemdir.sh
+check.sh
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
     command_stop.sh

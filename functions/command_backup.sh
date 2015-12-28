@@ -7,8 +7,7 @@ lgsm_version="271215"
 # Description: Creates a .tar.gz file in the backup directory.
 
 local modulename="Backup"
-check_root.sh
-check_systemdir.sh
+check.sh
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""
 echo "${gamename} Backup"

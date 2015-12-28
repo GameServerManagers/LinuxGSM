@@ -106,7 +106,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	# online status
 	if [ "${gamename}" == "Teamspeak 3" ]; then
 		info_ts3status.sh
-		if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
+		if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 			echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
 		else
 			echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
@@ -184,7 +184,7 @@ fn_details_backup(){
 echo -e ""
 echo -e "\e[92mBackups\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-if [ ! -d "${backupdir}" ] || [ "${backupcount}" == "0" ]; then
+if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 	echo -e "No Backups created"
 else
 	{
@@ -207,7 +207,7 @@ echo -e "${executable} ${parms}"
 fn_details_statusbottom(){
 echo -e ""
 if [ "${gamename}" == "Teamspeak 3" ]; then
-	if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
+	if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
         echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
 	else
 		echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
@@ -226,14 +226,6 @@ echo -e ""
 # Engine Specific details
 
 fn_details_avalanche(){
-check_ip.sh
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -252,14 +244,6 @@ fn_details_statusbottom
 }
 
 fn_details_dontstarve(){
-check_ip.sh
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -278,14 +262,6 @@ fn_details_statusbottom
 }
 
 fn_details_projectzomboid(){
-check_ip.sh
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -305,16 +281,6 @@ fn_details_statusbottom
 
 
 fn_details_realvirtuality(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -324,7 +290,7 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep arma3server"
 echo -e ""
-if [ -z "${port}" ] || [ -z "${queryport}" ] || [ -z "${masterport}" ]; then
+if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
 	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
 	echo -e ""
 fi
@@ -339,16 +305,6 @@ fn_details_statusbottom
 }
 
 fn_details_seriousengine35(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -368,16 +324,6 @@ fn_details_statusbottom
 }
 
 fn_details_source(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -400,16 +346,6 @@ fn_details_statusbottom
 }
 
 fn_details_spark(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -438,16 +374,6 @@ fn_details_statusbottom
 }
 
 fn_details_starbound(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -469,14 +395,6 @@ fn_details_statusbottom
 }
 
 fn_details_teamspeak3(){
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -497,16 +415,6 @@ fn_details_statusbottom
 }
 
 fn_details_teeworlds(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -525,16 +433,6 @@ fn_details_statusbottom
 }
 
 fn_details_terraria(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -555,16 +453,6 @@ fn_details_statusbottom
 }
 
 fn_details_sdtd(){
-fn_check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -602,16 +490,6 @@ fn_details_statusbottom
 }
 
 fn_details_hurtworld(){
-check_ip.sh
-fn_parms
-fn_details_config
-fn_details_distro
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -633,16 +511,6 @@ fn_details_statusbottom
 }
 
 fn_details_unreal(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -690,16 +558,6 @@ fn_details_statusbottom
 }
 
 fn_details_ark(){
-check_ip.sh
-fn_parms
-info_config.sh
-info_distro.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_backup
-fn_details_commandlineparms
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -718,6 +576,10 @@ echo -e ""
 fn_details_statusbottom
 }
 
+
+# Run checks and gathers details to display.
+check.sh 
+
 if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${gamename}" != "Hurtworld" ]; then
 		echo ""
@@ -734,8 +596,21 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	fi
 fi
 
+info_config.sh
+info_distro.sh
 info_glibc.sh
+fn_details_os
+fn_details_performance
+fn_details_gameserver
+fn_details_backup
+# Some game servers do not have parms.
+if [ "${gamename}" != "Teamspeak 3" ]||[ "${engine}" != "avalanche" ]||[ "${engine}" != "dontstarve" ]||[ "${engine}" == "projectzomboid" ]; then
+	fn_parms
+	fn_details_commandlineparms
+fi
 
+
+# Display details depending on game or engine.
 if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
 elif [ "${engine}" == "dontstarve" ]; then
@@ -746,7 +621,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 	fn_details_realvirtuality
 elif [ "${engine}" == "seriousengine35" ]; then
 	fn_details_seriousengine35
-elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_details_source
 elif [ "${engine}" == "spark" ]; then
 	fn_details_spark
@@ -756,7 +631,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 	fn_details_teeworlds
 elif [ "${engine}" == "terraria" ]; then
 	fn_details_terraria
-elif [ "${engine}" == "unreal" ] || [ "${engine}" == "unreal2" ]; then
+elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_details_unreal
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_details_ark

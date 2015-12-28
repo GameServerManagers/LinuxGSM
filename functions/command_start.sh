@@ -9,9 +9,7 @@ lgsm_version="271215"
 local modulename="Starting"
 
 fn_start_teamspeak3(){
-check_root.sh
-check_systemdir.sh
-check_logs.sh
+check.sh
 info_ts3status.sh
 
 if [ "${ts3status}" != "Server is running" ]; then

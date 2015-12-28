@@ -7,40 +7,55 @@ lgsm_version="271215"
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
-fn_module_compare() {
-  local e
-  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
-  return 1
+array_contains () {
+    local seeking=$1; shift
+    local in=1
+    for element; do
+        if [ ${element} == ${seeking} ]; then
+            in=0
+            break
+        fi
+    done
+    return $in
 }
 
 
 check_root.sh
 
-if [ "${cmd}" != "install" ]; then
+if [ "${getopt}" != "install" ]||[ "${getopt}" != "auto-install" ]; then
 	check_systemdir.sh
 fi
 
-no_check_logs=( debug details install map-compressor )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_logs.sh
-fi
+local allowed_commands_array=( backup console debug details map-compressor monitor start stop update validate )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${getopt}" ]; then
+		echo "OK logs"
+		check_logs.sh
+	fi
+done
 
-check_ip=( debug )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_ip.sh
-fi
+local allowed_commands_array=( debug details monitor start stop )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${getopt}" ]; then
+		check_ip.sh
+	fi
+done
 
-check_ip=( debug )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_steamuser.sh
-	check_steamcmd.sh
-fi
+local allowed_commands_array=( debug install start stop update validate )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${getopt}" ]; then
+		check_steamuser.sh
+		check_steamcmd.sh
+	fi
+done
 
-check_ip=( start )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_tmux.sh
-fi
+local allowed_commands_array=( console start stop )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${getopt}" ]; then
+		check_tmux.sh
+	fi
+done

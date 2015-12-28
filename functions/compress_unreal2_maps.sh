@@ -4,7 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
-check_root.sh
+check.sh
 clear
 echo "${gamename} Map Compressor"
 echo "============================"
