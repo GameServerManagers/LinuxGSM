@@ -50,6 +50,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+command_email_test.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -205,12 +210,6 @@ email.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
-
-command_email_test.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
 
 # Logs
 
