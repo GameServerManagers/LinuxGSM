@@ -9,7 +9,7 @@ lgsm_version="271215"
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	:
-elif 
+else
 	if [ ! -f "/bin/ip" ]; then
 		ipcommand="/sbin/ip"
 	else
