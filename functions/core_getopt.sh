@@ -42,7 +42,7 @@ case "$getopt" in
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -97,7 +97,7 @@ case "$getopt" in
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -144,7 +144,7 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -202,7 +202,7 @@ case "$getopt" in
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -259,7 +259,7 @@ case "$getopt" in
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;		
+		command_dev_detect_deps.sh;;		
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -321,7 +321,7 @@ case "$getopt" in
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -382,7 +382,7 @@ case "$getopt" in
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;		
+		command_dev_detect_deps.sh;;		
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"

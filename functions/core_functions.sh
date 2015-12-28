@@ -152,12 +152,12 @@ fn_runfunction
 
 # Dev
 
-dev_debug.sh(){
+command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-dev_detect_deps.sh(){
+command_dev_detect_deps.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
