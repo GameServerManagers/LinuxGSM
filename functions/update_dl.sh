@@ -10,13 +10,6 @@ local modulename="Update"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_steamcmd_dl(){
-check.sh
-info_config.sh
-fn_printdots "Updating ${servername}"
-sleep 1
-fn_printoknl "Updating ${servername}"
-fn_scriptlog "Updating ${servername}"
-sleep 1
 cd "${rootdir}"
 cd "steamcmd"
 
@@ -31,7 +24,6 @@ else
 	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
 fi
 
-
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	echo -e '\n'
 	fix_csgo.sh
@@ -39,13 +31,6 @@ fi
 }
 
 fn_teamspeak3_dl(){
-check.sh
-info_config.sh
-fn_printdots "Updating ${servername}"
-sleep 1
-fn_printoknl "Updating ${servername}"
-fn_scriptlog "Updating ${servername}"
-sleep 1
 cd "${rootdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 fn_scriptlog "Downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
@@ -87,6 +72,13 @@ rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
 rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
 }
 
+check.sh
+info_config.sh
+fn_printdots "Updating ${servername}"
+sleep 1
+fn_printoknl "Updating ${servername}"
+fn_scriptlog "Updating ${servername}"
+sleep 1
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_dl
 else

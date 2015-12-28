@@ -296,6 +296,7 @@ else
 fi
 }
 
+check.sh
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
