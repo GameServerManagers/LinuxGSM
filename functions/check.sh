@@ -21,7 +21,7 @@ array_contains () {
 
 check_root.sh
 
-if [ "${function_selfname}" != "install" ]||[ "${function_selfname}" != "auto-install" ]; then
+if [ "${function_selfname}" != "command_install.sh" ]; then
 	check_systemdir.sh
 fi
 
