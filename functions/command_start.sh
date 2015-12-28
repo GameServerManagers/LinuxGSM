@@ -71,10 +71,8 @@ echo -en "\n"
 }
 
 fn_start_tmux(){
-check_root.sh
-check_systemdir.sh
-check_ip.sh
-check_logs.sh
+check.sh
+
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
 	fix_csgo.sh
@@ -99,11 +97,6 @@ fi
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-check_tmux.sh
-
-if [ "${gamename}" != "Mumble" ]; then
-	check_steamcmd.sh
-fi
 
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_scriptlog "Rotating log files"
