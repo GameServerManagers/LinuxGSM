@@ -156,3 +156,6 @@ fn_runfunction
 }
 
 core_functions.sh
+
+getopt=$1
+core_getopt.sh
