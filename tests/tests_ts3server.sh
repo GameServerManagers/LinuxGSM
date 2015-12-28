@@ -22,7 +22,7 @@ servicename="ts3-server"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
+selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
@@ -31,7 +31,9 @@ executable="./ts3server_startscript.sh"
 servercfg="${servicename}.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
+
 
 # Logging
 logdays="7"
@@ -43,32 +45,68 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
+#### Advanced Variables ####
+
+# Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="dgibbs64"
+githubrepo="linuxgsm"
+githubbranch="$TRAVIS_BRANCH"
+
 ##### Script #####
 # Do not edit
 
-fn_runfunction(){
-# Functions are downloaded and run with this function
-if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
-	cd "${rootdir}"
-	if [ ! -d "functions" ]; then
-		mkdir functions
+fn_getgithubfile(){
+filename=$1
+exec=$2
+fileurl=${3:-$filename}
+filepath="${rootdir}/${filename}"
+filedir=$(dirname "${filepath}")
+# If the function file is missing, then download
+if [ ! -f "${filepath}" ]; then
+	if [ ! -d "${filedir}" ]; then
+		mkdir "${filedir}"
 	fi
-	cd functions
-	echo -e "    loading ${functionfile}...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
-	chmod +x "${functionfile}"
-	cd "${rootdir}"
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
+	echo -e "    fetching ${filename}...\c"
+	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
+		:
+	else	
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "Curl is not installed!"
+		echo -e ""
+		exit
+	fi
+	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
+	if [ $? -ne 0 ]; then
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "${curl}"
+		echo -e "${githuburl}\n"
+		exit
+	else
+		echo -e "\e[0;32mOK\e[0m"
+	fi	
+	if [ "${exec}" ]; then
+		chmod +x "${filepath}"
+	fi
 fi
-source "${rootdir}/functions/${functionfile}"
+if [ "${exec}" ]; then
+	source "${filepath}"
+fi
 }
 
-fn_functions(){
-# Functions are defined in fn_functions.
+fn_runfunction(){
+	fn_getgithubfile "functions/${functionfile}" 1
+}
+
+core_functions.sh(){
+# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_functions
+core_functions.sh
 
 fn_currentstatus_tmux(){
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
@@ -101,9 +139,9 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start)
+			(command_start.sh)
 		else
-			(fn_stop)
+			(command_stop.sh)
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
@@ -142,7 +180,7 @@ echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo ""
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -152,7 +190,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
-(fn_getopt)
+(core_getopt.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -178,7 +216,7 @@ echo "Description:"
 echo "start ${gamename} server."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_start
+command_start.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -189,7 +227,7 @@ echo "Description:"
 echo "start ${gamename} server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -202,7 +240,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 (
 	updateonstart="on"
-	fn_start
+	command_start.sh
 )
 echo ""
 echo "Test complete!"
@@ -214,7 +252,7 @@ echo "Description:"
 echo "stop ${gamename} server."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_stop
+command_stop.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -225,7 +263,7 @@ echo "Description:"
 echo "stop ${gamename} server while already stopped."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_stop)
+(command_stop.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -261,7 +299,7 @@ echo "Description:"
 echo "check for updates."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -273,7 +311,7 @@ echo "change the version number tricking LGSM to update."
 requiredstatus="OFFLINE"
 sed -i 's/[0-9]\+/0/g' ${gamelogdir}/ts3server*_0.log
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -285,7 +323,7 @@ echo "Description:"
 echo "run monitor server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -296,7 +334,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -309,7 +347,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -321,10 +359,10 @@ echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 fn_printinfonl "Reseting ${servercfg}."
-fn_install_config
+install_config.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -338,7 +376,7 @@ echo "Description:"
 echo "display details."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_details
+command_details.sh
 echo ""
 echo "Test complete!"
 sleep 1

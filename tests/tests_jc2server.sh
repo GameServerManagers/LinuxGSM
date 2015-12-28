@@ -3,7 +3,7 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-version="071115"
+version="271215"
 
 #### Variables ####
 
@@ -25,6 +25,13 @@ parms=""
 
 #### Advanced Variables ####
 
+# Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="dgibbs64"
+githubrepo="linuxgsm"
+githubbranch="$TRAVIS_BRANCH"
+
 # Steam
 appid="261140"
 
@@ -35,7 +42,7 @@ engine="avalanche"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
+selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
@@ -63,29 +70,56 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 ##### Script #####
 # Do not edit
 
-fn_runfunction(){
-# Functions are downloaded and run with this function
-if [ ! -f "${rootdir}/functions/${functionfile}" ]; then
-	cd "${rootdir}"
-	if [ ! -d "functions" ]; then
-		mkdir functions
+fn_getgithubfile(){
+filename=$1
+exec=$2
+fileurl=${3:-$filename}
+filepath="${rootdir}/${filename}"
+filedir=$(dirname "${filepath}")
+# If the function file is missing, then download
+if [ ! -f "${filepath}" ]; then
+	if [ ! -d "${filedir}" ]; then
+		mkdir "${filedir}"
 	fi
-	cd functions
-	echo -e "    loading ${functionfile}...\c"
-	wget -N /dev/null https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/functions/${functionfile} 2>&1 | grep -F HTTP | cut -c45-
-	chmod +x "${functionfile}"
-	cd "${rootdir}"
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
+	echo -e "    fetching ${filename}...\c"
+	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
+		:
+	else	
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "Curl is not installed!"
+		echo -e ""
+		exit
+	fi
+	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
+	if [ $? -ne 0 ]; then
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "${curl}"
+		echo -e "${githuburl}\n"
+		exit
+	else
+		echo -e "\e[0;32mOK\e[0m"
+	fi	
+	if [ "${exec}" ]; then
+		chmod +x "${filepath}"
+	fi
 fi
-source "${rootdir}/functions/${functionfile}"
+if [ "${exec}" ]; then
+	source "${filepath}"
+fi
 }
 
-fn_functions(){
-# Functions are defined in fn_functions.
+fn_runfunction(){
+	fn_getgithubfile "functions/${functionfile}" 1
+}
+
+core_functions.sh(){
+# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_functions
+core_functions.sh
 
 fn_currentstatus_tmux(){
 pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
@@ -118,9 +152,9 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
     	
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			(fn_start > /dev/null 2>&1)
+			(command_start.sh > /dev/null 2>&1)
 		else
-			(fn_stop > /dev/null 2>&1)
+			(command_stop.sh > /dev/null 2>&1)
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
@@ -148,6 +182,7 @@ sleep 1
 echo "================================="
 echo "Server Tests"
 echo "Using: ${gamename}"
+echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 echo ""
 sleep 1
@@ -160,7 +195,7 @@ echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo ""
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -170,7 +205,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
-(fn_getopt)
+(core_getopt.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -196,7 +231,7 @@ echo "Description:"
 echo "start ${gamename} server."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_start
+command_start.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -207,7 +242,7 @@ echo "Description:"
 echo "start ${gamename} server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_start)
+(command_start.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -220,7 +255,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 (
 	updateonstart="on"
-	fn_start
+	command_start.sh
 )
 echo ""
 echo "Test complete!"
@@ -232,7 +267,7 @@ echo "Description:"
 echo "stop ${gamename} server."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_stop
+command_stop.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -243,7 +278,7 @@ echo "Description:"
 echo "stop ${gamename} server while already stopped."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_stop)
+(command_stop.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -279,7 +314,7 @@ echo "Description:"
 echo "check for updates."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -292,7 +327,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -305,7 +340,7 @@ requiredstatus="ONLINE"
 fn_setstatus
 fn_printinfonl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -318,7 +353,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "removed appmanifest_${appid}.acf."
 rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -329,7 +364,7 @@ echo "Description:"
 echo "force-update bypassing update check."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -340,7 +375,7 @@ echo "Description:"
 echo "force-update bypassing update check server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_update_check
+update_check.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -351,7 +386,7 @@ echo "Description:"
 echo "validate server files."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_validate
+command_validate.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -362,7 +397,7 @@ echo "Description:"
 echo "validate server files while server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_validate
+command_validate.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -376,7 +411,7 @@ echo "Description:"
 echo "run monitor server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -387,7 +422,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -400,7 +435,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_printinfonl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 echo "Test complete!"
 sleep 1
@@ -412,10 +447,10 @@ echo "gsquery.py will fail to query port."
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(fn_monitor)
+(command_monitor.sh)
 echo ""
 fn_printinfonl "Reseting ${servercfg}."
-fn_install_config
+install_config.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -429,7 +464,7 @@ echo "Description:"
 echo "display details."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_details
+command_details.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -447,3 +482,4 @@ fn_printinfo "Tidying up directories."
 sleep 1
 rm -rfv ${serverfiles}
 echo "END"
+

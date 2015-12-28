@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="201215"
+version="271215"
 
 #### Variables ####
 
@@ -126,13 +126,13 @@ fn_runfunction(){
 	fn_getgithubfile "functions/${functionfile}" 1
 }
 
-fn_functions(){
-# Functions are defined in fn_functions.
+core_functions.sh(){
+# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fn_functions
+core_functions.sh
 
 getopt=$1
-fn_getopt
+core_getopt.sh
