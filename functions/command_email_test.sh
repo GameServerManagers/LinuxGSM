@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM email_test.sh function
+# LGSM command_email_test.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
@@ -7,8 +7,8 @@ lgsm_version="271215"
 # Description: Sends a test email notification.
 
 local modulename="Email"
-check_root.sh
-check_systemdir.sh
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+check.sh
 info_config.sh
 if [ "${emailnotification}" = "on" ]; then
 	fn_scriptlog "Sending test notification"

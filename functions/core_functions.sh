@@ -206,7 +206,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-email_test.sh(){
+command_email_test.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

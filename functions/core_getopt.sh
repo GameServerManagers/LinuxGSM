@@ -26,7 +26,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -85,7 +85,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -134,7 +134,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
@@ -186,7 +186,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -243,7 +243,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -305,7 +305,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -366,7 +366,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
