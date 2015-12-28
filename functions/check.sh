@@ -46,7 +46,6 @@ local allowed_commands_array=( debug install start stop update validate )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${getopt}" ]; then
-		check_steamuser.sh
 		check_steamcmd.sh
 	fi
 done

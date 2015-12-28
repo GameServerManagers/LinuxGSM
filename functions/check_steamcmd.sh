@@ -2,14 +2,32 @@
 # LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="281215"
 
 # Description: Downloads SteamCMD on install and checks if missing before running functions that require SteamCMD
 
 
-if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]; then
+if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]||[ "${gamename}" == "Mumble" ]; then
 	: # These servers do not require SteamCMD. Check is skipped.
-elif [ "${modulename}" == "Starting" ]||[ "${modulename}" == "Update" ]||[ "${modulename}" == "Validate" ]; then
+else
+	# Checks steamuser is setup. 
+	if [ "${steamuser}" == "username" ]; then
+	fn_printfailnl "Steam login not set. Update steamuser."	
+	echo "	* Change steamuser=\"username\" to a valid steam login."
+	if [ -d ${scriptlogdir} ]; then
+		fn_scriptlog "edit ${selfname}. change steamuser=\"username\" to a valid steam login."
+		exit 1
+	fi
+	fi
+	if [ -z "${steamuser}" ]; then
+		fn_printwarnnl "Steam login not set. Using anonymous login."
+		if [ -d "${scriptlogdir}" ]; then
+			fn_scriptlog "Steam login not set. Using anonymous login."
+		fi
+		steamuser="anonymous"
+		steampass=""
+		sleep 2
+	fi	
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Re-installs if missing.
 	steamcmddir="${rootdir}/steamcmd"
