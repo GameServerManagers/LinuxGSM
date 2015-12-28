@@ -103,7 +103,6 @@ fi
 }
 
 fn_steamcmdcheck(){
-check.sh
 fn_appmanifestcheck
 # Checks for server update from SteamCMD
 fn_printdots "Checking for update: SteamCMD"
@@ -297,7 +296,6 @@ else
 fi
 }
 
-check.sh
 fn_printdots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
