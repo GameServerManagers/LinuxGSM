@@ -8,15 +8,15 @@ lgsm_version="271215"
 # Runs checks that will either halt on or fix an issue.
 
 array_contains () {
-    local seeking=$1; shift
-    local in=1
-    for element; do
-        if [ ${element} == ${seeking} ]; then
-            in=0
-            break
-        fi
-    done
-    return $in
+	local seeking=$1; shift
+	local in=1
+	for element; do
+		if [ ${element} == ${seeking} ]; then
+			in=0
+			break
+		fi
+	done
+	return $in
 }
 
 check_root.sh
@@ -41,7 +41,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_debug.sh command_start.sh command_stop.sh update_check.sh command_validate.sh  )
+local allowed_commands_array=( command_debug.sh command_start.sh command_stop.sh update_check.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
