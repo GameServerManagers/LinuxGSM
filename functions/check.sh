@@ -7,40 +7,56 @@ lgsm_version="271215"
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
-fn_module_compare() {
-  local e
-  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
-  return 1
+array_contains () {
+	local seeking=$1; shift
+	local in=1
+	for element; do
+		if [ ${element} == ${seeking} ]; then
+			in=0
+			break
+		fi
+	done
+	return $in
 }
-
 
 check_root.sh
 
-if [ "${cmd}" != "install" ]; then
+if [ "${function_selfname}" != "command_install.sh" ]; then
 	check_systemdir.sh
 fi
 
-no_check_logs=( debug details install map-compressor )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_logs.sh
-fi
+local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh update_check.sh command_validate.sh update_functions.sh command_email_test.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_logs.sh
+	fi
+done
 
-check_ip=( debug )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_ip.sh
-fi
+local allowed_commands_array=( command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_ip.sh
+	fi
+done
 
-check_ip=( debug )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_steamuser.sh
-	check_steamcmd.sh
-fi
+local allowed_commands_array=( command_debug.sh command_start.sh command_stop.sh update_check.sh command_validate.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]||[ "${gamename}" == "Mumble" ]||[ "${gamename}" == "Teamspeak 3" ]; then
+			: # These servers do not require SteamCMD. Check is skipped.
+		else
+			check_steamcmd.sh
+		fi
+	fi
+done
 
-check_ip=( start )
-fn_module_compare "${cmd}" "${no_check_logs[@]}"
-if [ $? != 0 ]; then
-	check_tmux.sh
-fi
+local allowed_commands_array=( command_console.sh command_start.sh command_stop.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_tmux.sh
+	fi
+done

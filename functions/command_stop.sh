@@ -7,6 +7,7 @@ lgsm_version="271215"
 # Description: Stops the server.
 
 local modulename="Stopping"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 sdtd_telnet(){
     sdtdshutdown=$( expect -c '
@@ -29,8 +30,7 @@ sdtd_telnet(){
 }
 
 fn_stop_teamspeak3(){
-check_root.sh
-check_systemdir.sh
+check.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
@@ -50,13 +50,11 @@ echo -en "\n"
 }
 
 fn_stop_tmux(){
-check_root.sh
-check_systemdir.sh
+check.sh
 info_config.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-check_tmux.sh
 
 if [ "${gamename}" == "7 Days To Die" ] ; then
     # if game is 7 Days To Die, we need special, graceful shutdown via telnet connection.
@@ -70,7 +68,6 @@ if [ "${gamename}" == "7 Days To Die" ] ; then
     # If failed using localhost will use servers ip
     refused=$(echo -en "\n ${sdtdshutdown}"| grep "Timeout or EOF")
     if [ -n "${refused}" ]; then
-        check_ip.sh
         telnetip=${ip}
         fn_printwarn "Attempting graceful shutdown via telnet: localhost failed"
         fn_scriptlog "Warning! Attempting graceful shutdown failed using localhost"

@@ -7,10 +7,9 @@ lgsm_version="271215"
 # Description: Runs a server validation.
 
 local modulename="Validate"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
-check_steamcmd.sh
-check_steamuser.sh	
 fn_printwarn "Validating may overwrite some customised files."
 sleep 1
 echo -en "\n"
@@ -42,8 +41,7 @@ fi
 fn_scriptlog "Checking complete"
 }
 
-check_root.sh
-check_systemdir.sh
+check.sh
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
     command_stop.sh

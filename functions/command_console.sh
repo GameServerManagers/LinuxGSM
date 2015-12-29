@@ -7,8 +7,9 @@ lgsm_version="271215"
 # Description: Gives access to the server tmux console.
 
 local modulename="Console"
-check_root.sh
-check_systemdir.sh
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
+check.sh
 echo ""
 echo "${gamename} Console"
 echo "============================"
@@ -26,7 +27,6 @@ esac
 done
 fn_printdots "Starting"
 sleep 1
-check_tmux.sh
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
 	fn_printoknl "Starting"

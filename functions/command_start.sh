@@ -7,11 +7,10 @@ lgsm_version="271215"
 # Description: Starts the server.
 
 local modulename="Starting"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_start_teamspeak3(){
-check_root.sh
-check_systemdir.sh
-check_logs.sh
+check.sh
 info_ts3status.sh
 
 if [ "${ts3status}" != "Server is running" ]; then
@@ -59,7 +58,7 @@ cd "${executabledir}"
 ./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 sleep 1
 info_ts3status.sh
-if [ "${ts3status}" = "Server seems to have died" ] || [ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
+if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	echo -e "	Check log files: ${rootdir}/log"
@@ -73,10 +72,8 @@ echo -en "\n"
 }
 
 fn_start_tmux(){
-check_root.sh
-check_systemdir.sh
-check_ip.sh
-check_logs.sh
+check.sh
+
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	startfix=1
 	fix_csgo.sh
@@ -101,11 +98,6 @@ fi
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-check_tmux.sh
-
-if [ "${gamename}" != "Mumble" ]; then
-	check_steamcmd.sh
-fi
 
 if [ "${tmuxwc}" -eq 0 ]; then
 	fn_scriptlog "Rotating log files"
@@ -145,11 +137,11 @@ sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
 # If the server fails to start
 if [ "${tmuxwc}" -eq 0 ]; then
-	fn_printfail "Unable to start ${servername}"
+	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	sleep 1
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
-		fn_printfail "Unable to start ${servername}: Tmux error:"
+		fn_printfailnl "Unable to start ${servername}: Tmux error:"
 		fn_scriptlog "Tmux error"
 		sleep 1
 		echo -en "\n"

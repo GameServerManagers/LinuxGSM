@@ -8,10 +8,10 @@ lgsm_version="271215"
 # then passes to monitor_gsquery.sh.
 
 local modulename="Monitor"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_monitor_teamspeak3(){
-check_root.sh
-check_systemdir.sh
+check.sh
 logs.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
@@ -54,9 +54,7 @@ fn_restart
 }
 
 fn_monitor_tmux(){
-check_root.sh
-check_systemdir.sh
-check_ip.sh
+check.sh
 info_config.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"

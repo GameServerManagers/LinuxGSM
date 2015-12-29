@@ -5,7 +5,7 @@
 lgsm_version="271215"
 
 fn_steaminstallcommand(){
-check_steamuser.sh
+check.sh
 counter="0"
 while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .finstall_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x406 .finstall_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x6 .finstall_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x106 .finstall_serverfiles.sh.tmp)" -ge "1" ]; do
 	counter=$((counter+1))

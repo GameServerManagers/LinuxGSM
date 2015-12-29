@@ -6,6 +6,8 @@ lgsm_version="271215"
 
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+check.sh
 fn_printdots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1

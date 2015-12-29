@@ -50,6 +50,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+command_email_test.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -147,12 +152,12 @@ fn_runfunction
 
 # Dev
 
-dev_debug.sh(){
+command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-dev_detect_deps.sh(){
+command_dev_detect_deps.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -205,12 +210,6 @@ email.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
-
-email_test.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
 
 # Logs
 

@@ -26,7 +26,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -36,13 +36,13 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;
+		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -85,19 +85,19 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;		
+		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -134,17 +134,17 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;		
+		command_dev_debug.sh;;		
 	console)
 		command_console.sh;;
 	d|debug)
 		command_debug.sh;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -186,7 +186,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -196,15 +196,13 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;		
+		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
-	gc|gmod-content)
-		fn_content_gmod;;
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -227,7 +225,6 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
 		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
-		echo -e "\e[34mgmod-content\t\e[0mDownload gmod add-on content."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -246,7 +243,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -256,13 +253,13 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;		
+		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;		
+		command_dev_detect_deps.sh;;		
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -308,7 +305,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -318,13 +315,13 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;		
+		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;
+		command_dev_detect_deps.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -369,7 +366,7 @@ case "$getopt" in
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
-		email_test.sh;;
+		command_email_test.sh;;
 	d|details)
 		command_details.sh;;
 	b|backup)
@@ -379,13 +376,13 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		dev_debug.sh;;		
+		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
 	mc|map-compressor)
-		compress_ut99_maps.sh;;
+		compress_unreal2_maps.sh;;
 	dd|depsdetect)
-		dev_detect_deps.sh;;		
+		command_dev_detect_deps.sh;;		
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -411,7 +408,7 @@ exit
 }
 
 if [ "${gamename}" == "Mumble" ]; then
-	fn_getopt__mumble
+	fn_getopt_mumble
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${engine}" == "unreal2" ]; then
