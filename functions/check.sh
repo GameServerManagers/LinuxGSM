@@ -45,7 +45,11 @@ local allowed_commands_array=( command_debug.sh command_start.sh command_stop.sh
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		check_steamcmd.sh
+		if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]||[ "${gamename}" == "Mumble" ]||[ "${gamename}" == "Teamspeak 3" ]; then
+			: # These servers do not require SteamCMD. Check is skipped.
+		else
+			check_steamcmd.sh
+		fi
 	fi
 done
 

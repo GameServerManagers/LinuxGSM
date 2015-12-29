@@ -7,7 +7,7 @@ lgsm_version="281215"
 # Description: Downloads SteamCMD on install and checks if missing before running functions that require SteamCMD
 
 
-if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]||[ "${gamename}" == "Mumble" ]; then
+if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]||[ "${gamename}" == "Mumble" ]||[ "${gamename}" == "Teamspeak 3" ]; then
 	: # These servers do not require SteamCMD. Check is skipped.
 else
 	# Checks steamuser is setup. 
