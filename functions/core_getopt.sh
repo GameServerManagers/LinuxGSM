@@ -408,7 +408,7 @@ exit
 }
 
 if [ "${gamename}" == "Mumble" ]; then
-	fn_getopt__mumble
+	fn_getopt_mumble
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${engine}" == "unreal2" ]; then
