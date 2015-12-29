@@ -2,7 +2,7 @@
 # LGSM fix_ins.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="291215"
 
 # Description: Resolves various issues with Insurgency.
 
@@ -12,7 +12,7 @@ export LD_LIBRARY_PATH=:${filesdir}:${filesdir}/bin:{$LD_LIBRARY_PATH}
 
 # fix for issue #529 - gamemode not passed to debug or start
 
-if [ "${getopt}" == "debug" ]; then
+if [ "${function_selfname}" == "command_debug.sh" ]; then
         defaultmap="\"${defaultmap}\""
 else
         defaultmap="\\\"${defaultmap}\\\""
