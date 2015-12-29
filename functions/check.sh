@@ -29,8 +29,6 @@ local allowed_commands_array=( command_backup.sh command_console.sh command_debu
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		:
-	else
 		check_logs.sh
 	fi
 done
