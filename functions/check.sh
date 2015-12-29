@@ -25,10 +25,12 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 	check_systemdir.sh
 fi
 
-local denied_commands_array=( command_install.sh command_details.sh compress_unreal2_maps.sh compress_ut99_maps.sh )
-for denied_command in "${denied_commands_array[@]}"
+local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh update_check.sh command_validate.sh update_functions.sh command_email_test.sh )
+for allowed_command in "${allowed_commands_array[@]}"
 do
-	if [ "${denied_command}" != "${function_selfname}" ]; then
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		:
+	else
 		check_logs.sh
 	fi
 done
