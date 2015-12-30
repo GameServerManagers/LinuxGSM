@@ -165,6 +165,11 @@ fn_runfunction
 
 # Fix
 
+fix.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fix_arma3.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -176,6 +181,11 @@ fn_runfunction
 }
 
 fix_ins.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fix_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

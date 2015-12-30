@@ -73,16 +73,7 @@ echo -en "\n"
 
 fn_start_tmux(){
 check.sh
-
-if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
-	startfix=1
-	fix_csgo.sh
-elif [ "${gamename}" == "Insurgency" ]; then
-	fix_ins.sh
-elif [ "${gamename}" == "ARMA 3" ]; then
-	fix_arma3.sh	
-fi
-
+fix.sh
 info_config.sh
 fn_parms
 logs.sh

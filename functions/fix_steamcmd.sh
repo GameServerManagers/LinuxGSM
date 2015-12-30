@@ -1,0 +1,60 @@
+#!/bin/bash
+# LGSM fix_steamcmd.sh function
+# Author: Daniel Gibbs
+# Website: http://gameservermanagers.com
+lgsm_version="301215"
+
+# Description: fixes various issues related to steamCMD
+
+fn_fix_steamcmd_msg_start(){
+	fn_printdots "Applying steamclient.so fix: ${gamename}"
+	sleep 2
+	fn_printinfo "Applying steamclient.so fix: ${gamename}"
+}
+
+fn_fix_steamcmd_msg_end(){
+	if [ $? -ne 0 ]; then
+		fn_printfail "Applying steamclient.so fix: ${gamename}"
+	else
+		fn_printok "Applying steamclient.so fix: ${gamename}"
+	fi	
+}
+
+
+# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
+if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
+	fn_fix_steamcmd_msg_start
+	mkdir -pv "${HOME}/.steam/sdk32"
+	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+	fn_fix_steamcmd_msg_end
+fi
+
+if [ "${gamename}" == "Garry's Mod" ]; then
+	# Fixes: .steam/sdk32/libsteam.so: cannot open shared object file: No such file or directory
+	if [ ! -f "${HOME}/.steam/sdk32/libsteam.so" ]; then
+		fn_fix_steamcmd_msg_start
+		mkdir -pv "${HOME}/.steam/sdk32"
+		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+		fn_fix_steamcmd_msg_end
+	fi
+elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
+	# Fixes: .steam/bin32/libsteam.so: cannot open shared object file: No such file or directory
+	if [ ! -f "${HOME}/.steam/bin32/libsteam.so" ]; then
+		fn_fix_steamcmd_msg_start
+		mkdir -pv "${HOME}/.steam/bin32"
+		cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
+		fn_fix_steamcmd_msg_end
+	fi
+elif [ "${gamename}" == "Hurtworld" ]; then
+	# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
+	if [ ! -f "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
+		fn_fix_steamcmd_msg_start
+		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so"
+		fn_fix_steamcmd_msg_end
+	fi	
+	if [ ! -f "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
+		fn_fix_steamcmd_msg_start	
+		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so"
+		fn_fix_steamcmd_msg_end
+	fi
+fi
