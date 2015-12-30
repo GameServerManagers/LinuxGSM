@@ -4,13 +4,14 @@
 # Website: http://gameservermanagers.com
 lgsm_version="301215"
 
-# Description: fixes various issues related to steamCMD
+# Description: fixes various issues related to steamCMD.
 
 fn_fix_steamcmd_msg_start(){
 	fn_printdots "Applying ${fixname} fix: ${gamename}"
-	sleep 2
+	sleep 1
 	fn_printinfo "Applying ${fixname} fix: ${gamename}"
 	fn_scriptlog "Applying ${fixname} fix: ${gamename}"
+	sleep 1
 }
 
 fn_fix_steamcmd_msg_end(){
@@ -28,7 +29,7 @@ fn_fix_steamcmd_msg_end(){
 if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	local fixname="steamclient.so general"
 	fn_fix_steamcmd_msg_start
-	mkdir -pv "${HOME}/.steam/sdk32"
+	mkdir -pv "${HOME}/.steam/sdk32" >> "${scriptlog}"
 	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${scriptlog}"
 	fn_fix_steamcmd_msg_end
 fi
@@ -38,7 +39,7 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 	if [ ! -f "${HOME}/.steam/sdk32/libsteam.so" ]; then
 		local fixname="libsteam.so"
 		fn_fix_steamcmd_msg_start
-		mkdir -pv "${HOME}/.steam/sdk32"
+		mkdir -pv "${HOME}/.steam/sdk32" >> "${scriptlog}"
 		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so" >> "${scriptlog}"
 		fn_fix_steamcmd_msg_end
 	fi
@@ -47,7 +48,7 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	if [ ! -f "${HOME}/.steam/bin32/libsteam.so" ]; then
 		local fixname="libsteam.so"
 		fn_fix_steamcmd_msg_start
-		mkdir -pv "${HOME}/.steam/bin32"
+		mkdir -pv "${HOME}/.steam/bin32" >> "${scriptlog}"
 		cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so" >> "${scriptlog}"
 		fn_fix_steamcmd_msg_end
 	fi
