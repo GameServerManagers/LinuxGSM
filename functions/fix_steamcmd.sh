@@ -9,7 +9,7 @@ lgsm_version="301215"
 fn_fix_steamcmd_msg_start(){
 	fn_printdots "Applying ${fixname} fix: ${gamename}"
 	sleep 2
-	fn_printinfonl "Applying ${fixname} fix: ${gamename}"
+	fn_printinfo "Applying ${fixname} fix: ${gamename}"
 	fn_scriptlog "Applying ${fixname} fix: ${gamename}"
 }
 
