@@ -15,8 +15,10 @@ fn_fix_steamcmd_msg_start(){
 fn_fix_steamcmd_msg_end(){
 	if [ $? -ne 0 ]; then
 		fn_printfailnl "Applying ${fixname} fix: ${gamename}"
+		fn_scriptlog "Failure! Applying ${fixname} fix: ${gamename}"
 	else
 		fn_printoknl "Applying ${fixname} fix: ${gamename}"
+		fn_scriptlog "Complete! Applying ${fixname} fix: ${gamename}"
 	fi	
 }
 
