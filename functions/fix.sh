@@ -22,8 +22,6 @@ fi
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
 	fix_glibc.sh
-	echo "Applying ${gamename} Server Fixes"
-	echo "================================="
 	if [ "${gamename}" == "Killing Floor" ]; then
 		fix_kf.sh
 	elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
