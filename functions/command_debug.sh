@@ -10,6 +10,7 @@ local modulename="Debug"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
+fix.sh
 info_distro.sh
 fn_parms
 echo ""

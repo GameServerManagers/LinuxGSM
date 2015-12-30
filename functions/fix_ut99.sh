@@ -4,8 +4,6 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
-echo "Applying ${gamename} Server Fixes"
-echo "================================="
 echo "enabling UdpServerUplink."
 {
 echo "[IpServer.UdpServerUplink]"
