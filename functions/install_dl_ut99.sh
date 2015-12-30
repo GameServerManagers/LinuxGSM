@@ -4,8 +4,10 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+echo ""
 echo "Downloading Server Files"
 echo "================================="
+sleep 1
 cd "${filesdir}"
 if [ ! -f ut-server-436.tar.gz ]; then
 	wget http://gameservermanagers.com/files/ut99/ut-server-436.tar.gz

@@ -165,6 +165,11 @@ fn_runfunction
 
 # Fix
 
+fix.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fix_arma3.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -176,6 +181,31 @@ fn_runfunction
 }
 
 fix_ins.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fix_glibc.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fix_ro.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fix_kf.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+fix_ut2k4.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -269,11 +299,6 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-fix_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -289,22 +314,12 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-install_fix_kf.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
 install_logs.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
 install_retry.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-install_fix_ro.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -319,11 +334,6 @@ fn_runfunction
 }
 
 install_steamcmd.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-install_fix_steam.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
@@ -343,11 +353,6 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-install_fix_ut2k4.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
 install_ut2k4_key.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
@@ -363,7 +368,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-install_fix_ut99.sh(){
+fix_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }

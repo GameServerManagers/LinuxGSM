@@ -10,6 +10,7 @@ local modulename="Debug"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
+fix.sh
 info_distro.sh
 fn_parms
 echo ""
@@ -52,15 +53,8 @@ fn_scriptlog "Started debug"
 sleep 1
 echo -en "\n"
 cd "${executabledir}"
+fix.sh
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
-		startfix=1
-		fix_csgo.sh
-	elif [ "${gamename}" == "Insurgency" ]; then
-		fix_ins.sh
-	elif [ "${gamename}" == "ARMA 3" ]; then
-		fix_arma3.sh	
-	fi
 	${executable} ${parms} -debug
 else
 	${executable} ${parms}

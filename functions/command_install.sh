@@ -23,28 +23,18 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 elif [ ! -z "${appid}" ]; then
 	install_steamcmd.sh
 	install_serverfiles.sh
-	install_fix_steam.sh
 fi
 
 # Configuration
-fix_glibc.sh
+fix.sh
 install_logs.sh
 install_gsquery.sh
 install_config.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	install_gslt.sh
-	fix_csgo.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3db.sh
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	install_gslt.sh
-elif [ "${gamename}" == "Killing Floor" ]; then
-	install_fix_kf.sh
-elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
-	install_fix_ro.sh
-elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	install_fix_ut2k4.sh
-elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-	install_fix_ut99.sh
 fi
 install_complete.sh

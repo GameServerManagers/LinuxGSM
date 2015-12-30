@@ -4,8 +4,10 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+echo ""
 echo "Downloading Server Files"
 echo "================================="
+sleep 1
 cd "${filesdir}"
 if [ ! -f dedicatedserver3339-bonuspack.zip ]; then
 	wget http://gameservermanagers.com/files/ut2004/dedicatedserver3339-bonuspack.zip

@@ -499,7 +499,7 @@ echo -e "Change ports by editing the parameters in"
 echo -e "hwserver script"
 echo -e ""
 echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep Hurtworld.x86"
+echo -e "netstat -atunp | grep Hurtworld"
 echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
