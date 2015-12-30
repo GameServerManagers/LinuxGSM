@@ -2,7 +2,7 @@
 # LGSM compress_ut99_maps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="301215"
 
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
@@ -30,6 +30,6 @@ mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
 rm -rfv "${filesdir}/Maps/*.unr.uz"
 cd "${systemdir}"
 for map in "${filesdir}/Maps/*"; do
-	./ucc-bin compress ../Maps/${map} --nohomedir
+	./ucc-bin compress "../Maps/${map}" --nohomedir
 done
 mv -fv "${filesdir}/Maps/*.unr.uz" "${compressedmapsdir}"
