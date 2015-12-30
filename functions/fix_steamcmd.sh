@@ -28,7 +28,7 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	local fixname="steamclient.so general"
 	fn_fix_steamcmd_msg_start
 	mkdir -pv "${HOME}/.steam/sdk32"
-	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${scriptlog}"
 	fn_fix_steamcmd_msg_end
 fi
 
@@ -38,7 +38,7 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 		local fixname="libsteam.so"
 		fn_fix_steamcmd_msg_start
 		mkdir -pv "${HOME}/.steam/sdk32"
-		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so"
+		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so" >> "${scriptlog}"
 		fn_fix_steamcmd_msg_end
 	fi
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
@@ -47,7 +47,7 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 		local fixname="libsteam.so"
 		fn_fix_steamcmd_msg_start
 		mkdir -pv "${HOME}/.steam/bin32"
-		cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
+		cp -v "${filesdir}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so" >> "${scriptlog}"
 		fn_fix_steamcmd_msg_end
 	fi
 elif [ "${gamename}" == "Hurtworld" ]; then
@@ -56,13 +56,13 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 	if [ ! -f "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
 		local fixname="steamclient.so x86"
 		fn_fix_steamcmd_msg_start
-		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so"
+		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${scriptlog}"
 		fn_fix_steamcmd_msg_end
 	fi	
 	if [ ! -f "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
 		local fixname="steamclient.so x86_64"
 		fn_fix_steamcmd_msg_start	
-		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so"
+		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${scriptlog}"
 		fn_fix_steamcmd_msg_end
 	fi
 fi
