@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_fix_ut99.sh function
+# LGSM fix_ut99.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
