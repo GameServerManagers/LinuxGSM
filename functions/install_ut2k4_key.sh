@@ -4,6 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+echo ""
 echo "Enter ${gamename} CD Key"
 echo "================================="
 sleep 1

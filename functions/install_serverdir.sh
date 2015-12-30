@@ -7,6 +7,7 @@ lgsm_version="271215"
 echo ""
 echo "Server Directory"
 echo "================================="
+sleep 1
 echo ""
 pwd
 echo ""

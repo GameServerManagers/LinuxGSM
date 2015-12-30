@@ -29,6 +29,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo ""
 	echo "Applying ${gamename} Server Fixes"
 	echo "================================="
+	sleep 1
 	if [ "${gamename}" == "Killing Floor" ]; then
 		fix_kf.sh
 	elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then

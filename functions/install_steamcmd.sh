@@ -9,6 +9,7 @@ lgsm_version="271215"
 echo ""
 echo "Installing SteamCMD"
 echo "================================="
+sleep 1
 steamcmddir="${rootdir}/steamcmd"
 if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 	if [ ! -d "${steamcmddir}" ]; then

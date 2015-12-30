@@ -4,6 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
