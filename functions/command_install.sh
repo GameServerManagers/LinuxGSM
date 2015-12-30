@@ -26,11 +26,7 @@ elif [ ! -z "${appid}" ]; then
 fi
 
 # Configuration
-echo ""
-echo "Applying ${gamename} Server Fixes"
-echo "================================="
 fix.sh
-echo ""
 install_logs.sh
 install_gsquery.sh
 install_config.sh
