@@ -25,7 +25,7 @@ else
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			echo -en "${getip}\n"
 			echo -en ""
-			echo -en "http://gameservermanagers.com/network-interfaces"
+			echo -en "http://gameservermanagers.com/network-interfaces\n"
 			echo -en ""
 			exit 1
 		else
