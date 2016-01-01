@@ -2,7 +2,7 @@
 # LGSM fix_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="301215"
+lgsm_version="010116"
 
 # Description: fixes various issues related to steamCMD.
 
@@ -34,16 +34,7 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fn_msg_end
 fi
 
-if [ "${gamename}" == "Garry's Mod" ]; then
-	# Fixes: .steam/sdk32/libsteam.so: cannot open shared object file: No such file or directory
-	if [ ! -f "${HOME}/.steam/sdk32/libsteam.so" ]; then
-		local fixname="libsteam.so"
-		fn_msg_start
-		mkdir -pv "${HOME}/.steam/sdk32" >> "${scriptlog}"
-		cp -v "${filesdir}/bin/libsteam.so" "${HOME}/.steam/sdk32/libsteam.so" >> "${scriptlog}"
-		fn_msg_end
-	fi
-elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
+if [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	# Fixes: .steam/bin32/libsteam.so: cannot open shared object file: No such file or directory
 	if [ ! -f "${HOME}/.steam/bin32/libsteam.so" ]; then
 		local fixname="libsteam.so"
