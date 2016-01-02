@@ -4,7 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
-if [ "${gamename}" == "Dont Starve Together" ]; then
+if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""
   echo "An Authentication Token is required to run this server!"
   echo "Follow the instructions in this link to obtain this key"

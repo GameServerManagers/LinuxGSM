@@ -55,7 +55,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 21
 		fn_glibcfixmsg
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# Dont Starve Together
-	elif [ "${gamename}" == "Dont Starve Together" ]; then
+	elif [ "${gamename}" == "Don't Starve Together" ]; then
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cd "${filesdir}/bin/lib32/"
