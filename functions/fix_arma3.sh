@@ -25,7 +25,7 @@ fn_msg_end(){
 }
 
 # Fixes: server not always creating steam_appid.txt file.
-if [ -d "${rootdir}/.local/share/Arma\ 3" ]; then
+if [ ! -d "${rootdir}/.local/share/Arma\ 3" ]; then
 	local fixname="20150 Segmentation fault (core dumped)"
 	fn_msg_start
 	mkdir -p "${rootdir}/.local/share/Arma\ 3"
