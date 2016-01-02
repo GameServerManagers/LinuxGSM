@@ -26,6 +26,10 @@ steampass=""
 ip="0.0.0.0"
 updateonstart="off"
 
+
+# Overworld: -conf_dir DST_Overworld
+# Cave: -conf_dir DST_Cave
+#http://dont-starve-game.wikia.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers
 fn_parms(){
 parms=""
 }
