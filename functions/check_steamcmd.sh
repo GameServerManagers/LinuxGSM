@@ -53,7 +53,7 @@ else
 		rm -v "${steamcmddir}/steamcmd_linux.tar.gz"
 		chmod +x "${steamcmddir}/steamcmd.sh"
 	fi		
-	if [ "${function_selfname}" != "command_update.sh" ]||[ "${function_selfname}" != "command_validate.sh" ]; then
+	if [ "${function_selfname}" == "command_update.sh" ]||[ "${function_selfname}" == "command_validate.sh" ]; then
 		# Checks that steamcmd is working correctly and will prompt Steam Guard if required.
 		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
 		if [ $? -ne 0 ]; then
