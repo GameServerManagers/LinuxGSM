@@ -23,7 +23,15 @@ if [ "${engine}" == "goldsource" ]; then
 else
 	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
 fi
-
+if [ $? -ne 0 ]; then
+	fn_printwarningnl "SteamCMD did not complete the download, retrying: Attempt ${counter}"
+	counter=$((counter+1))
+	fn_steamcmd_dl
+fi
+if [ ${counter} == 10 ]; then
+	fn_printfailurenl "SteamCMD failed to download the update."
+	exit 1
+fi
 fix.sh
 }
 
@@ -79,5 +87,6 @@ sleep 1
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_dl
 else
+	counter=0
 	fn_steamcmd_dl
 fi
