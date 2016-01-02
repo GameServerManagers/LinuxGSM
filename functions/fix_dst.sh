@@ -30,7 +30,7 @@ if [ -f "/etc/redhat-release" ] && [ ! -f "${filesdir}/bin/lib32/libcurl-gnutls.
 	local fixname="libcurl-gnutls.so.4 missing"
 	fn_msg_start
 	echo -e "downloading libcurl-gnutls.so.4...\c"
-	curl=$(curl --fail -o "${filesdir}/bin/lib32" "https://github.com/dgibbs64/linuxgsm/raw/master/DontStarveTogether/dependencies/libcurl-gnutls.so.4" 2>&1)
+	curl=$(curl --fail -o "${filesdir}/bin/lib32/libcurl-gnutls.so.4" "https://github.com/dgibbs64/linuxgsm/raw/master/DontStarveTogether/dependencies/libcurl-gnutls.so.4" 2>&1)
 	if [ $? -ne 0 ]; then
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "${curl}"
