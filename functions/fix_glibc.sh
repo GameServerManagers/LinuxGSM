@@ -2,7 +2,7 @@
 # LGSM fix_glibc.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="020116"
 
 fn_glibcfixmsg(){
 echo ""
@@ -54,6 +54,14 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 21
 		glibcversion="2.15"
 		fn_glibcfixmsg
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+	# Dont Starve Together
+	elif [ "${gamename}" == "Dont Starve Together" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
+		cd "${filesdir}/bin/lib32/"
+		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/DontStarveTogether/dependencies/libc.so.6
+		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/DontStarveTogether/dependencies/libpthread.so.0
+		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/DontStarveTogether/dependencies/librt.so.1
 	# Double Action: Boogaloo
 	elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 		glibcversion="2.15"
