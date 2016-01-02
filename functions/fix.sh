@@ -16,7 +16,7 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 		startfix=1
 		fix_csgo.sh
-	if [ "${gamename}" == "Don't Starve Together" ]; then
+	elif [ "${gamename}" == "Don't Starve Together" ]; then
 		fix_dst.sh		
 	elif [ "${gamename}" == "Insurgency" ]; then
 		fix_ins.sh
