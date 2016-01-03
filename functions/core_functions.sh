@@ -2,7 +2,7 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="020216"
+lgsm_version="030116"
 
 # Description: Defines all functions to allow download and execution of functions using fn_runfunction.
 # This function is called first before any other function. Without this file other functions would not load.
@@ -344,6 +344,11 @@ fn_runfunction
 }
 
 install_ts3.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+install_ts3db.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
