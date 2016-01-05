@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
 # Website: http://gameservermanagers.com
-lgsm_version="030116"
+lgsm_version="050116"
 
 # Description: Changes TS3 serveradmin password
 
