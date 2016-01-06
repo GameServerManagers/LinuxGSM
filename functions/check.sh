@@ -2,7 +2,7 @@
 # LGSM fn_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="060116"
 
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
@@ -58,5 +58,13 @@ for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_tmux.sh
+	fi
+done
+
+local allowed_commands_array=( command_console.sh command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_config.sh
 	fi
 done
