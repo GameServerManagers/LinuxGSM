@@ -62,7 +62,5 @@ do
 done
 
 if [ "${function_selfname}" != "command_install.sh" ]; then
-	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		check_config.sh
-	fi
+	check_config.sh
 fi
