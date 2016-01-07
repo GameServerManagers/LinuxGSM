@@ -55,7 +55,7 @@ mv "${scriptlog}" "${scriptlogdate}"
 # Create lock file
 date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
-if [ "${ts2serverpass}" == "1" ];then
+if [ "${ts3serverpass}" == "1" ];then
 	./ts3server_startscript.sh start serveradmin_password="${newpassword}" 
 else
 	./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
