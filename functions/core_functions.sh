@@ -85,7 +85,7 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
-command_ts3_server_password.sh(){
+command_ts3_server_pass.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
