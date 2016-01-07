@@ -115,7 +115,7 @@ case "$getopt" in
 		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
 		echo -e "\e[34memail-test\t\e[0mSends test monitor email."
 		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mserveradmin-password\t\e[0mChanges TS3 serveradmin password."
+		echo -e "\e[34mchange-password\t\e[0mChanges TS3 serveradmin password."
 		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
 		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
