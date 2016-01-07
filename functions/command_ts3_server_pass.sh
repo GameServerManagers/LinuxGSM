@@ -7,7 +7,7 @@ lgsm_version="070116"
 
 # Description: Changes TS3 serveradmin password
 
-local modulename="TS3 Server Password"
+local modulename="Change password"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 
@@ -17,8 +17,8 @@ echo "${gamename} ServerAdmin Password Change"
 echo "============================"
 echo ""
 echo "Press \"CTRL+b d\" to exit console."
-fn_printinfomationnl "You are about to change the ${gamename} ServerAdmin password"
-fn_printwarningnl "${gamename} will restart during this process"
+fn_printinfomationnl "You are about to change the ${gamename} ServerAdmin password."
+fn_printwarningnl "${gamename} will restart during this process."
 echo ""
 while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
@@ -41,11 +41,12 @@ sleep 1
 command_stop.sh
 # Start server in "new password mode"
 ts3serverpass="1"
+fn_printinfonl "Starting with new password"
 command_start.sh
 # Stop server in "new password mode"
 command_stop.sh
-fn_printoknl "Applying new password"
-fn_scriptlog "New ServerAdmin password has been applyed"
+fn_printoknl "Password applied"
+fn_scriptlog "New ServerAdmin password applied"
 sleep 1
 }
 

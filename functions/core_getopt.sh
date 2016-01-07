@@ -90,7 +90,7 @@ case "$getopt" in
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
-	pw|serveradmin-password)
+	pw|change-password)
 		command_ts3_server_pass.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;		
