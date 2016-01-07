@@ -2,7 +2,7 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="060116"
 
 # Description: Gets specific details from config files.
 
@@ -11,12 +11,6 @@ lgsm_version="271215"
 # tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected charectors =\";
 # grep -v "foo" filter out lines that contain foo
-
-fn_servercfgfullpath(){
-if [ ! -f "${servercfgfullpath}" ]; then
-	servercfgfullpath="\e[0;31mMISSING!\e[0m ${servercfgfullpath}"
-fi
-}
 
 ## Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
@@ -67,8 +61,6 @@ if [ "${engine}" == "avalanche" ]; then
 	if [ ! -n "${port}" ]; then
 		port="0"
 	fi
-
-	fn_servercfgfullpath
 
 ## Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
@@ -131,8 +123,6 @@ elif [ "${engine}" == "dontstarve" ]; then
 		port="0"
 	fi
 
-	fn_servercfgfullpath
-
 ## Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then
 
@@ -163,8 +153,6 @@ elif [ "${engine}" == "projectzomboid" ]; then
 	if [ ! -n "${port}" ]; then
 		port="0"
 	fi
-
-	fn_servercfgfullpath
 
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
@@ -233,8 +221,6 @@ elif [ "${engine}" == "realvirtuality" ]; then
                 masterport="0"
         fi
 
-	fn_servercfgfullpath
-
 # Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
 
@@ -294,8 +280,6 @@ elif [ "${engine}" == "seriousengine35" ]; then
 		queryport="0"
 	fi
 
-	fn_servercfgfullpath
-
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 
@@ -329,8 +313,6 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 		rconpassword="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-	fn_servercfgfullpath
-
 # Spark (NS2: Combat)
 elif [ "${engine}" == "spark" ]; then
 
@@ -341,8 +323,6 @@ elif [ "${engine}" == "spark" ]; then
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"
 	fi
-
-	fn_servercfgfullpath
 
 # Teamspeak 3
 elif [ "${gamename}" == "Teamspeak 3" ]; then
@@ -389,8 +369,6 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 	if [ ! -n "${fileport}" ]; then
 		fileport="30033"
 	fi
-
-	fn_servercfgfullpath
 
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
@@ -442,8 +420,6 @@ elif [ "${engine}" == "teeworlds" ]; then
 	else
 		slots="12"
 	fi
-
-	fn_servercfgfullpath
 
 # Terraria
 elif [ "${engine}" == "terraria" ]; then
@@ -590,8 +566,6 @@ elif [ "${gamename}" == "7 Days To Die" ]; then
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"
 	fi
-
-	fn_servercfgfullpath
 
 # Hurtworld (unity3d)
 elif [ "${gamename}" == "Hurtworld" ]; then
@@ -763,8 +737,6 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 
 	fi
 
-	fn_servercfgfullpath
-
 # ARK: Survivaial Evolved
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 
@@ -831,7 +803,5 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"
 	fi
-
-	fn_servercfgfullpath
 
 fi

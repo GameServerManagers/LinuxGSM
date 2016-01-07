@@ -2,7 +2,7 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="060116"
 
 # Description: Displays server infomation.
 
@@ -581,23 +581,6 @@ fn_details_statusbottom
 
 # Run checks and gathers details to display.
 check.sh 
-
-if [ ! -e "${servercfgfullpath}" ]; then
-	if [ "${gamename}" != "Hurtworld" ]; then
-		echo ""
-		fn_printwarnnl "\e[0;31mCONFIGURATION FILE MISSING!\e[0m"
-		echo "${servercfgfullpath}"
-		echo "Some details cannot be displayed"
-		echo -en ".\r"
-		sleep 1
-		echo -en "..\r"
-		sleep 1
-		echo -en "...\r"
-		sleep 1
-		echo -en "   \r"
-	fi
-fi
-
 info_config.sh
 info_distro.sh
 info_glibc.sh
