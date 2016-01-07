@@ -41,7 +41,7 @@ sleep 1
 command_stop.sh
 # Start server in "new password mode"
 ts3serverpass="1"
-fn_printinfonl "Starting with new password"
+fn_printinfonl "Starting server with new password"
 command_start.sh
 # Stop server in "new password mode"
 command_stop.sh
