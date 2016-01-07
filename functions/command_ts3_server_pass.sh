@@ -17,7 +17,8 @@ echo "${gamename} ServerAdmin Password Change"
 echo "============================"
 echo ""
 echo "Press \"CTRL+b d\" to exit console."
-fn_printwarningnl "You are about to change the ${gamename} ServerAdmin password"
+fn_printinfonl "You are about to change the ${gamename} ServerAdmin password"
+fn_printwarningnl "${gamename} will restart during this process"
 echo ""
 while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
