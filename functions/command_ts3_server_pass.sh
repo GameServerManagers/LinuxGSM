@@ -17,7 +17,7 @@ echo "${gamename} ServerAdmin Password Change"
 echo "============================"
 echo ""
 echo "Press \"CTRL+b d\" to exit console."
-fn_printinfonl "You are about to change the ${gamename} ServerAdmin password"
+fn_printinfomationnl "You are about to change the ${gamename} ServerAdmin password"
 fn_printwarningnl "${gamename} will restart during this process"
 echo ""
 while true; do
@@ -34,7 +34,7 @@ read -p "Enter new password : " newpassword
 
 
 fn_serveradmin_password_set(){
-fn_printinfo "Applying new password"
+fn_printinfonl "Applying new password"
 fn_scriptlog "Applying new password"
 sleep 1
 # Stop any running server
