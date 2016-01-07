@@ -44,7 +44,7 @@ ts3serverpass="1"
 command_start.sh
 # Stop server in "new password mode"
 command_stop.sh
-fn_printok "Applying new password"
+fn_printoknl "Applying new password"
 fn_scriptlog "New ServerAdmin password has been applyed"
 sleep 1
 }
