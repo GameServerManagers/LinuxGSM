@@ -24,7 +24,10 @@ else
 	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
 fi
 
-fix.sh
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+        echo -e '\n'
+        fix_csgo.sh
+fi
 }
 
 fn_teamspeak3_dl(){
