@@ -2,7 +2,7 @@
 # LGSM command_start.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="070116"
 
 # Description: Starts the server.
 
@@ -55,7 +55,11 @@ mv "${scriptlog}" "${scriptlogdate}"
 # Create lock file
 date > "${rootdir}/${lockselfname}"
 cd "${executabledir}"
-./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
+if [ "${ts3serverpass}" == "1" ];then
+	./ts3server_startscript.sh start serveradmin_password="${newpassword}" 
+else
+	./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
+fi
 sleep 1
 info_ts3status.sh
 if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then

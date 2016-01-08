@@ -85,6 +85,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+command_ts3_server_pass.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
 fn_restart(){
 local modulename="Restarting"
 info_config.sh
