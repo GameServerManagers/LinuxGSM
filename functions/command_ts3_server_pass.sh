@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
 # Website: http://gameservermanagers.com
-lgsm_version="070116"
+lgsm_version="080116"
 
 # Description: Changes TS3 serveradmin password
 
@@ -54,7 +54,6 @@ sleep 1
 check.sh
 fn_serveradmin_password_prompt
 info_ts3status.sh
-
 if [ "${ts3status}" == "Server is running" ]; then
 	fn_serveradmin_password_set
 	command_start.sh
