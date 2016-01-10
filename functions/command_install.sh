@@ -30,11 +30,9 @@ fix.sh
 install_logs.sh
 install_gsquery.sh
 install_config.sh
-if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "Brain Bread 2" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3db.sh
-elif [ "${gamename}" == "Team Fortress 2" ]; then
-	install_gslt.sh
 fi
 install_complete.sh
