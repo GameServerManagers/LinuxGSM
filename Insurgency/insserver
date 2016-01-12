@@ -54,7 +54,8 @@ if [ ! -e $scriptcfgdir ]; then mkdir -p "$scriptcfgdir"; fi
 # If default config does not exist, create it. This should come from Git, and will be overwritten by updates.
 # Rather than try to wget it from Github or other fancy ways to get it, the simplest way to ensure it works is to simply create it here.
 fn_create_default_config(){
-	cat <<'EOF' >> $cfg_default
+	echo "Creating default config at ${cfg_default}"
+	cat <<'EOF' > $cfg_default
 		# Default config - Changes will be overwritten by updates.
 		# Your settings for all servers go in _common.cfg
 		# Server-specific settings go into $SERVER.cfg
@@ -66,7 +67,7 @@ fn_create_default_config(){
 		email="email@example.com"
 		emailnotification="off" # (on|off)
 		ip="0.0.0.0"
-		lgsm_version="${version}"
+		lgsm_version="110116"
 		logdays="7"
 		mapcyclefile="mapcycle.txt"
 		maxplayers="16"
@@ -77,19 +78,16 @@ fn_create_default_config(){
 		steampass=""
 		steamuser="anonymous"
 		updateonstart="off"
-	EOF
+EOF
 }
-if [ ! -f $cfg_default ]
-then
-	fn_create_default_config
-fi
+
+# If defaults are missing, or from an older version, overwrite the file
+# TODO: Perhaps pull this from Git instead?
+cfgver=$(grep lgsm_version ${cfg_default} 2>/dev/null | cut -d'=' -f2 | sed -e 's/["]//g')
+if [ "${cfgver}" != "${version}" ]; then fn_create_default_config; fi
 
 # Load defaults
 source $cfg_default
-
-# If defaults are from an older version, overwrite the file
-# TODO: Perhaps pull this from Git instead?
-if [ "${lgsm_version}" != "${version}" ]; then fn_create_default_config; fi
 
 # Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
 if [ ! -f $cfg_common ]; then touch $cfg_common; else source $cfg_common; fi
@@ -101,7 +99,7 @@ if [ ! -f $cfg_instance ]; then touch $cfg_instance; else source $cfg_instance; 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 #TODO: Put in some conditional logic to handle generating the parm string so we can make this a little less game specific
-parms="-game ${game} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_playlist ${playlist} +mapcyclefile ${mapcyclefile}+servercfgfile ${servercfg} +map ${defaultmap} ${defaultmode} -maxplayers ${maxplayers} ${srcds_parms}"
+parms="-game ${game} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_playlist ${playlist} +mapcyclefile ${mapcyclefile} +servercfgfile ${servercfg} +map ${defaultmap} ${defaultmode} -maxplayers ${maxplayers} ${srcds_parms}"
 }
 
 #### Advanced Variables ####
@@ -135,6 +133,37 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 ##### Script #####
 # Do not edit
 
+# fn_colortext color msg
+# Display a message with a color code
+# Paremeters:
+# color: Numeric color code
+# msg: Message. This includes all further paremeters, so there is no need to quote a message with spaces in it.
+fn_colortext(){
+	color=$1
+	msg=${@:2}
+	echo -e "\e[0;${color}m${msg}\e[0m"
+}
+
+# Set fetchcmd to the full path of whatever command we can to fetch files
+for fetchcmd in curl wget
+do
+	paths="$(command -v ${fetchcmd} 2>/dev/null) $(which ${fetchcmd} >/dev/null 2>&1) /usr/bin/${fetchcmd} /bin/${fetchcmd} /usr/sbin/${fetchcmd} /sbin/${fetchcmd} $(echo $PATH | sed "s/\([:]\|\$\)/\/${fetchcmd} /g")"
+	for tp in $paths
+	do
+		if [ -x $tp ]; then
+			fetchcmd=$tp
+			break 2
+		fi
+	done
+done
+echo "mark"
+# If we have no executable fetchcmd, fail script execution
+if [ ! -x "${fetchcmd}" ]; then
+	fn_colortext 31 FAIL
+	echo "Cannot find curl or wget!"
+	exit 1
+fi
+
 # fn_getgithubfile filename [exec] [url]
 # Download file from Github
 # Parameters:
@@ -153,24 +182,15 @@ fn_getgithubfile(){
 			mkdir "${filedir}"
 		fi
 		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
-		echo -e "    fetching ${filename}...\c"
-		if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
-			:
-		else	
-			echo -e "\e[0;31mFAIL\e[0m\n"
-			echo "Curl is not installed!"
-			echo -e ""
-			exit
+		echo -e "    fetching ${filename} (${githuburl})\c"
+		if [ "$(basename ${fetchcmd})" == "curl" ]; then
+			cmd="$fetchcmd --fail -o"
+		elif [ "$(basename ${fetchcmd})" == "wget" ]; then
+			cmd="$fetchcmd -O"
 		fi
-		curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
-		if [ $? -ne 0 ]; then
-			echo -e "\e[0;31mFAIL\e[0m\n"
-			echo "${curl}"
-			echo -e "${githuburl}\n"
-			exit
-		else
-			echo -e "\e[0;32mOK\e[0m"
-		fi	
+		fetch=$($cmd "${filepath}" "${githuburl}" 2>&1)
+		echo $?
+		echo $fetch
 		if [ "${exec}" ]; then
 			chmod +x "${filepath}"
 		fi
@@ -180,17 +200,25 @@ fn_getgithubfile(){
 	fi
 }
 
+echo "mark"
+# fn_runfunction
 fn_runfunction(){
 	fn_getgithubfile "functions/${functionfile}" 1
 }
 
+echo "mark"
+# core_functions.sh
 core_functions.sh(){
 	# Functions are defined in core_functions.sh.
 	functionfile="${FUNCNAME}"
 	fn_runfunction
 }
 
+echo "mark"
 core_functions.sh
 
+echo "mark"
 getopt=$1
 core_getopt.sh
+echo "mark"
+echo "done"
