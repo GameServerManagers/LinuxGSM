@@ -37,7 +37,7 @@ servicename="$(basename $0)"
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="jaredballou"
+githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="master"
 
@@ -156,7 +156,6 @@ do
 		fi
 	done
 done
-echo "mark"
 # If we have no executable fetchcmd, fail script execution
 if [ ! -x "${fetchcmd}" ]; then
 	fn_colortext 31 FAIL
@@ -184,13 +183,11 @@ fn_getgithubfile(){
 		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 		echo -e "    fetching ${filename} (${githuburl})\c"
 		if [ "$(basename ${fetchcmd})" == "curl" ]; then
-			cmd="$fetchcmd --fail -o"
+			cmd="$fetchcmd -s --fail -o"
 		elif [ "$(basename ${fetchcmd})" == "wget" ]; then
 			cmd="$fetchcmd -O"
 		fi
 		fetch=$($cmd "${filepath}" "${githuburl}" 2>&1)
-		echo $?
-		echo $fetch
 		if [ "${exec}" ]; then
 			chmod +x "${filepath}"
 		fi
@@ -200,13 +197,11 @@ fn_getgithubfile(){
 	fi
 }
 
-echo "mark"
 # fn_runfunction
 fn_runfunction(){
 	fn_getgithubfile "functions/${functionfile}" 1
 }
 
-echo "mark"
 # core_functions.sh
 core_functions.sh(){
 	# Functions are defined in core_functions.sh.
@@ -214,11 +209,7 @@ core_functions.sh(){
 	fn_runfunction
 }
 
-echo "mark"
 core_functions.sh
 
-echo "mark"
 getopt=$1
 core_getopt.sh
-echo "mark"
-echo "done"
