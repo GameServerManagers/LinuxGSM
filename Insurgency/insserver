@@ -37,7 +37,7 @@ servicename="$(basename $0)"
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="dgibbs64"
+githubuser="jaredballou"
 githubrepo="linuxgsm"
 githubbranch="master"
 
