@@ -2,7 +2,7 @@
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="100116"
 
 # Description: stores details on servers Glibc requirements.
 
@@ -10,6 +10,8 @@ lgsm_version="271215"
 if [ "${gamename}" == "Blade Symphony" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "BrainBread 2" ]; then
+	glibcrequired="2.17"
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
