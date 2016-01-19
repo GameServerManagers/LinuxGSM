@@ -135,7 +135,7 @@ fn_getgithubfile(){
 		fi
 		fn_colortext 32 "DONE"
 	fi
-	if [ "${exec}" ]; then
+	if [ "${exec}" == "1" ]; then
 		source "${filepath}"
 	fi
 }
