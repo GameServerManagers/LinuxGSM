@@ -141,7 +141,7 @@ fn_create_config(){
 }
 
 fn_settings_flush(){
-	if [ -e $settingsdir ]
+	if [ -e $settingsdir ]; then
 		rm -rf $settingsdir > /dev/null
 	fi
 	mkdir -p $settingsdir
@@ -159,7 +159,7 @@ fn_set_game_params(){
 	param_name=$2
 	param_value=$3
 	param_comment=$4
-	fn_update_config $param_name $param_value "${settingsdir}/${param_set}" $param_comment
+	fn_update_config "${param_name}" "${param_value}" "${settingsdir}/${param_set}" "${param_comment}"
 }
 fn_get_game_params(){
 	param_set=$1
@@ -167,76 +167,8 @@ fn_get_game_params(){
 	param_default=$3
 }
 
-# Flush old setings buffer
-fn_settings_flush
-
-# Import this game's settings
-fn_settings_import $game
-
-# If defaults are missing, or from an older version, overwrite the file
-# TODO: Perhaps pull this from Git instead?
-#cfgver=$(grep lgsm_version ${cfg_file_default} 2>/dev/null | cut -d'=' -f2 | sed -e 's/["]//g')
-#if [ "${cfgver}" != "${version}" ]; then 
-
-# New method is to always run this function, it will overwrite defaults with whatever the new script values are
-fn_create_config default
-
-# Load defaults
-source $cfg_file_default
-
-# Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
-if [ ! -f $cfg_file_common ]; then fn_create_config common; else source $cfg_file_common; fi
-
-# Load instance specific settings
-if [ ! -f $cfg_file_instance ]; then fn_create_config instance; else source $cfg_file_instance; fi
-
-# Set the paramaters to send to srcds
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 
 
-fn_parms(){
-#TODO: Put in some conditional logic to handle generating the parm string so we can make this a little less game specific
-parms="${parms} -game ${game}"
-parms="${parms} -strictportbind"
-parms="${parms} -ip ${ip}"
-parms="${parms} -port ${port}"
-parms="${parms} -maxplayers ${maxplayers}"
-parms="${parms} ${srcds_parms}"
-parms="${parms} +clientport ${clientport}"
-parms="${parms} +tv_port ${sourcetvport}"
-parms="${parms} +sv_playlist ${playlist}"
-parms="${parms} +mapcyclefile ${mapcyclefile}"
-parms="${parms} +servercfgfile ${servercfg}"
-parms="${parms} +map ${defaultmap} ${defaultmode}"
-}
-
-#### Advanced Variables ####
-# Directories
-lockselfname=".${servicename}.lock"
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/insurgency"
-executabledir="${filesdir}"
-executable="./srcds_linux"
-servercfg="${servicename}.cfg"
-servercfgdir="${systemdir}/cfg"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
-backupdir="${lgsmdir}/backups"
-
-#In the event that you have library issues after an update, this may resolve it.
-#export LD_LIBRARY_PATH="${filesdir}:${filesdir}/bin:${LD_LIBRARY_PATH}"
-
-# Logging
-gamelogdir="${systemdir}/logs"
-scriptlogdir="${lgsmdir}/log/script"
-consolelogdir="${lgsmdir}/log/console"
-
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-consolelog="${consolelogdir}/${servicename}-console.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
-
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
 ##### Script #####
 # Do not edit
@@ -303,6 +235,74 @@ fn_getgithubfile(){
 	if [ "${exec}" ]; then
 		source "${filepath}"
 	fi
+}
+
+# Flush old setings buffer
+fn_settings_flush
+
+# Import this game's settings
+fn_settings_import $game
+
+# New method is to always run this function, it will overwrite defaults with whatever the new script values are
+fn_create_config default
+
+# Load defaults
+source $cfg_file_default
+
+# Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
+if [ ! -f $cfg_file_common ]; then fn_create_config common; else source $cfg_file_common; fi
+
+# Load instance specific settings
+if [ ! -f $cfg_file_instance ]; then fn_create_config instance; else source $cfg_file_instance; fi
+
+#### Advanced Variables ####
+# Directories
+lockselfname=".${servicename}.lock"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}/${game}"
+executabledir="${filesdir}"
+executable="./srcds_linux"
+servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
+backupdir="${lgsmdir}/backups"
+
+#In the event that you have library issues after an update, this may resolve it.
+#export LD_LIBRARY_PATH="${filesdir}:${filesdir}/bin:${LD_LIBRARY_PATH}"
+
+# Logging
+gamelogdir="${systemdir}/logs"
+scriptlogdir="${lgsmdir}/log/script"
+consolelogdir="${lgsmdir}/log/console"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+consolelog="${consolelogdir}/${servicename}-console.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
+
+
+
+
+
+# Set the paramaters to send to srcds
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+#TODO: Put in some conditional logic to handle generating the parm string so we can make this a little less game specific
+parms="${parms} -game ${game}"
+parms="${parms} -strictportbind"
+parms="${parms} -ip ${ip}"
+parms="${parms} -port ${port}"
+parms="${parms} -maxplayers ${maxplayers}"
+parms="${parms} ${srcds_parms}"
+parms="${parms} +clientport ${clientport}"
+parms="${parms} +tv_port ${sourcetvport}"
+parms="${parms} +sv_playlist ${playlist}"
+parms="${parms} +mapcyclefile ${mapcyclefile}"
+parms="${parms} +servercfgfile ${servercfg}"
+parms="${parms} +map ${defaultmap} ${defaultmode}"
 }
 
 # fn_runfunction
