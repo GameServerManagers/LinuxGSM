@@ -11,16 +11,13 @@
 #  * Parse JSON in Bash
 
 # Temporary file location
-cache_dir=/tmp/lgsm
+lgsmdir="./lgsm"
+cachedir="${lgsmdir}/tmp"
 githubuser="jaredballou"
 githubrepo="linuxgsm"
 githubbranch="master"
 
-# Create cache directory if missing
-if [ ! -e "${cache_dir}" ]
-then
-	mkdir -p "${cache_dir}"
-fi
+lastcommit_file="${cachedir}/lastcommit"
 
 # fn_getgithash filename
 # Calculate the Git hash for a file
@@ -34,35 +31,64 @@ function fn_getgithash(){
 	fi
 }
 
-# Get latest commit from GitHub. Cache file for 60 minutes
-lastcommit="${cache_dir}/lastcommit"
-if [ $(find "${lastcommit}" -mmin +60 2>/dev/null) ]
-then
-	echo "found"
-else
-	curl -s "https://api.github.com/repos/${githubuser}/${githubrepo}/git/refs/heads/${githubbranch}" | ./functions/jq-linux64 -r '.object.sha' > "${lastcommit}"
-fi
 
-# Get manifest of all files at this revision in GitHub. These hashes are what we use to compare and select files that need to be updated.
-lastcommit="$(cat "${lastcommit}")"
-manifest="${cache_dir}/${lastcommit}.manifest"
-if [ ! -e "${manifest}" ]
-then
-	curl -s "https://api.github.com/repos/${githubuser}/${githubrepo}/git/trees/${githubbranch}?recursive=1" | ./functions/jq-linux64 -r '.tree[] | .path + " " + .sha' > "${manifest}"
-fi
-
-# Check all files in functions for updates
-for file in functions/*
-do
-	myhash=$(fn_getgithash $file)
-	githash=$(grep "^$file " $manifest 2>/dev/null| cut -d" " -f2)
-	if [ "${githash}" == "" ]
+fn_github_manifest(){
+	# Create cache directory if missing
+	if [ ! -e "${cachedir}" ]
 	then
-		echo "Can't find ${file} in git!"
-	elif [ "${myhash}" != "${githash}" ]
-	then
-		echo "Would fetch ${file}: have ${myhash}, expected ${githash}"
-	else
-		echo "${file} is OK"
+		mkdir -p "${cachedir}"
 	fi
-done
+
+	# Get latest commit from GitHub. Cache file for 60 minutes
+	if [ -e $lastcommit_file ]; then
+		if [ $(($(date +%s) - $(date -r ${lastcommit_file} +%s))) -gt 3600 ]; then
+			fetch=1
+		else
+			fetch=0
+		fi
+	else
+		fetch=1
+	fi
+	if [ $fetch -eq 1 ]; then
+		echo "Fetching ${lastcommit_file}"
+		curl -s "https://api.github.com/repos/${githubuser}/${githubrepo}/git/refs/heads/${githubbranch}" -o "${lastcommit_file}.json"
+		${lgsmdir}/functions/jq-linux64 -r '.object.sha' "${lastcommit_file}.json" > "${lastcommit_file}"
+	fi
+
+	# Get manifest of all files at this revision in GitHub. These hashes are what we use to compare and select files that need to be updated.
+	manifest="${cachedir}/$(cat "${lastcommit_file}").manifest"
+	if [ ! -e "${manifest}.json" ]; then
+		curl -Ls "https://api.github.com/repos/${githubuser}/${githubrepo}/git/trees/${githubbranch}?recursive=1" -o "${manifest}.json"
+	fi
+	if [ ! -e "${manifest}" ]; then
+		${lgsmdir}/functions/jq-linux64 -r '.tree[] | .path + " " + .sha' "${manifest}.json" > "${manifest}"
+	fi
+}
+fn_github_checkfiles(){
+	prefix=$1
+	files=${@:2}
+	manifest="${cachedir}/$(cat "${lastcommit_file}").manifest"
+	# Check all files in functions for updates
+	for file in $files
+	do
+		if [ -d $file ]; then
+			echo "Descending into ${file}..."
+			fn_github_checkfiles "${prefix}" ${file}/*
+		else
+			myhash=$(fn_getgithash $file)
+			repofile=$(echo $file | sed -e "s|${1}[/]*||g")
+			githash=$(grep "^$repofile " $manifest 2>/dev/null| cut -d" " -f2)
+			if [ "${githash}" == "" ]
+			then
+				echo "Can't find ${repofile} in git!"
+			elif [ "${myhash}" != "${githash}" ]
+			then
+				echo "Would fetch ${repofile}: have ${myhash}, expected ${githash}"
+			else	
+				echo "${repofile} is OK"
+			fi
+		fi
+	done
+}
+fn_github_manifest
+fn_github_checkfiles $lgsmdir ${lgsmdir}/functions
