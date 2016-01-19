@@ -1,0 +1,10 @@
+# Game Settings File
+# _default
+# Base defaults for all games
+
+fn_set_game_params settings "email" "email@example.com" "Email address for notification
+fn_set_game_params settings "emailnotification" "off" "Email notification (on|off)
+fn_set_game_params settings "ip" "0.0.0.0" "IP Address to bind for server
+fn_set_game_params settings "lgsm_version" "${version}" "Version of LGSM that created this config"
+fn_set_game_params settings "logdays" "7" "Number of days to retain logs"
+fn_set_game_params settings "updateonstart" "off" "Update game on start"

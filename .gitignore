@@ -2,3 +2,5 @@
 .idea
 */functions/*
 */cfg/servers/*
+*/lgsm/functions/*
+*/lgsm/cfg/servers/*

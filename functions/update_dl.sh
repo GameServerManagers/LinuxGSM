@@ -28,7 +28,7 @@ fix.sh
 }
 
 fn_teamspeak3_dl(){
-cd "${rootdir}"
+cd "${lgsmdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 fn_scriptlog "Downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
 wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
@@ -51,7 +51,7 @@ else
 fi
 echo -e "copying to ${filesdir}...\c"
 fn_scriptlog "Copying to ${filesdir}"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
+cp -R "${lgsmdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -66,7 +66,7 @@ else
 	exit ${status}
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
-rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
+rm -rf "${lgsmdir}/teamspeak3-server_linux-${ts3arch}"
 }
 
 check.sh

@@ -12,12 +12,26 @@ version="180116"
 selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
 
 # Directories
+
+# Script root
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-scriptcfgdir="${rootdir}/cfg/servers"
+
+# LGSM Support Files
+lgsmdir="${rootdir}/lgsm"
+
+# Temporary path to store and manipulate settings
+settingsdir="${lgsmdir}/settings.tmp"
+
+# Supported Game Data
+gamesdir="${lgsmdir}/games"
+
+# Config path for local instances
+scriptcfgdir="${lgsmdir}/cfg/servers"
+
 
 # Debugging, if debugflag exists send output to $debuglog
-debugflag="${rootdir}/.dev-debug"
-debuglog="${rootdir}/dev-debug.log"
+debugflag="${lgsmdir}/.dev-debug"
+debuglog="${lgsmdir}/dev-debug.log"
 if [ -f "${debugflag}" ]; then
 	exec 5>${debuglog}
 	BASH_XTRACEFD="5"
@@ -41,7 +55,7 @@ githubuser="jaredballou"
 githubrepo="linuxgsm"
 githubbranch="master"
 
-#ipaddr=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
+#ipaddr=$(ip addr show $(ip route | grep '^default' | awk '{print $NF}') | grep 'inet ' | awk '{print $2}' | cut -f1  -d'/')
 
 # Config files
 cfg_file_default="${scriptcfgdir}/_default.cfg"
@@ -126,6 +140,39 @@ fn_create_config(){
 	fi
 }
 
+fn_settings_flush(){
+	if [ -e $settingsdir ]
+		rm -rf $settingsdir > /dev/null
+	fi
+	mkdir -p $settingsdir
+}
+fn_settings_import(){
+	import="${gamesdir}/${1}"
+	if [ ! -e $import ]; then
+		fn_getgithubfile "games/${1}"
+	fi
+	source $import
+}
+
+fn_set_game_params(){
+	param_set=$1
+	param_name=$2
+	param_value=$3
+	param_comment=$4
+	fn_update_config $param_name $param_value "${settingsdir}/${param_set}" $param_comment
+}
+fn_get_game_params(){
+	param_set=$1
+	param_name=$2
+	param_default=$3
+}
+
+# Flush old setings buffer
+fn_settings_flush
+
+# Import this game's settings
+fn_settings_import $game
+
 # If defaults are missing, or from an older version, overwrite the file
 # TODO: Perhaps pull this from Git instead?
 #cfgver=$(grep lgsm_version ${cfg_file_default} 2>/dev/null | cut -d'=' -f2 | sed -e 's/["]//g')
@@ -174,15 +221,15 @@ servercfg="${servicename}.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.cfg"
-backupdir="${rootdir}/backups"
+backupdir="${lgsmdir}/backups"
 
 #In the event that you have library issues after an update, this may resolve it.
 #export LD_LIBRARY_PATH="${filesdir}:${filesdir}/bin:${LD_LIBRARY_PATH}"
 
 # Logging
 gamelogdir="${systemdir}/logs"
-scriptlogdir="${rootdir}/log/script"
-consolelogdir="${rootdir}/log/console"
+scriptlogdir="${lgsmdir}/log/script"
+consolelogdir="${lgsmdir}/log/console"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
@@ -234,7 +281,7 @@ fn_getgithubfile(){
 	filename=$1
 	exec=$2
 	fileurl=${3:-$filename}
-	filepath="${rootdir}/${filename}"
+	filepath="${lgsmdir}/${filename}"
 	filedir=$(dirname "${filepath}")
 	# If the function file is missing, then download
 	if [ ! -f "${filepath}" ]; then

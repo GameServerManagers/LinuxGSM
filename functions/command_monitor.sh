@@ -16,7 +16,7 @@ logs.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-if [ ! -f "${rootdir}/${lockselfname}" ]; then
+if [ ! -f "${lgsmdir}/${lockselfname}" ]; then
 	fn_printinfo "Disabled: No lock file found"
 	fn_scriptlog "Disabled: No lock file found"
 	sleep 1
@@ -59,7 +59,7 @@ info_config.sh
 fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
-if [ ! -f "${rootdir}/${lockselfname}" ]; then
+if [ ! -f "${lgsmdir}/${lockselfname}" ]; then
 	fn_printinfo "Disabled: No lock file found"
 	fn_scriptlog "Disabled: No lock file found"
 	sleep 1

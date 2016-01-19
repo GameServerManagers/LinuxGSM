@@ -12,7 +12,7 @@ fn_printdots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 echo -ne "\n"
-rm -rfv "${rootdir}/functions/"*
+rm -rfv "${lgsmdir}/functions/"*
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
 	fn_printok "Updating functions"
