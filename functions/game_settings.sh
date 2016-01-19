@@ -132,7 +132,7 @@ fn_import_game_settings $selfname
 
 # New method is to always run this function, it will overwrite defaults with whatever the new script values are
 cfg_version_default=$(grep lgsm_version "${cfg_file_default}" 2>&1 | cut -d'=' -f2 | sed -e 's/"//g')
-if [ "${cfg_version}" != "${version}" ]; then
+if [ "${cfg_version_default}" != "${version}" ]; then
 	fn_create_config default 1
 fi
 
