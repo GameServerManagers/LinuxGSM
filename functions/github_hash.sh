@@ -60,6 +60,9 @@ fn_get_github_manifest(){
 
 # Check files against manifest
 fn_check_github_files(){
+	# Return unless turned on
+	if [ "${git_update}" != "1" ]; then return; fi
+
 	prefix=$1
 	files=${@:2}
 	fn_get_github_manifest
