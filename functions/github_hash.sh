@@ -74,7 +74,7 @@ fn_check_github_files(){
 				echo "Can't find ${repofile} in git!"
 			elif [ "${myhash}" != "${githash}" ]; then
 				#echo "Would fetch ${repofile}: have ${myhash}, expected ${githash}"
-				fn_getgithubfile "${file}" 0 "${repofile}" 1
+				fn_getgithubfile "${repofile}" 0 "${repofile}" 1
 			fi
 		fi
 	done
