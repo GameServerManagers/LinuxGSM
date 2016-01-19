@@ -7,7 +7,8 @@ fn_parms(){
 parms="-game hl1mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 # Steam
-appid="255470"
-gamename="Half-Life Deathmatch: Source"
-defaultmap="crossfire"
-game="hl1mp"
+fn_set_game_params settings "appid" "255470"
+fn_set_game_params settings "defaultmap" "crossfire"
+fn_set_game_params settings "game" "hl1mp"
+fn_set_game_params settings "gamename" "Half-Life Deathmatch: Source"
+

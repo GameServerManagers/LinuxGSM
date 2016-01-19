@@ -6,7 +6,7 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game dod -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-appid="232290"
-defaultmap="dod_Anzio"
-gamename="Day of Defeat: Source"
-game="dod"
+fn_set_game_params settings "appid" "232290"
+fn_set_game_params settings "defaultmap" "dod_Anzio"
+fn_set_game_params settings "game" "dod"
+fn_set_game_params settings "gamename" "Day of Defeat: Source"

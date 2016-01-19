@@ -8,7 +8,7 @@ fn_parms(){
 parms="-game cstrike -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 # Steam
-appid="90"
-defaultmap="de_dust2"
-game="cstrike"
-gamename="Counter Strike 1.6"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "de_dust2"
+fn_set_game_params settings "game" "cstrike"
+fn_set_game_params settings "gamename" "Counter Strike 1.6"

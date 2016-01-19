@@ -1,0 +1,9 @@
+# Game Settings File
+
+# Workshop Authentication and Settings
+fn_set_game_params parms_minus "authkey" "\${authkey}"
+fn_set_game_params parms_plus "host_workshop_collection" "\${host_workshop_collection}"
+fn_set_game_params parms_plus "workshop_start_map" "\${workshop_start_map}"
+fn_set_game_params settings "authkey" "--EMPTY--" "Optional key for Workshop Content.  See https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators - To get an authkey visit - http://steamcommunity.com/dev/apikey"
+fn_set_game_params settings "host_workshop_collection" "--EMPTY--" "Workshop Collection ID"
+fn_set_game_params settings "workshop_start_map" "--EMPTY--" "Workshop Start Map"

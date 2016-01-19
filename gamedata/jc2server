@@ -6,5 +6,5 @@ fn_parms(){
 parms=""
 }
 
-appid="261140"
-gamename="Just Cause 2"
+fn_set_game_params settings "appid" "261140"
+fn_set_game_params settings "gamename" "Just Cause 2"

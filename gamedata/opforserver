@@ -6,9 +6,8 @@ fn_import_game_settings _goldsource
 fn_parms(){
 parms="-game gearbox -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
-appid="90"
-appidmod="gearbox"
-gamename="Half-Life: Opposing Force"
-defaultmap="op4_bootcamp"
-maxplayers="16"
-game="gearbox"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "op4_bootcamp"
+fn_set_game_params settings "game" "gearbox"
+fn_set_game_params settings "gamename" "Half-Life: Opposing Force"
+fn_set_game_params settings "maxplayers" "16"

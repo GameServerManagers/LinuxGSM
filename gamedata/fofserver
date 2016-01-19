@@ -6,8 +6,7 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game fof -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-appid="295230"
-gamename="Fistful of Frags"
-defaultmap="fof_depot"
-engine="source"
-game="fof"
+fn_set_game_params settings "appid" "295230"
+fn_set_game_params settings "defaultmap" "fof_depot"
+fn_set_game_params settings "game" "fof"
+fn_set_game_params settings "gamename" "Fistful of Frags"

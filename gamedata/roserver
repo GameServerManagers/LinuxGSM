@@ -6,15 +6,10 @@ fn_parms(){
 parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
 }
 
-gamename="Red Orchestra: Ostfront 41-45"
-appid="223250"
-defaultmap="RO-Arad.rom"
+fn_set_game_params settings "gamename" "Red Orchestra: Ostfront 41-45"
+fn_set_game_params settings "appid" "223250"
+fn_set_game_params settings "defaultmap" "RO-Arad.rom"
 
-systemdir="\${filesdir}/system"
-executabledir="\${systemdir}"
-executable="./ucc-bin"
-servercfg="\${servicename}.ini"
-servercfgdir="\${systemdir}"
-servercfgfullpath="\${servercfgdir}/\${servercfg}"
-servercfgdefault="\${servercfgdir}/default.ini"
-compressedmapsdir="\${rootdir}/Maps-Compressed"
+# Lower Case wtf?
+fn_set_game_params settings "systemdir" "${filesdir}/system"
+fn_set_game_params settings "servercfgdefault" "${servercfgdir}/default.ini"

@@ -6,6 +6,6 @@ fn_import_game_settings _dontstarve
 fn_parms(){
 parms=""
 }
-appid="343050"
-gamename="Don't Starve Together"
-game="dontstarve"
+fn_set_game_params settings "appid" "343050"
+fn_set_game_params settings "game" "dontstarve"
+fn_set_game_params settings "gamename" "Don't Starve Together"

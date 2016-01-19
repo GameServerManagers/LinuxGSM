@@ -6,8 +6,8 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-appid="222860"
-gamename="Left 4 Dead 2"
-defaultmap="c5m1_waterfront"
-maxplayers="8"
-game="left4dead2"
+fn_set_game_params settings "appid" "222860"
+fn_set_game_params settings "defaultmap" "c5m1_waterfront"
+fn_set_game_params settings "game" "left4dead2"
+fn_set_game_params settings "gamename" "Left 4 Dead 2"
+fn_set_game_params settings "maxplayers" "8"

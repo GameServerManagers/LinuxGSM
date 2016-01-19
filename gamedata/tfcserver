@@ -6,10 +6,8 @@ fn_import_game_settings _goldsource
 fn_parms(){
 parms="-game tfc -strictportbind _ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
-# Steam
-appid="90"
-appidmos="tfc"
-gamename="Team Fortress Classic"
-defaultmap="dustbowl"
-maxplayers="16"
-game="tfc"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "gamename" "Team Fortress Classic"
+fn_set_game_params settings "defaultmap" "dustbowl"
+fn_set_game_params settings "maxplayers" "16"
+fn_set_game_params settings "game" "tfc"

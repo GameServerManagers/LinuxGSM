@@ -6,8 +6,8 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game nmrih -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-appid="317670"
-gamename="No More Room in Hell"
-defaultmap="nmo_broadway"
-maxplayers="8"
-game="nmrih"
+fn_set_game_params settings "appid" "317670"
+fn_set_game_params settings "defaultmap" "nmo_broadway"
+fn_set_game_params settings "game" "nmrih"
+fn_set_game_params settings "gamename" "No More Room in Hell"
+fn_set_game_params settings "maxplayers" "8"

@@ -7,7 +7,7 @@ fn_parms(){
 parms="-game gesource -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
-appid="310"
-defaultmap="ge_archives"
-gamename="GoldenEye: Source"
-game="gesource"
+fn_set_game_params settings "appid" "310"
+fn_set_game_params settings "defaultmap" "ge_archives"
+fn_set_game_params settings "game" "gesource"
+fn_set_game_params settings "gamename" "GoldenEye: Source"

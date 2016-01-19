@@ -6,8 +6,7 @@ fn_import_game_settings _goldsource
 fn_parms(){
 parms="-game dod -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
-# Steam
-appid="90"
-game="dod"
-defaultmap="dod_Anzio"
-gamename="Day of Defeat"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "dod_Anzio"
+fn_set_game_params settings "game" "dod"
+fn_set_game_params settings "gamename" "Day of Defeat"

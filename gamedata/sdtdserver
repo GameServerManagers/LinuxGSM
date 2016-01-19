@@ -7,12 +7,12 @@ fn_parms(){
 parms="-configfile=${servercfgfullpath} -dedicated"
 }
 
-appid="294420"
-gamename="7 Days To Die"
-executable="./startserver.sh"
-servercfg="${servicename}.xml"
-servercfgdir="${filesdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/serverconfig.xml"
+fn_set_game_params settings "appid" "294420"
+fn_set_game_params settings "gamename" "7 Days To Die"
+fn_set_game_params settings "executable" "./startserver.sh"
+fn_set_game_params settings "servercfg" "${servicename}.xml"
+fn_set_game_params settings "servercfgdir" "${filesdir}"
+fn_set_game_params settings "servercfgfullpath" "${servercfgdir}/${servercfg}"
+fn_set_game_params settings "servercfgdefault" "${servercfgdir}/serverconfig.xml"
 
 

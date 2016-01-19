@@ -6,9 +6,9 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-defaultmap="da_rooftops"
-maxplayers="10"
-appid="317800"
-gamename="Double Action: Boogaloo"
-game="dab"
-executable="./dabds.sh"
+fn_set_game_params settings "appid" "317800"
+fn_set_game_params settings "defaultmap" "da_rooftops"
+fn_set_game_params settings "executable" "./dabds.sh"
+fn_set_game_params settings "game" "dab"
+fn_set_game_params settings "gamename" "Double Action: Boogaloo"
+fn_set_game_params settings "maxplayers" "10"

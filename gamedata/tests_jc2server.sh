@@ -6,7 +6,7 @@ fn_parms(){
 parms=""
 }
 
-appid="261140"
-servicename="jc2-server"
-gamename="Just Cause 2"
+fn_set_game_params settings "appid" "261140"
+fn_set_game_params settings "servicename" "jc2-server"
+fn_set_game_params settings "gamename" "Just Cause 2"
 

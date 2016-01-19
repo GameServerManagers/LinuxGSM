@@ -6,7 +6,7 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game hl2mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-appid="232370"
-defaultmap="dm_lockdown"
-gamename="Half Life 2: Deathmatch"
-game="hl2mp"
+fn_set_game_params settings "appid" "232370"
+fn_set_game_params settings "defaultmap" "dm_lockdown"
+fn_set_game_params settings "game" "hl2mp"
+fn_set_game_params settings "gamename" "Half Life 2: Deathmatch"

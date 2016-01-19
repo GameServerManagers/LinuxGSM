@@ -7,7 +7,7 @@ fn_parms(){
 parms="-game valve -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 
-appid="90"
-gamename="Half Life: Deathmatch"
-defaultmap="crossfire"
-game="valve"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "crossfire"
+fn_set_game_params settings "game" "valve"
+fn_set_game_params settings "gamename" "Half Life: Deathmatch"

@@ -4,9 +4,7 @@ fn_import_game_settings _goldsource
 fn_parms(){
 parms="-game czero -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
-
-# Steam
-appid="90"
-defaultmap="de_dust2"
-game="czero"
-gamename="Counter Strike: Condition Zero"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "de_dust2"
+fn_set_game_params settings "game" "czero"
+fn_set_game_params settings "gamename" "Counter Strike: Condition Zero"

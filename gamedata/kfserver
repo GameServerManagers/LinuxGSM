@@ -10,19 +10,6 @@ parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini
 #parms="server ${defaultmap}?Game=KFStoryGame.KFStoryGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
 }
 
-appid="215360"
-gamename="Killing Floor"
-defaultmap="KF-BioticsLab.rom"
-
-
-
-
-systemdir="${filesdir}/System"
-executabledir="${systemdir}"
-executable="./ucc-bin"
-servercfg="${servicename}.ini"
-servercfgdir="${systemdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/Default.ini"
-compressedmapsdir="${rootdir}/Maps-Compressed"
-
+fn_set_game_params settings "appid" "215360"
+fn_set_game_params settings "defaultmap" "KF-BioticsLab.rom"
+fn_set_game_params settings "gamename" "Killing Floor"

@@ -7,8 +7,7 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game brainbread2 -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-game="brainvread2"
-defaultmap="bba_barracks"
-gslt=""
-appid="346330"
-gamename="BrainBread 2"
+fn_set_game_params settings "appid" "346330"
+fn_set_game_params settings "gamename" "BrainBread 2"
+fn_set_game_params settings "game" "brainvread2"
+fn_set_game_params settings "defaultmap" "bba_barracks"

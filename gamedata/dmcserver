@@ -8,7 +8,7 @@ parms="-game dmc -strictportbind +ip ${ip} -port ${port} +clientport ${clientpor
 }
 
 # Steam
-appid="90"
-game="dmc"
-defaultmap="dcdm5"
-gamename="Deathmatch Classic"
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "dcdm5"
+fn_set_game_params settings "game" "dmc"
+fn_set_game_params settings "gamename" "Deathmatch Classic"
