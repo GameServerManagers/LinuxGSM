@@ -37,6 +37,10 @@ scriptcfgdir="${lgsmdir}/cfg/servers"
 # Temporary cache location
 cachedir="${lgsmdir}/tmp"
 
+# Git last commit file (for tracking updates)
+lastcommit_file="${cachedir}/lastcommit"
+
+
 # Debugging, if debugflag exists send output to $debuglog
 debugflag="${lgsmdir}/.dev-debug"
 debuglog="${lgsmdir}/dev-debug.log"
@@ -129,6 +133,8 @@ fn_getgithubfile(){
 			chmod +x "${filepath}"
 		fi
 		fn_colortext 32 "DONE"
+	else
+		fn_check_github_files "${lgsmdir}" "${lgsmdir}/${filename}"
 	fi
 	if [ "${exec}" ]; then
 		source "${filepath}"
@@ -140,7 +146,11 @@ fn_runfunction(){
 	scriptfile=${1:-$functionfile}
 	functionfile=$scriptfile
 	fn_getgithubfile "functions/${functionfile}" 1
+	fn_check_github_files "${lgsmdir}" "${lgsmdir}/functions/${functionfile}"
 }
+
+# Load GitHub hashing and updating functions
+fn_runfunction github_hash.sh
 
 # Process game configs and load variables needed to run script
 fn_runfunction game_settings.sh
