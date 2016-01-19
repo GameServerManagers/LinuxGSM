@@ -6,7 +6,7 @@
 fn_import_game_settings _source
 
 # Add playlist parameter
-fn_set_game_params parms_plus "+sv_playlist" "\${playlist}"
+fn_set_game_params parms_plus "sv_playlist" "\${playlist}"
 
 # Override some server settings
 fn_set_game_params settings "appid" "237410"

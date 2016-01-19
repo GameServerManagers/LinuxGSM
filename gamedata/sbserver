@@ -1,10 +1,13 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _starbound
+
 fn_parms(){
 parms=""
 }
 appid="211820"
 gamename="Starbound"
-
-engine="starbound"
+game="starbound"
 executabledir="${filesdir}/linux64"
 executable="./starbound_server"
 servercfg="sbboot.config"

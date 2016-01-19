@@ -6,9 +6,9 @@
 fn_import_game_settings _source
 
 # Override some server settings
-appid="232330"
+fn_parms(){
 parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
-gamename="Counter Strike: Source"
+}
 
 fn_set_game_params settings "appid" "232330"
 fn_set_game_params settings "defaultmap" "de_dust2"

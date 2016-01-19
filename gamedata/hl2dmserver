@@ -1,10 +1,12 @@
-defaultmap="dm_lockdown"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms="-game hl2mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 appid="232370"
+defaultmap="dm_lockdown"
 gamename="Half Life 2: Deathmatch"
-engine="source"
-systemdir="${filesdir}/hl2mp"
+game="hl2mp"

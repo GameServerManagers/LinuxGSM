@@ -17,10 +17,10 @@ fn_set_game_params settings "workshopauth" "--EMPTY--" "Optional key for Worksho
 fn_set_game_params settings "workshopcollectionid" "--EMPTY--" "Workshop Collection ID"
 
 # The parms that start with - go first
-fn_set_game_params parms_minus "-authkey" "\${workshopauth}"
+fn_set_game_params parms_minus "authkey" "\${workshopauth}"
 
 # Then the parms that start with +
-fn_set_game_params parms_plus "+sv_setsteamaccount" "\${gslt}"
-fn_set_game_params parms_plus "+mapgroup" "\${mapgroup}"
-fn_set_game_params parms_plus "+gamemode" "\${gamemode}"
-fn_set_game_params parms_plus "+host_workshop_collection" "\${"workshopcollectionid"}"
+fn_set_game_params parms_plus "sv_setsteamaccount" "\${gslt}"
+fn_set_game_params parms_plus "mapgroup" "\${mapgroup}"
+fn_set_game_params parms_plus "gamemode" "\${gamemode}"
+fn_set_game_params parms_plus "host_workshop_collection" "\${"workshopcollectionid"}"

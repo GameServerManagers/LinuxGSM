@@ -1,12 +1,14 @@
-defaultmap="da_rooftops"
-maxplayers="10"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms="-strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
+defaultmap="da_rooftops"
+maxplayers="10"
 appid="317800"
 gamename="Double Action: Boogaloo"
-engine="source"
-
-systemdir="${filesdir}/dab"
+game="dab"
 executable="./dabds.sh"

@@ -1,4 +1,6 @@
-defaultmap="KF-BioticsLab.rom"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _unreal2
 
 fn_parms(){
 parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
@@ -10,7 +12,10 @@ parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini
 
 appid="215360"
 gamename="Killing Floor"
-engine="unreal2"
+defaultmap="KF-BioticsLab.rom"
+
+
+
 
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"

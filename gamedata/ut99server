@@ -1,10 +1,12 @@
-defaultmap="DM-Deck16]["
+# Game Settings File
+# Import Engine
+fn_import_game_settings _unreal
 
 fn_parms(){
 parms="server ${defaultmap}.unr ini=${servercfgfullpath}"
 }
 gamename="Unreal Tournament 99"
-engine="unreal"
+defaultmap="DM-Deck16]["
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"
 executable="./ucc-bin"

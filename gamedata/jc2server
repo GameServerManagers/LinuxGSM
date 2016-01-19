@@ -1,13 +1,10 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _avalanche
+
 fn_parms(){
 parms=""
 }
+
 appid="261140"
 gamename="Just Cause 2"
-engine="avalanche"
-systemdir="${filesdir}"
-executabledir="${filesdir}"
-executable="./Jcmp-Server"
-servercfg="config.lua"
-servercfgdir="${filesdir}"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/default_config.lua"

@@ -21,14 +21,14 @@ fn_set_game_params settings "ws_start_map" "--EMPTY--" "Workshop Start Map"
 
 
 # The parms that start with - go first
-fn_set_game_params parms_minus "-usercon" "--EMPTY--"
-fn_set_game_params parms_minus "-maxplayers_override" "\${maxplayers}"
-fn_set_game_params parms_minus "-authkey" "\${authkey}"
+fn_set_game_params parms_minus "usercon" "--EMPTY--"
+fn_set_game_params parms_minus "maxplayers_override" "\${maxplayers}"
+fn_set_game_params parms_minus "authkey" "\${authkey}"
 
 # Then the parms that start with +
-fn_set_game_params parms_plus "+sv_setsteamaccount" "\${gslt}"
-fn_set_game_params parms_plus "+mapgroup" "\${mapgroup}"
-fn_set_game_params parms_plus "+game_mode" "\${gamemode}"
-fn_set_game_params parms_plus "+game_type" "\${gametype}"
-fn_set_game_params parms_plus "+host_workshop_collection" "\${ws_collection_id}"
-fn_set_game_params parms_plus "+workshop_start_map" "\${ws_start_map}"
+fn_set_game_params parms_plus "sv_setsteamaccount" "\${gslt}"
+fn_set_game_params parms_plus "mapgroup" "\${mapgroup}"
+fn_set_game_params parms_plus "game_mode" "\${gamemode}"
+fn_set_game_params parms_plus "game_type" "\${gametype}"
+fn_set_game_params parms_plus "host_workshop_collection" "\${ws_collection_id}"
+fn_set_game_params parms_plus "workshop_start_map" "\${ws_start_map}"

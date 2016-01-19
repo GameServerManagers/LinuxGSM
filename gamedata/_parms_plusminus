@@ -1,0 +1,10 @@
+# Game Settings File
+# _parms_plusminus
+# Parameter parsing with "+" and "-" sorting
+
+# This is the way we create a script that collates and parses the parameters
+fn_parms(){
+	parms_minus="$(echo $(sed -e 's/^\([^#=]\+\)=\"/\-\1 /g' -e 's/\"$//g' ${settingsdir}/parms_minus))
+	parms_plus="$(echo $(sed -e 's/^\([^#=]\+\)=\"/\+\1 /g' -e 's/\"$//g' ${settingsdir}/parms_plus))
+	parms="$(echo "${parms_minus} ${server_parms} ${parms_plus}")"
+}

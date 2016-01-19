@@ -1,24 +1,23 @@
-#TODO
-port="2302"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _realvirtuality
+
 fn_parms(){
 parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
 }
+
+port="2302"
 mods=""
 servermods=""
 bepath=""
-appid="233780"
-# Development
-# appid="233780 -beta development"
+appid="233780" "For Development branch, use \"233780 -beta development\""
 gamename="ARMA 3"
-
-engine="realvirtuality"
-systemdir="${filesdir}"
-executabledir="${filesdir}"
+executabledir="\${filesdir}"
 executable="./arma3server"
-servercfg="${servicename}.server.cfg"
-networkcfg="${servicename}.network.cfg"
-servercfgdir="${systemdir}/cfg"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-networkcfgfullpath="${servercfgdir}/${networkcfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.server.cfg"
-networkcfgdefault="${servercfgdir}/lgsm-default.network.cfg"
+servercfg="\${servicename}.server.cfg"
+networkcfg="\${servicename}.network.cfg"
+servercfgdir="\${systemdir}/cfg"
+servercfgfullpath="\${servercfgdir}/\${servercfg}"
+networkcfgfullpath="\${servercfgdir}/\${networkcfg}"
+servercfgdefault="\${servercfgdir}/lgsm-default.server.cfg"
+networkcfgdefault="\${servercfgdir}/lgsm-default.network.cfg"

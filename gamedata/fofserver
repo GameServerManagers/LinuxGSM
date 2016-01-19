@@ -1,9 +1,13 @@
-defaultmap="fof_depot"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms="-game fof -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 appid="295230"
 gamename="Fistful of Frags"
+defaultmap="fof_depot"
 engine="source"
-systemdir="${filesdir}/fof"
+game="fof"

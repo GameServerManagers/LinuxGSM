@@ -1,13 +1,14 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _goldsource
+
 #TODO
-defaultmap="de_dust2"
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
 parms="-game cstrike -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 # Steam
 appid="90"
-appidmod="cstrike"
+defaultmap="de_dust2"
+game="cstrike"
 gamename="Counter Strike 1.6"
-engine="goldsource"
-systemdir="${filesdir}/cstrike"
-executable="./hlds_run"

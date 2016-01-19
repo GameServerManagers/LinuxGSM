@@ -1,14 +1,11 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _dontstarve
+
 #http://dont-starve-game.wikia.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers
 fn_parms(){
 parms=""
 }
 appid="343050"
 gamename="Don't Starve Together"
-
-engine="dontstarve"
-systemdir="${filesdir}"
-executabledir="${filesdir}/bin"
-executable="./dontstarve_dedicated_server_nullrenderer"
-servercfg="settings.ini"
-servercfgdir="${HOME}/.klei/DoNotStarveTogether"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
+game="dontstarve"

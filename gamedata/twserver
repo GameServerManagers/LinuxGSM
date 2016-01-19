@@ -1,14 +1,18 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _teeworlds
+
 fn_parms(){
 parms="-f ${servercfgfullpath}"
 }
+
 appid="380840"
 gamename="Teeworlds"
-
-engine="teeworlds"
+game="teeworlds"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./teeworlds_srv"
-servercfg="${servicename}.cfg" # Teeworlds can also auto load any config if an autoexec.cfg file is present in the server dir
+servercfg="${servicename}.cfg"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.cfg"

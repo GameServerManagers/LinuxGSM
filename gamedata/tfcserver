@@ -1,5 +1,7 @@
-defaultmap="dustbowl"
-maxplayers="16"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _goldsource
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
 parms="-game tfc -strictportbind _ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
@@ -8,5 +10,6 @@ parms="-game tfc -strictportbind _ip ${ip} -port ${port} +clientport ${clientpor
 appid="90"
 appidmos="tfc"
 gamename="Team Fortress Classic"
-engine="goldsource"
-systemdir="${filesdir}/tfc"
+defaultmap="dustbowl"
+maxplayers="16"
+game="tfc"

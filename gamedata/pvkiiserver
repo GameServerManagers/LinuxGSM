@@ -1,9 +1,12 @@
-defaultmap="bt_island"
-maxplayers="24"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
 fn_parms(){
 parms="-game pvkii -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 appid="17575"
 gamename="Pirates, Vikings, and Knights II"
-engine="source"
-systemdir="${filesdir}/pvkii"
+defaultmap="bt_island"
+maxplayers="24"
+game="pvkii"

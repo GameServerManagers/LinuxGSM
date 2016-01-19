@@ -1,10 +1,12 @@
-defaultmap="rc_arena"
-maxplayers="16"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _goldsource
+
 fn_parms(){
 parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 appid="90"
-appidmod="ricochet"
+defaultmap="rc_arena"
+maxplayers="16"
 gamename="Ricochet"
-engine="goldsource"
-systemdir="${filesdir}/ricochet"
+game="ricochet"

@@ -1,6 +1,6 @@
-defaultmap="cp_badlands"
-maxplayers="16"
-gslt=""
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
@@ -8,5 +8,7 @@ parms="-game tf -strictportbind -ip ${ip} -port ${port} +clientport ${clientport
 }
 appid="232250"
 gamename="Team Fortress 2"
-engine="source"
-systemdir="${filesdir}/tf"
+defaultmap="cp_badlands"
+maxplayers="16"
+gslt=""
+game="tf"

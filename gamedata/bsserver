@@ -1,11 +1,13 @@
-#TODO
-defaultmap="duel_winter"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms="-autoupdate -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 # Steam
+defaultmap="duel_winter"
 appid="228780"
 gamename="Blade Symphony"
-engine="source"
-systemdir="${filesdir}/berimbau"
+game="berimbau"

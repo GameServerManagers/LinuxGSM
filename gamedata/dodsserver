@@ -1,9 +1,12 @@
-defaultmap="dod_Anzio"
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms="-game dod -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 appid="232290"
+defaultmap="dod_Anzio"
 gamename="Day of Defeat: Source"
-engine="source"
-systemdir="${filesdir}/dod"
+game="dod"

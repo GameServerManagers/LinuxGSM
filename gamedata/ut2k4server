@@ -1,9 +1,12 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _unreal2
+
 defaultmap="DM-Rankin"
 fn_parms(){
 parms="server ${defaultmap}?game=XGame.xDeathMatch -nohomedir ini=${servercfg} log=${gamelog}"
 }
 gamename="Unreal Tournament 2004"
-engine="unreal2"
 systemdir="${filesdir}/System"
 executabledir="${systemdir}"
 executable="./ucc-bin"

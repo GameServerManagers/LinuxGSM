@@ -1,80 +1,31 @@
 # Game Settings File
-# _srcds
-# Base SRCDS Game
-
-
-engine="unity3d"
-# http://hurtworld.wikia.com/wiki/Hosting_A_Server
-fn_parms(){
-parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
-}
-port="12871"
-queryport="12881"
-maxplayers="20"
-map="" #Optional
-creativemode="0" #Free Build
-logfile="gamelog.txt"
-admins="" "Adding admins using STEAMID64. Example : addadmin 012345678901234567; addadmin 987654321098765432"
-
-# Advanced
-loadsave="" "Rollback server state (remove after start command)"
-x64mode="0" "Use unstable 64 bit server executable (O/1)"
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
-executabledir="${filesdir}"
-if [ "${x64mode}" == "1" ]; then
-	executable="./Hurtworld.x86_64"
-else
-	executable="./Hurtworld.x86"
-fi
+# _unity3d
+# Unity 3D Engine
 
 # Import default settings
 fn_import_game_settings _default
 
-# This is the way we create a script that collates and parses the parameters
+fn_set_game_params settings "engine" "unity3d"
+# http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
-	parms="$(echo $(sed -e 's/=\"/ /g' -e 's/\"$//g' ${settingsdir}/parms_minus)) ${srcds_parms} $(echo $(sed -e 's/=\"/ /g' -e 's/\"$//g' ${settingsdir}/parms_plus))"
+parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
 }
-# The parms that start with - go first
-fn_set_game_params parms_minus "-game" "\${game}"
-fn_set_game_params parms_minus "-strictportbind" "--EMPTY--"
-fn_set_game_params parms_minus "-ip" "\${ip}"
-fn_set_game_params parms_minus "-port" "\${port}"
-fn_set_game_params parms_minus "-maxplayers" "\${maxplayers}"
-fn_set_game_params parms_minus "-tickrate" "\${tickrate}"
+fn_set_game_params settings "port" "12871"
+fn_set_game_params settings "queryport" "12881"
+fn_set_game_params settings "maxplayers" "20"
+fn_set_game_params settings "map" "--EMPTY--" "Optional"
+fn_set_game_params settings "creativemode" "0" "Free Build"
+fn_set_game_params settings "logfile" "gamelog.txt"
+fn_set_game_params settings "admins" "--EMPTY--" "Adding admins using STEAMID64. Example : addadmin 012345678901234567; addadmin 987654321098765432"
 
-# Then the parms that start with +
-fn_set_game_params parms_plus "+clientport" "\${clientport}"
-fn_set_game_params parms_plus "+tv_port" "\${sourcetvport}"
-fn_set_game_params parms_plus "+mapcyclefile" "\${mapcyclefile}"
-fn_set_game_params parms_plus "+servercfgfile" "\${servercfg}"
-fn_set_game_params parms_plus "+map" "\${defaultmap}"
-
-# And the settings for defaults
-fn_set_game_params settings "appid" "204" "Steam App ID"
-fn_set_game_params settings "clientport" "27005" "Client Port"
-fn_set_game_params settings "defaultmap" "dm_lockdown" "Default map to load"
-fn_set_game_params settings "engine" "source" "Game Engine"
-fn_set_game_params settings "game" "hl2mp" "Name of game to pass to srcds"
-fn_set_game_params settings "gamename" "HalfLife2Deathmatch" "Name for subdirectory in GitHub repo"
-fn_set_game_params settings "mapcyclefile" "mapcycle.txt" "Map Cycle File"
-fn_set_game_params settings "maxplayers" "64" "Maximum player count"
-fn_set_game_params settings "playlist" "custom" "Playlist"
-fn_set_game_params settings "port" "27015" "Port to bind for server"
-fn_set_game_params settings "servercfg" "${selfname}.cfg" "Server Config file"
-fn_set_game_params settings "sourcetvport" "27020" "SourceTV Port"
-fn_set_game_params settings "srcds_parms" "--EMPTY--" "Additional SRCDS Parameters. Put the parameters that start with \"-\" first, then \"+\" parameters after"
-fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
-fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
-fn_set_game_params settings "tickrate" "64" "Server Tick Rate"
-
-# These are values that the script uses, they don't get used by the srcds server directly
-fn_set_game_params settings "systemdir" "\${filesdir}/\${game}"
-fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
+# Advanced
+fn_set_game_params settings "loadsave" "" "Rollback server state (remove after start command)"
+fn_set_game_params settings "x64mode" "0" "Use unstable 64 bit server executable (O/1)"
+fn_set_game_params settings "filesdir" "\${rootdir}/serverfiles"
+fn_set_game_params settings "systemdir" "\${filesdir}"
 fn_set_game_params settings "executabledir" "\${filesdir}"
-fn_set_game_params settings "executable" "./srcds_linux"
-fn_set_game_params settings "servercfg" "\${servicename}.cfg"
-fn_set_game_params settings "servercfgdir" "\${systemdir}/cfg"
-fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
-
+if [ "${x64mode}" == "1" ]; then
+	fn_set_game_params settings "executable" "./Hurtworld.x86_64"
+else
+	fn_set_game_params settings "executable" "./Hurtworld.x86"
+fi
