@@ -71,8 +71,7 @@ fn_check_github_files(){
 			repofile=$(echo $file | sed -e "s|${1}[/]*||g")
 			githash=$(grep "^$repofile " $manifest 2>/dev/null| cut -d" " -f2)
 			if [ "${githash}" == "" ]; then
-				continue
-				#echo "Can't find ${repofile} in git!"
+				echo "Can't find ${repofile} in git!"
 			elif [ "${myhash}" != "${githash}" ]; then
 				#echo "Would fetch ${repofile}: have ${myhash}, expected ${githash}"
 				fn_getgithubfile "${file}" 0 "${repofile}" 1
