@@ -6,5 +6,6 @@
 fn_parms(){
 	parms_minus="$(echo $(sed -e 's/^\([^#=]\+\)=\"/\-\1 /g' -e 's/\"$//g' ${settingsdir}/parms_minus))"
 	parms_plus="$(echo $(sed -e 's/^\([^#=]\+\)=\"/\+\1 /g' -e 's/\"$//g' ${settingsdir}/parms_plus))"
-	parms="$(echo "${parms_minus} ${server_parms} ${parms_plus}")"
+	parms_list="${parms_minus} ${server_parms} ${parms_plus}"
+	parms="$(eval "${parms_list}")"
 }
