@@ -94,7 +94,7 @@ fn_getgithubfile(){
 	# If the function file is missing, then download
 	if [ ! -f "${filepath}" ]; then
 		if [ ! -d "${filedir}" ]; then
-			mkdir "${filedir}"
+			mkdir -p "${filedir}"
 		fi
 		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 		echo -e "    fetching ${filename} (${githuburl})\c"
