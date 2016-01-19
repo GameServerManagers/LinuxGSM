@@ -1,13 +1,17 @@
 # Game Settings File
-# insurgency
+# insserver
 # Insurgency Dedicated Server
 
-fn_settings_import _srcds
+# Import SRCDS
+fn_import_game_settings _srcds
 
-fn_set_game_params params_plus "+sv_playlist" "\${playlist}"
+# Add playlist parameter
+fn_set_game_params parms_plus "+sv_playlist" "\${playlist}"
 
+# Override some server settings
 fn_set_game_params settings "appid" "237410"
 fn_set_game_params settings "defaultmap" "ministry checkpoint"
 fn_set_game_params settings "game" "insurgency"
 fn_set_game_params settings "mapcyclefile" "mapcycle.txt"
 fn_set_game_params settings "playlist" "custom" "Server Playlist"
+fn_set_game_params settings "gamename" "Insurgency"
