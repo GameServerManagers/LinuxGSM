@@ -30,6 +30,7 @@ fn_get_github_manifest(){
 	if [ ! -e "${cachedir}" ]; then
 		mkdir -p "${cachedir}"
 	fi
+	fn_getgithubfile "functions/jq-linux64" 1
 	# Get latest commit from GitHub. Cache file for 60 minutes
 	if [ -e $lastcommit_file ]; then
 		if [ $(($(date +%s) - $(date -r ${lastcommit_file} +%s))) -gt 3600 ]; then
