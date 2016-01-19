@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 
-version="110116"
+version="180116"
 
 #### Variables ####
 
@@ -44,62 +44,123 @@ githubbranch="master"
 #ipaddr=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 
 # Config files
-cfg_default="${scriptcfgdir}/_default.cfg"
-cfg_common="${scriptcfgdir}/_common.cfg"
-cfg_instance="${scriptcfgdir}/${servicename}.cfg"
+cfg_file_default="${scriptcfgdir}/_default.cfg"
+cfg_file_common="${scriptcfgdir}/_common.cfg"
+cfg_file_instance="${scriptcfgdir}/${servicename}.cfg"
 
-#If config directory does not exist, create it
-if [ ! -e $scriptcfgdir ]; then mkdir -p "$scriptcfgdir"; fi
+# Config file headers
+cfg_header_all="# Your settings for all servers go in _common.cfg\n# Server-specific settings go into \$SERVER.cfg"
+cfg_header_default="# Default config - Changes will be overwritten by updates.\n${cfg_header_all}"
+cfg_header_common="# Common config - Will not be overwritten by script.\n${cfg_header_all}"
+cfg_header_instance="# Instance Config for ${servicename} - Will not be overwritten by script.\n${cfg_header_all}"
 
 # If default config does not exist, create it. This should come from Git, and will be overwritten by updates.
 # Rather than try to wget it from Github or other fancy ways to get it, the simplest way to ensure it works is to simply create it here.
-fn_create_default_config(){
-	echo "Creating default config at ${cfg_default}"
-	cat <<'EOF' > $cfg_default
-		# Default config - Changes will be overwritten by updates.
-		# Your settings for all servers go in _common.cfg
-		# Server-specific settings go into $SERVER.cfg
-		appid="237410"
-		beta="" #To enable beta, use " -beta beta"
-		clientport="27005"
-		defaultmap="ministry"
-		defaultmode="checkpoint"
-		email="email@example.com"
-		emailnotification="off" # (on|off)
-		ip="0.0.0.0"
-		lgsm_version="110116"
-		logdays="7"
-		mapcyclefile="mapcycle.txt"
-		maxplayers="16"
-		playlist="custom"
-		port="27015"
-		sourcetvport="27020"
-		srcds_parms=""
-		steampass=""
-		steamuser="anonymous"
-		updateonstart="off"
-EOF
+fn_update_config()
+{
+	key=$1
+	val=$2
+	cfg_file=${3:-$cfg_file_default}
+	comment=${4:-""}
+	# Put " # " at beginning of comment if not empty
+	if [ "${comment}" != "" ]
+	then
+		comment=" # ${comment}"
+	fi
+
+	# Line to be put in
+	data="${key}=\"${val}\"${comment}"
+
+	# Get current key/value pair from file
+	exists=$(grep "^${key}=" $cfg_file)
+
+	# Check if key exists in config
+	if [ "${exists}" != "" ]; then
+		# If the line isn't the same as the parsed data line, replace it
+		if [ "${exists}" != "${data}" ]; then
+			echo "Updating ${data} in ${cfg_file}"
+			sed -e "s/^${key}=.*\$/${data}/g" -i $cfg_file
+		fi
+	else
+		# If value does not exist, append to file
+		echo "Adding ${data} to ${cfg_file}"
+		echo -ne "${data}\n" >> $cfg_file
+	fi
+}
+fn_create_config(){
+	cfg_type=${1:-default}
+	cfg_file="cfg_file_${cfg_type}"
+	cfg_header="cfg_header_${cfg_type}"
+	
+	cfg_dir=$(dirname ${!cfg_file})
+	#If config directory does not exist, create it
+	if [ ! -e $cfg_dir ]; then mkdir -p $cfg_dir; fi
+
+	# Create file header if needed
+	if [ ! -e ${!cfg_file} ]; then
+		echo "Creating ${cfg_type} config at ${!cfg_file}"
+		echo -ne "${!cfg_header}\n\n" > ${!cfg_file}
+	fi
+
+	# Default config values
+	if [ "${cfg_type}" == "default" ]; then
+		fn_update_config "appid" "237410"
+		fn_update_config "beta" "" "${!cfg_file}" "To enable beta, use \"-beta beta\""
+		fn_update_config "clientport" "27005"
+		fn_update_config "defaultmap" "ministry"
+		fn_update_config "defaultmode" "checkpoint"
+		fn_update_config "email" "email@example.com"
+		fn_update_config "emailnotification" "off" "$cfg_file_default" "(on|off)"
+		fn_update_config "ip" "0.0.0.0"
+		fn_update_config "lgsm_version" $version
+		fn_update_config "logdays" "7"
+		fn_update_config "mapcyclefile" "mapcycle.txt"
+		fn_update_config "maxplayers" "64"
+		fn_update_config "playlist" "custom"
+		fn_update_config "port" "27015"
+		fn_update_config "sourcetvport" "27020"
+		fn_update_config "srcds_parms" "" "$cfg_file_default" "Put the parameters that start with \"-\" first, then \"+\" parameters after"
+		fn_update_config "steampass" ""
+		fn_update_config "steamuser" "anonymous"
+		fn_update_config "updateonstart" "off"
+	fi
 }
 
 # If defaults are missing, or from an older version, overwrite the file
 # TODO: Perhaps pull this from Git instead?
-cfgver=$(grep lgsm_version ${cfg_default} 2>/dev/null | cut -d'=' -f2 | sed -e 's/["]//g')
-if [ "${cfgver}" != "${version}" ]; then fn_create_default_config; fi
+#cfgver=$(grep lgsm_version ${cfg_file_default} 2>/dev/null | cut -d'=' -f2 | sed -e 's/["]//g')
+#if [ "${cfgver}" != "${version}" ]; then 
+
+# New method is to always run this function, it will overwrite defaults with whatever the new script values are
+fn_create_config default
 
 # Load defaults
-source $cfg_default
+source $cfg_file_default
 
 # Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
-if [ ! -f $cfg_common ]; then touch $cfg_common; else source $cfg_common; fi
+if [ ! -f $cfg_file_common ]; then fn_create_config common; else source $cfg_file_common; fi
 
 # Load instance specific settings
-if [ ! -f $cfg_instance ]; then touch $cfg_instance; else source $cfg_instance; fi
+if [ ! -f $cfg_file_instance ]; then fn_create_config instance; else source $cfg_file_instance; fi
 
 # Set the paramaters to send to srcds
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+
+
 fn_parms(){
 #TODO: Put in some conditional logic to handle generating the parm string so we can make this a little less game specific
-parms="-game ${game} -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_playlist ${playlist} +mapcyclefile ${mapcyclefile} +servercfgfile ${servercfg} +map ${defaultmap} ${defaultmode} -maxplayers ${maxplayers} ${srcds_parms}"
+parms="${parms} -game ${game}"
+parms="${parms} -strictportbind"
+parms="${parms} -ip ${ip}"
+parms="${parms} -port ${port}"
+parms="${parms} -maxplayers ${maxplayers}"
+parms="${parms} ${srcds_parms}"
+parms="${parms} +clientport ${clientport}"
+parms="${parms} +tv_port ${sourcetvport}"
+parms="${parms} +sv_playlist ${playlist}"
+parms="${parms} +mapcyclefile ${mapcyclefile}"
+parms="${parms} +servercfgfile ${servercfg}"
+parms="${parms} +map ${defaultmap} ${defaultmode}"
 }
 
 #### Advanced Variables ####
