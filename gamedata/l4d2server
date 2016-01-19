@@ -1,0 +1,10 @@
+defaultmap="c5m1_waterfront"
+maxplayers="8"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+appid="222860"
+gamename="Left 4 Dead 2"
+engine="source"
+systemdir="${filesdir}/left4dead2"

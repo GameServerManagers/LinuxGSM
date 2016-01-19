@@ -1,0 +1,16 @@
+# http://7daystodie.gamepedia.com/Server
+fn_parms(){
+parms="-configfile=${servercfgfullpath} -dedicated"
+}
+appid="294420"
+gamename="7 Days To Die"
+
+
+engine="unity3d"
+executable="./startserver.sh"
+servercfg="${servicename}.xml"
+servercfgdir="${filesdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/serverconfig.xml"
+
+

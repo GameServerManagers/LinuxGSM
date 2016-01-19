@@ -1,0 +1,18 @@
+defaultmap="RO-Arad.rom"
+
+fn_parms(){
+parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
+}
+gamename="Red Orchestra: Ostfront 41-45"
+engine="unreal2"
+appid="223250"
+
+# Directories
+systemdir="${filesdir}/system"
+executabledir="${systemdir}"
+executable="./ucc-bin"
+servercfg="${servicename}.ini"
+servercfgdir="${systemdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/default.ini"
+compressedmapsdir="${rootdir}/Maps-Compressed"

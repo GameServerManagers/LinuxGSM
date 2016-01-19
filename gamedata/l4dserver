@@ -1,0 +1,11 @@
+defaultmap="l4d_hospital01_apartment"
+maxplayers="8"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+appid="222840"
+gamename="Left 4 Dead"
+engine="source"
+systemdir="${filesdir}/left4dead"

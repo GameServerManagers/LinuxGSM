@@ -1,0 +1,12 @@
+defaultmap="dod_Anzio"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+fn_parms(){
+parms="-game dod -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+# Steam
+appid="90"
+appidmod="dod"
+gamename="Day of Defeat"
+engine="goldsource"
+systemdir="${filesdir}/dod"
+executable="./hlds_run"

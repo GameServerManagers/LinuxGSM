@@ -1,0 +1,15 @@
+defaultmap="DM-Deck16]["
+
+fn_parms(){
+parms="server ${defaultmap}.unr ini=${servercfgfullpath}"
+}
+gamename="Unreal Tournament 99"
+engine="unreal"
+systemdir="${filesdir}/System"
+executabledir="${systemdir}"
+executable="./ucc-bin"
+servercfg="${servicename}.ini"
+servercfgdir="${systemdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/Default.ini"
+compressedmapsdir="${rootdir}/Maps-Compressed"

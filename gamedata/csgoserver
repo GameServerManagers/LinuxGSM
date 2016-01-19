@@ -3,10 +3,7 @@
 # Counter-Strike: Global Offensive Dedicated Server
 
 # Import SRCDS
-fn_import_game_settings _srcds
-
-# Add playlist parameter
-fn_set_game_params parms_plus "+sv_playlist" "\${playlist}"
+fn_import_game_settings _source
 
 # Override some server settings
 fn_set_game_params settings "appid" "740"
@@ -15,7 +12,6 @@ fn_set_game_params settings "game" "csgo"
 fn_set_game_params settings "mapcyclefile" "--UNSET--"
 fn_set_game_params settings "gamename" "Counter Strike: Global Offensive"
 fn_set_game_params settings "mapgroup" "random_classic" "Map Group. See https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server"
-fn_set_game_params settings "tickrate" "64" "Server Tick Rate"
 fn_set_game_params settings "gametype" "0" "Game Type. Set to: Arms Race 1 Classic Casual 0 Classic Competitive 0 Demolition 1 Deathmatch 1"
 fn_set_game_params settings "gamemode" "0" "Game Mode. Set to: Arms Race 0 Classic Casual 0 Classic Competitive 1 Demolition 1 Deathmatch 2"
 fn_set_game_params settings "gslt" "--EMPTY--" "Required: Game Server Login Token. GSLT is required for running a public server. More info: http://gameservermanagers.com/gslt"
@@ -26,7 +22,6 @@ fn_set_game_params settings "ws_start_map" "--EMPTY--" "Workshop Start Map"
 
 # The parms that start with - go first
 fn_set_game_params parms_minus "-usercon" "--EMPTY--"
-fn_set_game_params parms_minus "-tickrate" "\${tickrate}"
 fn_set_game_params parms_minus "-maxplayers_override" "\${maxplayers}"
 fn_set_game_params parms_minus "-authkey" "\${authkey}"
 

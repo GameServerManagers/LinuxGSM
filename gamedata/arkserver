@@ -1,0 +1,18 @@
+#TODO
+fn_parms(){
+parms="TheIsland?listen"
+}
+
+appid="376030"
+servicename="ark-server"
+gamename="ARK: Survivial Evolved"
+
+
+engine="unreal4"
+systemdir="${filesdir}/ShooterGame"
+executabledir="${systemdir}/Binaries/Linux"
+executable="./ShooterGameServer"
+servercfgdir="${systemdir}/Saved/Config/LinuxServer"
+servercfg="GameUserSettings.ini"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.ini"

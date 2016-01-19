@@ -1,0 +1,11 @@
+defaultmap="crossfire"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+fn_parms(){
+parms="-game valve -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+# Steam
+appid="90"
+gamename="Half Life: Deathmatch"
+engine="goldsource"
+systemdir="${filesdir}/valve"
+executable="./hlds_run"

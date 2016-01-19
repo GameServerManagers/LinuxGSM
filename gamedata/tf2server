@@ -1,0 +1,12 @@
+defaultmap="cp_badlands"
+maxplayers="16"
+gslt=""
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game tf -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +sv_setsteamaccount ${gslt} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+appid="232250"
+gamename="Team Fortress 2"
+engine="source"
+systemdir="${filesdir}/tf"

@@ -1,0 +1,11 @@
+#TODO
+defaultmap="bba_barracks"
+gslt=""
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game brainbread2 -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+appid="346330"
+gamename="BrainBread 2"
+engine="source"
+systemdir="${filesdir}/brainbread2"

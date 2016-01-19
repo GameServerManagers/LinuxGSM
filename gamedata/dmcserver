@@ -1,0 +1,13 @@
+defaultmap="dcdm5"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+fn_parms(){
+parms="-game dmc -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+
+# Steam
+appid="90"
+appidmod="dmc"
+gamename="Deathmatch Classic"
+engine="goldsource"
+systemdir="${filesdir}/dmc"
+executable="./hlds_run"

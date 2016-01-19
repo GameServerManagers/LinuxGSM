@@ -1,0 +1,14 @@
+fn_parms(){
+parms="-config ${servercfgfullpath}"
+}
+appid="105600"
+gamename="Terraria"
+
+engine="terraria"
+executabledir="${filesdir}"
+executable="./TerrariaServer"
+servercfg="${servicename}.txt"
+servercfgdir="${filesdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.txt"
+#gamelogdir="" # Terraria Doesn't Have a Server Log

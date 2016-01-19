@@ -3,7 +3,7 @@
 # Insurgency Dedicated Server
 
 # Import SRCDS
-fn_import_game_settings _srcds
+fn_import_game_settings _source
 
 # Add playlist parameter
 fn_set_game_params parms_plus "+sv_playlist" "\${playlist}"

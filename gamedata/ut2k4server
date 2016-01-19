@@ -1,0 +1,14 @@
+defaultmap="DM-Rankin"
+fn_parms(){
+parms="server ${defaultmap}?game=XGame.xDeathMatch -nohomedir ini=${servercfg} log=${gamelog}"
+}
+gamename="Unreal Tournament 2004"
+engine="unreal2"
+systemdir="${filesdir}/System"
+executabledir="${systemdir}"
+executable="./ucc-bin"
+servercfg="${servicename}.ini"
+servercfgdir="${systemdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/UT2004.ini"
+compressedmapsdir="${rootdir}/Maps-Compressed"

@@ -1,0 +1,23 @@
+defaultmap="KF-BioticsLab.rom"
+
+fn_parms(){
+parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
+
+# Start Variables for Objective mode
+#defaultmap="KFO-Steamland"
+#parms="server ${defaultmap}?Game=KFStoryGame.KFStoryGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
+}
+
+appid="215360"
+gamename="Killing Floor"
+engine="unreal2"
+
+systemdir="${filesdir}/System"
+executabledir="${systemdir}"
+executable="./ucc-bin"
+servercfg="${servicename}.ini"
+servercfgdir="${systemdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/Default.ini"
+compressedmapsdir="${rootdir}/Maps-Compressed"
+

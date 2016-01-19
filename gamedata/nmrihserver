@@ -1,0 +1,10 @@
+defaultmap="nmo_broadway"
+maxplayers="8"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game nmrih -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+appid="317670"
+gamename="No More Room in Hell"
+engine="source"
+systemdir="${filesdir}/nmrih"

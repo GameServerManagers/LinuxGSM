@@ -1,0 +1,10 @@
+defaultmap="crossfire"
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game hl1mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+# Steam
+appid="255470"
+gamename="Half-Life Deathmatch: Source"
+engine="source"
+systemdir="${filesdir}/hl1mp"

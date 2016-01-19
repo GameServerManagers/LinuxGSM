@@ -1,0 +1,9 @@
+#TODO
+defaultmap="dm_bounce"
+fn_parms(){
+parms="-game bms -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+appid="346680"
+gamename="Black Mesa: Deathmatch"
+engine="source"
+systemdir="${filesdir}/bms"

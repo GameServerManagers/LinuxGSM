@@ -1,0 +1,14 @@
+#TODO
+defaultmap="de_dust2"
+fn_parms(){
+parms="-game czero -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+# Steam
+appid="90"
+appidmod="czero"
+gamename="Counter Strike: Condition Zero"
+engine="goldsource"
+systemdir="${filesdir}/czero"
+executable="./hlds_run"
+servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}"

@@ -1,0 +1,66 @@
+# Game Settings File
+# _srcds
+# Base SRCDS Game
+
+engine="realvirtuality"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+executable="./arma3server"
+servercfg="${servicename}.server.cfg"
+networkcfg="${servicename}.network.cfg"
+servercfgdir="${systemdir}/cfg"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+networkcfgfullpath="${servercfgdir}/${networkcfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.server.cfg"
+networkcfgdefault="${servercfgdir}/lgsm-default.network.cfg"
+
+# Import default settings
+fn_import_game_settings _default
+
+# This is the way we create a script that collates and parses the parameters
+fn_parms(){
+	parms="$(echo $(sed -e 's/=\"/ /g' -e 's/\"$//g' ${settingsdir}/parms_minus)) ${srcds_parms} $(echo $(sed -e 's/=\"/ /g' -e 's/\"$//g' ${settingsdir}/parms_plus))"
+}
+# The parms that start with - go first
+fn_set_game_params parms_minus "-game" "\${game}"
+fn_set_game_params parms_minus "-strictportbind" "--EMPTY--"
+fn_set_game_params parms_minus "-ip" "\${ip}"
+fn_set_game_params parms_minus "-port" "\${port}"
+fn_set_game_params parms_minus "-maxplayers" "\${maxplayers}"
+fn_set_game_params parms_minus "-tickrate" "\${tickrate}"
+
+# Then the parms that start with +
+fn_set_game_params parms_plus "+clientport" "\${clientport}"
+fn_set_game_params parms_plus "+tv_port" "\${sourcetvport}"
+fn_set_game_params parms_plus "+mapcyclefile" "\${mapcyclefile}"
+fn_set_game_params parms_plus "+servercfgfile" "\${servercfg}"
+fn_set_game_params parms_plus "+map" "\${defaultmap}"
+
+# And the settings for defaults
+fn_set_game_params settings "appid" "204" "Steam App ID"
+fn_set_game_params settings "clientport" "27005" "Client Port"
+fn_set_game_params settings "defaultmap" "dm_lockdown" "Default map to load"
+fn_set_game_params settings "engine" "source" "Game Engine"
+fn_set_game_params settings "game" "hl2mp" "Name of game to pass to srcds"
+fn_set_game_params settings "gamename" "HalfLife2Deathmatch" "Name for subdirectory in GitHub repo"
+fn_set_game_params settings "mapcyclefile" "mapcycle.txt" "Map Cycle File"
+fn_set_game_params settings "maxplayers" "64" "Maximum player count"
+fn_set_game_params settings "playlist" "custom" "Playlist"
+fn_set_game_params settings "port" "27015" "Port to bind for server"
+fn_set_game_params settings "servercfg" "${selfname}.cfg" "Server Config file"
+fn_set_game_params settings "sourcetvport" "27020" "SourceTV Port"
+fn_set_game_params settings "srcds_parms" "--EMPTY--" "Additional SRCDS Parameters. Put the parameters that start with \"-\" first, then \"+\" parameters after"
+fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
+fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
+fn_set_game_params settings "tickrate" "64" "Server Tick Rate"
+
+# These are values that the script uses, they don't get used by the srcds server directly
+fn_set_game_params settings "systemdir" "\${filesdir}/\${game}"
+fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
+fn_set_game_params settings "executabledir" "\${filesdir}"
+fn_set_game_params settings "executable" "./srcds_linux"
+fn_set_game_params settings "servercfg" "\${servicename}.cfg"
+fn_set_game_params settings "servercfgdir" "\${systemdir}/cfg"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
+

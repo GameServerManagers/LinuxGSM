@@ -1,0 +1,28 @@
+servername="Hurtworld LGSM Server"
+appid="405100"
+gamename="Hurtworld"
+
+engine="unity3d"
+# http://hurtworld.wikia.com/wiki/Hosting_A_Server
+fn_parms(){
+parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
+}
+port="12871"
+queryport="12881"
+maxplayers="20"
+map="" #Optional
+creativemode="0" #Free Build
+logfile="gamelog.txt"
+admins="" "Adding admins using STEAMID64. Example : addadmin 012345678901234567; addadmin 987654321098765432"
+
+# Advanced
+loadsave="" "Rollback server state (remove after start command)"
+x64mode="0" "Use unstable 64 bit server executable (O/1)"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+if [ "${x64mode}" == "1" ]; then
+	executable="./Hurtworld.x86_64"
+else
+	executable="./Hurtworld.x86"
+fi

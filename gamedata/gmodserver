@@ -1,0 +1,26 @@
+# Game Settings File
+# gmodserver
+# Garry's Mod Server
+
+# Import SRCDS
+fn_import_game_settings _source
+
+# Override some server settings
+fn_set_game_params settings "appid" "4020"
+fn_set_game_params settings "defaultmap" "gm_construct"
+fn_set_game_params settings "game" "garrysmod"
+fn_set_game_params settings "mapcyclefile" "--UNSET--"
+fn_set_game_params settings "gamename" "Garry's Mod"
+fn_set_game_params settings "gamemode" "sandbox" "Game Mode."
+fn_set_game_params settings "gslt" "--EMPTY--" "Required: Game Server Login Token. GSLT is required for running a public server. More info: http://gameservermanagers.com/gslt"
+fn_set_game_params settings "workshopauth" "--EMPTY--" "Optional key for Workshop Content. Workshop Variables - http://wiki.garrysmod.com/page/Workshop_for_Dedicated_Servers"
+fn_set_game_params settings "workshopcollectionid" "--EMPTY--" "Workshop Collection ID"
+
+# The parms that start with - go first
+fn_set_game_params parms_minus "-authkey" "\${workshopauth}"
+
+# Then the parms that start with +
+fn_set_game_params parms_plus "+sv_setsteamaccount" "\${gslt}"
+fn_set_game_params parms_plus "+mapgroup" "\${mapgroup}"
+fn_set_game_params parms_plus "+gamemode" "\${gamemode}"
+fn_set_game_params parms_plus "+host_workshop_collection" "\${"workshopcollectionid"}"

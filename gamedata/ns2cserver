@@ -1,0 +1,19 @@
+defaultmap="co_core"
+maxplayers="24"
+servername="NS2C Server"
+webadminuser="admin"
+webadminpass="admin"
+webadminport="8080"
+configpath="server1"
+modstorage="server1/Workshop"
+mods=""
+password=""
+fn_parms(){
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
+}
+
+appid="313900"
+gamename="NS2: Combat"
+engine="spark"
+executabledir="${filesdir}/ia32"
+executable="./ns2combatserver_linux32"

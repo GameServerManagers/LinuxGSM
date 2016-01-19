@@ -2,6 +2,13 @@
 # _srcds
 # Base SRCDS Game
 
+engine="goldsource"
+systemdir="${filesdir}/czero"
+executable="./hlds_run"
+servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}"
+
+
 # Import default settings
 fn_import_game_settings _default
 
@@ -15,6 +22,7 @@ fn_set_game_params parms_minus "-strictportbind" "--EMPTY--"
 fn_set_game_params parms_minus "-ip" "\${ip}"
 fn_set_game_params parms_minus "-port" "\${port}"
 fn_set_game_params parms_minus "-maxplayers" "\${maxplayers}"
+fn_set_game_params parms_minus "-tickrate" "\${tickrate}"
 
 # Then the parms that start with +
 fn_set_game_params parms_plus "+clientport" "\${clientport}"
@@ -39,8 +47,9 @@ fn_set_game_params settings "sourcetvport" "27020" "SourceTV Port"
 fn_set_game_params settings "srcds_parms" "--EMPTY--" "Additional SRCDS Parameters. Put the parameters that start with \"-\" first, then \"+\" parameters after"
 fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
 fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
+fn_set_game_params settings "tickrate" "64" "Server Tick Rate"
 
-
+# These are values that the script uses, they don't get used by the srcds server directly
 fn_set_game_params settings "systemdir" "\${filesdir}/\${game}"
 fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
 fn_set_game_params settings "executabledir" "\${filesdir}"

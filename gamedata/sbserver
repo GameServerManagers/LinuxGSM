@@ -1,0 +1,12 @@
+fn_parms(){
+parms=""
+}
+appid="211820"
+gamename="Starbound"
+
+engine="starbound"
+executabledir="${filesdir}/linux64"
+executable="./starbound_server"
+servercfg="sbboot.config"
+servercfgdir="${executabledir}"
+gamelogdir="${filesdir}/giraffe_storage"

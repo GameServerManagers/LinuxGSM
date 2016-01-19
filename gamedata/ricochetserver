@@ -1,0 +1,10 @@
+defaultmap="rc_arena"
+maxplayers="16"
+fn_parms(){
+parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+appid="90"
+appidmod="ricochet"
+gamename="Ricochet"
+engine="goldsource"
+systemdir="${filesdir}/ricochet"

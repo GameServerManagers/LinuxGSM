@@ -1,0 +1,20 @@
+defaultmap="ns2_summit"
+maxplayers="24"
+servername="NS2 Server"
+webadminuser="admin"
+webadminpass="admin"
+webadminport="8080"
+configpath="server1"
+modstorage="server1/Workshop"
+mods=""
+password=""
+# http://wiki.unknownworlds.com/ns2/Dedicated_Server
+fn_parms(){
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
+}
+appid="4940"
+gamename="Natural Selection 2"
+engine="spark"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+executable="./server_linux32"
