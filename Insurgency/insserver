@@ -113,11 +113,12 @@ fn_getgithubfile(){
 	filename=$1
 	exec=$2
 	fileurl=${3:-$filename}
+	force=$4
 	filepath="${lgsmdir}/${filename}"
 	filedir=$(dirname "${filepath}")
 
 	# If the function file is missing, then download
-	if [ ! -f "${filepath}" ]; then
+	if [ ! -f "${filepath}" ] || [ "${force}" != "" ]; then
 		if [ ! -d "${filedir}" ]; then
 			mkdir -p "${filedir}"
 		fi
@@ -133,8 +134,6 @@ fn_getgithubfile(){
 			chmod +x "${filepath}"
 		fi
 		fn_colortext 32 "DONE"
-	else
-		fn_check_github_files "${lgsmdir}" "${lgsmdir}/${filename}"
 	fi
 	if [ "${exec}" ]; then
 		source "${filepath}"

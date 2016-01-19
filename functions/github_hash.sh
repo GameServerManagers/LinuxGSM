@@ -64,7 +64,7 @@ fn_check_github_files(){
 	# Check all files in functions for updates
 	for file in $files; do
 		if [ -d $file ]; then
-			echo "Descending into ${file}..."
+			#echo "Descending into ${file}..."
 			fn_check_github_files "${prefix}" ${file}/*
 		else
 			myhash=$(fn_get_git_hash $file)
@@ -73,9 +73,10 @@ fn_check_github_files(){
 			if [ "${githash}" == "" ]; then
 				echo "Can't find ${repofile} in git!"
 			elif [ "${myhash}" != "${githash}" ]; then
-				echo "Would fetch ${repofile}: have ${myhash}, expected ${githash}"
+				#echo "Would fetch ${repofile}: have ${myhash}, expected ${githash}"
+				fn_getgithubfile "${file}" 0 "${repofile}" 1
 			else
-				echo "${repofile} is OK"
+				#echo "${repofile} is OK"
 			fi
 		fi
 	done
