@@ -14,13 +14,17 @@
 # Calculate the Git hash for a file
 function fn_get_git_hash(){
 	filename=$1
-	if [ -e $filename ]
-	then
-		filesize=$(stat --format='%s' $filename)
-		if [ "$(tail -c1 $filename)" == "" ]; then
-			printf "blob %d\0%s\n" "${filesize}" "$(cat $filename)" | sha1sum | awk '{print $1}'
+	if [ -e $filename ]; then
+		gitcmd="$(which git)"
+		if [ -x "${gitcmd}" ]; then
+			$gitcmd hash-object "${filename}"
 		else
-			printf "blob %d\0%s" "${filesize}" "$(cat $filename)" | sha1sum | awk '{print $1}'
+			filesize=$(stat --format='%s' $filename)
+			if [ "$(tail -c1 $filename)" == "" ]; then
+				printf "blob %d\0%s\n" "${filesize}" "$(cat $filename)" | sha1sum | awk '{print $1}'
+			else
+				printf "blob %d\0%s" "${filesize}" "$(cat $filename)" | sha1sum | awk '{print $1}'
+			fi
 		fi
 	fi
 }
