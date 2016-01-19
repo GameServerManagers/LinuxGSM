@@ -91,6 +91,7 @@ fn_getgithubfile(){
 	fileurl=${3:-$filename}
 	filepath="${lgsmdir}/${filename}"
 	filedir=$(dirname "${filepath}")
+
 	# If the function file is missing, then download
 	if [ ! -f "${filepath}" ]; then
 		if [ ! -d "${filedir}" ]; then
