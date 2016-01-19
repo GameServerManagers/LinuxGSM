@@ -100,9 +100,9 @@ fn_flush_game_settings(){
 }
 
 fn_import_game_settings(){
-	import="${gamesdir}/${1}"
+	import="${gamedatadir}/${1}"
 	if [ ! -e $import ]; then
-		fn_getgithubfile "games/${1}"
+		fn_getgithubfile "gamedata/${1}"
 	fi
 	source $import
 }

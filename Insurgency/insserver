@@ -26,12 +26,12 @@ servicename="$(basename $0)"
 
 # Script root
 rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# LGSM Support Files
+# LGSM Support Files - set ro rootdir for old behavior
 lgsmdir="${rootdir}/lgsm"
 # Temporary path to store and manipulate settings
 settingsdir="${lgsmdir}/settings.tmp"
 # Supported Game Data
-gamesdir="${lgsmdir}/games"
+gamedatadir="${lgsmdir}/cfg/gamedata"
 # Config path for local instances
 scriptcfgdir="${lgsmdir}/cfg/servers"
 
@@ -113,34 +113,6 @@ fn_getgithubfile(){
 	fi
 }
 
-#### Advanced Variables ####
-# Directories
-lockselfname=".${servicename}.lock"
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/${game}"
-executabledir="${filesdir}"
-executable="./srcds_linux"
-servercfg="${servicename}.cfg"
-servercfgdir="${systemdir}/cfg"
-servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
-backupdir="${lgsmdir}/backups"
-
-#In the event that you have library issues after an update, this may resolve it.
-#export LD_LIBRARY_PATH="${filesdir}:${filesdir}/bin:${LD_LIBRARY_PATH}"
-
-# Logging
-gamelogdir="${systemdir}/logs"
-scriptlogdir="${lgsmdir}/log/script"
-consolelogdir="${lgsmdir}/log/console"
-
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-consolelog="${consolelogdir}/${servicename}-console.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
-
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
 # fn_runfunction
 fn_runfunction(){
 	scriptfile=${1:-$functionfile}
@@ -148,14 +120,12 @@ fn_runfunction(){
 	fn_getgithubfile "functions/${functionfile}" 1
 }
 
-# core_functions.sh
-#core_functions.sh(){
-#	# Functions are defined in core_functions.sh.
-#	fn_runfunction "${FUNCNAME}"
-#}
-
+# Process game configs and load variables needed to run script
 fn_runfunction game_settings.sh
+
+# Load core functions
 fn_runfunction core_functions.sh
 
+# Get option from command line and run option parser
 getopt=$1
 core_getopt.sh
