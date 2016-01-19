@@ -34,6 +34,8 @@ settingsdir="${lgsmdir}/settings.tmp"
 gamedatadir="${lgsmdir}/cfg/gamedata"
 # Config path for local instances
 scriptcfgdir="${lgsmdir}/cfg/servers"
+# Temporary cache location
+cachedir="${lgsmdir}/tmp"
 
 # Debugging, if debugflag exists send output to $debuglog
 debugflag="${lgsmdir}/.dev-debug"

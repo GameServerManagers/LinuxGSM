@@ -3,42 +3,36 @@
 # Author: Jared Ballou
 # Website: http://gameservermanagers.com
 #
-# This is another oe of my POC tools. Eventually I want to have a pretty robust update/download system here
+# This is another one of my POC tools. Eventually I want to have a pretty robust update/download system here
 # Goals:
 #  * Keep function files up to date on client machines
 #  * Deploy other programs or support tools
 #  * Learn more about GitHub API
 #  * Parse JSON in Bash
 
-# Temporary file location
-lgsmdir="./lgsm"
-cachedir="${lgsmdir}/tmp"
-githubuser="jaredballou"
-githubrepo="linuxgsm"
-githubbranch="master"
-
-lastcommit_file="${cachedir}/lastcommit"
-
 # fn_getgithash filename
 # Calculate the Git hash for a file
-function fn_getgithash(){
+function fn_get_git_hash(){
 	filename=$1
 	if [ -e $filename ]
 	then
-		printf "blob %d\0%s\n" "$(stat --format='%s' $filename)" "$(cat $filename)" | sha1sum | awk '{print $1}'
-	else
-		echo "NOTFOUND"
+		filesize=$(stat --format='%s' $filename)
+		if [ "$(tail -c1 $filename)" == "" ]; then
+			printf "blob %d\0%s\n" "${filesize}" "$(cat $filename)" | sha1sum | awk '{print $1}'
+		else
+			printf "blob %d\0%s" "${filesize}" "$(cat $filename)" | sha1sum | awk '{print $1}'
+		fi
+#		printf "blob %d\0%s" "$(stat --format='%s' $filename)" "$(awk '{print $0}' $filename)" | sha1sum | awk '{print $1}'
 	fi
 }
 
 
-fn_github_manifest(){
+fn_githget_ub_manifest(){
 	# Create cache directory if missing
 	if [ ! -e "${cachedir}" ]
 	then
 		mkdir -p "${cachedir}"
 	fi
-
 	# Get latest commit from GitHub. Cache file for 60 minutes
 	if [ -e $lastcommit_file ]; then
 		if [ $(($(date +%s) - $(date -r ${lastcommit_file} +%s))) -gt 3600 ]; then
@@ -54,7 +48,6 @@ fn_github_manifest(){
 		curl -s "https://api.github.com/repos/${githubuser}/${githubrepo}/git/refs/heads/${githubbranch}" -o "${lastcommit_file}.json"
 		${lgsmdir}/functions/jq-linux64 -r '.object.sha' "${lastcommit_file}.json" > "${lastcommit_file}"
 	fi
-
 	# Get manifest of all files at this revision in GitHub. These hashes are what we use to compare and select files that need to be updated.
 	manifest="${cachedir}/$(cat "${lastcommit_file}").manifest"
 	if [ ! -e "${manifest}.json" ]; then
@@ -64,9 +57,11 @@ fn_github_manifest(){
 		${lgsmdir}/functions/jq-linux64 -r '.tree[] | .path + " " + .sha' "${manifest}.json" > "${manifest}"
 	fi
 }
+# Check files against manifest
 fn_github_checkfiles(){
 	prefix=$1
 	files=${@:2}
+	fn_github_manifest
 	manifest="${cachedir}/$(cat "${lastcommit_file}").manifest"
 	# Check all files in functions for updates
 	for file in $files
@@ -90,5 +85,7 @@ fn_github_checkfiles(){
 		fi
 	done
 }
-fn_github_manifest
+lgsmdir="./lgsm"
+cachedir="${lgsmdir}/tmp"
+lastcommit_file="${cachedir}/lastcommit"
 fn_github_checkfiles $lgsmdir ${lgsmdir}/functions

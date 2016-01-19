@@ -141,6 +141,3 @@ if [ ! -f $cfg_file_common ]; then fn_create_config common; else source $cfg_fil
 
 # Load instance specific settings
 if [ ! -f $cfg_file_instance ]; then fn_create_config instance; else source $cfg_file_instance; fi
-
-
-
