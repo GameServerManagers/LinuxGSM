@@ -102,6 +102,7 @@ fn_flush_game_settings(){
 fn_import_game_settings(){
 	import="${gamedatadir}/${1}"
 	importdir=$(echo "${gamedatadir}" | sed -e "s|${lgsmdir}/||g")
+	echo $importdir
 	if [ ! -e $import ]; then
 		fn_getgithubfile "${importdir}/${1}" 1 "gamedata/${1}"
 	fi

@@ -55,9 +55,27 @@ fi
 # color: Numeric color code
 # msg: Message. This includes all further paremeters, so there is no need to quote a message with spaces in it.
 fn_colortext(){
-	color=$1
-	msg=${@:2}
-	echo -e "\e[0;${color}m${msg}\e[0m"
+#Black        0;30     Dark Gray     1;30
+#Red          0;31     Light Red     1;31
+#Green        0;32     Light Green   1;32
+#Brown/Orange 0;33     Yellow        1;33
+#Blue         0;34     Light Blue    1;34
+#Purple       0;35     Light Purple  1;35
+#Cyan         0;36     Light Cyan    1;36
+#Light Gray   0;37     White         1;37
+	case "${1}" in
+		green)
+			color="\033[0;32m";;
+		yellow)
+			color="\033[0;33m";;
+		reset)
+			color="\033[0m";;
+		red)
+			color="\033[0;31m";;
+		*)
+			color="\033[0;${1}m";;
+	esac
+	echo -e "[${color}${@:2}\e[0m]"
 }
 
 # Set fetchcmd to the full path of whatever command we can to fetch files
@@ -98,7 +116,7 @@ fn_getgithubfile(){
 			mkdir -p "${filedir}"
 		fi
 		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
-		echo -e "    fetching ${filename} (${githuburl})\c"
+		echo -ne "    fetching ${filename} (${githuburl})... "
 		if [ "$(basename ${fetchcmd})" == "curl" ]; then
 			cmd="$fetchcmd -s --fail -o"
 		elif [ "$(basename ${fetchcmd})" == "wget" ]; then
@@ -108,6 +126,7 @@ fn_getgithubfile(){
 		if [ "${exec}" ]; then
 			chmod +x "${filepath}"
 		fi
+		fn_colortext 32 "DONE"
 	fi
 	if [ "${exec}" ]; then
 		source "${filepath}"
