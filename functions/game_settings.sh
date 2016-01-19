@@ -61,7 +61,7 @@ fn_update_config()
 		# If the line isn't the same as the parsed data line, replace it
 		if [ "${exists}" != "${data}" ]; then
 			#echo "Updating ${data} in ${cfg_file}"
-			sed -e "s/^${key}=.*\$/${data}/g" -i $cfg_file
+			sed -e "s%^${key}=.*\$%${data}%g" -i $cfg_file
 			#sed "/${key}=.*/${data}/" -i $cfg_file
 		fi
 	else
