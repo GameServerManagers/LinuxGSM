@@ -130,7 +130,7 @@ fn_getgithubfile(){
 			cmd="$fetchcmd -O"
 		fi
 		fetch=$($cmd "${filepath}" "${githuburl}" 2>&1)
-		if [ "${exec}" ]; then
+		if [ "${exec}" != "" ]; then
 			chmod +x "${filepath}"
 		fi
 		fn_colortext 32 "DONE"

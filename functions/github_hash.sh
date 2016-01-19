@@ -30,7 +30,9 @@ fn_get_github_manifest(){
 	if [ ! -e "${cachedir}" ]; then
 		mkdir -p "${cachedir}"
 	fi
-	fn_getgithubfile "functions/jq-linux64" binary
+	fn_getgithubfile "functions/jq-linux64"
+	jq_path="${lgsmdir}/functions/jq-linux64"
+	chmod +x "${jq_path}"
 	# Get latest commit from GitHub. Cache file for 60 minutes
 	if [ -e $lastcommit_file ]; then
 		if [ $(($(date +%s) - $(date -r ${lastcommit_file} +%s))) -gt 3600 ]; then
@@ -44,7 +46,7 @@ fn_get_github_manifest(){
 	if [ $fetch -eq 1 ]; then
 		echo "Fetching ${lastcommit_file}"
 		curl -s "https://api.github.com/repos/${githubuser}/${githubrepo}/git/refs/heads/${githubbranch}" -o "${lastcommit_file}.json"
-		${lgsmdir}/functions/jq-linux64 -r '.object.sha' "${lastcommit_file}.json" > "${lastcommit_file}"
+		"${jq_path}" -r '.object.sha' "${lastcommit_file}.json" > "${lastcommit_file}"
 	fi
 	# Get manifest of all files at this revision in GitHub. These hashes are what we use to compare and select files that need to be updated.
 	manifest="${cachedir}/$(cat "${lastcommit_file}").manifest"
@@ -52,7 +54,7 @@ fn_get_github_manifest(){
 		curl -Ls "https://api.github.com/repos/${githubuser}/${githubrepo}/git/trees/${githubbranch}?recursive=1" -o "${manifest}.json"
 	fi
 	if [ ! -e "${manifest}" ]; then
-		${lgsmdir}/functions/jq-linux64 -r '.tree[] | .path + " " + .sha' "${manifest}.json" > "${manifest}"
+		"${jq_path}" -r '.tree[] | .path + " " + .sha' "${manifest}.json" > "${manifest}"
 	fi
 }
 
