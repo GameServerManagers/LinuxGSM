@@ -9,4 +9,4 @@ parms="-game dod -strictportbind +ip ${ip} -port ${port} +clientport ${clientpor
 fn_set_game_params settings "appid" "90"
 fn_set_game_params settings "defaultmap" "dod_Anzio"
 fn_set_game_params settings "game" "dod"
-fn_set_game_params settings "gamename" "Day of Defeat"
+fn_set_game_params settings "gamename" "Day Of Defeat"

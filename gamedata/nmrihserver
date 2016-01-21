@@ -9,5 +9,5 @@ parms="-game nmrih -insecure -strictportbind -ip ${ip} -port ${port} +clientport
 fn_set_game_params settings "appid" "317670"
 fn_set_game_params settings "defaultmap" "nmo_broadway"
 fn_set_game_params settings "game" "nmrih"
-fn_set_game_params settings "gamename" "No More Room in Hell"
+fn_set_game_params settings "gamename" "No More Room In Hell"
 fn_set_game_params settings "maxplayers" "8"

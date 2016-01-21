@@ -11,7 +11,7 @@ parms="TheIsland?listen"
 
 fn_set_game_params settings "appid" "376030"
 fn_set_game_params settings "game" "ShooterGame"
-fn_set_game_params settings "gamename" "ARK: Survivial Evolved"
+fn_set_game_params settings "gamename" "ARK: Survival Evolved"
 
 fn_set_game_params settings "systemdir" "\${filesdir}/\${game}"
 fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"

@@ -6,7 +6,7 @@ fn_parms(){
 parms=""
 }
 fn_set_game_params settings "appid" "211820"
-fn_set_game_params settings "gamename" "Starbound"
+fn_set_game_params settings "gamename" "StarBound"
 fn_set_game_params settings "game" "starbound"
 fn_set_game_params settings "executabledir" "${filesdir}/linux64"
 fn_set_game_params settings "executable" "./starbound_server"
