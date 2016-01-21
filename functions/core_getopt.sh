@@ -41,6 +41,8 @@ case "$getopt" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
+	sm|sourcemod)
+		install_sourcemod.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
 	*)
@@ -65,6 +67,7 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
 		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
+		echo -e "\e[34msourcemod\t\e[0mInstall SourceMod."
 	} | column -s $'\t' -t 
 	esac
 exit
