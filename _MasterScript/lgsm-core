@@ -47,7 +47,6 @@ for dir in $(grep '^[a-zA-Z0-9]*dir=' $0 | cut -d'=' -f1); do
 		mkdir -p "${!dir}"
 	fi
 done
-exit
 # Git last commit file (for tracking updates)
 lastcommit_file="${cachedir}/lastcommit"
 

@@ -34,7 +34,7 @@ if [ -n "${result}" ]; then
 		mkdir -p $(dirname "${scriptpath}")
 	fi
 	# Copy script and set executable
-	cp "${BASH_SOURCE[0]}" "${scriptpath}"
+	cp "${0}" "${scriptpath}"
 	chmod 0755 "${scriptpath}"
 	if [ $? ]; then
 		fn_colortext green "Done"
