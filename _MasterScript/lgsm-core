@@ -154,12 +154,17 @@ fn_runfunction(){
 # Load GitHub hashing and updating functions
 fn_runfunction github_hash.sh
 
-# Process game configs and load variables needed to run script
-fn_runfunction game_settings.sh
-
 # Load core functions
 fn_runfunction core_functions.sh
 
-# Get option from command line and run option parser
-getopt=$1
-core_getopt.sh
+if [ "${selfname}" == "lgsm-core" ];
+then
+	fn_runfunction install_lgsm.sh
+else
+	# Process game configs and load variables needed to run script
+	fn_runfunction game_settings.sh
+
+	# Get option from command line and run option parser
+	getopt=$1
+	core_getopt.sh
+fi

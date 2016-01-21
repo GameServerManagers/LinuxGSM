@@ -6,6 +6,18 @@ lgsm_version="271215"
 
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
+# Print text center-aligned
+fn_print_center() {
+	columns="$(tput cols)"
+	line="$@"
+	printf "%*s\n" $(( (${#line} + columns) / 2)) "$line"
+}
+# Print horizontal line
+fn_print_horizontal(){
+	char="${1:-=}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+}
+
 # Date and servicename for log files.
 fn_scriptlog(){
 	if [ -n "${modulename}" ]; then
