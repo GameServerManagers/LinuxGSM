@@ -1,0 +1,11 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
+fn_parms(){
+parms="-game bms -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+fn_set_game_params settings "appid" "346680"
+fn_set_game_params settings "game" "bms"
+fn_set_game_params settings "defaultmap" "dm_bounce"
+fn_set_game_params settings "gamename" "Black Mesa"

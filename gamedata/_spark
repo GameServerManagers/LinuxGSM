@@ -1,0 +1,7 @@
+# Game Settings File
+# _spark
+# Spark Engine
+
+# Import default settings
+fn_import_game_settings _default
+

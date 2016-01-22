@@ -1,0 +1,17 @@
+# Game Settings File
+# cssserver
+# Counter-Strike: Source Dedicated Server
+
+# Import SRCDS
+fn_import_game_settings _source
+
+# Override some server settings
+fn_parms(){
+parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+
+fn_set_game_params settings "appid" "232330"
+fn_set_game_params settings "defaultmap" "de_dust2"
+fn_set_game_params settings "game" "cstrike"
+fn_set_game_params settings "mapcyclefile" "--UNSET--"
+fn_set_game_params settings "gamename" "Counter Strike: Source"

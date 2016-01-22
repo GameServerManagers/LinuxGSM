@@ -10,84 +10,84 @@ lgsm_version="060116"
 #Legacy functions
 
 fn_functions(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fn_getopt(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Core
 
 core_getopt.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 core_messages.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Command
 
 command_console.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_debug.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_details.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_email_test.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_backup.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_monitor.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_start.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_stop.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_validate.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_install.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_ts3_server_pass.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fn_restart(){
@@ -102,196 +102,196 @@ command_start.sh
 # Checks
 
 check.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_config.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_ip.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_root.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_steamcmd.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_steamuser.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_systemdir.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 check_tmux.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Compress
 
 compress_unreal2_maps.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 compress_ut99_maps.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Dev
 
 command_dev_debug.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 command_dev_detect_deps.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Fix
 
 fix.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_arma3.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_csgo.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_dst.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_ins.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_steamcmd.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_ro.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_kf.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_ut2k4.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Info
 
 info_config.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 info_distro.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 info_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 info_ts3status.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Email
 
 email.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 # Logs
 
 logs.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Monitor
 
 monitor_gsquery.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
 # Update
 
 update_check.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 update_functions.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 update_dl.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 update_functions.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 
@@ -305,92 +305,94 @@ command_install.sh
 }
 
 install_complete.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_config.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_gsquery.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_gslt.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_header.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_retry.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_serverdir.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 install_serverfiles.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+}
+install_sourcemod.sh(){
+fn_runfunction "${FUNCNAME}"
 }
 
 install_steamcmd.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_ts3.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_ts3db.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_ut2k4.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_dl_ut2k4.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_ut2k4_key.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_ut99.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 install_dl_ut99.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 fix_ut99.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_runfunction "${FUNCNAME}"
+
 }
 
 # Calls on-screen messages

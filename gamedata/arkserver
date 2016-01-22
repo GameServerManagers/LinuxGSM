@@ -1,0 +1,23 @@
+# Game Settings File
+#
+#
+
+# Import Engine
+fn_import_game_settings _unreal4
+
+fn_parms(){
+parms="TheIsland?listen"
+}
+
+fn_set_game_params settings "appid" "376030"
+fn_set_game_params settings "game" "ShooterGame"
+fn_set_game_params settings "gamename" "ARK: Survival Evolved"
+
+fn_set_game_params settings "systemdir" "\${filesdir}/\${game}"
+fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
+fn_set_game_params settings "executabledir" "\${systemdir}/Binaries/Linux"
+fn_set_game_params settings "executable" "./\${game}Server"
+fn_set_game_params settings "servercfg" "GameUserSettings.ini"
+fn_set_game_params settings "servercfgdir" "\${systemdir}/Saved/Config/LinuxServer"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"

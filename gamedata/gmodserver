@@ -1,0 +1,20 @@
+# Game Settings File
+# gmodserver
+# Garry's Mod Server
+
+# Import SRCDS
+fn_import_game_settings _source
+fn_import_game_settings _gslt
+fn_import_game_settings _workshop
+
+# Override some server settings
+fn_set_game_params settings "appid" "4020"
+fn_set_game_params settings "defaultmap" "gm_construct"
+fn_set_game_params settings "game" "garrysmod"
+fn_set_game_params settings "mapcyclefile" "--UNSET--"
+fn_set_game_params settings "gamename" "Garry's Mod"
+fn_set_game_params settings "gamemode" "sandbox" "Game Mode."
+
+# Add the command line parameters
+fn_set_game_params parms_plus "mapgroup" "\${mapgroup}"
+fn_set_game_params parms_plus "gamemode" "\${gamemode}"

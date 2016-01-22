@@ -1,0 +1,15 @@
+# Game Settings File
+# _teeworlds
+# TeeWorlds Engine
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_set_game_params settings "engine" "teeworlds"
+fn_set_game_params settings "systemdir" "\${filesdir}"
+fn_set_game_params settings "executabledir" "\${filesdir}"
+fn_set_game_params settings "executable" "./teeworlds_srv"
+fn_set_game_params settings "servercfg" "\${servicename}.cfg" # Teeworlds can also auto load any config if an autoexec.cfg file is present in the server dir
+fn_set_game_params settings "servercfgdir" "\${filesdir}"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"

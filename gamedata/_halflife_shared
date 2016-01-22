@@ -1,0 +1,29 @@
+# Game Settings File
+# _halflife_shared
+# Half-Life Shared Engine (Source and GoldSource)
+
+# Import default settings
+fn_import_game_settings _default
+fn_import_game_settings _parms_plusminus
+
+# The parms that start with - go first
+
+fn_set_game_params parms_minus "game" "\${game}"
+fn_set_game_params parms_minus "strictportbind" "--EMPTY--"
+fn_set_game_params parms_minus "ip" "\${ip}"
+fn_set_game_params parms_minus "port" "\${port}"
+fn_set_game_params parms_minus "maxplayers" "\${maxplayers}"
+fn_set_game_params parms_minus "tickrate" "\${tickrate}"
+
+# Then the parms that start with +
+fn_set_game_params parms_plus "clientport" "\${clientport}"
+fn_set_game_params parms_plus "servercfgfile" "\${servercfg}"
+fn_set_game_params parms_plus "map" "\${defaultmap}"
+
+# And the settings for defaults
+fn_set_game_params settings "clientport" "27005" "Client Port"
+fn_set_game_params settings "defaultmap" "dm_lockdown" "Default map to load"
+fn_set_game_params settings "maxplayers" "64"
+fn_set_game_params settings "port" "27015"
+fn_set_game_params settings "server_parms" "--EMPTY--" "Additional server Parameters. Put the parameters that start with \"-\" first, then \"+\" parameters after"
+fn_set_game_params settings "tickrate" "64" "Server Tick Rate"

@@ -48,7 +48,7 @@ if [ -z "${availablebuild}" ]; then
 	exit 1
 fi
 
-cd "${rootdir}"
+cd "${lgsmdir}"
 echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
 wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
@@ -65,7 +65,7 @@ else
 	exit $?
 fi
 echo -e "copying to ${filesdir}...\c"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> ".${servicename}-cp-error.tmp"
+cp -R "${lgsmdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> ".${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -77,4 +77,4 @@ else
 	exit $?
 fi
 rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
-rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
+rm -rf "${lgsmdir}/teamspeak3-server_linux-${ts3arch}"

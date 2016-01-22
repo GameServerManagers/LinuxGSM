@@ -1,0 +1,18 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _seriousengine35
+
+# https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/SeriousSam3BFE/help/DedicatedServer_Readme.txt
+fn_parms(){
+parms="+ip ${ip} +logfile ${gamelog} +exec ${servercfgfullpath}"
+}
+
+fn_set_game_params settings "appid" "41080"
+fn_set_game_params settings "gamename" "Serious Sam 3: BFE"
+fn_set_game_params settings "systemdir" "\${filesdir}/Bin"
+fn_set_game_params settings "executable" "./runSam3_DedicatedServer.sh"
+fn_set_game_params settings "executabledir" "\${systemdir}"
+fn_set_game_params settings "servercfg" "\${servicename}.ini"
+fn_set_game_params settings "servercfgdir" "\${filesdir}/Content/SeriousSam3/Config"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"

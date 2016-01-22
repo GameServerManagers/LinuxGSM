@@ -1,0 +1,10 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _goldsource
+fn_parms(){
+parms="-game czero -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "de_dust2"
+fn_set_game_params settings "game" "czero"
+fn_set_game_params settings "gamename" "Counter Strike: Condition Zero"

@@ -49,7 +49,7 @@ sleep 1
 echo -en "starting backup...\r"
 sleep 1
 echo -en "\n"
-cd "${rootdir}"
+cd "${lgsmdir}"
 if [ ! -d "${backupdir}" ]; then
 	mkdir -v "${backupdir}"
 fi

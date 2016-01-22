@@ -1,0 +1,13 @@
+# Game Settings File
+# _srcds
+# Base SRCDS Game
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_set_game_params settings "engine" "starbound"
+fn_set_game_params settings "executabledir" "\${filesdir}/linux64"
+fn_set_game_params settings "executable" "./starbound_server"
+fn_set_game_params settings "servercfg" "sbboot.config"
+fn_set_game_params settings "servercfgdir" "\${executabledir}"
+fn_set_game_params settings "gamelogdir" "\${filesdir}/giraffe_storage"

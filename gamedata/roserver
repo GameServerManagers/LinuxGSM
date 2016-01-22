@@ -1,0 +1,15 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _unreal2
+
+fn_parms(){
+parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
+}
+
+fn_set_game_params settings "gamename" "Red Orchestra"
+fn_set_game_params settings "appid" "223250"
+fn_set_game_params settings "defaultmap" "RO-Arad.rom"
+
+# Lower Case wtf?
+fn_set_game_params settings "systemdir" "${filesdir}/system"
+fn_set_game_params settings "servercfgdefault" "${servercfgdir}/default.ini"

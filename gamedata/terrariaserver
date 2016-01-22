@@ -1,0 +1,17 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _terarria
+
+fn_parms(){
+parms="-config ${servercfgfullpath}"
+}
+fn_set_game_params settings "appid" "105600"
+fn_set_game_params settings "gamename" "Terraria"
+fn_set_game_params settings "game" "terraria"
+fn_set_game_params settings "executabledir" "\${filesdir}"
+fn_set_game_params settings "executable" "./TerrariaServer"
+fn_set_game_params settings "servercfg" "\${servicename}.txt"
+fn_set_game_params settings "servercfgdir" "\${filesdir}"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.txt"
+fn_set_game_params settings "gamelogdir" "" "Terraria Doesn't Have a Server Log"

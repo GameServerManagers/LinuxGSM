@@ -1,0 +1,12 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
+fn_parms(){
+parms="-game pvkii -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+fn_set_game_params settings "appid" "17575"
+fn_set_game_params settings "gamename" "Pirates, Vikings, and Knights II"
+fn_set_game_params settings "defaultmap" "bt_island"
+fn_set_game_params settings "maxplayers" "24"
+fn_set_game_params settings "game" "pvkii"

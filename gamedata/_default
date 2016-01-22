@@ -1,0 +1,52 @@
+# Game Settings File
+# _default
+# Base defaults for all games
+
+# Set the default settings for the script
+
+# Default settings. This group includes a lot of blanks just so that the comments are set (and the engine/game files will show blank values to remind people to set them).
+fn_set_game_params settings "appid" "--EMPTY--" "Steam App ID"
+fn_set_game_params settings "backupdir" "\${lgsmdir}/backups" "Backup Directory"
+fn_set_game_params settings "defaultmap" "--EMPTY--" "Default map to load"
+fn_set_game_params settings "email" "email@example.com" "Email address for notification"
+fn_set_game_params settings "emaillog" "\${scriptlogdir}/\${servicename}-email.log" "Email Log"
+fn_set_game_params settings "emailnotification" "off" "Email notification (on|off)"
+fn_set_game_params settings "engine" "--EMPTY--" "Game Engine"
+fn_set_game_params settings "filesdir" "\${rootdir}/serverfiles" "Server Files Directory"
+fn_set_game_params settings "game" "--EMPTY--" "Name of game"
+fn_set_game_params settings "gamename" "--EMPTY--" "Name for subdirectory in GitHub repo"
+fn_set_game_params settings "ip" "0.0.0.0" "IP Address to bind for server"
+fn_set_game_params settings "lgsm_version" "${version}" "Version of LGSM that created this config"
+fn_set_game_params settings "lockselfname" ".\${servicename}.lock" "LGSM Lock File"
+fn_set_game_params settings "logdays" "7" "Number of days to retain logs"
+fn_set_game_params settings "maxplayers" "--EMPTY--" "Maximum player count"
+fn_set_game_params settings "port" "--EMPTY--" "Port to bind for server"
+fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
+fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
+fn_set_game_params settings "updateonstart" "off" "Update game on start"
+
+# These settings are in a second group, since they reference the first group.
+fn_set_game_params settings "consolelogdir" "\${lgsmdir}/log/console" "Console Log Dir"
+fn_set_game_params settings "consolelog" "\${consolelogdir}/\${servicename}-console.log" "Console Log"
+fn_set_game_params settings "consolelogdate" "\${consolelogdir}/\${servicename}-console-\$(date '+%d-%m-%Y-%H-%M-%S').log" "Console Log Rotation Filename"
+
+fn_set_game_params settings "scriptlogdir" "\${lgsmdir}/log/script" "Script Log Dir"
+fn_set_game_params settings "scriptlog" "\${scriptlogdir}/\${servicename}-script.log" "Script Log"
+fn_set_game_params settings "scriptlogdate" "\${scriptlogdir}/\${servicename}-script-\$(date '+%d-%m-%Y-%H-%M-%S').log" "Script Log Rotation Filename"
+
+fn_set_game_params settings "servercfg_suffix" ".cfg" "Suffix to put on the end of the server config. For file extensions, use \".ext\", setting to empty will use the bare server config name."
+fn_set_game_params settings "systemdir" "\${filesdir}/\${game}" "System Directory (root of game installation)"
+fn_set_game_params settings "gamelogdir" "\${systemdir}/logs" "Game log directory"
+
+fn_set_game_params settings "executabledir" "\${filesdir}" "Executable directory"
+fn_set_game_params settings "executable" "--EMPTY--" "Executable to invoke to start game server"
+
+fn_set_game_params settings "servercfgdir" "\${systemdir}/cfg" "Server config directory"
+fn_set_game_params settings "servercfg" "\${servicename}\${servercfg_suffix}" "Server config file for this instance"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default\${servercfg_suffix}" "Default server configuration file"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}" "Full path to server config"
+
+# Default fn_parms just loads the parms file. Still need to figure out how to handle "simple" parms.
+fn_parms(){
+	source "${settingsdir}/parms"
+}

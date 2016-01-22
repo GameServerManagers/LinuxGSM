@@ -44,7 +44,7 @@ else
     fn_scriptlog "Stopped ${servername}"
 fi
 # Remove lock file
-rm -f "${rootdir}/${lockselfname}"
+rm -f "${lgsmdir}/${lockselfname}"
 sleep 1
 echo -en "\n"
 }
@@ -147,7 +147,7 @@ else
     fi
 fi
     # Remove lock file
-    rm -f "${rootdir}/${lockselfname}"
+    rm -f "${lgsmdir}/${lockselfname}"
     sleep 1
     echo -en "\n"
 }

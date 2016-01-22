@@ -1,0 +1,13 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+#fn_import_game_settings _gslt
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game brainbread2 -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+}
+fn_set_game_params settings "appid" "346330"
+fn_set_game_params settings "gamename" "BrainBread 2"
+fn_set_game_params settings "game" "brainvread2"
+fn_set_game_params settings "defaultmap" "bba_barracks"

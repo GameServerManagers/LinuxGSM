@@ -53,7 +53,7 @@ fi
 
 mv "${scriptlog}" "${scriptlogdate}"
 # Create lock file
-date > "${rootdir}/${lockselfname}"
+date > "${lgsmdir}/${lockselfname}"
 cd "${executabledir}"
 if [ "${ts3serverpass}" == "1" ];then
 	./ts3server_startscript.sh start serveradmin_password="${newpassword}" 
@@ -65,7 +65,7 @@ info_ts3status.sh
 if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
 	fn_printfailnl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
-	echo -e "	Check log files: ${rootdir}/log"
+	echo -e "	Check log files: ${lgsmdir}/log"
 	exit 1
 else
 	fn_printok "${servername}"
@@ -112,7 +112,7 @@ if [ "${tmuxwc}" -eq 1 ]; then
 fi
 
 # Create lock file
-date > "${rootdir}/${lockselfname}"
+date > "${lgsmdir}/${lockselfname}"
 cd "${executabledir}"
 tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 # tmux pipe-pane not supported in tmux versions < 1.6

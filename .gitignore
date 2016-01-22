@@ -1,2 +1,6 @@
 *.db
 .idea
+*/functions/*
+*/cfg/servers/*
+*/lgsm/*
+

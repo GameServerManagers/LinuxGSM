@@ -1,0 +1,14 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _source
+
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+fn_set_game_params settings "appid" "222840"
+fn_set_game_params settings "defaultmap" "l4d_hospital01_apartment"
+fn_set_game_params settings "game" "left4dead"
+fn_set_game_params settings "gamename" "Left 4 Dead"
+fn_set_game_params settings "maxplayers" "8"

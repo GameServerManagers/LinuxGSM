@@ -1,0 +1,24 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _spark
+
+# http://wiki.unknownworlds.com/ns2/Dedicated_Server
+fn_parms(){
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
+}
+
+fn_set_game_params settings "defaultmap" "ns2_summit"
+fn_set_game_params settings "maxplayers" "24"
+fn_set_game_params settings "servername" "NS2 Server"
+fn_set_game_params settings "webadminuser" "admin"
+fn_set_game_params settings "webadminpass" "admin"
+fn_set_game_params settings "webadminport" "8080"
+fn_set_game_params settings "configpath" "server1"
+fn_set_game_params settings "modstorage" "server1/Workshop"
+fn_set_game_params settings "mods" ""
+fn_set_game_params settings "password" ""
+fn_set_game_params settings "appid" "4940"
+fn_set_game_params settings "gamename" "Natural Selection 2"
+fn_set_game_params settings "systemdir" "${filesdir}"
+fn_set_game_params settings "executabledir" "${filesdir}"
+fn_set_game_params settings "executable" "./server_linux32"

@@ -1,0 +1,15 @@
+# Game Settings File
+# _terraria
+# Terarria Engine
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_set_game_params settings "engine" "terraria"
+fn_set_game_params settings "executabledir" "\${filesdir}"
+fn_set_game_params settings "executable" "./TerrariaServer"
+fn_set_game_params settings "servercfg" "\${servicename}.txt"
+fn_set_game_params settings "servercfgdir" "\${filesdir}"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.txt"
+fn_set_game_params settings "gamelogdir" ""

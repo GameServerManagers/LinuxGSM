@@ -8,7 +8,7 @@ lgsm_version="271215"
 # Detects if the server has frozen.
 
 local modulename="Monitor"
-if [ -f "${rootdir}/gsquery.py" ]; then
+if [ -f "${lgsmdir}/gsquery.py" ]; then
 	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		gameport=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd '[:digit:]')
 		port=$((${gameport} + 1))
@@ -30,7 +30,7 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 	fn_printdots "Querying port: ${ip}:${port} : QUERYING"
 	fn_scriptlog "Querying port: ${ip}:${port} : QUERYING"
 	sleep 1
-	serverquery=$("${rootdir}/gsquery.py" -a ${ip} -p ${port} -e ${engine} 2>&1)
+	serverquery=$("${lgsmdir}/gsquery.py" -a ${ip} -p ${port} -e ${engine} 2>&1)
 	exitcode=$?
 	if [ "${exitcode}" == "1" ]||[ "${exitcode}" == "2" ]||[ "${exitcode}" == "3" ]||[ "${exitcode}" == "4" ]; then
 		fn_printfail "Querying port: ${ip}:${port} : ${serverquery}"
@@ -67,20 +67,20 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		echo -en "\n"
 		exit
 	elif [ "${exitcode}" == "126" ]; then
-		fn_printfail "Querying port: ${ip}:${port} : ERROR: ${rootdir}/gsquery.py: Permission denied"
-		fn_scriptlog "Querying port: ${ip}:${port} : ERROR: ${rootdir}/gsquery.py: Permission denied"
+		fn_printfail "Querying port: ${ip}:${port} : ERROR: ${lgsmdir}/gsquery.py: Permission denied"
+		fn_scriptlog "Querying port: ${ip}:${port} : ERROR: ${lgsmdir}/gsquery.py: Permission denied"
 		sleep 1
 		echo -en "\n"
 		echo "Attempting to resolve automatically"
-		chmod +x -v "${rootdir}/gsquery.py"
+		chmod +x -v "${lgsmdir}/gsquery.py"
 		if [ $? -eq 0 ]; then
 			monitor_gsquery.sh
 		else
 			fn_printfailure "Unable to resolve automatically. Please manually fix permissions.\n"
-			owner=$(ls -al ${rootdir}/gsquery.py|awk '{ print $3 }')
+			owner=$(ls -al ${lgsmdir}/gsquery.py|awk '{ print $3 }')
 			echo "As user ${owner} or root run the following command."
 			whoami=$(whoami)
-			echo -en "\nchown ${whoami}:${whoami} ${rootdir}/gsquery.py\n\n"
+			echo -en "\nchown ${whoami}:${whoami} ${lgsmdir}/gsquery.py\n\n"
 		exit 1
 		fi
 	else
@@ -88,10 +88,10 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 		fn_scriptlog "Querying port: ${ip}:${port} : UNKNOWN ERROR"
 		sleep 1
 		echo -en "\n"
-		${rootdir}/gsquery.py -a ${ip} -p ${port} -e ${engine}
+		${lgsmdir}/gsquery.py -a ${ip} -p ${port} -e ${engine}
 		exit 1
 	fi
 else
-	fn_printfailnl "Could not find ${rootdir}/gsquery.py"
-	fn_scriptlog "Could not find ${rootdir}/gsquery.py"
+	fn_printfailnl "Could not find ${lgsmdir}/gsquery.py"
+	fn_scriptlog "Could not find ${lgsmdir}/gsquery.py"
 fi

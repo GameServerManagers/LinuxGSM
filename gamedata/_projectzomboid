@@ -1,0 +1,18 @@
+# Game Settings File
+# _projectzomboid
+# Project Zomboid Engine
+
+# Import default settings
+fn_import_game_settings _default
+
+# And the settings for defaults
+fn_set_game_params settings "engine" "projectzomboid"
+
+# These are values that the script uses, they don't get used by the srcds server directly
+fn_set_game_params settings "systemdir" "\${filesdir}"
+fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
+fn_set_game_params settings "executabledir" "\${filesdir}"
+fn_set_game_params settings "executable" "./start-server.sh"
+fn_set_game_params settings "servercfg" "servertest.ini"
+fn_set_game_params settings "servercfgdir" "\${HOME}/Zomboid/Server"
+

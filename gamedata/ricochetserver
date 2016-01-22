@@ -1,0 +1,12 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _goldsource
+
+fn_parms(){
+parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+}
+fn_set_game_params settings "appid" "90"
+fn_set_game_params settings "defaultmap" "rc_arena"
+fn_set_game_params settings "maxplayers" "16"
+fn_set_game_params settings "gamename" "Ricochet"
+fn_set_game_params settings "game" "ricochet"

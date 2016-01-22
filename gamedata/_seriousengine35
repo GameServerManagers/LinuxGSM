@@ -1,0 +1,15 @@
+# Game Settings File
+# _seriousengine35
+# Serious Engine 3.5
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_set_game_params settings "engine" "seriousengine35"
+fn_set_game_params settings "systemdir" "\${filesdir}/Bin"
+fn_set_game_params settings "executable" "./runSam3_DedicatedServer.sh"
+fn_set_game_params settings "executabledir" "\${systemdir}"
+fn_set_game_params settings "servercfg" "\${servicename}.ini"
+fn_set_game_params settings "servercfgdir" "\${filesdir}/Content/SeriousSam3/Config"
+fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
