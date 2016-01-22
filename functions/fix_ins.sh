@@ -17,4 +17,3 @@ if [ "${function_selfname}" == "command_debug.sh" ]; then
 else
         defaultmap="\\\"${defaultmap}\\\""
 fi
-fn_parms
