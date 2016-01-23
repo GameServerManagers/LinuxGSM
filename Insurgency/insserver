@@ -31,10 +31,11 @@ sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
+workshop="0"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game insurgency -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game insurgency -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers} +sv_workshop_enabled ${workshop}"
 }
 
 #### Advanced Variables ####
