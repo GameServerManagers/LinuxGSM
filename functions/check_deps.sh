@@ -43,8 +43,7 @@ array_deps_missing=()
 fn_printdots "Checking for missing dependencies:"
 if [ "${executable}" ==  "./srcds_run" ]||[ "${executable}" ==  "./dabds.sh" ]||[ "${executable}" ==  "./srcds_run.sh" ]||[ "${executable}" ==  "./Jcmp-Server" ] ; then
 	local array_deps_required=( tmux curl lib32gcc1 libstdc++6:i386 )
-	fn_deps_email
-elif 	
+	fn_deps_email 	
 else
 	fn_printfail "Unknown executable"
 	exit	
