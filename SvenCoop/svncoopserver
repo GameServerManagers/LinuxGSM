@@ -23,7 +23,7 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="stadium4"
+defaultmap="svencoop1"
 maxplayers="16"
 port="27015"
 clientport="27005"
