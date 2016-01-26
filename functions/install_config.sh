@@ -225,14 +225,19 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 	wget -N /dev/null ${githuburl}/GarrysMod/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
+elif [ "${gamename}" == "GoldenEye: Source" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/GoldenEyeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig	
 elif [ "${gamename}" == "Half Life 2: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/HalfLife2Deathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
-elif [ "${gamename}" == "Half Life: Deathmatch Classic" ]; then
+elif [ "${gamename}" == "Half Life: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/HalfLifeDeathmatchClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/HalfLifeDeathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Insurgency" ]; then
@@ -275,6 +280,11 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	wget -N /dev/null ${githuburl}/SeriousSam3BFE/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_serious3config
+elif [ "${gamename}" == "Sven Co-op" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/SvenCoop/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_goldsourceconfig
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
