@@ -5,6 +5,8 @@ fn_import_game_settings _realvirtuality
 fn_parms(){
 parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
 }
+
+# Game Settings
 fn_set_game_params settings "port" "2302"
 fn_set_game_params settings "mods" "" "Mods"
 fn_set_game_params settings "servermods" "" "Server Mods"

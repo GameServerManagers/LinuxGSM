@@ -5,3 +5,23 @@
 # Import default settings
 fn_import_game_settings _default
 
+# http://wiki.unknownworlds.com/ns2/Dedicated_Server
+fn_parms(){
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser \"${webadminuser}\" -webpassword \"${webadminpass}\" -webport ${webadminport} -map \"${defaultmap}\" -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
+}
+
+# Dependencies
+fn_set_game_params settings "dependency_path" "${filesdir}"
+fn_add_game_dependency "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_add_game_dependency "libc.so.6" "7d751c7d8c061730fc5cb7317322d370
+
+fn_set_game_params settings "configpath" "server1"
+fn_set_game_params settings "maxplayers" "24"
+fn_set_game_params settings "mods" "--EMPTY--"
+fn_set_game_params settings "modstorage" "server1/Workshop"
+fn_set_game_params settings "password" "--EMPTY--"
+fn_set_game_params settings "systemdir" "${filesdir}"
+fn_set_game_params settings "webadminpass" "admin"
+fn_set_game_params settings "webadminport" "8080"
+fn_set_game_params settings "webadminuser" "admin"

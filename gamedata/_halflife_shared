@@ -6,6 +6,10 @@
 fn_import_game_settings _default
 fn_import_game_settings _parms_plusminus
 
+# Dependencies
+fn_set_game_params settings "dependency_path" "${filesdir}/bin"
+
+
 # The parms that start with - go first
 
 fn_set_game_params parms_minus "game" "\${game}"

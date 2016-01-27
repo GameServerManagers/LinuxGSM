@@ -2,21 +2,9 @@
 # Import Engine
 fn_import_game_settings _spark
 
-fn_parms(){
-parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
-}
-
 fn_set_game_params settings "appid" "313900"
-fn_set_game_params settings "configpath" "server1"
 fn_set_game_params settings "defaultmap" "co_core"
 fn_set_game_params settings "executable" "./ns2combatserver_linux32"
 fn_set_game_params settings "executabledir" "\${filesdir}/ia32"
 fn_set_game_params settings "gamename" "NS2: Combat"
-fn_set_game_params settings "maxplayers" "24"
-fn_set_game_params settings "mods" "--EMPTY--"
-fn_set_game_params settings "modstorage" "server1/Workshop"
-fn_set_game_params settings "password" "-EMPTY--"
 fn_set_game_params settings "servername" "NS2C Server"
-fn_set_game_params settings "webadminuser" "admin"
-fn_set_game_params settings "webadminpass" "admin"
-fn_set_game_params settings "webadminport" "8080"

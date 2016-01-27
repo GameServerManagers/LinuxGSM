@@ -8,6 +8,10 @@ lgsm_version="271215"
 # Detects if the server has frozen.
 
 local modulename="Monitor"
+# Attempt to install gsquery
+if [ ! -f "${lgsmdir}/gsquery.py" ]; then
+	fn_runfunction install_gsquery.sh
+fi
 if [ -f "${lgsmdir}/gsquery.py" ]; then
 	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		gameport=$(grep Port= "${servercfgfullpath}"|grep -v Master|grep -v LAN|grep -v Proxy|grep -v Listen|tr -d '\r'|tr -cd '[:digit:]')

@@ -4,6 +4,9 @@
 
 fn_import_game_settings _default
 
+# Dependencies
+fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+
 # And the settings for defaults
 fn_set_game_params settings "engine" "avalanche"
 fn_set_game_params settings "servercfg" "config.lua" "Server Config file"

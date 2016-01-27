@@ -5,10 +5,14 @@
 lgsm_version="271215"
 
 fn_dlgsquery(){
-cd "${lgsmdir}"
-echo -e "downloading gsquery.py...\c"
-wget -N /dev/null "http://gameservermanagers.com/dl/gsquery.py" 2>&1 | grep -F "HTTP" | grep -v "Moved Permanently" | cut -c45- | uniq
-chmod +x gsquery.py
+	gsquery_path="${lgsmdir}/gsquery.py"
+	if [ ! -e "${gsquery_path}" ]; then
+		echo -e "downloading gsquery.py...\c"
+		curl -sL "http://gameservermanagers.com/dl/gsquery.py" -o "${gsquery_path}"
+	fi
+	if ! -x "${gsquery_path}" ]; then
+		chmod +x "${gsquery_path}"
+	fi
 }
 
 if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Hurtworld" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then

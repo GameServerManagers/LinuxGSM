@@ -1,0 +1,5 @@
+-game="${game}"
+-strictportbind=""
+-ip="${ip}"
+-port="${port}"
+-maxplayers="${maxplayers}"

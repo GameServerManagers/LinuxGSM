@@ -1,0 +1,6 @@
++clientport="${clientport}"
++tv_port="${sourcetvport}"
++mapcyclefile="${mapcyclefile}"
++servercfgfile="${servercfg}"
++map="${defaultmap}"
++sv_playlist="${playlist}"

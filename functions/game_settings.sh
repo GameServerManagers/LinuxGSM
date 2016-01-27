@@ -104,7 +104,7 @@ fn_import_game_settings(){
 	importdir=$(echo "${gamedatadir}" | sed -e "s|${lgsmdir}/||g")
 	#echo $importdir
 	if [ ! -e $import ]; then
-		fn_getgithubfile "${importdir}/${1}" 1 "gamedata/${1}"
+		fn_getgithubfile "${importdir}/${1}" run "gamedata/${1}"
 	fi
 	source $import
 }

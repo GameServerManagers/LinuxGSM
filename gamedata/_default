@@ -3,6 +3,7 @@
 # Base defaults for all games
 
 # Set the default settings for the script
+fn_set_game_params settings "dependency_path" "${filesdir}"
 
 # Default settings. This group includes a lot of blanks just so that the comments are set (and the engine/game files will show blank values to remind people to set them).
 fn_set_game_params settings "appid" "--EMPTY--" "Steam App ID"

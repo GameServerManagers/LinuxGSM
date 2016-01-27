@@ -119,47 +119,60 @@ fi
 # filename: The path of the file in reference to the repository root
 # exec: Optional, set to 1 to make file executable
 # url: Optional, set to full path under repository root if different than filename
-fn_getgithubfile(){
-	filename=$1
-	exec=$2
-	fileurl=${3:-$filename}
-	force=$4
-	filepath="${lgsmdir}/${filename}"
-	filedir=$(dirname "${filepath}")
-
+fn_get_file(){
+	fileurl="${1}"
+	filepath="${2}"
+	exec=${3:-0}
+	force=${4:-0}
 	# If the function file is missing, then download
-	if [ ! -f "${filepath}" ] || [ "${force}" != "" ]; then
+	if [ ! -f "${filepath}" ] || [ "${force}" == "1" ] || [ "${force}" == "yes" ]; then
+		filedir=$(dirname "${filepath}")
 		if [ ! -d "${filedir}" ]; then
 			mkdir -p "${filedir}"
 		fi
-		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
-		echo -ne "    fetching ${filename} (${githuburl})... "
+		echo -ne "    fetching ${filename} (${fileurl})... "
 		if [ "$(basename ${fetchcmd})" == "curl" ]; then
 			cmd="$fetchcmd -s --fail -o"
 		elif [ "$(basename ${fetchcmd})" == "wget" ]; then
 			cmd="$fetchcmd -O"
 		fi
-		fetch=$($cmd "${filepath}" "${githuburl}" 2>&1)
-		if [ "${exec}" != "" ]; then
+		fetch=$($cmd "${filepath}" "${fileurl}" 2>&1)
+		if [ "${exec}" == "run" ] || [ "${exec}" == "exec" ] || [ "${exec}" == "1" ] || [ "${exec}" != "noexec" ] || [ "${exec}" != "norun" ]; then
 			chmod +x "${filepath}"
 		fi
 		fn_colortext 32 "DONE"
 	fi
-	if [ "${exec}" == "1" ]; then
+	if [ "${exec}" == "run" ] || [ "${exec}" == "exec" ] || [ "${exec}" == "1" ]; then
 		source "${filepath}"
 	fi
+}
+fn_getgithubfile(){
+	filename=$1
+	exec=${2:-0}
+	fileurl=${3:-$filename}
+	force=${4:-0}
+	if [[ $filename = /* ]]; then
+		filepath="${filename}"
+	else
+		filepath="${lgsmdir}/${filename}"
+	fi
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
+	fn_get_file "${githuburl}" "${filepath}" "${exec}" "${force}"
 }
 
 # fn_runfunction
 fn_runfunction(){
 	scriptfile=${1:-$functionfile}
 	functionfile=$scriptfile
-	fn_getgithubfile "functions/${functionfile}" 1
+	fn_getgithubfile "functions/${functionfile}" run
 	fn_check_github_files "${lgsmdir}" "${lgsmdir}/functions/${functionfile}"
 }
 
 # Load GitHub hashing and updating functions
 fn_runfunction github_hash.sh
+
+# Install gsquery.py
+fn_getgithubfile "gsquery.py" norun "GameServerQuery/gsquery.py"
 
 # Load core functions
 fn_runfunction core_functions.sh

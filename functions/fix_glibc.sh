@@ -5,30 +5,30 @@
 lgsm_version="020116"
 
 fn_glibcfixmsg(){
-echo ""
-echo "GLIBC Fix required"
-echo "============================"
-sleep 1
-fn_printwarningnl "${gamename} requires GLIBC_${glibcversion} or above"
-sleep 1
-echo ""
-echo -e "Currently installed:\e[0;31m GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')\e[0;39m"
-echo -e "Required: =>\e[0;32m GLIBC_${glibcversion}\e[0;39m"
-echo ""
-sleep 1
-echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with less than GLIBC_${glibcversion}."
-echo "note: This will NOT upgrade GLIBC on your system."
-echo ""
-echo "http://gameservermanagers.com/glibcfix"
-sleep 1
-echo ""
-echo -en "loading required files.\r"
-sleep 1
-echo -en "loading required files..\r"
-sleep 1
-echo -en "loading required files...\r"
-sleep 1
-echo -en "\n"
+	echo ""
+	echo "GLIBC Fix required"
+	echo "============================"
+	sleep 1
+	fn_printwarningnl "${gamename} requires GLIBC_${glibcversion} or above"
+	sleep 1
+	echo ""
+	echo -e "Currently installed:\e[0;31m GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')\e[0;39m"
+	echo -e "Required: =>\e[0;32m GLIBC_${glibcversion}\e[0;39m"
+	echo ""
+	sleep 1
+	echo "The installer will now detect and download the required files to allow ${gamename} server to run on a distro with less than GLIBC_${glibcversion}."
+	echo "note: This will NOT upgrade GLIBC on your system."
+	echo ""
+	echo "http://gameservermanagers.com/glibcfix"
+	sleep 1
+	echo ""
+	echo -en "loading required files.\r"
+	sleep 1
+	echo -en "loading required files..\r"
+	sleep 1
+	echo -en "loading required files...\r"
+	sleep 1
+	echo -en "\n"
 }
 
 # if ldd command not detected
@@ -103,13 +103,13 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 21
 		cd "${filesdir}"
 		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/NaturalSelection2/dependencies/libm.so.6
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
-		# NS2: Combat
-		elif [ "${gamename}" == "NS2: Combat" ]; then
-			glibcversion="2.15"
-			fn_glibcfixmsg
-			cd "${filesdir}"
-			wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/NS2Combat/dependencies/libm.so.6
-			cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
+	# NS2: Combat
+	elif [ "${gamename}" == "NS2: Combat" ]; then
+		glibcversion="2.15"
+		fn_glibcfixmsg
+		cd "${filesdir}"
+		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/NS2Combat/dependencies/libm.so.6
+		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/libstdc++.so.6"
 	# No More Room in Hell
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		glibcversion="2.15"

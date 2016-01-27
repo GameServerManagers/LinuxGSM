@@ -34,7 +34,7 @@ fn_get_github_manifest(){
 	if [ ! -e "${cachedir}" ]; then
 		mkdir -p "${cachedir}"
 	fi
-	fn_getgithubfile "functions/jq-linux64"
+	fn_getgithubfile "functions/jq-linux64" noexec
 	jq_path="${lgsmdir}/functions/jq-linux64"
 	chmod +x "${jq_path}"
 	# Get latest commit from GitHub. Cache file for 60 minutes
@@ -84,7 +84,7 @@ fn_check_github_files(){
 				echo "Can't find ${repofile} in git!"
 			elif [ "${myhash}" != "${githash}" ]; then
 				#echo "Would fetch ${repofile}: have ${myhash}, expected ${githash}"
-				fn_getgithubfile "${repofile}" 0 "${repofile}" 1
+				fn_getgithubfile "${repofile}" "" "${repofile}" 1
 			fi
 		fi
 	done

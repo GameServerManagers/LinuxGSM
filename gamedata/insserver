@@ -5,6 +5,12 @@
 # Import Source Engine
 fn_import_game_settings _source
 
+# Dependencies
+fn_add_game_dependency "libc.so.6" "c856f3fcac0a944a36e723b06bdbeb7e"
+fn_add_game_dependency "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_add_game_dependency "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
+fn_add_game_dependency "librt.so.1" "eabf0fc1f81292270343bd0796fc64ca"
+
 # Override some server settings
 fn_set_game_params settings "appid" "237410"
 fn_set_game_params settings "defaultmap" "ministry checkpoint"

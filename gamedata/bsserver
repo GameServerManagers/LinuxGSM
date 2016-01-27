@@ -6,6 +6,9 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-autoupdate -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
+
+fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+
 fn_set_game_params settings "appid" "228780"
 fn_set_game_params settings "defaultmap" "duel_winter"
 fn_set_game_params settings "game" "berimbau"

@@ -7,6 +7,9 @@ fn_import_game_settings _source
 fn_parms(){
 parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
+
+fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+
 fn_set_game_params settings "appid" "222840"
 fn_set_game_params settings "defaultmap" "l4d_hospital01_apartment"
 fn_set_game_params settings "game" "left4dead"
