@@ -7,7 +7,7 @@ fn_import_game_settings _default
 
 # Dependencies
 fn_set_game_params settings "dependency_path" "${filesdir}/Bin"
-fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
 
 # Game settings
 fn_set_game_params settings "engine" "seriousengine35"

@@ -8,7 +8,7 @@ parms="-strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_por
 }
 
 fn_set_game_params settings "dependency_path" "${filesdir}"
-fn_add_game_dependency "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_set_game_params dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
 
 fn_set_game_params settings "appid" "317800"
 fn_set_game_params settings "defaultmap" "da_rooftops"

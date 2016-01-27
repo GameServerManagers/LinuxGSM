@@ -104,6 +104,7 @@ fn_import_game_settings(){
 	importdir=$(echo "${gamedatadir}" | sed -e "s|${lgsmdir}/||g")
 	#echo $importdir
 	if [ ! -e $import ]; then
+		fn_check_github_files "${lgsmdir}" "${lgsmdir}/gamedata/${1}"
 		fn_getgithubfile "${importdir}/${1}" run "gamedata/${1}"
 	fi
 	source $import
@@ -116,7 +117,6 @@ fn_set_game_params(){
 	param_comment=$4
 	fn_update_config "${param_name}" "${param_value}" "${settingsdir}/${param_set}" "${param_comment}"
 }
-
 
 fn_get_game_params(){
 	param_set=$1

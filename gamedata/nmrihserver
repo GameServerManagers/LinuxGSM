@@ -9,8 +9,8 @@ parms="-game nmrih -insecure -strictportbind -ip ${ip} -port ${port} +clientport
 
 # Dependencies
 fn_set_game_params settings "dependency_path" "${filesdir}"
-fn_add_game_dependency "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
-fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_set_game_params dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
 
 # Game settings
 fn_set_game_params settings "appid" "317670"

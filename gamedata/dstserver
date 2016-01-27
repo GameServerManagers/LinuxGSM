@@ -8,10 +8,10 @@ parms=""
 }
 
 # Dependencies
-fn_set_game_params settings "dependency_path" "${filesdir}/bin/lib32/"
-fn_add_game_dependency "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
-fn_add_game_dependency "librt.so.1" "eabf0fc1f81292270343bd0796fc64ca"
-fn_add_game_dependency "libc.so.6" "c856f3fcac0a944a36e723b06bdbeb7e"
+fn_set_game_params settings "dependency_path" "${filesdir}/bin/lib32"
+fn_set_game_params dependencies "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
+fn_set_game_params dependencies "librt.so.1" "eabf0fc1f81292270343bd0796fc64ca"
+fn_set_game_params dependencies "libc.so.6" "c856f3fcac0a944a36e723b06bdbeb7e"
 
 # Game settings
 fn_set_game_params settings "appid" "343050"

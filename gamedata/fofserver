@@ -7,7 +7,7 @@ fn_parms(){
 parms="-game fof -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 fn_set_game_params settings "dependency_path" "${filesdir}"
-fn_add_game_dependency "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_set_game_params dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
 
 fn_set_game_params settings "appid" "295230"
 fn_set_game_params settings "defaultmap" "fof_depot"

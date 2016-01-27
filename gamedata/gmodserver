@@ -8,10 +8,10 @@ fn_import_game_settings _gslt
 fn_import_game_settings _workshop
 
 # Add dependencies
-fn_add_game_dependency "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
-fn_add_game_dependency "libm.so.6" "ee439d489dcbfeb12b809d9b961ffc60"
-fn_add_game_dependency "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
-fn_add_game_dependency "libc.so.6" "7d751c7d8c061730fc5cb7317322d370"
+fn_set_game_params dependencies  "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
+fn_set_game_params dependencies  "libm.so.6" "ee439d489dcbfeb12b809d9b961ffc60"
+fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_set_game_params dependencies  "libc.so.6" "7d751c7d8c061730fc5cb7317322d370"
 
 # Override some server settings
 fn_set_game_params settings "appid" "4020"
