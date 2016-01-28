@@ -124,6 +124,32 @@ fn_get_game_params(){
 	param_default=$3
 }
 
+# Fix dependency files for game
+fn_fix_game_dependencies() {
+	depfile="${settingsdir}/dependencies"
+	# If no dependency list, skip out
+	if [ ! -e "${depfile}" ]; then
+		return
+	fi
+
+	# If the directory doesn't yet exist, exit the function.
+	# This is so that we wait until the game is installed before putting these files in place
+	if [ ! -e "${dependency_path}" ]; then
+		return
+	fi
+
+	while read -r line; do
+		filename=$(echo $line | cut -d'=' -f1)
+		md5sum=$(echo $line | cut -d'"' -f2)
+		remote_path="dependencies/${filename}.${md5sum}"
+		local_path="${dependency_path}/${filename}"
+		local_md5="$(md5sum "${local_path}" | awk '{print $1}')"
+		echo "Checking ${filename} for ${md5sum}"
+		if [ "${local_md5}" != "${md5sum}" ]; then
+			fn_getgithubfile "${local_path}" 0 "${remote_path}" 1
+		fi
+	done < $depfile
+}
 # Flush old setings buffer
 fn_flush_game_settings
 

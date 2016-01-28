@@ -29,9 +29,9 @@ if [ $(command -v unbuffer) ]; then
 fi
 
 if [ "${engine}" == "goldsource" ]; then
-	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +app_update "${appid}" validate +quit|tee -a "${scriptlog}"
+	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid} -beta ${beta}" +app_update "${appid} -beta ${beta}" validate +quit|tee -a "${scriptlog}"
 else
-	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" validate +quit|tee -a "${scriptlog}"
+	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid} -beta ${beta}" validate +quit|tee -a "${scriptlog}"
 fi
 
 fix.sh

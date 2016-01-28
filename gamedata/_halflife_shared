@@ -13,7 +13,7 @@ fn_set_game_params settings "dependency_path" "${filesdir}/bin"
 # The parms that start with - go first
 
 fn_set_game_params parms_minus "game" "\${game}"
-fn_set_game_params parms_minus "strictportbind" "--EMPTY--"
+fn_set_game_params parms_minus "strictportbind" " "
 fn_set_game_params parms_minus "ip" "\${ip}"
 fn_set_game_params parms_minus "port" "\${port}"
 fn_set_game_params parms_minus "maxplayers" "\${maxplayers}"

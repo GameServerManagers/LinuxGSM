@@ -18,9 +18,17 @@ fn_set_game_params settings "game" "insurgency"
 fn_set_game_params settings "gamename" "Insurgency"
 
 # Add playlist parameter
-fn_set_game_params parms_plus "sv_playlist" "\${playlist}"
-fn_set_game_params settings "playlist" "custom" "Server Playlist"
+fn_set_game_params parms_plus "sv_playlist" "\${sv_playlist}"
+fn_set_game_params settings "sv_playlist" "custom" "Server Playlist"
 
 # Mapcycle
 fn_set_game_params params_plus "mapcyclefile" "\${mapcyclefile}"
 fn_set_game_params settings "mapcyclefile" "mapcycle_cooperative.txt" "Mapcycle File"
+
+# Workshop
+fn_set_game_params parms_plus "sv_workshop_enabled" "--EMPTY--" "Comma-delimited list of workshop items to subscribe to"
+
+# Beta
+fn_set_game_params parms_minus "beta" "\${beta}"
+fn_set_game_params settings "beta" "--EMPTY--" "Beta branch to use. Leave empty for stable branch"
+
