@@ -9,12 +9,6 @@ lgsm_version="260116"
 
 # Fixes that are run on start
 if [ "${function_selfname}" != "command_install.sh" ]; then
-	echo ""
-	echo "Applying ${gamename} Server Fixes"
-	echo "================================="
-	sleep 1
-	fn_fix_game_dependencies
-	fix_glibc.sh
 	if [ ! -z "${appid}" ]; then
 		fix_steamcmd.sh
 	fi	
@@ -36,4 +30,11 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 		fix_ut99.sh
 	fi
+else
+	echo ""
+	echo "Applying ${gamename} Server Fixes"
+	echo "================================="
+	sleep 1
+	fn_fix_game_dependencies
+	fix_glibc.sh
 fi
