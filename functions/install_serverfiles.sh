@@ -37,15 +37,15 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .finstall_serverfiles.sh.tmp)
 
 		if [ "${counter}" -le "4" ]; then
 			if [ "${engine}" == "goldsource" ]; then
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid} -beta ${beta}" +quit |tee .finstall_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${game} +app_update "${appid}" -beta ${beta} +quit |tee .finstall_serverfiles.sh.tmp
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid} -beta ${beta}" +quit |tee .finstall_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -beta ${beta} +quit |tee .finstall_serverfiles.sh.tmp
 			fi
 		elif [ "${counter}" -ge "5" ]; then
 			if [ "${engine}" == "goldsource" ]; then
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid} -beta ${beta}" -validate +quit |tee .finstall_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${game} +app_update "${appid}" -beta ${beta} -validate +quit |tee .finstall_serverfiles.sh.tmp
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid} -beta ${beta}" -validate +quit |tee .finstall_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -beta ${beta} -validate +quit |tee .finstall_serverfiles.sh.tmp
 			fi
 		fi
 	elif [ "${counter}" -ge "11" ]; then
@@ -61,7 +61,7 @@ if [ "${engine}" == "goldsource" ]; then
 	counter="0"
 	while [ "${counter}" -le "4" ]; do
 		counter=$((counter+1))
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid} -beta ${beta}" -validate +quit |tee .finstall_serverfiles.sh.tmp
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${game} +app_update "${appid}" -beta ${beta} -validate +quit |tee .finstall_serverfiles.sh.tmp
 	done
 fi
 rm -f .finstall_serverfiles.sh.tmp
