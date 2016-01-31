@@ -4,11 +4,11 @@
 # Website: http://gameservermanagers.com
 lgsm_version="310116"
 
-# Description: Checks that the require dependencies are installed for LGSM
+# Description: Checks that the requires dependencies are installed for LGSM.
 
 
 fn_deps_detector(){
-# Checks is dependency is missing
+# Checks if dependency is missing
 if [ -n "$(command -v dpkg-query)" ]; then
 	dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
 	depstatus=$?
@@ -19,11 +19,11 @@ fi
 if [ "${depstatus}" == "0" ]; then
 	missingdep=0
 else
-	# if missing dependency is flagged
+	# if missing dependency is found
 	missingdep=1
 fi
 
-# Add missing dependencies are added to array_deps_missing array
+# Missing dependencies are added to array_deps_missing
 if [ "${missingdep}" == "1" ]; then
 	array_deps_missing+=("${deptocheck}")
 fi
@@ -86,6 +86,12 @@ fn_check_loop(){
 	# user to be informaed of any missing dependecies 
 	fn_found_missing_deps
 }
+
+if [ "${function_selfname}" == "command_install.sh" ]; then
+echo "Server Directory"
+echo "================================="
+fi
+
 
 # Check will only run if using apt-get or yum
 if [ -n "$(command -v dpkg-query)" ]; then

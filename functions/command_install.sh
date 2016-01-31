@@ -9,7 +9,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 install_header.sh
 install_serverdir.sh
-
+check_deps.sh 
 # Download and install
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_dl_ut2k4.sh
