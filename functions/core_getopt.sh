@@ -2,7 +2,7 @@
 # LGSM core_getopt.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="070116"
+lgsm_version="300116"
 
 # Description: getopt arguments.
 
@@ -15,8 +15,8 @@ fn_getopt_generic(){
 		IFS='|' read -ra field <<< "${line}"
 		for opt in ${field[0]}; do
 			if [ "${getopt}" == "${opt}" ]; then
-				eval "${field[1]}"
-				exit
+				runcmd="${field[1]}"
+				break 2
 			fi
 		done
 		if [ -z $optlen ] || [ ${#opt} -gt $optlen ]; then
@@ -24,6 +24,10 @@ fn_getopt_generic(){
 		fi
 		USAGE+=("\e[34m${opt}|\e[0m${field[2]}")
 	done < <(sed -e 's/"//g' -e 's/=/ /g' "${settingsdir}/scriptactions")
+	if [ "${runcmd}" != "" ]; then
+		eval "${runcmd}"
+		exit
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "http://gameservermanagers.com/${selfname}"
