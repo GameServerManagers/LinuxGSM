@@ -58,7 +58,7 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 		sleep 1
 		echo -en "   \r"	
 		if [ -n "$(command -v dpkg-query)" ]; then
-			echo "sudo apt-get install ${array_deps_missing[@]}"
+			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
 		elif [ -n "$(command -v yum)" ]; then
 			echo "yum install ${array_deps_missing[@]}"
 		fi	
@@ -67,7 +67,7 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 		fn_printinfomationnl "$(whoami) does not have sudo access. manually install dependencies"
 		echo ""
 		if [ -n "$(command -v dpkg-query)" ]; then
-			echo "sudo apt-get install ${array_deps_missing[@]}"
+			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
 		elif [ -n "$(command -v yum)" ]; then
 			echo "yum install ${array_deps_missing[@]}"
 		fi	
