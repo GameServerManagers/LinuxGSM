@@ -105,10 +105,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		#UT99
 		else
 			array_deps_required+=( libsdl1.2debian bzip2 )
-		fi
-	else
-		fn_printfail "Unknown executable"
-		exit	
+		fi	
 	fi
 	fn_deps_email
 
