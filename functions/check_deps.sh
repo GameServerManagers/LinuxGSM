@@ -18,13 +18,17 @@ elif [ -n "$(command -v yum)" ]; then
 fi	
 if [ "${depstatus}" == "0" ]; then
 	missingdep=0
-	echo -e "\e[0;32m${deptocheck}\e[0m"
-	sleep 0.5
+	if [ "${function_selfname}" == "command_install.sh" ]; then
+		echo -e "\e[0;32m${deptocheck}\e[0m"
+		sleep 0.5
+	fi
 else
 	# if missing dependency is found
 	missingdep=1
-	echo -e "\e[0;31m${deptocheck}\e[0m"
-	sleep 0.5
+	if [ "${function_selfname}" == "command_install.sh" ]; then
+		echo -e "\e[0;31m${deptocheck}\e[0m"
+		sleep 0.5
+	fi	
 fi
 
 # Missing dependencies are added to array_deps_missing
