@@ -13,7 +13,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
 	depstatus=$?
 elif [ -n "$(command -v yum)" ]; then
-	yum -q list installed ${deptocheck} 2>/dev/null
+	yum -q list installed ${deptocheck} > /dev/null 2>&1
 	depstatus=$?
 fi	
 if [ "${depstatus}" == "0" ]; then
@@ -91,7 +91,6 @@ fn_check_loop(){
 if [ -n "$(command -v dpkg-query)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
-	fn_printdots "Checking dependencies"
 
 	# LGSM requirement for curl
 	array_deps_required=( curl ca-certificates )
@@ -138,7 +137,6 @@ if [ -n "$(command -v dpkg-query)" ]; then
 elif [ -n "$(command -v yum)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
-	fn_printdots "Checking dependencies"
 
 	# LGSM requirement for curl
 	array_deps_required=( curl )
