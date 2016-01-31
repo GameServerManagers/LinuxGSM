@@ -115,7 +115,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell	
-	elif [ "${gamename}" == "No More Room in Hell" ]
+	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		array_deps_required+=( lib32tinfo5 )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
@@ -162,7 +162,7 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell	
-	elif [ "${gamename}" == "No More Room in Hell" ]
+	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
