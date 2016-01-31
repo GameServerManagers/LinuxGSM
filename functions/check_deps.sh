@@ -16,12 +16,11 @@ elif [ -n "$(command -v yum)" ]; then
 	yum -q list installed ${deptocheck} 2>/dev/null
 	depstatus=$?
 fi	
-	if [ "${depstatus}" == "0" ]; then
-		missingdep=0
-	else
-		# if missing dependency is flagged
-		missingdep=1
-	fi
+if [ "${depstatus}" == "0" ]; then
+	missingdep=0
+else
+	# if missing dependency is flagged
+	missingdep=1
 fi
 
 # Add missing dependencies are added to array_deps_missing array
