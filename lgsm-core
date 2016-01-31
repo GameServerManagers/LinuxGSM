@@ -24,7 +24,7 @@ if [ "${BASH_SOURCE[0]}" != "" ]; then
 	# Name of this service (will return symlink name for multiple instance support)
 	servicename="$(basename $0)"
 	# Script root directory
-	rootdir="$(dirname "${scriptpath}")
+	rootdir="$(dirname "${scriptpath}")"
 else
 	scriptpath="$(pwd)/${core_script}"
 	selfname="${core_script}"

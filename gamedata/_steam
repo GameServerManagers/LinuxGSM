@@ -11,7 +11,7 @@ fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
 fn_set_game_params settings "updateonstart" "off" "Update game on start"
 
 # Script actions
-fn_set_game_params scriptactions "fu|force-update|update-restart" "forceupdate=1; update_check.sh" "Bypasses the check and applies updates from SteamCMD."
-fn_set_game_params scriptactions "v|validate" "command_validate.sh" "Validate server files with SteamCMD."
-fn_set_game_params scriptactions "c|console" "command_console.sh" "Console allows you to access the live view of a server."
+fn_set_game_params scriptactions "fu" "update-restart force-update|forceupdate=1; update_check.sh|Bypasses the check and applies updates from SteamCMD."
+fn_set_game_params scriptactions "v" "validate|command_validate.sh|Validate server files with SteamCMD."
+fn_set_game_params scriptactions "c" "console|command_console.sh|Console allows you to access the live view of a server."
 

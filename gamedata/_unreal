@@ -5,7 +5,4 @@
 # Import default settings
 fn_import_game_settings _unreal_shared
 
-# This is the way we create a script that collates and parses the parameters
-fn_parms(){
-	parms=""
-}
+fn_set_game_params scriptactions "mc" "map-compressor|compress_ut99_maps.sh|Map Compressor."

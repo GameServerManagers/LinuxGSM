@@ -15,5 +15,5 @@ fn_set_game_params settings "executable" "./murmur.x86"
 fn_set_game_params settings "servercfg" "murmur.ini"
 fn_set_game_params settings "servercfgdir" "\${filesdir}"
 
-fn_set_game_params scriptactions "console" "command_console.sh" "Console View."
+fn_set_game_params scriptactions "c" "console|command_console.sh|Console View."
 

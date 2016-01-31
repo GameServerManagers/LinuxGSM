@@ -15,6 +15,5 @@ fn_set_game_params settings "servercfgfullpath" "${servercfgdir}/${servercfg}"
 fn_set_game_params settings "servercfgdefault" "${servercfgdir}/Default.ini"
 fn_set_game_params settings "compressedmapsdir" "${rootdir}/Maps-Compressed" "Compressed Maps Directory"
 
-fn_set_game_params scriptactions "c|console" "command_console.sh" "Console View."
-fn_set_game_params scriptactions "mc|map-compressor" "compress_ut99_maps.sh" "Map Compressor."
-
+fn_set_game_params scriptactions "c" "console|command_console.sh|Console View."
+fn_set_game_params scriptactions "mc" "map-compressor|compress_unreal2_maps.sh|Map Compressor."

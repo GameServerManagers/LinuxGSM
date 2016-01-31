@@ -14,5 +14,5 @@ fn_set_game_params settings "servercfg" "\${servicename}.ini"
 fn_set_game_params settings "servercfgdir" "\${filesdir}"
 fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
 
-fn_set_game_params scriptactions "pw|change-password" "command_ts3_server_pass.sh" "Change Password."
+fn_set_game_params scriptactions "pw" "change-password|command_ts3_server_pass.sh|Change Password."
 
