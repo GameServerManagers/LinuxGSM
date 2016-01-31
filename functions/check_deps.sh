@@ -12,6 +12,10 @@ fn_deps_detector(){
 if [ -n "$(command -v dpkg-query)" ]; then
 	dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
 	depstatus=$?
+elif [ -n "$(command -v yum)" ]; then
+	yum -q list installed ${deptocheck} 2>/dev/null
+	depstatus=$?
+fi	
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
 	else
@@ -29,7 +33,11 @@ fi
 fn_deps_email(){
 # Adds postfix to required dependencies if email notification is enabled
 if [ "${emailnotification}" == "on" ]; then
-	array_deps_required+=( mailutils postfix )
+	if [ -n "$(command -v dpkg-query)" ]; then
+		array_deps_required+=( mailutils postfix )
+	elif [ -n "$(command -v yum)" ]; then
+		array_deps_required+=( mailx postfix )
+	fi	
 fi
 }
 
@@ -50,20 +58,35 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 		echo -en "...\r"
 		sleep 1
 		echo -en "   \r"	
-		sudo apt-get install ${array_deps_missing[@]}
-		exit 1
+		if [ -n "$(command -v dpkg-query)" ]; then
+			echo "sudo apt-get install ${array_deps_missing[@]}"
+		elif [ -n "$(command -v yum)" ]; then
+			echo "yum install ${array_deps_missing[@]}"
+		fi	
 	else
 		echo ""
 		fn_printinfomationnl "$(whoami) does not have sudo access. manually install dependencies"
 		echo ""
-		echo "sudo apt-get install ${array_deps_missing[@]}"
+		if [ -n "$(command -v dpkg-query)" ]; then
+			echo "sudo apt-get install ${array_deps_missing[@]}"
+		elif [ -n "$(command -v yum)" ]; then
+			echo "yum install ${array_deps_missing[@]}"
+		fi	
 		echo ""
-		exit 1
 	fi
 fi	
 }
 
+fn_check_loop(){
+	# Loop though required depenencies
+	for deptocheck in "${array_deps_required[@]}"
+	do
+		fn_deps_detector
+	done
 
+	# user to be informaed of any missing dependecies 
+	fn_found_missing_deps
+}
 
 # Check will only run if using apt-get or yum
 if [ -n "$(command -v dpkg-query)" ]; then
@@ -72,7 +95,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	fn_printdots "Checking dependencies"
 
 	# LGSM requirement for curl
-	array_deps_required=( curl )
+	array_deps_required=( curl ca-certificates )
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
@@ -84,7 +107,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 	fi
 
-# Game Specific requirements
+	# Game Specific requirements
 
 	# Spark
 	if [ "${engine}" ==  "spark" ]; then
@@ -92,6 +115,9 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# 7 Days to Die	
 	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
 		array_deps_required+=( telnet expect )
+	# No More Room in Hell	
+	elif [ "${gamename}" == "No More Room in Hell" ]
+		array_deps_required+=( lib32tinfo5 )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
@@ -108,13 +134,52 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		fi	
 	fi
 	fn_deps_email
+	fn_check_loop
 
-	# Loop though required depenencies
-	for deptocheck in "${array_deps_required[@]}"
-	do
-		fn_deps_detector
-	done
+elif [ -n "$(command -v yum)" ]; then
+	# Generate array of missing deps
+	array_deps_missing=()
+	fn_printdots "Checking dependencies"
 
-	# user to be informaed of any missing dependecies 
-	fn_found_missing_deps
+	# LGSM requirement for curl
+	array_deps_required=( curl )
+
+	# All servers except ts3 require tmux
+	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
+		array_deps_required+=( tmux )
+	fi
+
+	# All servers excelts ts3 & mumble require libstdc++6,lib32gcc1
+	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
+		array_deps_required+=( glibc.i686 libstdc++.i686 )
+	fi
+
+	# Game Specific requirements
+
+	# Spark
+	if [ "${engine}" ==  "spark" ]; then
+		array_deps_required+=( speex.i686 tbb.i686 )
+	# 7 Days to Die	
+	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
+		array_deps_required+=( telnet expect )
+	# No More Room in Hell	
+	elif [ "${gamename}" == "No More Room in Hell" ]
+		array_deps_required+=( ncurses-libs.i686 )
+	# Brainbread 2 and Don't Starve Together
+	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
+		array_deps_required+=( libcurl.i686 )
+	elif [ "${engine}" ==  "projectzomboid" ]; then
+		array_deps_required+=( java-1.7.0-openjdk )
+	# Unreal engine
+	elif [ "${executable}" ==  "./ucc-bin" ]; then
+		#UT2K4
+		if [ -f "${executabledir}/ut2004-bin" ]; then
+			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 unzip )
+		#UT99
+		else
+			array_deps_required+=( SDL.i686 bzip2 )
+		fi	
+	fi
+	fn_deps_email
+	fn_check_loop
 fi
