@@ -3,8 +3,34 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
+#
+# Modified by Jared Ballou <insurgency@jballou.com>
+# https://github.com/jaredballou/linuxgsm
 
-version="260116"
+# Version of script
+version="300116"
+
+# Filename of the core script for installation
+core_script="lgsm-core"
+
+# TODO: Add .lgsm.conf support to pre-load LGSM settings in the event of non-standard installations
+
+# Determine if we are running from a script file, or being piped into bash via curl
+if [ "${BASH_SOURCE[0]}" != "" ]; then
+	# The name of this script file, used to show the LGSM link properly
+	scriptpath=$(readlink -f "${BASH_SOURCE[0]}")
+	# The basename of the real script file
+	selfname=$(basename "${scriptpath}")
+	# Name of this service (will return symlink name for multiple instance support)
+	servicename="$(basename $0)"
+	# Script root directory
+	rootdir="$(dirname "${scriptpath}")
+else
+	scriptpath="$(pwd)/${core_script}"
+	selfname="${core_script}"
+	servicename="${core_script}"
+	rootdir="$(pwd)"
+fi
 
 # File fetching settings
 # Github Branch Select
@@ -14,21 +40,11 @@ githubuser="jaredballou"
 githubrepo="linuxgsm"
 githubbranch="master"
 
-# Update stale files on the fly using Git
+# Update stale files on the fly using Git.
 git_update=0
-
-#### Variables ####
-
-# The name of this script file, used to show the LGSM link properly
-selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
-
-# Name of this service (for symlinked instances)
-servicename="$(basename $0)"
 
 # Directories
 
-# Script root
-rootdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # LGSM Support Files - set ro rootdir for old behavior
 lgsmdir="${rootdir}/lgsm"
 # Temporary path to store and manipulate settings
@@ -47,9 +63,6 @@ for dir in $(grep '^[a-zA-Z0-9]*dir=' $0 | cut -d'=' -f1); do
 		mkdir -p "${!dir}"
 	fi
 done
-# Git last commit file (for tracking updates)
-lastcommit_file="${cachedir}/lastcommit"
-
 
 # Debugging, if debugflag exists send output to $debuglog
 debugflag="${lgsmdir}/.dev-debug"
@@ -59,6 +72,10 @@ if [ -f "${debugflag}" ]; then
 	BASH_XTRACEFD="5"
 	set -x
 fi
+
+# Git last commit file (for tracking updates)
+lastcommit_file="${cachedir}/lastcommit"
+
 
 #ipaddr=$(ip addr show $(ip route | grep '^default' | awk '{print $NF}') | grep 'inet ' | awk '{print $2}' | cut -f1  -d'/')
 
@@ -177,7 +194,7 @@ fn_getgithubfile "gsquery.py" norun "GameServerQuery/gsquery.py"
 # Load core functions
 fn_runfunction core_functions.sh
 
-if [ "${selfname}" == "lgsm-core" ];
+if [ "${selfname}" == "${core_script}" ];
 then
 	fn_runfunction install_lgsm.sh
 else

@@ -1,0 +1,19 @@
+# Game Settings File
+# mumbleserver
+# Mumble Server
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_parms(){
+	parms="-fg -ini ${servercfgfullpath}"
+}
+
+fn_set_game_params settings "gamename" "Mumble"
+fn_set_game_params settings "servicename" "mumble-server"
+fn_set_game_params settings "executable" "./murmur.x86"
+fn_set_game_params settings "servercfg" "murmur.ini"
+fn_set_game_params settings "servercfgdir" "\${filesdir}"
+
+fn_set_game_params scriptactions "console" "command_console.sh" "Console View."
+

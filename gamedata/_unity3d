@@ -3,7 +3,7 @@
 # Unity 3D Engine
 
 # Import default settings
-fn_import_game_settings _default
+fn_import_game_settings _steam
 
 fn_set_game_params settings "engine" "unity3d"
 # http://hurtworld.wikia.com/wiki/Hosting_A_Server

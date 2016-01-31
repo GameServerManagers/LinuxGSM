@@ -2,7 +2,7 @@
 # _avalanche
 # Avalanche Engine
 
-fn_import_game_settings _default
+fn_import_game_settings _steam
 
 # Dependencies
 fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"

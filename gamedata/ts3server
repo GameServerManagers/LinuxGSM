@@ -1,0 +1,18 @@
+# Game Settings File
+# ts3server
+# TeamSpeak 3 Server
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_set_game_params settings "gamename" "TeamSpeak 3"
+fn_set_game_params settings "servername" "TeamSpeak 3 Server"
+fn_set_game_params settings "servicename" "ts3-server"
+fn_set_game_params settings "executabledir" "\${filesdir}"
+fn_set_game_params settings "executable" "./ts3server_startscript.sh"
+fn_set_game_params settings "servercfg" "\${servicename}.ini"
+fn_set_game_params settings "servercfgdir" "\${filesdir}"
+fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
+
+fn_set_game_params scriptactions "pw|change-password" "command_ts3_server_pass.sh" "Change Password."
+

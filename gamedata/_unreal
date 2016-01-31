@@ -3,18 +3,9 @@
 # Unreal Engine
 
 # Import default settings
-fn_import_game_settings _default
+fn_import_game_settings _unreal_shared
 
 # This is the way we create a script that collates and parses the parameters
 fn_parms(){
 	parms=""
 }
-fn_set_game_params settings "systemdir" "\${filesdir}/System"
-fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
-fn_set_game_params settings "executabledir" "\${systemdir}"
-fn_set_game_params settings "executable" "./ucc-bin"
-fn_set_game_params settings "servercfg" "\${servicename}.ini"
-fn_set_game_params settings "servercfgdir" "\${systemdir}"
-fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/Default.ini"
-fn_set_game_params settings "compressedmapsdir" "${rootdir}/Maps-Compressed" "Compressed Maps Directory"

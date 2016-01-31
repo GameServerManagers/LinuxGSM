@@ -3,7 +3,7 @@
 # Project Zomboid Engine
 
 # Import default settings
-fn_import_game_settings _default
+fn_import_game_settings _steam
 
 # And the settings for defaults
 fn_set_game_params settings "engine" "projectzomboid"

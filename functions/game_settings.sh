@@ -76,7 +76,7 @@ fn_create_config(){
 	cfg_force=$2
 	cfg_file="cfg_file_${cfg_type}"
 	cfg_header="cfg_header_${cfg_type}"
-	
+
 	cfg_dir=$(dirname ${!cfg_file})
 	#If config directory does not exist, create it
 	if [ ! -e $cfg_dir ]; then mkdir -p $cfg_dir; fi

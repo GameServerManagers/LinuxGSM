@@ -13,3 +13,5 @@ fn_set_game_params parms_plus "tv_port" "\${sourcetvport}"
 
 # These are values that the script uses, they don't get used by the srcds server directly
 fn_set_game_params settings "executable" "./srcds_linux"
+
+fn_set_game_params scriptactions "sm|sourcemod" "install_sourcemod.sh" "Install SourceMod."

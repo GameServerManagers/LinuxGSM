@@ -6,7 +6,6 @@
 fn_set_game_params settings "dependency_path" "${filesdir}"
 
 # Default settings. This group includes a lot of blanks just so that the comments are set (and the engine/game files will show blank values to remind people to set them).
-fn_set_game_params settings "appid" "--EMPTY--" "Steam App ID"
 fn_set_game_params settings "backupdir" "\${lgsmdir}/backups" "Backup Directory"
 fn_set_game_params settings "defaultmap" "--EMPTY--" "Default map to load"
 fn_set_game_params settings "email" "email@example.com" "Email address for notification"
@@ -22,9 +21,6 @@ fn_set_game_params settings "lockselfname" ".\${servicename}.lock" "LGSM Lock Fi
 fn_set_game_params settings "logdays" "7" "Number of days to retain logs"
 fn_set_game_params settings "maxplayers" "--EMPTY--" "Maximum player count"
 fn_set_game_params settings "port" "--EMPTY--" "Port to bind for server"
-fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
-fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
-fn_set_game_params settings "updateonstart" "off" "Update game on start"
 
 # These settings are in a second group, since they reference the first group.
 fn_set_game_params settings "consolelogdir" "\${lgsmdir}/log/console" "Console Log Dir"
@@ -46,6 +42,22 @@ fn_set_game_params settings "servercfgdir" "\${systemdir}/cfg" "Server config di
 fn_set_game_params settings "servercfg" "\${servicename}\${servercfg_suffix}" "Server config file for this instance"
 fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default\${servercfg_suffix}" "Default server configuration file"
 fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}" "Full path to server config"
+
+# Script actions
+fn_set_game_params scriptactions "st|start" "command_start.sh" "Start the server."
+fn_set_game_params scriptactions "sp|stop" "command_stop.sh" "Stop the server."
+fn_set_game_params scriptactions "r|restart" "fn_restart" "Restart the server."
+fn_set_game_params scriptactions "dd|depsdetect" "command_dev_detect_deps.sh" "Detect Dependencies"
+fn_set_game_params scriptactions "u|update" "update_check.sh" "Checks and applies updates from SteamCMD."
+fn_set_game_params scriptactions "uf|update-functions" "update_functions.sh" "Removes all functions so latest can be downloaded."
+fn_set_game_params scriptactions "m|monitor" "command_monitor.sh" "Checks that the server is running."
+fn_set_game_params scriptactions "et|email-test" "command_email_test.sh" "Sends test monitor email."
+fn_set_game_params scriptactions "d|details" "command_details.sh" "Displays useful infomation about the server."
+fn_set_game_params scriptactions "d|debug" "command_debug.sh" "See the output of the server directly to your terminal."
+fn_set_game_params scriptactions "dev|dev-debug" "command_dev_debug.sh" "Toggle Developer Debug mode"
+fn_set_game_params scriptactions "i|install" "command_install.sh" "Install the server."
+fn_set_game_params scriptactions "ai|auto-install" "fn_autoinstall" "Install the server, without prompts."
+fn_set_game_params scriptactions "b|backup" "command_backup.sh" "Create archive of the server."
 
 # Default fn_parms just loads the parms file. Still need to figure out how to handle "simple" parms.
 fn_parms(){

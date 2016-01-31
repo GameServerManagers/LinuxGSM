@@ -3,6 +3,7 @@
 #
 
 # Import Engine
+fn_import_game_settings _steam
 fn_import_game_settings _unreal4
 
 fn_parms(){

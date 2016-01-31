@@ -1,5 +1,6 @@
 # Game Settings File
 # Import Engine
+fn_import_game_settings _steam
 fn_import_game_settings _unreal2
 
 fn_parms(){

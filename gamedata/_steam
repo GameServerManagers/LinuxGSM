@@ -1,0 +1,17 @@
+# Game Settings File
+# _steam
+# Steam based games
+
+# Import default settings
+fn_import_game_settings _default
+
+fn_set_game_params settings "appid" "--EMPTY--" "Steam App ID"
+fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
+fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
+fn_set_game_params settings "updateonstart" "off" "Update game on start"
+
+# Script actions
+fn_set_game_params scriptactions "fu|force-update|update-restart" "forceupdate=1; update_check.sh" "Bypasses the check and applies updates from SteamCMD."
+fn_set_game_params scriptactions "v|validate" "command_validate.sh" "Validate server files with SteamCMD."
+fn_set_game_params scriptactions "c|console" "command_console.sh" "Console allows you to access the live view of a server."
+
