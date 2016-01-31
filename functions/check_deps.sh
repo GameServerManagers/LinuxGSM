@@ -72,39 +72,39 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	fn_printdots "Checking dependencies"
 
 	# LGSM requirement for curl
-	local array_deps_required=( curl )
+	array_deps_required=( curl )
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
-		local array_deps_required+=( tmux )
+		array_deps_required+=( tmux )
 	fi
 
 	# All servers excelts ts3 & mumble require libstdc++6,lib32gcc1
 	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
-		local array_deps_required+=( lib32gcc1 libstdc++6:i386 )
+		array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 	fi
 
 # Game Specific requirements
 
 	# Spark
 	if [ "${engine}" ==  "spark" ]; then
-		local array_deps_required+=( speex:i386 libtbb2 )
+		array_deps_required+=( speex:i386 libtbb2 )
 	# 7 Days to Die	
 	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
-		local array_deps_required+=( telnet expect )
+		array_deps_required+=( telnet expect )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
-		local array_deps_required+=( libcurl4-gnutls-dev:i386 )
-	if [ "${engine}" ==  "projectzomboid" ]; then
-		local array_deps_required+=( openjdk-7-jre )
+		array_deps_required+=( libcurl4-gnutls-dev:i386 )
+	elif [ "${engine}" ==  "projectzomboid" ]; then
+		array_deps_required+=( openjdk-7-jre )
 	# Unreal engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
-			local array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 unzip )
+			array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 unzip )
 		#UT99
 		else
-			local array_deps_required+=( libsdl1.2debian bzip2 )
+			array_deps_required+=( libsdl1.2debian bzip2 )
 		fi
 	else
 		fn_printfail "Unknown executable"
