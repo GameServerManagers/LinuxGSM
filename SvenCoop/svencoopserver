@@ -1,5 +1,5 @@
 #!/bin/bash
-# Insurgency
+# Sven Co-op
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
@@ -23,19 +23,16 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="ministry"
+defaultmap="svencoop1"
 maxplayers="16"
-tickrate="64"
 port="27015"
-sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
-workshop="0"
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game insurgency -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers} +sv_workshop_enabled ${workshop}"
+parms="-game svencoop -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -48,23 +45,23 @@ githubrepo="linuxgsm"
 githubbranch="master"
 
 # Steam
-appid="237410"
+appid="276060"
 
 # Server Details
-servicename="ins-server"
-gamename="Insurgency"
-engine="source"
+servicename="svencoop-server"
+gamename="Sven Co-op"
+engine="goldsource"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/insurgency"
+systemdir="${filesdir}/svencoop"
 executabledir="${filesdir}"
-executable="./srcds_linux"
+executable="./svends_run"
 servercfg="${servicename}.cfg"
-servercfgdir="${systemdir}/cfg"
+servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
