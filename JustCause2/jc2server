@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="271215"
+version="010216"
 
 #### Variables ####
 
@@ -24,6 +24,7 @@ steampass=""
 
 # Start Variables
 updateonstart="off"
+startonmonitor="off"
 
 fn_parms(){
 parms=""
