@@ -81,6 +81,9 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 		fi	
 		echo ""
 	fi
+	if [ "${function_selfname}" == "command_install.sh" ]; then
+		sleep 5
+	fi
 fi	
 }
 
