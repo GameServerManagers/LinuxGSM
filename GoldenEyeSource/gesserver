@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="271215"
+version="010216"
 
 #### Variables ####
 export MALLOC_CHECK_=0
@@ -32,6 +32,7 @@ sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
+startonmonitor="off"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
