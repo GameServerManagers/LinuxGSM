@@ -188,7 +188,6 @@ sleep 1
 # Checks currentbuild info is available, if fails a server restart will be forced to generate logs
 if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 	fn_printfail "Checking for update: teamspeak.com"
-	fn_scriptlog "Checking for update: teamspeak.com"
 	sleep 1
 	fn_printfailnl "Checking for update: teamspeak.com: No logs with server version found"
 	fn_scriptlog "Failure! Checking for update: teamspeak.com: No logs with server version found"

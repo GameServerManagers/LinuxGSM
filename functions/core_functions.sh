@@ -2,7 +2,7 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060116"
+lgsm_version="170116"
 
 # Description: Defines all functions to allow download and execution of functions using fn_runfunction.
 # This function is called first before any other function. Without this file other functions would not load.
@@ -107,6 +107,11 @@ fn_runfunction
 }
 
 check_config.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+check_deps.sh(){
 functionfile="${FUNCNAME}"
 fn_runfunction
 }
