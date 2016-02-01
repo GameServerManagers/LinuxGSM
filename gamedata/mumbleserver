@@ -15,5 +15,8 @@ fn_set_game_params settings "executable" "./murmur.x86"
 fn_set_game_params settings "servercfg" "murmur.ini"
 fn_set_game_params settings "servercfgdir" "\${filesdir}"
 
+# Mumble has no installer. Derp!
+fn_set_game_params scriptactions "i" "--UNSET--"
+
 fn_set_game_params scriptactions "c" "console|command_console.sh|Console View."
 
