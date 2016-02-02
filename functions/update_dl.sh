@@ -51,7 +51,7 @@ else
 fi
 echo -e "copying to ${filesdir}...\c"
 fn_scriptlog "Copying to ${filesdir}"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
+cp -R "${rootdir}/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -66,7 +66,7 @@ else
 	exit ${status}
 fi
 rm -f teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2
-rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
+rm -rf "${rootdir}/teamspeak3-server_linux_${ts3arch}"
 }
 
 check.sh
