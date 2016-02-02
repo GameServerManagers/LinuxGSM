@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="121215"
+version="010216"
 
 #### Variables ####
 
@@ -25,6 +25,7 @@ steampass=""
 # Start Variables
 ip="0.0.0.0"
 updateonstart="off"
+startonmonitor="off"
 
 # https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/SeriousSam3BFE/help/DedicatedServer_Readme.txt
 fn_parms(){

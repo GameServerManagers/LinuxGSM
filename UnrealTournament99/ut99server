@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="121215"
+version="010216"
 
 #### Variables ####
 
@@ -21,6 +21,7 @@ email="email@example.com"
 # Start Variables
 defaultmap="DM-Deck16]["
 ip="0.0.0.0"
+startonmonitor="off"
 
 fn_parms(){
 parms="server ${defaultmap}.unr ini=${servercfgfullpath}"

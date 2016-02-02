@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="271215"
+version="010216"
 
 #### Variables ####
 
@@ -32,6 +32,7 @@ maxplayers="20"
 map="" #Optional
 creativemode="0" #Free Build
 logfile="gamelog.txt"
+startonmonitor="off"
 
 # Adding admins using STEAMID64
 # Example : addadmin 012345678901234567; addadmin 987654321098765432

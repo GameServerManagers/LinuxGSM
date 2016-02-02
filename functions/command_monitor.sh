@@ -60,12 +60,21 @@ fn_printdots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 if [ ! -f "${rootdir}/${lockselfname}" ]; then
-	fn_printinfo "Disabled: No lock file found"
-	fn_scriptlog "Disabled: No lock file found"
-	sleep 1
-	echo -en "\n"
-	echo "To enable monitor run ./${selfname} start"
-	exit 1
+	if [ ${startonmonitor} == "on" ]; then
+		fn_printinfo "No lock file found"
+		fn_scriptlog "No lock file found"
+		sleep 1
+		echo -en "\n"
+		fn_scriptlog "Monitor is starting ${servername}"
+		command_start.sh
+	else
+		fn_printinfo "Disabled: No lock file found"
+		fn_scriptlog "Disabled: No lock file found"
+		sleep 1
+		echo -en "\n"
+		echo "To enable monitor run ./${selfname} start"
+		exit 1
+	fi
 fi
 
 updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)

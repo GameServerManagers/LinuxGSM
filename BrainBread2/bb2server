@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="090116"
+version="010216"
 
 #### Variables ####
 
@@ -30,6 +30,7 @@ sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
+startonmonitor="off"
 
 # Required: Game Server Login Token
 # GSLT is required for running a public server.

@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="271215"
+version="010216"
 
 #### Variables ####
 
@@ -36,6 +36,7 @@ configpath="server1"
 modstorage="server1/Workshop"
 mods=""
 password=""
+startonmonitor="off"
 # Add the following line to the parms if you want a private server. Ensuring
 # that the password variable above is not left empty.
 # -password \"${password}\"
