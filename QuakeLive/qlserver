@@ -35,7 +35,7 @@ updateonstart="off"
 # Install/Config Guide : https://steamcommunity.com/sharedfiles/filedetails/?id=542966946
 # Console Commands : http://www.regurge.at/ql/
 fn_parms(){
-	parms="+set net_strict 1 +set net_ip 0.0.0.0 +set net_port ${gameport} +set fs_homepath ${filesdir}/${gameport} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rcon_password} +set zmq_stats_enable 1 +set zmq_stats_password ${stats_password} +set zmq_stats_port ${gameport} +set sv_mapPoolFile ${mappool} +exec ${servercfg} "
+	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${gameport} +set fs_homepath ${filesdir}/${gameport} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rcon_password} +set zmq_stats_enable 1 +set zmq_stats_password ${stats_password} +set zmq_stats_port ${gameport} +set sv_mapPoolFile ${mappool} +exec ${servercfg} "
 }
 
 #### Advanced Variables ####
