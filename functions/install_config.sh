@@ -278,6 +278,12 @@ elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	wget -N /dev/null ${githuburl}/PiratesVikingandKnightsII/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig	
+elif [ "${gamename}" == "Quake Live" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/QuakeLive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
+	fn_userinputconfig
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
