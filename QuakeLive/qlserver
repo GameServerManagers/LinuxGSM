@@ -26,13 +26,16 @@ steampass=""
 # Start Variables
 gameport="27960"
 rconport="28960"
+rcon_password='ch@ng3me'
+stats_password='ch@ng3me'
+mappool='mappool.txt'
 ip="0.0.0.0"
 updateonstart="off"
 
 # Install/Config Guide : https://steamcommunity.com/sharedfiles/filedetails/?id=542966946
 # Console Commands : http://www.regurge.at/ql/
 fn_parms(){
-	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${gameport} +set zmq_rcon_port ${rconport} +set fs_homepath ${filesdir} +exec ${servercfg}"
+	parms="+set net_strict 1 +set net_ip 0.0.0.0 +set net_port ${gameport} +set fs_homepath ${filesdir}/${gameport} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rcon_password} +set zmq_stats_enable 1 +set zmq_stats_password ${stats_password} +set zmq_stats_port ${gameport} +set sv_mapPoolFile ${mappool} +exec ${servercfg} "
 }
 
 #### Advanced Variables ####
@@ -48,7 +51,7 @@ githubbranch="master"
 appid="349090"
 
 # Server Details
-servicename="quakelive-server"
+servicename="ql-server"
 gamename="Quake Live"
 engine="idtech3"
 
