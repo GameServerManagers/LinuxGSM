@@ -41,14 +41,13 @@ dl_url=$3
 dl_md5=$4
 
 if [ ! -f "${dl_filepath}/${dl_filename}" ]||[ -n "${retry_dl}" ]; then
-	echo -ne "downloading ${dl_filename}...\c"
-
-	dl=$(curl --fail -o "${dl_filepath}/${dl_filename}" "${dl_url}" 2>&1)
+	echo -e "downloading ${dl_filename}..."
+	dl=$(curl --progress-bar --fail -o "${dl_filepath}/${dl_filename}" "${dl_url}")
 	exitcode=$?
+	echo -ne "downloading ${dl_filename}...\c"
 	if [ ${exitcode} -ne 0 ]; then
 		fn_printfaileol
-		echo "${dl}"
-		echo -e "${url}\n"
+		echo -e "${dl_url}\n"
 		exit ${exitcode}
 	else
 		fn_printokeol
