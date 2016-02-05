@@ -21,7 +21,7 @@ array_contains () {
 
 check_root.sh
 
-if [ "${function_selfname}" != "command_install.sh" ]||[ "${function_selfname}" != "update_functions.sh" ]; then
+if [ "${function_selfname}" != "command_install.sh" ] && [ "${function_selfname}" != "update_functions.sh" ]; then
 	check_systemdir.sh
 fi
 
