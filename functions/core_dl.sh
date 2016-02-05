@@ -63,8 +63,8 @@ else
 		[Nn]* ) break;;
 		* ) echo "Please answer yes or no.";;
 	esac
-	done	
-else
+	done
+fi	
 
 
 fn_dl_md5
