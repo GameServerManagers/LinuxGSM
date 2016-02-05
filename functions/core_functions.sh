@@ -32,6 +32,11 @@ functionfile="${FUNCNAME}"
 fn_runfunction
 }
 
+core_dl.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction	
+}
+
 
 # Command
 
@@ -400,3 +405,6 @@ fn_runfunction
 
 # Calls on-screen messages
 core_messages.sh
+
+#Calls file downloader
+core_dl.sh
