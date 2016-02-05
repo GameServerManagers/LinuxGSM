@@ -208,7 +208,14 @@ fi
 currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egrep -E -v '${rootdir}/.ts3version' | tail -1) | egrep -o 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 
 # Gets the teamspeak server architecture
-ts3arch=$(ls $(find ${filesdir}/ -name 'ts3server_*_*' 2> /dev/null | grep -v 'ts3server_minimal_runscript.sh' | sort | tail -1) | egrep -o '(amd64|x86)' | tail -1)
+if [ "${arch}" == "x86_64" ]; then
+	ts3arch="amd64"
+elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
+	ts3arch="x86"
+else
+	fn_printfailure "${arch} is an unsupported architecture"
+	exit 1
+fi
 
 # Gets availablebuild info
 
