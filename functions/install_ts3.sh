@@ -65,7 +65,7 @@ else
 	exit $?
 fi
 echo -e "copying to ${filesdir}...\c"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> ".${servicename}-cp-error.tmp"
+cp -R "${rootdir}/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}" 2> ".${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -77,4 +77,4 @@ else
 	exit $?
 fi
 rm -f "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
-rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
+rm -rf "${rootdir}/teamspeak3-server_linux_${ts3arch}"
