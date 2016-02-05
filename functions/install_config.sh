@@ -2,7 +2,7 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="100116"
 
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
@@ -165,6 +165,11 @@ elif [ "${gamename}" == "ARMA 3" ]; then
 	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.network.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_arma3config
+elif [ "${gamename}" == "BrainBread 2" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/BrainBread2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig	
 elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/BlackMesa/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

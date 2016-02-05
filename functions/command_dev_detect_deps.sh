@@ -35,10 +35,12 @@ elif [ "${executable}" ==  "./ts3server_startscript.sh" ]; then
 	executable=ts3server_linux_amd64	
 fi
 
-if [ -n "$(command -v eu-readelf)" ]; then
+if [ "$(command -v eu-readelf)" ]; then
 	readelf=eu-readelf
-else
+elif [ "$(command -v readelf)" ];
 	readelf=readelf
+else
+	echo "readelf/eu-readelf not installed"	
 fi
 
 ${readelf} -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > "${rootdir}/.depdetect_readelf"

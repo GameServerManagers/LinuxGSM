@@ -586,6 +586,7 @@ info_distro.sh
 info_glibc.sh
 fn_details_os
 fn_details_performance
+fn_details_disk
 fn_details_gameserver
 fn_details_backup
 # Some game servers do not have parms.

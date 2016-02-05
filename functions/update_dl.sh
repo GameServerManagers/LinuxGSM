@@ -2,7 +2,7 @@
 # LGSM update_dl.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="020216"
 
 # Description: Runs a server update.
 
@@ -29,13 +29,13 @@ fix.sh
 
 fn_teamspeak3_dl(){
 cd "${rootdir}"
-echo -e "downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
-fn_scriptlog "Downloading teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
-wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux-${ts3arch}-${ts3_version_number}.tar.gz 2>&1 | grep -F HTTP | cut -c45-| uniq
+echo -e "downloading teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2...\c"
+fn_scriptlog "Downloading teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
+wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2 2>&1 | grep -F HTTP | cut -c45-| uniq
 sleep 1
-echo -e "extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz...\c"
-fn_scriptlog "Extracting teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz"
-tar -xf "teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz" 2> "${scriptlogdir}/.${servicename}-tar-error.tmp"
+echo -e "extracting teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2...\c"
+fn_scriptlog "Extracting teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
+tar -xf "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" 2> "${scriptlogdir}/.${servicename}-tar-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -51,7 +51,7 @@ else
 fi
 echo -e "copying to ${filesdir}...\c"
 fn_scriptlog "Copying to ${filesdir}"
-cp -R "${rootdir}/teamspeak3-server_linux-${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
+cp -R "${rootdir}/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}" 2> "${scriptlogdir}/.${servicename}-cp-error.tmp"
 local status=$?
 if [ ${status} -eq 0 ]; then
 	echo "OK"
@@ -65,8 +65,8 @@ else
 	fn_scriptlog "Failure! Unable to update"
 	exit ${status}
 fi
-rm -f teamspeak3-server_linux-${ts3arch}-${availablebuild}.tar.gz
-rm -rf "${rootdir}/teamspeak3-server_linux-${ts3arch}"
+rm -f teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2
+rm -rf "${rootdir}/teamspeak3-server_linux_${ts3arch}"
 }
 
 check.sh

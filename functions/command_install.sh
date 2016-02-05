@@ -9,7 +9,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 install_header.sh
 install_serverdir.sh
-
+check_deps.sh 
 # Download and install
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_dl_ut2k4.sh
@@ -30,11 +30,9 @@ fix.sh
 install_logs.sh
 install_gsquery.sh
 install_config.sh
-if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3db.sh
-elif [ "${gamename}" == "Team Fortress 2" ]; then
-	install_gslt.sh
 fi
 install_complete.sh
