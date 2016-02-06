@@ -2,7 +2,7 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="310116"
+lgsm_version="060216"
 
 # Description: Checks that the requires dependencies are installed for LGSM.
 
@@ -118,9 +118,13 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		array_deps_required+=( tmux )
 	fi
 
-	# All servers excelts ts3 & mumble require libstdc++6,lib32gcc1
+	# All servers except ts3 & mumble require libstdc++6, lib32gcc1
 	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
-		array_deps_required+=( lib32gcc1 libstdc++6:i386 )
+		if [ "${arch}" == "x86_64" ]; then
+			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
+		else
+			array_deps_required+=( libstdc++6:i386 )
+		fi	
 	fi
 
 	# Game Specific requirements
@@ -164,7 +168,7 @@ elif [ -n "$(command -v yum)" ]; then
 		array_deps_required+=( tmux )
 	fi
 
-	# All servers excelts ts3 & mumble require libstdc++6,lib32gcc1
+	# All servers excelts ts3 & mumble require glibc.i686 libstdc++.i686
 	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
 		array_deps_required+=( glibc.i686 libstdc++.i686 )
 	fi
