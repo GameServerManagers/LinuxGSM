@@ -2,7 +2,7 @@
 # LGSM update_check.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="050216"
+lgsm_version="060216"
 
 # Description: Checks if a server update is available.
 
@@ -89,6 +89,7 @@ if [ "${requestrestart}" -ge "1" ]; then
 	sleep 1
 	echo -ne "\n"
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
+	unset updateonstart
 	if [ "${tmuxwc}" -eq 1 ]; then
 		command_stop.sh
 		update_dl.sh
@@ -156,6 +157,7 @@ if [ "${currentbuild}" != "${availablebuild}" ]; then
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
 
 	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
+	unset updateonstart
 	if [ "${tmuxwc}" -eq 1 ]; then
 		command_stop.sh
 		update_dl.sh
@@ -283,6 +285,7 @@ if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 	fn_scriptlog "${currentbuild} > ${availablebuild}"
+	unset updateonstart
 	info_ts3status.sh
 	if [ "${ts3status}" = "No server running (ts3server.pid is missing)" ]; then
 		update_dl.sh
