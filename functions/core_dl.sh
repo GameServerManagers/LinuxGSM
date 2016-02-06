@@ -41,7 +41,7 @@ dl_url=$3
 dl_md5=$4
 
 if [ ! -f "${dl_filepath}/${dl_filename}" ]||[ -n "${retry_dl}" ]; then
-	echo -e "downloading ${dl_filename}..."
+	echo -ne "downloading ${dl_filename}..."
 	dl=$(curl --progress-bar --fail -o "${dl_filepath}/${dl_filename}" "${dl_url}")
 	exitcode=$?
 	echo -ne "downloading ${dl_filename}...\c"
@@ -53,7 +53,7 @@ if [ ! -f "${dl_filepath}/${dl_filename}" ]||[ -n "${retry_dl}" ]; then
 		fn_printokeol
 	fi
 else	
-	echo -ne "${dl_filename} already exists...\c"
+	echo -e "${dl_filename} already exists...\c"
 	fn_dl_md5
 	while true; do
 		read -e -i "n" -p "Download again? [y/N]" yn
