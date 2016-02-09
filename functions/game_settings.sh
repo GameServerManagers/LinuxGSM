@@ -18,6 +18,13 @@ cfg_header_default="# Default config - Changes will be overwritten by updates.\n
 cfg_header_common="# Common config - Will not be overwritten by script.\n${cfg_header_all}"
 cfg_header_instance="# Instance Config for ${servicename} - Will not be overwritten by script.\n${cfg_header_all}"
 
+# Settings file created from gamedata
+settings_file="${settingsdir}/settings"
+
+# Get the MD5 hash of a file
+fn_get_md5sum() {
+	md5sum "${1}" 2>/dev/null| awk '{print $1}'
+}
 
 # If default config does not exist, create it. This should come from Git, and will be overwritten by updates.
 # Rather than try to wget it from Github or other fancy ways to get it, the simplest way to ensure it works is to simply create it here.
@@ -71,9 +78,11 @@ fn_update_config()
 	fi
 }
 
+# Create config file
 fn_create_config(){
 	cfg_type=${1:-default}
 	cfg_force=$2
+	# Look up file and header for cfg_type
 	cfg_file="cfg_file_${cfg_type}"
 	cfg_header="cfg_header_${cfg_type}"
 
@@ -92,6 +101,7 @@ fn_create_config(){
 	fi
 }
 
+# Delete all output files from the settings parser
 fn_flush_game_settings(){
 	if [ -e $settingsdir ]; then
 		rm -rf $settingsdir > /dev/null
@@ -99,6 +109,7 @@ fn_flush_game_settings(){
 	mkdir -p $settingsdir
 }
 
+# Pull in another gamedata file
 fn_import_game_settings(){
 	import="${gamedatadir}/${1}"
 	importdir=$(echo "${gamedatadir}" | sed -e "s|${lgsmdir}/||g")
@@ -110,6 +121,7 @@ fn_import_game_settings(){
 	source $import
 }
 
+# Set variable in setting file
 fn_set_game_setting(){
 	setting_set=$1
 	setting_name=$2
@@ -118,6 +130,7 @@ fn_set_game_setting(){
 	fn_update_config "${setting_name}" "${setting_value}" "${settingsdir}/${setting_set}" "${setting_comment}"
 }
 
+# Set parameter and make sure there is a config setting tied to it
 fn_set_game_parm(){
 	setting_set=$1
 	setting_name=$2
@@ -127,6 +140,7 @@ fn_set_game_parm(){
 	fn_update_config "${setting_name}" "\${${setting_name}}" "${settingsdir}/${setting_set}" ""
 }
 
+# Get value from settings file
 fn_get_game_setting(){
 	setting_set=$1
 	setting_name=$2
@@ -152,29 +166,34 @@ fn_fix_game_dependencies() {
 		md5sum=$(echo $line | cut -d'"' -f2)
 		remote_path="dependencies/${filename}.${md5sum}"
 		local_path="${dependency_path}/${filename}"
-		local_md5="$(md5sum "${local_path}" | awk '{print $1}')"
+		local_md5="$(fn_get_md5sum "${local_path}")"
 		echo "Checking ${filename} for ${md5sum}"
 		if [ "${local_md5}" != "${md5sum}" ]; then
 			fn_getgithubfile "${local_path}" 0 "${remote_path}" 1
 		fi
 	done < $depfile
 }
+
+
 # Flush old setings buffer
 fn_flush_game_settings
+
+# Get the checksum of the current settings file to compare after loading gamedata
+settings_file_md5="$(fn_get_md5sum "${settings_file}")"
 
 # Import this game's settings
 fn_import_game_settings $selfname
 
-# New method is to always run this function, it will overwrite defaults with whatever the new script values are
-cfg_version_default=$(grep '^lgsm_version="' "${cfg_file_default}" 2>&1 | cut -d'"' -f2)
-if [ "${cfg_version_default}" != "${version}" ]; then
+# Compare the original MD5 hash with the settings file now that we have processed all gamedata.\
+# If there is a change or the config is missing, rebuild the default config
+if [ "${settings_file_md5}" != "$(fn_get_md5sum "${settings_file}")" ] || [ ! -e "${cfg_file_default}" ]; then
 	fn_create_config default 1
 fi
 
-# Load defaults
+# Load default config
 source $cfg_file_default
 
-# Load sitewide common settings (so that Git updates can safely overwrite default.cfg)
+# Load sitewide common settings (so that Git updates can safely overwrite _default.cfg)
 if [ ! -f $cfg_file_common ]; then fn_create_config common; else source $cfg_file_common; fi
 
 # Load instance specific settings

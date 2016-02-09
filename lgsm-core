@@ -51,6 +51,9 @@ lgsmdir="${rootdir}/lgsm"
 # lgsmserverdir is the directory for this server's support files
 lgsmserverdir="${lgsmdir}/servers/${selfname}"
 
+# Log directory
+logdir="${lgsmdir}/servers/${selfname}/log"
+
 # Temporary path to store and manipulate settings
 settingsdir="${lgsmserverdir}/settings"
 
@@ -207,6 +210,9 @@ then
 else
 	# Process game configs and load variables needed to run script
 	fn_runfunction game_settings.sh
+
+	# Create log directories
+	fn_runfunction log_dirs.sh
 
 	# Get option from command line and run option parser
 	getopt=$1

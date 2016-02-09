@@ -13,6 +13,7 @@ fn_set_game_setting dependencies  "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db
 fn_set_game_setting dependencies  "librt.so.1" "eabf0fc1f81292270343bd0796fc64ca"
 
 # Override some server settings
+fn_set_game_setting settings "executable" "./srcds_linux"
 fn_set_game_setting settings "appid" "237410"
 fn_set_game_setting settings "map" "ministry checkpoint"
 fn_set_game_setting settings "game" "insurgency"

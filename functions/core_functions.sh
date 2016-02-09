@@ -331,7 +331,10 @@ fn_runfunction "${FUNCNAME}"
 
 install_logs.sh(){
 fn_runfunction "${FUNCNAME}"
+}
 
+log_dirs.sh(){
+fn_runfunction "${FUNCNAME}"
 }
 
 install_retry.sh(){
