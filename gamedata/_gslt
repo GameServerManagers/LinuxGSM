@@ -1,5 +1,4 @@
 # Game Settings File
 # Game Server Login Token Support
 
-fn_set_game_params settings "gslt" "--EMPTY--" "Required: Game Server Login Token. GSLT is required for running a public server. More info: http://gameservermanagers.com/gslt"
-fn_set_game_params parms_plus "sv_setsteamaccount" "\${gslt}"
+fn_set_game_parm parms_plus "sv_setsteamaccount" "--EMPTY--" "Required: Game Server Login Token. GSLT is required for running a public server. More info: http://gameservermanagers.com/gslt"

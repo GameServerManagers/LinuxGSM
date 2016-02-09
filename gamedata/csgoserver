@@ -6,22 +6,17 @@
 fn_import_game_settings _source
 fn_import_game_settings _gslt
 fn_import_game_settings _workshop
+fn_import_game_settings _mapcyclefile
 
 # Override some server settings
-fn_set_game_params settings "appid" "740"
-fn_set_game_params settings "defaultmap" "de_dust2"
-fn_set_game_params settings "game" "csgo"
-fn_set_game_params settings "mapcyclefile" "--UNSET--"
-fn_set_game_params settings "gamename" "Counter Strike: Global Offensive"
-fn_set_game_params settings "mapgroup" "random_classic" "Map Group. See https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server"
-fn_set_game_params settings "gametype" "0" "Game Type. Set to: Arms Race 1 Classic Casual 0 Classic Competitive 0 Demolition 1 Deathmatch 1"
-fn_set_game_params settings "gamemode" "0" "Game Mode. Set to: Arms Race 0 Classic Casual 0 Classic Competitive 1 Demolition 1 Deathmatch 2"
+fn_set_game_setting settings "appid" "740"
+fn_set_game_setting settings "game" "csgo"
+fn_set_game_setting settings "gamename" "Counter Strike: Global Offensive"
 
 # The parms that start with - go first
-fn_set_game_params parms_minus "usercon" "--EMPTY--"
-fn_set_game_params parms_minus "maxplayers_override" "\${maxplayers}"
-
-# Then the parms that start with +
-fn_set_game_params parms_plus "mapgroup" "\${mapgroup}"
-fn_set_game_params parms_plus "game_mode" "\${gamemode}"
-fn_set_game_params parms_plus "game_type" "\${gametype}"
+fn_set_game_parm parms_minus "usercon" "--EMPTY--" "User Console"
+fn_set_game_parm parms_minus "maxplayers_override" "\${maxplayers}" "Max Players Override"
+fn_set_game_parm parms_plus "mapgroup" "random_classic" "Map Group. See https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server"
+fn_set_game_parm parms_plus "game_mode" "0" "Game Mode. Set to: Arms Race 0 Classic Casual 0 Classic Competitive 1 Demolition 1 Deathmatch 2"
+fn_set_game_parm parms_plus "game_type" "0" "Game Type. Set to: Arms Race 1 Classic Casual 0 Classic Competitive 0 Demolition 1 Deathmatch 1"
+fn_set_game_parm parms_plus "map" "de_dust2"

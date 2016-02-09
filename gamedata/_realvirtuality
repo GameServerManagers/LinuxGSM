@@ -6,17 +6,17 @@
 fn_import_game_settings _steam
 
 # Dependencies
-fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_set_game_setting dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
 
 # Game settings
-fn_set_game_params settings "engine" "realvirtuality"
-fn_set_game_params settings "systemdir" "\${filesdir}"
-fn_set_game_params settings "executabledir" "\${filesdir}"
-fn_set_game_params settings "executable" "./arma3server"
-fn_set_game_params settings "servercfg" "\${servicename}.server.cfg"
-fn_set_game_params settings "networkcfg" "\${servicename}.network.cfg"
-fn_set_game_params settings "servercfgdir" "\${systemdir}/cfg"
-fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_params settings "networkcfgfullpath" "\${servercfgdir}/\${networkcfg}"
-fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.server.cfg"
-fn_set_game_params settings "networkcfgdefault" "\${servercfgdir}/lgsm-default.network.cfg"
+fn_set_game_setting settings "engine" "realvirtuality"
+fn_set_game_setting settings "systemdir" "\${filesdir}"
+fn_set_game_setting settings "executabledir" "\${filesdir}"
+fn_set_game_setting settings "executable" "./arma3server"
+fn_set_game_setting settings "servercfg" "\${servicename}.server.cfg"
+fn_set_game_setting settings "networkcfg" "\${servicename}.network.cfg"
+fn_set_game_setting settings "servercfgdir" "\${systemdir}/cfg"
+fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_setting settings "networkcfgfullpath" "\${servercfgdir}/\${networkcfg}"
+fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.server.cfg"
+fn_set_game_setting settings "networkcfgdefault" "\${servercfgdir}/lgsm-default.network.cfg"

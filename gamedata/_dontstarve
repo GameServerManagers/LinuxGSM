@@ -6,16 +6,16 @@
 fn_import_game_settings _steam
 
 # And the settings for defaults
-fn_set_game_params settings "engine" "dontstarve"
-fn_set_game_params settings "game" "dontstarve"
-fn_set_game_params settings "gamename" "Don't Starve"
+fn_set_game_setting settings "engine" "dontstarve"
+fn_set_game_setting settings "game" "dontstarve"
+fn_set_game_setting settings "gamename" "Don't Starve"
 
 # These are values that the script uses, they don't get used by the srcds server directly
-fn_set_game_params settings "systemdir" "\${filesdir}"
-fn_set_game_params settings "executabledir" "\${filesdir}/bin"
-fn_set_game_params settings "executable" "./dontstarve_dedicated_server_nullrenderer"
-fn_set_game_params settings "servercfg" "settings.ini"
-fn_set_game_params settings "servercfgdir" "\${HOME}/.klei/DoNotStarveTogether"
-fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
+fn_set_game_setting settings "systemdir" "\${filesdir}"
+fn_set_game_setting settings "executabledir" "\${filesdir}/bin"
+fn_set_game_setting settings "executable" "./dontstarve_dedicated_server_nullrenderer"
+fn_set_game_setting settings "servercfg" "settings.ini"
+fn_set_game_setting settings "servercfgdir" "\${HOME}/.klei/DoNotStarveTogether"
+fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
 

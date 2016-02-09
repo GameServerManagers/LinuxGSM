@@ -1,0 +1,17 @@
+# Game Settings File
+# cureserver
+# Codename: CURE
+
+# Import SRCDS
+fn_import_game_settings _source
+#fn_import_game_settings _gslt
+#fn_import_game_settings _workshop
+#fn_import_game_settings _mapcyclefile
+
+# Game Settings
+fn_set_game_setting settings "appid" "383410"
+fn_set_game_setting settings "game" "cure"
+fn_set_game_setting settings "gamename" "Codename CURE"
+
+# Game Parameters
+fn_set_game_parm parms_plus "map" "csv_house"

@@ -6,21 +6,21 @@
 fn_import_game_settings _source
 fn_import_game_settings _gslt
 fn_import_game_settings _workshop
+fn_import_game_settings _mapcyclefile
 
 # Add dependencies
-fn_set_game_params dependencies  "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
-fn_set_game_params dependencies  "libm.so.6" "ee439d489dcbfeb12b809d9b961ffc60"
-fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
-fn_set_game_params dependencies  "libc.so.6" "7d751c7d8c061730fc5cb7317322d370"
+fn_set_game_setting dependencies  "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
+fn_set_game_setting dependencies  "libm.so.6" "ee439d489dcbfeb12b809d9b961ffc60"
+fn_set_game_setting dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_set_game_setting dependencies  "libc.so.6" "7d751c7d8c061730fc5cb7317322d370"
 
 # Override some server settings
-fn_set_game_params settings "appid" "4020"
-fn_set_game_params settings "defaultmap" "gm_construct"
-fn_set_game_params settings "game" "garrysmod"
-fn_set_game_params settings "mapcyclefile" "--UNSET--"
-fn_set_game_params settings "gamename" "Garry's Mod"
-fn_set_game_params settings "gamemode" "sandbox" "Game Mode."
+fn_set_game_setting settings "appid" "4020"
+fn_set_game_setting settings "game" "garrysmod"
+fn_set_game_setting settings "gamename" "Garry's Mod"
+fn_set_game_setting settings "gamemode" "sandbox" "Game Mode."
 
 # Add the command line parameters
-fn_set_game_params parms_plus "mapgroup" "\${mapgroup}"
-fn_set_game_params parms_plus "gamemode" "\${gamemode}"
+fn_set_game_parm parms_plus "map" "gm_construct"
+fn_set_game_parm parms_plus "mapgroup" "\${mapgroup}" "Map Group"
+fn_set_game_parm parms_plus "gamemode" "sandbox" "Game Mode."

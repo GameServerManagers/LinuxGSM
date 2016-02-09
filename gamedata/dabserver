@@ -4,15 +4,15 @@ fn_import_game_settings _source
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${tv_port} +map ${map} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
-fn_set_game_params settings "dependency_path" "${filesdir}"
-fn_set_game_params dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_set_game_setting settings "dependency_path" "${filesdir}"
+fn_set_game_setting dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
 
-fn_set_game_params settings "appid" "317800"
-fn_set_game_params settings "defaultmap" "da_rooftops"
-fn_set_game_params settings "executable" "./dabds.sh"
-fn_set_game_params settings "game" "dab"
-fn_set_game_params settings "gamename" "Double Action: Boogaloo"
-fn_set_game_params settings "maxplayers" "10"
+fn_set_game_setting settings "appid" "317800"
+fn_set_game_setting settings "map" "da_rooftops"
+fn_set_game_setting settings "executable" "./dabds.sh"
+fn_set_game_setting settings "game" "dab"
+fn_set_game_setting settings "gamename" "Double Action: Boogaloo"
+fn_set_game_setting settings "maxplayers" "10"

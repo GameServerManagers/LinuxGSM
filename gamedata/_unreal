@@ -5,4 +5,4 @@
 # Import default settings
 fn_import_game_settings _unreal_shared
 
-fn_set_game_params scriptactions "mc" "map-compressor|compress_ut99_maps.sh|Map Compressor."
+fn_set_game_setting scriptactions "mc" "map-compressor|compress_ut99_maps.sh|Map Compressor."

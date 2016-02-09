@@ -4,10 +4,10 @@ fn_import_game_settings _source
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game left4dead2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${map} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-fn_set_game_params settings "appid" "222860"
-fn_set_game_params settings "defaultmap" "c5m1_waterfront"
-fn_set_game_params settings "game" "left4dead2"
-fn_set_game_params settings "gamename" "Left 4 Dead 2"
-fn_set_game_params settings "maxplayers" "8"
+fn_set_game_setting settings "appid" "222860"
+fn_set_game_setting settings "map" "c5m1_waterfront"
+fn_set_game_setting settings "game" "left4dead2"
+fn_set_game_setting settings "gamename" "Left 4 Dead 2"
+fn_set_game_setting settings "maxplayers" "8"

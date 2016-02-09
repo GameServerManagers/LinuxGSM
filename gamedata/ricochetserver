@@ -3,10 +3,10 @@
 fn_import_game_settings _goldsource
 
 fn_parms(){
-parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${map} -maxplayers ${maxplayers}"
 }
-fn_set_game_params settings "appid" "90"
-fn_set_game_params settings "defaultmap" "rc_arena"
-fn_set_game_params settings "maxplayers" "16"
-fn_set_game_params settings "gamename" "Ricochet"
-fn_set_game_params settings "game" "ricochet"
+fn_set_game_setting settings "appid" "90"
+fn_set_game_setting settings "map" "rc_arena"
+fn_set_game_setting settings "maxplayers" "16"
+fn_set_game_setting settings "gamename" "Ricochet"
+fn_set_game_setting settings "game" "ricochet"

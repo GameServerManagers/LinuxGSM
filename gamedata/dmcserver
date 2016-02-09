@@ -4,11 +4,11 @@ fn_import_game_settings _goldsource
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game dmc -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms="-game dmc -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${map} -maxplayers ${maxplayers}"
 }
 
 # Steam
-fn_set_game_params settings "appid" "90"
-fn_set_game_params settings "defaultmap" "dcdm5"
-fn_set_game_params settings "game" "dmc"
-fn_set_game_params settings "gamename" "Deathmatch Classic"
+fn_set_game_setting settings "appid" "90"
+fn_set_game_setting settings "map" "dcdm5"
+fn_set_game_setting settings "game" "dmc"
+fn_set_game_setting settings "gamename" "Deathmatch Classic"

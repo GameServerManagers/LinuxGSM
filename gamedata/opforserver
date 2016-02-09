@@ -4,10 +4,10 @@ fn_import_game_settings _goldsource
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game gearbox -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms="-game gearbox -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${map} -maxplayers ${maxplayers}"
 }
-fn_set_game_params settings "appid" "90"
-fn_set_game_params settings "defaultmap" "op4_bootcamp"
-fn_set_game_params settings "game" "gearbox"
-fn_set_game_params settings "gamename" "Opposing Force"
-fn_set_game_params settings "maxplayers" "16"
+fn_set_game_setting settings "appid" "90"
+fn_set_game_setting settings "map" "op4_bootcamp"
+fn_set_game_setting settings "game" "gearbox"
+fn_set_game_setting settings "gamename" "Opposing Force"
+fn_set_game_setting settings "maxplayers" "16"

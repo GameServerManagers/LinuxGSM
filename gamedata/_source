@@ -6,12 +6,13 @@
 fn_import_game_settings _halflife_shared
 
 # And the settings for defaults
-fn_set_game_params settings "engine" "source" "Game Engine"
-fn_set_game_params settings "sourcetvport" "27020" "SourceTV Port"
-
-fn_set_game_params parms_plus "tv_port" "\${sourcetvport}"
+fn_set_game_setting settings "engine" "source" "Game Engine"
 
 # These are values that the script uses, they don't get used by the srcds server directly
-fn_set_game_params settings "executable" "./srcds_linux"
+fn_set_game_setting settings "executable" "./srcds_run"
 
-fn_set_game_params scriptactions "sm" "sourcemod|install_sourcemod.sh|Install SourceMod."
+# Game Actions
+fn_set_game_setting scriptactions "sm" "sourcemod|install_sourcemod.sh|Install SourceMod."
+
+# Game Parameters
+fn_set_game_parm parms_plus "tv_port" "27020" "SourceTV Port"

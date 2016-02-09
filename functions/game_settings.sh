@@ -110,18 +110,27 @@ fn_import_game_settings(){
 	source $import
 }
 
-fn_set_game_params(){
-	param_set=$1
-	param_name=$2
-	param_value=$3
-	param_comment=$4
-	fn_update_config "${param_name}" "${param_value}" "${settingsdir}/${param_set}" "${param_comment}"
+fn_set_game_setting(){
+	setting_set=$1
+	setting_name=$2
+	setting_value=$3
+	setting_comment=$4
+	fn_update_config "${setting_name}" "${setting_value}" "${settingsdir}/${setting_set}" "${setting_comment}"
 }
 
-fn_get_game_params(){
-	param_set=$1
-	param_name=$2
-	param_default=$3
+fn_set_game_parm(){
+	setting_set=$1
+	setting_name=$2
+	setting_value=$3
+	setting_comment=$4
+	fn_update_config "${setting_name}" "${setting_value}" "${settingsdir}/settings" "${setting_comment}"
+	fn_update_config "${setting_name}" "\${${setting_name}}" "${settingsdir}/${setting_set}" ""
+}
+
+fn_get_game_setting(){
+	setting_set=$1
+	setting_name=$2
+	setting_default=$3
 }
 
 # Fix dependency files for game

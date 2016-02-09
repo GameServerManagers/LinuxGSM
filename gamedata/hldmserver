@@ -4,10 +4,10 @@ fn_import_game_settings _goldsource
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game valve -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms="-game valve -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${map} -maxplayers ${maxplayers}"
 }
 
-fn_set_game_params settings "appid" "90"
-fn_set_game_params settings "defaultmap" "crossfire"
-fn_set_game_params settings "game" "valve"
-fn_set_game_params settings "gamename" "Half Life: Deathmatch"
+fn_set_game_setting settings "appid" "90"
+fn_set_game_setting settings "map" "crossfire"
+fn_set_game_setting settings "game" "valve"
+fn_set_game_setting settings "gamename" "Half Life: Deathmatch"

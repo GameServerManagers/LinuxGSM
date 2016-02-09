@@ -5,16 +5,13 @@
 # Import default settings
 fn_import_game_settings _halflife_shared
 
-# The parms that start with - go first
-fn_set_game_params parms_minus "ip" "--UNSET--"
-fn_set_game_params parms_plus "ip" "\${ip}"
-
-fn_set_game_params parms_minus "clientport" "--UNSET--"
-fn_set_game_params parms_plus "clientport" "\${clientport}"
 
 # And the settings for defaults
-fn_set_game_params settings "appid" "90"
-fn_set_game_params settings "defaultmap" "dm_lockdown"
-fn_set_game_params settings "engine" "goldsource"
-fn_set_game_params settings "executable" "./hlds_run"
+fn_set_game_setting settings "appid" "90"
+fn_set_game_setting settings "map" "dm_lockdown"
+fn_set_game_setting settings "engine" "goldsource"
+fn_set_game_setting settings "executable" "./hlds_run"
 
+# Game Parameters
+fn_set_game_setting parms_plus "ip" "\${ip}"
+fn_set_game_setting parms_plus "clientport" "\${clientport}"

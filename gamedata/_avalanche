@@ -3,26 +3,22 @@
 # Avalanche Engine
 
 fn_import_game_settings _steam
+fn_import_game_settings _sourcetv
+fn_import_game_settings _tickrate
 
 # Dependencies
-fn_set_game_params dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
+fn_set_game_setting dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
 
 # And the settings for defaults
-fn_set_game_params settings "engine" "avalanche"
-fn_set_game_params settings "servercfg" "config.lua" "Server Config file"
-fn_set_game_params settings "sourcetvport" "27020" "SourceTV Port"
-fn_set_game_params settings "srcds_parms" "--EMPTY--" "Additional SRCDS Parameters. Put the parameters that start with \"-\" first, then \"+\" parameters after"
-fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
-fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
-fn_set_game_params settings "tickrate" "64" "Server Tick Rate"
+fn_set_game_setting settings "engine" "avalanche"
+fn_set_game_setting settings "servercfg" "config.lua" "Server Config file"
 
 # These are values that the script uses, they don't get used by the srcds server directly
-fn_set_game_params settings "systemdir" "\${filesdir}"
-fn_set_game_params settings "gamelogdir" "--EMPTY--"
-fn_set_game_params settings "executabledir" "\${filesdir}"
-fn_set_game_params settings "executable" "./Jcmp-Server"
-fn_set_game_params settings "servercfg" "config.lua"
-fn_set_game_params settings "servercfgdir" "\${filesdir}"
-fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/default_config.lua"
+fn_set_game_setting settings "systemdir" "\${filesdir}"
+fn_set_game_setting settings "executabledir" "\${filesdir}"
+fn_set_game_setting settings "executable" "./Jcmp-Server"
+fn_set_game_setting settings "servercfg" "config.lua"
+fn_set_game_setting settings "servercfgdir" "\${filesdir}"
+fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/default_config.lua"
 

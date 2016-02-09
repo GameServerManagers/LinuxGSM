@@ -19,7 +19,7 @@ This function takes one parameter, the name of the gamedata file to load. The ma
 
 In the gamedata files themselves, they are used to pull in other gamedata files. This is done in sequence, so it's usually best to do the import at the top of the file, and then overwrite. It is possible to import multiple files inside a single gamedata file, for instance include \_source and \_source\_workshop to pull in Source engine sane defaults and the Workshop variables. Any "base" gamedata file (that is, not for a specific game) should be prefixed with a "\_". The gamedata files for each engine should be named "\_\$\{engine\}".
 
-### fn\_set\_game\_params()
+### fn\_set\_game\_setting()
 
 Takes four parameters:
 
@@ -33,6 +33,10 @@ Takes four parameters:
   * **"--EMPTY--":** This will set the value to "" (an empty string) and add it to the param set. This is useful for parameters that must be defined, but have no default value.
  * **param\_comment:** This is the comment to append at the end of the line. If overriding a key set earlier in the hierarchy, leaving this blank will reuse the original comment. If you want to delete the comment, use "--EMPTY--".
 
+### fn\_set\_game\_parm()
+
+Just like fn\_set\_game\_setting(), except it will add the given variable to the main settings file, and add a reference to the settings value as the parameter list. Basically it creates the setting for the instance configs, and wires it into the parameter list.
+
 ### fn\_parms()
 
 This is the same old function from the original LGSM main scripts, the difference is we now have a "sane default" one in \_default that just dumps params, and then each engine/game can get fancy if need be. This function gets overridden by the highest-ordered declaration, and for most games the default should be fine. The idea here is that we define flexible functions in each engine, and then allow the games to add/modify/delete keys in the data.
@@ -42,39 +46,33 @@ This is the same old function from the original LGSM main scripts, the differenc
 This is an example of a gamedata file for the Widgets engine. We'll call it \_widgets for the sake of argument:
 
 ```bash
-# Import default settings
-fn_import_game_settings _default
+# Import Steam settings
+fn_import_game_settings _steam
+
 # Use + and - parameters
 fn_import_game_settings _parms_plusminus
 
-# The parms that start with - go first
-fn_set_game_params parms_minus "tickrate" "\${tickrate}"
-fn_set_game_params parms_minus "port" "\${port}"
-
-# Then the parms that start with +
-fn_set_game_params parms_plus "+servercfgfile" "\${servercfg}"
-fn_set_game_params parms_plus "+map" "\${defaultmap}"
-
-# And the settings for defaults
-fn_set_game_params settings "appid" "99999" "Steam App ID"
-fn_set_game_params settings "defaultmap" "my_map" "Default map to load"
-fn_set_game_params settings "engine" "widgets" "Game Engine"
-fn_set_game_params settings "game" "widgets" "Name of game to pass to srcds"
-fn_set_game_params settings "gamename" "widgets" "Name for subdirectory in GitHub repo"
-fn_set_game_params settings "port" "99999" "Port to bind for server"
-fn_set_game_params settings "servercfg" "\${selfname}.cfg" "Server Config file"
-fn_set_game_params settings "steampass" "--EMPTY--" "Steam Password"
-fn_set_game_params settings "steamuser" "anonymous" "Steam Username"
+# Game Settings
+fn_set_game_setting settings "appid" "99999" "Steam App ID"
+fn_set_game_setting settings "engine" "widgets" "Game Engine"
+fn_set_game_setting settings "game" "widgets" "Name of game to pass to srcds"
+fn_set_game_setting settings "gamename" "widgets" "Name for subdirectory in GitHub repo"
 
 # These are values that the script uses, they don't get used by the srcds server directly
-fn_set_game_params settings "systemdir" "\${filesdir}/\${game}"
-fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
-fn_set_game_params settings "executabledir" "\${filesdir}"
-fn_set_game_params settings "executable" "./widgets_server"
-fn_set_game_params settings "servercfg" "\${servicename}.cfg"
-fn_set_game_params settings "servercfgdir" "\${systemdir}/cfg"
-fn_set_game_params settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_params settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
+fn_set_game_setting settings "systemdir" "\${filesdir}/\${game}"
+fn_set_game_setting settings "executabledir" "\${filesdir}"
+fn_set_game_setting settings "executable" "./widgets_server"
+fn_set_game_setting settings "servercfg" "\${servicename}.cfg"
+fn_set_game_setting settings "servercfgdir" "\${systemdir}/cfg"
+fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
+
+# Game Parameters
+fn_set_game_parm parms_minus "tickrate" "66" "Server tickrate"
+fn_set_game_parm parms_minus "port" "99999" "Port to bind for server"
+fn_set_game_parm parms_plus "servercfgfile" "\${selfname}.cfg" "Server Config file"
+fn_set_game_parm parms_plus "map" "my_map" "Default map to load"
+
 ```
 
 Then, we need a game! DooDads is the name of the game, and just imports the defaults from its engine.
@@ -84,19 +82,18 @@ Then, we need a game! DooDads is the name of the game, and just imports the defa
 fn_import_game_settings _widgets
 
 # Delete tickrate parameter. This will remove it from the parameters, and remove it from _default.cfg
-fn_set_game_params parms_minus "-tickrate" "--UNSET--"
-fn_set_game_params settings "tickrate" "--UNSET--"
+fn_set_game_parm parms_minus "tickrate" "--UNSET--"
 
-# Add playlist parameter
-fn_set_game_params parms_plus "+sv_playlist" "\${playlist}"
+# Game Settings
+fn_set_game_setting settings "executable" "./doodads_server"
+fn_set_game_setting settings "appid" "100000"
+fn_set_game_setting settings "map" "special_map"
+fn_set_game_setting settings "game" "doodads"
+fn_set_game_setting settings "gamename" "DooDads"
 
-# Override some server settings
-fn_set_game_params settings "executable" "./doodads_server"
-fn_set_game_params settings "appid" "100000"
-fn_set_game_params settings "defaultmap" "special_map"
-fn_set_game_params settings "game" "doodads"
-fn_set_game_params settings "playlist" "custom" "Server Playlist"
-fn_set_game_params settings "gamename" "DooDads"
+# Game Parameters
+fn_set_game_parm parms_plus "sv_playlist" "custom" "Server Playlist"
+
 ```
 
 With this, we inherit everything from \_widgets, but remove the tickrate setting, add playlist, and override some of the settings to make sure we install the right game via Steam. End users can then override the defaults in \_common.cfg and \$\{servicename\}.cfg for doing things their own way. The script will keep the gamedata files in sync with GitHub, as of right now the \_default.cfg is regenerated only when the \$lgsm\_version that created it differs from the script's \$version. The next step is to only regenerate the settings files when the gamedata itself is updated, which would be much more efficient.

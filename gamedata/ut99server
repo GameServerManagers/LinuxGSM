@@ -3,8 +3,8 @@
 fn_import_game_settings _unreal
 
 fn_parms(){
-parms="server ${defaultmap}.unr ini=${servercfgfullpath}"
+parms="server ${map}.unr ini=${servercfgfullpath}"
 }
-fn_set_game_params settings "gamename" "Unreal Tournament 99"
-fn_set_game_params settings "defaultmap" "DM-Deck16]["
+fn_set_game_setting settings "gamename" "Unreal Tournament 99"
+fn_set_game_setting settings "map" "DM-Deck16]["
 

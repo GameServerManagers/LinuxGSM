@@ -47,12 +47,19 @@ git_update=0
 
 # LGSM Support Files - set ro rootdir for old behavior
 lgsmdir="${rootdir}/lgsm"
+
+# lgsmserverdir is the directory for this server's support files
+lgsmserverdir="${lgsmdir}/servers/${selfname}"
+
 # Temporary path to store and manipulate settings
-settingsdir="${lgsmdir}/settings.tmp"
+settingsdir="${lgsmserverdir}/settings"
+
 # Supported Game Data
 gamedatadir="${lgsmdir}/gamedata"
+
 # Config path for local instances
-scriptcfgdir="${lgsmdir}/cfg/servers"
+scriptcfgdir="${lgsmserverdir}/cfg"
+
 # Temporary cache location
 cachedir="${lgsmdir}/tmp"
 

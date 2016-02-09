@@ -4,9 +4,9 @@ fn_import_game_settings _source
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game hl2mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game hl2mp -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${tv_port} +map ${map} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
-fn_set_game_params settings "appid" "232370"
-fn_set_game_params settings "defaultmap" "dm_lockdown"
-fn_set_game_params settings "game" "hl2mp"
-fn_set_game_params settings "gamename" "Half Life 2: Deathmatch"
+fn_set_game_setting settings "appid" "232370"
+fn_set_game_setting settings "map" "dm_lockdown"
+fn_set_game_setting settings "game" "hl2mp"
+fn_set_game_setting settings "gamename" "Half Life 2: Deathmatch"

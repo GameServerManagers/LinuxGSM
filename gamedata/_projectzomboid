@@ -6,13 +6,12 @@
 fn_import_game_settings _steam
 
 # And the settings for defaults
-fn_set_game_params settings "engine" "projectzomboid"
+fn_set_game_setting settings "engine" "projectzomboid"
 
 # These are values that the script uses, they don't get used by the srcds server directly
-fn_set_game_params settings "systemdir" "\${filesdir}"
-fn_set_game_params settings "gamelogdir" "\${systemdir}/logs"
-fn_set_game_params settings "executabledir" "\${filesdir}"
-fn_set_game_params settings "executable" "./start-server.sh"
-fn_set_game_params settings "servercfg" "servertest.ini"
-fn_set_game_params settings "servercfgdir" "\${HOME}/Zomboid/Server"
+fn_set_game_setting settings "systemdir" "\${filesdir}"
+fn_set_game_setting settings "executabledir" "\${filesdir}"
+fn_set_game_setting settings "executable" "./start-server.sh"
+fn_set_game_setting settings "servercfg" "servertest.ini"
+fn_set_game_setting settings "servercfgdir" "\${HOME}/Zomboid/Server"
 

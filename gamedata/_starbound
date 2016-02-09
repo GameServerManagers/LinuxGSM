@@ -5,9 +5,9 @@
 # Import default settings
 fn_import_game_settings _steam
 
-fn_set_game_params settings "engine" "starbound"
-fn_set_game_params settings "executabledir" "\${filesdir}/linux64"
-fn_set_game_params settings "executable" "./starbound_server"
-fn_set_game_params settings "servercfg" "sbboot.config"
-fn_set_game_params settings "servercfgdir" "\${executabledir}"
-fn_set_game_params settings "gamelogdir" "\${filesdir}/giraffe_storage"
+fn_set_game_setting settings "engine" "starbound"
+fn_set_game_setting settings "executabledir" "\${filesdir}/linux64"
+fn_set_game_setting settings "executable" "./starbound_server"
+fn_set_game_setting settings "servercfg" "sbboot.config"
+fn_set_game_setting settings "servercfgdir" "\${executabledir}"
+fn_set_game_setting settings "gamelogdir" "\${filesdir}/giraffe_storage"

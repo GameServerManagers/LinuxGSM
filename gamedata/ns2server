@@ -2,9 +2,9 @@
 # Import Engine
 fn_import_game_settings _spark
 
-fn_set_game_params settings "appid" "4940"
-fn_set_game_params settings "defaultmap" "ns2_summit"
-fn_set_game_params settings "executable" "./server_linux32"
-fn_set_game_params settings "executabledir" "${filesdir}"
-fn_set_game_params settings "gamename" "Natural Selection 2"
-fn_set_game_params settings "servername" "NS2 Server"
+fn_set_game_setting settings "appid" "4940"
+fn_set_game_setting settings "map" "ns2_summit"
+fn_set_game_setting settings "executable" "./server_linux32"
+fn_set_game_setting settings "executabledir" "${filesdir}"
+fn_set_game_setting settings "gamename" "Natural Selection 2"
+fn_set_game_setting settings "servername" "NS2 Server"

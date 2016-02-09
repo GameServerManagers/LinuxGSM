@@ -1,0 +1,4 @@
+# Game Settings File
+
+# Tickrate
+fn_set_game_parm parms_minus "tickrate" "66" "Server Tick Rate"
