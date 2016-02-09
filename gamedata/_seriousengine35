@@ -6,7 +6,7 @@
 fn_import_game_settings _steam
 
 # Dependencies
-fn_set_game_setting settings "dependency_path" "${filesdir}/Bin"
+fn_set_game_setting settings "dependency_path" "\${filesdir}/Bin"
 fn_set_game_setting dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
 
 # Game settings

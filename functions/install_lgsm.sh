@@ -20,7 +20,7 @@ fn_getgithubfile $gamelist
 
 # Display installer menu
 fn_menu result "Linux Game Server Manager" "Select game to install" "${lgsmdir}/${gamelist}"
-echo $result
+#echo $result
 # If we have a selection, do the install
 if [ -n "${result}" ]; then
 	if [ "${BASH_SOURCE[0]}" == "" ]; then

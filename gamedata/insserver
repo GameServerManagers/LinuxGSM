@@ -23,7 +23,7 @@ fn_set_game_setting settings "gamename" "Insurgency"
 fn_set_game_parm parms_plus "sv_playlist" "custom" "Server Playlist"
 
 # Mapcycle
-fn_set_game_parm params_plus "mapcyclefile" "mapcycle_cooperative.txt"
+fn_set_game_parm parms_plus "mapcyclefile" "mapcycle_cooperative.txt"
 
 # Workshop
 fn_set_game_parm parms_plus "sv_workshop_enabled" "--EMPTY--" "Comma-delimited list of workshop items to subscribe to"

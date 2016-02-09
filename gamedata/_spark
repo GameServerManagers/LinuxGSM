@@ -11,7 +11,7 @@ parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser
 }
 
 # Dependencies
-fn_set_game_setting settings "dependency_path" "${filesdir}"
+fn_set_game_setting settings "dependency_path" "\${filesdir}"
 fn_set_game_setting dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
 fn_set_game_setting dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"
 fn_set_game_setting dependencies  "libc.so.6" "7d751c7d8c061730fc5cb7317322d370

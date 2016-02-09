@@ -2,12 +2,10 @@
 # _default
 # Base defaults for all games
 
-# Set the default settings for the script
-fn_set_game_setting settings "dependency_path" "${filesdir}"
-
 # Default settings. This group includes a lot of blanks just so that the comments are set (and the engine/game files will show blank values to remind people to set them).
 fn_set_game_setting settings "backupdir" "\${lgsmdir}/backups" "Backup Directory"
 fn_set_game_setting settings "map" "--EMPTY--" "Default map to load"
+fn_set_game_setting settings "game_mod" "--EMPTY--" "Mod to load from gamedata/mods"
 fn_set_game_setting settings "email" "email@example.com" "Email address for notification"
 fn_set_game_setting settings "emaillog" "\${scriptlogdir}/\${servicename}-email.log" "Email Log"
 fn_set_game_setting settings "emailnotification" "off" "Email notification (on|off)"
@@ -43,6 +41,9 @@ fn_set_game_setting settings "servercfg" "\${servicename}\${servercfg_suffix}" "
 fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default\${servercfg_suffix}" "Default server configuration file"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}" "Full path to server config"
 
+# Set the default settings for the script
+fn_set_game_setting settings "dependency_path" "\${filesdir}"
+
 fn_set_game_setting settings "server_parms" "--EMPTY--" "Additional Server command-line arguments. Put the parameters that start with \"-\" first, then \"+\" parameters after"
 
 # Script actions
@@ -50,6 +51,7 @@ fn_set_game_setting scriptactions "st" "start|command_start.sh|Start the server.
 fn_set_game_setting scriptactions "sp" "stop|command_stop.sh|Stop the server."
 fn_set_game_setting scriptactions "r" "restart|fn_restart|Restart the server."
 fn_set_game_setting scriptactions "dd" "depsdetect|command_dev_detect_deps.sh|Detect Dependencies"
+fn_set_game_setting scriptactions "gd" "game-dependencies|fn_fix_game_dependencies|Make sure that the correct libraries for this game are installed"
 fn_set_game_setting scriptactions "u" "update|update_check.sh|Checks and applies updates from SteamCMD."
 fn_set_game_setting scriptactions "uf" "update-functions|update_functions.sh|Removes all functions so latest can be downloaded."
 fn_set_game_setting scriptactions "m" "monitor|command_monitor.sh|Checks that the server is running."
@@ -60,6 +62,7 @@ fn_set_game_setting scriptactions "dev" "dev-debug|command_dev_debug.sh|Toggle D
 fn_set_game_setting scriptactions "i" "install|command_install.sh|Install the server."
 fn_set_game_setting scriptactions "ai" "auto-install|fn_autoinstall|Install the server, without prompts."
 fn_set_game_setting scriptactions "b" "backup|command_backup.sh|Create archive of the server."
+fn_set_game_setting scriptactions "im" "install-mod|install_mod.sh|Install mods"
 
 # Default fn_parms just loads the parms file. Still need to figure out how to handle "simple" parms.
 fn_parms(){

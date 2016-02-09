@@ -8,7 +8,7 @@ fn_import_game_settings _parms_plusminus
 fn_import_game_settings _tickrate
 
 # Dependencies
-fn_set_game_setting settings "dependency_path" "${filesdir}/bin"
+fn_set_game_setting settings "dependency_path" "\${filesdir}/bin"
 
 
 # Game Parameters

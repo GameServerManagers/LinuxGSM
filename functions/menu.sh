@@ -61,8 +61,8 @@ fn_menu() {
 	caption=$3
 	options=$4
 	# If this is a list of options as a string, dump it to a file so we can process it
-	if [ ! -e $options ]; then
-		echo -ne "{$options}\n" > "${cachedir}/menu.options"
+	if [ ! -e "${options}" ]; then
+		echo -ne "${options}\n" > "${cachedir}/menu.options"
 		options="${cachedir}/menu.options"
 	fi
 

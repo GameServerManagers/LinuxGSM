@@ -337,6 +337,10 @@ log_dirs.sh(){
 fn_runfunction "${FUNCNAME}"
 }
 
+install_mod.sh(){
+fn_runfunction "${FUNCNAME}"
+}
+
 install_retry.sh(){
 fn_runfunction "${FUNCNAME}"
 
