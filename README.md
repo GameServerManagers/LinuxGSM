@@ -3,6 +3,18 @@ Use the new lgsm-core script as a starting point (<a href="https://github.com/ja
 Running that script launches the installer, which pulls the list of games from the gamedata directory.
 Select the game server you wish to install, and it will ask a few questions as to where to install it.
 At this point, the script itself is deployed. Now continue on with the normal instructions.
+<h2>How to deploy the new lgsm-core script</h2>
+Create a user for your game server if you don't have one already, it's best not to "upgrade" classic LGSM with this new script since it is so different. Go to the location you want to install LGSM (use the home directory if you're not sure). Then, run these commands:
+```bash
+curl https://raw.githubusercontent.com/jaredballou/linuxgsm/master/lgsm-core -O lgsm-core
+chmod +x lgsm-core
+./lgsm-core
+```
+You will now be presented with a menu
+<div><img src="https://github.com/jaredballou/linuxgsm/blob/master/images/lgsm_install_menu.png" alt="LGSM Installer Menu"></div>
+Select the game you want to install, and press Enter. The installer will ask you a few more questions, namely where to install the LGSM instance for the game you chose. Just press Enter to select the current directory.
+<div><img src="https://github.com/jaredballou/linuxgsm/blob/master/images/lgsm_install_exec.png" alt="LGSM Installer Exec"></div>
+At this point, the new instance works (mostly) just like the classic LGSM scripts. As of right now, there is no "self-update" functionality for lgsm-core and deployed instances, but it's in the works.
 <h2>Benefits of the new fork</h2>
 <ul>
 <li>One script to rule them all.
