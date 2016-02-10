@@ -2,17 +2,31 @@
 # LGSM logs.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="100215"
 
 # Description: Acts as a log rotater, removing old logs.
 
 local modulename="Log Manager"
 
+# Check if logfile variable and file exist, create logfile if it doesn't exist
 if [ -n "${consolelog}" ]; then
 	if [ ! -e "${consolelog}" ]; then
 		touch "${consolelog}"
 	fi
 fi
+
+# Set source log directory
+if [ -z "${systemdir}" && "${engine}" == "source" ]; then
+	srcdslogdir="${systemdir}/logs"
+	# Set addons directories
+	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
+	# Set gmod addons directories
+	if [ "${gamename}" == "Garry's Mod" ]; then
+		ulxlogdir="${systemdir}/data/ulx_logs"
+		darkrplogdir="${systemdir}/data/darkrp_logs"
+	fi
+fi
+
 # log manager will active if finds logs older than ${logdays}
 if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	fn_printdots "Starting"
