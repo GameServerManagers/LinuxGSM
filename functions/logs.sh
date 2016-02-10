@@ -15,17 +15,10 @@ if [ -n "${consolelog}" ]; then
 	fi
 fi
 
-# Set source logs directories
-if [ -z "${systemdir}" ]&&[ "${engine}" == "source" ]; then
-	srcdslogdir="${systemdir}/logs"
-	# Set addons directories
-	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
-	# Set gmod addons directories
-	if [ "${gamename}" == "Garry's Mod" ]; then
-		ulxlogdir="${systemdir}/data/ulx_logs"
-		darkrplogdir="${systemdir}/data/darkrp_logs"
-	fi
-fi
+# Set addon logs directories
+sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
+ulxlogdir="${systemdir}/data/ulx_logs"
+darkrplogdir="${systemdir}/data/darkrp_logs"
 
 # Setting up counting variables
 scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0"
@@ -47,7 +40,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	find "${scriptlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 	scriptcount=$(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l)
 	find "${scriptlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
-	# Retrocompatibility, for logs directly in /log folder 
+	# SRCDS and unreal logfiles
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
 		find "${gamelogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 		gamecount=$(find "${gamelogdir}"/ -type f -mtime +${logdays}|wc -l)
@@ -59,26 +52,23 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +${logdays}|wc -l)
 		find "${consolelogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
 	fi
-	# SRCDS logfiles
+	# Source addons logfiles
 	if [ "${engine}" == "source" ]; then
-		if [ -d "${srcdslogdir}" ]; then
-			find "${srcdslogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-			srcdscount=$(find "${srcdslogdir}"/ -type f -mtime +${logdays}|wc -l)
-			find "${srcdslogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
-		fi
 		# SourceMod logfiles
 		if [ -d "${sourcemodlogdir}" ]; then
 			find "${sourcemodlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 			smcount=$(find "${sourcemodlogdir}"/ -type f -mtime +${logdays}|wc -l)
 			find "${sourcemodlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
 		fi
-		# ULX logfiles
+		# Garry's Mod logfiles
 		if [ "${gamename}" == "Garry's Mod" ]; then
+			# ULX logfiles
 			if [ -d "${ulxlogdir}" ]; then
 				find "${ulxlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 				ulxcount=$(find "${ulxlogdir}"/ -type f -mtime +${logdays}|wc -l)
 				find "${ulxlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
 			fi
+			# DarkRP logfiles
 			if [ -d "${darkrplogdir}" ]; then
 				find "${darkrplogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 				darkrpcount=$(find "${darkrplogdir}"/ -type f -mtime +${logdays}|wc -l)
@@ -86,7 +76,6 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 			fi
 		fi
 	fi
-	
 	# Count total amount of files removed
 	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount}))
 	# Job done
