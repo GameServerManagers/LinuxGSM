@@ -2,7 +2,6 @@
 # LGSM fix_arma3.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="301215"
 
 # Fixes line 63: 20150 Segmentation fault (core dumped) #488
 

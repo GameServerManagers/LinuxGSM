@@ -2,7 +2,6 @@
 # LGSM fix_glibc.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="020116"
 
 fn_glibcfixmsg(){
 	echo ""

@@ -2,7 +2,6 @@
 # LGSM install_header.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 clear
 echo "================================="

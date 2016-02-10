@@ -2,7 +2,6 @@
 # LGSM fix_csgo.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="301215"
 
 # Description: Resolves various issues with csgo.
 

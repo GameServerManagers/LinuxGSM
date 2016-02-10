@@ -2,7 +2,6 @@
 # LGSM fix_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="010116"
 
 # Description: fixes various issues related to steamCMD.
 

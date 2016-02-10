@@ -2,7 +2,6 @@
 # LGSM fn_messages function
 # Author: Jared Ballou
 # Website: http://gameservermanagers.com
-lgsm_version="200116"
 
 # Description: Display menus and return selection
 

@@ -2,7 +2,6 @@
 # LGSM command_start.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="070116"
 
 # Description: Starts the server.
 

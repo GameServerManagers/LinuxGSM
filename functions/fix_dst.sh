@@ -2,7 +2,6 @@
 # LGSM fix_dst.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="020116"
 
 # Fixes line 63: 20150 Segmentation fault (core dumped) #488
 

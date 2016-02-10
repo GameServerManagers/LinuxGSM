@@ -2,7 +2,6 @@
 # LGSM fn_messages function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 

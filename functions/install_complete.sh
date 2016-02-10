@@ -2,7 +2,6 @@
 # LGSM install_complete.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""

@@ -3,7 +3,6 @@
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 fn_install_ts3db_mariadb(){
 	echo ""

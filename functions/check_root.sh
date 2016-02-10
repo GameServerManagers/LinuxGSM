@@ -2,7 +2,6 @@
 # LGSM check_root.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 # If you want to run as root (i.e. in Docker, or just because you hate security)
 # set the following variable in your environment or config scripts.

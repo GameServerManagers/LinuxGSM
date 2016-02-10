@@ -2,7 +2,6 @@
 # LGSM install_retry.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 while true; do
 	read -e -i "y" -p "Retry install? [Y/n]" yn
