@@ -16,8 +16,8 @@ if [ -n "${consolelog}" ]; then
 	fi
 fi
 
-# Log manager will start the cleanup if it finds logs older than ${logdays}
-if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
+# Log manager will start the cleanup if it finds logs older than "${logdays}"
+if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; then
 	fn_printdots "Starting"
 	# Set addon logs directories
 	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
@@ -31,56 +31,56 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	fn_scriptlog "Starting"
 	sleep 1
 	echo -en "\n"
-	fn_printinfo "Removing logs older than ${logdays} days"
-	fn_scriptlog "Removing logs older than ${logdays} days"
+	fn_printinfo "Removing logs older than "${logdays}" days"
+	fn_scriptlog "Removing logs older than "${logdays}" days"
 	sleep 1
 	echo -en "\n"
-	# Logging logfiles to be removed according to ${logdays}, counting and removing them
+	# Logging logfiles to be removed according to "${logdays}", counting and removing them
 	# Script logfiles
-	find "${scriptlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-	scriptcount=$(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l)
-	find "${scriptlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+	find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+	scriptcount=$(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+	find "${scriptlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	# SRCDS and unreal logfiles
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
-		find "${gamelogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-		gamecount=$(find "${gamelogdir}"/ -type f -mtime +${logdays}|wc -l)
-		find "${gamelogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+		find "${gamelogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+		gamecount=$(find "${gamelogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
 	# Console logfiles
 	if [ -n "${consolelog}" ]; then
-		find "${consolelogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-		consolecount=$(find "${consolelogdir}"/ -type f -mtime +${logdays}|wc -l)
-		find "${consolelogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+		find "${consolelogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+		consolecount=$(find "${consolelogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+		find "${consolelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
 	# Source addons logfiles
 	if [ "${engine}" == "source" ]; then
 		# SourceMod logfiles
 		if [ -d "${sourcemodlogdir}" ]; then
-			find "${sourcemodlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-			smcount=$(find "${sourcemodlogdir}"/ -type f -mtime +${logdays}|wc -l)
-			find "${sourcemodlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+			find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+			smcount=$(find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+			find "${sourcemodlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		fi
 		# Garry's Mod logfiles
 		if [ "${gamename}" == "Garry's Mod" ]; then
 			# ULX logfiles
 			if [ -d "${ulxlogdir}" ]; then
-				find "${ulxlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-				ulxcount=$(find "${ulxlogdir}"/ -type f -mtime +${logdays}|wc -l)
-				find "${ulxlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+				find "${ulxlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+				ulxcount=$(find "${ulxlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+				find "${ulxlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 			fi
 			# DarkRP logfiles
 			if [ -d "${darkrplogdir}" ]; then
-				find "${darkrplogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-				darkrpcount=$(find "${darkrplogdir}"/ -type f -mtime +${logdays}|wc -l)
-				find "${darkrplogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+				find "${darkrplogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+				darkrpcount=$(find "${darkrplogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+				find "${darkrplogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 			fi
 		fi
 	fi
 	# Legacy support
 	if [ -d "${legacyserverlogdir}" ]; then
-		find "${legacyserverlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
-		legacycount=$(find "${legacyserverlogdir}"/ -type f -mtime +${logdays}|wc -l)
-		find "${legacyserverlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+		find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+		legacycount=$(find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
+		find "${legacyserverlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		# Remove folder if empty
 		if [ ! "$(ls -A "${legacyserverlogdir}")" ]; then
 		rm -rf "${legacyserverlogdir}"
