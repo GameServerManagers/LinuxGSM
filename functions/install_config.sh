@@ -182,7 +182,7 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Codename CURE" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/Codename CURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/CodenameCURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
 
