@@ -15,17 +15,15 @@ if [ -n "${consolelog}" ]; then
 	fi
 fi
 
-# Set addon logs directories
-sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
-ulxlogdir="${systemdir}/data/ulx_logs"
-darkrplogdir="${systemdir}/data/darkrp_logs"
-
-# Setting up counting variables
-scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0"
-
 # Log manager will start the cleanup if it finds logs older than ${logdays}
 if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	fn_printdots "Starting"
+	# Set addon logs directories
+	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
+	ulxlogdir="${systemdir}/data/ulx_logs"
+	darkrplogdir="${systemdir}/data/darkrp_logs"
+	# Setting up counting variables
+	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0"
 	sleep 1
 	fn_printok "Starting"
 	fn_scriptlog "Starting"
