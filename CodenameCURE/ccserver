@@ -1,5 +1,5 @@
 #!/bin/bash
-# Black Mesa: Deathmatch
+# Codename CURE
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
@@ -23,22 +23,17 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-defaultmap="dm_bounce"
-maxplayers="16"
+defaultmap="cbe_bunker"
+maxplayers="6"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
 
-# Optional: Game Server Login Token
-# GSLT can be used for running a public server.
-# More info: http://gameservermanagers.com/gslt
-gslt=""
-
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game bms -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game cure -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -51,11 +46,11 @@ githubrepo="linuxgsm"
 githubbranch="master"
 
 # Steam
-appid="346680"
+appid="383410"
 
 # Server Details
-servicename="bmdm-server"
-gamename="Black Mesa: Deathmatch"
+servicename="cc-server"
+gamename="Codename CURE"
 engine="source"
 
 # Directories
@@ -63,7 +58,7 @@ rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/bms"
+systemdir="${filesdir}/cure"
 executabledir="${filesdir}"
 executable="./srcds_run"
 servercfg="${servicename}.cfg"

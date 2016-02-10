@@ -180,6 +180,12 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	wget -N /dev/null ${githuburl}/BladeSymphony/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
+elif [ "${gamename}" == "Codename CURE" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/CodenameCURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig
+
 elif [ "${gamename}" == "Counter Strike 1.6" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CounterStrike/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
