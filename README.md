@@ -44,7 +44,7 @@ At this point, the new instance works (mostly) just like the classic LGSM script
 </li><li><b>Better GitHub integration</b> Supports using Git hashes to check for updated files. Self-bootstrapping sort of works....
 </li><li><b>Config files</b> for defaults are in a central location, but will be templated and moved to gamedata at some point.
 </li><li><b>Dependencies</b> handled in standard way via gamedata files. Different versions of the files are referenced by MD5 hashes for a widely supported method of identifying binary content.
-</li><li><b>SteamCMD and server support for beta and workshop files
+</li><li><b>SteamCMD and server support</b> for beta and workshop files
 </li><li><b>sourcemod</b> command to install latest MetaMod and SourceMod to your game server instance
 </li>
 </ul>
