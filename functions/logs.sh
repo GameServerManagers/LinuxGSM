@@ -50,6 +50,9 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	if [ -n "${consolelog}" ]; then
 		find "${consolelogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 	fi
+	# Counting
+	# Setting up variables
+	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0"
 	# Retrocompatibility, for logs directly in /log folder 
 	# Count how many script logfiles will be removed
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
@@ -58,19 +61,12 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	# Count how many script logfiles will be removed
 	scriptcount=$(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l)
 	echo "${consolelog}"
-	# Count how many console logfiles will be removed
+	# Count how many console logfiles will be removed, if those logs exist
 	if [ -n "${consolelog}" ]; then
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +${logdays}|wc -l)
-	else
-		consolecount=0
 	fi
 	# Count total amount of files to remove
-	count=$((${scriptcount} + ${consolecount}))
-	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
-		count=$((${scriptcount} + ${consolecount} + ${gamecount}))
-	else
-		count=$((${scriptcount} + ${consolecount}))
-	fi
+	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount}))
 
 	# Removing logfiles
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
