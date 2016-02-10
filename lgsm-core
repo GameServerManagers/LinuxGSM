@@ -55,7 +55,7 @@ lgsmserverdir="${lgsmdir}/servers/${selfname}"
 logdir="${lgsmdir}/servers/${selfname}/log"
 
 # Temporary path to store and manipulate settings
-settingsdir="${lgsmserverdir}/settings"
+settingsdir="${lgsmserverdir}/tmp"
 
 # Supported Game Data
 gamedatadir="${lgsmdir}/gamedata"
