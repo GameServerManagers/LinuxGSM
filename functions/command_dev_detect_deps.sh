@@ -37,7 +37,7 @@ fi
 
 if [ "$(command -v eu-readelf)" ]; then
 	readelf=eu-readelf
-elif [ "$(command -v readelf)" ];
+elif [ "$(command -v readelf)" ]; then
 	readelf=readelf
 else
 	echo "readelf/eu-readelf not installed"	
