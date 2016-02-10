@@ -22,8 +22,9 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
 	ulxlogdir="${systemdir}/data/ulx_logs"
 	darkrplogdir="${systemdir}/data/darkrp_logs"
+	legacyserverlogdir="${rootdir}/log/server"
 	# Setting up counting variables
-	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0"
+	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
 	sleep 1
 	fn_printok "Starting"
 	fn_scriptlog "Starting"
@@ -74,8 +75,19 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 			fi
 		fi
 	fi
+	# Legacy support
+	if [ -d "${legacyserverlogdir}" ]; then
+		find "${legacyserverlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
+		legacycount=$(find "${legacyserverlogdir}"/ -type f -mtime +${logdays}|wc -l)
+		find "${legacyserverlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
+		# Remove folder if empty
+		if [ ! "$(ls -A "${legacyserverlogdir}"" ]; then
+		rm -rf "${legacyserverlogdir}"
+		fi
+	fi
+				
 	# Count total amount of files removed
-	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount}))
+	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount} + ${legacycount}))
 	# Job done
 	fn_printok "Removed ${count} log files"
 	fn_scriptlog "Removed ${count} log files"
