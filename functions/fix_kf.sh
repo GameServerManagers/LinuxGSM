@@ -2,7 +2,6 @@
 # LGSM fix_kf.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 echo "Applying WebAdmin ROOst.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

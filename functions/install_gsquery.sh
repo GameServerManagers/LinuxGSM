@@ -2,7 +2,6 @@
 # LGSM install_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 fn_dlgsquery(){
 	gsquery_path="${lgsmdir}/gsquery.py"

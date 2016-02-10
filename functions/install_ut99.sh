@@ -2,7 +2,6 @@
 # LGSM install_ut99.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 echo ""
 echo "Installing ${gamename} Server"

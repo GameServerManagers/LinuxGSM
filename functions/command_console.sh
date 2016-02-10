@@ -2,7 +2,6 @@
 # LGSM command_console.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 # Description: Gives access to the server tmux console.
 

@@ -2,7 +2,6 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060116"
 
 # Description: Gets specific details from config files.
 

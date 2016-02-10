@@ -5,7 +5,6 @@
 
 # This downloads and installs the latest stable versions of MetaMod and SourceMod
 
-lgsm_version="200116"
 
 
 # MetaMod

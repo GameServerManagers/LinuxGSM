@@ -2,7 +2,6 @@
 # LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="281215"
 
 # Description: Downloads SteamCMD on install and checks if missing before running functions that require SteamCMD
 

@@ -2,7 +2,6 @@
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""

@@ -2,7 +2,6 @@
 # LGSM game_settings.sh function
 # Author: Jared Ballou
 # Website: http://gameservermanagers.com
-lgsm_version="180116"
 
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 local modulename="Settings"

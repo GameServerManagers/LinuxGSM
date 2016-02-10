@@ -2,7 +2,6 @@
 # LGSM install_lgsm function
 # Author: Jared Ballou
 # Website: http://gameservermanagers.com
-lgsm_version="300116"
 
 # Description: Display menu of available games and install the one selected
 
