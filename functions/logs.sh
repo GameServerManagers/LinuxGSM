@@ -16,7 +16,7 @@ if [ -n "${consolelog}" ]; then
 fi
 
 # Set source logs directories
-if [ -z "${systemdir}" && "${engine}" == "source" ]; then
+if [ -z "${systemdir}" ]&&[ "${engine}" == "source" ]; then
 	srcdslogdir="${systemdir}/logs"
 	# Set addons directories
 	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
@@ -73,7 +73,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 			find "${sourcemodlogdir}"/ -mtime +${logdays} -type f -exec rm -f {} \;
 		fi
 		# ULX logfiles
-		if [ "${gamename}" == "Garry's Mod" ]
+		if [ "${gamename}" == "Garry's Mod" ]; then
 			if [ -d "${ulxlogdir}" ]; then
 				find "${ulxlogdir}"/ -type f -mtime +${logdays}|tee >> "${scriptlog}"
 				ulxcount=$(find "${ulxlogdir}"/ -type f -mtime +${logdays}|wc -l)
