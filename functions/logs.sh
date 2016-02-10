@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM logs.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: http://gameservermanagers.com
 lgsm_version="100215"
 
