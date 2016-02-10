@@ -53,7 +53,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l) -ne "0" ]; then
 	# Retrocompatibility, for logs directly in /log folder 
 	# Count how many script logfiles will be removed
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
-		gamecount=$(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l)
+		gamecount=$(find "${gamelogdir}"/ -type f -mtime +${logdays}|wc -l)
 	fi
 	# Count how many script logfiles will be removed
 	scriptcount=$(find "${scriptlogdir}"/ -type f -mtime +${logdays}|wc -l)
