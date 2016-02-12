@@ -1,0 +1,10 @@
+# Game Settings File
+# Import Engine
+fn_import_game_settings _goldsource
+
+fn_set_game_setting settings "appid" "276060"
+fn_set_game_setting settings "map" "svencoop1"
+fn_set_game_setting settings "game" "svencoop"
+fn_set_game_setting settings "gamename" "Sven Co-Op"
+fn_set_game_setting settings "maxplayers" "16"
+fn_set_game_setting settings "executable" "./svends_run"

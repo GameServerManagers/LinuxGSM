@@ -1,0 +1,5 @@
+# Functions for gamedata
+fn_random() {
+	len=${1:-12}
+	echo "$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${len} | head -n 1)"
+}

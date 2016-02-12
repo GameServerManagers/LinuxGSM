@@ -1,22 +1,7 @@
 # Game Settings File
 # _parms_plusminus
 # Parameter parsing with "+" and "-" sorting
-
-apply_shell_expansion() {
-    declare file="$1"
-    declare data=$(< "$file")
-    declare delimiter="__apply_shell_expansion_delimiter__"
-    declare command="cat <<$delimiter"$'\n'"$data"$'\n'"$delimiter"
-    eval "$command"
-}
-
-# Process parameter list
-fn_process_parmlist(){
-	prefix=$1
-	file=$2
-	# Expand variables, remove empties, strip = and " and prefix argument
-	echo $(printf "%s\n" "$(apply_shell_expansion "${file}")" | grep -v '=""' | sed -e "s/^\([^#=]\+\)=\"/${prefix}\1 /g" -e 's/\"$//g')
-}
+fn_import_game_settings _parms
 # This is the way we create a script that collates and parses the parameters
 fn_parms(){
 	parms_minus="$(fn_process_parmlist "\-" ${settingsdir}/parms_minus)"

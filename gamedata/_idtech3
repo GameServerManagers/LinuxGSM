@@ -1,0 +1,42 @@
+# Game Settings File
+# _idtech3
+# id Tech 3
+
+# Import default settings
+fn_import_game_settings _steam
+fn_import_game_settings _parms
+
+# Dependencies
+fn_set_game_setting settings "arch" "x64" "Architecture to use (x86|x64)"
+
+fn_set_game_setting settings "systemdir" "\${filesdir}"
+fn_set_game_setting settings "executabledir" "\${filesdir}"
+fn_set_game_setting settings "executable" "./run_server_\${arch}.sh"
+fn_set_game_setting settings "servercfg" "\${servicename}.cfg"
+fn_set_game_setting settings "servercfgdir" "\${filesdir}/baseq3"
+fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
+fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
+
+# Game Parameters
+fn_set_game_parm parms_set "net_strict" "1" "Net Strict"
+fn_set_game_parm parms_set "net_ip" "\${ip}" "Server IP"
+fn_set_game_parm parms_set "net_port" "27960" "Server Port"
+fn_set_game_parm parms_set "fs_homepath" "\${filesdir}/\${net_port}" "Filesystem Home Path"
+fn_set_game_parm parms_set "zmq_rcon_enable" "1" "RCON Enabled"
+fn_set_game_parm parms_set "zmq_rcon_port" "28960" "RCON Port"
+fn_set_game_parm parms_set "zmq_rcon_password" "$(fn_random)" "RCON Password"
+fn_set_game_parm parms_set "zmq_stats_enable" "1" "Stats Enabled"
+fn_set_game_parm parms_set "zmq_stats_password" "$(fn_random)" "Stats Password"
+fn_set_game_parm parms_set "zmq_stats_port" "\${net_port}" "Stats Port"
+fn_set_game_parm parms_set "sv_mapPoolFile" "mappool.txt" "Map Pool File"
+
+fn_set_game_parm parms_plus "exec" "\${servercfg}" "Server config file"
+
+# This is the way we create a script that collates and parses the parameters
+fn_parms(){
+        parms_set="$(fn_process_parmlist "\+set " ${settingsdir}/parms_set)"
+        parms_minus="$(fn_process_parmlist "\-" ${settingsdir}/parms_minus)"
+        parms_plus="$(fn_process_parmlist "\+" ${settingsdir}/parms_plus)"
+        parms="$(eval "echo \"${parms_minus} ${server_parms} ${parms_set} ${parms_plus}\"")"
+}
+
