@@ -15,3 +15,9 @@ fn_set_game_setting settings "executable" "./hlds_run"
 # Game Parameters
 fn_set_game_setting parms_plus "ip" "\${ip}"
 fn_set_game_setting parms_plus "clientport" "\${clientport}"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
+fn_parms(){
+parms="-game ${game} -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${map} -maxplayers ${maxplayers}"
+}
+

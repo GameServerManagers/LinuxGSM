@@ -2,6 +2,9 @@
 # _default
 # Base defaults for all games
 
+# Pull in base functions for gamedata
+fn_import_game_settings _functions
+
 # Default settings. This group includes a lot of blanks just so that the comments are set (and the engine/game files will show blank values to remind people to set them).
 fn_set_game_setting settings "backupdir" "\${lgsmdir}/backups" "Backup Directory"
 fn_set_game_setting settings "map" "--EMPTY--" "Default map to load"
