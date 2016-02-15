@@ -226,11 +226,8 @@ fi
 # Grabs all version numbers but not in correct order
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
 
-# Replaces dots with spaces to split up the number. e.g 3 0 12 1 is 3.0.12.1 this allows correct sorting
- cat .ts3_version_numbers_unsorted.tmp | tr "." " " > .ts3_version_numbers_digit.tmp
-# Sorts versions in to correct order
-# merges 2 files and orders by each column in order allowing these version numbers to be sorted in order
-paste .ts3_version_numbers_digit.tmp .ts3_version_numbers_unsorted.tmp | awk '{print $1,$2,$3,$4 " " $0;}'| sort  -k1rn -k2rn -k3rn -k4rn | awk '{print $NF}' > .ts3_version_numbers.tmp
+# Sort version numbers
+cat .ts3_version_numbers_unsorted.tmp | sort -r --version-sort -o .ts3_version_numbers_sorted.tmp
 
 # Finds directory with most recent server version.
 while read ts3_version_number; do
@@ -240,12 +237,11 @@ while read ts3_version_number; do
 		# Break while-loop, if the latest release could be found
 		break
 	fi
-done < .ts3_version_numbers.tmp
+done < .ts3_version_numbers_sorted.tmp
 
-# tidy up
-rm -f ".ts3_version_numbers_digit.tmp"
+# Tidy up
 rm -f ".ts3_version_numbers_unsorted.tmp"
-rm -f ".ts3_version_numbers.tmp"
+rm -f ".ts3_version_numbers_sorted.tmp"
 
 # Checks availablebuild info is available
 if [ -z "${availablebuild}" ]; then
