@@ -16,6 +16,9 @@ email="email@example.com"
 steamuser="anonymous"
 steampass=""
 
+# Token - Get one from http://steamcommunity.com/dev/managegameservers
+token=""
+
 # Start Variables
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
 # [Game Modes]           gametype    gamemode
@@ -44,7 +47,7 @@ updateonstart="no"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
+parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +sv_setsteamaccount "${token}" +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
 }
 
 #### Advanced Variables ####
