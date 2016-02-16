@@ -33,7 +33,9 @@ else
 	steamcmddir="${rootdir}/steamcmd"
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 		fn_printwarnnl "SteamCMD is missing"
-		fn_scriptlog "SteamCMD is missing"
+		if [ -d "${scriptlogdir}" ]; then
+			fn_scriptlog "SteamCMD is missing"
+		fi	
 		sleep 1
 		if [ ! -d "${steamcmddir}" ]; then
 			mkdir -v "${steamcmddir}"
