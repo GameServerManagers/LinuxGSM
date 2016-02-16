@@ -2,7 +2,7 @@
 # LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="281215"
+lgsm_version="160316"
 
 # Description: Checks SteamCMD is installed and correct.
 
