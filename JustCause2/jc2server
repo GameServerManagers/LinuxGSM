@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
-	exec 5>dev-debug.log
+	run 5>dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
@@ -36,7 +36,7 @@ parms=""
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="master"
+githubbranch="dlmanage"
 
 # Steam
 appid="261140"
@@ -51,6 +51,8 @@ rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
+lgsmdir="${rootdir}/lgsm"
+functionsdir="${lgsmdir}/functions"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./Jcmp-Server"
@@ -76,55 +78,56 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 ##### Script #####
 # Do not edit
 
-fn_getgithubfile(){
-filename=$1
-exec=$2
-fileurl=${3:-$filename}
-filepath="${rootdir}/${filename}"
-filedir=$(dirname "${filepath}")
-# If the function file is missing, then download
-if [ ! -f "${filepath}" ]; then
+# Fetches core_dl for file downloads
+fn_fetch_core_dl(){
+github_file_url_dir="functions"
+github_file_url_name="${functionfile}"
+filedir="${functionsdir}"
+filename="${github_file_url_name}"
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+# If the file is missing, then download
+if [ ! -f "${filedir}/${filename}" ]; then
 	if [ ! -d "${filedir}" ]; then
-		mkdir "${filedir}"
+		mkdir -p "${filedir}"
 	fi
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 	echo -e "    fetching ${filename}...\c"
-	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
-		:
-	else	
+	# Check curl exists and use available path
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl $(echo $PATH | sed "s/\([:]\|\$\)/\/curl /g")"
+	for curlcmd in ${curlpaths}
+	do
+		if [ -x "${curlcmd}" ]; then
+			break
+		fi
+	done
+	# If curl exists download file
+	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+		if [ $? -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo "${curlfetch}"
+			echo -e "${githuburl}\n"
+			exit
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi		
+	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
 		exit
 	fi
-	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
-	if [ $? -ne 0 ]; then
-		echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "${curl}"
-		echo -e "${githuburl}\n"
-		exit
-	else
-		echo -e "\e[0;32mOK\e[0m"
-	fi	
-	if [ "${exec}" ]; then
-		chmod +x "${filepath}"
-	fi
+	chmod +x "${filedir}/${filename}"
 fi
-if [ "${exec}" ]; then
-	source "${filepath}"
-fi
+source "${filedir}/${filename}"
 }
 
-fn_runfunction(){
-	fn_getgithubfile "functions/${functionfile}" 1
-}
-
-core_functions.sh(){
+core_dl.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_runfunction
+fn_fetch_core_dl
 }
 
+core_dl.sh
 core_functions.sh
 
 getopt=$1
