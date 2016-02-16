@@ -71,25 +71,25 @@ fn_dl_md5
 
 
 # Downloads file using curl and run it if required
-fn_dl_file(){
-fileurl="${1}"
-filedir="${2}"
-filename="${3}"
+# fn_fetch_file "fileurl" "filedir" "filename" "run" "force" "md5"
+fn_fetch_file(){
+fileurl=${1}
+filedir=${2}
+filename=${3}
 run=${4:-0}
 force=${5:-0}
 md5=${6}
-# If the file is missing or forced, then download
-if [ ! -f "${filedir}" ] || [ "${force}" == "1" ] || [ "${force}" == "yes" ]; then
+# If the file is missing, then download
+if [ ! -f "${filedir}/${filename}" ]; then
 	if [ ! -d "${filedir}" ]; then
 		mkdir -p "${filedir}"
 	fi
-	
+	echo -e "    fetching ${filename}...\c"
 	# Check curl exists and use available path
 	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl $(echo $PATH | sed "s/\([:]\|\$\)/\/curl /g")"
 	for curlcmd in ${curlpaths}
 	do
 		if [ -x "${curlcmd}" ]; then
-			curlcmd=${curlcmd}
 			break
 		fi
 	done
@@ -105,24 +105,12 @@ if [ ! -f "${filedir}" ] || [ "${force}" == "1" ] || [ "${force}" == "yes" ]; th
 			fn_printfaileol
 			echo "${curlfetch}"
 			echo -e "${fileurl}\n"
-			fn_scriptlog "failed to download ${filedir}/${filename}"
-			fn_scriptlog "${curlfetch}"
-			fn_scriptlog -e "${fileurl}\n"
-			sleep 1
-			echo "Removing failed ${filename}..."
-			rm -f "${filedir}/${filename}"
-			if [ $? -ne 0 ]; then
-				fn_printfaileol
-			else
-				fn_printokeol
-			fi 
 			exit 1
 		else
 			fn_printokeol
-			fn_scriptlog "downloaded ${filedir}/${filename}"
 		fi		
 	else
-		echo -e "fn_printfaileol"
+		fn_printfaileol
 		echo "Curl is not installed!"
 		echo -e ""
 		exit 1
@@ -158,4 +146,17 @@ force=${5:-0}
 githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 echo -e "    fetching ${filename}...\c"
 fn_fetch_file "${githuburl}" "${filepath}" "${filename}" "${run}" "${force}"
+}
+
+
+
+# Fetches functions
+fn_fetch_function(){
+github_file_url_dir="functions" # github dir containing the file
+github_file_url_name="${functionfile}" # name of the github file
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+filedir="${functionsdir}" # local dir that will contain the file
+filename="${github_file_url_name}" # name of the local file
+run="run"
+fn_fetch_file "${githuburl}" "${filedir}" "${filename}" "${run}"
 }

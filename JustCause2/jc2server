@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="271215"
+version="160316"
 
 #### Variables ####
 
@@ -106,7 +106,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			echo -e "\e[0;31mFAIL\e[0m\n"
 			echo "${curlfetch}"
 			echo -e "${githuburl}\n"
-			exit
+			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
 		fi		
@@ -114,7 +114,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
-		exit
+		exit 1
 	fi
 	chmod +x "${filedir}/${filename}"
 fi
@@ -122,6 +122,12 @@ source "${filedir}/${filename}"
 }
 
 core_dl.sh(){
+# Functions are defined in core_functions.sh.
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
+core_functions.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
