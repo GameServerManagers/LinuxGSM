@@ -8,14 +8,15 @@ lgsm_version="160316"
 
 
 fn_install_steamcmd(){
-echo "Installing steamCMD..."
+echo "Installing steamCMD"
 if [ ! -d "${steamcmddir}" ]; then
 	mkdir -v "${steamcmddir}"
 fi
 fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${steamcmddir}" "steamcmd_linux.tar.gz"
 tar --verbose -zxf "${steamcmddir}/steamcmd_linux.tar.gz" -C "${steamcmddir}"
 rm -v "${steamcmddir}/steamcmd_linux.tar.gz"
-chmod +x "${steamcmddir}/steamcmd.sh"	
+chmod +x "${steamcmddir}/steamcmd.sh"
+echo ""
 }
 
 
@@ -43,13 +44,20 @@ fi
 
 fn_check_steamcmd_sh(){
 # Checks if SteamCMD exists when starting or updating a server.
-# Re-installs if missing.
+# Installs if missing.
 steamcmddir="${rootdir}/steamcmd"
 if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
-	fn_printwarnnl "SteamCMD is missing"
-	fn_scriptlog "SteamCMD is missing"
-	sleep 1
-	fn_install_steamcmd
+	if [ "${function_selfname}" == "command_install.sh" ]; then
+		fn_install_steamcmd
+	else	
+		fn_printwarnnl "SteamCMD is missing"
+		fn_scriptlog "SteamCMD is missing"
+		sleep 1
+		fn_install_steamcmd
+	fi
+elif [ "${function_selfname}" == "command_install.sh" ]; then
+	fn_printinfomation "SteamCMD is already installed..."
+	fn_printokeol	
 fi
 }
 
