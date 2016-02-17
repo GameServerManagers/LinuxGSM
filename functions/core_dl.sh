@@ -10,6 +10,7 @@ lgsm_version="050216"
 # fn_dl "dl_filename" "dl_filepath" "dl_url" "dl_md5"
 # fn_dl "file.tar.bz2" "/home/gameserver" "http://example.com/file.tar/bz2" "10cd7353aa9d758a075c600a6dd193fd"
 
+
 fn_dl_md5(){
 # Runs MD5 Check if available
 if [ -n "${md5}" ]; then
@@ -32,43 +33,19 @@ if [ -n "${md5}" ]; then
 fi	
 }
 
-
-fn_dl_file(){
-# defines variables from other script file
-dl_filename=$1
-dl_filepath=$2
-dl_url=$3
-dl_md5=$4
-
-if [ ! -f "${dl_filepath}/${dl_filename}" ]||[ -n "${retry_dl}" ]; then
-	echo -ne "downloading ${dl_filename}..."
-	dl=$(curl --progress-bar --fail -o "${dl_filepath}/${dl_filename}" "${dl_url}")
-	exitcode=$?
-	echo -ne "downloading ${dl_filename}...\c"
-	if [ ${exitcode} -ne 0 ]; then
-		fn_printfaileol
-		echo -e "${dl_url}\n"
-		exit ${exitcode}
-	else
-		fn_printokeol
-	fi
-else	
-	echo -e "${dl_filename} already exists...\c"
-	fn_dl_md5
-	while true; do
-		read -e -i "n" -p "Download again? [y/N]" yn
-		case $yn in
-		[Yy]* ) fn_dl; retry_dl=1;;
-		[Nn]* ) break;;
-		* ) echo "Please answer yes or no.";;
-	esac
-	done
-fi	
-
-fn_dl_md5
+fn_dl_extract(){
+# extracts archives
+:
 }
 
-
+# trap to remove file download if canceled before completed
+fn_fetch_trap() {
+	echo ""
+	fn_printinfomationnl "Cancelling download"
+	sleep 1
+	fn_printinfomation "Removing ${filename}"
+	rm -f "${filedir}/${filename}"
+}
 
 # Downloads file using curl and run it if required
 # fn_fetch_file "fileurl" "filedir" "filename" "run" "force" "md5"
@@ -79,12 +56,13 @@ filename=${3}
 run=${4:-0}
 force=${5:-0}
 md5=${6}
+
 # If the file is missing, then download
 if [ ! -f "${filedir}/${filename}" ]; then
 	if [ ! -d "${filedir}" ]; then
 		mkdir -p "${filedir}"
 	fi
-	echo -e "    fetching ${filename}...\c"
+	echo -ne "    fetching ${filename}...\c"
 	# Check curl exists and use available path
 	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl $(echo $PATH | sed "s/\([:]\|\$\)/\/curl /g")"
 	for curlcmd in ${curlpaths}
@@ -95,9 +73,12 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	done
 	# If curl exists download file
 	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		# trap to remove part downloaded files
+		trap fn_fetch_trap EXIT
+
 		# if larger file shows progress bar
-		if [ "${filename}" == *".tar"* ]; then
-			curlfetch=$(${curlcmd} --progress-bar -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
+		if [[ $filename == *"tar"* ]]; then
+			curlfetch=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
 		else	
 			curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 		fi
@@ -108,7 +89,9 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			fn_printokeol
-		fi		
+		fi
+		# remove trap
+		trap - SIGINT SIGQUIT SIGTSTP	
 	else
 		fn_printfaileol
 		echo "Curl is not installed!"
