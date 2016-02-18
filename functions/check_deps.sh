@@ -40,10 +40,16 @@ fi
 fn_deps_email(){
 # Adds postfix to required dependencies if email notification is enabled
 if [ "${emailnotification}" == "on" ]; then
-	if [ -n "$(command -v dpkg-query)" ]; then
-		array_deps_required+=( mailutils postfix )
-	elif [ -n "$(command -v yum)" ]; then
-		array_deps_required+=( mailx postfix )
+	if [ -d /etc/exim4 ]; then
+		array_deps_required+=( exim4 )
+	elif [ -d /etc/sendmail ]; then
+		array_deps_required+=( sendmail )
+	elif [ ! -f /usr/bin/mailx ]; then
+		if [ -n "$(command -v dpkg-query)" ]; then
+			array_deps_required+=( mailutils postfix )
+		elif [ -n "$(command -v yum)" ]; then
+			array_deps_required+=( mailx postfix )
+		fi
 	fi	
 fi
 }
