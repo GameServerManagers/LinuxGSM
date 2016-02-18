@@ -44,12 +44,10 @@ if [ "${emailnotification}" == "on" ]; then
 		array_deps_required+=( exim4 )
 	elif [ -d /etc/sendmail ]; then
 		array_deps_required+=( sendmail )
-	elif [ ! -f /usr/bin/mailx ]; then
-		if [ -n "$(command -v dpkg-query)" ]; then
-			array_deps_required+=( mailutils postfix )
-		elif [ -n "$(command -v yum)" ]; then
-			array_deps_required+=( mailx postfix )
-		fi
+	elif [ -n "$(command -v dpkg-query)" ]; then
+		array_deps_required+=( mailutils postfix )
+	elif [ -n "$(command -v yum)" ]; then
+		array_deps_required+=( mailx postfix )
 	fi	
 fi
 }
