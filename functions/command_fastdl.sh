@@ -146,12 +146,13 @@ fn_gmod_fastdl(){
 fn_printdots "Gathering all needed files..."
 echo -en "\n"
 sleep 1
-
+# No choice to cd to the directory, as find can't then display relative folder
+cd "${addonsdir}"
 # Map Files
 fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
 sleep 1
-find "${addonsdir}" -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Map files copied"
 echo -en "\n"
 sleep 1
@@ -160,8 +161,8 @@ sleep 1
 fn_printdots "Copying materials..."
 fn_scriptlog "Copying materials"
 sleep 1
-find "${addonsdir}" -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Materials copied"
 echo -en "\n"
 sleep 1
@@ -170,10 +171,10 @@ sleep 1
 fn_printdots "Copying models..."
 fn_scriptlog "Copying models"
 sleep 1
-find "${addonsdir}" -name '*.vtx' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.phy' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.vtx' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.phy' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Models copied"
 echo -en "\n"
 sleep 1
@@ -182,7 +183,7 @@ sleep 1
 fn_printdots "Copying particles..."
 fn_scriptlog "Copying particles"
 sleep 1
-find "${addonsdir}" -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Particles copied"
 echo -en "\n"
 sleep 1
@@ -191,9 +192,9 @@ sleep 1
 fn_printdots "Copying sounds..."
 fn_scriptlog "Copying sounds"
 sleep 1
-find "${addonsdir}" -name '*.wav' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.wav' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Sounds copied"
 echo -en "\n"
 sleep 1
@@ -202,12 +203,14 @@ sleep 1
 fn_printdots "Copying fonts and png..."
 fn_scriptlog "Copying fonts and png"
 sleep 1
-find "${addonsdir}" -name '*.otf' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
-find "${addonsdir}" -name '*.png' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.otf' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
+find . -name '*.png' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Fonts and png copied"
 echo -en "\n"
 sleep 1
+# Going back to rootdir in order to prevent crap from happening
+cd "${rootdir}"
 
 # Correct addons folder structure
 if [ -d "${fastdldir}/addons" ]; then
@@ -231,21 +234,7 @@ if [ -d "${fastdldir}/lua" ]; then
 	cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 	fn_printok "Stupid file structure fixed"
 	echo -en "\n"
-	sleep 1
-fi
-}
-
-fn_fastdl_bzip2(){
-# Compressing using bzip2 if user said yes
-if [ ${bzip2enable} == "on" ]; then
-	fn_printinfo "Compressing files using bzip2..."
-	fn_scriptlog "Compressing files using bzip2..."
 	sleep 2
-	# bzip2 all files that are not already compressed (keeping original files)
-	find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -qk \{\} \;
-	fn_printinfo "bzip2 compression done"
-	fn_scriptlog "bzip2 compression done"
-	sleep 1
 fi
 }
 
@@ -254,9 +243,13 @@ fn_lua_fastdl(){
 # Remove lua file if luaressource is turned off and file exists
 if [ "${luaressource}" == "off" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
-		echo "Removing download enforcer"
+		fn_printdots "Removing download enforcer"
 		sleep 1
 		rm -R "${luafastdlfullpath}"
+		fn_printok "Removed download enforcer"
+		fn_scriptlog "Removed old download inforcer"
+		echo -en "\n"
+		sleep 2
 	fi
 fi
 # Remove old lua file and generate a new one if user said yes
@@ -266,7 +259,7 @@ if [ "${luaressource}" == "on" ]; then
 		sleep 1
 		rm "${luafastdlfullpath}"
 		fn_printok "Removed old download enforcer"
-		fn_scriptlog "Removed old download inforcer"
+		fn_scriptlog "Removed old download enforcer"
 		echo -en "\n"
 		sleep 1
 	fi
@@ -275,11 +268,26 @@ if [ "${luaressource}" == "on" ]; then
 	sleep 1
 	# Read all filenames and put them into a lua file at the right path
 	find "${fastdldir}" \( -name "." ! -name "*.bz2" \) -printf '%P\n' | while read line; do
-		echo "resource.AddFile("\""${line}"\"")" >> "${luafastdlfullpath}"
+		echo "resource.AddFile("\""${line}"\"")" >> ${luafastdlfullpath}
 	done
 	fn_printok "Download enforcer generated"
 	fn_scriptlog "Download enforcer generated"
 	echo -en "\n"
+	echo ""
+	sleep 2
+fi
+}
+
+fn_fastdl_bzip2(){
+# Compressing using bzip2 if user said yes
+if [ ${bzip2enable} == "on" ]; then
+	fn_printdots "Compressing files using bzip2..."
+	fn_scriptlog "Compressing files using bzip2..."
+	sleep 2
+	# bzip2 all files that are not already compressed (keeping original files)
+	find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -qk \{\} \;
+	fn_printinfo "bzip2 compression done"
+	fn_scriptlog "bzip2 compression done"
 	sleep 1
 fi
 }
