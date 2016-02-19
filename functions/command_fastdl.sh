@@ -40,9 +40,9 @@ fi
 fn_fastdl_init(){
 # User confirmation
 fn_printok "Welcome to LGSM's FastDL generator"
+sleep 1
 echo -en "\n"
 fn_scriptlog "Started FastDL creation"
-sleep 1
 while true; do
 	read -p "Continue? [y/N]" yn
 	case $yn in
@@ -224,7 +224,7 @@ if [ -d "${fastdldir}/addons" ]; then
 	fn_scriptlog "Adjusting addon's file structure"
 	sleep 2
 	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-	rm -R "${fastdldir}/addons"
+#Don't remove yet	rm -R "${fastdldir}/addons"
 	fn_printok "Adjusted addon's file structure"
 	echo -en "\n"
 	sleep 1
@@ -232,12 +232,15 @@ fi
 
 # Correct content that may be into a lua folder by mistake like some darkrpmodification addons
 if [ -d "${fastdldir}/lua" ]; then
-	fn_printdots "Stupid file structure fix"
-	sleep 1
+	fn_printwarn "Typical DarkRP shit detected"
+	sleep 2
+	echo -en "\n"
+	fn_printdots "Fixing DarkRP file structure..."
+	sleep 2
 	cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 	fn_printok "Stupid file structure fixed"
-	echo -en "\n"
 	sleep 2
+	echo -en "\n"
 fi
 }
 
