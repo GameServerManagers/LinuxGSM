@@ -2,7 +2,7 @@
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="100116"
+lgsm_version="190216"
 
 # Description: stores details on servers Glibc requirements.
 
@@ -27,6 +27,9 @@ elif [ "${gamename}" == "Insurgency" ]; then
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Quake Live" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
