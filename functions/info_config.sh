@@ -2,7 +2,7 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060116"
+lgsm_version="190216"
 
 # Description: Gets specific details from config files.
 
@@ -170,7 +170,8 @@ elif [ "${engine}" == "idtech3" ]; then
 
 	# server password
 	if [ -f "${servercfgfullpath}" ]; then
-		serverpassword=$(grep "set g_password" "${servercfgfullpath}" | grep -v "//" | sed -e 's/set g_password//g' | tr -d '=\"; ')
+
+		serverpassword=$(grep "set g_password" "${servercfgfullpath}" | sed -e 's/set g_password//g' | tr -d '=\"; '| cut -f1 -d "/")
 		if [ ! -n "${serverpassword}" ]; then
 			serverpassword="NOT SET"
 		fi
