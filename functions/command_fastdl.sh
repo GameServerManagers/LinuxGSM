@@ -183,14 +183,14 @@ sleep 1
 # Generate lua file that will force download any file into the FastDL folder
 fn_lua_fastdl(){
 # Remove lua file if luaressource is turned off
-if [ ${luaressource} == "off" ]; then
+if [ "${luaressource}" == "off" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo "Removing download enforcer"
 		sleep 1
 		rm -R "${luafastdlfullpath}"
 	fi
 fi
-if [ ${luaressource == "on" ]; then
+if [ "${luaressource}"" == "on" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo "Removing old download enforcer"
 		sleep 1
