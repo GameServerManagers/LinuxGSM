@@ -2,7 +2,7 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060116"
+lgsm_version="190316"
 
 # Description: Displays server infomation.
 
@@ -316,7 +316,7 @@ echo -e ""
 echo -e "Useful port diagnostic command:"
 echo -e "netstat -atunp | grep qzeroded"
 echo -e ""
-if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
+if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
 	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
 	echo -e ""
 fi
