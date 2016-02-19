@@ -38,7 +38,7 @@ fn_dl_extract(){
 :
 }
 
-# trap to remove file download if canceled before completed
+# Trap to remove file download if canceled before completed
 fn_fetch_trap() {
 	echo ""
 	fn_printinfomationnl "Cancelling download"
@@ -74,7 +74,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	# If curl exists download file
 	if [ "$(basename ${curlcmd})" == "curl" ]; then
 		# trap to remove part downloaded files
-		trap fn_fetch_trap EXIT
+		trap fn_fetch_trap INT
 
 		# if larger file shows progress bar
 		if [[ $filename == *"tar"* ]]; then
@@ -91,7 +91,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			fn_printokeol
 		fi
 		# remove trap
-		trap - SIGINT SIGQUIT SIGTSTP	
+		trap - INT	
 	else
 		fn_printfaileol
 		echo "Curl is not installed!"
