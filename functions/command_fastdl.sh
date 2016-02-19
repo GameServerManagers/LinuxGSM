@@ -279,7 +279,7 @@ if [ "${luaressource}" == "on" ]; then
 	fn_scriptlog "Generating new download enforcer"
 	sleep 1
 	# Read all filenames and put them into a lua file at the right path
-	find "${fastdldir}" \( -name "*.*" ! -name "*.bz2" \) -printf '%P\n' | while read line; do
+	find "${fastdldir}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
 		echo "resource.AddFile( "\""${line}"\"" )" >> ${luafastdlfullpath}
 	done
 	fn_printok "Download enforcer generated"
@@ -293,12 +293,13 @@ fi
 fn_fastdl_bzip2(){
 # Compressing using bzip2 if user said yes
 if [ ${bzip2enable} == "on" ]; then
+	fn_printinfo "Have a break, this step could take a while..."
 	fn_printdots "Compressing files using bzip2..."
 	fn_scriptlog "Compressing files using bzip2..."
 	sleep 2
 	# bzip2 all files that are not already compressed (keeping original files)
-	find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -qk \{\} \;
-	fn_printinfo "bzip2 compression done"
+	find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
+	fn_printok "bzip2 compression done"
 	fn_scriptlog "bzip2 compression done"
 	sleep 1
 fi
@@ -306,6 +307,7 @@ fi
 
 fn_fastdl_completed(){
 # Finished message
+echo ""
 fn_printok "Congratulations, it's done !"
 fn_scriptlog "FastDL job done"
 sleep 2
