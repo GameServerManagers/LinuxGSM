@@ -278,11 +278,9 @@ if [ "${luaressource}" == "on" ]; then
 	fn_printdots "Generating new download enforcer"
 	fn_scriptlog "Generating new download enforcer"
 	sleep 1
-	# Create the lua file
-	touch "${luafastdlfullpath}"
 	# Read all filenames and put them into a lua file at the right path
 	find "${fastdldir}" \( -name "*.*" ! -name "*.bz2" \) -printf '%P\n' | while read line; do
-		echo "resource.AddFile("\""${line}"\"")" >> ${luafastdlfullpath}
+		echo "resource.AddFile( "\""${line}"\"" )" >> ${luafastdlfullpath}
 	done
 	fn_printok "Download enforcer generated"
 	fn_scriptlog "Download enforcer generated"
@@ -312,6 +310,7 @@ fn_printok "Congratulations, it's done !"
 fn_scriptlog "FastDL job done"
 sleep 2
 echo -en "\n"
+echo ""
 fn_printinfo "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
 echo -en "\n"
 if [ "$bzip2installed" == "0" ]; then
