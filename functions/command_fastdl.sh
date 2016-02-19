@@ -37,7 +37,8 @@ fi
 
 fn_fastdl_init(){
 # User confirmation
-fn_printdots "Welcome to LGSM's FastDL generator"
+fn_printok "Welcome to LGSM's FastDL generator"
+echo -en "\n"
 fn_scriptlog "Started FastDL creation"
 sleep 1
 while true; do
@@ -52,7 +53,7 @@ fn_scriptlog "Initiating FastDL creation"
 
 # Check and create folders
 if [ ! -d "${webdir}" ]; then
-	fn_printinfo  "Creating www directory..."
+	fn_printdots  "Creating www directory..."
 	sleep 0.5
 	mkdir -v "${webdir}"
 	sleep 1
@@ -60,11 +61,13 @@ if [ ! -d "${webdir}" ]; then
 fi
 if [ ! -d "${fastdldir}" ]; then
 	newfastdl=1
-	fn_printinfo "Creating FastDL directory..."
+	fn_printdots "Creating FastDL directory..."
 	sleep 0.5
 	mkdir -v "${fastdldir}"
 	sleep 1
 	fn_scriptlog "FastDL created ${fastdldir}"
+	fn_printok "Folders created"
+	echo -en "\n"
 else
 	newfastdl=0
 fi
@@ -73,27 +76,29 @@ fi
 fn_fastdl_config(){
 fn_printinfo "Configuration..."
 fn_scriptlog "Configuration"
+echo -en "\n"
 sleep 2
 if [ ${newfastdl} == 1 ]; then
-	fn_printinfo "Do you wish to clear old FastDL files?"
-	echo "(Useful if some files changed)"
+	fn_printdots "Enable clearing old FastDL files? (Useful if some files changed)"
 	while true; do
 		read -p "Clear old FastDL? [y/n]" yn
 		case $yn in
-		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; break;;
-		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled" break;;
+		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_printok "Enabled"; break;;
+		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_printok "Disabled"; break;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
+	echo -en "\n"
 fi
 if [ ${bzip2installed} == 1 ]; then
-	echo "Compress files using bzip2 for faster client download?"
-	echo "(It may take a while)"
+	fn_printdots "Enable file compressiong using bzip2?"
+	echo -en "\n"
+	echo "It may take a while but is advised for faster client download"
 	while true; do
 		read -p "Use bzip2? [y/n]" yn
 		case $yn in
-		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; break;;
-		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled" break;;
+		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_printok "Enabled"; break;;
+		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_printok "Disabled;" break;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
