@@ -146,7 +146,7 @@ sleep 1
 fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
 sleep 1
-find "${addonsdir}" -name '*.bsp' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.bsp' | cpio -updm "${fastdldir}" > /dev/null 2>&1
 fn_printok
 echo -en "\n"
 sleep 1
@@ -155,8 +155,8 @@ sleep 1
 fn_printdots "Copying materials"
 fn_scriptlog "Copying materials"
 sleep 1
-find "${addonsdir}" -name '*.vtf' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.vmt' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vtf' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.vmt' | cpio -updm "${fastdldir}" > /dev/null 2>&1
 fn_printok
 echo -en "\n"
 sleep 1
@@ -165,10 +165,10 @@ sleep 1
 fn_printdots "Copying models"
 fn_scriptlog "Copying models"
 sleep 1
-find "${addonsdir}" -name '*.vtx' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.vvd' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.mdl' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.phy' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vtx' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.vvd' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.mdl' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.phy' | cpio -updm "${fastdldir}" > /dev/null 2>&1
 fn_printok
 echo -en "\n"
 sleep 1
@@ -177,7 +177,7 @@ sleep 1
 fn_printdots "Copying particles"
 fn_scriptlog "Copying particles"
 sleep 1
-find "${addonsdir}" -name '*.pcf' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.pcf' | cpio -updm "${fastdldir}" > /dev/null 2>&1
 fn_printok
 echo -en "\n"
 sleep 1
@@ -186,9 +186,9 @@ sleep 1
 fn_printdots "Copying sounds"
 fn_scriptlog "Copying sounds"
 sleep 1
-find "${addonsdir}" -name '*.wav' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.mp3' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.ogg' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.wav' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.mp3' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.ogg' | cpio -updm "${fastdldir}" > /dev/null 2>&1
 fn_printok
 echo -en "\n"
 sleep 1
@@ -197,9 +197,9 @@ sleep 1
 fn_printdots "Copying fonts and png"
 fn_scriptlog "Copying fonts and png"
 sleep 1
-find "${addonsdir}" -name '*.otf' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.ttf' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.png' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.otf' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.ttf' | cpio -updm "${fastdldir}" > /dev/null 2>&1
+find "${addonsdir}" -name '*.png' | cpio -updm "${fastdldir}" > /dev/null 2>&1
 fn_printok
 echo -en "\n"
 sleep 1
@@ -235,7 +235,7 @@ if [ ${bzip2enable} == "on" ]; then
 	fn_scriptlog "Compressing files using bzip2..."
 	sleep 2
 	# bzip2 all files that are not already compressed (keeping original files)
-	find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -k \{\} \;
+	find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -k \{\} \; > /dev/null 2>&1
 	fn_printinfo "bzip2 compression done"
 	fn_scriptlog "bzip2 compression done"
 	sleep 1
