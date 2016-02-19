@@ -127,8 +127,8 @@ while true; do
 	[Nn]* ) luaressource="off"; fn_scriptlog "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
 	* ) echo "Please answer yes or no.";;
 	esac
-	echo -en "\n"
 done
+echo -en "\n"
 }
 
 fn_clear_old_fastdl(){
