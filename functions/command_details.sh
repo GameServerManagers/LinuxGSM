@@ -306,7 +306,7 @@ fi
 fn_details_statusbottom
 }
 
-fn_details_id3tech(){
+fn_details_idtech3(){
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
