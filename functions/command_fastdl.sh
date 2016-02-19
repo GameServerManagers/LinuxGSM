@@ -36,6 +36,7 @@ if [ ! -d "${webdir}" ]; then
 	echo "Creating www directory"
 	mkdir -v "${webdir}"
 	sleep 1
+fi
 if [ ! -d "${fastdldir}" ]; then
 	echo "Creating FastDL directory"
 	mkdir -v "${fastdldir}"
