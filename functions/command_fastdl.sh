@@ -124,7 +124,7 @@ while true; do
 	read -e -i "y" -p "Use client download enforcer? [Y/n]" yn
 	case $yn in
 	[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_printok "Enforcer Enabled"; break;;
-	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
+	[Nn]* ) luaressource="off"; fn_scriptlog "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
 	* ) echo "Please answer yes or no.";;
 	esac
 	echo -en "\n"
