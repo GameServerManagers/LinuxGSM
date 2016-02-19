@@ -31,7 +31,7 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 	esac
 done
-# Create FastDL folder if it doesn't exit
+# Create FastDL folder if it doesn't exist
 if [ ! -d "${webdir}" ]; then
 	echo "Creating www directory"
 	mkdir -v "${webdir}"
@@ -166,7 +166,7 @@ echo "It may take a while..."
 		read -p "Continue? [y/N]" yn
 		case $yn in
 		[Yy]* ) break;;
-		[Nn]* ) exit;;
+		[Nn]* ) return 0;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
@@ -218,7 +218,6 @@ if [ "$bzip2installed" == "0" ]; then
 echo "By the way, you'd better install bzip2 an re-run this command"
 fi
 echo "----------------------------------"
-exit
 }
 
 # Game checking
