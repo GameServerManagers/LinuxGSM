@@ -2,7 +2,7 @@
 # LGSM install_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="190216"
 
 fn_dlgsquery(){
 cd "${rootdir}"
@@ -11,7 +11,7 @@ wget -N /dev/null "http://gameservermanagers.com/dl/gsquery.py" 2>&1 | grep -F "
 chmod +x gsquery.py
 }
 
-if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Hurtworld" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "idtech3" ][ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Hurtworld" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	echo ""
 	echo "GameServerQuery"
 	echo "============================"
