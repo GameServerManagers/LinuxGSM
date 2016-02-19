@@ -70,7 +70,7 @@ fi
 if [ ! -d "${fastdldir}" ]; then
 	# No folder, won't ask for removing old ones
 	newfastdl=1
-	fn_printdots "Creating FastDL fastdl directory"
+	fn_printdots "Creating fastdl directory"
 	sleep 1
 	mkdir "${fastdldir}"
 	fn_printok "Created fastdl directory"
@@ -90,7 +90,7 @@ fn_scriptlog "Configuration"
 sleep 2
 echo -en "\n"
 # Prompt for clearing old files if folder was already here
-if [ -z "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
+if [ -d "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
 	fn_printdots
 	while true; do
 		read -e -i "y" -p "Clear old FastDL files? [Y/n]" yn
