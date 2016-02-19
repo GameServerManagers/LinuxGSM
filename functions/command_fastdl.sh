@@ -152,15 +152,15 @@ fn_printdots "Gathering all needed files..."
 echo -en "\n"
 sleep 1
 # No choice to cd to the directory, as find can't then display relative folder
-cd "${addonsdir}"
+cd "${systemdir}"
 # Map Files
 fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
 sleep 1
 find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Map files copied"
-echo -en "\n"
 sleep 1
+echo -en "\n"
 
 # Materials
 fn_printdots "Copying materials..."
@@ -169,8 +169,8 @@ sleep 1
 find . -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Materials copied"
-echo -en "\n"
 sleep 1
+echo -en "\n"
 
 # Models
 fn_printdots "Copying models..."
@@ -181,8 +181,8 @@ find . -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.phy' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Models copied"
-echo -en "\n"
 sleep 1
+echo -en "\n"
 
 # Particles
 fn_printdots "Copying particles..."
@@ -190,8 +190,8 @@ fn_scriptlog "Copying particles"
 sleep 1
 find . -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Particles copied"
-echo -en "\n"
 sleep 1
+echo -en "\n"
 
 # Sounds
 fn_printdots "Copying sounds..."
@@ -201,8 +201,8 @@ find . -name '*.wav' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Sounds copied"
-echo -en "\n"
 sleep 1
+echo -en "\n"
 
 # Resources (mostly fonts)
 fn_printdots "Copying fonts and png..."
@@ -212,22 +212,20 @@ find . -name '*.otf' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.png' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Fonts and png copied"
-echo -en "\n"
 sleep 1
-# Going back to rootdir in order to prevent crap from happening
+echo -en "\n"
+
+# Going back to rootdir in order to prevent mistakes
 cd "${rootdir}"
 
-# Correct addons folder structure
+# Correct addons folder structure for FastDL
 if [ -d "${fastdldir}/addons" ]; then
-	fn_printinfo "Correcting file structure"
-	fn_scriptlog "Correcting file structure"
-	sleep 2
-	echo "Copying those files to their correct folder"
+	fn_printinfo "Adjusting addons' file structure"
+	fn_scriptlog "Adjusting addon's file structure"
 	sleep 2
 	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-	# As we're not sure about the correct file structure, duplicate instead of remove
-	# rm -R "${fastdldir}/addons"
-	fn_printok "Corrected file structure"
+	rm -R "${fastdldir}/addons"
+	fn_printok "Adjusted addon's file structure"
 	echo -en "\n"
 	sleep 1
 fi
@@ -306,6 +304,7 @@ echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl
 if [ "$bzip2installed" == "0" ]; then
 echo "By the way, you'd better install bzip2 an re-run this command !"
 fi
+echo "Credits : UltimateByte"
 }
 
 # Game checking and functions running
