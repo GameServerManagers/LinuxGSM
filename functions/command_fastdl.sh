@@ -74,34 +74,37 @@ fi
 }
 
 fn_fastdl_config(){
-fn_printinfo "Configuration..."
+fn_printinfo "Entering configuration"
 fn_scriptlog "Configuration"
 echo -en "\n"
 sleep 2
 if [ ${newfastdl} == 1 ]; then
-	fn_printdots "Enable clearing old FastDL files? (Useful if some files changed)"
+	fn_printdots "Enable clearing old FastDL files?"
+	sleep 1
 	while true; do
 		read -p "Clear old FastDL? [y/n]" yn
 		case $yn in
-		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_printok "Enabled"; break;;
-		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_printok "Disabled"; break;;
+		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_printok "Clearing Enabled"; break;;
+		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_printok "Clearing Disabled"; break;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
+	sleep 1
 	echo -en "\n"
 fi
 if [ ${bzip2installed} == 1 ]; then
-	fn_printdots "Enable file compressiong using bzip2?"
-	echo -en "\n"
-	echo "It may take a while but is advised for faster client download"
+	fn_printdots "Enable file compression using bzip2?"
+	sleep 1
 	while true; do
 		read -p "Use bzip2? [y/n]" yn
 		case $yn in
-		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_printok "Enabled"; break;;
-		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_printok "Disabled;" break;;
+		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_printok "bzip2 Enabled"; break;;
+		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_printok "bzip2 Disabled;" break;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
+	sleep 1
+	echo -en "\n"
 fi
 }
 
@@ -112,10 +115,12 @@ echo "It is useful for many addons where devs didn't register their files to be 
 while true; do
 	read -p "Use download enforcer? [y/n]" yn
 	case $yn in
-	[Yy]* ) luaressource="on"; break;;
-	[Nn]* ) luaressource="off"; return 0;;
+	[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_printok "DL enforcer Enabled"; break;;
+	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "DL enforcer Disabled"; break;;
 	* ) echo "Please answer yes or no.";;
 	esac
+	sleep1
+	echo -en "\n"
 done
 }
 
@@ -125,12 +130,16 @@ if [ clearoldfastdl == "on" ]; then
 	fn_scriptlog "Clearing existing FastDL folder"
 	sleep 1
 	rm -R "${fastdldir}"/*
+	fn_printok "Old FastDL folder cleared"
+	fn_scriptlog "Old FastDL folder cleared"
+	echo -en "\n"
 fi
 }
 
 fn_gmod_fastdl(){
 # Copy all needed files for fastDL
 fn_printdots "Gathering all needed FastDL files..."
+echo -en "\n"
 sleep 1
 
 # Map Files
@@ -138,7 +147,8 @@ fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
 sleep 1
 find "${addonsdir}" -name '*.bsp' | cpio -updm "${fastdldir}"
-echo "Done"
+fn_printok
+echo -en "\n"
 sleep 1
 
 # Materials
@@ -147,7 +157,8 @@ fn_scriptlog "Copying materials"
 sleep 1
 find "${addonsdir}" -name '*.vtf' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.vmt' | cpio -updm "${fastdldir}"
-echo "Done"
+fn_printok
+echo -en "\n"
 sleep 1
 
 # Models
@@ -158,7 +169,8 @@ find "${addonsdir}" -name '*.vtx' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.vvd' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.mdl' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.phy' | cpio -updm "${fastdldir}"
-echo "Done"
+fn_printok
+echo -en "\n"
 sleep 1
 
 # Particles
@@ -166,7 +178,8 @@ fn_printdots "Copying particles"
 fn_scriptlog "Copying particles"
 sleep 1
 find "${addonsdir}" -name '*.pcf' | cpio -updm "${fastdldir}"
-echo "Done"
+fn_printok
+echo -en "\n"
 sleep 1
 
 # Sounds
@@ -176,7 +189,8 @@ sleep 1
 find "${addonsdir}" -name '*.wav' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.mp3' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.ogg' | cpio -updm "${fastdldir}"
-echo "Done"
+fn_printok
+echo -en "\n"
 sleep 1
 
 # Resources (mostly fonts)
@@ -186,7 +200,8 @@ sleep 1
 find "${addonsdir}" -name '*.otf' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.ttf' | cpio -updm "${fastdldir}"
 find "${addonsdir}" -name '*.png' | cpio -updm "${fastdldir}"
-echo "Done"
+fn_printok
+echo -en "\n"
 sleep 1
 
 # Correct addons folder structure
@@ -197,18 +212,18 @@ if [ -d "${fastdldir}/addons" ]; then
 	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
 # As we're not sure about the correct file structure, duplicate instead of remove
 #	rm -R "${fastdldir}/addons"
-	echo "Done"
+	fn_printok
+	echo -en "\n"
 	sleep 1
 fi
 
 # Correct content that may be into a lua folder by mistake like some darkrpmodification addons
 if [ -d "${fastdldir}/lua" ]; then
-	echo "Some FastDL files (often addons in darkrpmodifications) may be in the wrong folder"
-	sleep 1
-	echo "Copying those files to their hopefully correct locations"
+	fn_printdots "Stupid filestructure fix"
 	sleep 1
 	cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
-	echo "Done"
+	fn_printok
+	echo -en "\n"
 	sleep 1
 fi
 }
