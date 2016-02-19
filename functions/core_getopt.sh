@@ -206,6 +206,8 @@ case "$getopt" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	fd|fastdl)
+		command_fastdl.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -414,6 +416,8 @@ if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_getopt_teamspeak3
+elif [ "${gamename}" == "Garry's Mod" ]; then
+	fn_getopt_gmodserver
 elif [ "${engine}" == "unreal2" ]; then
 	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fn_getopt_ut2k4
