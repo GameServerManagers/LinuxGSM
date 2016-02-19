@@ -168,6 +168,16 @@ elif [ "${engine}" == "idtech3" ]; then
 		servername="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
+	# server password
+	if [ -f "${servercfgfullpath}" ]; then
+		serverpassword=$(grep "set g_password" "${servercfgfullpath}" | grep -v "//" | sed -e 's/set g_password//g' | tr -d '=\"; ')
+		if [ ! -n "${serverpassword}" ]; then
+			serverpassword="NOT SET"
+		fi
+	else
+		serverpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
 	# rcon password
 	rconpassword="${rconpassword}"
 	if [ -f "${servercfgfullpath}" ]; then
