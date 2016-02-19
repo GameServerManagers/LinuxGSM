@@ -7,7 +7,7 @@ lgsm_version="190216"
 
 # Description: Creates a FastDL folder
 
-local modulename="FastDL Creator"
+local modulename="FastDL"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
@@ -57,7 +57,7 @@ fn_scriptlog "Initiating FastDL creation"
 if [ ! -d "${webdir}" ]; then
 	fn_printdots  "Creating www directory..."
 	sleep 0.5
-	mkdir -v "${webdir}"
+	mkdir "${webdir}"
 	sleep 1
 	fn_scriptlog "FastDL created ${webdir}"
 fi
@@ -65,7 +65,7 @@ if [ ! -d "${fastdldir}" ]; then
 	newfastdl=1
 	fn_printdots "Creating FastDL directory..."
 	sleep 0.5
-	mkdir -v "${fastdldir}"
+	mkdir "${fastdldir}"
 	sleep 1
 	fn_scriptlog "FastDL created ${fastdldir}"
 	fn_printok "Folders created"
@@ -80,12 +80,10 @@ fn_printinfo "Entering configuration"
 fn_scriptlog "Configuration"
 echo -en "\n"
 sleep 2
-if [ ${newfastdl} == 1 ]; then
-	fn_printdots "Enable clearing old FastDL files?"
-	echo ""
-	sleep 1
+if [ ${newfastdl} == 0 ]; then
+	fn_printdots
 	while true; do
-		read -p "Clear old FastDL? [y/n]" yn
+		read -p "Clear old FastDL files? [y/n]" yn
 		case $yn in
 		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_printok "Clearing Enabled"; break;;
 		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_printok "Clearing Disabled"; break;;
@@ -113,13 +111,12 @@ fi
 
 fn_fastdl_gmod_config(){
 # Prompt for download enforcer, that is using a .lua addfile resource generator
-echo "Do you wish to force clients to downloading the whole FastDL content?"
-echo "It is useful for many addons where devs didn't register their files to be downloaded through FastDL."
+fn_printdots
 while true; do
-	read -p "Use download enforcer? [y/n]" yn
+	read -p "Use client download enforcer? [y/n]" yn
 	case $yn in
-	[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_printok "DL enforcer Enabled"; break;;
-	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "DL enforcer Disabled"; break;;
+	[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_printok "Enforcer Enabled"; break;;
+	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
 	* ) echo "Please answer yes or no.";;
 	esac
 	sleep1
