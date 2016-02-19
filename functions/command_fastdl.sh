@@ -69,11 +69,11 @@ fi
 if [ ! -d "${fastdldir}" ]; then
 	# No folder, won't ask for removing old ones
 	newfastdl=1
-	fn_printdots "Creating FastDL directory..."
+	fn_printdots "Creating FastDL ${fastdldir} directory"
 	sleep 1
 	mkdir "${fastdldir}"
 	fn_scriptlog "FastDL created ${fastdldir}"
-	fn_printok "Folders created"
+	fn_printok "Created ${fastdldir} directory"
 	sleep 1
 	echo -en "\n"
 else
