@@ -77,8 +77,8 @@ if [ ! -d "${fastdldir}" ]; then
 	fn_scriptlog "FastDL created fastdl directory"
 	sleep 1
 	echo -en "\n"
-else
-	# Used to prompt for removing old files
+# Used to prompt for removing old files if folder is not empty
+elif  [ "$(ls -A ${fastdldir)" ]; then
 	newfastdl=0
 fi
 }
