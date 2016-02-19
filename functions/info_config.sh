@@ -154,6 +154,51 @@ elif [ "${engine}" == "projectzomboid" ]; then
 		port="0"
 	fi
 
+
+# Quake Live
+elif [ "${engine}" == "idtech3" ]; then
+
+	# server name
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(grep "set sv_hostname " "${servercfgfullpath}" | sed 's/set sv_hostname //g' | tr -d '=\"; ')
+		if [ ! -n "${servername}" ]; then
+			servername="NOT SET"
+		fi
+	else
+		servername="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# rcon password
+	rconpassword="${rconpassword}"
+	if [ -f "${servercfgfullpath}" ]; then
+		if [ ! -n "${rconpassword}" ]; then
+			rconpassword="NOT SET"
+		fi
+	else
+		rconpassword="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# slots
+	if [ -f "${servercfgfullpath}" ]; then
+		slots=$(grep "set sv_maxClients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		if [ ! -n "${slots}" ]; then
+			slots="NOT SET"
+		fi
+	else
+		slots="\e[0;31mUNAVAILABLE\e[0m"
+	fi
+
+	# port
+	port="${gameport}"
+	if [ ! -n "${port}" ]; then
+		port="0"
+	fi
+
+	# rcon port
+	if [ ! -n "${rconport}" ]; then
+		rconport="0"
+	fi
+
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 

@@ -306,6 +306,31 @@ fi
 fn_details_statusbottom
 }
 
+fn_details_id3tech(){
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "${servercfgfullpath}."
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep run_server"
+echo -e ""
+if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
+	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+	echo -e ""
+fi
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+	echo -e "> Game\tINBOUND\t${port}\tudp"
+	echo -e "> Rcon: Query\tINBOUND\t${rconport}\tudp"
+	echo -e "> Stats: Master traffic\tINBOUND\t${statsport}\tudp"
+} | column -s $'\t' -t 
+
+fn_details_statusbottom
+}
+
+
 fn_details_seriousengine35(){
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
@@ -603,6 +628,8 @@ elif [ "${engine}" == "dontstarve" ]; then
 		fn_details_dontstarve
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_details_projectzomboid
+elif [ "${engine}" == "idtech3" ]; then
+	fn_details_idtech3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_details_realvirtuality
 elif [ "${engine}" == "seriousengine35" ]; then
