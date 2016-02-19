@@ -15,14 +15,17 @@ check.sh
 # Directories
 webdir="${rootdir}/www"
 fastdldir="${webdir}/fastdl"
+addonsdir="${systemdir}/addons"
 # Server lua autorun dir, used to autorun lua on client connect to the server
 luasvautorundir="${systemdir}/lua/audoturn/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 fn_fastdl_init(){
-# User confirmation for starting process
-echo "Generate a FastDL Folder ?"
+# User confirmation
+fn_printdots "Welcome to LGSM's FastDL generator"
+fn_scriptlog "Started FastDL creation"
+sleep 1
 while true; do
 	read -p "Continue? [y/N]" yn
 	case $yn in
@@ -31,24 +34,62 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 	esac
 done
-# Create FastDL folder if it doesn't exist
+fn_scriptlog "Initiating FastDL creation"
+
+# Check and create folders
 if [ ! -d "${webdir}" ]; then
-	echo "Creating www directory"
+	fn_printinfo  "Creating www directory..."
+	sleep 0.5
 	mkdir -v "${webdir}"
 	sleep 1
+	fn_scriptlog "FastDL created ${webdir}"
 fi
 if [ ! -d "${fastdldir}" ]; then
-	echo "Creating FastDL directory"
+	newfastdl=1
+	fn_printinfo "Creating FastDL directory..."
+	sleep 0.5
 	mkdir -v "${fastdldir}"
 	sleep 1
+	fn_scriptlog "FastDL created ${fastdldir}"
 else
-	echo "Updating FastDL..."
+	newfastdl=0
 fi
-# Ask for lua resource add file use
-echo "Do you wish to generate a lua file to force clients to download all FastDL content ?"
+}
+
+fn_fastdl_config(){
+fn_printinfo "Configuration..."
+fn_scriptlog "Configuration"
+sleep 2
+if [ ${newfastdl} == 1 ]; then
+	fn_printinfo "Do you wish to clear old FastDL files?"
+	echo "(Useful if some files changed)"
+	while true; do
+		read -p "Clear old FastDL? [y/n]" yn
+		case $yn in
+		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; break;;
+		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled" break;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+fi
+echo "Compress files using bzip2 for faster client download?"
+echo "(It may take a while)"
+while true; do
+	read -p "Use bzip2? [y/n]" yn
+	case $yn in
+	[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; break;;
+	[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled" break;;
+	* ) echo "Please answer yes or no.";;
+	esac
+done
+}
+
+fn_fastdl_gmod_config(){
+# Ask for download enforcer using lua addfile resource generator
+echo "Do you wish to force clients to downloading the whole FastDL content?"
 echo "It is useful for many addons where devs didn't register their files to be downloaded through FastDL."
 while true; do
-	read -p "Continue? [y/n]" yn
+	read -p "Use download enforcer? [y/n]" yn
 	case $yn in
 	[Yy]* ) luaressource="on"; break;;
 	[Nn]* ) luaressource="off"; return 0;;
@@ -57,73 +98,83 @@ while true; do
 done
 }
 
+fn_clearoldfastdl(){
+if [ clearoldfastdl == "on" ]
+	fn_printinfo "Clearing existing FastDL folder"
+	fn_scriptlog "Clearing existing FastDL folder"
+	sleep 1
+	rm -R "${fastdldir}"/*	
+}
+
 fn_gmod_fastdl(){
 # Copy all needed files for fastDL
-echo "Gathering all needed FastDL files..."
+fn_printdots "Gathering all needed FastDL files..."
 sleep 1
-
-cd "${systemdir}"
 
 # Map Files
-echo "Copying map files"
+fn_printdots "Copying map files..."
+fn_scriptlog "Copying map files"
 sleep 1
-find . -name '*.bsp' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.bsp' | cpio -updm "${fastdldir}"
 echo "Done"
 sleep 1
 
 # Materials
-echo "Copying Materials"
+fn_printdots "Copying materials"
+fn_scriptlog "Copying materials"
 sleep 1
-find . -name '*.vtf' | cpio -updm "${fastdldir}"
-find . -name '*.vmt' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vtf' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vmt' | cpio -updm "${fastdldir}"
 echo "Done"
 sleep 1
 
 # Models
-echo "Copying Models"
+fn_printdots "Copying models"
+fn_scriptlog "Copying models"
 sleep 1
-find . -name '*.vtx' | cpio -updm "${fastdldir}"
-find . -name '*.vvd' | cpio -updm "${fastdldir}"
-find . -name '*.mdl' | cpio -updm "${fastdldir}"
-find . -name '*.phy' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vtx' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vvd' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.mdl' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.phy' | cpio -updm "${fastdldir}"
 echo "Done"
 sleep 1
 
 # Particles
-echo "Copying Particles"
+fn_printdots "Copying particles"
+fn_scriptlog "Copying particles"
 sleep 1
-find . -name '*.pcf' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.pcf' | cpio -updm "${fastdldir}"
 echo "Done"
 sleep 1
 
 # Sounds
-echo "Copying Sounds"
+fn_printdots "Copying sounds"
+fn_scriptlog "Copying sounds"
 sleep 1
-find . -name '*.wav' | cpio -updm "${fastdldir}"
-find . -name '*.mp3' | cpio -updm "${fastdldir}"
-find . -name '*.ogg' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.wav' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.mp3' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.ogg' | cpio -updm "${fastdldir}"
 echo "Done"
 sleep 1
 
 # Resources (mostly fonts)
-echo "Copying fonts and png"
+fn_printdots "Copying fonts and png"
+fn_scriptlog "Copying fonts and png"
 sleep 1
-find . -name '*.otf' | cpio -updm "${fastdldir}"
-find . -name '*.ttf' | cpio -updm "${fastdldir}"
-find . -name '*.png' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.otf' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.ttf' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.png' | cpio -updm "${fastdldir}"
 echo "Done"
 sleep 1
-
-# Going back to scriptfolder to avoid mistakes
-cd "${rootdir}"
 
 # Correct addons folder structure
 if [ -d "${fastdldir}/addons" ]; then
 	echo "Possible FastDL files found into addons"
-	echo "Moving those files to their correct folder"
+	echo "Copying those files to their correct folder"
 	sleep 2
 	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-	rm -R "${fastdldir}/addons"
+# As we're not sure about the correct file structure, duplicate instead of remove
+#	rm -R "${fastdldir}/addons"
 	echo "Done"
 	sleep 1
 fi
@@ -146,38 +197,27 @@ fn_check_bzip2(){
 # Returns true if not installed
 if [ -z "$(command -v bzip2)" ]; then
 	bzip2installed="0"
-	echo "WARNING bzip2 packed is not installed !"
+	fn_printinfo "bzip2 is not installed !"
+	fn_scriptlog "bzip2 is not installed"
+	echo "We advise using it"
+	echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl#bzip2-compression"
 	sleep 2
-	echo "You can't compress your FastDL files !"
-	sleep 2
-	echo "Loading time won't be as good as possible for your players."
-	sleep 2
-	echo "It's advised that your install bzip2 and re-run the fastdl command."
-	sleep 3
 else
 	bzip2installed="1"
 fi
 }
 
 fn_fastdl_bzip2(){
-echo "Do you want to compress files using bzip2 for even faster client download ?"
-echo "It may take a while..."
-	while true; do
-		read -p "Continue? [y/N]" yn
-		case $yn in
-		[Yy]* ) break;;
-		[Nn]* ) return 0;;
-		* ) echo "Please answer yes or no.";;
-		esac
-	done
 
-echo "Compressing files using bzip2..."
-sleep 2
-
-# bzip2 all files that are not already compressed (keeping original files)
-find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -k \{\} \;
-echo "bzip2 compression done"
-sleep 1
+if [ bzip2enable == "on" ]; then
+	fn_printinfo "Compressing files using bzip2..."
+	fn_scriptlog "Compressing files using bzip2..."
+	sleep 2
+	# bzip2 all files that are not already compressed (keeping original files)
+	find "${fastdldir}" -not -name \*.bz2 -exec bzip2 -k \{\} \;
+	fn_printinfo "bzip2 compression done"
+	fn_scriptlog "bzip2 compression done"
+	sleep 1
 }
 
 # Generate lua file that will force download any file into the FastDL folder
@@ -218,14 +258,18 @@ if [ "$bzip2installed" == "0" ]; then
 echo "By the way, you'd better install bzip2 an re-run this command"
 fi
 echo "----------------------------------"
+echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
 }
 
 # Game checking
 # Garry's Mod
 if [ "${gamename}" == "Garry's Mod" ]; then
-	fn_fastdl_init
-	fn_gmod_fastdl
 	fn_check_bzip2
+	fn_fastdl_init
+	fn_fastdl_config
+	fn_fastdl_gmod_config
+	fn_clearoldfastdl
+	fn_gmod_fastdl
 	if [ "${bzip2installed}" == "1" ]; then
 		fn_fastdl_bzip2
 	fi
