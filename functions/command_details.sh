@@ -314,7 +314,7 @@ echo -e "Change ports by editing the parameters in"
 echo -e "${servercfgfullpath}."
 echo -e ""
 echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep run_server"
+echo -e "netstat -atunp | grep qzeroded"
 echo -e ""
 if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
 	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
@@ -323,8 +323,8 @@ fi
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 	echo -e "> Game\tINBOUND\t${port}\tudp"
-	echo -e "> Rcon: Query\tINBOUND\t${rconport}\tudp"
-	echo -e "> Stats: Master traffic\tINBOUND\t${statsport}\tudp"
+	echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
+	echo -e "> Stats\tINBOUND\t${statsport}\tudp"
 } | column -s $'\t' -t 
 
 fn_details_statusbottom

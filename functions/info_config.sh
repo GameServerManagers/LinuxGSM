@@ -199,6 +199,11 @@ elif [ "${engine}" == "idtech3" ]; then
 		rconport="0"
 	fi
 
+	# Stats port
+	if [ ! -n "${statsport}" ]; then
+		statsport="0"
+	fi	
+
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 
