@@ -97,7 +97,7 @@ if [ ${bzip2installed} == 1 ]; then
 	fn_printdots
 	sleep 1
 	while true; do
-		read -p "Enable file compression using bzip2?? [Y/n]" Yn
+		read -p "Enable file compression using bzip2? [Y/n]" Yn
 		case $yn in
 		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_printok "bzip2 Enabled"; break;;
 		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_printok "bzip2 Disabled;" break;;
