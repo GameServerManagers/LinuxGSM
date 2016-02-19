@@ -13,7 +13,13 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 
 # Directories
-luafastdlfullpath
+webdir="${rootdir}/www"
+fastdldir="${webdir}/fastdl"
+addonsdir="${systemdir}/addons"
+# Server lua autorun dir, used to autorun lua on client connect to the server
+luasvautorundir="${systemdir}/lua/audoturn/server"
+luafastdlfile="lgsm_cl_force_fastdl.lua"
+luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 fn_check_bzip2(){
 # Returns true if not installed
