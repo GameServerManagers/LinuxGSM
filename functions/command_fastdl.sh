@@ -307,10 +307,12 @@ fi
 
 fn_fastdl_completed(){
 # Finished message
-fn_printok "Congratulations, it's done"
+fn_printok "Congratulations, it's done !"
 fn_scriptlog "FastDL job done"
+sleep 2
 echo -en "\n"
-echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
+fn_printinfo "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
+echo -en "\n"
 if [ "$bzip2installed" == "0" ]; then
 echo "By the way, you'd better install bzip2 an re-run this command !"
 fi
