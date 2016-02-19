@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="271215"
+version="190216"
 
 #### Variables ####
 
@@ -70,6 +70,7 @@ selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/garrysmod"
+addonsdir="${systemdir}/addons"
 executabledir="${filesdir}"
 executable="./srcds_run"
 servercfg="${servicename}.cfg"
