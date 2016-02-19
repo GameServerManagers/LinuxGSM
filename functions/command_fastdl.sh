@@ -147,12 +147,19 @@ fi
 }
 
 fn_gmod_fastdl(){
-# Copy all needed files for fastDL
-fn_printdots "Gathering all needed files..."
+# Copy all needed files for FastDL
+echo ""
+fn_printinfo "Starting..."
+fn_scriptlog "Starting FastFL job"
+sleep 2
 echo -en "\n"
+fn_printdots "Gathering all needed files..."
 sleep 1
+echo -en "\n"
+
 # No choice to cd to the directory, as find can't then display relative folder
 cd "${systemdir}"
+
 # Map Files
 fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
