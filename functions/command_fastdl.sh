@@ -125,7 +125,7 @@ done
 }
 
 fn_clear_old_fastdl(){
-if [ clearoldfastdl == "on" ]; then
+if [ ${clearoldfastdl} == "on" ]; then
 	fn_printinfo "Clearing existing FastDL folder"
 	fn_scriptlog "Clearing existing FastDL folder"
 	sleep 1
