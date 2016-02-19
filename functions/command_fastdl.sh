@@ -58,9 +58,10 @@ if [ ! -d "${webdir}" ]; then
 	fn_printinfo "Creating FastDL directories..."
 	echo -en "\n"
 	sleep 1
-	fn_printdots "Creating ${webdir} directory."
+	fn_printdots "Creating ${webdir} directory"
+	sleep 1
 	mkdir "${webdir}"
-	fn_printok
+	fn_printok "Created ${webdir} directory"
 	fn_scriptlog "FastDL created ${webdir}"
 	sleep 1
 	echo -en "\n"
