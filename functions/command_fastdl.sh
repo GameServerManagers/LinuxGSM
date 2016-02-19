@@ -90,7 +90,7 @@ fn_scriptlog "Configuration"
 sleep 2
 echo -en "\n"
 # Prompt for clearing old files if folder was already here
-if [ -d "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
+if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
 	fn_printdots
 	while true; do
 		read -e -i "y" -p "Clear old FastDL files? [Y/n]" yn
