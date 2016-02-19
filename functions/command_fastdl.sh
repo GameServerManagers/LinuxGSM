@@ -27,6 +27,8 @@ if [ -z "$(command -v bzip2)" ]; then
 	bzip2installed="0"
 	fn_printinfo "bzip2 is not installed !"
 	fn_scriptlog "bzip2 is not installed"
+	echo -en "\n"
+	sleep 1
 	echo "We advise using it"
 	echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl#bzip2-compression"
 	sleep 2
@@ -80,6 +82,7 @@ echo -en "\n"
 sleep 2
 if [ ${newfastdl} == 1 ]; then
 	fn_printdots "Enable clearing old FastDL files?"
+	echo ""
 	sleep 1
 	while true; do
 		read -p "Clear old FastDL? [y/n]" yn
