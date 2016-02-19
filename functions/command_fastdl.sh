@@ -280,7 +280,7 @@ if [ "${luaressource}" == "on" ]; then
 	fn_scriptlog "Generating new download enforcer"
 	sleep 1
 	# Read all filenames and put them into a lua file at the right path
-	find "${fastdldir}" \( -name "." ! -name "*.bz2" \) -printf '%P\n' | while read line; do
+	find "${fastdldir}" \( -name "*.*" ! -name "*.bz2" \) -printf '%P\n' | while read line; do
 		echo "resource.AddFile("\""${line}"\"")" >> ${luafastdlfullpath}
 	done
 	fn_printok "Download enforcer generated"
