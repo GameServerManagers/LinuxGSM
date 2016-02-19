@@ -80,6 +80,7 @@ if [ ! -d "${fastdldir}" ]; then
 # Used to prompt for removing old files if folder is not empty
 elif  [ "$(ls -A "${fastdldir}")" ]; then
 	newfastdl=0
+	clearoldfastdl="off"
 fi
 }
 
