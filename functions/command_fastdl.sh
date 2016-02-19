@@ -146,7 +146,7 @@ sleep 1
 fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
 sleep 1
-find "${addonsdir}" -name '*.bsp' | cpio -updm --warning=none "${fastdldir}"
+find "${addonsdir}" -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
 fn_printok
 echo -en "\n"
 sleep 1
@@ -155,8 +155,8 @@ sleep 1
 fn_printdots "Copying materials"
 fn_scriptlog "Copying materials"
 sleep 1
-find "${addonsdir}" -name '*.vtf' | cpio -updm --warning=none "${fastdldir}"
-find "${addonsdir}" -name '*.vmt' | cpio -updm --warning=none "${fastdldir}"
+find "${addonsdir}" -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
 fn_printok
 echo -en "\n"
 sleep 1
@@ -165,10 +165,10 @@ sleep 1
 fn_printdots "Copying models"
 fn_scriptlog "Copying models"
 sleep 1
-find "${addonsdir}" -name '*.vtx' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.vvd' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.mdl' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.phy' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vtx' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.phy' | cpio --quiet -updm "${fastdldir}"
 fn_printok
 echo -en "\n"
 sleep 1
@@ -177,7 +177,7 @@ sleep 1
 fn_printdots "Copying particles"
 fn_scriptlog "Copying particles"
 sleep 1
-find "${addonsdir}" -name '*.pcf' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
 fn_printok
 echo -en "\n"
 sleep 1
@@ -186,9 +186,9 @@ sleep 1
 fn_printdots "Copying sounds"
 fn_scriptlog "Copying sounds"
 sleep 1
-find "${addonsdir}" -name '*.wav' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.mp3' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.ogg' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.wav' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
 fn_printok
 echo -en "\n"
 sleep 1
@@ -197,9 +197,9 @@ sleep 1
 fn_printdots "Copying fonts and png"
 fn_scriptlog "Copying fonts and png"
 sleep 1
-find "${addonsdir}" -name '*.otf' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.ttf' | cpio -updm "${fastdldir}"
-find "${addonsdir}" -name '*.png' | cpio -updm "${fastdldir}"
+find "${addonsdir}" -name '*.otf' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
+find "${addonsdir}" -name '*.png' | cpio --quiet -updm "${fastdldir}"
 fn_printok
 echo -en "\n"
 sleep 1
