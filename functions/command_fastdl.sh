@@ -55,25 +55,26 @@ fn_scriptlog "Initiating FastDL creation"
 
 # Check and create folders
 if [ ! -d "${webdir}" ]; then
-	fn_printinfo "Creating FastDL directories..."
+	echo ""
+	fn_printinfo "Creating FastDL directories"
 	echo -en "\n"
 	sleep 1
-	fn_printdots "Creating ${webdir} directory"
+	fn_printdots "Creating www directory"
 	sleep 1
 	mkdir "${webdir}"
-	fn_printok "Created ${webdir} directory"
-	fn_scriptlog "FastDL created ${webdir}"
+	fn_printok "Created www directory"
+	fn_scriptlog "FastDL created www directory"
 	sleep 1
 	echo -en "\n"
 fi
 if [ ! -d "${fastdldir}" ]; then
 	# No folder, won't ask for removing old ones
 	newfastdl=1
-	fn_printdots "Creating FastDL ${fastdldir} directory"
+	fn_printdots "Creating FastDL fastdl directory"
 	sleep 1
 	mkdir "${fastdldir}"
-	fn_scriptlog "FastDL created ${fastdldir}"
-	fn_printok "Created ${fastdldir} directory"
+	fn_printok "Created fastdl directory"
+	fn_scriptlog "FastDL created fastdl directory"
 	sleep 1
 	echo -en "\n"
 else
