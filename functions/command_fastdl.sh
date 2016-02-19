@@ -13,13 +13,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 
 # Directories
-webdir="${rootdir}/www"
-fastdldir="${webdir}/fastdl"
-addonsdir="${systemdir}/addons"
-# Server lua autorun dir, used to autorun lua on client connect to the server
-luasvautorundir="${systemdir}/lua/audoturn/server"
-luafastdlfile="lgsm_cl_force_fastdl.lua"
-luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
+luafastdlfullpath
 
 fn_check_bzip2(){
 # Returns true if not installed
@@ -279,6 +273,8 @@ if [ "${luaressource}" == "on" ]; then
 	fn_printdots "Generating new download enforcer"
 	fn_scriptlog "Generating new download enforcer"
 	sleep 1
+	# Create the lua file
+	touch "${luafastdlfullpath}"
 	# Read all filenames and put them into a lua file at the right path
 	find "${fastdldir}" \( -name "*.*" ! -name "*.bz2" \) -printf '%P\n' | while read line; do
 		echo "resource.AddFile("\""${line}"\"")" >> ${luafastdlfullpath}
