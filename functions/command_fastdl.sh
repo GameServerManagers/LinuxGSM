@@ -13,7 +13,8 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 
 # Directories
-fastdldir="${rootdir}/fastdl"
+webdir="${rootdir}/www"
+fastdldir="${webdir}/fastdl"
 # Server lua autorun dir, used to autorun lua on client connect to the server
 luasvautorundir="${systemdir}/lua/audoturn/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
@@ -31,6 +32,10 @@ while true; do
 	esac
 done
 # Create FastDL folder if it doesn't exit
+if [ ! -d "${webdir}" ]; then
+	echo "Creating www directory"
+	mkdir -v "${webdir}"
+	sleep 1
 if [ ! -d "${fastdldir}" ]; then
 	echo "Creating FastDL directory"
 	mkdir -v "${fastdldir}"
@@ -39,13 +44,13 @@ else
 	echo "Updating FastDL..."
 fi
 # Ask for lua resource add file use
-echo "Do you wish to use a lua file to force clients to download FastDL content ?"
-echo "It can be necessary for addons devs that forgot about registering their files to be downloaded through FastDL"
+echo "Do you wish to generate a lua file to force clients to download all FastDL content ?"
+echo "It is useful for many addons where devs didn't register their files to be downloaded through FastDL."
 while true; do
 	read -p "Continue? [y/n]" yn
 	case $yn in
 	[Yy]* ) luaressource="on"; break;;
-	[Nn]* ) luaressource="off"; return 1;;
+	[Nn]* ) luaressource="off"; return 0;;
 	* ) echo "Please answer yes or no.";;
 	esac
 done
@@ -174,19 +179,40 @@ echo "bzip2 compression done"
 sleep 1
 }
 
-# Function to implement
+# Generate lua file that will force download any file into the FastDL folder
 fn_lua_fastdl(){
-if [ luaressource="off" == "on" ]; then
+# Remove lua file if luaressource is turned off
+if [ ${luaressource} == "off" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
-		echo "Removing "
+		echo "Removing download enforcer"
+		sleep 1
+		rm -R "${luafastdlfullpath}"
+	fi
+fi
+if [ ${luaressource == "on" ]; then
+	if [ -f "${luafastdlfullpath}" ]; then
+		echo "Removing old download enforcer"
+		sleep 1
+		rm "${luafastdlfullpath}"
+	fi
+	echo "Generating new download enforcer"
+	sleep 1
+	find "${fastdldir}" \( -name "." ! -name "*.bz2" \) -printf '%P\n' | while read line; do
+		echo "resource.AddFile("\""${line}"\"")" >> "${luafastdlfullpath}"
+	done
+	echo "Download enforcer generated"
+	sleep 1
+fi
 }
 
 fn_fastdl_completed(){
 echo "----------------------------------"
 echo "Congratulations, it's done"
-echo "Now you should configure your HTTP server to target the fastdl folder that was created"
+echo "Now you should configure your HTTP server to target the fastdl folder that was created in ${fastdldir}"
 echo "Or copy files to an external server"
 echo "Don't forget to change your sv_downloadurl accordingly in ${servercfgfullpath}"
+echo "You may want to use the www folder to host a loadingurl too,"
+echo "for that purpose, just make a loadingurl folder next to the fastdl folder and put your loadingurl in it"
 if [ "$bzip2installed" == "0" ]; then
 echo "By the way, you'd better install bzip2 an re-run this command"
 fi
@@ -203,7 +229,7 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 	if [ "${bzip2installed}" == "1" ]; then
 		fn_fastdl_bzip2
 	fi
-		fn_lua_fastdl
+	fn_lua_fastdl
 	fn_fastdl_completed
 	exit
 fi
