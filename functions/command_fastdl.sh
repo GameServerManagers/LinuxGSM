@@ -44,7 +44,7 @@ sleep 1
 echo -en "\n"
 fn_scriptlog "Started FastDL creation"
 while true; do
-	read -p "Continue? [y/N]" yn
+	read -e -i "y" -p "Continue? [Y/n]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) exit;;
@@ -93,7 +93,7 @@ echo -en "\n"
 if [ ${newfastdl} == 0 ]; then
 	fn_printdots
 	while true; do
-		read -p "Clear old FastDL files? [y/N]" yN
+		read -e -i "y" -p "Clear old FastDL files? [Y/n]" yn
 		case $yn in
 		[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_printok "Clearing Enabled"; break;;
 		[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_printok "Clearing Disabled"; break;;
@@ -107,7 +107,7 @@ fi
 if [ ${bzip2installed} == 1 ]; then
 	fn_printdots
 	while true; do
-		read -p "Enable file compression using bzip2? [Y/n]" Yn
+		read -e -i "y"-p "Enable file compression using bzip2? [Y/n]" yn
 		case $yn in
 		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_printok "bzip2 Enabled"; break;;
 		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_printok "bzip2 Disabled"; break;;
@@ -123,7 +123,7 @@ fn_fastdl_gmod_config(){
 # Prompt for download enforcer, that is using a .lua addfile resource generator
 fn_printdots
 while true; do
-	read -p "Use client download enforcer? [Y/n]" Yn
+	read -e -i "y" -p "Use client download enforcer? [Y/n]" yn
 	case $yn in
 	[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_printok "Enforcer Enabled"; break;;
 	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
