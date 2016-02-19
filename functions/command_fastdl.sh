@@ -21,6 +21,20 @@ luasvautorundir="${systemdir}/lua/audoturn/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
+fn_check_bzip2(){
+# Returns true if not installed
+if [ -z "$(command -v bzip2)" ]; then
+	bzip2installed="0"
+	fn_printinfo "bzip2 is not installed !"
+	fn_scriptlog "bzip2 is not installed"
+	echo "We advise using it"
+	echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl#bzip2-compression"
+	sleep 2
+else
+	bzip2installed="1"
+fi
+}
+
 fn_fastdl_init(){
 # User confirmation
 fn_printdots "Welcome to LGSM's FastDL generator"
@@ -72,20 +86,22 @@ if [ ${newfastdl} == 1 ]; then
 		esac
 	done
 fi
-echo "Compress files using bzip2 for faster client download?"
-echo "(It may take a while)"
-while true; do
-	read -p "Use bzip2? [y/n]" yn
-	case $yn in
-	[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; break;;
-	[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled" break;;
-	* ) echo "Please answer yes or no.";;
-	esac
-done
+if [ ${bzip2installed} == 1 ]; then
+	echo "Compress files using bzip2 for faster client download?"
+	echo "(It may take a while)"
+	while true; do
+		read -p "Use bzip2? [y/n]" yn
+		case $yn in
+		[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; break;;
+		[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled" break;;
+		* ) echo "Please answer yes or no.";;
+		esac
+	done
+fi
 }
 
 fn_fastdl_gmod_config(){
-# Ask for download enforcer using lua addfile resource generator
+# Prompt for download enforcer, that is using a .lua addfile resource generator
 echo "Do you wish to force clients to downloading the whole FastDL content?"
 echo "It is useful for many addons where devs didn't register their files to be downloaded through FastDL."
 while true; do
@@ -98,12 +114,13 @@ while true; do
 done
 }
 
-fn_clearoldfastdl(){
-if [ clearoldfastdl == "on" ]
+fn_clear_old_fastdl(){
+if [ clearoldfastdl == "on" ]; then
 	fn_printinfo "Clearing existing FastDL folder"
 	fn_scriptlog "Clearing existing FastDL folder"
 	sleep 1
-	rm -R "${fastdldir}"/*	
+	rm -R "${fastdldir}"/*
+fi
 }
 
 fn_gmod_fastdl(){
@@ -191,25 +208,9 @@ if [ -d "${fastdldir}/lua" ]; then
 fi
 }
 
-
-# bzip2 compression
-fn_check_bzip2(){
-# Returns true if not installed
-if [ -z "$(command -v bzip2)" ]; then
-	bzip2installed="0"
-	fn_printinfo "bzip2 is not installed !"
-	fn_scriptlog "bzip2 is not installed"
-	echo "We advise using it"
-	echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl#bzip2-compression"
-	sleep 2
-else
-	bzip2installed="1"
-fi
-}
-
 fn_fastdl_bzip2(){
 
-if [ bzip2enable == "on" ]; then
+if [ ${bzip2enable} == "on" ]; then
 	fn_printinfo "Compressing files using bzip2..."
 	fn_scriptlog "Compressing files using bzip2..."
 	sleep 2
@@ -218,6 +219,7 @@ if [ bzip2enable == "on" ]; then
 	fn_printinfo "bzip2 compression done"
 	fn_scriptlog "bzip2 compression done"
 	sleep 1
+fi
 }
 
 # Generate lua file that will force download any file into the FastDL folder
@@ -268,7 +270,7 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 	fn_fastdl_init
 	fn_fastdl_config
 	fn_fastdl_gmod_config
-	fn_clearoldfastdl
+	fn_clear_old_fastdl
 	fn_gmod_fastdl
 	if [ "${bzip2installed}" == "1" ]; then
 		fn_fastdl_bzip2
