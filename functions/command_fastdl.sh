@@ -115,14 +115,14 @@ echo "Done"
 sleep 1
 
 # Going back to scriptfolder to avoid mistakes
-cd ${rootdir}
+cd "${rootdir}"
 
 # Correct addons folder structure
 if [ -d "${fastdldir}/addons" ]; then
 	echo "Possible FastDL files found into addons"
 	echo "Moving those files to their correct folder"
 	sleep 2
-	cp -Rf ${fastdldir}/addons/*/* "${fastdldir}"
+	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
 	rm -R "${fastdldir}/addons"
 	echo "Done"
 	sleep 1
@@ -190,7 +190,7 @@ if [ "${luaressource}" == "off" ]; then
 		rm -R "${luafastdlfullpath}"
 	fi
 fi
-if [ "${luaressource}"" == "on" ]; then
+if [ "${luaressource}" == "on" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo "Removing old download enforcer"
 		sleep 1
