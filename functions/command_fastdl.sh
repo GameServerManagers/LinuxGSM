@@ -242,13 +242,10 @@ fi
 
 # Correct content that may be into a lua folder by mistake like some darkrpmodification addons
 if [ -d "${fastdldir}/lua" ]; then
-	fn_printwarn "Typical DarkRP shit detected"
-	sleep 2
-	echo -en "\n"
-	fn_printdots "Fixing DarkRP file structure..."
+	fn_printdots "Typical DarkRP shit detected, fixing"
 	sleep 2
 	cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
-	fn_printok "Stupid file structure fixed"
+	fn_printok "Stupid DarkRP file structure fixed"
 	sleep 2
 	echo -en "\n"
 fi
