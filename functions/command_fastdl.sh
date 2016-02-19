@@ -60,7 +60,7 @@ if [ ! -d "${webdir}" ]; then
 	echo -en "\n"
 	sleep 1
 	fn_printdots "Creating www directory"
-	sleep 1
+	sleep 0.5
 	mkdir "${webdir}"
 	fn_printok "Created www directory"
 	fn_scriptlog "FastDL created www directory"
@@ -71,7 +71,7 @@ if [ ! -d "${fastdldir}" ]; then
 	# No folder, won't ask for removing old ones
 	newfastdl=1
 	fn_printdots "Creating fastdl directory"
-	sleep 1
+	sleep 0.5
 	mkdir "${fastdldir}"
 	fn_printok "Created fastdl directory"
 	fn_scriptlog "FastDL created fastdl directory"
@@ -100,7 +100,6 @@ if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
-	sleep 1
 	echo -en "\n"
 fi
 # Prompt for using bzip2 if it's installed
@@ -114,7 +113,6 @@ if [ ${bzip2installed} == 1 ]; then
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
-	sleep 1
 	echo -en "\n"
 fi
 }
@@ -129,7 +127,6 @@ while true; do
 	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
 	* ) echo "Please answer yes or no.";;
 	esac
-	sleep 1
 	echo -en "\n"
 done
 }
@@ -139,7 +136,7 @@ fn_clear_old_fastdl(){
 if [ "${clearoldfastdl}" == "on" ]; then
 	fn_printinfo "Clearing existing FastDL folder"
 	fn_scriptlog "Clearing existing FastDL folder"
-	sleep 1
+	sleep 0.5
 	rm -R "${fastdldir:?}"/*
 	fn_printok "Old FastDL folder cleared"
 	fn_scriptlog "Old FastDL folder cleared"
@@ -151,11 +148,8 @@ fi
 fn_gmod_fastdl(){
 # Copy all needed files for FastDL
 echo ""
-fn_printinfo "Starting..."
-fn_scriptlog "Starting FastFL job"
-sleep 2
-echo -en "\n"
-fn_printdots "Gathering all needed files..."
+fn_printdots "Starting gathering all needed files"
+fn_scriptlog "Starting gathering all needed files"
 sleep 1
 echo -en "\n"
 
@@ -165,20 +159,20 @@ cd "${systemdir}"
 # Map Files
 fn_printdots "Copying map files..."
 fn_scriptlog "Copying map files"
-sleep 1
+sleep 0.5
 find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Map files copied"
-sleep 1
+sleep 0.5
 echo -en "\n"
 
 # Materials
 fn_printdots "Copying materials..."
 fn_scriptlog "Copying materials"
-sleep 1
+sleep 0.5
 find . -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Materials copied"
-sleep 1
+sleep 0.5
 echo -en "\n"
 
 # Models
@@ -190,27 +184,27 @@ find . -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.phy' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Models copied"
-sleep 1
+sleep 0.5
 echo -en "\n"
 
 # Particles
 fn_printdots "Copying particles..."
 fn_scriptlog "Copying particles"
-sleep 1
+sleep 0.5
 find . -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Particles copied"
-sleep 1
+sleep 0.5
 echo -en "\n"
 
 # Sounds
 fn_printdots "Copying sounds..."
 fn_scriptlog "Copying sounds"
-sleep 1
+sleep 0.5
 find . -name '*.wav' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Sounds copied"
-sleep 1
+sleep 0.5
 echo -en "\n"
 
 # Resources (mostly fonts)
@@ -221,7 +215,7 @@ find . -name '*.otf' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
 find . -name '*.png' | cpio --quiet -updm "${fastdldir}"
 fn_printok "Fonts and png copied"
-sleep 1
+sleep 0.5
 echo -en "\n"
 
 # Going back to rootdir in order to prevent mistakes
@@ -231,12 +225,12 @@ cd "${rootdir}"
 if [ -d "${fastdldir}/addons" ]; then
 	fn_printinfo "Adjusting addons' file structure"
 	fn_scriptlog "Adjusting addon's file structure"
-	sleep 2
+	sleep 1
 	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
 #Don't remove yet	rm -R "${fastdldir:?}/addons"
 	fn_printok "Adjusted addon's file structure"
-	echo -en "\n"
 	sleep 1
+	echo -en "\n"
 fi
 
 # Correct content that may be into a lua folder by mistake like some darkrpmodification addons
@@ -253,6 +247,7 @@ fi
 # Generate lua file that will force download any file into the FastDL folder
 fn_lua_fastdl(){
 # Remove lua file if luaressource is turned off and file exists
+echo ""
 if [ "${luaressource}" == "off" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
 		fn_printdots "Removing download enforcer"
@@ -292,16 +287,19 @@ fi
 
 fn_fastdl_bzip2(){
 # Compressing using bzip2 if user said yes
+echo ""
 if [ ${bzip2enable} == "on" ]; then
 	fn_printinfo "Have a break, this step could take a while..."
+	echo -en "\n"
+	echo ""
 	fn_printdots "Compressing files using bzip2..."
 	fn_scriptlog "Compressing files using bzip2..."
-	sleep 2
 	# bzip2 all files that are not already compressed (keeping original files)
 	find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
 	fn_printok "bzip2 compression done"
 	fn_scriptlog "bzip2 compression done"
 	sleep 1
+	echo -en "\n"
 fi
 }
 
