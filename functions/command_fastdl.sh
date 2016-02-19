@@ -55,21 +55,25 @@ fn_scriptlog "Initiating FastDL creation"
 
 # Check and create folders
 if [ ! -d "${webdir}" ]; then
-	fn_printdots  "Creating www directory..."
-	sleep 0.5
-	mkdir "${webdir}"
+	fn_printinfo "Creating FastDL directories..."
+	echo -en "\n"
 	sleep 1
+	fn_printdots "Creating ${webdir} directory."
+	mkdir "${webdir}"
+	fn_printok
 	fn_scriptlog "FastDL created ${webdir}"
+	sleep 1
+	echo -en "\n"
 fi
 if [ ! -d "${fastdldir}" ]; then
 	# No folder, won't ask for removing old ones
 	newfastdl=1
 	fn_printdots "Creating FastDL directory..."
-	sleep 0.5
-	mkdir "${fastdldir}"
 	sleep 1
+	mkdir "${fastdldir}"
 	fn_scriptlog "FastDL created ${fastdldir}"
 	fn_printok "Folders created"
+	sleep 1
 	echo -en "\n"
 else
 	# Used to prompt for removing old files
@@ -81,8 +85,8 @@ fn_fastdl_config(){
 # Global settings for FastDL creation
 fn_printinfo "Entering configuration"
 fn_scriptlog "Configuration"
-echo -en "\n"
 sleep 2
+echo -en "\n"
 # Prompt for clearing old files if folder was already here
 if [ ${newfastdl} == 0 ]; then
 	fn_printdots
@@ -123,7 +127,7 @@ while true; do
 	[Nn]* ) luaressource="off"; "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
 	* ) echo "Please answer yes or no.";;
 	esac
-	sleep1
+	sleep 1
 	echo -en "\n"
 done
 }
@@ -137,6 +141,7 @@ if [ ${clearoldfastdl} == "on" ]; then
 	rm -R "${fastdldir}"/*
 	fn_printok "Old FastDL folder cleared"
 	fn_scriptlog "Old FastDL folder cleared"
+	sleep 1
 	echo -en "\n"
 fi
 }
@@ -296,10 +301,10 @@ fn_fastdl_completed(){
 # Finished message
 fn_printok "Congratulations, it's done"
 fn_scriptlog "FastDL job done"
-echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
 echo -en "\n"
+echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
 if [ "$bzip2installed" == "0" ]; then
-echo "By the way, you'd better install bzip2 an re-run this command"
+echo "By the way, you'd better install bzip2 an re-run this command !"
 fi
 }
 
