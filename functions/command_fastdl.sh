@@ -137,11 +137,11 @@ done
 
 fn_clear_old_fastdl(){
 # Clearing old FastDL if user answered yes
-if [ ${clearoldfastdl} == "on" ]; then
+if [ "${clearoldfastdl}" == "on" ]; then
 	fn_printinfo "Clearing existing FastDL folder"
 	fn_scriptlog "Clearing existing FastDL folder"
 	sleep 1
-	rm -R "${fastdldir}"/*
+	rm -R "${fastdldir:?}"/*
 	fn_printok "Old FastDL folder cleared"
 	fn_scriptlog "Old FastDL folder cleared"
 	sleep 1
@@ -234,7 +234,7 @@ if [ -d "${fastdldir}/addons" ]; then
 	fn_scriptlog "Adjusting addon's file structure"
 	sleep 2
 	cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-#Don't remove yet	rm -R "${fastdldir}/addons"
+#Don't remove yet	rm -R "${fastdldir:?}/addons"
 	fn_printok "Adjusted addon's file structure"
 	echo -en "\n"
 	sleep 1
@@ -261,7 +261,7 @@ if [ "${luaressource}" == "off" ]; then
 	if [ -f "${luafastdlfullpath}" ]; then
 		fn_printdots "Removing download enforcer"
 		sleep 1
-		rm -R "${luafastdlfullpath}"
+		rm -R "${luafastdlfullpath:?}"
 		fn_printok "Removed download enforcer"
 		fn_scriptlog "Removed old download inforcer"
 		echo -en "\n"
