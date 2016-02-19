@@ -17,7 +17,7 @@ webdir="${rootdir}/www"
 fastdldir="${webdir}/fastdl"
 addonsdir="${systemdir}/addons"
 # Server lua autorun dir, used to autorun lua on client connect to the server
-luasvautorundir="${systemdir}/lua/audoturn/server"
+luasvautorundir="${systemdir}/lua/autorun/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
