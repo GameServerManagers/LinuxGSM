@@ -78,7 +78,7 @@ if [ ! -d "${fastdldir}" ]; then
 	sleep 1
 	echo -en "\n"
 # Used to prompt for removing old files if folder is not empty
-elif  [ "$(ls -A ${fastdldir)" ]; then
+elif  [ "$(ls -A "${fastdldir}")" ]; then
 	newfastdl=0
 fi
 }
