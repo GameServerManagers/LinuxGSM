@@ -8,7 +8,6 @@ lgsm_version="160316"
 
 
 fn_install_steamcmd(){
-echo "Installing steamCMD"
 if [ ! -d "${steamcmddir}" ]; then
 	mkdir -v "${steamcmddir}"
 fi
