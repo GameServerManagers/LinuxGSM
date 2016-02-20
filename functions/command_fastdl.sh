@@ -30,7 +30,7 @@ if [ -z "$(command -v bzip2)" ]; then
 	echo -en "\n"
 	sleep 1
 	echo "We advise using it"
-	echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/Fastdl#bzip2-compression"
+	echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/FastDL#bzip2-compression"
 	sleep 2
 else
 	bzip2installed="1"
@@ -311,7 +311,7 @@ fn_scriptlog "FastDL job done"
 sleep 2
 echo -en "\n"
 echo ""
-fn_printinfo "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/Fastdl"
+fn_printinfo "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/FastDL"
 echo -en "\n"
 if [ "$bzip2installed" == "0" ]; then
 echo "By the way, you'd better install bzip2 an re-run this command !"
