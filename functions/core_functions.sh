@@ -146,11 +146,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-check_steamuser.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 check_systemdir.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
