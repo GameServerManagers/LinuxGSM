@@ -34,8 +34,26 @@ fi
 }
 
 fn_dl_extract(){
+filedir=${1}
+filename=${2}
+extractdir=${3}
 # extracts archives
-:
+echo -ne "extracting ${filename}..."
+mime=$(file -b --mime-type "${filedir}/${filename}")
+
+if [ "${mime}" == "application/gzip" ]; then
+	tarcmd=$(tar -zxf "${filedir}/${filename}" -C "${extractdir}")
+elif [ "${mime}" == "application/x-bzip2" ]; then
+	tarcmd=$(tar -jxf "${filedir}/${filename}" -C "${extractdir}")
+fi
+local exitcode=$?
+if [ ${exitcode} -ne 0 ]; then
+	fn_printfaileol
+	echo "${tarcmd}"
+	exit ${exitcode}
+else
+	fn_printokeol
+fi
 }
 
 # Trap to remove file download if canceled before completed
@@ -62,7 +80,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	if [ ! -d "${filedir}" ]; then
 		mkdir -p "${filedir}"
 	fi
-	echo -ne "    fetching ${filename}...\c"
+	
 	# Check curl exists and use available path
 	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl $(echo $PATH | sed "s/\([:]\|\$\)/\/curl /g")"
 	for curlcmd in ${curlpaths}
@@ -78,15 +96,20 @@ if [ ! -f "${filedir}/${filename}" ]; then
 
 		# if larger file shows progress bar
 		if [[ $filename == *"tar"* ]]; then
-			curlfetch=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
-		else	
-			curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
+			echo -ne "downloading ${filename}..."
+			sleep 1
+			curlcmd=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
+			echo -ne "downloading ${filename}..."
+		else
+			echo -ne "    fetching ${filename}...\c"
+			curlcmd=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 		fi
-		if [ $? -ne 0 ]; then
+		local exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
 			fn_printfaileol
-			echo "${curlfetch}"
+			echo "${curlcmd}"
 			echo -e "${fileurl}\n"
-			exit 1
+			exit ${exitcode}
 		else
 			fn_printokeol
 		fi
@@ -99,7 +122,6 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		exit 1
 	fi
 	fn_dl_md5
-
 	# make file executable if run is set
 	if [ "${run}" == "run" ]; then
 		chmod +x "${filedir}/${filename}"

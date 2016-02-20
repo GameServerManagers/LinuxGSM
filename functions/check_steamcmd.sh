@@ -12,11 +12,9 @@ echo "Installing steamCMD"
 if [ ! -d "${steamcmddir}" ]; then
 	mkdir -v "${steamcmddir}"
 fi
-fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${steamcmddir}" "steamcmd_linux.tar.gz"
-tar --verbose -zxf "${steamcmddir}/steamcmd_linux.tar.gz" -C "${steamcmddir}"
-rm -v "${steamcmddir}/steamcmd_linux.tar.gz"
+fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${lgsmdir}/tmp" "steamcmd_linux.tar.gz"
+fn_dl_extract "${lgsmdir}/tmp" "steamcmd_linux.tar.gz" "${steamcmddir}"
 chmod +x "${steamcmddir}/steamcmd.sh"
-echo ""
 }
 
 
