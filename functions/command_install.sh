@@ -2,7 +2,7 @@
 # LGSM fn_install function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="200216"
 
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
@@ -17,8 +17,7 @@ if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_ut2k4.sh
 	install_ut2k4_key.sh
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-	install_dl_ut99.sh
-	install_ut99.sh
+	install_server_files.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3.sh
 elif [ ! -z "${appid}" ]; then
