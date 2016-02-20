@@ -87,11 +87,11 @@ echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
-if [ -z "${appid}" ]; then
+if [ -n "${appid}" ]; then
 	fn_install_server_files_steamcmd
 fi
 
-if [ ! -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+if [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
 fi
 
