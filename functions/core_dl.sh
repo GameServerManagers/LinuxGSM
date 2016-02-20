@@ -14,21 +14,22 @@ lgsm_version="050216"
 fn_dl_md5(){
 # Runs MD5 Check if available
 if [ -n "${md5}" ]; then
-	echo -ne "verifying ${filename} with MD5...\c"
-	local md5check=$(md5sum "${filedir}/${filename}"|awk '{print $1;}')
-	if [ "${md5check}" != "${dl_md5}" ]; then
+	echo -ne "verifying ${filename} with MD5..."
+	sleep 1
+	local md5sumcmd=$(md5sum "${filedir}/${filename}"|awk '{print $1;}')
+	if [ "${md5sumcmd}" != "${md5}" ]; then
 		fn_printfaileol
-		echo "${filename} MD5 checksum: ${md5check}"
-		echo "expected MD5 checksum: ${dl_md5}"
+		echo "${filename} returned MD5 checksum: ${md5sumcmd}"
+		echo "expected MD5 checksum: ${md5}"
 		fn_scriptlog "failed to verify ${filename} with MD5"
-		fn_scriptlog "${filename} MD5 checksum: ${md5check}"
-		fn_scriptlog "expected MD5 checksum: ${dl_md5}"
+		fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
+		fn_scriptlog "expected MD5 checksum: ${md5}"
 		exit 1	
 	else
 		fn_printokeol
 		fn_scriptlog "verifyed ${filename} with MD5"
-		fn_scriptlog "${filename} MD5 checksum: ${md5check}"
-		fn_scriptlog "expected MD5 checksum: ${dl_md5}"		
+		fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
+		fn_scriptlog "expected MD5 checksum: ${md5}"		
 	fi
 fi	
 }
