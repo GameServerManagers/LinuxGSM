@@ -8,4 +8,5 @@ echo ""
 echo "Downloading Server Files"
 echo "================================="
 sleep 1
-fn_dl "ut-server-451-complete.tar.bz2" "${filesdir}" "http://gameservermanagers.com/files/ut99/ut-server-451-complete.tar.bz2" "42a8c9806e4fce10a56830caca83ce63"
+fn_fetch_file "http://gameservermanagers.com/files/ut-server-451-complete.tar.bz2" "${lgsmdir}/tmp" "ut-server-451-complete.tar.bz2" "norun" "noforce" "42a8c9806e4fce10a56830caca83ce63"
+fn_dl_extract "${lgsmdir}/tmp" "ut-server-451-complete.tar.bz2" "${filesdir}"
