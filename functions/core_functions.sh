@@ -353,7 +353,7 @@ install_serverdir.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
-install_serverfiles.sh(){
+install_server_files.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -384,16 +384,6 @@ fn_fetch_function
 }
 
 install_ut2k4_key.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_ut99.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_dl_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
