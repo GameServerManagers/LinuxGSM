@@ -122,16 +122,19 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		echo -e ""
 		exit 1
 	fi
-	fn_dl_md5
 	# make file executable if run is set
 	if [ "${run}" == "run" ]; then
 		chmod +x "${filedir}/${filename}"
+	fi	
+fi
+
+if [ -f "${filedir}/${filename}" ]; then
+	fn_dl_md5
+	# run file if run is set
+	if [ "${run}" == "run" ]; then
+		source "${filedir}/${filename}"
 	fi
-fi
-# run file if run is set
-if [ "${run}" == "run" ]; then
-	source "${filedir}/${filename}"
-fi
+fi	
 }
 
 
