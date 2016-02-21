@@ -2,7 +2,7 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060216"
+lgsm_version="190216"
 
 # Description: Checks that the requires dependencies are installed for LGSM.
 
@@ -40,11 +40,23 @@ fi
 fn_deps_email(){
 # Adds postfix to required dependencies if email notification is enabled
 if [ "${emailnotification}" == "on" ]; then
-	if [ -n "$(command -v dpkg-query)" ]; then
-		array_deps_required+=( mailutils postfix )
-	elif [ -n "$(command -v yum)" ]; then
-		array_deps_required+=( mailx postfix )
-	fi	
+	if [ -f /usr/bin/mailx ]; then
+		if [ -d /etc/exim4 ]; then
+			array_deps_required+=( exim4 )
+		elif [ -d /etc/sendmail ]; then
+			array_deps_required+=( sendmail )
+		elif [ -n "$(command -v dpkg-query)" ]; then
+			array_deps_required+=( mailutils postfix )
+		elif [ -n "$(command -v yum)" ]; then
+			array_deps_required+=( mailx postfix )
+		fi	
+	else 
+		if [ -n "$(command -v dpkg-query)" ]; then
+			array_deps_required+=( mailutils postfix )
+		elif [ -n "$(command -v yum)" ]; then
+			array_deps_required+=( mailx postfix )
+		fi
+	fi
 fi
 }
 
