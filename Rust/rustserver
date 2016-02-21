@@ -31,21 +31,15 @@ queryport="28016"
 maxplayers="20"
 map="" #Optional rust_island_2013
 creativemode="0" #Free Build
-logfile="gamelog.txt"
-
-# Adding admins using STEAMID64
-# Example : addadmin 012345678901234567; addadmin 987654321098765432
-admins=""
+# logfile="gamelog.txt"
 
 # Advanced
 # Rollback server state (remove after start command)
 loadsave=""
-# Use unstable 64 bit server executable (O/1)
-x64mode="0"
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode -hostname ${servername} -map ${map} -queryport ${queryport} -maxplayers ${maxplayers} -datadir \"serverdata\""
+parms="-batchmode -ip ${ip} -port ${port} -hostname ${servername} -map ${map} -queryport ${queryport} -maxplayers ${maxplayers} -datadir \"serverdata/\""
 }
 
 #### Advanced Variables ####
