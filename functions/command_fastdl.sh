@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: http://gameservermanagers.com
-lgsm_version="190216"
+lgsm_version="210216"
 
 # Description: Creates a FastDL folder
 
