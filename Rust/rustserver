@@ -32,13 +32,13 @@ maxplayers="40" #+max.players
 map="" #Optional +server.map "Procedural Map" or TestLevel
 
 # Advanced
-worldsize="4000" #+server.worldsize default 4000
-saveinterval="600" #+server.saveinterval default 600
+worldsize="4000" #+server.worldsize default 4000 
+saveinterval="600" #+server.saveinterval default 600 (seconds)
 logfile="\"gamelog.txt\""
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} -datadir \"serverdata/\" -logfile ${logfile}"
+parms="-batchmode +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} -datadir \"serverdata/\" -logfile ${logfile}"
 
 }
 
