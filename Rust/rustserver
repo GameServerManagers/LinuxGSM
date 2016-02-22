@@ -35,10 +35,11 @@ maxplayers="50"
 # Advanced
 worldsize="4000" # default 4000; min : 2000 max : 8000 
 saveinterval="300" # Auto-save in seconds
+tickrate="30" # default 30; min acceptable 15 , max 100 or 128
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode +server.ip ${ip} +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -datadir \"serverdata/\" -logfile ${gamelogfile}"
+parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickrate} +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -datadir \"serverdata/\" -logfile ${gamelogfile}"
 }
 
 #### Advanced Variables ####
