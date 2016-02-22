@@ -24,21 +24,21 @@ steamuser="anonymous"
 steampass=""
 
 # Server settings
+# More settings available after install in serverfiles/server/rust-server/server.cfg
 servername="Rust LGSM Server"
 ip="0.0.0.0"
 port="28015"
 rconport="28016" 
-rconpassword="CHANGE_ME" #Don't let it blank but change it
-maxplayers="50" #+max.players
+rconpassword="CHANGE_ME" # Don't let it blank but change it
+maxplayers="50"
 
 # Advanced
-map="" #Optional +server.map "Procedural Map" or TestLevel
-worldsize="4000" #+server.worldsize default 4000 
-saveinterval="300" #+server.saveinterval in seconds
+worldsize="4000" # default 4000; min : 2000 max : 8000 
+saveinterval="300" # Auto-save in seconds
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -datadir \"serverdata/\" -logfile ${gamelogfile}"
+parms="-batchmode +server.ip ${ip} +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -datadir \"serverdata/\" -logfile ${gamelogfile}"
 }
 
 #### Advanced Variables ####
