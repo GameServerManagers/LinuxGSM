@@ -537,6 +537,27 @@ echo -e ""
 fn_details_statusbottom
 }
 
+fn_details_rust(){
+echo -e ""
+echo -e "\e[92mPorts\e[0m"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "Change ports by editing the parameters in"
+echo -e "rustserver script"
+echo -e ""
+echo -e "Useful port diagnostic command:"
+echo -e "netstat -atunp | grep Rust"
+echo -e ""
+{
+	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+	echo -e "> Query\tINBOUND\t${rconport}\ttcp"
+
+} | column -s $'\t' -t
+echo -e ""
+
+fn_details_statusbottom
+}
+
 fn_details_unreal(){
 echo -e ""
 echo -e "\e[92mPorts\e[0m"
@@ -615,7 +636,7 @@ fn_details_disk
 fn_details_gameserver
 fn_details_backup
 # Some game servers do not have parms.
-if [ "${gamename}" != "Teamspeak 3" ]||[ "${engine}" != "avalanche" ]||[ "${engine}" != "dontstarve" ]||[ "${engine}" == "projectzomboid" ]; then
+if [ "${gamename}" != "Teamspeak 3" ]||[ "${engine}" != "avalanche" ]||[ "${engine}" != "dontstarve" ]||[ "${engine}" != "projectzomboid" ]; then
 	fn_parms
 	fn_details_commandlineparms
 fi
@@ -654,6 +675,8 @@ elif [ "${gamename}" == "7 Days To Die" ]; then
 	fn_details_sdtd
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_details_teamspeak3
+elif [ "${gamename}" == "Rust" ]; then
+	fn_details_rust
 else
 	fn_printerrornl "Unable to detect server engine."
 fi
