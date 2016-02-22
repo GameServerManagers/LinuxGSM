@@ -23,6 +23,9 @@ if [ -f "${rootdir}/gsquery.py" ]; then
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		gameport="${port}"
 		port="${queryport}"
+	elif [ "${gamename}" == "Rust" ]; then
+		gameport="${port}"
+		port="${rconport}"
 	fi
 	fn_printinfo "Detected gsquery.py"
 	fn_scriptlog "Detected gsquery.py"
