@@ -22,7 +22,7 @@ if [ -n ${gamelogfile} ]; then
 		fn_printinfo "Moving game logs to ${gamelogdir}"
 		fn_scriptlog "Moving game logs to ${gamelogdir}"
 		echo -en "\n"
-		sleep1
+		sleep 1
 		mv "${systemdir}"/gamelog*.log "${gamelogdir}"
 	fi
 fi
