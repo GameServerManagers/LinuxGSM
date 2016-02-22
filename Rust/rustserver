@@ -67,6 +67,9 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./RustDedicated"
+serveridentitydir="${systemdir}/server/${servicename}"
+servercfg="server.cfg"
+servercfgdir="${serveridentitydir}/cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
