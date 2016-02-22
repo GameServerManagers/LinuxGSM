@@ -38,7 +38,7 @@ logfile="\"gamelog.txt\""
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} -datadir \"serverdata/\" -logfile ${logfile}"
+parms="-batchmode +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.port ${rconport} -datadir \"serverdata/\" -logfile ${logfile}"
 
 }
 
