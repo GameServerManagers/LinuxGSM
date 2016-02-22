@@ -28,7 +28,7 @@ servername="Rust LGSM Server"
 ip="0.0.0.0"
 port="28015" #+server.port
 rconport="28016" #+rcon.port
-rconpassword="" #+rcon.password
+rconpassword="CHANGE_ME" #+rcon.password
 maxplayers="40" #+max.players
 map="" #Optional +server.map "Procedural Map" or TestLevel
 
@@ -71,6 +71,7 @@ serveridentitydir="${systemdir}/server/${servicename}"
 servercfg="server.cfg"
 servercfgdir="${serveridentitydir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="{servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
