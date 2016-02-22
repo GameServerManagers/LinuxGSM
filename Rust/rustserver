@@ -24,22 +24,22 @@ steamuser="anonymous"
 steampass=""
 
 # Server settings
-servername="Hurtworld LGSM Server"
+servername="Rust LGSM Server"
 ip="0.0.0.0"
-port="28015"
-queryport="28016"
-maxplayers="20"
-map="" #Optional rust_island_2013
-creativemode="0" #Free Build
-# logfile="gamelog.txt"
+port="28015" #+server.port
+rconport="28016" #+rcon.port
+maxplayers="40" #+max.players
+map="" #Optional +server.map "Procedural Map" or TestLevel
 
 # Advanced
-# Rollback server state (remove after start command)
-loadsave=""
+worldsize="4000" #+server.worldsize default 4000
+saveinterval="600" #+server.saveinterval default 600
+logfile="\"gamelog.txt\""
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode -ip ${ip} -port ${port} -hostname ${servername} -map ${map} -queryport ${queryport} -maxplayers ${maxplayers} -datadir \"serverdata/\""
+parms="-batchmode +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.-maxplayers ${maxplayers} -datadir \"serverdata/\" -logfile ${logfile}"
+
 }
 
 #### Advanced Variables ####
@@ -49,7 +49,7 @@ parms="-batchmode -ip ${ip} -port ${port} -hostname ${servername} -map ${map} -q
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="master"
+githubbranch="rust"
 
 # Steam
 appid="258550"
