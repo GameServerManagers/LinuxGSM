@@ -71,7 +71,7 @@ serveridentitydir="${systemdir}/server/${servicename}"
 servercfg="server.cfg"
 servercfgdir="${serveridentitydir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="{servercfgdir}/lgsm-default.cfg"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
