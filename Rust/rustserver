@@ -25,11 +25,11 @@ steampass=""
 
 # Server settings
 # More settings available after install in serverfiles/server/rust-server/server.cfg
-servername="Rust LGSM Server"
+servername="Rust"
 ip="0.0.0.0"
 port="28015"
 rconport="28016" 
-rconpassword="CHANGE_ME" # Don't let it blank but change it
+rconpassword="CHANGE_ME"
 maxplayers="50"
 
 # Advanced
@@ -49,7 +49,7 @@ parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickr
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="rust"
+githubbranch="master"
 
 # Steam
 appid="258550"
