@@ -2,7 +2,7 @@
 # Rust
 # Server Management Script
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributor: UltimateByte (LGSM adaptation), Wulf (Information)
 # Website: http://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
