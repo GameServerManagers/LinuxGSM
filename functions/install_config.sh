@@ -2,7 +2,7 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="100116"
+lgsm_version="220216"
 
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
@@ -297,6 +297,11 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	wget -N /dev/null ${githuburl}/SeriousSam3BFE/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_serious3config
+elif [ "${gamename}" == "Rust" ]; then
+	echo -e "downloading server.cfg...\c"
+	wget -N /dev/null  ${githuburl}/Rust/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/SvenCoop/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

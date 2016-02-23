@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: http://gameservermanagers.com
-lgsm_version="100215"
+lgsm_version="230216"
 
 # Description: Acts as a log rotater, removing old logs.
 
@@ -13,6 +13,17 @@ local modulename="Log Manager"
 if [ -n "${consolelog}" ]; then
 	if [ ! -e "${consolelog}" ]; then
 		touch "${consolelog}"
+	fi
+fi
+
+# For games not displaying a console, and having logs into their game folder
+if [ -n "${gamelogfile}" ]; then
+	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
+		fn_printinfo "Moving game logs to ${gamelogdir}"
+		fn_scriptlog "Moving game logs to ${gamelogdir}"
+		echo -en "\n"
+		sleep 1
+		mv "${systemdir}"/gamelog*.log "${gamelogdir}"
 	fi
 fi
 
