@@ -26,9 +26,9 @@ steampass=""
 # Start Variables
 gameport="27960"
 rconport="28960"
-rconpassword="ch@ng3me"
+rconpassword="CHANGE_ME"
 statsport="${gameport}"
-statspassword="ch@ng3me"
+statspassword="CHANGE_ME"
 mappool='mappool.txt'
 ip="0.0.0.0"
 updateonstart="off"
