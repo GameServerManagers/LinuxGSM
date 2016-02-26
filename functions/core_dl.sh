@@ -18,7 +18,7 @@ if [ -n "${md5}" ]; then
 	sleep 1
 	local md5sumcmd=$(md5sum "${filedir}/${filename}"|awk '{print $1;}')
 	if [ "${md5sumcmd}" != "${md5}" ]; then
-		fn_printfaileol
+		fn_printfaileolnl
 		echo "${filename} returned MD5 checksum: ${md5sumcmd}"
 		echo "expected MD5 checksum: ${md5}"
 		fn_scriptlog "failed to verify ${filename} with MD5"
@@ -26,7 +26,7 @@ if [ -n "${md5}" ]; then
 		fn_scriptlog "expected MD5 checksum: ${md5}"
 		exit 1	
 	else
-		fn_printokeol
+		fn_printokeolnl
 		fn_scriptlog "verifyed ${filename} with MD5"
 		fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
 		fn_scriptlog "expected MD5 checksum: ${md5}"		
@@ -49,11 +49,11 @@ elif [ "${mime}" == "application/x-bzip2" ]; then
 fi
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
-	fn_printfaileol
+	fn_printfaileolnl
 	echo "${tarcmd}"
 	exit ${exitcode}
 else
-	fn_printokeol
+	fn_printokeolnl
 fi
 }
 
@@ -108,17 +108,17 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
-			fn_printfaileol
+			fn_printfaileolnl
 			echo "${curlcmd}"
 			echo -e "${fileurl}\n"
 			exit ${exitcode}
 		else
-			fn_printokeol
+			fn_printokeolnl
 		fi
 		# remove trap
 		trap - INT	
 	else
-		fn_printfaileol
+		fn_printfaileolnl
 		echo "Curl is not installed!"
 		echo -e ""
 		exit 1

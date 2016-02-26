@@ -54,7 +54,7 @@ if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 	fi
 elif [ "${function_selfname}" == "command_install.sh" ]; then
 	fn_printinfomation "SteamCMD is already installed..."
-	fn_printokeol	
+	fn_printokeolnl
 fi
 }
 
