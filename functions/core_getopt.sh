@@ -283,6 +283,7 @@ case "$getopt" in
 		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
+		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
 		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
@@ -408,6 +409,7 @@ case "$getopt" in
 		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
+		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
 		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
