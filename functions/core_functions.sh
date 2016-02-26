@@ -281,12 +281,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-gsquery.py(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-
 # Update
 
 update_check.sh(){

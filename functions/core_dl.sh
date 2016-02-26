@@ -67,14 +67,15 @@ fn_fetch_trap() {
 }
 
 # Downloads file using curl and run it if required
-# fn_fetch_file "fileurl" "filedir" "filename" "run" "force" "md5"
+# fn_fetch_file "fileurl" "filedir" "filename" "executecmd" "run" "force" "md5"
 fn_fetch_file(){
 fileurl=${1}
 filedir=${2}
 filename=${3}
-run=${4:-0}
-force=${5:-0}
-md5=${6}
+executecmd=${4:-0}
+run=${5:-0}
+force=${6:-0}
+md5=${7}
 
 # If the file is missing, then download
 if [ ! -f "${filedir}/${filename}" ]; then
@@ -122,8 +123,8 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		echo -e ""
 		exit 1
 	fi
-	# make file executable if run is set
-	if [ "${run}" == "run" ]; then
+	# make file executecmd if executecmd is set
+	if [ "${executecmd}" == "executecmd" ]; then
 		chmod +x "${filedir}/${filename}"
 	fi	
 fi
@@ -143,18 +144,19 @@ fi
 # github_file_url_dir: The directory the file is located in teh GitHub repo
 # github_file_url_name: name of file
 # filepath: location file to be saved
-# run: Optional, set to 1 to make file executable
+# executecmd: set to "executecmd" to make file executecmd
+# run: Optional, set to run to execute the file
 # force: force download of file even if exists
 fn_fetch_file_github(){
 github_file_url_dir=${1}
 github_file_url_name=${2}
 filepath=${3}
 filename="${github_file_url_name}"
-run=${4:-0}
-force=${5:-0}
+executecmd=${4:-0}
+run=${5:-0}
+force=${6:-0}
 githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-echo -e "    fetching ${filename}...\c"
-fn_fetch_file "${githuburl}" "${filepath}" "${filename}" "${run}" "${force}"
+fn_fetch_file "${githuburl}" "${filepath}" "${filename}" "${executecmd}" "${run}" "${force}"
 }
 
 
@@ -166,6 +168,7 @@ github_file_url_name="${functionfile}" # name of the github file
 githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 filedir="${functionsdir}" # local dir that will contain the file
 filename="${github_file_url_name}" # name of the local file
+executecmd="executecmd"
 run="run"
-fn_fetch_file "${githuburl}" "${filedir}" "${filename}" "${run}"
+fn_fetch_file "${githuburl}" "${filedir}" "${filename}" "${executecmd}" "${run}"
 }
