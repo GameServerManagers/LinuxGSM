@@ -2,7 +2,7 @@
 # LGSM fn_install function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="200216"
+lgsm_version="260216"
 
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
@@ -27,7 +27,6 @@ fi
 
 # Configuration
 fix.sh
-install_gsquery.sh
 install_config.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
 	install_gslt.sh
