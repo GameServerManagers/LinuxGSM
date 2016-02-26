@@ -207,7 +207,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
     # query port
     if [ "${port}" != "" ]; then
-		queryport=$((port+1))
+		queryport=$((port + 1))
     fi
     if [ ! -n "${queryport}" ]; then
 		queryport="0"
@@ -215,7 +215,7 @@ elif [ "${engine}" == "realvirtuality" ]; then
 
     # master port
     if [ "${port}" != "" ]; then
-		masterport=$((port+2))
+		masterport=$((port + 2))
     fi
     if [ ! -n "${masterport}" ]; then
 		masterport="0"
@@ -274,7 +274,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	# query port
 	if [ -f "${servercfgfullpath}" ]; then
-		queryport=$((${port} + 1))
+		queryport=$((port + 1))
 	fi
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"
