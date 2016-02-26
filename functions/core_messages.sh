@@ -154,3 +154,12 @@ fn_printfaileol(){
 fn_printfaileolnl(){
 	echo -e "\e[0;31mFAIL\e[0m\n"
 }
+
+# QUERYING for end of line
+fn_printqueryingeol(){
+	echo -en "\e[0;31mQUERYING\e[0m\n"
+}
+
+fn_printqueryingeolnl(){
+	echo -e "\e[0;31mQUERYING\e[0m\n"
+}
