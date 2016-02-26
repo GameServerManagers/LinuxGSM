@@ -103,7 +103,7 @@ echo ""
 }
 
 fn_ut99config(){
-echo "${defaultcfg} > ${servercfgfullpath}"
+echo "${servercfgdefault} > ${servercfgfullpath}"
 tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
 sleep 1
 echo ""
