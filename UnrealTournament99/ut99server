@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="200216"
+version="260216"
 
 #### Variables ####
 
@@ -59,6 +59,7 @@ backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
+gamelogdir="${systemdir}/Logs/"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 
