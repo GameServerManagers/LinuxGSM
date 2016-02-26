@@ -93,7 +93,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 21
 		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/librt.so.1
 		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libpthread.so.0
 	elif [ "${gamename}" == "Left 4 Dead" ]; then
-		glibcversion="2.07"
+		glibcversion="2.3.6"
 		fn_glibcfixmsg
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/bin/libstdc++.so.6"
 	# Natural Selection 2

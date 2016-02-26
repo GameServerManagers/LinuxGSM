@@ -2,7 +2,7 @@
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="100116"
+lgsm_version="260216"
 
 # Description: stores details on servers Glibc requirements.
 
@@ -43,13 +43,19 @@ elif [ "${engine}" == "seriousengine35" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-	glibcrequired="2.07"
+	glibcrequired="2.3.6"
 	glibcfix="no"
 elif [ "${engine}" == "spark" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${engine}" == "starbound" ]; then
 	glibcrequired="2.12"
+	glibcfix="no"
+elif [ "${engine}" == "unreal" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"	
+elif [ "${engine}" == "unreal2" ]; then
+	glibcrequired="2.4"
 	glibcfix="no"
 elif [ "${engine}" == "unreal4" ]; then
 	glibcrequired="2.14"
