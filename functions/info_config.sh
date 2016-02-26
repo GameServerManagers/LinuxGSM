@@ -197,29 +197,29 @@ elif [ "${engine}" == "realvirtuality" ]; then
 		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-        # port
-        if [ "${port}" != "" ]; then
-                        port=${port}
-        fi
-        if [ ! -n "${port}" ]; then
-                port="0"
-        fi
+    # port
+    if [ "${port}" != "" ]; then
+		port=${port}
+    fi
+    if [ ! -n "${port}" ]; then
+		port="0"
+    fi
 
-        # query port
-        if [ "${port}" != "" ]; then
-                queryport=$((port+1))
-        fi
-        if [ ! -n "${queryport}" ]; then
-                queryport="0"
-        fi
+    # query port
+    if [ "${port}" != "" ]; then
+		queryport=$((port+1))
+    fi
+    if [ ! -n "${queryport}" ]; then
+		queryport="0"
+    fi
 
-        # master port
-        if [ "${port}" != "" ]; then
-                masterport=$((port+2))
-        fi
-        if [ ! -n "${masterport}" ]; then
-                masterport="0"
-        fi
+    # master port
+    if [ "${port}" != "" ]; then
+		masterport=$((port+2))
+    fi
+    if [ ! -n "${masterport}" ]; then
+		masterport="0"
+    fi
 
 # Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
