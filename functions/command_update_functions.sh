@@ -15,7 +15,7 @@ echo -ne "\n"
 if [ -d "${rootdir}/functions/" ]; then
 	rm -rfv "${rootdir}/functions/"
 	exitcode=$?
-elif [ -z "${functionsdir}" ]; then
+elif [ -n "${functionsdir}" ]; then
 	rm -rfv "${functionsdir}/"*
 	exitcode=$?
 else

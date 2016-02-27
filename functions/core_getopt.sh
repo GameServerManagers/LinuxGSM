@@ -20,7 +20,7 @@ case "$getopt" in
 		forceupdate=1;
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	v|validate)
 		command_validate.sh;;
 	m|monitor)
@@ -81,7 +81,7 @@ case "$getopt" in
 	u|update)
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -133,7 +133,7 @@ case "$getopt" in
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -183,7 +183,7 @@ case "$getopt" in
 		forceupdate=1;
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	v|validate)
 		command_validate.sh;;
 	m|monitor)
@@ -242,7 +242,7 @@ case "$getopt" in
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -305,7 +305,7 @@ case "$getopt" in
 		forceupdate=1;
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	v|validate)
 		command_validate.sh;;
 	m|monitor)
@@ -368,7 +368,7 @@ case "$getopt" in
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
