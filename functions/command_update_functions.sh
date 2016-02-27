@@ -12,10 +12,14 @@ fn_printdots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 echo -ne "\n"
+
+# Removed legecy functions dir
 if [ -d "${rootdir}/functions/" ]; then
 	rm -rfv "${rootdir}/functions/"
 	exitcode=$?
-elif [ -n "${functionsdir}" ]; then
+fi
+
+if [ -n "${functionsdir}" ]; then
 	rm -rfv "${functionsdir}/"*
 	exitcode=$?
 else
