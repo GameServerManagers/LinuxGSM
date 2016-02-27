@@ -7,7 +7,7 @@ lgsm_version="270216"
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions would not load.
 
-# Code/functions for legacy lgsm scripts
+# Code/functions for legacy servers
 
 fn_functions(){
 functionfile="${FUNCNAME}"
@@ -19,8 +19,8 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# fn_fetch_core_dl also placed here to allow legecy scripts to still download core functions
-if [ -n "${lgsmdir}" ]; then
+# fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
+if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 fi 
