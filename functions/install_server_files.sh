@@ -2,22 +2,19 @@
 # LGSM install_server_files.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="050216"
+lgsm_version="270216"
 
 
 fn_install_server_files(){
 if [ "${gamename}" == "Unreal Tournament 99" ]; then
-	fileurl="http://gameservermanagers.com/files/ut-server-451-complete.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut-server-451-complete.tar.bz2"; run="norun"; force="noforce"; md5="e623fdff5ed600a9bfccab852e18d34d"
+	fileurl="http://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; run="norun"; force="noforce"; md5="e623fdff5ed600a9bfccab852e18d34d"
+elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	fileurl="http://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2"; run="norun"; force="noforce"; md5="e623fdff5ed600a9bfccab852e18d34d"
 fi
+
 fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${run}" "${force}" "${md5}"
 fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
 }
-
-#!/bin/bash
-# LGSM install_serverfiles.sh function
-# Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
-lgsm_version="271215"
 
 fn_install_server_files_steamcmd(){
 check.sh
