@@ -4,7 +4,6 @@
 # Website: http://gameservermanagers.com
 lgsm_version="270216"
 
-
 fn_install_server_files(){
 if [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fileurl="http://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; run="norun"; force="noforce"; md5="e623fdff5ed600a9bfccab852e18d34d"
@@ -67,7 +66,6 @@ while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		fn_printfailurenl "SteamCMD did not complete the download, too many retrys"
 		break
 	fi
-
 done
 
 # Goldsource servers commonly fail to download all the server files required.
