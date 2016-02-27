@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_update_functions.sh function
+# LGSM fn_update_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="230116"
