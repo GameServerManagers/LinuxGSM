@@ -13,8 +13,7 @@ install_logs.sh
 check_deps.sh 
 # Download and install
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	install_dl_ut2k4.sh
-	install_ut2k4.sh
+	install_server_files.sh
 	install_ut2k4_key.sh
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	install_server_files.sh
