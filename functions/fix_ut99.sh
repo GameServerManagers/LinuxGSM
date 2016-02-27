@@ -12,7 +12,7 @@ echo "UpdateMinutes=1"
 echo "MasterServerAddress=unreal.epicgames.com"
 echo "MasterServerPort=27900"
 echo "Region=0"
-}|tee -a "${servercfgfullpath}" > /dev/null 2>&1
+}| tee -a "${servercfgfullpath}" > /dev/null 2>&1
 sleep 1
 echo "removing dead gamespy.com master server."
 sed -i '/master0.gamespy.com/d' "${servercfgfullpath}"

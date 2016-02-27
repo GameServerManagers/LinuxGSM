@@ -37,18 +37,18 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	echo -en "\n"
 	# Logging logfiles to be removed according to "${logdays}", counting and removing them
 	# Script logfiles
-	find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+	find "${scriptlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 	scriptcount=$(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 	find "${scriptlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	# SRCDS and unreal logfiles
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
-		find "${gamelogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+		find "${gamelogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 		gamecount=$(find "${gamelogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
 	# Console logfiles
 	if [ -n "${consolelog}" ]; then
-		find "${consolelogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+		find "${consolelogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 		find "${consolelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
@@ -56,7 +56,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	if [ "${engine}" == "source" ]; then
 		# SourceMod logfiles
 		if [ -d "${sourcemodlogdir}" ]; then
-			find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+			find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 			smcount=$(find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 			find "${sourcemodlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		fi
@@ -64,13 +64,13 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 		if [ "${gamename}" == "Garry's Mod" ]; then
 			# ULX logfiles
 			if [ -d "${ulxlogdir}" ]; then
-				find "${ulxlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+				find "${ulxlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 				ulxcount=$(find "${ulxlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 				find "${ulxlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 			fi
 			# DarkRP logfiles
 			if [ -d "${darkrplogdir}" ]; then
-				find "${darkrplogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+				find "${darkrplogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 				darkrpcount=$(find "${darkrplogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 				find "${darkrplogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 			fi
@@ -78,7 +78,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	fi
 	# Legacy support
 	if [ -d "${legacyserverlogdir}" ]; then
-		find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"|tee >> "${scriptlog}"
+		find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 		legacycount=$(find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 		find "${legacyserverlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		# Remove folder if empty
