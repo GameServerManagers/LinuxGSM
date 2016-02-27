@@ -53,6 +53,7 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 	fn_printdots "Checking dependencies"
 	sleep 2
 	fn_printwarn "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+	fn_scriptlog "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 	sleep 1
 	echo -e ""
 	sudo -n true > /dev/null 2>&1
@@ -73,6 +74,7 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 	else
 		echo ""
 		fn_printinfomationnl "$(whoami) does not have sudo access. manually install dependencies"
+		fn_scriptlog "$(whoami) does not have sudo access. manually install dependencies"
 		echo ""
 		if [ -n "$(command -v dpkg-query)" ]; then
 			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
@@ -147,7 +149,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 unzip )
+			array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 )
 		#UT99
 		else
 			array_deps_required+=( libsdl1.2debian bzip2 )
@@ -193,7 +195,7 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 unzip )
+			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 )
 		#UT99
 		else
 			array_deps_required+=( SDL.i686 bzip2 )
