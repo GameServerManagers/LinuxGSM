@@ -12,8 +12,17 @@ fn_printdots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 echo -ne "\n"
-rm -rfv "${functionsdir}/"*
-exitcode=$?
+if [ -d "${rootdir}/functions/" ]; then
+	rm -rfv "${rootdir}/functions/"
+	exitcode=$?
+elif [ -z "${functionsdir}" ]; then
+	rm -rfv "${functionsdir}/"*
+	exitcode=$?
+else
+	fn_printfail "Updating functions"
+	fn_scriptlog "Failure! Updating functions"	
+fi
+
 if [ "${exitcode}" == "0" ]; then
 	fn_printok "Updating functions"
 	fn_scriptlog "Success! Updating functions"
