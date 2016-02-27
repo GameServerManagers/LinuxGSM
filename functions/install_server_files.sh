@@ -17,10 +17,8 @@ fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
 }
 
 fn_install_server_files_steamcmd(){
-check.sh
-mkdir -pv "${filesdir}"
 counter="0"
-while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .install_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x406 .install_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x6 .install_serverfiles.sh.tmp)" -ge "1" ]||[ "$(grep -wc 0x106 .install_serverfiles.sh.tmp)" -ge "1" ]; do
+while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 	counter=$((counter+1))
 	cd "${rootdir}/steamcmd"
 	if [ "${counter}" -le "10" ]; then
@@ -50,15 +48,19 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .install_serverfiles.sh.tmp)"
 
 		if [ "${counter}" -le "4" ]; then
 			if [ "${engine}" == "goldsource" ]; then
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit |tee .install_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit
+				local exitcode=$?
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit |tee .install_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit
+				local exitcode=$?
 			fi
 		elif [ "${counter}" -ge "5" ]; then
 			if [ "${engine}" == "goldsource" ]; then
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .install_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -validate +quit
+				local exitcode=$?
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .install_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit
+				local exitcode=$?
 			fi
 		fi
 	elif [ "${counter}" -ge "11" ]; then
@@ -74,10 +76,10 @@ if [ "${engine}" == "goldsource" ]; then
 	counter="0"
 	while [ "${counter}" -le "4" ]; do
 		counter=$((counter+1))
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .install_serverfiles.sh.tmp
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit
+		local exitcode=$?
 	done
 fi
-rm -f .install_serverfiles.sh.tmp
 }
 
 echo ""
