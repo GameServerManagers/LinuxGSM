@@ -288,7 +288,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-update_functions.sh(){
+command_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -298,7 +298,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-update_functions.sh(){
+fn_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
