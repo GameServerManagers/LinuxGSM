@@ -348,7 +348,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-install_serverdir.sh(){
+install_server_dir.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
