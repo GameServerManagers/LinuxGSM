@@ -2,7 +2,7 @@
 # LGSM update_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="230116"
+lgsm_version="270216"
 
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
@@ -12,7 +12,7 @@ fn_printdots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 echo -ne "\n"
-rm -rfv "${rootdir}/functions/"*
+rm -rfv "${functionsdir}/"*
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
 	fn_printok "Updating functions"
