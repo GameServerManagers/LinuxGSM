@@ -2,12 +2,12 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="160216"
+lgsm_version="270216"
 
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions would not load.
 
-#Legacy functions
+# Code/functions for legacy lgsm scripts
 
 fn_functions(){
 functionfile="${FUNCNAME}"
@@ -17,6 +17,54 @@ fn_fetch_function
 fn_getopt(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
+}
+
+# fn_fetch_core_dl also placed here to allow legecy scripts to still download core functions
+if [ -n "${lgsmdir}" ]; then
+	lgsmdir="${rootdir}/lgsm"
+	functionsdir="${lgsmdir}/functions"
+fi 
+
+fn_fetch_core_dl(){
+github_file_url_dir="functions"
+github_file_url_name="${functionfile}"
+filedir="${functionsdir}"
+filename="${github_file_url_name}"
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+# If the file is missing, then download
+if [ ! -f "${filedir}/${filename}" ]; then
+	if [ ! -d "${filedir}" ]; then
+		mkdir -p "${filedir}"
+	fi
+	echo -e "    fetching ${filename}...\c"
+	# Check curl exists and use available path
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl $(echo $PATH | sed "s/\([:]\|\$\)/\/curl /g")"
+	for curlcmd in ${curlpaths}
+	do
+		if [ -x "${curlcmd}" ]; then
+			break
+		fi
+	done
+	# If curl exists download file
+	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+		if [ $? -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo "${curlfetch}"
+			echo -e "${githuburl}\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi		
+	else
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "Curl is not installed!"
+		echo -e ""
+		exit 1
+	fi
+	chmod +x "${filedir}/${filename}"
+fi
+source "${filedir}/${filename}"
 }
 
 
