@@ -29,6 +29,7 @@ while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 
 		if [ "${counter}" -ge "2" ]; then
 			fn_printwarningnl "SteamCMD did not complete the download, retrying: Attempt ${counter}:"
+			fn_scriptlog "SteamCMD did not complete the download, retrying: Attempt ${counter}:"
 		fi
 
 		if [ "${counter}" -ge "7" ]; then
@@ -64,6 +65,7 @@ while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		fi
 	elif [ "${counter}" -ge "11" ]; then
 		fn_printfailurenl "SteamCMD did not complete the download, too many retrys"
+		fn_scriptlog "SteamCMD did not complete the download, too many retrys"
 		break
 	fi
 done

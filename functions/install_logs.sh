@@ -2,7 +2,7 @@
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="270216"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
@@ -45,3 +45,4 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 	fi
 fi
 sleep 1
+fn_scriptlog "Logs installed"
