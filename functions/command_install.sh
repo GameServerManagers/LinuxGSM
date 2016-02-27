@@ -8,7 +8,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 install_header.sh
-install_serverdir.sh
+install_server_dir.sh
 install_logs.sh
 check_deps.sh 
 # Download and install
@@ -22,7 +22,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3.sh
 elif [ ! -z "${appid}" ]; then
 	install_steamcmd.sh
-	install_serverfiles.sh
+	install_server_files.sh
 fi
 
 # Configuration
