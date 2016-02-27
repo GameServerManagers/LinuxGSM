@@ -28,8 +28,8 @@ while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		# Attempt 11: Failure
 
 		if [ "${counter}" -ge "2" ]; then
-			fn_printwarningnl "SteamCMD did not complete the download, retrying: Attempt ${counter}:"
-			fn_scriptlog "SteamCMD did not complete the download, retrying: Attempt ${counter}:"
+			fn_printwarningnl "SteamCMD did not complete the download, retrying: Attempt ${counter}"
+			fn_scriptlog "SteamCMD did not complete the download, retrying: Attempt ${counter}"
 		fi
 
 		if [ "${counter}" -ge "7" ]; then
@@ -73,6 +73,7 @@ done
 # Goldsource servers commonly fail to download all the server files required.
 # Validating a few of times may reduce the chance of this issue.
 if [ "${engine}" == "goldsource" ]; then
+	fn_printinfomationnl "Goldsource servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."
 	counter="0"
 	while [ "${counter}" -le "4" ]; do
 		counter=$((counter+1))
