@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_systemdir.sh function
+# LGSM check_system_dir.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="271215"

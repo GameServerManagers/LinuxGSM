@@ -146,7 +146,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-check_systemdir.sh(){
+check_system_dir.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
