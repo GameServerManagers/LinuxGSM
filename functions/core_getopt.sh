@@ -386,7 +386,9 @@ case "$getopt" in
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
-		fn_autoinstall;;		
+		fn_autoinstall;;
+	sck|server-cd-key)
+		install_ut2k4_key.sh;;				
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	dd|depsdetect)
@@ -410,6 +412,7 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
 		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
+		echo -e "\e[34mserver-cd-key\t\e[0mAdd your server cd key"		
 		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
