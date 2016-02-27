@@ -95,9 +95,8 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	if [ "$(basename ${curlcmd})" == "curl" ]; then
 		# trap to remove part downloaded files
 		trap fn_fetch_trap INT
-
 		# if larger file shows progress bar
-		if [[ $filename == *"tar"* ]]; then
+		if [ ${filename##*.} == "bz2" ]; then
 			echo -ne "downloading ${filename}..."
 			sleep 1
 			curlcmd=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
