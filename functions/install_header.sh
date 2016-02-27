@@ -9,12 +9,6 @@ echo "================================="
 echo "${gamename}"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
-if [ "${gamename}" == "ARMA 3" ]; then
-	echo "contributions by Scarsz"
-elif [ "${gamename}" == "Left 4 Dead" ]; then
-	echo "contributions by Summit Singh Thakur"
-elif [ "${gamename}" == "Teeworlds" ]; then
-	echo "contributions by Bryce Van Dyk (SingingTree)"	
-fi
+echo "Contributors: http://goo.gl/qLmitD"
 echo "http://gameservermanagers.com"
 echo "================================="
