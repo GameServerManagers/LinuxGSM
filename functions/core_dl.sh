@@ -20,7 +20,7 @@ lgsm_version="050216"
 
 fn_dl_md5(){
 # Runs MD5 Check if available
-if [ -n "${md5}" ]; then
+if [ -n "${md5}" ]||[ "${md5}" == "nomd5" ]; then
 	echo -ne "verifying ${filename} with MD5..."
 	sleep 1
 	local md5sumcmd=$(md5sum "${filedir}/${filename}"|awk '{print $1;}')
@@ -181,7 +181,7 @@ filename="${github_file_url_name}"
 executecmd="${4:-0}"
 run="${5:-0}"
 force="${6:-0}"
-md5="${7:-0}"
+md5="${7}"
 fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
 
