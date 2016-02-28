@@ -111,32 +111,39 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		# if larger file shows progress bar
 		if [ ${filename##*.} == "bz2" ]; then
 			echo -ne "downloading ${filename}..."
-			fn_scriptlog "downloading ${filename}"
+			if [ -z "${scriptlog}" ]; then
+				fn_scriptlog "downloading ${filename}"
+			fi
 			sleep 1
 			curlcmd=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
 			echo -ne "downloading ${filename}..."
 		else
 			echo -ne "    fetching ${filename}...\c"
-			fn_scriptlog "fetching ${filename}"
+			if [ -z "${scriptlog}" ]; then
+				fn_scriptlog "fetching ${filename}"
+			fi	
 			curlcmd=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_printfaileolnl
-			fn_scriptlog "downloading ${filename}: FAIL"
+			if [ -z "${scriptlog}" ]; then
+				fn_scriptlog "downloading ${filename}: FAIL"
+			fi	
 			echo "${curlcmd}" | tee -a "${scriptlog}"
 			echo -e "${fileurl}\n" | tee -a "${scriptlog}"
 			exit ${exitcode}
 		else
 			fn_printokeolnl
-			fn_scriptlog "downloading ${filename}: OK"
+			if [ -z "${scriptlog}" ]; then
+				fn_scriptlog "downloading ${filename}: OK"
+			fi	
 		fi
 		# remove trap
 		trap - INT	
 	else
 		fn_printfaileolnl
 		echo "Curl is not installed!"
-		fn_scriptlog "Curl is not installed!"
 		echo -e ""
 		exit 1
 	fi
