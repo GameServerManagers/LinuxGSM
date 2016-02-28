@@ -6,10 +6,17 @@ lgsm_version="050216"
 
 # Description: Deals with all downloads for LGSM.
 
-# Downloads can be defined in code like so
-# fn_dl "dl_filename" "dl_filepath" "dl_url" "dl_md5"
-# fn_dl "file.tar.bz2" "/home/gameserver" "http://example.com/file.tar/bz2" "10cd7353aa9d758a075c600a6dd193fd"
-
+# fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
+# filedir: location the file is to be saved: /home/server/lgsm/tmp
+# filename: name of file (this can be different from the url name): file.tar.bz2
+# executecmd: Optional, set to "executecmd" to make file executable using chmod +x
+# run: Optional, set to run to execute the file
+# force: Optional, force re-download of file even if exists
+# md5: Optional, Checks file against an md5 sum
+#
+# Downloads can be defined in code like so:
+# fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+# fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "executecmd" "run" "force" "10cd7353aa9d758a075c600a6dd193fd"
 
 fn_dl_md5(){
 # Runs MD5 Check if available
@@ -34,12 +41,17 @@ if [ -n "${md5}" ]; then
 fi	
 }
 
+# Extracts bzip2 or gzip files
+# Extracts can be defined in code like so:
+# fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
+# fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
 fn_dl_extract(){
 filedir=${1}
 filename=${2}
 extractdir=${3}
 # extracts archives
 echo -ne "extracting ${filename}..."
+fn_scriptlog "extracting download"
 mime=$(file -b --mime-type "${filedir}/${filename}")
 
 if [ "${mime}" == "application/gzip" ]; then
@@ -50,7 +62,8 @@ fi
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
 	fn_printfaileolnl
-	echo "${tarcmd}"
+	fn_scriptlog "extracting download: FAIL"
+	echo "${tarcmd}" | tee -a "${scriptlog}"
 	exit ${exitcode}
 else
 	fn_printokeolnl
@@ -60,14 +73,14 @@ fi
 # Trap to remove file download if canceled before completed
 fn_fetch_trap() {
 	echo ""
-	fn_printinfomationnl "Cancelling download"
+	fn_printinfomationnl "cancelling download"
+	fn_scriptlog "canceling download"
 	sleep 1
-	fn_printinfomation "Removing ${filename}"
-	rm -f "${filedir}/${filename}"
+	fn_printinfomation "removing ${filename}"
+	fn_scriptlog "removing ${filename}"
+	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 }
 
-# Downloads file using curl and run it if required
-# fn_fetch_file "fileurl" "filedir" "filename" "executecmd" "run" "force" "md5"
 fn_fetch_file(){
 fileurl=${1}
 filedir=${2}
@@ -98,27 +111,32 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		# if larger file shows progress bar
 		if [ ${filename##*.} == "bz2" ]; then
 			echo -ne "downloading ${filename}..."
+			fn_scriptlog "downloading ${filename}"
 			sleep 1
 			curlcmd=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
 			echo -ne "downloading ${filename}..."
 		else
 			echo -ne "    fetching ${filename}...\c"
+			fn_scriptlog "fetching ${filename}"
 			curlcmd=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_printfaileolnl
-			echo "${curlcmd}"
-			echo -e "${fileurl}\n"
+			fn_scriptlog "downloading ${filename}: FAIL"
+			echo "${curlcmd}" | tee -a "${scriptlog}"
+			echo -e "${fileurl}\n" | tee -a "${scriptlog}"
 			exit ${exitcode}
 		else
 			fn_printokeolnl
+			fn_scriptlog "downloading ${filename}: OK"
 		fi
 		# remove trap
 		trap - INT	
 	else
 		fn_printfaileolnl
 		echo "Curl is not installed!"
+		fn_scriptlog "Curl is not installed!"
 		echo -e ""
 		exit 1
 	fi
@@ -138,26 +156,30 @@ fi
 }
 
 
-# fn_fetch_file_github
-# Parameters:
-# github_file_url_dir: The directory the file is located in teh GitHub repo
-# github_file_url_name: name of file
-# filepath: location file to be saved
+
+# fileurl: The directory the file is located in teh GitHub repo
+# filedir: name of file
+# filename: location file to be saved
 # executecmd: set to "executecmd" to make file executecmd
 # run: Optional, set to run to execute the file
 # force: force download of file even if exists
-fn_fetch_file_github(){
-github_file_url_dir=${1}
-github_file_url_name=${2}
-filepath=${3}
-filename="${github_file_url_name}"
-executecmd=${4:-0}
-run=${5:-0}
-force=${6:-0}
-githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-fn_fetch_file "${githuburl}" "${filepath}" "${filename}" "${executecmd}" "${run}" "${force}"
-}
+# md5: Checks fail against an md5 sum
 
+
+# Fetches files from the github repo
+fn_fetch_file_github(){
+github_file_url_dir="${1}"
+github_file_url_name="${2}"
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+fileurl="${githuburl}"
+filedir="${3}"
+filename="${github_file_url_name}"
+executecmd="${4:-0}"
+run="${5:-0}"
+force="${6:-0}"
+md5="${7:-0}"
+fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+}
 
 
 # Fetches functions
@@ -165,9 +187,12 @@ fn_fetch_function(){
 github_file_url_dir="functions" # github dir containing the file
 github_file_url_name="${functionfile}" # name of the github file
 githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-filedir="${functionsdir}" # local dir that will contain the file
-filename="${github_file_url_name}" # name of the local file
+fileurl="${githuburl}"
+filedir="${functionsdir}"
+filename="${github_file_url_name}"
 executecmd="executecmd"
 run="run"
-fn_fetch_file "${githuburl}" "${filedir}" "${filename}" "${executecmd}" "${run}"
+force="noforce"
+md5=""
+fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
