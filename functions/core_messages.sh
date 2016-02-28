@@ -152,36 +152,36 @@ fn_print_ok_eol_nl(){
 
 # FAIL for end of line
 fn_print_fail_eol(){
-	echo -en "\e[0;31mFAIL\e[0m\n"
+	echo -en "\e[0;31mFAIL\e[0m"
 }
 
 fn_print_fail_eol_nl(){
-	echo -e "\e[0;31mFAIL\e[0m\n"
+	echo -e "\e[0;31mFAIL\e[0m"
 }
 
 # QUERYING for end of line
 fn_print_querying_eol(){
-	echo -en "\e[0;36mQUERYING\e[0m\n"
+	echo -en "\e[0;36mQUERYING\e[0m"
 }
 
 fn_print_querying_eol_nl(){
-	echo -e "\e[0;36mQUERYING\e[0m\n"
+	echo -e "\e[0;36mQUERYING\e[0m"
 }
 
 # CANCELED for end of line
 fn_print_canceled_eol(){
-	echo -en "\e[0;33mCANCELED\e[0m\n"
+	echo -en "\e[0;33mCANCELED\e[0m"
 }
 
 fn_print_canceled_eol_nl(){
-	echo -e "\e[0;33mCANCELED\e[0m\n"
+	echo -e "\e[0;33mCANCELED\e[0m"
 }
 
 # REMOVED for end of line
 fn_print_removed_eol(){
-	echo -en "\e[0;31mREMOVED\e[0m\n"
+	echo -en "\e[0;31mREMOVED\e[0m"
 }
 
 fn_print_removed_eol_nl(){
-	echo -e "\e[0;31mREMOVED\e[0m\n"
+	echo -e "\e[0;31mREMOVED\e[0m"
 }
