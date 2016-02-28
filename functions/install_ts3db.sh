@@ -5,6 +5,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 fn_install_ts3db_mariadb(){
 	echo ""
 	echo "checking if libmariadb2 is installed"

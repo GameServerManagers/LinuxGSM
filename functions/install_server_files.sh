@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="270216"
 
+local modulename="Install"
+
 fn_install_server_files(){
 if [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fileurl="http://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"

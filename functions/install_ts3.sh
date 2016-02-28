@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 info_distro.sh
 # Gets the teamspeak server architecture
 if [ "${arch}" == "x86_64" ]; then

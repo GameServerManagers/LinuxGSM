@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 echo ""
 echo "Server Directory"
 echo "================================="

@@ -4,6 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="260216"
 
+local modulename="Install"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh

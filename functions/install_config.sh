@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="100116"
 
+local modulename="Install"
+
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
 	cp -v "${servercfgdefault}" "${servercfgfullpath}"

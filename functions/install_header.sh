@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 clear
 echo "================================="
 echo "${gamename}"

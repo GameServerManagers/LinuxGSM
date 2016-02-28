@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="270216"
 
+local modulename="Install"
+
 if [ "${checklogs}" != "1" ]; then
 	echo ""
 	echo "Creating log directorys"

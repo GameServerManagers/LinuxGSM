@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""
   echo "An Authentication Token is required to run this server!"

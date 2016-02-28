@@ -28,13 +28,13 @@ if [ -n "${md5}" ]; then
 		fn_printfaileolnl
 		echo "${filename} returned MD5 checksum: ${md5sumcmd}"
 		echo "expected MD5 checksum: ${md5}"
-		fn_scriptlog "failed to verify ${filename} with MD5"
+		fn_scriptlog "verifying ${filename} with MD5: FAIL"
 		fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
 		fn_scriptlog "expected MD5 checksum: ${md5}"
 		exit 1	
 	else
 		fn_printokeolnl
-		fn_scriptlog "verifyed ${filename} with MD5"
+		fn_scriptlog "verifying ${filename} with MD5: OK"
 		fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
 		fn_scriptlog "expected MD5 checksum: ${md5}"		
 	fi
