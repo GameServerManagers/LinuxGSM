@@ -73,11 +73,13 @@ fi
 # Trap to remove file download if canceled before completed
 fn_fetch_trap() {
 	echo ""
-	fn_printinfomationnl "downloading ${filename}: CANCELED"
+	echo -ne "downloading ${filename}: "
+	fn_printcanceledeol
 	fn_scriptlog "downloading ${filename}: CANCELED"
 	sleep 1
-	fn_printinfomation "downloading ${filename}: REMOVED"
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
+	echo -ne "downloading ${filename}: "
+	fn_printremovedeol
 	fn_scriptlog "downloading ${filename}: REMOVED"
 	exit
 }
