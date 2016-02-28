@@ -6,12 +6,11 @@ lgsm_version="270216"
 
 fn_install_server_files(){
 if [ "${gamename}" == "Unreal Tournament 99" ]; then
-	fileurl="http://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; run="norun"; force="noforce"; md5="e623fdff5ed600a9bfccab852e18d34d"
+	fileurl="http://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	fileurl="http://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2"; run="norun"; force="noforce"; md5="e623fdff5ed600a9bfccab852e18d34d"
+	fileurl="http://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 fi
-
-fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${run}" "${force}" "${md5}"
+fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
 }
 
