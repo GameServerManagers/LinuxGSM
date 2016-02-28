@@ -163,3 +163,21 @@ fn_printqueryingeol(){
 fn_printqueryingeolnl(){
 	echo -e "\e[0;31mQUERYING\e[0m\n"
 }
+
+# CANCELED for end of line
+fn_printcanceledeol(){
+	echo -en "\e[0;31mQUERYING\e[0m\n"
+}
+
+fn_printcanceledeolnl(){
+	echo -e "\e[0;31mQUERYING\e[0m\n"
+}
+
+# REMOVED for end of line
+fn_printremovedeol(){
+	echo -en "\e[0;31mQUERYING\e[0m\n"
+}
+
+fn_printremovedeolnl(){
+	echo -e "\e[0;31mQUERYING\e[0m\n"
+}

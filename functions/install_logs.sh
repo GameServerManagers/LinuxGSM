@@ -45,4 +45,4 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 	fi
 fi
 sleep 1
-fn_scriptlog "Logs installed"
+fn_scriptlog "logs installed"
