@@ -9,7 +9,8 @@ lgsm_version="380216"
 # nl: new line: message is following by a new line
 # eol: end of line: message is placed at the end of the current line
 
-# Date and servicename for log files.
+# Date, servicename & module details displayed in log files.
+# e.g Feb 28 14:56:58 ut99-server: Monitor:
 fn_scriptlog(){
 	if [ -n "${modulename}" ]; then
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: ${1}" >> "${scriptlog}"
