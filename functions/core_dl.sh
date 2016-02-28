@@ -20,7 +20,7 @@ lgsm_version="050216"
 
 fn_dl_md5(){
 # Runs MD5 Check if available
-if [ -n "${md5}" ]||[ "${md5}" != "nomd5" ]; then
+if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
 	echo -ne "verifying ${filename} with MD5..."
 	sleep 1
 	local md5sumcmd=$(md5sum "${filedir}/${filename}"|awk '{print $1;}')
@@ -46,9 +46,9 @@ fi
 # fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
 fn_dl_extract(){
-filedir=${1}
-filename=${2}
-extractdir=${3}
+filedir="${1}"
+filename="${2}"
+extractdir="${3}"
 # extracts archives
 echo -ne "extracting ${filename}..."
 fn_scriptlog "extracting download"
@@ -85,13 +85,13 @@ fn_fetch_trap() {
 }
 
 fn_fetch_file(){
-fileurl=${1}
-filedir=${2}
-filename=${3}
-executecmd=${4:-0}
-run=${5:-0}
-force=${6:-0}
-md5=${7}
+fileurl="${1}"
+filedir="${2}"
+filename="${3}"
+executecmd="${4:-0}"
+run="${5:-0}"
+force="${6:-0}"
+md5="${7:-0}"
 
 # If the file is missing, then download
 if [ ! -f "${filedir}/${filename}" ]; then
@@ -181,7 +181,7 @@ filename="${github_file_url_name}"
 executecmd="${4:-0}"
 run="${5:-0}"
 force="${6:-0}"
-md5="${7}"
+md5="${7:-0}"
 fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
 
@@ -197,6 +197,6 @@ filename="${github_file_url_name}"
 executecmd="executecmd"
 run="run"
 force="noforce"
-md5=""
+md5="nomd5"
 fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
