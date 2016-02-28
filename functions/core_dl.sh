@@ -79,6 +79,7 @@ fn_fetch_trap() {
 	fn_printinfomation "downloading ${filename}: REMOVED"
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 	fn_scriptlog "downloading ${filename}: REMOVED"
+	exit
 }
 
 fn_fetch_file(){
