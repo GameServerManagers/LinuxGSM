@@ -111,7 +111,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		# if larger file shows progress bar
 		if [ ${filename##*.} == "bz2" ]; then
 			echo -ne "downloading ${filename}..."
-			if [ -z "${scriptlog}" ]; then
+			if [ -f "${scriptlog}" ]; then
 				fn_scriptlog "downloading ${filename}"
 			fi
 			sleep 1
@@ -119,7 +119,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			echo -ne "downloading ${filename}..."
 		else
 			echo -ne "    fetching ${filename}...\c"
-			if [ -z "${scriptlog}" ]; then
+			if [ -f "${scriptlog}" ]; then
 				fn_scriptlog "fetching ${filename}"
 			fi	
 			curlcmd=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
@@ -127,7 +127,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_printfaileolnl
-			if [ -z "${scriptlog}" ]; then
+			if [ -f "${scriptlog}" ]; then
 				fn_scriptlog "downloading ${filename}: FAIL"
 			fi	
 			echo "${curlcmd}" | tee -a "${scriptlog}"
@@ -135,7 +135,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit ${exitcode}
 		else
 			fn_printokeolnl
-			if [ -z "${scriptlog}" ]; then
+			if [ -f "${scriptlog}" ]; then
 				fn_scriptlog "downloading ${filename}: OK"
 			fi	
 		fi
