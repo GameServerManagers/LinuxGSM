@@ -55,7 +55,7 @@ for i in {1..4}; do
 	else
 		# Server failed query
 		queryattempt=$((queryattempt + 1))
-		fn_scriptlog "Querying port: ${ip}:${port}: ${totalseconds}/${queryattempt} : ${gsquerycmd}"
+		fn_scriptlog "Querying port: ${ip}:${port}: ${queryattempt} : ${gsquerycmd}"
 		seconds=0
 		# Seconds counter
 		while [ true ]; do
