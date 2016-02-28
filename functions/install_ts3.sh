@@ -13,7 +13,7 @@ if [ "${arch}" == "x86_64" ]; then
 elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
-	fn_printfailure "${arch} is an unsupported architecture"
+	fn_print_failure "${arch} is an unsupported architecture"
 	exit 1
 fi
 
@@ -43,9 +43,9 @@ rm -f ".ts3_version_numbers.tmp"
 
 # Checks availablebuild info is available
 if [ -z "${availablebuild}" ]; then
-	fn_printfail "Checking for update: teamspeak.com"
+	fn_print_fail "Checking for update: teamspeak.com"
 	sleep 1
-	fn_printfail "Checking for update: teamspeak.com: Not returning version info"
+	fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
 	sleep 2
 	exit 1
 fi

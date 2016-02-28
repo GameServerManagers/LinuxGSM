@@ -31,7 +31,7 @@ fi
 echo ""
 echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
-fn_printwarningnl "If ${servicename} is already running it will be stopped."
+fn_print_warning_nl "If ${servicename} is already running it will be stopped."
 echo ""
 while true; do
 	read -e -i "y" -p "Continue? [Y/n]" yn
@@ -42,13 +42,13 @@ while true; do
 esac
 done
 fn_scriptlog "Starting debug"
-fn_printinfonl "Stopping any running servers"
+fn_print_info_nl "Stopping any running servers"
 fn_scriptlog "Stopping any running servers"
 sleep 1
 command_stop.sh
-fn_printdots "Starting debug"
+fn_print_dots "Starting debug"
 sleep 1
-fn_printok "Starting debug"
+fn_print_ok "Starting debug"
 fn_scriptlog "Started debug"
 sleep 1
 echo -en "\n"

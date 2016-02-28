@@ -21,7 +21,7 @@ if [ "${ts3status}" != "Server is running" ]; then
 fi
 
 if [ ! -e "${servercfgfullpath}" ]; then
-	fn_printwarn "${servercfgfullpath} is missing"
+	fn_print_warn "${servercfgfullpath} is missing"
 	fn_scriptlog "${servercfgfullpath} is missing"
 	sleep 2
 	echo -en "\n"
@@ -39,12 +39,12 @@ fi
 
 logs.sh
 
-fn_printdots "${servername}"
+fn_print_dots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 
 if [ "${ts3status}" == "Server is running" ]; then
-	fn_printinfo "${servername} is already running"
+	fn_print_info "${servername} is already running"
 	fn_scriptlog "${servername} is already running"
 	sleep 1
 	echo -en "\n"
@@ -63,12 +63,12 @@ fi
 sleep 1
 info_ts3status.sh
 if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
-	fn_printfailnl "Unable to start ${servername}"
+	fn_print_fail_nl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	echo -e "	Check log files: ${rootdir}/log"
 	exit 1
 else
-	fn_printok "${servername}"
+	fn_print_ok "${servername}"
 	fn_scriptlog "Started ${servername}"
 fi
 sleep 0.5
@@ -90,7 +90,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 	fi
 fi
 
-fn_printdots "${servername}"
+fn_print_dots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 
@@ -104,7 +104,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 fi
 
 if [ "${tmuxwc}" -eq 1 ]; then
-	fn_printinfo "${servername} is already running"
+	fn_print_info "${servername} is already running"
 	fn_scriptlog "${servername} is already running"
 	sleep 1
 	echo -en "\n"
@@ -132,11 +132,11 @@ sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
 # If the server fails to start
 if [ "${tmuxwc}" -eq 0 ]; then
-	fn_printfailnl "Unable to start ${servername}"
+	fn_print_fail_nl "Unable to start ${servername}"
 	fn_scriptlog "Unable to start ${servername}"
 	sleep 1
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
-		fn_printfailnl "Unable to start ${servername}: Tmux error:"
+		fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 		fn_scriptlog "Tmux error"
 		sleep 1
 		echo -en "\n"
@@ -180,7 +180,7 @@ if [ "${tmuxwc}" -eq 0 ]; then
 	fi
 exit 1	
 else
-	fn_printok "${servername}"
+	fn_print_ok "${servername}"
 	fn_scriptlog "Started ${servername}"
 fi
 rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"

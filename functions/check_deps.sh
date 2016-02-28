@@ -50,15 +50,15 @@ fi
 
 fn_found_missing_deps(){
 if [ "${#array_deps_missing[@]}" != "0" ]; then
-	fn_printdots "Checking dependencies"
+	fn_print_dots "Checking dependencies"
 	sleep 2
-	fn_printwarn "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+	fn_print_warn "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 	fn_scriptlog "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 	sleep 1
 	echo -e ""
 	sudo -n true > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
-		fn_printinfonl "Attempting to install missing dependencies automatically"
+		fn_print_info_nl "Attempting to install missing dependencies automatically"
 		echo -en ".\r"
 		sleep 1
 		echo -en "..\r"
@@ -73,7 +73,7 @@ if [ "${#array_deps_missing[@]}" != "0" ]; then
 		fi	
 	else
 		echo ""
-		fn_printinfomationnl "$(whoami) does not have sudo access. manually install dependencies"
+		fn_print_infomation_nl "$(whoami) does not have sudo access. manually install dependencies"
 		fn_scriptlog "$(whoami) does not have sudo access. manually install dependencies"
 		echo ""
 		if [ -n "$(command -v dpkg-query)" ]; then

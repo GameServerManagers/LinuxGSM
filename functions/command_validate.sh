@@ -10,15 +10,15 @@ local modulename="Validate"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
-fn_printwarn "Validating may overwrite some customised files."
+fn_print_warn "Validating may overwrite some customised files."
 sleep 1
 echo -en "\n"
 echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
 sleep 5
 echo -en "\n"
-fn_printdots "Checking server files"
+fn_print_dots "Checking server files"
 sleep 1
-fn_printok "Checking server files"
+fn_print_ok "Checking server files"
 fn_scriptlog "Checking server files"
 sleep 1
 

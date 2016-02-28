@@ -18,7 +18,7 @@ fi
 
 # Log manager will start the cleanup if it finds logs older than "${logdays}"
 if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; then
-	fn_printdots "Starting"
+	fn_print_dots "Starting"
 	# Set addon logs directories
 	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
 	ulxlogdir="${systemdir}/data/ulx_logs"
@@ -27,11 +27,11 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	# Setting up counting variables
 	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
 	sleep 1
-	fn_printok "Starting"
+	fn_print_ok "Starting"
 	fn_scriptlog "Starting"
 	sleep 1
 	echo -en "\n"
-	fn_printinfo "Removing logs older than "${logdays}" days"
+	fn_print_info "Removing logs older than "${logdays}" days"
 	fn_scriptlog "Removing logs older than "${logdays}" days"
 	sleep 1
 	echo -en "\n"
@@ -90,7 +90,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	# Count total amount of files removed
 	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount} + ${legacycount}))
 	# Job done
-	fn_printok "Removed ${count} log files"
+	fn_print_ok "Removed ${count} log files"
 	fn_scriptlog "Removed ${count} log files"
 	sleep 1
 	echo -en "\n"

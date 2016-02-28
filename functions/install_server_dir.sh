@@ -14,7 +14,7 @@ echo ""
 pwd
 echo ""
 if [ -d "${filesdir}" ]; then
-	fn_printwarningnl "A server is already installed here."
+	fn_print_warning_nl "A server is already installed here."
 fi
 if [ -z "${autoinstall}" ]; then	
 	while true; do

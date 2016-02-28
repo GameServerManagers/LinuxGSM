@@ -17,8 +17,8 @@ echo "${gamename} ServerAdmin Password Change"
 echo "============================"
 echo ""
 echo "Press \"CTRL+b d\" to exit console."
-fn_printinfomationnl "You are about to change the ${gamename} ServerAdmin password."
-fn_printwarningnl "${gamename} will restart during this process."
+fn_print_infomation_nl "You are about to change the ${gamename} ServerAdmin password."
+fn_print_warning_nl "${gamename} will restart during this process."
 echo ""
 while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
@@ -34,18 +34,18 @@ read -p "Enter new password : " newpassword
 
 
 fn_serveradmin_password_set(){
-fn_printinfonl "Applying new password"
+fn_print_info_nl "Applying new password"
 fn_scriptlog "Applying new password"
 sleep 1
 # Stop any running server
 command_stop.sh
 # Start server in "new password mode"
 ts3serverpass="1"
-fn_printinfonl "Starting server with new password"
+fn_print_info_nl "Starting server with new password"
 command_start.sh
 # Stop server in "new password mode"
 command_stop.sh
-fn_printoknl "Password applied"
+fn_print_ok_nl "Password applied"
 fn_scriptlog "New ServerAdmin password applied"
 sleep 1
 }

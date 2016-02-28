@@ -22,10 +22,10 @@ fn_appmanifestinfo
 # This is an error is corrected below if required.
 if [ "${appmanifestfilewc}" -ge "2" ]; then
 	sleep 1
-	fn_printwarn "Multiple appmanifest_${appid}.acf files found"
+	fn_print_warn "Multiple appmanifest_${appid}.acf files found"
 	fn_scriptlog "Warning! Multiple appmanifest_${appid}.acf files found"
 	sleep 2
-	fn_printdots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
+	fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
 	sleep 1
 	for appfile in ${appmanifestfile}; do
 		rm "${appfile}"
@@ -33,7 +33,7 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 	appmanifestfilewc1="${appmanifestfilewc}"
 	fn_appmanifestinfo
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
-		fn_printfail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
+		fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 		fn_scriptlog "Failure! Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 		sleep 1
 		echo ""
@@ -44,10 +44,10 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 		exit 1
 	else
 		sleep 1
-		fn_printok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
+		fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 		fn_scriptlog "Success! Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 		sleep 1
-		fn_printinfonl "Forcing update to correct issue"
+		fn_print_info_nl "Forcing update to correct issue"
 		fn_scriptlog "Forcing update to correct issue"
 		sleep 1
 		update_dl.sh
@@ -55,15 +55,15 @@ if [ "${appmanifestfilewc}" -ge "2" ]; then
 	fi
 elif [ "${appmanifestfilewc}" -eq "0" ]; then
 	if [ "${forceupdate}" == "1" ]; then
-		fn_printfail "Still no appmanifest_${appid}.acf found: Unable to update"
+		fn_print_fail "Still no appmanifest_${appid}.acf found: Unable to update"
 		fn_scriptlog "Warning! Still no appmanifest_${appid}.acf found: Unable to update"
 		exit 1
 	fi
 	forceupdate=1
-	fn_printwarn "No appmanifest_${appid}.acf found"
+	fn_print_warn "No appmanifest_${appid}.acf found"
 	fn_scriptlog "Warning! No appmanifest_${appid}.acf found"
 	sleep 2
-	fn_printinfonl "Forcing update to correct issue"
+	fn_print_info_nl "Forcing update to correct issue"
 	fn_scriptlog "Forcing update to correct issue"
 	sleep 1
 	update_dl.sh
@@ -73,12 +73,12 @@ fi
 
 fn_logupdaterequest(){
 # Checks for server update requests from server logs.
-fn_printdots "Checking for update: Server logs"
+fn_print_dots "Checking for update: Server logs"
 fn_scriptlog "Checking for update: Server logs"
 sleep 1
 requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
 if [ "${requestrestart}" -ge "1" ]; then
-	fn_printoknl "Checking for update: Server logs: Update requested"
+	fn_print_ok_nl "Checking for update: Server logs: Update requested"
 	sleep 1
 	echo ""
 	echo -ne "Applying update.\r"
@@ -98,7 +98,7 @@ if [ "${requestrestart}" -ge "1" ]; then
 		update_dl.sh
 	fi
 else
-	fn_printok "Checking for update: Server logs: No update requested"
+	fn_print_ok "Checking for update: Server logs: No update requested"
 	sleep 1
 fi
 }
@@ -106,7 +106,7 @@ fi
 fn_steamcmdcheck(){
 fn_appmanifestcheck
 # Checks for server update from SteamCMD
-fn_printdots "Checking for update: SteamCMD"
+fn_print_dots "Checking for update: SteamCMD"
 fn_scriptlog "Checking for update: SteamCMD"
 sleep 1
 
@@ -122,14 +122,14 @@ if [ -f "${HOME}/Steam/appcache/appinfo.vdf" ]; then
 fi
 availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 if [ -z "${availablebuild}" ]; then
-	fn_printfail "Checking for update: SteamCMD"
+	fn_print_fail "Checking for update: SteamCMD"
 	fn_scriptlog "Failure! Checking for update: SteamCMD"
 	sleep 1
-	fn_printfailnl "Checking for update: SteamCMD: Not returning version info"
+	fn_print_fail_nl "Checking for update: SteamCMD: Not returning version info"
 	fn_scriptlog "Failure! Checking for update: SteamCMD: Not returning version info"
 	exit 1
 else
-	fn_printok "Checking for update: SteamCMD"
+	fn_print_ok "Checking for update: SteamCMD"
 	fn_scriptlog "Success! Checking for update: SteamCMD"
 	sleep 1
 fi
@@ -172,7 +172,7 @@ else
 	echo -e "	Available version: \e[0;32m${availablebuild}\e[0;39m"
 	echo -e "	https://steamdb.info/app/${appid}/"
 	echo -e ""
-	fn_printoknl "No update available"
+	fn_print_ok_nl "No update available"
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 fi
@@ -182,19 +182,19 @@ fi
 
 fn_teamspeak3_check(){
 # Checks for server update from teamspeak.com using a mirror dl.4players.de
-fn_printdots "Checking for update: teamspeak.com"
+fn_print_dots "Checking for update: teamspeak.com"
 fn_scriptlog "Checking for update: teamspeak.com"
 sleep 1
 
 # Gets currentbuild info
 # Checks currentbuild info is available, if fails a server restart will be forced to generate logs
 if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
-	fn_printfail "Checking for update: teamspeak.com"
+	fn_print_fail "Checking for update: teamspeak.com"
 	sleep 1
-	fn_printfailnl "Checking for update: teamspeak.com: No logs with server version found"
+	fn_print_fail_nl "Checking for update: teamspeak.com: No logs with server version found"
 	fn_scriptlog "Failure! Checking for update: teamspeak.com: No logs with server version found"
 	sleep 2
-	fn_printinfonl "Checking for update: teamspeak.com: Forcing server restart"
+	fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
 	fn_scriptlog "Checking for update: teamspeak.com: Forcing server restart"
 	sleep 2
 	command_stop.sh
@@ -202,7 +202,7 @@ if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 	sleep 2
 	# If still failing will exit
 	if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
-		fn_printfailnl "Checking for update: teamspeak.com: Still No logs with server version found"
+		fn_print_fail_nl "Checking for update: teamspeak.com: Still No logs with server version found"
 		fn_scriptlog "Failure! Checking for update: teamspeak.com: Still No logs with server version found"
 		exit 1
 	fi
@@ -217,7 +217,7 @@ elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
 	echo ""
-	fn_printfailure "${arch} is an unsupported architecture"
+	fn_print_failure "${arch} is an unsupported architecture"
 	exit 1
 fi
  
@@ -249,15 +249,15 @@ rm -f ".ts3_version_numbers.tmp"
 
 # Checks availablebuild info is available
 if [ -z "${availablebuild}" ]; then
-	fn_printfail "Checking for update: teamspeak.com"
+	fn_print_fail "Checking for update: teamspeak.com"
 	fn_scriptlog "Checking for update: teamspeak.com"
 	sleep 1
-	fn_printfail "Checking for update: teamspeak.com: Not returning version info"
+	fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
 	fn_scriptlog "Failure! Checking for update: teamspeak.com: Not returning version info"
 	sleep 2
 	exit 1
 else
-	fn_printok "Checking for update: teamspeak.com"
+	fn_print_ok "Checking for update: teamspeak.com"
 	fn_scriptlog "Success! Checking for update: teamspeak.com"
 	sleep 1
 fi
@@ -303,14 +303,14 @@ else
 	echo -e "	Current version: \e[0;32m${currentbuild}\e[0;39m"
 	echo -e "	Available version: \e[0;32m${availablebuild}\e[0;39m"
 	echo -e ""
-	fn_printoknl "No update available"
+	fn_print_ok_nl "No update available"
 	fn_scriptlog "Current build: ${currentbuild}"
 	fn_scriptlog "Available build: ${availablebuild}"
 fi
 }
 
 check.sh
-fn_printdots "Checking for update"
+fn_print_dots "Checking for update"
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_teamspeak3_check
 elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then

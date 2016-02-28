@@ -25,7 +25,7 @@ if [ -n "${md5}" ]||[ "${md5}" == "nomd5" ]; then
 	sleep 1
 	local md5sumcmd=$(md5sum "${filedir}/${filename}"|awk '{print $1;}')
 	if [ "${md5sumcmd}" != "${md5}" ]; then
-		fn_printfaileolnl
+		fn_print_fail_eol_nl
 		echo "${filename} returned MD5 checksum: ${md5sumcmd}"
 		echo "expected MD5 checksum: ${md5}"
 		fn_scriptlog "verifying ${filename} with MD5: FAIL"
@@ -33,7 +33,7 @@ if [ -n "${md5}" ]||[ "${md5}" == "nomd5" ]; then
 		fn_scriptlog "expected MD5 checksum: ${md5}"
 		exit 1	
 	else
-		fn_printokeolnl
+		fn_print_ok_eol_nl
 		fn_scriptlog "verifying ${filename} with MD5: OK"
 		fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
 		fn_scriptlog "expected MD5 checksum: ${md5}"		
@@ -61,12 +61,12 @@ elif [ "${mime}" == "application/x-bzip2" ]; then
 fi
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
-	fn_printfaileolnl
+	fn_print_fail_eol_nl
 	fn_scriptlog "extracting download: FAIL"
 	echo "${tarcmd}" | tee -a "${scriptlog}"
 	exit ${exitcode}
 else
-	fn_printokeolnl
+	fn_print_ok_eol_nl
 fi
 }
 
@@ -74,12 +74,12 @@ fi
 fn_fetch_trap() {
 	echo ""
 	echo -ne "downloading ${filename}: "
-	fn_printcanceledeol
+	fn_print_canceled_eol
 	fn_scriptlog "downloading ${filename}: CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 	echo -ne "downloading ${filename}: "
-	fn_printremovedeol
+	fn_print_removed_eol
 	fn_scriptlog "downloading ${filename}: REMOVED"
 	exit
 }
@@ -123,7 +123,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
-			fn_printfaileolnl
+			fn_print_fail_eol_nl
 			if [ -f "${scriptlog}" ]; then
 				fn_scriptlog "downloading ${filename}: FAIL"
 			fi	
@@ -131,7 +131,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			echo -e "${fileurl}\n" | tee -a "${scriptlog}"
 			exit ${exitcode}
 		else
-			fn_printokeolnl
+			fn_print_ok_eol_nl
 			if [ -f "${scriptlog}" ]; then
 				fn_scriptlog "downloading ${filename}: OK"
 			fi	
@@ -139,7 +139,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		# remove trap
 		trap - INT	
 	else
-		fn_printfaileolnl
+		fn_print_fail_eol_nl
 		echo "Curl is not installed!"
 		echo -e ""
 		exit 1

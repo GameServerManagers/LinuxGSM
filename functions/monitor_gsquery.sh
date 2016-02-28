@@ -27,11 +27,11 @@ if [ -z "${queryport}" ]; then
 fi
 
 
-fn_printinfo "Querying port: gsquery.py enabled"
+fn_print_info "Querying port: gsquery.py enabled"
 fn_scriptlog "gsquery.py enabled"
 sleep 1
-fn_printdots "Querying port: ${ip}:${port}: 0/1 : "
-fn_printqueryingeol
+fn_print_dots "Querying port: ${ip}:${port}: 0/1 : "
+fn_print_querying_eol
 fn_scriptlog "Querying port: ${ip}:${port}: 1 : QUERYING"
 sleep 1
 
@@ -47,8 +47,8 @@ for i in {1..4}; do
 
 	if [ "${exitcode}" == "0" ]; then
 		# Server OK
-		fn_printok "Querying port: ${ip}:${port}: "
-		fn_printokeol
+		fn_print_ok "Querying port: ${ip}:${port}: "
+		fn_print_ok_eol
 		fn_scriptlog "Querying port: ${ip}:${port}: OK"
 		sleep 1
 		exit
@@ -59,13 +59,13 @@ for i in {1..4}; do
 		seconds=0
 		# Seconds counter
 		while [ true ]; do
-		    fn_printfail "Querying port: ${ip}:${port}: ${totalseconds}/${queryattempt} : \e[0;31m${gsquerycmd}\e[0m"
+		    fn_print_fail "Querying port: ${ip}:${port}: ${totalseconds}/${queryattempt} : \e[0;31m${gsquerycmd}\e[0m"
 		    seconds=$((seconds + 1))
 		    totalseconds=$((totalseconds + 1))
 		    sleep 1
 		    if [ "${seconds}" == "15" ]; then
-		    	fn_printdots "Querying port: ${ip}:${port}: ${totalseconds}/${queryattempt} : "
-		    	fn_printqueryingeol
+		    	fn_print_dots "Querying port: ${ip}:${port}: ${totalseconds}/${queryattempt} : "
+		    	fn_print_querying_eol
 				fn_scriptlog "Querying port: ${ip}:${port}: ${queryattempt} : QUERYING"
 				sleep 1
 		    	break
@@ -75,8 +75,8 @@ for i in {1..4}; do
 
 	if [ "${queryattempt}" == "4" ]; then
 		# Server failed query 4 times confirmed failure
-		fn_printfail "Querying port: ${ip}:${port}: "
-		fn_printfaileol
+		fn_print_fail "Querying port: ${ip}:${port}: "
+		fn_print_fail_eol
 		fn_scriptlog "Querying port: ${ip}:${port}: ${gsquerycmd}"
 		fn_scriptlog "Querying port: ${ip}:${port}: FAIL"
 		sleep 1

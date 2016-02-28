@@ -8,9 +8,9 @@ lgsm_version="271215"
 
 # Create dir's for the script and console logs
 if [ ! -d "${scriptlogdir}" ]; then
-	fn_printdots "Checking for log files"
+	fn_print_dots "Checking for log files"
 	sleep 1
-	fn_printinfo "Checking for log files: Creating log files"
+	fn_print_info "Checking for log files: Creating log files"
 	echo -en "\n"
 	checklogs=1
 	install_logs.sh

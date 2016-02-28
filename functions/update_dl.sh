@@ -71,9 +71,9 @@ rm -rf "${rootdir}/teamspeak3-server_linux_${ts3arch}"
 
 check.sh
 info_config.sh
-fn_printdots "Updating ${servername}"
+fn_print_dots "Updating ${servername}"
 sleep 1
-fn_printoknl "Updating ${servername}"
+fn_print_ok_nl "Updating ${servername}"
 fn_scriptlog "Updating ${servername}"
 sleep 1
 if [ "${gamename}" == "Teamspeak 3" ]; then

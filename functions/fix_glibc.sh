@@ -9,7 +9,7 @@ echo ""
 echo "GLIBC Fix required"
 echo "============================"
 sleep 1
-fn_printwarningnl "${gamename} requires GLIBC_${glibcversion} or above"
+fn_print_warning_nl "${gamename} requires GLIBC_${glibcversion} or above"
 sleep 1
 echo ""
 echo -e "Currently installed:\e[0;31m GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')\e[0;39m"
@@ -34,7 +34,7 @@ echo -en "\n"
 # if ldd command not detected
 if [ -z $(command -v ldd) ]; then
 	echo ""
-	fn_printfailurenl "GLIBC is not detected"
+	fn_print_failure_nl "GLIBC is not detected"
 	sleep 1
 	echo "Install GLIBC and retry installation."
 	sleep 1

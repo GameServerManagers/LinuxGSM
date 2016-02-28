@@ -9,7 +9,7 @@ lgsm_version="271215"
 if [ "$(command -v tmux)" ]||[ "$(which tmux >/dev/null 2>&1)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
 	:
 else
-	fn_printfailnl "Tmux not installed"
+	fn_print_fail_nl "Tmux not installed"
 	sleep 1
 	fn_scriptlog "Tmux is not installed"
 	echo "	* Tmux is required to run this server."

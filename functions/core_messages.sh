@@ -6,6 +6,9 @@ lgsm_version="380216"
 
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
+# nl: new line: message is following by a new line
+# eol: end of line: message is placed at the end of the current line
+
 # Date and servicename for log files.
 fn_scriptlog(){
 	if [ -n "${modulename}" ]; then
@@ -16,7 +19,7 @@ fn_scriptlog(){
 }
 
 # [ FAIL ]
-fn_printfail(){
+fn_print_fail(){
 	if [ -n "${modulename}" ]; then
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -24,7 +27,7 @@ fn_printfail(){
 	fi
 }
 
-fn_printfailnl(){
+fn_print_fail_nl(){
 	if [ -n "${modulename}" ]; then
 		echo -e "\r\033[K[\e[0;31m FAIL \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -33,7 +36,7 @@ fn_printfailnl(){
 }
 	
 # [  OK  ]
-fn_printok(){
+fn_print_ok(){
 	if [ -n "${modulename}" ]; then
 		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -41,7 +44,7 @@ fn_printok(){
 	fi
 }
 
-fn_printoknl(){
+fn_print_ok_nl(){
 	if [ -n "${modulename}" ]; then
 		echo -e "\r\033[K[\e[0;32m  OK  \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -50,7 +53,7 @@ fn_printoknl(){
 }
 
 # [ INFO ]
-fn_printinfo(){
+fn_print_info(){
 	if [ -n "${modulename}" ]; then
 		echo -en "\r\033[K[\e[0;36m INFO \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -58,7 +61,7 @@ fn_printinfo(){
 	fi
 }
 
-fn_printinfonl(){
+fn_print_info_nl(){
 	if [ -n "${modulename}" ]; then
 		echo -e "\r\033[K[\e[0;36m INFO \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -67,7 +70,7 @@ fn_printinfonl(){
 }
 
 # [ WARN ]
-fn_printwarn(){
+fn_print_warn(){
 	if [ -n "${modulename}" ]; then
 		echo -en "\r\033[K[\e[1;33m WARN \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -75,7 +78,7 @@ fn_printwarn(){
 	fi
 }
 
-fn_printwarnnl(){
+fn_print_warn_nl(){
 	if [ -n "${modulename}" ]; then
 		echo -e "\r\033[K[\e[1;33m WARN \e[0m] ${modulename} ${servicename}: $@"
 	else
@@ -84,7 +87,7 @@ fn_printwarnnl(){
 }
 
 # [ .... ]
-fn_printdots(){
+fn_print_dots(){
 	if [ -n "${modulename}" ]; then
 		echo -en "\r\033[K[ .... ] ${modulename} ${servicename}: $@"
 	else
@@ -93,91 +96,91 @@ fn_printdots(){
 }
 
 # Complete!
-fn_printcomplete(){
+fn_print_complete(){
 	echo -en "\e[0;32mComplete!\e[0m $@"
 }
 
-fn_printcompletenl(){
+fn_print_complete_nl(){
 	echo -e "\e[0;32mComplete!\e[0m $@"
 }
 
 # Warning!
-fn_printwarning(){
+fn_print_warning(){
 	echo -en "\e[0;33mWarning!\e[0m $@"
 }
 
-fn_printwarningnl(){
+fn_print_warning_nl(){
 	echo -e "\e[0;33mWarning!\e[0m $@"
 }
 
 # Failure!
-fn_printfailure(){
+fn_print_failure(){
 	echo -en "\e[0;31mFailure!\e[0m $@"
 }
 
-fn_printfailurenl(){
+fn_print_failure_nl(){
 	echo -e "\e[0;31mFailure!\e[0m $@"
 }
 
 # Error!
-fn_printerror(){
+fn_print_error(){
 	echo -en "\e[0;31mError!\e[0m $@"
 }
 
-fn_printerrornl(){
+fn_print_error_nl(){
 	echo -e "\e[0;31mError!\e[0m $@"
 }
 
 # Info!
-fn_printinfomation(){
-	echo -en "\e[0;36mInfo!\e[0m $@"
+fn_print_infomation(){
+	echo -en "\e[0;36mInfomation!\e[0m $@"
 }
 
-fn_printinfomationnl(){
-	echo -e "\e[0;36mInfo!\e[0m $@"
+fn_print_infomation_nl(){
+	echo -e "\e[0;36mInfomation!\e[0m $@"
 }
 
 # FAIL for end of line
-fn_printokeol(){
+fn_print_ok_eol(){
 	echo -en "\e[0;32mOK\e[0m"
 }
 
-fn_printokeolnl(){
+fn_print_ok_eol_nl(){
 	echo -e "\e[0;32mOK\e[0m"
 }
 
 # FAIL for end of line
-fn_printfaileol(){
+fn_print_fail_eol(){
 	echo -en "\e[0;31mFAIL\e[0m\n"
 }
 
-fn_printfaileolnl(){
+fn_print_fail_eol_nl(){
 	echo -e "\e[0;31mFAIL\e[0m\n"
 }
 
 # QUERYING for end of line
-fn_printqueryingeol(){
-	echo -en "\e[0;31mQUERYING\e[0m\n"
+fn_print_querying_eol(){
+	echo -en "\e[0;36mQUERYING\e[0m\n"
 }
 
-fn_printqueryingeolnl(){
-	echo -e "\e[0;31mQUERYING\e[0m\n"
+fn_print_querying_eol_nl(){
+	echo -e "\e[0;36mQUERYING\e[0m\n"
 }
 
 # CANCELED for end of line
-fn_printcanceledeol(){
-	echo -en "\e[0;31mCANCELED\e[0m\n"
+fn_print_canceled_eol(){
+	echo -en "\e[0;33mCANCELED\e[0m\n"
 }
 
-fn_printcanceledeolnl(){
-	echo -e "\e[0;31mCANCELED\e[0m\n"
+fn_print_canceled_eol_nl(){
+	echo -e "\e[0;33mCANCELED\e[0m\n"
 }
 
 # REMOVED for end of line
-fn_printremovedeol(){
+fn_print_removed_eol(){
 	echo -en "\e[0;31mREMOVED\e[0m\n"
 }
 
-fn_printremovedeolnl(){
+fn_print_removed_eol_nl(){
 	echo -e "\e[0;31mREMOVED\e[0m\n"
 }

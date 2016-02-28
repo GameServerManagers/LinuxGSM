@@ -20,7 +20,7 @@ else
 
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		if [ "${getipwc}" -ge "2" ]; then
-			fn_printwarn "Multiple active network interfaces found.\n\n"
+			fn_print_warn "Multiple active network interfaces found.\n\n"
 			echo -en "Manually specify the IP you want to use within the ${selfname} script.\n"
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			echo -en "${getip}\n"

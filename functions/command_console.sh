@@ -15,7 +15,7 @@ echo "${gamename} Console"
 echo "============================"
 echo ""
 echo "Press \"CTRL+b d\" to exit console."
-fn_printwarningnl "Do NOT press CTRL+c to exit."
+fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo ""
 while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
@@ -25,16 +25,16 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-fn_printdots "Starting"
+fn_print_dots "Starting"
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
-	fn_printoknl "Starting"
+	fn_print_ok_nl "Starting"
 	fn_scriptlog "accessed"
 	sleep 1
 	tmux attach-session -t ${servicename}
 else
-	fn_printfailnl "Server not running"
+	fn_print_fail_nl "Server not running"
 	fn_scriptlog "Failed to access: Server not running"
 	sleep 1
 	while true; do

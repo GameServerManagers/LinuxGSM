@@ -628,5 +628,5 @@ elif [ "${gamename}" == "7 Days To Die" ]; then
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_details_teamspeak3
 else
-	fn_printerrornl "Unable to detect server engine."
+	fn_print_error_nl "Unable to detect server engine."
 fi

@@ -30,7 +30,7 @@ done
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
 	echo ""
-	fn_printwarningnl "${servicename} is currently running."
+	fn_print_warning_nl "${servicename} is currently running."
 	sleep 1
 	while true; do
 		read -p "Stop ${servicename} while running the backup? [y/N]" yn
@@ -59,6 +59,6 @@ echo "Backup created: ${backupdir}/${backupname}.tar.gz"
 fn_scriptlog "Created: ${backupdir}/${backupname}.tar.gz"
 sleep 1
 echo ""
-fn_printcompletenl "Complete."
+fn_print_complete_nl "Complete."
 fn_scriptlog "Complete"
 echo ""

@@ -8,7 +8,7 @@ lgsm_version="270216"
 
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
-fn_printdots "Updating functions"
+fn_print_dots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 echo -ne "\n"
@@ -23,15 +23,15 @@ if [ -n "${functionsdir}" ]; then
 	rm -rfv "${functionsdir}/"*
 	exitcode=$?
 else
-	fn_printfail "Updating functions"
+	fn_print_fail "Updating functions"
 	fn_scriptlog "Failure! Updating functions"	
 fi
 
 if [ "${exitcode}" == "0" ]; then
-	fn_printok "Updating functions"
+	fn_print_ok "Updating functions"
 	fn_scriptlog "Success! Updating functions"
 else
-	fn_printfail "Updating functions"
+	fn_print_fail "Updating functions"
 	fn_scriptlog "Failure! Updating functions"
 fi
 echo -ne "\n"
