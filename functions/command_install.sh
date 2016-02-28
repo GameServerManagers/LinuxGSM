@@ -26,11 +26,11 @@ elif [ -n "${appid}" ]; then
 fi
 
 # Configuration
-fix.sh
 install_config.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3db.sh
 fi
+fix.sh
 install_complete.sh
