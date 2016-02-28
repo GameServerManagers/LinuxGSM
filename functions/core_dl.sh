@@ -73,12 +73,12 @@ fi
 # Trap to remove file download if canceled before completed
 fn_fetch_trap() {
 	echo ""
-	fn_printinfomationnl "cancelling download"
-	fn_scriptlog "canceling download"
+	fn_printinfomationnl "downloading ${filename}: CANCELED"
+	fn_scriptlog "downloading ${filename}: CANCELED"
 	sleep 1
-	fn_printinfomation "removing ${filename}"
-	fn_scriptlog "removing ${filename}"
+	fn_printinfomation "downloading ${filename}: REMOVED"
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
+	fn_scriptlog "downloading ${filename}: REMOVED"
 }
 
 fn_fetch_file(){
@@ -111,17 +111,11 @@ if [ ! -f "${filedir}/${filename}" ]; then
 		# if larger file shows progress bar
 		if [ ${filename##*.} == "bz2" ]; then
 			echo -ne "downloading ${filename}..."
-			if [ -f "${scriptlog}" ]; then
-				fn_scriptlog "downloading ${filename}"
-			fi
 			sleep 1
 			curlcmd=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
 			echo -ne "downloading ${filename}..."
 		else
 			echo -ne "    fetching ${filename}...\c"
-			if [ -f "${scriptlog}" ]; then
-				fn_scriptlog "fetching ${filename}"
-			fi	
 			curlcmd=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 		fi
 		local exitcode=$?
