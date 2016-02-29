@@ -34,14 +34,24 @@ rconpassword="CHANGE_ME"
 maxplayers="50"
 
 # Advanced
-worldsize="4000" # default 4000; min : 2000 max : 8000 
+seed="" #  default random; range : -2147483647 to 2147483647 ; used to change or reproduce a procedural map
+worldsize="4000" # default 4000; range : 2000 to 8000 ; map size in meters
 saveinterval="300" # Auto-save in seconds
-tickrate="30" # default 30; min acceptable 15 , max 100 or 128
+tickrate="30" # default 30; range : 15 to 100
 
 # https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickrate} +server.hostname \"${servername}\" +server.identity \"${servicename}\" +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -logfile ${gamelogfile}"
+parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickrate} +server.hostname \"${servername}\" +server.identity \"${servicename}\" ${conditionalseed} +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -logfile ${gamelogfile}"
 }
+
+# Specific to Rust
+if [ -n "${seed}" ]; then
+	# If set, then add to start parms
+	conditionalseed="+server.seed ${seed}"
+else
+	# Keep randomness of the number if not set
+	conditionalseed=""
+fi
 
 #### Advanced Variables ####
 
