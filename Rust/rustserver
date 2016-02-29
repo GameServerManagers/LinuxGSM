@@ -45,7 +45,7 @@ parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickr
 }
 
 # Specific to Rust
-if [ -n ${seed} ]; then
+if [ -n "${seed}" ]; then
 	# If set, then add to start parms
 	conditionalseed="+server.seed ${seed}"
 else
