@@ -2,7 +2,7 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060116"
+lgsm_version="010316"
 
 # Description: Gets specific details from config files.
 
@@ -513,7 +513,7 @@ elif [ "${gamename}" == "7 Days To Die" ]; then
 
 	# telnet password
 	if [ -f "${servercfgfullpath}" ]; then
-		telnetpass=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		if [ ! -n "${telnetpass}" ]; then
 			telnetpass="NOT SET"
 		fi
