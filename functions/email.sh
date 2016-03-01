@@ -55,11 +55,11 @@ fn_parms
 }| sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee "${scriptlogdir}/${servicename}-email.log" > /dev/null 2>&1
 echo -e "\n\n	Script log\n===================" >> "${emaillog}"
 tail -25 "${scriptlog}" >> "${emaillog}"
-if [ ! -z "${consolelog}" ]; then
+if [ -n "${consolelog}" ]; then
 	echo -e "\n\n	Console log\n====================" >> "${emaillog}"
 	tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }' >> "${emaillog}"
 fi
-if [ ! -z "${gamelogdir}" ]; then
+if [ -n "${gamelogdir}" ]; then
 	echo -e "\n\n	Server log\n====================" >> "${emaillog}"
 	tail "${gamelogdir}"/* | grep -v "==>" | sed '/^$/d' | tail -25 >> "${emaillog}"
 fi

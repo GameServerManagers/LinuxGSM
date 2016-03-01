@@ -26,7 +26,6 @@ if [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fi
 elif [ "${gamename}" == "Hurtworld" ]; then
 	# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
-
 	if [ ! -f "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
 		fixname="steamclient.so x86"
 		fn_fix_msg_start

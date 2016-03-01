@@ -29,7 +29,7 @@ fn_fix_msg_end(){
 
 # Fixes that are run on start
 if [ "${function_selfname}" != "command_install.sh" ]; then
-	if [ ! -z "${appid}" ]; then
+	if [ -n "${appid}" ]; then
 		fix_steamcmd.sh
 	fi	
 

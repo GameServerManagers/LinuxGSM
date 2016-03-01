@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="010316"
 
+# Description: Resolves various issues with red orchestra.
+
 echo "Applying WebAdmin ROOst.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
 sed -i 's/none}/none;/g' "${filesdir}/Web/ServerAdmin/ROOst.css"

@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="010316"
 
+# Description: Resolves various issues with unreal tournament 2004.
+
 echo "applying WebAdmin ut2003.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
 sed -i 's/none}/none;/g' "${filesdir}/Web/ServerAdmin/ut2003.css"

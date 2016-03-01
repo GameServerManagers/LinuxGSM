@@ -7,17 +7,8 @@ lgsm_version="170216"
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
-array_contains () {
-	local seeking=$1; shift
-	local in=1
-	for element; do
-		if [ ${element} == ${seeking} ]; then
-			in=0
-			break
-		fi
-	done
-	return $in
-}
+# Every command that requires checks just references check.sh
+# check.sh selects which checks to run by using arrays
 
 check_root.sh
 
@@ -53,9 +44,7 @@ local allowed_commands_array=( update_check.sh command_debug.sh command_start.sh
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		if [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament 2004" ]||[ "${gamename}" == "Mumble" ]||[ "${gamename}" == "Teamspeak 3" ]; then
-			: # These servers do not require SteamCMD. Check is skipped.
-		else
+		if [ -n "${appid}" ]; then
 			check_steamcmd.sh
 		fi
 	fi
