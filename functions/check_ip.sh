@@ -7,9 +7,7 @@ lgsm_version="271215"
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manualy set using ip="0.0.0.0".
 
-if [ "${gamename}" == "Teamspeak 3" ]; then
-	:
-else
+if [ "${gamename}" != "Teamspeak 3" ]; then
 	if [ ! -f "/bin/ip" ]; then
 		ipcommand="/sbin/ip"
 	else

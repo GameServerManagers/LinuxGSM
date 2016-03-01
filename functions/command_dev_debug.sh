@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="281215"
 
+# Description: Dev only: enables debuging log to be saved to dev-debug.log.
+
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ -f ".dev-debug" ]; then
