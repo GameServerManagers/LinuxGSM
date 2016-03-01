@@ -135,7 +135,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	if [ "${engine}" ==  "spark" ]; then
 		array_deps_required+=( speex:i386 libtbb2 )
 	# 7 Days to Die	
-	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
+	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell	
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
