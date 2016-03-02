@@ -27,14 +27,10 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	# Setting up counting variables
 	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
 	sleep 1
-	fn_print_ok "Starting"
+	fn_print_ok_nl "Starting"
 	fn_scriptlog "Starting"
-	sleep 1
-	echo -en "\n"
-	fn_print_info "Removing logs older than "${logdays}" days"
+	fn_print_info_nl "Removing logs older than "${logdays}" days"
 	fn_scriptlog "Removing logs older than "${logdays}" days"
-	sleep 1
-	echo -en "\n"
 	# Logging logfiles to be removed according to "${logdays}", counting and removing them
 	# Script logfiles
 	find "${scriptlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
@@ -90,8 +86,6 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	# Count total amount of files removed
 	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount} + ${legacycount}))
 	# Job done
-	fn_print_ok "Removed ${count} log files"
+	fn_print_ok_nl "Removed ${count} log files"
 	fn_scriptlog "Removed ${count} log files"
-	sleep 1
-	echo -en "\n"
 fi

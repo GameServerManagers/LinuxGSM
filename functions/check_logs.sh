@@ -10,8 +10,7 @@ lgsm_version="271215"
 if [ ! -d "${scriptlogdir}" ]; then
 	fn_print_dots "Checking for log files"
 	sleep 1
-	fn_print_info "Checking for log files: Creating log files"
-	echo -en "\n"
+	fn_print_info_nl "Checking for log files: Creating log files"
 	checklogs=1
 	install_logs.sh
 fi

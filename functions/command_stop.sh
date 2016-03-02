@@ -150,17 +150,15 @@ fn_print_dots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
 ${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
-fn_print_ok "${servername}"
-fn_scriptlog "Stopped ${servername}"
 # Remove lock file
 rm -f "${rootdir}/${lockselfname}"
-sleep 1
-echo -en "\n"
+fn_print_ok_nl "${servername}"
+fn_scriptlog "Stopped ${servername}"
 }
 
 fn_stop_tmux(){
 fn_print_dots "${servername}"
-fn_scriptlog "${servername}"
+fn_scriptlog "tmux kill-session: ${servername}"
 sleep 1
 # Kill tmux session
 tmux kill-session -t "${servicename}" > /dev/null 2>&1
@@ -200,4 +198,7 @@ fi
 }
 
 check.sh
+fn_print_dots "${servername}"
+fn_scriptlog "${servername}"
+sleep 1
 fn_stop_pre_check

@@ -104,10 +104,8 @@ if [ "${tmuxwc}" -eq 0 ]; then
 fi
 
 if [ "${tmuxwc}" -eq 1 ]; then
-	fn_print_info "${servername} is already running"
+	fn_print_info_nl "${servername} is already running"
 	fn_scriptlog "${servername} is already running"
-	sleep 1
-	echo -en "\n"
 	exit
 fi
 
@@ -138,8 +136,6 @@ if [ "${tmuxwc}" -eq 0 ]; then
 	if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
 		fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 		fn_scriptlog "Tmux error"
-		sleep 1
-		echo -en "\n"
 		echo ""
 		echo "Command"
 		echo "================================="

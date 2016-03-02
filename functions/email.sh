@@ -64,7 +64,5 @@ if [ -n "${gamelogdir}" ]; then
 	tail "${gamelogdir}"/* | grep -v "==>" | sed '/^$/d' | tail -25 >> "${emaillog}"
 fi
 mail -s "${subject}" ${email} < "${emaillog}"
-fn_print_ok "Sending notification to ${email}"
+fn_print_ok_nl "Sending notification to ${email}"
 fn_scriptlog "Sent notification to ${email}"
-sleep 1
-echo -en "\n"

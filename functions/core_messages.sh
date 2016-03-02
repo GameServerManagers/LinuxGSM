@@ -30,10 +30,12 @@ fn_print_fail(){
 
 fn_print_fail_nl(){
 	if [ -n "${modulename}" ]; then
-		echo -e "\r\033[K[\e[0;31m FAIL \e[0m] ${modulename} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] ${modulename} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[0;31m FAIL \e[0m] $@"
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] $@"
 	fi
+	sleep 1
+	echo -en "\n"		
 }
 	
 # [  OK  ]
@@ -47,10 +49,12 @@ fn_print_ok(){
 
 fn_print_ok_nl(){
 	if [ -n "${modulename}" ]; then
-		echo -e "\r\033[K[\e[0;32m  OK  \e[0m] ${modulename} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] ${modulename} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[0;32m  OK  \e[0m] $@"
+		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] $@"
 	fi
+	sleep 1
+	echo -en "\n"	
 }
 
 # [ INFO ]
@@ -64,10 +68,12 @@ fn_print_info(){
 
 fn_print_info_nl(){
 	if [ -n "${modulename}" ]; then
-		echo -e "\r\033[K[\e[0;36m INFO \e[0m] ${modulename} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;36m INFO \e[0m] ${modulename} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[0;36m INFO \e[0m] $@"
+		echo -en "\r\033[K[\e[0;36m INFO \e[0m] $@"
 	fi
+	sleep 1
+	echo -en "\n"		
 }
 
 # [ WARN ]
@@ -81,10 +87,12 @@ fn_print_warn(){
 
 fn_print_warn_nl(){
 	if [ -n "${modulename}" ]; then
-		echo -e "\r\033[K[\e[1;33m WARN \e[0m] ${modulename} ${servicename}: $@"
+		echo -en "\r\033[K[\e[1;33m WARN \e[0m] ${modulename} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[1;33m WARN \e[0m] $@"
+		echo -en "\r\033[K[\e[1;33m WARN \e[0m] $@"
 	fi
+	sleep 1
+	echo -en "\n"		
 }
 
 # [ .... ]
@@ -120,7 +128,9 @@ fn_print_failure(){
 }
 
 fn_print_failure_nl(){
-	echo -e "\e[0;31mFailure!\e[0m $@"
+	echo -en "\e[0;31mFailure!\e[0m $@"
+	sleep 1
+	echo -en "\n"		
 }
 
 # Error!
@@ -129,7 +139,9 @@ fn_print_error(){
 }
 
 fn_print_error_nl(){
-	echo -e "\e[0;31mError!\e[0m $@"
+	echo -en "\e[0;31mError!\e[0m $@"
+	sleep 1
+	echo -en "\n"		
 }
 
 # Info!
@@ -138,7 +150,9 @@ fn_print_infomation(){
 }
 
 fn_print_infomation_nl(){
-	echo -e "\e[0;36mInfomation!\e[0m $@"
+	echo -en "\e[0;36mInfomation!\e[0m $@"
+	sleep 1
+	echo -en "\n"		
 }
 
 # FAIL for end of line
@@ -147,7 +161,9 @@ fn_print_ok_eol(){
 }
 
 fn_print_ok_eol_nl(){
-	echo -e "\e[0;32mOK\e[0m"
+	echo -en "\e[0;32mOK\e[0m"
+	sleep 1
+	echo -en "\n"		
 }
 
 # FAIL for end of line
@@ -156,7 +172,9 @@ fn_print_fail_eol(){
 }
 
 fn_print_fail_eol_nl(){
-	echo -e "\e[0;31mFAIL\e[0m"
+	echo -en "\e[0;31mFAIL\e[0m"
+	sleep 1
+	echo -en "\n"		
 }
 
 # QUERYING for end of line

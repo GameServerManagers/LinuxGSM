@@ -48,10 +48,8 @@ sleep 1
 command_stop.sh
 fn_print_dots "Starting debug"
 sleep 1
-fn_print_ok "Starting debug"
+fn_print_ok_nl "Starting debug"
 fn_scriptlog "Started debug"
-sleep 1
-echo -en "\n"
 cd "${executabledir}"
 fix.sh
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
