@@ -139,7 +139,8 @@ elif [ "${engine}" == "source" ]; then
 elif [ "${engine}" == "goldsource" ]; then
 	fn_stop_graceful_goldsource
 else
-	fn_stop_tmux	
+	fn_stop_tmux
+fi		
 }
 
 fn_stop_teamspeak3(){
@@ -195,8 +196,6 @@ else
 	fi
 fi
 }
-
-
 
 check.sh
 fn_stop_pre_check
