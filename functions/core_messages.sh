@@ -128,7 +128,7 @@ fn_print_failure(){
 }
 
 fn_print_failure_nl(){
-	echo -en "\e[0;31mFailure!\e[0m $@"
+	echo -e "\e[0;31mFailure!\e[0m $@"
 }
 
 # Error!
@@ -137,7 +137,7 @@ fn_print_error(){
 }
 
 fn_print_error_nl(){
-	echo -en "\e[0;31mError!\e[0m $@"
+	echo -e "\e[0;31mError!\e[0m $@"
 }
 
 # Info!
@@ -146,7 +146,7 @@ fn_print_infomation(){
 }
 
 fn_print_infomation_nl(){
-	echo -en "\e[0;36mInfomation!\e[0m $@"
+	echo -e "\e[0;36mInfomation!\e[0m $@"
 }
 
 # FAIL for end of line
@@ -155,7 +155,7 @@ fn_print_ok_eol(){
 }
 
 fn_print_ok_eol_nl(){
-	echo -en "\e[0;32mOK\e[0m"
+	echo -e "\e[0;32mOK\e[0m"
 }
 
 # FAIL for end of line
@@ -164,7 +164,7 @@ fn_print_fail_eol(){
 }
 
 fn_print_fail_eol_nl(){
-	echo -en "\e[0;31mFAIL\e[0m"
+	echo -e "\e[0;31mFAIL\e[0m"
 }
 
 # QUERYING for end of line
