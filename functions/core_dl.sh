@@ -74,12 +74,12 @@ fi
 fn_fetch_trap() {
 	echo ""
 	echo -ne "downloading ${filename}: "
-	fn_print_canceled_eol
+	fn_print_canceled_eol_nl
 	fn_scriptlog "downloading ${filename}: CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 	echo -ne "downloading ${filename}: "
-	fn_print_removed_eol
+	fn_print_removed_eol_nl
 	fn_scriptlog "downloading ${filename}: REMOVED"
 	exit
 }
