@@ -29,6 +29,7 @@ done
 if [ "${pid}" != "0" ]; then
 	fn_print_fail_nl "Graceful: rcon quit"
 	fn_scriptlog "Graceful: rcon quit: FAIL"
+	fn_stop_tmux
 fi
 sleep 1
 }
@@ -49,6 +50,7 @@ for seconds in {1..3}; do
 done
 fn_print_ok_nl "Graceful: rcon quit: ${seconds}"
 sleep 1
+fn_stop_tmux
 }
 
 # Attempts Graceful of 7 Days To Die using telnet.
