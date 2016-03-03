@@ -52,8 +52,8 @@ fn_found_missing_deps(){
 if [ "${#array_deps_missing[@]}" != "0" ]; then
 	fn_print_dots "Checking dependencies"
 	sleep 2
-	fn_print_warn "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-	fn_scriptlog "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+	fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+	fn_scriptlog "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 	sleep 1
 	echo -e ""
 	sudo -n true > /dev/null 2>&1
@@ -181,7 +181,7 @@ elif [ -n "$(command -v yum)" ]; then
 	if [ "${engine}" ==  "spark" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
 	# 7 Days to Die	
-	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
+	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell	
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
