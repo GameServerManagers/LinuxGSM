@@ -80,9 +80,6 @@ fn_stop_telnet_sdtd(){
 }
 
 fn_stop_graceful_sdtd(){
-	# Gets server IP.
-	info_config.sh
-
 	fn_print_dots "Graceful: telnet"
 	fn_scriptlog "Graceful: telnet"
 	sleep 1
@@ -133,7 +130,7 @@ fn_stop_graceful_sdtd(){
 				fn_print_fail_nl "Graceful: telnet: Unknown error"
 				fn_scriptlog "Graceful: telnet: Unknown error"
 			fi
-			echo -en "\n\n" | tee -a "${scriptlog}"
+			echo -en "\n" | tee -a "${scriptlog}"
 			echo -en "Telnet output:" | tee -a "${scriptlog}"
 			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${scriptlog}"
 			echo -en "\n\n" | tee -a "${scriptlog}"
@@ -213,6 +210,7 @@ fn_stop_pre_check(){
 }
 
 check.sh
+info_config.sh
 fn_print_dots "${servername}"
 fn_scriptlog "${servername}"
 sleep 1
