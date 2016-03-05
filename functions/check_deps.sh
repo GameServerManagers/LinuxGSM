@@ -8,85 +8,85 @@ lgsm_version="060216"
 
 
 fn_deps_detector(){
-# Checks if dependency is missing
-if [ -n "$(command -v dpkg-query)" ]; then
-	dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
-	depstatus=$?
-elif [ -n "$(command -v yum)" ]; then
-	yum -q list installed ${deptocheck} > /dev/null 2>&1
-	depstatus=$?
-fi	
-if [ "${depstatus}" == "0" ]; then
-	missingdep=0
-	if [ "${function_selfname}" == "command_install.sh" ]; then
-		echo -e "\e[0;32m${deptocheck}\e[0m"
-		sleep 0.5
-	fi
-else
-	# if missing dependency is found
-	missingdep=1
-	if [ "${function_selfname}" == "command_install.sh" ]; then
-		echo -e "\e[0;31m${deptocheck}\e[0m"
-		sleep 0.5
+	# Checks if dependency is missing
+	if [ -n "$(command -v dpkg-query)" ]; then
+		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
+		depstatus=$?
+	elif [ -n "$(command -v yum)" ]; then
+		yum -q list installed ${deptocheck} > /dev/null 2>&1
+		depstatus=$?
 	fi	
-fi
+	if [ "${depstatus}" == "0" ]; then
+		missingdep=0
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			echo -e "\e[0;32m${deptocheck}\e[0m"
+			sleep 0.5
+		fi
+	else
+		# if missing dependency is found
+		missingdep=1
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			echo -e "\e[0;31m${deptocheck}\e[0m"
+			sleep 0.5
+		fi	
+	fi
 
-# Missing dependencies are added to array_deps_missing
-if [ "${missingdep}" == "1" ]; then
-	array_deps_missing+=("${deptocheck}")
-fi
+	# Missing dependencies are added to array_deps_missing
+	if [ "${missingdep}" == "1" ]; then
+		array_deps_missing+=("${deptocheck}")
+	fi
 }
 
 fn_deps_email(){
-# Adds postfix to required dependencies if email notification is enabled
-if [ "${emailnotification}" == "on" ]; then
-	if [ -n "$(command -v dpkg-query)" ]; then
-		array_deps_required+=( mailutils postfix )
-	elif [ -n "$(command -v yum)" ]; then
-		array_deps_required+=( mailx postfix )
-	fi	
-fi
+	# Adds postfix to required dependencies if email notification is enabled
+	if [ "${emailnotification}" == "on" ]; then
+		if [ -n "$(command -v dpkg-query)" ]; then
+			array_deps_required+=( mailutils postfix )
+		elif [ -n "$(command -v yum)" ]; then
+			array_deps_required+=( mailx postfix )
+		fi	
+	fi
 }
 
 fn_found_missing_deps(){
-if [ "${#array_deps_missing[@]}" != "0" ]; then
-	fn_print_dots "Checking dependencies"
-	sleep 2
-	fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-	fn_scriptlog "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-	sleep 1
-	echo -e ""
-	sudo -n true > /dev/null 2>&1
-	if [ $? -eq 0 ]; then
-		fn_print_info_nl "Attempting to install missing dependencies automatically"
-		echo -en ".\r"
+	if [ "${#array_deps_missing[@]}" != "0" ]; then
+		fn_print_dots "Checking dependencies"
+		sleep 2
+		fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+		fn_scriptlog "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 		sleep 1
-		echo -en "..\r"
-		sleep 1
-		echo -en "...\r"
-		sleep 1
-		echo -en "   \r"	
-		if [ -n "$(command -v dpkg-query)" ]; then
-			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
-		elif [ -n "$(command -v yum)" ]; then
-			echo "yum install ${array_deps_missing[@]}"
-		fi	
-	else
-		echo ""
-		fn_print_infomation_nl "$(whoami) does not have sudo access. manually install dependencies"
-		fn_scriptlog "$(whoami) does not have sudo access. manually install dependencies"
-		echo ""
-		if [ -n "$(command -v dpkg-query)" ]; then
-			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
-		elif [ -n "$(command -v yum)" ]; then
-			echo "yum install ${array_deps_missing[@]}"
-		fi	
-		echo ""
-	fi
-	if [ "${function_selfname}" == "command_install.sh" ]; then
-		sleep 5
-	fi
-fi	
+		echo -e ""
+		sudo -n true > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			fn_print_info_nl "Attempting to install missing dependencies automatically"
+			echo -en ".\r"
+			sleep 1
+			echo -en "..\r"
+			sleep 1
+			echo -en "...\r"
+			sleep 1
+			echo -en "   \r"	
+			if [ -n "$(command -v dpkg-query)" ]; then
+				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+			elif [ -n "$(command -v yum)" ]; then
+				echo "yum install ${array_deps_missing[@]}"
+			fi	
+		else
+			echo ""
+			fn_print_infomation_nl "$(whoami) does not have sudo access. manually install dependencies"
+			fn_scriptlog "$(whoami) does not have sudo access. manually install dependencies"
+			echo ""
+			if [ -n "$(command -v dpkg-query)" ]; then
+				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+			elif [ -n "$(command -v yum)" ]; then
+				echo "yum install ${array_deps_missing[@]}"
+			fi	
+			echo ""
+		fi
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			sleep 5
+		fi
+	fi	
 }
 
 fn_check_loop(){
