@@ -15,7 +15,7 @@ fn_monitor_check_lockfile(){
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
 		fn_print_info_nl "Disabled: No lock file found"
 		fn_scriptlog "Disabled: No lock file found"
-		echo "To enable monitor run ./${selfname} start"
+		echo "	* To enable monitor run ./${selfname} start"
 		exit 1
 	fi
 }
