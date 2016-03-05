@@ -151,7 +151,9 @@ fn_fetch_function
 fn_restart(){
 local modulename="Restarting"
 info_config.sh
-fn_scriptlog "${servername}"
+if [ -d "${scriptlogdir}" ]; then
+	fn_scriptlog "${servername}"
+fi	
 command_stop.sh
 command_start.sh
 }
