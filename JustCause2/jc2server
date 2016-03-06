@@ -4,7 +4,7 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
-	run 5>dev-debug.log
+	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
