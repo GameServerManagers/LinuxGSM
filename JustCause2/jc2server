@@ -92,7 +92,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	fi
 	echo -e "    fetching ${filename}...\c"
 	# Check curl exists and use available path
-	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl $(echo $PATH | sed "s/\([:]\|\$\)/\/curl /g")"
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
 	for curlcmd in ${curlpaths}
 	do
 		if [ -x "${curlcmd}" ]; then
