@@ -678,5 +678,5 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 elif [ "${gamename}" == "Rust" ]; then
 	fn_details_rust
 else
-	fn_printerrornl "Unable to detect server engine."
+	fn_print_error_nl "Unable to detect server engine."
 fi

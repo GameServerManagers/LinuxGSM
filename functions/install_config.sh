@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="220216"
 
+local modulename="Install"
+
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
 	cp -v "${servercfgdefault}" "${servercfgfullpath}"
@@ -103,7 +105,7 @@ echo ""
 }
 
 fn_ut99config(){
-echo "${defaultcfg} > ${servercfgfullpath}"
+echo "${servercfgdefault} > ${servercfgfullpath}"
 tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
 sleep 1
 echo ""

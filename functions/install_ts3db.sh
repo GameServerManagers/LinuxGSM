@@ -5,6 +5,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 fn_install_ts3db_mariadb(){
 	echo ""
 	echo "checking if libmariadb2 is installed"
@@ -53,7 +55,7 @@ if [ -z "${autoinstall}" ]; then
 		esac
 	done
 else
-fn_printwarningnl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
+fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
 fi
 
 ## Get privilege key

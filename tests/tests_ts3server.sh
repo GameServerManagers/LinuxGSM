@@ -345,7 +345,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "creating lockfile."
+fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 echo ""
@@ -361,7 +361,7 @@ fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 echo ""
-fn_printinfonl "Reseting ${servercfg}."
+fn_print_info_nl "Reseting ${servercfg}."
 install_config.sh
 echo ""
 echo "Test complete!"
@@ -390,7 +390,7 @@ echo ""
 requiredstatus="OFFLINE"
 fn_setstatus
 sleep 1
-fn_printinfo "Tidying up directories."
+fn_print_info "Tidying up directories."
 sleep 1
 rm -rfv ${serverfiles}
 echo "END"

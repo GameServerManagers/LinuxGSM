@@ -325,7 +325,7 @@ echo "Description:"
 echo "change the buildid tricking SteamCMD to update."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "changed buildid to 0."
+fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 update_check.sh
 echo ""
@@ -338,7 +338,7 @@ echo "Description:"
 echo "change the buildid tricking SteamCMD to update server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_printinfonl "changed buildid to 0."
+fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 update_check.sh
 echo ""
@@ -351,7 +351,7 @@ echo "Description:"
 echo "removing appmanifest file will cause script to repair."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "removed appmanifest_${appid}.acf."
+fn_print_info_nl "removed appmanifest_${appid}.acf."
 rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
 update_check.sh
 echo ""
@@ -433,7 +433,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "creating lockfile."
+fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 echo ""
@@ -449,7 +449,7 @@ fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 echo ""
-fn_printinfonl "Reseting ${servercfg}."
+fn_print_info_nl "Reseting ${servercfg}."
 install_config.sh
 echo ""
 echo "Test complete!"
@@ -478,7 +478,7 @@ echo ""
 requiredstatus="OFFLINE"
 fn_setstatus
 sleep 1
-fn_printinfo "Tidying up directories."
+fn_print_info "Tidying up directories."
 sleep 1
 rm -rfv ${serverfiles}
 echo "END"

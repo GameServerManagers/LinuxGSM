@@ -2,7 +2,9 @@
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="270216"
+
+local modulename="Install"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
@@ -31,13 +33,6 @@ if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" =
 	mkdir -pv "${gamelogdir}"
 fi
 
-# If a server is 7 Days to Die.
-if [ "${gamename}" == "7 Days To Die" ]; then
-	if [ ! -h "${gamelogdir}/output_log.txt" ]; then
-		ln -nfsv "${filesdir}/7DaysToDie_Data/output_log.txt" "${gamelogdir}/output_log.txt"
-	fi
-fi
-
 # If server uses SteamCMD create a symbolic link to the Steam logs.
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -h "${rootdir}/log/steamcmd" ]; then
@@ -45,3 +40,4 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 	fi
 fi
 sleep 1
+fn_scriptlog "logs installed"

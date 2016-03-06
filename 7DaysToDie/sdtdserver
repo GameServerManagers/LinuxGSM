@@ -28,7 +28,7 @@ updateonstart="off"
 
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){
-parms="-configfile=${servercfgfullpath} -dedicated"
+parms="-logfile ${gamelogdir}/output_log__`date +%Y-%m-%d__%H-%M-%S`.txt -quit -batchmode -nographics -dedicated -configfile=${servercfgfullpath}"
 }
 
 #### Advanced Variables ####
@@ -52,10 +52,12 @@ engine="unity3d"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
+lgsmdir="${rootdir}/lgsm"
+functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="./startserver.sh"
+executable="./7DaysToDieServer.x86"
 servercfg="${servicename}.xml"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"

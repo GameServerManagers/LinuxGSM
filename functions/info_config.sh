@@ -2,7 +2,7 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="190216"
+lgsm_version="010316"
 
 # Description: Gets specific details from config files.
 
@@ -258,29 +258,29 @@ elif [ "${engine}" == "realvirtuality" ]; then
 		slots="\e[0;31mUNAVAILABLE\e[0m"
 	fi
 
-        # port
-        if [ "${port}" != "" ]; then
-                        port=${port}
-        fi
-        if [ ! -n "${port}" ]; then
-                port="0"
-        fi
+    # port
+    if [ "${port}" != "" ]; then
+		port=${port}
+    fi
+    if [ ! -n "${port}" ]; then
+		port="0"
+    fi
 
-        # query port
-        if [ "${port}" != "" ]; then
-                queryport=$((port+1))
-        fi
-        if [ ! -n "${queryport}" ]; then
-                queryport="0"
-        fi
+    # query port
+    if [ "${port}" != "" ]; then
+		queryport=$((port + 1))
+    fi
+    if [ ! -n "${queryport}" ]; then
+		queryport="0"
+    fi
 
-        # master port
-        if [ "${port}" != "" ]; then
-                masterport=$((port+2))
-        fi
-        if [ ! -n "${masterport}" ]; then
-                masterport="0"
-        fi
+    # master port
+    if [ "${port}" != "" ]; then
+		masterport=$((port + 2))
+    fi
+    if [ ! -n "${masterport}" ]; then
+		masterport="0"
+    fi
 
 # Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
@@ -335,7 +335,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 
 	# query port
 	if [ -f "${servercfgfullpath}" ]; then
-		queryport=$((${port} + 1))
+		queryport=$((port + 1))
 	fi
 	if [ ! -n "${queryport}" ]; then
 		queryport="0"

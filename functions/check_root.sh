@@ -5,7 +5,7 @@
 lgsm_version="271215"
 
 if [ $(whoami) = "root" ]; then
-	fn_printfailnl "Do NOT run this script as root!"
+	fn_print_fail_nl "Do NOT run this script as root!"
 	if [ -d "${scriptlogdir}" ]; then
 		fn_scriptlog "${selfname} attempted to run as root."
 	fi	

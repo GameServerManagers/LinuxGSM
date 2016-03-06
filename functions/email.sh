@@ -7,7 +7,7 @@ lgsm_version="020216"
 # Description: Sends email notification if monitor picks up a failure.
 
 local modulename="Email"
-fn_printdots "Sending notification to ${email}"
+fn_print_dots "Sending notification to ${email}"
 info_distro.sh
 info_config.sh
 check_ip.sh
@@ -55,16 +55,14 @@ fn_parms
 }| sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee "${scriptlogdir}/${servicename}-email.log" > /dev/null 2>&1
 echo -e "\n\n	Script log\n===================" >> "${emaillog}"
 tail -25 "${scriptlog}" >> "${emaillog}"
-if [ ! -z "${consolelog}" ]; then
+if [ -n "${consolelog}" ]; then
 	echo -e "\n\n	Console log\n====================" >> "${emaillog}"
 	tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }' >> "${emaillog}"
 fi
-if [ ! -z "${gamelogdir}" ]; then
+if [ -n "${gamelogdir}" ]; then
 	echo -e "\n\n	Server log\n====================" >> "${emaillog}"
 	tail "${gamelogdir}"/* | grep -v "==>" | sed '/^$/d' | tail -25 >> "${emaillog}"
 fi
 mail -s "${subject}" ${email} < "${emaillog}"
-fn_printok "Sending notification to ${email}"
+fn_print_ok_nl "Sending notification to ${email}"
 fn_scriptlog "Sent notification to ${email}"
-sleep 1
-echo -en "\n"

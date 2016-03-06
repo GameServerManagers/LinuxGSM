@@ -20,7 +20,7 @@ case "$getopt" in
 		forceupdate=1;
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	v|validate)
 		command_validate.sh;;
 	m|monitor)
@@ -81,7 +81,7 @@ case "$getopt" in
 	u|update)
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -133,7 +133,7 @@ case "$getopt" in
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -183,7 +183,7 @@ case "$getopt" in
 		forceupdate=1;
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	v|validate)
 		command_validate.sh;;
 	m|monitor)
@@ -245,7 +245,7 @@ case "$getopt" in
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -262,6 +262,8 @@ case "$getopt" in
 		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
+	ai|auto-install)
+		fn_autoinstall;;		
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
@@ -284,6 +286,7 @@ case "$getopt" in
 		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
+		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
 		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
@@ -305,7 +308,7 @@ case "$getopt" in
 		forceupdate=1;
 		update_check.sh;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	v|validate)
 		command_validate.sh;;
 	m|monitor)
@@ -368,7 +371,7 @@ case "$getopt" in
 	r|restart)
 		fn_restart;;
 	uf|update-functions)
-		update_functions.sh;;
+		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
 	et|email-test)
@@ -385,6 +388,10 @@ case "$getopt" in
 		command_dev_debug.sh;;		
 	i|install)
 		command_install.sh;;
+	ai|auto-install)
+		fn_autoinstall;;
+	sck|server-cd-key)
+		install_ut2k4_key.sh;;				
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	dd|depsdetect)
@@ -407,6 +414,8 @@ case "$getopt" in
 		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
 		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mInstall the server."
+		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
+		echo -e "\e[34mserver-cd-key\t\e[0mAdd your server cd key"		
 		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac

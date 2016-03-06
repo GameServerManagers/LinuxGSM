@@ -2,101 +2,103 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="190216"
+lgsm_version="060316"
 
 # Description: Checks that the requires dependencies are installed for LGSM.
 
 
 fn_deps_detector(){
-# Checks if dependency is missing
-if [ -n "$(command -v dpkg-query)" ]; then
-	dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
-	depstatus=$?
-elif [ -n "$(command -v yum)" ]; then
-	yum -q list installed ${deptocheck} > /dev/null 2>&1
-	depstatus=$?
-fi	
-if [ "${depstatus}" == "0" ]; then
-	missingdep=0
-	if [ "${function_selfname}" == "command_install.sh" ]; then
-		echo -e "\e[0;32m${deptocheck}\e[0m"
-		sleep 0.5
-	fi
-else
-	# if missing dependency is found
-	missingdep=1
-	if [ "${function_selfname}" == "command_install.sh" ]; then
-		echo -e "\e[0;31m${deptocheck}\e[0m"
-		sleep 0.5
+	# Checks if dependency is missing
+	if [ -n "$(command -v dpkg-query)" ]; then
+		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
+		depstatus=$?
+	elif [ -n "$(command -v yum)" ]; then
+		yum -q list installed ${deptocheck} > /dev/null 2>&1
+		depstatus=$?
 	fi	
-fi
+	if [ "${depstatus}" == "0" ]; then
+		missingdep=0
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			echo -e "\e[0;32m${deptocheck}\e[0m"
+			sleep 0.5
+		fi
+	else
+		# if missing dependency is found
+		missingdep=1
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			echo -e "\e[0;31m${deptocheck}\e[0m"
+			sleep 0.5
+		fi	
+	fi
 
-# Missing dependencies are added to array_deps_missing
-if [ "${missingdep}" == "1" ]; then
-	array_deps_missing+=("${deptocheck}")
-fi
+	# Missing dependencies are added to array_deps_missing
+	if [ "${missingdep}" == "1" ]; then
+		array_deps_missing+=("${deptocheck}")
+	fi
 }
 
 fn_deps_email(){
-# Adds postfix to required dependencies if email notification is enabled
-if [ "${emailnotification}" == "on" ]; then
-	if [ -f /usr/bin/mailx ]; then
-		if [ -d /etc/exim4 ]; then
-			array_deps_required+=( exim4 )
-		elif [ -d /etc/sendmail ]; then
-			array_deps_required+=( sendmail )
-		elif [ -n "$(command -v dpkg-query)" ]; then
-			array_deps_required+=( mailutils postfix )
-		elif [ -n "$(command -v yum)" ]; then
-			array_deps_required+=( mailx postfix )
-		fi	
-	else 
-		if [ -n "$(command -v dpkg-query)" ]; then
-			array_deps_required+=( mailutils postfix )
-		elif [ -n "$(command -v yum)" ]; then
-			array_deps_required+=( mailx postfix )
+	# Adds postfix to required dependencies if email notification is enabled
+	if [ "${emailnotification}" == "on" ]; then
+		if [ -f /usr/bin/mailx ]; then
+			if [ -d /etc/exim4 ]; then
+				array_deps_required+=( exim4 )
+			elif [ -d /etc/sendmail ]; then
+				array_deps_required+=( sendmail )
+			elif [ -n "$(command -v dpkg-query)" ]; then
+				array_deps_required+=( mailutils postfix )
+			elif [ -n "$(command -v yum)" ]; then
+				array_deps_required+=( mailx postfix )
+			fi	
+		else 
+			if [ -n "$(command -v dpkg-query)" ]; then
+				array_deps_required+=( mailutils postfix )
+			elif [ -n "$(command -v yum)" ]; then
+				array_deps_required+=( mailx postfix )
+			fi
 		fi
 	fi
-fi
 }
 
 fn_found_missing_deps(){
-if [ "${#array_deps_missing[@]}" != "0" ]; then
-	fn_printdots "Checking dependencies"
-	sleep 2
-	fn_printwarn "Checking dependencies: Dependency missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-	sleep 1
-	echo -e ""
-	sudo -n true > /dev/null 2>&1
-	if [ $? -eq 0 ]; then
-		fn_printinfonl "Attempting to install missing dependencies automatically"
-		echo -en ".\r"
+	if [ "${#array_deps_missing[@]}" != "0" ]; then
+		fn_print_dots "Checking dependencies"
+		sleep 2
+		fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+		fn_scriptlog "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 		sleep 1
-		echo -en "..\r"
-		sleep 1
-		echo -en "...\r"
-		sleep 1
-		echo -en "   \r"	
-		if [ -n "$(command -v dpkg-query)" ]; then
-			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
-		elif [ -n "$(command -v yum)" ]; then
-			echo "yum install ${array_deps_missing[@]}"
-		fi	
-	else
-		echo ""
-		fn_printinfomationnl "$(whoami) does not have sudo access. manually install dependencies"
-		echo ""
-		if [ -n "$(command -v dpkg-query)" ]; then
-			echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
-		elif [ -n "$(command -v yum)" ]; then
-			echo "yum install ${array_deps_missing[@]}"
-		fi	
-		echo ""
-	fi
-	if [ "${function_selfname}" == "command_install.sh" ]; then
-		sleep 5
-	fi
-fi	
+		echo -e ""
+		sudo -n true > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			fn_print_info_nl "Attempting to install missing dependencies automatically"
+			echo -en ".\r"
+			sleep 1
+			echo -en "..\r"
+			sleep 1
+			echo -en "...\r"
+			sleep 1
+			echo -en "   \r"	
+			if [ -n "$(command -v dpkg-query)" ]; then
+				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+			elif [ -n "$(command -v yum)" ]; then
+				echo "yum install ${array_deps_missing[@]}"
+			fi	
+		else
+			echo ""
+			fn_print_infomation_nl "$(whoami) does not have sudo access. manually install dependencies"
+			fn_scriptlog "$(whoami) does not have sudo access. manually install dependencies"
+			echo ""
+			if [ -n "$(command -v dpkg-query)" ]; then
+				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+			elif [ -n "$(command -v yum)" ]; then
+				echo "yum install ${array_deps_missing[@]}"
+			fi	
+			echo ""
+		fi
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			sleep 5
+		fi
+	fi	
 }
 
 fn_check_loop(){
@@ -145,7 +147,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	if [ "${engine}" ==  "spark" ]; then
 		array_deps_required+=( speex:i386 libtbb2 )
 	# 7 Days to Die	
-	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
+	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell	
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
@@ -159,7 +161,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 unzip )
+			array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 )
 		#UT99
 		else
 			array_deps_required+=( libsdl1.2debian bzip2 )
@@ -191,7 +193,7 @@ elif [ -n "$(command -v yum)" ]; then
 	if [ "${engine}" ==  "spark" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
 	# 7 Days to Die	
-	elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
+	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell	
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
@@ -205,7 +207,7 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 unzip )
+			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 )
 		#UT99
 		else
 			array_deps_required+=( SDL.i686 bzip2 )

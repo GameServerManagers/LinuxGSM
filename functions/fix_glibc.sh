@@ -9,7 +9,7 @@ echo ""
 echo "GLIBC Fix required"
 echo "============================"
 sleep 1
-fn_printwarningnl "${gamename} requires GLIBC_${glibcversion} or above"
+fn_print_warning_nl "${gamename} requires GLIBC_${glibcversion} or above"
 sleep 1
 echo ""
 echo -e "Currently installed:\e[0;31m GLIBC_$(ldd --version |grep ldd|awk '{print $NF}')\e[0;39m"
@@ -34,7 +34,7 @@ echo -en "\n"
 # if ldd command not detected
 if [ -z $(command -v ldd) ]; then
 	echo ""
-	fn_printfailurenl "GLIBC is not detected"
+	fn_print_failure_nl "GLIBC is not detected"
 	sleep 1
 	echo "Install GLIBC and retry installation."
 	sleep 1
@@ -93,7 +93,7 @@ elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt 21
 		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/librt.so.1
 		wget -nv -N https://github.com/dgibbs64/linuxgsm/raw/master/Insurgency/dependencies/libpthread.so.0
 	elif [ "${gamename}" == "Left 4 Dead" ]; then
-		glibcversion="2.07"
+		glibcversion="2.3.6"
 		fn_glibcfixmsg
 		cp -v "${rootdir}/steamcmd/linux32/libstdc++.so.6" "${filesdir}/bin/libstdc++.so.6"
 	# Natural Selection 2

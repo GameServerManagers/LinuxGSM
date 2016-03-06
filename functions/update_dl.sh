@@ -19,9 +19,9 @@ if [ $(command -v unbuffer) ]; then
 fi
 
 if [ "${engine}" == "goldsource" ]; then
-	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit|tee -a "${scriptlog}"
+	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit| tee -a "${scriptlog}"
 else
-	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit|tee -a "${scriptlog}"
+	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit| tee -a "${scriptlog}"
 fi
 
 fix.sh
@@ -71,9 +71,9 @@ rm -rf "${rootdir}/teamspeak3-server_linux_${ts3arch}"
 
 check.sh
 info_config.sh
-fn_printdots "Updating ${servername}"
+fn_print_dots "Updating ${servername}"
 sleep 1
-fn_printoknl "Updating ${servername}"
+fn_print_ok_nl "Updating ${servername}"
 fn_scriptlog "Updating ${servername}"
 sleep 1
 if [ "${gamename}" == "Teamspeak 3" ]; then

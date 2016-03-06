@@ -2,7 +2,9 @@
 # LGSM fix_ut2k4.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="010316"
+
+# Description: Resolves various issues with unreal tournament 2004.
 
 echo "applying WebAdmin ut2003.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
@@ -13,15 +15,10 @@ echo "applying WebAdmin CharSet fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
 sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' "${systemdir}/UWeb.int"
 sleep 1
-echo ""
-echo -en "forcing server restart.\r"
-sleep 0.5
-echo -en "forcing server restart..\r"
-sleep 0.5
-echo -en "forcing server restart...\r"
-sleep 0.5
-echo -en "\n"
-sleep 0.5
+echo "applying server name fix."
+sleep 1
+echo "forcing server restart..."
+sleep 1
 command_start.sh
 sleep 5
 command_stop.sh

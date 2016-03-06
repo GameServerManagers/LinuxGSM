@@ -4,6 +4,8 @@
 # Website: http://gameservermanagers.com
 lgsm_version="271215"
 
+local modulename="Install"
+
 if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""
   echo "An Authentication Token is required to run this server!"
@@ -12,6 +14,7 @@ if [ "${gamename}" == "Don't Starve Together" ]; then
 fi
 echo "================================="
 echo "Install Complete!"
+fn_scriptlog "Install Complete!"
 echo ""
 echo "To start server type:"
 echo "./${selfname} start"

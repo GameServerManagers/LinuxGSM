@@ -10,15 +10,13 @@ local modulename="Validate"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
-fn_printwarn "Validating may overwrite some customised files."
-sleep 1
-echo -en "\n"
+fn_print_warn_nl "Validating may overwrite some customised files."
 echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
 sleep 5
 echo -en "\n"
-fn_printdots "Checking server files"
+fn_print_dots "Checking server files"
 sleep 1
-fn_printok "Checking server files"
+fn_print_ok "Checking server files"
 fn_scriptlog "Checking server files"
 sleep 1
 
@@ -29,9 +27,9 @@ if [ $(command -v unbuffer) ]; then
 fi
 
 if [ "${engine}" == "goldsource" ]; then
-	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +app_update "${appid}" validate +quit|tee -a "${scriptlog}"
+	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +app_update "${appid}" validate +quit| tee -a "${scriptlog}"
 else
-	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" validate +quit|tee -a "${scriptlog}"
+	${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" validate +quit| tee -a "${scriptlog}"
 fi
 
 fix.sh

@@ -17,6 +17,6 @@ if [ "${emailnotification}" = "on" ]; then
 	actiontaken="Sent test email...hello is this thing on?"
 	email.sh
 else
-	fn_printfailnl "Notifications not enabled"
+	fn_print_fail_nl "Notifications not enabled"
 	fn_scriptlog "Notifications not enabled"
 fi

@@ -8,7 +8,7 @@ lgsm_version="060116"
 
 if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${gamename}" != "Hurtworld" ]; then
-		fn_printwarnnl "Config file missing!"
+		fn_print_warn_nl "Config file missing!"
 		echo "${servercfgfullpath}"
 		fn_scriptlog "Configuration file missing!"
 		fn_scriptlog "${servercfgfullpath}"
