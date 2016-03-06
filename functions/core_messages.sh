@@ -176,6 +176,15 @@ fn_print_querying_eol_nl(){
 	echo -e "\e[0;36mQUERYING\e[0m"
 }
 
+# CHECKING for end of line
+fn_print_checking_eol(){
+	echo -en "\e[0;36mCHECKING\e[0m"
+}
+
+fn_print_checking_eol_nl(){
+	echo -e "\e[0;36mCHECKING\e[0m"
+}
+
 # CANCELED for end of line
 fn_print_canceled_eol(){
 	echo -en "\e[0;33mCANCELED\e[0m"
