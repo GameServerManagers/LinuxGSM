@@ -140,7 +140,7 @@ fn_print_error_nl(){
 	echo -e "\e[0;31mError!\e[0m $@"
 }
 
-# Info!
+# Infomation!
 fn_print_infomation(){
 	echo -en "\e[0;36mInfomation!\e[0m $@"
 }

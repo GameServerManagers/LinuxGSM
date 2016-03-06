@@ -10,69 +10,63 @@ local modulename="Starting"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_start_teamspeak3(){
-check.sh
-info_ts3status.sh
+	check.sh
+	info_ts3status.sh
 
-if [ "${ts3status}" != "Server is running" ]; then
-	# Will check for updates is updateonstart is yes
-	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
-		update_check.sh
-	fi	
-fi
+	if [ "${ts3status}" != "Server is running" ]; then
+		# Will check for updates is updateonstart is yes
+		if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
+			update_check.sh
+		fi	
+	fi
 
-if [ ! -e "${servercfgfullpath}" ]; then
-	fn_print_warn "${servercfgfullpath} is missing"
-	fn_scriptlog "${servercfgfullpath} is missing"
-	sleep 2
-	echo -en "\n"
-	echo  "	* Creating blank ${servercfg}"
-	fn_scriptlog "Creating blank ${servercfg}"
-	sleep 2
-	echo  "	* ${servercfg} can remain blank by default."
-	fn_scriptlog "${servercfgfullpath} can remain blank by default."
-	sleep 2
-	echo  "	* ${servercfg} is located in ${servercfgfullpath}."
-	fn_scriptlog "${servercfg} is located in ${servercfgfullpath}."
-	sleep 5
-	touch "${servercfgfullpath}"
-fi
+	if [ ! -e "${servercfgfullpath}" ]; then
+		fn_print_warn_nl "${servercfgfullpath} is missing"
+		fn_scriptlog "${servercfgfullpath} is missing"
+		echo  "	* Creating blank ${servercfg}"
+		fn_scriptlog "Creating blank ${servercfg}"
+		sleep 2
+		echo  "	* ${servercfg} can remain blank by default."
+		fn_scriptlog "${servercfgfullpath} can remain blank by default."
+		sleep 2
+		echo  "	* ${servercfg} is located in ${servercfgfullpath}."
+		fn_scriptlog "${servercfg} is located in ${servercfgfullpath}."
+		sleep 5
+		touch "${servercfgfullpath}"
+	fi
 
-logs.sh
+	logs.sh
 
-fn_print_dots "${servername}"
-fn_scriptlog "${servername}"
-sleep 1
-
-if [ "${ts3status}" == "Server is running" ]; then
-	fn_print_info "${servername} is already running"
-	fn_scriptlog "${servername} is already running"
+	fn_print_dots "${servername}"
+	fn_scriptlog "${servername}"
 	sleep 1
-	echo -en "\n"
-	exit
-fi
 
-mv "${scriptlog}" "${scriptlogdate}"
-# Create lock file
-date > "${rootdir}/${lockselfname}"
-cd "${executabledir}"
-if [ "${ts3serverpass}" == "1" ];then
-	./ts3server_startscript.sh start serveradmin_password="${newpassword}" 
-else
-	./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
-fi
-sleep 1
-info_ts3status.sh
-if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
-	fn_print_fail_nl "Unable to start ${servername}"
-	fn_scriptlog "Unable to start ${servername}"
-	echo -e "	Check log files: ${rootdir}/log"
-	exit 1
-else
-	fn_print_ok "${servername}"
-	fn_scriptlog "Started ${servername}"
-fi
-sleep 0.5
-echo -en "\n"
+	if [ "${ts3status}" == "Server is running" ]; then
+		fn_print_info_nl "${servername} is already running"
+		fn_scriptlog "${servername} is already running"
+		exit
+	fi
+
+	mv "${scriptlog}" "${scriptlogdate}"
+	# Create lock file
+	date > "${rootdir}/${lockselfname}"
+	cd "${executabledir}"
+	if [ "${ts3serverpass}" == "1" ];then
+		./ts3server_startscript.sh start serveradmin_password="${newpassword}" 
+	else
+		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
+	fi
+	sleep 1
+	info_ts3status.sh
+	if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
+		fn_print_fail_nl "Unable to start ${servername}"
+		fn_scriptlog "Unable to start ${servername}"
+		echo -e "	Check log files: ${rootdir}/log"
+		exit 1
+	else
+		fn_print_ok_nl "${servername}"
+		fn_scriptlog "Started ${servername}"
+	fi
 }
 
 fn_start_tmux(){
@@ -139,13 +133,11 @@ if [ "${tmuxwc}" -eq 0 ]; then
 		echo ""
 		echo "Command"
 		echo "================================="
-		echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\""
-		echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" >> "${scriptlog}"
+		echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${scriptlog}"
 		echo ""
 		echo "Error"
 		echo "================================="
-		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp"
-		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" >> "${scriptlog}"
+		cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
 
 		# Detected error http://gameservermanagers.com/issues
 		if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then

@@ -83,7 +83,7 @@ fn_monitor_tmux(){
 		done
 		exit
 	else
-		fn_print_fail "Checking session: FAIL"
+		fn_print_fail "Checking session: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Checking session: FAIL"
 		fn_monitor_email_notification
