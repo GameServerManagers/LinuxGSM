@@ -26,7 +26,7 @@ if [ -z "${lgsmdir}" ]; then
 fi 
 
 fn_fetch_core_dl(){
-github_file_url_dir="functions"
+github_file_url_dir="lgsm/functions"
 github_file_url_name="${functionfile}"
 filedir="${functionsdir}"
 filename="${github_file_url_name}"
