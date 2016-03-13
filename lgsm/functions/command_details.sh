@@ -636,7 +636,7 @@ fn_details_disk
 fn_details_gameserver
 fn_details_backup
 # Some game servers do not have parms.
-if [ "${gamename}" != "Teamspeak 3" ]||[ "${engine}" != "avalanche" ]||[ "${engine}" != "dontstarve" ]||[ "${engine}" != "projectzomboid" ]; then
+if [ "${gamename}" != "Teamspeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
 	fn_parms
 	fn_details_commandlineparms
 fi

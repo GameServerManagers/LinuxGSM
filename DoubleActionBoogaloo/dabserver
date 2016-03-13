@@ -49,7 +49,7 @@ githubbranch="master"
 appid="317800"
 
 # Server Details
-servicename="da-server"
+servicename="dab-server"
 gamename="Double Action: Boogaloo"
 engine="source"
 
