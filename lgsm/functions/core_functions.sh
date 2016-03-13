@@ -23,6 +23,7 @@ fn_fetch_function
 if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
+	libdir="${lgsmdir}/lib"
 fi 
 
 fn_fetch_core_dl(){
