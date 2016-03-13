@@ -42,6 +42,7 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 	elif [ "${gamename}" == "ARMA 3" ]; then
 		fix_arma3.sh	
 	fi
+	fix_glibc.sh
 fi
 
 # Fixes that are run on install only.
