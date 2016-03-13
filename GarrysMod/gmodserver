@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="190216"
+version="130316"
 
 #### Variables ####
 
@@ -35,7 +35,12 @@ port="27015"
 sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
+tickrate="66"
 updateonstart="off"
+
+# Custom Start Parameters
+# Default +r_hunkalloclightmaps 0, fixes a start issue on maps with many lights
+customparms="+r_hunkalloclightmaps 0"
 
 # Optional: Game Server Login Token
 # GSLT can be used for running a public server.
@@ -44,7 +49,7 @@ gslt=""
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game garrysmod -strictportbind -ip ${ip} -port ${port} +host_workshop_collection ${workshopcollectionid} -authkey ${workshopauth} +clientport ${clientport} +tv_port ${sourcetvport} +gamemode ${gamemode} +map ${defaultmap} +sv_setsteamaccount ${gslt} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game garrysmod -strictportbind -ip ${ip} -port ${port} -tickrate {tickrate} +host_workshop_collection ${workshopcollectionid} -authkey ${workshopauth} +clientport ${clientport} +tv_port ${sourcetvport} +gamemode ${gamemode} +map ${defaultmap} +sv_setsteamaccount ${gslt} +servercfgfile ${servercfg} -maxplayers ${maxplayers} ${customparms}"
 }
 
 #### Advanced Variables ####
