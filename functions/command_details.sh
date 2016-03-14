@@ -145,7 +145,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "\e[34mUser:\t\e[0m$(whoami)"
 
 	# GLIBC required
-	if [ -n "${glibcrequired}" ]; then
+	if [ -n "${glibcrequired}" ] && [ "${glibcrequired}" != "UNKNOWN" ]; then
 		if [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
 			if [ "${glibcfix}" == "yes" ]; then
 				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
