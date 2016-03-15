@@ -17,25 +17,40 @@ if [ "${currentuser}" != "$(stat -c %U "${scriptfullpath}")" ] && [ "${currentus
   conclusionpermissionerror="1"
   fn_print_fail_nl "Permission denied"
   echo "	* To check allowed user and group run ls -l ${selfname}"
+  exit 1
 fi
 }
 
 fn_check_permissions(){
-permissionfailure="0"
+# Checking permission on rootdir
+if [ -n "${rootdir}" ]; then
+  rootdirperm="$(stat -c %a "${rootdir}")"
+  userrootdirperm="${rootdirperm:0:1}"
+  grouprootdirperm="${rootdirperm:1:1}"
+  if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
+    fn_print_fail_nl "Permission issues found in root directory"
+    echo "  * You might wanna run : chmod -R 755 \"${rootdir}\""
+    conclusionpermissionerror="1"
+  fi
+fi
+  
+# Checking permissions on functions
+funcpermfail="0"
 if [ -n "${functionsdir}" ]; then
   while read -r filename
     do
-      perm="$(stat -c %a "${filename}")"
-      shortperm="${perm:0:1}"
-      if [ "${shortperm}" != "7" ]; then
-        permissionfailure="1"
+      funcperm="$(stat -c %a "${filename}")"
+      userfuncdirperm="${funcperm:0:1}"
+      groupfuncdirperm="${duncperm:1:1}"
+      if [ "${userfuncdirperm}" != "7" ] && [ "${groupfuncdirperm}" != "7" ]; then
+        funcpermfail="1"
         conclusionpermissionerror="1"
       fi
   done <<< "$(find "${functionsdir}" -name "*.sh")"
   
-  if [ "${permissionfailure}" == "1" ]; then
-    fn_print_fail_nl "Warning, permission issues found in functions."
-    echo "  * Easy fix : chmod -R 755 ${functionsdir}"
+  if [ "${funcpermfail}" == "1" ]; then
+    fn_print_fail_nl "Permission issues found in functions."
+    echo "  * You might wanna run : chmod -R 755 \"${functionsdir}\""
   fi
 fi
 }
