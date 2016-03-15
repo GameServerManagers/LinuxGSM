@@ -549,7 +549,7 @@ echo -e "netstat -atunp | grep Rust"
 echo -e ""
 {
 	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
 	echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 
 } | column -s $'\t' -t
