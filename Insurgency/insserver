@@ -32,6 +32,7 @@ clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
 workshop="0"
+consolelogging="on"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
