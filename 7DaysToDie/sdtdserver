@@ -25,7 +25,6 @@ steampass="password"
 # Start Variables
 ip="0.0.0.0"
 updateonstart="off"
-consolelogging="on"
 
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){
@@ -70,6 +69,7 @@ logdays="7"
 gamelogdir="${rootdir}/log/server"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
