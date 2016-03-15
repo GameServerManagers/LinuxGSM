@@ -24,6 +24,7 @@ steampass=""
 
 # Start Variables
 updateonstart="off"
+consolelogging="on"
 
 fn_parms(){
 parms=""
