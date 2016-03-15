@@ -24,6 +24,7 @@ if [ "${currentuser}" != "$(stat -c %U "${rootdir}")" ] && [ "${currentuser}" !=
   fn_print_fail_nl "Oops ! Permission denied on ${rootdir}"
   echo "	* To check allowed user and group run ls -l ${rootdir}"
   exit 1
+fi
 }
 
 fn_check_permissions(){
@@ -47,7 +48,7 @@ if [ -n "${functionsdir}" ]; then
     do
       funcperm="$(stat -c %a "${filename}")"
       userfuncdirperm="${funcperm:0:1}"
-      groupfuncdirperm="${duncperm:1:1}"
+      groupfuncdirperm="${funcperm:1:1}"
       if [ "${userfuncdirperm}" != "7" ] && [ "${groupfuncdirperm}" != "7" ]; then
         funcpermfail="1"
         conclusionpermissionerror="1"
