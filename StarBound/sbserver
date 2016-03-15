@@ -67,6 +67,7 @@ logdays="7"
 gamelogdir="${filesdir}/giraffe_storage"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
