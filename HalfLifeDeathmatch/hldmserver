@@ -29,7 +29,6 @@ port="27015"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
-consolelogging="on"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
@@ -74,6 +73,7 @@ logdays="7"
 gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
