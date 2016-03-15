@@ -7,34 +7,40 @@ lgsm_version="150316"
 
 # Description: Checks script, files and folders ownership and permissions.
 
-# Initializing useful variables
+# Useful variables
 currentuser="$(whoami)"
 scriptfullpath="${rootdir}/${selfname}"
 conclusionpermissionerror="0"
 
 fn_check_ownership(){
+# Check script ownership
 if [ "${currentuser}" != "$(stat -c %U "${scriptfullpath}")" ] && [ "${currentuser}" != "$(stat -c %G "${scriptfullpath}")" ]; then
-  conclusionpermissionerror="1"
-  fn_print_fail_nl "Permission denied"
+  fn_print_fail_nl "Oops ! Permission denied on ${selfname}"
   echo "	* To check allowed user and group run ls -l ${selfname}"
   exit 1
 fi
+# Check rootdir ownership
+if [ "${currentuser}" != "$(stat -c %U "${rootdir}")" ] && [ "${currentuser}" != "$(stat -c %G "${rootdir}")" ]; then
+  fn_print_fail_nl "Oops ! Permission denied on ${rootdir}"
+  echo "	* To check allowed user and group run ls -l ${rootdir}"
+  exit 1
 }
 
 fn_check_permissions(){
-# Checking permission on rootdir
+# Check rootdir permissions
 if [ -n "${rootdir}" ]; then
   rootdirperm="$(stat -c %a "${rootdir}")"
   userrootdirperm="${rootdirperm:0:1}"
   grouprootdirperm="${rootdirperm:1:1}"
   if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
     fn_print_fail_nl "Permission issues found in root directory"
+    echo "  * Neither the user or group has full control of \"${rootdir}\""
     echo "  * You might wanna run : chmod -R 755 \"${rootdir}\""
     conclusionpermissionerror="1"
   fi
 fi
   
-# Checking permissions on functions
+# Check functions permissions
 funcpermfail="0"
 if [ -n "${functionsdir}" ]; then
   while read -r filename
@@ -50,12 +56,14 @@ if [ -n "${functionsdir}" ]; then
   
   if [ "${funcpermfail}" == "1" ]; then
     fn_print_fail_nl "Permission issues found in functions."
+    echo "  * Neither the user or group has full control of at least some scripts in \"${functionsdir}\""
     echo "  * You might wanna run : chmod -R 755 \"${functionsdir}\""
   fi
 fi
 }
 
 fn_check_permissions_conclusion(){
+# Exit if errors found
 if [ "${conclusionpermissionerror}" == "1" ]; then
   exit 1
 fi
