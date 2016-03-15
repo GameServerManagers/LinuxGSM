@@ -10,12 +10,21 @@ lgsm_version="150316"
 # Initializing useful variables
 currentuser="$(sh -c 'whoami')"
 scriptfullpath="${rootdir}/${selfname}"
+permissionerror="0"
 
 fn_check_ownership(){
-if [ "${currentuser}" != "$(stat -c %U ${scripfullpath})" ] || [ "${currentuser}" != "$(stat -c %G ${scripfullpath})" ]; then
+if [ "${currentuser}" != "$(stat -c %U "${scriptfullpath}")" ] && [ "${currentuser}" != "$(stat -c %G "${scriptfullpath}")" ]; then
+  permissionerror="1"
   fn_print_fail_nl "Permission denied"
+  echo "	* To check allowed user and group run ls -l ${selfname}"
+fi
+}
+
+fn_check_permissions_summary(){
+if [ "${permissionerror}" == "1" ]; then
   exit 1
 fi
 }
 
 fn_check_ownership
+fn_check_permissions_summary
