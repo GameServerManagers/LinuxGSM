@@ -13,14 +13,14 @@ conclusionpermissionerror="0"
 
 fn_check_ownership(){
 # Check script ownership
-if [ ! -U "${scriptfullpath}" ] && [ ! -G "${scriptfullpath}" ]; then
+if [ ! -O "${scriptfullpath}" ] && [ ! -G "${scriptfullpath}" ]; then
   fn_print_fail_nl "Oops ! Permission denied on ${selfname}"
   echo "	* To check allowed user and group run ls -l ${selfname}"
   exit 1
 fi
 
 # Check rootdir ownership
-if [ ! -U "${rootdir}" ] && [ ! -G "${rootdir}" ]; then
+if [ ! -O "${rootdir}" ] && [ ! -G "${rootdir}" ]; then
   fn_print_fail_nl "Oops ! Permission denied on ${rootdir}"
   echo "	* To check allowed user and group run ls -l ${rootdir}"
   exit 1
@@ -31,7 +31,7 @@ funownfail="0"
 if [ -n "${functionsdir}" ]; then
   while read -r filename
     do
-      if [ ! -U "${filename}" ] && [ ! -G "${filename}" ]; then
+      if [ ! -O "${filename}" ] && [ ! -G "${filename}" ]; then
         funownfail="0"
         conclusionpermissionerror="1"
       fi
