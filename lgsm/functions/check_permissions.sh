@@ -21,6 +21,7 @@ fi
 }
 
 fn_check_permissions(){
+permissionfailure="0"
 if [ -n "${functionsdir}" ]; then
   while read -r filename
   do
