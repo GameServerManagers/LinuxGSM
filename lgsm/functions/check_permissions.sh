@@ -22,8 +22,7 @@ fi
 
 fn_check_permissions(){
 if [ -n "${functionsdir}" ]; then
-  for f in $(find "${functionsdir}" -name "*.sh"); do perm="$(stat -c %a "$f")";
-    find "${functionsdir}" -name "*.sh" | while read filename; do perm="$(stat -c %a "${filename}")"; shortperm="$(echo ${perms:0:1})";
+  find "${functionsdir}" -name "*.sh" | while read filename; do perm="$(stat -c %a "${filename}")"; shortperm="$(echo ${perms:0:1})";
     if [ "${shortperm}" != "7" ]; then
       permissionerror="1"
       echo "Found permission error on $filename"
