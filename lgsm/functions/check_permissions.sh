@@ -26,6 +26,7 @@ if [ -n "${functionsdir}" ]; then
     if [ "${shortperm}" != "7" ]; then
       fn_print_warn_nl "Warning, permission issues found in ${functionsdir}"
       echo "  * Easy fix : chmod -R 755 ${functionsdir}"
+      echo "	* To enable monitor run ./${selfname} start"
     fi
   done
 fi
