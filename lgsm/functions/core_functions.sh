@@ -192,6 +192,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+check_permissions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 check_root.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
