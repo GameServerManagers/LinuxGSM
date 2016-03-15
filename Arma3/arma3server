@@ -27,7 +27,6 @@ steampass="password"
 ip="0.0.0.0"
 port="2302"
 updateonstart="off"
-consolelogging="on"
 
 fn_parms(){
 parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
@@ -92,6 +91,7 @@ logdays="7"
 #gamelogdir="" # No server logs available
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
