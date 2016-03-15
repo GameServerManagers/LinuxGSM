@@ -8,13 +8,14 @@ lgsm_version="150316"
 # Description: Checks script, files and folders ownership and permissions.
 
 # Initializing useful variables
-currentuser="$(sh -c 'whoami')"
+currentuser="$(whoami)"
 scriptfullpath="${rootdir}/${selfname}"
 permissionerror="0"
 
 fn_check_ownership(){
 if [ "${currentuser}" != "$(stat -c %U "${scriptfullpath}")" ] && [ "${currentuser}" != "$(stat -c %G "${scriptfullpath}")" ]; then
   permissionerror="1"
+  fn_scriptlog "Attempted to run as ${currentuser}"
   fn_print_fail_nl "Permission denied"
   echo "	* To check allowed user and group run ls -l ${selfname}"
 fi
