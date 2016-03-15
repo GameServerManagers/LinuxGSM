@@ -17,7 +17,7 @@ fn_check_ownership(){
 # Check script ownership
 if [ ! -O "${scriptfullpath}" ] && [ ! -G "${scriptfullpath}" ]; then
   fn_print_fail_nl "Oops ! Ownership issue..."
-  echo "	* ${currentuser} or its group(s) - ${currentgroups} - does not own \"${selfname}\""
+  echo "	* Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own \"${selfname}\""
   echo "	* To check the owner and allowed groups, run ls -l \"${selfname}\""
   exit 1
 fi
@@ -25,7 +25,7 @@ fi
 # Check rootdir ownership
 if [ ! -O "${rootdir}" ] && [ ! -G "${rootdir}" ]; then
   fn_print_fail_nl "Oops ! Ownership issue..."
-  echo "  * ${currentuser} or its group(s) - ${currentgroups} - does not own \"${rootdir}\""
+  echo "  * Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own \"${rootdir}\""
   echo "	* To check the owner and allowed groups, run ls -dl \"${rootdir}\""
   exit 1
 fi
@@ -43,7 +43,7 @@ if [ -n "${functionsdir}" ]; then
   
   if [ "${funownfail}" == "1" ]; then
     fn_print_fail_nl "Oops ! Ownership issue..."
-    echo "  * ${currentuser} or its group(s) - ${currentgroups} - does not own all scripts in \"${functionsdir}\""
+    echo "  * Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own all scripts in \"${functionsdir}\""
     echo "  * To check the owner and allowed groups, run ls -l \"${functionsdir}\""
   fi
 fi
@@ -59,7 +59,7 @@ if [ -n "${rootdir}" ]; then
   grouprootdirperm="${rootdirperm:1:1}"
   if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
     fn_print_fail_nl "Oops ! Permission issue..."
-    echo "  * ${currentuser} or its group(s) - ${currentgroups} need full control of \"${rootdir}\""
+    echo "  * Current - ${currentuser} - user or its group(s) - ${currentgroups} need full control of \"${rootdir}\""
     echo "  * You might wanna run : chmod -R 770 \"${rootdir}\""
     conclusionpermissionerror="1"
   fi
@@ -81,7 +81,7 @@ if [ -n "${functionsdir}" ]; then
   
   if [ "${funcpermfail}" == "1" ]; then
     fn_print_fail_nl "Oops ! Permission issue..."
-    echo "  * ${currentuser} or its group(s) - ${currentgroups} need full control on scripts in \"${functionsdir}\""
+    echo "  *Current - ${currentuser} - user or its group(s) - ${currentgroups} need full control on scripts in \"${functionsdir}\""
     echo "  * You might wanna run : chmod -R 770 \"${functionsdir}\""
   fi
 fi
