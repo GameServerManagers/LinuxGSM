@@ -43,8 +43,6 @@ loadsave=""
 # Use unstable 64 bit server executable (O/1)
 x64mode="0"
 
-# Other
-consolelogging="on"
 
 # http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
@@ -89,6 +87,7 @@ logdays="7"
 gamelogdir="${rootdir}/log/server"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
