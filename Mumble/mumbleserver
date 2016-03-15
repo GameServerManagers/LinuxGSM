@@ -21,6 +21,7 @@ email="email@example.com"
 # Server Details
 gamename="Mumble"
 servicename="mumble-server"
+consolelogging="on"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
