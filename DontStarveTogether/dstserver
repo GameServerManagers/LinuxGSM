@@ -25,7 +25,7 @@ steampass=""
 # Start Variables
 ip="0.0.0.0"
 updateonstart="off"
-
+consolelogging="on"
 
 # Overworld: -conf_dir DST_Overworld
 # Cave: -conf_dir DST_Cave
