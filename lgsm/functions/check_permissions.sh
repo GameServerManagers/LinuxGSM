@@ -17,8 +17,8 @@ fn_check_ownership(){
 # Check script ownership
 if [ ! -O "${scriptfullpath}" ] && [ ! -G "${scriptfullpath}" ]; then
   fn_print_fail_nl "Oops ! Ownership issue..."
-  echo "	* Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own \"${selfname}\""
-  echo "	* To check the owner and allowed groups, run ls -l \"${selfname}\""
+  echo "  * Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own \"${selfname}\""
+  echo "  * To check the owner and allowed groups, run ls -l \"${selfname}\""
   exit 1
 fi
 
@@ -26,7 +26,7 @@ fi
 if [ ! -O "${rootdir}" ] && [ ! -G "${rootdir}" ]; then
   fn_print_fail_nl "Oops ! Ownership issue..."
   echo "  * Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own \"${rootdir}\""
-  echo "	* To check the owner and allowed groups, run ls -dl \"${rootdir}\""
+  echo "  * To check the owner and allowed groups, run ls -dl \"${rootdir}\""
   exit 1
 fi
 
@@ -81,7 +81,7 @@ if [ -n "${functionsdir}" ]; then
   
   if [ "${funcpermfail}" == "1" ]; then
     fn_print_fail_nl "Oops ! Permission issue..."
-    echo "  *Current - ${currentuser} - user or its group(s) - ${currentgroups} need full control on scripts in \"${functionsdir}\""
+    echo "  * Current - ${currentuser} - user or its group(s) - ${currentgroups} need full control on scripts in \"${functionsdir}\""
     echo "  * You might wanna run : chmod -R 770 \"${functionsdir}\""
   fi
 fi
