@@ -22,13 +22,19 @@ fi
 
 fn_check_permissions(){
 if [ -n "${functionsdir}" ]; then
-  find "${functionsdir}" -name "*.sh" | while read -r filename; do perm="$(stat -c %a "${filename}")"; shortperm="${perm:0:1}";
+  while read -r filename
+  do
+    perm="$(stat -c %a "${filename}")"
+    shortperm="${perm:0:1}"
     if [ "${shortperm}" != "7" ]; then
-      fn_print_warn_nl "Warning, permission issues found in ${functionsdir}"
-      echo "  * Easy fix : chmod -R 755 ${functionsdir}"
-      echo "	* To enable monitor run ./${selfname} start"
+      permissionfailure="1"
     fi
-  done
+  done <<< "$(find "${functionsdir}" -name "*.sh")"
+  
+  if [ "${permissionfailure}" == "1" ]; then
+    fn_print_warn_nl "Warning, permission issues found in ${functionsdir}"
+    echo "  * Easy fix : chmod -R 755 ${functionsdir}"
+  fi
 fi
 }
 
