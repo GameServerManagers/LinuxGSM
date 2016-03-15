@@ -25,7 +25,6 @@ steampass=""
 # Start Variables
 ip="0.0.0.0"
 updateonstart="off"
-consolelogging="on"
 
 # Overworld: -conf_dir DST_Overworld
 # Cave: -conf_dir DST_Cave
@@ -72,6 +71,7 @@ logdays="7"
 gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
