@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_permissions function
+# LGSM check_permissions.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: http://gameservermanagers.com
@@ -25,7 +25,6 @@ if [ -n "${functionsdir}" ]; then
   find "${functionsdir}" -name "*.sh" | while read -r filename; do perm="$(stat -c %a "${filename}")"; shortperm="$(echo "${perm:0:1}")";
     if [ "${shortperm}" != "7" ]; then
       permissionerror="1"
-      echo "Found permission error on $filename"
       fn_print_warn_nl "Warning, permission issues found in ${functionsdir}"
       echo "  * Easy fix : chmod -R 755 ${functionsdir}"
     fi
