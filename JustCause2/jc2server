@@ -24,7 +24,6 @@ steampass=""
 
 # Start Variables
 updateonstart="off"
-consolelogging="on"
 
 fn_parms(){
 parms=""
@@ -69,6 +68,7 @@ logdays="7"
 #gamelogdir="" # No server logs available
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
