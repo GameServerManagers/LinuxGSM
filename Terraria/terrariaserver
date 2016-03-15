@@ -69,6 +69,7 @@ logdays="7"
 #gamelogdir="" # Terraria Doesn't Have a Server Log
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
