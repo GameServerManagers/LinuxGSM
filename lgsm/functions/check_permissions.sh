@@ -8,22 +8,40 @@ lgsm_version="150316"
 # Description: Checks script, files and folders ownership and permissions.
 
 # Useful variables
-currentuser="$(whoami)"
 scriptfullpath="${rootdir}/${selfname}"
 conclusionpermissionerror="0"
 
 fn_check_ownership(){
 # Check script ownership
-if [ "${currentuser}" != "$(stat -c %U "${scriptfullpath}")" ] && [ "${currentuser}" != "$(stat -c %G "${scriptfullpath}")" ]; then
+if [ ! -U "${scriptfullpath}" ] && [ ! -G "${scriptfullpath}" ]; then
   fn_print_fail_nl "Oops ! Permission denied on ${selfname}"
   echo "	* To check allowed user and group run ls -l ${selfname}"
   exit 1
 fi
+
 # Check rootdir ownership
-if [ "${currentuser}" != "$(stat -c %U "${rootdir}")" ] && [ "${currentuser}" != "$(stat -c %G "${rootdir}")" ]; then
+if [ ! -U "${rootdir}" ] && [ ! -G "${rootdir}" ]; then
   fn_print_fail_nl "Oops ! Permission denied on ${rootdir}"
   echo "	* To check allowed user and group run ls -l ${rootdir}"
   exit 1
+fi
+
+# Check functions ownership
+funownfail="0"
+if [ -n "${functionsdir}" ]; then
+  while read -r filename
+    do
+      if [ ! -U "${filename}" ] && [ ! -G "${filename}" ]; then
+        funownfail="0"
+        conclusionpermissionerror="1"
+      fi
+  done <<< "$(find "${functionsdir}" -name "*.sh")"
+  
+  if [ "${funownfail}" == "1" ]; then
+    fn_print_fail_nl "Permission issues found in functions."
+    echo "  * Neither the user or group has full control of some scripts in \"${functionsdir}\""
+    echo "  * You might wanna run : chmod -R 770 \"${functionsdir}\""
+  fi
 fi
 }
 
@@ -36,7 +54,7 @@ if [ -n "${rootdir}" ]; then
   if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
     fn_print_fail_nl "Permission issues found in root directory"
     echo "  * Neither the user or group has full control of \"${rootdir}\""
-    echo "  * You might wanna run : chmod -R 755 \"${rootdir}\""
+    echo "  * You might wanna run : chmod -R 770 \"${rootdir}\""
     conclusionpermissionerror="1"
   fi
 fi
@@ -58,7 +76,7 @@ if [ -n "${functionsdir}" ]; then
   if [ "${funcpermfail}" == "1" ]; then
     fn_print_fail_nl "Permission issues found in functions."
     echo "  * Neither the user or group has full control of at least some scripts in \"${functionsdir}\""
-    echo "  * You might wanna run : chmod -R 755 \"${functionsdir}\""
+    echo "  * You might wanna run : chmod -R 770 \"${functionsdir}\""
   fi
 fi
 }
