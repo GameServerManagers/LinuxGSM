@@ -25,6 +25,7 @@ steampass=""
 # Start Variables
 ip="0.0.0.0"
 updateonstart="off"
+consolelogging="on"
 
 fn_parms(){
 parms="TheIsland?listen"
