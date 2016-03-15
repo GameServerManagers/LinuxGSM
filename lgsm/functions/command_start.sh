@@ -116,9 +116,15 @@ elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; 
 	echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
 	echo "http://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
 	echo "Currently installed: $(tmux -V)" >> "${consolelog}"
-else
+# Console logging enable or not set
+elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
 	touch "${consolelog}"
 	tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+# Console logging disabled
+elif [ "${consolelogging}" == "off" ]; then
+	touch "${consolelog}"
+	cat "Console logging disabled by user" >> "{consolelog}"
+	fn_scriptlog "Console logging disabled by user"
 fi
 sleep 1
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
