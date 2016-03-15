@@ -34,7 +34,7 @@ if [ -n "${functionsdir}" ]; then
   done <<< "$(find "${functionsdir}" -name "*.sh")"
   
   if [ "${permissionfailure}" == "1" ]; then
-    fn_print_warn_nl "Warning, permission issues found in functions."
+    fn_print_fail_nl "Warning, permission issues found in functions."
     echo "  * Easy fix : chmod -R 755 ${functionsdir}"
   fi
 fi
