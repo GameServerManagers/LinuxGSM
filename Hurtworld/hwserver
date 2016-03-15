@@ -43,6 +43,9 @@ loadsave=""
 # Use unstable 64 bit server executable (O/1)
 x64mode="0"
 
+# Other
+consolelogging="on"
+
 # http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
 parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
