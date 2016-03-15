@@ -26,6 +26,7 @@ steampass="password"
 defaultmap="KF-BioticsLab.rom"
 ip="0.0.0.0"
 updateonstart="off"
+consolelogging="on"
 
 fn_parms(){
 parms="server ${defaultmap}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
