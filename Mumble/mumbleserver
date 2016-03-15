@@ -21,7 +21,6 @@ email="email@example.com"
 # Server Details
 gamename="Mumble"
 servicename="mumble-server"
-consolelogging="on"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -43,6 +42,7 @@ logdays="7"
 logdir="${rootdir}/log"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
