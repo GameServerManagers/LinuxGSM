@@ -32,7 +32,7 @@ if [ -n "${functionsdir}" ]; then
   while read -r filename
     do
       if [ ! -O "${filename}" ] && [ ! -G "${filename}" ]; then
-        funownfail="0"
+        funownfail="1"
         conclusionpermissionerror="1"
       fi
   done <<< "$(find "${functionsdir}" -name "*.sh")"
