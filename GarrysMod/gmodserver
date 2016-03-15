@@ -37,7 +37,6 @@ clientport="27005"
 ip="0.0.0.0"
 tickrate="66"
 updateonstart="off"
-consolelogging="on"
 
 # Custom Start Parameters
 # Default +r_hunkalloclightmaps 0, fixes a start issue on maps with many lights
@@ -92,6 +91,7 @@ logdays="7"
 gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
