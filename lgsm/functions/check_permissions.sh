@@ -22,11 +22,11 @@ fi
 
 fn_check_permissions(){
 if [ -n "${functionsdir}" ]; then
-  find "${functionsdir}" -name "*.sh" | while read filename; do perm="$(stat -c %a "${filename}")"; shortperm="$(echo ${perms:0:1})";
+  find "${functionsdir}" -name "*.sh" | while read filename; do perm="$(stat -c %a "${filename}")"; shortperm="$(echo ${perm:0:1})";
     if [ "${shortperm}" != "7" ]; then
       permissionerror="1"
       echo "Found permission error on $filename"
-      fn_print_warn_n1 "Warning, permission issues found in ${functionsdir}"
+      fn_print_warn_nl "Warning, permission issues found in ${functionsdir}"
       echo "  * Easy fix : chmod -R 755 ${functionsdir}"
     fi
   done
