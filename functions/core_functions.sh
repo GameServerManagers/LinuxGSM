@@ -4,7 +4,7 @@
 # Website: http://gameservermanagers.com
 lgsm_version="180316"
 
-# Description: Redirect to new location for core_functions.sh
+# Description: REDIRECT FUNCTION to new location for core_functions.sh
 
 # fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
 if [ -z "${lgsmdir}" ]; then

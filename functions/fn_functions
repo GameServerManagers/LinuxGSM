@@ -1,10 +1,10 @@
 #!/bin/bash
-# LGSM fn_functions.sh function
+# LGSM fn_functions function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="180316"
 
-# Description: Redirect to new core_functions.sh
+# Description: REDIRECT FUNCTION to new core_functions.sh
 
 core_functions.sh(){
 # Functions are defined in core_functions.sh.

@@ -1,10 +1,10 @@
 #!/bin/bash
-# LGSM core_getopt function
+# LGSM core_getopt.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="180316"
 
-# Description: Redirect to new location for core_getopt.sh
+# Description: REDIRECT FUNCTION to new location for core_getopt.sh
 
 core_getopt.sh(){
 functionfile="${FUNCNAME}"

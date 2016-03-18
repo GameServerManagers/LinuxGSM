@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM update_functions.sh function
+# LGSM command_update_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 lgsm_version="270216"
@@ -12,8 +12,6 @@ fn_print_dots "Updating functions"
 fn_scriptlog "Updating functions"
 sleep 1
 echo -ne "\n"
-
-
 
 # Removed legecy functions dir
 if [ -n "${rootdir}" ]; then
