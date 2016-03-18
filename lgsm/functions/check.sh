@@ -17,7 +17,7 @@ if [ "${function_selfname}" != "command_install.sh" ] && [ "${function_selfname}
 	check_system_dir.sh
 fi
 
-if [ "${function_selfname}" -= "command_install.sh" ]; then
+if [ "${function_selfname}" == "command_install.sh" ]; then
 	check_glibc.sh
 fi
 
