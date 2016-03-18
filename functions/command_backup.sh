@@ -39,7 +39,7 @@ if [ "${tmuxwc}" -eq 1 ]; then
 	done
 fi
 fn_scriptlog "Started backup"
-fn_printdots "Starting backup, please wait..."
+fn_printdots "Backup in progress, please wait..."
 sleep 2
 if [ ! -d "${backupdir}" ]; then
 	mkdir "${backupdir}"
