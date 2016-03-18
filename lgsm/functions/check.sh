@@ -17,6 +17,10 @@ if [ "${function_selfname}" != "command_install.sh" ] && [ "${function_selfname}
 	check_system_dir.sh
 fi
 
+if [ "${function_selfname}" -= "command_install.sh" ]; then
+	check_glibc.sh
+fi
+
 local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh update_check.sh command_validate.sh command_update_functions.sh command_email_test.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
