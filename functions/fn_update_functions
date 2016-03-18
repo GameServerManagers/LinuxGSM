@@ -1,22 +1,38 @@
 #!/bin/bash
-# LGSM fn_update_functions.sh function
+# LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="230116"
+lgsm_version="271215"
 
-# Description: LEGACY FUNCTION Deletes the functions dir to allow re-downloading of functions from GitHub.
+# Description: Redirect to new core_functions.sh
 
-fn_print_dots "Updating functions"
-fn_scriptlog "Updating functions"
-sleep 1
-echo -ne "\n"
-rm -rfv "${rootdir}/functions/"*
-exitcode=$?
-if [ "${exitcode}" == "0" ]; then
-	fn_print_ok "Updating functions"
-	fn_scriptlog "Success! Updating functions"
-else
-	fn_print_fail "Updating functions"
-	fn_scriptlog "Failure! Updating functions"
-fi
-echo -ne "\n"
+core_functions(){
+# Functions are defined in core_functions.sh.
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
+core_dl.sh(){
+# Functions are defined in core_functions.sh.
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
+core_getopt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
+core_messages.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
+command_update_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
+core_functions.sh
+command_update_functions.sh
+
