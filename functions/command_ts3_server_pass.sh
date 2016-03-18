@@ -45,6 +45,7 @@ fn_printinfonl "Starting server with new password"
 command_start.sh
 # Stop server in "new password mode"
 command_stop.sh
+ts3serverpass="0"
 fn_printoknl "Password applied"
 fn_scriptlog "New ServerAdmin password applied"
 sleep 1
