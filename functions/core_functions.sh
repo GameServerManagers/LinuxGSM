@@ -6,7 +6,7 @@ lgsm_version="271215"
 
 # Description: Redirect to new core_functions.sh
 
-core_functions(){
+core_functions.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
