@@ -9,28 +9,28 @@ lgsm_version="271215"
 core_functions.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_runfunction
 }
 
 core_dl.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_runfunction
 }
 
 core_getopt.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_runfunction
 }
 
 core_messages.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_runfunction
 }
 
 command_update_functions.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_runfunction
 }
 
 core_functions.sh
