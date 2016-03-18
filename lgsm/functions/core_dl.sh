@@ -54,7 +54,7 @@ echo -ne "extracting ${filename}..."
 fn_scriptlog "extracting download"
 mime=$(file -b --mime-type "${filedir}/${filename}")
 
-if [ "${mime}" == "application/gzip" ]; then
+if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
 	tarcmd=$(tar -zxf "${filedir}/${filename}" -C "${extractdir}")
 elif [ "${mime}" == "application/x-bzip2" ]; then
 	tarcmd=$(tar -jxf "${filedir}/${filename}" -C "${extractdir}")
