@@ -24,7 +24,7 @@ while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return;;
+	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 esac
 done
