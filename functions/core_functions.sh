@@ -2,35 +2,62 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="180316"
 
-# Description: Redirect to new core_functions.sh
+# Description: Redirect to new location for core_functions.sh
+
+# fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
+if [ -z "${lgsmdir}" ]; then
+	lgsmdir="${rootdir}/lgsm"
+	functionsdir="${lgsmdir}/functions"
+	libdir="${lgsmdir}/lib"
+fi 
+
+fn_fetch_core_dl(){
+github_file_url_dir="lgsm/functions"
+github_file_url_name="${functionfile}"
+filedir="${functionsdir}"
+filename="${github_file_url_name}"
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+# If the file is missing, then download
+if [ ! -f "${filedir}/${filename}" ]; then
+	if [ ! -d "${filedir}" ]; then
+		mkdir -p "${filedir}"
+	fi
+	echo -e "    fetching ${filename}...\c"
+	# Check curl exists and use available path
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+	for curlcmd in ${curlpaths}
+	do
+		if [ -x "${curlcmd}" ]; then
+			break
+		fi
+	done
+	# If curl exists download file
+	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+		if [ $? -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo "${curlfetch}"
+			echo -e "${githuburl}\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi		
+	else
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "Curl is not installed!"
+		echo -e ""
+		exit 1
+	fi
+	chmod +x "${filedir}/${filename}"
+fi
+source "${filedir}/${filename}"
+}
 
 core_functions.sh(){
-# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-core_dl.sh(){
-# Functions are defined in core_functions.sh.
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-core_getopt.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-core_messages.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
-}
-
-command_update_functions.sh(){
-functionfile="${FUNCNAME}"
-fn_runfunction
+fn_fetch_core_dl
 }
 
 core_functions.sh
