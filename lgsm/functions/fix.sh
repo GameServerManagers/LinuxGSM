@@ -47,7 +47,6 @@ fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
-	fix_glibc.sh
 	if [ "${gamename}" == "Killing Floor" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
