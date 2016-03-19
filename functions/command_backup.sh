@@ -2,7 +2,7 @@
 # LGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="180316"
+lgsm_version="190316"
 
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -48,3 +48,4 @@ tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups"
 fn_printoknl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 fn_scriptlog "Complete, Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 sleep 1
+echo ""
