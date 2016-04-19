@@ -48,9 +48,6 @@ fn_parms
 		echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
 	fi
 	echo -e ""	
-	echo -e "========================================\nCommand-line Parameters\n========================================"
-	echo -e "${executable} ${parms}"
-	echo -e ""
 	echo -e "========================================\nLogs\n========================================"
 }| sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee "${scriptlogdir}/${servicename}-email.log" > /dev/null 2>&1
 echo -e "\n\n	Script log\n===================" >> "${emaillog}"
