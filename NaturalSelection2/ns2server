@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="150316"
+version="220416"
 
 #### Variables ####
 
@@ -32,8 +32,6 @@ servername="NS2 Server"
 webadminuser="admin"
 webadminpass="admin"
 webadminport="8080"
-configpath="server1"
-modstorage="server1/Workshop"
 mods=""
 password=""
 # Add the following line to the parms if you want a private server. Ensuring
@@ -42,7 +40,7 @@ password=""
 
 # http://wiki.unknownworlds.com/ns2/Dedicated_Server
 fn_parms(){
-parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${rootdir}/${configpath}\" -modstorage \"${rootdir}/${modstorage}\" -mods \"${mods}\""
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${servercfgdir}\" -modstorage \"${modstoragedir}\" -mods \"${mods}\""
 }
 
 #### Advanced Variables ####
@@ -72,6 +70,9 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./server_linux32"
+servercfgdir="${rootdir}/server1"
+servercfgfullpath="${servercfgdir}"
+modstoragedir="${servercfgdir}/Workshop"
 backupdir="${rootdir}/backups"
 
 # Logging
