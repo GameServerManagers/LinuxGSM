@@ -120,7 +120,16 @@ cd "${rootdir}/steamcmd"
 if [ -f "${HOME}/Steam/appcache/appinfo.vdf" ]; then
 	rm -f "${HOME}/Steam/appcache/appinfo.vdf"
 fi
-availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"public\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+
+# set branch for updateinfo
+IFS=' ' read -a branchsplits <<< "${branch}"
+if [ "${#branchsplits[@]}" -gt 1 ]; then
+        branchname="${branchsplits[1]}"
+else
+        branchname="public"
+fi
+
+availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"${branchname}\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 if [ -z "${availablebuild}" ]; then
 	fn_printfail "Checking for update: SteamCMD"
 	fn_scriptlog "Failure! Checking for update: SteamCMD"
