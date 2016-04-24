@@ -2,7 +2,7 @@
 # LGSM email.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="020216"
+lgsm_version="240416"
 
 # Description: Sends email notification if monitor picks up a failure.
 
@@ -11,7 +11,9 @@ fn_print_dots "Sending notification to ${email}"
 info_distro.sh
 info_config.sh
 check_ip.sh
-fn_parms
+if [ $(type -t fn_parms;echo $?) == 0 ]; then
+	fn_parms
+fi
 {
 	echo -e "========================================\n${servicename} details\n========================================"
 	echo -e "Service name: ${servicename}"
