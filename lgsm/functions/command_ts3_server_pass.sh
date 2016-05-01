@@ -24,7 +24,7 @@ while true; do
 	read -e -i "y" -p "Continue? [y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return;;
+	[Nn]* ) echo Exiting; exit;;
 	* ) echo "Please answer yes or no.";;
 esac
 done
@@ -45,6 +45,7 @@ fn_print_info_nl "Starting server with new password"
 command_start.sh
 # Stop server in "new password mode"
 command_stop.sh
+ts3serverpass="0"
 fn_print_ok_nl "Password applied"
 fn_scriptlog "New ServerAdmin password applied"
 sleep 1

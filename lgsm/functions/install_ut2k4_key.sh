@@ -12,7 +12,7 @@ echo "================================="
 sleep 1
 echo "To get your server listed on the Master Server list"
 echo "you must get a free CD key. Get a key here:"
-echo "http://www.unrealtournament.com/ut2004server/cdkey.php"
+echo "https://forums.unrealtournament.com/utserver/cdkey.php?2004"
 echo ""
 if [ -z "${autoinstall}" ]; then
 	echo "Once you have the key enter it below"

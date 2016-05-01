@@ -2,7 +2,7 @@
 # LGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="190316"
 
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -12,11 +12,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""
-echo "${gamename} Backup"
-echo "============================"
-echo ""
-echo "The following backup will be created:"
-echo ""
+fn_printinfonl "A total of $(du -sh "${rootdir}" --exclude="${backupdir}" | awk '{print $1}') will be compressed into the following backup:"
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
 while true; do
@@ -27,10 +23,11 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
+echo ""
 tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
 if [ "${tmuxwc}" -eq 1 ]; then
 	echo ""
-	fn_print_warning_nl "${servicename} is currently running."
+	fn_printwarningnl "${servicename} is currently running."
 	sleep 1
 	while true; do
 		read -p "Stop ${servicename} while running the backup? [y/N]" yn
@@ -41,24 +38,14 @@ if [ "${tmuxwc}" -eq 1 ]; then
 	esac
 	done
 fi
-fn_scriptlog "Started"
-echo -en "starting backup.\r"
-sleep 1
-echo -en "starting backup..\r"
-sleep 1
-echo -en "starting backup...\r"
-sleep 1
-echo -en "\n"
-cd "${rootdir}"
+fn_scriptlog "Started backup"
+fn_printdots "Backup in progress, please wait..."
+sleep 2
 if [ ! -d "${backupdir}" ]; then
-	mkdir -v "${backupdir}"
+	mkdir "${backupdir}"
 fi
-tar -cvzf "${backupdir}/${backupname}.tar.gz" --exclude "${backupdir}" ./*
-echo ""
-echo "Backup created: ${backupdir}/${backupname}.tar.gz"
-fn_scriptlog "Created: ${backupdir}/${backupname}.tar.gz"
+tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+fn_printoknl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
+fn_scriptlog "Complete, Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 sleep 1
-echo ""
-fn_print_complete_nl "Complete."
-fn_scriptlog "Complete"
 echo ""

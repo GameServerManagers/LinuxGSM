@@ -46,7 +46,7 @@ githubbranch="master"
 
 # Steam
 appid="90"
-appidmos="tfc"
+appidmod="tfc"
 
 # Server Details
 servicename="tfc-server"

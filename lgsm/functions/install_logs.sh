@@ -8,7 +8,7 @@ local modulename="Install"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
-	echo "Creating log directorys"
+	echo "Creating log directories"
 	echo "================================="
 fi
 sleep 1
