@@ -2,7 +2,7 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060316"
+lgsm_version="050516"
 
 # Description: Checks that the requires dependencies are installed for LGSM.
 
@@ -112,12 +112,13 @@ fn_check_loop(){
 	fn_found_missing_deps
 }
 
+info_distro.sh
+
 if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo ""
 	echo "Checking Dependecies"
 	echo "================================="
 fi
-
 
 # Check will only run if using apt-get or yum
 if [ -n "$(command -v dpkg-query)" ]; then
