@@ -2,7 +2,7 @@
 # LGSM command_validate.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="060516"
 
 # Description: Runs a server validation.
 
