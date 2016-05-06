@@ -24,18 +24,18 @@ do
 	fi	
 done
 
-glibc_version="$(ldd --version | sed 's/.* //;q')"
-if [ "$(printf '%s\n'${glibc_required}'\n' ${glibc_version} | sort -V | head -n 1)" != "${glibc_required}" ]; then
+glibcversion="$(ldd --version | sed 's/.* //;q')"
+if [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" == "yes" ]; then 
 		fn_print_info_nl "Glibc fix: Using Glibc fix"
-		echo "	* glibc required: ${glibc_required}"
-		echo "	* glibc installed: ${glibc_version}"
+		echo "	* glibc required: ${glibcrequired}"
+		echo "	* glibc installed: ${glibcversion}"
 		export LD_LIBRARY_PATH=:"${libdir}"
 	else
 		fn_print_warn_nl "Glibc fix: No Glibc fix available!"
 		echo -en "\n"
-		echo "	* glibc required: ${glibc_required}"
-		echo "	* glibc installed: ${glibc_version}"
+		echo "	* glibc required: ${glibcrequired}"
+		echo "	* glibc installed: ${glibcversion}"
 		echo -en "\n"
 		fn_print_infomation "The game server will probably not work. A distro upgrade is required!"
 	fi

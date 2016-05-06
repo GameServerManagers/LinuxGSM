@@ -8,13 +8,13 @@ lgsm_version="020116"
 
 info_glibc.sh
 
-glibc_version="$(ldd --version | sed -n '1s/.* //p')"
-if [ "$(printf '%s\n$glibc_required\n' $glibc_version | sort -V | head -n 1)" != "${glibc_required}" ]; then
+glibcversion="$(ldd --version | sed -n '1s/.* //p')"
+if [ "$(printf '%s\n$glibcrequired\n' $glibcversion | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" != "yes" ]; then 
 		fn_print_warn_nl "Glibc fix: No Glibc fix available!"
 		echo -en "\n"
-		echo "	* glibc required: $glibc_required"
-		echo "	* glibc installed: $glibc_version"
+		echo "	* glibc required: $glibcrequired"
+		echo "	* glibc installed: $glibcversion"
 		echo -en "\n"
 		fn_print_infomation "The game server will probably not work. A distro upgrade is required!"
 		sleep 5

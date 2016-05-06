@@ -160,24 +160,36 @@ fn_details_gameserver(){
 		fi
 	} | column -s $'\t' -t 
 	echo -e ""
+}
 
-	## script details
+fn_details_script(){
+	#
+	# qlserver Script Details
+	# =====================================
+	# Service name:        ql-server
+	# qlserver version:    150316
+	# User:                lgsm
+	# Email notification:  off
+	# Update on start:     off
+	# Location:            /home/lgsm/qlserver
+	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
+	
 	echo -e "\e[92m${selfname} Script Details\e[0m"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		# service name
+		# Service name
 		echo -e "\e[34mService name:\t\e[0m${servicename}"
 
-		# script version
+		# Script version
 		if [ -n "${version}" ]; then
 			echo -e "\e[34m${selfname} version:\t\e[0m${version}"
 		fi
 
-		# script user
+		# User
 		echo -e "\e[34mUser:\t\e[0m$(whoami)"
 
 		# GLIBC required
-		if [ -n "${glibcrequired}" ] && [ "${glibcrequired}" != "UNKNOWN" ]; then
+		if [ -n "${glibcrequired}" ]; then
 			if [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
 				if [ "${glibcfix}" == "yes" ]; then
 					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
@@ -666,6 +678,7 @@ fn_details_os
 fn_details_performance
 fn_details_disk
 fn_details_gameserver
+fn_details_script
 fn_details_backup
 # Some game servers do not have parms.
 if [ "${gamename}" != "Teamspeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
