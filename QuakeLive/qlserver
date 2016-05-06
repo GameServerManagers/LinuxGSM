@@ -9,10 +9,9 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="150316"
+version="060516"
 
 #### Variables ####
-arch="x64"
 
 # Notification Email
 # (on|off)
@@ -24,10 +23,11 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-gameport="27960"
+arch="x64" # x64 or x86
+port="27960"
 rconport="28960"
 rconpassword="CHANGE_ME"
-statsport="${gameport}"
+statsport="${port}"
 statspassword="CHANGE_ME"
 mappool='mappool.txt'
 ip="0.0.0.0"
@@ -36,7 +36,7 @@ updateonstart="off"
 # Install/Config Guide : https://steamcommunity.com/sharedfiles/filedetails/?id=542966946
 # Console Commands : http://www.regurge.at/ql/
 fn_parms(){
-	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${gameport} +set fs_homepath ${filesdir}/${gameport} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rconpassword} +set zmq_stats_enable 1 +set zmq_stats_password ${statspassword} +set zmq_stats_port ${statsport} +set sv_mapPoolFile ${mappool} +exec ${servercfg} "
+	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir}/${gameport} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rconpassword} +set zmq_stats_enable 1 +set zmq_stats_password ${statspassword} +set zmq_stats_port ${statsport} +set sv_mapPoolFile ${mappool} +exec ${servercfg}"
 }
 
 #### Advanced Variables ####
@@ -65,7 +65,7 @@ functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable=$([ "$arch" == 'x64' ] && echo "./run_server_x64.sh" || echo "./run_server_x86.sh")
+executable=$([ "${arch}" == 'x64' ] && echo "./run_server_x64.sh" || echo "./run_server_x86.sh")
 servercfg="${servicename}.cfg"
 servercfgdir="${filesdir}/baseq3"
 servercfgfullpath="${servercfgdir}/${servercfg}"
