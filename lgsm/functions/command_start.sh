@@ -58,6 +58,7 @@ fn_start_teamspeak3(){
 }
 
 fn_start_tmux(){
+	fn_parms
 	fn_print_dots "${servername}"
 	fn_scriptlog "${servername}"
 	sleep 1
@@ -168,7 +169,6 @@ fn_start_tmux(){
 check.sh
 fix.sh
 info_config.sh
-fn_parms
 logs.sh
 
 # Will check for updates is updateonstart is yes
