@@ -14,8 +14,8 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 	if [ "${status}" == "Server is running" ]; then
 		status=1
 	else
+		ts3error="${status}"
 		status=0
-		ts3error=$(./ts3server_startscript.sh status servercfgfullpathfile=${servercfgfullpath})
 	fi
 else
 	status=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
