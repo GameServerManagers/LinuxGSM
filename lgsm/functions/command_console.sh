@@ -2,7 +2,7 @@
 # LGSM command_console.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="060516"
 
 # Description: Gives access to the server tmux console.
 
@@ -27,8 +27,8 @@ esac
 done
 fn_print_dots "Starting"
 sleep 1
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
-if [ "${tmuxwc}" -eq 1 ]; then
+check_status.sh
+if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Starting"
 	fn_scriptlog "accessed"
 	sleep 1

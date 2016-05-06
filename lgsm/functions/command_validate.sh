@@ -36,9 +36,8 @@ fix.sh
 fn_scriptlog "Checking complete"
 }
 
-check.sh
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
-if [ "${tmuxwc}" -eq 1 ]; then
+check_status.sh
+if [ "${status}" != "0" ]; then
     command_stop.sh
     fn_validation
     command_start.sh

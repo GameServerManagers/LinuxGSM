@@ -2,7 +2,7 @@
 # LGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="190316"
+lgsm_version="060516"
 
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -24,8 +24,8 @@ while true; do
 esac
 done
 echo ""
-tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -v failed|grep -Ec "^${servicename}:")
-if [ "${tmuxwc}" -eq 1 ]; then
+check_status.sh
+if [ "${status}" != "0" ]; then
 	echo ""
 	fn_printwarningnl "${servicename} is currently running."
 	sleep 1

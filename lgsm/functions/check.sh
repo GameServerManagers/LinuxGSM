@@ -2,7 +2,7 @@
 # LGSM fn_check function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060316"
+lgsm_version="060516"
 
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
@@ -68,5 +68,13 @@ for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_config.sh
+	fi
+done
+
+local allowed_commands_array=( command_details.sh command_monitor.sh command_start.sh command_stop.sh command_ts3_server_pass.sh update_check.sh command_details.sh command_validate.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_status.sh
 	fi
 done

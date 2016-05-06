@@ -2,7 +2,7 @@
 # LGSM command_monitor.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="060516"
 
 # Description: Monitors server by checking for running proccesses
 # then passes to monitor_gsquery.sh.
@@ -22,8 +22,7 @@ fn_monitor_check_lockfile(){
 
 fn_monitor_check_update(){
 	# Monitor will not check if update is running.
-	updatecheck=$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)
-	if [ "${updatecheck}" >= "1" ]; then
+	if [ "$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)" >= "1" ]; then
 		fn_print_info_nl "SteamCMD is currently checking for updates"
 		fn_scriptlog "SteamCMD is currently checking for updates"
 		sleep 1
@@ -49,17 +48,16 @@ fn_monitor_email_notification(){
 }
 
 fn_monitor_teamspeak3(){
-	info_ts3status.sh
-	if [ "${ts3status}" = "Server is running" ]; then
+	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_scriptlog "Checking session: OK"
 		exit
 	else
-		fn_print_fail "Checking session: ${ts3status}: "
+		fn_print_fail "Checking session: ${ts3error}: "
 		fn_print_fail_eol_nl
-		fn_scriptlog "Checking session: ${ts3status}: FAIL"
-		failurereason="${ts3status}"
+		fn_scriptlog "Checking session: ${ts3error}: FAIL"
+		failurereason="${ts3error}"
 		fn_monitor_email_notification
 	fi
 	fn_scriptlog "Monitor is starting ${servername}"
@@ -69,8 +67,7 @@ fn_monitor_teamspeak3(){
 
 fn_monitor_tmux(){
 	# checks that tmux session is running
-	tmuxwc=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-	if [ "${tmuxwc}" == "1" ]; then
+	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: OK"
 		fn_print_ok_eol_nl
 		fn_scriptlog "Checking session: OK"

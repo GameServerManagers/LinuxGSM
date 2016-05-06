@@ -2,7 +2,7 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="230216"
+lgsm_version="060516"
 
 # Description: Displays server infomation.
 
@@ -12,174 +12,206 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # This applies to all engines
 
 fn_details_os(){
-echo -e ""
-echo -e "\e[93mDistro Details\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mDistro:\t\e[0m${os}"
-	echo -e "\e[34mArch:\t\e[0m${arch}"
-	echo -e "\e[34mKernel:\t\e[0m${kernel}"
-	echo -e "\e[34mHostname:\t\e[0m$HOSTNAME"
-	echo -e "\e[34mtmux:\t\e[0m${tmuxv}"
-	echo -e "\e[34mGLIBC:\t\e[0m${glibcv}"
-} | column -s $'\t' -t 
+	#
+	# Distro Details
+	# =====================================
+	# Distro:    Ubuntu 14.04.4 LTS
+	# Arch:      x86_64
+	# Kernel:    3.13.0-79-generic
+	# Hostname:  hostname
+	# tmux:      tmux 1.8
+	# GLIBC:     2.19
+
+	echo -e ""
+	echo -e "\e[93mDistro Details\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mDistro:\t\e[0m${os}"
+		echo -e "\e[34mArch:\t\e[0m${arch}"
+		echo -e "\e[34mKernel:\t\e[0m${kernel}"
+		echo -e "\e[34mHostname:\t\e[0m$HOSTNAME"
+		echo -e "\e[34mtmux:\t\e[0m${tmuxv}"
+		echo -e "\e[34mGLIBC:\t\e[0m${glibcv}"
+	} | column -s $'\t' -t 
 }
 
 fn_details_performance(){
-echo -e ""
-echo -e "\e[93mPerformance\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mUptime:\t\e[0m${days}d, ${hours}h, ${minutes}m"
-	echo -e "\e[34mAvg Load:\t\e[0m${load}"
-} | column -s $'\t' -t 
-echo -e ""
-{
-	echo -e "\e[34mMem:\t\e[34mtotal\t used\t free\e[0m"
-	echo -e "\e[34mPhysical:\t\e[0m${physmemtotal}\t${physmemused}\t${physmemfree}\e[0m"
-	echo -e "\e[34mSwap:\t\e[0m${swaptotal}\t${swapused}\t${swapfree}\e[0m"
-} | column -s $'\t' -t 
+	#
+	# Performance
+	# =====================================
+	# Uptime:    55d, 3h, 38m
+	# Avg Load:  1.00, 1.01, 0.78
+	#
+	# Mem:       total   used   free
+	# Physical:  741M    656M   85M
+	# Swap:      0B      0B     0B
+
+	echo -e ""
+	echo -e "\e[93mPerformance\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mUptime:\t\e[0m${days}d, ${hours}h, ${minutes}m"
+		echo -e "\e[34mAvg Load:\t\e[0m${load}"
+	} | column -s $'\t' -t 
+	echo -e ""
+	{
+		echo -e "\e[34mMem:\t\e[34mtotal\t used\t free\e[0m"
+		echo -e "\e[34mPhysical:\t\e[0m${physmemtotal}\t${physmemused}\t${physmemfree}\e[0m"
+		echo -e "\e[34mSwap:\t\e[0m${swaptotal}\t${swapused}\t${swapfree}\e[0m"
+	} | column -s $'\t' -t 
 }
 
 fn_details_disk(){
-echo -e ""
-echo -e "\e[93mStorage\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mFilesystem:\t\e[0m${filesystem}"
-	echo -e "\e[34mTotal:\t\e[0m${totalspace}"
-	echo -e "\e[34mUsed:\t\e[0m${usedspace}"
-	echo -e "\e[34mAvailable:\t\e[0m${availspace}"
-	echo -e "\e[34mServerfiles:\t\e[0m${filesdirdu}"
-	if [ -d "${backupdir}" ]; then
-		echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
-	fi
-} | column -s $'\t' -t 
+	#
+	# Storage
+	# =====================================
+	# Filesystem:   /dev/disk/by-uuid/320c8edd-a2ce-4a23-8c9d-e00a7af2d6ff
+	# Total:        15G
+	# Used:         8.4G
+	# Available:    5.7G
+	# Serverfiles:  961M
+
+	echo -e ""
+	echo -e "\e[93mStorage\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mFilesystem:\t\e[0m${filesystem}"
+		echo -e "\e[34mTotal:\t\e[0m${totalspace}"
+		echo -e "\e[34mUsed:\t\e[0m${usedspace}"
+		echo -e "\e[34mAvailable:\t\e[0m${availspace}"
+		echo -e "\e[34mServerfiles:\t\e[0m${filesdirdu}"
+		if [ -d "${backupdir}" ]; then
+			echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
+		fi
+	} | column -s $'\t' -t 
 }
 
 fn_details_gameserver(){
-echo -e ""
+	#
+	# Quake Live Server Details
+	# =====================================
+	# Server name:      ql-server
+	# Server IP:        1.2.3.4:27960
+	# RCON password:    CHANGE_ME
+	# Server password:  NOT SET
+	# Slots:            16
+	# Status:           OFFLINE
 
-## server details
-echo -e "\e[92m${gamename} Server Details\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	# server name
-	echo -e "\e[34mServer name:\t\e[0m${servername}"
+	echo -e ""
+	echo -e "\e[92m${gamename} Server Details\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		# Server name
+		echo -e "\e[34mServer name:\t\e[0m${servername}"
 
-	# server ip
-	echo -e "\e[34mServer IP:\t\e[0m${ip}:${port}"
+		# Server ip
+		echo -e "\e[34mServer IP:\t\e[0m${ip}:${port}"
 
-	# rcon password
-	if [ -n "${rconpassword}" ]; then
-		echo -e "\e[34mRCON password:\t\e[0m${rconpassword}"
-	fi
+		# Server password
+		if [ -n "${serverpassword}" ]; then
+			echo -e "\e[34mServer password:\t\e[0m${serverpassword}"
+		fi
 
-	# server password
-	if [ -n "${serverpassword}" ]; then
-		echo -e "\e[34mServer password:\t\e[0m${serverpassword}"
-	fi
+		# RCON password
+		if [ -n "${rconpassword}" ]; then
+			echo -e "\e[34mRCON password:\t\e[0m${rconpassword}"
+		fi
 
-	# admin password
-	if [ -n "${adminpassword}" ]; then
-		echo -e "\e[34mAdmin password:\t\e[0m${adminpassword}"
-	fi
+		# Admin password 
+		if [ -n "${adminpassword}" ]; then
+			echo -e "\e[34mAdmin password:\t\e[0m${adminpassword}"
+		fi
 
-	# slots
-	if [ -n "${slots}" ]; then
-		echo -e "\e[34mSlots:\t\e[0m${slots}"
-	fi
+		# Stats password (Quake Live)
+		if [ -n "${statspassword}" ]; then
+			echo -e "\e[34mStats password:\t\e[0m${statspassword}"
+		fi
 
-	# game mode
-	if [ -n "${gamemode}" ]; then
-		echo -e "\e[34mGame mode:\t\e[0m${gamemode}"
-	fi
+		# Slots
+		if [ -n "${slots}" ]; then
+			echo -e "\e[34mSlots:\t\e[0m${slots}"
+		fi
 
-	# game world
-	if [ -n "${gameworld}" ]; then
-		echo -e "\e[34mGame world:\t\e[0m${gameworld}"
-	fi
+		# Game mode
+		if [ -n "${gamemode}" ]; then
+			echo -e "\e[34mGame mode:\t\e[0m${gamemode}"
+		fi
 
-	# tick rate
-	if [ -n "${tickrate}" ]; then
-		echo -e "\e[34mTick rate:\t\e[0m${tickrate}"
-	fi
+		# Game world
+		if [ -n "${gameworld}" ]; then
+			echo -e "\e[34mGame world:\t\e[0m${gameworld}"
+		fi
 
-	# online status
-	if [ "${gamename}" == "Teamspeak 3" ]; then
-		info_ts3status.sh
-		if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
+		# Tick rate
+		if [ -n "${tickrate}" ]; then
+			echo -e "\e[34mTick rate:\t\e[0m${tickrate}"
+		fi
+
+		# teamspeak dbplugin
+		if [ -n "${dbplugin}" ]; then
+			echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}"
+		fi
+
+		# online status
+		if [ "${status}" == "0" ]; then
 			echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
 		else
 			echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
 		fi
-	else
-		pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-		if [ "${pid}" == "0" ]; then
-			echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
-		else
-			echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
+	} | column -s $'\t' -t 
+	echo -e ""
+
+	## script details
+	echo -e "\e[92m${selfname} Script Details\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		# service name
+		echo -e "\e[34mService name:\t\e[0m${servicename}"
+
+		# script version
+		if [ -n "${version}" ]; then
+			echo -e "\e[34m${selfname} version:\t\e[0m${version}"
 		fi
-	fi
 
-	# teamspeak dbplugin
-	if [ -n "${dbplugin}" ]; then
-		echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}"
-	fi
-} | column -s $'\t' -t 
-echo -e ""
+		# script user
+		echo -e "\e[34mUser:\t\e[0m$(whoami)"
 
-## script details
-echo -e "\e[92m${selfname} Script Details\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	# service name
-	echo -e "\e[34mService name:\t\e[0m${servicename}"
-
-	# script version
-	if [ -n "${version}" ]; then
-		echo -e "\e[34m${selfname} version:\t\e[0m${version}"
-	fi
-
-	# script user
-	echo -e "\e[34mUser:\t\e[0m$(whoami)"
-
-	# GLIBC required
-	if [ -n "${glibcrequired}" ] && [ "${glibcrequired}" != "UNKNOWN" ]; then
-		if [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
-			if [ "${glibcfix}" == "yes" ]; then
-				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
+		# GLIBC required
+		if [ -n "${glibcrequired}" ] && [ "${glibcrequired}" != "UNKNOWN" ]; then
+			if [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
+				if [ "${glibcfix}" == "yes" ]; then
+					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
+				else
+					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)"
+				fi
 			else
-				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)"
+				echo -e "\e[34mGLIBC required:\t\e[0;32m${glibcrequired}\e[0m"
 			fi
-		else
-			echo -e "\e[34mGLIBC required:\t\e[0;32m${glibcrequired}\e[0m"
 		fi
-	fi
 
-	# email notification
-	if [ -n "${emailnotification}" ]; then
-		echo -e "\e[34mEmail notification:\t\e[0m${emailnotification}"
-	fi
+		# email notification
+		if [ -n "${emailnotification}" ]; then
+			echo -e "\e[34mEmail notification:\t\e[0m${emailnotification}"
+		fi
 
-	# update on start
-	if [ -n "${updateonstart}" ]; then
-		echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"
-	fi
+		# update on start
+		if [ -n "${updateonstart}" ]; then
+			echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"
+		fi
 
-	# script location
-	echo -e "\e[34mLocation:\t\e[0m${rootdir}"
+		# script location
+		echo -e "\e[34mLocation:\t\e[0m${rootdir}"
 
-	# config file location
-	if [ -n "${servercfgfullpath}" ]; then
-		echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
-	fi
+		# config file location
+		if [ -n "${servercfgfullpath}" ]; then
+			echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
+		fi
 
-	# network config file location (ARMA 3)
-	if [ -n "${networkcfgfullpath}" ]; then
-		echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
-	fi
-} | column -s $'\t' -t 
+		# network config file location (ARMA 3)
+		if [ -n "${networkcfgfullpath}" ]; then
+			echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
+		fi
+	} | column -s $'\t' -t 
 }
 
 fn_details_backup(){
