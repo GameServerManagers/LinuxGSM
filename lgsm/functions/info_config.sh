@@ -91,7 +91,7 @@ fn_info_config_idtech3(){
 		slots="${zero}"
 	else
 		servername=$(grep "set sv_hostname " "${servercfgfullpath}" | sed 's/set sv_hostname //g' | tr -d '=\"; ')
-		serverpassword=$(grep "set g_password" "${servercfgfullpath}" | sed -e 's/set g_password//g' | tr -d '=\"; '| cut -f1 -d "/")
+		serverpassword=$(grep "set g_password" "${servercfgfullpath}" | sed 's/set g_password//g' | tr -d '=\"; '| cut -f1 -d "/")
 		slots=$(grep "set sv_maxClients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		
 		# Not Set
@@ -108,9 +108,9 @@ fn_info_config_realvirtuality(){
 		serverpassword="${unavailable}"
 		slots="${zero}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\<hostname\>//g' | tr -d '=\"; ')
-		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\passwordAdmin//g' | tr -d '=\"; ')
-		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed -e 's/\password//g' | tr -d '=\"; ')
+		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | sed 's/\<hostname\>//g' | tr -d '=\"; ')
+		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed 's/\passwordAdmin//g' | tr -d '=\"; ')
+		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed 's/\password//g' | tr -d '=\"; ')
 		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		
 		# Not Set
@@ -169,11 +169,11 @@ fn_info_config_teamspeak3(){
 		fileport="30033"
 	else
 		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(grep "voice_ip=" "${servercfgfullpath}" | sed 's/\voice_ip=//g')
+		ipconfigcheck=$(grep "voice_ip=" "${servercfgfullpath}" | sed 's/voice_ip=//g')
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
 		fi
-		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}" | sed 's/\dbplugin=//g')
+		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}" | sed 's/dbplugin=//g')
 		port=$(grep "default_voice_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$(grep "query_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		fileport=$(grep "filetransfer_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -239,11 +239,11 @@ fn_info_config_unreal(){
 		webadminenabled=$(grep "bEnabled=" "${servercfgfullpath}" | sed 's/bEnabled=//g' | tr -d '\r')
 		webadminport=$(grep "ListenPort=" "${servercfgfullpath}" | tr -d '\r' | tr -cd '[:digit:]')
 		if [ "${engine}" == "unreal" ]; then
-			webadminuser=$(grep "AdminUsername=" "${servercfgfullpath}" | sed 's/\AdminUsername=//g')
-			webadminpass=$(grep "UTServerAdmin.UTServerAdmin" "${servercfgfullpath}" -A 2 | grep "AdminPassword=" | sed 's/\AdminPassword=//g')
+			webadminuser=$(grep "AdminUsername=" "${servercfgfullpath}" | sed 's/AdminUsername=//g')
+			webadminpass=$(grep "UTServerAdmin.UTServerAdmin" "${servercfgfullpath}" -A 2 | grep "AdminPassword=" | sed 's/AdminPassword=//g')
 		else
-			webadminuser=$(grep "AdminName=" "${servercfgfullpath}" | sed 's/\AdminName=//g')
-			webadminpass=$(grep "AdminPassword=" "${servercfgfullpath}" | sed 's/\AdminPassword=//g')
+			webadminuser=$(grep "AdminName=" "${servercfgfullpath}" | sed 's/AdminName=//g')
+			webadminpass="${adminpassword}"
 		fi
 
 		# Not Set
@@ -251,9 +251,9 @@ fn_info_config_unreal(){
 		serverpassword=${serverpassword:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
 		port=${port:-"0"}
-		gsqueryport=${gsqueryport:-"NOT SET"}
+		gsqueryport=${gsqueryport:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
-		webadminport=${webadminport:-"NOT SET"}
+		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi	
