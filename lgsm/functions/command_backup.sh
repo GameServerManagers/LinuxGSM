@@ -12,7 +12,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""
-fn_printinfonl "A total of $(du -sh "${rootdir}" --exclude="${backupdir}" | awk '{print $1}') will be compressed into the following backup:"
+fn_print_info_nl "A total of $(du -sh "${rootdir}" --exclude="${backupdir}" | awk '{print $1}') will be compressed into the following backup:"
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
 while true; do
