@@ -192,11 +192,11 @@ fn_details_script(){
 		if [ -n "${glibcrequired}" ]; then
 			if [ "${glibcrequired}" == "UNKNOWN" ]; then
 				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}"
-			elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
+			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 				if [ "${glibcfix}" == "yes" ]; then
 					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
 				else
-					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)"
+					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mGLIBC version too old\e[0m)"
 				fi
 
 			else
