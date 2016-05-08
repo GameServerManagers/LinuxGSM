@@ -70,7 +70,7 @@ usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
 availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
 
 # used space in serverfiles dir.
-filesdirdu=$(du -sh "${filesdir}" | awk '{print $1}')
+filesdirdu=$(du -sh "${filesdir}" 2> /dev/null | awk '{print $1}')
 if [ -z ${filesdirdu} ]; then
 	filesdirdu="0M"
 fi
