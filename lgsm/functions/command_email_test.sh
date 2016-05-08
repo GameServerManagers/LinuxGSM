@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM command_email_test.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="271215"
 
 # Description: Sends a test email notification.

@@ -2,7 +2,7 @@
 # Half Life: Deathmatch
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"

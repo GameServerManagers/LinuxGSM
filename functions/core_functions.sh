@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="180316"
 
 # Description: REDIRECT FUNCTION to new location for core_functions.sh

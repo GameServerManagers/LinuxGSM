@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM install_header.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="190216"
 
 local modulename="Install"
@@ -12,5 +12,5 @@ echo "${gamename}"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
 echo "Contributors: http://goo.gl/qLmitD"
-echo "http://gameservermanagers.com"
+echo "https://gameservermanagers.com"
 echo "================================="

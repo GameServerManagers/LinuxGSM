@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM command_start.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="060516"
 
 # Description: Starts the server.
@@ -90,13 +90,13 @@ fn_start_tmux(){
 	# tmux pipe-pane not supported in tmux versions < 1.6
 	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
 		echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
-		echo "http://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
+		echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
 		echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 
 	# Console logging disabled: Bug in tmux 1.8 breaks logging
 	elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; then
 		echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
-		echo "http://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
+		echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
 		echo "Currently installed: $(tmux -V)" >> "${consolelog}"
 
 	# Console logging enable or not set
@@ -130,7 +130,7 @@ fn_start_tmux(){
 			echo "================================="
 			cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
 
-			# Detected error http://gameservermanagers.com/issues
+			# Detected error https://gameservermanagers.com/issues
 			if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
 			echo ""
 			echo "Fix"
@@ -147,13 +147,13 @@ fn_start_tmux(){
 					echo ""
 					echo "	usermod -G tty $(whoami)"
 					echo ""
-					echo "http://gameservermanagers.com/tmux-op-perm"
-					fn_scriptlog "http://gameservermanagers.com/tmux-op-perm"
+					echo "https://gameservermanagers.com/tmux-op-perm"
+					fn_scriptlog "https://gameservermanagers.com/tmux-op-perm"
 				else
 					echo "No known fix currently. Please log an issue."
 					fn_scriptlog "No known fix currently. Please log an issue."
-					echo "http://gameservermanagers.com/issues"
-					fn_scriptlog "http://gameservermanagers.com/issues"
+					echo "https://gameservermanagers.com/issues"
+					fn_scriptlog "https://gameservermanagers.com/issues"
 				fi
 			fi
 		fi

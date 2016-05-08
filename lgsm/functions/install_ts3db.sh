@@ -2,7 +2,7 @@
 # LGSM fn_install_ts3_mariadb function
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="271215"
 
 local modulename="Install"

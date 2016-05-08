@@ -2,7 +2,7 @@
 # TravisCI Tests
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 version="071115"
 
 #### Variables ####
@@ -162,7 +162,7 @@ echo "================================="
 echo "TravisCI Tests"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
-echo "http://gameservermanagers.com"
+echo "https://gameservermanagers.com"
 echo "================================="
 echo ""
 sleep 1

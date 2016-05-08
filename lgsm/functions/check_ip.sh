@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM check_ip.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="271215"
 
 # Description: Automatically identifies the server interface IP.
@@ -23,7 +23,7 @@ if [ "${gamename}" != "Teamspeak 3" ]; then
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			echo -en "${getip}\n"
 			echo -en ""
-			echo -en "http://gameservermanagers.com/network-interfaces\n"
+			echo -en "https://gameservermanagers.com/network-interfaces\n"
 			echo -en ""
 			exit 1
 		else

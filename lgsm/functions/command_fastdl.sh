@@ -2,7 +2,7 @@
 # LGSM command_fastdl function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="210216"
 
 # Description: Creates a FastDL folder

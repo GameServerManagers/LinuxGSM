@@ -1,16 +1,16 @@
 #!/bin/bash
 # LGSM install_server_files.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="270216"
 
 local modulename="Install"
 
 fn_install_server_files(){
 if [ "${gamename}" == "Unreal Tournament 99" ]; then
-	fileurl="http://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
+	fileurl="https://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	fileurl="http://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
+	fileurl="https://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 fi
 fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 fn_dl_extract "${filedir}" "${filename}" "${filesdir}"

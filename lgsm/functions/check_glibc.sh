@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM check_glibc.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="020116"
 
 # Description: Checks if server has correct glibc or has a fix available.

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fn_install function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="260216"
 
 # Description: Overall function for the installer.

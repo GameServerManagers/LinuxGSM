@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM install_gslt.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="270216"
 
 # Description: Configures GSLT.
@@ -21,9 +21,9 @@ else
 fi
 
 echo "Get more info and a token here:"
-echo "http://gameservermanagers.com/gslt"
+echo "https://gameservermanagers.com/gslt"
 fn_scriptlog "Get more info and a token here:"
-fn_scriptlog "http://gameservermanagers.com/gslt"
+fn_scriptlog "https://gameservermanagers.com/gslt"
 echo ""
 if [ -z "${autoinstall}" ]; then
 	echo "Enter token below (Can be blank)."

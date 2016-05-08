@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM command_debug.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="271215"
 
 # Description: Runs the server without tmux. Runs direct from the terminal.

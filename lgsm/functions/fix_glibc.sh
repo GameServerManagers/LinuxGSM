@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fix_glibc.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="220416"
 
 # Description: Downloads required glibc files and applys teh glibc fix if required

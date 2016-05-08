@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="270216"
 
 local modulename="Install"

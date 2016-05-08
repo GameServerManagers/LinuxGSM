@@ -2,7 +2,7 @@
 # LGSM command_serveradmin_password.sh function
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="080116"
 
 # Description: Changes TS3 serveradmin password

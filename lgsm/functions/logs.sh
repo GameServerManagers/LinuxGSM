@@ -2,7 +2,7 @@
 # LGSM logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="230216"
 
 # Description: Acts as a log rotater, removing old logs.

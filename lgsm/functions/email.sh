@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM email.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="240416"
 
 # Description: Sends email notification if monitor picks up a failure.

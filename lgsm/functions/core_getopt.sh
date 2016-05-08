@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM core_getopt.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="070116"
 
 # Description: getopt arguments.
@@ -46,7 +46,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
@@ -103,7 +103,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
@@ -151,7 +151,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
@@ -211,7 +211,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
@@ -271,7 +271,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
@@ -336,7 +336,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
@@ -399,7 +399,7 @@ case "$getopt" in
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "http://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{

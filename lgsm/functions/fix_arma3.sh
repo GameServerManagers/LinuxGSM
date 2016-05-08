@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fix_arma3.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="301215"
 
 # Fixes: server not always creating steam_appid.txt file.

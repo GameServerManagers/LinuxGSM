@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM command_monitor.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="060516"
 
 # Description: Monitors server by checking for running proccesses

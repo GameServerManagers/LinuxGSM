@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="260216"
 
 # Description: stores details on servers Glibc requirements.

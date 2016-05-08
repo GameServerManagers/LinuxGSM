@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM fix_dst.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="010316"
 
 # Description: Resolves various issues with Dont Starve together.

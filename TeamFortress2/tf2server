@@ -2,7 +2,7 @@
 # Team Fortress 2
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"
@@ -33,7 +33,7 @@ updateonstart="off"
 
 # Optional: Game Server Login Token
 # GSLT can be used for running a public server.
-# More info: http://gameservermanagers.com/gslt
+# More info: https://gameservermanagers.com/gslt
 gslt=""
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Game Server Query
 # Author: Anonymous & Daniel Gibbs
-# # Website: http://gameservermanagers.com
+# # Website: https://gameservermanagers.com
 # Version: 190216
 
 import optparse

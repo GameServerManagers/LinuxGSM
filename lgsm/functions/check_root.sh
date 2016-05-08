@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM check_root.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="060316"
 
 if [ $(whoami) = "root" ]; then

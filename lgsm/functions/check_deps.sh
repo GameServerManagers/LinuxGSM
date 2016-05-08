@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="050516"
 
 # Description: Checks that the requires dependencies are installed for LGSM.

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM check_system_dir.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="271215"
 
 if [ ! -d "${systemdir}" ]; then

@@ -1,5 +1,5 @@
 <h1>Linux Game Server Managers_</h1>
-<a href="http://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
+<a href="https://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
 
 [![Build Status](https://travis-ci.org/dgibbs64/linuxgsm.svg?branch=master)](https://travis-ci.org/dgibbs64/linuxgsm)
 [![Under Development](https://badge.waffle.io/dgibbs64/linuxgsm.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/dgibbs64/linuxgsm)
@@ -38,11 +38,11 @@ All FAQ can be found here.
 <h2>Donate</h2>
 If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
-<li><a href="http://gameservermanagers.com/#donate">Donate</a></li>
+<li><a href="https://gameservermanagers.com/#donate">Donate</a></li>
 </ul>
 <h2>Useful Links</h2>
 <ul>
-	<li><a href="http://gameservermanagers.com">Homepage</li>
+	<li><a href="https://gameservermanagers.com">Homepage</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki">Wiki</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</li>

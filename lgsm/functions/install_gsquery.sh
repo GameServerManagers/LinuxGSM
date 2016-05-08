@@ -1,13 +1,13 @@
 #!/bin/bash
 # LGSM install_gsquery.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="190216"
 
 fn_dlgsquery(){
 cd "${rootdir}"
 echo -e "downloading gsquery.py...\c"
-wget -N /dev/null "http://gameservermanagers.com/dl/gsquery.py" 2>&1 | grep -F "HTTP" | grep -v "Moved Permanently" | cut -c45- | uniq
+wget -N /dev/null "https://gameservermanagers.com/dl/gsquery.py" 2>&1 | grep -F "HTTP" | grep -v "Moved Permanently" | cut -c45- | uniq
 chmod +x gsquery.py
 }
 

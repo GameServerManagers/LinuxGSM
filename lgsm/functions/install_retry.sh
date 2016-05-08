@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM install_retry.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="271215"
 
 local modulename="Install"

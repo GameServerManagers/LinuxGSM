@@ -2,7 +2,7 @@
 # LGSM check_permissions.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="150316"
 
 # Description: Checks script, files and folders ownership and permissions.

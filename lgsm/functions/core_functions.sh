@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="060516"
 
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.

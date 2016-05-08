@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM update_check.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="060516"
 
 # Description: Checks if a server update is available.

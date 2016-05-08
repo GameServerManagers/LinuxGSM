@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM update_dl.sh function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 lgsm_version="020216"
 
 # Description: Runs a server update.
