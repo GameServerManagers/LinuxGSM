@@ -189,7 +189,6 @@ fn_details_script(){
 		echo -e "\e[34mUser:\t\e[0m$(whoami)"
 
 		# GLIBC required
-		glibcrequired="UNKNOWN"
 		if [ -n "${glibcrequired}" ]; then
 			if [ "${glibcrequired}" == "UNKNOWN" ]; then
 				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}"
