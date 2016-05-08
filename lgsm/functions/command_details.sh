@@ -2,7 +2,7 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
-lgsm_version="060516"
+lgsm_version="080516"
 
 # Description: Displays server infomation.
 
@@ -147,12 +147,12 @@ fn_details_gameserver(){
 			echo -e "\e[34mTick rate:\t\e[0m${tickrate}"
 		fi
 
-		# teamspeak dbplugin
+		# Teamspeak dbplugin
 		if [ -n "${dbplugin}" ]; then
 			echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}"
 		fi
 
-		# online status
+		# Online status
 		if [ "${status}" == "0" ]; then
 			echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
 		else
@@ -189,37 +189,37 @@ fn_details_script(){
 		echo -e "\e[34mUser:\t\e[0m$(whoami)"
 
 		# GLIBC required
+		glibcrequired="UNKNOWN"
 		if [ -n "${glibcrequired}" ]; then
-			if [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
+			if [ "${glibcrequired}" == "UNKNOWN" ]; then
+				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}"
+			elif [ "$(ldd --version | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" -lt "$(echo "${glibcrequired}" | sed -n '1 p' | tr -cd '[:digit:]' | tail -c 3)" ]; then
 				if [ "${glibcfix}" == "yes" ]; then
 					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
 				else
 					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}\e[0m(\e[0;32mGLIBC version too old\e[0m)"
 				fi
+
 			else
 				echo -e "\e[34mGLIBC required:\t\e[0;32m${glibcrequired}\e[0m"
 			fi
 		fi
 
-		# email notification
-		if [ -n "${emailnotification}" ]; then
-			echo -e "\e[34mEmail notification:\t\e[0m${emailnotification}"
-		fi
+		# Email notification
+		echo -e "\e[34mEmail notification:\t\e[0m${emailnotification}"
 
-		# update on start
-		if [ -n "${updateonstart}" ]; then
-			echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"
-		fi
+		# Update on start
+		echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"
 
-		# script location
+		# Script location
 		echo -e "\e[34mLocation:\t\e[0m${rootdir}"
 
-		# config file location
+		# Config file location
 		if [ -n "${servercfgfullpath}" ]; then
 			echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
 		fi
 
-		# network config file location (ARMA 3)
+		# Network config file location (ARMA 3)
 		if [ -n "${networkcfgfullpath}" ]; then
 			echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
 		fi
@@ -227,445 +227,325 @@ fn_details_script(){
 }
 
 fn_details_backup(){
-echo -e ""
-echo -e "\e[92mBackups\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
-	echo -e "No Backups created"
-else
-	{
-		echo -e "\e[34mNo. of backups:\t\e[0m${backupcount}"
-		echo -e "\e[34mLatest backup:\e[0m"
-		echo -e "\e[34m    date:\t\e[0m${lastbackupdate}"
-		echo -e "\e[34m    file:\t\e[0m${lastbackup}"
-		echo -e "\e[34m    size:\t\e[0m${lastbackupsize}"
-	} | column -s $'\t' -t 
-fi
+	#
+	# Backups
+	# =====================================
+	# No. of backups:    1
+	# Latest backup:
+	#     date:          Fri May  6 18:34:19 UTC 2016
+	#     file:          /home/lgsm/qlserver/backups/ql-server-2016-05-06-183239.tar.gz
+	#     size:          945M
+
+	echo -e ""
+	echo -e "\e[92mBackups\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
+		echo -e "No Backups created"
+	else
+		{
+			echo -e "\e[34mNo. of backups:\t\e[0m${backupcount}"
+			echo -e "\e[34mLatest backup:\e[0m"
+			echo -e "\e[34m    date:\t\e[0m${lastbackupdate}"
+			echo -e "\e[34m    file:\t\e[0m${lastbackup}"
+			echo -e "\e[34m    size:\t\e[0m${lastbackupsize}"
+		} | column -s $'\t' -t 
+	fi
 }
 
 fn_details_commandlineparms(){
-echo -e ""
-echo -e "\e[92mCommand-line Parameters\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "${executable} ${parms}"
+	#
+	# Command-line Parameters
+	# =====================================
+	# ./run_server_x86.sh +set net_strict 1 
+
+	echo -e ""
+	echo -e "\e[92mCommand-line Parameters\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	echo -e "${executable} ${parms}"
+}
+
+fn_details_ports(){
+	# Ports
+	# =====================================
+	# Change ports by editing the parameters in:
+	# /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
+
+	echo -e ""
+	echo -e "\e[92mPorts\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	echo -e "Change ports by editing the parameters in:"
+
+	parmslocation="\e[0;31mUNKNOWN\e[0m"
+	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "Teamspeak 3" "7 Days To Die" )
+	for port_edit in "${ports_edit_array[@]}"
+	do
+		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+			parmslocation="${servercfgfullpath}"
+		fi
+	done
+
+	local ports_edit_array=( "starbound" "spark" "source" "goldsource" "Rust" "Hurtworld" )
+	for port_edit in "${ports_edit_array[@]}"
+	do
+		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+			parmslocation="${selfname}"
+		fi
+	done
+	echo -e "${parmslocation}"
+	echo -e ""
+	echo -e "Useful port diagnostic command:"
 }
 
 fn_details_statusbottom(){
-echo -e ""
-if [ "${gamename}" == "Teamspeak 3" ]; then
-	if [ "${ts3status}" = "Server seems to have died" ]||[ "${ts3status}"	= "No server running (ts3server.pid is missing)" ]; then
-        echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
+	echo -e ""
+	if [ "${status}" == "0" ]; then
+		echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
 	else
-		echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
+		echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
 	fi
-else
-	pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-	if [ "${pid}" == "0" ]; then
-		echo -e "\e[34mStatus: \e[0;31mOFFLINE\e[0m"
-	else
-		echo -e "\e[34mStatus: \e[0;32mONLINE\e[0m"
-	fi
-fi
-echo -e ""
+	echo -e ""
 }
 
 # Engine Specific details
 
 fn_details_avalanche(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep Jcmp-Server"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\tudp"
-} | column -s $'\t' -t 
+	echo -e "netstat -atunp | grep Jcmp-Server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t 
 
-fn_details_statusbottom
 }
 
 fn_details_dontstarve(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep dontstarve"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\tudp"
-} | column -s $'\t' -t 
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep dontstarve"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t 
 }
 
 fn_details_projectzomboid(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep java"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\tudp"
-} | column -s $'\t' -t 
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep java"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t 
 }
 
 
 fn_details_realvirtuality(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep arma3server"
-echo -e ""
-if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
-	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+	echo -e "netstat -atunp | grep arma3server"
 	echo -e ""
-fi
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\tudp"
-	echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
-	echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
-} | column -s $'\t' -t 
-
-fn_details_statusbottom
+	if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
+		echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+		echo -e ""
+	fi
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
+	} | column -s $'\t' -t 
 }
 
 fn_details_idtech3(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep qzeroded"
-echo -e ""
-if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
-	echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
-fi
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\tudp"
-	echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
-	echo -e "> Stats\tINBOUND\t${statsport}\tudp"
-} | column -s $'\t' -t 
-
-fn_details_statusbottom
+	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
+		echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+		echo -e ""
+	fi
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
+		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
+	} | column -s $'\t' -t 
 }
 
 
 fn_details_seriousengine35(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep Sam3_Dedicate"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
-	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-} | column -s $'\t' -t 
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep Sam3_Dedicate"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t 
 }
 
 fn_details_source(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${selfname}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep srcds_linux"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
-	if [ -n "${sourcetvport}" ]; then
-	        echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
-	fi
-	echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep srcds_linux"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
+		if [ -n "${sourcetvport}" ]; then
+		        echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
+		fi
+		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
+	} | column -s $'\t' -t
 }
 
 fn_details_spark(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${selfname}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep server_linux3"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
-} | column -s $'\t' -t
-echo -e ""
-echo -e "\e[92m${servername} WebAdmin\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}/index.html"
-	echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
-	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep server_linux3"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "\e[92m${servername} WebAdmin\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}/index.html"
+		echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
+		echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+	} | column -s $'\t' -t
 }
 
 fn_details_starbound(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${selfname}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep starbound"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\ttcp"
-	echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
-
+	echo -e "netstat -atunp | grep starbound"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
 }
 
 fn_details_teamspeak3(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep ts3server"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Voice\tINBOUND\t${port}\tudp"
-	echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp"
-	echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep ts3server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Voice\tINBOUND\t${port}\tudp"
+		echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp"
+		echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
+	} | column -s $'\t' -t
 }
 
 fn_details_teeworlds(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep teeworlds_srv"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\ttcp"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep teeworlds_srv"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
 }
 
-fn_details_terraria(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the command-line"
-echo -e "parameters in ${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep terraia"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game\tINBOUND\t${port}\ttcp"
-	echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-	echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	fn_details_terraria(){
+	echo -e "netstat -atunp | grep terraia"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
 }
 
 fn_details_sdtd(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep 7DaysToDie"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
-	echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
-} | column -s $'\t' -t
-echo -e ""
-echo -e "\e[92m${servername} WebAdmin\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
-	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
-	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
-} | column -s $'\t' -t
-echo -e ""
-echo -e "\e[92m${servername} Telnet\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}"
-	echo -e "\e[34mTelnet address:\t\e[0m${ip} ${telnetport}"
-	echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep 7DaysToDie"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "\e[92m${servername} WebAdmin\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
+		echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
+		echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "\e[92m${servername} Telnet\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}"
+		echo -e "\e[34mTelnet address:\t\e[0m${ip} ${telnetport}"
+		echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}"
+	} | column -s $'\t' -t
 }
 
 fn_details_hurtworld(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "hwserver script"
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep Hurtworld"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-
-} | column -s $'\t' -t
-echo -e ""
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep Hurtworld"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
 }
 
 fn_details_rust(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "rustserver script"
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep Rust"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-	echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
-	echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
-
-} | column -s $'\t' -t
-echo -e ""
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep Rust"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
 }
 
 fn_details_unreal(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep ucc-bin"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-	echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
-	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	if [ "${engine}" == "unreal" ]; then
-		echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
-	fi
-	if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
-		echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
-	fi
-	if [ "${appid}" == "215360" ]; then
-		echo -e "< Master server\tOUTBOUND\t28852\ttcp/udp"
-	else
-		echo -e "< Master server\tOUTBOUND\t28900/28902\ttcp/udp"
-	fi
-	if [ "${appid}" ]; then
-		if [ "${appid}" == "223250" ]; then
-			echo -e "< Steam\tOUTBOUND\t20610\tudp"
-		else
-			echo -e "< Steam\tOUTBOUND\t20660\tudp"
+	echo -e "netstat -atunp | grep ucc-bin"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
+		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		if [ "${engine}" == "unreal" ]; then
+			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
-	fi
-	echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
-} | column -s $'\t' -t
-echo -e ""
-echo -e "\e[92m${servername} WebAdmin\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-{
-	echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
-	echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
-	echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
-	echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+		if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
+			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
+		fi
+		if [ "${appid}" == "215360" ]; then
+			echo -e "< Master server\tOUTBOUND\t28852\ttcp/udp"
+		else
+			echo -e "< Master server\tOUTBOUND\t28900/28902\ttcp/udp"
+		fi
+		if [ "${appid}" ]; then
+			if [ "${appid}" == "223250" ]; then
+				echo -e "< Steam\tOUTBOUND\t20610\tudp"
+			else
+				echo -e "< Steam\tOUTBOUND\t20660\tudp"
+			fi
+		fi
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "\e[92m${servername} WebAdmin\e[0m"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
+		echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
+		echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
+		echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+	} | column -s $'\t' -t
 }
 
 fn_details_ark(){
-echo -e ""
-echo -e "\e[92mPorts\e[0m"
-printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-echo -e "Change ports by editing the parameters in"
-echo -e "${servercfgfullpath}."
-echo -e ""
-echo -e "Useful port diagnostic command:"
-echo -e "netstat -atunp | grep ShooterGame"
-echo -e ""
-{
-	echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-	echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
-	echo -e "> Query\tINBOUND\t${queryport}\tudp"
-} | column -s $'\t' -t
-
-fn_details_statusbottom
+	echo -e "netstat -atunp | grep ShooterGame"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
+		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
 }
 
 
@@ -674,6 +554,7 @@ check.sh
 info_config.sh
 info_distro.sh
 info_glibc.sh
+info_parms.sh
 fn_details_os
 fn_details_performance
 fn_details_disk
@@ -685,12 +566,13 @@ if [ "${gamename}" != "Teamspeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engi
 	fn_parms
 	fn_details_commandlineparms
 fi
+fn_details_ports
 
 # Display details depending on game or engine.
 if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
 elif [ "${engine}" == "dontstarve" ]; then
-		fn_details_dontstarve
+	fn_details_dontstarve
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_details_projectzomboid
 elif [ "${engine}" == "idtech3" ]; then
@@ -724,3 +606,5 @@ elif [ "${gamename}" == "Rust" ]; then
 else
 	fn_print_error_nl "Unable to detect server engine."
 fi
+
+fn_details_statusbottom
