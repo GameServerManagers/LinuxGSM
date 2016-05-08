@@ -31,7 +31,7 @@ fn_details_os(){
 		echo -e "\e[34mKernel:\t\e[0m${kernel}"
 		echo -e "\e[34mHostname:\t\e[0m$HOSTNAME"
 		echo -e "\e[34mtmux:\t\e[0m${tmuxv}"
-		echo -e "\e[34mGLIBC:\t\e[0m${glibcv}"
+		echo -e "\e[34mGLIBC:\t\e[0m${glibcversion}"
 	} | column -s $'\t' -t 
 }
 

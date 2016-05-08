@@ -23,7 +23,7 @@ fi
 
 # Glibc version number
 # e.g: 1.17
-glibcv=$(ldd --version |grep ldd|awk '{print $NF}')
+glibcversion="$(ldd --version | sed -n '1s/.* //p')"
 
 # tmux version
 # e.g: tmux 1.6

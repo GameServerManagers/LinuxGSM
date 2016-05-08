@@ -9,7 +9,7 @@ lgsm_version="020116"
 info_glibc.sh
 
 glibcversion="$(ldd --version | sed -n '1s/.* //p')"
-if [ "$(printf '%s\n$glibcrequired\n' $glibcversion | sort -V | head -n 1)" != "${glibcrequired}" ]; then
+if [ "$(printf '%s\n${glibcrequired}\n' ${glibcversion} | sort -V | head -n 1)" == "${glibcrequired}" ]; then
 	if [ "${glibcfix}" != "yes" ]; then 
 		fn_print_warn_nl "Glibc fix: No Glibc fix available!"
 		echo -en "\n"

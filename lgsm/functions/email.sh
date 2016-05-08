@@ -30,7 +30,7 @@ fi
 	echo -e "Kernel: ${kernel}"
 	echo -e "Hostname: $HOSTNAME"
 	echo -e "tmux: ${tmuxv}"
-	echo -e "GLIBC: ${glibcv}"
+	echo -e "GLIBC: ${glibcversion}"
 	echo -e ""
 	echo -e "========================================\nPerformance\n========================================"
 	echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"

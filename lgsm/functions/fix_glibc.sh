@@ -7,6 +7,7 @@ lgsm_version="220416"
 # Description: Downloads required glibc files and applys teh glibc fix if required
 
 info_glibc.sh
+info_distro.sh
 
 local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "Just Cause 2" )
 for libstdc_server in "${libstdc_servers_array[@]}"
