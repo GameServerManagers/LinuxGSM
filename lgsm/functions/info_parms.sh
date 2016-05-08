@@ -32,10 +32,6 @@ fn_info_config_realvirtuality(){
 	port=${rconport:-"0"}
 }
 
-fn_info_config_seriousengine35(){
-
-}
-
 fn_info_config_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}

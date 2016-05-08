@@ -315,7 +315,6 @@ fn_details_avalanche(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t 
-
 }
 
 fn_details_dontstarve(){
