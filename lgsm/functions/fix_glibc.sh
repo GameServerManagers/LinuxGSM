@@ -25,7 +25,6 @@ do
 	fi	
 done
 
-glibcversion="$(ldd --version | sed 's/.* //;q')"
 if [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" == "yes" ]; then 
 		fn_print_info_nl "Glibc fix: Using Glibc fix"
