@@ -22,4 +22,4 @@ do
 	fi	
 done
 
-check_glibc.sh
+export LD_LIBRARY_PATH=:"${libdir}"

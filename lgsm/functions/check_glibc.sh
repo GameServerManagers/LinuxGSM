@@ -10,11 +10,13 @@ info_glibc.sh
 info_distro.sh
 
 if [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-	if [ "${glibcfix}" == "yes" ]; then 
-		fn_print_info_nl "Glibc fix: Using Glibc fix"
-		echo "	* glibc required: ${glibcrequired}"
-		echo "	* glibc installed: ${glibcversion}"
-		export LD_LIBRARY_PATH=:"${libdir}"
+	if [ "${glibcfix}" == "yes" ]; then
+		if [ "${function_selfname}" != "command_install.sh" ]; then
+			fn_print_info_nl "Glibc fix: Using Glibc fix"
+			echo "	* glibc required: ${glibcrequired}"
+			echo "	* glibc installed: ${glibcversion}"
+			fix_glibc.sh
+		fi
 	else
 		fn_print_warn_nl "Glibc fix: No Glibc fix available!"
 		echo -en "\n"
@@ -22,6 +24,7 @@ if [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)
 		echo "	* glibc installed: ${glibcversion}"
 		echo -en "\n"
 		fn_print_infomation "The game server will probably not work. A distro upgrade is required!"
+		sleep 5
 	fi
 	echo -en "\n"
 fi
