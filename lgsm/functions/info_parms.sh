@@ -18,7 +18,7 @@ zero="\e[0;31m0\e[0m"
 
 fn_info_config_idtech3(){
 	# Not Set
-	gameport=${gameport:-"NOT SET"}
+	port=${port:-"NOT SET"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	statsport=${statsport:-"0"}
@@ -146,7 +146,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 ## Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_info_config_projectzomboid
-# Quake Love
+# Quake Live
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
 # ARMA 3	
