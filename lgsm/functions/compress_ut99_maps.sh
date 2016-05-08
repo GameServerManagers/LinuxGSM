@@ -29,8 +29,7 @@ done
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
 rm -rfv "${filesdir}/Maps/"*.unr.uz
 cd "${systemdir}"
-for map in "${filesdir}/Maps/*"; do
+for map in "${filesdir}/Maps/"*; do
 	./ucc-bin compress "${map}" --nohomedir
 done
-echo "mv -fv ${filesdir}/Maps/*.unr.uz ${compressedmapsdir}"
 mv -fv "${filesdir}/Maps/"*.unr.uz "${compressedmapsdir}"

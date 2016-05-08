@@ -27,9 +27,9 @@ while true; do
 	esac
 done
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
-rm -rfv "${filesdir}/Maps/"*.uz2
+rm -rfv "${filesdir}/Maps/"*.ut2.uz2
 cd "${systemdir}"
-for map in "${filesdir}/Maps/*"; do
+for map in "${filesdir}/Maps/"*; do
 	./ucc-bin compress "${map}" --nohomedir
 done
-mv -fv "${filesdir}/Maps/"*.uz2 "${compressedmapsdir}"
+mv -fv "${filesdir}/Maps/"*.ut2.uz2 "${compressedmapsdir}"
