@@ -21,7 +21,7 @@ fn_print_infomation_nl "You are about to change the ${gamename} ServerAdmin pass
 fn_print_warning_nl "${gamename} will restart during this process."
 echo ""
 while true; do
-	read -e -i "y" -p "Continue? [y/N]" yn
+	read -e -i "y" -p "Continue? [Y/n]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; exit;;

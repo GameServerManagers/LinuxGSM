@@ -18,7 +18,7 @@ echo "Press \"CTRL+b d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo ""
 while true; do
-	read -e -i "y" -p "Continue? [y/N]" yn
+	read -e -i "y" -p "Continue? [Y/n]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return;;

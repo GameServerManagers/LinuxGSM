@@ -18,7 +18,7 @@ if [ -d "${filesdir}" ]; then
 fi
 if [ -z "${autoinstall}" ]; then	
 	while true; do
-		read -e -i "y" -p "Continue [y/N]" yn
+		read -e -i "y" -p "Continue [Y/n]" yn
 		case $yn in
 		[Yy]* ) break;;
 		[Nn]* ) exit;;

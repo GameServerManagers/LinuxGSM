@@ -16,7 +16,7 @@ fn_print_info_nl "A total of $(du -sh "${rootdir}" --exclude="${backupdir}" | aw
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
 while true; do
-	read -p "Continue? [y/N]" yn
+	read -p "Continue? [Y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return;;
@@ -30,7 +30,7 @@ if [ "${status}" != "0" ]; then
 	fn_print_warning_nl "${servicename} is currently running."
 	sleep 1
 	while true; do
-		read -p "Stop ${servicename} while running the backup? [y/N]" yn
+		read -p "Stop ${servicename} while running the backup? [Y/N]" yn
 		case $yn in
 		[Yy]* ) command_stop.sh; break;;
 		[Nn]* ) break;;
