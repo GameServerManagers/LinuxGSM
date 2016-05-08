@@ -19,7 +19,7 @@ echo ""
 echo "${compressedmapsdir}"
 echo ""
 while true; do
-	read -p "Start compression [y/N]" yn
+	read -e -i "y" -p "Start compression [Y/n]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return;;
@@ -27,9 +27,9 @@ while true; do
 	esac
 done
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
-rm -rfv "${filesdir}/Maps/*.uz2"
+rm -rfv "${filesdir}/Maps/"*.uz2
 cd "${systemdir}"
 for map in "${filesdir}/Maps/*"; do
-	./ucc-bin compress "../Maps/${map}" --nohomedir
+	./ucc-bin compress "${map}" --nohomedir
 done
-mv -fv "${filesdir}/Maps/*.uz2" "${compressedmapsdir}"
+mv -fv "${filesdir}/Maps/"*.uz2 "${compressedmapsdir}"
