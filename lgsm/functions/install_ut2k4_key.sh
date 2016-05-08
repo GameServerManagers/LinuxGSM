@@ -20,7 +20,8 @@ if [ -z "${autoinstall}" ]; then
 	read CODE
 	echo ""\""CDKey"\""="\""${CODE}"\""" > "${systemdir}/cdkey"
 	if [ -f "${systemdir}/cdkey" ]; then
-	fn_scriptlog "UT2K4 Server CD Key created"
+		fn_scriptlog "UT2K4 Server CD Key created"
+	fi	
 else
 	echo "You can add your key using the following command"
 	echo "./${selfname} server-cd-key"
