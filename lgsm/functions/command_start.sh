@@ -68,7 +68,9 @@ fn_start_tmux(){
 	if [ "${status}" == "0" ]; then
 		fn_scriptlog "Rotating log files"
 		if [ "${engine}" == "unreal2" ]; then
-			mv "${gamelog}" "${gamelogdate}"
+			if [ -f "${gamelog}" ]; then
+				mv "${gamelog}" "${gamelogdate}"
+			fi
 		fi
 		mv "${scriptlog}" "${scriptlogdate}"
 		mv "${consolelog}" "${consolelogdate}"
