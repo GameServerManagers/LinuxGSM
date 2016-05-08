@@ -28,7 +28,7 @@ fn_stop_graceful_source(){
 		fn_print_dots "Graceful: rcon quit: ${seconds}"
 	done
 	if [ "${pid}" != "0" ]; then
-		fn_print_fail "Graceful: rcon quit"
+		fn_print_fail "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Graceful: rcon quit: FAIL"
 		fn_stop_tmux
