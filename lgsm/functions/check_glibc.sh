@@ -26,5 +26,4 @@ if [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)
 		fn_print_infomation "The game server will probably not work. A distro upgrade is required!"
 		sleep 5
 	fi
-	echo -en "\n"
 fi
