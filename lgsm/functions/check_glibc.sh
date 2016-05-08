@@ -7,8 +7,8 @@ lgsm_version="020116"
 # Description: Checks if server has correct glibc or has a fix available.
 
 info_glibc.sh
+info_distro.sh
 
-glibcversion="$(ldd --version | sed -n '1s/.* //p')"
 if [ "$(printf '%s\n${glibcrequired}\n' ${glibcversion} | sort -V | head -n 1)" == "${glibcrequired}" ]; then
 	if [ "${glibcfix}" != "yes" ]; then 
 		fn_print_warn_nl "Glibc fix: No Glibc fix available!"
