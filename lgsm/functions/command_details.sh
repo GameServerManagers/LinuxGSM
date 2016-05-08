@@ -196,7 +196,7 @@ fn_details_script(){
 				if [ "${glibcfix}" == "yes" ]; then
 					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
 				else
-					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mGLIBC version too old\e[0m)"
+					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;31mGLIBC version too old\e[0m)"
 				fi
 			else
 				echo -e "\e[34mGLIBC required:\t\e[0;32m${glibcrequired}\e[0m"
