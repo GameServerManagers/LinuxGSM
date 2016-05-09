@@ -5,6 +5,7 @@
 # Import default settings
 fn_import_game_settings include/steam
 fn_import_game_settings include/parms
+fn_import_game_settings include/random
 
 # Dependencies
 fn_set_game_setting settings "arch" "x64" "Architecture to use (x86|x64)"

@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _terarria
+fn_import_game_settings engines/terraria
 
 fn_parms(){
 parms="-config ${servercfgfullpath}"
