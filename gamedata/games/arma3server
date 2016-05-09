@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _realvirtuality
+fn_import_game_settings engines/realvirtuality
 
 fn_parms(){
 parms="-netlog -ip=${ip} -port=${port} -cfg=${cfg} -config=${config} -mod=${mod} -servermod=${servermod} -bepath=${bepath} -autoinit -loadmissiontomemory"

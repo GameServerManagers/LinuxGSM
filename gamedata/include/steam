@@ -3,7 +3,7 @@
 # Steam based games
 
 # Import default settings
-fn_import_game_settings _default
+fn_import_game_settings include/default
 
 # Game Settings
 fn_set_game_setting settings "appid" "--EMPTY--" "Steam App ID"

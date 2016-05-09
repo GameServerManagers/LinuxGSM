@@ -3,8 +3,8 @@
 # Unreal 2 Engine
 
 # Import default settings
-fn_import_game_settings _steam
-fn_import_game_settings _unreal_shared
+fn_import_game_settings include/steam
+fn_import_game_settings engines/unreal_shared
 
 fn_parms(){
 	parms=""

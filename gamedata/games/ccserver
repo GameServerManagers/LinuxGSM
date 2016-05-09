@@ -3,10 +3,10 @@
 # Codename: CURE
 
 # Import SRCDS
-fn_import_game_settings _source
-#fn_import_game_settings _gslt
-#fn_import_game_settings _workshop
-#fn_import_game_settings _mapcyclefile
+fn_import_game_settings include/source
+#fn_import_game_settings include/gslt
+#fn_import_game_settings include/workshop
+#fn_import_game_settings include/mapcyclefile
 
 # Game Settings
 fn_set_game_setting settings "appid" "383410"

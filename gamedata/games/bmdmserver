@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _source
+fn_import_game_settings include/source
 
 fn_parms(){
 parms="-game bms -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${tv_port} +map ${map} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"

@@ -3,10 +3,10 @@
 # Garry's Mod Server
 
 # Import SRCDS
-fn_import_game_settings _source
-fn_import_game_settings _gslt
-fn_import_game_settings _workshop
-fn_import_game_settings _mapcyclefile
+fn_import_game_settings include/source
+fn_import_game_settings include/gslt
+fn_import_game_settings include/workshop
+fn_import_game_settings include/mapcyclefile
 
 # Add dependencies
 fn_set_game_setting dependencies  "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"

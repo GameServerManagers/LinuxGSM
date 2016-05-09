@@ -47,10 +47,10 @@ This is an example of a gamedata file for the Widgets engine. We'll call it \_wi
 
 ```bash
 # Import Steam settings
-fn_import_game_settings _steam
+fn_import_game_settings include/steam
 
 # Use + and - parameters
-fn_import_game_settings _parms_plusminus
+fn_import_game_settings include/parms_plusminus
 
 # Game Settings
 fn_set_game_setting settings "appid" "99999" "Steam App ID"

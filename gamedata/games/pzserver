@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _projectzomboid
+fn_import_game_settings engines/projectzomboid
 
 
 fn_parms(){

@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _unity3d
+fn_import_game_settings engines/unity3d
 
 # http://7daystodie.gamepedia.com/Server
 fn_parms(){

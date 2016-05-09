@@ -3,7 +3,7 @@
 # Spark Engine
 
 # Import default settings
-fn_import_game_settings _steam
+fn_import_game_settings include/steam
 
 # http://wiki.unknownworlds.com/ns2/Dedicated_Server
 fn_parms(){

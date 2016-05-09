@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _spark
+fn_import_game_settings engines/spark
 
 fn_set_game_setting settings "appid" "4940"
 fn_set_game_setting settings "map" "ns2_summit"

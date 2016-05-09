@@ -3,7 +3,7 @@
 # TeeWorlds Engine
 
 # Import default settings
-fn_import_game_settings _default
+fn_import_game_settings include/default
 
 fn_set_game_setting settings "engine" "teeworlds"
 fn_set_game_setting settings "systemdir" "\${filesdir}"

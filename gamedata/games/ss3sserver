@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _seriousengine35
+fn_import_game_settings engines/seriousengine35
 
 # https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/SeriousSam3BFE/help/DedicatedServer_Readme.txt
 fn_parms(){

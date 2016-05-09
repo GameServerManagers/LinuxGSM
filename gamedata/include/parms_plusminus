@@ -1,7 +1,7 @@
 # Game Settings File
 # _parms_plusminus
 # Parameter parsing with "+" and "-" sorting
-fn_import_game_settings _parms
+fn_import_game_settings include/parms
 # This is the way we create a script that collates and parses the parameters
 fn_parms(){
 	parms_minus="$(fn_process_parmlist "\-" ${settingsdir}/parms_minus)"

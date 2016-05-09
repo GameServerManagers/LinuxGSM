@@ -1,7 +1,7 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _steam
-fn_import_game_settings _unreal2
+fn_import_game_settings include/steam
+fn_import_game_settings engines/unreal2
 
 fn_parms(){
 parms="server ${map}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"

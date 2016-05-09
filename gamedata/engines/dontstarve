@@ -3,7 +3,7 @@
 # Don't Starve Engine
 
 # Import default settings
-fn_import_game_settings _steam
+fn_import_game_settings include/steam
 
 # And the settings for defaults
 fn_set_game_setting settings "engine" "dontstarve"

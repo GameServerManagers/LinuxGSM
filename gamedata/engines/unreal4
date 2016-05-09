@@ -3,7 +3,7 @@
 # Unreal 4 Engine
 
 # Import default settings
-fn_import_game_settings _unreal_shared
+fn_import_game_settings engines/unreal_shared
 
 fn_set_game_setting settings "systemdir" "\${filesdir}/\${game}"
 fn_set_game_setting settings "executabledir" "\${systemdir}/Binaries/Linux"

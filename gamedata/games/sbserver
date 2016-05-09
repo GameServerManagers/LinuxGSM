@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _starbound
+fn_import_game_settings engines/starbound
 
 fn_parms(){
 parms=""

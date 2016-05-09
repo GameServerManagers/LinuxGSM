@@ -1,7 +1,7 @@
 # Game Settings File
 # qlserver
 # Quake Live
-fn_import_game_settings _idtech3
+fn_import_game_settings engines/idtech3
 
 fn_set_game_setting settings "appid" "349090"
 fn_set_game_setting settings "gamename" "Quake Live"

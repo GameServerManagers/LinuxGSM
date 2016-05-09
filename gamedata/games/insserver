@@ -3,8 +3,8 @@
 # Insurgency Dedicated Server
 
 # Import Source Engine
-fn_import_game_settings _source
-fn_import_game_settings _mapcyclefile
+fn_import_game_settings include/source
+fn_import_game_settings include/mapcyclefile
 
 # Dependencies
 fn_set_game_setting dependencies  "libc.so.6" "c856f3fcac0a944a36e723b06bdbeb7e"

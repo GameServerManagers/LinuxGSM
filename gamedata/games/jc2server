@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _avalanche
+fn_import_game_settings engines/avalanche
 
 fn_parms(){
 parms=""

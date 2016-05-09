@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _unreal
+fn_import_game_settings engines/unreal
 
 fn_parms(){
 parms="server ${map}.unr ini=${servercfgfullpath}"

@@ -3,7 +3,7 @@
 # Serious Engine 3.5
 
 # Import default settings
-fn_import_game_settings _steam
+fn_import_game_settings include/steam
 
 # Dependencies
 fn_set_game_setting settings "dependency_path" "\${filesdir}/Bin"

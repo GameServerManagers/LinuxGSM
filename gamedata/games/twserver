@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _teeworlds
+fn_import_game_settings engines/teeworlds
 
 fn_parms(){
 parms="-f ${servercfgfullpath}"

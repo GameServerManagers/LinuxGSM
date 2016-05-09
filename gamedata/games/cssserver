@@ -3,8 +3,8 @@
 # Counter-Strike: Source Dedicated Server
 
 # Import SRCDS
-fn_import_game_settings _source
-fn_import_game_settings _mapcyclefile
+fn_import_game_settings include/source
+fn_import_game_settings include/mapcyclefile
 # Override some server settings
 fn_parms(){
 parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${tv_port} +map ${map} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"

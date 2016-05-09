@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _goldsource
+fn_import_game_settings engines/goldsource
 
 fn_set_game_setting settings "appid" "276060"
 fn_set_game_setting settings "map" "svencoop1"

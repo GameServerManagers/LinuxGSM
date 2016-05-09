@@ -3,8 +3,8 @@
 # id Tech 3
 
 # Import default settings
-fn_import_game_settings _steam
-fn_import_game_settings _parms
+fn_import_game_settings include/steam
+fn_import_game_settings include/parms
 
 # Dependencies
 fn_set_game_setting settings "arch" "x64" "Architecture to use (x86|x64)"

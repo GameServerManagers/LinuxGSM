@@ -1,10 +1,10 @@
 # Game Settings File
-# _avalanche
+# engines/avalanche
 # Avalanche Engine
 
-fn_import_game_settings _steam
-fn_import_game_settings _sourcetv
-fn_import_game_settings _tickrate
+fn_import_game_settings include/steam
+fn_import_game_settings include/sourcetv
+fn_import_game_settings include/tickrate
 
 # Dependencies
 fn_set_game_setting dependencies  "libstdc++.so.6" "4f9c911de2276f988afaf47659a8367f"

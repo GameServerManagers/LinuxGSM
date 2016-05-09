@@ -3,9 +3,9 @@
 # Half-Life Shared Engine (Source and GoldSource)
 
 # Import default settings
-fn_import_game_settings _steam
-fn_import_game_settings _parms_plusminus
-fn_import_game_settings _tickrate
+fn_import_game_settings include/steam
+fn_import_game_settings include/parms_plusminus
+fn_import_game_settings include/tickrate
 
 # Dependencies
 fn_set_game_setting settings "dependency_path" "\${filesdir}/bin"

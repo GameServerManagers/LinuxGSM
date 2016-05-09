@@ -3,7 +3,7 @@
 # Source Engine
 
 # Import default settings
-fn_import_game_settings _halflife_shared
+fn_import_game_settings engines/halflife_shared
 
 # And the settings for defaults
 fn_set_game_setting settings "engine" "source" "Game Engine"

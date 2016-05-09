@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings _goldsource
+fn_import_game_settings engines/goldsource
 
 fn_parms(){
 parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${map} -maxplayers ${maxplayers}"

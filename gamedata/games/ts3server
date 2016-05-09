@@ -3,7 +3,7 @@
 # TeamSpeak 3 Server
 
 # Import default settings
-fn_import_game_settings _default
+fn_import_game_settings include/default
 
 fn_set_game_setting settings "gamename" "TeamSpeak 3"
 fn_set_game_setting settings "servername" "TeamSpeak 3 Server"
