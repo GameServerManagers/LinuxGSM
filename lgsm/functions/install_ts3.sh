@@ -46,6 +46,9 @@ if [ -z "${availablebuild}" ]; then
 	exit 1
 fi
 
+echo ""
+echo "Installing ${gamename} Server"
+echo "================================="
 cd "${rootdir}"
 echo -e "downloading teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2...\c"
 wget -N /dev/null http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2 2>&1 | grep -F HTTP | cut -c45-| uniq
