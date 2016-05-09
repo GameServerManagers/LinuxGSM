@@ -174,11 +174,11 @@ fn_fix_game_dependencies() {
 }
 
 
-# Flush old setings buffer
-fn_flush_game_settings
-
 # Get the checksum of the current settings file to compare after loading gamedata
 settings_file_md5="$(fn_get_md5sum "${settings_file}")"
+
+# Flush old setings buffer
+fn_flush_game_settings
 
 # Import this game's settings
 fn_import_game_settings "games/${selfname}/gamedata"
