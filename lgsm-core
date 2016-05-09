@@ -8,7 +8,7 @@
 # https://github.com/jaredballou/linuxgsm
 
 # Version of script
-version="300116"
+version="090516"
 
 # Filename of the core script for installation
 core_script="lgsm-core"
@@ -164,10 +164,10 @@ fn_get_file(){
 			cmd="$fetchcmd -O"
 		fi
 		fetch=$($cmd "${filepath}" "${fileurl}" 2>&1)
-		if [ "${exec}" == "run" ] || [ "${exec}" == "exec" ] || [ "${exec}" == "1" ] || [ "${exec}" != "noexec" ] || [ "${exec}" != "norun" ]; then
-			chmod +x "${filepath}"
-		fi
 		fn_colortext 32 "DONE"
+	fi
+	if [ "${exec}" == "run" ] || [ "${exec}" == "exec" ] || [ "${exec}" == "1" ] || [ "${exec}" != "noexec" ] || [ "${exec}" != "norun" ]; then
+		chmod +x "${filepath}"
 	fi
 	if [ "${exec}" == "run" ] || [ "${exec}" == "exec" ] || [ "${exec}" == "1" ]; then
 		source "${filepath}"

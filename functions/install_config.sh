@@ -3,15 +3,24 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 
-# Download default config from GitHub if needed
-fn_fetch_config(){
+# Get all default config files for this game
+fn_fetch_config_files() {
+	for cfg in $servercfgdefault $cfgfiles; do
+		src="$(echo "${cfg}" | cut -d':' -f1)"
+		dst="$(echo "${cfg}" | cut -d':' -f2-)"
+		fn_fetch_config_from_github "${src}" "${dst}"
+	done
 }
 
-# Get all default config files for this game
-fn_fetch_configs_from_github() {
-	echo "${servercfgdefault} ${cfgfiles}"
+fn_fetch_config_from_github() {
+	src="${1}"
+	dst="${2}"
+	if [ "${dst}" == "" ]; then
+		dst="${src}"
+	fi
+	dst="$(echo "${dst}" | sed -e "s/lgsm-default/${servicename}/g")"
+	fn_getgithubfile "${servercfgdir}/${dst}" norun "gamedata/games/${selfname}/cfg/${src}"
 }
-fn_fetch_configs_from_github
 
 
 
@@ -151,15 +160,17 @@ fn_unreal2config(){
 }
 
 echo ""
-if [ "${gamename}" != "Hurtworld" ]; then
-	echo "Creating Configs"
-	echo "================================="
-	sleep 1
-	mkdir -pv "${servercfgdir}"
-	cd "${servercfgdir}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
-fi
+echo "Creating Configs"
+echo "================================="
+sleep 1
 
+# Fetch game config files from GitHub
+fn_fetch_config_files
+
+
+# TODO: Forklift specific logic for each game into gamedata
+
+fn_disabled_config_stuff() {
 if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_defaultconfig
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
@@ -328,3 +339,4 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fn_ut99config
 fi
+}
