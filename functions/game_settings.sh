@@ -181,7 +181,7 @@ fn_flush_game_settings
 settings_file_md5="$(fn_get_md5sum "${settings_file}")"
 
 # Import this game's settings
-fn_import_game_settings $selfname
+fn_import_game_settings "games/${selfname}/gamedata"
 
 # Compare the original MD5 hash with the settings file now that we have processed all gamedata.\
 # If there is a change or the config is missing, rebuild the default config
@@ -200,8 +200,7 @@ if [ ! -f $cfg_file_instance ]; then fn_create_config instance; else source $cfg
 
 # Import mod
 if [ "${game_mod}" != "" ]; then
-	modfile="mods/${selfname}/${game_mod}"
-	echo $modfile
+	modfile="games/${selfname}/mods/${game_mod}"
 	fn_set_game_setting settings "game_mod" "${game_mod}"
 	fn_import_game_settings "${modfile}"
 fi
