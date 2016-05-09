@@ -27,7 +27,7 @@ function fn_get_git_hash(){
 }
 
 
-fn_githget_ub_manifest(){
+fn_get_github_manifest(){
 	# Create cache directory if missing
 	if [ ! -e "${cachedir}" ]
 	then

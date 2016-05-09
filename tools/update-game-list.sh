@@ -3,7 +3,7 @@ GAMEDATA=../gamedata
 MODDATA=${GAMEDATA}/mods
 GAMELIST=${GAMEDATA}/__game_list
 MODLIST=${GAMEDATA}/__mod_list
-GAMEFILES=$(find "${GAMEDATA}" -maxdepth 1 -type f | egrep -v '(\/_|README.md)')
+GAMEFILES=$(find "${GAMEDATA}/games" -maxdepth 1 -type f | egrep -v '(\/_|README.md)')
 #-printf '"%p" ')
 MODFILES=$(find "${MODDATA}" -type f)
 # -printf '"%p" ')
