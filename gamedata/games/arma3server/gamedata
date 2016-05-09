@@ -3,7 +3,7 @@
 fn_import_game_settings engines/realvirtuality
 
 fn_parms(){
-parms="-netlog -ip=${ip} -port=${port} -cfg=${cfg} -config=${config} -mod=${mod} -servermod=${servermod} -bepath=${bepath} -autoinit -loadmissiontomemory"
+	parms="-netlog -ip=${ip} -port=${port} -cfg=${cfg} -config=${config} -mod=${mod} -servermod=${servermod} -bepath=${bepath} -autoinit -loadmissiontomemory"
 }
 
 # Game Settings
@@ -12,17 +12,17 @@ fn_set_game_setting settings "gamename" "Arma 3"
 fn_set_game_setting settings "executabledir" "\${filesdir}"
 fn_set_game_setting settings "executable" "./arma3server"
 fn_set_game_setting settings "servercfg" "\${servicename}.server.cfg"
-fn_set_game_setting settings "networkcfg" "\${servicename}.network.cfg" "Network Config"
+fn_set_game_setting settings "networkcfg" "\${servicename}.network.cfg"
+fn_set_game_setting settings "cfgfiles" "lgsm-default.network.cfg:\${networkcfg}"
 fn_set_game_setting settings "servercfgdir" "\${systemdir}/cfg"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
 fn_set_game_setting settings "networkcfgfullpath" "\${servercfgdir}/\${networkcfg}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.server.cfg"
-fn_set_game_setting settings "networkcfgdefault" "\${servercfgdir}/lgsm-default.network.cfg" "Default Network Config File"
+fn_set_game_setting settings "servercfgdefault" "lgsm-default.server.cfg"
 
 # Game Parms
 fn_set_game_parm parms_minus "netlog" " " "Net Logging"
 fn_set_game_parm parms_minus "port" "2302"
-fn_set_game_parm parms_minus "cfg" "\${servercfgdir}/lgsm-default.network.cfg" "Network Config File"
+fn_set_game_parm parms_minus "cfg" "\${networkcfgfullpath}" "Network Config File"
 fn_set_game_parm parms_minus "config" "\${servercfgfullpath}" "Server Config File"
 fn_set_game_parm parms_minus "mod" "--EMPTY--" "List of mods to use"
 fn_set_game_parm parms_minus "servermod" "--EMPTY--" "Server Mods"

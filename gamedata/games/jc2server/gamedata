@@ -8,3 +8,4 @@ parms=""
 
 fn_set_game_setting settings "appid" "261140"
 fn_set_game_setting settings "gamename" "Just Cause 2"
+fn_set_game_setting settings "servercfg_suffix" ".lua"

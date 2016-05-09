@@ -20,5 +20,5 @@ fn_set_game_setting settings "executable" "./Jcmp-Server"
 fn_set_game_setting settings "servercfg" "config.lua"
 fn_set_game_setting settings "servercfgdir" "\${filesdir}"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/default_config.lua"
+fn_set_game_setting settings "servercfgdefault" "default_config.lua"
 

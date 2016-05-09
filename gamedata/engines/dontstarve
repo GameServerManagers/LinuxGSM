@@ -17,5 +17,5 @@ fn_set_game_setting settings "executable" "./dontstarve_dedicated_server_nullren
 fn_set_game_setting settings "servercfg" "settings.ini"
 fn_set_game_setting settings "servercfgdir" "\${HOME}/.klei/DoNotStarveTogether"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
+fn_set_game_setting settings "servercfg_suffix" ".ini"
 

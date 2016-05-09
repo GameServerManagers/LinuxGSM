@@ -70,31 +70,27 @@ fn_runfunction "${FUNCNAME}"
 }
 
 command_stop.sh(){
-fn_runfunction "${FUNCNAME}"
-
+	fn_runfunction "${FUNCNAME}"
 }
 
 command_validate.sh(){
-fn_runfunction "${FUNCNAME}"
-
+	fn_runfunction "${FUNCNAME}"
 }
 
 command_install.sh(){
-fn_runfunction "${FUNCNAME}"
-
+	fn_runfunction "${FUNCNAME}"
 }
 
 command_ts3_server_pass.sh(){
-fn_runfunction "${FUNCNAME}"
-
+	fn_runfunction "${FUNCNAME}"
 }
 
 fn_restart(){
-local modulename="Restarting"
-info_config.sh
-fn_scriptlog "${servername}"
-command_stop.sh
-command_start.sh
+	local modulename="Restarting"
+	info_config.sh
+	fn_scriptlog "${servername}"
+	command_stop.sh
+	command_start.sh
 }
 
 

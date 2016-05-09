@@ -3,7 +3,7 @@
 fn_import_game_settings engines/teeworlds
 
 fn_parms(){
-parms="-f ${servercfgfullpath}"
+	parms="-f ${servercfgfullpath}"
 }
 
 fn_set_game_setting settings "appid" "380840"
@@ -15,4 +15,9 @@ fn_set_game_setting settings "executable" "./teeworlds_srv"
 fn_set_game_setting settings "servercfg" "\${servicename}.cfg"
 fn_set_game_setting settings "servercfgdir" "\${filesdir}"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
+
+fn_set_game_setting settings "cfgfiles" "ctf.cfg dm.cfg duel.cfg tdm.cfg"
+fn_set_game_setting cfgfiles "ctf.cfg"
+fn_set_game_setting cfgfiles "dm.cfg"
+fn_set_game_setting cfgfiles "duel.cfg"
+fn_set_game_setting cfgfiles "tdm.cfg"

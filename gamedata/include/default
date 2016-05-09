@@ -38,7 +38,7 @@ fn_set_game_setting settings "executable" "--EMPTY--" "Executable to invoke to s
 
 fn_set_game_setting settings "servercfgdir" "\${systemdir}/cfg" "Server config directory"
 fn_set_game_setting settings "servercfg" "\${servicename}\${servercfg_suffix}" "Server config file for this instance"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default\${servercfg_suffix}" "Default server configuration file"
+fn_set_game_setting settings "servercfgdefault" "lgsm-default\${servercfg_suffix}" "Default server configuration file"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}" "Full path to server config"
 
 # Set the default settings for the script

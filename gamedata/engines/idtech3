@@ -16,7 +16,6 @@ fn_set_game_setting settings "executable" "./run_server_\${arch}.sh"
 fn_set_game_setting settings "servercfg" "\${servicename}.cfg"
 fn_set_game_setting settings "servercfgdir" "\${filesdir}/baseq3"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
 
 # Game Parameters
 fn_set_game_parm parms_set "net_strict" "1" "Net Strict"

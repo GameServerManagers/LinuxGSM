@@ -65,7 +65,6 @@ fn_set_game_setting settings "executable" "./widgets_server"
 fn_set_game_setting settings "servercfg" "\${servicename}.cfg"
 fn_set_game_setting settings "servercfgdir" "\${systemdir}/cfg"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.cfg"
 
 # Game Parameters
 fn_set_game_parm parms_minus "tickrate" "66" "Server tickrate"

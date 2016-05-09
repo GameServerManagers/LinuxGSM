@@ -3,6 +3,18 @@
 # Author: Daniel Gibbs
 # Website: http://gameservermanagers.com
 
+# Download default config from GitHub if needed
+fn_fetch_config(){
+}
+
+# Get all default config files for this game
+fn_fetch_configs_from_github() {
+	echo "${servercfgdefault} ${cfgfiles}"
+}
+fn_fetch_configs_from_github
+
+
+
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
 	cp -v "${servercfgdefault}" "${servercfgfullpath}"
@@ -10,140 +22,139 @@ fn_defaultconfig(){
 }
 
 fn_userinputconfig(){
-# allow user to input server name and password
-if [ -z "${autoinstall}" ]; then
+	# allow user to input server name and password
+	if [ -z "${autoinstall}" ]; then
+		echo ""
+		echo "Configuring ${gamename} Server"
+		echo "================================="
+		sleep 1
+		read -p "Enter server name: " servername
+		read -p "Enter rcon password: " rconpass
+	else
+		servername="${servicename}"
+		rconpass="rconpassword"
+	fi
+	echo "changing hostname."
+	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
+	sleep 1
+	echo "changing rconpassword."
+	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
+	sleep 1
+}
+
+fn_arma3config(){
+	fn_defaultconfig
+	echo "creating ${networkcfg} config file."
+	cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
+	sleep 1
+	echo ""
+}
+
+fn_goldsourceconfig(){
+	fn_defaultconfig
+	# server.cfg redirects to ${servercfg} for added security
+	echo "creating server.cfg."
+	touch "server.cfg"
+	sleep 1
+	echo "creating redirect."
+	echo "server.cfg > ${servercfg}."
+	echo "exec ${servercfg}" > "server.cfg"
+	sleep 1
+
+	# creating other files required
+	echo "creating listip.cfg."
+	touch "${systemdir}/listip.cfg"
+	sleep 1
+	echo "creating banned.cfg."
+	touch "${systemdir}/banned.cfg"
+	sleep 1
+
+	fn_userinputconfig
+	echo ""
+}
+
+fn_serious3config(){
+	fn_defaultconfig
+	echo ""
+	echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
+	echo "http://mrag.nl/sgui3/"
+	sleep 1
+	echo ""
+}
+
+fn_sourceconfig(){
+	fn_defaultconfig
+
+	# server.cfg redirects to ${servercfg} for added security
+	echo "creating server.cfg."
+	touch "server.cfg"
+	sleep 1
+	echo "creating redirect."
+	echo "server.cfg > ${servercfg}."
+	echo "exec ${servercfg}" > "server.cfg"
+	sleep 1
+
+	fn_userinputconfig
+	echo ""
+}
+
+fn_teeworldsconfig(){
+	fn_defaultconfig
+
+	echo "adding logfile location to config."
+	sed -i "s@\"<logfile>\"@\"${gamelog}\"@g" "${servercfgfullpath}"
+	sleep 1
+	echo "removing password holder."
+	sed -i "s/<password>//" "${servercfgfullpath}"
+	sleep 1
+
+	fn_userinputconfig
+	echo ""
+}
+
+fn_ut99config(){
+	echo "${defaultcfg} > ${servercfgfullpath}"
+	tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
+	sleep 1
 	echo ""
 	echo "Configuring ${gamename} Server"
 	echo "================================="
 	sleep 1
-	read -p "Enter server name: " servername
-	read -p "Enter rcon password: " rconpass
-else
-	servername="${servicename}"
-	rconpass="rconpassword"
-fi
-echo "changing hostname."
-sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
-sleep 1
-echo "changing rconpassword."
-sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
-sleep 1
-}
-
-fn_arma3config(){
-fn_defaultconfig
-echo "creating ${networkcfg} config file."
-cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
-sleep 1
-echo ""
-}
-
-fn_goldsourceconfig(){
-fn_defaultconfig
-
-# server.cfg redirects to ${servercfg} for added security
-echo "creating server.cfg."
-touch "server.cfg"
-sleep 1
-echo "creating redirect."
-echo "server.cfg > ${servercfg}."
-echo "exec ${servercfg}" > "server.cfg"
-sleep 1
-
-# creating other files required
-echo "creating listip.cfg."
-touch "${systemdir}/listip.cfg"
-sleep 1
-echo "creating banned.cfg."
-touch "${systemdir}/banned.cfg"
-sleep 1
-
-fn_userinputconfig
-echo ""
-}
-
-fn_serious3config(){
-fn_defaultconfig
-echo ""
-echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
-echo "http://mrag.nl/sgui3/"
-sleep 1
-echo ""
-}
-
-fn_sourceconfig(){
-fn_defaultconfig
-
-# server.cfg redirects to ${servercfg} for added security
-echo "creating server.cfg."
-touch "server.cfg"
-sleep 1
-echo "creating redirect."
-echo "server.cfg > ${servercfg}."
-echo "exec ${servercfg}" > "server.cfg"
-sleep 1
-
-fn_userinputconfig
-echo ""
-}
-
-fn_teeworldsconfig(){
-fn_defaultconfig
-
-echo "adding logfile location to config."
-sed -i "s@\"<logfile>\"@\"${gamelog}\"@g" "${servercfgfullpath}"
-sleep 1
-echo "removing password holder."
-sed -i "s/<password>//" "${servercfgfullpath}"
-sleep 1
-
-fn_userinputconfig
-echo ""
-}
-
-fn_ut99config(){
-echo "${defaultcfg} > ${servercfgfullpath}"
-tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
-sleep 1
-echo ""
-echo "Configuring ${gamename} Server"
-echo "================================="
-sleep 1
-echo "enabling WebAdmin."
-sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
-sleep 1
-echo "setting WebAdmin port to 8076."
-sed -i '467i\ListenPort=8076' "${servercfgfullpath}"
-sleep 1
-echo ""
+	echo "enabling WebAdmin."
+	sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
+	sleep 1
+	echo "setting WebAdmin port to 8076."
+	sed -i '467i\ListenPort=8076' "${servercfgfullpath}"
+	sleep 1
+	echo ""
 }
 
 fn_unreal2config(){
-fn_defaultconfig
-echo ""
-echo "Configuring ${gamename} Server"
-echo "================================="
-sleep 1
-echo "setting WebAdmin username and password."
-sed -i 's/AdminName=/AdminName=admin/g' "${servercfgfullpath}"
-sed -i 's/AdminPassword=/AdminPassword=admin/g' "${servercfgfullpath}"
-sleep 1
-echo "enabling WebAdmin."
-sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
-if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	fn_defaultconfig
+	echo ""
+	echo "Configuring ${gamename} Server"
+	echo "================================="
 	sleep 1
-	echo "setting WebAdmin port to 8075."
-	sed -i 's/ListenPort=80/ListenPort=8075/g' "${servercfgfullpath}"
-fi
-sleep 1
-echo ""
+	echo "setting WebAdmin username and password."
+	sed -i 's/AdminName=/AdminName=admin/g' "${servercfgfullpath}"
+	sed -i 's/AdminPassword=/AdminPassword=admin/g' "${servercfgfullpath}"
+	sleep 1
+	echo "enabling WebAdmin."
+	sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
+	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+		sleep 1
+		echo "setting WebAdmin port to 8075."
+		sed -i 's/ListenPort=80/ListenPort=8075/g' "${servercfgfullpath}"
+	fi
+	sleep 1
+	echo ""
 }
 
 echo ""
 if [ "${gamename}" != "Hurtworld" ]; then
-echo "Creating Configs"
-echo "================================="
-sleep 1
+	echo "Creating Configs"
+	echo "================================="
+	sleep 1
 	mkdir -pv "${servercfgdir}"
 	cd "${servercfgdir}"
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"

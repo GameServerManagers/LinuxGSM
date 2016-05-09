@@ -12,7 +12,7 @@ fn_set_game_setting settings "executabledir" "\${filesdir}"
 fn_set_game_setting settings "executable" "./ts3server_startscript.sh"
 fn_set_game_setting settings "servercfg" "\${servicename}.ini"
 fn_set_game_setting settings "servercfgdir" "\${filesdir}"
-fn_set_game_setting settings "servercfgdefault" "\${servercfgdir}/lgsm-default.ini"
+fn_set_game_setting settings "servercfg_suffix" ".ini"
 
 fn_set_game_setting scriptactions "pw" "change-password|command_ts3_server_pass.sh|Change Password."
 

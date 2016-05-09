@@ -12,7 +12,7 @@ fn_set_game_setting settings "servercfgdir" "${systemdir}"
 fn_set_game_setting settings "servercfg" "${servicename}.ini"
 fn_set_game_setting settings "executable" "./ucc-bin"
 fn_set_game_setting settings "servercfgfullpath" "${servercfgdir}/${servercfg}"
-fn_set_game_setting settings "servercfgdefault" "${servercfgdir}/Default.ini"
+fn_set_game_setting settings "servercfgdefault" "Default.ini"
 fn_set_game_setting settings "compressedmapsdir" "${rootdir}/Maps-Compressed" "Compressed Maps Directory"
 
 fn_set_game_setting scriptactions "c" "console|command_console.sh|Console View."
