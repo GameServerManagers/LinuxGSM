@@ -9,19 +9,25 @@ lgsm_version="020116"
 info_glibc.sh
 info_distro.sh
 
-if [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
+if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
+	:
+elif [ "${glibcrequired}" == "UNKNOWN" ]; then
+		fn_print_info_nl "Glibc fix: \e[0;32m${glibcrequired}\e[0m"
+		echo "	* glibc required: \e[0;31m${glibcrequired}\e[0m"
+		echo "	* glibc installed: ${glibcversion}"
+elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" == "yes" ]; then
 		if [ "${function_selfname}" != "command_install.sh" ]; then
-			fn_print_info_nl "Glibc fix: Using Glibc fix"
-			echo "	* glibc required: ${glibcrequired}"
+			fn_print_info_nl "Glibc fix: \e[0;32mUsing Glibc fix\e[0m"
+			echo "	* glibc required: \e[0;31m${glibcrequired}\e[0m"
 			echo "	* glibc installed: ${glibcversion}"
 			fix_glibc.sh
 		fi
 	else
-		fn_print_warn_nl "Glibc fix: No Glibc fix available!"
+		fn_print_warn_nl "Glibc fix: \e[0;31mNo Glibc fix available!\e[0m"
 		echo -en "\n"
 		echo "	* glibc required: ${glibcrequired}"
-		echo "	* glibc installed: ${glibcversion}"
+		echo "	* glibc installed: \e[0;31m${glibcversion}\e[0m"
 		echo -en "\n"
 		fn_print_infomation "The game server will probably not work. A distro upgrade is required!"
 		sleep 5
