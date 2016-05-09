@@ -35,5 +35,5 @@ else
 	echo "================================="
 	sleep 1
 	fn_fix_game_dependencies
-	fix_glibc.sh
+	#fix_glibc.sh
 fi
