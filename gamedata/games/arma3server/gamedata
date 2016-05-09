@@ -18,7 +18,7 @@ fn_set_game_setting settings "servercfgdir" "\${systemdir}/cfg"
 fn_set_game_setting settings "servercfgfullpath" "\${servercfgdir}/\${servercfg}"
 fn_set_game_setting settings "networkcfgfullpath" "\${servercfgdir}/\${networkcfg}"
 fn_set_game_setting settings "servercfgdefault" "lgsm-default.server.cfg"
-
+fn_set_game_setting settings "steamauth" "user"
 # Game Parms
 fn_set_game_parm parms_minus "netlog" " " "Net Logging"
 fn_set_game_parm parms_minus "port" "2302"

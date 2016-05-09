@@ -14,3 +14,4 @@ parms="server ${map}?game=KFmod.KFGameType?VACSecured=true -nohomedir ini=${serv
 fn_set_game_setting settings "appid" "215360"
 fn_set_game_setting settings "map" "KF-BioticsLab.rom"
 fn_set_game_setting settings "gamename" "Killing Floor"
+fn_set_game_setting settings "steamauth" "user"

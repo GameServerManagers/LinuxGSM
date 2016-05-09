@@ -9,6 +9,7 @@ fn_import_game_settings include/default
 fn_set_game_setting settings "appid" "--EMPTY--" "Steam App ID"
 fn_set_game_setting settings "steampass" "--EMPTY--" "Steam Password"
 fn_set_game_setting settings "steamuser" "anonymous" "Steam Username"
+fn_set_game_setting settings "steamauth" "anonymous" "Steam Authentication Required (anonymous or user)"
 fn_set_game_setting settings "updateonstart" "off" "Update game on start"
 
 # Script actions

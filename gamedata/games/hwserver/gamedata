@@ -18,7 +18,7 @@ fn_set_game_setting settings "map" "--EMPTY--" "Optional"
 fn_set_game_setting settings "creativemode" "0" "Free Build"
 fn_set_game_setting settings "logfile" "gamelog.txt"
 fn_set_game_setting settings "admins" "--EMPTY--" "Adding admins using STEAMID64. Example : addadmin 012345678901234567; addadmin 987654321098765432"
-
+fn_set_game_setting settings "steamauth" "user"
 fn_set_game_setting settings "loadsave" "--EMPTY--" "Rollback server state (remove after start command)"
 fn_set_game_setting settings "x64mode" "0" "Use unstable 64 bit server executable (O/1)"
 fn_set_game_setting settings "filesdir" "${rootdir}/serverfiles"

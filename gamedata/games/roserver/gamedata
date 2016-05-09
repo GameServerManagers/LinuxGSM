@@ -14,3 +14,4 @@ fn_set_game_setting settings "map" "RO-Arad.rom"
 # Lower Case wtf?
 fn_set_game_setting settings "systemdir" "${filesdir}/system"
 fn_set_game_setting settings "servercfgdefault" "default.ini"
+fn_set_game_setting settings "steamauth" "user"
