@@ -3,7 +3,7 @@
 # Insurgency Dedicated Server
 
 # Import Source Engine
-fn_import_game_settings include/source
+fn_import_game_settings engines/source
 fn_import_game_settings include/mapcyclefile
 
 # Dependencies

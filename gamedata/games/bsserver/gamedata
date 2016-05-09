@@ -1,6 +1,6 @@
 # Game Settings File
 # Import Engine
-fn_import_game_settings include/source
+fn_import_game_settings engines/source
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){

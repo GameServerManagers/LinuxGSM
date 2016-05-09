@@ -3,7 +3,7 @@
 # Counter-Strike: Source Dedicated Server
 
 # Import SRCDS
-fn_import_game_settings include/source
+fn_import_game_settings engines/source
 fn_import_game_settings include/mapcyclefile
 # Override some server settings
 fn_parms(){
