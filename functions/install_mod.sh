@@ -3,6 +3,8 @@
 # Author: Jared Ballou
 # Website: http://gameservermanagers.com
 
+# TODO: Fix this to use the new hierarchial mod structure
+
 # Description: Display menu of available mods, and add them to game settings
 
 # Perform installation
