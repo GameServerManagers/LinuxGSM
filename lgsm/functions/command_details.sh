@@ -190,7 +190,9 @@ fn_details_script(){
 
 		# GLIBC required
 		if [ -n "${glibcrequired}" ]; then
-			if [ "${glibcrequired}" == "UNKNOWN" ]; then
+			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
+					:
+			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
 				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}"
 			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 				if [ "${glibcfix}" == "yes" ]; then
