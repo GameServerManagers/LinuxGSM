@@ -109,22 +109,21 @@ fn_runfunction
 core_functions.sh
 
 fn_currentstatus_tmux(){
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-if [ "${pid}" != "0" ]; then
-	currentstatus="ONLINE"
-else
-	currentstatus="OFFLINE"	
-fi
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		currentstatus="ONLINE"
+	else
+		currentstatus="OFFLINE"	
+	fi
 }
 
 fn_currentstatus_ts3(){
-ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
-
-if [ "${ts3status}" == "Server is running" ]; then
-	currentstatus="ONLINE"
-else
-	currentstatus="OFFLINE"	
-fi
+check_status.sh
+	if [ "${status}" != "0" ]; then
+		currentstatus="ONLINE"
+	else
+		currentstatus="OFFLINE"	
+	fi
 }
 	
 fn_setstatus(){
