@@ -14,7 +14,7 @@ chmod +x gsquery.py
 if [ "${engine}" == "avalanche" ]||[ "${engine}" == "goldsource" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "realvirtuality" ]||[ "${engine}" == "source" ]||[ "${engine}" == "spark" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Hurtworld" ]||[ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	echo ""
 	echo "GameServerQuery"
-	echo "============================"
+	echo "================================="
 	if [ -z ${autoinstall} ]; then
 		while true; do
 			read -e -i "y" -p "Do you want to install GameServerQuery? [Y/n]" yn

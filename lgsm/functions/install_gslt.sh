@@ -10,7 +10,7 @@ local modulename="Install"
 
 echo ""
 echo "Game Server Login Token"
-echo "============================"
+echo "================================="
 sleep 1
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	echo "GSLT is required to run a public ${gamename} server"

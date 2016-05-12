@@ -14,7 +14,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_serveradmin_password_prompt(){
 echo ""
 echo "${gamename} ServerAdmin Password Change"
-echo "============================"
+echo "================================="
 echo ""
 echo "Press \"CTRL+b d\" to exit console."
 fn_print_infomation_nl "You are about to change the ${gamename} ServerAdmin password."

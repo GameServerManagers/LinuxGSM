@@ -15,7 +15,7 @@ info_distro.sh
 fn_parms
 echo ""
 echo "${gamename} Debug"
-echo "============================"
+echo "================================="
 echo ""
 echo -e "Distro: ${os}"
 echo -e "Arch: ${arch}"

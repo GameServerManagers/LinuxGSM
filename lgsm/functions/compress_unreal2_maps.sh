@@ -9,7 +9,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 clear
 echo "${gamename} Map Compressor"
-echo "============================"
+echo "================================="
 echo "Will compress all maps in:"
 echo ""
 pwd
