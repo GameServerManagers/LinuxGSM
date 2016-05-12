@@ -36,7 +36,7 @@ parms=""
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="dlmanage"
+githubbranch="master"
 
 # Steam
 appid="261140"
