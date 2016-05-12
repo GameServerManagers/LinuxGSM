@@ -54,8 +54,8 @@ sleep 1
 # Running functions
 check.sh
 fn_serveradmin_password_prompt
-info_ts3status.sh
-if [ "${ts3status}" == "Server is running" ]; then
+check_status.sh
+if [ "${status}" != "0" ]; then
 	fn_serveradmin_password_set
 	command_start.sh
 else

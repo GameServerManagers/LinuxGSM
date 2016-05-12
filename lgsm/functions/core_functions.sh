@@ -329,12 +329,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-info_ts3status.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-
 # Email
 
 email.sh(){
