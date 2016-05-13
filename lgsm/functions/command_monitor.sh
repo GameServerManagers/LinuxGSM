@@ -22,7 +22,7 @@ fn_monitor_check_lockfile(){
 
 fn_monitor_check_update(){
 	# Monitor will not check if update is running.
-	if [ "$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)" >= "1" ]; then
+	if [ "$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)" != "0" ]; then
 		fn_print_info_nl "SteamCMD is currently checking for updates"
 		fn_scriptlog "SteamCMD is currently checking for updates"
 		sleep 1
@@ -68,7 +68,7 @@ fn_monitor_teamspeak3(){
 fn_monitor_tmux(){
 	# checks that tmux session is running
 	if [ "${status}" != "0" ]; then
-		fn_print_ok "Checking session: OK"
+		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_scriptlog "Checking session: OK"
 		# runs gsquery check on game with specific engines.
