@@ -64,6 +64,7 @@ executable="./start-server.sh"
 servercfg="servertest.ini"
 servercfgdir="${HOME}/Zomboid/Server"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging
