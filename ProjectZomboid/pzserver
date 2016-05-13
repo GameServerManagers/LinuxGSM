@@ -42,6 +42,9 @@ githubbranch="master"
 
 # Steam
 appid="380870"
+# Allows for opting into the various Steam branches that PZ has to offer
+# Example: -beta iwillbackupmysave -betapassword iaccepttheconsequences
+branch=""
 
 # Server Details
 servicename="pz-server"
