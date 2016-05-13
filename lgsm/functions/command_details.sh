@@ -441,13 +441,11 @@ fn_details_teeworlds(){
 }
 
 	fn_details_terraria(){
-	echo -e "netstat -atunp | grep terraia"
+	echo -e "netstat -atunp | grep TerrariaServer"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
