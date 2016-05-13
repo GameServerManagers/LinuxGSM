@@ -210,12 +210,21 @@ fn_info_config_teeworlds(){
 
 fn_info_config_terraria(){
 	if [ ! -f "${servercfgfullpath}" ]; then
-		port="0"
-	else	
+		servername="${unavailable}"
+		port="${zero}"
+		gameworld="${unavailable}"
+		slots="${zero}"
+	else 
+		servername=$(grep "worldname=" "${servercfgfullpath}" | sed 's/worldname=//g')
 		port=$(grep "port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gameworld=$(grep "world=" "${servercfgfullpath}" | sed 's/world=//g')
+		slots=$(grep "maxplayers=" "${servercfgfullpath}" | sed 's/maxplayers=//g')
 
-		# Not Set		
+		# Not Set
+		servername=${servername:-"NOT SET"}
 		port=${port:-"0"}
+		gameworld=${gameworld:-"NOT SET"}
+		slots=${slots:-"0"}
 	fi
 }
 
@@ -285,6 +294,7 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds
+# Terraria
 elif [ "${engine}" == "terraria" ]; then
 	fn_info_config_terraria
 # Unreal/Unreal 2 engine 
