@@ -27,7 +27,7 @@ case "$getopt" in
 		command_monitor.sh;;
 	et|email-test)
 		command_email_test.sh;;
-	d|details)
+	dt|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -50,21 +50,21 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
-		echo -e "\e[34mupdate\t\e[0mChecks and applies updates from SteamCMD."
-		echo -e "\e[34mforce-update\t\e[0mBypasses the check and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mvalidate\t\e[0mValidate server files with SteamCMD."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."		
-		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mInstall the server."
-		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
+		echo -e "\e[34mupdate\t\e[0mu  |Checks and applies updates from SteamCMD."
+		echo -e "\e[34mforce-update\t\e[0mfu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
+		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
+		echo -e "\e[34minstall\t\e[0mi  |Install the server."
+		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -86,7 +86,7 @@ case "$getopt" in
 		command_monitor.sh;;
 	et|email-test)
 		command_email_test.sh;;
-	d|details)
+	dt|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -107,18 +107,18 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
-		echo -e "\e[34mupdate\t\e[0mChecks and applies updates from teamspeak.com."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."
-		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mchange-password\t\e[0mChanges TS3 serveradmin password."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34minstall\t\e[0mInstall the server."
-		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
+		echo -e "\e[34mupdate\t\e[0mu  |Checks and applies updates from SteamCMD."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
+		echo -e "\e[34mchange-password\t\e[0mpw |Changes TS3 serveradmin password."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34minstall\t\e[0mi  |Install the server."
+		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -155,15 +155,15 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."		
-		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
+		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -190,7 +190,7 @@ case "$getopt" in
 		command_monitor.sh;;
 	et|email-test)
 		command_email_test.sh;;
-	d|details)
+	dt|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -215,22 +215,22 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
 		echo -e "\e[34mupdate\t\e[0mChecks and applies updates from SteamCMD."
-		echo -e "\e[34mforce-update\t\e[0mBypasses the check and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mvalidate\t\e[0mValidate server files with SteamCMD."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."
-		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mInstall the server."
-		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
-		echo -e "\e[34mfastdl\t\e[0mGenerates or update a FastDL folder for your server."
+		echo -e "\e[34mforce-update\t\e[0mfu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
+		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
+		echo -e "\e[34minstall\t\e[0mi  |Install the server."
+		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
+		echo -e "\e[34mfastdl\t\e[0mfd |Generates or update a FastDL folder for your server."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -250,7 +250,7 @@ case "$getopt" in
 		command_monitor.sh;;
 	et|email-test)
 		command_email_test.sh;;
-	d|details)
+	dt|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -275,19 +275,19 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."
-		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mInstall the server."
-		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
-		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
+		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
+		echo -e "\e[34minstall\t\e[0mi  |Install the server."
+		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
+		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -315,7 +315,7 @@ case "$getopt" in
 		command_monitor.sh;;
 	et|email-test)
 		command_email_test.sh;;
-	d|details)
+	dt|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -340,22 +340,22 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
 		echo -e "\e[34mupdate\t\e[0mChecks and applies updates from SteamCMD."
-		echo -e "\e[34mforce-update\t\e[0mBypasses the check and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mvalidate\t\e[0mValidate server files with SteamCMD."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."		
-		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mInstall the server."
-		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
-		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."		
+		echo -e "\e[34mforce-update\t\e[0mfu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
+		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
+		echo -e "\e[34minstall\t\e[0mi  |Install the server."
+		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
+		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
 exit
@@ -376,7 +376,7 @@ case "$getopt" in
 		command_monitor.sh;;
 	et|email-test)
 		command_email_test.sh;;
-	d|details)
+	dt|details)
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -390,7 +390,7 @@ case "$getopt" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
-	sck|server-cd-key)
+	cd|server-cd-key)
 		install_ut2k4_key.sh;;				
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
@@ -403,20 +403,20 @@ case "$getopt" in
 	echo -e ""
 	echo -e "\e[93mCommands\e[0m"
 	{
-		echo -e "\e[34mstart\t\e[0mStart the server."
-		echo -e "\e[34mstop\t\e[0mStop the server."
-		echo -e "\e[34mrestart\t\e[0mRestart the server."
-		echo -e "\e[34mupdate-functions\t\e[0mRemoves all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mChecks that the server is running."
-		echo -e "\e[34memail-test\t\e[0mSends test monitor email."
-		echo -e "\e[34mdetails\t\e[0mDisplays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mCreate archive of the server."
-		echo -e "\e[34mconsole\t\e[0mConsole allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0mSee the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mInstall the server."
-		echo -e "\e[34mauto-install\t\e[0mInstall the server, without prompts."
-		echo -e "\e[34mserver-cd-key\t\e[0mAdd your server cd key"		
-		echo -e "\e[34mmap-compressor\t\e[0mCompresses all ${gamename} server maps."
+		echo -e "\e[34mstart\t\e[0mst |Start the server."
+		echo -e "\e[34mstop\t\e[0msp |Stop the server."
+		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
+		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
+		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
+		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
+		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
+		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
+		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
+		echo -e "\e[34minstall\t\e[0mi  |Install the server."
+		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
+		echo -e "\e[34mserver-cd-key\t\e[0mcd |Add your server cd key"		
+		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t 
 	esac
 exit
