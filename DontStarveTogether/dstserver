@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="150316"
+version="130516"
 
 #### Variables ####
 
@@ -30,7 +30,8 @@ updateonstart="off"
 # Cave: -conf_dir DST_Cave
 #http://dont-starve-game.wikia.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers
 fn_parms(){
-parms=""
+parms="-console -cluster MyDediServer -shard Master"
+# -console -cluster MyDediServer -shard Master
 }
 
 #### Advanced Variables ####
