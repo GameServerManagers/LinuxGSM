@@ -59,7 +59,7 @@ backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${systemdir}/Logs/"
+gamelogdir="${filesdir}/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 consolelogging="on"
