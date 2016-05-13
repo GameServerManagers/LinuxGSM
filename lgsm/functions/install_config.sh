@@ -187,7 +187,6 @@ elif [ "${gamename}" == "Codename CURE" ]; then
 	wget -N /dev/null ${githuburl}/CodenameCURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
-
 elif [ "${gamename}" == "Counter Strike 1.6" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CounterStrike/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -285,7 +284,12 @@ elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/PiratesVikingandKnightsII/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_sourceconfig	
+	fn_sourceconfig
+elif [ "${gamename}" == "Project Zomboid" ]; then
+	echo -e "downloading lgsm-default.ini...\c"
+	wget -N /dev/null ${githuburl}/ProjectZomboid/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig		
 elif [ "${gamename}" == "Quake Live" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/QuakeLive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

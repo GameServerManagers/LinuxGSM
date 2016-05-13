@@ -21,7 +21,7 @@ email="email@example.com"
 
 # Steam login
 steamuser="anonymous"
-steampass="password"
+steampass=""
 
 # Start Variables
 ip="0.0.0.0"
