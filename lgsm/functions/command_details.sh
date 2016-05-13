@@ -216,7 +216,11 @@ fn_details_script(){
 
 		# Config file location
 		if [ -n "${servercfgfullpath}" ]; then
-			echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
+			if [ -f "${servercfgfullpath}" ]; then
+				echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
+			else
+				echo -e "\e[34mConfig file:\t\e[0m\e[0;31m${servercfgfullpath}\e[0m (\e[0;31mFILE MISSING\e[0m)"
+			fi	
 		fi
 
 		# Network config file location (ARMA 3)
@@ -440,7 +444,7 @@ fn_details_teeworlds(){
 	} | column -s $'\t' -t
 }
 
-	fn_details_terraria(){
+fn_details_terraria(){
 	echo -e "netstat -atunp | grep TerrariaServer"
 	echo -e ""
 	{
