@@ -39,13 +39,13 @@ while [ "${counter}" == "0" ]||[ "$(grep -wc 0x402 .finstall_serverfiles.sh.tmp)
 			if [ "${engine}" == "goldsource" ]; then
 				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit |tee .finstall_serverfiles.sh.tmp
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit |tee .finstall_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit |tee .finstall_serverfiles.sh.tmp
 			fi
 		elif [ "${counter}" -ge "5" ]; then
 			if [ "${engine}" == "goldsource" ]; then
 				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit |tee .finstall_serverfiles.sh.tmp
 			else
-				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit |tee .finstall_serverfiles.sh.tmp
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit |tee .finstall_serverfiles.sh.tmp
 			fi
 		fi
 	elif [ "${counter}" -ge "11" ]; then
