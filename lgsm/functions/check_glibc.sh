@@ -12,7 +12,7 @@ info_distro.sh
 if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
 	:
 elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-		fn_print_info_nl "Glibc fix: \e[0;32m${glibcrequired}\e[0m"
+		fn_print_info_nl "Glibc fix: \e[0;31m${glibcrequired}\e[0m"
 		echo -e "	* glibc required: \e[0;31m${glibcrequired}\e[0m"
 		echo -e "	* glibc installed: ${glibcversion}"
 elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
