@@ -289,7 +289,7 @@ elif [ "${gamename}" == "Project Zomboid" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/ProjectZomboid/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_sourceconfig		
+	fn_defaultconfig		
 elif [ "${gamename}" == "Quake Live" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/QuakeLive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
