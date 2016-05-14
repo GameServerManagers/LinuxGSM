@@ -6,14 +6,14 @@ lgsm_version="140516"
 
 # Description: Sends a test email notification.
 
-local modulename="Comms Check"
+local modulename="Comms"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 info_config.sh
 if [ "${emailnotification}" = "on" ]||[ "${pushbulletnotification}" = "on" ]; then
 	fn_scriptlog "Sending Comms Check"
-	commssubject="LGSM - Comms Check -${servername}"
+	commssubject="LGSM - Comms Check - ${servername}"
 	commsbody="LGSM testing comms, how you read?"
 	comms.sh
 else
