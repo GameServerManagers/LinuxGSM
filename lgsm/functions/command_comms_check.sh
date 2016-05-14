@@ -2,12 +2,13 @@
 # LGSM command_email_test.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="140516"
 
 # Description: Sends a test email notification.
 
 local modulename="Comms Check"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 check.sh
 info_config.sh
 if [ "${emailnotification}" = "on" ]||[ "${pushbulletnotification}" = "on" ]; then
