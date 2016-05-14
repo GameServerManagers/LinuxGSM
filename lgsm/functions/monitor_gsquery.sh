@@ -68,12 +68,12 @@ if [ "${gsquery}" == "yes" ]; then
 				fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : FAIL"
 				sleep 1
 
-				# Send email notification if enabled
+				# Send notification if enabled
 				if [ "${emailnotification}" == "on" ]; then
 					subject="${servicename} Monitor - Starting ${servername}"
 					failurereason="Failed to query ${servicename}: ${gsquerycmd}"
 					actiontaken="restarted ${servicename}"
-					email.sh
+					comms.sh
 				fi
 				fn_restart
 				break

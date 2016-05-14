@@ -6,16 +6,15 @@ lgsm_version="271215"
 
 # Description: Sends a test email notification.
 
-local modulename="Email"
+local modulename="Comms Check"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 info_config.sh
-if [ "${emailnotification}" = "on" ]; then
-	fn_scriptlog "Sending test notification"
-	subject="${servicename} Email Test Notification - Testing ${servername}"
-	failurereason="Testing ${servicename} email notification"
-	actiontaken="Sent test email...hello is this thing on?"
-	email.sh
+if [ "${emailnotification}" = "on" ]||[ "${pushbulletnotification}" = "on" ]; then
+	fn_scriptlog "Sending Comms Check"
+	commssubject="LGSM - Comms Check -${servername}"
+	commsbody="LGSM testing comms, how you read?"
+	comms.sh
 else
 	fn_print_fail_nl "Notifications not enabled"
 	fn_scriptlog "Notifications not enabled"

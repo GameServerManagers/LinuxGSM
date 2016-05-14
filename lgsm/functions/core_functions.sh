@@ -2,7 +2,7 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="060516"
+lgsm_version="140516"
 
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions would not load.
@@ -18,6 +18,7 @@ fn_getopt(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 
 # fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
 if [ -z "${lgsmdir}" ]; then
@@ -92,6 +93,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+
 # Command
 
 command_console.sh(){
@@ -109,7 +111,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_email_test.sh(){
+command_comms_check.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -329,9 +331,20 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# Email
 
-email.sh(){
+# Comms
+
+comms.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+comms_email.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+comms_pushbullet.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -350,6 +363,7 @@ monitor_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 
 # Update
 
@@ -461,6 +475,7 @@ fix_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 
 # Calls on-screen messages
 core_messages.sh

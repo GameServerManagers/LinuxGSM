@@ -40,10 +40,9 @@ fn_monitor_msg_checking(){
 fn_monitor_email_notification(){
 	# Email will be sent if enabled
 	if [ "${emailnotification}" = "on" ]; then
-		subject="${servicename} Monitor - Starting ${servername}"
-		failurereason="${servicename} process not running"
-		actiontaken="${servicename} has been restarted"
-		email.sh
+		commssubject="LGSM - Restarted - ${servername}"
+		commsbody="${servicename} process not running"
+		comms.sh
 	fi	
 }
 

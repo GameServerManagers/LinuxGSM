@@ -33,7 +33,7 @@ fn_userinputconfig(){
 	sleep 1
 	}
 
-	fn_arma3config(){
+fn_arma3config(){
 	fn_defaultconfig
 	echo "creating ${networkcfg} config file."
 	cp -v "${networkcfgdefault}" "${networkcfgfullpath}"

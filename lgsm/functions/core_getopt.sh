@@ -25,8 +25,8 @@ case "$getopt" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -58,7 +58,7 @@ case "$getopt" in
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
@@ -84,8 +84,8 @@ case "$getopt" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -113,7 +113,7 @@ case "$getopt" in
 		echo -e "\e[34mupdate\t\e[0mu  |Checks and applies updates from SteamCMD."
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
 		echo -e "\e[34mchange-password\t\e[0mpw |Changes TS3 serveradmin password."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
@@ -136,8 +136,8 @@ case "$getopt" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
@@ -160,7 +160,7 @@ case "$getopt" in
 		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
 		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
@@ -188,8 +188,8 @@ case "$getopt" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -223,7 +223,7 @@ case "$getopt" in
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
@@ -248,8 +248,8 @@ case "$getopt" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -280,7 +280,7 @@ case "$getopt" in
 		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
@@ -313,8 +313,8 @@ case "$getopt" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -348,7 +348,7 @@ case "$getopt" in
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
@@ -374,8 +374,8 @@ case "$getopt" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|email-test)
-		command_email_test.sh;;
+	et|comms-check)
+		command_comms_check.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -408,7 +408,7 @@ case "$getopt" in
 		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
 		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
 		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34memail-test\t\e[0met |Sends test monitor email."
+		echo -e "\e[34mcomms-check\t\e[0met |Sends test notification."
 		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
