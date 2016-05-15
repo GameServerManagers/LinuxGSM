@@ -38,8 +38,8 @@ fn_deps_detector(){
 }
 
 fn_deps_email(){
-	# Adds postfix to required dependencies if email notification is enabled
-	if [ "${emailnotification}" == "on" ]; then
+	# Adds postfix to required dependencies if email alert is enabled
+	if [ "${emailalert}" == "on" ]; then
 		if [ -f /usr/bin/mailx ]; then
 			if [ -d /etc/exim4 ]; then
 				array_deps_required+=( exim4 )

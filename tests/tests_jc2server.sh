@@ -7,10 +7,10 @@ version="271215"
 
 #### Variables ####
 
-# Notification Email
+# Alert Email
 # (on|off)
-emailnotification="on"
-email="me@danielgibbs.co.uk"
+emailalert="off"
+email=""
 
 # Steam login
 steamuser="anonymous"

@@ -7,10 +7,10 @@ version="071115"
 
 #### Variables ####
 
-# Notification Email
+# Alert Email
 # (on|off)
-emailnotification="on"
-email="me@danielgibbs.co.uk"
+emailalert="off"
+email=""
 
 # Start Variables
 updateonstart="off"

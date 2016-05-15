@@ -111,7 +111,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_comms_check.sh(){
+command_test_alert.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -332,19 +332,19 @@ fn_fetch_function
 }
 
 
-# Comms
+# Alert
 
-comms.sh(){
+alert.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-comms_email.sh(){
+alert_email.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-comms_pushbullet.sh(){
+alert_pushbullet.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

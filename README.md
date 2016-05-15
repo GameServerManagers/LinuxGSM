@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/dgibbs64/linuxgsm.svg?branch=master)](https://travis-ci.org/dgibbs64/linuxgsm)
 [![Under Development](https://badge.waffle.io/dgibbs64/linuxgsm.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/dgibbs64/linuxgsm)
 
-The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice comms servers.
+The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice alert servers.
 
 <h2>Hassle-Free Dedicated Servers</h2>
 Game servers traditionally are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LGSM is designed to be a simple as possible allowing Admins to spend less time on management and more time on the fun stuff.
@@ -15,7 +15,8 @@ Game servers traditionally are not easy to manage yourself. Admins often have to
 	<li>Console</li>
 	<li>Details</li>
 	<li>Installer (SteamCMD)</li>
-	<li>Monitor (including email notification)</li>
+	<li>Monitor</li>
+	<li>Alerts (Email, Pushbullet)</li>
 	<li>Update (SteamCMD)</li>
 	<li>Start/Stop/Restart server</li>
 </ul>

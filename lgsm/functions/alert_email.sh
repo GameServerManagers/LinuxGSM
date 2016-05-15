@@ -4,17 +4,17 @@
 # Website: https://gameservermanagers.com
 lgsm_version="140516"
 
-# Description: Sends email notification if monitor picks up a failure.
+# Description: Sends email alert if monitor picks up a failure.
 
-local modulename="Email"
+local modulename="Alert"
 
 
 fn_details_email(){
 	#
-	# Failure reason: Testing bb2-server email notification
+	# Failure reason: Testing bb2-server email alert
 	# Action Taken: Sent test email...hello is this thing on?
 
-	echo -e "${commsbody}" >> "${emaillog}"
+	echo -e "${alertbody}" >> "${emaillog}"
 }
 
 
@@ -168,7 +168,7 @@ fn_details_gameserver(){
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
 }
 
-fn_comms_email_template_logs(){
+fn_alert_email_template_logs(){
 	{
 	echo -e ""
 	echo -e "${servicename} Logs"
@@ -214,7 +214,7 @@ fn_comms_email_template_logs(){
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
 }
 
-fn_print_dots "Sending notification to ${email}"
+fn_print_dots "Sending alert to ${email}"
 info_distro.sh
 info_config.sh
 info_glibc.sh
@@ -229,13 +229,13 @@ fn_details_os
 fn_details_performance
 fn_details_disk
 fn_details_gameserver
-fn_comms_email_template_logs
-mail -s "${commssubject}" "${email}" < "${emaillog}"
+fn_alert_email_template_logs
+mail -s "${alertsubject}" "${email}" < "${emaillog}"
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
-	fn_print_ok_nl "Sending notification to ${email}"
-	fn_scriptlog "Success! Sending notification to ${email}"
+	fn_print_ok_nl "Sending alert to ${email}"
+	fn_scriptlog "Success! Sending alert to ${email}"
 else
-	fn_print_fail_nl "Sending notification to ${email}"
-	fn_scriptlog "Failure! Sending notification to ${email}"
+	fn_print_fail_nl "Sending alert to ${email}"
+	fn_scriptlog "Failure! Sending alert to ${email}"
 fi

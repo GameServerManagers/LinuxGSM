@@ -169,7 +169,7 @@ fn_details_script(){
 	# Service name:        ql-server
 	# qlserver version:    150316
 	# User:                lgsm
-	# Email notification:  off
+	# Email alert:  off
 	# Update on start:     off
 	# Location:            /home/lgsm/qlserver
 	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
@@ -205,8 +205,8 @@ fn_details_script(){
 			fi
 		fi
 
-		# Email notification
-		echo -e "\e[34mEmail notification:\t\e[0m${emailnotification}"
+		# Email alert
+		echo -e "\e[34mEmail alert:\t\e[0m${emailalert}"
 
 		# Update on start
 		echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"

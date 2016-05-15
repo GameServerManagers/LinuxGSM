@@ -37,12 +37,12 @@ fn_monitor_msg_checking(){
 	sleep 1	
 }
 
-fn_monitor_email_notification(){
+fn_monitor_email_alert(){
 	# Email will be sent if enabled
-	if [ "${emailnotification}" = "on" ]; then
-		commssubject="LGSM - Restarted - ${servername}"
-		commsbody="${servicename} process not running"
-		comms.sh
+	if [ "${emailalert}" = "on" ]; then
+		alertsubject="LGSM - Restarted - ${servername}"
+		alertbody="${servicename} process not running"
+		alert.sh
 	fi	
 }
 
@@ -57,7 +57,7 @@ fn_monitor_teamspeak3(){
 		fn_print_fail_eol_nl
 		fn_scriptlog "Checking session: ${ts3error}: FAIL"
 		failurereason="${ts3error}"
-		fn_monitor_email_notification
+		fn_monitor_email_alert
 	fi
 	fn_scriptlog "Monitor is starting ${servername}"
 	sleep 1
@@ -83,7 +83,7 @@ fn_monitor_tmux(){
 		fn_print_fail "Checking session: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Checking session: FAIL"
-		fn_monitor_email_notification
+		fn_monitor_email_alert
 		fn_scriptlog "Monitor is starting ${servername}"
 		sleep 1
 		command_start.sh

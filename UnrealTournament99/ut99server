@@ -13,10 +13,17 @@ version="150316"
 
 #### Variables ####
 
-# Notification Email
+# Notification Alerts
 # (on|off)
-emailnotification="off"
+
+# Email
+emailalert="off"
 email="email@example.com"
+
+# Pushbullet 
+# https://www.pushbullet.com/#settings
+pushbulletalert"off"
+pushbullettoken="accesstoken"
 
 # Start Variables
 defaultmap="DM-Deck16]["
