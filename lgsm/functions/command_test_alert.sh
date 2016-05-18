@@ -12,9 +12,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 info_config.sh
 if [ "${emailalert}" = "on" ]||[ "${pushbulletalert}" = "on" ]; then
-	fn_scriptlog "Sending alert Check"
-	alertsubject="LGSM - Alert Check - ${servername}"
-	alertbody="LGSM testing alert, how you read?"
+	alert="test"
 	alert.sh
 else
 	fn_print_fail_nl "alerts not enabled"

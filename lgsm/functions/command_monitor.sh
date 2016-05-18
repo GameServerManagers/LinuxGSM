@@ -57,7 +57,8 @@ fn_monitor_teamspeak3(){
 		fn_print_fail_eol_nl
 		fn_scriptlog "Checking session: ${ts3error}: FAIL"
 		failurereason="${ts3error}"
-		fn_monitor_email_alert
+		alert="restart"
+		alert.sh
 	fi
 	fn_scriptlog "Monitor is starting ${servername}"
 	sleep 1
