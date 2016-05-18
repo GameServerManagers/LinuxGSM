@@ -84,7 +84,8 @@ fn_monitor_tmux(){
 		fn_print_fail "Checking session: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Checking session: FAIL"
-		fn_monitor_email_alert
+		alert="restart"
+		alert.sh
 		fn_scriptlog "Monitor is starting ${servername}"
 		sleep 1
 		command_start.sh

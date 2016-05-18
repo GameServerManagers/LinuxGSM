@@ -70,9 +70,8 @@ if [ "${gsquery}" == "yes" ]; then
 
 				# Send alert if enabled
 				if [ "${emailalert}" == "on" ]; then
-					subject="${servicename} Monitor - Starting ${servername}"
-					failurereason="Failed to query ${servicename}: ${gsquerycmd}"
-					actiontaken="restarted ${servicename}"
+
+					alert="queryrestart"
 					alert.sh
 				fi
 				fn_restart

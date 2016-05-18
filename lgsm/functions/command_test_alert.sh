@@ -11,10 +11,8 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 info_config.sh
-if [ "${emailalert}" = "on" ]||[ "${pushbulletalert}" = "on" ]; then
-	alert="test"
+alert="test"
 	alert.sh
-else
 	fn_print_fail_nl "alerts not enabled"
 	fn_scriptlog "alerts not enabled"
 fi
