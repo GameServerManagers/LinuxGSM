@@ -25,7 +25,7 @@ case "$getopt" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	ct|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
