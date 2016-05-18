@@ -32,7 +32,7 @@ fn_alert_update(){
 
 if [ "${alert}" == "restart" ]; then
 	fn_alert_restart
-if [ "${alert}" == "queryrestart" ]; then
+elif [ "${alert}" == "queryrestart" ]; then
 	fn_alert_queryrestart
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
