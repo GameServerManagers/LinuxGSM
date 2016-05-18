@@ -6,7 +6,7 @@ lgsm_version="140516"
 
 # Description: Overall function for managing alerts.
 
-if [ "${emailalert}" == "on" ]||[ -n "${email}" ]; then
+if [ "${emailnotification}" == "on" ]||[ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
 fi
 

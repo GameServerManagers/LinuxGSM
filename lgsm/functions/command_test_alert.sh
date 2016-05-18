@@ -13,7 +13,7 @@ check.sh
 info_config.sh
 if [ "${emailalert}" = "on" ]||[ "${pushbulletalert}" = "on" ]; then
 	fn_scriptlog "Sending alert Check"
-	alertsubject="LGSM - alert Check - ${servername}"
+	alertsubject="LGSM - Alert Check - ${servername}"
 	alertbody="LGSM testing alert, how you read?"
 	alert.sh
 else

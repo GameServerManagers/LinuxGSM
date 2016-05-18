@@ -39,7 +39,7 @@ fn_details_os(){
 		echo -e "Hostname: $HOSTNAME"
 		echo -e "tmux: ${tmuxv}"
 		echo -e "GLIBC: ${glibcversion}"
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 fn_details_performance(){
@@ -63,7 +63,7 @@ fn_details_performance(){
 		echo -e "Mem: total  used  free"
 		echo -e "Physical: ${physmemtotal} ${physmemused} ${physmemfree}"
 		echo -e "Swap: ${swaptotal} ${swapused} ${swapfree}"
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 fn_details_disk(){
@@ -88,7 +88,7 @@ fn_details_disk(){
 		if [ -d "${backupdir}" ]; then
 			echo -e "Backups: ${backupdirdu}"
 		fi
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 
@@ -165,7 +165,7 @@ fn_details_gameserver(){
 		else
 			echo -e "Status: ONLINE"
 		fi
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 fn_alert_email_template_logs(){
@@ -211,7 +211,7 @@ fn_alert_email_template_logs(){
 		echo ""
 	fi	
 
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}"
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 fn_print_dots "Sending alert to ${email}"
