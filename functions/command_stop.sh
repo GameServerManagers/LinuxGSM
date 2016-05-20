@@ -34,54 +34,41 @@ fn_stop_ark(){
     # first start with the parameters from the parms line
     fn_printwarn "attempting to determine any in-use ports"
     fn_scriptlog "attempting to determine any in-use ports"
-        port=$(grep ^parms= ${servername} |\
-                awk -f"queryport=" '{print $2}' |\
-                sed "s/[^[:digit:].*].*//g" )
-
-        echo port is $port
-    read a
-        if [ -z $port ] ; then
-                fn_printwarn "no port found in the ${servername} script"
-                fn_scriptlog "no port found in the ${servername} script"
+        #port=$(grep ^parms= arkserver |\
+        #        awk -F"QueryPort=" '{print $2}' |\
+        #        sed "s/[^[:digit:].*].*//g" )
+	info_config.sh
+        if [ -z $queryport ] ; then
+                fn_printwarn "no queryport found in the arkserver script"
+                fn_scriptlog "no queryport found in the arkserver script"
                 userconfigfile="${filesdir}"
-                userconfigfile+="/serverfiles/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
+                userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
                 port=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
         fi
-    echo port is $port
-    read b
-        if [ -z $port ] ; then
-                fn_printwarn "no port found in the GameUsersettings.ini file"
-                fn_scriptlog "no port found in the GameUsersettings.ini file"
+        if [ -z $queryport ] ; then
+                fn_printwarn "no queryport found in the GameUsersettings.ini file"
+                fn_scriptlog "no queryport found in the GameUsersettings.ini file"
                 return
         fi
 
         if [[ ${#port} -gt 0 ]] ; then
-                # pid=$(lsof -ti udp:${port})
-                # might need netstat here if lsof isn't installed.
-                # netstat variation:
-                pid=$(netstat -nap 2>/dev/null | grep ^udp[:space:] |\
-                        grep :${port}[[:space:]] | rev | awk '{print $1}' |\
+                fn_printwarn "QueryPort $queryport found in the configs.  Checking to see if it's still bound." 
+                fn_scriptlog "QueryPort $queryport found in the configs.  Checking to see if it's still bound."
+                pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
+                        grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
                         rev | cut -d\/ -f1)
-                echo pid is $pid
-        read c
                 #
                 # check for a valid pid
                 let pid+=0 # turns an empty string into a valid number, '0',
                 # and a valid numeric pid remains unchanged.
                 if [[ $pid -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
                         # kill the process still listening on that port.
-                        # kill -9 $pid
-                        while kill -0 $pid
-                        do
-                                echo "kill code id $?"
-                                read d
-                                fn_printwarn "process is still bound to the port"
-                                fn_scriptlog "process is still bound to the port"
-                                sleep 1
-                        fn_printdots "${servername}"
-                        fn_scriptlog "${servername}"
-                        done
+                        fn_printdots "Killing process $pid"
+                        fn_scriptlog "Killing process $pid"
+                        kill -9 $pid
                 fi # end if for pid range check
+    		fn_printok "${servername} stopped and ports cleared"
+    		fn_scriptlog "Ports cleared for ${servername}"
         fi # end if for port check
 } # end of fn_stop_ark
 
@@ -213,7 +200,8 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
     fn_stop_teamspeak3
 else
     fn_stop_tmux
-	if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
-	    fn_stop_ark
-	fi
+    if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+        fn_stop_ark
+    	echo -en "\n"
+    fi
 fi
