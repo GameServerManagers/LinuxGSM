@@ -30,13 +30,8 @@ sdtd_telnet(){
 }
 
 fn_stop_ark(){
-    # grab the queryport. there are two locations to grab this from.
-    # first start with the parameters from the parms line
     fn_printwarn "attempting to determine any in-use ports"
     fn_scriptlog "attempting to determine any in-use ports"
-        #port=$(grep ^parms= arkserver |\
-        #        awk -F"QueryPort=" '{print $2}' |\
-        #        sed "s/[^[:digit:].*].*//g" )
 	info_config.sh
         if [ -z $queryport ] ; then
                 fn_printwarn "no queryport found in the arkserver script"
@@ -175,7 +170,7 @@ else
                 let counter=counter+1
                 if [  "${counter}" -gt "1" ]; then
                     fn_printdots "Attempting graceful shutdown: ${counter}"
-                fi    
+                fi
             done
             pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
             if [ "${pid}" == "0" ]; then
