@@ -8,7 +8,16 @@ lgsm_version="140516"
 
 local modulename="Alert"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+fn_print_dots "Sending Pushbullet alert"
+sleep 1
 
-curl -u """${pushbullettoken}"":" -d type="note" -d body="${alertbody}" -d title="${alertsubject}" 'https://api.pushbullet.com/v2/pushes' >/dev/null 2>&1
-fn_print_ok_nl "Sent Pushbullet alert"
-fn_scriptlog "Sent Pushbullet alert"
+pushbulletsend=$(curl --silent -u """${pushbullettoken}"":" -d type="note" -d body="${alertbody}" -d title="${alertsubject}" 'https://api.pushbullet.com/v2/pushes'|grep -o invalid_access_token|uniq)
+
+if [ "${pushbulletsend}" == "invalid_access_token" ]; then
+	fn_print_fail_nl "Sending Pushbullet alert: invalid_access_token"
+	fn_scriptlog "Failure! Sending Pushbullet alert: invalid_access_token"
+else
+	fn_print_ok_nl "Sending Pushbullet alert"
+	fn_scriptlog "Complete! Sent Pushbullet alert"
+fi
+

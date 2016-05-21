@@ -12,7 +12,4 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 info_config.sh
 alert="test"
-	alert.sh
-	fn_print_fail_nl "alerts not enabled"
-	fn_scriptlog "alerts not enabled"
-fi
+alert.sh
