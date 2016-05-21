@@ -21,13 +21,13 @@ fn_alert_restart(){
 fn_alert_restart_query(){
 	fn_scriptlog "Sending restart alert: ${gsquerycmd}"
 	alertsubject="LGSM - Restarted - ${servername}"
-	alertbody="Failed to Query: ${gsquerycmd}"
+	alertbody="gsquery.py failed to query: ${gsquerycmd}"
 }
 
 fn_alert_update(){
 	fn_scriptlog "Sending update alert"
 	alertsubject="LGSM - Updated - ${servername}"
-	alertbody="${servicename} Recieved update"
+	alertbody="${servicename} recieved update"
 }
 
 if [ "${alert}" == "restart" ]; then
