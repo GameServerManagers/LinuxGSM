@@ -18,7 +18,7 @@ fn_stop_graceful_source(){
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
 	for seconds in {1..30}; do
 		check_status.sh
-		if [ "${status}" != "0" ]; then
+		if [ "${status}" == "0" ]; then
 			fn_print_ok "Graceful: rcon quit: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_scriptlog "Graceful: rcon quit: OK: ${seconds} seconds"
