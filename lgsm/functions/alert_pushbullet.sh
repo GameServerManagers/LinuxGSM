@@ -20,4 +20,3 @@ else
 	fn_print_ok_nl "Sending Pushbullet alert"
 	fn_scriptlog "Complete! Sent Pushbullet alert"
 fi
-
