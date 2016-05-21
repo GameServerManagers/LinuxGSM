@@ -2,7 +2,7 @@
 # LGSM info_parms.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="010316"
+lgsm_version="210516"
 
 # Description: Gets specific details server parameters.
 

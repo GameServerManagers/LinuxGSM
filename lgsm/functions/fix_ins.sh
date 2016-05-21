@@ -2,7 +2,7 @@
 # LGSM fix_ins.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="291215"
+lgsm_version="210516"
 
 # Description: Resolves various issues with Insurgency.
 

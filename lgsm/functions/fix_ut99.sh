@@ -2,7 +2,7 @@
 # LGSM fix_ut99.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="210516"
 echo "${servercfgfullpath}"
 echo "enabling UdpServerUplink."
 {

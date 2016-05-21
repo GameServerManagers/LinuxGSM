@@ -2,7 +2,7 @@
 # LGSM check_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="020116"
+lgsm_version="210516"
 
 # Description: Checks if server has correct glibc or has a fix available.
 

@@ -2,7 +2,7 @@
 # LGSM monitor_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="270216"
+lgsm_version="210516"
 
 # Description: uses gsquery.py to query the server port.
 # Detects if the server has frozen with the proccess still running.

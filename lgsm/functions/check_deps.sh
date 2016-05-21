@@ -2,7 +2,7 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="050516"
+lgsm_version="210516"
 
 # Description: Checks that the requires dependencies are installed for LGSM.
 

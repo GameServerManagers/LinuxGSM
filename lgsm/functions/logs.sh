@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="230216"
+lgsm_version="210516"
 
 # Description: Acts as a log rotater, removing old logs.
 

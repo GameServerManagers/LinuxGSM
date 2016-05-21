@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
 # Website: https://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="210516"
 
 local modulename="Install"
 

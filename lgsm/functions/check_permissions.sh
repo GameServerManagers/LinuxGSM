@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="150316"
+lgsm_version="210516"
 
 # Description: Checks script, files and folders ownership and permissions.
 

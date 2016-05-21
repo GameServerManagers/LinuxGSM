@@ -2,7 +2,7 @@
 # LGSM alert_pushbullet.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="140516"
+lgsm_version="210516"
 
 # Description: alerts using pushbullet.
 

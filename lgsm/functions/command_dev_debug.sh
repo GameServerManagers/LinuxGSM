@@ -2,7 +2,7 @@
 # LGSM dev_debug.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="281215"
+lgsm_version="210516"
 
 # Description: Dev only: enables debuging log to be saved to dev-debug.log.
 

@@ -2,7 +2,7 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="220216"
+lgsm_version="210516"
 
 local modulename="Install"
 

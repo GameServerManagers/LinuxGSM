@@ -2,7 +2,7 @@
 # LGSM check_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="060116"
+lgsm_version="210516"
 
 # Description: If server config missing warn user.
 

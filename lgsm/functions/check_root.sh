@@ -2,7 +2,7 @@
 # LGSM check_root.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="060316"
+lgsm_version="210516"
 
 if [ $(whoami) = "root" ]; then
 	fn_print_fail_nl "Do NOT run this script as root!"

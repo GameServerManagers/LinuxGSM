@@ -2,7 +2,7 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="180316"
+lgsm_version="210516"
 
 # Description: REDIRECT FUNCTION to new location for core_functions.sh
 

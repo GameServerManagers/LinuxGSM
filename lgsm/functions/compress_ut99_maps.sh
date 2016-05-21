@@ -2,7 +2,7 @@
 # LGSM compress_ut99_maps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="301215"
+lgsm_version="210516"
 
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 

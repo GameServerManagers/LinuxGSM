@@ -2,7 +2,7 @@
 # LGSM check_status function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="060516"
+lgsm_version="210516"
 
 # Description: Checks the proccess status of the server. Either online or offline.
 

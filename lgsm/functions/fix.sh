@@ -2,7 +2,7 @@
 # LGSM fix.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="010316"
+lgsm_version="210516"
 
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.

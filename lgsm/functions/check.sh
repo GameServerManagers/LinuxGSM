@@ -2,7 +2,7 @@
 # LGSM fn_check function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="060516"
+lgsm_version="210516"
 
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.

@@ -2,7 +2,7 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="080516"
+lgsm_version="210516"
 
 # Description: Displays server infomation.
 

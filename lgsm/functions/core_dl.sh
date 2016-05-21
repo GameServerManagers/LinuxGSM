@@ -2,7 +2,7 @@
 # LGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="050216"
+lgsm_version="210516"
 
 # Description: Deals with all downloads for LGSM.
 
