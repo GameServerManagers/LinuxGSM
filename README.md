@@ -1,10 +1,10 @@
 <h1>Linux Game Server Managers_</h1>
-<a href="http://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
+<a href="https://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
 
 [![Build Status](https://travis-ci.org/dgibbs64/linuxgsm.svg?branch=master)](https://travis-ci.org/dgibbs64/linuxgsm)
 [![Under Development](https://badge.waffle.io/dgibbs64/linuxgsm.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/dgibbs64/linuxgsm)
 
-The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice comms servers.
+The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice alert servers.
 
 <h2>Hassle-Free Dedicated Servers</h2>
 Game servers traditionally are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LGSM is designed to be a simple as possible allowing Admins to spend less time on management and more time on the fun stuff.
@@ -15,7 +15,8 @@ Game servers traditionally are not easy to manage yourself. Admins often have to
 	<li>Console</li>
 	<li>Details</li>
 	<li>Installer (SteamCMD)</li>
-	<li>Monitor (including email notification)</li>
+	<li>Monitor</li>
+	<li>Alerts (Email, Pushbullet)</li>
 	<li>Update (SteamCMD)</li>
 	<li>Start/Stop/Restart server</li>
 </ul>
@@ -38,11 +39,11 @@ All FAQ can be found here.
 <h2>Donate</h2>
 If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
-<li><a href="http://gameservermanagers.com/#donate">Donate</a></li>
+<li><a href="https://gameservermanagers.com/#donate">Donate</a></li>
 </ul>
 <h2>Useful Links</h2>
 <ul>
-	<li><a href="http://gameservermanagers.com">Homepage</li>
+	<li><a href="https://gameservermanagers.com">Homepage</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki">Wiki</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</li>
 	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</li>

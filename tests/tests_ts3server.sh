@@ -2,15 +2,15 @@
 # TravisCI Tests
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 version="071115"
 
 #### Variables ####
 
-# Notification Email
+# Alert Email
 # (on|off)
-emailnotification="on"
-email="me@danielgibbs.co.uk"
+emailalert="off"
+email=""
 
 # Start Variables
 updateonstart="off"
@@ -109,22 +109,21 @@ fn_runfunction
 core_functions.sh
 
 fn_currentstatus_tmux(){
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-if [ "${pid}" != "0" ]; then
-	currentstatus="ONLINE"
-else
-	currentstatus="OFFLINE"	
-fi
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		currentstatus="ONLINE"
+	else
+		currentstatus="OFFLINE"	
+	fi
 }
 
 fn_currentstatus_ts3(){
-ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
-
-if [ "${ts3status}" == "Server is running" ]; then
-	currentstatus="ONLINE"
-else
-	currentstatus="OFFLINE"	
-fi
+check_status.sh
+	if [ "${status}" != "0" ]; then
+		currentstatus="ONLINE"
+	else
+		currentstatus="OFFLINE"	
+	fi
 }
 	
 fn_setstatus(){
@@ -162,7 +161,7 @@ echo "================================="
 echo "TravisCI Tests"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
-echo "http://gameservermanagers.com"
+echo "https://gameservermanagers.com"
 echo "================================="
 echo ""
 sleep 1
@@ -345,7 +344,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "creating lockfile."
+fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 echo ""
@@ -361,7 +360,7 @@ fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 echo ""
-fn_printinfonl "Reseting ${servercfg}."
+fn_print_info_nl "Reseting ${servercfg}."
 install_config.sh
 echo ""
 echo "Test complete!"
@@ -390,7 +389,7 @@ echo ""
 requiredstatus="OFFLINE"
 fn_setstatus
 sleep 1
-fn_printinfo "Tidying up directories."
+fn_print_info "Tidying up directories."
 sleep 1
 rm -rfv ${serverfiles}
 echo "END"

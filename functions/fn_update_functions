@@ -1,22 +1,15 @@
 #!/bin/bash
-# LGSM update_functions.sh function
+# LGSM fn_update_functions function
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
-lgsm_version="230116"
+# Website: https://gameservermanagers.com
+lgsm_version="210516"
 
-# Description: LEGACY FUNCTION Deletes the functions dir to allow re-downloading of functions from GitHub.
+# Description: REDIRECT FUNCTION to new command_update_functions.sh
 
-fn_printdots "Updating functions"
-fn_scriptlog "Updating functions"
-sleep 1
-echo -ne "\n"
-rm -rfv "${rootdir}/functions/"*
-exitcode=$?
-if [ "${exitcode}" == "0" ]; then
-	fn_printok "Updating functions"
-	fn_scriptlog "Success! Updating functions"
-else
-	fn_printfail "Updating functions"
-	fn_scriptlog "Failure! Updating functions"
-fi
-echo -ne "\n"
+command_update_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_runfunction
+}
+
+command_update_functions.sh
+

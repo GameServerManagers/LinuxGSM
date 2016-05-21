@@ -22,40 +22,40 @@
 #remove the # in front of commands to enable them.
 
 #Load a world and automatically start the server.
-#world=C:\Users\YOUR_USERNAME_HERE\My Documents\My Games\Terraria\Worlds\world1.wld
+world=~/.local/share/Terraria/Worlds/world1.wld
 
 #Creates a new world if none is found. World size is specified by: 1(small), 2(medium), and 3(large).
-#autocreate=1
+autocreate=1
 
 #Sets the name of the world when using autocreate
-#worldname=Terraria
+worldname=Terraria
 
 #Sets the difficulty of the world when using autocreate 0(normal), 1(expert)
-#difficulty=1
+difficulty=0
 
 #Sets the max number of players allowed on a server.  Value must be between 1 and 255
-#maxplayers=8
+maxplayers=8
 
 #Set the port number
-#port=7777
+port=7777
 
 #Set the server password
-#password=p@55w0rd
+password=p@55w0rd
 
 #Set the message of the day
-#motd=Please don’t cut the purple trees!
+motd=Please don’t cut the purple trees!
 
 #Sets the folder where world files will be stored
-#worldpath=C:\Users\Defaults\My Documents\My Games\Terraria\Worlds\
+worldpath=~/.local/share/Terraria/Worlds/
 
 #The location of the banlist. Defaults to "banlist.txt" in the working directory.
-#banlist=banlist.txt
+banlist=banlist.txt
 
 #Adds addition cheat protection.
-#secure=1
+secure=1
 
 #Sets the server language 1:English, 2:German, 3:Italian, 4:French, 5:Spanish
-#lang=1
+lang=1
 
 #Automatically forward ports with uPNP
 #upnp=1
