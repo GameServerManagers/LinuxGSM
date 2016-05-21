@@ -53,7 +53,7 @@ if [ "${gsquery}" == "yes" ]; then
 		if [ "${exitcode}" == "0" ]; then
 			# Server OK
 			fn_print_ok "Querying port: ${ip}:${port} : ${queryattempt} : "
-			fn_print_ok_eol
+			fn_print_ok_eol_nl
 			fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : OK"
 			sleep 1
 			exit
