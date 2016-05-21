@@ -207,7 +207,7 @@ fn_stop_pre_check(){
 		fi      
 	else
 		check_status.sh
-		if [ "${status}" != "0" ]; then
+		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
 			fn_scriptlog "${servername} is already stopped"
 		else
