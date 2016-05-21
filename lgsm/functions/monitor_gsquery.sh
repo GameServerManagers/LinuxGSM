@@ -46,7 +46,7 @@ if [ "${gsquery}" == "yes" ]; then
 		fn_print_querying_eol
 		fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
 		
-		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p 1 -e "${engine}" 2>&1)
+		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p "${port}" -e "${engine}" 2>&1)
 		exitcode=$?
 
 		sleep 1
