@@ -164,13 +164,19 @@ fn_stop_teamspeak3(){
 	fn_scriptlog "${servername}"
 	sleep 1
 	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
-	# Remove lock file
-	rm -f "${rootdir}/${lockselfname}"
-	fn_print_ok_nl "${servername}"
-	fn_scriptlog "Stopped ${servername}"
-	}
+	check_status.sh
+	if [ "${status}" == "0" ]; then
+		# Remove lock file
+		rm -f "${rootdir}/${lockselfname}"
+		fn_print_ok_nl "${servername}"
+		fn_scriptlog "Stopped ${servername}"
+	else
+		fn_print_fail_nl "Unable to stop${servername}"
+		fn_scriptlog "Unable to stop${servername}"
+	fi
+}
 
-	fn_stop_tmux(){
+fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_scriptlog "tmux kill-session: ${servername}"
 	sleep 1
