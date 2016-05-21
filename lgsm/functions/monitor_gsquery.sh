@@ -29,7 +29,7 @@ if [ "${gsquery}" == "yes" ]; then
 		port=$((port + 1))
 	fi
 
-	if [ -z "${queryport}" ]; then
+	if [ -n "${queryport}" ]; then
 		port="${queryport}"
 	fi
 
