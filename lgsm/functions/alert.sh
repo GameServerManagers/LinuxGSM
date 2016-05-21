@@ -18,7 +18,7 @@ fn_alert_restart(){
 	alertbody="${servicename} ${executable} process not running"
 }
 
-fn_alert_queryrestart(){
+fn_alert_restart_query(){
 	fn_scriptlog "Sending restart alert: ${gsquerycmd}"
 	alertsubject="LGSM - Restarted - ${servername}"
 	alertbody="Failed to Query: ${gsquerycmd}"
@@ -27,13 +27,13 @@ fn_alert_queryrestart(){
 fn_alert_update(){
 	fn_scriptlog "Sending update alert"
 	alertsubject="LGSM - Updated - ${servername}"
-	alertbody="Recieved update: 154789"
+	alertbody="${servicename} Recieved update"
 }
 
 if [ "${alert}" == "restart" ]; then
 	fn_alert_restart
-elif [ "${alert}" == "queryrestart" ]; then
-	fn_alert_queryrestart
+elif [ "${alert}" == "restartquery" ]; then
+	fn_alert_restart_query
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
 elif [ "${alert}" == "test" ]; then

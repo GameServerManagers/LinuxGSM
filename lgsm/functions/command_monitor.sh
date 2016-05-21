@@ -37,15 +37,6 @@ fn_monitor_msg_checking(){
 	sleep 1	
 }
 
-fn_monitor_email_alert(){
-	# Email will be sent if enabled
-	if [ "${emailalert}" = "on" ]; then
-		alertsubject="LGSM - Restarted - ${servername}"
-		alertbody="${servicename} process not running"
-		alert.sh
-	fi	
-}
-
 fn_monitor_teamspeak3(){
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "

@@ -69,11 +69,8 @@ if [ "${gsquery}" == "yes" ]; then
 				sleep 1
 
 				# Send alert if enabled
-				if [ "${emailalert}" == "on" ]; then
-
-					alert="queryrestart"
-					alert.sh
-				fi
+				alert="restartquery"
+				alert.sh
 				fn_restart
 				break
 			fi

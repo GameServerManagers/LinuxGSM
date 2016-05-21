@@ -98,6 +98,8 @@ fn_logupdaterequest(){
 		else
 			update_dl.sh
 		fi
+		alert="update"
+		alert.sh		
 	else
 		fn_print_ok "Checking for update: Server logs: No update requested"
 		sleep 1
@@ -175,6 +177,8 @@ fn_steamcmdcheck(){
 		else
 			update_dl.sh
 		fi
+		alert="update"
+		alert.sh
 	else
 		echo -e "\n"
 		echo -e "No update available:"
@@ -304,6 +308,8 @@ fn_teamspeak3_check(){
 			update_dl.sh
 			command_start.sh
 		fi
+		alert="update"
+		alert.sh		
 	else
 		echo -e "\n"
 		echo -e "No update available:"
