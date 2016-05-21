@@ -9,7 +9,7 @@ lgsm_version="210516"
 
 local modulename="Monitor"
 
-# Forces legecy servers to use gsquery as vat gsquery is not present in legecy
+# Forces legecy servers to use gsquery
 if [ -z "${gsquery}" ]; then
 	gsquery="yes"
 fi	 

@@ -66,7 +66,7 @@ fn_monitor_tmux(){
 		local allowed_engines_array=( avalanche goldsource realvirtuality source spark unity3d unreal unreal2 )
 		for allowed_engine in "${allowed_engines_array[@]}"
 		do
-			if [ "${allowed_engine}" == "${function_selfname}" ]; then
+			if [ "${allowed_engine}" == "${engine}" ]; then
 				monitor_gsquery.sh
 			fi
 		done
