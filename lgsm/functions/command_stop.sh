@@ -2,7 +2,7 @@
 # LGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="271215"
+lgsm_version="210516"
 
 # Description: Stops the server.
 
@@ -17,8 +17,8 @@ fn_stop_graceful_source(){
 	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
 	for seconds in {1..30}; do
-		pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-		if [ "${pid}" == "0" ]; then
+		check_status.sh
+		if [ "${status}" == "0" ]; then
 			fn_print_ok "Graceful: rcon quit: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_scriptlog "Graceful: rcon quit: OK: ${seconds} seconds"
@@ -27,7 +27,8 @@ fn_stop_graceful_source(){
 		sleep 1
 		fn_print_dots "Graceful: rcon quit: ${seconds}"
 	done
-	if [ "${pid}" != "0" ]; then
+	check_status.sh
+	if [ "${status}" != "0" ]; then
 		fn_print_fail "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Graceful: rcon quit: FAIL"
@@ -158,28 +159,79 @@ fn_stop_graceful_select(){
 	fi		
 }
 
+fn_stop_ark(){
+        info_config.sh
+        if [ -z $queryport ] ; then
+                fn_print_warn "no queryport found using info_config.sh"
+                userconfigfile="${filesdir}"
+                userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
+                queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
+        fi
+        if [ -z $queryport ] ; then
+                fn_print_warn "no queryport found in the GameUsersettings.ini file"
+                return
+        fi
+
+        if [[ ${#queryport} -gt 0 ]] ; then
+		for ((pidcheck=0;pidcheck<20;pidcheck++)) ; do
+                	pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
+                        	grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
+	                        rev | cut -d\/ -f1)
+        	        #
+                	# check for a valid pid
+                	let pid+=0 # turns an empty string into a valid number, '0',
+                	# and a valid numeric pid remains unchanged.
+	                if [[ $pid -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
+                	fn_print_dots "Process still bound. Awaiting graceful exit: $pidcheck"
+				sleep 1
+			else
+			     	break // Our job is done here
+	                fi # end if for pid range check
+		done
+		if [[ ${pidcheck} -eq 20 ]] ; then
+			# The process doesn't want to close after 20 seconds.
+			# kill it hard.
+                	fn_print_warn "Terminating reluctant Ark process: $pid"
+                        kill -9 $pid
+		fi
+      	fi # end if for port check
+} # end of fn_stop_ark
+
+
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
 	fn_scriptlog "${servername}"
 	sleep 1
 	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
-	# Remove lock file
-	rm -f "${rootdir}/${lockselfname}"
-	fn_print_ok_nl "${servername}"
-	fn_scriptlog "Stopped ${servername}"
-	}
+	check_status.sh
+	if [ "${status}" == "0" ]; then
+		# Remove lock file
+		rm -f "${rootdir}/${lockselfname}"
+		fn_print_ok_nl "${servername}"
+		fn_scriptlog "Stopped ${servername}"
+	else
+		fn_print_fail_nl "Unable to stop${servername}"
+		fn_scriptlog "Unable to stop${servername}"
+	fi
+}
 
-	fn_stop_tmux(){
+fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_scriptlog "tmux kill-session: ${servername}"
 	sleep 1
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	sleep 0.5
-	pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-	if [ "${pid}" == "0" ]; then
+	check_status.sh
+	if [ "${status}" == "0" ]; then
 		# Remove lock file
 		rm -f "${rootdir}/${lockselfname}"
+		# ARK doesn't clean up immediately after tmux is killed.
+		# Make certain the ports are cleared before continuing.
+		if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+        		fn_stop_ark
+	        	echo -en "\n"
+    		fi
 		fn_print_ok_nl "${servername}"
 		fn_scriptlog "Stopped ${servername}"
 	else
@@ -199,8 +251,8 @@ fn_stop_pre_check(){
 			fn_stop_teamspeak3
 		fi      
 	else
-		pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-		if [ "${pid}" == "0" ]; then
+		check_status.sh
+		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
 			fn_scriptlog "${servername} is already stopped"
 		else
