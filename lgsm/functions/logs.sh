@@ -19,7 +19,7 @@ fi
 # For games not displaying a console, and having logs into their game folder
 if [ -n "${gamelogfile}" ]; then
 	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
-		fn_printinfo "Moving game logs to ${gamelogdir}"
+		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_scriptlog "Moving game logs to ${gamelogdir}"
 		echo -en "\n"
 		sleep 1
