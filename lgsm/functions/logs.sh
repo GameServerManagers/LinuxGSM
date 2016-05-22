@@ -17,7 +17,7 @@ if [ -n "${consolelog}" ]; then
 fi
 
 # For games not displaying a console, and having logs into their game folder
-if [ -n "${gamelogfile}" ]; then
+if [ "${function_selfname}" == "command_start.sh" ] && [ -n "${gamelogfile}" ]; then
 	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_scriptlog "Moving game logs to ${gamelogdir}"
