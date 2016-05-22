@@ -8,7 +8,7 @@ lgsm_version="210516"
 
 fn_alert_test(){
 	fn_scriptlog "Sending test alert"
-	alertsubject="LGSM - Alert Check - ${servername}"
+	alertsubject="LGSM - Test Alert - ${servername}"
 	alertbody="LGSM test alert, how you read?"
 }
 
