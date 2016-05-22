@@ -43,7 +43,7 @@ fi
 if [ "${emailnotification}" == "on" ]||[ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
 elif [ "${emailnotification}" != "on" ]||[ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_fail_nl "Email alerts not enabled"
+	fn_print_info_nl "Email alerts not enabled"
 	fn_scriptlog "Email alerts not enabled"	
 elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_fail_nl "Email no set"
@@ -53,7 +53,7 @@ fi
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
 	alert_pushbullet.sh
 elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_fail_nl "Pushbullet alerts not enabled"
+	fn_print_info_nl "Pushbullet alerts not enabled"
 	fn_scriptlog "Pushbullet alerts not enabled"
 elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_fail_nl "Pushbullet token not set"
