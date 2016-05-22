@@ -43,7 +43,7 @@ fi
 if [ "${emailnotification}" == "on" ]||[ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
 elif [ "${emailnotification}" != "on" ]||[ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_fail_nl "Alerts not enabled"
+	fn_print_fail_nl "Email alerts not enabled"
 	fn_scriptlog "Email alerts not enabled"	
 elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_fail_nl "Email no set"
