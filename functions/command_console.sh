@@ -39,7 +39,7 @@ else
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn
 		case $yn in
-		[Yy]* ) command_start.sh; break;;
+		[Yy]* ) command_start.sh; command_console.sh; break;;
 		[Nn]* ) break;;
 		* ) echo "Please answer yes or no.";;
 	esac
