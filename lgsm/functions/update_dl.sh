@@ -14,10 +14,10 @@ fn_steamcmd_dl(){
 	cd "steamcmd"
 
 	# Detects if unbuffer command is available.
+	if [ $(command -v unbuffer) ]; then
+		unbuffer=unbuffer
         if  [ $(command -v stdbuf) ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
-	elif [ $(command -v unbuffer) ]; then
-		unbuffer=unbuffer
 	fi
 
 	if [ "${engine}" == "goldsource" ]; then
