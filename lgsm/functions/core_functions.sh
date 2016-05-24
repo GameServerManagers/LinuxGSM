@@ -148,7 +148,7 @@ fn_fetch_function
 
 command_fastdl.sh(){
 functionfile="${FUNCNAME}"
-fn_runfunction
+fn_fetch_function
 }
 
 command_ts3_server_pass.sh(){
