@@ -22,7 +22,7 @@ email="email@example.com"
 
 # Pushbullet 
 # https://www.pushbullet.com/#settings
-pushbulletalert"off"
+pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Steam login
@@ -71,7 +71,7 @@ functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/insurgency"
 executabledir="${filesdir}"
-executable="./srcds_linux"
+executable="./srcds_run"
 servercfg="${servicename}.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"

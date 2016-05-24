@@ -9,7 +9,7 @@ lgsm_version="210516"
 
 local modulename="Monitor"
 
-# Forces legecy servers to use gsquery as vat gsquery is not present in legecy
+# Forces legecy servers to use gsquery
 if [ -z "${gsquery}" ]; then
 	gsquery="yes"
 fi	 
@@ -29,7 +29,7 @@ if [ "${gsquery}" == "yes" ]; then
 		port=$((port + 1))
 	fi
 
-	if [ -z "${queryport}" ]; then
+	if [ -n "${queryport}" ]; then
 		port="${queryport}"
 	fi
 
@@ -46,14 +46,14 @@ if [ "${gsquery}" == "yes" ]; then
 		fn_print_querying_eol
 		fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
 		
-		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p 1 -e "${engine}" 2>&1)
+		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p "${port}" -e "${engine}" 2>&1)
 		exitcode=$?
 
 		sleep 1
 		if [ "${exitcode}" == "0" ]; then
 			# Server OK
 			fn_print_ok "Querying port: ${ip}:${port} : ${queryattempt} : "
-			fn_print_ok_eol
+			fn_print_ok_eol_nl
 			fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : OK"
 			sleep 1
 			exit

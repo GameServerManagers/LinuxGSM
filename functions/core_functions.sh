@@ -14,6 +14,15 @@ if [ -z "${lgsmdir}" ]; then
 fi 
 
 fn_fetch_core_dl(){
+if [ -z "${githubuser}" ]; then
+	githubuser="dgibbs64"
+fi
+if [ -z "${githubrepo}" ]; then	
+	githubrepo="linuxgsm"
+fi
+if [ -z "${githubbranch}" ]; then
+	githubbranch="master"
+fi
 github_file_url_dir="lgsm/functions"
 github_file_url_name="${functionfile}"
 filedir="${functionsdir}"

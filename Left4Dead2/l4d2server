@@ -22,7 +22,7 @@ email="email@example.com"
 
 # Pushbullet 
 # https://www.pushbullet.com/#settings
-pushbulletalert"off"
+pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Pushover

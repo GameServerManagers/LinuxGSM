@@ -17,8 +17,8 @@ fn_stop_graceful_source(){
 	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
 	for seconds in {1..30}; do
-		pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-		if [ "${pid}" == "0" ]; then
+		check_status.sh
+		if [ "${status}" == "0" ]; then
 			fn_print_ok "Graceful: rcon quit: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_scriptlog "Graceful: rcon quit: OK: ${seconds} seconds"
@@ -27,7 +27,8 @@ fn_stop_graceful_source(){
 		sleep 1
 		fn_print_dots "Graceful: rcon quit: ${seconds}"
 	done
-	if [ "${pid}" != "0" ]; then
+	check_status.sh
+	if [ "${status}" != "0" ]; then
 		fn_print_fail "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Graceful: rcon quit: FAIL"
@@ -202,11 +203,17 @@ fn_stop_teamspeak3(){
 	fn_scriptlog "${servername}"
 	sleep 1
 	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
-	# Remove lock file
-	rm -f "${rootdir}/${lockselfname}"
-	fn_print_ok_nl "${servername}"
-	fn_scriptlog "Stopped ${servername}"
-	}
+	check_status.sh
+	if [ "${status}" == "0" ]; then
+		# Remove lock file
+		rm -f "${rootdir}/${lockselfname}"
+		fn_print_ok_nl "${servername}"
+		fn_scriptlog "Stopped ${servername}"
+	else
+		fn_print_fail_nl "Unable to stop${servername}"
+		fn_scriptlog "Unable to stop${servername}"
+	fi
+}
 
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
@@ -215,8 +222,8 @@ fn_stop_tmux(){
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	sleep 0.5
-	pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-	if [ "${pid}" == "0" ]; then
+	check_status.sh
+	if [ "${status}" == "0" ]; then
 		# Remove lock file
 		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
@@ -244,8 +251,8 @@ fn_stop_pre_check(){
 			fn_stop_teamspeak3
 		fi
 	else
-		pid=$(tmux list-sessions 2>&1|awk '{print $1}'|grep -Ec "^${servicename}:")
-		if [ "${pid}" == "0" ]; then
+		check_status.sh
+		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
 			fn_scriptlog "${servername} is already stopped"
 		else

@@ -5,7 +5,7 @@
 lgsm_version="210516"
 
 fn_dlgsquery(){
-	cd "${rootdir}"
+	cd "${functionsdir}"
 	echo -e "downloading gsquery.py...\c"
 	wget -N /dev/null "https://gameservermanagers.com/dl/gsquery.py" 2>&1 | grep -F "HTTP" | grep -v "Moved Permanently" | cut -c45- | uniq
 	chmod +x gsquery.py
