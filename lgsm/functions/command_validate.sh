@@ -22,8 +22,10 @@ fn_validation(){
 
 	cd "${rootdir}/steamcmd"
 
-	if [ $(command -v unbuffer) ]; then
+        if [ $(command -v unbuffer) ]; then
 		unbuffer=unbuffer
+        elif  [ $(command -v stdbuf) ]; then
+		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
 	if [ "${engine}" == "goldsource" ]; then

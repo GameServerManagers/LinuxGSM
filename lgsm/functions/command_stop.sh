@@ -174,7 +174,7 @@ fn_stop_ark(){
         fi
 
         if [[ ${#queryport} -gt 0 ]] ; then
-                for (( pidcheck=0 ; pidcheck < ${MADPIDITER} ; pidcheck++ )) ; do
+                for (( pidcheck=0 ; pidcheck < ${MAXPIDITER} ; pidcheck++ )) ; do
                         pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
                                 grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
                                 rev | cut -d\/ -f1)
