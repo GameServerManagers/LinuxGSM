@@ -2,7 +2,7 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+lgsm_version="270516"
 
 # Description: Checks that the requires dependencies are installed for LGSM.
 
@@ -126,7 +126,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	array_deps_missing=()
 
 	# LGSM requirement for curl
-	array_deps_required=( curl ca-certificates )
+	array_deps_required=( curl ca-certificates file )
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
