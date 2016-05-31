@@ -28,7 +28,7 @@ fn_details_os(){
 	# Hostname:  hostname
 	# tmux:      tmux 1.8
 	# GLIBC:     2.19
-	
+
 	{
 		echo -e ""
 		echo -e "Distro Details"
@@ -56,7 +56,7 @@ fn_details_performance(){
 	{
 		echo -e ""
 		echo -e "Performance"
-		echo -e "================================="		
+		echo -e "================================="
 		echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
 		echo -e "Avg Load: ${load}"
 		echo -e ""
@@ -124,7 +124,7 @@ fn_details_gameserver(){
 			echo -e "RCON password: ********"
 		fi
 
-		# Admin password 
+		# Admin password
 		if [ -n "${adminpassword}" ]; then
 			echo -e "Admin password: ********"
 		fi
@@ -172,7 +172,7 @@ fn_alert_email_template_logs(){
 	{
 	echo -e ""
 	echo -e "${servicename} Logs"
-	echo -e "================================="	
+	echo -e "================================="
 
 	if [ -n "${scriptlog}" ]; then
 		echo -e "\nScript log\n==================="
@@ -180,7 +180,7 @@ fn_alert_email_template_logs(){
 			echo "${scriptlogdir} (NO LOG FILES)"
 		elif [ ! -s "${scriptlog}" ]; then
 			echo "${scriptlog} (LOG FILE IS EMPTY)"
-		else	
+		else
 			echo "${scriptlog}"
 			tail -25 "${scriptlog}"
 		fi
@@ -193,7 +193,7 @@ fn_alert_email_template_logs(){
 			echo "${consolelogdir} (NO LOG FILES)"
 		elif [ ! -s "${consolelog}" ]; then
 			echo "${consolelog} (LOG FILE IS EMPTY)"
-		else	
+		else
 			echo "${consolelog}"
 			tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }'
 		fi
@@ -204,12 +204,12 @@ fn_alert_email_template_logs(){
 		echo -e "\nServer log\n==================="
 		if [ ! "$(ls -A ${gamelogdir})" ]; then
 			echo "${gamelogdir} (NO LOG FILES)"
-		else	
+		else
 			echo "${gamelogdir}"
 			tail "${gamelogdir}"/* | grep -v "==>" | sed '/^$/d' | tail -25
 		fi
 		echo ""
-	fi	
+	fi
 
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
@@ -223,14 +223,18 @@ check_ip.sh
 emaillog="${emaillog}"
 if [ -f "${emaillog}" ]; then
 	rm "${emaillog}"
-fi	
+fi
 fn_details_email
 fn_details_os
 fn_details_performance
 fn_details_disk
 fn_details_gameserver
 fn_alert_email_template_logs
-mail -s "${alertsubject}" "${email}" < "${emaillog}"
+if [ -n "${emailfrom}" ]; then
+	mail -s "${alertsubject}" -a "From: ${emailfrom}" "${email}" < "${emaillog}"
+else
+	mail -s "${alertsubject}" "${email}" < "${emaillog}"
+fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
 	fn_print_ok_nl "Sending alert to ${email}"
