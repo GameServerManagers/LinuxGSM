@@ -13,12 +13,16 @@ if [ "${checklogs}" != "1" ]; then
 fi
 sleep 1
 # Create dir's for the script and console logs
-mkdir -v "${rootdir}/log"
-mkdir -v "${scriptlogdir}"
-touch "${scriptlog}"
-if [ -n "${consolelogdir}" ]; then
-	mkdir -v "${consolelogdir}"
-	touch "${consolelog}"
+if [ -d "${rootdir}/log" ]; then
+	fn_print_warning_nl "Log folders already exist!"
+else
+	mkdir -v "${rootdir}/log"
+	mkdir -v "${scriptlogdir}"
+	touch "${scriptlog}"
+	if [ -n "${consolelogdir}" ]; then
+		mkdir -v "${consolelogdir}"
+		touch "${consolelog}"
+	fi
 fi
 
 # If a server is source or goldsource, Teamspeak 3, Starbound, Project Zomhoid create a symbolic link to the game server logs.
