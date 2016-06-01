@@ -37,7 +37,7 @@ else
 	fn_scriptlog "Failed to access: Server not running"
 	sleep 1
 	while true; do
-		read -p "Do you want to start the server? [y/N]" yn
+		read -e -i "y" -p "Do you want to start the server? [y/N]" yn
 		case $yn in
 		[Yy]* ) command_start.sh; command_console.sh; break;;
 		[Nn]* ) break;;
