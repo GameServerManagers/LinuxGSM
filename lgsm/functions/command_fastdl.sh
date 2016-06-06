@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="210216"
+lgsm_version="060616"
 
 # Description: Creates a FastDL folder
 
@@ -59,7 +59,7 @@ fn_fastdl_init(){
 		fn_print_info "Creating FastDL directories"
 		echo -en "\n"
 		sleep 1
-		fn_printdots "Creating www directory"
+		fn_print_dots "Creating www directory"
 		sleep 0.5
 		mkdir "${webdir}"
 		fn_print_ok "Created www directory"
@@ -70,7 +70,7 @@ fn_fastdl_init(){
 	if [ ! -d "${fastdldir}" ]; then
 		# No folder, won't ask for removing old ones
 		newfastdl=1
-		fn_printdots "Creating fastdl directory"
+		fn_print_dots "Creating fastdl directory"
 		sleep 0.5
 		mkdir "${fastdldir}"
 		fn_print_ok "Created fastdl directory"
@@ -91,7 +91,7 @@ fn_fastdl_config(){
 	echo -en "\n"
 	# Prompt for clearing old files if folder was already here
 	if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
-		fn_printdots
+		fn_print_dots
 		while true; do
 			read -e -i "y" -p "Clear old FastDL files? [Y/n]" yn
 			case $yn in
@@ -104,7 +104,7 @@ fn_fastdl_config(){
 	fi
 	# Prompt for using bzip2 if it's installed
 	if [ ${bzip2installed} == 1 ]; then
-		fn_printdots
+		fn_print_dots
 		while true; do
 			read -e -i "y" -p "Enable file compression using bzip2? [Y/n]" yn
 			case $yn in
@@ -119,7 +119,7 @@ fn_fastdl_config(){
 
 fn_fastdl_gmod_config(){
 	# Prompt for download enforcer, that is using a .lua addfile resource generator
-	fn_printdots
+	fn_print_dots
 	while true; do
 		read -e -i "y" -p "Use client download enforcer? [Y/n]" yn
 		case $yn in
@@ -148,7 +148,7 @@ fn_clear_old_fastdl(){
 fn_gmod_fastdl(){
 	# Copy all needed files for FastDL
 	echo ""
-	fn_printdots "Starting gathering all needed files"
+	fn_print_dots "Starting gathering all needed files"
 	fn_scriptlog "Starting gathering all needed files"
 	sleep 1
 	echo -en "\n"
@@ -157,7 +157,7 @@ fn_gmod_fastdl(){
 	cd "${systemdir}"
 
 	# Map Files
-	fn_printdots "Copying map files..."
+	fn_print_dots "Copying map files..."
 	fn_scriptlog "Copying map files"
 	sleep 0.5
 	find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
@@ -166,7 +166,7 @@ fn_gmod_fastdl(){
 	echo -en "\n"
 
 	# Materials
-	fn_printdots "Copying materials..."
+	fn_print_dots "Copying materials..."
 	fn_scriptlog "Copying materials"
 	sleep 0.5
 	find . -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
@@ -176,7 +176,7 @@ fn_gmod_fastdl(){
 	echo -en "\n"
 
 	# Models
-	fn_printdots "Copying models..."
+	fn_print_dots "Copying models..."
 	fn_scriptlog "Copying models"
 	sleep 1
 	find . -name '*.vtx' | cpio --quiet -updm "${fastdldir}"
@@ -188,7 +188,7 @@ fn_gmod_fastdl(){
 	echo -en "\n"
 
 	# Particles
-	fn_printdots "Copying particles..."
+	fn_print_dots "Copying particles..."
 	fn_scriptlog "Copying particles"
 	sleep 0.5
 	find . -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
@@ -197,7 +197,7 @@ fn_gmod_fastdl(){
 	echo -en "\n"
 
 	# Sounds
-	fn_printdots "Copying sounds..."
+	fn_print_dots "Copying sounds..."
 	fn_scriptlog "Copying sounds"
 	sleep 0.5
 	find . -name '*.wav' | cpio --quiet -updm "${fastdldir}"
@@ -208,7 +208,7 @@ fn_gmod_fastdl(){
 	echo -en "\n"
 
 	# Resources (mostly fonts)
-	fn_printdots "Copying fonts and png..."
+	fn_print_dots "Copying fonts and png..."
 	fn_scriptlog "Copying fonts and png"
 	sleep 1
 	find . -name '*.otf' | cpio --quiet -updm "${fastdldir}"
@@ -235,7 +235,7 @@ fn_gmod_fastdl(){
 
 	# Correct content that may be into a lua folder by mistake like some darkrpmodification addons
 	if [ -d "${fastdldir}/lua" ]; then
-		fn_printdots "Typical DarkRP shit detected, fixing"
+		fn_print_dots "Typical DarkRP shit detected, fixing"
 		sleep 2
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 		fn_print_ok "Stupid DarkRP file structure fixed"
@@ -250,7 +250,7 @@ fn_lua_fastdl(){
 	echo ""
 	if [ "${luaressource}" == "off" ]; then
 		if [ -f "${luafastdlfullpath}" ]; then
-			fn_printdots "Removing download enforcer"
+			fn_print_dots "Removing download enforcer"
 			sleep 1
 			rm -R "${luafastdlfullpath:?}"
 			fn_print_ok "Removed download enforcer"
@@ -262,7 +262,7 @@ fn_lua_fastdl(){
 	# Remove old lua file and generate a new one if user said yes
 	if [ "${luaressource}" == "on" ]; then
 		if [ -f "${luafastdlfullpath}" ]; then
-			fn_printdots "Removing old download enforcer"
+			fn_print_dots "Removing old download enforcer"
 			sleep 1
 			rm "${luafastdlfullpath}"
 			fn_print_ok "Removed old download enforcer"
@@ -270,7 +270,7 @@ fn_lua_fastdl(){
 			echo -en "\n"
 			sleep 1
 		fi
-		fn_printdots "Generating new download enforcer"
+		fn_print_dots "Generating new download enforcer"
 		fn_scriptlog "Generating new download enforcer"
 		sleep 1
 		# Read all filenames and put them into a lua file at the right path
@@ -292,7 +292,7 @@ fn_fastdl_bzip2(){
 		fn_print_info "Have a break, this step could take a while..."
 		echo -en "\n"
 		echo ""
-		fn_printdots "Compressing files using bzip2..."
+		fn_print_dots "Compressing files using bzip2..."
 		fn_scriptlog "Compressing files using bzip2..."
 		# bzip2 all files that are not already compressed (keeping original files)
 		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
