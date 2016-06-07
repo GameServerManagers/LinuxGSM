@@ -25,7 +25,7 @@ fn_check_bzip2(){
 	# Returns true if not installed
 	if [ -z "$(command -v bzip2)" ]; then
 		bzip2installed="0"
-		fn_printinfo "bzip2 is not installed !"
+		fn_print_info "bzip2 is not installed !"
 		fn_scriptlog "bzip2 is not installed"
 		echo -en "\n"
 		sleep 1
@@ -39,7 +39,7 @@ fn_check_bzip2(){
 
 fn_fastdl_init(){
 	# User confirmation
-	fn_printok "Welcome to LGSM's FastDL generator"
+	fn_print_ok "Welcome to LGSM's FastDL generator"
 	sleep 1
 	echo -en "\n"
 	fn_scriptlog "Started FastDL creation"
@@ -56,13 +56,13 @@ fn_fastdl_init(){
 	# Check and create folders
 	if [ ! -d "${webdir}" ]; then
 		echo ""
-		fn_printinfo "Creating FastDL directories"
+		fn_print_info "Creating FastDL directories"
 		echo -en "\n"
 		sleep 1
 		fn_printdots "Creating www directory"
 		sleep 0.5
 		mkdir "${webdir}"
-		fn_printok "Created www directory"
+		fn_print_ok "Created www directory"
 		fn_scriptlog "FastDL created www directory"
 		sleep 1
 		echo -en "\n"
@@ -73,7 +73,7 @@ fn_fastdl_init(){
 		fn_printdots "Creating fastdl directory"
 		sleep 0.5
 		mkdir "${fastdldir}"
-		fn_printok "Created fastdl directory"
+		fn_print_ok "Created fastdl directory"
 		fn_scriptlog "FastDL created fastdl directory"
 		sleep 1
 		echo -en "\n"
@@ -85,7 +85,7 @@ fn_fastdl_init(){
 
 fn_fastdl_config(){
 	# Global settings for FastDL creation
-	fn_printinfo "Entering configuration"
+	fn_print_info "Entering configuration"
 	fn_scriptlog "Configuration"
 	sleep 2
 	echo -en "\n"
@@ -95,8 +95,8 @@ fn_fastdl_config(){
 		while true; do
 			read -e -i "y" -p "Clear old FastDL files? [Y/n]" yn
 			case $yn in
-			[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_printok "Clearing Enabled"; break;;
-			[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_printok "Clearing Disabled"; break;;
+			[Yy]* ) clearoldfastdl="on"; fn_scriptlog "clearoldfastdl enabled"; fn_print_ok "Clearing Enabled"; break;;
+			[Nn]* ) clearoldfastdl="off"; fn_scriptlog "clearoldfastdl disabled"; fn_print_ok "Clearing Disabled"; break;;
 			* ) echo "Please answer yes or no.";;
 			esac
 		done
@@ -108,8 +108,8 @@ fn_fastdl_config(){
 		while true; do
 			read -e -i "y" -p "Enable file compression using bzip2? [Y/n]" yn
 			case $yn in
-			[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_printok "bzip2 Enabled"; break;;
-			[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_printok "bzip2 Disabled"; break;;
+			[Yy]* ) bzip2enable="on"; fn_scriptlog "bzip2 enabled"; fn_print_ok "bzip2 Enabled"; break;;
+			[Nn]* ) bzip2enable="off"; fn_scriptlog "bzip2 disabled"; fn_print_ok "bzip2 Disabled"; break;;
 			* ) echo "Please answer yes or no.";;
 			esac
 		done
@@ -123,8 +123,8 @@ fn_fastdl_gmod_config(){
 	while true; do
 		read -e -i "y" -p "Use client download enforcer? [Y/n]" yn
 		case $yn in
-		[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_printok "Enforcer Enabled"; break;;
-		[Nn]* ) luaressource="off"; fn_scriptlog "DL enforcer Disabled"; fn_printok "Enforcer Disabled"; break;;
+		[Yy]* ) luaressource="on"; fn_scriptlog "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"; break;;
+		[Nn]* ) luaressource="off"; fn_scriptlog "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"; break;;
 		* ) echo "Please answer yes or no.";;
 		esac
 	done
@@ -134,11 +134,11 @@ fn_fastdl_gmod_config(){
 fn_clear_old_fastdl(){
 	# Clearing old FastDL if user answered yes
 	if [ "${clearoldfastdl}" == "on" ]; then
-		fn_printinfo "Clearing existing FastDL folder"
+		fn_print_info "Clearing existing FastDL folder"
 		fn_scriptlog "Clearing existing FastDL folder"
 		sleep 0.5
 		rm -R "${fastdldir:?}"/*
-		fn_printok "Old FastDL folder cleared"
+		fn_print_ok "Old FastDL folder cleared"
 		fn_scriptlog "Old FastDL folder cleared"
 		sleep 1
 		echo -en "\n"
@@ -161,7 +161,7 @@ fn_gmod_fastdl(){
 	fn_scriptlog "Copying map files"
 	sleep 0.5
 	find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
-	fn_printok "Map files copied"
+	fn_print_ok "Map files copied"
 	sleep 0.5
 	echo -en "\n"
 
@@ -171,7 +171,7 @@ fn_gmod_fastdl(){
 	sleep 0.5
 	find . -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
-	fn_printok "Materials copied"
+	fn_print_ok "Materials copied"
 	sleep 0.5
 	echo -en "\n"
 
@@ -183,7 +183,7 @@ fn_gmod_fastdl(){
 	find . -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.phy' | cpio --quiet -updm "${fastdldir}"
-	fn_printok "Models copied"
+	fn_print_ok "Models copied"
 	sleep 0.5
 	echo -en "\n"
 
@@ -192,7 +192,7 @@ fn_gmod_fastdl(){
 	fn_scriptlog "Copying particles"
 	sleep 0.5
 	find . -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
-	fn_printok "Particles copied"
+	fn_print_ok "Particles copied"
 	sleep 0.5
 	echo -en "\n"
 
@@ -203,7 +203,7 @@ fn_gmod_fastdl(){
 	find . -name '*.wav' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
-	fn_printok "Sounds copied"
+	fn_print_ok "Sounds copied"
 	sleep 0.5
 	echo -en "\n"
 
@@ -214,7 +214,7 @@ fn_gmod_fastdl(){
 	find . -name '*.otf' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
 	find . -name '*.png' | cpio --quiet -updm "${fastdldir}"
-	fn_printok "Fonts and png copied"
+	fn_print_ok "Fonts and png copied"
 	sleep 0.5
 	echo -en "\n"
 
@@ -223,12 +223,12 @@ fn_gmod_fastdl(){
 
 	# Correct addons folder structure for FastDL
 	if [ -d "${fastdldir}/addons" ]; then
-		fn_printinfo "Adjusting addons' file structure"
+		fn_print_info "Adjusting addons' file structure"
 		fn_scriptlog "Adjusting addon's file structure"
 		sleep 1
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
 	#Don't remove yet	rm -R "${fastdldir:?}/addons"
-		fn_printok "Adjusted addon's file structure"
+		fn_print_ok "Adjusted addon's file structure"
 		sleep 1
 		echo -en "\n"
 	fi
@@ -238,7 +238,7 @@ fn_gmod_fastdl(){
 		fn_printdots "Typical DarkRP shit detected, fixing"
 		sleep 2
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
-		fn_printok "Stupid DarkRP file structure fixed"
+		fn_print_ok "Stupid DarkRP file structure fixed"
 		sleep 2
 		echo -en "\n"
 	fi
@@ -253,7 +253,7 @@ fn_lua_fastdl(){
 			fn_printdots "Removing download enforcer"
 			sleep 1
 			rm -R "${luafastdlfullpath:?}"
-			fn_printok "Removed download enforcer"
+			fn_print_ok "Removed download enforcer"
 			fn_scriptlog "Removed old download inforcer"
 			echo -en "\n"
 			sleep 2
@@ -265,7 +265,7 @@ fn_lua_fastdl(){
 			fn_printdots "Removing old download enforcer"
 			sleep 1
 			rm "${luafastdlfullpath}"
-			fn_printok "Removed old download enforcer"
+			fn_print_ok "Removed old download enforcer"
 			fn_scriptlog "Removed old download enforcer"
 			echo -en "\n"
 			sleep 1
@@ -277,7 +277,7 @@ fn_lua_fastdl(){
 		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
 			echo "resource.AddFile( "\""${line}"\"" )" >> ${luafastdlfullpath}
 		done
-		fn_printok "Download enforcer generated"
+		fn_print_ok "Download enforcer generated"
 		fn_scriptlog "Download enforcer generated"
 		echo -en "\n"
 		echo ""
@@ -289,14 +289,14 @@ fn_fastdl_bzip2(){
 	# Compressing using bzip2 if user said yes
 	echo ""
 	if [ ${bzip2enable} == "on" ]; then
-		fn_printinfo "Have a break, this step could take a while..."
+		fn_print_info "Have a break, this step could take a while..."
 		echo -en "\n"
 		echo ""
 		fn_printdots "Compressing files using bzip2..."
 		fn_scriptlog "Compressing files using bzip2..."
 		# bzip2 all files that are not already compressed (keeping original files)
 		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
-		fn_printok "bzip2 compression done"
+		fn_print_ok "bzip2 compression done"
 		fn_scriptlog "bzip2 compression done"
 		sleep 1
 		echo -en "\n"
@@ -306,12 +306,12 @@ fn_fastdl_bzip2(){
 fn_fastdl_completed(){
 	# Finished message
 	echo ""
-	fn_printok "Congratulations, it's done !"
+	fn_print_ok "Congratulations, it's done !"
 	fn_scriptlog "FastDL job done"
 	sleep 2
 	echo -en "\n"
 	echo ""
-	fn_printinfo "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/FastDL"
+	fn_print_info "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/FastDL"
 	echo -en "\n"
 	if [ "$bzip2installed" == "0" ]; then
 	echo "By the way, you'd better install bzip2 an re-run this command !"
