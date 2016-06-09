@@ -288,7 +288,7 @@ fn_details_ports(){
 		fi
 	done
 
-	local ports_edit_array=( "starbound" "spark" "source" "goldsource" "Rust" "Hurtworld" )
+	local ports_edit_array=( "starbound" "spark" "source" "goldsource" "Rust" "Hurtworld" "unreal4")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
