@@ -20,7 +20,7 @@ version="210516"
 emailalert="off"
 email="email@example.com"
 
-# Pushbullet 
+# Pushbullet
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
@@ -30,11 +30,17 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
+servername="ark-server"
+port="7778"
+queryport="27015"
+rconport="32330"
+rconpassword="" # Set to enable rcon
+maxplayers="50"
 ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
-parms="TheIsland?listen"
+    parms="TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}"
 }
 
 #### Advanced Variables ####
