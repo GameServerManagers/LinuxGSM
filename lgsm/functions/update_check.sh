@@ -169,7 +169,7 @@ fn_steamcmdcheck(){
 		fn_scriptlog "${currentbuild} > ${availablebuild}"
 
 		unset updateonstart
-		info_status.sh
+		check_status.sh
 		if [ "${status}" != "0" ]; then
 			command_stop.sh
 			update_dl.sh

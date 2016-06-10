@@ -8,7 +8,7 @@ lgsm_version="210516"
 
 # Resolves ./srcds_linux: error while loading shared libraries: libtier0.so: cannot open shared object file: No such file or directory
 
-export LD_LIBRARY_PATH=:${filesdir}:${filesdir}/bin:{$LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${filesdir}:${filesdir}/bin:${LD_LIBRARY_PATH}
 
 # fix for issue #529 - gamemode not passed to debug or start
 

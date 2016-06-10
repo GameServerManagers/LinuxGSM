@@ -2,7 +2,7 @@
 # LGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+lgsm_version="050616"
 
 # Description: Stops the server.
 
@@ -32,9 +32,9 @@ fn_stop_graceful_source(){
 		fn_print_fail "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
 		fn_scriptlog "Graceful: rcon quit: FAIL"
-		fn_stop_tmux
 	fi
 	sleep 1
+	fn_stop_tmux
 }
 
 # Attempts Graceful of goldsource using rcon 'quit' command.
