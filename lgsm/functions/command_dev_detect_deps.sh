@@ -22,7 +22,7 @@ elif [ "${executable}" ==  "./runSam3_DedicatedServer.sh" ]; then
 elif [ "${executable}" ==  "./7DaysToDie.sh" ]; then
 	executable=7DaysToDie.x86
 elif [ "${executable}" ==  "./ucc-bin" ]; then
-        
+
 	if [ -f "${executabledir}/ucc-bin-real" ]; then
 		executable=ucc-bin-real
 	elif [ -f "${executabledir}/ut2004-bin" ]; then
@@ -32,7 +32,7 @@ elif [ "${executable}" ==  "./ucc-bin" ]; then
 	fi
 
 elif [ "${executable}" ==  "./ts3server_startscript.sh" ]; then
-	executable=ts3server_linux_amd64	
+	executable=ts3server_linux_amd64
 fi
 
 if [ "$(command -v eu-readelf)" ]; then
@@ -40,7 +40,7 @@ if [ "$(command -v eu-readelf)" ]; then
 elif [ "$(command -v readelf)" ]; then
 	readelf=readelf
 else
-	echo "readelf/eu-readelf not installed"	
+	echo "readelf/eu-readelf not installed"
 fi
 
 ${readelf} -d ${executable} |grep NEEDED|awk '{ print $5 }'|sed 's/\[//g'|sed 's/\]//g' > "${rootdir}/.depdetect_readelf"
@@ -55,28 +55,28 @@ while read lib; do
 		echo "glibc.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "lib32gcc1" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "lib32gcc1" >> "${rootdir}/.depdetect_debian_list"
-	
+
 	elif [ "${lib}" == "libstdc++.so.6" ]; then
 		echo "libstdc++.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "libstdc++6:i386" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "libstdc++6:i386" >> "${rootdir}/.depdetect_debian_list"
-	
+
 	elif [ "${lib}" == "libstdc++.so.5" ]; then
 		echo "compat-libstdc++-33.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "libstdc++5:i386" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "libstdc++5:i386" >> "${rootdir}/.depdetect_debian_list"
 
-	elif [ "${lib}" == "libspeex.so.1" ]||[ "${lib}" == "libspeexdsp.so.1" ]; then 
+	elif [ "${lib}" == "libspeex.so.1" ]||[ "${lib}" == "libspeexdsp.so.1" ]; then
 		echo "speex.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "speex:i386" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "speex:i386" >> "${rootdir}/.depdetect_debian_list"
 
-	elif [ "${lib}" == "./libSDL-1.2.so.0" ]||[ "${lib}" == "libSDL-1.2.so.0" ]; then 
+	elif [ "${lib}" == "./libSDL-1.2.so.0" ]||[ "${lib}" == "libSDL-1.2.so.0" ]; then
 		echo "SDL.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_ubuntu_list"
-		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_debian_list"		
+		echo "libsdl1.2debian" >> "${rootdir}/.depdetect_debian_list"
 
-	elif [ "${lib}" == "libtbb.so.2" ]; then 
+	elif [ "${lib}" == "libtbb.so.2" ]; then
 		echo "tbb.i686" >> "${rootdir}/.depdetect_centos_list"
 		echo "libtbb2" >> "${rootdir}/.depdetect_ubuntu_list"
 		echo "libtbb2" >> "${rootdir}/.depdetect_debian_list"

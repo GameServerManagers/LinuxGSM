@@ -36,7 +36,7 @@ fn_install_ts3db_mariadb(){
 	echo "username='${mariausername}'" >> ${servercfgdir}/ts3db_mariadb.ini
 	echo "password='${mariapassword}'" >> ${servercfgdir}/ts3db_mariadb.ini
 	echo "database='${mariadbname}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "socket=" >> ${servercfgdir}/ts3db_mariadb.ini	
+	echo "socket=" >> ${servercfgdir}/ts3db_mariadb.ini
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"

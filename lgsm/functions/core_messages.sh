@@ -35,9 +35,9 @@ fn_print_fail_nl(){
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] $@"
 	fi
 	sleep 1
-	echo -en "\n"		
+	echo -en "\n"
 }
-	
+
 # [  OK  ]
 fn_print_ok(){
 	if [ -n "${modulename}" ]; then
@@ -54,7 +54,7 @@ fn_print_ok_nl(){
 		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] $@"
 	fi
 	sleep 1
-	echo -en "\n"	
+	echo -en "\n"
 }
 
 # [ INFO ]
@@ -73,7 +73,7 @@ fn_print_info_nl(){
 		echo -en "\r\033[K[\e[0;36m INFO \e[0m] $@"
 	fi
 	sleep 1
-	echo -en "\n"		
+	echo -en "\n"
 }
 
 # [ WARN ]
@@ -92,7 +92,7 @@ fn_print_warn_nl(){
 		echo -en "\r\033[K[\e[1;33m WARN \e[0m] $@"
 	fi
 	sleep 1
-	echo -en "\n"		
+	echo -en "\n"
 }
 
 # [ .... ]

@@ -11,13 +11,13 @@ if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
-fi 
+fi
 
 fn_fetch_core_dl(){
 if [ -z "${githubuser}" ]; then
 	githubuser="dgibbs64"
 fi
-if [ -z "${githubrepo}" ]; then	
+if [ -z "${githubrepo}" ]; then
 	githubrepo="linuxgsm"
 fi
 if [ -z "${githubbranch}" ]; then
@@ -52,7 +52,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
-		fi		
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"

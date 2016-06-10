@@ -13,7 +13,7 @@ check.sh
 install_header.sh
 install_server_dir.sh
 install_logs.sh
-check_deps.sh 
+check_deps.sh
 # Download and install
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_server_files.sh

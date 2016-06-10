@@ -70,29 +70,29 @@ fn_info_config_teeworlds(){
 		rconpassword="${unavailable}"
 		port="8303"
 		slots="12"
-	else	
+	else
 		servername=$(grep "sv_name" "${servercfgfullpath}" | sed 's/sv_name //g' | sed 's/"//g')
 		serverpassword=$(grep "password " "${servercfgfullpath}" | awk '!/sv_rcon_password/'| sed 's/password //g' | tr -d '=\"; ')
 		rconpassword=$(grep "sv_rcon_password" "${servercfgfullpath}" | sed 's/sv_rcon_password //g' | tr -d '=\"; ')
 		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		slots=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"8303"}
 		slots=${slots:-"12"}
-	fi	
+	fi
 }
 
 fn_info_config_terraria(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		port="0"
-	else	
+	else
 		port=$(grep "port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 
-		# Not Set		
+		# Not Set
 		port=${port:-"0"}
 	fi
 }
@@ -134,7 +134,7 @@ fn_info_config_unreal(){
 		webadminport=${webadminport:-"NOT SET"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
-	fi	
+	fi
 }
 
 ## Just Cause 2
@@ -149,13 +149,13 @@ elif [ "${engine}" == "projectzomboid" ]; then
 # Quake Live
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
-# ARMA 3	
+# ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_info_config_realvirtuality
-# Serious Sam	
+# Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
 	fn_info_config_seriousengine35
-# Source Engine Games	
+# Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
 elif [ "${gamename}" == "Teamspeak 3" ]; then
@@ -165,7 +165,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds
 elif [ "${engine}" == "terraria" ]; then
 	fn_info_config_terraria
-# Unreal/Unreal 2 engine 
+# Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal
 fi

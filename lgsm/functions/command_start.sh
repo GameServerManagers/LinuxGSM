@@ -88,7 +88,7 @@ fn_start_tmux(){
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
-	
+
 	# tmux pipe-pane not supported in tmux versions < 1.6
 	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
 		echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
@@ -177,7 +177,7 @@ logs.sh
 if [ "${status}" == "0" ]; then
 	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
 		update_check.sh
-	fi	
+	fi
 fi
 
 if [ "${gamename}" == "Teamspeak 3" ]; then

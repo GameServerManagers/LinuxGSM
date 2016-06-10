@@ -90,7 +90,7 @@ fn_logupdaterequest(){
 		echo -ne "\n"
 
 		unset updateonstart
-		check_status.sh	
+		check_status.sh
 		if [ "${status}" != "0" ]; then
 			command_stop.sh
 			update_dl.sh
@@ -99,7 +99,7 @@ fn_logupdaterequest(){
 			update_dl.sh
 		fi
 		alert="update"
-		alert.sh		
+		alert.sh
 	else
 		fn_print_ok "Checking for update: Server logs: No update requested"
 		sleep 1
@@ -234,7 +234,7 @@ fn_teamspeak3_check(){
 		fn_print_failure "${arch} is an unsupported architecture"
 		exit 1
 	fi
-	 
+
 	# Gets availablebuild info
 
 	# Grabs all version numbers but not in correct order
@@ -295,7 +295,7 @@ fn_teamspeak3_check(){
 		fn_scriptlog "Current build: ${currentbuild}"
 		fn_scriptlog "Available build: ${availablebuild}"
 		fn_scriptlog "${currentbuild} > ${availablebuild}"
-		
+
 		unset updateonstart
 		check_status.sh
 		if [ "${status}" == "0" ]; then
@@ -309,7 +309,7 @@ fn_teamspeak3_check(){
 			command_start.sh
 		fi
 		alert="update"
-		alert.sh		
+		alert.sh
 	else
 		echo -e "\n"
 		echo -e "No update available:"

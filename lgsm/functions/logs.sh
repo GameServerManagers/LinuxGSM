@@ -93,7 +93,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 		rm -rf "${legacyserverlogdir}"
 		fi
 	fi
-				
+
 	# Count total amount of files removed
 	count=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount} + ${legacycount}))
 	# Job done

@@ -25,7 +25,7 @@ if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
-fi 
+fi
 
 fn_fetch_core_dl(){
 github_file_url_dir="lgsm/functions"
@@ -57,7 +57,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
-		fi		
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
@@ -161,7 +161,7 @@ local modulename="Restarting"
 info_config.sh
 if [ -d "${scriptlogdir}" ]; then
 	fn_scriptlog "${servername}"
-fi	
+fi
 command_stop.sh
 command_start.sh
 }

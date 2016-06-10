@@ -23,7 +23,7 @@ fn_fix_msg_end(){
 	else
 		fn_print_ok_nl "Applying ${fixname} fix: ${gamename}"
 		fn_scriptlog "Complete! Applying ${fixname} fix: ${gamename}"
-	fi	
+	fi
 }
 
 
@@ -31,16 +31,16 @@ fn_fix_msg_end(){
 if [ "${function_selfname}" != "command_install.sh" ]; then
 	if [ -n "${appid}" ]; then
 		fix_steamcmd.sh
-	fi	
+	fi
 
 	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 		fix_csgo.sh
 	elif [ "${gamename}" == "Don't Starve Together" ]; then
-		fix_dst.sh		
+		fix_dst.sh
 	elif [ "${gamename}" == "Insurgency" ]; then
 		fix_ins.sh
 	elif [ "${gamename}" == "ARMA 3" ]; then
-		fix_arma3.sh	
+		fix_arma3.sh
 	fi
 
 	if [ "${gamename}" != "Teamspeak 3" ]; then
@@ -54,25 +54,25 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
 		echo "================================="
-		sleep 1			
+		sleep 1
 		fix_kf.sh
 	elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
 		echo "================================="
-		sleep 1		
+		sleep 1
 		fix_ro.sh
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
 		echo "================================="
-		sleep 1		
+		sleep 1
 		fix_ut2k4.sh
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
 		echo "================================="
-		sleep 1		
+		sleep 1
 		fix_ut99.sh
 	fi
 fi

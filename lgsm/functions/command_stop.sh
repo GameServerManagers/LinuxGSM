@@ -77,7 +77,7 @@ fn_stop_telnet_sdtd(){
 	expect { eof }
 	puts "Completed.\n"
 	')
-	
+
 }
 
 fn_stop_graceful_sdtd(){
@@ -120,7 +120,7 @@ fn_stop_graceful_sdtd(){
 				sleep 1
 				fn_print_dots "Graceful: rcon quit: ${seconds}"
 			done
-		# If telnet failed will go straight to tmux shutdown. 
+		# If telnet failed will go straight to tmux shutdown.
 		# If cannot shutdown correctly world save may be lost
 		else
 			if [ -n "${refused}" ]; then

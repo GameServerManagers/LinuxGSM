@@ -44,10 +44,10 @@ if [ "${emailnotification}" == "on" ]||[ "${emailalert}" == "on" ]&&[ -n "${emai
 	alert_email.sh
 elif [ "${emailnotification}" != "on" ]||[ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_info_nl "Email alerts not enabled"
-	fn_scriptlog "Email alerts not enabled"	
+	fn_scriptlog "Email alerts not enabled"
 elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_fail_nl "Email no set"
-	fn_scriptlog "Email no set"		
+	fn_print_fail_nl "Email not set"
+	fn_scriptlog "Email not set"
 fi
 
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
