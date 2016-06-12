@@ -18,9 +18,9 @@ fn_install_steamcmd(){
 
 
 fn_check_steamcmd_user(){
-	# Checks steamuser is setup. 
+	# Checks steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
-		fn_print_fail_nl "Steam login not set. Update steamuser."	
+		fn_print_fail_nl "Steam login not set. Update steamuser."
 		echo "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${scriptlogdir}" ]; then
 			fn_scriptlog "edit ${selfname}. change steamuser=\"username\" to a valid steam login."
@@ -36,7 +36,7 @@ fn_check_steamcmd_user(){
 		steamuser="anonymous"
 		steampass=""
 		sleep 2
-	fi	
+	fi
 }
 
 fn_check_steamcmd_sh(){
@@ -46,7 +46,7 @@ fn_check_steamcmd_sh(){
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
-		else	
+		else
 			fn_print_warn_nl "SteamCMD is missing"
 			fn_scriptlog "SteamCMD is missing"
 			sleep 1
@@ -63,9 +63,9 @@ fn_check_steamcmd_guard(){
 		# Checks that steamcmd is working correctly and will prompt Steam Guard if required.
 		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
 		if [ $? -ne 0 ]; then
-			fn_print_failure_nl "Error running SteamCMD"	
-		fi		
-	fi		
+			fn_print_failure_nl "Error running SteamCMD"
+		fi
+	fi
 }
 
 fn_check_steamcmd_user

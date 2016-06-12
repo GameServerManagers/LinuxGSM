@@ -85,7 +85,7 @@ if [ ! -f "${filepath}" ]; then
 	echo -e "    fetching ${filename}...\c"
 	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
 		:
-	else	
+	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
@@ -99,7 +99,7 @@ if [ ! -f "${filepath}" ]; then
 		exit
 	else
 		echo -e "\e[0;32mOK\e[0m"
-	fi	
+	fi
 	if [ "${exec}" ]; then
 		chmod +x "${filepath}"
 	fi
@@ -126,7 +126,7 @@ pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 if [ "${pid}" != "0" ]; then
 	currentstatus="ONLINE"
 else
-	currentstatus="OFFLINE"	
+	currentstatus="OFFLINE"
 fi
 }
 
@@ -136,10 +136,10 @@ ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
 if [ "${ts3status}" == "Server is running" ]; then
 	currentstatus="ONLINE"
 else
-	currentstatus="OFFLINE"	
+	currentstatus="OFFLINE"
 fi
 }
-	
+
 fn_setstatus(){
 	fn_currentstatus_tmux
 	echo""
@@ -150,7 +150,7 @@ fn_setstatus(){
     	counter=$((counter+1))
     	fn_currentstatus_tmux
 		echo -ne "New status:  ${currentstatus}\\r"
-    	
+
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			(command_start.sh > /dev/null 2>&1)
 		else

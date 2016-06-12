@@ -16,7 +16,7 @@ echo ""
 if [ -d "${filesdir}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi
-if [ -z "${autoinstall}" ]; then	
+if [ -z "${autoinstall}" ]; then
 	while true; do
 		read -e -i "y" -p "Continue [Y/n]" yn
 		case $yn in

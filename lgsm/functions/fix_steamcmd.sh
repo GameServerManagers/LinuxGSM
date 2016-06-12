@@ -31,10 +31,10 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_fix_msg_start
 		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${scriptlog}"
 		fn_fix_msg_end
-	fi	
+	fi
 	if [ ! -f "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
 		fixname="steamclient.so x86_64"
-		fn_fix_msg_start	
+		fn_fix_msg_start
 		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${scriptlog}"
 		fn_fix_msg_end
 	fi

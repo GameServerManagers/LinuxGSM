@@ -171,7 +171,7 @@ elif [ "${gamename}" == "BrainBread 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/BrainBread2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_sourceconfig	
+	fn_sourceconfig
 elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/BlackMesa/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -241,7 +241,7 @@ elif [ "${gamename}" == "GoldenEye: Source" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/GoldenEyeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_sourceconfig	
+	fn_sourceconfig
 elif [ "${gamename}" == "Half Life 2: Deathmatch" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/HalfLife2Deathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -289,7 +289,7 @@ elif [ "${gamename}" == "Project Zomboid" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/ProjectZomboid/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_defaultconfig		
+	fn_defaultconfig
 elif [ "${gamename}" == "Quake Live" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/QuakeLive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq

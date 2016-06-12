@@ -40,7 +40,7 @@ fn_check_ownership(){
 					conclusionpermissionerror="1"
 				fi
 		done <<< "$(find "${functionsdir}" -name "*.sh")"
-		
+
 		if [ "${funownfail}" == "1" ]; then
 			fn_print_fail_nl "Oops ! Ownership issue..."
 			echo "	* Current - ${currentuser} - user or its group(s) - ${currentgroups} - does not own all scripts in \"${functionsdir}\""
@@ -64,7 +64,7 @@ fn_check_permissions(){
 			conclusionpermissionerror="1"
 		fi
 	fi
-		
+
 	# Check functions permissions
 	funcpermfail="0"
 	if [ -n "${functionsdir}" ]; then
@@ -78,7 +78,7 @@ fn_check_permissions(){
 					conclusionpermissionerror="1"
 				fi
 		done <<< "$(find "${functionsdir}" -name "*.sh")"
-		
+
 		if [ "${funcpermfail}" == "1" ]; then
 			fn_print_fail_nl "Oops ! Permission issue..."
 			echo "	* Current - ${currentuser} - user or its group(s) - ${currentgroups} need full control on scripts in \"${functionsdir}\""

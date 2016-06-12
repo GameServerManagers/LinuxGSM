@@ -21,7 +21,7 @@ version="210516"
 emailalert="off"
 email="email@example.com"
 
-# Pushbullet 
+# Pushbullet
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
@@ -36,7 +36,7 @@ servername="Rust"
 ip="0.0.0.0"
 updateonstart="off"
 port="28015"
-rconport="28016" 
+rconport="28016"
 rconpassword="CHANGE_ME"
 maxplayers="50"
 
@@ -144,7 +144,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
-		fi		
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"

@@ -55,10 +55,10 @@ elif [ "${engine}" == "starbound" ]; then
 	glibcfix="no"
 elif [ "${engine}" == "terraria" ]; then
 	glibcrequired="2.7"
-	glibcfix="no"	
+	glibcfix="no"
 elif [ "${engine}" == "unreal" ]; then
 	glibcrequired="2.1"
-	glibcfix="no"	
+	glibcfix="no"
 elif [ "${engine}" == "unreal2" ]; then
 	glibcrequired="2.4"
 	glibcfix="no"
@@ -70,7 +70,7 @@ elif [ "${engine}" == "unity3d" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
-	glibcfix="no"	
+	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"

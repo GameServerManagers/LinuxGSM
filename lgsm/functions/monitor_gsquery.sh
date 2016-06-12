@@ -12,14 +12,14 @@ local modulename="Monitor"
 # Forces legecy servers to use gsquery
 if [ -z "${gsquery}" ]; then
 	gsquery="yes"
-fi	 
+fi
 
 if [ "${gsquery}" == "yes" ]; then
 
 	# Downloads gsquery.py if missing
 	if [ ! -f "${functionsdir}/gsquery.py" ]; then
 		fn_fetch_file_github "lgsm/functions" "gsquery.py" "${functionsdir}" "executecmd" "norun" "noforce" "nomd5"
-	fi	
+	fi
 
 	info_config.sh
 
@@ -45,7 +45,7 @@ if [ "${gsquery}" == "yes" ]; then
 		fn_print_dots "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : "
 		fn_print_querying_eol
 		fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
-		
+
 		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p "${port}" -e "${engine}" 2>&1)
 		exitcode=$?
 

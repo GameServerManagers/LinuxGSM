@@ -32,7 +32,7 @@ fn_details_os(){
 		echo -e "\e[34mHostname:\t\e[0m$HOSTNAME"
 		echo -e "\e[34mtmux:\t\e[0m${tmuxv}"
 		echo -e "\e[34mGLIBC:\t\e[0m${glibcversion}"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_performance(){
@@ -52,13 +52,13 @@ fn_details_performance(){
 	{
 		echo -e "\e[34mUptime:\t\e[0m${days}d, ${hours}h, ${minutes}m"
 		echo -e "\e[34mAvg Load:\t\e[0m${load}"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	echo -e ""
 	{
 		echo -e "\e[34mMem:\t\e[34mtotal\t used\t free\e[0m"
 		echo -e "\e[34mPhysical:\t\e[0m${physmemtotal}\t${physmemused}\t${physmemfree}\e[0m"
 		echo -e "\e[34mSwap:\t\e[0m${swaptotal}\t${swapused}\t${swapfree}\e[0m"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_disk(){
@@ -83,7 +83,7 @@ fn_details_disk(){
 		if [ -d "${backupdir}" ]; then
 			echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
 		fi
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_gameserver(){
@@ -117,7 +117,7 @@ fn_details_gameserver(){
 			echo -e "\e[34mRCON password:\t\e[0m${rconpassword}"
 		fi
 
-		# Admin password 
+		# Admin password
 		if [ -n "${adminpassword}" ]; then
 			echo -e "\e[34mAdmin password:\t\e[0m${adminpassword}"
 		fi
@@ -158,7 +158,7 @@ fn_details_gameserver(){
 		else
 			echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
 		fi
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	echo -e ""
 }
 
@@ -173,7 +173,7 @@ fn_details_script(){
 	# Update on start:     off
 	# Location:            /home/lgsm/qlserver
 	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
-	
+
 	echo -e "\e[92m${selfname} Script Details\e[0m"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
@@ -220,14 +220,14 @@ fn_details_script(){
 				echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
 			else
 				echo -e "\e[34mConfig file:\t\e[0m\e[0;31m${servercfgfullpath}\e[0m (\e[0;31mFILE MISSING\e[0m)"
-			fi	
+			fi
 		fi
 
 		# Network config file location (ARMA 3)
 		if [ -n "${networkcfgfullpath}" ]; then
 			echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
 		fi
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_backup(){
@@ -252,7 +252,7 @@ fn_details_backup(){
 			echo -e "\e[34m    date:\t\e[0m${lastbackupdate}"
 			echo -e "\e[34m    file:\t\e[0m${lastbackup}"
 			echo -e "\e[34m    size:\t\e[0m${lastbackupsize}"
-		} | column -s $'\t' -t 
+		} | column -s $'\t' -t
 	fi
 }
 
@@ -260,7 +260,7 @@ fn_details_commandlineparms(){
 	#
 	# Command-line Parameters
 	# =====================================
-	# ./run_server_x86.sh +set net_strict 1 
+	# ./run_server_x86.sh +set net_strict 1
 
 	echo -e ""
 	echo -e "\e[92mCommand-line Parameters\e[0m"
@@ -318,7 +318,7 @@ fn_details_avalanche(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_dontstarve(){
@@ -327,7 +327,7 @@ fn_details_dontstarve(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_projectzomboid(){
@@ -336,7 +336,7 @@ fn_details_projectzomboid(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 
@@ -352,7 +352,7 @@ fn_details_realvirtuality(){
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_idtech3(){
@@ -367,7 +367,7 @@ fn_details_idtech3(){
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
 		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 
@@ -378,7 +378,7 @@ fn_details_seriousengine35(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 }
 
 fn_details_source(){
@@ -551,7 +551,7 @@ fn_details_ark(){
 
 
 # Run checks and gathers details to display.
-check.sh 
+check.sh
 info_config.sh
 info_distro.sh
 info_glibc.sh

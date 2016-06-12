@@ -124,7 +124,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
-		fi		
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"

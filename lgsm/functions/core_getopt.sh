@@ -65,7 +65,7 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mi  |Install the server."
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }
@@ -93,7 +93,7 @@ case "$getopt" in
 	pw|change-password)
 		command_ts3_server_pass.sh;;
 	dev|dev-debug)
-		command_dev_debug.sh;;		
+		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
@@ -119,7 +119,7 @@ case "$getopt" in
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34minstall\t\e[0mi  |Install the server."
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }
@@ -141,7 +141,7 @@ case "$getopt" in
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
-		command_dev_debug.sh;;		
+		command_dev_debug.sh;;
 	console)
 		command_console.sh;;
 	d|debug)
@@ -164,7 +164,7 @@ case "$getopt" in
 		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
 		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
 		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }
@@ -199,7 +199,7 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_dev_debug.sh;;		
+		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
@@ -231,7 +231,7 @@ case "$getopt" in
 		echo -e "\e[34minstall\t\e[0mi  |Install the server."
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 		echo -e "\e[34mfastdl\t\e[0mfd |Generates or update a FastDL folder for your server."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }
@@ -259,15 +259,15 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_dev_debug.sh;;		
+		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
-		fn_autoinstall;;		
+		fn_autoinstall;;
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
-		command_dev_detect_deps.sh;;		
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -288,7 +288,7 @@ case "$getopt" in
 		echo -e "\e[34minstall\t\e[0mi  |Install the server."
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }
@@ -324,7 +324,7 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_dev_debug.sh;;		
+		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
@@ -356,7 +356,7 @@ case "$getopt" in
 		echo -e "\e[34minstall\t\e[0mi  |Install the server."
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }
@@ -385,17 +385,17 @@ case "$getopt" in
 	d|debug)
 		command_debug.sh;;
 	dev|dev-debug)
-		command_dev_debug.sh;;		
+		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
 	cd|server-cd-key)
-		install_ut2k4_key.sh;;				
+		install_ut2k4_key.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	dd|depsdetect)
-		command_dev_detect_deps.sh;;		
+		command_dev_detect_deps.sh;;
 	*)
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
@@ -415,9 +415,9 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
 		echo -e "\e[34minstall\t\e[0mi  |Install the server."
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-		echo -e "\e[34mserver-cd-key\t\e[0mcd |Add your server cd key"		
+		echo -e "\e[34mserver-cd-key\t\e[0mcd |Add your server cd key"
 		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
-	} | column -s $'\t' -t 
+	} | column -s $'\t' -t
 	esac
 exit
 }

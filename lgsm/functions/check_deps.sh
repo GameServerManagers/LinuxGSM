@@ -15,7 +15,7 @@ fn_deps_detector(){
 	elif [ -n "$(command -v yum)" ]; then
 		yum -q list installed ${deptocheck} > /dev/null 2>&1
 		depstatus=$?
-	fi	
+	fi
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
@@ -28,7 +28,7 @@ fn_deps_detector(){
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "\e[0;31m${deptocheck}\e[0m"
 			sleep 0.5
-		fi	
+		fi
 	fi
 
 	# Missing dependencies are added to array_deps_missing
@@ -49,8 +49,8 @@ fn_deps_email(){
 				array_deps_required+=( mailutils postfix )
 			elif [ -n "$(command -v yum)" ]; then
 				array_deps_required+=( mailx postfix )
-			fi	
-		else 
+			fi
+		else
 			if [ -n "$(command -v dpkg-query)" ]; then
 				array_deps_required+=( mailutils postfix )
 			elif [ -n "$(command -v yum)" ]; then
@@ -77,12 +77,12 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "...\r"
 			sleep 1
-			echo -en "   \r"	
+			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query)" ]; then
 				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum)" ]; then
 				echo "yum install ${array_deps_missing[@]}"
-			fi	
+			fi
 		else
 			echo ""
 			fn_print_infomation_nl "$(whoami) does not have sudo access. Please manually install dependencies"
@@ -92,13 +92,13 @@ fn_found_missing_deps(){
 				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum)" ]; then
 				echo "yum install ${array_deps_missing[@]}"
-			fi	
+			fi
 			echo ""
 		fi
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			sleep 5
 		fi
-	fi	
+	fi
 }
 
 fn_check_loop(){
@@ -108,7 +108,7 @@ fn_check_loop(){
 		fn_deps_detector
 	done
 
-	# user to be informaed of any missing dependecies 
+	# user to be informaed of any missing dependecies
 	fn_found_missing_deps
 }
 
@@ -139,7 +139,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
 			array_deps_required+=( libstdc++6:i386 )
-		fi	
+		fi
 	fi
 
 	# Game Specific requirements
@@ -147,10 +147,10 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Spark
 	if [ "${engine}" ==  "spark" ]; then
 		array_deps_required+=( speex:i386 libtbb2 )
-	# 7 Days to Die	
+	# 7 Days to Die
 	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell	
+	# No More Room in Hell
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		array_deps_required+=( lib32tinfo5 )
 	# Brainbread 2 and Don't Starve Together
@@ -166,7 +166,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		#UT99
 		else
 			array_deps_required+=( libsdl1.2debian bzip2 )
-		fi	
+		fi
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -193,10 +193,10 @@ elif [ -n "$(command -v yum)" ]; then
 	# Spark
 	if [ "${engine}" ==  "spark" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
-	# 7 Days to Die	
+	# 7 Days to Die
 	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell	
+	# No More Room in Hell
 	elif [ "${gamename}" == "No More Room in Hell" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2 and Don't Starve Together
@@ -212,7 +212,7 @@ elif [ -n "$(command -v yum)" ]; then
 		#UT99
 		else
 			array_deps_required+=( SDL.i686 bzip2 )
-		fi	
+		fi
 	fi
 	fn_deps_email
 	fn_check_loop

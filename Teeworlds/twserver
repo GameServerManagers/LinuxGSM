@@ -21,7 +21,7 @@ version="210516"
 emailalert="off"
 email="email@example.com"
 
-# Pushbullet 
+# Pushbullet
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
@@ -85,7 +85,7 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
- 
+
 ##### Script #####
 # Do not edit
 
@@ -120,7 +120,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
-		fi		
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"

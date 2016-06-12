@@ -26,18 +26,18 @@ fn_info_config_avalanche(){
 		serverpassword=$(grep "Password" "${servercfgfullpath}" | sed 's/Password//g' | tr -d '=", \n')
 		slots=$(grep "MaxPlayers" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		port=$(grep "BindPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		slots=${slots:-"0"}
 		port=${port:-"0"}
-		
+
 		# check if the ip exists in the config file. Failing this will fall back to the default.
 		ipconfigcheck=$(grep "BindIP" "${servercfgfullpath}" | sed 's/BindIP//g' | tr -d '=", \n')
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
-		fi	
+		fi
 	fi
 }
 
@@ -56,7 +56,7 @@ fn_info_config_dontstarve(){
 		gamemode=$(grep "game_mode = " "${servercfgfullpath}" | grep -v "#" | sed 's/game_mode = //g')
 		tickrate=$(grep "tick_rate" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
@@ -66,7 +66,7 @@ fn_info_config_dontstarve(){
 		port=${port:-"0"}
 	fi
 }
-	
+
 fn_info_config_projectzomboid(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -76,7 +76,7 @@ fn_info_config_projectzomboid(){
 		servername=$(grep "PublicName=" "${servercfgfullpath}" | sed 's/PublicName=//g' | tr -d '=", \n')
 		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-	
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		slots=${slots:-"0"}
@@ -93,7 +93,7 @@ fn_info_config_idtech3(){
 		servername=$(grep "set sv_hostname " "${servercfgfullpath}" | sed 's/set sv_hostname //g' | tr -d '=\"; ')
 		serverpassword=$(grep "set g_password" "${servercfgfullpath}" | sed 's/set g_password//g' | tr -d '=\"; '| cut -f1 -d "/")
 		slots=$(grep "set sv_maxClients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
@@ -112,7 +112,7 @@ fn_info_config_realvirtuality(){
 		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed 's/\passwordAdmin//g' | tr -d '=\"; ')
 		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed 's/\password//g' | tr -d '=\"; ')
 		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
@@ -134,7 +134,7 @@ fn_info_config_seriousengine35(){
 		gamemode=$(grep "gam_idGameMode" "${servercfgfullpath}" | grep -v "#" | sed 's/gam_idGameMode//g' | tr -d '=\"; ')
 		slots=$(grep "gam_ctMaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "prj_uwPort" "${servercfgfullpath}" | tr -d '\r' | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
@@ -153,7 +153,7 @@ fn_info_config_source(){
 		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g')
 		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g')
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
@@ -192,20 +192,20 @@ fn_info_config_teeworlds(){
 		rconpassword="${unavailable}"
 		port="8303"
 		slots="12"
-	else	
+	else
 		servername=$(grep "sv_name" "${servercfgfullpath}" | sed 's/sv_name //g' | sed 's/"//g')
 		serverpassword=$(grep "password " "${servercfgfullpath}" | awk '!/sv_rcon_password/'| sed 's/password //g' | tr -d '=\"; ')
 		rconpassword=$(grep "sv_rcon_password" "${servercfgfullpath}" | sed 's/sv_rcon_password //g' | tr -d '=\"; ')
 		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		slots=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"8303"}
 		slots=${slots:-"12"}
-	fi	
+	fi
 }
 
 fn_info_config_terraria(){
@@ -214,7 +214,7 @@ fn_info_config_terraria(){
 		port="${zero}"
 		gameworld="${unavailable}"
 		slots="${zero}"
-	else 
+	else
 		servername=$(grep "worldname=" "${servercfgfullpath}" | sed 's/worldname=//g')
 		port=$(grep "port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		gameworld=$(grep "world=" "${servercfgfullpath}" | sed 's/world=//g')
@@ -265,7 +265,7 @@ fn_info_config_unreal(){
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
-	fi	
+	fi
 }
 
 ## Just Cause 2
@@ -280,13 +280,13 @@ elif [ "${engine}" == "projectzomboid" ]; then
 # Quake Love
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
-# ARMA 3	
+# ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_info_config_realvirtuality
-# Serious Sam	
+# Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
 	fn_info_config_seriousengine35
-# Source Engine Games	
+# Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
 elif [ "${gamename}" == "Teamspeak 3" ]; then
@@ -297,7 +297,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 # Terraria
 elif [ "${engine}" == "terraria" ]; then
 	fn_info_config_terraria
-# Unreal/Unreal 2 engine 
+# Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal
 fi

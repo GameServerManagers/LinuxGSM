@@ -34,7 +34,7 @@ fn_monitor_msg_checking(){
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_scriptlog "Checking session: CHECKING"
-	sleep 1	
+	sleep 1
 }
 
 fn_monitor_teamspeak3(){

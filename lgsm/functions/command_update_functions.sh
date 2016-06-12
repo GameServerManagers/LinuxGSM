@@ -25,7 +25,7 @@ if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
 		rm -rfv "${functionsdir}/"*
 		exitcode=$?
-	fi	
+	fi
 fi
 
 if [ "${exitcode}" == "0" ]; then

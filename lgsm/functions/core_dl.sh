@@ -31,14 +31,14 @@ fn_dl_md5(){
 			fn_scriptlog "verifying ${filename} with MD5: FAIL"
 			fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_scriptlog "expected MD5 checksum: ${md5}"
-			exit 1	
+			exit 1
 		else
 			fn_print_ok_eol_nl
 			fn_scriptlog "verifying ${filename} with MD5: OK"
 			fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_scriptlog "expected MD5 checksum: ${md5}"		
+			fn_scriptlog "expected MD5 checksum: ${md5}"
 		fi
-	fi	
+	fi
 }
 
 # Extracts bzip2 or gzip files
@@ -98,7 +98,7 @@ fn_fetch_file(){
 		if [ ! -d "${filedir}" ]; then
 			mkdir -p "${filedir}"
 		fi
-		
+
 		# Check curl exists and use available path
 		curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
 		for curlcmd in ${curlpaths}
@@ -126,7 +126,7 @@ fn_fetch_file(){
 				fn_print_fail_eol_nl
 				if [ -f "${scriptlog}" ]; then
 					fn_scriptlog "downloading ${filename}: FAIL"
-				fi	
+				fi
 				echo "${curlcmd}" | tee -a "${scriptlog}"
 				echo -e "${fileurl}\n" | tee -a "${scriptlog}"
 				exit ${exitcode}
@@ -134,10 +134,10 @@ fn_fetch_file(){
 				fn_print_ok_eol_nl
 				if [ -f "${scriptlog}" ]; then
 					fn_scriptlog "downloading ${filename}: OK"
-				fi	
+				fi
 			fi
 			# remove trap
-			trap - INT	
+			trap - INT
 		else
 			fn_print_fail_eol_nl
 			echo "Curl is not installed!"
@@ -147,7 +147,7 @@ fn_fetch_file(){
 		# make file executecmd if executecmd is set
 		if [ "${executecmd}" == "executecmd" ]; then
 			chmod +x "${filedir}/${filename}"
-		fi	
+		fi
 	fi
 
 	if [ -f "${filedir}/${filename}" ]; then

@@ -21,7 +21,7 @@ export MALLOC_CHECK_=0
 emailalert="off"
 email="email@example.com"
 
-# Pushbullet 
+# Pushbullet
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
@@ -52,7 +52,7 @@ parms="-game gesource -strictportbind -ip ${ip} -port ${port} +clientport ${clie
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="master"
- 
+
 # Steam - 2007 SDK
 appid="310"
 
@@ -125,7 +125,7 @@ if [ ! -f "${filedir}/${filename}" ]; then
 			exit 1
 		else
 			echo -e "\e[0;32mOK\e[0m"
-		fi		
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
