@@ -28,8 +28,14 @@ fn_info_config_idtech3(){
 }
 
 fn_info_config_realvirtuality(){
+	port=$(grep "^serverport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+	queryport=$(grep "^steamqueryport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+	masterport=$(grep "^steamport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
 	# Not Set
-	port=${rconport:-"0"}
+	port=${port:-"2302"}
+	queryport=${queryport:-"2303"}
+	masterport=${masterport:-"2304"}
 }
 
 fn_info_config_source(){
