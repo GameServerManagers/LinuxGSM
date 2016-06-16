@@ -79,9 +79,11 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query)" ]; then
-				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+				cmd="sudo dpkg --add-architecture i386; sudo apt-get -y install ${array_deps_missing[@]}"
+				eval $cmd
 			elif [ -n "$(command -v yum)" ]; then
-				echo "yum install ${array_deps_missing[@]}"
+				cmd="sudo yum -y install ${array_deps_missing[@]}"
+				eval $cmd
 			fi
 		else
 			echo ""
@@ -91,7 +93,7 @@ fn_found_missing_deps(){
 			if [ -n "$(command -v dpkg-query)" ]; then
 				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum)" ]; then
-				echo "yum install ${array_deps_missing[@]}"
+				echo "sudo yum install ${array_deps_missing[@]}"
 			fi
 			echo ""
 		fi
