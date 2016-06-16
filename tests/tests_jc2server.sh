@@ -2,15 +2,15 @@
 # TravisCI Tests
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 version="271215"
 
 #### Variables ####
 
-# Notification Email
+# Alert Email
 # (on|off)
-emailnotification="on"
-email="me@danielgibbs.co.uk"
+emailalert="off"
+email=""
 
 # Steam login
 steamuser="anonymous"
@@ -85,7 +85,7 @@ if [ ! -f "${filepath}" ]; then
 	echo -e "    fetching ${filename}...\c"
 	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
 		:
-	else	
+	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
@@ -99,7 +99,7 @@ if [ ! -f "${filepath}" ]; then
 		exit
 	else
 		echo -e "\e[0;32mOK\e[0m"
-	fi	
+	fi
 	if [ "${exec}" ]; then
 		chmod +x "${filepath}"
 	fi
@@ -126,7 +126,7 @@ pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 if [ "${pid}" != "0" ]; then
 	currentstatus="ONLINE"
 else
-	currentstatus="OFFLINE"	
+	currentstatus="OFFLINE"
 fi
 }
 
@@ -136,10 +136,10 @@ ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
 if [ "${ts3status}" == "Server is running" ]; then
 	currentstatus="ONLINE"
 else
-	currentstatus="OFFLINE"	
+	currentstatus="OFFLINE"
 fi
 }
-	
+
 fn_setstatus(){
 	fn_currentstatus_tmux
 	echo""
@@ -150,7 +150,7 @@ fn_setstatus(){
     	counter=$((counter+1))
     	fn_currentstatus_tmux
 		echo -ne "New status:  ${currentstatus}\\r"
-    	
+
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			(command_start.sh > /dev/null 2>&1)
 		else
@@ -175,7 +175,7 @@ echo "================================="
 echo "TravisCI Tests"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
-echo "http://gameservermanagers.com"
+echo "https://gameservermanagers.com"
 echo "================================="
 echo ""
 sleep 1
@@ -325,7 +325,7 @@ echo "Description:"
 echo "change the buildid tricking SteamCMD to update."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "changed buildid to 0."
+fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 update_check.sh
 echo ""
@@ -338,7 +338,7 @@ echo "Description:"
 echo "change the buildid tricking SteamCMD to update server while already running."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_printinfonl "changed buildid to 0."
+fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 update_check.sh
 echo ""
@@ -351,7 +351,7 @@ echo "Description:"
 echo "removing appmanifest file will cause script to repair."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "removed appmanifest_${appid}.acf."
+fn_print_info_nl "removed appmanifest_${appid}.acf."
 rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
 update_check.sh
 echo ""
@@ -433,7 +433,7 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_printinfonl "creating lockfile."
+fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 echo ""
@@ -449,7 +449,7 @@ fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 echo ""
-fn_printinfonl "Reseting ${servercfg}."
+fn_print_info_nl "Reseting ${servercfg}."
 install_config.sh
 echo ""
 echo "Test complete!"
@@ -478,7 +478,7 @@ echo ""
 requiredstatus="OFFLINE"
 fn_setstatus
 sleep 1
-fn_printinfo "Tidying up directories."
+fn_print_info "Tidying up directories."
 sleep 1
 rm -rfv ${serverfiles}
 echo "END"

@@ -2,32 +2,40 @@
 # Quake Live
 # Server Management Script
 # Author: Daniel Gibbs
-# Website: http://gameservermanagers.com
+# Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
 
-version="271215"
+version="060516"
 
 #### Variables ####
-arch="x64"
 
-# Notification Email
+# Notification Alerts
 # (on|off)
-emailnotification="off"
+
+# Email
+emailalert="off"
 email="email@example.com"
+
+# Pushbullet
+# https://www.pushbullet.com/#settings
+pushbulletalert="off"
+pushbullettoken="accesstoken"
 
 # Steam login
 steamuser="anonymous"
 steampass=""
 
 # Start Variables
-gameport="27960"
+arch="x64" # x64 or x86
+port="27960"
 rconport="28960"
-rcon_password='ch@ng3me'
-stats_password='ch@ng3me'
+rconpassword="CHANGE_ME"
+statsport="${port}"
+statspassword="CHANGE_ME"
 mappool='mappool.txt'
 ip="0.0.0.0"
 updateonstart="off"
@@ -35,7 +43,7 @@ updateonstart="off"
 # Install/Config Guide : https://steamcommunity.com/sharedfiles/filedetails/?id=542966946
 # Console Commands : http://www.regurge.at/ql/
 fn_parms(){
-	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${gameport} +set fs_homepath ${filesdir}/${gameport} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rcon_password} +set zmq_stats_enable 1 +set zmq_stats_password ${stats_password} +set zmq_stats_port ${gameport} +set sv_mapPoolFile ${mappool} +exec ${servercfg} "
+	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir}/${port} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rconpassword} +set zmq_stats_enable 1 +set zmq_stats_password ${statspassword} +set zmq_stats_port ${statsport} +set sv_mapPoolFile ${mappool} +exec ${servercfg}"
 }
 
 #### Advanced Variables ####
@@ -59,10 +67,12 @@ engine="idtech3"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
+lgsmdir="${rootdir}/lgsm"
+functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable=$([ "$arch" == 'x64' ] && echo "./run_server_x64.sh" || echo "./run_server_x86.sh")
+executable=$([ "${arch}" == 'x64' ] && echo "./run_server_x64.sh" || echo "./run_server_x86.sh")
 servercfg="${servicename}.cfg"
 servercfgdir="${filesdir}/baseq3"
 servercfgfullpath="${servercfgdir}/${servercfg}"
@@ -74,6 +84,7 @@ logdays="7"
 gamelogdir="${rootdir}/log/server"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
@@ -86,55 +97,62 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 ##### Script #####
 # Do not edit
 
-fn_getgithubfile(){
-filename=$1
-exec=$2
-fileurl=${3:-$filename}
-filepath="${rootdir}/${filename}"
-filedir=$(dirname "${filepath}")
-# If the function file is missing, then download
-if [ ! -f "${filepath}" ]; then
+# Fetches core_dl for file downloads
+fn_fetch_core_dl(){
+github_file_url_dir="lgsm/functions"
+github_file_url_name="${functionfile}"
+filedir="${functionsdir}"
+filename="${github_file_url_name}"
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+# If the file is missing, then download
+if [ ! -f "${filedir}/${filename}" ]; then
 	if [ ! -d "${filedir}" ]; then
-		mkdir "${filedir}"
+		mkdir -p "${filedir}"
 	fi
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 	echo -e "    fetching ${filename}...\c"
-	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
-		:
-	else	
+	# Check curl exists and use available path
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+	for curlcmd in ${curlpaths}
+	do
+		if [ -x "${curlcmd}" ]; then
+			break
+		fi
+	done
+	# If curl exists download file
+	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+		if [ $? -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo "${curlfetch}"
+			echo -e "${githuburl}\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi
+	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
-		exit
+		exit 1
 	fi
-	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
-	if [ $? -ne 0 ]; then
-		echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "${curl}"
-		echo -e "${githuburl}\n"
-		exit
-	else
-		echo -e "\e[0;32mOK\e[0m"
-	fi	
-	if [ "${exec}" ]; then
-		chmod +x "${filepath}"
-	fi
+	chmod +x "${filedir}/${filename}"
 fi
-if [ "${exec}" ]; then
-	source "${filepath}"
-fi
+source "${filedir}/${filename}"
 }
 
-fn_runfunction(){
-	fn_getgithubfile "functions/${functionfile}" 1
+core_dl.sh(){
+# Functions are defined in core_functions.sh.
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
 }
 
 core_functions.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_runfunction
+fn_fetch_core_dl
 }
 
+core_dl.sh
 core_functions.sh
 
 getopt=$1
