@@ -11,11 +11,55 @@ lgsm_version="210516"
 
 # Date, servicename & module details displayed in log files.
 # e.g Feb 28 14:56:58 ut99-server: Monitor:
-fn_scriptlog(){
+fn_script_log(){
 	if [ -n "${modulename}" ]; then
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
+	fi
+}
+
+fn_script_log_pass(){
+	if [ -n "${modulename}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: PASS: ${1}" >> "${scriptlog}"
+	else
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: PASS: ${1}" >> "${scriptlog}"
+	fi
+	exitcode=0
+}
+
+fn_script_log_fatal(){
+	if [ -n "${modulename}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: FATAL: ${1}" >> "${scriptlog}"
+	else
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: FATAL: ${1}" >> "${scriptlog}"
+	fi
+	exitcode=1
+}
+
+fn_script_log_error(){
+	if [ -n "${modulename}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: ERROR: ${1}" >> "${scriptlog}"
+	else
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ERROR: ${1}" >> "${scriptlog}"
+	fi
+	exitcode=2
+}
+
+fn_script_log_warn(){
+	if [ -n "${modulename}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: WARN: ${1}" >> "${scriptlog}"
+	else
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: WARN: ${1}" >> "${scriptlog}"
+	fi
+	exitcode=3
+}
+
+fn_script_log_info(){
+	if [ -n "${modulename}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${modulename}: INFO: ${1}" >> "${scriptlog}"
+	else
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: INFO: ${1}" >> "${scriptlog}"
 	fi
 }
 
