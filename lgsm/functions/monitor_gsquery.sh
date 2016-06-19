@@ -25,6 +25,8 @@ if [ "${gsquery}" == "yes" ]; then
 
 	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		port=$((port + 1))
+	elif [ "${engine}" == "realvirtuality" ]; then
+		port=$((port + 1))		
 	elif [ "${engine}" == "spark" ]; then
 		port=$((port + 1))
 	fi
