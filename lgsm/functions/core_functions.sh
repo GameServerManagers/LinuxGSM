@@ -121,6 +121,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_execute.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_monitor.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -156,6 +161,26 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_countdown.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_shutdown.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_update_countdown.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_message.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fn_restart(){
 local modulename="Restarting"
 info_config.sh
@@ -165,6 +190,7 @@ fi
 command_stop.sh
 command_start.sh
 }
+
 
 
 # Checks
