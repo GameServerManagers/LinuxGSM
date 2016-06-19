@@ -12,17 +12,17 @@ fn_fix_msg_start(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
 	sleep 1
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
-	fn_scriptlog "Applying ${fixname} fix: ${gamename}"
+	fn_script_log "Applying ${fixname} fix: ${gamename}"
 	sleep 1
 }
 
 fn_fix_msg_end(){
 	if [ $? -ne 0 ]; then
 		fn_print_fail_nl "Applying ${fixname} fix: ${gamename}"
-		fn_scriptlog "Failure! Applying ${fixname} fix: ${gamename}"
+		fn_script_log "Failure! Applying ${fixname} fix: ${gamename}"
 	else
 		fn_print_ok_nl "Applying ${fixname} fix: ${gamename}"
-		fn_scriptlog "Complete! Applying ${fixname} fix: ${gamename}"
+		fn_script_log "Complete! Applying ${fixname} fix: ${gamename}"
 	fi
 }
 

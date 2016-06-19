@@ -32,7 +32,7 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -ge "2" ]; then
 				fn_print_warning_nl "SteamCMD did not complete the download, retrying: Attempt ${counter}"
-				fn_scriptlog "SteamCMD did not complete the download, retrying: Attempt ${counter}"
+				fn_script_log "SteamCMD did not complete the download, retrying: Attempt ${counter}"
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
@@ -70,7 +70,7 @@ fn_install_server_files_steamcmd(){
 			fi
 		elif [ "${counter}" -ge "11" ]; then
 			fn_print_failure_nl "SteamCMD did not complete the download, too many retrys"
-			fn_scriptlog "SteamCMD did not complete the download, too many retrys"
+			fn_script_log "SteamCMD did not complete the download, too many retrys"
 			break
 		fi
 	done

@@ -28,14 +28,14 @@ fn_serveradmin_password_prompt(){
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
-	fn_scriptlog "Initiating ${gamename} ServerAdmin password change"
+	fn_script_log "Initiating ${gamename} ServerAdmin password change"
 	read -p "Enter new password : " newpassword
 	}
 
 
 	fn_serveradmin_password_set(){
 	fn_print_info_nl "Applying new password"
-	fn_scriptlog "Applying new password"
+	fn_script_log "Applying new password"
 	sleep 1
 	# Stop any running server
 	command_stop.sh
@@ -47,7 +47,7 @@ fn_serveradmin_password_prompt(){
 	command_stop.sh
 	ts3serverpass="0"
 	fn_print_ok_nl "Password applied"
-	fn_scriptlog "New ServerAdmin password applied"
+	fn_script_log "New ServerAdmin password applied"
 	sleep 1
 }
 

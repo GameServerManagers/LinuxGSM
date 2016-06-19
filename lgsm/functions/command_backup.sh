@@ -38,7 +38,7 @@ if [ "${status}" != "0" ]; then
 	esac
 	done
 fi
-fn_scriptlog "Started backup"
+fn_script_log "Started backup"
 fn_print_dots "Backup in progress, please wait..."
 sleep 2
 if [ ! -d "${backupdir}" ]; then
@@ -46,6 +46,6 @@ if [ ! -d "${backupdir}" ]; then
 fi
 tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
 fn_print_ok_nl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
-fn_scriptlog "Complete, Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
+fn_script_log "Complete, Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 sleep 1
 echo ""

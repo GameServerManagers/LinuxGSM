@@ -28,15 +28,15 @@ fn_dl_md5(){
 			fn_print_fail_eol_nl
 			echo "${filename} returned MD5 checksum: ${md5sumcmd}"
 			echo "expected MD5 checksum: ${md5}"
-			fn_scriptlog "verifying ${filename} with MD5: FAIL"
-			fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_scriptlog "expected MD5 checksum: ${md5}"
+			fn_script_log "verifying ${filename} with MD5: FAIL"
+			fn_script_log "${filename} returned MD5 checksum: ${md5sumcmd}"
+			fn_script_log "expected MD5 checksum: ${md5}"
 			exit 1
 		else
 			fn_print_ok_eol_nl
-			fn_scriptlog "verifying ${filename} with MD5: OK"
-			fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_scriptlog "expected MD5 checksum: ${md5}"
+			fn_script_log "verifying ${filename} with MD5: OK"
+			fn_script_log "${filename} returned MD5 checksum: ${md5sumcmd}"
+			fn_script_log "expected MD5 checksum: ${md5}"
 		fi
 	fi
 }
@@ -51,7 +51,7 @@ fn_dl_extract(){
 	extractdir="${3}"
 	# extracts archives
 	echo -ne "extracting ${filename}..."
-	fn_scriptlog "extracting download"
+	fn_script_log "extracting download"
 	mime=$(file -b --mime-type "${filedir}/${filename}")
 
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
@@ -62,7 +62,7 @@ fn_dl_extract(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-		fn_scriptlog "extracting download: FAIL"
+		fn_script_log "extracting download: FAIL"
 		echo "${tarcmd}" | tee -a "${scriptlog}"
 		exit ${exitcode}
 	else
@@ -75,12 +75,12 @@ fn_fetch_trap() {
 	echo ""
 	echo -ne "downloading ${filename}: "
 	fn_print_canceled_eol_nl
-	fn_scriptlog "downloading ${filename}: CANCELED"
+	fn_script_log "downloading ${filename}: CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 	echo -ne "downloading ${filename}: "
 	fn_print_removed_eol_nl
-	fn_scriptlog "downloading ${filename}: REMOVED"
+	fn_script_log "downloading ${filename}: REMOVED"
 	exit
 }
 
@@ -125,7 +125,7 @@ fn_fetch_file(){
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_scriptlog "downloading ${filename}: FAIL"
+					fn_script_log "downloading ${filename}: FAIL"
 				fi
 				echo "${curlcmd}" | tee -a "${scriptlog}"
 				echo -e "${fileurl}\n" | tee -a "${scriptlog}"
@@ -133,7 +133,7 @@ fn_fetch_file(){
 			else
 				fn_print_ok_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_scriptlog "downloading ${filename}: OK"
+					fn_script_log "downloading ${filename}: OK"
 				fi
 			fi
 			# remove trap

@@ -9,7 +9,7 @@ lgsm_version="210516"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 fn_print_dots "Updating functions"
-fn_scriptlog "Updating functions"
+fn_script_log "Updating functions"
 sleep 1
 echo -ne "\n"
 
@@ -30,9 +30,9 @@ fi
 
 if [ "${exitcode}" == "0" ]; then
 	fn_print_ok "Updating functions"
-	fn_scriptlog "Success! Updating functions"
+	fn_script_log "Success! Updating functions"
 else
 	fn_print_fail "Updating functions"
-	fn_scriptlog "Failure! Updating functions"
+	fn_script_log "Failure! Updating functions"
 fi
 echo -ne "\n"

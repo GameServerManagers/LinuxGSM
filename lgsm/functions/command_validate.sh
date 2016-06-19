@@ -17,7 +17,7 @@ fn_validation(){
 	fn_print_dots "Checking server files"
 	sleep 1
 	fn_print_ok "Checking server files"
-	fn_scriptlog "Checking server files"
+	fn_script_log "Checking server files"
 	sleep 1
 
 	cd "${rootdir}/steamcmd"
@@ -35,7 +35,7 @@ fn_validation(){
 	fi
 
 	fix.sh
-	fn_scriptlog "Checking complete"
+	fn_script_log "Checking complete"
 }
 
 check_status.sh

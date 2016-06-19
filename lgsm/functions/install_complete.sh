@@ -14,7 +14,7 @@ if [ "${gamename}" == "Don't Starve Together" ]; then
 fi
 echo "================================="
 echo "Install Complete!"
-fn_scriptlog "Install Complete!"
+fn_script_log "Install Complete!"
 echo ""
 echo "To start server type:"
 echo "./${selfname} start"

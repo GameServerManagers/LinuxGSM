@@ -14,16 +14,16 @@ echo "================================="
 sleep 1
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	echo "GSLT is required to run a public ${gamename} server"
-	fn_scriptlog "GSLT is required to run a public ${gamename} server"
+	fn_script_log "GSLT is required to run a public ${gamename} server"
 else
 	echo "GSLT is an optional feature for ${gamename} server"
-	fn_scriptlog "GSLT is an optional feature for ${gamename} server"
+	fn_script_log "GSLT is an optional feature for ${gamename} server"
 fi
 
 echo "Get more info and a token here:"
 echo "https://gameservermanagers.com/gslt"
-fn_scriptlog "Get more info and a token here:"
-fn_scriptlog "https://gameservermanagers.com/gslt"
+fn_script_log "Get more info and a token here:"
+fn_script_log "https://gameservermanagers.com/gslt"
 echo ""
 if [ -z "${autoinstall}" ]; then
 	echo "Enter token below (Can be blank)."
@@ -33,5 +33,5 @@ if [ -z "${autoinstall}" ]; then
 fi
 sleep 1
 echo "The GSLT can be changed by editing ${selfname}."
-fn_scriptlog "The GSLT can be changed by editing ${selfname}."
+fn_script_log "The GSLT can be changed by editing ${selfname}."
 echo ""

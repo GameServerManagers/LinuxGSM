@@ -160,7 +160,7 @@ fn_restart(){
 local modulename="Restarting"
 info_config.sh
 if [ -d "${scriptlogdir}" ]; then
-	fn_scriptlog "${servername}"
+	fn_script_log "${servername}"
 fi
 command_stop.sh
 command_start.sh

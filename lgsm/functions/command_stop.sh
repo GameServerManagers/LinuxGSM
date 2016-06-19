@@ -12,7 +12,7 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # Attempts Graceful of source using rcon 'quit' command.
 fn_stop_graceful_source(){
 	fn_print_dots "Graceful: rcon quit"
-	fn_scriptlog "Graceful: rcon quit"
+	fn_script_log "Graceful: rcon quit"
 	# sends quit
 	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
@@ -21,7 +21,7 @@ fn_stop_graceful_source(){
 		if [ "${status}" == "0" ]; then
 			fn_print_ok "Graceful: rcon quit: ${seconds}: "
 			fn_print_ok_eol_nl
-			fn_scriptlog "Graceful: rcon quit: OK: ${seconds} seconds"
+			fn_script_log "Graceful: rcon quit: OK: ${seconds} seconds"
 			break
 		fi
 		sleep 1
@@ -31,7 +31,7 @@ fn_stop_graceful_source(){
 	if [ "${status}" != "0" ]; then
 		fn_print_fail "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
-		fn_scriptlog "Graceful: rcon quit: FAIL"
+		fn_script_log "Graceful: rcon quit: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -43,7 +43,7 @@ fn_stop_graceful_source(){
 # preventing the server from coming back online.
 fn_stop_graceful_goldsource(){
 	fn_print_dots "Graceful: rcon quit"
-	fn_scriptlog "Graceful: rcon quit"
+	fn_script_log "Graceful: rcon quit"
 	# sends quit
 	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
 	# waits 3 seconds as goldsource servers restart with the quit command
@@ -53,7 +53,7 @@ fn_stop_graceful_goldsource(){
 	done
 	fn_print_ok "Graceful: rcon quit: ${seconds}: "
 	fn_print_ok_eol_nl
-	fn_scriptlog "Graceful: rcon quit: OK: ${seconds} seconds"
+	fn_script_log "Graceful: rcon quit: OK: ${seconds} seconds"
 	sleep 1
 	fn_stop_tmux
 }
@@ -82,7 +82,7 @@ fn_stop_telnet_sdtd(){
 
 fn_stop_graceful_sdtd(){
 	fn_print_dots "Graceful: telnet"
-	fn_scriptlog "Graceful: telnet"
+	fn_script_log "Graceful: telnet"
 	sleep 1
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
@@ -90,7 +90,7 @@ fn_stop_graceful_sdtd(){
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}"
-			fn_scriptlog "Graceful: telnet: ${telnetip}"
+			fn_script_log "Graceful: telnet: ${telnetip}"
 			sleep 1
 			fn_stop_telnet_sdtd
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}"|grep "Completed.")
@@ -98,7 +98,7 @@ fn_stop_graceful_sdtd(){
 			if [ -n "${refused}" ]; then
 				fn_print_warn "Graceful: telnet: ${telnetip}: "
 				fn_print_fail_eol_nl
-				fn_scriptlog "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log "Graceful: telnet: ${telnetip}: FAIL"
 				sleep 1
 			elif [ -n "${completed}" ]; then
 				break
@@ -114,7 +114,7 @@ fn_stop_graceful_sdtd(){
 				if [ -n "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}: "
 					fn_print_ok_eol_nl
-					fn_scriptlog "Graceful: telnet: ${telnetip}: ${seconds} seconds"
+					fn_script_log "Graceful: telnet: ${telnetip}: ${seconds} seconds"
 					break
 				fi
 				sleep 1
@@ -126,10 +126,10 @@ fn_stop_graceful_sdtd(){
 			if [ -n "${refused}" ]; then
 				fn_print_fail "Graceful: telnet: "
 				fn_print_fail_eol_nl
-				fn_scriptlog "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log "Graceful: telnet: ${telnetip}: FAIL"
 			else
 				fn_print_fail_nl "Graceful: telnet: Unknown error"
-				fn_scriptlog "Graceful: telnet: Unknown error"
+				fn_script_log "Graceful: telnet: Unknown error"
 			fi
 			echo -en "\n" | tee -a "${scriptlog}"
 			echo -en "Telnet output:" | tee -a "${scriptlog}"
@@ -138,10 +138,10 @@ fn_stop_graceful_sdtd(){
 		fi
 	else
 		fn_print_dots "Graceful: telnet: "
-		fn_scriptlog "Graceful: telnet: "
+		fn_script_log "Graceful: telnet: "
 		fn_print_fail "Graceful: telnet: expect not installed: "
 		fn_print_fail_eol_nl
-		fn_scriptlog "Graceful: telnet: expect not installed: FAIL"
+		fn_script_log "Graceful: telnet: expect not installed: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -200,7 +200,7 @@ fn_stop_ark(){
 
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
-	fn_scriptlog "${servername}"
+	fn_script_log "${servername}"
 	sleep 1
 	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
@@ -208,16 +208,16 @@ fn_stop_teamspeak3(){
 		# Remove lock file
 		rm -f "${rootdir}/${lockselfname}"
 		fn_print_ok_nl "${servername}"
-		fn_scriptlog "Stopped ${servername}"
+		fn_script_log "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop${servername}"
-		fn_scriptlog "Unable to stop${servername}"
+		fn_script_log "Unable to stop${servername}"
 	fi
 }
 
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
-	fn_scriptlog "tmux kill-session: ${servername}"
+	fn_script_log "tmux kill-session: ${servername}"
 	sleep 1
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
@@ -233,10 +233,10 @@ fn_stop_tmux(){
                         echo -en "\n"
                 fi
 		fn_print_ok_nl "${servername}"
-		fn_scriptlog "Stopped ${servername}"
+		fn_script_log "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop${servername}"
-		fn_scriptlog "Unable to stop${servername}"
+		fn_script_log "Unable to stop${servername}"
 	fi
 }
 
@@ -246,7 +246,7 @@ fn_stop_pre_check(){
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
-			fn_scriptlog "${servername} is already stopped"
+			fn_script_log "${servername} is already stopped"
 		else
 			fn_stop_teamspeak3
 		fi
@@ -254,7 +254,7 @@ fn_stop_pre_check(){
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
-			fn_scriptlog "${servername} is already stopped"
+			fn_script_log "${servername} is already stopped"
 		else
 			fn_stop_graceful_select
 		fi
@@ -264,6 +264,6 @@ fn_stop_pre_check(){
 check.sh
 info_config.sh
 fn_print_dots "${servername}"
-fn_scriptlog "${servername}"
+fn_script_log "${servername}"
 sleep 1
 fn_stop_pre_check

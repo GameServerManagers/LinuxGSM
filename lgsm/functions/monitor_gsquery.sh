@@ -34,7 +34,7 @@ if [ "${gsquery}" == "yes" ]; then
 	fi
 
 	fn_print_info "Querying port: gsquery.py enabled"
-	fn_scriptlog "Querying port: gsquery.py enabled"
+	fn_script_log "Querying port: gsquery.py enabled"
 	sleep 1
 
 	# Will query up to 4 times every 15 seconds.
@@ -44,7 +44,7 @@ if [ "${gsquery}" == "yes" ]; then
 	for queryattempt in {1..5}; do
 		fn_print_dots "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : "
 		fn_print_querying_eol
-		fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
+		fn_script_log "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
 
 		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p "${port}" -e "${engine}" 2>&1)
 		exitcode=$?
@@ -54,18 +54,18 @@ if [ "${gsquery}" == "yes" ]; then
 			# Server OK
 			fn_print_ok "Querying port: ${ip}:${port} : ${queryattempt} : "
 			fn_print_ok_eol_nl
-			fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : OK"
+			fn_script_log "Querying port: ${ip}:${port} : ${queryattempt} : OK"
 			sleep 1
 			exit
 		else
 			# Server failed query
-			fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : ${gsquerycmd}"
+			fn_script_log "Querying port: ${ip}:${port} : ${queryattempt} : ${gsquerycmd}"
 
 			if [ "${queryattempt}" == "5" ]; then
 				# Server failed query 4 times confirmed failure
 				fn_print_fail "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : "
 				fn_print_fail_eol_nl
-				fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : FAIL"
+				fn_script_log "Querying port: ${ip}:${port} : ${queryattempt} : FAIL"
 				sleep 1
 
 				# Send alert if enabled

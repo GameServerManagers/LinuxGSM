@@ -41,15 +41,15 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-fn_scriptlog "Starting debug"
+fn_script_log "Starting debug"
 fn_print_info_nl "Stopping any running servers"
-fn_scriptlog "Stopping any running servers"
+fn_script_log "Stopping any running servers"
 sleep 1
 command_stop.sh
 fn_print_dots "Starting debug"
 sleep 1
 fn_print_ok_nl "Starting debug"
-fn_scriptlog "Started debug"
+fn_script_log "Started debug"
 cd "${executabledir}"
 fix.sh
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then

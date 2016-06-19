@@ -65,7 +65,7 @@ fn_found_missing_deps(){
 		fn_print_dots "Checking dependencies"
 		sleep 2
 		fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-		fn_scriptlog "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+		fn_script_log "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
 		sleep 1
 		echo -e ""
 		sudo -n true > /dev/null 2>&1
@@ -86,7 +86,7 @@ fn_found_missing_deps(){
 		else
 			echo ""
 			fn_print_infomation_nl "$(whoami) does not have sudo access. Please manually install dependencies"
-			fn_scriptlog "$(whoami) does not have sudo access. Please manually install dependencies"
+			fn_script_log "$(whoami) does not have sudo access. Please manually install dependencies"
 			echo ""
 			if [ -n "$(command -v dpkg-query)" ]; then
 				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
