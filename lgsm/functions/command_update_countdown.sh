@@ -13,6 +13,15 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 command_execute.sh
 
+# checks if the server is already stopped before trying to stop.
+
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok_nl "${servername} is already stopped"
+			fn_scriptlog "${servername} is already stopped"
+			update_check.sh
+			exit
+	fi
 
 update_countdown_timer(){
 	
