@@ -161,12 +161,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_countdown.sh(){
+command_restart_countdown.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_shutdown.sh(){
+commandshutdown.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
