@@ -78,17 +78,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+core_exit.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
 core_getopt.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
 core_messages.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_core_dl
-}
-
-core_dl.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
