@@ -10,6 +10,7 @@ local modulename="Backup"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
+command_execute.sh
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""
 fn_print_info_nl "A total of $(du -sh "${rootdir}" --exclude="${backupdir}" | awk '{print $1}') will be compressed into the following backup:"
@@ -44,7 +45,12 @@ sleep 2
 if [ ! -d "${backupdir}" ]; then
 	mkdir "${backupdir}"
 fi
+begin=$(date +"%s")
+execute "say Server backup started! PREPARE FOR LAG!"
 tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+termin=$(date +"%s")
+difftimelps=$(($termin-$begin))
+execute "say Backup complete it took $(($difftimelps / 60)) minutes and $(($difftimelps % 60)) seconds!"
 fn_print_ok_nl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 fn_scriptlog "Complete, Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 sleep 1
