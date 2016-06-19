@@ -2,7 +2,7 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+lgsm_version="190616"
 
 # Description: Displays server infomation.
 
@@ -69,7 +69,9 @@ fn_details_disk(){
 	# Total:        15G
 	# Used:         8.4G
 	# Available:    5.7G
+	# LGSM Total:	1G
 	# Serverfiles:  961M
+	# Backups:  	2G
 
 	echo -e ""
 	echo -e "\e[93mStorage\e[0m"
@@ -79,6 +81,7 @@ fn_details_disk(){
 		echo -e "\e[34mTotal:\t\e[0m${totalspace}"
 		echo -e "\e[34mUsed:\t\e[0m${usedspace}"
 		echo -e "\e[34mAvailable:\t\e[0m${availspace}"
+		echo -e "\e[34mLGSM Total:\t\e[0m${rootdirdu}"
 		echo -e "\e[34mServerfiles:\t\e[0m${filesdirdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
