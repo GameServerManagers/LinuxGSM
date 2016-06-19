@@ -30,12 +30,12 @@ sleep 1
 check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Starting"
-	fn_script_log "accessed"
+	fn_script_log_info "Accessed"
 	sleep 1
 	tmux attach-session -t ${servicename}
 else
 	fn_print_fail_nl "Server not running"
-	fn_script_log "Failed to access: Server not running"
+	fn_script_log_fatal "Failed to access: Server not running"
 	sleep 1
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn
@@ -46,3 +46,4 @@ else
 	esac
 	done
 fi
+core_exit.sh
