@@ -1,6 +1,6 @@
 #!/bin/bash
 # LGSM command_execute.sh function
-# Author: Juhani Aronen
+# Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 lgsm_version="210516"
 
