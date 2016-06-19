@@ -166,17 +166,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-commandshutdown.sh(){
+command_shutdown.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
 command_update_countdown.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-command_message.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
