@@ -45,9 +45,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			# Detects if unbuffer command is available.
-			if [ $(command -v unbuffer) ]; then
-				unbuffer=unbuffer
-                        elif  [ $(command -v stdbuf) ]; then
+            if  [ $(command -v stdbuf) ]; then
 		            unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
