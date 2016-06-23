@@ -21,7 +21,7 @@ fn_stop_graceful_source(){
 		if [ "${status}" == "0" ]; then
 			fn_print_ok "Graceful: rcon quit: ${seconds}: "
 			fn_print_ok_eol_nl
-			fn_script_log "Graceful: rcon quit: OK: ${seconds} seconds"
+			fn_script_log_pass "Graceful: rcon quit: OK: ${seconds} seconds"
 			break
 		fi
 		sleep 1
@@ -31,7 +31,7 @@ fn_stop_graceful_source(){
 	if [ "${status}" != "0" ]; then
 		fn_print_fail "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
-		fn_script_log "Graceful: rcon quit: FAIL"
+		fn_script_log_fail "Graceful: rcon quit: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -53,7 +53,7 @@ fn_stop_graceful_goldsource(){
 	done
 	fn_print_ok "Graceful: rcon quit: ${seconds}: "
 	fn_print_ok_eol_nl
-	fn_script_log "Graceful: rcon quit: OK: ${seconds} seconds"
+	fn_script_log_pass "Graceful: rcon quit: OK: ${seconds} seconds"
 	sleep 1
 	fn_stop_tmux
 }
@@ -77,7 +77,6 @@ fn_stop_telnet_sdtd(){
 	expect { eof }
 	puts "Completed.\n"
 	')
-
 }
 
 fn_stop_graceful_sdtd(){
@@ -98,7 +97,7 @@ fn_stop_graceful_sdtd(){
 			if [ -n "${refused}" ]; then
 				fn_print_warn "Graceful: telnet: ${telnetip}: "
 				fn_print_fail_eol_nl
-				fn_script_log "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log_warn "Graceful: telnet: ${telnetip}: FAIL"
 				sleep 1
 			elif [ -n "${completed}" ]; then
 				break
@@ -114,7 +113,7 @@ fn_stop_graceful_sdtd(){
 				if [ -n "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}: "
 					fn_print_ok_eol_nl
-					fn_script_log "Graceful: telnet: ${telnetip}: ${seconds} seconds"
+					fn_script_log_pass "Graceful: telnet: ${telnetip}: ${seconds} seconds"
 					break
 				fi
 				sleep 1
@@ -126,10 +125,10 @@ fn_stop_graceful_sdtd(){
 			if [ -n "${refused}" ]; then
 				fn_print_fail "Graceful: telnet: "
 				fn_print_fail_eol_nl
-				fn_script_log "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log_fail "Graceful: telnet: ${telnetip}: FAIL"
 			else
 				fn_print_fail_nl "Graceful: telnet: Unknown error"
-				fn_script_log "Graceful: telnet: Unknown error"
+				fn_script_log_fail "Graceful: telnet: Unknown error"
 			fi
 			echo -en "\n" | tee -a "${scriptlog}"
 			echo -en "Telnet output:" | tee -a "${scriptlog}"
@@ -141,7 +140,7 @@ fn_stop_graceful_sdtd(){
 		fn_script_log "Graceful: telnet: "
 		fn_print_fail "Graceful: telnet: expect not installed: "
 		fn_print_fail_eol_nl
-		fn_script_log "Graceful: telnet: expect not installed: FAIL"
+		fn_script_log_fail "Graceful: telnet: expect not installed: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -160,42 +159,42 @@ fn_stop_graceful_select(){
 }
 
 fn_stop_ark(){
-    	MAXPIDITER=15 # The maximum number of times to check if the ark pid has closed gracefully.
-        info_config.sh
-        if [ -z $queryport ] ; then
-                fn_print_warn "no queryport found using info_config.sh"
-                userconfigfile="${filesdir}"
-                userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
-                queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
-        fi
-        if [ -z $queryport ] ; then
-                fn_print_warn "no queryport found in the GameUsersettings.ini file"
-                return
-        fi
+		maxpiditer=15 # The maximum number of times to check if the ark pid has closed gracefully.
+		info_config.sh
+		if [ -z "${queryport}" ]; then
+				fn_print_warn "no queryport found using info_config.sh"
+				userconfigfile="${filesdir}"
+				userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
+				queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
+		fi
+		if [ -z "${queryport}" ]; then
+				fn_print_warn "no queryport found in the GameUsersettings.ini file"
+				return
+		fi
 
-        if [[ ${#queryport} -gt 0 ]] ; then
-                for (( pidcheck=0 ; pidcheck < ${MAXPIDITER} ; pidcheck++ )) ; do
-                        pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
-                                grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
-                                rev | cut -d\/ -f1)
-                        #
-                        # check for a valid pid
-                        let pid+=0 # turns an empty string into a valid number, '0',
-                        # and a valid numeric pid remains unchanged.
-                        if [[ $pid -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
-                        fn_print_dots "Process still bound. Awaiting graceful exit: $pidcheck"
-                                sleep 1
-                        else
-                                break # Our job is done here
-                        fi # end if for pid range check
-                done
-                if [[ ${pidcheck} -eq ${MAXPIDITER} ]] ; then
-                        # The process doesn't want to close after 20 seconds.
-                        # kill it hard.
-                        fn_print_warn "Terminating reluctant Ark process: $pid"
-                        kill -9 $pid
-                fi
-        fi # end if for port check
+		if [[ ${#queryport} -gt 0 ]] ; then
+				for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
+						pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
+								grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
+								rev | cut -d\/ -f1)
+						#
+						# check for a valid pid
+						let pid+=0 # turns an empty string into a valid number, '0',
+						# and a valid numeric pid remains unchanged.
+						if [[ $pid -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
+						fn_print_dots "Process still bound. Awaiting graceful exit: $pidcheck"
+								sleep 1
+						else
+								break # Our job is done here
+						fi # end if for pid range check
+				done
+				if [[ ${pidcheck} -eq ${maxpiditer} ]] ; then
+						# The process doesn't want to close after 20 seconds.
+						# kill it hard.
+						fn_print_warn "Terminating reluctant Ark process: $pid"
+						kill -9 $pid
+				fi
+		fi # end if for port check
 } # end of fn_stop_ark
 
 fn_stop_teamspeak3(){
@@ -208,10 +207,10 @@ fn_stop_teamspeak3(){
 		# Remove lock file
 		rm -f "${rootdir}/${lockselfname}"
 		fn_print_ok_nl "${servername}"
-		fn_script_log "Stopped ${servername}"
+		fn_script_log_pass "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop${servername}"
-		fn_script_log "Unable to stop${servername}"
+		fn_script_log_fail "Unable to stop${servername}"
 	fi
 }
 
@@ -227,11 +226,11 @@ fn_stop_tmux(){
 		# Remove lock file
 		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
-                # Make certain the ports are cleared before continuing.
-                if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
-                        fn_stop_ark
-                        echo -en "\n"
-                fi
+				# Make certain the ports are cleared before continuing.
+				if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+						fn_stop_ark
+						echo -en "\n"
+				fi
 		fn_print_ok_nl "${servername}"
 		fn_script_log "Stopped ${servername}"
 	else

@@ -14,7 +14,7 @@ fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
 		fn_print_info_nl "Disabled: No lock file found"
-		fn_script_log "Disabled: No lock file found"
+		fn_script_log_info "Disabled: No lock file found"
 		echo "	* To enable monitor run ./${selfname} start"
 		exit 1
 	fi
@@ -24,7 +24,7 @@ fn_monitor_check_update(){
 	# Monitor will not check if update is running.
 	if [ "$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)" != "0" ]; then
 		fn_print_info_nl "SteamCMD is currently checking for updates"
-		fn_script_log "SteamCMD is currently checking for updates"
+		fn_script_log_info "SteamCMD is currently checking for updates"
 		sleep 1
 		exit
 	fi
@@ -33,7 +33,7 @@ fn_monitor_check_update(){
 fn_monitor_msg_checking(){
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
-	fn_script_log "Checking session: CHECKING"
+	fn_script_log_info "Checking session: CHECKING"
 	sleep 1
 }
 
@@ -41,17 +41,17 @@ fn_monitor_teamspeak3(){
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
-		fn_script_log "Checking session: OK"
+		fn_script_log_pass "Checking session: OK"
 		exit
 	else
 		fn_print_fail "Checking session: ${ts3error}: "
 		fn_print_fail_eol_nl
-		fn_script_log "Checking session: ${ts3error}: FAIL"
+		fn_script_log_error "Checking session: ${ts3error}: FAIL"
 		failurereason="${ts3error}"
 		alert="restart"
 		alert.sh
 	fi
-	fn_script_log "Monitor is starting ${servername}"
+	fn_script_log_info "Monitor is starting ${servername}"
 	sleep 1
 	fn_restart
 }
@@ -61,7 +61,7 @@ fn_monitor_tmux(){
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
-		fn_script_log "Checking session: OK"
+		fn_script_log_pass "Checking session: OK"
 		# runs gsquery check on game with specific engines.
 		local allowed_engines_array=( avalanche goldsource realvirtuality source spark unity3d unreal unreal2 )
 		for allowed_engine in "${allowed_engines_array[@]}"
@@ -74,10 +74,10 @@ fn_monitor_tmux(){
 	else
 		fn_print_fail "Checking session: "
 		fn_print_fail_eol_nl
-		fn_script_log "Checking session: FAIL"
+		fn_script_log_error "Checking session: FAIL"
 		alert="restart"
 		alert.sh
-		fn_script_log "Monitor is starting ${servername}"
+		fn_script_log_info "Monitor is starting ${servername}"
 		sleep 1
 		command_start.sh
 	fi

@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 lgsm_version="210516"
 
-# Description: Gets specific details server parameters.
+# Description: Gets specific details from server parameters.
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
