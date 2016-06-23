@@ -42,7 +42,7 @@ maxplayers="50"
 
 # Advanced
 seed="" #  default random; range : 1 to 2147483647 ; used to change or reproduce a procedural map
-worldsize="4000" # default 4000; range : 2000 to 8000 ; map size in meters
+worldsize="4000" # default 4000; range : 2000 to 6000 ; map size in meters
 saveinterval="300" # Auto-save in seconds
 tickrate="30" # default 30; range : 15 to 100
 
