@@ -9,9 +9,17 @@ lgsm_version="210516"
 local modulename="Debug"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
+# Trap to remove lockfile on quit.
+fn_lockfile_trap(){
+	# Remove lock file
+	rm -f "${rootdir}/${lockselfname}"
+	core_exit.sh
+}
+
 check.sh
 fix.sh
 info_distro.sh
+# NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh
 fn_parms
 echo ""
 echo "${gamename} Debug"
@@ -41,19 +49,28 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-fn_script_log "Starting debug"
+
 fn_print_info_nl "Stopping any running servers"
-fn_script_log "Stopping any running servers"
+fn_script_log_info "Stopping any running servers"
 sleep 1
 command_stop.sh
 fn_print_dots "Starting debug"
+fn_script_log "Starting debug"
 sleep 1
 fn_print_ok_nl "Starting debug"
 fn_script_log "Started debug"
+
+# create lock file.
+date > "${rootdir}/${lockselfname}"
+# trap to remove lockfile on quit.
+trap fn_lockfile_trap INT
+
 cd "${executabledir}"
-fix.sh
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	${executable} ${parms} -debug
 else
 	${executable} ${parms}
 fi
+
+# remove trap.
+trap - INT
