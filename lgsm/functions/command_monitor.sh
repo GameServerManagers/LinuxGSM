@@ -97,3 +97,4 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 else
 	fn_monitor_tmux
 fi
+core_exit.sh

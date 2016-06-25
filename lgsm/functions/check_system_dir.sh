@@ -7,7 +7,8 @@ lgsm_version="210516"
 if [ ! -d "${systemdir}" ]; then
 	fn_print_fail_nl "Cannot access ${systemdir}: No such directory"
 	if [ -d "${scriptlogdir}" ]; then
-		fn_script_log "Cannot access ${systemdir}: No such directory."
+		fn_script_log_failure "Cannot access ${systemdir}: No such directory."
 	fi
-	exit 1
+	exitcode=1
+	core_exit.sh
 fi

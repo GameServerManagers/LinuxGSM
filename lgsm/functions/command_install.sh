@@ -36,3 +36,4 @@ elif [ "${gamename}" == "Teamspeak 3" ]; then
 fi
 fix.sh
 install_complete.sh
+core_exit.sh

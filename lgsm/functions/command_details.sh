@@ -612,3 +612,4 @@ else
 fi
 
 fn_details_statusbottom
+core_exit.sh

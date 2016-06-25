@@ -33,6 +33,7 @@ if [ "${exitcode}" == "0" ]; then
 	fn_script_log "Success! Updating functions"
 else
 	fn_print_fail "Updating functions"
+
 	fn_script_log "Failure! Updating functions"
 fi
 echo -ne "\n"

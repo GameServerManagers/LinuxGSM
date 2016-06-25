@@ -26,7 +26,6 @@ fn_start_teamspeak3(){
 	fi
 
 	fn_print_dots "${servername}"
-	fn_script_log "${servername}"
 	sleep 1
 	check_status.sh
 	if [ "${status}" != "0" ]; then
@@ -60,7 +59,6 @@ fn_start_teamspeak3(){
 fn_start_tmux(){
 	fn_parms
 	fn_print_dots "${servername}"
-	fn_script_log "${servername}"
 	sleep 1
 
 	# Log rotation
@@ -110,7 +108,7 @@ fn_start_tmux(){
 	elif [ "${consolelogging}" == "off" ]; then
 		touch "${consolelog}"
 		cat "Console logging disabled by user" >> "{consolelog}"
-		fn_script_log "Console logging disabled by user"
+		fn_script_log_info "Console logging disabled by user"
 	fi
 	sleep 1
 
@@ -186,3 +184,4 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 else
 	fn_start_tmux
 fi
+core_exit.sh

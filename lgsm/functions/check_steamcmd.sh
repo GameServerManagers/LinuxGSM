@@ -20,18 +20,18 @@ fn_install_steamcmd(){
 fn_check_steamcmd_user(){
 	# Checks steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
-		fn_print_fail_nl "Steam login not set. Update steamuser."
+		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}."
 		echo "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${scriptlogdir}" ]; then
-			fn_script_log "edit ${selfname}. change steamuser=\"username\" to a valid steam login."
-			exit 1
+			fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}."
 		fi
+		core_exit.sh
 	fi
 	# Anonymous user is set if steamuser is missing
 	if [ -z "${steamuser}" ]; then
 		fn_print_warn_nl "Steam login not set. Using anonymous login."
 		if [ -d "${scriptlogdir}" ]; then
-			fn_script_log "Steam login not set. Using anonymous login."
+			fn_script_log_error "Steam login not set. Using anonymous login."
 		fi
 		steamuser="anonymous"
 		steampass=""
@@ -48,7 +48,7 @@ fn_check_steamcmd_sh(){
 			fn_install_steamcmd
 		else
 			fn_print_warn_nl "SteamCMD is missing"
-			fn_script_log "SteamCMD is missing"
+			fn_script_log_warn "SteamCMD is missing"
 			sleep 1
 			fn_install_steamcmd
 		fi

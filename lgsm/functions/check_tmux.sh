@@ -11,10 +11,10 @@ if [ "$(command -v tmux)" ]||[ "$(which tmux >/dev/null 2>&1)" ]||[ -f "/usr/bin
 else
 	fn_print_fail_nl "Tmux not installed"
 	sleep 1
-	fn_script_log "Tmux is not installed"
+	fn_script_log_fatal "Tmux is not installed"
 	echo "	* Tmux is required to run this server."
 	# Suitable passive agressive message
 	echo "	* Please see the the following link."
 	echo "	* https://gameservermanagers.com/tmux-not-found"
-	exit 127
+	core_exit.sh
 fi

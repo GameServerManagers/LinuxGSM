@@ -55,10 +55,9 @@ fn_script_log_info "Stopping any running servers"
 sleep 1
 command_stop.sh
 fn_print_dots "Starting debug"
-fn_script_log "Starting debug"
+fn_script_log_info "Starting debug"
 sleep 1
 fn_print_ok_nl "Starting debug"
-fn_script_log "Started debug"
 
 # create lock file.
 date > "${rootdir}/${lockselfname}"
@@ -74,3 +73,4 @@ fi
 
 # remove trap.
 trap - INT
+core_exit.sh
