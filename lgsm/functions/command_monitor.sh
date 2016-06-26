@@ -42,7 +42,6 @@ fn_monitor_teamspeak3(){
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
-		core_exit.sh
 	else
 		fn_print_fail "Checking session: ${ts3error}: "
 		fn_print_fail_eol_nl
@@ -50,10 +49,10 @@ fn_monitor_teamspeak3(){
 		failurereason="${ts3error}"
 		alert="restart"
 		alert.sh
+		fn_script_log_info "Monitor is starting ${servername}"
+		sleep 1
+		fn_restart
 	fi
-	fn_script_log_info "Monitor is starting ${servername}"
-	sleep 1
-	fn_restart
 }
 
 fn_monitor_tmux(){
@@ -70,7 +69,6 @@ fn_monitor_tmux(){
 				monitor_gsquery.sh
 			fi
 		done
-		exit
 	else
 		fn_print_fail "Checking session: "
 		fn_print_fail_eol_nl
