@@ -14,7 +14,7 @@ if [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	elif [ "${exitcode}" == "3" ]; then
 		fn_script_log_warn "Exiting with code: ${exitcode}"
 	else
-		fn_script_log "Exiting with code: ${exitcode}"
+		fn_script_log_warn "Exiting with code: ${exitcode}"
 	fi
 	exit ${exitcode}
 else
