@@ -67,7 +67,6 @@ case "$getopt" in
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 fn_getopt_teamspeak3(){
@@ -121,7 +120,6 @@ case "$getopt" in
 		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 fn_getopt_mumble(){
@@ -166,7 +164,6 @@ case "$getopt" in
 		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 fn_getopt_gmodserver(){
@@ -233,7 +230,6 @@ case "$getopt" in
 		echo -e "\e[34mfastdl\t\e[0mfd |Generates or update a FastDL folder for your server."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 fn_getopt_unreal(){
@@ -290,7 +286,6 @@ case "$getopt" in
 		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 
@@ -358,7 +353,6 @@ case "$getopt" in
 		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 
@@ -419,7 +413,6 @@ case "$getopt" in
 		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t
 	esac
-exit
 }
 
 if [ "${gamename}" == "Mumble" ]; then
