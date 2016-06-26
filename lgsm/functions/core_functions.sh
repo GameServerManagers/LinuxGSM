@@ -157,7 +157,7 @@ fn_fetch_function
 }
 
 fn_restart(){
-modulename="Restarting"
+local modulename="Restarting"
 info_config.sh
 command_stop.sh
 command_start.sh

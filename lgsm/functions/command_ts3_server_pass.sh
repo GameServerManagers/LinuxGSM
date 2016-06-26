@@ -7,7 +7,7 @@ lgsm_version="210516"
 
 # Description: Changes TS3 serveradmin password
 
-modulename="Change password"
+local modulename="Change password"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 

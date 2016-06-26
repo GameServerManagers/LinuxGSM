@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: alerts using pushbullet.
 
-modulename="Alert"
+local modulename="Alert"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_print_dots "Sending Pushbullet alert"
 sleep 1

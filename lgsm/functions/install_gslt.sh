@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Configures GSLT.
 
-modulename="Install"
+local modulename="Install"
 
 echo ""
 echo "Game Server Login Token"

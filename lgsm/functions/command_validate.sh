@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Runs a server validation.
 
-modulename="Validate"
+local modulename="Validate"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){

@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Starts the server.
 
-modulename="Starting"
+local modulename="Starting"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_start_teamspeak3(){

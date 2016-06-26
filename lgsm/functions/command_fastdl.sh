@@ -7,7 +7,7 @@ lgsm_version="060616"
 
 # Description: Creates a FastDL folder
 
-modulename="FastDL"
+local modulename="FastDL"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh

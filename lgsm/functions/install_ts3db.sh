@@ -5,7 +5,7 @@
 # Website: https://gameservermanagers.com
 lgsm_version="210516"
 
-modulename="Install"
+local modulename="Install"
 
 fn_install_ts3db_mariadb(){
 	echo ""

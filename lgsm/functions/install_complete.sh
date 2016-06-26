@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 lgsm_version="210516"
 
-modulename="Install"
+local modulename="Install"
 
 if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""

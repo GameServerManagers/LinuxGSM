@@ -7,7 +7,7 @@ lgsm_version="210516"
 # Description: Monitors server by checking for running proccesses
 # then passes to monitor_gsquery.sh.
 
-modulename="Monitor"
+local modulename="Monitor"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_monitor_check_lockfile(){
