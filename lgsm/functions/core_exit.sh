@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: handles exiting of LGSM by running and reporting an exit code.
 
-if [ -n "${exitcode}" ]||[ "${exitcode}" != "0" ]; then
+if [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	if [ "${exitcode}" == "1" ]; then
 		fn_script_log_fatal "Exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then
