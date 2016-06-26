@@ -16,7 +16,7 @@ fn_monitor_check_lockfile(){
 		fn_print_info_nl "Disabled: No lock file found"
 		fn_script_log_info "Disabled: No lock file found"
 		echo "	* To enable monitor run ./${selfname} start"
-		exit 1
+		core_exit.sh
 	fi
 }
 
@@ -26,7 +26,7 @@ fn_monitor_check_update(){
 		fn_print_info_nl "SteamCMD is currently checking for updates"
 		fn_script_log_info "SteamCMD is currently checking for updates"
 		sleep 1
-		exit
+		core_exit.sh
 	fi
 }
 
@@ -42,7 +42,7 @@ fn_monitor_teamspeak3(){
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
-		exit
+		core_exit.sh
 	else
 		fn_print_fail "Checking session: ${ts3error}: "
 		fn_print_fail_eol_nl
