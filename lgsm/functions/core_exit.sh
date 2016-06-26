@@ -23,5 +23,5 @@ fi
 
 if [ -f "${rootdir}/.dev-debug" ]; then
 	sleep 0.5
-	echo "${function_selfname} Exiting with code: ${exitcode}"
+	echo "${function_selfname} exiting with code: ${exitcode}"
 fi
