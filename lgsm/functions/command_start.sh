@@ -74,97 +74,94 @@ fn_start_tmux(){
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
-	# If server is already running exit
 	check_status.sh
 	if [ "${status}" != "0" ]; then
+		# If server is already running exit
 		fn_print_info_nl "${servername} is already running"
 		fn_script_log_error "${servername} is already running"
-		core_exit.sh
-	fi
+	else
+		# Create lock file
+		date > "${rootdir}/${lockselfname}"
 
-	# Create lock file
-	date > "${rootdir}/${lockselfname}"
-	cd "${executabledir}"
-	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+		# Start session
+		cd "${executabledir}"
+		tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 
-	# tmux pipe-pane not supported in tmux versions < 1.6
-	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
-		echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
-		echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
-		echo "Currently installed: $(tmux -V)" >> "${consolelog}"
-
-	# Console logging disabled: Bug in tmux 1.8 breaks logging
-	elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; then
-		echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
-		echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
-		echo "Currently installed: $(tmux -V)" >> "${consolelog}"
-
-	# Console logging enable or not set
-	elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-		touch "${consolelog}"
-		tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
-
-	# Console logging disabled
-	elif [ "${consolelogging}" == "off" ]; then
-		touch "${consolelog}"
-		cat "Console logging disabled by user" >> "{consolelog}"
-		fn_script_log_info "Console logging disabled by user"
-	fi
-	sleep 1
-
-	# If the server fails to start
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		fn_print_fail_nl "Unable to start ${servername}"
-		fn_script_log_fatal "Unable to start ${servername}"
+		## Console logging
+		# tmux pipe-pane not supported in tmux versions < 1.6
+		if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
+			echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
+			echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
+			echo "Currently installed: $(tmux -V)" >> "${consolelog}"
+		# Console logging disabled: Bug in tmux 1.8 breaks logging
+		elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; then
+			echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
+			echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
+			echo "Currently installed: $(tmux -V)" >> "${consolelog}"
+		# Console logging enable or not set
+		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+			touch "${consolelog}"
+			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+		# Console logging disabled
+		elif [ "${consolelogging}" == "off" ]; then
+			touch "${consolelog}"
+			cat "Console logging disabled by user" >> "{consolelog}"
+			fn_script_log_info "Console logging disabled by user"
+		fi
 		sleep 1
-		if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
-			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
-			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
-			echo ""
-			echo "Command"
-			echo "================================="
-			echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${scriptlog}"
-			echo ""
-			echo "Error"
-			echo "================================="
-			cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
 
-			# Detected error https://gameservermanagers.com/issues
-			if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
-			echo ""
-			echo "Fix"
-			echo "================================="
-				if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ]; then
-					echo "$(whoami) is not part of the tty group."
-					fn_script_log_info "$(whoami) is not part of the tty group."
-					group=$(grep tty /etc/group)
+		# Check if the server fails to start
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_fail_nl "Unable to start ${servername}"
+			fn_script_log_fatal "Unable to start ${servername}"
+			sleep 1
+			if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
+				fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
+				fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
+				echo ""
+				echo "Command"
+				echo "================================="
+				echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${scriptlog}"
+				echo ""
+				echo "Error"
+				echo "================================="
+				cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
+
+				# Detected error https://gameservermanagers.com/issues
+				if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
 					echo ""
-					echo "	${group}"
-					fn_script_log_info "${group}"
-					echo ""
-					echo "Run the following command with root privileges."
-					echo ""
-					echo "	usermod -G tty $(whoami)"
-					echo ""
-					echo "https://gameservermanagers.com/tmux-op-perm"
-					fn_script_log_info "https://gameservermanagers.com/tmux-op-perm"
-				else
-					echo "No known fix currently. Please log an issue."
-					fn_script_log_info "No known fix currently. Please log an issue."
-					echo "https://gameservermanagers.com/issues"
-					fn_script_log_info "https://gameservermanagers.com/issues"
+					echo "Fix"
+					echo "================================="
+					if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ]; then
+						echo "$(whoami) is not part of the tty group."
+						fn_script_log_info "$(whoami) is not part of the tty group."
+						group=$(grep tty /etc/group)
+						echo ""
+						echo "	${group}"
+						fn_script_log_info "${group}"
+						echo ""
+						echo "Run the following command with root privileges."
+						echo ""
+						echo "	usermod -G tty $(whoami)"
+						echo ""
+						echo "https://gameservermanagers.com/tmux-op-perm"
+						fn_script_log_info "https://gameservermanagers.com/tmux-op-perm"
+					else
+						echo "No known fix currently. Please log an issue."
+						fn_script_log_info "No known fix currently. Please log an issue."
+						echo "https://gameservermanagers.com/issues"
+						fn_script_log_info "https://gameservermanagers.com/issues"
+					fi
 				fi
 			fi
+		else
+			fn_print_ok "${servername}"
+			fn_script_log_pass "Started ${servername}"
 		fi
-
-		core_exit.sh
-	else
-		fn_print_ok "${servername}"
-		fn_script_log_pass "Started ${servername}"
+		rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+		echo -en "\n"
 	fi
-	rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
-	echo -en "\n"
 }
 
 check.sh
