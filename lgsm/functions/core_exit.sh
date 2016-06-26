@@ -21,6 +21,7 @@ else
 	exitcode=0
 fi
 
-if [ -f ".dev-debug" ]; then
+if [ -f "${rootdir}/.dev-debug" ]; then
+	sleep 0.5
 	echo "Exiting with code: ${exitcode}"
 fi
