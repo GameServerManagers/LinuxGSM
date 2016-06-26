@@ -31,28 +31,26 @@ fn_start_teamspeak3(){
 	if [ "${status}" != "0" ]; then
 		fn_print_info_nl "${servername} is already running"
 		fn_script_log_error "${servername} is already running"
-		core_exit.sh
-	fi
-
-	mv "${scriptlog}" "${scriptlogdate}"
-	# Create lock file
-	date > "${rootdir}/${lockselfname}"
-	cd "${executabledir}"
-	if [ "${ts3serverpass}" == "1" ];then
-		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}"
 	else
-		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
-	fi
-	sleep 1
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		fn_print_fail_nl "Unable to start ${servername}"
-		fn_script_log_fatal "Unable to start ${servername}"
-		echo -e "	Check log files: ${rootdir}/log"
-		core_exit.sh
-	else
-		fn_print_ok_nl "${servername}"
-		fn_script_log_pass "Started ${servername}"
+		mv "${scriptlog}" "${scriptlogdate}"
+		# Create lock file
+		date > "${rootdir}/${lockselfname}"
+		cd "${executabledir}"
+		if [ "${ts3serverpass}" == "1" ];then
+			./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}"
+		else
+			./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
+		fi
+		sleep 1
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_fail_nl "Unable to start ${servername}"
+			fn_script_log_fatal "Unable to start ${servername}"
+			echo -e "	Check log files: ${rootdir}/log"
+		else
+			fn_print_ok_nl "${servername}"
+			fn_script_log_pass "Started ${servername}"
+		fi
 	fi
 }
 
