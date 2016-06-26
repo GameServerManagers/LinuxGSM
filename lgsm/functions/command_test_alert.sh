@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Sends a test email alert.
 
-local modulename="Alert"
+modulename="Alert"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh

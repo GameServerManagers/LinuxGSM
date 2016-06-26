@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Creates a .tar.gz file in the backup directory.
 
-local modulename="Backup"
+modulename="Backup"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh

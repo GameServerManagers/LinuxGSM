@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Overall function for the installer.
 
-local modulename="Install"
+modulename="Install"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh

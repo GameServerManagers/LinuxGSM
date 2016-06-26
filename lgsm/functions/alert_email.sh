@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Sends email alert if monitor picks up a failure.
 
-local modulename="Alert"
+modulename="Alert"
 
 
 fn_details_email(){

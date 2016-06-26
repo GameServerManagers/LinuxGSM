@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Checks if a server update is available.
 
-local modulename="Update"
+modulename="Update"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ### SteamCMD Update Checker ###

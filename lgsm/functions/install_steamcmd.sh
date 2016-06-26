@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Downloads SteamCMD on install.
 
-local modulename="Install"
+modulename="Install"
 
 echo ""
 echo "Installing SteamCMD"

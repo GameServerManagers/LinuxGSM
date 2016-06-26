@@ -7,7 +7,7 @@ lgsm_version="210516"
 # Description: uses gsquery.py to query the server port.
 # Detects if the server has frozen with the proccess still running.
 
-local modulename="Monitor"
+modulename="Monitor"
 
 # Forces legecy servers to use gsquery
 if [ -z "${gsquery}" ]; then

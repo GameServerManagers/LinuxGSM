@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 lgsm_version="210516"
 
-local modulename="Install"
+modulename="Install"
 
 info_distro.sh
 # Gets the teamspeak server architecture

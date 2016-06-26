@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
-local modulename="Debug"
+modulename="Debug"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Trap to remove lockfile on quit.

@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 lgsm_version="270516"
 
-local modulename="Install"
+modulename="Install"
 
 fn_install_server_files(){
 	if [ "${gamename}" == "Unreal Tournament 99" ]; then

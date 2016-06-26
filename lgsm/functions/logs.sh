@@ -7,7 +7,7 @@ lgsm_version="210516"
 
 # Description: Acts as a log rotater, removing old logs.
 
-local modulename="Log Manager"
+modulename="Log Manager"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist
 if [ -n "${consolelog}" ]; then
