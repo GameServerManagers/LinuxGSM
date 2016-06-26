@@ -24,4 +24,3 @@ fi
 if [ -f ".dev-debug" ]; then
 	echo "Exiting with code: ${exitcode}"
 fi
-

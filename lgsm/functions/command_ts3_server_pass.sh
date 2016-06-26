@@ -61,3 +61,4 @@ if [ "${status}" != "0" ]; then
 else
 	fn_serveradmin_password_set
 fi
+core_exit.sh

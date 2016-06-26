@@ -33,3 +33,4 @@ for map in "${filesdir}/Maps/"*; do
 	./ucc-bin compress "${map}" --nohomedir
 done
 mv -fv "${filesdir}/Maps/"*.unr.uz "${compressedmapsdir}"
+core_exit.sh

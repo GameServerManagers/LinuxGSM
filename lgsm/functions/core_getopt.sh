@@ -439,3 +439,4 @@ elif [ "${engine}" == "unreal" ]; then
 else
 	fn_getopt_generic
 fi
+core_exit.sh
