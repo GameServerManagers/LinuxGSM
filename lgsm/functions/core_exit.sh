@@ -8,16 +8,18 @@ lgsm_version="210516"
 
 if [ "${exitcode}" != "0" ]; then
 	if [ "${exitcode}" == "1" ]; then
-		fn_script_log_fatal "Exiting with exit code: ${exitcode}"
+		fn_script_log_fatal "Exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then
-		fn_script_log_error "Exiting with exit code: ${exitcode}"
+		fn_script_log_error "Exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "3" ]; then
-		fn_script_log_warn "Exiting with exit code: ${exitcode}"
+		fn_script_log_warn "Exiting with code: ${exitcode}"
 	else
-		fn_script_log "Exiting with exit code: ${exitcode}"
+		fn_script_log "Exiting with code: ${exitcode}"
 	fi
-else
-	fn_script_log_pass "Exiting with exit code: ${exitcode}"
+	exit ${exitcode}
 fi
 
-exit ${exitcode}
+if [ -f ".dev-debug" ]; then
+	echo "Exiting with code: ${exitcode}"
+fi
+
