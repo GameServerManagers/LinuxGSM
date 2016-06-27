@@ -6,22 +6,30 @@ lgsm_version="210516"
 
 # Description: handles exiting of LGSM by running and reporting an exit code.
 
+fn_exit_dev_debug(){
+	if [ -f "${rootdir}/.dev-debug" ]; then
+		echo "${function_selfname} exiting with code: ${exitcode}"
+	fi
+}
+
 if [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	if [ "${exitcode}" == "1" ]; then
-		fn_script_log_fatal "Exiting with code: ${exitcode}"
+		fn_script_log_fatal "${function_selfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then
-		fn_script_log_error "Exiting with code: ${exitcode}"
+		fn_script_log_error "${function_selfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "3" ]; then
-		fn_script_log_warn "Exiting with code: ${exitcode}"
+		fn_script_log_warn "${function_selfname} exiting with code: ${exitcode}"
 	else
-		fn_script_log_warn "Exiting with code: ${exitcode}"
+		fn_script_log_warn "${function_selfname} exiting with code: ${exitcode}"
 	fi
+	fn_exit_dev_debug
 	exit ${exitcode}
+elif [ -n "${exitbypass}" ]; then
+	unset exitbypass
 else
+	fn_script_log_pass "${function_selfname} exiting with code: ${exitcode}"
 	exitcode=0
+	fn_exit_dev_debug
+	exit ${exitcode}
 fi
 
-if [ -f "${rootdir}/.dev-debug" ]; then
-	sleep 0.5
-	echo "${function_selfname} exiting with code: ${exitcode}"
-fi

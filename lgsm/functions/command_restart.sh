@@ -9,7 +9,7 @@ lgsm_version="210516"
 local modulename="Restarting"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-restart=1
+exitbypass=1
 info_config.sh
 command_stop.sh
 command_start.sh

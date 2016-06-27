@@ -53,6 +53,7 @@ done
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
 sleep 1
+exitbypass=1
 command_stop.sh
 fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
