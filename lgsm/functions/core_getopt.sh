@@ -13,7 +13,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	u|update)
 		update_check.sh;;
 	fu|force-update|update-restart)
@@ -76,7 +76,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	u|update)
 		update_check.sh;;
 	uf|update-functions)
@@ -129,7 +129,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
@@ -173,7 +173,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	u|update)
 		update_check.sh;;
 	fu|force-update|update-restart)
@@ -239,7 +239,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
@@ -296,7 +296,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	u|update)
 		update_check.sh;;
 	fu|force-update|update-restart)
@@ -363,7 +363,7 @@ case "$getopt" in
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
-		fn_restart;;
+		command_restart.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
