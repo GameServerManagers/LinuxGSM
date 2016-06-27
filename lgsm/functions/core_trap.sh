@@ -7,8 +7,9 @@ lgsm_version="210516"
 # Description: handles ctrl-C trap to give an exitcode.
 
 fn_exit_trap(){
+	echo ""
 	core_exit.sh
 }
 
-# trap to remove lockfile on quit.
+# trap to give an exitcode.
 trap fn_exit_trap INT
