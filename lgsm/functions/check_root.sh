@@ -9,5 +9,5 @@ if [ $(whoami) = "root" ]; then
 	if [ -d "${scriptlogdir}" ]; then
 		fn_scriptlog_fatal "${selfname} attempted to run as root."
 	fi
-	exit 1
+	core_exit.sh
 fi
