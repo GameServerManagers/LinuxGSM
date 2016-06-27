@@ -13,6 +13,8 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_lockfile_trap(){
 	# Remove lock file
 	rm -f "${rootdir}/${lockselfname}"
+	# resets terminal. Servers can sometimes mess up the terminal on exit.
+	reset
 	core_exit.sh
 }
 
