@@ -156,11 +156,9 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fn_restart(){
-local modulename="Restarting"
-info_config.sh
-command_stop.sh
-command_start.sh
+command_restart.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
 }
 
 
