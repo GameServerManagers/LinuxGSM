@@ -23,6 +23,8 @@ if [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 		fn_script_log_warn "${function_selfname} exiting with code: ${exitcode}"
 	fi
 	fn_exit_dev_debug
+	# remove trap.
+	trap - INT
 	exit ${exitcode}
 elif [ -n "${exitbypass}" ]; then
 	unset exitbypass
@@ -30,6 +32,8 @@ else
 	fn_script_log_pass "${function_selfname} exiting with code: ${exitcode}"
 	exitcode=0
 	fn_exit_dev_debug
+	# remove trap.
+	trap - INT
 	exit ${exitcode}
 fi
 

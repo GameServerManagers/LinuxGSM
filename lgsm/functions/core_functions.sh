@@ -88,6 +88,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+core_trap.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
 core_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
@@ -471,6 +476,8 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Calls the global Ctrl-C trap
+core_trap.sh
 
 # Calls on-screen messages
 core_messages.sh
