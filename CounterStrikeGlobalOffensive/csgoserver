@@ -37,8 +37,8 @@ steampass=""
 # Classic Competitive        0            1
 # Demolition                 1            1
 # Deathmatch                 1            2
-gamemode="0"
 gametype="0"
+gamemode="0"
 defaultmap="de_dust2"
 mapgroup="random_classic"
 maxplayers="16"
