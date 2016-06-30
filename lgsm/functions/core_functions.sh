@@ -367,17 +367,22 @@ fn_fetch_function
 
 # Update
 
-update_check.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 command_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-update_dl.sh(){
+command_update.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_ts3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
