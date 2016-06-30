@@ -330,6 +330,7 @@ elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# Goldsource servers bypass checks as fn_steamcmdcheck does not work for appid 90 servers.
 	# forceupdate bypasses checks
 	if [ "${status}" != "0" ]; then
+		exitbypass=1
 		command_stop.sh
 		update_dl.sh
 		command_start.sh

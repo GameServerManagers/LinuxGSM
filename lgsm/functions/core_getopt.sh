@@ -6,6 +6,8 @@ lgsm_version="210516"
 
 # Description: getopt arguments.
 
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 fn_getopt_generic(){
 case "$getopt" in
 	st|start)
@@ -18,7 +20,7 @@ case "$getopt" in
 		update_check.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
