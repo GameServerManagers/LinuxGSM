@@ -17,7 +17,7 @@ case "$getopt" in
 	r|restart)
 		command_restart.sh;;
 	u|update)
-		update_check.sh;;
+		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
 		command_update.sh;;
