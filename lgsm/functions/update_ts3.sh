@@ -156,7 +156,7 @@ fn_update_ts3_compare(){
 	fi
 }
 
-if [ "${installer}" == "1"]; then
+if [ "${installer}" == "1" ]; then
 	fn_update_ts3_availablebuild
 	fn_update_ts3_dl
 else
