@@ -98,6 +98,10 @@ if [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
 fi
 
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	update_ts3.sh
+fi
+
 if [ -z "${autoinstall}" ]; then
 	echo ""
 	echo "================================="
