@@ -90,16 +90,15 @@ echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
-if [ -n "${appid}" ]; then
-	fn_install_server_files_steamcmd
-fi
-
-if [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
-	fn_install_server_files
-fi
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	update_ts3.sh
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+	fn_install_server_files
+fi
+
+if [ -n "${appid}" ]; then
+	fn_install_server_files_steamcmd
 fi
 
 if [ -z "${autoinstall}" ]; then
