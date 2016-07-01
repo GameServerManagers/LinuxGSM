@@ -6,9 +6,8 @@ lgsm_version="210516"
 
 # Description:Handles updating using steamCMD.
 
-fn_steamcmd_dl(){
-	cd "${rootdir}"
-	cd "steamcmd"
+fn_update_steamcmd_dl(){
+	cd "${rootdir}/steamcmd"
 
 	# Detects if unbuffer command is available.
 	if [ $(command -v stdbuf) ]; then
@@ -83,7 +82,7 @@ fn_appmanifest_check(){
 	fi
 }
 
-fn_logupdaterequest(){
+fn_update_request_log(){
 	# Checks for server update requests from server logs.
 	fn_print_dots "Checking for update: Server logs"
 	fn_script_log "Checking for update: Server logs"
@@ -104,11 +103,13 @@ fn_logupdaterequest(){
 		unset updateonstart
 		check_status.sh
 		if [ "${status}" != "0" ]; then
+			exitbypass=1
 			command_stop.sh
-			update_dl.sh
+			fn_update_steamcmd_dl
+			exitbypass=1
 			command_start.sh
 		else
-			update_dl.sh
+			fn_update_steamcmd_dl
 		fi
 		alert="update"
 		alert.sh
@@ -118,7 +119,7 @@ fn_logupdaterequest(){
 	fi
 }
 
-fn_steamcmdcheck(){
+fn_update_steamcmd_check(){
 	fn_appmanifest_check
 	# Checks for server update from SteamCMD
 	fn_print_dots "Checking for update: SteamCMD"
@@ -183,11 +184,11 @@ fn_steamcmdcheck(){
 		if [ "${status}" != "0" ]; then
 			exitbypass=1
 			command_stop.sh
-			fn_steamcmd_dl
+			fn_update_steamcmd_dl
 			exitbypass=1
 			command_start.sh
 		else
-			fn_steamcmd_dl
+			fn_update_steamcmd_dl
 		fi
 		alert="update"
 		alert.sh
@@ -205,4 +206,21 @@ fn_steamcmdcheck(){
 }
 
 
-fn_steamcmdcheck
+if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
+	# Goldsource servers bypass checks as fn_update_steamcmd_check does not work for appid 90 servers.
+	# forceupdate bypasses checks
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		exitbypass=1
+		command_stop.sh
+		fn_update_steamcmd_dl
+		exitbypass=1
+		command_start.sh
+	else
+		fn_update_steamcmd_dl
+	fi
+else
+	fn_update_request_log
+	fn_update_steamcmd_check
+fi
+core_exit.sh

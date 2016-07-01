@@ -14,3 +14,5 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	update_steamcmd.sh
 fi
+
+core_exit.sh
