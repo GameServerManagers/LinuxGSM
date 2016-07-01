@@ -6,6 +6,9 @@ lgsm_version="210516"
 
 # Description:Handles updating of teamspeak 3 servers.
 
+local modulename="Update"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 fn_update_ts3_dl(){
 	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 	fn_dl_extract "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${filesdir}"

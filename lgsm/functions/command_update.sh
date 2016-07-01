@@ -6,6 +6,9 @@ lgsm_version="210516"
 
 # Description:Hangles updating of servers.
 
+local modulename="Update"
+function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 check.sh
 
 fn_print_dots "Checking for update"
