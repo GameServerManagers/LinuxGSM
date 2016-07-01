@@ -7,6 +7,14 @@ lgsm_version="210516"
 # Description:Handles updating using steamCMD.
 
 fn_update_steamcmd_dl(){
+
+	check.sh
+	info_config.sh
+	fn_print_dots "Updating ${servername}"
+	sleep 1
+	fn_print_ok_nl "Updating ${servername}"
+	fn_script_log_info "Updating ${servername}"
+
 	cd "${rootdir}/steamcmd"
 
 	# Detects if unbuffer command is available.
@@ -223,4 +231,3 @@ else
 	fn_update_request_log
 	fn_update_steamcmd_check
 fi
-core_exit.sh
