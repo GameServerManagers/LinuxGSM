@@ -208,6 +208,9 @@ fn_details_script(){
 		# Email alert
 		echo -e "\e[34mEmail alert:\t\e[0m${emailalert}"
 
+		# Pushbullet alert
+		echo -e "\e[34mPushbullet alert:\t\e[0m${pushbulletalert}"
+
 		# Update on start
 		echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"
 
