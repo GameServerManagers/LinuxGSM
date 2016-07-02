@@ -28,16 +28,22 @@ if [ -n "${functionsdir}" ]; then
 		for curlcmd in ${curlpaths}
 		do
 			if [ -x "${curlcmd}" ]; then
+				echo "CURL CMD 1: ${curlcmd}"
 				break
 			fi
 		done
+		echo "CURL CMD 2: ${curlcmd}"
 		cd "${functionsdir}"
 		for functionfile in *
 		do
 			echo -ne "   checking ${functionfile}...\c"
+			echo "CURL CMD 3: ${curlcmd}"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
+				echo "CURL CMD 4: ${curlcmd}"
 				${curlcmd} -s --fail "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+				echo "${curlcmd} -s --fail https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+
 				local exitcode=$?
 				if [ "${exitcode}" != "0" ]; then
 					echo -ne "   checking ${functionfile}...\c"
