@@ -211,7 +211,7 @@ fn_update_function(){
 	fileurl="${githuburl}"
 	filedir="${functionsdir}"
 	filename="${github_file_url_name}"
-	executecmd="execute"
+	executecmd="executecmd"
 	run="norun"
 	force="noforce"
 	md5="nomd5"
