@@ -36,8 +36,6 @@ if [ -n "${functionsdir}" ]; then
 		for functionfile in *
 		do
 			echo -ne "   checking ${functionfile}...\c"
-			echo "${curlcmd} -s --fail https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
-
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
 				echo "files are different!!"
@@ -64,7 +62,6 @@ fi
 if [ "${exitcode}" != "0" ]; then
 	fn_print_fail "Updating functions"
 	fn_script_log_fatal "Failure! Updating functions"
-	exitcode=1
 else
 	fn_print_ok "Updating functions"
 	fn_script_log_pass "Success! Updating functions"
