@@ -23,8 +23,20 @@ fi
 
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
-		rm -rfv "${functionsdir}/"*
-		exitcode=$?
+
+		cd "${functionsdir}"
+		for functionfile in *
+		do
+			#functionfile=core_exit.sh
+			echo "FUNCTIONFILE: ${functionfile}"
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}))
+			if [ "${function_file_diff}" != "" ]; then
+				echo "rm -rfv ${functionsdir}/${functionfile}"
+				rm -rfv "${functionsdir}/${functionfile}"
+				fn_update_function
+				core_exit.sh
+			fi
+		done
 	fi
 fi
 
