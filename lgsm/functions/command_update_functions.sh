@@ -28,6 +28,7 @@ if [ -n "${functionsdir}" ]; then
 		for curlcmd in ${curlpaths}
 		do
 			if [ -x "${curlcmd}" ]; then
+				curlcmd=${curlcmd}
 				break
 			fi
 		done
