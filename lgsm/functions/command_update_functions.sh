@@ -34,7 +34,6 @@ if [ -n "${functionsdir}" ]; then
 				echo "rm -rfv ${functionsdir}/${functionfile}"
 				rm -rfv "${functionsdir}/${functionfile}"
 				fn_update_function
-				core_exit.sh
 			fi
 		done
 	fi
