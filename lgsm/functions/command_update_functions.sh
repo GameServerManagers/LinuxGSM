@@ -23,7 +23,14 @@ fi
 
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
-
+		# Check curl exists and use available path
+		curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+		for curlcmd in ${curlpaths}
+		do
+			if [ -x "${curlcmd}" ]; then
+				break
+			fi
+		done
 		cd "${functionsdir}"
 		for functionfile in *
 		do
@@ -33,7 +40,8 @@ if [ -n "${functionsdir}" ]; then
 				${curlcmd} -s --fail "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
 				local exitcode=$?
 				if [ "${exitcode}" != "0" ]; then
-					echo -ne "   checking ${functionfile}...FAIL"
+					echo -ne "   checking ${functionfile}...\c"
+					fn_print_fail_eol_nl
 					rm -rfv "${functionsdir}/${functionfile}"
 				else
 					echo -ne "   checking ${functionfile}...UPDATE"
@@ -41,7 +49,8 @@ if [ -n "${functionsdir}" ]; then
 					fn_update_function
 				fi
 			else
-				echo -ne "   checking ${functionfile}...OK"
+				echo -ne "   checking ${functionfile}...\c"
+				fn_print_fail_eol_nl
 			fi
 		done
 	fi
