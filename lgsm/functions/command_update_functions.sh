@@ -36,16 +36,18 @@ if [ -n "${functionsdir}" ]; then
 		for functionfile in *
 		do
 			echo -ne "   checking ${functionfile}...\c"
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			echo "${curlcmd} -s --fail https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
-				echo "${curlcmd} -s --fail https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+				echo "files are different!!"
 				${curlcmd} -s --fail "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
 				local exitcode=$?
 				if [ "${exitcode}" != "0" ]; then
 					echo -ne "   checking ${functionfile}...\c"
 					fn_print_fail_eol_nl
 					rm -rfv "${functionsdir}/${functionfile}"
+					exitcode=2
 				else
 					echo -ne "   checking ${functionfile}...UPDATE"
 					rm -rfv "${functionsdir}/${functionfile}"
@@ -53,20 +55,20 @@ if [ -n "${functionsdir}" ]; then
 				fi
 			else
 				echo -ne "   checking ${functionfile}...\c"
-				fn_print_fail_eol_nl
+				fn_print_ok_eol_nl
 			fi
 		done
 	fi
 fi
 
-if [ "${exitcode}" == "0" ]; then
-	fn_print_ok "Updating functions"
-	fn_script_log_pass "Success! Updating functions"
-	exitcode=0
-else
+if [ "${exitcode}" != "0" ]; then
 	fn_print_fail "Updating functions"
 	fn_script_log_fatal "Failure! Updating functions"
 	exitcode=1
+else
+	fn_print_ok "Updating functions"
+	fn_script_log_pass "Success! Updating functions"
+	exitcode=0
 fi
 echo -ne "\n"
 core_exit.sh
