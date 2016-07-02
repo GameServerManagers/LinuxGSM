@@ -27,13 +27,21 @@ if [ -n "${functionsdir}" ]; then
 		cd "${functionsdir}"
 		for functionfile in *
 		do
-			#functionfile=core_exit.sh
-			echo "FUNCTIONFILE: ${functionfile}"
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}))
+			echo -ne "   checking ${functionfile}...\c"
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
-				echo "rm -rfv ${functionsdir}/${functionfile}"
-				rm -rfv "${functionsdir}/${functionfile}"
-				fn_update_function
+				${curlcmd} -s --fail "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+				local exitcode=$?
+				if [ "${exitcode}" != "0" ]; then
+					echo -ne "   checking ${functionfile}...FAIL"
+					rm -rfv "${functionsdir}/${functionfile}"
+				else
+					echo -ne "   checking ${functionfile}...UPDATE"
+					rm -rfv "${functionsdir}/${functionfile}"
+					fn_update_function
+				fi
+			else
+				echo -ne "   checking ${functionfile}...OK"
 			fi
 		done
 	fi
