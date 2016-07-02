@@ -36,6 +36,7 @@ if [ -n "${functionsdir}" ]; then
 		do
 			echo -ne "   checking ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			echo "${curlcmd} -s --fail https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
 			if [ "${function_file_diff}" != "" ]; then
 				echo "${curlcmd} -s --fail https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
 				${curlcmd} -s --fail "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
