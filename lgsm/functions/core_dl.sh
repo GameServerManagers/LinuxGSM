@@ -203,3 +203,17 @@ fn_fetch_function(){
 	md5="nomd5"
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
+
+fn_update_function(){
+	github_file_url_dir="lgsm/functions" # github dir containing the file
+	github_file_url_name="${functionfile}" # name of the github file
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fileurl="${githuburl}"
+	filedir="${functionsdir}"
+	filename="${github_file_url_name}"
+	executecmd="noexecute"
+	run="run"
+	force="noforce"
+	md5="nomd5"
+	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+}
