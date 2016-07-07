@@ -26,7 +26,7 @@ fn_check_bzip2(){
 	if [ -z "$(command -v bzip2)" ]; then
 		bzip2installed="0"
 		fn_print_info "bzip2 is not installed !"
-		fn_script_log "bzip2 is not installed"
+		fn_script_log_info "bzip2 is not installed"
 		echo -en "\n"
 		sleep 1
 		echo "We advise using it"

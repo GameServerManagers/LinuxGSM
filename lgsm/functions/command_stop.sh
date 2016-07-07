@@ -242,7 +242,7 @@ fn_stop_pre_check(){
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
-			fn_script_log "${servername} is already stopped"
+			fn_script_log_pass "${servername} is already stopped"
 		else
 			fn_stop_teamspeak3
 		fi
@@ -250,7 +250,7 @@ fn_stop_pre_check(){
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_ok_nl "${servername} is already stopped"
-			fn_script_log "${servername} is already stopped"
+			fn_script_log_pass "${servername} is already stopped"
 		else
 			fn_stop_graceful_select
 		fi
@@ -260,7 +260,6 @@ fn_stop_pre_check(){
 check.sh
 info_config.sh
 fn_print_dots "${servername}"
-fn_script_log "${servername}"
 sleep 1
 fn_stop_pre_check
 core_exit.sh

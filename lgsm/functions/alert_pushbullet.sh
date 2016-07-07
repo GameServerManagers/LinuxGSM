@@ -15,8 +15,8 @@ pushbulletsend=$(curl --silent -u """${pushbullettoken}"":" -d type="note" -d bo
 
 if [ "${pushbulletsend}" == "invalid_access_token" ]; then
 	fn_print_fail_nl "Sending Pushbullet alert: invalid_access_token"
-	fn_script_log "Failure! Sending Pushbullet alert: invalid_access_token"
+	fn_script_log_fatal "Sending Pushbullet alert: invalid_access_token"
 else
 	fn_print_ok_nl "Sending Pushbullet alert"
-	fn_script_log "Complete! Sent Pushbullet alert"
+	fn_script_log_pass "Sent Pushbullet alert"
 fi

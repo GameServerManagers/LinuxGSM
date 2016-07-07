@@ -10,8 +10,8 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${gamename}" != "Hurtworld" ]; then
 		fn_print_warn_nl "Config file missing!"
 		echo "${servercfgfullpath}"
-		fn_script_log "Configuration file missing!"
-		fn_script_log "${servercfgfullpath}"
+		fn_script_log_warn "Configuration file missing!"
+		fn_script_log_warn "${servercfgfullpath}"
 		sleep 2
 	fi
 fi

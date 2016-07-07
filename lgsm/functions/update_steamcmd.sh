@@ -75,15 +75,15 @@ fn_appmanifest_check(){
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
 		if [ "${forceupdate}" == "1" ]; then
 			fn_print_fail "Still no appmanifest_${appid}.acf found: Unable to update"
-			fn_script_log "Warning! Still no appmanifest_${appid}.acf found: Unable to update"
-			exit 1
+			fn_script_log_fatal "Warning! Still no appmanifest_${appid}.acf found: Unable to update"
+			core_exit.sh
 		fi
 		forceupdate=1
 		fn_print_warn "No appmanifest_${appid}.acf found"
-		fn_script_log "Warning! No appmanifest_${appid}.acf found"
-		sleep 2
+		fn_script_log_warn "No appmanifest_${appid}.acf found"
+		sleep 1
 		fn_print_info_nl "Forcing update to correct issue"
-		fn_script_log "Forcing update to correct issue"
+		fn_script_log_info "Forcing update to correct issue"
 		sleep 1
 		update_dl.sh
 		update_check.sh
@@ -93,7 +93,7 @@ fn_appmanifest_check(){
 fn_update_request_log(){
 	# Checks for server update requests from server logs.
 	fn_print_dots "Checking for update: Server logs"
-	fn_script_log "Checking for update: Server logs"
+	fn_script_log_info "Checking for update: Server logs"
 	sleep 1
 	requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
 	if [ "${requestrestart}" -ge "1" ]; then

@@ -234,8 +234,8 @@ mail -s "${alertsubject}" "${email}" < "${emaillog}"
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
 	fn_print_ok_nl "Sending alert to ${email}"
-	fn_script_log "Success! Sending alert to ${email}"
+	fn_script_log_pass "Sending alert to ${email}"
 else
 	fn_print_fail_nl "Sending alert to ${email}"
-	fn_script_log "Failure! Sending alert to ${email}"
+	fn_script_log_fatal "Sending alert to ${email}"
 fi

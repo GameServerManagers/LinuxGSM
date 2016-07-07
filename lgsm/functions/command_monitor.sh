@@ -85,7 +85,6 @@ check.sh
 logs.sh
 info_config.sh
 fn_print_dots "${servername}"
-fn_script_log "${servername}"
 sleep 1
 fn_monitor_check_lockfile
 fn_monitor_check_update
