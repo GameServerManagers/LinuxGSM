@@ -57,7 +57,7 @@ if [ -n "${functionsdir}" ]; then
 	fi
 fi
 
-if [ "${exitcode}" != "0" ]||[ -n "${exitcode}" ]; then
+if [ "${exitcode}" != "0" ]&&[ -n "${exitcode}" ]; then
 	fn_print_fail "Updating functions"
 	fn_script_log_fatal "Failure! Updating functions"
 else
