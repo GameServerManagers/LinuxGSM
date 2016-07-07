@@ -2,9 +2,9 @@
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
 local modulename="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""

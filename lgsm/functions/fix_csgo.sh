@@ -2,8 +2,6 @@
 # LGSM fix_csgo.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Resolves various issues with csgo.
 
 # Fixes: server not always creating steam_appid.txt file.

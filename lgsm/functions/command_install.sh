@@ -2,8 +2,6 @@
 # LGSM fn_install function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Overall function for the installer.
 
 local modulename="Install"

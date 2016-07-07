@@ -3,9 +3,10 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Checks script, files and folders ownership and permissions.
+
+local modulename="Checking"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Useful variables
 currentuser="$(whoami)"

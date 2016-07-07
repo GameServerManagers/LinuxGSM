@@ -2,8 +2,6 @@
 # LGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="050616"
-
 # Description: Stops the server.
 
 local modulename="Stopping"

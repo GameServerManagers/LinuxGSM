@@ -2,9 +2,10 @@
 # LGSM fix_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Downloads required glibc files and applys teh glibc fix if required
+
+local modulename="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "Just Cause 2" )
 for libstdc_server in "${libstdc_servers_array[@]}"

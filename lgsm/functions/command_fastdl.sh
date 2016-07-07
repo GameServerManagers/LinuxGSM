@@ -3,8 +3,6 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="060616"
-
 # Description: Creates a FastDL folder
 
 local modulename="FastDL"

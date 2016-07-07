@@ -2,8 +2,6 @@
 # LGSM update_check.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Checks if a server update is available.
 
 local modulename="Update"

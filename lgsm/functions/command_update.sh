@@ -1,10 +1,8 @@
 #!/bin/bash
-# LGSM commanf_update.sh function
+# LGSM command_update.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
-# Description:Hangles updating of servers.
+# Description: Handles updating of servers.
 
 local modulename="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

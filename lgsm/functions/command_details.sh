@@ -2,10 +2,9 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="190616"
-
 # Description: Displays server infomation.
 
+local modulename="Details"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Standard Details

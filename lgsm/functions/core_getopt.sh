@@ -2,8 +2,6 @@
 # LGSM core_getopt.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: getopt arguments.
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

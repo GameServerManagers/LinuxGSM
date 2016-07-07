@@ -2,8 +2,6 @@
 # LGSM update_dl.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Runs a server update.
 
 local modulename="Update"

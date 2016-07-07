@@ -2,8 +2,6 @@
 # LGSM commanf_update.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description:Handles updating of teamspeak 3 servers.
 
 local modulename="Update"

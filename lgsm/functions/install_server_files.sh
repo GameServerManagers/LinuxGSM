@@ -2,9 +2,9 @@
 # LGSM install_server_files.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="270516"
 
 local modulename="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_server_files(){
 	if [ "${gamename}" == "Unreal Tournament 99" ]; then

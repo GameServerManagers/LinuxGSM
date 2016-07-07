@@ -2,9 +2,10 @@
 # LGSM commanf_update.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description:Handles updating using steamCMD.
+
+local modulename="Update"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_steamcmd_dl(){
 

@@ -2,9 +2,10 @@
 # LGSM fix_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+# Description: Resolves various issues related to steamCMD.
 
-# Description: fixes various issues related to steamCMD.
+local modulename="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
 if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then

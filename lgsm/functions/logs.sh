@@ -3,11 +3,10 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Acts as a log rotater, removing old logs.
 
 local modulename="Log Manager"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist
 if [ -n "${consolelog}" ]; then

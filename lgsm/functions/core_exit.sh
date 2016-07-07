@@ -2,8 +2,6 @@
 # LGSM core_exit.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: handles exiting of LGSM by running and reporting an exit code.
 
 fn_exit_dev_debug(){

@@ -2,9 +2,10 @@
 # LGSM alert.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Overall function for managing alerts.
+
+local modulename="Alert"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"

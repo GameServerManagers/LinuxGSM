@@ -1,13 +1,11 @@
 #!/bin/bash
-# LGSM command_serveradmin_password.sh function
+# LGSM command_ts3_server_pass.sh function
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Changes TS3 serveradmin password
 
-local modulename="Change password"
+local modulename="TS3 Change Password"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 

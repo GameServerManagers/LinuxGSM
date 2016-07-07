@@ -2,8 +2,6 @@
 # LGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Deals with all downloads for LGSM.
 
 # fileurl: The URL of the file: http://example.com/dl/File.tar.bz2

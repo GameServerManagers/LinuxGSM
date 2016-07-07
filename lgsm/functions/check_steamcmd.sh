@@ -2,10 +2,10 @@
 # LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Checks SteamCMD is installed and correct.
 
+local modulename="Checking"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then

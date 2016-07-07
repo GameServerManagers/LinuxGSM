@@ -2,8 +2,9 @@
 # LGSM compress_unreal2_maps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+# Description: compresses unreal maps
 
+local modulename="Unreal Map Compressor"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
@@ -33,3 +34,4 @@ for map in "${filesdir}/Maps/"*; do
 	./ucc-bin compress "${map}" --nohomedir
 done
 mv -fv "${filesdir}/Maps/"*.ut2.uz2 "${compressedmapsdir}"
+core_exit.sh

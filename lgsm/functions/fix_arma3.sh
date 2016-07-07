@@ -2,7 +2,10 @@
 # LGSM fix_arma3.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="240516"
+# Description: Resolves an issue with ARMA3.
+
+local modulename="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: 20150 Segmentation fault (core dumped) error.
 if [ ! -d "${HOME}/.local/share/Arma 3" ]||[ ! -d "${HOME}/.local/share/Arma 3 - Other Profiles" ]; then

@@ -2,11 +2,10 @@
 # LGSM install_gslt.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Configures GSLT.
 
 local modulename="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo ""
 echo "Game Server Login Token"

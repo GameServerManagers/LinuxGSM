@@ -2,10 +2,10 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="090616"
-
 # Description: Checks that the requires dependencies are installed for LGSM.
 
+local modulename="Checking"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_deps_detector(){
 	# Checks if dependency is missing

@@ -2,10 +2,12 @@
 # LGSM fn_check function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
+
+local modulename="Checking"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Every command that requires checks just references check.sh
 # check.sh selects which checks to run by using arrays

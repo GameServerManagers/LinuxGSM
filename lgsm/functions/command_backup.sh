@@ -2,8 +2,6 @@
 # LGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Creates a .tar.gz file in the backup directory.
 
 local modulename="Backup"

@@ -2,8 +2,6 @@
 # LGSM command_monitor.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Monitors server by checking for running proccesses
 # then passes to monitor_gsquery.sh.
 
