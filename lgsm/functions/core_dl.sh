@@ -28,15 +28,15 @@ fn_dl_md5(){
 			fn_print_fail_eol_nl
 			echo "${filename} returned MD5 checksum: ${md5sumcmd}"
 			echo "expected MD5 checksum: ${md5}"
-			fn_script_log_fatal "verifying ${filename} with MD5: FAIL"
+			fn_script_log_fatal "Verifying ${filename} with MD5: FAIL"
 			fn_script_log_info "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_script_log_info "expected MD5 checksum: ${md5}"
+			fn_script_log_info "Expected MD5 checksum: ${md5}"
 			exit 1
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "verifying ${filename} with MD5: OK"
+			fn_script_log_pass "Verifying ${filename} with MD5: OK"
 			fn_script_log_info "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_script_log_info "expected MD5 checksum: ${md5}"
+			fn_script_log_info "Expected MD5 checksum: ${md5}"
 		fi
 	fi
 }
@@ -51,7 +51,7 @@ fn_dl_extract(){
 	extractdir="${3}"
 	# extracts archives
 	echo -ne "extracting ${filename}..."
-	fn_script_log_info "extracting download"
+	fn_script_log_info "Extracting download"
 	mime=$(file -b --mime-type "${filedir}/${filename}")
 
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
@@ -62,7 +62,7 @@ fn_dl_extract(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "extracting download: FAIL"
+		fn_script_log_fatal "Extracting download: FAIL"
 		echo "${tarcmd}" | tee -a "${scriptlog}"
 		core_exit.sh
 	else
