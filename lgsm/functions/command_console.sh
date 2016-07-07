@@ -25,14 +25,16 @@ while true; do
 	* ) echo "Please answer yes or no.";;
 esac
 done
-fn_print_dots "Starting"
+fn_print_dots "Accessing console"
 sleep 1
 check_status.sh
 if [ "${status}" != "0" ]; then
-	fn_print_ok_nl "Starting"
-	fn_script_log_info "Accessed"
+	fn_print_ok_nl "Accessing console"
+	fn_script_log_info "Console accessed"
 	sleep 1
 	tmux attach-session -t ${servicename}
+	fn_print_ok_nl "Console closed"
+	fn_script_log_info "Console closed"
 else
 	fn_print_fail_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"
