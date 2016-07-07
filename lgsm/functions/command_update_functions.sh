@@ -23,18 +23,19 @@ fi
 
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
-		# Check curl exists and use available path
-		curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-		for curlcmd in ${curlpaths}
-		do
-			if [ -x "${curlcmd}" ]; then
-				curlcmd=${curlcmd}
-				break
-			fi
-		done
 		cd "${functionsdir}"
 		for functionfile in *
 		do
+			# Check curl exists and use available path
+			curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+			for curlcmd in ${curlpaths}
+			do
+				if [ -x "${curlcmd}" ]; then
+					curlcmd=${curlcmd}
+					break
+				fi
+			done
+
 			echo -ne "    checking ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
