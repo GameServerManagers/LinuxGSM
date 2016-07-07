@@ -45,7 +45,6 @@ if [ -n "${functionsdir}" ]; then
 				fn_update_function
 			else
 				fn_print_ok_eol_nl
-				fn_script_log_pass "${functionfile}: NO UPDATE"
 			fi
 		done
 	fi
@@ -53,10 +52,10 @@ fi
 
 if [ "${exitcode}" != "0" ]&&[ -n "${exitcode}" ]; then
 	fn_print_fail "Updating functions"
-	fn_script_log_fatal "Failure! Updating functions"
+	fn_script_log_fatal "Updating functions"
 else
 	fn_print_ok "Updating functions"
-	fn_script_log_pass "Success! Updating functions"
+	fn_script_log_pass "Updating functions"
 fi
 echo -ne "\n"
 core_exit.sh
