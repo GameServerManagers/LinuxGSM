@@ -73,7 +73,7 @@ fi
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
 
 # Sort version numbers
-cat "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
+cat "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
 
 # Finds directory with most recent server version.
 while read ts3_version_number; do
