@@ -38,9 +38,12 @@ fn_validation(){
 
 check_status.sh
 if [ "${status}" != "0" ]; then
+	exitbypass=1
     command_stop.sh
     fn_validation
+    exitbypass=1
     command_start.sh
 else
     fn_validation
 fi
+core_exit.sh
