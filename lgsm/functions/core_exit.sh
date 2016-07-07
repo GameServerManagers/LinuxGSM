@@ -6,6 +6,7 @@
 
 fn_exit_dev_debug(){
 	if [ -f "${rootdir}/.dev-debug" ]; then
+		echo ""
 		echo "${function_selfname} exiting with code: ${exitcode}"
 	fi
 }
