@@ -39,19 +39,7 @@ if [ -n "${functionsdir}" ]; then
 			echo -ne "    checking ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
-				${curlcmd} -s --fail -o "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
-				local exitcode=$?
-				if [ "${exitcode}" != "0" ]; then
-					fn_print_fail_eol_nl
-					rm -rf "${functionsdir}/${functionfile}"
-					exitcode=2
-				else
-					echo -ne "\e[0;33mUPDATE\e[0m"
-					rm -rf "${functionsdir}/${functionfile}"
-					fn_update_function
-				fi
-			else
-				fn_print_ok_eol_nl
+				fn_update_function # located in core_dl.sh
 			fi
 		done
 	fi
@@ -63,7 +51,7 @@ if [ "${exitcode}" != "0" ]&&[ -n "${exitcode}" ]; then
 else
 	fn_print_ok "Updating functions"
 	fn_script_log_pass "Success! Updating functions"
-	exitcode=0
+	20
 fi
 echo -ne "\n"
 core_exit.sh
