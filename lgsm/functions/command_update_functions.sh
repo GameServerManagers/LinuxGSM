@@ -38,7 +38,7 @@ if [ -n "${functionsdir}" ]; then
 			echo -ne "    checking ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
-				#${curlcmd} -s --fail -o "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+				${curlcmd} -s --fail -o "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
 				local exitcode=$?
 				if [ "${exitcode}" != "0" ]; then
 					fn_print_fail_eol_nl
