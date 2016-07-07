@@ -250,10 +250,10 @@ fn_print_removed_eol_nl(){
 # UPDATE for end of line
 
 fn_print_update_eol(){
-	echo -en "\e[0;36mUPATE\e[0m"
+	echo -en "\e[0;36mUPDATE\e[0m"
 }
 
 fn_print_update_eol_nl(){
-	echo -e "\e[0;36mUPATE\e[0m"
+	echo -e "\e[0;36mUPDATE\e[0m"
 }
 
