@@ -35,7 +35,7 @@ if [ "${status}" != "0" ]; then
 	tmux attach-session -t ${servicename}
 else
 	fn_print_fail_nl "Server not running"
-	fn_script_log_fatal "Failed to access: Server not running"
+	fn_script_log_error "Failed to access: Server not running"
 	sleep 1
 	while true; do
 		read -p "Do you want to start the server? [y/N]" yn
