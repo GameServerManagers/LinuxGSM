@@ -9,7 +9,7 @@ lgsm_version="210516"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_getopt_generic(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -46,6 +46,10 @@ case "$getopt" in
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
@@ -72,7 +76,7 @@ case "$getopt" in
 }
 
 fn_getopt_teamspeak3(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -102,6 +106,10 @@ case "$getopt" in
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
@@ -125,7 +133,7 @@ case "$getopt" in
 }
 
 fn_getopt_mumble(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -149,6 +157,10 @@ case "$getopt" in
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
@@ -169,7 +181,7 @@ case "$getopt" in
 }
 
 fn_getopt_gmodserver(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -208,6 +220,10 @@ case "$getopt" in
 	fd|fastdl)
 		command_fastdl.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
@@ -235,7 +251,7 @@ case "$getopt" in
 }
 
 fn_getopt_unreal(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -267,6 +283,10 @@ case "$getopt" in
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
@@ -292,7 +312,7 @@ case "$getopt" in
 
 
 fn_getopt_unreal2(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -331,6 +351,10 @@ case "$getopt" in
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
@@ -359,7 +383,7 @@ case "$getopt" in
 
 
 fn_getopt_ut2k4(){
-case "$getopt" in
+case "${getopt}" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
@@ -393,6 +417,10 @@ case "$getopt" in
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
 	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		exitcode=2
+	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
