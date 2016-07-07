@@ -15,6 +15,8 @@ fn_lockfile_trap(){
 	rm -f "${rootdir}/${lockselfname}"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
+	fn_print_ok_nl "Closing debug"
+	fn_script_log_info "Debug closed"
 	core_exit.sh
 }
 
