@@ -35,18 +35,18 @@ if [ -n "${functionsdir}" ]; then
 		cd "${functionsdir}"
 		for functionfile in *
 		do
-			echo -ne "   checking ${functionfile}...\c"
+			echo -ne "    checking ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
-				${curlcmd} -s --fail -o "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
+				#${curlcmd} -s --fail -o "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"
 				local exitcode=$?
 				if [ "${exitcode}" != "0" ]; then
 					fn_print_fail_eol_nl
-					rm -rfv "${functionsdir}/${functionfile}"
+					rm -rf "${functionsdir}/${functionfile}"
 					exitcode=2
 				else
 					echo -ne "\e[0;33mUPDATE\e[0m"
-					rm -rfv "${functionsdir}/${functionfile}"
+					rm -rf "${functionsdir}/${functionfile}"
 					fn_update_function
 				fi
 			else
