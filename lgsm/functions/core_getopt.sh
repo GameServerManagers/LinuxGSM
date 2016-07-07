@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: getopt arguments.
 
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_getopt_generic(){
 case "${getopt}" in

@@ -7,7 +7,7 @@ lgsm_version="210516"
 # Description: Runs a server validation.
 
 local modulename="Validate"
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
 	fn_print_warn_nl "Validating may overwrite some customised files."

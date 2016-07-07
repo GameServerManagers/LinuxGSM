@@ -7,7 +7,7 @@ lgsm_version="210516"
 # Description: Starts the server.
 
 local modulename="Restarting"
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 exitbypass=1
 info_config.sh

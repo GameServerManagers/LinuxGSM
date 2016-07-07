@@ -7,7 +7,7 @@ lgsm_version="050616"
 # Description: Stops the server.
 
 local modulename="Stopping"
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Attempts Graceful of source using rcon 'quit' command.
 fn_stop_graceful_source(){

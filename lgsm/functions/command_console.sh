@@ -7,7 +7,7 @@ lgsm_version="210516"
 # Description: Gives access to the server tmux console.
 
 local modulename="Console"
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 echo ""
@@ -45,7 +45,6 @@ else
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
-	function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fi
 
 core_exit.sh
