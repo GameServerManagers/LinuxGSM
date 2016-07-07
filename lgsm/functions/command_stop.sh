@@ -241,7 +241,7 @@ fn_stop_pre_check(){
 	if [ "${gamename}" == "Teamspeak 3" ]; then
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok_nl "${servername} is already stopped"
+			fn_print_info_nl "${servername} is already stopped"
 			fn_script_log_error "${servername} is already stopped"
 		else
 			fn_stop_teamspeak3
@@ -249,7 +249,7 @@ fn_stop_pre_check(){
 	else
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok_nl "${servername} is already stopped"
+			fn_print_info_nl "${servername} is already stopped"
 			fn_script_log_error "${servername} is already stopped"
 		else
 			fn_stop_graceful_select
