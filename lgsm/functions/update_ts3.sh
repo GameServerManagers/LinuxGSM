@@ -65,7 +65,7 @@ fn_update_ts3_availablebuild(){
 # Gets availablebuild info.
 
 # Grabs all version numbers but not in correct order.
-wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > .ts3_version_numbers_unsorted.tmp
+wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
 
 # Sort version numbers
 cat "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
