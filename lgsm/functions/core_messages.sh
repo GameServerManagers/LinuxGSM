@@ -246,3 +246,14 @@ fn_print_removed_eol(){
 fn_print_removed_eol_nl(){
 	echo -e "\e[0;31mREMOVED\e[0m"
 }
+
+# UPDATE for end of line
+
+fn_print_update_eol(){
+	echo -en "\e[0;36mUPATE\e[0m"
+}
+
+fn_print_update_eol_nl(){
+	echo -e "\e[0;36mUPATE\e[0m"
+}
+
