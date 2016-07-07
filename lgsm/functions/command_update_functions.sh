@@ -53,7 +53,6 @@ if [ "${exitcode}" != "0" ]&&[ -n "${exitcode}" ]; then
 else
 	fn_print_ok "Updating functions"
 	fn_script_log_pass "Success! Updating functions"
-	20
 fi
 echo -ne "\n"
 core_exit.sh
