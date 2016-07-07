@@ -64,6 +64,11 @@ fi
 fn_update_ts3_availablebuild(){
 # Gets availablebuild info.
 
+# Creates tmp dir if missing
+if [ ! -d "${lgsmdir}/tmp" ]; then
+	mkdir -p "${lgsmdir}/tmp"
+fi
+
 # Grabs all version numbers but not in correct order.
 wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
 
