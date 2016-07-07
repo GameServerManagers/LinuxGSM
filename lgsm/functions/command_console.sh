@@ -45,5 +45,7 @@ else
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
+	function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fi
+
 core_exit.sh
