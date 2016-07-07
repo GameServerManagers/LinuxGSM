@@ -6,6 +6,7 @@ lgsm_version="210516"
 
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
+local modulename="Updating LGSM"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 fn_print_dots "Updating functions"
@@ -40,7 +41,7 @@ if [ -n "${functionsdir}" ]; then
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
-				fn_script_log_pass "${functionfile}: UPDATE"
+				fn_script_log_info "checking ${functionfile}: UPDATE"
 				rm -rf "${functionsdir}/${functionfile}"
 				fn_update_function
 			else
