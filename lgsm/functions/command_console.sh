@@ -9,13 +9,6 @@ lgsm_version="210516"
 local modulename="Console"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_console_access(){
-	fn_print_ok_nl "Starting"
-	fn_script_log_info "Accessed"
-	sleep 1
-	tmux attach-session -t ${servicename}
-}
-
 check.sh
 echo ""
 echo "${gamename} Console"
@@ -36,7 +29,10 @@ fn_print_dots "Starting"
 sleep 1
 check_status.sh
 if [ "${status}" != "0" ]; then
-	fn_console_access
+	fn_print_ok_nl "Starting"
+	fn_script_log_info "Accessed"
+	sleep 1
+	tmux attach-session -t ${servicename}
 else
 	fn_print_fail_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"
@@ -49,6 +45,5 @@ else
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
-	fn_console_access
 fi
 core_exit.sh
