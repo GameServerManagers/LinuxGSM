@@ -82,7 +82,7 @@ case "${getopt}" in
 	r|restart)
 		command_restart.sh;;
 	u|update)
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
@@ -187,7 +187,7 @@ case "${getopt}" in
 	r|restart)
 		command_restart.sh;;
 	u|update)
-		update_check.sh;;
+		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
 		update_check.sh;;
@@ -318,7 +318,7 @@ case "${getopt}" in
 	r|restart)
 		command_restart.sh;;
 	u|update)
-		update_check.sh;;
+		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
 		update_check.sh;;
