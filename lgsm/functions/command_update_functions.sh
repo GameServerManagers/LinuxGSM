@@ -40,6 +40,7 @@ if [ -n "${functionsdir}" ]; then
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
+				rm -rf "${functionsdir}/${functionfile}"
 				fn_update_function
 			else
 				fn_print_ok_eol_nl
