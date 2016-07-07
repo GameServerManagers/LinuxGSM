@@ -33,7 +33,7 @@ if [ "${status}" != "0" ]; then
 	fn_script_log_info "Console accessed"
 	sleep 1
 	tmux attach-session -t ${servicename}
-	fn_print_ok_nl "Console closed"
+	fn_print_ok_nl "Closing console"
 	fn_script_log_info "Console closed"
 else
 	fn_print_fail_nl "Server not running"
