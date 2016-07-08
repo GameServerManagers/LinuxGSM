@@ -273,7 +273,7 @@ echo "Description:"
 echo "restart ${gamename}."
 requiredstatus="ONLINE"
 fn_setstatus
-fn_restart
+command_restart.sh
 echo ""
 echo "Test complete!"
 sleep 1
@@ -284,7 +284,7 @@ echo "Description:"
 echo "restart ${gamename} while already stopped."
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_restart
+command_restart.sh
 echo ""
 echo "Test complete!"
 sleep 1

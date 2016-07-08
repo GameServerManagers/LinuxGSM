@@ -50,7 +50,7 @@ fn_monitor_teamspeak3(){
 		alert.sh
 		fn_script_log_info "Monitor is starting ${servername}"
 		sleep 1
-		fn_restart
+		command_restart.sh
 	fi
 }
 

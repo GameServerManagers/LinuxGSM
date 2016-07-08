@@ -73,7 +73,7 @@ if [ "${gsquery}" == "yes" ]; then
 				# Send alert if enabled
 				alert="restartquery"
 				alert.sh
-				fn_restart
+				command_restart.sh
 				break
 			fi
 
