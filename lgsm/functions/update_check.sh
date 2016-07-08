@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Checks if a server update is available.
 
-local modulename="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="UPDATE"
+local commandaction="Update"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ### SteamCMD Update Checker ###
 

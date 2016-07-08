@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Sends a test email alert.
 
-local modulename="Alert"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="ALERT"
+local commandaction="Alert"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 info_config.sh

@@ -3,8 +3,9 @@
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 
-local modulename="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="INSTALL"
+local commandaction="Install"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 clear
 echo "================================="

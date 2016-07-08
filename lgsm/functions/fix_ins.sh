@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Insurgency.
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 # Cannot have selfname as breaks if statement.
 #local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 

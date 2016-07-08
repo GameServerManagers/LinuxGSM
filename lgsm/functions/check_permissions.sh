@@ -5,8 +5,9 @@
 # Website: https://gameservermanagers.com
 # Description: Checks script, files and folders ownership and permissions.
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Useful variables
 currentuser="$(whoami)"

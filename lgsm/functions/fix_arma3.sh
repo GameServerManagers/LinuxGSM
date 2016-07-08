@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves an issue with ARMA3.
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: 20150 Segmentation fault (core dumped) error.

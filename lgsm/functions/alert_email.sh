@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Sends email alert if monitor picks up a failure.
 
-local modulename="Alert"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="ALERT"
+local commandaction="Alert"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_details_email(){
 	#

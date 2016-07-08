@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Stops the server.
 
-local modulename="Stopping"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="STOP"
+local commandaction="Stopping"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Attempts Graceful of source using rcon 'quit' command.
 fn_stop_graceful_source(){

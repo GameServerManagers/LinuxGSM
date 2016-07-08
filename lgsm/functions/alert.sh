@@ -4,8 +4,10 @@
 # Website: https://gameservermanagers.com
 # Description: Overall function for managing alerts.
 
-local modulename="Alert"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="ALERT"
+local commandaction="Alert"
+# Cannot have selfname as breaks the function.
+#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
@@ -43,20 +45,20 @@ fi
 
 if [ "${emailnotification}" == "on" ]||[ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
-elif [ "${emailnotification}" != "on" ]||[ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${emailnotification}" != "on" ]||[ "${emailalert}" != "on" ]&&[ "${selfname}" == "command_test_alert.sh" ]; then
 	fn_print_info_nl "Email alerts not enabled"
 	fn_script_log_info "Email alerts not enabled"
-elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${email}" ]&&[ "${selfname}" == "command_test_alert.sh" ]; then
 	fn_print_fail_nl "Email not set"
 	fn_script_log "Email not set"
 fi
 
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
 	alert_pushbullet.sh
-elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${pushbulletalert}" != "on" ]&&[ "${selfname}" == "command_test_alert.sh" ]; then
 	fn_print_info_nl "Pushbullet alerts not enabled"
 	fn_script_log_info "Pushbullet alerts not enabled"
-elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${pushbullettoken}" ]&&[ "${selfname}" == "command_test_alert.sh" ]; then
 	fn_print_fail_nl "Pushbullet token not set"
 	fn_script_log_warn "Pushbullet token not set"
 fi

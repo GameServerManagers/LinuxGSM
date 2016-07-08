@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Killing Floor.
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "Applying WebAdmin ROOst.css fix."

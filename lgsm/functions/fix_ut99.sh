@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Unreal Tournament 99.
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "${servercfgfullpath}"

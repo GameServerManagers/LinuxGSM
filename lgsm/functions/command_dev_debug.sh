@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Dev only: enables debuging log to be saved to dev-debug.log.
 
-local modulename="Dev Debug"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="DEV-DEBUG"
+local commandaction="Dev-Debug"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 
 if [ -f ".dev-debug" ]; then

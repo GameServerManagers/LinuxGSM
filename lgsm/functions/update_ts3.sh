@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description:Handles updating of teamspeak 3 servers.
 
-local modulename="Update"
+local commandnane="UPDATE"
+local commandaction="Update"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_ts3_dl(){

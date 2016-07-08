@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Runs the server without tmux. Runs direct from the terminal.
 
-local modulename="Debug"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="DEBUG"
+local commandaction="Debug"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){

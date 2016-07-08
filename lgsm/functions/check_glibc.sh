@@ -4,8 +4,10 @@
 # Website: https://gameservermanagers.com
 # Description: Checks if server has correct glibc or has a fix available.
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+# Cannot have selfname as breaks the function.
+#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 info_glibc.sh
 info_distro.sh
@@ -18,7 +20,7 @@ elif [ "${glibcrequired}" == "UNKNOWN" ]; then
 		echo -e "	* glibc installed: ${glibcversion}"
 elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" == "yes" ]; then
-		if [ "${function_selfname}" != "command_install.sh" ]; then
+		if [ "${selfname}" != "command_install.sh" ]; then
 			fn_print_info_nl "Glibc fix: \e[0;32mUsing Glibc fix\e[0m"
 			echo -e "	* glibc required: \e[0;31m${glibcrequired}\e[0m"
 			echo -e "	* glibc installed: ${glibcversion}"

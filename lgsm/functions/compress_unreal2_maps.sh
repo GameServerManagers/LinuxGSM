@@ -4,8 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: compresses unreal maps
 
-local modulename="Unreal Map Compressor"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandaction="Unreal Map Compressor"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 clear

@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-local modulename="Backup"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="BACKUP"
+local commandaction="Backup"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 info_distro.sh

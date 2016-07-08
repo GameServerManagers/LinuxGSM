@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Checks the proccess status of the server. Either online or offline.
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	# 1: Server is running

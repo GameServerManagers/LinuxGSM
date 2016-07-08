@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Downloads required glibc files and applys teh glibc fix if required
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "Just Cause 2" )

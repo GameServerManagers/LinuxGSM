@@ -3,8 +3,9 @@
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ ! -d "${systemdir}" ]; then
 	fn_print_fail_nl "Cannot access ${systemdir}: No such directory"

@@ -4,7 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues related to steamCMD.
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.

@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Gives access to the server tmux console.
 
-local modulename="Console"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CONSOLE"
+local commandaction="Console"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 echo ""

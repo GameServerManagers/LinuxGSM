@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Checks that log files exist on server start
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Create dir's for the script and console logs
 if [ ! -d "${scriptlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${gamename}" != "Teamspeak 3" ]; then

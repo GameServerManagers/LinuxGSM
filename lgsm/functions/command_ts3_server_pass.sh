@@ -5,8 +5,9 @@
 # Website: https://gameservermanagers.com
 # Description: Changes TS3 serveradmin password
 
-local modulename="TS3 Change Password"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="TS3-CHANGE-PASS"
+local commandaction="TS3 Change Password"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 
 fn_serveradmin_password_prompt(){

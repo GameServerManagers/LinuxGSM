@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Overall function for the installer.
 
-local modulename="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="INSTALL"
+local commandaction="Install"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 install_header.sh

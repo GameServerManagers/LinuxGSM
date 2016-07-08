@@ -5,8 +5,9 @@
 # Website: https://gameservermanagers.com
 # Description: Creates a FastDL folder
 
-local modulename="FastDL"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="FASTDL"
+local commandaction="FastDL"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 

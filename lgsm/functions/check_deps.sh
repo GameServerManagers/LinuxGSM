@@ -4,8 +4,10 @@
 # Website: https://gameservermanagers.com
 # Description: Checks that the requires dependencies are installed for LGSM.
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+# Cannot have selfname as breaks the function.
+#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_deps_detector(){
 	# Checks if dependency is missing
@@ -18,14 +20,14 @@ fn_deps_detector(){
 	fi
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${selfname}" == "command_install.sh" ]; then
 			echo -e "\e[0;32m${deptocheck}\e[0m"
 			sleep 0.5
 		fi
 	else
 		# if missing dependency is found
 		missingdep=1
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${selfname}" == "command_install.sh" ]; then
 			echo -e "\e[0;31m${deptocheck}\e[0m"
 			sleep 0.5
 		fi
@@ -97,7 +99,7 @@ fn_found_missing_deps(){
 			fi
 			echo ""
 		fi
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${selfname}" == "command_install.sh" ]; then
 			sleep 5
 		fi
 	fi
@@ -116,7 +118,7 @@ fn_check_loop(){
 
 info_distro.sh
 
-if [ "${function_selfname}" == "command_install.sh" ]; then
+if [ "${selfname}" == "command_install.sh" ]; then
 	echo ""
 	echo "Checking Dependecies"
 	echo "================================="

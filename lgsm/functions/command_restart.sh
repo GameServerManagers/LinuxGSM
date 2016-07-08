@@ -4,8 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Starts the server.
 
-local modulename="Restarting"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="RESTART"
+local commandaction="Restarting"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 exitbypass=1
 info_config.sh

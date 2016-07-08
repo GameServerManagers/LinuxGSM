@@ -5,7 +5,8 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-local modulename="Fix"
+local commandnane="FIX"
+local commandaction="Fix"
 # Cannot have selfname as breaks if statements.
 #local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 

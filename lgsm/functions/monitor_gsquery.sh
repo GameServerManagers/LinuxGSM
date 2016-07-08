@@ -5,8 +5,9 @@
 # Description: uses gsquery.py to query the server port.
 # Detects if the server has frozen with the proccess still running.
 
-local modulename="Monitor"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="MONITOR"
+local commandaction="Monitor"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Forces legecy servers to use gsquery
 if [ -z "${gsquery}" ]; then

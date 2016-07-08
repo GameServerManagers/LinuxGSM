@@ -3,7 +3,8 @@
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 
-local modulename="Install"
+local commandnane="INSTALL"
+local commandaction="Install"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${gamename}" == "Don't Starve Together" ]; then

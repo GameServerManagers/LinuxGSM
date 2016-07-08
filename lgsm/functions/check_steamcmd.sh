@@ -4,8 +4,10 @@
 # Website: https://gameservermanagers.com
 # Description: Checks SteamCMD is installed and correct.
 
-local modulename="Checking"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandnane="CHECK"
+local commandaction="Checking"
+# Cannot have selfname as breaks the function.
+#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then
@@ -44,7 +46,7 @@ fn_check_steamcmd_sh(){
 	# Installs if missing.
 	steamcmddir="${rootdir}/steamcmd"
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
 		else
 			fn_print_warn_nl "SteamCMD is missing"
@@ -52,14 +54,14 @@ fn_check_steamcmd_sh(){
 			sleep 1
 			fn_install_steamcmd
 		fi
-	elif [ "${function_selfname}" == "command_install.sh" ]; then
+	elif [ "${selfname}" == "command_install.sh" ]; then
 		fn_print_infomation "SteamCMD is already installed..."
 		fn_print_ok_eol_nl
 	fi
 }
 
 fn_check_steamcmd_guard(){
-	if [ "${function_selfname}" == "command_update.sh" ]||[ "${function_selfname}" == "command_validate.sh" ]; then
+	if [ "${selfname}" == "command_update.sh" ]||[ "${selfname}" == "command_validate.sh" ]; then
 		# Checks that steamcmd is working correctly and will prompt Steam Guard if required.
 		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
 		if [ $? -ne 0 ]; then
