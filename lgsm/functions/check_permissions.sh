@@ -7,7 +7,8 @@
 
 local commandnane="CHECK"
 local commandaction="Checking"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+# Cannot have selfname as breaks the function.
+#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Useful variables
 currentuser="$(whoami)"
