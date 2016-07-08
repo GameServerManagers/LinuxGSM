@@ -14,9 +14,9 @@ sleep 1
 pushbulletsend=$(curl --silent -u """${pushbullettoken}"":" -d type="note" -d body="${alertbody}" -d title="${alertsubject}" 'https://api.pushbullet.com/v2/pushes'|grep -o invalid_access_token|uniq)
 
 if [ "${pushbulletsend}" == "invalid_access_token" ]; then
-	fn_print_fail "Sending Pushbullet alert: invalid_access_token"
+	fn_print_fail_nl "Sending Pushbullet alert: invalid_access_token"
 	fn_script_log_fatal "Sending Pushbullet alert: invalid_access_token"
 else
-	fn_print_ok "Sending Pushbullet alert"
+	fn_print_ok_nl "Sending Pushbullet alert"
 	fn_script_log_pass "Sent Pushbullet alert"
 fi
