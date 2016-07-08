@@ -11,7 +11,9 @@ fn_exit_dev_debug(){
 	fi
 }
 
-if [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
+if [ -n "${exitbypass}" ]; then
+	unset exitbypass
+elif [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	if [ "${exitcode}" == "1" ]; then
 		fn_script_log_fatal "${selfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then
@@ -25,8 +27,6 @@ if [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	# remove trap.
 	trap - INT
 	exit ${exitcode}
-elif [ -n "${exitbypass}" ]; then
-	unset exitbypass
 else
 	exitcode=0
 	fn_script_log_pass "${selfname} exiting with code: ${exitcode}"

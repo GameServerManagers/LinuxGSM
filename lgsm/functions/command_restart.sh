@@ -8,7 +8,8 @@ local commandnane="RESTART"
 local commandaction="Restarting"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-exitbypass=1
 info_config.sh
+exitbypass=1
 command_stop.sh
+exitbypass=1
 command_start.sh
