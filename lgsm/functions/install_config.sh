@@ -8,6 +8,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_defaultconfig(){
 	echo "creating ${servercfg} config file."
+	fn_script_log_info "creating ${servercfg} config file."
 	cp -v "${servercfgdefault}" "${servercfgfullpath}"
 	sleep 1
 }
@@ -26,9 +27,11 @@ fn_userinputconfig(){
 		rconpass="rconpassword"
 	fi
 	echo "changing hostname."
+	fn_script_log_info "changing hostname."
 	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
 	sleep 1
 	echo "changing rconpassword."
+	fn_script_log_info "changing rconpassword."
 	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 	sleep 1
 	}
@@ -36,6 +39,7 @@ fn_userinputconfig(){
 fn_arma3config(){
 	fn_defaultconfig
 	echo "creating ${networkcfg} config file."
+	fn_script_log_info "creating ${networkcfg} config file."
 	cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
 	sleep 1
 	echo ""
@@ -46,18 +50,22 @@ fn_goldsourceconfig(){
 
 	# server.cfg redirects to ${servercfg} for added security
 	echo "creating server.cfg."
+	fn_script_log_info "creating server.cfg."
 	touch "server.cfg"
 	sleep 1
 	echo "creating redirect."
+	fn_script_log_info "creating redirect."
 	echo "server.cfg > ${servercfg}."
 	echo "exec ${servercfg}" > "server.cfg"
 	sleep 1
 
 	# creating other files required
 	echo "creating listip.cfg."
+	fn_script_log_info "creating listip.cfg."
 	touch "${systemdir}/listip.cfg"
 	sleep 1
 	echo "creating banned.cfg."
+	fn_script_log_info "creating banned.cfg."
 	touch "${systemdir}/banned.cfg"
 	sleep 1
 
@@ -70,6 +78,8 @@ fn_serious3config(){
 	echo ""
 	echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
 	echo "http://mrag.nl/sgui3/"
+	fn_script_log_info "To edit ${gamename} server config use SS3 Server GUI 3 tool"
+	fn_script_log_info "http://mrag.nl/sgui3/"
 	sleep 1
 	echo ""
 }
@@ -79,9 +89,11 @@ fn_sourceconfig(){
 
 	# server.cfg redirects to ${servercfg} for added security
 	echo "creating server.cfg."
+	fn_script_log_info "creating server.cfg."
 	touch "server.cfg"
 	sleep 1
 	echo "creating redirect."
+	fn_script_log_info "creating redirect."
 	echo "server.cfg > ${servercfg}."
 	echo "exec ${servercfg}" > "server.cfg"
 	sleep 1
@@ -94,9 +106,11 @@ fn_teeworldsconfig(){
 	fn_defaultconfig
 
 	echo "adding logfile location to config."
+	fn_script_log_info "adding logfile location to config."
 	sed -i "s@\"<logfile>\"@\"${gamelog}\"@g" "${servercfgfullpath}"
 	sleep 1
 	echo "removing password holder."
+	fn_script_log_info "removing password holder."
 	sed -i "s/<password>//" "${servercfgfullpath}"
 	sleep 1
 
@@ -105,6 +119,8 @@ fn_teeworldsconfig(){
 }
 
 fn_ut99config(){
+	echo "creating ${servercfg} config file."
+	fn_script_log_info "creating ${servercfg} config file."
 	echo "${servercfgdefault} > ${servercfgfullpath}"
 	tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
 	sleep 1
@@ -113,9 +129,11 @@ fn_ut99config(){
 	echo "================================="
 	sleep 1
 	echo "enabling WebAdmin."
+	fn_script_log_info "enabling WebAdmin."
 	sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
 	sleep 1
 	echo "setting WebAdmin port to 8076."
+	fn_script_log_info "setting WebAdmin port to 8076."
 	sed -i '467i\ListenPort=8076' "${servercfgfullpath}"
 	sleep 1
 	echo ""
@@ -128,14 +146,17 @@ fn_unreal2config(){
 	echo "================================="
 	sleep 1
 	echo "setting WebAdmin username and password."
+	fn_script_log_info "setting WebAdmin username and password."
 	sed -i 's/AdminName=/AdminName=admin/g' "${servercfgfullpath}"
 	sed -i 's/AdminPassword=/AdminPassword=admin/g' "${servercfgfullpath}"
 	sleep 1
 	echo "enabling WebAdmin."
+	fn_script_log_info "enabling WebAdmin."
 	sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
 	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		sleep 1
 		echo "setting WebAdmin port to 8075."
+		fn_script_log_info "setting WebAdmin port to 8075."
 		sed -i 's/ListenPort=80/ListenPort=8075/g' "${servercfgfullpath}"
 	fi
 	sleep 1
