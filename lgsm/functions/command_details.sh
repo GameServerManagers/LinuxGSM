@@ -101,7 +101,7 @@ fn_details_gameserver(){
 	# Status:           OFFLINE
 
 	echo -e ""
-	echo -e "\e[92m${gamename} Server Details${default}"
+	echo -e "${lightgreen}${gamename} Server Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		# Server name
@@ -177,7 +177,7 @@ fn_details_script(){
 	# Location:            /home/lgsm/qlserver
 	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
 
-	echo -e "\e[92m${selfname} Script Details${default}"
+	echo -e "${lightgreen}${selfname} Script Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		# Service name
@@ -247,7 +247,7 @@ fn_details_backup(){
 	#     size:          945M
 
 	echo -e ""
-	echo -e "\e[92mBackups${default}"
+	echo -e "${lightgreen}Backups${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 		echo -e "No Backups created"
@@ -269,7 +269,7 @@ fn_details_commandlineparms(){
 	# ./run_server_x86.sh +set net_strict 1
 
 	echo -e ""
-	echo -e "\e[92mCommand-line Parameters${default}"
+	echo -e "${lightgreen}Command-line Parameters${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "${executable} ${parms}"
 }
@@ -281,7 +281,7 @@ fn_details_ports(){
 	# /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
 
 	echo -e ""
-	echo -e "\e[92mPorts${default}"
+	echo -e "${lightgreen}Ports${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "Change ports by editing the parameters in:"
 
@@ -410,7 +410,7 @@ fn_details_spark(){
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
@@ -470,7 +470,7 @@ fn_details_sdtd(){
 		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
@@ -478,7 +478,7 @@ fn_details_sdtd(){
 		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} Telnet${default}"
+	echo -e "${lightgreen}${servername} Telnet${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		echo -e "${blue}Telnet enabled:\t${default}${telnetenabled}"
@@ -535,7 +535,7 @@ fn_details_unreal(){
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
