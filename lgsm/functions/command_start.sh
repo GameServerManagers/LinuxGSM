@@ -23,8 +23,6 @@ fn_start_teamspeak3(){
 		sleep 5
 		touch "${servercfgfullpath}"
 	fi
-
-	fn_print_dots "${servername}"
 	sleep 1
 	check_status.sh
 	if [ "${status}" != "0" ]; then
@@ -57,8 +55,6 @@ fn_start_teamspeak3(){
 
 fn_start_tmux(){
 	fn_parms
-	fn_print_dots "${servername}"
-	sleep 1
 
 	# Log rotation
 	check_status.sh
@@ -166,6 +162,8 @@ fn_start_tmux(){
 	echo -en "\n"
 }
 
+fn_print_dots "${servername}"
+sleep 1
 check.sh
 fix.sh
 info_config.sh

@@ -218,11 +218,11 @@ fn_print_failure_nl(){
 }
 
 # Error!
-fn_print_error(){
+fn_print_error2(){
 	echo -en "${red}Error!${default} $@"
 }
 
-fn_print_error_nl(){
+fn_print_error2_nl(){
 	echo -e "${red}Error!${default} $@"
 }
 

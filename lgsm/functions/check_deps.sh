@@ -72,7 +72,8 @@ fn_found_missing_deps(){
 		echo -e ""
 		sudo -n true > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
-			fn_print_info_nl "Attempting to install missing dependencies automatically"
+			fn_print_infomation_nl "Attempting to install missing dependencies automatically"
+			fn_script_log_info "Attempting to install missing dependencies automatically"
 			echo -en ".\r"
 			sleep 1
 			echo -en "..\r"
@@ -82,15 +83,22 @@ fn_found_missing_deps(){
 			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query)" ]; then
 				cmd="sudo dpkg --add-architecture i386; sudo apt-get -y install ${array_deps_missing[@]}"
-				eval $cmd
+				eval ${cmd}
 			elif [ -n "$(command -v yum)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
-				eval $cmd
+				eval ${cmd}
+			fi
+			if [ $? != 0 ]; then
+				fn_print_failure_nl "Unable to install dependencies"
+				fn_script_log_fail "Unable to install dependencies"
+			else
+				fn_print_success_nl "install dependencies completed"
+				fn_script_log_pass "install dependencies completed"
 			fi
 		else
 			echo ""
-			fn_print_infomation_nl "$(whoami) does not have sudo access. Please manually install dependencies"
-			fn_script_log_info "$(whoami) does not have sudo access. Please manually install dependencies"
+			fn_print_warning_nl "$(whoami) does not have sudo access. Please manually install dependencies"
+			fn_script_log_warn "$(whoami) does not have sudo access. Please manually install dependencies"
 			echo ""
 			if [ -n "$(command -v dpkg-query)" ]; then
 				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"

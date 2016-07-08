@@ -256,9 +256,9 @@ fn_stop_pre_check(){
 	fi
 }
 
-check.sh
-info_config.sh
 fn_print_dots "${servername}"
 sleep 1
+check.sh
+info_config.sh
 fn_stop_pre_check
 core_exit.sh

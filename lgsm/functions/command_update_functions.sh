@@ -6,10 +6,11 @@
 
 local commandaction="Update LGSM"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-check.sh
+
 fn_print_dots "Updating functions"
-fn_script_log_info "Updating functions"
 sleep 1
+check.sh
+fn_script_log_info "Updating functions"
 echo -ne "\n"
 
 # Removed legecy functions dir

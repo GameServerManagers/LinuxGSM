@@ -13,8 +13,6 @@ fn_validation(){
 	echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
 	sleep 5
 	echo -en "\n"
-	fn_print_dots "Checking server files"
-	sleep 1
 	fn_print_ok "Checking server files"
 	fn_script_log_info "Checking server files"
 	sleep 1
@@ -35,6 +33,9 @@ fn_validation(){
 	fn_script_log_info "Checking complete"
 }
 
+fn_print_dots "Checking server files"
+sleep 1
+check.sh
 check_status.sh
 if [ "${status}" != "0" ]; then
 	exitbypass=1

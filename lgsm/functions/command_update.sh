@@ -8,9 +8,11 @@ local commandnane="UPDATE"
 local commandaction="Update"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
+fn_print_dots "Checking for update"
+sleep 1
 check.sh
 
-fn_print_dots "Checking for update"
+
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	update_ts3.sh
 elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
