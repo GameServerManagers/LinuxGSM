@@ -21,14 +21,14 @@ fn_deps_detector(){
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
 		if [ "${selfname}" == "command_install.sh" ]; then
-			echo -e "\e[0;32m${deptocheck}\e[0m"
+			echo -e "${green}${deptocheck}${default}"
 			sleep 0.5
 		fi
 	else
 		# if missing dependency is found
 		missingdep=1
 		if [ "${selfname}" == "command_install.sh" ]; then
-			echo -e "\e[0;31m${deptocheck}\e[0m"
+			echo -e "${red}${deptocheck}${default}"
 			sleep 0.5
 		fi
 	fi
@@ -66,8 +66,8 @@ fn_found_missing_deps(){
 	if [ "${#array_deps_missing[@]}" != "0" ]; then
 		fn_print_dots "Checking dependencies"
 		sleep 2
-		fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-		fn_script_log_info "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+		fn_print_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
+		fn_script_log_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
 		sleep 1
 		echo -e ""
 		sudo -n true > /dev/null 2>&1

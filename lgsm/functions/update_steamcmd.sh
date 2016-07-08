@@ -171,8 +171,8 @@ fn_update_steamcmd_check(){
 		echo -e "\n"
 		echo -e "Update available:"
 		sleep 1
-		echo -e "	Current build: \e[0;31m${currentbuild}\e[0;39m"
-		echo -e "	Available build: \e[0;32m${availablebuild}\e[0;39m"
+		echo -e "	Current build: ${red}${currentbuild}${default}"
+		echo -e "	Available build: ${green}${availablebuild}${default}"
 		echo -e ""
 		echo -e "	https://steamdb.info/app/${appid}/"
 		sleep 1
@@ -205,8 +205,8 @@ fn_update_steamcmd_check(){
 	else
 		echo -e "\n"
 		echo -e "No update available:"
-		echo -e "	Current version: \e[0;32m${currentbuild}\e[0;39m"
-		echo -e "	Available version: \e[0;32m${availablebuild}\e[0;39m"
+		echo -e "	Current version: ${green}${currentbuild}${default}"
+		echo -e "	Available version: ${green}${availablebuild}${default}"
 		echo -e "	https://steamdb.info/app/${appid}/"
 		echo -e ""
 		fn_print_ok_nl "No update available"

@@ -46,15 +46,15 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	if [ "$(basename ${curlcmd})" == "curl" ]; then
 		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
 		if [ $? -ne 0 ]; then
-			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo -e "${red}FAIL${default}\n"
 			echo "${curlfetch}"
 			echo -e "${githuburl}\n"
 			exit 1
 		else
-			echo -e "\e[0;32mOK\e[0m"
+			echo -e "${green}OK${default}"
 		fi
 	else
-		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo -e "${red}FAIL${default}\n"
 		echo "Curl is not installed!"
 		echo -e ""
 		exit 1

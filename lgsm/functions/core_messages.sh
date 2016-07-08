@@ -7,6 +7,17 @@
 # nl: new line: message is following by a new line
 # eol: end of line: message is placed at the end of the current line
 
+if [ "${ansi}" != "off" ]; then
+	# echo colors
+	default="\e[0m"
+	red="\e[31m"
+	green="\e[32m"
+	yellow="\e[33m"
+	blue="\e[34m"
+	magenta="\e[35m"
+	cyan="\e[36m"
+	lightyellow="\e[93m"
+fi
 
 # Log display
 ##########
@@ -74,17 +85,17 @@ fn_script_log_info(){
 # [ .... ]
 fn_print_dots(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[ .... ] ${commandaction} ${servicename}: $@"
+		echo -en "\r[ .... ] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[ .... ] $@"
+		echo -en "\r[ .... ] $@"
 	fi
 }
 
 fn_print_dots_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r\033[K[ .... ] ${commandaction} ${servicename}: $@"
+		echo -e "\r[ .... ] ${commandaction} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[ .... ] $@"
+		echo -e "\r[ .... ] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -93,17 +104,17 @@ fn_print_dots_nl(){
 # [  OK  ]
 fn_print_ok(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] $@"
+		echo -en "\r[${green}  OK  ${default}] $@"
 	fi
 }
 
 fn_print_ok_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] $@"
+		echo -en "\r[${green}  OK  ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -112,17 +123,17 @@ fn_print_ok_nl(){
 # [ FAIL ]
 fn_print_fail(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] $@"
+		echo -en "\r[${red} FAIL ${default}] $@"
 	fi
 }
 
 fn_print_fail_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] $@"
+		echo -en "\r[${red} FAIL ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -131,17 +142,17 @@ fn_print_fail_nl(){
 # [ ERROR ]
 fn_print_error(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;31m ERROR \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${red} ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;31m ERROR \e[0m] $@"
+		echo -en "\r[${red} ERROR ${default}] $@"
 	fi
 }
 
 fn_print_error_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;31m ERROR \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${red} ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;31m ERROR \e[0m] $@"
+		echo -en "\r[${red} ERROR ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -150,17 +161,17 @@ fn_print_error_nl(){
 # [ WARN ]
 fn_print_warn(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[1;33m WARN \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[1;33m WARN \e[0m] $@"
+		echo -en "\r[${yellow} WARN ${default}] $@"
 	fi
 }
 
 fn_print_warn_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[1;33m WARN \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[1;33m WARN \e[0m] $@"
+		echo -en "\r[${yellow} WARN ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -169,17 +180,17 @@ fn_print_warn_nl(){
 # [ INFO ]
 fn_print_info(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;36m INFO \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;36m INFO \e[0m] $@"
+		echo -en "\r[${cyan} INFO ${default}] $@"
 	fi
 }
 
 fn_print_info_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r\033[K[\e[0;36m INFO \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r\033[K[\e[0;36m INFO \e[0m] $@"
+		echo -en "\r[${cyan} INFO ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -190,47 +201,47 @@ fn_print_info_nl(){
 
 # Complete!
 fn_print_complete(){
-	echo -en "\e[0;32mComplete!\e[0m $@"
+	echo -en "${green}Complete!${default} $@"
 }
 
 fn_print_complete_nl(){
-	echo -e "\e[0;32mComplete!\e[0m $@"
+	echo -e "${green}Complete!${default} $@"
 }
 
 # Failure!
 fn_print_failure(){
-	echo -en "\e[0;31mFailure!\e[0m $@"
+	echo -en "${red}Failure!${default} $@"
 }
 
 fn_print_failure_nl(){
-	echo -e "\e[0;31mFailure!\e[0m $@"
+	echo -e "${red}Failure!${default} $@"
 }
 
 # Error!
 fn_print_error(){
-	echo -en "\e[0;31mError!\e[0m $@"
+	echo -en "${red}Error!${default} $@"
 }
 
 fn_print_error_nl(){
-	echo -e "\e[0;31mError!\e[0m $@"
+	echo -e "${red}Error!${default} $@"
 }
 
 # Warning!
 fn_print_warning(){
-	echo -en "\e[0;33mWarning!\e[0m $@"
+	echo -en "${yellow}Warning!${default} $@"
 }
 
 fn_print_warning_nl(){
-	echo -e "\e[0;33mWarning!\e[0m $@"
+	echo -e "${yellow}Warning!${default} $@"
 }
 
 # Infomation!
 fn_print_infomation(){
-	echo -en "\e[0;36mInfomation!\e[0m $@"
+	echo -en "${cyan}Infomation!${default} $@"
 }
 
 fn_print_infomation_nl(){
-	echo -e "\e[0;36mInfomation!\e[0m $@"
+	echo -e "${cyan}Infomation!${default} $@"
 }
 
 # On-Screen End of Line
@@ -238,81 +249,81 @@ fn_print_infomation_nl(){
 
 # OK
 fn_print_ok_eol(){
-	echo -en "\e[0;32mOK\e[0m"
+	echo -en "${green}OK${default}"
 }
 
 fn_print_ok_eol_nl(){
-	echo -e "\e[0;32mOK\e[0m"
+	echo -e "${green}OK${default}"
 }
 
 # FAIL
 fn_print_fail_eol(){
-	echo -en "\e[0;31mFAIL\e[0m"
+	echo -en "${red}FAIL${default}"
 }
 
 fn_print_fail_eol_nl(){
-	echo -e "\e[0;31mFAIL\e[0m"
+	echo -e "${red}FAIL${default}"
 }
 
 # WARN
 fn_print_warn_eol(){
-	echo -en "\e[0;31mFAIL\e[0m"
+	echo -en "${red}FAIL${default}"
 }
 
 fn_print_warn_eol_nl(){
-	echo -e "\e[0;31mFAIL\e[0m"
+	echo -e "${red}FAIL${default}"
 }
 
 # INFO
 fn_print_info_eol(){
-	echo -en "\e[0;31mFAIL\e[0m"
+	echo -en "${red}FAIL${default}"
 }
 
 fn_print_info_eol_nl(){
-	echo -e "\e[0;31mFAIL\e[0m"
+	echo -e "${red}FAIL${default}"
 }
 
 # QUERYING
 fn_print_querying_eol(){
-	echo -en "\e[0;36mQUERYING\e[0m"
+	echo -en "${cyan}QUERYING${default}"
 }
 
 fn_print_querying_eol_nl(){
-	echo -e "\e[0;36mQUERYING\e[0m"
+	echo -e "${cyan}QUERYING${default}"
 }
 
 # CHECKING
 fn_print_checking_eol(){
-	echo -en "\e[0;36mCHECKING\e[0m"
+	echo -en "${cyan}CHECKING${default}"
 }
 
 fn_print_checking_eol_nl(){
-	echo -e "\e[0;36mCHECKING\e[0m"
+	echo -e "${cyan}CHECKING${default}"
 }
 
 # CANCELED
 fn_print_canceled_eol(){
-	echo -en "\e[0;33mCANCELED\e[0m"
+	echo -en "${yellow}CANCELED${default}"
 }
 
 fn_print_canceled_eol_nl(){
-	echo -e "\e[0;33mCANCELED\e[0m"
+	echo -e "${yellow}CANCELED${default}"
 }
 
 # REMOVED
 fn_print_removed_eol(){
-	echo -en "\e[0;31mREMOVED\e[0m"
+	echo -en "${red}REMOVED${default}"
 }
 
 fn_print_removed_eol_nl(){
-	echo -e "\e[0;31mREMOVED\e[0m"
+	echo -e "${red}REMOVED${default}"
 }
 
 # UPDATE
 fn_print_update_eol(){
-	echo -en "\e[0;36mUPDATE\e[0m"
+	echo -en "${cyan}UPDATE${default}"
 }
 
 fn_print_update_eol_nl(){
-	echo -e "\e[0;36mUPDATE\e[0m"
+	echo -e "${cyan}UPDATE${default}"
 }

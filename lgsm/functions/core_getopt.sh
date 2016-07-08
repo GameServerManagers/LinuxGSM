@@ -45,30 +45,30 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate\t\e[0mu  |Checks and applies updates from SteamCMD."
-		echo -e "\e[34mforce-update\t\e[0mfu |Bypasses the check and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mi  |Install the server."
-		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}validate\t${default}v  |Validate server files with SteamCMD."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
 	} | column -s $'\t' -t
 	esac
 }
@@ -105,27 +105,27 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate\t\e[0mu  |Checks and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
-		echo -e "\e[34mchange-password\t\e[0mpw |Changes TS3 serveradmin password."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34minstall\t\e[0mi  |Install the server."
-		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}change-password\t${default}pw |Changes TS3 serveradmin password."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
 	} | column -s $'\t' -t
 	esac
 }
@@ -156,24 +156,24 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 	} | column -s $'\t' -t
 	esac
 }
@@ -219,31 +219,31 @@ case "${getopt}" in
 		command_fastdl.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate\t\e[0mChecks and applies updates from SteamCMD."
-		echo -e "\e[34mforce-update\t\e[0mfu |Bypasses the check and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mi  |Install the server."
-		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-		echo -e "\e[34mfastdl\t\e[0mfd |Generates or update a FastDL folder for your server."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}Checks and applies updates from SteamCMD."
+		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}validate\t${default}v  |Validate server files with SteamCMD."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}fastdl\t${default}fd |Generates or update a FastDL folder for your server."
 	} | column -s $'\t' -t
 	esac
 }
@@ -282,28 +282,28 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mi  |Install the server."
-		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}map-compressor\t${default}mc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t
 	esac
 }
@@ -350,31 +350,31 @@ case "${getopt}" in
 		compress_unreal2_maps.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate\t\e[0mChecks and applies updates from SteamCMD."
-		echo -e "\e[34mforce-update\t\e[0mfu |Bypasses the check and applies updates from SteamCMD."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mvalidate\t\e[0mv  |Validate server files with SteamCMD."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mi  |Install the server."
-		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}Checks and applies updates from SteamCMD."
+		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}validate\t${default}v  |Validate server files with SteamCMD."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}map-compressor\t${default}mc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t
 	esac
 }
@@ -416,29 +416,29 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
-		echo -e "\e[0;31mUnknown command\e[0m: $0 ${getopt}"
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
 	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
-	echo -e "\e[93mCommands\e[0m"
+	echo -e "${lightyellow}Commands${default}"
 	{
-		echo -e "\e[34mstart\t\e[0mst |Start the server."
-		echo -e "\e[34mstop\t\e[0msp |Stop the server."
-		echo -e "\e[34mrestart\t\e[0mr  |Restart the server."
-		echo -e "\e[34mupdate-functions\t\e[0muf |Removes all functions so latest can be downloaded."
-		echo -e "\e[34mmonitor\t\e[0mm  |Checks that the server is running."
-		echo -e "\e[34mtest-alert\t\e[0mta |Sends test alert."
-		echo -e "\e[34mdetails\t\e[0mdt |Displays useful infomation about the server."
-		echo -e "\e[34mbackup\t\e[0mb  |Create archive of the server."
-		echo -e "\e[34mconsole\t\e[0mc  |Console allows you to access the live view of a server."
-		echo -e "\e[34mdebug\t\e[0md  |See the output of the server directly to your terminal."
-		echo -e "\e[34minstall\t\e[0mi  |Install the server."
-		echo -e "\e[34mauto-install\t\e[0mai |Install the server, without prompts."
-		echo -e "\e[34mserver-cd-key\t\e[0mcd |Add your server cd key"
-		echo -e "\e[34mmap-compressor\t\e[0mmc |Compresses all ${gamename} server maps."
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}server-cd-key\t${default}cd |Add your server cd key"
+		echo -e "${blue}map-compressor\t${default}mc |Compresses all ${gamename} server maps."
 	} | column -s $'\t' -t
 	esac
 }

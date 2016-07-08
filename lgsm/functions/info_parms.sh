@@ -12,8 +12,8 @@ local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # tr -d '=\"; ' remove selected charectors =\";
 # grep -v "foo" filter out lines that contain foo
 
-unavailable="\e[0;31mUNAVAILABLE\e[0m"
-zero="\e[0;31m0\e[0m"
+unavailable="${red}UNAVAILABLE${default}"
+zero="${red}0${default}"
 
 
 fn_info_config_idtech3(){

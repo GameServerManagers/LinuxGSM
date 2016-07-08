@@ -79,7 +79,7 @@ if [ "${gsquery}" == "yes" ]; then
 
 			# Seconds counter
 			for seconds in {1..15}; do
-				fn_print_fail "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : \e[0;31m${gsquerycmd}\e[0m"
+				fn_print_fail "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : ${red}${gsquerycmd}${default}"
 				totalseconds=$((totalseconds + 1))
 				sleep 1
 				if [ "${seconds}" == "15" ]; then
