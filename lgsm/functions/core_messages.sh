@@ -142,17 +142,17 @@ fn_print_fail_nl(){
 # [ ERROR ]
 fn_print_error(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${red} ERROR ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${red} ERROR${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${red} ERROR ${default}] $@"
+		echo -en "\r[${red} ERROR${default}] $@"
 	fi
 }
 
 fn_print_error_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${red} ERROR ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "\r[${red} ERROR${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${red} ERROR ${default}] $@"
+		echo -en "\r[${red} ERROR${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
