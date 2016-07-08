@@ -80,11 +80,13 @@ fn_monitor_tmux(){
 	fi
 }
 
+fn_print_dots "${servername}"
+sleep 1
 check.sh
 logs.sh
 info_config.sh
-fn_print_dots "${servername}"
-sleep 1
+
+
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_msg_checking

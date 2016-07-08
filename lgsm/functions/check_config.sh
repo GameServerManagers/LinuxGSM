@@ -5,7 +5,6 @@
 # Description: If server config missing warn user.
 
 local commandnane="CHECK"
-local commandaction="Checking"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ ! -e "${servercfgfullpath}" ]; then

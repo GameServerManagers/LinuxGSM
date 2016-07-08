@@ -5,7 +5,6 @@
 # Description: Checks SteamCMD is installed and correct.
 
 local commandnane="CHECK"
-local commandaction="Checking"
 # Cannot have selfname as breaks the function.
 #local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 

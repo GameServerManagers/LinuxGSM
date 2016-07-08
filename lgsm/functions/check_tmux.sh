@@ -5,7 +5,6 @@
 # Description: Checks if tmux is installed as too many users do not RTFM or know how to use Google.
 
 local commandnane="CHECK"
-local commandaction="Checking"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "$(command -v tmux)" ]||[ "$(which tmux >/dev/null 2>&1)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then

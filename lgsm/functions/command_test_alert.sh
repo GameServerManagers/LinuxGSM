@@ -9,6 +9,7 @@ local commandaction="Alert"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_print_dots "${servername}"
+sleep 1
 check.sh
 info_config.sh
 alert="test"

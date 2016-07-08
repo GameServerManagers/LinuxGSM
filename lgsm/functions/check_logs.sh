@@ -5,7 +5,6 @@
 # Description: Checks that log files exist on server start
 
 local commandnane="CHECK"
-local commandaction="Checking"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Create dir's for the script and console logs

@@ -4,7 +4,6 @@
 # Website: https://gameservermanagers.com
 
 local commandnane="CHECK"
-local commandaction="Checking"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ ! -d "${systemdir}" ]; then

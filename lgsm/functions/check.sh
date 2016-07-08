@@ -7,7 +7,6 @@
 # Runs checks that will either halt on or fix an issue.
 
 local commandnane="CHECK"
-local commandaction="Checking"
 # Cannot have selfname as breaks the function.
 #local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 

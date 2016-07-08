@@ -5,7 +5,6 @@
 # Description: Checks that the requires dependencies are installed for LGSM.
 
 local commandnane="CHECK"
-local commandaction="Checking"
 # Cannot have selfname as breaks the function.
 #local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
