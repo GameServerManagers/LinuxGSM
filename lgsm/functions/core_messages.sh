@@ -86,6 +86,8 @@ fn_print_dots_nl(){
 	else
 		echo -e "\r\033[K[ .... ] $@"
 	fi
+	sleep 0.5
+	echo -en "\n"
 }
 
 # [  OK  ]
@@ -99,11 +101,11 @@ fn_print_ok(){
 
 fn_print_ok_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r\033[K[\e[0;32m  OK  \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] ${commandaction} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[0;32m  OK  \e[0m] $@"
+		echo -en "\r\033[K[\e[0;32m  OK  \e[0m] $@"
 	fi
-	sleep 1
+	sleep 0.5
 	echo -en "\n"
 }
 
@@ -118,11 +120,11 @@ fn_print_fail(){
 
 fn_print_fail_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r\033[K[\e[0;31m FAIL \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "\r\033[K[\e[0;31m FAIL \e[0m] $@"
 	fi
-	sleep 1
+	sleep 0.5
 	echo -en "\n"
 }
 
@@ -137,11 +139,11 @@ fn_print_error(){
 
 fn_print_error_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r\033[K[\e[0;31m ERROR \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;31m ERROR \e[0m] ${commandaction} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[0;31m ERROR \e[0m] $@"
+		echo -en "\r\033[K[\e[0;31m ERROR \e[0m] $@"
 	fi
-	sleep 1
+	sleep 0.5
 	echo -en "\n"
 }
 
@@ -156,11 +158,11 @@ fn_print_warn(){
 
 fn_print_warn_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r\033[K[\e[1;33m WARN \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r\033[K[\e[1;33m WARN \e[0m] ${commandaction} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[1;33m WARN \e[0m] $@"
+		echo -en "\r\033[K[\e[1;33m WARN \e[0m] $@"
 	fi
-	sleep 1
+	sleep 0.5
 	echo -en "\n"
 }
 
@@ -175,11 +177,11 @@ fn_print_info(){
 
 fn_print_info_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r\033[K[\e[0;36m INFO \e[0m] ${commandaction} ${servicename}: $@"
+		echo -en "\r\033[K[\e[0;36m INFO \e[0m] ${commandaction} ${servicename}: $@"
 	else
-		echo -e "\r\033[K[\e[0;36m INFO \e[0m] $@"
+		echo -en "\r\033[K[\e[0;36m INFO \e[0m] $@"
 	fi
-	sleep 1
+	sleep 0.5
 	echo -en "\n"
 }
 
