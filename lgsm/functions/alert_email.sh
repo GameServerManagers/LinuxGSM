@@ -233,9 +233,9 @@ fn_alert_email_template_logs
 mail -s "${alertsubject}" "${email}" < "${emaillog}"
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
-	fn_print_ok "Sending alert: ${email}"
+	fn_print_ok_nl "Sending alert: ${email}"
 	fn_script_log_pass "Sending alert: ${email}"
 else
-	fn_print_fail "Sending alert: ${email}"
+	fn_print_fail_nl "Sending alert: ${email}"
 	fn_script_log_fatal "Sending alert: ${email}"
 fi
