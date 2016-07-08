@@ -9,7 +9,16 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_ts3_dl(){
 	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
-	fn_dl_extract "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${filesdir}"
+	fn_dl_extract "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${lgsmdir}/tmp"
+	echo -e "copying to ${filesdir}...\c"
+	fn_script_log "Copying to ${filesdir}"
+	cp -R "${lgsmdir}/tmp/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}"
+	local exitcode=$?
+	if [ ${exitcode} -eq 0 ]; then
+		fn_print_ok_eol_nl
+	else
+		fn_print_fail_eol_nl
+	fi
 }
 
 
@@ -97,7 +106,7 @@ if [ -z "${availablebuild}" ]; then
 	fn_script_log_fatal "Failure! Checking for update: teamspeak.com: Not returning version info"
 	core_exit.sh
 else
-	fn_print_ok "Checking for update: teamspeak.com"
+	fn_print_ok_nl "Checking for update: teamspeak.com"
 	fn_script_log_pass "Checking for update: teamspeak.com"
 	sleep 1
 fi
