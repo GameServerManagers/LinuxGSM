@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 # Description: Gets specific details from config files.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo

@@ -5,7 +5,7 @@
 # Description:Handles updating of teamspeak 3 servers.
 
 local modulename="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_ts3_dl(){
 	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"

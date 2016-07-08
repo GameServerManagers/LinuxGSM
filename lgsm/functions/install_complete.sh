@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 
 local modulename="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""

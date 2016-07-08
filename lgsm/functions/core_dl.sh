@@ -17,7 +17,7 @@
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "executecmd" "run" "force" "10cd7353aa9d758a075c600a6dd193fd"
 
 local modulename="Download"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_dl_md5(){
 	# Runs MD5 Check if available

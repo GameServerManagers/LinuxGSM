@@ -5,7 +5,7 @@
 # Description: Resolves various issues with Killing Floor.
 
 local modulename="Fix"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "Applying WebAdmin ROOst.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

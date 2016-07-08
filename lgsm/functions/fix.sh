@@ -6,7 +6,8 @@
 # Runs functions that will fix an issue.
 
 local modulename="Fix"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+# Cannot have selfname as breaks if statements.
+#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Messages that are displayed for some fixes
 fn_fix_msg_start(){
@@ -30,7 +31,7 @@ fn_fix_msg_end(){
 
 
 # Fixes that are run on start
-if [ "${function_selfname}" != "command_install.sh" ]; then
+if [ "${selfname}" != "command_install.sh" ]; then
 	if [ -n "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
@@ -51,7 +52,7 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 fi
 
 # Fixes that are run on install only.
-if [ "${function_selfname}" == "command_install.sh" ]; then
+if [ "${selfname}" == "command_install.sh" ]; then
 	if [ "${gamename}" == "Killing Floor" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
