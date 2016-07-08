@@ -5,9 +5,6 @@
 # Website: https://gameservermanagers.com
 # Description: Handles querying of .
 
-local modulename="Fix"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-
 import optparse
 import socket
 import sys
