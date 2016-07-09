@@ -17,7 +17,7 @@ fn_print_info_nl "A total of ${rootdirduexbackup} will be compressed into the fo
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
 while true; do
-	read -p "Continue? [Y/N]" yn
+	read -e -i "y" -p "Continue? [Y/N]" yn
 	case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) echo Exiting; return;;
