@@ -8,8 +8,8 @@ local commandnane="UPDATE"
 local commandaction="Update"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_print_dots "Checking for update"
-sleep 1
+fn_print_dots ""
+sleep 0.5
 check.sh
 
 

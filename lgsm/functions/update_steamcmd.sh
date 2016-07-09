@@ -12,10 +12,10 @@ fn_update_steamcmd_dl(){
 
 	check.sh
 	info_config.sh
-	fn_print_dots "Updating ${servername}"
+	fn_print_dots "Starting SteamCMD"
 	sleep 1
-	fn_print_ok_nl "Updating ${servername}"
-	fn_script_log_info "Updating ${servername}"
+	fn_print_ok_nl "Starting SteamCMD"
+	fn_script_log_info "Starting SteamCMD"
 
 	cd "${rootdir}/steamcmd"
 
