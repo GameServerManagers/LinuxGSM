@@ -9,7 +9,7 @@ local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 if [ $(whoami) = "root" ]; then
 	fn_print_fail_nl "Do NOT run this script as root!"
 	if [ -d "${scriptlogdir}" ]; then
-		fn_scriptlog_fatal "${selfname} attempted to run as root."
+		fn_script_log_fatal "${selfname} attempted to run as root."
 	fi
 	core_exit.sh
 fi
