@@ -11,7 +11,8 @@ local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 info_distro.sh
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
-echo ""
+fn_print_dots ""
+sleep 0.5
 fn_print_info_nl "A total of ${rootdirduexbackup} will be compressed into the following backup:"
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
