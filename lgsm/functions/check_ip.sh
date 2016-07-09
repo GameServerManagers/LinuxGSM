@@ -19,6 +19,8 @@ if [ "${gamename}" != "Teamspeak 3" ]; then
 
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		if [ "${getipwc}" -ge "2" ]; then
+			fn_print_dots ""
+			sleep 0.5
 			fn_print_fail "Multiple active network interfaces found.\n\n"
 			fn_print_infomation "Specify the IP you want to use within the ${selfname} script.\n"
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
