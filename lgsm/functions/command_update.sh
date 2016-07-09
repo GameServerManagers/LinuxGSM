@@ -15,7 +15,7 @@ check.sh
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	update_ts3.sh
-elif [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
+else
 	update_steamcmd.sh
 fi
 
