@@ -100,15 +100,16 @@ fn_update_request_log(){
 	requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
 	if [ "${requestrestart}" -ge "1" ]; then
 		fn_print_ok_nl "Checking for update: Server logs: Update requested"
+		fn_script_log_pass "Checking for update: Server logs: Update requested"
 		sleep 1
 		echo ""
-		echo -ne "Applying update.\r"
+		echo -en "Applying update.\r"
 		sleep 1
-		echo -ne "Applying update..\r"
+		echo -en "Applying update..\r"
 		sleep 1
-		echo -ne "Applying update...\r"
+		echo -en "Applying update...\r"
 		sleep 1
-		echo -ne "\n"
+		echo -en "\n"
 
 		unset updateonstart
 		check_status.sh
@@ -168,6 +169,8 @@ fn_update_steamcmd_check(){
 	fi
 
 	if [ "${currentbuild}" != "${availablebuild}" ]; then
+		fn_print_ok "Checking for update: SteamCMD: Update available"
+		fn_script_log_pass "Checking for update: SteamCMD: Update available"
 		echo -e "\n"
 		echo -e "Update available:"
 		sleep 1
@@ -203,13 +206,14 @@ fn_update_steamcmd_check(){
 		alert="update"
 		alert.sh
 	else
+		fn_print_ok "Checking for update: SteamCMD: No update available"
+		fn_script_log_pass "Checking for update: SteamCMD: No update available"
 		echo -e "\n"
 		echo -e "No update available:"
 		echo -e "	Current version: ${green}${currentbuild}${default}"
 		echo -e "	Available version: ${green}${availablebuild}${default}"
 		echo -e "	https://steamdb.info/app/${appid}/"
 		echo -e ""
-		fn_print_ok_nl ": Checking for update: No update available"
 		fn_script_log_info "Current build: ${currentbuild}"
 		fn_script_log_info "Available build: ${availablebuild}"
 	fi
