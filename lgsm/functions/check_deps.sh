@@ -4,9 +4,7 @@
 # Website: https://gameservermanagers.com
 # Description: Checks that the requires dependencies are installed for LGSM.
 
-local commandnane="CHECK"
-# Cannot have selfname as breaks the function.
-#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="CHECK"
 
 fn_deps_detector(){
 	# Checks if dependency is missing
@@ -19,14 +17,14 @@ fn_deps_detector(){
 	fi
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
-		if [ "${selfname}" == "command_install.sh" ]; then
+		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${green}${deptocheck}${default}"
 			sleep 0.5
 		fi
 	else
 		# if missing dependency is found
 		missingdep=1
-		if [ "${selfname}" == "command_install.sh" ]; then
+		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${red}${deptocheck}${default}"
 			sleep 0.5
 		fi
@@ -104,7 +102,7 @@ fn_found_missing_deps(){
 			fi
 			echo ""
 		fi
-		if [ "${selfname}" == "command_install.sh" ]; then
+		if [ "${function_selfname}" == "command_install.sh" ]; then
 			sleep 5
 		fi
 	fi
@@ -123,7 +121,7 @@ fn_check_loop(){
 
 info_distro.sh
 
-if [ "${selfname}" == "command_install.sh" ]; then
+if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo ""
 	echo "Checking Dependecies"
 	echo "================================="

@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Handles updating of servers.
 
-local commandnane="UPDATE"
+local commandname="UPDATE"
 local commandaction="Update"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_print_dots ""
 sleep 0.5

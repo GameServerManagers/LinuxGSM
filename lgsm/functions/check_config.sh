@@ -4,8 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: If server config missing warn user.
 
-local commandnane="CHECK"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="CHECK"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${gamename}" != "Hurtworld" ]; then

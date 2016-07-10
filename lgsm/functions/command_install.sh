@@ -1,12 +1,12 @@
 #!/bin/bash
-# LGSM fn_install function
+# LGSM command_install.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Overall function for the installer.
 
-local commandnane="INSTALL"
+local commandname="INSTALL"
 local commandaction="Install"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 install_header.sh

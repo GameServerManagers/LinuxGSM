@@ -1,13 +1,13 @@
 #!/bin/bash
-# LGSM command_fastdl function
+# LGSM command_fastdl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Creates a FastDL folder
 
-local commandnane="FASTDL"
+local commandname="FASTDL"
 local commandaction="FastDL"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 

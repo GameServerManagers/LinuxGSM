@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Starts the server.
 
-local commandnane="START"
+local commandname="START"
 local commandaction="Starting"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_start_teamspeak3(){
 	if [ ! -e "${servercfgfullpath}" ]; then

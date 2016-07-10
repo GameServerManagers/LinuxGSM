@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Gives access to the server tmux console.
 
-local commandnane="CONSOLE"
+local commandname="CONSOLE"
 local commandaction="Console"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 echo ""
@@ -29,11 +29,11 @@ sleep 1
 check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Accessing console"
-	fn_script_log_info "Console accessed"
+	fn_script_log_pass "Console accessed"
 	sleep 1
 	tmux attach-session -t ${servicename}
 	fn_print_ok_nl "Closing console"
-	fn_script_log_info "Console closed"
+	fn_script_log_pass "Console closed"
 else
 	fn_print_error_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"

@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with csgo.
 
-local commandnane="FIX"
+local commandname="FIX"
 local commandaction="Fix"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: server not always creating steam_appid.txt file.
 if [ ! -f "${filesdir}/steam_appid.txt" ]; then

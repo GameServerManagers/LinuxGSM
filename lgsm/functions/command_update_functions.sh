@@ -5,7 +5,7 @@
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
 local commandaction="Update LGSM"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_print_dots "Updating functions"
 sleep 1

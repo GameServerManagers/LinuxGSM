@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Unreal Tournament 2004.
 
-local commandnane="FIX"
+local commandname="FIX"
 local commandaction="Fix"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "applying WebAdmin ut2003.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

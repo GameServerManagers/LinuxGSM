@@ -1,11 +1,11 @@
 #!/bin/bash
-# LGSM check_status function
+# LGSM check_status.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Checks the proccess status of the server. Either online or offline.
 
-local commandnane="CHECK"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="CHECK"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	# 1: Server is running

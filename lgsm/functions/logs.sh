@@ -5,10 +5,8 @@
 # Website: https://gameservermanagers.com
 # Description: Acts as a log rotater, removing old logs.
 
-local commandnane="LOGS"
+local commandname="LOGS"
 local commandaction="Log-Manager"
-# Cannot have selfname as breaks the function.
-#local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist
 if [ -n "${consolelog}" ]; then
@@ -18,7 +16,7 @@ if [ -n "${consolelog}" ]; then
 fi
 
 # For games not displaying a console, and having logs into their game folder
-if [ "${selfname}" == "command_start.sh" ] && [ -n "${gamelogfile}" ]; then
+if [ "${function_selfname}" == "command_start.sh" ] && [ -n "${gamelogfile}" ]; then
 	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"

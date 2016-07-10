@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Displays server infomation.
 
-local commandnane="DETAILS"
+local commandname="DETAILS"
 local commandaction="Details"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Standard Details
 # This applies to all engines

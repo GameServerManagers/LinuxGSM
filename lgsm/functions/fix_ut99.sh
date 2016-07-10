@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Unreal Tournament 99.
 
-local commandnane="FIX"
+local commandname="FIX"
 local commandaction="Fix"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "${servercfgfullpath}"
 echo "enabling UdpServerUplink."

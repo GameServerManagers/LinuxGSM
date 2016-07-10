@@ -5,9 +5,9 @@
 # Description: Monitors server by checking for running proccesses
 # then passes to monitor_gsquery.sh.
 
-local commandnane="MONITOR"
+local commandname="MONITOR"
 local commandaction="Monitor"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found

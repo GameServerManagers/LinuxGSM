@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Runs a server validation.
 
-local commandnane="VALIDATE"
+local commandname="VALIDATE"
 local commandaction="Validate"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
 	echo -e "	* Validating may overwrite some customised files."

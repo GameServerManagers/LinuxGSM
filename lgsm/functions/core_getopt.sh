@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 # Description: getopt arguments.
 
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_getopt_generic(){
 case "${getopt}" in

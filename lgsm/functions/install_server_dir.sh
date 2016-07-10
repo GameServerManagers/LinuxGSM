@@ -1,11 +1,11 @@
 #!/bin/bash
-# LGSM install_serverdir.sh function
+# LGSM install_server_dir.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 
-local commandnane="INSTALL"
+local commandname="INSTALL"
 local commandaction="Install"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo ""
 echo "Server Directory"

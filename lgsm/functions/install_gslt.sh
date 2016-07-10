@@ -4,9 +4,9 @@
 # Website: https://gameservermanagers.com
 # Description: Configures GSLT.
 
-local commandnane="INSTALL"
+local commandname="INSTALL"
 local commandaction="Install"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo ""
 echo "Game Server Login Token"

@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 
-local commandnane="INSTALL"
+local commandname="INSTALL"
 local commandaction="Install"
-local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo ""
 echo "Enter ${gamename} CD Key"
