@@ -36,5 +36,7 @@ echo "Preparing Enviroment to run tests"
 echo "Downloading jc2server"
 wget https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/JustCause2/jc2server
 chmod +x jc2server
+echo "Create log dir"
+mkdir -p log/script/
 echo "Enable dev-debug"
 ./jc2server dev-debug
