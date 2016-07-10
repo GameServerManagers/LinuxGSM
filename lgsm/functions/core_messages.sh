@@ -17,6 +17,8 @@ if [ "${ansi}" != "off" ]; then
 	magenta="\e[35m"
 	cyan="\e[36m"
 	lightyellow="\e[93m"
+	# carriage return & Erase to end of line:
+	creeol="\r\033[K"
 fi
 
 # Log display
@@ -85,17 +87,17 @@ fn_script_log_info(){
 # [ .... ]
 fn_print_dots(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[ .... ] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[ .... ] $@"
+		echo -en "${creeol}[ .... ] $@"
 	fi
 }
 
 fn_print_dots_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -e "\r[ .... ] ${commandaction} ${servicename}: $@"
+		echo -e "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
 	else
-		echo -e "\r[ .... ] $@"
+		echo -e "${creeol}[ .... ] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -104,17 +106,17 @@ fn_print_dots_nl(){
 # [  OK  ]
 fn_print_ok(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${green}  OK  ${default}] $@"
+		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
 }
 
 fn_print_ok_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${green}  OK  ${default}] $@"
+		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -123,17 +125,17 @@ fn_print_ok_nl(){
 # [ FAIL ]
 fn_print_fail(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${red} FAIL ${default}] $@"
+		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
 }
 
 fn_print_fail_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${red} FAIL ${default}] $@"
+		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -142,17 +144,17 @@ fn_print_fail_nl(){
 # [ ERROR ]
 fn_print_error(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${red}ERROR ${default}] $@"
+		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
 }
 
 fn_print_error_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${red}ERROR ${default}] $@"
+		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -161,17 +163,17 @@ fn_print_error_nl(){
 # [ WARN ]
 fn_print_warn(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${yellow} WARN ${default}] $@"
+		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
 }
 
 fn_print_warn_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${yellow} WARN ${default}] $@"
+		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
@@ -180,17 +182,17 @@ fn_print_warn_nl(){
 # [ INFO ]
 fn_print_info(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${cyan} INFO ${default}] $@"
+		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
 }
 
 fn_print_info_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "\r[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "\r[${cyan} INFO ${default}] $@"
+		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
