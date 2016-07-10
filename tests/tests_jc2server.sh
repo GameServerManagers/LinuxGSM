@@ -167,7 +167,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
-./jc2server
+./jc2server abc123
 fn_test_result_fail
 
 echo "2.0 - install"
