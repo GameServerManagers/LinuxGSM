@@ -98,22 +98,22 @@ core_functions.sh
 # if excpecting a pass
 fn_test_result_pass(){
 	if [ $? != 0 ]; then
-		fn_print_fail "Test Failed"
+		fn_print_fail_nl "Test Failed"
 		exitcode=1
 		core_exit.sh
 	else
-		fn_print_ok "Test Passed"
+		fn_print_ok_nl "Test Passed"
 	fi
 }
 
 # if excpecting a fail
 fn_test_result_fail(){
 	if [ $? == 0 ]; then
-		fn_print_fail "Test Failed"
+		fn_print_fail_nl "Test Failed"
 		exitcode=1
 		core_exit.sh
 	else
-		fn_print_ok "Test Passed"
+		fn_print_ok_nl "Test Passed"
 	fi
 }
 
@@ -141,6 +141,7 @@ wget https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranc
 chmod +x jc2server
 echo "Create log dir"
 mkdir -pv log/script/
+rm -rf lgsm/functions/*
 echo "Enable dev-debug"
 ./jc2server dev-debug
 
@@ -176,3 +177,8 @@ echo "Description:"
 echo "install Just Cause 2 server."
 ./jc2server auto-install
 fn_test_result_pass
+
+echo "3.1 - start"
+echo "================================="
+echo "Description:"
+echo "start ${gamename} server."
