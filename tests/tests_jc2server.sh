@@ -156,6 +156,7 @@ fn_test_result_pass(){
 		core_exit.sh
 	else
 		fn_print_ok_nl "Test Passed"
+		echo ""
 	fi
 }
 
@@ -229,6 +230,7 @@ echo "Command: ./jc2server abc123"
 ./jc2server abc123
 fn_test_result_fail
 
+echo ""
 echo "2.0 - install"
 echo "================================="
 echo "Description:"
@@ -237,6 +239,7 @@ echo "Command: ./jc2server abc123"
 ./jc2server auto-install
 fn_test_result_pass
 
+echo ""
 echo "3.1 - start"
 echo "================================="
 echo "Description:"
@@ -244,3 +247,65 @@ echo "start ${gamename} server."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 ./jc2server start
+fn_test_result_pass
+
+echo ""
+echo "3.2 - start - online"
+echo "================================="
+echo "Description:"
+echo "start ${gamename} server while already running."
+echo "Command: ./jc2server start"
+requiredstatus="ONLINE"
+./jc2server start
+fn_test_result_fail
+
+echo ""
+echo "3.3 - stop"
+echo "================================="
+echo "Description:"
+echo "stop ${gamename} server."
+echo "Command: ./jc2server stop"
+requiredstatus="ONLINE"
+./jc2server stop
+fn_test_result_pass
+
+echo ""
+echo "3.4 - stop - offline"
+echo "================================="
+echo "Description:"
+echo "stop ${gamename} server while already stopped."
+echo "Command: ./jc2server stop"
+requiredstatus="OFFLINE"
+./jc2server stop
+fn_test_result_fail
+
+echo ""
+echo "3.6 - restart"
+echo "================================="
+echo "Description:"
+echo "restart ${gamename}."
+echo "Command: ./jc2server restart"
+requiredstatus="ONLINE"
+./jc2server restart
+fn_test_result_pass
+
+echo "4.1 - update"
+echo "================================="
+echo "Description:"
+echo "check for updates."
+echo "Command: ./jc2server update"
+requiredstatus="OFFLINE"
+./jc2server update
+fn_test_result_pass
+
+echo ""
+echo "4.2 - update  - change buildid"
+echo "================================="
+echo "Description:"
+echo "change the buildid tricking SteamCMD to update."
+echo "Command: ./jc2server update"
+requiredstatus="OFFLINE"
+fn_print_info_nl "changed buildid to 0."
+sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
+./jc2server update
+fn_test_result_pass
