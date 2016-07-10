@@ -141,7 +141,8 @@ wget https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranc
 chmod +x jc2server
 echo "Create log dir"
 mkdir -pv log/script/
-rm -rf lgsm/functions/*
+echo "Make functions executable"
+chmod +x lgsm/functions/*
 echo "Enable dev-debug"
 ./jc2server dev-debug
 
@@ -150,6 +151,7 @@ echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo ""
+echo "Command: ./jc2server start"
 ./jc2server start
 fn_test_result_fail
 
@@ -159,6 +161,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
+echo "Command: ./jc2server"
 ./jc2server
 fn_test_result_pass
 
@@ -168,6 +171,7 @@ echo "================================="
 echo "Description:"
 echo "displaying options messages."
 echo ""
+echo "Command: ./jc2server abc123"
 ./jc2server abc123
 fn_test_result_fail
 
