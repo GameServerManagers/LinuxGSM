@@ -9,6 +9,8 @@ local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${gamename}" != "Hurtworld" ]; then
+		fn_print_dots ""
+		sleep 0.5
 		fn_print_warn_nl "Configuration file missing!"
 		echo "${servercfgfullpath}"
 		fn_script_log_warn "Configuration file missing!"

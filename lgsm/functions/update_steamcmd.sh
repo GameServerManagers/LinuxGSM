@@ -209,7 +209,7 @@ fn_update_steamcmd_check(){
 		echo -e "	Available version: ${green}${availablebuild}${default}"
 		echo -e "	https://steamdb.info/app/${appid}/"
 		echo -e ""
-		fn_print_ok_nl "No update available"
+		fn_print_ok_nl ": Checking for update: No update available"
 		fn_script_log_info "Current build: ${currentbuild}"
 		fn_script_log_info "Available build: ${availablebuild}"
 	fi
