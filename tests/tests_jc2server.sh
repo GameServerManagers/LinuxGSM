@@ -14,6 +14,9 @@ githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="$TRAVIS_BRANCH"
 
+# Steam
+appid="261140"
+
 ##### Script #####
 
 # Directories
@@ -308,4 +311,57 @@ requiredstatus="OFFLINE"
 fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 ./jc2server update
+fn_test_result_pass
+
+echo ""
+echo "4.3 - update  - change buildid - online"
+echo "================================="
+echo "Description:"
+echo "change the buildid tricking SteamCMD to update server while already running."
+echo "Command: ./jc2server update"
+requiredstatus="ONLINE"
+fn_print_info_nl "changed buildid to 0."
+sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
+./jc2server update
+fn_test_result_pass
+
+echo ""
+echo "4.4 - update  - remove appmanifest file"
+echo "================================="
+echo "Description:"
+echo "removing appmanifest file will cause script to repair."
+echo "Command: ./jc2server update"
+requiredstatus="OFFLINE"
+fn_print_info_nl "removed appmanifest_${appid}.acf."
+rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
+./jc2server update
+fn_test_result_pass
+
+echo ""
+echo "4.5 - force-update"
+echo "================================="
+echo "Description:"
+echo "force-update bypassing update check."
+echo "Command: ./jc2server force-update"
+requiredstatus="OFFLINE"
+./jc2server force-update
+fn_test_result_pass
+
+echo ""
+echo "4.7 - validate"
+echo "================================="
+echo "Description:"
+echo "validate server files."
+echo "Command: ./jc2server validate"
+requiredstatus="OFFLINE"
+./jc2server validate
+fn_test_result_pass
+
+echo ""
+echo "4.8 - validate - online"
+echo "================================="
+echo "Description:"
+echo "validate server files while server while already running."
+requiredstatus="ONLINE"
+./jc2server validate
 fn_test_result_pass
