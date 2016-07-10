@@ -16,6 +16,23 @@ githubbranch="$TRAVIS_BRANCH"
 
 ##### Script #####
 
+# Directories
+rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+lockselfname=".${servicename}.lock"
+lgsmdir="${rootdir}/lgsm"
+functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
+filesdir="${rootdir}/serverfiles"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+executable="./Jcmp-Server"
+servercfg="config.lua"
+servercfgdir="${filesdir}"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/default_config.lua"
+backupdir="${rootdir}/backups"
+
 # Fetches core_dl for file downloads
 fn_fetch_core_dl(){
 github_file_url_dir="lgsm/functions"
