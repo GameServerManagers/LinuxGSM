@@ -33,6 +33,11 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/default_config.lua"
 backupdir="${rootdir}/backups"
 
+# Server Details
+servicename="jc2-server"
+gamename="Just Cause 2"
+engine="avalanche"
+
 # Fetches core_dl for file downloads
 fn_fetch_core_dl(){
 github_file_url_dir="lgsm/functions"
@@ -91,7 +96,55 @@ fn_fetch_core_dl
 core_dl.sh
 core_functions.sh
 
+fn_currentstatus_tmux(){
+pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
+if [ "${pid}" != "0" ]; then
+	currentstatus="ONLINE"
+else
+	currentstatus="OFFLINE"
+fi
+}
 
+fn_currentstatus_ts3(){
+ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
+
+if [ "${ts3status}" == "Server is running" ]; then
+	currentstatus="ONLINE"
+else
+	currentstatus="OFFLINE"
+fi
+}
+
+fn_setstatus(){
+	fn_currentstatus_tmux
+	echo""
+	echo "Required status: ${requiredstatus}"
+	counter=0
+	echo "Current status:  ${currentstatus}"
+    while [  "${requiredstatus}" != "${currentstatus}" ]; do
+    	counter=$((counter+1))
+    	fn_currentstatus_tmux
+		echo -ne "New status:  ${currentstatus}\\r"
+
+		if [ "${requiredstatus}" == "ONLINE" ]; then
+			./jc2server start > /dev/null 2>&1
+		else
+			./jc2server start > /dev/null 2>&1
+		fi
+    	if [ "${counter}" -gt "5" ]; then
+    		currentstatus="FAIL"
+    		echo "Current status:  ${currentstatus}"
+    		echo ""
+    		echo "Unable to start or stop server."
+    		exit 1
+    	fi
+    done
+    echo -ne "New status:  ${currentstatus}\\r"
+    echo -e "\n"
+    echo "Test starting:"
+    echo ""
+    sleep 0.5
+}
 
 # End of every test will expect the result to either pass or fail
 # If the script does not do as intended the whole test will fail
@@ -114,6 +167,7 @@ fn_test_result_fail(){
 		core_exit.sh
 	else
 		fn_print_ok_nl "Test Passed"
+		echo ""
 	fi
 }
 
@@ -179,6 +233,7 @@ echo "2.0 - install"
 echo "================================="
 echo "Description:"
 echo "install Just Cause 2 server."
+echo "Command: ./jc2server abc123"
 ./jc2server auto-install
 fn_test_result_pass
 
@@ -186,3 +241,6 @@ echo "3.1 - start"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server."
+echo "Command: ./jc2server start"
+requiredstatus="OFFLINE"
+./jc2server start
