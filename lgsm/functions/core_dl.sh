@@ -33,7 +33,7 @@ fn_dl_md5(){
 			fn_script_log_fatal "Verifying ${filename} with MD5: FAIL"
 			fn_script_log_info "${filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
-			exit 1
+			core_exit.sh
 		else
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Verifying ${filename} with MD5: OK"
@@ -147,7 +147,7 @@ fn_fetch_file(){
 			if [ -f "${scriptlog}" ]; then
 				fn_script_log_fatal "Curl is not installed!"
 			fi
-			exit 1
+			core_exit.sh
 		fi
 		# make file executecmd if executecmd is set
 		if [ "${executecmd}" == "executecmd" ]; then

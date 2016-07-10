@@ -29,13 +29,13 @@ fn_update_ts3_currentbuild(){
 	# Gets currentbuild info
 	# Checks currentbuild info is available, if fails a server restart will be forced to generate logs.
 	if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
-		fn_print_fail "Checking for update: teamspeak.com"
+		fn_print_error "Checking for update: teamspeak.com"
 		sleep 1
-		fn_print_fail_nl "Checking for update: teamspeak.com: No logs with server version found"
-		fn_script_log_warn "Checking for update: teamspeak.com: No logs with server version found"
+		fn_print_error_nl "Checking for update: teamspeak.com: No logs with server version found"
+		fn_script_log_error "Checking for update: teamspeak.com: No logs with server version found"
 		sleep 2
 		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
-		fn_script_log_warn "Checking for update: teamspeak.com: Forcing server restart"
+		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
 		sleep 2
 		exitbypass=1
 		command_stop.sh

@@ -21,7 +21,7 @@ fn_fix_msg_start(){
 
 fn_fix_msg_end(){
 	if [ $? -ne 0 ]; then
-		fn_print_fail_nl "Applying ${fixname} fix: ${gamename}"
+		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
 		fn_script_log_error "Applying ${fixname} fix: ${gamename}"
 		exitcode=2
 	else

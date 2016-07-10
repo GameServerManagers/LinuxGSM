@@ -17,7 +17,7 @@ if [ "${ansi}" != "off" ]; then
 	magenta="\e[35m"
 	cyan="\e[36m"
 	lightyellow="\e[93m"
-	# carriage return & Erase to end of line:
+	# carriage return & erase to end of line
 	creeol="\r\033[K"
 fi
 

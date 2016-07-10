@@ -28,9 +28,9 @@ fn_stop_graceful_source(){
 	done
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		fn_print_fail "Graceful: rcon quit: "
+		fn_print_error "Graceful: rcon quit: "
 		fn_print_fail_eol_nl
-		fn_script_log_fail "Graceful: rcon quit: FAIL"
+		fn_script_log_error "Graceful: rcon quit: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -94,9 +94,9 @@ fn_stop_graceful_sdtd(){
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}"|grep "Completed.")
 			refused=$(echo -en "\n ${sdtd_telnet_shutdown}"|grep "Timeout or EOF")
 			if [ -n "${refused}" ]; then
-				fn_print_warn "Graceful: telnet: ${telnetip}: "
+				fn_print_error "Graceful: telnet: ${telnetip}: "
 				fn_print_fail_eol_nl
-				fn_script_log_warn "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log_error "Graceful: telnet: ${telnetip}: FAIL"
 				sleep 1
 			elif [ -n "${completed}" ]; then
 				break
@@ -122,12 +122,12 @@ fn_stop_graceful_sdtd(){
 		# If cannot shutdown correctly world save may be lost
 		else
 			if [ -n "${refused}" ]; then
-				fn_print_fail "Graceful: telnet: "
+				fn_print_error "Graceful: telnet: "
 				fn_print_fail_eol_nl
-				fn_script_log_fail "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log_error "Graceful: telnet: ${telnetip}: FAIL"
 			else
-				fn_print_fail_nl "Graceful: telnet: Unknown error"
-				fn_script_log_fail "Graceful: telnet: Unknown error"
+				fn_print_error_nl "Graceful: telnet: Unknown error"
+				fn_script_log_error "Graceful: telnet: Unknown error"
 			fi
 			echo -en "\n" | tee -a "${scriptlog}"
 			echo -en "Telnet output:" | tee -a "${scriptlog}"
@@ -135,9 +135,9 @@ fn_stop_graceful_sdtd(){
 			echo -en "\n\n" | tee -a "${scriptlog}"
 		fi
 	else
-		fn_print_fail "Graceful: telnet: expect not installed: "
+		fn_print_warn "Graceful: telnet: expect not installed: "
 		fn_print_fail_eol_nl
-		fn_script_log_fail "Graceful: telnet: expect not installed: FAIL"
+		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -159,13 +159,15 @@ fn_stop_ark(){
 		maxpiditer=15 # The maximum number of times to check if the ark pid has closed gracefully.
 		info_config.sh
 		if [ -z "${queryport}" ]; then
-				fn_print_warn "no queryport found using info_config.sh"
+				fn_print_warn "No queryport found using info_config.sh"
+				fn_script_log_warn "No queryport found using info_config.sh"
 				userconfigfile="${filesdir}"
 				userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
 				queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
 		fi
 		if [ -z "${queryport}" ]; then
-				fn_print_warn "no queryport found in the GameUsersettings.ini file"
+				fn_print_warn "No queryport found in the GameUsersettings.ini file"
+				fn_script_log_warn "No queryport found in the GameUsersettings.ini file"
 				return
 		fi
 
@@ -178,8 +180,8 @@ fn_stop_ark(){
 						# check for a valid pid
 						let pid+=0 # turns an empty string into a valid number, '0',
 						# and a valid numeric pid remains unchanged.
-						if [[ $pid -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
-						fn_print_dots "Process still bound. Awaiting graceful exit: $pidcheck"
+						if [[ ${pid} -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
+						fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
 								sleep 1
 						else
 								break # Our job is done here
@@ -188,7 +190,7 @@ fn_stop_ark(){
 				if [[ ${pidcheck} -eq ${maxpiditer} ]] ; then
 						# The process doesn't want to close after 20 seconds.
 						# kill it hard.
-						fn_print_warn "Terminating reluctant Ark process: $pid"
+						fn_print_error "Terminating reluctant Ark process: ${pid}"
 						kill -9 $pid
 				fi
 		fi # end if for port check
@@ -205,8 +207,8 @@ fn_stop_teamspeak3(){
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else
-		fn_print_fail_nl "Unable to stop${servername}"
-		fn_script_log_fail "Unable to stop${servername}"
+		fn_print_fail_nl "Unable to stop ${servername}"
+		fn_script_log_fail "Unable to stop ${servername}"
 	fi
 }
 
@@ -231,7 +233,7 @@ fn_stop_tmux(){
 		fn_script_log_pass "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop${servername}"
-		fn_script_log_error "Unable to stop${servername}"
+		fn_script_log_fatal "Unable to stop${servername}"
 	fi
 }
 

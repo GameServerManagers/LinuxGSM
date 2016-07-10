@@ -12,8 +12,8 @@ local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
-		fn_print_info_nl "Disabled: No lock file found"
-		fn_script_log_info "Disabled: No lock file found"
+		fn_print_error_nl "Disabled: No lock file found"
+		fn_script_log_error "Disabled: No lock file found"
 		echo "	* To enable monitor run ./${selfname} start"
 		core_exit.sh
 	fi
@@ -22,8 +22,8 @@ fn_monitor_check_lockfile(){
 fn_monitor_check_update(){
 	# Monitor will not check if update is running.
 	if [ "$(ps -ef|grep "${selfname} update"|grep -v grep|wc -l)" != "0" ]; then
-		fn_print_info_nl "SteamCMD is currently checking for updates"
-		fn_script_log_info "SteamCMD is currently checking for updates"
+		fn_print_error_nl "SteamCMD is currently checking for updates"
+		fn_script_log_error "SteamCMD is currently checking for updates"
 		sleep 1
 		core_exit.sh
 	fi
@@ -42,7 +42,7 @@ fn_monitor_teamspeak3(){
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
 	else
-		fn_print_fail "Checking session: ${ts3error}: "
+		fn_print_error "Checking session: ${ts3error}: "
 		fn_print_fail_eol_nl
 		fn_script_log_error "Checking session: ${ts3error}: FAIL"
 		failurereason="${ts3error}"
@@ -69,7 +69,7 @@ fn_monitor_tmux(){
 			fi
 		done
 	else
-		fn_print_fail "Checking session: "
+		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
 		fn_script_log_error "Checking session: FAIL"
 		alert="restart"

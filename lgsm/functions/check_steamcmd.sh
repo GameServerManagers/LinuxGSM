@@ -30,7 +30,7 @@ fn_check_steamcmd_user(){
 	fi
 	# Anonymous user is set if steamuser is missing
 	if [ -z "${steamuser}" ]; then
-		fn_print_warn_nl "Steam login not set. Using anonymous login."
+		fn_print_error_nl "Steam login not set. Using anonymous login."
 		if [ -d "${scriptlogdir}" ]; then
 			fn_script_log_error "Steam login not set. Using anonymous login."
 		fi
@@ -48,8 +48,8 @@ fn_check_steamcmd_sh(){
 		if [ "${selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
 		else
-			fn_print_warn_nl "SteamCMD is missing"
-			fn_script_log_warn "SteamCMD is missing"
+			fn_print_error_nl "SteamCMD is missing"
+			fn_script_log_error "SteamCMD is missing"
 			sleep 1
 			fn_install_steamcmd
 		fi

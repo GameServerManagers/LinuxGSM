@@ -35,7 +35,7 @@ if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Closing console"
 	fn_script_log_info "Console closed"
 else
-	fn_print_fail_nl "Server not running"
+	fn_print_error_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"
 	sleep 1
 	while true; do

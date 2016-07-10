@@ -15,7 +15,7 @@ fn_lockfile_trap(){
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
 	fn_print_ok_nl "Closing debug"
-	fn_script_log_info "Debug closed"
+	fn_script_log_pass "Debug closed"
 	core_exit.sh
 }
 

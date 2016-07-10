@@ -12,9 +12,9 @@ fn_update_steamcmd_dl(){
 
 	check.sh
 	info_config.sh
-	fn_print_dots "Starting SteamCMD"
+	fn_print_dots "SteamCMD"
 	sleep 1
-	fn_print_ok_nl "Starting SteamCMD"
+	fn_print_ok_nl "SteamCMD"
 	fn_script_log_info "Starting SteamCMD"
 
 	cd "${rootdir}/steamcmd"
@@ -44,8 +44,8 @@ fn_appmanifest_check(){
 	# This error is corrected if required.
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
 		sleep 1
-		fn_print_warn "Multiple appmanifest_${appid}.acf files found"
-		fn_script_log_warn "Multiple appmanifest_${appid}.acf files found"
+		fn_print_error "Multiple appmanifest_${appid}.acf files found"
+		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
 		sleep 2
 		fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
 		sleep 1
@@ -68,8 +68,8 @@ fn_appmanifest_check(){
 			fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			sleep 1
-			fn_print_warn_nl "Forcing update to correct issue"
-			fn_script_log_warn "Forcing update to correct issue"
+			fn_print_info_nl "Forcing update to correct issue"
+			fn_script_log_info "Forcing update to correct issue"
 			sleep 1
 			update_dl.sh
 			update_check.sh
@@ -81,8 +81,8 @@ fn_appmanifest_check(){
 			core_exit.sh
 		fi
 		forceupdate=1
-		fn_print_warn "No appmanifest_${appid}.acf found"
-		fn_script_log_warn "No appmanifest_${appid}.acf found"
+		fn_print_error "No appmanifest_${appid}.acf found"
+		fn_script_log_error "No appmanifest_${appid}.acf found"
 		sleep 1
 		fn_print_info_nl "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"

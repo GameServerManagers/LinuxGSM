@@ -9,12 +9,12 @@ local commandaction="Validate"
 local selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
-	fn_print_warn_nl "Validating may overwrite some customised files."
-	echo -en "https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
-	sleep 5
+	echp -e "	* Validating may overwrite some customised files."
+	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
+	sleep 3
 	echo -en "\n"
-	fn_print_ok "Checking server files"
-	fn_script_log_info "Checking server files"
+	fn_print_dots "Validating files: SteamCMD"
+	fn_script_log_info "Validating files: SteamCMD"
 	sleep 1
 
 	cd "${rootdir}/steamcmd"
@@ -28,12 +28,18 @@ fn_validation(){
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" validate +quit| tee -a "${scriptlog}"
 	fi
-
+	if [ $? =! 0 ]; then
+		fn_print_fail "Validating files: SteamCMD"
+		fn_script_log_fatal "Validating files: SteamCMD: FAIL"
+	else
+		fn_print_ok "Validating files: SteamCMD"
+		fn_script_log_pass "Validating files: SteamCMD: OK"
+	fi
 	fix.sh
-	fn_script_log_info "Checking complete"
+
 }
 
-fn_print_dots "Checking server files"
+fn_print_dots "Validating files"
 sleep 1
 check.sh
 check_status.sh
