@@ -14,9 +14,6 @@ githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="$TRAVIS_BRANCH"
 
-
-wget https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/JustCause2/jc2server
-
 echo "================================="
 echo "TravisCI Tests"
 echo "Linux Game Server Manager"
@@ -38,6 +35,6 @@ echo "Preparing Enviroment to run tests"
 
 echo "Downloading jc2server"
 wget https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/JustCause2/jc2server
-chmod +x
+chmod +x jc2server
 echo "Enable dev-debug"
 ./jc2server dev-debug
