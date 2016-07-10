@@ -3,14 +3,21 @@
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-version="271215"
+version="101716"
 
 #### Variables ####
 
-# Alert Email
+# Notification Alerts
 # (on|off)
+
+# Email
 emailalert="off"
-email=""
+email="email@example.com"
+
+# Pushbullet
+# https://www.pushbullet.com/#settings
+pushbulletalert="off"
+pushbullettoken="accesstoken"
 
 # Steam login
 steamuser="anonymous"
@@ -44,6 +51,9 @@ engine="avalanche"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
+lgsmdir="${rootdir}/lgsm"
+functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
@@ -59,6 +69,7 @@ logdays="7"
 #gamelogdir="" # No server logs available
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
@@ -70,55 +81,62 @@ consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-
 ##### Script #####
 # Do not edit
 
-fn_getgithubfile(){
-filename=$1
-exec=$2
-fileurl=${3:-$filename}
-filepath="${rootdir}/${filename}"
-filedir=$(dirname "${filepath}")
-# If the function file is missing, then download
-if [ ! -f "${filepath}" ]; then
+# Fetches core_dl for file downloads
+fn_fetch_core_dl(){
+github_file_url_dir="lgsm/functions"
+github_file_url_name="${functionfile}"
+filedir="${functionsdir}"
+filename="${github_file_url_name}"
+githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+# If the file is missing, then download
+if [ ! -f "${filedir}/${filename}" ]; then
 	if [ ! -d "${filedir}" ]; then
-		mkdir "${filedir}"
+		mkdir -p "${filedir}"
 	fi
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${fileurl}"
 	echo -e "    fetching ${filename}...\c"
-	if [ "$(command -v curl)" ]||[ "$(which curl >/dev/null 2>&1)" ]||[ -f "/usr/bin/curl" ]||[ -f "/bin/curl" ]; then
-		:
+	# Check curl exists and use available path
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+	for curlcmd in ${curlpaths}
+	do
+		if [ -x "${curlcmd}" ]; then
+			break
+		fi
+	done
+	# If curl exists download file
+	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+		if [ $? -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo "${curlfetch}"
+			echo -e "${githuburl}\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi
 	else
 		echo -e "\e[0;31mFAIL\e[0m\n"
 		echo "Curl is not installed!"
 		echo -e ""
-		exit
+		exit 1
 	fi
-	curl=$(curl --fail -o "${filepath}" "${githuburl}" 2>&1)
-	if [ $? -ne 0 ]; then
-		echo -e "\e[0;31mFAIL\e[0m\n"
-		echo "${curl}"
-		echo -e "${githuburl}\n"
-		exit
-	else
-		echo -e "\e[0;32mOK\e[0m"
-	fi
-	if [ "${exec}" ]; then
-		chmod +x "${filepath}"
-	fi
+	chmod +x "${filedir}/${filename}"
 fi
-if [ "${exec}" ]; then
-	source "${filepath}"
-fi
+source "${filedir}/${filename}"
 }
 
-fn_runfunction(){
-	fn_getgithubfile "functions/${functionfile}" 1
+core_dl.sh(){
+# Functions are defined in core_functions.sh.
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
 }
 
 core_functions.sh(){
 # Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_runfunction
+fn_fetch_core_dl
 }
 
+core_dl.sh
 core_functions.sh
 
 fn_currentstatus_tmux(){
@@ -178,17 +196,19 @@ echo "by Daniel Gibbs"
 echo "https://gameservermanagers.com"
 echo "================================="
 echo ""
-sleep 1
 echo "================================="
 echo "Server Tests"
 echo "Using: ${gamename}"
 echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 echo ""
-sleep 1
-mkdir ${rootdir}
+mkdir "${rootdir}"
 
-
+echo "0.0 - Enable Dev-Debug"
+echo "================================="
+echo "Description:"
+echo "Enabling dev-debug to display exit codes"
+(command_dev_debug.sh)
 
 echo "1.0 - start - no files"
 echo "================================="
@@ -196,9 +216,13 @@ echo "Description:"
 echo "test script reaction to missing server files."
 echo ""
 (command_start.sh)
-echo ""
-echo "Test complete!"
-sleep 1
+if [ $? == 0 ]; then
+	fn_print_fail "Test Failure"
+	exitcode=1
+	core_exit.sh
+else
+	fn_print_ok "Test Pass"
+fi
 echo ""
 echo "1.1 - getopt"
 echo "================================="
@@ -208,10 +232,7 @@ echo ""
 (core_getopt.sh)
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
-
-
 
 echo "2.0 - install"
 echo "================================="
@@ -220,10 +241,7 @@ echo "install ${gamename} server."
 fn_autoinstall
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
-
-
 
 echo "3.1 - start"
 echo "================================="
@@ -234,7 +252,6 @@ fn_setstatus
 command_start.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "3.2 - start - online"
 echo "================================="
@@ -245,7 +262,6 @@ fn_setstatus
 (command_start.sh)
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "3.3 - start - updateonstart"
 echo "================================="
@@ -259,7 +275,7 @@ fn_setstatus
 )
 echo ""
 echo "Test complete!"
-sleep 1
+
 echo ""
 echo "3.4 - stop"
 echo "================================="
@@ -270,7 +286,6 @@ fn_setstatus
 command_stop.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "3.5 - stop - offline"
 echo "================================="
@@ -281,7 +296,6 @@ fn_setstatus
 (command_stop.sh)
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "3.6 - restart"
 echo "================================="
@@ -292,7 +306,6 @@ fn_setstatus
 command_restart.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "3.7 - restart - offline"
 echo "================================="
@@ -303,10 +316,7 @@ fn_setstatus
 command_restart.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
-
-
 
 echo "4.1 - update"
 echo "================================="
@@ -317,7 +327,6 @@ fn_setstatus
 update_check.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.2 - update  - change buildid"
 echo "================================="
@@ -330,7 +339,6 @@ sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 update_check.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.3 - update  - change buildid - online"
 echo "================================="
@@ -343,7 +351,6 @@ sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
 update_check.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.4 - update  - remove appmanifest file"
 echo "================================="
@@ -356,7 +363,6 @@ rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
 update_check.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.5 - force-update"
 echo "================================="
@@ -367,7 +373,6 @@ fn_setstatus
 update_check.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.6 - force-update - online"
 echo "================================="
@@ -378,7 +383,6 @@ fn_setstatus
 update_check.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.7 - validate"
 echo "================================="
@@ -389,7 +393,6 @@ fn_setstatus
 command_validate.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "4.8 - validate - online"
 echo "================================="
@@ -400,10 +403,7 @@ fn_setstatus
 command_validate.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
-
-
 
 echo "5.1 - monitor - online"
 echo "================================="
@@ -414,7 +414,6 @@ fn_setstatus
 (command_monitor.sh)
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "5.2 - monitor - offline - no lockfile"
 echo "================================="
@@ -425,7 +424,6 @@ fn_setstatus
 (command_monitor.sh)
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "5.3 - monitor - offline - with lockfile"
 echo "================================="
@@ -438,7 +436,6 @@ date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
 echo "5.4 - monitor - gsquery.py failure"
 echo "================================="
@@ -453,10 +450,7 @@ fn_print_info_nl "Reseting ${servercfg}."
 install_config.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
-
-
 
 echo "6.0 - details"
 echo "================================="
@@ -467,9 +461,7 @@ fn_setstatus
 command_details.sh
 echo ""
 echo "Test complete!"
-sleep 1
 echo ""
-
 echo "================================="
 echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
@@ -477,9 +469,9 @@ echo "================================="
 echo ""
 requiredstatus="OFFLINE"
 fn_setstatus
-sleep 1
+
 fn_print_info "Tidying up directories."
-sleep 1
+
 rm -rfv ${serverfiles}
 echo "END"
 
