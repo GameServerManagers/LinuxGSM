@@ -375,7 +375,7 @@ echo "run monitor server while already running."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 ./jc2server monitor
-fn_test_result_fail
+fn_test_result_pass
 
 echo ""
 echo "5.2 - monitor - offline - no lockfile"
