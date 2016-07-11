@@ -89,3 +89,4 @@ if [ "${gsquery}" == "yes" ]; then
 		fi
 	done
 fi
+core_exit.sh
