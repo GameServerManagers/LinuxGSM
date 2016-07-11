@@ -499,7 +499,7 @@ fn_setstatus
 fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
-fn_test_result_fail
+fn_test_result_pass
 
 
 echo ""
