@@ -20,7 +20,7 @@ appid="261140"
 ##### Script #####
 
 # Directories
-rootdir="/home/travis/build/${githubuser}/${githubrepo}"
+rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
