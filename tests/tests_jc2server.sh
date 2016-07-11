@@ -245,6 +245,8 @@ fn_test_result_pass
 echo "================================="
 ls -al
 echo "================================="
+ls -al "${serverfiles}"
+echo "================================="
 
 echo ""
 echo "3.1 - start"
@@ -313,7 +315,7 @@ echo "change the buildid tricking SteamCMD to update."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${rootdir}/steamapps/appmanifest_${appid}.acf"
+sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
 ./jc2server update
 fn_test_result_pass
 
@@ -325,7 +327,7 @@ echo "change the buildid tricking SteamCMD to update server while already runnin
 echo "Command: ./jc2server update"
 requiredstatus="ONLINE"
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${rootdir}/steamapps/appmanifest_${appid}.acf"
+sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
 ./jc2server update
 fn_test_result_pass
 
@@ -337,7 +339,7 @@ echo "removing appmanifest file will cause script to repair."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_print_info_nl "removed appmanifest_${appid}.acf."
-rm --verbose "${rootdir}/steamapps/appmanifest_${appid}.acf"
+rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
 ./jc2server update
 fn_test_result_pass
 
