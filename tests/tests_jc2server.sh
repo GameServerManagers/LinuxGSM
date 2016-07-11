@@ -362,6 +362,67 @@ echo "4.8 - validate - online"
 echo "================================="
 echo "Description:"
 echo "validate server files while server while already running."
+echo "Command: ./jc2server validate"
 requiredstatus="ONLINE"
 ./jc2server validate
 fn_test_result_pass
+
+echo ""
+echo "5.1 - monitor - online"
+echo "================================="
+echo "Description:"
+echo "run monitor server while already running."
+echo "Command: ./jc2server monitor"
+requiredstatus="ONLINE"
+./jc2server monitor
+fn_test_result_pass
+
+echo ""
+echo "5.2 - monitor - offline - no lockfile"
+echo "================================="
+echo "Description:"
+echo "run monitor while server is offline with no lockfile."
+echo "Command: ./jc2server monitor"
+requiredstatus="OFFLINE"
+./jc2server monitor
+
+echo ""
+echo "5.3 - monitor - offline - with lockfile"
+echo "================================="
+echo "Description:"
+echo "run monitor while server is offline with no lockfile."
+echo "Command: ./jc2server monitor"
+requiredstatus="OFFLINE"
+fn_print_info_nl "creating lockfile."
+date > "${rootdir}/${lockselfname}"
+./jc2server monitor
+
+echo ""
+echo "5.4 - monitor - gsquery.py failure"
+echo "================================="
+echo "Description:"
+echo "gsquery.py will fail to query port."
+echo "Command: ./jc2server monitor"
+requiredstatus="ONLINE"
+sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
+./jc2server monitor
+echo ""
+fn_print_info_nl "Reseting ${servercfg}."
+wget -p "${servercfgfullpath}" https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/JustCause2/cfg/config.lua
+
+echo ""
+echo "6.0 - details"
+echo "================================="
+echo "Description:"
+echo "display details."
+echo "Command: ./jc2server details"
+requiredstatus="ONLINE"
+./jc2server details
+
+echo ""
+echo "================================="
+echo "Server Tests - Complete!"
+echo "Using: ${gamename}"
+echo "================================="
+echo ""
+requiredstatus="OFFLINE"
