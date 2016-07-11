@@ -76,7 +76,7 @@ fn_monitor_tmux(){
 		alert.sh
 		fn_script_log_info "Monitor is starting ${servername}"
 		sleep 1
-		command_start.sh
+		command_restart.sh
 	fi
 }
 
