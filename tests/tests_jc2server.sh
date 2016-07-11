@@ -249,12 +249,15 @@ echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 echo ""
 
+echo "0.1 - Create log dir's"
 echo "================================="
 echo "Description:"
+echo "Create log dir's"
 echo ""
 (install_logs.sh)
 
 
+echo "0.2 - Enable dev-debug"
 echo "================================="
 echo "Description:"
 echo "Enable dev-debug"
@@ -365,7 +368,7 @@ echo "restart ${gamename}."
 echo "Command: ./jc2server restart"
 requiredstatus="ONLINE"
 fn_setstatus
-command_restart.sh
+(command_restart.sh)
 fn_test_result_pass
 
 echo ""
@@ -376,7 +379,7 @@ echo "restart ${gamename} while already stopped."
 echo "Command: ./jc2server restart"
 requiredstatus="OFFLINE"
 fn_setstatus
-command_restart.sh
+(command_restart.sh)
 fn_test_result_pass
 
 echo "4.1 - update"
