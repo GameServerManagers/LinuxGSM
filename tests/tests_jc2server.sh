@@ -245,7 +245,7 @@ fn_test_result_pass
 echo "================================="
 ls -al
 echo "================================="
-ls -al "${serverfiles}"
+ls -al "${filesdir}"
 echo "================================="
 
 echo ""
