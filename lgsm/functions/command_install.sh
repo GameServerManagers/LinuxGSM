@@ -32,6 +32,7 @@ if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	install_ts3db.sh
 fi
+
 fix.sh
 install_complete.sh
 core_exit.sh
