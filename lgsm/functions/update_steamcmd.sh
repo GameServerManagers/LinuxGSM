@@ -71,8 +71,8 @@ fn_appmanifest_check(){
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			sleep 1
-			update_dl.sh
-			update_check.sh
+			fn_update_steamcmd_dl
+			fn_update_request_log
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
 		if [ "${forceupdate}" == "1" ]; then
@@ -88,7 +88,7 @@ fn_appmanifest_check(){
 		fn_script_log_info "Forcing update to correct issue"
 		sleep 1
 		update_dl.sh
-		update_check.sh
+		fn_update_request_log
 	fi
 }
 
