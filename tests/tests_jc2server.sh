@@ -5,6 +5,38 @@
 # Website: https://gameservermanagers.com
 version="101716"
 
+if [ -f ".dev-debug" ]; then
+	exec 5>dev-debug.log
+	BASH_XTRACEFD="5"
+	set -x
+fi
+
+
+#### Variables ####
+
+# Notification Alerts
+# (on|off)
+
+# Email
+emailalert="off"
+email="email@example.com"
+
+# Pushbullet
+# https://www.pushbullet.com/#settings
+pushbulletalert="off"
+pushbullettoken="accesstoken"
+
+# Steam login
+steamuser="anonymous"
+steampass=""
+
+# Start Variables
+updateonstart="off"
+
+fn_parms(){
+parms=""
+}
+
 #### Advanced Variables ####
 
 # Github Branch Select
@@ -13,11 +45,15 @@ version="101716"
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="$TRAVIS_BRANCH"
+githubbranch="exitcodes"
 
 # Steam
 appid="261140"
 
-##### Script #####
+# Server Details
+servicename="jc2-server"
+gamename="Just Cause 2"
+engine="avalanche"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -36,10 +72,22 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/default_config.lua"
 backupdir="${rootdir}/backups"
 
-# Server Details
-servicename="jc2-server"
-gamename="Just Cause 2"
-engine="avalanche"
+# Logging
+logdays="7"
+#gamelogdir="" # No server logs available
+scriptlogdir="${rootdir}/log/script"
+consolelogdir="${rootdir}/log/console"
+consolelogging="on"
+
+scriptlog="${scriptlogdir}/${servicename}-script.log"
+consolelog="${consolelogdir}/${servicename}-console.log"
+emaillog="${scriptlogdir}/${servicename}-email.log"
+
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
+
+##### Script #####
+# Do not edit
 
 # Fetches core_dl for file downloads
 fn_fetch_core_dl(){
@@ -130,9 +178,9 @@ fn_setstatus(){
 		echo -ne "New status:  ${currentstatus}\\r"
 
 		if [ "${requiredstatus}" == "ONLINE" ]; then
-			./jc2server start > /dev/null 2>&1
+			(command_start.sh > /dev/null 2>&1)
 		else
-			./jc2server stop > /dev/null 2>&1
+			(command_stop.sh > /dev/null 2>&1)
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
@@ -154,11 +202,17 @@ fn_setstatus(){
 # if excpecting a pass
 fn_test_result_pass(){
 	if [ $? != 0 ]; then
-		fn_print_fail_nl "Test Failed"
+		echo "================================="
+		echo "Expected result: PASS"
+		echo "Actual result: FAIL"
+		fn_print_fail_nl "TEST FAILED"
 		exitcode=1
 		core_exit.sh
 	else
-		fn_print_ok_nl "Test Passed"
+		echo "================================="
+		echo "Expected result: PASS"
+		echo "Actual result: PASS"
+		fn_print_ok_nl "TEST PASSED"
 		echo ""
 	fi
 }
@@ -166,11 +220,17 @@ fn_test_result_pass(){
 # if excpecting a fail
 fn_test_result_fail(){
 	if [ $? == 0 ]; then
-		fn_print_fail_nl "Test Failed"
+		echo "================================="
+		echo "Expected result: FAIL"
+		echo "Actual result: PASS"
+		fn_print_fail_nl "TEST FAILED"
 		exitcode=1
 		core_exit.sh
 	else
-		fn_print_ok_nl "Test Passed"
+		echo "================================="
+		echo "Expected result: FAIL"
+		echo "Actual result: FAIL"
+		fn_print_ok_nl "TEST PASSED"
 		echo ""
 	fi
 }
@@ -189,38 +249,33 @@ echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 echo ""
 
-echo "0.0 - Preparing Enviroment"
+echo "0.0 - Enable dev-debug"
 echo "================================="
 echo "Description:"
 echo "Preparing Enviroment to run tests"
-
-echo "Downloading jc2server"
-wget https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/JustCause2/jc2server
-chmod +x jc2server
-echo "Create log dir"
-mkdir -pv log/script/
-echo "Make functions executable"
-chmod +x lgsm/functions/*
+echo ""
 echo "Enable dev-debug"
-./jc2server dev-debug
+(command_dev_debug.sh)
+fn_test_result_pass
 
 echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
-echo ""
 echo "Command: ./jc2server start"
-./jc2server start
+echo ""
+(command_start.sh)
 fn_test_result_fail
+
 
 echo ""
 echo "1.1 - getopt"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo ""
 echo "Command: ./jc2server"
-./jc2server
+echo ""
+(core_getopt.sh)
 fn_test_result_pass
 
 echo ""
@@ -228,25 +283,21 @@ echo "1.2 - getopt with incorrect args"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo ""
 echo "Command: ./jc2server abc123"
-./jc2server abc123
+echo ""
+getopt="abc123"
+(core_getopt.sh)
 fn_test_result_fail
 
 echo ""
 echo "2.0 - install"
 echo "================================="
 echo "Description:"
-echo "install Just Cause 2 server."
-echo "Command: ./jc2server abc123"
-./jc2server auto-install
+echo "install ${gamename} server."
+echo "Command: ./jc2server auto-install"
+(fn_autoinstall)
 fn_test_result_pass
 
-echo "================================="
-ls -al
-echo "================================="
-ls -al "${filesdir}"
-echo "================================="
 
 echo ""
 echo "3.1 - start"
@@ -255,7 +306,8 @@ echo "Description:"
 echo "start ${gamename} server."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
-./jc2server start
+fn_setstatus
+(command_start.sh)
 fn_test_result_pass
 
 echo ""
@@ -265,27 +317,40 @@ echo "Description:"
 echo "start ${gamename} server while already running."
 echo "Command: ./jc2server start"
 requiredstatus="ONLINE"
-./jc2server start
+fn_setstatus
+(command_start.sh)
 fn_test_result_fail
 
 echo ""
-echo "3.3 - stop"
+echo "3.3 - start - updateonstart"
+echo "================================="
+echo "Description:"
+echo "will update server on start."
+echo "Command: ./jc2server start"
+requiredstatus="OFFLINE"
+fn_setstatus
+(updateonstart="on";command_start.sh)
+fn_test_result_pass
+
+echo ""
+echo "3.4 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
 echo "Command: ./jc2server stop"
 requiredstatus="ONLINE"
-./jc2server stop
+fn_setstatus
+(command_stop.sh)
 fn_test_result_pass
 
 echo ""
-echo "3.4 - stop - offline"
+echo "3.5 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
 echo "Command: ./jc2server stop"
 requiredstatus="OFFLINE"
-./jc2server stop
+(command_stop.sh)
 fn_test_result_fail
 
 echo ""
@@ -295,7 +360,19 @@ echo "Description:"
 echo "restart ${gamename}."
 echo "Command: ./jc2server restart"
 requiredstatus="ONLINE"
-./jc2server restart
+fn_setstatus
+command_restart.sh
+fn_test_result_pass
+
+echo ""
+echo "3.7 - restart - offline"
+echo "================================="
+echo "Description:"
+echo "restart ${gamename} while already stopped."
+echo "Command: ./jc2server restart"
+requiredstatus="OFFLINE"
+fn_setstatus
+command_restart.sh
 fn_test_result_pass
 
 echo "4.1 - update"
@@ -304,7 +381,8 @@ echo "Description:"
 echo "check for updates."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
-./jc2server update
+fn_setstatus
+(command_update.sh)
 fn_test_result_pass
 
 echo ""
@@ -314,9 +392,10 @@ echo "Description:"
 echo "change the buildid tricking SteamCMD to update."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
+fn_setstatus
 fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
-./jc2server update
+(command_update.sh)
 fn_test_result_pass
 
 echo ""
@@ -326,9 +405,10 @@ echo "Description:"
 echo "change the buildid tricking SteamCMD to update server while already running."
 echo "Command: ./jc2server update"
 requiredstatus="ONLINE"
+fn_setstatus
 fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
-./jc2server update
+(command_update.sh)
 fn_test_result_pass
 
 echo ""
@@ -338,9 +418,10 @@ echo "Description:"
 echo "removing appmanifest file will cause script to repair."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
+fn_setstatus
 fn_print_info_nl "removed appmanifest_${appid}.acf."
 rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
-./jc2server update
+(command_update.sh)
 fn_test_result_pass
 
 echo ""
@@ -350,7 +431,19 @@ echo "Description:"
 echo "force-update bypassing update check."
 echo "Command: ./jc2server force-update"
 requiredstatus="OFFLINE"
-./jc2server force-update
+fn_setstatus
+(forceupdate=1;command_update.sh)
+fn_test_result_pass
+
+echo ""
+echo "4.6 - force-update - online"
+echo "================================="
+echo "Description:"
+echo "force-update bypassing update check server while already running."
+echo "Command: ./jc2server force-update"
+requiredstatus="ONLINE"
+fn_setstatus
+(forceupdate=1;command_update.sh)
 fn_test_result_pass
 
 echo ""
@@ -360,7 +453,8 @@ echo "Description:"
 echo "validate server files."
 echo "Command: ./jc2server validate"
 requiredstatus="OFFLINE"
-./jc2server validate
+fn_setstatus
+(command_validate.sh)
 fn_test_result_pass
 
 echo ""
@@ -368,9 +462,11 @@ echo "4.8 - validate - online"
 echo "================================="
 echo "Description:"
 echo "validate server files while server while already running."
+echo ""
 echo "Command: ./jc2server validate"
 requiredstatus="ONLINE"
-./jc2server validate
+fn_setstatus
+(command_validate.sh)
 fn_test_result_pass
 
 echo ""
@@ -380,8 +476,10 @@ echo "Description:"
 echo "run monitor server while already running."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
-./jc2server monitor
+fn_setstatus
+(command_monitor.sh)
 fn_test_result_pass
+
 
 echo ""
 echo "5.2 - monitor - offline - with lockfile"
@@ -390,10 +488,12 @@ echo "Description:"
 echo "run monitor while server is offline with lockfile."
 echo "Command: ./jc2server monitor"
 requiredstatus="OFFLINE"
+fn_setstatus
 fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
-./jc2server monitor
+(command_monitor.sh)
 fn_test_result_fail
+
 
 echo ""
 echo "5.3 - monitor - offline - no lockfile"
@@ -402,7 +502,8 @@ echo "Description:"
 echo "run monitor while server is offline with no lockfile."
 echo "Command: ./jc2server monitor"
 requiredstatus="OFFLINE"
-./jc2server monitor
+fn_setstatus
+(command_monitor.sh)
 fn_test_result_fail
 
 echo ""
@@ -412,12 +513,14 @@ echo "Description:"
 echo "gsquery.py will fail to query port."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
+fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-./jc2server monitor
+(command_monitor.sh)
 fn_test_result_fail
 echo ""
 fn_print_info_nl "Reseting ${servercfg}."
-wget -p "${servercfgfullpath}" https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/JustCause2/cfg/config.lua
+install_config.sh
+fn_test_result_fail
 
 echo ""
 echo "6.0 - details"
@@ -426,7 +529,8 @@ echo "Description:"
 echo "display details."
 echo "Command: ./jc2server details"
 requiredstatus="ONLINE"
-./jc2server details
+fn_setstatus
+command_details.sh
 fn_test_result_pass
 
 echo ""
@@ -434,5 +538,10 @@ echo "================================="
 echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
 echo "================================="
-echo ""
 requiredstatus="OFFLINE"
+fn_setstatus
+sleep 1
+fn_print_info "Tidying up directories."
+sleep 1
+rm -rfv "${serverfiles}"
+core_exit.sh
