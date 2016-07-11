@@ -9,7 +9,6 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_steamcmd_dl(){
-
 	check.sh
 	info_config.sh
 	fn_print_dots "SteamCMD"
@@ -87,7 +86,7 @@ fn_appmanifest_check(){
 		fn_print_info_nl "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"
 		sleep 1
-		update_dl.sh
+		fn_update_steamcmd_dl
 		fn_update_request_log
 	fi
 }
