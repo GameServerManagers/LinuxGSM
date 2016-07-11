@@ -525,9 +525,9 @@ sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 fn_test_result_fail
 echo ""
-fn_print_info_nl "Reseting ${servercfg}."
+fn_print_info_nl "Re-generating ${servercfg}."
 install_config.sh
-fn_test_result_fail
+echo "================================="
 
 echo ""
 echo "6.0 - details"
