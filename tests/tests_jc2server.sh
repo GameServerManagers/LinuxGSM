@@ -249,12 +249,16 @@ echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 echo ""
 
-echo "0.0 - Enable dev-debug"
 echo "================================="
 echo "Description:"
-echo "Preparing Enviroment to run tests"
 echo ""
+(install_logs.sh)
+
+
+echo "================================="
+echo "Description:"
 echo "Enable dev-debug"
+echo ""
 (command_dev_debug.sh)
 fn_test_result_pass
 
