@@ -242,6 +242,10 @@ echo "Command: ./jc2server abc123"
 ./jc2server auto-install
 fn_test_result_pass
 
+echo "================================="
+ls -al
+echo "================================="
+
 echo ""
 echo "3.1 - start"
 echo "================================="
@@ -309,7 +313,7 @@ echo "change the buildid tricking SteamCMD to update."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
+sed -i 's/[0-9]\+/0/' "${rootdir}/steamapps/appmanifest_${appid}.acf"
 ./jc2server update
 fn_test_result_pass
 
@@ -321,7 +325,7 @@ echo "change the buildid tricking SteamCMD to update server while already runnin
 echo "Command: ./jc2server update"
 requiredstatus="ONLINE"
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' ${filesdir}/steamapps/appmanifest_${appid}.acf
+sed -i 's/[0-9]\+/0/' "${rootdir}/steamapps/appmanifest_${appid}.acf"
 ./jc2server update
 fn_test_result_pass
 
