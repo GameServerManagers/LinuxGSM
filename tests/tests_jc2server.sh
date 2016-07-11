@@ -132,7 +132,7 @@ fn_setstatus(){
 		if [ "${requiredstatus}" == "ONLINE" ]; then
 			./jc2server start > /dev/null 2>&1
 		else
-			./jc2server start > /dev/null 2>&1
+			./jc2server stop > /dev/null 2>&1
 		fi
     	if [ "${counter}" -gt "5" ]; then
     		currentstatus="FAIL"
@@ -375,7 +375,7 @@ echo "run monitor server while already running."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 ./jc2server monitor
-fn_test_result_pass
+fn_test_result_fail
 
 echo ""
 echo "5.2 - monitor - offline - no lockfile"
@@ -385,6 +385,7 @@ echo "run monitor while server is offline with no lockfile."
 echo "Command: ./jc2server monitor"
 requiredstatus="OFFLINE"
 ./jc2server monitor
+fn_test_result_fail
 
 echo ""
 echo "5.3 - monitor - offline - with lockfile"
@@ -396,6 +397,7 @@ requiredstatus="OFFLINE"
 fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 ./jc2server monitor
+fn_test_result_pass
 
 echo ""
 echo "5.4 - monitor - gsquery.py failure"
@@ -406,6 +408,7 @@ echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 ./jc2server monitor
+fn_test_result_fail
 echo ""
 fn_print_info_nl "Reseting ${servercfg}."
 wget -p "${servercfgfullpath}" https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/JustCause2/cfg/config.lua
@@ -418,6 +421,7 @@ echo "display details."
 echo "Command: ./jc2server details"
 requiredstatus="ONLINE"
 ./jc2server details
+fn_test_result_pass
 
 echo ""
 echo "================================="
