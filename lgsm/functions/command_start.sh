@@ -172,7 +172,7 @@ logs.sh
 # Will check for updates is updateonstart is yes
 if [ "${status}" == "0" ]; then
 	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
-		update_check.sh
+		command_update.sh
 	fi
 fi
 
