@@ -333,7 +333,7 @@ echo "removing appmanifest file will cause script to repair."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_print_info_nl "removed appmanifest_${appid}.acf."
-rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
+rm --verbose "${rootdir}/steamapps/appmanifest_${appid}.acf"
 ./jc2server update
 fn_test_result_pass
 
@@ -378,7 +378,19 @@ requiredstatus="ONLINE"
 fn_test_result_pass
 
 echo ""
-echo "5.2 - monitor - offline - no lockfile"
+echo "5.2 - monitor - offline - with lockfile"
+echo "================================="
+echo "Description:"
+echo "run monitor while server is offline with lockfile."
+echo "Command: ./jc2server monitor"
+requiredstatus="OFFLINE"
+fn_print_info_nl "creating lockfile."
+date > "${rootdir}/${lockselfname}"
+./jc2server monitor
+fn_test_result_fail
+
+echo ""
+echo "5.3 - monitor - offline - no lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with no lockfile."
@@ -386,18 +398,6 @@ echo "Command: ./jc2server monitor"
 requiredstatus="OFFLINE"
 ./jc2server monitor
 fn_test_result_fail
-
-echo ""
-echo "5.3 - monitor - offline - with lockfile"
-echo "================================="
-echo "Description:"
-echo "run monitor while server is offline with no lockfile."
-echo "Command: ./jc2server monitor"
-requiredstatus="OFFLINE"
-fn_print_info_nl "creating lockfile."
-date > "${rootdir}/${lockselfname}"
-./jc2server monitor
-fn_test_result_pass
 
 echo ""
 echo "5.4 - monitor - gsquery.py failure"
