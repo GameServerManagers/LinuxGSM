@@ -255,7 +255,7 @@ echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
-echo "Command: ./jc2server start"
+echo "Command: ./ts3server start"
 echo ""
 (command_start.sh)
 fn_test_result_fail
@@ -265,7 +265,7 @@ echo "1.1 - getopt"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo "Command: ./jc2server"
+echo "Command: ./ts3server"
 echo ""
 (core_getopt.sh)
 fn_test_result_pass
@@ -275,7 +275,7 @@ echo "1.2 - getopt with incorrect args"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo "Command: ./jc2server abc123"
+echo "Command: ./ts3server abc123"
 echo ""
 getopt="abc123"
 (core_getopt.sh)
@@ -286,7 +286,7 @@ echo "2.0 - install"
 echo "================================="
 echo "Description:"
 echo "install ${gamename} server."
-echo "Command: ./jc2server auto-install"
+echo "Command: ./ts3server auto-install"
 (fn_autoinstall)
 fn_test_result_pass
 
@@ -296,7 +296,7 @@ echo "3.1 - start"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server."
-echo "Command: ./jc2server start"
+echo "Command: ./ts3server start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_start.sh)
@@ -307,7 +307,7 @@ echo "3.2 - start - online"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server while already running."
-echo "Command: ./jc2server start"
+echo "Command: ./ts3server start"
 requiredstatus="ONLINE"
 fn_setstatus
 (command_start.sh)
@@ -318,7 +318,7 @@ echo "3.3 - start - updateonstart"
 echo "================================="
 echo "Description:"
 echo "will update server on start."
-echo "Command: ./jc2server start"
+echo "Command: ./ts3server start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (updateonstart="on";command_start.sh)
@@ -329,7 +329,7 @@ echo "3.4 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
-echo "Command: ./jc2server stop"
+echo "Command: ./ts3server stop"
 requiredstatus="ONLINE"
 fn_setstatus
 (command_stop.sh)
@@ -340,7 +340,7 @@ echo "3.5 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
-echo "Command: ./jc2server stop"
+echo "Command: ./ts3server stop"
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_stop.sh)
@@ -351,7 +351,7 @@ echo "3.6 - restart"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename}."
-echo "Command: ./jc2server restart"
+echo "Command: ./ts3server restart"
 requiredstatus="ONLINE"
 fn_setstatus
 (command_restart.sh)
@@ -362,7 +362,7 @@ echo "3.7 - restart - offline"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename} while already stopped."
-echo "Command: ./jc2server restart"
+echo "Command: ./ts3server restart"
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_restart.sh)
@@ -372,7 +372,7 @@ echo "4.1 - update"
 echo "================================="
 echo "Description:"
 echo "check for updates."
-echo "Command: ./jc2server update"
+echo "Command: ./ts3server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_update.sh)
@@ -383,7 +383,7 @@ echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"
 echo "run monitor server while already running."
-echo "Command: ./jc2server monitor"
+echo "Command: ./ts3server monitor"
 requiredstatus="ONLINE"
 fn_setstatus
 (command_monitor.sh)
@@ -395,7 +395,7 @@ echo "5.2 - monitor - offline - with lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with lockfile."
-echo "Command: ./jc2server monitor"
+echo "Command: ./ts3server monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
@@ -409,7 +409,7 @@ echo "5.3 - monitor - offline - no lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with no lockfile."
-echo "Command: ./jc2server monitor"
+echo "Command: ./ts3server monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_monitor.sh)
@@ -420,7 +420,7 @@ echo "5.4 - monitor - gsquery.py failure"
 echo "================================="
 echo "Description:"
 echo "gsquery.py will fail to query port."
-echo "Command: ./jc2server monitor"
+echo "Command: ./ts3server monitor"
 requiredstatus="ONLINE"
 fn_setstatus
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
@@ -436,7 +436,7 @@ echo "6.0 - details"
 echo "================================="
 echo "Description:"
 echo "display details."
-echo "Command: ./jc2server details"
+echo "Command: ./ts3server details"
 requiredstatus="ONLINE"
 fn_setstatus
 (command_details.sh)
