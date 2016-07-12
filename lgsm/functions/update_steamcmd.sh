@@ -74,12 +74,6 @@ fn_appmanifest_check(){
 			fn_update_request_log
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
-		if [ "${forceupdate}" == "1" ]; then
-			fn_print_fail "Still no appmanifest_${appid}.acf found: Unable to update"
-			fn_script_log_fatal "Warning! Still no appmanifest_${appid}.acf found: Unable to update"
-			core_exit.sh
-		fi
-		forceupdate=1
 		fn_print_error "No appmanifest_${appid}.acf found"
 		fn_script_log_error "No appmanifest_${appid}.acf found"
 		sleep 1
@@ -88,6 +82,12 @@ fn_appmanifest_check(){
 		sleep 1
 		fn_update_steamcmd_dl
 		fn_update_request_log
+		fn_appmanifest_info
+		if [ "${appmanifestfilewc}" -eq "0" ]; then
+			fn_print_fatal "Still no appmanifest_${appid}.acf found"
+			fn_script_log_fatal "Still no appmanifest_${appid}.acf found"
+			core_exit.sh
+		fi
 	fi
 }
 
