@@ -158,9 +158,9 @@ fn_setstatus(){
 	echo "Required status: ${requiredstatus}"
 	counter=0
 	echo "Current status:  ${currentstatus}"
-    while [  "${requiredstatus}" != "${currentstatus}" ]; do
-    	counter=$((counter+1))
-    	fn_currentstatus_ts3
+	while [  "${requiredstatus}" != "${currentstatus}" ]; do
+		counter=$((counter+1))
+		fn_currentstatus_ts3
 		echo -ne "New status:  ${currentstatus}\\r"
 
 		if [ "${requiredstatus}" == "ONLINE" ]; then
@@ -168,19 +168,19 @@ fn_setstatus(){
 		else
 			(command_stop.sh > /dev/null 2>&1)
 		fi
-    	if [ "${counter}" -gt "5" ]; then
-    		currentstatus="FAIL"
-    		echo "Current status:  ${currentstatus}"
-    		echo ""
-    		echo "Unable to start or stop server."
-    		exit 1
-    	fi
-    done
-    echo -ne "New status:  ${currentstatus}\\r"
-    echo -e "\n"
-    echo "Test starting:"
-    echo ""
-    sleep 0.5
+		if [ "${counter}" -gt "5" ]; then
+			currentstatus="FAIL"
+			echo "Current status:  ${currentstatus}"
+			echo ""
+			echo "Unable to start or stop server."
+			exit 1
+		fi
+	done
+	echo -ne "New status:  ${currentstatus}\\r"
+	echo -e "\n"
+	echo "Test starting:"
+	echo ""
+	sleep 0.5
 }
 
 # End of every test will expect the result to either pass or fail
