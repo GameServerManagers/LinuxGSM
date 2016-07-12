@@ -22,9 +22,6 @@ fn_update_ts3_dl(){
 	fi
 }
 
-
-
-
 fn_update_ts3_currentbuild(){
 	# Gets currentbuild info
 	# Checks currentbuild info is available, if fails a server restart will be forced to generate logs.
@@ -33,10 +30,10 @@ fn_update_ts3_currentbuild(){
 		sleep 1
 		fn_print_error_nl "Checking for update: teamspeak.com: No logs with server version found"
 		fn_script_log_error "Checking for update: teamspeak.com: No logs with server version found"
-		sleep 2
+		sleep 1
 		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
 		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
-		sleep 2
+		sleep 1
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
@@ -51,6 +48,23 @@ fn_update_ts3_currentbuild(){
 	fi
 
 	currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egrep -E -v '${rootdir}/.ts3version' | tail -1) | egrep -o 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+	if [ -z "${currentbuild}" ]; then
+		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
+		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
+		sleep 1
+		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
+		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
+		exitbypass=1
+		command_stop.sh
+		exitbypass=1
+		command_start.sh
+		currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egrep -E -v '${rootdir}/.ts3version' | tail -1) | egrep -o 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		if [ -z "${currentbuild}" ]; then
+			fn_print_fail_nl "Checking for update: teamspeak.com: Current build version still not found"
+			fn_script_log_fatal "Checking for update: teamspeak.com: Current build version still not found"
+			core_exit.sh
+		fi
+	fi
 }
 
 fn_update_ts3_arch(){
