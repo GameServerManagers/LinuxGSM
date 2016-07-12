@@ -416,22 +416,6 @@ fn_setstatus
 fn_test_result_fail
 
 echo ""
-echo "5.4 - monitor - gsquery.py failure"
-echo "================================="
-echo "Description:"
-echo "gsquery.py will fail to query port."
-echo "Command: ./ts3server monitor"
-requiredstatus="ONLINE"
-fn_setstatus
-sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(command_monitor.sh)
-fn_test_result_fail
-echo ""
-fn_print_info_nl "Re-generating ${servercfg}."
-install_config.sh
-echo "================================="
-
-echo ""
 echo "6.0 - details"
 echo "================================="
 echo "Description:"
