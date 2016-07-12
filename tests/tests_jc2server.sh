@@ -537,7 +537,7 @@ echo "display details."
 echo "Command: ./jc2server details"
 requiredstatus="ONLINE"
 fn_setstatus
-command_details.sh
+(command_details.sh)
 fn_test_result_pass
 
 echo ""
