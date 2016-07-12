@@ -230,7 +230,11 @@ fn_details_performance
 fn_details_disk
 fn_details_gameserver
 fn_alert_email_template_logs
-mail -s "${alertsubject}" "${email}" < "${emaillog}"
+if [ -n "${emailfrom}" ]; then
+	mail -s "${alertsubject}" -a "From: ${emailfrom}" "${email}" < "${emaillog}"
+else
+	mail -s "${alertsubject}" "${email}" < "${emaillog}"
+fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
 	fn_print_ok_nl "Sending alert: ${email}"
