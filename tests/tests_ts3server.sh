@@ -371,7 +371,7 @@ fn_test_result_pass
 echo "4.1 - update - Offline"
 echo "================================="
 echo "Description:"
-echo "check for updates."
+echo "check for updates while offline."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
@@ -381,15 +381,8 @@ fn_test_result_pass
 echo "4.2 - update - Online"
 echo "================================="
 echo "Description:"
-echo "check for updates."
+echo "check for updates while online."
 echo "Command: ./ts3server update"
-requiredstatus="ONLINE"
-fn_setstatus
-(command_update.sh)
-fn_test_result_pass
-fn_setstatus
-(command_update.sh)
-fn_test_result_pass
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_update.sh)
