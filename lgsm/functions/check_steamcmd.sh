@@ -69,4 +69,5 @@ fn_check_steamcmd_guard(){
 
 fn_check_steamcmd_user
 fn_check_steamcmd_sh
-fn_check_steamcmd_guard
+# stdbuf has now replaced unbuffer. This shoudl no longer be required
+#fn_check_steamcmd_guard
