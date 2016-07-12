@@ -11,7 +11,6 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-
 #### Variables ####
 
 # Notification Alerts
@@ -41,9 +40,6 @@ parms=""
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="$TRAVIS_BRANCH"
-
-# Steam
-appid="261140"
 
 # Server Details
 gamename="Teamspeak 3"
@@ -76,7 +72,6 @@ scriptlog="${scriptlogdir}/${servicename}-script.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
 
 ##### Script #####
 # Do not edit
