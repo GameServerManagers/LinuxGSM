@@ -379,22 +379,12 @@ fn_setstatus
 (command_restart.sh)
 fn_test_result_pass
 
-echo "4.1 - update - Offline"
+echo "4.1 - update"
 echo "================================="
 echo "Description:"
 echo "check for updates."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
-fn_setstatus
-(command_update.sh)
-fn_test_result_pass
-
-echo "4.2 - update - Online"
-echo "================================="
-echo "Description:"
-echo "check for updates."
-echo "Command: ./jc2server update"
-requiredstatus="ONLINE"
 fn_setstatus
 (command_update.sh)
 fn_test_result_pass
