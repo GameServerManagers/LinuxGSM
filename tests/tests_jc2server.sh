@@ -169,9 +169,9 @@ fn_setstatus(){
 	echo "Required status: ${requiredstatus}"
 	counter=0
 	echo "Current status:  ${currentstatus}"
-    while [  "${requiredstatus}" != "${currentstatus}" ]; do
-    	counter=$((counter+1))
-    	fn_currentstatus_tmux
+	while [  "${requiredstatus}" != "${currentstatus}" ]; do
+		counter=$((counter+1))
+		fn_currentstatus_tmux
 		echo -ne "New status:  ${currentstatus}\\r"
 
 		if [ "${requiredstatus}" == "ONLINE" ]; then
@@ -379,12 +379,22 @@ fn_setstatus
 (command_restart.sh)
 fn_test_result_pass
 
-echo "4.1 - update"
+echo "4.1 - update - Offline"
 echo "================================="
 echo "Description:"
 echo "check for updates."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
+fn_setstatus
+(command_update.sh)
+fn_test_result_pass
+
+echo "4.2 - update - Online"
+echo "================================="
+echo "Description:"
+echo "check for updates."
+echo "Command: ./jc2server update"
+requiredstatus="ONLINE"
 fn_setstatus
 (command_update.sh)
 fn_test_result_pass
