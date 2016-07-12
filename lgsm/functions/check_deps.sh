@@ -132,8 +132,8 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
-	# LGSM requirement for curl
-	array_deps_required=( curl ca-certificates file bsdmainutils python )
+	# LGSM requirements
+	array_deps_required=( curl ca-certificates file bsdmainutils util-linux python )
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
@@ -182,7 +182,7 @@ elif [ -n "$(command -v yum)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
-	# LGSM requirement for curl
+	# LGSM requirements
 	array_deps_required=( curl util-linux python file )
 
 	# All servers except ts3 require tmux
