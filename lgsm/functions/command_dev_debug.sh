@@ -1,17 +1,21 @@
 #!/bin/bash
-# LGSM dev_debug.sh function
+# LGSM command_dev_debug.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Dev only: enables debuging log to be saved to dev-debug.log.
 
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="DEV-DEBUG"
+local commandaction="Dev-Debug"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ -f ".dev-debug" ]; then
-	rm .dev-debug
+
+if [ -f "${rootdir}/.dev-debug" ]; then
+	rm "${rootdir}/.dev-debug"
 	fn_print_ok_nl "Disabled dev-debug"
+	fn_script_log_info "Disabled dev-debug"
 else
-	date > .dev-debug
+	date > "${rootdir}/.dev-debug"
 	fn_print_ok_nl "Enabled dev-debug"
+	fn_script_log_info "Enabled dev-debug"
 fi
+core_exit.sh

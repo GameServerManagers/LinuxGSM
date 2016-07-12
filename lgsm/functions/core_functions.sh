@@ -2,10 +2,8 @@
 # LGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
-# This function is called first before any other function. Without this file other functions would not load.
+# This function is called first before any other function. Without this file other functions will not load.
 
 # Code/functions for legacy servers
 
@@ -51,15 +49,15 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	if [ "$(basename ${curlcmd})" == "curl" ]; then
 		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
 		if [ $? -ne 0 ]; then
-			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo -e "${red}FAIL${default}\n"
 			echo "${curlfetch}"
 			echo -e "${githuburl}\n"
 			exit 1
 		else
-			echo -e "\e[0;32mOK\e[0m"
+			echo -e "${green}OK${default}"
 		fi
 	else
-		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo -e "${red}FAIL${default}\n"
 		echo "Curl is not installed!"
 		echo -e ""
 		exit 1
@@ -78,17 +76,22 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+core_exit.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
 core_getopt.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
-core_messages.sh(){
+core_trap.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
-core_dl.sh(){
+core_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
@@ -156,14 +159,9 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fn_restart(){
-local modulename="Restarting"
-info_config.sh
-if [ -d "${scriptlogdir}" ]; then
-	fn_scriptlog "${servername}"
-fi
-command_stop.sh
-command_start.sh
+command_restart.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
 }
 
 
@@ -367,17 +365,22 @@ fn_fetch_function
 
 # Update
 
-update_check.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 command_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-update_dl.sh(){
+command_update.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_ts3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -476,6 +479,8 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Calls the global Ctrl-C trap
+core_trap.sh
 
 # Calls on-screen messages
 core_messages.sh

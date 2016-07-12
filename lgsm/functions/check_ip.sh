@@ -2,10 +2,11 @@
 # LGSM check_ip.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manualy set using ip="0.0.0.0".
+
+local commandname="CHECK"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${gamename}" != "Teamspeak 3" ]; then
 	if [ ! -f "/bin/ip" ]; then
@@ -18,14 +19,19 @@ if [ "${gamename}" != "Teamspeak 3" ]; then
 
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		if [ "${getipwc}" -ge "2" ]; then
-			fn_print_warn "Multiple active network interfaces found.\n\n"
-			echo -en "Manually specify the IP you want to use within the ${selfname} script.\n"
+			fn_print_dots ""
+			sleep 0.5
+			fn_print_fail "Multiple active network interfaces found.\n\n"
+			fn_print_infomation "Specify the IP you want to use within the ${selfname} script.\n"
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			echo -en "${getip}\n"
 			echo -en ""
 			echo -en "https://gameservermanagers.com/network-interfaces\n"
 			echo -en ""
-			exit 1
+			fn_script_log_fatal "Multiple active network interfaces found."
+			fn_script_log_fatal "Manually specify the IP you want to use within the ${selfname} script."
+			fn_script_log_fatal "https://gameservermanagers.com/network-interfaces\n"
+			core_exit.sh
 		else
 			ip=${getip}
 		fi

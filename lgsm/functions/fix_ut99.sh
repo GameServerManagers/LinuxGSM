@@ -2,7 +2,12 @@
 # LGSM fix_ut99.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+# Description: Resolves various issues with Unreal Tournament 99.
+
+local commandname="FIX"
+local commandaction="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 echo "${servercfgfullpath}"
 echo "enabling UdpServerUplink."
 {

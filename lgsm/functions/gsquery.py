@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # Game Server Query
 # Author: Anonymous & Daniel Gibbs
-# # Website: https://gameservermanagers.com
-# Version: 190216
+# Website: https://gameservermanagers.com
+# Description: Handles querying of .
 
 import optparse
 import socket

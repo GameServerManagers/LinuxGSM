@@ -2,9 +2,10 @@
 # LGSM install_complete.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
-local modulename="Install"
+local commandname="INSTALL"
+local commandaction="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${gamename}" == "Don't Starve Together" ]; then
   echo ""
@@ -14,8 +15,9 @@ if [ "${gamename}" == "Don't Starve Together" ]; then
 fi
 echo "================================="
 echo "Install Complete!"
-fn_scriptlog "Install Complete!"
+fn_script_log_info "Install Complete!"
 echo ""
 echo "To start server type:"
 echo "./${selfname} start"
 echo ""
+core_exit.sh

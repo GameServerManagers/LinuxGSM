@@ -2,9 +2,10 @@
 # LGSM install_ut2k4_key.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
-local modulename="Install"
+local commandname="INSTALL"
+local commandaction="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo ""
 echo "Enter ${gamename} CD Key"
@@ -20,7 +21,7 @@ if [ -z "${autoinstall}" ]; then
 	read CODE
 	echo ""\""CDKey"\""="\""${CODE}"\""" > "${systemdir}/cdkey"
 	if [ -f "${systemdir}/cdkey" ]; then
-		fn_scriptlog "UT2K4 Server CD Key created"
+		fn_script_log_info "UT2K4 Server CD Key created"
 	fi
 else
 	echo "You can add your key using the following command"

@@ -1,11 +1,12 @@
 #!/bin/bash
-# LGSM fn_install_ts3_mariadb function
+# LGSM install_ts3db.sh function
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
-local modulename="Install"
+local commandname="INSTALL"
+local commandaction="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_ts3db_mariadb(){
 	echo ""

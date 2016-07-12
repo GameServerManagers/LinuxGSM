@@ -2,10 +2,9 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="090616"
-
 # Description: Checks that the requires dependencies are installed for LGSM.
 
+local commandname="CHECK"
 
 fn_deps_detector(){
 	# Checks if dependency is missing
@@ -19,14 +18,14 @@ fn_deps_detector(){
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
-			echo -e "\e[0;32m${deptocheck}\e[0m"
+			echo -e "${green}${deptocheck}${default}"
 			sleep 0.5
 		fi
 	else
 		# if missing dependency is found
 		missingdep=1
 		if [ "${function_selfname}" == "command_install.sh" ]; then
-			echo -e "\e[0;31m${deptocheck}\e[0m"
+			echo -e "${red}${deptocheck}${default}"
 			sleep 0.5
 		fi
 	fi
@@ -63,14 +62,14 @@ fn_deps_email(){
 fn_found_missing_deps(){
 	if [ "${#array_deps_missing[@]}" != "0" ]; then
 		fn_print_dots "Checking dependencies"
-		sleep 2
-		fn_print_warn "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
-		fn_scriptlog "Checking dependencies: missing: \e[0;31m${array_deps_missing[@]}\e[0m"
+		sleep 0.5
+		fn_print_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
+		fn_script_log_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
 		sleep 1
-		echo -e ""
 		sudo -n true > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
-			fn_print_info_nl "Attempting to install missing dependencies automatically"
+			fn_print_infomation_nl "Automatically installing missing dependencies."
+			fn_script_log_info "Automatically installing missing dependencies."
 			echo -en ".\r"
 			sleep 1
 			echo -en "..\r"
@@ -80,20 +79,26 @@ fn_found_missing_deps(){
 			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query)" ]; then
 				cmd="sudo dpkg --add-architecture i386; sudo apt-get -y install ${array_deps_missing[@]}"
-				eval $cmd
+				eval ${cmd}
 			elif [ -n "$(command -v yum)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
-				eval $cmd
+				eval ${cmd}
+			fi
+			if [ $? != 0 ]; then
+				fn_print_failure_nl "Unable to install dependencies"
+				fn_script_log_fail "Unable to install dependencies"
+			else
+				fn_print_success_nl "Install dependencies completed"
+				fn_script_log_pass "Install dependencies completed"
 			fi
 		else
 			echo ""
-			fn_print_infomation_nl "$(whoami) does not have sudo access. Please manually install dependencies"
-			fn_scriptlog "$(whoami) does not have sudo access. Please manually install dependencies"
-			echo ""
+			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
+			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			if [ -n "$(command -v dpkg-query)" ]; then
-				echo "sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+				echo "	sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum)" ]; then
-				echo "sudo yum install ${array_deps_missing[@]}"
+				echo "	sudo yum install ${array_deps_missing[@]}"
 			fi
 			echo ""
 		fi
