@@ -1,11 +1,12 @@
 #!/bin/bash
-# LGSM fn_check function
+# LGSM check.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
+
+local commandname="CHECK"
 
 # Every command that requires checks just references check.sh
 # check.sh selects which checks to run by using arrays
@@ -49,7 +50,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( update_check.sh command_debug.sh command_start.sh command_validate.sh )
+local allowed_commands_array=( update_steamcmd.sh command_debug.sh command_start.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
@@ -75,7 +76,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_details.sh command_monitor.sh command_start.sh command_stop.sh command_ts3_server_pass.sh update_check.sh command_details.sh command_validate.sh )
+local allowed_commands_array=( command_details.sh command_monitor.sh command_start.sh command_stop.sh command_ts3_server_pass.sh command_update.sh command_details.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then

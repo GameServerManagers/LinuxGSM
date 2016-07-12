@@ -1,13 +1,12 @@
 #!/bin/bash
-# LGSM fn_dep_detect function
+# LGSM command_dev_detect_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Detects dependencies the server binary requires.
 
-local modulename="Backup"
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="DEPS-DETECT"
+local commandaction="Deps-Detect"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 cd "${executabledir}"

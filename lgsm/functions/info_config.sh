@@ -2,9 +2,9 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Gets specific details from config files.
+
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -12,8 +12,8 @@ lgsm_version="210516"
 # tr -d '=\"; ' remove selected charectors =\";
 # grep -v "foo" filter out lines that contain foo
 
-unavailable="\e[0;31mUNAVAILABLE\e[0m"
-zero="\e[0;31m0\e[0m"
+unavailable="${red}UNAVAILABLE${default}"
+zero="${red}0${default}"
 
 fn_info_config_avalanche(){
 	if [ ! -f "${servercfgfullpath}" ]; then

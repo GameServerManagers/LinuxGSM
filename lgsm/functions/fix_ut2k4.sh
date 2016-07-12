@@ -2,9 +2,11 @@
 # LGSM fix_ut2k4.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+# Description: Resolves various issues with Unreal Tournament 2004.
 
-# Description: Resolves various issues with unreal tournament 2004.
+local commandname="FIX"
+local commandaction="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "applying WebAdmin ut2003.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

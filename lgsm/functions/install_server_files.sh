@@ -2,9 +2,10 @@
 # LGSM install_server_files.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="270516"
 
-local modulename="Install"
+local commandname="INSTALL"
+local commandaction="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_server_files(){
 	if [ "${gamename}" == "Unreal Tournament 99" ]; then
@@ -32,7 +33,7 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -ge "2" ]; then
 				fn_print_warning_nl "SteamCMD did not complete the download, retrying: Attempt ${counter}"
-				fn_scriptlog "SteamCMD did not complete the download, retrying: Attempt ${counter}"
+				fn_script_log "SteamCMD did not complete the download, retrying: Attempt ${counter}"
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
@@ -45,9 +46,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			# Detects if unbuffer command is available.
-			if [ $(command -v unbuffer) ]; then
-				unbuffer=unbuffer
-                        elif  [ $(command -v stdbuf) ]; then
+            if  [ $(command -v stdbuf) ]; then
 		            unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
@@ -70,7 +69,7 @@ fn_install_server_files_steamcmd(){
 			fi
 		elif [ "${counter}" -ge "11" ]; then
 			fn_print_failure_nl "SteamCMD did not complete the download, too many retrys"
-			fn_scriptlog "SteamCMD did not complete the download, too many retrys"
+			fn_script_log "SteamCMD did not complete the download, too many retrys"
 			break
 		fi
 	done
@@ -92,12 +91,15 @@ echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
-if [ -n "${appid}" ]; then
-	fn_install_server_files_steamcmd
+
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	update_ts3.sh
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+	fn_install_server_files
 fi
 
-if [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
-	fn_install_server_files
+if [ -n "${appid}" ]; then
+	fn_install_server_files_steamcmd
 fi
 
 if [ -z "${autoinstall}" ]; then

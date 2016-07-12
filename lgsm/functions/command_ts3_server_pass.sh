@@ -1,14 +1,13 @@
 #!/bin/bash
-# LGSM command_serveradmin_password.sh function
+# LGSM command_ts3_server_pass.sh function
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Changes TS3 serveradmin password
 
-local modulename="Change password"
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="TS3-CHANGE-PASS"
+local commandaction="TS3 Change Password"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 
 fn_serveradmin_password_prompt(){
@@ -28,14 +27,14 @@ fn_serveradmin_password_prompt(){
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
-	fn_scriptlog "Initiating ${gamename} ServerAdmin password change"
+	fn_script_log_info "Initiating ${gamename} ServerAdmin password change"
 	read -p "Enter new password : " newpassword
 	}
 
 
 	fn_serveradmin_password_set(){
 	fn_print_info_nl "Applying new password"
-	fn_scriptlog "Applying new password"
+	fn_script_log_info "Applying new password"
 	sleep 1
 	# Stop any running server
 	command_stop.sh
@@ -47,7 +46,7 @@ fn_serveradmin_password_prompt(){
 	command_stop.sh
 	ts3serverpass="0"
 	fn_print_ok_nl "Password applied"
-	fn_scriptlog "New ServerAdmin password applied"
+	fn_script_log_pass "New ServerAdmin password applied"
 	sleep 1
 }
 
@@ -61,3 +60,4 @@ if [ "${status}" != "0" ]; then
 else
 	fn_serveradmin_password_set
 fi
+core_exit.sh

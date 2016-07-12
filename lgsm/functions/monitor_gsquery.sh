@@ -2,12 +2,12 @@
 # LGSM monitor_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: uses gsquery.py to query the server port.
 # Detects if the server has frozen with the proccess still running.
 
-local modulename="Monitor"
+local commandname="MONITOR"
+local commandaction="Monitor"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Forces legecy servers to use gsquery
 if [ -z "${gsquery}" ]; then
@@ -25,6 +25,8 @@ if [ "${gsquery}" == "yes" ]; then
 
 	if [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		port=$((port + 1))
+	elif [ "${engine}" == "realvirtuality" ]; then
+		port=$((port + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((port + 1))
 	fi
@@ -34,7 +36,7 @@ if [ "${gsquery}" == "yes" ]; then
 	fi
 
 	fn_print_info "Querying port: gsquery.py enabled"
-	fn_scriptlog "Querying port: gsquery.py enabled"
+	fn_script_log_info "Querying port: gsquery.py enabled"
 	sleep 1
 
 	# Will query up to 4 times every 15 seconds.
@@ -44,7 +46,7 @@ if [ "${gsquery}" == "yes" ]; then
 	for queryattempt in {1..5}; do
 		fn_print_dots "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : "
 		fn_print_querying_eol
-		fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
+		fn_script_log_info "Querying port: ${ip}:${port} : ${queryattempt} : QUERYING"
 
 		gsquerycmd=$("${functionsdir}"/gsquery.py -a "${ip}" -p "${port}" -e "${engine}" 2>&1)
 		exitcode=$?
@@ -54,30 +56,30 @@ if [ "${gsquery}" == "yes" ]; then
 			# Server OK
 			fn_print_ok "Querying port: ${ip}:${port} : ${queryattempt} : "
 			fn_print_ok_eol_nl
-			fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : OK"
-			sleep 1
-			exit
+			fn_script_log_pass "Querying port: ${ip}:${port} : ${queryattempt} : OK"
+			exitcode=0
+			break
 		else
 			# Server failed query
-			fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : ${gsquerycmd}"
+			fn_script_log_info "Querying port: ${ip}:${port} : ${queryattempt} : ${gsquerycmd}"
 
 			if [ "${queryattempt}" == "5" ]; then
 				# Server failed query 4 times confirmed failure
 				fn_print_fail "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : "
 				fn_print_fail_eol_nl
-				fn_scriptlog "Querying port: ${ip}:${port} : ${queryattempt} : FAIL"
+				fn_script_log_error "Querying port: ${ip}:${port} : ${queryattempt} : FAIL"
 				sleep 1
 
 				# Send alert if enabled
 				alert="restartquery"
 				alert.sh
-				fn_restart
+				command_restart.sh
 				break
 			fi
 
 			# Seconds counter
 			for seconds in {1..15}; do
-				fn_print_fail "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : \e[0;31m${gsquerycmd}\e[0m"
+				fn_print_fail "Querying port: ${ip}:${port} : ${totalseconds}/${queryattempt} : ${red}${gsquerycmd}${default}"
 				totalseconds=$((totalseconds + 1))
 				sleep 1
 				if [ "${seconds}" == "15" ]; then
@@ -87,3 +89,4 @@ if [ "${gsquery}" == "yes" ]; then
 		fi
 	done
 fi
+core_exit.sh

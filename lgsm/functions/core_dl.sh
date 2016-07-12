@@ -2,8 +2,6 @@
 # LGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Deals with all downloads for LGSM.
 
 # fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
@@ -18,6 +16,10 @@ lgsm_version="210516"
 # fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "executecmd" "run" "force" "10cd7353aa9d758a075c600a6dd193fd"
 
+local commandname="DOWNLOAD"
+local commandaction="Download"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 fn_dl_md5(){
 	# Runs MD5 Check if available
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
@@ -28,15 +30,15 @@ fn_dl_md5(){
 			fn_print_fail_eol_nl
 			echo "${filename} returned MD5 checksum: ${md5sumcmd}"
 			echo "expected MD5 checksum: ${md5}"
-			fn_scriptlog "verifying ${filename} with MD5: FAIL"
-			fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_scriptlog "expected MD5 checksum: ${md5}"
-			exit 1
+			fn_script_log_fatal "Verifying ${filename} with MD5: FAIL"
+			fn_script_log_info "${filename} returned MD5 checksum: ${md5sumcmd}"
+			fn_script_log_info "Expected MD5 checksum: ${md5}"
+			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_scriptlog "verifying ${filename} with MD5: OK"
-			fn_scriptlog "${filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_scriptlog "expected MD5 checksum: ${md5}"
+			fn_script_log_pass "Verifying ${filename} with MD5: OK"
+			fn_script_log_info "${filename} returned MD5 checksum: ${md5sumcmd}"
+			fn_script_log_info "Expected MD5 checksum: ${md5}"
 		fi
 	fi
 }
@@ -51,7 +53,7 @@ fn_dl_extract(){
 	extractdir="${3}"
 	# extracts archives
 	echo -ne "extracting ${filename}..."
-	fn_scriptlog "extracting download"
+	fn_script_log_info "Extracting download"
 	mime=$(file -b --mime-type "${filedir}/${filename}")
 
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
@@ -62,26 +64,26 @@ fn_dl_extract(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-		fn_scriptlog "extracting download: FAIL"
+		fn_script_log_fatal "Extracting download: FAIL"
 		echo "${tarcmd}" | tee -a "${scriptlog}"
-		exit ${exitcode}
+		core_exit.sh
 	else
 		fn_print_ok_eol_nl
 	fi
 }
 
 # Trap to remove file download if canceled before completed
-fn_fetch_trap() {
+fn_fetch_trap(){
 	echo ""
 	echo -ne "downloading ${filename}: "
 	fn_print_canceled_eol_nl
-	fn_scriptlog "downloading ${filename}: CANCELED"
+	fn_script_log_info "downloading ${filename}: CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 	echo -ne "downloading ${filename}: "
 	fn_print_removed_eol_nl
-	fn_scriptlog "downloading ${filename}: REMOVED"
-	exit
+	fn_script_log_info "downloading ${filename}: REMOVED"
+	core_exit.sh
 }
 
 fn_fetch_file(){
@@ -125,15 +127,15 @@ fn_fetch_file(){
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_scriptlog "downloading ${filename}: FAIL"
+					fn_script_log_fatal "downloading ${filename}: FAIL"
 				fi
 				echo "${curlcmd}" | tee -a "${scriptlog}"
 				echo -e "${fileurl}\n" | tee -a "${scriptlog}"
-				exit ${exitcode}
+				core_exit.sh
 			else
 				fn_print_ok_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_scriptlog "downloading ${filename}: OK"
+					fn_script_log_pass "downloading ${filename}: OK"
 				fi
 			fi
 			# remove trap
@@ -142,7 +144,10 @@ fn_fetch_file(){
 			fn_print_fail_eol_nl
 			echo "Curl is not installed!"
 			echo -e ""
-			exit 1
+			if [ -f "${scriptlog}" ]; then
+				fn_script_log_fatal "Curl is not installed!"
+			fi
+			core_exit.sh
 		fi
 		# make file executecmd if executecmd is set
 		if [ "${executecmd}" == "executecmd" ]; then
@@ -196,6 +201,20 @@ fn_fetch_function(){
 	filename="${github_file_url_name}"
 	executecmd="executecmd"
 	run="run"
+	force="noforce"
+	md5="nomd5"
+	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+}
+
+fn_update_function(){
+	github_file_url_dir="lgsm/functions" # github dir containing the file
+	github_file_url_name="${functionfile}" # name of the github file
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fileurl="${githuburl}"
+	filedir="${functionsdir}"
+	filename="${github_file_url_name}"
+	executecmd="executecmd"
+	run="norun"
 	force="noforce"
 	md5="nomd5"
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
