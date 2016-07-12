@@ -45,7 +45,6 @@ parms=""
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="$TRAVIS_BRANCH"
-githubbranch="exitcodes"
 
 # Steam
 appid="261140"
