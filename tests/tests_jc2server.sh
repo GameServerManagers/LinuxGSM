@@ -1,5 +1,5 @@
 #!/bin/bash
-# TravisCI Tests
+# TravisCI Tests: Just Cause 2
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -10,7 +10,6 @@ if [ -f ".dev-debug" ]; then
 	BASH_XTRACEFD="5"
 	set -x
 fi
-
 
 #### Variables ####
 
@@ -147,22 +146,21 @@ core_dl.sh
 core_functions.sh
 
 fn_currentstatus_tmux(){
-pid=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
-if [ "${pid}" != "0" ]; then
-	currentstatus="ONLINE"
-else
-	currentstatus="OFFLINE"
-fi
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		currentstatus="ONLINE"
+	else
+		currentstatus="OFFLINE"
+	fi
 }
 
 fn_currentstatus_ts3(){
-ts3status=$(${executable} status servercfgfullpathfile=${servercfgfullpath})
-
-if [ "${ts3status}" == "Server is running" ]; then
-	currentstatus="ONLINE"
-else
-	currentstatus="OFFLINE"
-fi
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		currentstatus="ONLINE"
+	else
+		currentstatus="OFFLINE"
+	fi
 }
 
 fn_setstatus(){
@@ -273,7 +271,6 @@ echo ""
 (command_start.sh)
 fn_test_result_fail
 
-
 echo ""
 echo "1.1 - getopt"
 echo "================================="
@@ -356,6 +353,7 @@ echo "Description:"
 echo "stop ${gamename} server while already stopped."
 echo "Command: ./jc2server stop"
 requiredstatus="OFFLINE"
+fn_setstatus
 (command_stop.sh)
 fn_test_result_fail
 
