@@ -25,8 +25,8 @@ fi
 ##########
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
 	fi
@@ -34,8 +34,8 @@ fn_script_log(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
 fn_script_log_pass(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: PASS: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: PASS: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: PASS: ${1}" >> "${scriptlog}"
 	fi
@@ -44,8 +44,8 @@ fn_script_log_pass(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: FATAL: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: FATAL: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: FATAL: ${1}" >> "${scriptlog}"
 	fi
@@ -54,8 +54,8 @@ fn_script_log_fatal(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: ERROR: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ERROR: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ERROR: ${1}" >> "${scriptlog}"
 	fi
@@ -64,8 +64,8 @@ fn_script_log_error(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: WARN: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: WARN: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: WARN: ${1}" >> "${scriptlog}"
 	fi
@@ -74,8 +74,8 @@ fn_script_log_warn(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: INFO: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: INFO: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: INFO: ${1}" >> "${scriptlog}"
 	fi
@@ -86,16 +86,16 @@ fn_script_log_info(){
 
 # [ .... ]
 fn_print_dots(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[ .... ] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[ .... ] $@"
 	fi
 }
 
 fn_print_dots_nl(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -e "${creeol}[ .... ] ${commandname} ${servicename}: $@"
 	else
 		echo -e "${creeol}[ .... ] $@"
 	fi
@@ -105,16 +105,16 @@ fn_print_dots_nl(){
 
 # [  OK  ]
 fn_print_ok(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
 }
 
 fn_print_ok_nl(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
@@ -124,16 +124,16 @@ fn_print_ok_nl(){
 
 # [ FAIL ]
 fn_print_fail(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
 }
 
 fn_print_fail_nl(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
@@ -143,16 +143,16 @@ fn_print_fail_nl(){
 
 # [ ERROR ]
 fn_print_error(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
 }
 
 fn_print_error_nl(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
@@ -162,16 +162,16 @@ fn_print_error_nl(){
 
 # [ WARN ]
 fn_print_warn(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
 }
 
 fn_print_warn_nl(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
@@ -181,16 +181,16 @@ fn_print_warn_nl(){
 
 # [ INFO ]
 fn_print_info(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
 }
 
 fn_print_info_nl(){
-	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
+	if [ -n "${commandname}" ]; then
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandname} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
