@@ -1,8 +1,8 @@
 #!/bin/bash
-# LGSM command_update.sh function
+# LGSM command_ts3.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description:Handles updating of teamspeak 3 servers.
+# Description: Handles updating of teamspeak 3 servers.
 
 local commandname="UPDATE"
 local commandaction="Update"
