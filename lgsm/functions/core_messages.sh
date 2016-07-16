@@ -86,16 +86,16 @@ fn_script_log_info(){
 
 # [ .... ]
 fn_print_dots(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[ .... ] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[ .... ] $@"
 	fi
 }
 
 fn_print_dots_nl(){
-	if [ -n "${commandname}" ]; then
-		echo -e "${creeol}[ .... ] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -e "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
 	else
 		echo -e "${creeol}[ .... ] $@"
 	fi
@@ -105,16 +105,16 @@ fn_print_dots_nl(){
 
 # [  OK  ]
 fn_print_ok(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${green}  OK  ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
 }
 
 fn_print_ok_nl(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${green}  OK  ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
@@ -124,16 +124,16 @@ fn_print_ok_nl(){
 
 # [ FAIL ]
 fn_print_fail(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${red} FAIL ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
 }
 
 fn_print_fail_nl(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${red} FAIL ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
@@ -143,16 +143,16 @@ fn_print_fail_nl(){
 
 # [ ERROR ]
 fn_print_error(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
 }
 
 fn_print_error_nl(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
@@ -162,16 +162,16 @@ fn_print_error_nl(){
 
 # [ WARN ]
 fn_print_warn(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
 }
 
 fn_print_warn_nl(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
@@ -181,16 +181,16 @@ fn_print_warn_nl(){
 
 # [ INFO ]
 fn_print_info(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${cyan} INFO ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
 }
 
 fn_print_info_nl(){
-	if [ -n "${commandname}" ]; then
-		echo -en "${creeol}[${cyan} INFO ${default}] ${commandname} ${servicename}: $@"
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
