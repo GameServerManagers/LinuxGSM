@@ -9,7 +9,7 @@ local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_check_ownership(){
-	if [ $(find "${filesdir}" -not -user $(whoami)|wc -l) -ne "0" ]||$(find "${rootdir}/${selfname}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+	if [ $(find "${filesdir}" -not -user $(whoami)|wc -l) -ne "0" ]||[ $(find "${rootdir}/${selfname}" -not -user $(whoami)|wc -l) -ne "0" ]; then
 		fn_print_fail_nl "Permissions issues found"
 		fn_script_log_fatal "Permissions issues found"
 		fn_print_infomation_nl "The current user ($(whoami)) does not have ownership of the following files:"
