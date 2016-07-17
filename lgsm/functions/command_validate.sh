@@ -13,7 +13,7 @@ fn_validation(){
 	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
 	sleep 3
 	echo -en "\n"
-	fn_print_dots_nl "Validating files: SteamCMD"
+
 	fn_script_log_info "Validating files: SteamCMD"
 	sleep 1
 
@@ -39,7 +39,9 @@ fn_validation(){
 
 }
 
-fn_print_dots "Validating files"
+fn_print_dots_nl "Validating files:"
+sleep 0.5
+fn_print_dots_nl "Validating files: SteamCMD"
 sleep 1
 check.sh
 check_status.sh
