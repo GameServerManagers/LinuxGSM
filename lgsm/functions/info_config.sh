@@ -161,6 +161,32 @@ fn_info_config_source(){
 	fi
 }
 
+fn_info_config_starbound(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		rconpassword="${unavailable}"
+		port="21025"
+		queryport="21025"
+		rconport="21026"
+		slots="8"
+	else
+		servername=$(grep "serverName" "${servercfgfullpath}" | sed 's/"serverName" \: //g' | grep -oP '"\K[^"]+(?=["])')
+		rconpassword=$(grep "rconServerPassword" "${servercfgfullpath}" | sed 's/"rconServerPassword" \: //g' | grep -oP '"\K[^"]+(?=["])')
+		port=$(grep "gameServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$(grep "queryServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		rconport=$(grep "rconServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		slots=$(grep "maxPlayers" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		port=${port:-"21025"}
+		queryport=${queryport:-"21025"}
+		rconport=${rconport:-"21026"}
+		slots=${slots:-"8"}
+	fi
+}
+
 fn_info_config_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		dbplugin="${unavailable}"
@@ -289,6 +315,9 @@ elif [ "${engine}" == "seriousengine35" ]; then
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
+# Starbound
+elif [ "${engine}" == "starbound" ]; then
+	fn_info_config_starbound
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_info_config_teamspeak3
 # Teeworlds
