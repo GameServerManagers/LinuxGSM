@@ -43,12 +43,18 @@ If you want to donate to the project you can via PayPal, Flattr or Gratipay. I h
 </ul>
 <h2>Useful Links</h2>
 <ul>
-	<li><a href="https://gameservermanagers.com">Homepage</li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki">Wiki</li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</li>
-	<li><a href="http://steamcommunity.com/groups/linuxgsm">Steam Group</li>
-	<li><a href="https://twitter.com/dangibbsuk">Twitter</li>
-	<li><a href="https://www.facebook.com/linuxgsm">Facebook</li>
-	<li><a href="https://plus.google.com/+Gameservermanagers1">Google+</li>
+	<li><a href="https://gameservermanagers.com">Homepage</a></li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki">Wiki</a></li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</a></li>
+	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</a></li>
+	<li><a href="https://waffle.io/dgibbs64/linuxgsm">Waffle (Github Dashboard)</a></li>
+	<li><a href="http://alternativeto.net/software/linux-game-server-managers/">alternativeTo.net</a></li>
 </ul>
+<h2>Social</h2>
+<ul>
+	<li><a href="http://steamcommunity.com/groups/linuxgsm">Steam Group</a></li>
+	<li><a href="https://discord.gg/0i9cmXVacvXicNl7">Discord</a></li>
+	<li><a href="https://twitter.com/dangibbsuk">Twitter</a></li>
+	<li><a href="https://www.facebook.com/linuxgsm">Facebook</a></li>
+	<li><a href="https://plus.google.com/+Gameservermanagers1">Google+</a></li>
+<ul>
