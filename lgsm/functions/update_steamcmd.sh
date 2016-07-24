@@ -154,7 +154,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Gets availablebuild info
-	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit; sleep 10 | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"${branchname}\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"${branchname}\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: SteamCMD"
 		sleep 1
