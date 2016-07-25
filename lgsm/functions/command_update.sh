@@ -13,7 +13,7 @@ sleep 0.5
 check.sh
 
 
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
 else
 	update_steamcmd.sh

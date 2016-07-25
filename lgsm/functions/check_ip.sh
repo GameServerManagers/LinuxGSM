@@ -8,7 +8,7 @@
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ "${gamename}" != "Teamspeak 3" ]; then
+if [ "${gamename}" != "TeamSpeak 3" ]; then
 	if [ ! -f "/bin/ip" ]; then
 		ipcommand="/sbin/ip"
 	else

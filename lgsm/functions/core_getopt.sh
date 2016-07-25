@@ -445,7 +445,7 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${gamename}" == "Garry's Mod" ]; then
 	fn_getopt_gmodserver

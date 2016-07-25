@@ -1,5 +1,5 @@
 #!/bin/bash
-# TravisCI Tests: Teamspeak 3
+# TravisCI Tests: TeamSpeak 3
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -42,8 +42,8 @@ githubrepo="linuxgsm"
 githubbranch="$TRAVIS_BRANCH"
 
 # Server Details
-gamename="Teamspeak 3"
-servername="Teamspeak 3 Server"
+gamename="TeamSpeak 3"
+servername="TeamSpeak 3 Server"
 servicename="ts3-server"
 
 # Directories

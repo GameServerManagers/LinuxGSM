@@ -1,5 +1,5 @@
 #!/bin/bash
-# Teamspeak 3
+# TeamSpeak 3
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -29,8 +29,8 @@ pushbullettoken="accesstoken"
 updateonstart="off"
 
 # Server Details
-gamename="Teamspeak 3"
-servername="Teamspeak 3 Server"
+gamename="TeamSpeak 3"
+servername="TeamSpeak 3 Server"
 servicename="ts3-server"
 
 # Directories
