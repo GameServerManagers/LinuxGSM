@@ -40,7 +40,7 @@ ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
-    parms="TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}"
+	parms="TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}"
 }
 
 #### Advanced Variables ####
