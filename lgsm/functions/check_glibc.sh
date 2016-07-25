@@ -2,7 +2,7 @@
 # LGSM check_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Checks if server has correct glibc or has a fix available.
+# Description: Checks if the server has correct Glibc or a fix available.
 
 local commandname="CHECK"
 

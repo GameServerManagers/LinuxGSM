@@ -2,7 +2,7 @@
 # LGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Checks that the requires dependencies are installed for LGSM.
+# Description: Checks if required dependencies are installed for LGSM.
 
 local commandname="CHECK"
 

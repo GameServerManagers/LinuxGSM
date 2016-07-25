@@ -2,7 +2,7 @@
 # LGSM fix_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Downloads required glibc files and applys teh glibc fix if required
+# Description: Downloads required Glibc files and applies the Glibc fix if required.
 
 local commandname="FIX"
 local commandaction="Fix"

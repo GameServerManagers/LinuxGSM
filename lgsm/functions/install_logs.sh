@@ -2,6 +2,7 @@
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Creates log directories.
 
 local commandname="INSTALL"
 local commandaction="Install"

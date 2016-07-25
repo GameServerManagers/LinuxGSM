@@ -318,6 +318,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 # Starbound
 elif [ "${engine}" == "starbound" ]; then
 	fn_info_config_starbound
+# TeamSpeak 3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_info_config_teamspeak3
 # Teeworlds

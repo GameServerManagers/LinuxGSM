@@ -2,7 +2,7 @@
 # LGSM command_test_alert.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Sends a test email alert.
+# Description: Sends a test alert.
 
 local commandname="ALERT"
 local commandaction="Alert"

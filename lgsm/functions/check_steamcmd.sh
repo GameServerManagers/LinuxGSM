@@ -2,7 +2,7 @@
 # LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Checks SteamCMD is installed and correct.
+# Description: Checks if SteamCMD is installed correctly.
 
 local commandname="CHECK"
 
@@ -15,9 +15,8 @@ fn_install_steamcmd(){
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
 
-
 fn_check_steamcmd_user(){
-	# Checks steamuser is setup.
+	# Checks if steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}."
 		echo "	* Change steamuser=\"username\" to a valid steam login."
@@ -59,7 +58,7 @@ fn_check_steamcmd_sh(){
 
 fn_check_steamcmd_guard(){
 	if [ "${function_selfname}" == "command_update.sh" ]||[ "${function_selfname}" == "command_validate.sh" ]; then
-		# Checks that steamcmd is working correctly and will prompt Steam Guard if required.
+		# Checks if steamcmd is working correctly and will prompt Steam Guard if required.
 		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
 		if [ $? -ne 0 ]; then
 			fn_print_failure_nl "Error running SteamCMD"
@@ -69,5 +68,5 @@ fn_check_steamcmd_guard(){
 
 fn_check_steamcmd_user
 fn_check_steamcmd_sh
-# stdbuf has now replaced unbuffer. This shoudl no longer be required
+# stdbuf has now replaced unbuffer. This should not longer be required
 #fn_check_steamcmd_guard

@@ -2,6 +2,7 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Creates default server configs.
 
 local commandname="INSTALL"
 local commandaction="Install"

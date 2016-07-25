@@ -2,6 +2,7 @@
 # LGSM install_complete.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Prints installation completion message and hints.
 
 local commandname="INSTALL"
 local commandaction="Install"

@@ -2,7 +2,7 @@
 # LGSM command_start.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Starts the server.
+# Description: Restarts the server.
 
 local commandname="RESTART"
 local commandaction="Restarting"

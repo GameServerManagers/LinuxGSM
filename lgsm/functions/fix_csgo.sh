@@ -2,7 +2,7 @@
 # LGSM fix_csgo.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Resolves various issues with csgo.
+# Description: Resolves various issues with CS:GO.
 
 local commandname="FIX"
 local commandaction="Fix"

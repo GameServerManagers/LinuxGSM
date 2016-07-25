@@ -6,7 +6,7 @@ lgsm_version="210516"
 
 # Description: REDIRECT FUNCTION to new location for core_functions.sh
 
-# fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
+# fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
 if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
