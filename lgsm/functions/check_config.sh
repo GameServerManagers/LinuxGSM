@@ -18,3 +18,20 @@ if [ ! -e "${servercfgfullpath}" ]; then
 		sleep 2
 	fi
 fi
+if [ "${gamename}" == "Rust" ]; then
+        if  [ -z "${rconpassword}" ]; then
+                fn_print_dots ""
+                sleep 0.5
+                fn_print_warn_nl "RCON password not set!"
+                echo "This would lead to unexpected behavior. Aborting."
+                fn_script_log_warn "No RCON Password set, exitting!"
+                exit 1
+        elif [ "${rconpassword}" == "CHANGE_ME" ]; then
+                fn_print_dots ""
+                sleep 0.5
+                fn_print_warn_nl "Default RCON Password detected!"
+                echo "Having CHANGE_ME as a passowrd is not very safe."
+                fn_script_log_warn "RCON Password is the default one!"
+                sleep 2
+        fi
+fi
