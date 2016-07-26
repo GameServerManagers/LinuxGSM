@@ -15,6 +15,8 @@ check.sh
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	update_ts3.sh
+elif [ "${gamename}" == "Mumble" ]; then
+	update_mumble.sh
 else
 	update_steamcmd.sh
 fi
