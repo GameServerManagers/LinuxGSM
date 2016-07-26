@@ -14,7 +14,7 @@ fi
 
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM
 if [ -n "${ramrequirement}" ]; then
-  if [ "${mbphysmem}" -lt "${ramrequirement}"" ]; then
+  if [ "${mbphysmem}" -lt "${ramrequirement}" ]; then
     # Warn the user
     fn_print_warn "Insufficient physical RAM: ${mbphysmem}MB available for ${ramrequirement}MB required."
     sleep 2
