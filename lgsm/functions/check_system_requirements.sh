@@ -17,7 +17,9 @@ if [ -n "${ramrequirement}" ]; then
   if [ "${mbphysmem}" -lt "${ramrequirement} ]; then
     # Warn the user
     fn_print_warn "Insufficient physical RAM: ${mbphysmem}MB available for ${ramrequirement}MB required."
+    sleep 2
     echo "You may encounter issues such as server lagging or shutting down unexpectedly."
+    sleep 0.5
     fn_script_log_warn "Insufficient physical RAM: ${mbphysmem}MB available for ${ramrequirement}MB required."
   fi
 fi  
