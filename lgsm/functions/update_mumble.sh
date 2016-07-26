@@ -159,14 +159,14 @@ fn_update_mumble_dl(){
 
 fn_update_mubmle_arch
 if [ "${installer}" == "1" ]; then
-	fn_update_ts3_availablebuild
-	fn_update_ts3_dl
+	fn_update_mumble_availablebuild
+	fn_update_mumble_dl
 else
 	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
-	fn_print_dots "Checking for update: teamspeak.com"
-	fn_script_log_info "Checking for update: teamspeak.com"
+	fn_print_dots "Checking for update: github.com"
+	fn_script_log_info "Checking for update: github.com"
 	sleep 1
-	fn_update_ts3_currentbuild
-	fn_update_ts3_availablebuild
-	fn_update_ts3_compare
+	fn_update_mumble_currentbuild
+	fn_update_mumble_availablebuild
+	fn_update_mumble_compare
 fi
