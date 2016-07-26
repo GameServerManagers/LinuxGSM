@@ -223,7 +223,7 @@ fn_fetch_function
 }
 
 check_system_requirements.sh(){
-functionfile="${FUNCANME}"
+functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
