@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="260716"
 
 #### Variables ####
 
@@ -31,11 +31,12 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
+adminpassword="CHANGE_ME"
 ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
-parms=""
+parms="-ip ${ip} -adminpassword \"${adminpassword}\""
 }
 
 #### Advanced Variables ####
