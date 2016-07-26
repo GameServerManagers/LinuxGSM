@@ -83,3 +83,11 @@ do
 		check_status.sh
 	fi
 done
+
+local allowed_commands_array=( command_install.sh command_start.sh command_debug.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_system_requirements.sh
+	fi
+done
