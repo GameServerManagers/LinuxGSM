@@ -15,29 +15,29 @@ mumblearch="x86"
 }
 
 fn_update_mumble_availablebuild(){
-# Gets available build info.
-fn_print_info_nl "Checking for update from github.com"
-fn_script_log "Checking for update from github.com"
+# Gets latest build info.
+fn_print_info_nl "Checking latest build from github.com"
+fn_script_log "Checking latest build from github.com"
 availablebuild=$(curl -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 sleep 1
 	
 # Checks if availablebuild variable has been set
 if [ -z "${availablebuild}" ]; then
-	fn_print_fail "Checking for update from github.com"
+	fn_print_fail "Checking latest build from github.com"
 	sleep 1
-	fn_print_fail "Checking for update: github.com: Not returning version info"
-	fn_script_log_fatal "Failure! Checking for update: github.com Not returning version info"
+	fn_print_fail "Checking latest build from github.com: Not returning version info"
+	fn_script_log_fatal "Checking latest build from github.com: Not returning version info"
 	core_exit.sh
 else
-	fn_print_ok_nl "Checking for update from github.com"
-	fn_script_log_pass "Checking for update from github.com"
+	fn_print_ok_nl "Checked latest build from github.com"
+	fn_script_log_pass "Checked latest build from github.com"
 	sleep 1
 fi
 }
 
 fn_update_mumble_currentbuild(){
 # Gets current build info
-fn_print_info "Checking current server build"
+fn_print_info "Checking installed server build"
 sleep 1
 # Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
 if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
@@ -47,10 +47,15 @@ if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 	fn_print_info_nl "Forcing server restart"
 	fn_script_log_info "Forcing server restart"
 	sleep 1
-	exitbypass=1
-	command_stop.sh
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		exitbypass=1
+		command_stop.sh
+	fi
 	exitbypass=1
 	command_start.sh
+	exitbypass=1
+	command_stopt.sh
 	sleep 1
 	# Check again and exit on failure.
 	if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
@@ -152,7 +157,7 @@ fn_dl_extract "${lgsmdir}/tmp" "${mumblebuildname}.tar.bz2" "${lgsmdir}/tmp"
 echo -e "copying to ${filesdir}...\c"
 fn_script_log "Copying to ${filesdir}"
 cp -R "${lgsmdir}/tmp/${mumblebuildname}/"* "${filesdir}"
-#rm -R "${lgsmdir}/tmp"
+rm -R "${lgsmdir}/tmp"
 local exitcode=$?
 if [ ${exitcode} -eq 0 ]; then
 	fn_print_ok_eol_nl
@@ -166,7 +171,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_mumble_availablebuild
 	fn_update_mumble_dl
 else
-	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
+	# Checks for server update from github.com
 	fn_print_dots "Checking for update: github.com"
 	fn_script_log_info "Checking for update: github.com"
 	sleep 1
