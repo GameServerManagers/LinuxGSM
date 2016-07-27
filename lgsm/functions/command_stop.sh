@@ -212,6 +212,22 @@ fn_stop_teamspeak3(){
 	fi
 }
 
+fn_stop_mumble(){
+	fn_print_dots "Stopping ${servername}"
+	check_status.sh
+	kill ${mumblepid}
+	sleep 1
+	if [ "${status}" == "0" ]; then
+		# Remove lock file
+		rm -f "${rootdir}/${lockselfname}"
+		fn_print_ok_nl "${servername}"
+		fn_script_log_pass "Stopped ${servername}"
+	else
+		fn_print_fail_nl "Unable to stop ${servername}"
+		fn_script_log_fail "Unable to stop ${servername}"
+	fi
+}
+
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${servername}"
@@ -239,16 +255,21 @@ fn_stop_tmux(){
 
 # checks if the server is already stopped before trying to stop.
 fn_stop_pre_check(){
+	check_status.sh
 	if [ "${gamename}" == "Teamspeak 3" ]; then
-		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_info_nl "${servername} is already stopped"
 			fn_script_log_error "${servername} is already stopped"
 		else
 			fn_stop_teamspeak3
 		fi
+	elif [ "${gamename}" == "Mumble" ]; then
+		if [ "${status}" == "0" ]; then
+			fn_print_info_nl "${servername} is already stopped"
+			fn_script_log_error "${servername} is already stopped"
+		else
+		fn_stop_mumble
 	else
-		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_info_nl "${servername} is already stopped"
 			fn_script_log_error "${servername} is already stopped"
