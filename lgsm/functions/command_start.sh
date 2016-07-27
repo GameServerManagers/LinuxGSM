@@ -53,6 +53,39 @@ fn_start_teamspeak3(){
 	fi
 }
 
+fn_start_mumble(){
+	if [ ! -e "${servercfgfullpath}" ]; then
+		fn_print_warn_nl "${servercfgfullpath} is missing"
+		fn_script_log_warn "${servercfgfullpath} is missing"
+		sleep 2
+	fi
+	sleep 1
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_info_nl "${servername} is already running"
+		fn_script_log_error "${servername} is already running"
+		core_exit.sh
+	fi
+
+	mv "${scriptlog}" "${scriptlogdate}"
+	# Create lock file
+	date > "${rootdir}/${lockselfname}"
+	cd "${executabledir}"
+	./${executable} ${parms} > /dev/null 2>&1
+	fi
+	sleep 1
+	check_status.sh
+	if [ "${status}" == "0" ]; then
+		fn_print_fail_nl "Unable to start ${servername}"
+		fn_script_log_fatal "Unable to start ${servername}"
+		echo -e "	Check log files: ${rootdir}/log"
+		core_exit.sh
+	else
+		fn_print_ok_nl "${servername}"
+		fn_script_log_pass "Started ${servername}"
+	fi
+}
+
 fn_start_tmux(){
 	fn_parms
 
