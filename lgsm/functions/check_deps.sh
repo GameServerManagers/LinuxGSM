@@ -88,7 +88,7 @@ fn_found_missing_deps(){
 				fn_print_failure_nl "Unable to install dependencies"
 				fn_script_log_fail "Unable to install dependencies"
 			else
-				fn_print_success_nl "Install dependencies completed"
+				fn_print_complete_nl "Install dependencies completed"
 				fn_script_log_pass "Install dependencies completed"
 			fi
 		else

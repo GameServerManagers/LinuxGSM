@@ -335,6 +335,12 @@ elif [ "${gamename}" == "Sven Co-op" ]; then
 	wget -N /dev/null ${githuburl}/SvenCoop/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
+elif [ "${gamename}" == "Starbound" ]; then
+	echo -e "downloading lgsm-default.config...\c"
+	wget -N /dev/null ${githuburl}/Starbound/cfg/lgsm-default.config 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
+	fn_userinputconfig
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq

@@ -222,6 +222,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+check_system_requirements.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 check_tmux.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

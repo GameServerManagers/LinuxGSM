@@ -25,8 +25,8 @@ fi
 ##########
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
 	fi
@@ -34,8 +34,8 @@ fn_script_log(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
 fn_script_log_pass(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: PASS: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: PASS: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: PASS: ${1}" >> "${scriptlog}"
 	fi
@@ -44,8 +44,8 @@ fn_script_log_pass(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: FATAL: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: FATAL: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: FATAL: ${1}" >> "${scriptlog}"
 	fi
@@ -54,8 +54,8 @@ fn_script_log_fatal(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: ERROR: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ERROR: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ERROR: ${1}" >> "${scriptlog}"
 	fi
@@ -64,8 +64,8 @@ fn_script_log_error(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: WARN: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: WARN: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: WARN: ${1}" >> "${scriptlog}"
 	fi
@@ -74,8 +74,8 @@ fn_script_log_warn(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
-	if [ -n "${commandaction}" ]; then
-		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandaction}: INFO: ${1}" >> "${scriptlog}"
+	if [ -n "${commandname}" ]; then
+		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: INFO: ${1}" >> "${scriptlog}"
 	else
 		echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: INFO: ${1}" >> "${scriptlog}"
 	fi
