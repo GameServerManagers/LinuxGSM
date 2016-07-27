@@ -211,6 +211,25 @@ fn_info_config_teamspeak3(){
 	fi
 }
 
+fn_info_config_mumble(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		port="64738"
+		queryport="${port}"
+	else
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		ipconfigcheck=${cat "${servercfgfullpath}" | grep "host=" | awk -F'=' '{ print $2}'
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
+		port=$(cat "${servercfgfullpath}" | grep 'port=' | awk -F'=' '{ print $2 }')
+		queryport="${port}"
+
+		# Not Set
+		port=${port:-"64738"}
+		queryport=${queryport:-"64738"}
+	fi
+}
+
 fn_info_config_teeworlds(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="unnamed server"
@@ -318,8 +337,11 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 # Starbound
 elif [ "${engine}" == "starbound" ]; then
 	fn_info_config_starbound
+#TeamSpeak
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_info_config_teamspeak3
+elif [ "${gamename}" == "Mumble" ]; then
+	fn_info_config_mumble
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds
