@@ -269,6 +269,7 @@ fn_stop_pre_check(){
 			fn_script_log_error "${servername} is already stopped"
 		else
 		fn_stop_mumble
+		fi
 	else
 		if [ "${status}" == "0" ]; then
 			fn_print_info_nl "${servername} is already stopped"
