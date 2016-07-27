@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_monitor.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Monitors server by checking for running proccesses
 # then passes to monitor_gsquery.sh.
