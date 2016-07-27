@@ -71,7 +71,7 @@ fn_start_mumble(){
 	# Create lock file
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	./"${executable}" "${parms}" > /dev/null 2>&1
+	./${executable} ${parms} > /dev/null 2>&1
 	sleep 1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
