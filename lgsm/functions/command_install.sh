@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_install.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Overall function for the installer.
 
