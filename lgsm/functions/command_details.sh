@@ -446,8 +446,8 @@ fn_details_mumble(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Voice\tIN&OUT\t${port}\tudp"
-		echo -e "> ServerQuery\tIN&OUT\t${port}\ttcp"
+		echo -e "> Voice\tIN & OUT\t${port}\tudp"
+		echo -e "> ServerQuery\tIN & OUT\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
