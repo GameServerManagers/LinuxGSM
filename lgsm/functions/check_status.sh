@@ -18,6 +18,16 @@ if [ "${gamename}" == "Teamspeak 3" ]; then
 		ts3error="${status}"
 		status=0
 	fi
+	
+elif [ "${gamename}" == "Mumble" ]; then
+	# 1: Server is listening
+	# 0: Server is not listening, considered closed
+	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep 64738 | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
+	if [ -z "${mumblepid}" ]; then
+		status=0
+	else
+		status=1
+	fi
 else
 	status=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")
 fi
