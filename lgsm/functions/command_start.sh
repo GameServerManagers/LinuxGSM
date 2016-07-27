@@ -212,8 +212,8 @@ fi
 
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_start_teamspeak3
-elif [ "${gamename}" == "Mumble" ]; then
-	fn_start_mumble
+#elif [ "${gamename}" == "Mumble" ]; then
+#	fn_start_mumble
 else
 	fn_start_tmux
 fi
