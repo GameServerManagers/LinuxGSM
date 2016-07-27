@@ -208,15 +208,16 @@ fn_stop_teamspeak3(){
 		fn_script_log_pass "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop ${servername}"
-		fn_script_log_fail "Unable to stop ${servername}"
+		fn_script_log_error "Unable to stop ${servername}"
 	fi
 }
 
 fn_stop_mumble(){
 	fn_print_dots "Stopping ${servername}"
-	check_status.sh
+	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep 64738 | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
 	kill ${mumblepid}
 	sleep 1
+	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# Remove lock file
 		rm -f "${rootdir}/${lockselfname}"
@@ -224,7 +225,7 @@ fn_stop_mumble(){
 		fn_script_log_pass "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop ${servername}"
-		fn_script_log_fail "Unable to stop ${servername}"
+		fn_script_log_error "Unable to stop ${servername}"
 	fi
 }
 
