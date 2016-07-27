@@ -144,11 +144,11 @@ fi
 
 fn_update_mumble_dl(){
 mumblebuildname="murmur-static_${mumblearch}-${availablebuild}"
-if [ ! -f "${lgsmdir}/tmp" ]; then
+if [ ! -d "${lgsmdir}/tmp" ]; then
 	mkdir "${lgsmdir}/tmp"
 fi
 fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/${mumblebuildname}.tar.bz2" "${lgsmdir}/tmp" "${mumblebuildname}.tar.bz2"
-fn_dl_extract "${lgsmdir}/tmp" "${mumblebuildname}".tar.bz2 "${lgsmdir}/tmp"
+fn_dl_extract "${lgsmdir}/tmp" "${mumblebuildname}.tar.bz2" "${lgsmdir}/tmp"
 echo -e "copying to ${filesdir}...\c"
 fn_script_log "Copying to ${filesdir}"
 cp -R "${lgsmdir}/tmp/${mumblebuildname}/"* "${filesdir}"
