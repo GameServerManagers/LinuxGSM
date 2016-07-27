@@ -444,7 +444,7 @@ fn_details_teamspeak3(){
 fn_details_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
-	port=$(cat "${servercfgfullpath}" | grep 'port=' | awk -F'=' '{ print $2 }'
+	port=$(cat "${servercfgfullpath}" | grep 'port=' | awk -F'=' '{ print $2 }')
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Voice\tIN&OUT\t${port}\tudp"
