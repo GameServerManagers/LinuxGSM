@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM core_dl.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Deals with all downloads for LGSM.
 
