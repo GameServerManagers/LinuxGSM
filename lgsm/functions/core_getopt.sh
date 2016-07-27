@@ -150,8 +150,6 @@ case "${getopt}" in
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
-	pw|change-password)
-		command_ts3_server_pass.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;
 	i|install)
@@ -177,7 +175,6 @@ case "${getopt}" in
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
-		echo -e "${blue}change-password\t${default}pw |Changes TS3 serveradmin password."
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}install\t${default}i  |Install the server."
 	} | column -s $'\t' -t
