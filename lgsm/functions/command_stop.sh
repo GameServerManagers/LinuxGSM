@@ -215,6 +215,7 @@ fn_stop_teamspeak3(){
 
 fn_stop_mumble(){
 	fn_print_dots "Stopping ${servername}"
+	fn_stop_tmux
 	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep 64738 | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
 	kill ${mumblepid}
 	sleep 1
