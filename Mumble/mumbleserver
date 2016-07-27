@@ -45,7 +45,7 @@ servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
 if [ -f "${servercfgfullpath}" ]; then
-	port=$(cat "${servercfgfullpath}" > /dev/null 2>&1 | grep 'port=' | awk -F'=' '{ print $2 }')
+	port=$(cat "${servercfgfullpath}" | grep 'port=' | awk -F'=' '{ print $2 }')
 	servername="Mumble Port ${port}"
 else
 	port="UNKNOWN"
