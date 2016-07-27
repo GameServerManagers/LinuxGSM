@@ -152,7 +152,7 @@ fn_dl_extract "${lgsmdir}/tmp" "${mumblebuildname}.tar.bz2" "${lgsmdir}/tmp"
 echo -e "copying to ${filesdir}...\c"
 fn_script_log "Copying to ${filesdir}"
 cp -R "${lgsmdir}/tmp/${mumblebuildname}/"* "${filesdir}"
-rm -R "${lgsmdir}/tmp"
+#rm -R "${lgsmdir}/tmp"
 local exitcode=$?
 if [ ${exitcode} -eq 0 ]; then
 	fn_print_ok_eol_nl
