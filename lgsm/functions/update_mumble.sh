@@ -40,7 +40,7 @@ fn_update_mumble_currentbuild(){
 fn_print_info "Checking current server build"
 sleep 1
 # Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
-if [ ! -f "${consolelogdir}"/"${servicename}"-console.log ]; then
+if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 	fn_print_info_nl "No current log found, can't retrieve current server build"
 	fn_script_log_info "No current log found, can't retrieve current server build"
 	sleep 1
@@ -53,7 +53,7 @@ if [ ! -f "${consolelogdir}"/"${servicename}"-console.log ]; then
 	command_start.sh
 	sleep 1
 	# Check again and exit on failure.
-	if [ ! -f ${consolelogdir}"/"${servicename}"-console.log ]; then
+	if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 		fn_print_fail_nl "Still no logs found, cannot retrieve server version"
 		fn_script_log_fatal "Still no logs found, cannot retrieve server version"
 		core_exit.sh
@@ -95,8 +95,8 @@ if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 	echo -e "\n"
 	echo -e "Update available:"
 	sleep 1
-	echo -e "	Current build: ${red}${currentbuild} ${architecture}${default}"
-	echo -e "	Available build: ${green}${availablebuild} ${architecture}${default}"
+	echo -e "	Current build: ${red}${currentbuild} ${mumblearch}${default}"
+	echo -e "	Available build: ${green}${availablebuild} ${mumblearch}${default}"
 	echo -e ""
 	sleep 1
 	echo ""
@@ -145,14 +145,14 @@ fi
 fn_update_mumble_dl(){
 mumblebuildname="murmur-static_${mumblearch}-${availablebuild}"
 if [ ! -f "${lgsmdir}/tmp" ]; then
-	mkdir ${lgsmdir}/tmp
+	mkdir "${lgsmdir}/tmp"
 fi
 fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${mumblebuildname}.tar.bz2" "${lgsmdir}/tmp" "${mumblebuildname}.tar.bz2"
 fn_dl_extract "${lgsmdir}/tmp" "${mumblebuildname}" "${lgsmdir}/tmp"
 echo -e "copying to ${filesdir}...\c"
 fn_script_log "Copying to ${filesdir}"
 cp -R "${lgsmdir}/tmp/${mumblebuildname}/"* "${filesdir}"
-rm -R ${lgsmdir}/tmp
+rm -R "${lgsmdir}/tmp"
 local exitcode=$?
 if [ ${exitcode} -eq 0 ]; then
 	fn_print_ok_eol_nl
