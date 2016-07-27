@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM check_status.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Checks the proccess status of the server. Either online or offline.
 
