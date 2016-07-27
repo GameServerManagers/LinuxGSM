@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Displays server infomation.
 
