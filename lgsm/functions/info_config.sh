@@ -218,7 +218,7 @@ fn_info_config_mumble(){
 		queryport="${port}"
 	else
 		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=${cat "${servercfgfullpath}" | grep "host=" | awk -F'=' '{ print $2}'
+		ipconfigcheck=$(cat "${servercfgfullpath}" | grep "host=" | awk -F'=' '{ print $2}')
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
 		fi
