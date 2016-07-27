@@ -2,6 +2,7 @@
 # Mumble
 # Server Management Script
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
@@ -9,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="270716"
 
 #### Variables ####
 
