@@ -48,7 +48,6 @@ if [ -f "${servercfgfullpath}" ]; then
 	port=$(cat "${servercfgfullpath}" > /dev/null 2>&1 | grep 'port=' | awk -F'=' '{ print $2 }')
 	servername="Mumble Port ${port}"
 else
-	ip=""
 	port="UNKNOWN"
 	servername="Mumble"
 fi
