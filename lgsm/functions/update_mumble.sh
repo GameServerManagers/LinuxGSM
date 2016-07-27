@@ -143,12 +143,16 @@ fi
 }
 
 fn_update_mumble_dl(){
-mumblefilename="murmur-static_${mumblearch}-${mumble_version_number}.tar.bz2"
-fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${mumblefilename}" "${lgsmdir}/tmp" "${mumblefilename}"
-fn_dl_extract "${lgsmdir}/tmp" "${mumblefilename}" "${lgsmdir}/tmp"
+mumblebuildname="murmur-static_${mumblearch}-${availablebuild}"
+if [ ! -f "${lgsmdir}/tmp" ]; then
+	mkdir ${lgsmdir}/tmp
+fi
+fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${mumblebuildname}.tar.bz2" "${lgsmdir}/tmp" "${mumblebuildname}.tar.bz2"
+fn_dl_extract "${lgsmdir}/tmp" "${mumblebuildname}" "${lgsmdir}/tmp"
 echo -e "copying to ${filesdir}...\c"
 fn_script_log "Copying to ${filesdir}"
-cp -R "${lgsmdir}/tmp/murmur-static_${mumblearch}-${mumble_version_number}/"* "${filesdir}"
+cp -R "${lgsmdir}/tmp/murmur-static_${mumblearch}-${availablebuild}/"* "${filesdir}"
+rm -R ${lgsmdir}/tmp
 local exitcode=$?
 if [ ${exitcode} -eq 0 ]; then
 	fn_print_ok_eol_nl
@@ -157,7 +161,7 @@ else
 fi
 }
 
-fn_update_mubmle_arch
+fn_update_mumble_arch
 if [ "${installer}" == "1" ]; then
 	fn_update_mumble_availablebuild
 	fn_update_mumble_dl
