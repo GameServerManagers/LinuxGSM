@@ -17,7 +17,7 @@ check_deps.sh
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_server_files.sh
 	install_ut2k4_key.sh
-elif [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Teamspeak 3" ]||[ "${gamename}" == "Mumble" ]; then
 	installer=1
 	install_server_files.sh
 elif [ -n "${appid}" ]; then
