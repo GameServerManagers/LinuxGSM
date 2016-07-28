@@ -17,6 +17,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# fix for older TeamSpeak 3 scripts
+if [ "${gamename}" == "Teamspeak 3" ]; then 
+	gamename = "TeamSpeak 3" 
+fi
 
 # fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
 if [ -z "${lgsmdir}" ]; then

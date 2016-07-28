@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_start.sh function
+# LGSM command_restart.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Restarts the server.
