@@ -28,7 +28,7 @@ fn_alert_restart_query(){
 fn_alert_update(){
 	fn_script_log_info "Sending update alert"
 	alertsubject="LGSM - Updated - ${servername}"
-	alertbody="${servicename} recieved update"
+	alertbody="${servicename} received update"
 }
 
 if [ "${alert}" == "restart" ]; then
@@ -41,9 +41,9 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 fi
 
-if [ "${emailnotification}" == "on" ]||[ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
+if [ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
-elif [ "${emailnotification}" != "on" ]||[ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "Email alerts not enabled"
 	fn_script_log_warn "Email alerts not enabled"
 elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then

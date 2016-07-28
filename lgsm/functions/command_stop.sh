@@ -239,7 +239,7 @@ fn_stop_tmux(){
 
 # checks if the server is already stopped before trying to stop.
 fn_stop_pre_check(){
-	if [ "${gamename}" == "Teamspeak 3" ]; then
+	if [ "${gamename}" == "TeamSpeak 3" ]; then
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_info_nl "${servername} is already stopped"

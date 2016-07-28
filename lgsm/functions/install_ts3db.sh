@@ -3,6 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
 # Website: https://gameservermanagers.com
+# Description: Installs the database server MariaDB for TeamSpeak 3.
 
 local commandname="INSTALL"
 local commandaction="Install"

@@ -2,6 +2,7 @@
 # LGSM check_root.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Checks if the user tried to run the script as root.
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

@@ -2,7 +2,7 @@
 # LGSM command_debug.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Runs the server without tmux. Runs direct from the terminal.
+# Description: Runs the server without tmux and directly from the terminal.
 
 local commandname="DEBUG"
 local commandaction="Debug"

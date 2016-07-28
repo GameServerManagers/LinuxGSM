@@ -143,6 +143,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds
+# Terraria
 elif [ "${engine}" == "terraria" ]; then
 	fn_info_config_terraria
 # Unreal/Unreal 2 engine

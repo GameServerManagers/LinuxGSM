@@ -2,6 +2,7 @@
 # LGSM install_server_files.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Installs server files.
 
 local commandname="INSTALL"
 local commandaction="Install"
@@ -46,8 +47,8 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			# Detects if unbuffer command is available.
-            if  [ $(command -v stdbuf) ]; then
-		            unbuffer="stdbuf -i0 -o0 -e0"
+			if  [ $(command -v stdbuf) ]; then
+				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
 			if [ "${counter}" -le "4" ]; then
@@ -92,7 +93,7 @@ echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
 
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files

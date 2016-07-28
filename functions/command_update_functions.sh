@@ -13,7 +13,7 @@ fn_script_log "Updating functions"
 sleep 1
 echo -ne "\n"
 
-# Removed legecy functions dir
+# Removed legacy functions dir
 if [ -n "${rootdir}" ]; then
 	if [ -d "${rootdir}/functions/" ]; then
 		rm -rfv "${rootdir}/functions/"

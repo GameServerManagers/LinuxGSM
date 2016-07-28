@@ -150,7 +150,7 @@ fn_details_gameserver(){
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
 
-		# Teamspeak dbplugin
+		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
 			echo -e "${blue}dbplugin:\t${default}${dbplugin}"
 		fi
@@ -286,7 +286,7 @@ fn_details_ports(){
 	echo -e "Change ports by editing the parameters in:"
 
 	parmslocation="${red}UNKNOWN${default}"
-	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "Teamspeak 3" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -569,7 +569,7 @@ fn_details_gameserver
 fn_details_script
 fn_details_backup
 # Some game servers do not have parms.
-if [ "${gamename}" != "Teamspeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
+if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
 	fn_parms
 	fn_details_commandlineparms
 fi
@@ -606,7 +606,7 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 	fn_details_hurtworld
 elif [ "${gamename}" == "7 Days To Die" ]; then
 	fn_details_sdtd
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_details_teamspeak3
 elif [ "${gamename}" == "Rust" ]; then
 	fn_details_rust
