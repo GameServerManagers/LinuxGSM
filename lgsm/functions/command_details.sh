@@ -43,8 +43,8 @@ fn_details_performance(){
 	# Uptime:    55d, 3h, 38m
 	# Avg Load:  1.00, 1.01, 0.78
 	#
-	# Mem:       total   used   free
-	# Physical:  741M    656M   85M
+	# Mem:       total   used   free  cached
+	# Physical:  741M    656M   85M   256M 
 	# Swap:      0B      0B     0B
 
 	echo -e ""
@@ -56,8 +56,8 @@ fn_details_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${blue}Mem:\t${blue}total\t used\t free${default}"
-		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}${default}"
+		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached${default}"
+		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 }

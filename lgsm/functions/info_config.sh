@@ -314,6 +314,54 @@ fn_info_config_unreal(){
 	fi
 }
 
+fn_info_config_sdtd(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		webadminenabled="${unavailable}"
+		webadminport="${zero}"
+		webadminpass="${unavailable}"
+		telnetenabled="${unavailable}"
+		telnetport="${zero}"
+		telnetpass="${unavailable}"
+		slots="${unavailable}"
+		gamemode="${unavailable}"
+		gameworld="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$((port + 1))
+
+		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+
+		slots=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		gameworld=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		webadminenabled=${webadminenabled:-"NOT SET"}
+		webadminport=${webadminport:-"0"}
+		webadminpass=${webadminpass:-"NOT SET"}
+		telnetenabled=${telnetenabled:-"NOT SET"}
+		telnetport=${telnetport:-"0"}
+		telnetpass=${telnetpass:-"NOT SET"}
+		slots=${slots:-"NOT SET"}
+		gamemode=${gamemode:-"NOT SET"}
+		gameworld=${gameworld:-"NOT SET"}
+	fi
+}
 ## Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
@@ -352,4 +400,7 @@ elif [ "${engine}" == "terraria" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal
+# 7 Day To Die (unity3d)
+elif [ "${gamename}" == "7 Days To Die" ]; then
+	fn_info_config_sdtd
 fi
