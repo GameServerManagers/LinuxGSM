@@ -5,9 +5,13 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
-# Fix for TeamSpeak 3 scripts using gamename="Teamspeak 3"
-if [ "${gamename}" == "Teamspeak 3" ]; then 
-	gamename="TeamSpeak 3" 
+# Fixes legacy code
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	gamename="TeamSpeak 3"
+fi
+
+if [ "${emailnotification}" == "on" ]; then
+    emailalert="on"
 fi
 
 # Code/functions for legacy servers
