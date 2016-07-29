@@ -392,6 +392,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_mumble.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

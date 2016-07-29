@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM check_status.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Checks the process status of the server. Either online or offline.
 
@@ -17,6 +18,16 @@ if [ "${gamename}" == "TeamSpeak 3" ]; then
 	else
 		ts3error="${status}"
 		status=0
+	fi
+	
+elif [ "${gamename}" == "Mumble" ]; then
+	# 1: Server is listening
+	# 0: Server is not listening, considered closed
+	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep 64738 | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
+	if [ -z "${mumblepid}" ]; then
+		status=0
+	else
+		status=1
 	fi
 else
 	status=$(tmux list-sessions 2>&1 | awk '{print $1}' | grep -Ec "^${servicename}:")

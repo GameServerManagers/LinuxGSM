@@ -47,6 +47,7 @@ fn_update_ts3_currentbuild(){
 		fi
 	fi
 
+	# Get current build from logs
 	currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egrep -E -v '${rootdir}/.ts3version' | tail -1) | egrep -o 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
@@ -76,52 +77,52 @@ elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
 	echo ""
-	fn_print_failure "unknown or unsupported architecture: ${arch}"
-	fn_script_log_fatal "unknown or unsupported architecture: ${arch}"
+	fn_print_failure "Unknown or unsupported architecture: ${arch}"
+	fn_script_log_fatal "Unknown or unsupported architecture: ${arch}"
 	core_exit.sh
 fi
 }
 
 fn_update_ts3_availablebuild(){
-# Gets availablebuild info.
+	# Gets latest build info.
 
-# Creates tmp dir if missing
-if [ ! -d "${lgsmdir}/tmp" ]; then
-	mkdir -p "${lgsmdir}/tmp"
-fi
-
-# Grabs all version numbers but not in correct order.
-wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
-
-# Sort version numbers
-cat "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
-
-# Finds directory with most recent server version.
-while read ts3_version_number; do
-	wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
-	if [ $? -eq 0 ]; then
-		availablebuild="${ts3_version_number}"
-		# Break while-loop, if the latest release could be found.
-		break
+	# Creates tmp dir if missing
+	if [ ! -d "${lgsmdir}/tmp" ]; then
+		mkdir -p "${lgsmdir}/tmp"
 	fi
-done < "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
 
-# Tidy up
-rm -f "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
-rm -f "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+	# Grabs all version numbers but not in correct order.
+	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
 
-# Checks availablebuild info is available
-if [ -z "${availablebuild}" ]; then
-	fn_print_fail "Checking for update: teamspeak.com"
-	sleep 1
-	fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
-	fn_script_log_fatal "Failure! Checking for update: teamspeak.com: Not returning version info"
-	core_exit.sh
-else
-	fn_print_ok_nl "Checking for update: teamspeak.com"
-	fn_script_log_pass "Checking for update: teamspeak.com"
-	sleep 1
-fi
+	# Sort version numbers
+	cat "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+
+	# Finds directory with most recent server version.
+	while read ts3_version_number; do
+		wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
+		if [ $? -eq 0 ]; then
+			availablebuild="${ts3_version_number}"
+			# Break while-loop, if the latest release could be found.
+			break
+		fi
+	done < "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+
+	# Tidy up
+	rm -f "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
+	rm -f "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+
+	# Checks availablebuild info is available
+	if [ -z "${availablebuild}" ]; then
+		fn_print_fail "Checking for update: teamspeak.com"
+		sleep 1
+		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
+		fn_script_log_fatal "Failure! Checking for update: teamspeak.com: Not returning version info"
+		core_exit.sh
+	else
+		fn_print_ok_nl "Checking for update: teamspeak.com"
+		fn_script_log_pass "Checking for update: teamspeak.com"
+		sleep 1
+	fi
 }
 
 fn_update_ts3_compare(){
@@ -133,8 +134,8 @@ fn_update_ts3_compare(){
 		echo -e "\n"
 		echo -e "Update available:"
 		sleep 1
-		echo -e "	Current build: ${red}${currentbuild} ${architecture}${default}"
-		echo -e "	Available build: ${green}${availablebuild} ${architecture}${default}"
+		echo -e "	Current build: ${red}${currentbuild} ${ts3arch}${default}"
+		echo -e "	Available build: ${green}${availablebuild} ${ts3arch}${default}"
 		echo -e ""
 		sleep 1
 		echo ""
