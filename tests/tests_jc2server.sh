@@ -179,19 +179,19 @@ fn_setstatus(){
 		else
 			(command_stop.sh > /dev/null 2>&1)
 		fi
-    	if [ "${counter}" -gt "5" ]; then
-    		currentstatus="FAIL"
-    		echo "Current status:  ${currentstatus}"
-    		echo ""
-    		echo "Unable to start or stop server."
-    		exit 1
-    	fi
-    done
-    echo -ne "New status:  ${currentstatus}\\r"
-    echo -e "\n"
-    echo "Test starting:"
-    echo ""
-    sleep 0.5
+		if [ "${counter}" -gt "5" ]; then
+			currentstatus="FAIL"
+			echo "Current status:  ${currentstatus}"
+			echo ""
+			echo "Unable to start or stop server."
+			exit 1
+		fi
+	done
+	echo -ne "New status:  ${currentstatus}\\r"
+	echo -e "\n"
+	echo "Test starting:"
+	echo ""
+	sleep 0.5
 }
 
 # End of every test will expect the result to either pass or fail
@@ -465,7 +465,7 @@ echo ""
 echo "4.8 - validate - online"
 echo "================================="
 echo "Description:"
-echo "validate server files while server while already running."
+echo "validate server files while server already running."
 echo ""
 echo "Command: ./jc2server validate"
 requiredstatus="ONLINE"

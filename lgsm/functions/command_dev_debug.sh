@@ -2,7 +2,7 @@
 # LGSM command_dev_debug.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Dev only: enables debuging log to be saved to dev-debug.log.
+# Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
 local commandname="DEV-DEBUG"
 local commandaction="Dev-Debug"

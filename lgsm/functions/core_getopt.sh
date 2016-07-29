@@ -87,7 +87,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -142,7 +142,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	b|backup)
 		command_backup.sh;;
@@ -197,7 +197,7 @@ case "${getopt}" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -260,7 +260,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -328,7 +328,7 @@ case "${getopt}" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -392,7 +392,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -445,7 +445,7 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${gamename}" == "Garry's Mod" ]; then
 	fn_getopt_gmodserver

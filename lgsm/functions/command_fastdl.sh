@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Creates a FastDL folder
+# Description: Creates a FastDL folder.
 
 local commandname="FASTDL"
 local commandaction="FastDL"

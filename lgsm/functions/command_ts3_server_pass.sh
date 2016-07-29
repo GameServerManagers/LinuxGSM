@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Changes TS3 serveradmin password
+# Description: Changes TS3 serveradmin password.
 
 local commandname="TS3-CHANGE-PASS"
 local commandaction="TS3 Change Password"

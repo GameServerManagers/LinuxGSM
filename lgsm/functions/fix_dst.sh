@@ -2,7 +2,7 @@
 # LGSM fix_dst.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Resolves various issues with Dont Starve together.
+# Description: Resolves various issues with Don't Starve Together.
 
 local commandname="FIX"
 local commandaction="Fix"
