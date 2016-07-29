@@ -15,7 +15,6 @@ fn_update_mumble_dl(){
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
 	cp -R "${lgsmdir}/tmp/murmur-static_${mumblearch}-${availablebuild}/"* "${filesdir}"
-	rm -R "${lgsmdir}/tmp"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
