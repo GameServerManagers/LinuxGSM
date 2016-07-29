@@ -5,7 +5,7 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
-# Fixes legacy code
+# Fixes for legacy code
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	gamename="TeamSpeak 3"
 fi
