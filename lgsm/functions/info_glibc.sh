@@ -2,7 +2,7 @@
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: stores details on servers Glibc requirements.
+# Description: Stores details on servers Glibc requirements.
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 

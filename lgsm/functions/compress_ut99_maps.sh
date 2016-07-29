@@ -2,7 +2,7 @@
 # LGSM compress_ut99_maps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: compresses unreal maps
+# Description: Compresses unreal maps.
 
 local commandaction="Unreal Map Compressor"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

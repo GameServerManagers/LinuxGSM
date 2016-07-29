@@ -2,7 +2,7 @@
 # LGSM alert_email.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Sends email alert if monitor picks up a failure.
+# Description: Sends email alert including server details and logs.
 
 local commandname="ALERT"
 local commandaction="Alert"

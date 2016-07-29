@@ -18,7 +18,7 @@ fn_fetch_function
 }
 
 
-# fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
+# fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
 if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"

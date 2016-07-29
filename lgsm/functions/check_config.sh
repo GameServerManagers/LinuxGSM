@@ -2,7 +2,7 @@
 # LGSM check_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: If server config missing warn user.
+# Description: Checks if the server config is missing and warns the user if needed.
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

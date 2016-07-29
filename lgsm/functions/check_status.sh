@@ -2,7 +2,7 @@
 # LGSM check_status.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Checks the proccess status of the server. Either online or offline.
+# Description: Checks the process status of the server. Either online or offline.
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

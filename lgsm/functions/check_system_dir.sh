@@ -2,6 +2,7 @@
 # LGSM check_system_dir.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Checks if systemdir is accessible.
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
