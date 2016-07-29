@@ -2,10 +2,9 @@
 # LGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Checks SteamCMD is installed and correct.
 
+local commandname="CHECK"
 
 fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then
@@ -20,18 +19,18 @@ fn_install_steamcmd(){
 fn_check_steamcmd_user(){
 	# Checks steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
-		fn_print_fail_nl "Steam login not set. Update steamuser."
+		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}."
 		echo "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${scriptlogdir}" ]; then
-			fn_scriptlog "edit ${selfname}. change steamuser=\"username\" to a valid steam login."
-			exit 1
+			fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}."
 		fi
+		core_exit.sh
 	fi
 	# Anonymous user is set if steamuser is missing
 	if [ -z "${steamuser}" ]; then
-		fn_print_warn_nl "Steam login not set. Using anonymous login."
+		fn_print_error_nl "Steam login not set. Using anonymous login."
 		if [ -d "${scriptlogdir}" ]; then
-			fn_scriptlog "Steam login not set. Using anonymous login."
+			fn_script_log_error "Steam login not set. Using anonymous login."
 		fi
 		steamuser="anonymous"
 		steampass=""
@@ -47,8 +46,8 @@ fn_check_steamcmd_sh(){
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
 		else
-			fn_print_warn_nl "SteamCMD is missing"
-			fn_scriptlog "SteamCMD is missing"
+			fn_print_error_nl "SteamCMD is missing"
+			fn_script_log_error "SteamCMD is missing"
 			sleep 1
 			fn_install_steamcmd
 		fi
@@ -70,4 +69,5 @@ fn_check_steamcmd_guard(){
 
 fn_check_steamcmd_user
 fn_check_steamcmd_sh
-fn_check_steamcmd_guard
+# stdbuf has now replaced unbuffer. This shoudl no longer be required
+#fn_check_steamcmd_guard

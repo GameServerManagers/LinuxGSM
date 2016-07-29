@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM core_getopt.sh function
+# LGSM fn_getopt function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 lgsm_version="210516"

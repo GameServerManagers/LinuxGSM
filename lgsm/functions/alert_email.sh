@@ -1,13 +1,12 @@
 #!/bin/bash
-# LGSM email.sh function
+# LGSM alert_email.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Sends email alert if monitor picks up a failure.
 
-local modulename="Alert"
-
+local commandname="ALERT"
+local commandaction="Alert"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_details_email(){
 	#
@@ -214,7 +213,8 @@ fn_alert_email_template_logs(){
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
-fn_print_dots "Sending alert to ${email}"
+fn_print_dots "Sending alert: ${email}"
+fn_script_log_info "Sending alert: ${email}"
 info_distro.sh
 info_config.sh
 info_glibc.sh
@@ -233,9 +233,9 @@ fn_alert_email_template_logs
 mail -s "${alertsubject}" "${email}" < "${emaillog}"
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
-	fn_print_ok_nl "Sending alert to ${email}"
-	fn_scriptlog "Success! Sending alert to ${email}"
+	fn_print_ok_nl "Sending alert: ${email}"
+	fn_script_log_pass "Sending alert: ${email}"
 else
-	fn_print_fail_nl "Sending alert to ${email}"
-	fn_scriptlog "Failure! Sending alert to ${email}"
+	fn_print_fail_nl "Sending alert: ${email}"
+	fn_script_log_fatal "Sending alert: ${email}"
 fi

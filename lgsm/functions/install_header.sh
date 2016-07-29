@@ -2,9 +2,10 @@
 # LGSM install_header.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
-local modulename="Install"
+local commandname="INSTALL"
+local commandaction="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 clear
 echo "================================="

@@ -2,9 +2,11 @@
 # LGSM fix_dst.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Resolves various issues with Dont Starve together.
+
+local commandname="FIX"
+local commandaction="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: ./dontstarve_dedicated_server_nullrenderer: ./lib32/libcurl-gnutls.so.4: no version information available (required by ./dontstarve_dedicated_server_nullrenderer)
 # Issue only occures on CentOS as libcurl-gnutls.so.4 is called libcurl.so.4 on CentOS.

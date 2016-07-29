@@ -2,7 +2,11 @@
 # LGSM fix_kf.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+# Description: Resolves various issues with Killing Floor.
+
+local commandname="FIX"
+local commandaction="Fix"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "Applying WebAdmin ROOst.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

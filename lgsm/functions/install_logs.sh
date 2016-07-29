@@ -2,9 +2,10 @@
 # LGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
 
-local modulename="Install"
+local commandname="INSTALL"
+local commandaction="Install"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
@@ -40,4 +41,4 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 	fi
 fi
 sleep 1
-fn_scriptlog "logs installed"
+fn_script_log_info "Logs installed"

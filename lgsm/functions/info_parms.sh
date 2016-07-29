@@ -2,9 +2,9 @@
 # LGSM info_parms.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
+# Description: Gets specific details from server parameters.
 
-# Description: Gets specific details server parameters.
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -12,8 +12,8 @@ lgsm_version="210516"
 # tr -d '=\"; ' remove selected charectors =\";
 # grep -v "foo" filter out lines that contain foo
 
-unavailable="\e[0;31mUNAVAILABLE\e[0m"
-zero="\e[0;31m0\e[0m"
+unavailable="${red}UNAVAILABLE${default}"
+zero="${red}0${default}"
 
 
 fn_info_config_idtech3(){
@@ -43,30 +43,6 @@ fn_info_config_source(){
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
 	clientport=${clientport:-"0"}
-}
-
-fn_info_config_teamspeak3(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		dbplugin="${unavailable}"
-		port="9987"
-		queryport="10011"
-		fileport="30033"
-	else
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(grep "voice_ip=" "${servercfgfullpath}" | sed 's/\voice_ip=//g')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
-		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}" | sed 's/\dbplugin=//g')
-		port=$(grep "default_voice_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$(grep "query_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		fileport=$(grep "filetransfer_port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not Set
-		port=${port:-"9987"}
-		queryport=${queryport:-"10011"}
-		fileport=${fileport:-"30033"}
-	fi
 }
 
 fn_info_config_teeworlds(){
@@ -164,8 +140,6 @@ elif [ "${engine}" == "seriousengine35" ]; then
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
-elif [ "${gamename}" == "Teamspeak 3" ]; then
-	fn_info_config_teamspeak3
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds

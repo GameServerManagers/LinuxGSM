@@ -2,11 +2,11 @@
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Displays server infomation.
 
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local commandname="DETAILS"
+local commandaction="Details"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Standard Details
 # This applies to all engines
@@ -23,15 +23,15 @@ fn_details_os(){
 	# GLIBC:     2.19
 
 	echo -e ""
-	echo -e "\e[93mDistro Details\e[0m"
+	echo -e "${lightyellow}Distro Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mDistro:\t\e[0m${os}"
-		echo -e "\e[34mArch:\t\e[0m${arch}"
-		echo -e "\e[34mKernel:\t\e[0m${kernel}"
-		echo -e "\e[34mHostname:\t\e[0m$HOSTNAME"
-		echo -e "\e[34mtmux:\t\e[0m${tmuxv}"
-		echo -e "\e[34mGLIBC:\t\e[0m${glibcversion}"
+		echo -e "${blue}Distro:\t${default}${os}"
+		echo -e "${blue}Arch:\t${default}${arch}"
+		echo -e "${blue}Kernel:\t${default}${kernel}"
+		echo -e "${blue}Hostname:\t${default}$HOSTNAME"
+		echo -e "${blue}tmux:\t${default}${tmuxv}"
+		echo -e "${blue}GLIBC:\t${default}${glibcversion}"
 	} | column -s $'\t' -t
 }
 
@@ -42,22 +42,22 @@ fn_details_performance(){
 	# Uptime:    55d, 3h, 38m
 	# Avg Load:  1.00, 1.01, 0.78
 	#
-	# Mem:       total   used   free
-	# Physical:  741M    656M   85M
+	# Mem:       total   used   free  cached
+	# Physical:  741M    656M   85M   256M 
 	# Swap:      0B      0B     0B
 
 	echo -e ""
-	echo -e "\e[93mPerformance\e[0m"
+	echo -e "${lightyellow}Performance${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mUptime:\t\e[0m${days}d, ${hours}h, ${minutes}m"
-		echo -e "\e[34mAvg Load:\t\e[0m${load}"
+		echo -e "${blue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
+		echo -e "${blue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "\e[34mMem:\t\e[34mtotal\t used\t free\e[0m"
-		echo -e "\e[34mPhysical:\t\e[0m${physmemtotal}\t${physmemused}\t${physmemfree}\e[0m"
-		echo -e "\e[34mSwap:\t\e[0m${swaptotal}\t${swapused}\t${swapfree}\e[0m"
+		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached${default}"
+		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}${default}"
+		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 }
 
@@ -69,19 +69,22 @@ fn_details_disk(){
 	# Total:        15G
 	# Used:         8.4G
 	# Available:    5.7G
+	# LGSM Total:	1G
 	# Serverfiles:  961M
+	# Backups:  	2G
 
 	echo -e ""
-	echo -e "\e[93mStorage\e[0m"
+	echo -e "${lightyellow}Storage${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mFilesystem:\t\e[0m${filesystem}"
-		echo -e "\e[34mTotal:\t\e[0m${totalspace}"
-		echo -e "\e[34mUsed:\t\e[0m${usedspace}"
-		echo -e "\e[34mAvailable:\t\e[0m${availspace}"
-		echo -e "\e[34mServerfiles:\t\e[0m${filesdirdu}"
+		echo -e "${blue}Filesystem:\t${default}${filesystem}"
+		echo -e "${blue}Total:\t${default}${totalspace}"
+		echo -e "${blue}Used:\t${default}${usedspace}"
+		echo -e "${blue}Available:\t${default}${availspace}"
+		echo -e "${blue}LGSM Total:\t${default}${rootdirdu}"
+		echo -e "${blue}Serverfiles:\t${default}${filesdirdu}"
 		if [ -d "${backupdir}" ]; then
-			echo -e "\e[34mBackups:\t\e[0m${backupdirdu}"
+			echo -e "${blue}Backups:\t${default}${backupdirdu}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -98,65 +101,65 @@ fn_details_gameserver(){
 	# Status:           OFFLINE
 
 	echo -e ""
-	echo -e "\e[92m${gamename} Server Details\e[0m"
+	echo -e "${lightgreen}${gamename} Server Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		# Server name
-		echo -e "\e[34mServer name:\t\e[0m${servername}"
+		echo -e "${blue}Server name:\t${default}${servername}"
 
 		# Server ip
-		echo -e "\e[34mServer IP:\t\e[0m${ip}:${port}"
+		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 
 		# Server password
 		if [ -n "${serverpassword}" ]; then
-			echo -e "\e[34mServer password:\t\e[0m${serverpassword}"
+			echo -e "${blue}Server password:\t${default}${serverpassword}"
 		fi
 
 		# RCON password
 		if [ -n "${rconpassword}" ]; then
-			echo -e "\e[34mRCON password:\t\e[0m${rconpassword}"
+			echo -e "${blue}RCON password:\t${default}${rconpassword}"
 		fi
 
 		# Admin password
 		if [ -n "${adminpassword}" ]; then
-			echo -e "\e[34mAdmin password:\t\e[0m${adminpassword}"
+			echo -e "${blue}Admin password:\t${default}${adminpassword}"
 		fi
 
 		# Stats password (Quake Live)
 		if [ -n "${statspassword}" ]; then
-			echo -e "\e[34mStats password:\t\e[0m${statspassword}"
+			echo -e "${blue}Stats password:\t${default}${statspassword}"
 		fi
 
 		# Slots
 		if [ -n "${slots}" ]; then
-			echo -e "\e[34mSlots:\t\e[0m${slots}"
+			echo -e "${blue}Slots:\t${default}${slots}"
 		fi
 
 		# Game mode
 		if [ -n "${gamemode}" ]; then
-			echo -e "\e[34mGame mode:\t\e[0m${gamemode}"
+			echo -e "${blue}Game mode:\t${default}${gamemode}"
 		fi
 
 		# Game world
 		if [ -n "${gameworld}" ]; then
-			echo -e "\e[34mGame world:\t\e[0m${gameworld}"
+			echo -e "${blue}Game world:\t${default}${gameworld}"
 		fi
 
 		# Tick rate
 		if [ -n "${tickrate}" ]; then
-			echo -e "\e[34mTick rate:\t\e[0m${tickrate}"
+			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
 
 		# Teamspeak dbplugin
 		if [ -n "${dbplugin}" ]; then
-			echo -e "\e[34mdbplugin:\t\e[0m${dbplugin}"
+			echo -e "${blue}dbplugin:\t${default}${dbplugin}"
 		fi
 
 		# Online status
 		if [ "${status}" == "0" ]; then
-			echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
+			echo -e "${blue}Status:\t${red}OFFLINE${default}"
 		else
-			echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
+			echo -e "${blue}Status:\t${green}ONLINE${default}"
 		fi
 	} | column -s $'\t' -t
 	echo -e ""
@@ -174,58 +177,61 @@ fn_details_script(){
 	# Location:            /home/lgsm/qlserver
 	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
 
-	echo -e "\e[92m${selfname} Script Details\e[0m"
+	echo -e "${lightgreen}${selfname} Script Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		# Service name
-		echo -e "\e[34mService name:\t\e[0m${servicename}"
+		echo -e "${blue}Service name:\t${default}${servicename}"
 
 		# Script version
 		if [ -n "${version}" ]; then
-			echo -e "\e[34m${selfname} version:\t\e[0m${version}"
+			echo -e "${blue}${selfname} version:\t${default}${version}"
 		fi
 
 		# User
-		echo -e "\e[34mUser:\t\e[0m$(whoami)"
+		echo -e "${blue}User:\t${default}$(whoami)"
 
 		# GLIBC required
 		if [ -n "${glibcrequired}" ]; then
 			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
 					:
 			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired}"
+				echo -e "${blue}GLIBC required:\t${red}${glibcrequired}"
 			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 				if [ "${glibcfix}" == "yes" ]; then
-					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;32mUsing GLIBC fix\e[0m)"
+					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
 				else
-					echo -e "\e[34mGLIBC required:\t\e[0;31m${glibcrequired} \e[0m(\e[0;31mGLIBC version too old\e[0m)"
+					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC version too old${default})"
 				fi
 			else
-				echo -e "\e[34mGLIBC required:\t\e[0;32m${glibcrequired}\e[0m"
+				echo -e "${blue}GLIBC required:\t${green}${glibcrequired}${default}"
 			fi
 		fi
 
 		# Email alert
-		echo -e "\e[34mEmail alert:\t\e[0m${emailalert}"
+		echo -e "${blue}Email alert:\t${default}${emailalert}"
+
+		# Pushbullet alert
+		echo -e "${blue}Pushbullet alert:\t${default}${pushbulletalert}"
 
 		# Update on start
-		echo -e "\e[34mUpdate on start:\t\e[0m${updateonstart}"
+		echo -e "${blue}Update on start:\t${default}${updateonstart}"
 
 		# Script location
-		echo -e "\e[34mLocation:\t\e[0m${rootdir}"
+		echo -e "${blue}Location:\t${default}${rootdir}"
 
 		# Config file location
 		if [ -n "${servercfgfullpath}" ]; then
 			if [ -f "${servercfgfullpath}" ]; then
-				echo -e "\e[34mConfig file:\t\e[0m${servercfgfullpath}"
+				echo -e "${blue}Config file:\t${default}${servercfgfullpath}"
 			else
-				echo -e "\e[34mConfig file:\t\e[0m\e[0;31m${servercfgfullpath}\e[0m (\e[0;31mFILE MISSING\e[0m)"
+				echo -e "${blue}Config file:\t${default}${red}${servercfgfullpath}${default} (${red}FILE MISSING${default})"
 			fi
 		fi
 
 		# Network config file location (ARMA 3)
 		if [ -n "${networkcfgfullpath}" ]; then
-			echo -e "\e[34mNetwork config file:\t\e[0m${networkcfgfullpath}"
+			echo -e "${blue}Network config file:\t${default}${networkcfgfullpath}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -241,17 +247,17 @@ fn_details_backup(){
 	#     size:          945M
 
 	echo -e ""
-	echo -e "\e[92mBackups\e[0m"
+	echo -e "${lightgreen}Backups${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 		echo -e "No Backups created"
 	else
 		{
-			echo -e "\e[34mNo. of backups:\t\e[0m${backupcount}"
-			echo -e "\e[34mLatest backup:\e[0m"
-			echo -e "\e[34m    date:\t\e[0m${lastbackupdate}"
-			echo -e "\e[34m    file:\t\e[0m${lastbackup}"
-			echo -e "\e[34m    size:\t\e[0m${lastbackupsize}"
+			echo -e "${blue}No. of backups:\t${default}${backupcount}"
+			echo -e "${blue}Latest backup:${default}"
+			echo -e "${blue}    date:\t${default}${lastbackupdate}"
+			echo -e "${blue}    file:\t${default}${lastbackup}"
+			echo -e "${blue}    size:\t${default}${lastbackupsize}"
 		} | column -s $'\t' -t
 	fi
 }
@@ -263,7 +269,7 @@ fn_details_commandlineparms(){
 	# ./run_server_x86.sh +set net_strict 1
 
 	echo -e ""
-	echo -e "\e[92mCommand-line Parameters\e[0m"
+	echo -e "${lightgreen}Command-line Parameters${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "${executable} ${parms}"
 }
@@ -275,11 +281,11 @@ fn_details_ports(){
 	# /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
 
 	echo -e ""
-	echo -e "\e[92mPorts\e[0m"
+	echo -e "${lightgreen}Ports${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	echo -e "Change ports by editing the parameters in:"
 
-	parmslocation="\e[0;31mUNKNOWN\e[0m"
+	parmslocation="${red}UNKNOWN${default}"
 	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "Teamspeak 3" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
@@ -303,9 +309,9 @@ fn_details_ports(){
 fn_details_statusbottom(){
 	echo -e ""
 	if [ "${status}" == "0" ]; then
-		echo -e "\e[34mStatus:\t\e[0;31mOFFLINE\e[0m"
+		echo -e "${blue}Status:\t${red}OFFLINE${default}"
 	else
-		echo -e "\e[34mStatus:\t\e[0;32mONLINE\e[0m"
+		echo -e "${blue}Status:\t${green}ONLINE${default}"
 	fi
 	echo -e ""
 }
@@ -344,7 +350,7 @@ fn_details_realvirtuality(){
 	echo -e "netstat -atunp | grep arma3server"
 	echo -e ""
 	if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
-		echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+		echo -e "${red}ERROR!${default} Missing/commented ports in ${servercfg}."
 		echo -e ""
 	fi
 	{
@@ -359,7 +365,7 @@ fn_details_idtech3(){
 	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
 	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
-		echo -e "\e[0;31mERROR!\e[0m Missing/commented ports in ${servercfg}."
+		echo -e "${red}ERROR!${default} Missing/commented ports in ${servercfg}."
 		echo -e ""
 	fi
 	{
@@ -404,12 +410,12 @@ fn_details_spark(){
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} WebAdmin\e[0m"
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}/index.html"
-		echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
-		echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
+		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -464,20 +470,20 @@ fn_details_sdtd(){
 		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} WebAdmin\e[0m"
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
-		echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
-		echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} Telnet\e[0m"
+	echo -e "${lightgreen}${servername} Telnet${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mTelnet enabled:\t\e[0m${telnetenabled}"
-		echo -e "\e[34mTelnet address:\t\e[0m${ip} ${telnetport}"
-		echo -e "\e[34mTelnet password:\t\e[0m${telnetpass}"
+		echo -e "${blue}Telnet enabled:\t${default}${telnetenabled}"
+		echo -e "${blue}Telnet address:\t${default}${ip} ${telnetport}"
+		echo -e "${blue}Telnet password:\t${default}${telnetpass}"
 	} | column -s $'\t' -t
 }
 
@@ -529,13 +535,13 @@ fn_details_unreal(){
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "\e[92m${servername} WebAdmin\e[0m"
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "\e[34mWebAdmin enabled:\t\e[0m${webadminenabled}"
-		echo -e "\e[34mWebAdmin url:\t\e[0mhttp://${ip}:${webadminport}"
-		echo -e "\e[34mWebAdmin username:\t\e[0m${webadminuser}"
-		echo -e "\e[34mWebAdmin password:\t\e[0m${webadminpass}"
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -609,3 +615,4 @@ else
 fi
 
 fn_details_statusbottom
+core_exit.sh

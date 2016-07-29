@@ -2,27 +2,29 @@
 # LGSM fix.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
+
+local commandname="FIX"
+local commandaction="Fix"
 
 # Messages that are displayed for some fixes
 fn_fix_msg_start(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
 	sleep 1
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
-	fn_scriptlog "Applying ${fixname} fix: ${gamename}"
+	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
 	sleep 1
 }
 
 fn_fix_msg_end(){
 	if [ $? -ne 0 ]; then
-		fn_print_fail_nl "Applying ${fixname} fix: ${gamename}"
-		fn_scriptlog "Failure! Applying ${fixname} fix: ${gamename}"
+		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
+		fn_script_log_error "Applying ${fixname} fix: ${gamename}"
+		exitcode=2
 	else
 		fn_print_ok_nl "Applying ${fixname} fix: ${gamename}"
-		fn_scriptlog "Complete! Applying ${fixname} fix: ${gamename}"
+		fn_script_log_pass "Applying ${fixname} fix: ${gamename}"
 	fi
 }
 

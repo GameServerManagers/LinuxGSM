@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="230716"
 
 #### Variables ####
 
@@ -62,16 +62,17 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
-executabledir="${filesdir}/linux64"
+executabledir="${filesdir}/linux"
 executable="./starbound_server"
-servercfg="sbboot.config"
-servercfgdir="${executabledir}"
+servercfg="starbound_server.config"
+servercfgdir="${filesdir}/storage"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.config"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${filesdir}/giraffe_storage"
+gamelogdir="${filesdir}/storage"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 consolelogging="on"

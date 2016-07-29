@@ -2,9 +2,9 @@
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-lgsm_version="210516"
-
 # Description: Gets specific details from config files.
+
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -12,8 +12,8 @@ lgsm_version="210516"
 # tr -d '=\"; ' remove selected charectors =\";
 # grep -v "foo" filter out lines that contain foo
 
-unavailable="\e[0;31mUNAVAILABLE\e[0m"
-zero="\e[0;31m0\e[0m"
+unavailable="${red}UNAVAILABLE${default}"
+zero="${red}0${default}"
 
 fn_info_config_avalanche(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -161,6 +161,32 @@ fn_info_config_source(){
 	fi
 }
 
+fn_info_config_starbound(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		rconpassword="${unavailable}"
+		port="21025"
+		queryport="21025"
+		rconport="21026"
+		slots="8"
+	else
+		servername=$(grep "serverName" "${servercfgfullpath}" | sed 's/"serverName" \: //g' | grep -oP '"\K[^"]+(?=["])')
+		rconpassword=$(grep "rconServerPassword" "${servercfgfullpath}" | sed 's/"rconServerPassword" \: //g' | grep -oP '"\K[^"]+(?=["])')
+		port=$(grep "gameServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$(grep "queryServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		rconport=$(grep "rconServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		slots=$(grep "maxPlayers" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		port=${port:-"21025"}
+		queryport=${queryport:-"21025"}
+		rconport=${rconport:-"21026"}
+		slots=${slots:-"8"}
+	fi
+}
+
 fn_info_config_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		dbplugin="${unavailable}"
@@ -267,7 +293,55 @@ fn_info_config_unreal(){
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi
 }
+ 
+fn_info_config_sdtd(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		webadminenabled="${unavailable}"
+		webadminport="${zero}"
+		webadminpass="${unavailable}"
+		telnetenabled="${unavailable}"
+		telnetport="${zero}"
+		telnetpass="${unavailable}"
+		slots="${unavailable}"
+		gamemode="${unavailable}"
+		gameworld="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$((port + 1))
 
+		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')		
+		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+
+		slots=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		gameworld=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		webadminenabled=${webadminenabled:-"NOT SET"}
+		webadminport=${webadminport:-"0"}
+		webadminpass=${webadminpass:-"NOT SET"}
+		telnetenabled=${telnetenabled:-"NOT SET"}
+		telnetport=${telnetport:-"0"}
+		telnetpass=${telnetpass:-"NOT SET"}
+		slots=${slots:-"NOT SET"}
+		gamemode=${gamemode:-"NOT SET"}
+		gameworld=${gameworld:-"NOT SET"}
+	fi
+}
 ## Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
@@ -289,6 +363,9 @@ elif [ "${engine}" == "seriousengine35" ]; then
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
+# Starbound
+elif [ "${engine}" == "starbound" ]; then
+	fn_info_config_starbound
 elif [ "${gamename}" == "Teamspeak 3" ]; then
 	fn_info_config_teamspeak3
 # Teeworlds
@@ -300,4 +377,7 @@ elif [ "${engine}" == "terraria" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal
+# 7 Day To Die (unity3d)
+elif [ "${gamename}" == "7 Days To Die" ]; then
+	fn_info_config_sdtd
 fi
