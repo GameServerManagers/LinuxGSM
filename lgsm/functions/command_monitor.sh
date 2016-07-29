@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Monitors server by checking for running proccesses
+# Description: Monitors server by checking for running processes.
 # then passes to monitor_gsquery.sh.
 
 local commandname="MONITOR"
@@ -108,7 +108,7 @@ info_config.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_msg_checking
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_monitor_teamspeak3
 elif [ "${gamename}" == "Mumble" ]; then
 	fn_monitor_mumble

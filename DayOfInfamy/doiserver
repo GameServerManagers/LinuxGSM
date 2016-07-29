@@ -1,5 +1,5 @@
 #!/bin/bash
-# TeamSpeak 3
+# Day of Infamy
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="290716"
+version="210516"
 
 #### Variables ####
 
@@ -25,13 +25,42 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
+# Steam login
+steamuser="anonymous"
+steampass=""
+
 # Start Variables
+defaultmap="bastogne"
+maxplayers="16"
+tickrate="64"
+port="27015"
+sourcetvport="27020"
+clientport="27005"
+ip="0.0.0.0"
 updateonstart="off"
+workshop="0"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
+fn_parms(){
+parms="-game doi -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers} +sv_workshop_enabled ${workshop}"
+}
+
+#### Advanced Variables ####
+
+# Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="dgibbs64"
+githubrepo="linuxgsm"
+githubbranch="master"
+
+# Steam
+appid="462310"
 
 # Server Details
-gamename="TeamSpeak 3"
-servername="TeamSpeak 3 Server"
-servicename="ts3-server"
+servicename="doi-server"
+gamename="Day of Infamy"
+engine="source"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -40,31 +69,28 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
+systemdir="${filesdir}/doi"
 executabledir="${filesdir}"
-executable="./ts3server_startscript.sh"
-servercfg="${servicename}.ini"
-servercfgdir="${filesdir}"
+executable="./srcds_run"
+servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${filesdir}/logs"
+gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
+consolelogdir="${rootdir}/log/console"
+consolelogging="on"
 
 scriptlog="${scriptlogdir}/${servicename}-script.log"
+consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
-# Github Branch Select
-# Allows for the use of different function files
-# from a different repo and/or branch.
-githubuser="dgibbs64"
-githubrepo="linuxgsm"
-githubbranch="master"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
 ##### Script #####
 # Do not edit

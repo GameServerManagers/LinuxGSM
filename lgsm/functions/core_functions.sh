@@ -5,8 +5,12 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
-# Code/functions for legacy servers
+# Fix for TeamSpeak 3 scripts using gamename="Teamspeak 3"
+if [ "${gamename}" == "Teamspeak 3" ]; then 
+	gamename="TeamSpeak 3" 
+fi
 
+# Code/functions for legacy servers
 fn_functions(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -17,8 +21,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
-# fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
+# fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
 if [ -z "${lgsmdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"

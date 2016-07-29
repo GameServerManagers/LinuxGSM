@@ -2,7 +2,7 @@
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: stores details on servers Glibc requirements.
+# Description: Stores details on servers Glibc requirements.
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
@@ -68,7 +68,7 @@ elif [ "${engine}" == "unreal4" ]; then
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Mumble" ]; then

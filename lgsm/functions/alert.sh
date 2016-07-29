@@ -28,7 +28,7 @@ fn_alert_restart_query(){
 fn_alert_update(){
 	fn_script_log_info "Sending update alert"
 	alertsubject="LGSM - Updated - ${servername}"
-	alertbody="${servicename} recieved update"
+	alertbody="${servicename} received update"
 }
 
 if [ "${alert}" == "restart" ]; then

@@ -2,7 +2,7 @@
 # LGSM fix_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Resolves various issues related to steamCMD.
+# Description: Resolves various issues related to SteamCMD.
 
 local commandname="FIX"
 local commandaction="Fix"

@@ -178,7 +178,7 @@ if [ "${status}" == "0" ]; then
 	fi
 fi
 
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_start_teamspeak3
 else
 	fn_start_tmux

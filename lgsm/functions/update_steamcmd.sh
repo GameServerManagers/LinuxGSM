@@ -2,7 +2,7 @@
 # LGSM update_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description:Handles updating using steamCMD.
+# Description: Handles updating using SteamCMD.
 
 local commandname="UPDATE"
 local commandaction="Update"
