@@ -25,9 +25,6 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-# Pushover
-#Push alot
-
 # Steam login
 steamuser="anonymous"
 steampass=""
