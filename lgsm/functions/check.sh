@@ -62,7 +62,7 @@ done
 local allowed_commands_array=( command_console.sh command_start.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
-	if [ "${allowed_command}" == "${function_selfname}" ]||[ "${gamename}" != "Teamspeak 3" ]; then
+	if [ "${allowed_command}" == "${function_selfname}" ]||[ "${gamename}" != "TeamSpeak 3" ]; then
 		check_tmux.sh
 	fi
 done

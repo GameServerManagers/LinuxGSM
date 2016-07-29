@@ -153,7 +153,7 @@ fn_details_gameserver(){
 			echo -e "Tick rate: ${tickrate}"
 		fi
 
-		# Teamspeak dbplugin
+		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
 			echo -e "dbplugin: ${dbplugin}"
 		fi

@@ -90,7 +90,7 @@ info_config.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_msg_checking
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_monitor_teamspeak3
 else
 	fn_monitor_tmux

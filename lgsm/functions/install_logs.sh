@@ -23,8 +23,8 @@ if [ -n "${consolelogdir}" ]; then
 	touch "${consolelog}"
 fi
 
-# If a server is source or goldsource, Teamspeak 3, Starbound, Project Zomhoid create a symbolic link to the game server logs.
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${gamename}" == "Teamspeak 3" ]||[ "${engine}" == "starbound" ]||[ "${engine}" == "projectzomboid" ]||[ "${engine}" == "unreal" ]; then
+# If a server is source or goldsource, TeamSpeak 3, Starbound, Project Zomhoid create a symbolic link to the game server logs.
+if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${gamename}" == "TeamSpeak 3" ]||[ "${engine}" == "starbound" ]||[ "${engine}" == "projectzomboid" ]||[ "${engine}" == "unreal" ]; then
 	if [ ! -h "${rootdir}/log/server" ]; then
 		ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
 	fi
