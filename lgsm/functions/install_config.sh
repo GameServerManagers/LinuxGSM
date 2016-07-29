@@ -239,6 +239,11 @@ elif [ "${gamename}" == "Day of Defeat: Source" ]; then
 	wget -N /dev/null ${githuburl}/DayOfDefeatSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
+elif [ "${gamename}" == "Day of Infamy" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/DayOfInfamy/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_sourceconfig
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
