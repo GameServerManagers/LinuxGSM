@@ -163,6 +163,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
+	# Project Zomboid
 	elif [ "${engine}" ==  "projectzomboid" ]; then
 		array_deps_required+=( openjdk-7-jre )
 	# Unreal engine
@@ -209,6 +210,7 @@ elif [ -n "$(command -v yum)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
+	# Project Zomboid
 	elif [ "${engine}" ==  "projectzomboid" ]; then
 		array_deps_required+=( java-1.7.0-openjdk )
 	# Unreal engine

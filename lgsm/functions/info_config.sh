@@ -70,17 +70,26 @@ fn_info_config_dontstarve(){
 fn_info_config_projectzomboid(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
 		slots="${zero}"
 		port="${zero}"
+		gameworld="${unavailable}"
 	else
-		servername=$(grep "PublicName=" "${servercfgfullpath}" | sed 's/PublicName=//g' | tr -d '=", \n')
+		servername=$(grep "PublicName=" "${servercfgfullpath}" | sed 's/PublicName=//g' | tr -d '\')
+		serverpassword=$(grep "^Password=$" "${servercfgfullpath}" | sed 's/Password=//g' | tr -d '\')
+		rconpassword=$(grep "RCONPassword=" "${servercfgfullpath}" | sed 's/RCONPassword=//g' | tr -d '\')
 		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gameworld=$(grep "Map=" "${servercfgfullpath}" | sed 's/Map=//g' | tr -d '\n')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
-		slots=${slots:-"0"}
-		port=${port:-"0"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		slots=${slots:-"NOT SET"}
+		port=${port:-"NOT SET"}
+		gameworld=${gameworld:-"NOT SET"}
 	fi
 }
 
