@@ -225,6 +225,7 @@ fn_info_config_mumble(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		port="64738"
 		queryport="${port}"
+		servername="Mumble"
 	else
 		# check if the ip exists in the config file. Failing this will fall back to the default.
 		ipconfigcheck=$(cat "${servercfgfullpath}" | grep "host=" | awk -F'=' '{ print $2}')
@@ -237,6 +238,8 @@ fn_info_config_mumble(){
 		# Not Set
 		port=${port:-"64738"}
 		queryport=${queryport:-"64738"}
+
+		servername="Mumble Port ${port}"
 	fi
 }
 

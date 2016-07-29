@@ -62,14 +62,6 @@ servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
 
-if [ -f "${servercfgfullpath}" ]; then
-	port=$(cat "${servercfgfullpath}" | grep 'port=' | awk -F'=' '{ print $2 }')
-	servername="Mumble Port ${port}"
-else
-	port="UNKNOWN"
-	servername="Mumble"
-fi
-
 # Logging
 logdays="7"
 gamelogdir="${rootdir}/log"
