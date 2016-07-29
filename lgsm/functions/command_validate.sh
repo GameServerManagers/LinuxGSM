@@ -19,7 +19,7 @@ fn_validation(){
 
 	cd "${rootdir}/steamcmd"
 
-    if  [ $(command -v stdbuf) ]; then
+	if [ $(command -v stdbuf) ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
@@ -47,11 +47,11 @@ check.sh
 check_status.sh
 if [ "${status}" != "0" ]; then
 	exitbypass=1
-    command_stop.sh
-    fn_validation
-    exitbypass=1
-    command_start.sh
+	command_stop.sh
+	fn_validation
+	exitbypass=1
+	command_start.sh
 else
-    fn_validation
+	fn_validation
 fi
 core_exit.sh

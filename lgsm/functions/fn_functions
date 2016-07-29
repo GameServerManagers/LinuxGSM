@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 lgsm_version="210516"
 
-# Description: Redirect to new core_functions.sh
+# Description: Redirects to new core_functions.sh
 
 core_functions.sh(){
 # Functions are defined in core_functions.sh.

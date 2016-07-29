@@ -2,6 +2,7 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Creates default server configs.
 
 local commandname="INSTALL"
 local commandaction="Install"
@@ -346,7 +347,7 @@ elif [ "${gamename}" == "Starbound" ]; then
 	sleep 1
 	fn_defaultconfig
 	fn_userinputconfig
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1

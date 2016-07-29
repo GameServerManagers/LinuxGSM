@@ -13,7 +13,7 @@ check.sh
 fn_script_log_info "Updating functions"
 echo -ne "\n"
 
-# Removed legecy functions dir
+# Removed legacy functions dir
 if [ -n "${rootdir}" ]; then
 	if [ -d "${rootdir}/functions/" ]; then
 		rm -rfv "${rootdir}/functions/"
@@ -26,7 +26,7 @@ if [ -n "${functionsdir}" ]; then
 		cd "${functionsdir}"
 		for functionfile in *
 		do
-			# Check curl exists and use available path
+			# Check if curl exists and use available path
 			curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
 			for curlcmd in ${curlpaths}
 			do
