@@ -39,7 +39,7 @@ fn_validation(){
 
 }
 
-fn_print_dots_nl "Validating files:"
+fn_print_dots "Validating files:"
 sleep 0.5
 fn_print_dots_nl "Validating files: SteamCMD"
 sleep 1
