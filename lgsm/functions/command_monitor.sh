@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_monitor.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Monitors server by checking for running processes.
 # then passes to monitor_gsquery.sh.
@@ -54,6 +55,23 @@ fn_monitor_teamspeak3(){
 	fi
 }
 
+fn_monitor_mumble(){
+	if [ "${status}" != "0" ]; then
+		fn_print_ok "Checking session: "
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Checking session: OK"
+	else
+		fn_print_error "Checking session: Not listening to port ${port}"
+		fn_print_fail_eol_nl
+		fn_script_log_error "Checking session: Not listening to port ${port}"
+		failurereason="Checking session: Not listening to port ${port}"
+		alert="restart"
+		alert.sh
+		fn_script_log_info "Monitor is starting ${servername}"
+		sleep 1
+		command_restart.sh
+	fi
+}
 fn_monitor_tmux(){
 	# checks that tmux session is running
 	if [ "${status}" != "0" ]; then
@@ -92,6 +110,8 @@ fn_monitor_check_update
 fn_monitor_msg_checking
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_monitor_teamspeak3
+elif [ "${gamename}" == "Mumble" ]; then
+	fn_monitor_mumble
 else
 	fn_monitor_tmux
 fi

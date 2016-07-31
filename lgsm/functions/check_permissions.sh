@@ -9,21 +9,23 @@ local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_check_ownership(){
-	if [ $(find "${filesdir}" -not -user $(whoami)|wc -l) -ne "0" ]||[ $(find "${rootdir}/${selfname}" -not -user $(whoami)|wc -l) -ne "0" ]; then
-		fn_print_fail_nl "Permissions issues found"
-		fn_script_log_fatal "Permissions issues found"
-		fn_print_infomation_nl "The current user ($(whoami)) does not have ownership of the following files:"
-		fn_script_log_info "The current user ($(whoami)) does not have ownership of the following files:"
-		{
-			echo -e "User\tGroup\tFile\n"
-			find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
-		} | column -s $'\t' -t | tee -a "${scriptlog}"
-		core_exit.sh
+	if [ -d "${filesdir}" ]; then
+		if [ $(find "${filesdir}" -not -user $(whoami)|wc -l) -ne "0" ]||[ $(find "${rootdir}/${selfname}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+			fn_print_fail_nl "Permissions issues found"
+			fn_script_log_fatal "Permissions issues found"
+			fn_print_infomation_nl "The current user ($(whoami)) does not have ownership of the following files:"
+			fn_script_log_info "The current user ($(whoami)) does not have ownership of the following files:"
+			{
+				echo -e "User\tGroup\tFile\n"
+				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+			} | column -s $'\t' -t | tee -a "${scriptlog}"
+			core_exit.sh
+		fi
 	fi
 }
 
 fn_check_permissions(){
-	if [ -n "${functionsdir}" ]; then
+	if [ -d "${functionsdir}" ]; then
 		if [ $(find "${functionsdir}" -type f -not -executable|wc -l) -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"

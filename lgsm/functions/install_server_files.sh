@@ -95,6 +95,8 @@ sleep 1
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
+elif [ "${gamename}" == "Mumble" ]; then
+	update_mumble.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
 fi

@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM core_dl.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Deals with all downloads for LGSM.
 
@@ -117,11 +118,11 @@ fn_fetch_file(){
 			if [ ${filename##*.} == "bz2" ]; then
 				echo -ne "downloading ${filename}..."
 				sleep 1
-				curlcmd=$(${curlcmd} --progress-bar --fail -o "${filedir}/${filename}" "${fileurl}")
+				curlcmd=$(${curlcmd} --progress-bar --fail -L -o "${filedir}/${filename}" "${fileurl}")
 				echo -ne "downloading ${filename}..."
 			else
 				echo -ne "    fetching ${filename}...\c"
-				curlcmd=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${fileurl}" 2>&1)
+				curlcmd=$(${curlcmd} -s --fail -L -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 			fi
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then

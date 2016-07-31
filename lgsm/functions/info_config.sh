@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM info_config.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Gets specific details from config files.
 
@@ -220,6 +221,28 @@ fn_info_config_teamspeak3(){
 	fi
 }
 
+fn_info_config_mumble(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		port="64738"
+		queryport="${port}"
+		servername="Mumble"
+	else
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		ipconfigcheck=$(cat "${servercfgfullpath}" | grep "host=" | awk -F'=' '{ print $2}')
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
+		port=$(cat "${servercfgfullpath}" | grep 'port=' | awk -F'=' '{ print $2 }')
+		queryport="${port}"
+
+		# Not Set
+		port=${port:-"64738"}
+		queryport=${queryport:-"64738"}
+
+		servername="Mumble Port ${port}"
+	fi
+}
+
 fn_info_config_teeworlds(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="unnamed server"
@@ -302,7 +325,7 @@ fn_info_config_unreal(){
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi
 }
- 
+
 fn_info_config_sdtd(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -325,7 +348,7 @@ fn_info_config_sdtd(){
 		queryport=$((port + 1))
 
 		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')		
+		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -378,6 +401,8 @@ elif [ "${engine}" == "starbound" ]; then
 # TeamSpeak 3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_info_config_teamspeak3
+elif [ "${gamename}" == "Mumble" ]; then
+	fn_info_config_mumble
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds
