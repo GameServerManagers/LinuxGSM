@@ -1,0 +1,30 @@
+# Game Settings File
+# doiserver
+# Day of Infamy Dedicated Server
+
+# Import Source Engine
+fn_import_game_settings engines/source
+fn_import_game_settings include/mapcyclefile
+
+# Dependencies
+fn_set_game_setting dependencies  "libc.so.6" "c856f3fcac0a944a36e723b06bdbeb7e"
+fn_set_game_setting dependencies  "libm.so.6" "b6fef88fd045bfcd05fd4036f323855c"
+fn_set_game_setting dependencies  "libpthread.so.0" "50a2a33d3cdd82f15c3de6539db7bf60"
+fn_set_game_setting dependencies  "librt.so.1" "eabf0fc1f81292270343bd0796fc64ca"
+
+# Override some server settings
+fn_set_game_setting settings "executable" "./srcds_linux"
+fn_set_game_setting settings "appid" "447820"
+fn_set_game_setting settings "map" "bastogne"
+fn_set_game_setting settings "game" "doi"
+fn_set_game_setting settings "gamename" "Day of Infamy"
+
+# Add playlist parameter
+fn_set_game_parm parms_plus "sv_playlist" "custom" "Server Playlist"
+
+# Mapcycle
+fn_set_game_parm parms_plus "mapcyclefile" "mapcycle_cooperative.txt"
+
+# Workshop
+fn_set_game_parm parms_plus "sv_workshop_enabled" "--EMPTY--" "Comma-delimited list of workshop items to subscribe to"
+
