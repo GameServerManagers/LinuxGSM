@@ -14,14 +14,16 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 arch=$(uname -m)
 kernel=$(uname -r)
 if [ -n "$(command -v lsb_release)" ]; then
-	os=$(lsb_release -s -d)
+	distroname=$(lsb_release -s -d)
 elif [ -f "/etc/debian_version" ]; then
-	os="Debian $(cat /etc/debian_version)"
+	distroname="Debian $(cat /etc/debian_version)"
 elif [ -f "/etc/redhat-release" ]; then
-	os=$(cat /etc/redhat-release)
+	distroname=$(cat /etc/redhat-release)
 else
-	os="$(uname -s) $(uname -r)"
+	distroname="$(uname -s) $(uname -r)"
 fi
+
+distroversion=$(grep VERSION_ID /etc/os-release |tr -cd '[:digit:]')
 
 ## Glibc version
 # e.g: 1.17
