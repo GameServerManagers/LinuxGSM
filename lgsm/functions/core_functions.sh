@@ -392,6 +392,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_minecraft.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_mumble.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
