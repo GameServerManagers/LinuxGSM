@@ -194,9 +194,9 @@ elif [ -n "$(command -v yum)" ]; then
 
 	# LGSM requirements
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl util-linux-ng python file )
+		array_deps_required=( curl util-linux-ng python file gzip bzip2 )
 	else
-		array_deps_required=( curl util-linux python file )
+		array_deps_required=( curl util-linux python file gzip bzip2 )
 	fi
 
 	# All servers except ts3 require tmux
