@@ -23,11 +23,20 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Minecraft" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${gamename}" == "Mumble" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"
@@ -67,12 +76,6 @@ elif [ "${engine}" == "unreal4" ]; then
 	glibcfix="no"
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
-	glibcfix="no"
-elif [ "${gamename}" == "TeamSpeak 3" ]; then
-	glibcrequired="NOT REQUIRED"
-	glibcfix="no"
-elif [ "${gamename}" == "Mumble" ]; then
-	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"
