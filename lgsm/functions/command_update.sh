@@ -15,6 +15,8 @@ check.sh
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
+elif [ "${engine}" == "minecraft" ]; then
+	update_mumble.sh
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 else
