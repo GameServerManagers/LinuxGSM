@@ -147,9 +147,9 @@ if [ "${installer}" == "1" ]; then
 	fn_update_availablebuild
 	fn_update_dl
 else
-	# Checks for server update from mojang.com.com
-	fn_print_dots "Checking for update: mojang.com.com"
-	fn_script_log_info "Checking for update: mojang.com.com"
+	# Checks for server update from mojang.com
+	fn_print_dots "Checking for update: mojang.com"
+	fn_script_log_info "Checking for update: mojang.com"
 	sleep 1
 	fn_update_currentbuild
 	fn_update_availablebuild
