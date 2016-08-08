@@ -63,7 +63,7 @@ fn_found_missing_deps(){
 	if [ "${#array_deps_missing[@]}" != "0" ]; then
 		fn_print_dots "Checking dependencies"
 		sleep 0.5
-		fn_print_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
+		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
 		fn_script_log_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
 		sleep 1
 		sudo -v > /dev/null 2>&1
@@ -86,7 +86,7 @@ fn_found_missing_deps(){
 			fi
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install dependencies"
-				fn_script_log_fail "Unable to install dependencies"
+				fn_script_log_fatal "Unable to install dependencies"
 			else
 				fn_print_complete_nl "Install dependencies completed"
 				fn_script_log_pass "Install dependencies completed"
