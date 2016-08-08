@@ -87,7 +87,7 @@ fn_update_mumble_availablebuild(){
 		fn_script_log_fatal "Failure! Checking for update: GitHub: Not returning version info"
 		core_exit.sh
 	else
-		fn_print_ok_nl "Checking for update: GitHub"
+		fn_print_ok "Checking for update: GitHub"
 		fn_script_log_pass "Checking for update: GitHub"
 		sleep 1
 	fi
