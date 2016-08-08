@@ -14,14 +14,18 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 arch=$(uname -m)
 kernel=$(uname -r)
 if [ -n "$(command -v lsb_release)" ]; then
-	os=$(lsb_release -s -d)
+	distroname=$(lsb_release -s -d)
+elif [ -f "/etc/os-release" ]; then
+	distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
 elif [ -f "/etc/debian_version" ]; then
-	os="Debian $(cat /etc/debian_version)"
+	distroname="Debian $(cat /etc/debian_version)"
 elif [ -f "/etc/redhat-release" ]; then
-	os=$(cat /etc/redhat-release)
+	distroname=$(cat /etc/redhat-release)
 else
-	os="$(uname -s) $(uname -r)"
+	distroname="$(uname -s) $(uname -r)"
 fi
+
+distroversion=$(grep VERSION_ID /etc/os-release | tr -cd '[:digit:]')
 
 ## Glibc version
 # e.g: 1.17
@@ -31,7 +35,7 @@ glibcversion="$(ldd --version | sed -n '1s/.* //p')"
 # e.g: tmux 1.6
 if [ -z "$(command -v tmux)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
-elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
+elif [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
 	tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 else
 	tmuxv=$(tmux -V)
