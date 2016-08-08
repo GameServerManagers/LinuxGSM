@@ -106,7 +106,9 @@ fn_details_gameserver(){
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		# Server name
-		echo -e "${blue}Server name:\t${default}${servername}"
+		if [ -n "${servername}" ]; then
+			echo -e "${blue}Server name:\t${default}${servername}"
+		fi
 
 		# Server ip
 		echo -e "${blue}Server IP:\t${default}${ip}:${port}"

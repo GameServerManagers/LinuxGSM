@@ -396,6 +396,7 @@ fn_info_config_sdtd(){
 		gameworld=${gameworld:-"NOT SET"}
 	fi
 }
+
 # Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
