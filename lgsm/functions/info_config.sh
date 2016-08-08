@@ -396,18 +396,21 @@ fn_info_config_sdtd(){
 		gameworld=${gameworld:-"NOT SET"}
 	fi
 }
-## Just Cause 2
+# Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
-## Dont Starve Together
+# Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-## Project Zomboid
-elif [ "${engine}" == "projectzomboid" ]; then
-	fn_info_config_projectzomboid
 # Quake Love
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
+# Minecraft
+elif [ "${engine}" == "minecraft" ]; then
+	fn_info_config_minecraft
+# Project Zomboid
+elif [ "${engine}" == "projectzomboid" ]; then
+	fn_info_config_projectzomboid
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_info_config_realvirtuality
