@@ -157,8 +157,8 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# 7 Days to Die
 	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell
-	elif [ "${gamename}" == "No More Room in Hell" ]; then
+	# No More Room in Hell, Counter Strike: Source and Garry's Mod
+	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
 		array_deps_required+=( lib32tinfo5 )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
@@ -204,8 +204,8 @@ elif [ -n "$(command -v yum)" ]; then
 	# 7 Days to Die
 	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell
-	elif [ "${gamename}" == "No More Room in Hell" ]; then
+	# No More Room in Hell, Counter Strike: Source and Garry's Mod
+	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
@@ -213,7 +213,7 @@ elif [ -n "$(command -v yum)" ]; then
 	# Project Zomboid
 	elif [ "${engine}" ==  "projectzomboid" ]; then
 		array_deps_required+=( java-1.7.0-openjdk )
-	# Unreal engine
+	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
