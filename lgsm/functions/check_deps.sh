@@ -164,7 +164,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
 	# Project Zomboid
-	elif [ "${engine}" ==  "projectzomboid" ]; then
+	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "minecraft" ]; then
 		array_deps_required+=( openjdk-7-jre )
 	# Unreal engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
@@ -211,7 +211,7 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
 	# Project Zomboid
-	elif [ "${engine}" ==  "projectzomboid" ]; then
+	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "minecraft" ]; then
 		array_deps_required+=( java-1.7.0-openjdk )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
