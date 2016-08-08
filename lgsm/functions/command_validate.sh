@@ -24,9 +24,9 @@ fn_validation(){
 	fi
 
 	if [ "${engine}" == "goldsource" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +app_update "${appid}" validate +quit| tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit| tee -a "${scriptlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" validate +quit| tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit| tee -a "${scriptlog}"
 	fi
 	if [ $? != 0 ]; then
 		fn_print_fail_nl "Validating files: SteamCMD"
@@ -39,7 +39,7 @@ fn_validation(){
 
 }
 
-fn_print_dots_nl "Validating files:"
+fn_print_dots "Validating files:"
 sleep 0.5
 fn_print_dots_nl "Validating files: SteamCMD"
 sleep 1

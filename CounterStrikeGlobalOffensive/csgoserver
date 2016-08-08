@@ -78,6 +78,11 @@ githubbranch="master"
 # Steam
 appid="740"
 
+# Steam App Branch Select
+# Allows to opt into the various Steam app branches. Default branch is "".
+# Example: "-beta 1.35.4.4"
+branch=""
+
 # Server Details
 servicename="csgo-server"
 gamename="Counter Strike: Global Offensive"

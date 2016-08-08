@@ -18,23 +18,23 @@ class GameServer:
 		self.default_buffer_length = 1024
 		#
 		if self.option.engine == 'source':
-			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'goldsource':
-			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'spark':
-			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'realvirtuality':
-			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'unity3d':
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'idtech3':
-			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'			
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'			
 		elif self.option.engine == 'unreal':
-			self.query_prompt_string = '\x5C\x69\x6E\x66\x6F\x5C'
+			self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
 		elif self.option.engine == 'unreal2':
-			self.query_prompt_string = '\x79\x00\x00\x00\x00'
+			self.query_prompt_string = b'\x79\x00\x00\x00\x00'
 		elif self.option.engine == 'avalanche':
-			self.query_prompt_string = '\xFE\xFD\x09\x10\x20\x30\x40'
+			self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
 		self.connected = False
 		self.response = None
 		self.sanity_checks()
