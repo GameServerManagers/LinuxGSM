@@ -144,6 +144,34 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
+# Attempts Graceful of source using rcon '/stop' command.
+fn_stop_graceful_minecraft(){
+	fn_print_dots "Graceful: rcon quit"
+	fn_script_log_info "Graceful: rcon quit"
+	# sends quit
+	tmux send -t "${servicename}" /stop ENTER > /dev/null 2>&1
+	# waits up to 30 seconds giving the server time to shutdown gracefuly
+	for seconds in {1..30}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: rcon quit: ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: rcon quit: OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: rcon quit: ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: rcon quit: "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: rcon quit: FAIL"
+	fi
+	sleep 1
+	fn_stop_tmux
+}
+
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
@@ -151,6 +179,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_source
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
+	elif [ "${engine}" == "minecraft" ]; then
+		fn_stop_graceful_minecraft
 	else
 		fn_stop_tmux
 	fi
