@@ -27,7 +27,7 @@ fn_details_os(){
 	echo -e "${lightyellow}Distro Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "${blue}Distro:\t${default}${os}"
+		echo -e "${blue}Distro:\t${default}${distroname}"
 		echo -e "${blue}Arch:\t${default}${arch}"
 		echo -e "${blue}Kernel:\t${default}${kernel}"
 		echo -e "${blue}Hostname:\t${default}$HOSTNAME"

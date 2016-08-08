@@ -46,7 +46,7 @@ elif [ "${engine}" == "minecraft" ]; then
 	glibcfix="no"
 elif [ "${engine}" == "projectzomboid" ]; then
 	glibcrequired="2.15"
-	glibcfix="yesno"
+	glibcfix="no"
 elif [ "${engine}" == "realvirtuality" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
