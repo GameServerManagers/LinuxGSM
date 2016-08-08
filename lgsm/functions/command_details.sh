@@ -337,6 +337,15 @@ fn_details_dontstarve(){
 	} | column -s $'\t' -t
 }
 
+fn_details_minecraft(){
+	echo -e "netstat -atunp | grep java"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_projectzomboid(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
@@ -591,6 +600,8 @@ if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_details_dontstarve
+elif [ "${engine}" == "minecraft" ]; then
+	fn_details_minecraft
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_details_projectzomboid
 elif [ "${engine}" == "idtech3" ]; then

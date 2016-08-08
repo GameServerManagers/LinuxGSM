@@ -68,6 +68,28 @@ fn_info_config_dontstarve(){
 	fi
 }
 
+fn_info_config_minecraft(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		slots="${zero}"
+		port="${zero}"
+	else
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		ipconfigcheck=$(grep "server-ip=" "${servercfgfullpath}" | sed 's/server-ip=//g')
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
+		rconpassword=$(grep "rcon.password=" "${servercfgfullpath}" | sed 's/rcon.password=//g' | tr -d '\')
+		slots=$(grep "max-players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "server-port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		slots=${slots:-"NOT SET"}
+		port=${port:-"NOT SET"}
+	fi
+}
+
 fn_info_config_projectzomboid(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
