@@ -16,7 +16,7 @@ do
 	fi
 done
 
-local libm_servers_array=( "Double Action: Boogaloo" "Fistful of Frags" "Garry's Mod" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
+local libm_servers_array=( "Codename CURE" "Double Action: Boogaloo" "Fistful of Frags" "Garry's Mod" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
 for libm_server in "${libm_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libm_server}" ]; then
