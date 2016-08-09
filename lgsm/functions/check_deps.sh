@@ -18,10 +18,10 @@ fn_deps_detector(){
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
-			if [ "${tmuxcheck}" != "1" ]; then
+			if [ "${tmuxcheck}" == "1" ]; then
 				# Added for users compiling tmux from source to bypass rpm check
 				echo -e "${green}tmux${default}"
-				tmuxcheck=1
+				unset tmuxcheck
 			fi
 			echo -e "${green}${deptocheck}${default}"
 			sleep 0.5
@@ -142,8 +142,8 @@ if [ -n "$(command -v dpkg-query)" ]; then
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
-		if [ "$(command -v tmux)" ]||[ "$(which tmux)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
-			: # Added for users compiling tmux from source to bypass rpm check
+		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+			tmuxcheck=1 # Added for users compiling tmux from source to bypass rpm check
 		else
 			array_deps_required+=( tmux )
 		fi
@@ -201,8 +201,8 @@ elif [ -n "$(command -v yum)" ]; then
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
-		if [ "$(command -v tmux)" ]||[ "$(which tmux)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
-			: # Added for users compiling tmux from source to bypass rpm check
+		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+			tmuxcheck=1 # Added for users compiling tmux from source to bypass rpm check
 		else
 			array_deps_required+=( tmux )
 		fi
