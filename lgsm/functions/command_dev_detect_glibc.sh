@@ -24,8 +24,8 @@ echo ""
 
 find ${filesdir} -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	objdump -T $line 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${lgsmdir}/tmp"
+	objdump -T $line 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${lgsmdir}/tmp/detect_glibc.tmp"
 done
 
-cat "${lgsmdir}/tmp"|sort|uniq|sort -r --version-sort
-rm "${lgsmdir}/tmp"
+cat "${lgsmdir}/tmp/detect_glibc.tmp"|sort|uniq|sort -r --version-sort
+rm "${lgsmdir}/tmp/detect_glibc.tmp"
