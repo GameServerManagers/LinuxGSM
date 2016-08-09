@@ -168,7 +168,11 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell, Counter Strike: Source and Garry's Mod
 	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
-		array_deps_required+=( lib32tinfo5 )
+		if [ "${arch}" == "x86_64" ]; then
+			array_deps_required+=( lib32tinfo5 )
+		else
+			array_deps_required+=( libtinfo5 )
+		fi
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
