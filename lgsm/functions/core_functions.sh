@@ -265,6 +265,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_detect_glibc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Fix
 
