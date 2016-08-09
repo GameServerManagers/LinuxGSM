@@ -150,7 +150,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	fi
 
 	# All servers except ts3 & mumble require libstdc++6, lib32gcc1
-	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
