@@ -45,6 +45,7 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_arma3.sh
 	fi
 	# fix_glibc.sh is run though check_glibc.sh
+fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
