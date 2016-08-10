@@ -247,7 +247,7 @@ elif [ "${gamename}" == "Day of Infamy" ]; then
 	fn_sourceconfig
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/DontStarveTogether/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
