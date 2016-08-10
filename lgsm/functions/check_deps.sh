@@ -138,7 +138,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	array_deps_missing=()
 
 	# LGSM requirements
-	array_deps_required=( curl ca-certificates file bsdmainutils util-linux python bzip2 gzip )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip )
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
@@ -198,9 +198,9 @@ elif [ -n "$(command -v yum)" ]; then
 
 	# LGSM requirements
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl util-linux-ng python file gzip bzip2 )
+		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 )
 	else
-		array_deps_required=( curl util-linux python file gzip bzip2 )
+		array_deps_required=( curl wget util-linux python file gzip bzip2 )
 	fi
 
 	# All servers except ts3 require tmux
