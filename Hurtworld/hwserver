@@ -31,8 +31,9 @@ steamuser="anonymous"
 steampass=""
 
 # Server settings
-servername="Hurtworld LGSM Server"
 ip="0.0.0.0"
+updateonstart="off"
+servername="Hurtworld LGSM Server"
 port="12871"
 queryport="12881"
 maxplayers="20"

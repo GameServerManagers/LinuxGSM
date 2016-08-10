@@ -46,8 +46,8 @@ maxplayers="16"
 port="27015"
 sourcetvport="27020"
 clientport="27005"
-ip="0.0.0.0"
 tickrate="66"
+ip="0.0.0.0"
 updateonstart="off"
 
 # Custom Start Parameters
