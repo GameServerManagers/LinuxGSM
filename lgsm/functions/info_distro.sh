@@ -25,7 +25,11 @@ else
 	distroname="$(uname -s) $(uname -r)"
 fi
 
-distroversion=$(grep VERSION_ID /etc/os-release | tr -cd '[:digit:]')
+if [ -f "/etc/os-release" ]; then
+	distroversion=$(grep VERSION_ID /etc/os-release | tr -cd '[:digit:]')
+elif [ -n "$(command -v yum)" ]; then
+	distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos" | cut -d"-" -f3)
+fi
 
 ## Glibc version
 # e.g: 1.17
