@@ -44,11 +44,7 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 	elif [ "${gamename}" == "ARMA 3" ]; then
 		fix_arma3.sh
 	fi
-
-	if [ "${gamename}" != "TeamSpeak 3" ]; then
-		fix_glibc.sh
-	fi
-fi
+	# fix_glibc.sh is run though check_glibc.sh
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
