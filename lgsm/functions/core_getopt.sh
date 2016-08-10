@@ -43,6 +43,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -103,6 +105,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -156,6 +160,8 @@ case "${getopt}" in
 		command_install.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -218,6 +224,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	fd|fastdl)
 		command_fastdl.sh;;
 	*)
@@ -283,6 +291,8 @@ case "${getopt}" in
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -349,6 +359,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -417,6 +429,8 @@ case "${getopt}" in
 		compress_unreal2_maps.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"

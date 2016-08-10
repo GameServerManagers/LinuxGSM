@@ -32,7 +32,7 @@ fn_details_os(){
 		echo -e ""
 		echo -e "Distro Details"
 		echo -e "================================="
-		echo -e "Distro: ${os}"
+		echo -e "Distro: ${distroname}"
 		echo -e "Arch: ${arch}"
 		echo -e "Kernel: ${kernel}"
 		echo -e "Hostname: $HOSTNAME"

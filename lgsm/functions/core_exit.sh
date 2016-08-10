@@ -35,4 +35,3 @@ else
 	trap - INT
 	exit ${exitcode}
 fi
-

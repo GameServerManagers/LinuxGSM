@@ -9,7 +9,7 @@ local commandname="CHECK"
 fn_deps_detector(){
 	# Checks if dependency is missing
 	if [ -n "$(command -v dpkg-query)" ]; then
-		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null| grep -q -P '^install ok installed$'
+		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed$'
 		depstatus=$?
 	elif [ -n "$(command -v yum)" ]; then
 		yum -q list installed ${deptocheck} > /dev/null 2>&1
@@ -18,6 +18,11 @@ fn_deps_detector(){
 	if [ "${depstatus}" == "0" ]; then
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
+			if [ "${tmuxcheck}" == "1" ]; then
+				# Added for users compiling tmux from source to bypass rpm check
+				echo -e "${green}tmux${default}"
+				unset tmuxcheck
+			fi
 			echo -e "${green}${deptocheck}${default}"
 			sleep 0.5
 		fi
@@ -133,15 +138,19 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	array_deps_missing=()
 
 	# LGSM requirements
-	array_deps_required=( curl ca-certificates file bsdmainutils util-linux python )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip )
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
-		array_deps_required+=( tmux )
+		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+			tmuxcheck=1 # Added for users compiling tmux from source to bypass rpm check
+		else
+			array_deps_required+=( tmux )
+		fi
 	fi
 
 	# All servers except ts3 & mumble require libstdc++6, lib32gcc1
-	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
@@ -157,15 +166,19 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# 7 Days to Die
 	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell
-	elif [ "${gamename}" == "No More Room in Hell" ]; then
-		array_deps_required+=( lib32tinfo5 )
+	# No More Room in Hell, Counter Strike: Source and Garry's Mod
+	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
+		if [ "${arch}" == "x86_64" ]; then
+			array_deps_required+=( lib32tinfo5 )
+		else
+			array_deps_required+=( libtinfo5 )
+		fi
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
 	# Project Zomboid
 	elif [ "${engine}" ==  "projectzomboid" ]; then
-		array_deps_required+=( openjdk-7-jre )
+		array_deps_required+=( default-jdk )
 	# Unreal engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
@@ -184,11 +197,19 @@ elif [ -n "$(command -v yum)" ]; then
 	array_deps_missing=()
 
 	# LGSM requirements
-	array_deps_required=( curl util-linux python file )
+	if [ "${distroversion}" == "6" ]; then
+		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 )
+	else
+		array_deps_required=( curl wget util-linux python file gzip bzip2 )
+	fi
 
 	# All servers except ts3 require tmux
 	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
-		array_deps_required+=( tmux )
+		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+			tmuxcheck=1 # Added for users compiling tmux from source to bypass rpm check
+		else
+			array_deps_required+=( tmux )
+		fi
 	fi
 
 	# All servers excelts ts3 & mumble require glibc.i686 libstdc++.i686
@@ -204,16 +225,16 @@ elif [ -n "$(command -v yum)" ]; then
 	# 7 Days to Die
 	elif [ "${gamename}" ==  "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell
-	elif [ "${gamename}" == "No More Room in Hell" ]; then
+	# No More Room in Hell, Counter Strike: Source and Garry's Mod
+	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
 	# Project Zomboid
 	elif [ "${engine}" ==  "projectzomboid" ]; then
-		array_deps_required+=( java-1.7.0-openjdk )
-	# Unreal engine
+		array_deps_required+=( java-1.8.0-openjdk )
+	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then

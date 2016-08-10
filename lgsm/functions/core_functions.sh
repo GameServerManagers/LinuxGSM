@@ -26,7 +26,7 @@ fn_fetch_function
 }
 
 # fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
-if [ -z "${lgsmdir}" ]; then
+if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
@@ -265,6 +265,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_detect_glibc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Fix
 
