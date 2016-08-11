@@ -16,6 +16,11 @@ if [ "${gamename}" == "Rust" ]; then
 	ramrequirementgb="4"
 fi
 
+if [ "${gamename}" == "ARMA 3" ]; then
+	ramrequirementmb="1000"
+	ramrequirementgb="1"
+fi
+
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM.
 if [ -n "${ramrequirement}" ]; then
 	if [ "${physmemtotalmb}" -lt "${ramrequirementmb}" ]; then
