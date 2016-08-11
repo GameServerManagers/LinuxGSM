@@ -26,22 +26,21 @@ fn_install_server_files_steamcmd(){
 		counter=$((counter+1))
 		cd "${rootdir}/steamcmd"
 		if [ "${counter}" -le "10" ]; then
-			# Attempt 1-4: Standard attempt
-			# Attempt 5-6: Validate attempt
-			# Attempt 7-8: Validate, delete long name dir
-			# Attempt 9-10: Validate, delete long name dir, re-download SteamCMD
-			# Attempt 11: Failure
+			# Attempt 1-10: Validate attempt
+			# Attempt 11-12: Validate, delete long name dir
+			# Attempt 13-14: Validate, delete long name dir, re-download SteamCMD
+			# Attempt 15: Failure
 
 			if [ "${counter}" -ge "2" ]; then
 				fn_print_warning_nl "SteamCMD did not complete the download, retrying: Attempt ${counter}"
 				fn_script_log "SteamCMD did not complete the download, retrying: Attempt ${counter}"
 			fi
 
-			if [ "${counter}" -ge "7" ]; then
+			if [ "${counter}" -ge "11" ]; then
 				echo "Removing $(find ${filesdir} -type d -print0 | grep -Ez '[^/]{30}$')"
 				find ${filesdir} -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
-			if [ "${counter}" -ge "9" ]; then
+			if [ "${counter}" -ge "13" ]; then
 				rm -rf "${rootdir}/steamcmd"
 				check_steamcmd.sh
 			fi
@@ -51,24 +50,15 @@ fn_install_server_files_steamcmd(){
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
-			if [ "${counter}" -le "4" ]; then
-				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
-					local exitcode=$?
-				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
-					local exitcode=$?
-				fi
-			elif [ "${counter}" -ge "5" ]; then
-				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
-					local exitcode=$?
-				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
-					local exitcode=$?
-				fi
+			if [ "${engine}" == "goldsource" ]; then
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
+				local exitcode=$?
+			else
+				${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
+				local exitcode=$?
 			fi
-		elif [ "${counter}" -ge "11" ]; then
+
+		elif [ "${counter}" -ge "15" ]; then
 			fn_print_failure_nl "SteamCMD did not complete the download, too many retrys"
 			fn_script_log "SteamCMD did not complete the download, too many retrys"
 			break
