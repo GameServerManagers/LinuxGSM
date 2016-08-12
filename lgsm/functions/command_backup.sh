@@ -47,7 +47,7 @@ if [ ! -d "${backupdir}" ]; then
 	mkdir "${backupdir}"
 fi
 tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
-if [ $? != 0 ]; then
+if [ $? == 0 ]; then
 	fn_print_ok_nl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 	fn_script_log_pass "Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 else
