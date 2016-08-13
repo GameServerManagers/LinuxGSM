@@ -1,9 +1,8 @@
 #!/bin/bash
-# LGSM command_start.sh function
-# Author: Daniel Gibbs
-# Contributor: UltimateByte
-# Website: https://gameservermanagers.com
-# Description: Starts the server.
+# LGSM command_start_foreground.sh function
+# Author: Robotex
+# Github: https://github.com/Robotex/
+# Description: Starts the server on foreground.
 
 local commandname="START-FOREGROUND"
 local commandaction="Starting on foreground"
@@ -15,8 +14,8 @@ fn_lockfile_trap(){
 	rm -f "${rootdir}/${lockselfname}"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
-	fn_print_ok_nl "Closing debug"
-	fn_script_log_pass "Debug closed"
+	fn_print_ok_nl "Closing foreground"
+	fn_script_log_pass "Foreground closed"
 	core_exit.sh
 }
 
