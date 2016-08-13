@@ -141,6 +141,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_start_foreground.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_stop.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

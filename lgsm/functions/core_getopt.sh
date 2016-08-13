@@ -10,6 +10,8 @@ fn_getopt_generic(){
 case "${getopt}" in
 	st|start)
 		command_start.sh;;
+	sf|start-foreground)
+		command_start_foreground.sh;;
 	sp|stop)
 		command_stop.sh;;
 	r|restart)
@@ -57,6 +59,7 @@ case "${getopt}" in
 	echo -e "${lightyellow}Commands${default}"
 	{
 		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}start-foreground\t${default}sf |Start the server on foreground."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
 		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
