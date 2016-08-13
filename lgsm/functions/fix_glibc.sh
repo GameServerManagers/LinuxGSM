@@ -24,20 +24,20 @@ do
 	fi
 done
 
-#local libc_servers_array=( "Garry's Mod" )
-#for libc_server in "${libc_servers_array[@]}"
-#do
-#	if [ "${gamename}" == "${libc_server}" ]; then
-#		fn_fetch_file_github "lgsm/lib/ubuntu12.04/i386" "libc.so.6" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
-#	fi
-#done
+local libc_servers_array=( "Garry's Mod" )
+for libc_server in "${libc_servers_array[@]}"
+do
+	if [ "${gamename}" == "${libc_server}" ]; then
+		fn_fetch_file_github "lgsm/lib/ubuntu12.04/i386" "libc.so.6" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
+	fi
+done
 
-#local libpthread_servers_array=( "Garry's Mod" )
-#for libpthread_server in "${libpthread_servers_array[@]}"
-#do
-#	if [ "${gamename}" == "${libpthread_server}" ]; then
-#		fn_fetch_file_github "lgsm/lib/ubuntu12.04/i386" "libpthread.so.0" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
-#	fi
-#done
+local libpthread_servers_array=( "Garry's Mod" )
+for libpthread_server in "${libpthread_servers_array[@]}"
+do
+	if [ "${gamename}" == "${libpthread_server}" ]; then
+		fn_fetch_file_github "lgsm/lib/ubuntu12.04/i386" "libpthread.so.0" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
+	fi
+done
 
 export LD_LIBRARY_PATH=:"${libdir}"
