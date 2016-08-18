@@ -522,7 +522,7 @@ case "${getopt}" in
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
 elif [ "${engine}" == "minecraft" ]; then
-	fn_getopt_teamspeak3
+	fn_getopt_minecraft
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${gamename}" == "Garry's Mod" ]; then
