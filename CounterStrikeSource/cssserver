@@ -38,9 +38,14 @@ clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
 
+# Required: Game Server Login Token
+# GSLT is required for running a public server.
+# More info: https://gameservermanagers.com/gslt
+gslt=""
+
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game cstrike -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
