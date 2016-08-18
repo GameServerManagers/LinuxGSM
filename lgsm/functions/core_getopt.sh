@@ -134,6 +134,65 @@ case "${getopt}" in
 	esac
 }
 
+fn_getopt_minecraft(){
+case "${getopt}" in
+	st|start)
+		command_start.sh;;
+	sp|stop)
+		command_stop.sh;;
+	r|restart)
+		command_restart.sh;;
+	u|update)
+		command_update.sh;;
+	uf|update-functions)
+		command_update_functions.sh;;
+	m|monitor)
+		command_monitor.sh;;
+	ta|test-alert)
+		command_test_alert.sh;;
+	dt|details)
+		command_details.sh;;
+	b|backup)
+		command_backup.sh;;
+	pw|change-password)
+		command_ts3_server_pass.sh;;
+	dev|dev-debug)
+		command_dev_debug.sh;;
+	i|install)
+		command_install.sh;;
+	ai|auto-install)
+		fn_autoinstall;;
+	dd|depsdetect)
+		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
+	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
+		exitcode=2
+	fi
+	echo "Usage: $0 [option]"
+	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "https://gameservermanagers.com/${selfname}"
+	echo -e ""
+	echo -e "${lightyellow}Commands${default}"
+	{
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}change-password\t${default}pw |Changes TS3 serveradmin password."
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+	} | column -s $'\t' -t
+	esac
+}
+
 fn_getopt_mumble(){
 case "${getopt}" in
 	st|start)
@@ -462,6 +521,8 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
+elif [ "${engine}" == "minecraft" ]; then
+	fn_getopt_teamspeak3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${gamename}" == "Garry's Mod" ]; then
