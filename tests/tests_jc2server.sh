@@ -474,6 +474,18 @@ fn_setstatus
 fn_test_result_pass
 
 echo ""
+echo "4.9 - update-functions"
+echo "================================="
+echo "Description:"
+echo "runs update-functions."
+echo ""
+echo "Command: ./jc2server update-functions"
+requiredstatus="OFFLINE"
+fn_setstatus
+(command_update_functions.sh)
+fn_test_result_pass
+
+echo ""
 echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"

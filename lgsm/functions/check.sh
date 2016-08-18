@@ -13,7 +13,7 @@ local commandname="CHECK"
 check_root.sh
 check_permissions.sh
 
-if [ "${function_selfname}" != "command_install.sh" ] && [ "${function_selfname}" != "command_update_functions.sh" ]; then
+if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]; then
 	check_system_dir.sh
 fi
 
@@ -59,14 +59,6 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_console.sh command_start.sh )
-for allowed_command in "${allowed_commands_array[@]}"
-do
-	if [ "${allowed_command}" == "${function_selfname}" ]||[ "${gamename}" != "TeamSpeak 3" ]; then
-		check_tmux.sh
-	fi
-done
-
 local allowed_commands_array=( command_console.sh command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
@@ -83,7 +75,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_install.sh command_start.sh command_debug.sh )
+local allowed_commands_array=( command_debug.sh command_start.sh command_install.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then

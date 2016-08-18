@@ -31,8 +31,9 @@ steamuser="anonymous"
 steampass=""
 
 # Server settings
-servername="Hurtworld LGSM Server"
 ip="0.0.0.0"
+updateonstart="off"
+servername="Hurtworld LGSM Server"
 port="12871"
 queryport="12881"
 maxplayers="20"
@@ -79,6 +80,7 @@ selfname=$(basename $(readlink -f "${BASH_SOURCE[0]}"))
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"

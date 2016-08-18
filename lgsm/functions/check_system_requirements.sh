@@ -16,13 +16,20 @@ if [ "${gamename}" == "Rust" ]; then
 	ramrequirementgb="4"
 fi
 
+if [ "${gamename}" == "ARMA 3" ]; then
+	ramrequirementmb="1000"
+	ramrequirementgb="1"
+fi
+
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM.
-if [ -n "${ramrequirement}" ]; then
+if [ -n "${ramrequirementmb}" ]; then
 	if [ "${physmemtotalmb}" -lt "${ramrequirementmb}" ]; then
+		fn_print_dots "Check RAM"
+		sleep 0.5
 		# Warn the user
-		fn_print_warn "Insufficient memory: ${ramrequirementgb}G required, ${physmemtotal} available"
+		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
 		sleep 1
-		fn_print_warning "You may experiance poor performance from your server"
+		echo  "	* ${gamename} server may fail to run or experience poor performance."
 		sleep 1
 	fi
 fi

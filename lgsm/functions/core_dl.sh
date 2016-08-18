@@ -130,8 +130,8 @@ fn_fetch_file(){
 				if [ -f "${scriptlog}" ]; then
 					fn_script_log_fatal "downloading ${filename}: FAIL"
 				fi
+				echo -e "${fileurl}" | tee -a "${scriptlog}"
 				echo "${curlcmd}" | tee -a "${scriptlog}"
-				echo -e "${fileurl}\n" | tee -a "${scriptlog}"
 				core_exit.sh
 			else
 				fn_print_ok_eol_nl
@@ -208,6 +208,7 @@ fn_fetch_function(){
 }
 
 fn_update_function(){
+	exitbypass=1
 	github_file_url_dir="lgsm/functions" # github dir containing the file
 	github_file_url_name="${functionfile}" # name of the github file
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"

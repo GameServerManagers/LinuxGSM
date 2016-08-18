@@ -1,5 +1,5 @@
 #!/bin/bash
-# NS2: Combat
+# Empires Mod
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="220416"
+version="210516"
 
 #### Variables ####
 
@@ -26,28 +26,26 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Steam login
-steamuser="username"
-steampass="password"
+steamuser="anonymous"
+steampass=""
 
 # Start Variables
-defaultmap="co_core"
+defaultmap="emp_district"
+maxplayers="62"
 port="27015"
-maxplayers="24"
+sourcetvport="27020"
+clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
-servername="NS2C Server"
-webadminuser="admin"
-webadminpass="admin"
-webadminport="8080"
-mods=""
-password=""
-# Add the following line to the parms if you want a private server. Ensuring
-# that the password variable above is not left empty.
-# -password \"${password}\"
 
-# http://wiki.unknownworlds.com/ns2/Dedicated_Server
+# Optional: Game Server Login Token
+# GSLT can be used for running a public server.
+# More info: https://gameservermanagers.com/gslt
+gslt=""
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${servercfgdir}\" -modstorage \"${modstoragedir}\" -mods \"${mods}\""
+parms="-game empires -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -60,12 +58,12 @@ githubrepo="linuxgsm"
 githubbranch="master"
 
 # Steam
-appid="313900"
+appid="460040"
 
 # Server Details
-servicename="ns2c-server"
-gamename="NS2: Combat"
-engine="spark"
+servicename="em-server"
+gamename="Empires Mod"
+engine="source"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -75,12 +73,13 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
-executabledir="${filesdir}/ia32"
-executable="./ns2combatserver_linux32"
-servercfgdir="${rootdir}/server1"
-servercfgfullpath="${servercfgdir}"
-modstoragedir="${servercfgdir}/Workshop"
+systemdir="${filesdir}/empires"
+executabledir="${filesdir}"
+executable="./srcds_run"
+servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}/cfg"
+servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/server.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

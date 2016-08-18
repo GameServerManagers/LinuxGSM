@@ -2,7 +2,7 @@
 # LGSM update_minecraft.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Handles updating of minecraft servers.
+# Description: Handles updating of Minecraft servers.
 
 local commandname="UPDATE"
 local commandaction="Update"
