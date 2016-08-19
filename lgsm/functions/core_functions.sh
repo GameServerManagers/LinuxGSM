@@ -456,6 +456,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_minecraft_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_retry.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
