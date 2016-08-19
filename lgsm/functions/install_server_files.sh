@@ -97,6 +97,7 @@ if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
 elif [ "${gamename}" == "Minecraft" ]; then
 	update_minecraft.sh
+	install_minecraft_eula.sh
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
