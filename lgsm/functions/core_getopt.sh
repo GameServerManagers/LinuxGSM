@@ -154,6 +154,10 @@ case "${getopt}" in
 		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
+	c|console)
+		command_console.sh;;
+	d|debug)
+		command_debug.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;
 	i|install)
@@ -178,12 +182,14 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from mojang.com."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
 		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
 	} | column -s $'\t' -t
