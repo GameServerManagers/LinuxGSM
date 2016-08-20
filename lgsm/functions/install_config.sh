@@ -169,6 +169,7 @@ fn_unreal4(){
 	echo ""
 	echo "Configuring ${gamename} Server"
 	echo "================================="
+	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgdir}/Engine.ini"
 }
 
 echo ""
@@ -389,6 +390,9 @@ elif [ "${gamename}" == "Terraria" ]; then
 	sleep 1
 	fn_defaultconfig
 elif [ "${gamename}" == "Unreal Tournament" ]; then
+	echo -e "downloading Engine.ini...\c"
+	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Engine.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
 	fn_unreal4
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_unreal2config
