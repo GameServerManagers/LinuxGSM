@@ -11,6 +11,8 @@ sleep 1
 echo "You are required to accept the EULA:"
 echo "https://account.mojang.com/documents/minecraft_eula"
 
+echo "eula=false" > "${filesdir}/eula.txt"
+
 if [ -z "${autoinstall}" ]; then
 echo "By continuing you are indicating your agreement to the EULA."
 echo ""
@@ -28,4 +30,4 @@ echo ""
 	sleep 5
 fi
 
-sed -i "s/\"eula=false\"/\"eula=true\"/g" serverfiles/eula.txt
+sed -i "s/eula=false/eula=true/g" "${filesdir}/eula.txt"
