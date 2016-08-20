@@ -250,7 +250,6 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		array_deps_required+=( unzip )
 	fi
-	fi
 	fn_deps_email
 	fn_check_loop
 fi
