@@ -13,6 +13,8 @@ fn_install_server_files(){
 		fileurl="https://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="https://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
+	elif [ "${gamename}" == "Unreal Tournament" ]; then
+		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="https://gameservermanagers.com/files/GoldenEyeSource/goldenEye_source_v4.2.4_server_2015_map_pack.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="goldenEye_source_v4.2.4_server_2015_map_pack.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="3148ac38acc3642b0d6d64f51f27de15"
 	fi

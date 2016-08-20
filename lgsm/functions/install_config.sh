@@ -165,6 +165,12 @@ fn_unreal2config(){
 	echo ""
 }
 
+fn_unreal4(){
+	echo ""
+	echo "Configuring ${gamename} Server"
+	echo "================================="
+}
+
 echo ""
 if [ "${gamename}" != "Hurtworld" ]; then
 echo "Creating Configs"
@@ -382,6 +388,8 @@ elif [ "${gamename}" == "Terraria" ]; then
 	wget -N /dev/null ${githuburl}/Terraria/cfg/lgsm-default.txt 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
+elif [ "${gamename}" == "Unreal Tournament" ]; then
+	fn_unreal4
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
