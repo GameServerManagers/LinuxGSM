@@ -2,6 +2,7 @@
 # LGSM install_server_files.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Installs server files.
 
 local commandname="INSTALL"
 local commandaction="Install"
@@ -46,8 +47,8 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			# Detects if unbuffer command is available.
-            if  [ $(command -v stdbuf) ]; then
-		            unbuffer="stdbuf -i0 -o0 -e0"
+			if [ $(command -v stdbuf) ]; then
+				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
 			if [ "${counter}" -le "4" ]; then
@@ -55,7 +56,7 @@ fn_install_server_files_steamcmd(){
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				fi
 			elif [ "${counter}" -ge "5" ]; then
@@ -63,7 +64,7 @@ fn_install_server_files_steamcmd(){
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				fi
 			fi
@@ -81,7 +82,7 @@ fn_install_server_files_steamcmd(){
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" -validate +quit
+			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} -validate +quit
 			local exitcode=$?
 		done
 	fi
@@ -92,8 +93,10 @@ echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
 
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
+elif [ "${gamename}" == "Mumble" ]; then
+	update_mumble.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
 fi

@@ -2,6 +2,7 @@
 # LGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Creates default server configs.
 
 local commandname="INSTALL"
 local commandaction="Install"
@@ -246,7 +247,7 @@ elif [ "${gamename}" == "Day of Infamy" ]; then
 	fn_sourceconfig
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/DontStarveTogether/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/DontStarveTogether/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
@@ -254,6 +255,8 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	wget -N /dev/null ${githuburl}/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
+elif [ "${gamename}" == "Empires Mod" ]; then
+	fn_defaultconfig
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -346,7 +349,7 @@ elif [ "${gamename}" == "Starbound" ]; then
 	sleep 1
 	fn_defaultconfig
 	fn_userinputconfig
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1

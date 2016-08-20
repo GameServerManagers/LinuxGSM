@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_install.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Overall function for the installer.
 
@@ -17,7 +18,7 @@ check_deps.sh
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_server_files.sh
 	install_ut2k4_key.sh
-elif [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Mumble" ]; then
 	installer=1
 	install_server_files.sh
 elif [ -n "${appid}" ]; then
@@ -29,7 +30,7 @@ fi
 install_config.sh
 if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
 	install_gslt.sh
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 fi
 

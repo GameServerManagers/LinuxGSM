@@ -2,6 +2,7 @@
 # Mumble
 # Server Management Script
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
@@ -9,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="290716"
 
 #### Variables ####
 
@@ -25,6 +26,23 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
+# Start Variables
+updateonstart="off"
+
+fn_parms(){
+parms="-fg -ini ${servercfgfullpath}"
+}
+
+#### Advanced Variables ####
+
+# Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="dgibbs64"
+githubrepo="linuxgsm"
+githubbranch="master"
+
+
 # Server Details
 gamename="Mumble"
 servicename="mumble-server"
@@ -35,6 +53,7 @@ selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
@@ -46,7 +65,7 @@ backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-logdir="${rootdir}/log"
+gamelogdir="${rootdir}/log"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 consolelogging="on"
@@ -57,17 +76,6 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
-fn_parms(){
-parms="-fg -ini ${servercfgfullpath}"
-}
-
-# Github Branch Select
-# Allows for the use of different function files
-# from a different repo and/or branch.
-githubuser="dgibbs64"
-githubrepo="linuxgsm"
-githubbranch="master"
 
 ##### Script #####
 # Do not edit

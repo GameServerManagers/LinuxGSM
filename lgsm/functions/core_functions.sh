@@ -5,8 +5,16 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
-# Code/functions for legacy servers
+# Fixes for legacy code
+if [ "${gamename}" == "Teamspeak 3" ]; then
+	gamename="TeamSpeak 3"
+fi
 
+if [ "${emailnotification}" == "on" ]; then
+    emailalert="on"
+fi
+
+# Code/functions for legacy servers
 fn_functions(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -17,9 +25,8 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
-# fn_fetch_core_dl also placed here to allow legecy servers to still download core functions
-if [ -z "${lgsmdir}" ]; then
+# fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
+if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
@@ -258,6 +265,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_detect_glibc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Fix
 
@@ -381,6 +392,11 @@ fn_fetch_function
 }
 
 update_ts3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_mumble.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

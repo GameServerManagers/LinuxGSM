@@ -2,7 +2,7 @@
 # LGSM alert_email.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Sends email alert if monitor picks up a failure.
+# Description: Sends email alert including server details and logs.
 
 local commandname="ALERT"
 local commandaction="Alert"
@@ -32,7 +32,7 @@ fn_details_os(){
 		echo -e ""
 		echo -e "Distro Details"
 		echo -e "================================="
-		echo -e "Distro: ${os}"
+		echo -e "Distro: ${distroname}"
 		echo -e "Arch: ${arch}"
 		echo -e "Kernel: ${kernel}"
 		echo -e "Hostname: $HOSTNAME"
@@ -153,7 +153,7 @@ fn_details_gameserver(){
 			echo -e "Tick rate: ${tickrate}"
 		fi
 
-		# Teamspeak dbplugin
+		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
 			echo -e "dbplugin: ${dbplugin}"
 		fi

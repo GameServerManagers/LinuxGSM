@@ -168,19 +168,19 @@ fn_setstatus(){
 		else
 			(command_stop.sh > /dev/null 2>&1)
 		fi
-    	if [ "${counter}" -gt "5" ]; then
-    		currentstatus="FAIL"
-    		echo "Current status:  ${currentstatus}"
-    		echo ""
-    		echo "Unable to start or stop server."
-    		exit 1
-    	fi
-    done
-    echo -ne "New status:  ${currentstatus}\\r"
-    echo -e "\n"
-    echo "Test starting:"
-    echo ""
-    sleep 0.5
+		if [ "${counter}" -gt "5" ]; then
+			currentstatus="FAIL"
+			echo "Current status:  ${currentstatus}"
+			echo ""
+			echo "Unable to start or stop server."
+			exit 1
+		fi
+	done
+	echo -ne "New status:  ${currentstatus}\\r"
+	echo -e "\n"
+	echo "Test starting:"
+	echo ""
+	sleep 0.5
 }
 
 # End of every test will expect the result to either pass or fail
@@ -368,6 +368,7 @@ fn_setstatus
 (command_restart.sh)
 fn_test_result_pass
 
+echo ""
 echo "4.1 - update"
 echo "================================="
 echo "Description:"
@@ -376,6 +377,18 @@ echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 (command_update.sh)
+fn_test_result_pass
+
+echo ""
+echo "4.2 - update-functions"
+echo "================================="
+echo "Description:"
+echo "runs update-functions."
+echo ""
+echo "Command: ./jc2server update-functions"
+requiredstatus="OFFLINE"
+fn_setstatus
+(command_update_functions.sh)
 fn_test_result_pass
 
 echo ""

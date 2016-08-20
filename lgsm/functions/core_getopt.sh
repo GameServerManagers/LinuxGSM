@@ -43,6 +43,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -87,7 +89,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -103,6 +105,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -138,22 +142,26 @@ case "${getopt}" in
 		command_stop.sh;;
 	r|restart)
 		command_restart.sh;;
+	u|update)
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
+	dt|details)
+		command_details.sh;;
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;
-	console)
-		command_console.sh;;
-	d|debug)
-		command_debug.sh;;
+	i|install)
+		command_install.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -168,12 +176,13 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
-		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
-		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
 	} | column -s $'\t' -t
 	esac
 }
@@ -197,7 +206,7 @@ case "${getopt}" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -215,6 +224,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	fd|fastdl)
 		command_fastdl.sh;;
 	*)
@@ -231,7 +242,7 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
 		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from SteamCMD."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}validate\t${default}v  |Validate server files with SteamCMD."
@@ -260,7 +271,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -280,6 +291,8 @@ case "${getopt}" in
 		compress_ut99_maps.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -328,7 +341,7 @@ case "${getopt}" in
 		command_validate.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -346,6 +359,8 @@ case "${getopt}" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -392,7 +407,7 @@ case "${getopt}" in
 		command_update_functions.sh;;
 	m|monitor)
 		command_monitor.sh;;
-	et|test-alert)
+	ta|test-alert)
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
@@ -414,6 +429,8 @@ case "${getopt}" in
 		compress_unreal2_maps.sh;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -445,7 +462,7 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 elif [ "${gamename}" == "Garry's Mod" ]; then
 	fn_getopt_gmodserver

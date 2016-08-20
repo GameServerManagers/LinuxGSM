@@ -25,9 +25,6 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-# Pushover
-#Push alot
-
 # Steam login
 steamuser="anonymous"
 steampass=""
@@ -68,6 +65,7 @@ selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/left4dead2"
 executabledir="${filesdir}"

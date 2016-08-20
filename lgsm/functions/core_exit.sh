@@ -2,7 +2,7 @@
 # LGSM core_exit.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: handles exiting of LGSM by running and reporting an exit code.
+# Description: Handles exiting of LGSM by running and reporting an exit code.
 
 fn_exit_dev_debug(){
 	if [ -f "${rootdir}/.dev-debug" ]; then
@@ -35,4 +35,3 @@ else
 	trap - INT
 	exit ${exitcode}
 fi
-

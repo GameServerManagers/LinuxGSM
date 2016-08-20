@@ -3,12 +3,12 @@
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Automatically identifies the server interface IP.
-# If multiple interfaces are detected the user will need to manualy set using ip="0.0.0.0".
+# If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ "${gamename}" != "Teamspeak 3" ]; then
+if [ "${gamename}" != "TeamSpeak 3" ]; then
 	if [ ! -f "/bin/ip" ]; then
 		ipcommand="/sbin/ip"
 	else
@@ -19,9 +19,11 @@ if [ "${gamename}" != "Teamspeak 3" ]; then
 
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		if [ "${getipwc}" -ge "2" ]; then
-			fn_print_dots ""
-			sleep 0.5
-			fn_print_fail "Multiple active network interfaces found.\n\n"
+			fn_print_dots "Check IP"
+			sleep 1
+			fn_print_fail "Check IP: Multiple active network interfaces found."
+			sleep 1
+			echo -en "\n"
 			fn_print_infomation "Specify the IP you want to use within the ${selfname} script.\n"
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			echo -en "${getip}\n"

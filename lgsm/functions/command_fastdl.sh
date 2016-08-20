@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Creates a FastDL folder
+# Description: Creates a FastDL folder.
 
 local commandname="FASTDL"
 local commandaction="FastDL"
@@ -305,15 +305,15 @@ fn_fastdl_bzip2(){
 fn_fastdl_completed(){
 	# Finished message
 	echo ""
-	fn_print_ok "Congratulations, it's done !"
+	fn_print_ok "Congratulations, it's done!"
 	fn_script_log "FastDL job done"
 	sleep 2
 	echo -en "\n"
 	echo ""
-	fn_print_info "Need more doc ? See https://github.com/dgibbs64/linuxgsm/wiki/FastDL"
+	fn_print_info "Need more documentation? See https://github.com/dgibbs64/linuxgsm/wiki/FastDL"
 	echo -en "\n"
 	if [ "$bzip2installed" == "0" ]; then
-	echo "By the way, you'd better install bzip2 an re-run this command !"
+	echo "By the way, you'd better install bzip2 and re-run this command!"
 	fi
 	echo "Credits : UltimateByte"
 }

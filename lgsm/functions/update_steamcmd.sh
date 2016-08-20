@@ -2,7 +2,7 @@
 # LGSM update_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description:Handles updating using steamCMD.
+# Description: Handles updating using SteamCMD.
 
 local commandname="UPDATE"
 local commandaction="Update"
@@ -24,9 +24,9 @@ fn_update_steamcmd_dl(){
 	fi
 
 	if [ "${engine}" == "goldsource" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" +quit | tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +quit | tee -a "${scriptlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" +quit | tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit | tee -a "${scriptlog}"
 	fi
 
 	fix.sh

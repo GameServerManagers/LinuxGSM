@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_details.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Displays server infomation.
 
@@ -26,7 +27,7 @@ fn_details_os(){
 	echo -e "${lightyellow}Distro Details${default}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
-		echo -e "${blue}Distro:\t${default}${os}"
+		echo -e "${blue}Distro:\t${default}${distroname}"
 		echo -e "${blue}Arch:\t${default}${arch}"
 		echo -e "${blue}Kernel:\t${default}${kernel}"
 		echo -e "${blue}Hostname:\t${default}$HOSTNAME"
@@ -43,7 +44,7 @@ fn_details_performance(){
 	# Avg Load:  1.00, 1.01, 0.78
 	#
 	# Mem:       total   used   free  cached
-	# Physical:  741M    656M   85M   256M 
+	# Physical:  741M    656M   85M   256M
 	# Swap:      0B      0B     0B
 
 	echo -e ""
@@ -150,7 +151,7 @@ fn_details_gameserver(){
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
 
-		# Teamspeak dbplugin
+		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
 			echo -e "${blue}dbplugin:\t${default}${dbplugin}"
 		fi
@@ -286,7 +287,7 @@ fn_details_ports(){
 	echo -e "Change ports by editing the parameters in:"
 
 	parmslocation="${red}UNKNOWN${default}"
-	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "Teamspeak 3" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -441,6 +442,16 @@ fn_details_teamspeak3(){
 	} | column -s $'\t' -t
 }
 
+fn_details_mumble(){
+	echo -e "netstat -atunp | grep murmur"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Voice\tINBOUND\t${port}\tudp"
+		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_details_teeworlds(){
 	echo -e "netstat -atunp | grep teeworlds_srv"
 	echo -e ""
@@ -569,7 +580,7 @@ fn_details_gameserver
 fn_details_script
 fn_details_backup
 # Some game servers do not have parms.
-if [ "${gamename}" != "Teamspeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
+if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
 	fn_parms
 	fn_details_commandlineparms
 fi
@@ -606,8 +617,10 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 	fn_details_hurtworld
 elif [ "${gamename}" == "7 Days To Die" ]; then
 	fn_details_sdtd
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_details_teamspeak3
+elif [ "${gamename}" == "Mumble" ]; then
+	fn_details_mumble
 elif [ "${gamename}" == "Rust" ]; then
 	fn_details_rust
 else

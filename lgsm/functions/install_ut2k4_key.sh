@@ -2,6 +2,7 @@
 # LGSM install_ut2k4_key.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Activates ut2k4 server with given key.
 
 local commandname="INSTALL"
 local commandaction="Install"

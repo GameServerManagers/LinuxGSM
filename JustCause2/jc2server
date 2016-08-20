@@ -30,6 +30,7 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
+ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){

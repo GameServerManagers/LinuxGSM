@@ -2,7 +2,7 @@
 # LGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: stores details on servers Glibc requirements.
+# Description: Stores details on servers Glibc requirements.
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
@@ -11,7 +11,13 @@ if [ "${gamename}" == "Blade Symphony" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	glibcrequired="2.17"
+elif [ "${gamename}" == "Day of Infamy" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
+elif [ "${gamename}" == "Empires Mod" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Fistful of Frags" ]; then
@@ -37,7 +43,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 	glibcfix="no"
 elif [ "${engine}" == "projectzomboid" ]; then
 	glibcrequired="2.15"
-	glibcfix="yesno"
+	glibcfix="no"
 elif [ "${engine}" == "realvirtuality" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
@@ -68,7 +74,10 @@ elif [ "${engine}" == "unreal4" ]; then
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
-elif [ "${gamename}" == "Teamspeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 else

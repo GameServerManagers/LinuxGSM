@@ -40,7 +40,7 @@ ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
-    parms="TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}"
+parms="\"TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}\""
 }
 
 #### Advanced Variables ####
@@ -66,6 +66,7 @@ selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/ShooterGame"
 executabledir="${systemdir}/Binaries/Linux"

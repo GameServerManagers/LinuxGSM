@@ -2,6 +2,7 @@
 # LGSM install_header.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
+# Description: Prints installation header.
 
 local commandname="INSTALL"
 local commandaction="Install"
