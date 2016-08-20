@@ -43,8 +43,6 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ins.sh
 	elif [ "${gamename}" == "ARMA 3" ]; then
 		fix_arma3.sh
-	elif [ "${gamename}" == "ARMA 3" ]; then
-		fix_ut.sh
 	fi
 fi
 
