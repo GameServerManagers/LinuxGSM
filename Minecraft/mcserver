@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
         set -x
 fi
 
-version="210516"
+version="200816"
 
 #### Variables ####
 
@@ -61,7 +61,7 @@ executable="java -Xmx512M -Xms512M -jar minecraft_server.jar nogui"
 servercfg="server.properties"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
+servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging
