@@ -28,7 +28,7 @@ pushbullettoken="accesstoken"
 # Start Variables
 defaultmap="DM-Underland"
 gametype="DM"
-#defaultmap="CTF-FaceTest"
+#defaultmap="CTF-Face"
 #gametype="CTF"
 timelimit="10"
 ip="0.0.0.0"
