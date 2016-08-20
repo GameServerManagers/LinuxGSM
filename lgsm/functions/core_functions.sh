@@ -322,6 +322,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_ut.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Info
 
