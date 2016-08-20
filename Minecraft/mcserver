@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
         set -x
 fi
 
-version="200816"
+version="210816"
 
 #### Variables ####
 
@@ -24,10 +24,6 @@ email="email@example.com"
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
-
-# Steam login
-steamuser="anonymous"
-steampass=""
 
 # Start Variables
 maxplayers="16"
