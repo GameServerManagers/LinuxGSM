@@ -409,7 +409,7 @@ elif [ "${gamename}" == "Terraria" ]; then
 elif [ "${gamename}" == "Unreal Tournament" ]; then
 	echo -e "downloading Engine.ini...\c"
 	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Engine.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	echo -e "downloading dm.cfg...\c"
+	echo -e "downloading Game.ini...\c"
 	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Game.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_unrealtournament
