@@ -26,12 +26,16 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
+defaultmap="DM-Underland"
+gametype="DM"
+#defaultmap="CTF-FaceTest"
+#gametype="CTF"
+timelimit="10"
 ip="0.0.0.0"
 port="7777"
 
 fn_parms(){
-parms="UnrealTournament DM-DeckTest?Game=DM?TimeLimit=10 -port=${port}"
-#parms="UnrealTournament CTF-FaceTest?Game=CTF?TimeLimit=15 -port=${port}"
+parms="UnrealTournament ${defaultmap}?Game=${gametype}?TimeLimit=${timelimit} -port=${port}"
 }
 
 #### Advanced Variables ####

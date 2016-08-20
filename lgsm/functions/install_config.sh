@@ -36,7 +36,7 @@ fn_userinputconfig(){
 	fn_script_log_info "changing rconpassword."
 	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 	sleep 1
-	}
+}
 
 fn_arma3config(){
 	fn_defaultconfig
@@ -165,11 +165,28 @@ fn_unreal2config(){
 	echo ""
 }
 
-fn_unreal4(){
-	echo ""
-	echo "Configuring ${gamename} Server"
-	echo "================================="
+fn_unrealtournament(){
+	# allow user to input server name and password
+	if [ -z "${autoinstall}" ]; then
+		echo ""
+		echo "Configuring ${gamename} Server"
+		echo "================================="
+		sleep 1
+		read -p "Enter server name: " servername
+		read -p "Enter rcon password: " rconpass
+	else
+		servername="${servicename}"
+		rconpass="rconpassword"
+	fi
+	echo "changing hostname."
+	fn_script_log_info "changing hostname."
+	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgdir}/Game.ini"
+	sleep 1
+	echo "changing rconpassword."
+	fn_script_log_info "changing rconpassword."
 	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgdir}/Engine.ini"
+	sleep 1
+
 }
 
 echo ""
@@ -392,8 +409,10 @@ elif [ "${gamename}" == "Terraria" ]; then
 elif [ "${gamename}" == "Unreal Tournament" ]; then
 	echo -e "downloading Engine.ini...\c"
 	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Engine.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	echo -e "downloading dm.cfg...\c"
+	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Game.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
-	fn_unreal4
+	fn_unrealtournament
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
