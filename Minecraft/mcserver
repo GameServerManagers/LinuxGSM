@@ -34,6 +34,10 @@ maxplayers="16"
 ip="0.0.0.0"
 updateonstart="off"
 
+fn_parms(){
+parms="nogui"
+}
+
 #### Advanced Variables ####
 
 # Github Branch Select
@@ -57,7 +61,7 @@ functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="java -Xmx512M -Xms512M -jar minecraft_server.jar nogui"
+executable="java -Xmx512M -Xms512M -jar minecraft_server.jar"
 servercfg="server.properties"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
