@@ -303,7 +303,7 @@ elif [ "${gamename}" == "Left 4 Dead 2" ]; then
 	fn_sourceconfig
 elif [ "${gamename}" == "Minecraft" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null  ${githuburl}/Minecraft/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/Minecraft/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
 elif [ "${gamename}" == "No More Room in Hell" ]; then
