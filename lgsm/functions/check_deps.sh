@@ -120,7 +120,7 @@ fn_check_loop(){
 		fn_deps_detector
 	done
 
-	# user to be informaed of any missing dependecies
+	# user to be informaed of any missing dependencies
 	fn_found_missing_deps
 }
 
@@ -128,7 +128,7 @@ info_distro.sh
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo ""
-	echo "Checking Dependecies"
+	echo "Checking Dependencies"
 	echo "================================="
 fi
 
