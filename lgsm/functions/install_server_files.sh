@@ -14,7 +14,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="https://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${gamename}" == "Enemy Territory" ]; then
-		fileurl="https://s3.amazonaws.com/linuxgsm/enemy-territory.260b.tar.gz"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="b566391fbcf5315ebe5816aa6e3ef9a8"
+		fileurl="https://s3.amazonaws.com/linuxgsm/enemy-territory.260b.tar.gz"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
