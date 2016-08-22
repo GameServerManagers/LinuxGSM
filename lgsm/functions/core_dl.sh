@@ -44,7 +44,7 @@ fn_dl_md5(){
 	fi
 }
 
-# Extracts bzip2 or gzip files
+# Extracts bzip2 or gzip or zip files
 # Extracts can be defined in code like so:
 # fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
@@ -61,6 +61,8 @@ fn_dl_extract(){
 		tarcmd=$(tar -zxf "${filedir}/${filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		tarcmd=$(tar -jxf "${filedir}/${filename}" -C "${extractdir}")
+	elif [ "${mime}" == "application/zip" ]; then
+		tarcmd=$(unzip -d "${extractdir}" "${filedir}/${filename}")
 	fi
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then

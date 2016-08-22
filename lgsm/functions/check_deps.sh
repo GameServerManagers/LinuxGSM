@@ -120,7 +120,7 @@ fn_check_loop(){
 		fn_deps_detector
 	done
 
-	# user to be informaed of any missing dependecies
+	# user to be informed of any missing dependencies
 	fn_found_missing_deps
 }
 
@@ -128,7 +128,7 @@ info_distro.sh
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo ""
-	echo "Checking Dependecies"
+	echo "Checking Dependencies"
 	echo "================================="
 fi
 
@@ -188,6 +188,9 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		else
 			array_deps_required+=( libsdl1.2debian bzip2 )
 		fi
+	# Unreal Tournament
+	elif [ "${gamename}" == "Unreal Tournament" ]; then
+		array_deps_required+=( unzip )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -243,6 +246,9 @@ elif [ -n "$(command -v yum)" ]; then
 		else
 			array_deps_required+=( SDL.i686 bzip2 )
 		fi
+	# Unreal Tournament
+	elif [ "${gamename}" == "Unreal Tournament" ]; then
+		array_deps_required+=( unzip )
 	fi
 	fn_deps_email
 	fn_check_loop

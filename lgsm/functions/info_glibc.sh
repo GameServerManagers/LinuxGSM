@@ -83,6 +83,15 @@ elif [ "${engine}" == "unreal4" ]; then
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${gamename}" == "Mumble" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${engine}" == "idtech3" ]; then
+	glibcrequired="2.0"
+	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"
