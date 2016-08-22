@@ -83,7 +83,7 @@ elif [ "${gamename}" == "Mumble" ]; then
 elif [ "${engine}" == "idtech3" ]; then
 	glibcrequired="2.0"
 	glibcfix="no"
-elif [ "${engine}" == "refactor" ]; then
+elif [ "${engine}" == "refractor" ]; then
 	glibcrequired="2.0"
 	glibcfix="no"
 else
