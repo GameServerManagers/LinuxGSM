@@ -63,8 +63,8 @@ scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S'
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="dgibbs64"
-githubrepo="linuxgsm"
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
 githubbranch="master"
 
 ##### Script #####

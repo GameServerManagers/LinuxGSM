@@ -1,5 +1,5 @@
 #!/bin/bash
-# No More Room in Hell
+# Enemy Territory
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="130716"
+version="210516"
 
 #### Variables ####
 
@@ -25,27 +25,12 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-# Steam login
-steamuser="anonymous"
-steampass=""
-
 # Start Variables
-defaultmap="nmo_broadway"
-maxplayers="8"
-port="27015"
-sourcetvport="27020"
-clientport="27005"
 ip="0.0.0.0"
-updateonstart="off"
+port="27960"
 
-# Optional: Game Server Login Token
-# GSLT can be used for running a public server.
-# More info: https://gameservermanagers.com/gslt
-gslt=""
-
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game nmrih -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +sv_setsteamaccount ${gslt} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir} +exec ${servicename}.cfg"
 }
 
 #### Advanced Variables ####
@@ -57,13 +42,10 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-# Steam
-appid="317670"
-
 # Server Details
-servicename="nmrih-server"
-gamename="No More Room in Hell"
-engine="source"
+servicename="et-server"
+gamename="Enemy Territory"
+engine="idtech3"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -73,18 +55,18 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/nmrih"
-executabledir="${filesdir}"
-executable="./srcds_run"
+systemdir="${filesdir}"
+executabledir="${systemdir}"
+executable="./etded"
 servercfg="${servicename}.cfg"
-servercfgdir="${systemdir}/cfg"
+servercfgdir="${systemdir}/etmain"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${systemdir}/logs"
+gamelogdir="${filesdir}/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 consolelogging="on"

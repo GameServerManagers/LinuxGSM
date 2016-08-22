@@ -1,5 +1,5 @@
 #!/bin/bash
-# No More Room in Hell
+# Unreal Tournament
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="130716"
+version="210516"
 
 #### Variables ####
 
@@ -25,27 +25,17 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-# Steam login
-steamuser="anonymous"
-steampass=""
-
 # Start Variables
-defaultmap="nmo_broadway"
-maxplayers="8"
-port="27015"
-sourcetvport="27020"
-clientport="27005"
+defaultmap="DM-Underland"
+gametype="DM"
+#defaultmap="CTF-Face"
+#gametype="CTF"
+timelimit="10"
 ip="0.0.0.0"
-updateonstart="off"
+port="7777"
 
-# Optional: Game Server Login Token
-# GSLT can be used for running a public server.
-# More info: https://gameservermanagers.com/gslt
-gslt=""
-
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game nmrih -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +map ${defaultmap} +sv_setsteamaccount ${gslt} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="UnrealTournament ${defaultmap}?Game=${gametype}?TimeLimit=${timelimit} -port=${port}"
 }
 
 #### Advanced Variables ####
@@ -57,13 +47,10 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-# Steam
-appid="317670"
-
 # Server Details
-servicename="nmrih-server"
-gamename="No More Room in Hell"
-engine="source"
+servicename="ut-server"
+gamename="Unreal Tournament"
+engine="unreal4"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -73,18 +60,17 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/nmrih"
-executabledir="${filesdir}"
-executable="./srcds_run"
-servercfg="${servicename}.cfg"
-servercfgdir="${systemdir}/cfg"
+systemdir="${filesdir}/LinuxServer"
+executabledir="${systemdir}/Engine/Binaries/Linux"
+executable="./UE4Server-Linux-Shipping"
+servercfg="Game.ini"
+servercfgdir="${systemdir}/UnrealTournament/Saved/Config/LinuxServer"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${systemdir}/logs"
+gamelogdir="${filesdir}/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 consolelogging="on"
