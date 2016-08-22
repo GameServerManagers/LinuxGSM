@@ -15,10 +15,10 @@ fi
 
 fn_fetch_core_dl(){
 if [ -z "${githubuser}" ]; then
-	githubuser="dgibbs64"
+	githubuser="GameServerManagers"
 fi
 if [ -z "${githubrepo}" ]; then
-	githubrepo="linuxgsm"
+	githubrepo="LinuxGSM"
 fi
 if [ -z "${githubbranch}" ]; then
 	githubbranch="master"

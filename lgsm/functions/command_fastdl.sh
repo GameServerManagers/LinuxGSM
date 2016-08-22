@@ -29,7 +29,7 @@ fn_check_bzip2(){
 		echo -en "\n"
 		sleep 1
 		echo "We advise using it"
-		echo "For more information, see https://github.com/dgibbs64/linuxgsm/wiki/FastDL#bzip2-compression"
+		echo "For more information, see https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL#bzip2-compression"
 		sleep 2
 	else
 		bzip2installed="1"
@@ -310,7 +310,7 @@ fn_fastdl_completed(){
 	sleep 2
 	echo -en "\n"
 	echo ""
-	fn_print_info "Need more documentation? See https://github.com/dgibbs64/linuxgsm/wiki/FastDL"
+	fn_print_info "Need more documentation? See https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL"
 	echo -en "\n"
 	if [ "$bzip2installed" == "0" ]; then
 	echo "By the way, you'd better install bzip2 and re-run this command!"
