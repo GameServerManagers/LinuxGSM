@@ -281,6 +281,13 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_sourceconfig
 elif [ "${gamename}" == "Empires Mod" ]; then
 	fn_defaultconfig
+elif [ "${gamename}" == "Enemy Territory" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/EnemyTerritory/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
+	fn_userinputconfig
+	echo ""
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
