@@ -26,7 +26,6 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-timelimit="10"
 ip="0.0.0.0"
 
 fn_parms(){
@@ -38,7 +37,7 @@ parms=" +hostServer 1 +dedicated 1"
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="hurdad"
+githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="master"
 
