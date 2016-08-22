@@ -45,7 +45,7 @@ githubbranch="master"
 # Server Details
 servicename="bf1942-server"
 gamename="Battlefield: 1942"
-engine="unreal4"
+engine="refractor"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -61,7 +61,6 @@ executable="./start.sh"
 servercfg="serversettings.con"
 servercfgdir="${systemdir}/mods/bf1942/settings"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
