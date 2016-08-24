@@ -37,7 +37,7 @@ All FAQ can be found here.
 
 <a href="https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ">https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ</a>
 <h2>Donate</h2>
-If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
+If you want to donate to the project you can via PayPal. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
 <li><a href="https://gameservermanagers.com/#donate">Donate</a></li>
 </ul>
