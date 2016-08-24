@@ -27,7 +27,7 @@ fn_check_ownership(){
 	if [ "${selfownissue}" == "1" ]||[ "${funcownissue}" == "1" ]||[ "${filesownissue}" == "1" ]; then
 		fn_print_fail_nl "Ownership issues found"
 		fn_script_log_fatal "Ownership issues found"
-		fn_print_infomation_nl "The current user ($(whoami)) does not have ownership of the following files:"
+		fn_print_information_nl "The current user ($(whoami)) does not have ownership of the following files:"
 		fn_script_log_info "The current user ($(whoami)) does not have ownership of the following files:"
 		{
 			echo -e "User\tGroup\tFile\n"
@@ -43,7 +43,7 @@ fn_check_ownership(){
 
 		} | column -s $'\t' -t | tee -a "${scriptlog}"
 		echo ""
-		fn_print_infomation_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
+		fn_print_information_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
 		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
 		core_exit.sh
 	fi
@@ -54,7 +54,7 @@ fn_check_permissions(){
 		if [ $(find "${functionsdir}" -type f -not -executable|wc -l) -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
-			fn_print_infomation_nl "The following files are not executable:"
+			fn_print_information_nl "The following files are not executable:"
 			fn_script_log_info "The following files are not executable:"
 			{
 				echo -e "File\n"
@@ -74,7 +74,7 @@ fn_check_permissions(){
 		if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
-			fn_print_infomation_nl "The following directorys does not have the correct permissions:"
+			fn_print_information_nl "The following directorys does not have the correct permissions:"
 			fn_script_log_info "The following directorys does not have the correct permissions:"
 			ls -l "${rootdir}"
 			core_exit.sh

@@ -249,13 +249,13 @@ fn_print_warning_nl(){
 	echo -e "${yellow}Warning!${default} $@"
 }
 
-# Infomation!
-fn_print_infomation(){
-	echo -en "${cyan}Infomation!${default} $@"
+# Information!
+fn_print_information(){
+	echo -en "${cyan}Information!${default} $@"
 }
 
-fn_print_infomation_nl(){
-	echo -e "${cyan}Infomation!${default} $@"
+fn_print_information_nl(){
+	echo -e "${cyan}Information!${default} $@"
 }
 
 # On-Screen End of Line

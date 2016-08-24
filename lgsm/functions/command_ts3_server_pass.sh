@@ -16,7 +16,7 @@ fn_serveradmin_password_prompt(){
 	echo "================================="
 	echo ""
 	echo "Press \"CTRL+b d\" to exit console."
-	fn_print_infomation_nl "You are about to change the ${gamename} ServerAdmin password."
+	fn_print_information_nl "You are about to change the ${gamename} ServerAdmin password."
 	fn_print_warning_nl "${gamename} will restart during this process."
 	echo ""
 	while true; do

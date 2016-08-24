@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Displays server infomation.
+# Description: Displays server information.
 
 local commandname="DETAILS"
 local commandaction="Details"
