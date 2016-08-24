@@ -68,6 +68,9 @@ elif [ "${engine}" == "unreal" ]; then
 elif [ "${engine}" == "unreal2" ]; then
 	glibcrequired="2.4"
 	glibcfix="no"
+elif [ "${engine}" == "unreal3" ]; then
+	glibcrequired="2.3.2"
+	glibcfix="no"
 elif [ "${engine}" == "unreal4" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
