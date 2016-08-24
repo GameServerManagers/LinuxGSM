@@ -165,6 +165,33 @@ fn_unreal2config(){
 	echo ""
 }
 
+fn_ut3config(){
+	echo ""
+	echo "Configuring ${gamename} Server"
+	echo "================================="
+	sleep 1
+	echo "setting ServerName to 'LinuxGSM UT3 Server'."
+	fn_script_log_info "setting ServerName to 'LinuxGSM UT3 Server'."
+	sleep 1
+	sed -i 's/ServerName=/ServerName=LinuxGSM UT3 Server/g' "${servercfgdir}/DefaultGame.ini"
+	echo "setting WebAdmin password to admin."
+	fn_script_log_info "setting WebAdmin password to admin."
+	echo '[Engine.AccessControl]' >> "${servercfgdir}/DefaultGame.ini"
+	echo 'AdminPassword=admin' >> "${servercfgdir}/DefaultGame.ini"
+	sleep 1
+	echo "enabling WebAdmin."
+	fn_script_log_info "enabling WebAdmin."
+	sed -i 's/bEnabled=false/bEnabled=True/g' "${servercfgdir}/DefaultWeb.ini"
+	if [ "${gamename}" == "Unreal Tournament 3" ]; then
+		sleep 1
+		echo "setting WebAdmin port to 8081."
+		fn_script_log_info "setting WebAdmin port to 8081."
+		sed -i 's/ListenPort=80/ListenPort=8081/g' "${servercfgdir}/DefaultWeb.ini"
+	fi
+	sleep 1
+	echo ""
+}
+
 fn_unrealtournament(){
 	# allow user to input server name and password
 	if [ -z "${autoinstall}" ]; then
@@ -425,6 +452,8 @@ elif [ "${gamename}" == "Unreal Tournament" ]; then
 	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Game.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_unrealtournament
+elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+	fn_ut3config
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
