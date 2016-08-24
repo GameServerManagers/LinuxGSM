@@ -20,7 +20,7 @@ fn_check_ownership(){
 				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			} | column -s $'\t' -t | tee -a "${scriptlog}"
 			core_exit.sh
-			fn_print_information_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
+			fn_print_infomation_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
 			fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
 		fi
 	fi
