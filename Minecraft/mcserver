@@ -26,8 +26,8 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-ip="0.0.0.0"
 updateonstart="off"
+javaram="1024" # -Xmx$1024M
 
 fn_parms(){
 parms="nogui"
@@ -56,7 +56,7 @@ functionsdir="${lgsmdir}/functions"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="java -Xmx1024M -jar minecraft_server.jar"
+executable="java -Xmx${javaram}M -jar minecraft_server.jar"
 servercfg="server.properties"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
