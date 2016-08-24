@@ -39,11 +39,10 @@ shouldadvertise="true"
 pureserver="1"
 allowjoininprogress="true"
 maxplayers="32"
-adminpw="changeme"
 
 #list of game types and mutators : http://wiki.unrealadmin.org/FAQ:UT3
 fn_parms(){
-parms="server ${defaultmap}?Game=${game}?bIsDedicated=${isdedicated}?bIsLanMatch=${islanmatch}?bUsesStats=${usesstats}?bShouldAdvertise=${shouldadvertise}?PureServer=${pureserver}?bAllowJoinInProgress=${allowjoininprogress}?MaxPlayers=${maxplayers}?AdminPassword=${adminpw}?Mutator=${mutators} -port=${port} -queryport=${queryport} -multihome=${ip} -nohomedir -unattended -log=${gamelog}"
+parms="server ${defaultmap}?Game=${game}?bIsDedicated=${isdedicated}?bIsLanMatch=${islanmatch}?bUsesStats=${usesstats}?bShouldAdvertise=${shouldadvertise}?PureServer=${pureserver}?bAllowJoinInProgress=${allowjoininprogress}?MaxPlayers=${maxplayers}?Mutator=${mutators} -port=${port} -queryport=${queryport} -multihome=${ip} -nohomedir -unattended -log=${gamelog}"
 }
 
 # Server Details

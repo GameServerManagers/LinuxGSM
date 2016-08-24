@@ -170,12 +170,12 @@ fn_ut3config(){
 	echo "Configuring ${gamename} Server"
 	echo "================================="
 	sleep 1
-	echo "setting ServerName to 'LinuxGSM UT3 Server'"
-	fn_script_log_info "setting ServerName to 'LinuxGSM UT3 Server'"
+	echo "setting ServerName to 'LinuxGSM UT3 Server'."
+	fn_script_log_info "setting ServerName to 'LinuxGSM UT3 Server'."
 	sleep 1
 	sed -i 's/ServerName=/ServerName=LinuxGSM UT3 Server/g' "${servercfgdir}/DefaultGame.ini"
-	echo "setting WebAdmin password."
-	fn_script_log_info "setting WebAdmin password."
+	echo "setting WebAdmin password to admin."
+	fn_script_log_info "setting WebAdmin password to admin."
 	echo '[Engine.AccessControl]' >> "${servercfgdir}/DefaultGame.ini"
 	echo 'AdminPassword=admin' >> "${servercfgdir}/DefaultGame.ini"
 	sleep 1
