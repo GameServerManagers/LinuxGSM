@@ -18,6 +18,7 @@ fn_check_ownership(){
 			{
 				echo -e "User\tGroup\tFile\n"
 				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+				find "${rootdir}/${selfname}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			} | column -s $'\t' -t | tee -a "${scriptlog}"
 			core_exit.sh
 			fn_print_infomation_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
