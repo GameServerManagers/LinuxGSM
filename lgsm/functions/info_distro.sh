@@ -7,7 +7,7 @@
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-### Distro infomation
+### Distro information
 
 ## Distro
 # Returns architecture, kernel and distro/os.
@@ -53,12 +53,12 @@ hours=$(( uptime/60/60%24 ))
 days=$(( uptime/60/60/24 ))
 
 
-### Performance infomation
+### Performance information
 
 ## Average server load
 load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
-## Memory Infomation
+## Memory information
 # Available RAM and swap.
 
 # Older versions of free do not support -h option.
@@ -77,7 +77,7 @@ swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
 swapused=$(free ${humanreadable} | awk '/Swap:/ {print $3}')
 swapfree=$(free ${humanreadable} | awk '/Swap:/ {print $4}')
 
-### Disk Infomation
+### Disk information
 
 ## Available disk space on the partition.
 filesystem=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')

@@ -40,7 +40,7 @@ ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
-parms="TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}"
+parms="\"TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}\""
 }
 
 #### Advanced Variables ####
@@ -48,8 +48,8 @@ parms="TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${m
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="dgibbs64"
-githubrepo="linuxgsm"
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Steam

@@ -10,7 +10,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
 # tr -cd '[:digit:]' leave only digits
-# tr -d '=\"; ' remove selected charectors =\";
+# tr -d '=\"; ' remove selected characters =\";
 # grep -v "foo" filter out lines that contain foo
 
 unavailable="${red}UNAVAILABLE${default}"
@@ -68,6 +68,37 @@ fn_info_config_dontstarve(){
 	fi
 }
 
+fn_info_config_minecraft(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		rconport="${zero}"
+		slots="${zero}"
+		port="${zero}"
+		gamemode="${zero}"
+		gameworld="${unavailable}"
+	else
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		ipconfigcheck=$(grep "server-ip=" "${servercfgfullpath}" | sed 's/server-ip=//g')
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
+		rconpassword=$(grep "rcon.password=" "${servercfgfullpath}" | sed 's/rcon.password=//g' | tr -d '=\"; ')
+		rconport=$(grep "rcon.port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		slots=$(grep "max-players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "server-port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gamemode=$(grep "gamemode=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gameworld=$(grep "level-name=" "${servercfgfullpath}" | sed 's/level-name=//g' | tr -d '=\"; ')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		rconport=${rconport:-"NOT SET"}
+		slots=${slots:-"NOT SET"}
+		port=${port:-"NOT SET"}
+		gamemode=${gamemode:-"NOT SET"}
+		gameworld=${gameworld:-"NOT SET"}
+	fi
+}
+
 fn_info_config_projectzomboid(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -77,9 +108,9 @@ fn_info_config_projectzomboid(){
 		port="${zero}"
 		gameworld="${unavailable}"
 	else
-		servername=$(grep "PublicName=" "${servercfgfullpath}" | sed 's/PublicName=//g' | tr -d '\')
-		serverpassword=$(grep "^Password=$" "${servercfgfullpath}" | sed 's/Password=//g' | tr -d '\')
-		rconpassword=$(grep "RCONPassword=" "${servercfgfullpath}" | sed 's/RCONPassword=//g' | tr -d '\')
+		servername=$(grep "PublicName=" "${servercfgfullpath}" | sed 's/PublicName=//g' | tr -d '=\";\n')
+		serverpassword=$(grep "^Password=$" "${servercfgfullpath}" | sed 's/Password=//g' | tr -d '=\"; ')
+		rconpassword=$(grep "RCONPassword=" "${servercfgfullpath}" | sed 's/RCONPassword=//g' | tr -d '=\"; ')
 		slots=$(grep "MaxPlayers=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "DefaultPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		gameworld=$(grep "Map=" "${servercfgfullpath}" | sed 's/Map=//g' | tr -d '\n')
@@ -374,18 +405,22 @@ fn_info_config_sdtd(){
 		gameworld=${gameworld:-"NOT SET"}
 	fi
 }
-## Just Cause 2
+
+# Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
-## Dont Starve Together
+# Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-## Project Zomboid
-elif [ "${engine}" == "projectzomboid" ]; then
-	fn_info_config_projectzomboid
 # Quake Love
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
+# Minecraft
+elif [ "${engine}" == "lwjgl2" ]; then
+	fn_info_config_minecraft
+# Project Zomboid
+elif [ "${engine}" == "projectzomboid" ]; then
+	fn_info_config_projectzomboid
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_info_config_realvirtuality
