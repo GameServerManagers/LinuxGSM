@@ -173,19 +173,19 @@ fn_ut3config(){
 	echo "setting ServerName to 'LinuxGSM UT3 Server'"
 	fn_script_log_info "setting ServerName to 'LinuxGSM UT3 Server'"
 	sleep 1
-	sed -i 's/ServerName=/ServerName=LinuxGSM UT3 Server/g' "${servercfgdir}/UT-Game.ini"
+	sed -i 's/ServerName=/ServerName=LinuxGSM UT3 Server/g' "${servercfgdir}/DefaultGame.ini"
 	echo "setting WebAdmin password."
 	fn_script_log_info "setting WebAdmin password."
-	sed -i 's/AdminPassword=/AdminPassword=admin/g' "${servercfgdir}/UT-Game.ini"
+	sed -i 's/AdminPassword=/AdminPassword=admin/g' "${servercfgdir}/DefaultGame.ini"
 	sleep 1
 	echo "enabling WebAdmin."
 	fn_script_log_info "enabling WebAdmin."
-	sed -i 's/bEnabled=false/bEnabled=True/g' "${servercfgdir}/UT-Web.ini"
+	sed -i 's/bEnabled=false/bEnabled=True/g' "${servercfgdir}/DefaultWeb.ini"
 	if [ "${gamename}" == "Unreal Tournament 3" ]; then
 		sleep 1
 		echo "setting WebAdmin port to 8075."
 		fn_script_log_info "setting WebAdmin port to 8081."
-		sed -i 's/ListenPort=80/ListenPort=8081/g' "${servercfgdir}/UT-Web.ini"
+		sed -i 's/ListenPort=80/ListenPort=8081/g' "${servercfgdir}/DefaultWeb.ini"
 	fi
 	sleep 1
 	echo ""
