@@ -119,7 +119,7 @@ fn_update_ts3_availablebuild(){
 		fn_script_log_fatal "Failure! Checking for update: teamspeak.com: Not returning version info"
 		core_exit.sh
 	else
-		fn_print_ok_nl "Checking for update: teamspeak.com"
+		fn_print_ok "Checking for update: teamspeak.com"
 		fn_script_log_pass "Checking for update: teamspeak.com"
 		sleep 1
 	fi

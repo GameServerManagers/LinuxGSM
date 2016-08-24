@@ -24,7 +24,7 @@ if [ "${gamename}" != "TeamSpeak 3" ] && [ "${gamename}" != "Mumble" ]; then
 			fn_print_fail "Check IP: Multiple active network interfaces found."
 			sleep 1
 			echo -en "\n"
-			fn_print_infomation "Specify the IP you want to use within the ${selfname} script.\n"
+			fn_print_information "Specify the IP you want to use within the ${selfname} script.\n"
 			echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			echo -en "${getip}\n"
 			echo -en ""
