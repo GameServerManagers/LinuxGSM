@@ -35,7 +35,7 @@ elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 
 		echo -e "	* glibc required: ${glibcrequired}"
 		echo -e "	* glibc installed: ${red}${glibcversion}${default}"
 		echo -en "\n"
-		fn_print_infomation "The game server will probably not work. A distro upgrade is required!"
+		fn_print_information "The game server will probably not work. A distro upgrade is required!"
 		sleep 5
 	fi
 fi
