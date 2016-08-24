@@ -65,7 +65,6 @@ executable="./ut3"
 servercfg="UTGame.ini"
 servercfgdir="${systemdir}/UTGame/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/UTGame.ini"
 backupdir="${rootdir}/backups"
 
 # Logging
