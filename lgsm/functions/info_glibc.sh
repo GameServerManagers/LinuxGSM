@@ -29,17 +29,26 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Mumble" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
 elif [ "${engine}" == "dontstarve" ]; then
 	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${engine}" == "lwjgl2" ]; then
+	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${engine}" == "projectzomboid" ]; then
 	glibcrequired="2.15"

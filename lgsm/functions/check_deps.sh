@@ -120,7 +120,7 @@ fn_check_loop(){
 		fn_deps_detector
 	done
 
-	# user to be informaed of any missing dependencies
+	# user to be informed of any missing dependencies
 	fn_found_missing_deps
 }
 
@@ -149,8 +149,8 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		fi
 	fi
 
-	# All servers except ts3 & mumble require libstdc++6, lib32gcc1
-	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]; then
+	# All servers except ts3,mumble and minecraft servers require libstdc++6 and lib32gcc1
+	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]||[ "${engine}" != "lwjgl2" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
@@ -176,10 +176,10 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
-	# Project Zomboid
-	elif [ "${engine}" ==  "projectzomboid" ]; then
+	# Project Zomboid and Minecraft
+	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		array_deps_required+=( default-jdk )
-	# Unreal engine
+	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
@@ -215,8 +215,8 @@ elif [ -n "$(command -v yum)" ]; then
 		fi
 	fi
 
-	# All servers excelts ts3 & mumble require glibc.i686 libstdc++.i686
-	if [ "${executable}" != "./ts3server_startscript.sh" ]||[ "${executable}" != "./murmur.x86" ]; then
+	# All servers except ts3,mumble and minecraft servers require glibc.i686 and libstdc++.i686
+	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]||[ "${engine}" != "lwjgl2" ]; then
 		array_deps_required+=( glibc.i686 libstdc++.i686 )
 	fi
 
@@ -234,8 +234,8 @@ elif [ -n "$(command -v yum)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
-	# Project Zomboid
-	elif [ "${engine}" ==  "projectzomboid" ]; then
+	# Project Zomboid and Minecraft
+	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		array_deps_required+=( java-1.8.0-openjdk )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then

@@ -106,7 +106,9 @@ fn_details_gameserver(){
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	{
 		# Server name
-		echo -e "${blue}Server name:\t${default}${servername}"
+		if [ -n "${servername}" ]; then
+			echo -e "${blue}Server name:\t${default}${servername}"
+		fi
 
 		# Server ip
 		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
@@ -287,14 +289,15 @@ fn_details_ports(){
 	echo -e "Change ports by editing the parameters in:"
 
 	parmslocation="${red}UNKNOWN${default}"
-	local ports_edit_array=( "avalanche" "dontstarve" "projectzomboid" "idtech3" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	# engines that require editing in the config file
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-
+	# engines that require editing in the script file
 	local ports_edit_array=( "starbound" "spark" "source" "goldsource" "Rust" "Hurtworld" "unreal4")
 	for port_edit in "${ports_edit_array[@]}"
 	do
@@ -330,6 +333,15 @@ fn_details_avalanche(){
 
 fn_details_dontstarve(){
 	echo -e "netstat -atunp | grep dontstarve"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_minecraft(){
+	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -591,6 +603,8 @@ if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_details_dontstarve
+elif [ "${engine}" == "lwjgl2" ]; then
+	fn_details_minecraft
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_details_projectzomboid
 elif [ "${engine}" == "idtech3" ]; then

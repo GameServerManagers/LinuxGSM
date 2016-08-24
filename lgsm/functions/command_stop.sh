@@ -9,7 +9,7 @@ local commandname="STOP"
 local commandaction="Stopping"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-# Attempts Graceful of source using rcon 'quit' command.
+# Attempts graceful of source using rcon 'quit' command.
 fn_stop_graceful_source(){
 	fn_print_dots "Graceful: rcon quit"
 	fn_script_log_info "Graceful: rcon quit"
@@ -37,7 +37,7 @@ fn_stop_graceful_source(){
 	fn_stop_tmux
 }
 
-# Attempts Graceful of goldsource using rcon 'quit' command.
+# Attempts graceful of goldsource using rcon 'quit' command.
 # Goldsource 'quit' command restarts rather than shutsdown
 # this function will only wait 3 seconds then force a tmux shutdown.
 # preventing the server from coming back online.
@@ -58,7 +58,7 @@ fn_stop_graceful_goldsource(){
 	fn_stop_tmux
 }
 
-# Attempts Graceful of 7 Days To Die using telnet.
+# Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
 	sdtd_telnet_shutdown=$( expect -c '
 	proc abort {} {
@@ -144,6 +144,34 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
+# Attempts graceful of source using rcon '/stop' command.
+fn_stop_graceful_minecraft(){
+	fn_print_dots "Graceful: console /stop"
+	fn_script_log_info "Graceful: console /stop"
+	# sends quit
+	tmux send -t "${servicename}" /stop ENTER > /dev/null 2>&1
+	# waits up to 30 seconds giving the server time to shutdown gracefuly
+	for seconds in {1..30}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: console /stop: ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: console /stop: OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: console /stop: ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: console /stop: "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: console /stop: FAIL"
+	fi
+	sleep 1
+	fn_stop_tmux
+}
+
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
@@ -151,6 +179,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_source
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
+	elif [ "${engine}" == "lwjgl2" ]; then
+		fn_stop_graceful_minecraft
 	else
 		fn_stop_tmux
 	fi
