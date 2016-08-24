@@ -45,7 +45,7 @@ githubbranch="mcserver"
 # Server Details
 servicename="mc-server"
 gamename="Minecraft"
-engine="minecraft"
+engine="lwjgl2"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"

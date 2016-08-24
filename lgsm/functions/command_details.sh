@@ -290,7 +290,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "minecraft" "projectzomboid" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -592,7 +592,7 @@ fn_details_gameserver
 fn_details_script
 fn_details_backup
 # Some game servers do not have parms.
-if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "minecraft" ]; then
+if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
 	fn_parms
 	fn_details_commandlineparms
 fi
@@ -603,7 +603,7 @@ if [ "${engine}" == "avalanche" ]; then
 	fn_details_avalanche
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_details_dontstarve
-elif [ "${engine}" == "minecraft" ]; then
+elif [ "${engine}" == "lwjgl2" ]; then
 	fn_details_minecraft
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_details_projectzomboid

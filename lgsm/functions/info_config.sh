@@ -416,7 +416,7 @@ elif [ "${engine}" == "dontstarve" ]; then
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
 # Minecraft
-elif [ "${engine}" == "minecraft" ]; then
+elif [ "${engine}" == "lwjgl2" ]; then
 	fn_info_config_minecraft
 # Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then

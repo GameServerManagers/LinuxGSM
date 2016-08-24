@@ -47,7 +47,7 @@ elif [ "${engine}" == "avalanche" ]; then
 elif [ "${engine}" == "dontstarve" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
-elif [ "${engine}" == "minecraft" ]; then
+elif [ "${engine}" == "lwjgl2" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${engine}" == "projectzomboid" ]; then
