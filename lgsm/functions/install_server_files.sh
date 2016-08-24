@@ -13,6 +13,8 @@ fn_install_server_files(){
 		fileurl="https://gameservermanagers.com/files/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="https://gameservermanagers.com/files/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
+	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+		fileurl="https://s3.amazonaws.com/unrealtournament/UT3-linux-server-2.1.tar.gz"; filedir="${lgsmdir}/tmp"; filename="UT3-linux-server-2.1.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="6c22fcef9e2e03ed154df97569af540c"
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		fileurl="https://s3.amazonaws.com/linuxgsm/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz"; filedir="${lgsmdir}/tmp"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="7e9d2538a62b228f2de7176b44659aa9"
 	elif [ "${gamename}" == "Enemy Territory" ]; then
