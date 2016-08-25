@@ -36,7 +36,7 @@ fn_userinputconfig(){
 	fn_script_log_info "changing rconpassword."
 	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 	sleep 1
-	}
+}
 
 fn_arma3config(){
 	fn_defaultconfig
@@ -165,6 +165,57 @@ fn_unreal2config(){
 	echo ""
 }
 
+fn_ut3config(){
+	echo ""
+	echo "Configuring ${gamename} Server"
+	echo "================================="
+	sleep 1
+	echo "setting ServerName to 'LinuxGSM UT3 Server'."
+	fn_script_log_info "setting ServerName to 'LinuxGSM UT3 Server'."
+	sleep 1
+	sed -i 's/ServerName=/ServerName=LinuxGSM UT3 Server/g' "${servercfgdir}/DefaultGame.ini"
+	echo "setting WebAdmin password to admin."
+	fn_script_log_info "setting WebAdmin password to admin."
+	echo '[Engine.AccessControl]' >> "${servercfgdir}/DefaultGame.ini"
+	echo 'AdminPassword=admin' >> "${servercfgdir}/DefaultGame.ini"
+	sleep 1
+	echo "enabling WebAdmin."
+	fn_script_log_info "enabling WebAdmin."
+	sed -i 's/bEnabled=false/bEnabled=True/g' "${servercfgdir}/DefaultWeb.ini"
+	if [ "${gamename}" == "Unreal Tournament 3" ]; then
+		sleep 1
+		echo "setting WebAdmin port to 8081."
+		fn_script_log_info "setting WebAdmin port to 8081."
+		sed -i 's/ListenPort=80/ListenPort=8081/g' "${servercfgdir}/DefaultWeb.ini"
+	fi
+	sleep 1
+	echo ""
+}
+
+fn_unrealtournament(){
+	# allow user to input server name and password
+	if [ -z "${autoinstall}" ]; then
+		echo ""
+		echo "Configuring ${gamename} Server"
+		echo "================================="
+		sleep 1
+		read -p "Enter server name: " servername
+		read -p "Enter rcon password: " rconpass
+	else
+		servername="${servicename}"
+		rconpass="rconpassword"
+	fi
+	echo "changing hostname."
+	fn_script_log_info "changing hostname."
+	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgdir}/Game.ini"
+	sleep 1
+	echo "changing rconpassword."
+	fn_script_log_info "changing rconpassword."
+	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgdir}/Engine.ini"
+	sleep 1
+
+}
+
 echo ""
 if [ "${gamename}" != "Hurtworld" ]; then
 echo "Creating Configs"
@@ -257,6 +308,13 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_sourceconfig
 elif [ "${gamename}" == "Empires Mod" ]; then
 	fn_defaultconfig
+elif [ "${gamename}" == "Enemy Territory" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/EnemyTerritory/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
+	fn_userinputconfig
+	echo ""
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -301,6 +359,11 @@ elif [ "${gamename}" == "Left 4 Dead 2" ]; then
 	wget -N /dev/null ${githuburl}/Left4Dead2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
+elif [ "${gamename}" == "Minecraft" ]; then
+	echo -e "downloading lgsm-default.ini...\c"
+	wget -N /dev/null ${githuburl}/Minecraft/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/NoMoreRoomInHell/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -382,6 +445,15 @@ elif [ "${gamename}" == "Terraria" ]; then
 	wget -N /dev/null ${githuburl}/Terraria/cfg/lgsm-default.txt 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
+elif [ "${gamename}" == "Unreal Tournament" ]; then
+	echo -e "downloading Engine.ini...\c"
+	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Engine.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	echo -e "downloading Game.ini...\c"
+	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Game.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_unrealtournament
+elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+	fn_ut3config
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then

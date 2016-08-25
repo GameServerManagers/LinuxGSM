@@ -1,8 +1,8 @@
 <h1>Linux Game Server Managers_</h1>
-<a href="https://gameservermanagers.com"><img src="https://github.com/dgibbs64/linuxgsm/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
+<a href="https://gameservermanagers.com"><img src="https://github.com/GameServerManagers/LinuxGSM/blob/master/images/logo/lgsm-full-light.png" alt="linux Game Server Managers" width="600" /></a>
 
-[![Build Status](https://travis-ci.org/dgibbs64/linuxgsm.svg?branch=master)](https://travis-ci.org/dgibbs64/linuxgsm)
-[![Under Development](https://badge.waffle.io/dgibbs64/linuxgsm.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/dgibbs64/linuxgsm)
+[![Build Status](https://travis-ci.org/GameServerManagers/LinuxGSM.svg?branch=master)](https://travis-ci.org/GameServerManagers/LinuxGSM)
+[![Under Development](https://badge.waffle.io/GameServerManagers/LinuxGSM.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/GameServerManagers/LinuxGSM)
 
 The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice alert servers.
 
@@ -29,25 +29,25 @@ The Linux Game Server Managers are tested to work on the following Linux distros
 Other distros are likely to work but are not fully tested.
 <h3>Specific Requirements</h3>
 <ul>
-	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki/Glibc">GLIBC</a> >= 2.15 recommended [<a href="https://github.com/dgibbs64/linuxgsm/wiki/Glibc#server-requirements">specific requirements</a>].</li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki/Tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
+	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki/Glibc">GLIBC</a> >= 2.15 recommended [<a href="https://github.com/GameServerManagers/LinuxGSM/wiki/Glibc#server-requirements">specific requirements</a>].</li>
+	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki/Tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
 </ul>
 <h2>FAQ</h2>
 All FAQ can be found here.
 
-<a href="https://github.com/dgibbs64/linuxgsm/wiki/FAQ">https://github.com/dgibbs64/linuxgsm/wiki/FAQ</a>
+<a href="https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ">https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ</a>
 <h2>Donate</h2>
-If you want to donate to the project you can via PayPal, Flattr or Gratipay. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
+If you want to donate to the project you can via PayPal. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
 <li><a href="https://gameservermanagers.com/#donate">Donate</a></li>
 </ul>
 <h2>Useful Links</h2>
 <ul>
 	<li><a href="https://gameservermanagers.com">Homepage</a></li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm/wiki">Wiki</a></li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm">GitHub Code</a></li>
-	<li><a href="https://github.com/dgibbs64/linuxgsm/issues">GitHub Issues</a></li>
-	<li><a href="https://waffle.io/dgibbs64/linuxgsm">Waffle (Github Dashboard)</a></li>
+	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki">Wiki</a></li>
+	<li><a href="https://github.com/GameServerManagers/LinuxGSM">GitHub Code</a></li>
+	<li><a href="https://github.com/GameServerManagers/LinuxGSM/issues">GitHub Issues</a></li>
+	<li><a href="https://waffle.io/GameServerManagers/LinuxGSM">Waffle (Github Dashboard)</a></li>
 	<li><a href="http://alternativeto.net/software/linux-game-server-managers/">alternativeTo.net</a></li>
 </ul>
 <h2>Social</h2>
