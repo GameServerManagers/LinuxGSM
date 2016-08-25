@@ -580,66 +580,73 @@ fn_details_ark(){
 
 
 # Run checks and gathers details to display.
-check.sh
-info_config.sh
-info_distro.sh
-info_glibc.sh
-info_parms.sh
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_details_script
-fn_details_backup
-# Some game servers do not have parms.
-if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
-	fn_parms
-	fn_details_commandlineparms
-fi
-fn_details_ports
 
-# Display details depending on game or engine.
-if [ "${engine}" == "avalanche" ]; then
-	fn_details_avalanche
-elif [ "${engine}" == "dontstarve" ]; then
-	fn_details_dontstarve
-elif [ "${engine}" == "lwjgl2" ]; then
-	fn_details_minecraft
-elif [ "${engine}" == "projectzomboid" ]; then
-	fn_details_projectzomboid
-elif [ "${engine}" == "idtech3" ]; then
-	fn_details_idtech3
-elif [ "${engine}" == "realvirtuality" ]; then
-	fn_details_realvirtuality
-elif [ "${engine}" == "seriousengine35" ]; then
-	fn_details_seriousengine35
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-	fn_details_source
-elif [ "${engine}" == "spark" ]; then
-	fn_details_spark
-elif [ "${engine}" == "starbound" ]; then
-	fn_details_starbound
-elif [ "${engine}" == "teeworlds" ]; then
-	fn_details_teeworlds
-elif [ "${engine}" == "terraria" ]; then
-	fn_details_terraria
-elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-	fn_details_unreal
-elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
-	fn_details_ark
-elif [ "${gamename}" == "Hurtworld" ]; then
-	fn_details_hurtworld
-elif [ "${gamename}" == "7 Days To Die" ]; then
-	fn_details_sdtd
-elif [ "${gamename}" == "TeamSpeak 3" ]; then
-	fn_details_teamspeak3
-elif [ "${gamename}" == "Mumble" ]; then
-	fn_details_mumble
-elif [ "${gamename}" == "Rust" ]; then
-	fn_details_rust
-else
-	fn_print_error_nl "Unable to detect server engine."
-fi
+fn_display_details() {
+	check.sh
+	info_config.sh
+	info_distro.sh
+	info_glibc.sh
+	info_parms.sh
+	fn_details_os
+	fn_details_performance
+	fn_details_disk
+	fn_details_gameserver
+	fn_details_script
+	fn_details_backup
+	# Some game servers do not have parms.
+	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
+		fn_parms
+		fn_details_commandlineparms
+	fi
+	fn_details_ports
+	# Display details depending on game or engine.
+	if [ "${engine}" == "avalanche" ]; then
+		fn_details_avalanche
+	elif [ "${engine}" == "dontstarve" ]; then
+		fn_details_dontstarve
+	elif [ "${engine}" == "lwjgl2" ]; then
+		fn_details_minecraft
+	elif [ "${engine}" == "projectzomboid" ]; then
+		fn_details_projectzomboid
+	elif [ "${engine}" == "idtech3" ]; then
+		fn_details_idtech3
+	elif [ "${engine}" == "realvirtuality" ]; then
+		fn_details_realvirtuality
+	elif [ "${engine}" == "seriousengine35" ]; then
+		fn_details_seriousengine35
+	elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+		fn_details_source
+	elif [ "${engine}" == "spark" ]; then
+		fn_details_spark
+	elif [ "${engine}" == "starbound" ]; then
+		fn_details_starbound
+	elif [ "${engine}" == "teeworlds" ]; then
+		fn_details_teeworlds
+	elif [ "${engine}" == "terraria" ]; then
+		fn_details_terraria
+	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+		fn_details_unreal
+	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+		fn_details_ark
+	elif [ "${gamename}" == "Hurtworld" ]; then
+		fn_details_hurtworld
+	elif [ "${gamename}" == "7 Days To Die" ]; then
+		fn_details_sdtd
+	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+		fn_details_teamspeak3
+	elif [ "${gamename}" == "Mumble" ]; then
+		fn_details_mumble
+	elif [ "${gamename}" == "Rust" ]; then
+		fn_details_rust
+	else
+		fn_print_error_nl "Unable to detect server engine."
+	fi
 
-fn_details_statusbottom
-core_exit.sh
+	fn_details_statusbottom
+}
+
+if [ -z $postdetails ] ;
+then 
+  fn_display_details
+  core_exit.sh
+fi

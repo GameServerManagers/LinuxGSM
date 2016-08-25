@@ -27,6 +27,8 @@ case "${getopt}" in
 		command_monitor.sh;;
 	ta|test-alert)
 		command_test_alert.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
@@ -66,6 +68,7 @@ case "${getopt}" in
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
+		echo -e "${blue}postdetails\t${default}pd | Post stripped details to pastebin (for support)"
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
@@ -91,6 +94,8 @@ case "${getopt}" in
 		command_monitor.sh;;
 	ta|test-alert)
 		command_test_alert.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	dt|details)
 		command_details.sh;;
 	b|backup)
