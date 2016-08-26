@@ -70,6 +70,7 @@ fn_info_config_dontstarve(){
 
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
 		rconpassword="${unavailable}"
 		rconport="${zero}"
 		slots="${zero}"
@@ -82,6 +83,7 @@ fn_info_config_minecraft(){
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
 		fi
+		servername=$(grep "motd=" "${servercfgfullpath}" | sed 's/motd=//g' | tr -d '=\";' | sed 's/\\n.*//g')
 		rconpassword=$(grep "rcon.password=" "${servercfgfullpath}" | sed 's/rcon.password=//g' | tr -d '=\"; ')
 		rconport=$(grep "rcon.port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		slots=$(grep "max-players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -90,6 +92,7 @@ fn_info_config_minecraft(){
 		gameworld=$(grep "level-name=" "${servercfgfullpath}" | sed 's/level-name=//g' | tr -d '=\"; ')
 
 		# Not Set
+		servername=${servername:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
 		slots=${slots:-"NOT SET"}
