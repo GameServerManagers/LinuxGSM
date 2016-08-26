@@ -150,7 +150,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	fi
 
 	# All servers except ts3,mumble and minecraft servers require libstdc++6 and lib32gcc1
-	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]||[ "${engine}" != "lwjgl2" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${engine}" != "lwjgl2" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
@@ -219,7 +219,7 @@ elif [ -n "$(command -v yum)" ]; then
 	fi
 
 	# All servers except ts3,mumble and minecraft servers require glibc.i686 and libstdc++.i686
-	if [ "${gamename}" != "TeamSpeak 3" ]||[ "${gamename}" != "Mumble" ]||[ "${engine}" != "lwjgl2" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${engine}" != "lwjgl2" ]; then
 		array_deps_required+=( glibc.i686 libstdc++.i686 )
 	fi
 
