@@ -152,7 +152,7 @@ fn_info_config_realvirtuality(){
 		serverpassword="${unavailable}"
 		slots="${zero}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | sed 's/\<hostname\>//g' | tr -d '=\"; ')
+		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | awk -F '"' '{print $2}')
 		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed 's/\passwordAdmin//g' | tr -d '=\"; ')
 		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed 's/\password//g' | tr -d '=\"; ')
 		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
