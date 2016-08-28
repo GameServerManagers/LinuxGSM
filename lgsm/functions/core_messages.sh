@@ -217,9 +217,10 @@ fn_print_info_nl(){
 # No More Room in Hell Debug
 # =================================
 fn_print_header(){
-	echo -en ""
-	echo -en "${lightblue}${servername} ${commandaction}"
+	echo -e ""
+	echo -e "${lightblue}${servername} ${commandaction}"
 	echo -e "=================================${default}"
+	echo -e ""
 }
 
 # Complete!
