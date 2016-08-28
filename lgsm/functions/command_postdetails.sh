@@ -65,6 +65,7 @@ fn_display_details | sed -e 's/password="[^"]*/password="--stripped--/' |
                 sed -e 's/authkey "[^"]*/authkey "--stripped--/' |
                 sed -e 's/rcts_strAdminPassword="[^"]*/rcts_strAdminPassword="--stripped--/' |
                 sed -e 's/rcts_strAdminPassword "[^"]*/rcts_strAdminPassword "--stripped--/' |
+                sed -e 's/sv_setsteamaccount [A-Za-z0-9]\+/sv_setsteamaccount --stripped--/' |
                 sed -e 's/sv_password="[^"]*/sv_password="--stripped--/' |
                 sed -e 's/sv_password "[^"]*/sv_password "--stripped--/' |
                 sed -e 's/zmq_stats_password="[^"]*/zmq_stats_password="--stripped--/' |
