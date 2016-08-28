@@ -217,10 +217,8 @@ fn_print_info_nl(){
 # No More Room in Hell Debug
 # =================================
 fn_print_header(){
-	info_config.sh
-	info_parms.sh
 	echo -e ""
-	echo -e "${lightblue}${servername} ${commandaction}"
+	echo -e "${lightblue}${gamename} ${commandaction}"
 	echo -e "=================================${default}"
 	echo -e ""
 }
