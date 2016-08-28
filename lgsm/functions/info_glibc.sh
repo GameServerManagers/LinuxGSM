@@ -41,6 +41,9 @@ elif [ "${gamename}" == "Quake Live" ]; then
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
+elif [ "${gamename}" == "Teeworlds" ]; then
+	glibcrequired="2.3"
+	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"

@@ -70,6 +70,7 @@ fn_info_config_dontstarve(){
 
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
 		rconpassword="${unavailable}"
 		rconport="${zero}"
 		slots="${zero}"
@@ -82,6 +83,7 @@ fn_info_config_minecraft(){
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
 		fi
+		servername=$(grep "motd=" "${servercfgfullpath}" | sed 's/motd=//g' | tr -d '=\";' | sed 's/\\n.*//g')
 		rconpassword=$(grep "rcon.password=" "${servercfgfullpath}" | sed 's/rcon.password=//g' | tr -d '=\"; ')
 		rconport=$(grep "rcon.port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		slots=$(grep "max-players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -90,6 +92,7 @@ fn_info_config_minecraft(){
 		gameworld=$(grep "level-name=" "${servercfgfullpath}" | sed 's/level-name=//g' | tr -d '=\"; ')
 
 		# Not Set
+		servername=${servername:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
 		slots=${slots:-"NOT SET"}
@@ -149,7 +152,7 @@ fn_info_config_realvirtuality(){
 		serverpassword="${unavailable}"
 		slots="${zero}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | sed 's/\<hostname\>//g' | tr -d '=\"; ')
+		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | awk -F '"' '{print $2}')
 		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed 's/\passwordAdmin//g' | tr -d '=\"; ')
 		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed 's/\password//g' | tr -d '=\"; ')
 		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')

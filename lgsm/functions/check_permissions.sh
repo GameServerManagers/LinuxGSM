@@ -37,7 +37,7 @@ fn_check_ownership(){
 			if [ "${funcownissue}" == "1" ]; then
 				find "${functionsdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
-			if [ "${funcownissue}" == "1"  ]; then
+			if [ "${filesownissue}" == "1"  ]; then
 				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 
