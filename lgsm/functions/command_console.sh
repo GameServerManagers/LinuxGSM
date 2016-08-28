@@ -13,7 +13,7 @@ echo ""
 echo "${gamename} Console"
 echo "================================="
 echo ""
-echo "Press \"CTRL+b d\" to exit console."
+echo "Press \"CTRL+b\" then \"d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo ""
 while true; do
