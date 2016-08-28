@@ -24,10 +24,7 @@ fix.sh
 info_distro.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh
 fn_parms
-echo ""
-echo "${gamename} Debug"
-echo "================================="
-echo ""
+fn_print_header
 echo -e "${blue}Distro:\t${default}${distroname}"
 echo -e "${blue}Arch:\t${default}${arch}"
 echo -e "${blue}Kernel:\t${default}${kernel}"
