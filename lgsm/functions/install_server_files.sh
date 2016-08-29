@@ -101,6 +101,10 @@ echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
 
+if [ -n "${appid}" ]; then
+	fn_install_server_files_steamcmd
+fi
+
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
 elif [ "${gamename}" == "Minecraft" ]; then
@@ -110,10 +114,6 @@ elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
-fi
-
-if [ -n "${appid}" ]; then
-	fn_install_server_files_steamcmd
 fi
 
 if [ -z "${autoinstall}" ]; then
