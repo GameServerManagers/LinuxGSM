@@ -22,7 +22,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		fileurl="https://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
-		fileurl="https://files.gameservermanagers.com/GoldenEyeSource/goldenEye_source_v4.2.4_server_2015_map_pack.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="goldenEye_source_v4.2.4_server_2015_map_pack.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="3148ac38acc3642b0d6d64f51f27de15"
+		fileurl="https://s3.amazonaws.com/linuxgsm/GoldenEye_Source_v5.0.1_server_full_Linux.tar.gz"; filedir="${lgsmdir}/tmp"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="5cee463370b9b776b3699f6be1826159"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
