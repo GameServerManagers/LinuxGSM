@@ -20,9 +20,8 @@ POSTDETAILS=yes
 # Another reason for an alternative here is that pastebin limits guest
 # posts to 10 per day, which might be a tight limit for some debugging situations.
  
-: {POSTTARGET:=http://pastebin.com}
-: {POSTEXPIRE:="1W"} # use 1 week as the default, other options are '24h' for a day, etc.
-# (The above variables can be overridden as environment variables)
+POSTTARGET="http://pastebin.com"
+POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
 
 # This file sources the command_details.sh file to leverage all
 # of the already-defined functions.  To keep the command_details.sh
