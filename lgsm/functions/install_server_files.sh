@@ -18,7 +18,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		fileurl="https://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz"; filedir="${lgsmdir}/tmp"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="7e9d2538a62b228f2de7176b44659aa9"
 	elif [ "${gamename}" == "Enemy Territory" ]; then
-		fileurl="https://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.gz"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
+		fileurl="https://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		fileurl="https://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
