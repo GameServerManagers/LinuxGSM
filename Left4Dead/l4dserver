@@ -40,7 +40,7 @@ updateonstart="off"
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} -tickrate ${tickrate} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms="-game left4dead -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
