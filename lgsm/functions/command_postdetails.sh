@@ -115,7 +115,7 @@ if [ "$POSTTARGET" == "http://pastebin.com" ] ; then
    #
    link=$(curl -s "$POSTTARGET/post.php" -D - -F "submit_hidden=submit_hidden" \
 	       -F "post_key=$TOKEN" -F "paste_expire_date=${POSTEXPIRE}" \
-	       -F "paste_name=LGSM Debug post" \
+	       -F "paste_name=${gamename} Debug Info" \
                -F "paste_format=8" -F "paste_private=0" \
                -F "paste_type=bash" -F "paste_code=<${tmpfile}" |
 	       awk '/^location: / { print $2 }' | sed "s/\n//g")
