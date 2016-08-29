@@ -12,7 +12,6 @@ fi
 version="210516"
 
 #### Variables ####
-export MALLOC_CHECK_=0
 
 # Notification Alerts
 # (on|off)
@@ -53,8 +52,8 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-# Steam - 2007 SDK
-appid="310"
+# Steam
+appid="310" # Source 2007 SDK
 
 # Server Details
 servicename="ges-server"

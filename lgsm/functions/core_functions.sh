@@ -292,6 +292,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_ges.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ins.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
