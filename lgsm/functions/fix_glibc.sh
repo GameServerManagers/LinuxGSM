@@ -24,7 +24,7 @@ do
 	fi
 done
 
-local libc_servers_array=( "Garry's Mod" )
+local libc_servers_array=( "Garry's Mod" "GoldenEye: Source" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then
