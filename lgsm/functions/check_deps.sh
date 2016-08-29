@@ -184,7 +184,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		array_deps_required+=( default-jdk )
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
-		array_deps_required+=( zlib1g )
+		array_deps_required+=( zlib1g:i386 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
