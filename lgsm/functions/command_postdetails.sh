@@ -9,6 +9,19 @@ local commandname="POSTDETAILS"
 local commandaction="Postdetails"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
+POSTDETAILS=yes
+POSTTARGET=http://pastebin.com
+POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
+
+# This file sources the command_details.sh file to leverage all
+# of the already-defined functions.  To keep the command_details.sh
+# from actually producing output, the main executable statements have
+# been wrapped in the equivalent of an ifdef clause, that looks
+# for the variable "postdetails" to be defined. -CedarLUG
+
+# source all of the functions defined in the details command
+. ${functionsdir}/command_details.sh
+
 fn_bad_tmpfile() {
 	echo "There was a problem creating a temporary file ${tmpfile}."
 	core_exit.sh
@@ -26,19 +39,6 @@ fn_gen_rand() {
 	# Quick generator for a random filename, pulled from /dev/urandom
       	tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${len} | xargs
 }
-
-# This file sources the command_details.sh file to leverage all
-# of the already-defined functions.  To keep the command_details.sh
-# from actually producing output, the main executable statements have
-# been wrapped in the equivalent of an ifdef clause, that looks
-# for the variable "postdetails" to be defined. -CedarLUG
-
-POSTDETAILS=yes
-POSTTARGET=http://pastebin.com
-POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
-
-# source all of the functions defined in the details command
-. ${functionsdir}/command_details.sh
 
 # Rather than a one-pass sed parser, default to using a temporary directory
 filedir="${lgsmdir}/tmp"
@@ -63,6 +63,7 @@ fn_display_details | sed -e 's/password="[^"]*/password="--stripped--/' |
                 sed -e 's/pushbullettoken "[^"]*/pushbullettoken "--stripped--/' |
                 sed -e 's/authkey="[^"]*/authkey="--stripped--/' |
                 sed -e 's/authkey "[^"]*/authkey "--stripped--/' |
+                sed -e 's/authkey [A-Za-z0-9]\+/authkey --stripped--/' |
                 sed -e 's/rcts_strAdminPassword="[^"]*/rcts_strAdminPassword="--stripped--/' |
                 sed -e 's/rcts_strAdminPassword "[^"]*/rcts_strAdminPassword "--stripped--/' |
                 sed -e 's/sv_setsteamaccount [A-Za-z0-9]\+/sv_setsteamaccount --stripped--/' |
