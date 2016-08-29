@@ -194,9 +194,9 @@ fn_info_config_source(){
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g')
-		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g')
-		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g')
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g'| cut -f1 -d "/")
+		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g'| cut -f1 -d "/")
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g'| cut -f1 -d "/")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
