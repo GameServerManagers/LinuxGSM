@@ -8,7 +8,7 @@ local commandname="FIX"
 local commandaction="Fix"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "Just Cause 2" )
+local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" "Just Cause 2" )
 for libstdc_server in "${libstdc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libstdc_server}" ]; then
