@@ -12,6 +12,7 @@ fi
 version="210516"
 
 #### Variables ####
+export MALLOC_CHECK_=0
 
 # Notification Alerts
 # (on|off)
