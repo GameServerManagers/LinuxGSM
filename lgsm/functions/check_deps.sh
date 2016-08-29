@@ -245,7 +245,7 @@ elif [ -n "$(command -v yum)" ]; then
 		array_deps_required+=( java-1.8.0-openjdk )
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
-		array_deps_required+=( zlib )
+		array_deps_required+=( zlib.i686 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
