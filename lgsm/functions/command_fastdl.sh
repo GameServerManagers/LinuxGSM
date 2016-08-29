@@ -12,7 +12,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 
 # Directories
-webdir="${rootdir}/www"
+webdir="${rootdir}/public_html"
 fastdldir="${webdir}/fastdl"
 addonsdir="${systemdir}/addons"
 # Server lua autorun dir, used to autorun lua on client connect to the server
@@ -58,11 +58,11 @@ fn_fastdl_init(){
 		fn_print_info "Creating FastDL directories"
 		echo -en "\n"
 		sleep 1
-		fn_print_dots "Creating www directory"
+		fn_print_dots "Creating ${webdir} directory"
 		sleep 0.5
 		mkdir "${webdir}"
-		fn_print_ok "Created www directory"
-		fn_script_log "FastDL created www directory"
+		fn_print_ok "Created ${webdir} directory"
+		fn_script_log "FastDL created ${webdir} directory"
 		sleep 1
 		echo -en "\n"
 	fi
