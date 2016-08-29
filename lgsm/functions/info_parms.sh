@@ -15,7 +15,6 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
 
-
 fn_info_config_idtech3(){
 	# Not Set
 	port=${port:-"NOT SET"}
