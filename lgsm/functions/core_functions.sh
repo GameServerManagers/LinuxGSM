@@ -116,6 +116,15 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_postdetails.sh(){
+functionfile="${FUNCNAME}"
+tempffname=$functionfile
+fn_fetch_function
+functionfile="command_details.sh"
+fn_fetch_function
+functionfile=$tempffname
+}
+
 command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
