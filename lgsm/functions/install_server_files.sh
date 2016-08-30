@@ -23,6 +23,8 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="976cebc812cd8af01c272e97835e77ce"
+	elif [ "${gamename}" == "Quake 2" ]; then
+		fileurl="https://s3.amazonaws.com/linuxgsm/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
