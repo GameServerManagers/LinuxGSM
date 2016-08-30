@@ -98,6 +98,9 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
+elif [ "${engine}" == "idtech2" ]; then
+	glibcrequired="2.0"
+	glibcfix="no"
 elif [ "${engine}" == "idtech3" ]; then
 	glibcrequired="2.0"
 	glibcfix="no"

@@ -60,6 +60,7 @@ systemdir="${filesdir}/baseq2"
 executabledir="${filesdir}"
 executable="./quake2"
 servercfg="${servicename}.cfg"
+servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
 
