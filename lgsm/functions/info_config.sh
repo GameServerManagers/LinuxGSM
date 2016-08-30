@@ -12,6 +12,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected characters =\";
 # grep -v "foo" filter out lines that contain foo
+# cut -f1 -d "/" remove everything after /
 
 unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
@@ -194,9 +195,9 @@ fn_info_config_source(){
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g')
-		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g')
-		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g')
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g'| cut -f1 -d "/")
+		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g'| cut -f1 -d "/")
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g'| cut -f1 -d "/")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
@@ -415,7 +416,7 @@ if [ "${engine}" == "avalanche" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-# Quake Love
+# Quake Live
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
 # Minecraft
