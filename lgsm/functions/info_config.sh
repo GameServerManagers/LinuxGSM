@@ -12,6 +12,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected characters =\";
 # grep -v "foo" filter out lines that contain foo
+# cut -f1 -d "/" remove everything after /
 
 unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
@@ -415,7 +416,7 @@ if [ "${engine}" == "avalanche" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-# Quake Love
+# Quake Live
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
 # Minecraft
