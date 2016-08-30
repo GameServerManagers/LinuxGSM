@@ -62,6 +62,7 @@ executable="./quake2"
 servercfg="${servicename}.cfg"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
