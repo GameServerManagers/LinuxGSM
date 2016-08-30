@@ -1,5 +1,5 @@
 #!/bin/bash
-# Counter Strike: Condition Zero
+# Counter-Strike: Condition Zero
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -57,7 +57,7 @@ appidmod="czero"
 
 # Server Details
 servicename="cscz-server"
-gamename="Counter Strike: Condition Zero"
+gamename="Counter-Strike: Condition Zero"
 engine="goldsource"
 
 # Directories

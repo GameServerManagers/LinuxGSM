@@ -28,7 +28,7 @@ fi
 
 # Configuration
 install_config.sh
-if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
+if [ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh

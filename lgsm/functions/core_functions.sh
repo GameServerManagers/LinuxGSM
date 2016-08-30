@@ -8,6 +8,10 @@
 # Fixes for legacy code
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	gamename="TeamSpeak 3"
+elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	gamename="Counter-Strike: Global Offensive"
+elif [ "${gamename}" == "Counter Strike: Source" ]; then
+	gamename="Counter-Strike: Source"
 fi
 
 if [ "${emailnotification}" == "on" ]; then

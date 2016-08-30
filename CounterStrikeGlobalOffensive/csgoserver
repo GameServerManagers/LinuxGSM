@@ -1,5 +1,5 @@
 #!/bin/bash
-# Counter Strike: Global Offensive
+# Counter-Strike: Global Offensive
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -85,7 +85,7 @@ branch=""
 
 # Server Details
 servicename="csgo-server"
-gamename="Counter Strike: Global Offensive"
+gamename="Counter-Strike: Global Offensive"
 engine="source"
 
 # Directories
