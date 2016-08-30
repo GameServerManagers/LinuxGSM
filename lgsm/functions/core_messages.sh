@@ -218,7 +218,7 @@ fn_print_info_nl(){
 # =================================
 fn_print_header(){
 	echo -e ""
-	echo -e "${lightblue}${gamename} ${commandaction}"
+	echo -e "${gamename} ${commandaction}"
 	echo -e "=================================${default}"
 	echo -e ""
 }
