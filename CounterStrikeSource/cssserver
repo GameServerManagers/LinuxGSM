@@ -1,5 +1,5 @@
 #!/bin/bash
-# Counter Strike: Source
+# Counter-Strike: Source
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -62,7 +62,7 @@ appid="232330"
 
 # Server Details
 servicename="css-server"
-gamename="Counter Strike: Source"
+gamename="Counter-Strike: Source"
 engine="source"
 
 # Directories

@@ -12,7 +12,7 @@ echo ""
 echo "Game Server Login Token"
 echo "================================="
 sleep 1
-if [ "${gamename}" == "Counter Strike: Global Offensive" ]||[ "${gamename}" == "Counter Strike: Source" ]; then
+if [ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Counter-Strike: Source" ]; then
 	echo "GSLT is required to run a public ${gamename} server"
 	fn_script_log_info "GSLT is required to run a public ${gamename} server"
 else

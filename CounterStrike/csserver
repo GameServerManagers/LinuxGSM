@@ -1,5 +1,5 @@
 #!/bin/bash
-# Counter Strike
+# Counter-Strike
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -57,7 +57,7 @@ appidmod="cstrike"
 
 # Server Details
 servicename="cs-server"
-gamename="Counter Strike 1.6"
+gamename="Counter-Strike 1.6"
 engine="goldsource"
 
 # Directories

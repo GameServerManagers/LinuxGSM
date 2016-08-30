@@ -13,16 +13,17 @@ if [ "${ansi}" != "off" ]; then
 	red="\e[31m"
 	green="\e[32m"
 	yellow="\e[33m"
+	lightyellow="\e[93m"
 	blue="\e[34m"
+	lightblue="\e[94m"
 	magenta="\e[35m"
 	cyan="\e[36m"
-	lightyellow="\e[93m"
 	# carriage return & erase to end of line
 	creeol="\r\033[K"
 fi
 
 # Log display
-##########
+########################
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
 	if [ -d "${scriptlogdir}" ]; then
@@ -93,8 +94,8 @@ fn_script_log_info(){
 	fi
 }
 
-# On-Screen
-##########
+# On-Screen - Automated functions
+##################################
 
 # [ .... ]
 fn_print_dots(){
@@ -210,8 +211,17 @@ fn_print_info_nl(){
 	echo -en "\n"
 }
 
-# On-Screen full word
-##########
+# On-Screen - Interactive messages
+##################################
+
+# No More Room in Hell Debug
+# =================================
+fn_print_header(){
+	echo -e ""
+	echo -e "${gamename} ${commandaction}"
+	echo -e "=================================${default}"
+	echo -e ""
+}
 
 # Complete!
 fn_print_complete(){
@@ -259,7 +269,7 @@ fn_print_information_nl(){
 }
 
 # On-Screen End of Line
-##########
+##################################
 
 # OK
 fn_print_ok_eol(){
