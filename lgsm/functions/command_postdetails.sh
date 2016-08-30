@@ -20,10 +20,7 @@ POSTDETAILS=yes
 # Another reason for an alternative here is that pastebin limits guest
 # posts to 10 per day, which might be a tight limit for some debugging situations.
  
-#POSTTARGET="http://pastebin.com"
-POSTTARGET="http://hastebin.com"
-                # POSTEXPIRE is only relevant to pastebin.  If you are using
-                # hastebin, the post expires 30 days after the last view.
+POSTTARGET="http://pastebin.com"
 POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
 
 # This file sources the command_details.sh file to leverage all
@@ -124,12 +121,6 @@ if [ "$POSTTARGET" == "http://pastebin.com" ] ; then
 	       awk '/^location: / { print $2 }' | sed "s/\n//g")
 
    # Output the resulting link.
-   fn_print_warn_nl "You now need to visit (and verify) the content posted at ${POSTTARGET}${link}"
-elif [ "$POSTTARGET" == "http://hastebin.com" ] ; then
-   # hastebin is a bit simpler.  If successful, the returned result
-   # should look like: {"something":"key"}, putting the reference that
-   # we need in "key".  TODO - error handling. -CedarLUG
-   link=$(curl -s -d "$(<${tmpfile}) | cut -d\" -f4)
    fn_print_warn_nl "You now need to visit (and verify) the content posted at ${POSTTARGET}${link}"
 fi
 
