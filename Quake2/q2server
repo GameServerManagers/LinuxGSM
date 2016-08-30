@@ -45,7 +45,7 @@ githubbranch="master"
 
 # Server Details
 servicename="quake2-server"
-gamename="Quake2"
+gamename="Quake 2"
 engine="idtech2"
 
 # Directories
