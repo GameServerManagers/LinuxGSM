@@ -182,6 +182,9 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		array_deps_required+=( default-jdk )
+	# GoldenEye: Source
+	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
+		array_deps_required+=( zlib1g:i386 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
@@ -240,6 +243,9 @@ elif [ -n "$(command -v yum)" ]; then
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		array_deps_required+=( java-1.8.0-openjdk )
+	# GoldenEye: Source
+	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
+		array_deps_required+=( zlib.i686 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4

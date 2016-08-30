@@ -10,19 +10,19 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_server_files(){
 	if [ "${gamename}" == "Unreal Tournament 99" ]; then
-		fileurl="https://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
+		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-		fileurl="https://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
+		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
-		fileurl="https://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.gz"; filedir="${lgsmdir}/tmp"; filename="UT3-linux-server-2.1.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="6c22fcef9e2e03ed154df97569af540c"
+		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="6c22fcef9e2e03ed154df97569af540c"
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
-		fileurl="https://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz"; filedir="${lgsmdir}/tmp"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="7e9d2538a62b228f2de7176b44659aa9"
+		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz"; filedir="${lgsmdir}/tmp"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="7e9d2538a62b228f2de7176b44659aa9"
 	elif [ "${gamename}" == "Enemy Territory" ]; then
-		fileurl="https://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.gz"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
+		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fileurl="https://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
+		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
-		fileurl="https://s3.amazonaws.com/linuxgsm/GoldenEye_Source_v5.0.1_server_full_Linux.tar.gz"; filedir="${lgsmdir}/tmp"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="5cee463370b9b776b3699f6be1826159"
+		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="976cebc812cd8af01c272e97835e77ce"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
@@ -101,6 +101,10 @@ echo "Installing ${gamename} Server"
 echo "================================="
 sleep 1
 
+if [ -n "${appid}" ]; then
+	fn_install_server_files_steamcmd
+fi
+
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
 elif [ "${gamename}" == "Minecraft" ]; then
@@ -110,10 +114,6 @@ elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
-fi
-
-if [ -n "${appid}" ]; then
-	fn_install_server_files_steamcmd
 fi
 
 if [ -z "${autoinstall}" ]; then
