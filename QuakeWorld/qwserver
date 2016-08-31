@@ -43,7 +43,7 @@ githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Server Details
-servicename="quakeworld-server"
+servicename="quakeworld_server"
 gamename="QuakeWorld"
 engine="quake"
 
