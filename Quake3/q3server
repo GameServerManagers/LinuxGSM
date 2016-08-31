@@ -26,11 +26,12 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
+defaultmap="q3dm17"
 ip="0.0.0.0"
 port="27960"
 
 fn_parms(){
-parms="+set sv_punkbuster 1 +set fs_basepath ${filesdir} +set dedicated 1 +set com_hunkMegs 32 +set net_ip ${ip} +set net_port ${port} +exec ${servercfg}"
+parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set com_hunkMegs 32 +set net_ip ${ip} +set net_port ${port} +exec ${servercfg} +map ${defaultmap}"
 }
 
 #### Advanced Variables ####
