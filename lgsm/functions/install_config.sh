@@ -391,7 +391,7 @@ elif [ "${gamename}" == "Quake Live" ]; then
 	fn_userinputconfig
 elif [ "${gamename}" == "QuakeWorld" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/QuakeWOrld/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/QuakeWorld/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
 	fn_userinputconfig
