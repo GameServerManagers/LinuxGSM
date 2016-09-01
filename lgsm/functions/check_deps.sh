@@ -20,7 +20,7 @@ fn_deps_detector(){
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
-	elif [ -n "$(command -v dpkg-query)" ]; then
+	elif [ -n "$(command -v apt-get)" ]; then
 		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed$'
 		depstatus=$?
 	elif [ -n "$(command -v yum)" ]; then
