@@ -20,7 +20,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Enemy Territory" ]; then
 		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
+		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Server-XAN-3101884-Linux.zip"; filedir="${lgsmdir}/tmp"; filename="UnrealTournament-Server-XAN-3101884-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="3ff79df9d323ef5168b32863c04eca31"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="254533d4643ad2fe6f1f3ecc4f6b5e5f"
 	fi
