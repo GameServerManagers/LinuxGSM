@@ -283,6 +283,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_detect_ldd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Fix
 
 fix.sh(){
