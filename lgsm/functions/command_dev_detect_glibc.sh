@@ -22,10 +22,13 @@ elif [ -f "${filesdir}" ]; then
 fi
 echo ""
 
+files=$(find ${filesdir} | wc -l)
 find ${filesdir} -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	objdump -T $line 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${lgsmdir}/tmp/detect_glibc.tmp"
+	echo -n "$i / $files" $'\r'
+	((i++))
 done
-
+echo ""
 cat "${lgsmdir}/tmp/detect_glibc.tmp"|sort|uniq|sort -r --version-sort
 rm "${lgsmdir}/tmp/detect_glibc.tmp"
