@@ -45,6 +45,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -107,6 +109,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -168,6 +172,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -224,6 +230,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -288,6 +296,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	fd|fastdl)
 		command_fastdl.sh;;
 	*)
@@ -355,6 +365,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -423,6 +435,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -493,6 +507,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
