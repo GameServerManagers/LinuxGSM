@@ -11,14 +11,18 @@ case "$getopt" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
-		command_stop.sh;;
+		alert.sh
+		alert_shutdown;;
 	r|restart)
-		fn_restart;;
+		alert.sh
+		alert_restart;;
 	u|update)
-		update_check.sh;;
+		alert.sh
+		alert_update;;
 	fu|force-update|update-restart)
+		alert.sh
 		forceupdate=1;
-		update_check.sh;;
+		alert_update;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -43,24 +47,6 @@ case "$getopt" in
 		fn_autoinstall;;
 	dd|depsdetect)
 		command_dev_detect_deps.sh;;
-	rcd|restart-countdown)
-		command_restart_countdown.sh
-		countdown "RESTART";;
-	rcdf|restart-countdown-fast)
-		command_restart_countdown.sh
-		countdown "fast";;
-	sd|shutdown)
-		command_shutdown.sh
-		shutdown "SHUTDOWN";;
-	sdf|shutdown-fast)
-		command_shutdown.sh
-		shutdown "fast";;
-	uc|update-countdown)
-		command_update_countdown.sh
-		update_countdown_timer "UPDATE";;
-	ucf|update-countdown-fast)
-		command_update_countdown.sh
-		update_countdown_timer "fast";;
 	*)
 
 	# echo colors
@@ -85,29 +71,11 @@ case "$getopt" in
 		echo "    $0 ${red}stop|sp ${normal}" 
 		echo "      - Stop the server."
 		echo ""
-		echo "    $0 ${red}shutdown|sd ${normal}" 
-		echo "      - broadcasts 1 minute countdown and then stops the server."
-		echo ""
-		echo "    $0 ${red}shutdown-fast|sdf ${normal}" 
-		echo "      - broadcasts 10 second countdown and then stops the server."
-		echo ""
 		echo "    $0 ${green}restart|r ${normal}" 
 		echo "      - Restart the server."
 		echo ""
-		echo "    $0 ${green}restart-countdown|rcd ${normal}"
-		echo "      - broadcasts 1 minute countdown and then restarts the server"
-		echo ""
-		echo "    $0 ${green}restart-countdown-fast|rcdf ${normal}"
-		echo "      -  broadcasts 10 second countdown and then restarts the server"
-		echo ""
 		echo "    $0 ${cyan}update|u ${normal}"
 		echo "      - Checks and applies updates from SteamCMD."
-		echo ""
-		echo "    $0 ${cyan}update-countdown|uc ${normal}"
-		echo "      - broadcasts 1 minute countdown and then updates and restart's the server"
-		echo ""
-		echo "    $0 ${cyan}update-countdown-fast|ucf ${normal}"
-		echo "      - broadcasts 10 second countdown and then updates and restart's the server"
 		echo ""
 		echo "    $0 ${cyan}force-update|fu ${normal}"
 		echo "      - Bypasses the check and applies updates from SteamCMD."
