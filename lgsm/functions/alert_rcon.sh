@@ -87,5 +87,5 @@ COUNTDOWN_TYPE=UPDATE
 		execute "${msg_type} WARNING!!! SERVER $COUNTDOWN_TYPE in $SECONDS seconds!"
 		sleep 1
 	done
-	command_update.sh
+	update_check.sh
 }
