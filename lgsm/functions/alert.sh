@@ -59,3 +59,30 @@ elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_aler
 	fn_print_fail_nl "Pushbullet token not set"
 	fn_scriptlog "Pushbullet token not set"
 fi
+
+if [ "${shutdown_notification}" == "on" ]
+	then
+	alert_rcon.sh
+	#alert_shutdown
+elif [ "${shutdown_notification}" == "off" ]
+	then
+	command_stop.sh
+fi
+
+if [ "${restart_notification}" == "on" ]
+	then
+	alert_rcon.sh
+	#alert_restart
+elif [ "${restart_notification}" == "off" ]
+	then
+	fn_restart
+fi
+
+if [ "${update_notification}" == "on" ]
+	then
+	alert_rcon.sh
+	#alert_update
+elif [ "${update_notification}" == "off" ]
+	then
+	command_update.sh
+fi
