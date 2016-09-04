@@ -161,17 +161,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_restart_countdown.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-command_shutdown.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-command_update_countdown.sh(){
+alert_rcon.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
