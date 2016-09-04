@@ -25,6 +25,14 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
+# Notifications on | off
+backup_notification="on"
+shutdown_notification="on"
+restart_notification="on"
+update_notification="on"
+# Important
+msg_type="say"
+
 # Steam login
 steamuser="anonymous"
 steampass=""
