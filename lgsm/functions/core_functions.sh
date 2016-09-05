@@ -121,11 +121,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_execute.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 command_monitor.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
