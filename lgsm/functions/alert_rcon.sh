@@ -26,3 +26,10 @@ countdown()
 		sleep 1
 	done
 }
+
+execute()
+{
+	TMUX_BIN=tmux
+	$TMUX_BIN send -t ${servicename} "$*" "enter"
+	echo "Command executed: '$*'"
+}
