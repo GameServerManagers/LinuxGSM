@@ -24,7 +24,7 @@ do
 	fi
 done
 
-local libc_servers_array=( "Black Mesa: Deathmatch" "Garry's Mod" "GoldenEye: Source" )
+local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then
@@ -32,7 +32,7 @@ do
 	fi
 done
 
-local libpthread_servers_array=( "Black Mesa: Deathmatch" "Garry's Mod" )
+local libpthread_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" )
 for libpthread_server in "${libpthread_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libpthread_server}" ]; then
