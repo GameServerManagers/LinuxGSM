@@ -27,11 +27,7 @@ pushbullettoken="accesstoken"
 
 # Notifications on | off
 backup_notification="on"
-shutdown_notification="on"
-restart_notification="on"
-update_notification="on"
-# Important
-msg_type="say"
+ingame_alert="on"
 
 # Steam login
 steamuser="anonymous"
@@ -82,6 +78,9 @@ parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport $
 githubuser="zunnu"
 githubrepo="linuxgsm"
 githubbranch="master"
+
+# Server broadcast type
+msg_type="say"
 
 # Steam
 appid="740"
