@@ -10,7 +10,6 @@ local modulename="countdown"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-command_execute.sh
 
 
 countdown()
