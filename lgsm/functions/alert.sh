@@ -123,6 +123,12 @@ if [ "${status}" == "0" ]; then
 	update_check.sh
 	command_start.sh
 
+elif [ "${ingame_alert}" == "off" ] && [ "$COUNTDOWN_TYPE" == "UPDATE_RESTART" ];
+	then
+	check_status.sh
+	update_check.sh
+	command_start.sh
+
 elif [ "${ingame_alert}" == "off" ] && [ "$COUNTDOWN_TYPE" == "RESTART" ];
 	then
 	command_stop.sh
