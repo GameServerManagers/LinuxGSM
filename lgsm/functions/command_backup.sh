@@ -10,7 +10,7 @@ local modulename="Backup"
 function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-command_execute.sh
+alert_rcon.sh
 
 backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 echo ""
