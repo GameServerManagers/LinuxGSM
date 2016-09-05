@@ -60,29 +60,81 @@ elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_aler
 	fn_scriptlog "Pushbullet token not set"
 fi
 
-if [ "${shutdown_notification}" == "on" ]
+if [ "${ingame_alert}" == "on" ] && [ "$COUNTDOWN_TYPE" == "SHUTDOWN" ];
 	then
+	check_status.sh
+
+if [ "${status}" == "0" ]; then
+	fn_print_ok_nl "${servername} is already stopped"
+	fn_scriptlog "${servername} is already stopped"
+	exit
+	fi
+
 	alert_rcon.sh
+	countdown
+	command_stop.sh
 	#alert_shutdown
-elif [ "${shutdown_notification}" == "off" ]
+
+elif [ "${ingame_alert}" == "on" ] && [ "$COUNTDOWN_TYPE" == "RESTART" ];
+	then
+	check_status.sh
+
+if [ "${status}" == "0" ]; then
+	fn_print_ok_nl "${servername} is already stopped"
+	fn_scriptlog "${servername} is already stopped"
+	command_start.sh
+	exit
+	fi
+
+	alert_rcon.sh
+	countdown
+	command_stop.sh
+	command_start.sh
+
+elif [ "${ingame_alert}" == "on" ] && [ "$COUNTDOWN_TYPE" == "UPDATE" ];
+	then
+	check_status.sh
+
+if [ "${status}" == "0" ]; then
+	fn_print_ok_nl "${servername} is already stopped"
+	fn_scriptlog "${servername} is already stopped"
+	update_check.sh
+	exit
+	fi
+
+	alert_rcon.sh
+	countdown
+	update_check.sh
+
+elif [ "${ingame_alert}" == "on" ] && [ "$COUNTDOWN_TYPE" == "UPDATE_RESTART" ];
+	then
+	check_status.sh
+
+if [ "${status}" == "0" ]; then
+	fn_print_ok_nl "${servername} is already stopped"
+	fn_scriptlog "${servername} is already stopped"
+	update_check.sh
+	command_start.sh
+	exit
+	fi
+
+	alert_rcon.sh
+	countdown
+	update_check.sh
+	command_start.sh
+
+elif [ "${ingame_alert}" == "off" ] && [ "$COUNTDOWN_TYPE" == "RESTART" ];
 	then
 	command_stop.sh
-fi
+	command_start.sh
 
-if [ "${restart_notification}" == "on" ]
+elif [ "${ingame_alert}" == "off" ] && [ "$COUNTDOWN_TYPE" == "UPDATE" ];
 	then
-	alert_rcon.sh
-	#alert_restart
-elif [ "${restart_notification}" == "off" ]
-	then
-	fn_restart
-fi
+	update_check.sh
 
-if [ "${update_notification}" == "on" ]
+elif [ "${ingame_alert}" == "off" ] && [ "$COUNTDOWN_TYPE" == "SHUTDOWN" ];
 	then
-	alert_rcon.sh
-	#alert_update
-elif [ "${update_notification}" == "off" ]
-	then
-	command_update.sh
+	command_stop.sh
+else
+	echo "Report this!"
 fi
