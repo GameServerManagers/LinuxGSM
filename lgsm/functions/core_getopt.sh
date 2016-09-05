@@ -54,16 +54,6 @@ case "$getopt" in
 		command_dev_detect_deps.sh;;
 	*)
 
-	# echo colors
-	normal=`echo -en "\e[0m"`
-	red=`echo -en "\e[31m"`
- 	green=`echo -en "\e[32m"`
- 	blue=`echo -en "\e[34m"`
- 	lightred=`echo -en "\e[91m"`
- 	lightgreen=`echo -en "\e[92m"`
- 	cyan=`echo -en "\e[96m"`
- 	purple=`echo -en "\e[95m"`
-
 
 		echo ""
 		echo "${gamename} - Linux Game Server Manager - Version ${version}"
