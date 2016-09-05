@@ -11,18 +11,23 @@ case "$getopt" in
 	st|start)
 		command_start.sh;;
 	sp|stop)
+		COUNTDOWN_TYPE=SHUTDOWN
 		alert.sh
-		alert_shutdown;;
+		;;
 	r|restart)
+		COUNTDOWN_TYPE=RESTART
 		alert.sh
-		alert_restart;;
+		#alert_restart
+		;;
 	u|update)
+		COUNTDOWN_TYPE=UPDATE
 		alert.sh
 		alert_update;;
 	fu|force-update|update-restart)
+		COUNTDOWN_TYPE=UPDATE_RESTART
 		alert.sh
 		forceupdate=1;
-		alert_update;;
+		;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
