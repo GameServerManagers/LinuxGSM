@@ -580,6 +580,8 @@ fn_details_ark(){
 
 
 # Run checks and gathers details to display.
+
+fn_display_details() {
 check.sh
 info_config.sh
 info_distro.sh
@@ -642,4 +644,10 @@ else
 fi
 
 fn_details_statusbottom
-core_exit.sh
+}
+
+if [ -z ${POSTDETAILS} ] ;
+then 
+  fn_display_details
+  core_exit.sh
+fi
