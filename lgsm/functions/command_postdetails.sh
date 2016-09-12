@@ -101,16 +101,16 @@ sed -i -r "s/[\x1B,\x0B]\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" "${tmpfile}"
 
 # If the gameserver uses anonymous steam credentials, leave them displayed
 # in the output.  Otherwise, strip these out as well.
-if ! grep -q "^steampass[= ]\"\"" ${tmpfile} ; then
+if ! grep -q "^steampass[= ]\"\"" "${tmpfile}" ; then
 	sed -i -e 's/steampass[= ]"[^"]*/steampass "--stripped--/' "${tmpfile}"
 fi
-if ! grep -q "^steamuser[= ]\"anonymous\"" ${tmpfile} ; then
+if ! grep -q "^steamuser[= ]\"anonymous\"" "${tmpfile}" ; then
 	sed -i -e 's/steamuser[= ]"[^"]*/steamuser "--stripped--/' "${tmpfile}"
 fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then 
    # grab the return from 'value' from an initial visit to pastebin.
-   csrftoken=$(curl -s ${posttarget} |
+   csrftoken=$(curl -s "${posttarget}" |
            sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
    # 
    # Use the csrftoken to then post the content.
