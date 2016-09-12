@@ -15,8 +15,22 @@ POSTDETAILS=yes
 
 # Set POSTTARGET to the appropriately-defined post destination. 
  
-# The only options for POSTTARGET are 
-#POSTTARGET="http://pastebin.com"
+# The options for POSTTARGET are:
+# The default destination - hastebin 
+# POSTTARGET="http://hastebin.com"
+#
+# Secondary destination - pastebin
+# POSTTARGET="http://hastebin.com
+#
+# Third option - leave on the filesystem
+# POSTTARGET=
+#
+# All of these options can be specified/overridden from the top-level
+# invocation, as in:
+#  rustserver@gamerig:~$ POSTTARGET="http://pastebin.com" ./rustserver pd
+# to post to pastebin, or
+#  rustserver@gamerig:~$ POSTTARGET= ./rustserver pd
+# to leave the output on the filesystem.
 POSTTARGET=${POSTTARGET="http://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
