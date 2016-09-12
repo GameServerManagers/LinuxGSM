@@ -646,7 +646,7 @@ fn_display_details() {
 	fn_details_statusbottom
 }
 
-if [ -z ${POSTDETAILS} ] ;
+if [ -z "${postdetails}" ] ;
 then 
   fn_display_details
   core_exit.sh

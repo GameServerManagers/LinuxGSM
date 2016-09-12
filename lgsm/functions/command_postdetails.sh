@@ -5,36 +5,38 @@
 # Website: https://gameservermanagers.com
 # Description: Strips sensitive information out of Details output
 
-local commandname="POSTDETAILS"
+local commandname="postdetails"
 local commandaction="Postdetails"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-# POSTDETAILS variable affects the output of command_details.sh.  Setting
+# postdetails variable affects the output of command_details.sh.  Setting
 # it here silences the output from sourcing command_details.sh.
-POSTDETAILS=yes
+postdetails=yes
 
-# Set POSTTARGET to the appropriately-defined post destination. 
+# Set posttarget to the appropriately-defined post destination. 
  
-# The options for POSTTARGET are:
+# The options for posttarget are:
 # The default destination - hastebin 
-# POSTTARGET="http://hastebin.com"
+# posttarget="http://hastebin.com"
 #
 # Secondary destination - pastebin
-# POSTTARGET="http://hastebin.com
+# posttarget="http://hastebin.com
 #
 # Third option - leave on the filesystem
-# POSTTARGET=
+# posttarget=
 #
 # All of these options can be specified/overridden from the top-level
 # invocation, as in:
-#  rustserver@gamerig:~$ POSTTARGET="http://pastebin.com" ./rustserver pd
+#  rustserver@gamerig:~$ posttarget="http://pastebin.com" ./rustserver pd
 # to post to pastebin, or
-#  rustserver@gamerig:~$ POSTTARGET= ./rustserver pd
+#  rustserver@gamerig:~$ posttarget= ./rustserver pd
 # to leave the output on the filesystem.
-POSTTARGET=${POSTTARGET="http://hastebin.com"}
+posttarget=${posttarget="http://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
-POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
+# use 1 week as the default, other options are '24h' for a day, etc.
+# This, too, may be overridden from the command line at the top-level
+postexpire="${postexpire="1W"}" 
 
 # This file sources the command_details.sh file to leverage all
 # of the already-defined functions.  To keep the command_details.sh
@@ -51,19 +53,15 @@ fn_bad_tmpfile() {
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
-if [ -d "${lgsmdir}" ]; then
-    posttmpdir="${lgsmdir}/tmp" 
-else 
-    posttmpdir="${rootdir}/tmp" 
-fi
+posttmpdir="${lgsmdir}/tmp" 
 
 # Not all game servers possess a tmp directory.  So create it if
 # it doesn't already exist
-mkdir -p ${posttmpdir} 2>&1 >/dev/null
+mkdir -p "${posttmpdir}" 2>&1 >/dev/null
 
-tmpfile=${posttmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp
+tmpfile="${posttmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
 
-touch ${tmpfile} || fn_bad_tmpfile
+touch "${tmpfile}" || fn_bad_tmpfile
 
 # fn_display_details is found in the command_details.sh file (which 
 # was sourced above).  The output is parsed for passwords and other
@@ -96,44 +94,44 @@ fn_display_details | sed -e 's/password="[^"]*/password="--stripped--/' |
                 sed -e 's/pass="[^"]*/pass="--stripped--/' |
                 sed -e 's/pass "[^"]*/pass "--stripped--/' |
                 sed -e 's/rconServerPassword="[^"]*/rconServerPassword="--stripped--/' |
-                sed -e 's/rconServerPassword "[^"]*/rconServerPassword "--stripped--/' > ${tmpfile}
+                sed -e 's/rconServerPassword "[^"]*/rconServerPassword "--stripped--/' > "${tmpfile}"
 
 # strip off all console escape codes (colorization)
-sed -i -r "s/[\x1B,\x0B]\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" ${tmpfile}
+sed -i -r "s/[\x1B,\x0B]\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" "${tmpfile}"
 
 # If the gameserver uses anonymous steam credentials, leave them displayed
 # in the output.  Otherwise, strip these out as well.
 if ! grep -q "^steampass[= ]\"\"" ${tmpfile} ; then
-	sed -i -e 's/steampass[= ]"[^"]*/steampass "--stripped--/' ${tmpfile}
+	sed -i -e 's/steampass[= ]"[^"]*/steampass "--stripped--/' "${tmpfile}"
 fi
 if ! grep -q "^steamuser[= ]\"anonymous\"" ${tmpfile} ; then
-	sed -i -e 's/steamuser[= ]"[^"]*/steamuser "--stripped--/' ${tmpfile}
+	sed -i -e 's/steamuser[= ]"[^"]*/steamuser "--stripped--/' "${tmpfile}"
 fi
 
-if [ "$POSTTARGET" == "http://pastebin.com" ] ; then 
+if [ "$posttarget" == "http://pastebin.com" ] ; then 
    # grab the return from 'value' from an initial visit to pastebin.
-   TOKEN=$(curl -s $POSTTARGET |
+   TOKEN=$(curl -s $posttarget |
            sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
    # 
    # Use the TOKEN to then post the content.
    #
-   link=$(curl -s "$POSTTARGET/post.php" -D - -F "submit_hidden=submit_hidden" \
-	       -F "post_key=$TOKEN" -F "paste_expire_date=${POSTEXPIRE}" \
+   link=$(curl -s "$posttarget/post.php" -D - -F "submit_hidden=submit_hidden" \
+	       -F "post_key=$TOKEN" -F "paste_expire_date=${postexpire}" \
 	       -F "paste_name=${gamename} Debug Info" \
                -F "paste_format=8" -F "paste_private=0" \
                -F "paste_type=bash" -F "paste_code=<${tmpfile}" |
 	       awk '/^location: / { print $2 }' | sed "s/\n//g")
 
    # Output the resulting link.
-   fn_print_warn_nl "Visit (and verify) the content posted at ${POSTTARGET}${link}"
-elif [ "$POSTTARGET" == "http://hastebin.com" ] ; then
+   fn_print_warn_nl "Visit (and verify) the content posted at ${posttarget}${link}"
+elif [ "$posttarget" == "http://hastebin.com" ] ; then
    # hastebin is a bit simpler.  If successful, the returned result
    # should look like: {"something":"key"}, putting the reference that
    # we need in "key".  TODO - error handling. -CedarLUG
-   link=$(curl -s -d "$(<${tmpfile})" ${POSTTARGET}/documents| cut -d\" -f4)
-   fn_print_warn_nl "Visit (and verify) the content posted at ${POSTTARGET}/${link}"
+   link=$(curl -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
+   fn_print_warn_nl "Visit (and verify) the content posted at ${posttarget}/${link}"
 else
-   fn_print_warn_nl "Review the output in ${tmpfile}" 
+   fn_print_warn_nl Review the output in "${tmpfile}" 
    core_exit.sh
 fi
 
