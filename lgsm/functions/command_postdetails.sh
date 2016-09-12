@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # LGSM command_postdetails.sh function
 # Author: CedarLUG
 # Contributor: CedarLUG
