@@ -17,7 +17,7 @@ POSTDETAILS=yes
  
 # The only options for POSTTARGET are 
 #POSTTARGET="http://pastebin.com"
-POSTTARGET="http://hastebin.com"
+POSTTARGET=${POSTTARGET="http://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
 POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
@@ -36,19 +36,6 @@ fn_bad_tmpfile() {
 	core_exit.sh
 }
 
-fn_gen_rand() {
-	# This is just a simple random generator to generate a random
- 	# name for storing the output.  Named pipes would (possibly) be
-	# better. -CedarLUG
-	#
-	# len holds the number of digits in our random string
-	local len=$1
-	# If not specified, default to 10.
-       	: {len:=10}
-	# Quick generator for a random filename, pulled from /dev/urandom
-      	tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${len} | xargs
-}
-
 # Rather than a one-pass sed parser, default to using a temporary directory
 posttmpdir="${lgsmdir}/tmp"
 
@@ -56,7 +43,7 @@ posttmpdir="${lgsmdir}/tmp"
 # it doesn't already exist
 mkdir -p ${posttmpdir} 2>&1 >/dev/null
 
-tmpfile=${posttmpdir}/$(fn_gen_rand 10).tmp
+tmpfile=${posttmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp
 
 touch ${tmpfile} || fn_bad_tmpfile
 
@@ -127,6 +114,9 @@ elif [ "$POSTTARGET" == "http://hastebin.com" ] ; then
    # we need in "key".  TODO - error handling. -CedarLUG
    link=$(curl -s -d "$(<${tmpfile})" ${POSTTARGET}/documents| cut -d\" -f4)
    fn_print_warn_nl "Visit (and verify) the content posted at ${POSTTARGET}/${link}"
+else
+   fn_print_warn_nl "Review the output in ${tmpfile}" 
+   core_exit.sh
 fi
 
 # cleanup
