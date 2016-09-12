@@ -132,7 +132,7 @@ command_postdetails.sh(){
     functionfile=$tempffname
 }
 
-command_postdetails.sh(){
+command_details.sh(){
 functionfile="${FUNCNAME}"
 tempffname=$functionfile
 fn_fetch_function
