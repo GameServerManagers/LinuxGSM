@@ -37,7 +37,11 @@ fn_bad_tmpfile() {
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
-posttmpdir="${lgsmdir}/tmp"
+if [ -d "${lgsmdir}" ]; then
+    posttmpdir="${lgsmdir}/tmp" 
+else 
+    posttmpdir="${rootdir}/tmp" 
+fi
 
 # Not all game servers possess a tmp directory.  So create it if
 # it doesn't already exist
