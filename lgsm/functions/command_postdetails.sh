@@ -13,14 +13,13 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # it here silences the output from sourcing command_details.sh.
 POSTDETAILS=yes
 
-# Set POSTTARGET to the appropriately-defined post destination.  The present
-# option is only pastebin, but hastebin is on the todo list (and should be
-# a lot easier than pastebin.
-#
-# Another reason for an alternative here is that pastebin limits guest
-# posts to 10 per day, which might be a tight limit for some debugging situations.
+# Set POSTTARGET to the appropriately-defined post destination. 
  
+# The only options for POSTTARGET are 
+#POSTTARGET="http://pastebin.com"
 POSTTARGET="http://hastebin.com"
+
+# For pastebin, you can set the expiration period.
 POSTEXPIRE="1W" # use 1 week as the default, other options are '24h' for a day, etc.
 
 # This file sources the command_details.sh file to leverage all
