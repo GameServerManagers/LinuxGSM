@@ -61,7 +61,7 @@ tmpfile=${filedir}/$(fn_gen_rand 10).tmp
 touch ${tmpfile} || fn_bad_tmpfile
 
 # fn_display_details is found in the command_details.sh file (which 
-# was sourced above.  The output is parsed for passwords and other
+# was sourced above).  The output is parsed for passwords and other
 # confidential information. -CedarLUG
 
 # The numerous sed lines could certainly be condensed quite a bit,
