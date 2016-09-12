@@ -45,7 +45,7 @@ postexpire="${postexpire="1W"}"
 # for the variable "postdetails" to be defined. -CedarLUG
 
 # source all of the functions defined in the details command
-. ${functionsdir}/command_details.sh
+. "${functionsdir}"/command_details.sh
 
 fn_bad_tmpfile() {
 	echo "There was a problem creating a temporary file ${tmpfile}."
