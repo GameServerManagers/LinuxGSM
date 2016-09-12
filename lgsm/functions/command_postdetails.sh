@@ -50,13 +50,13 @@ fn_gen_rand() {
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
-filedir="${lgsmdir}/tmp"
+posttmpdir="${lgsmdir}/tmp"
 
 # Not all game servers possess a tmp directory.  So create it if
 # it doesn't already exist
-mkdir -p ${filedir} 2>&1 >/dev/null
+mkdir -p ${posttmpdir} 2>&1 >/dev/null
 
-tmpfile=${filedir}/$(fn_gen_rand 10).tmp
+tmpfile=${posttmpdir}/$(fn_gen_rand 10).tmp
 
 touch ${tmpfile} || fn_bad_tmpfile
 
