@@ -108,15 +108,15 @@ if ! grep -q "^steamuser[= ]\"anonymous\"" ${tmpfile} ; then
 	sed -i -e 's/steamuser[= ]"[^"]*/steamuser "--stripped--/' "${tmpfile}"
 fi
 
-if [ "$posttarget" == "http://pastebin.com" ] ; then 
+if [ "${posttarget}" == "http://pastebin.com" ] ; then 
    # grab the return from 'value' from an initial visit to pastebin.
-   TOKEN=$(curl -s $posttarget |
+   csrftoken=$(curl -s ${posttarget} |
            sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
    # 
-   # Use the TOKEN to then post the content.
+   # Use the csrftoken to then post the content.
    #
-   link=$(curl -s "$posttarget/post.php" -D - -F "submit_hidden=submit_hidden" \
-	       -F "post_key=$TOKEN" -F "paste_expire_date=${postexpire}" \
+   link=$(curl -s "${posttarget}/post.php" -D - -F "submit_hidden=submit_hidden" \
+	       -F "post_key=${csrftoken}" -F "paste_expire_date=${postexpire}" \
 	       -F "paste_name=${gamename} Debug Info" \
                -F "paste_format=8" -F "paste_private=0" \
                -F "paste_type=bash" -F "paste_code=<${tmpfile}" |
@@ -124,7 +124,7 @@ if [ "$posttarget" == "http://pastebin.com" ] ; then
 
    # Output the resulting link.
    fn_print_warn_nl "Visit (and verify) the content posted at ${posttarget}${link}"
-elif [ "$posttarget" == "http://hastebin.com" ] ; then
+elif [ "${posttarget}" == "http://hastebin.com" ] ; then
    # hastebin is a bit simpler.  If successful, the returned result
    # should look like: {"something":"key"}, putting the reference that
    # we need in "key".  TODO - error handling. -CedarLUG
@@ -136,6 +136,5 @@ else
 fi
 
 # cleanup
-rm ${tmpfile} || /bin/true
-
+rm "${tmpfile}" || /bin/true
 core_exit.sh
