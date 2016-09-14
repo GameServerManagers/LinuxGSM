@@ -53,13 +53,12 @@ fn_bad_tmpfile() {
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
-posttmpdir="${tmpdir}"
 
 # Not all game servers possess a tmp directory.  So create it if
 # it doesn't already exist
-mkdir -p "${posttmpdir}" 2>&1 >/dev/null
+mkdir -p "${tmpdir}" 2>&1 >/dev/null
 
-tmpfile="${posttmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
+tmpfile="${tmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
 
 touch "${tmpfile}" || fn_bad_tmpfile
 
