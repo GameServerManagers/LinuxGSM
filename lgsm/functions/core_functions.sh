@@ -34,7 +34,7 @@ if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]||[ -z "${tm
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
-	tmpdir="${tmpdir}"
+	tmpdir="${lgsmdir}/tmp"
 fi
 
 ## fn_fetch_core_dl placed here to allow legacy servers to still download core functions
