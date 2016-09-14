@@ -5,7 +5,7 @@
 # Website: https://gameservermanagers.com
 # Description: Gets specific details from config files.
 
-function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -13,18 +13,6 @@ function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # tr -d '=\"; ' remove selected characters =\";
 # grep -v "foo" filter out lines that contain foo
 # cut -f1 -d "/" remove everything after /
-
-gamename=$1
-engine=$2
-servercfgfullpath=$3
-
-echo "Game Name: ${gamename}"
-echo "Engine: ${engine}"
-echo "servercfgfullpath: ${servercfgfullpath}"
-echo "#####################"
-
-unavailable="${red}UNAVAILABLE${default}"
-zero="${red}0${default}"
 
 fn_info_config_avalanche(){
 	if [ ! -f "${servercfgfullpath}" ]; then
