@@ -10,11 +10,11 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_mumble_dl(){
-	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${lgsmdir}/tmp" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2"
-	fn_dl_extract "${lgsmdir}/tmp" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${lgsmdir}/tmp"
+	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2"
+	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${lgsmdir}/tmp/murmur-static_${mumblearch}-${availablebuild}/"* "${filesdir}"
+	cp -R "${tmpdir}/murmur-static_${mumblearch}-${availablebuild}/"* "${filesdir}"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl

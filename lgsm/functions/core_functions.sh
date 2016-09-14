@@ -18,7 +18,7 @@ if [ "${emailnotification}" == "on" ]; then
     emailalert="on"
 fi
 
-# Code/functions for legacy servers
+## Code/functions for legacy servers
 fn_functions(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -29,13 +29,15 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
-if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]; then
+## In case older versions are missing these vars
+if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]||[ -z "${tmpdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
+	tmpdir="${tmpdir}"
 fi
 
+## fn_fetch_core_dl placed here to allow legacy servers to still download core functions
 fn_fetch_core_dl(){
 github_file_url_dir="lgsm/functions"
 github_file_url_name="${functionfile}"
@@ -78,6 +80,10 @@ fi
 source "${filedir}/${filename}"
 }
 
+# Creates tmp dir if missing
+if [ ! -d "${tmpdir}" ]; then
+	mkdir -p "${tmpdir}"
+fi
 
 # Core
 
