@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="130516"
+version="160916"
 
 #### Variables ####
 
@@ -53,6 +53,11 @@ githubbranch="master"
 
 # Steam
 appid="343050"
+
+# Steam App Branch Select
+# Allows to opt into the various Steam app branches. Default branch is "".
+# Example: "-beta anewreignbeta"
+branch=""
 
 # Server Details
 servicename="dst-server"
