@@ -269,7 +269,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -408,7 +408,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
