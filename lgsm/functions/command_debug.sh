@@ -94,6 +94,11 @@ trap fn_lockfile_trap INT
 cd "${executabledir}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	${executable} ${parms} -debug
+elif [ "${engine}" == "realvirtuality" ]; then
+	# Arma3 requires semicolons in the module list, which need to
+	# be escaped for regular (tmux) loading, but need to be
+	# stripped when loading straight from the console.
+	${executable} ${parms//\\;/;}
 else
 	${executable} ${parms}
 fi
