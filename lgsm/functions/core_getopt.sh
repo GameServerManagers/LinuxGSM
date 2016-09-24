@@ -130,7 +130,7 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from teamspeak.com."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
@@ -257,7 +257,7 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from GitHub."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
@@ -281,7 +281,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -422,7 +422,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
