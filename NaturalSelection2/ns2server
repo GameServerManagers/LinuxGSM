@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="220416"
+version="210916"
 
 #### Variables ####
 
@@ -48,7 +48,7 @@ password=""
 
 # http://wiki.unknownworlds.com/ns2/Dedicated_Server
 fn_parms(){
-parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${servercfgdir}\" -modstorage \"${modstoragedir}\" -mods \"${mods}\""
+parms="-name \"${servername}\" -port ${port} -webadmin -webdomain ${ip} -webuser ${webadminuser} -webpassword \"${webadminpass}\" -webport ${webadminport} -map ${defaultmap} -limit ${maxplayers} -config_path \"${servercfgdir}\" -logdir \"${gamelogdir}\" -modstorage \"${modstoragedir}\" -mods \"${mods}\""
 }
 
 #### Advanced Variables ####
