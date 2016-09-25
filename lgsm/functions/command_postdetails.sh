@@ -128,13 +128,13 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
 	echo "  * url: ${posttarget}${link}"
 elif [ "${posttarget}" == "http://hastebin.com" ] ; then
-	fn_print_dots "Posting details to hastbin.com for ${postexpire}"
+	fn_print_dots "Posting details to hastebin.com for ${postexpire}"
 	sleep 1
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
 	link=$(curl -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
-	fn_print_ok_nl "Posting details to hastbin.com for ${postexpire}"
+	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	echo "  * url: ${posttarget}/${link}"
 else
 	 fn_print_warn_nl Review the output in "${tmpfile}"
