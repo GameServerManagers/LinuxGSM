@@ -35,14 +35,16 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_steamcmd.sh
 	fi
 
-	if [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	if  [ "${gamename}" == "ARMA 3" ]; then
+		fix_arma3.sh
+	elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
 		fix_csgo.sh
 	elif [ "${gamename}" == "Don't Starve Together" ]; then
 		fix_dst.sh
+	elif [ "${gamename}" == "GoldenEye: Source" ]; then
+		fix_ges.sh
 	elif [ "${gamename}" == "Insurgency" ]; then
 		fix_ins.sh
-	elif [ "${gamename}" == "ARMA 3" ]; then
-		fix_arma3.sh
 	fi
 fi
 

@@ -43,10 +43,12 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -106,10 +108,12 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -124,7 +128,7 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from teamspeak.com."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
@@ -167,10 +171,12 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -223,10 +229,12 @@ case "${getopt}" in
 		command_dev_debug.sh;;
 	i|install)
 		command_install.sh;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -241,7 +249,7 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from GitHub."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
@@ -264,7 +272,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -287,10 +295,12 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	fd|fastdl)
 		command_fastdl.sh;;
 	*)
@@ -354,10 +364,12 @@ case "${getopt}" in
 		fn_autoinstall;;
 	mc|map-compressor)
 		compress_ut99_maps.sh;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -399,7 +411,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -422,10 +434,12 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -492,10 +506,12 @@ case "${getopt}" in
 		install_ut2k4_key.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
-	dd|deps-detect)
+	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"

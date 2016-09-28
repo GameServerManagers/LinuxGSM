@@ -4,7 +4,7 @@ env:
 - DISTRO=ubuntu-trusty
 
 before_script:
-    - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
+    - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
 
 addons:
   apt:

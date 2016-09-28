@@ -9,11 +9,8 @@ local commandaction="Console"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-echo ""
-echo "${gamename} Console"
-echo "================================="
-echo ""
-echo "Press \"CTRL+b d\" to exit console."
+fn_print_header
+fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo ""
 while true; do

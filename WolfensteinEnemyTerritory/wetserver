@@ -19,6 +19,7 @@ version="210516"
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -26,11 +27,9 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-ip="0.0.0.0"
-port="27960"
 
 fn_parms(){
-	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir} +exec ${servicename}.cfg"
+	parms="+set net_strict 1 +set fs_homepath ${filesdir} +exec ${servercfgfullpath}"
 }
 
 #### Advanced Variables ####

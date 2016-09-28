@@ -9,10 +9,9 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="300816"
 
 #### Variables ####
-export MALLOC_CHECK_=0
 
 # Notification Alerts
 # (on|off)
@@ -20,6 +19,7 @@ export MALLOC_CHECK_=0
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -53,8 +53,8 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-# Steam - 2007 SDK
-appid="310"
+# Steam
+appid="310" # Source 2007 SDK
 
 # Server Details
 servicename="ges-server"

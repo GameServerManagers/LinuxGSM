@@ -12,6 +12,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected characters =\";
 # grep -v "foo" filter out lines that contain foo
+# cut -f1 -d "/" remove everything after /
 
 unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
@@ -70,6 +71,7 @@ fn_info_config_dontstarve(){
 
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
 		rconpassword="${unavailable}"
 		rconport="${zero}"
 		slots="${zero}"
@@ -82,6 +84,7 @@ fn_info_config_minecraft(){
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
 		fi
+		servername=$(grep "motd=" "${servercfgfullpath}" | sed 's/motd=//g' | tr -d '=\";' | sed 's/\\n.*//g')
 		rconpassword=$(grep "rcon.password=" "${servercfgfullpath}" | sed 's/rcon.password=//g' | tr -d '=\"; ')
 		rconport=$(grep "rcon.port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		slots=$(grep "max-players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -90,6 +93,7 @@ fn_info_config_minecraft(){
 		gameworld=$(grep "level-name=" "${servercfgfullpath}" | sed 's/level-name=//g' | tr -d '=\"; ')
 
 		# Not Set
+		servername=${servername:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
 		slots=${slots:-"NOT SET"}
@@ -149,7 +153,7 @@ fn_info_config_realvirtuality(){
 		serverpassword="${unavailable}"
 		slots="${zero}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | sed 's/\<hostname\>//g' | tr -d '=\"; ')
+		servername=$(grep "hostname" "${servercfgfullpath}" | grep -v "//" | awk -F '"' '{print $2}')
 		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | grep -v "//" | sed 's/\passwordAdmin//g' | tr -d '=\"; ')
 		serverpassword=$(grep "password =" "${servercfgfullpath}" | grep -v "//" | sed 's/\password//g' | tr -d '=\"; ')
 		slots=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
@@ -191,9 +195,9 @@ fn_info_config_source(){
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g')
-		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g')
-		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g')
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed 's/hostname //g' | sed 's/"//g'| cut -f1 -d "/")
+		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed 's/sv_password //g' | sed 's/"//g'| cut -f1 -d "/")
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed 's/rcon_password //g' | sed 's/"//g'| cut -f1 -d "/")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
@@ -412,7 +416,7 @@ if [ "${engine}" == "avalanche" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-# Quake Love
+# Quake Live
 elif [ "${engine}" == "idtech3" ]; then
 	fn_info_config_idtech3
 # Minecraft

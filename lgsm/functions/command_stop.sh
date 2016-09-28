@@ -209,6 +209,7 @@ fn_stop_ark(){
 								rev | cut -d\/ -f1)
 						#
 						# check for a valid pid
+						pid=${pid//[!0-9]/}
 						let pid+=0 # turns an empty string into a valid number, '0',
 						# and a valid numeric pid remains unchanged.
 						if [[ ${pid} -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then

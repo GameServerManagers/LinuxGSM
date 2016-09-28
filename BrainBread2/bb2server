@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="030616"
+version="160916"
 
 #### Variables ####
 
@@ -19,6 +19,7 @@ version="030616"
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -59,6 +60,11 @@ githubbranch="master"
 
 # Steam
 appid="475370"
+
+# Steam App Branch Select
+# Allows to opt into the various Steam app branches. Default branch is "".
+# Example: "-beta beta_branch"
+branch=""
 
 # Server Details
 servicename="bb2-server"

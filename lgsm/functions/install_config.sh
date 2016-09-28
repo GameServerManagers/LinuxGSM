@@ -261,22 +261,22 @@ elif [ "${gamename}" == "Codename CURE" ]; then
 	wget -N /dev/null ${githuburl}/CodenameCURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
-elif [ "${gamename}" == "Counter Strike 1.6" ]; then
+elif [ "${gamename}" == "Counter-Strike 1.6" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CounterStrike/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
-elif [ "${gamename}" == "Counter Strike: Condition Zero" ]; then
+elif [ "${gamename}" == "Counter-Strike: Condition Zero" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CounterStrikeConditionZero/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
-elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_sourceconfig
-elif [ "${gamename}" == "Counter Strike: Source" ]; then
+elif [ "${gamename}" == "Counter-Strike: Source" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CounterStrikeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1

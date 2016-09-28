@@ -37,14 +37,14 @@ fn_check_ownership(){
 			if [ "${funcownissue}" == "1" ]; then
 				find "${functionsdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
-			if [ "${funcownissue}" == "1"  ]; then
+			if [ "${filesownissue}" == "1"  ]; then
 				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 
 		} | column -s $'\t' -t | tee -a "${scriptlog}"
 		echo ""
-		fn_print_information_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
-		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-permissions-issues-found"
+		fn_print_information_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
+		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
 		core_exit.sh
 	fi
 }

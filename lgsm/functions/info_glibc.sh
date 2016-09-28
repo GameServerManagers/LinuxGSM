@@ -6,7 +6,10 @@
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ "${gamename}" == "Blade Symphony" ]; then
+if [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
+elif [ "${gamename}" == "Blade Symphony" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "BrainBread 2" ]; then
@@ -26,6 +29,9 @@ elif [ "${gamename}" == "Fistful of Frags" ]; then
 elif [ "${gamename}" == "Garry's Mod" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "GoldenEye: Source" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -40,6 +46,9 @@ elif [ "${gamename}" == "Quake Live" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${gamename}" == "Teeworlds" ]; then
+	glibcrequired="2.3"
 	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"
