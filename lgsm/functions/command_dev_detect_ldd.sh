@@ -25,14 +25,14 @@ echo ""
 files=$(find ${filesdir} | wc -l)
 find ${filesdir} -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	#ldd -v $line 2>/dev/null|grep "=>" >>"${lgsmdir}/tmp/detect_ldd.tmp"
+	#ldd -v $line 2>/dev/null|grep "=>" >>"${tmpdir}/detect_ldd.tmp"
 	if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable")" ]; then
-		echo "$line" >> "${lgsmdir}/tmp/detect_ldd.tmp"
-		ldd $line 2>/dev/null |grep -v "not a dynamic executable" >> "${lgsmdir}/tmp/detect_ldd.tmp"
+		echo "$line" >> "${tmpdir}/detect_ldd.tmp"
+		ldd $line 2>/dev/null |grep -v "not a dynamic executable" >> "${tmpdir}/detect_ldd.tmp"
 
 		if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found")" ]; then
-			echo "$line" >> "${lgsmdir}/tmp/detect_ldd_not_found.tmp"
-			ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${lgsmdir}/tmp/detect_ldd_not_found.tmp"
+			echo "$line" >> "${tmpdir}/detect_ldd_not_found.tmp"
+			ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${tmpdir}/detect_ldd_not_found.tmp"
 		fi
 	fi
 	echo -n "$i / $files" $'\r'
@@ -42,12 +42,12 @@ echo ""
 echo ""
 echo "All"
 echo "================================="
-cat "${lgsmdir}/tmp/detect_ldd.tmp"
+cat "${tmpdir}/detect_ldd.tmp"
 
 echo ""
 echo "Not Found"
 echo "================================="
-cat "${lgsmdir}/tmp/detect_ldd_not_found.tmp"
+cat "${tmpdir}/detect_ldd_not_found.tmp"
 
-rm "${lgsmdir}/tmp/detect_ldd.tmp"
-rm "${lgsmdir}/tmp/detect_ldd_not_found.tmp"
+rm "${tmpdir}/detect_ldd.tmp"
+rm "${tmpdir}/detect_ldd_not_found.tmp"

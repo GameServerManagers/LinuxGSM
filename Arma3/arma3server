@@ -42,10 +42,10 @@ parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${serv
 
 # ARMA 3 Modules
 # add mods with relative paths:
-# mods/\@CBA_A3\;
-# or several mods as:
-# mods/\@CBA_A3\;mods/\@task_force_radio
-# and chmod modules directories to 775
+# mods/@cba_a3
+# to load the "Community Base Addons v3" module found in the
+# directory serverfiles/mods/@cba_a3.  Load several mods as:
+# mods="mods/@ace\;mods/@acex\;mods/@cba_a3"
 mods=""
 
 # Server-side Mods
@@ -84,6 +84,7 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
