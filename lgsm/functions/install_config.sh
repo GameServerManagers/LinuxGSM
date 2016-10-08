@@ -52,6 +52,9 @@ fn_default_config_remote(){
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+		elif [ "${config}" == "${networkcfgdefault}" ]; then
+			# ARMA 3
+			cp -v "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
 		else
 			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
 		fi
@@ -77,6 +80,11 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 elif [ "${gamename}" == "ARMA 3" ]; then
 	gamedirname="Arma3"
 	array_configs+=( server.cfg network.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	gamedirname="Battlefield1942"
+	array_configs+=( serversettings.con )
 	fn_fetch_default_config
 	fn_default_config_remote
 elif [ "${gamename}" == "Blade Symphony" ]; then
