@@ -16,7 +16,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="6c22fcef9e2e03ed154df97569af540c"
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
-		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz"; filedir="${tmpdir}"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="7e9d2538a62b228f2de7176b44659aa9"
+		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bzip2"; filedir="${tmpdir}"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
 	elif [ "${gamename}" == "Enemy Territory" ]; then
 		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${tmpdir}"; filename="enemy-territory.260b.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="ded32053e470fe15d9403ec4a0ab7e89"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
