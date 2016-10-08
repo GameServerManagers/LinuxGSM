@@ -91,11 +91,11 @@ executabledir="${filesdir}"
 executable="./arma3server"
 servercfg="${servicename}.server.cfg"
 networkcfg="${servicename}.network.cfg"
+servercfgdefault="server.cfg"
+networkcfgdefault="network.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 networkcfgfullpath="${servercfgdir}/${networkcfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.server.cfg"
-networkcfgdefault="${servercfgdir}/lgsm-default.network.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

@@ -613,6 +613,8 @@ fn_display_details() {
 	# Display details depending on game or engine.
 	if [ "${engine}" == "avalanche" ]; then
 		fn_details_avalanche
+	elif [ "${engine}" == "refractor" ]; then
+		fn_details_refractor
 	elif [ "${engine}" == "dontstarve" ]; then
 		fn_details_dontstarve
 	elif [ "${engine}" == "lwjgl2" ]; then
