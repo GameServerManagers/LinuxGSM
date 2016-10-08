@@ -56,8 +56,6 @@ fn_default_config_remote(){
 			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
 		fi
 	done
-	# the main config is renamed to the script default
-	cp -v "${servercfgdefault}" "${servercfgfullpath}"
 	sleep 1
 }
 
