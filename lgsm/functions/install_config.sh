@@ -42,33 +42,29 @@ fn_user_input_config(){
 	sleep 1
 }
 
-# Copys the default config from remote repo
+# Copys the default configs from Game-Server-Configs repo to the
+# correct location
 fn_default_config_remote(){
 	for config in "${array_configs[@]}"
 	do
+		# every config is copied
 		echo "copying ${servercfg} config file."
 		fn_script_log_info "copying ${servercfg} config file."
-		cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+		if [ "${config}" == "${servercfgdefault}" ]; then
+			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+		else
+			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+		fi
 	done
+	# the main config is renamed to the script default
+	cp -v "${servercfgdefault}" "${servercfgfullpath}"
 	sleep 1
 }
-
-# Copys the default config already available
-fn_default_config_local(){
-	for config in "${array_configs[@]}"
-	do
-		echo "copying ${servercfg} config file."
-		fn_script_log_info "copying ${servercfg} config file."
-		cp -v "${servercfgdefault}" "${servercfgfullpath}"
-	done
-	sleep 1
-}
-
 
 echo ""
 echo "Downloading ${gamename} Config"
 echo "================================="
-echo "Configs from https://github.com/GameServerManagers/Game-Server-Configs"
+echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
 sleep 2
 if [ "${gamename}" == "7 Days To Die" ]; then
 	gamedirname="7DaysToDie"
