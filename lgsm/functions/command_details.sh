@@ -374,6 +374,16 @@ fn_details_realvirtuality(){
 	} | column -s $'\t' -t
 }
 
+fn_details_refractor(){
+	echo -e "netstat -atunp | grep bf1942_lnxd"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_idtech3(){
 	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
@@ -599,7 +609,7 @@ fn_display_details() {
 		fn_details_commandlineparms
 	fi
 	fn_details_ports
-	
+
 	# Display details depending on game or engine.
 	if [ "${engine}" == "avalanche" ]; then
 		fn_details_avalanche
@@ -642,12 +652,12 @@ fn_display_details() {
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
-	
+
 	fn_details_statusbottom
 }
 
 if [ -z "${postdetails}" ] ;
-then 
+then
   fn_display_details
   core_exit.sh
 fi

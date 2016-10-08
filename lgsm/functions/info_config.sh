@@ -41,6 +41,36 @@ fn_info_config_avalanche(){
 	fi
 }
 
+fn_info_config_bf1942(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		slots="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+	else
+
+		servername=$(grep "game.serverName " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverName //g' | tr -d '=\";,:' | xargs)
+		serverpassword=$(grep "game.serverPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/game.serverPassword//g' | tr -d '=\";,:' | xargs)
+		slots=$(grep "game.serverMaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
+		port=$(grep "game.serverPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
+		queryport="22000"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		slots=${slots:-"0"}
+		port=${port:-"0"}
+
+		# check if the ip exists in the config file. Failing this will fall back to the default.
+		ipconfigcheck=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
+	fi
+}
+
+
 fn_info_config_dontstarve(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -418,6 +448,9 @@ fn_info_config_sdtd(){
 # Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
+# Battlefield: 1942
+elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	fn_info_config_bf1942
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
