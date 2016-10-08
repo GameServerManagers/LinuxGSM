@@ -25,6 +25,8 @@ class GameServer:
 			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'realvirtuality':
 			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
+		elif self.option.engine == 'refractor':
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'unity3d':
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'idtech3':
@@ -103,7 +105,7 @@ if __name__ == '__main__':
 		action = 'store',
 		dest = 'engine',
 		default = False,
-		help = 'Engine type: avalanche, goldsource, idtech3, realvirtuality, spark, source, unity3d, unreal, unreal2.'
+		help = 'Engine type: avalanche, goldsource, idtech3, realvirtuality, refractor, spark, source, unity3d, unreal, unreal2.'
 	)
 	parser.add_option(
 		'-v', '--verbose',
