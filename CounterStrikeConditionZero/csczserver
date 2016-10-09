@@ -74,9 +74,9 @@ systemdir="${filesdir}/czero"
 executabledir="${filesdir}"
 executable="./hlds_run"
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
