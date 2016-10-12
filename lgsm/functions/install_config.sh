@@ -334,14 +334,20 @@ elif [ "${gamename}" == "Terraria" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 elif [ "${gamename}" == "Unreal Tournament" ]; then
-	:
+	gamedirname="UnrealTournament"
+	array_configs+=( Game.ini Engine.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	:
+	gamedirname="UnrealTournament2004"
+	array_configs+=( Default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
 elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 	:
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	gamedirname="UnrealTournament99"
-	array_configs+=( Game.ini Engine.ini )
+	array_configs+=( Default.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 elif [ "${gamename}" == "Enemy Territory" ]; then
