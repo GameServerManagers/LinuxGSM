@@ -401,6 +401,12 @@ elif [ "${gamename}" == "Rust" ]; then
 	wget -N /dev/null  ${githuburl}/Rust/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	echo -e "downloading server.cfg...\c"
+	wget -N /dev/null  ${githuburl}/SanAndreasMultiplayer/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
+	fn_userinputconfig
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/SvenCoop/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
