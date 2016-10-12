@@ -28,7 +28,9 @@ pushbullettoken="accesstoken"
 
 # Start Variables
 ip="0.0.0.0"
+port="7777"
 
+#no params - check server.cfg
 fn_parms(){
 parms=" "
 }
@@ -57,11 +59,12 @@ libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
-executabledir="${systemdir}"
-executable="samp03svr"
+executabledir="${systemdir}/samp03"
+executable="./samp03svr"
 servercfg="server.cfg"
-servercfgdir="${systemdir}"
+servercfgdir="${systemdir}/samp03"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
