@@ -24,7 +24,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${tmpdir}"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
 	elif [ "${gamename}" == "Call of Duty" ]; then
-		fileurl="https://www.opferlamm-clan.de/tl_files/special/patches/cod-lnxded-1.5-large.tar.bz2"; filedir="${tmpdir}"; filename="cod-lnxded-1.5-large.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="db0b14030df23a03d448dbd05004503c"
+		fileurl="https://s3.amazonaws.com/linuxgsm/cod-lnxded-1.5b-full.tar.bz2"; filedir="${tmpdir}"; filename="cod-lnxded-1.5-large.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="19629895a4cf6fd8f6d1ee198b5304cd"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
