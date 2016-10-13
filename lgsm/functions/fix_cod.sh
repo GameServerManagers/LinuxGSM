@@ -8,6 +8,6 @@ local commandname="FIX"
 local commandaction="Fix"
 
 #Glibc Fix for Call of Duty
-export LD_LIBRARY_PATH=${libdir}:${LD_LIBRARY_PATH}
-
+#export LD_LIBRARY_PATH=${libdir}:${LD_LIBRARY_PATH}
+#echo $LD_LIBRARY_PATH
 
