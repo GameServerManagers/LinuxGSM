@@ -258,7 +258,7 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	fn_goldsourceconfig
 elif [ "${gamename}" == "Call of Duty" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/CallofDuty/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	wget -N /dev/null ${githuburl}/CallOfDuty/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_defaultconfig
 	fn_userinputconfig

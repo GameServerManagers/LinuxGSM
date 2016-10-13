@@ -26,13 +26,11 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-defaultmap=""
 ip="0.0.0.0"
-port="27960"
+port="28960"
 
 fn_parms(){
-#parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set com_hunkMegs 32 +set net_ip ${ip} +set net_port ${port} +exec ${servercfg} +map ${defaultmap}"
-parms=""
+parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set com_hunkMegs 32 +set net_ip ${ip} +set net_port ${port} +exec ${servercfg}"
 }
 
 #### Advanced Variables ####
@@ -61,7 +59,7 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./cod_lnxded"
 servercfg="${servicename}.cfg"
-servercfgdir="${systemdir}"
+servercfgdir="${systemdir}/main"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
