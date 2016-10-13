@@ -41,11 +41,9 @@ do
 done
 
 if [ "${gamename}" == "Call of Duty" ]; then
-	fn_fetch_file_github "lgsm/lib/gcc3" "libgcc_s.so" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
 	fn_fetch_file_github "lgsm/lib/gcc3" "libgcc_s.so.1" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
-	fn_fetch_file_github "lgsm/lib/gcc3" "libstdc++.so" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
-	fn_fetch_file_github "lgsm/lib/gcc3" "libstdc++.so.5" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
 	fn_fetch_file_github "lgsm/lib/gcc3" "libstdc++.so.5.0.3" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
+	ln -s "${lgsmdir}/lib/libstdc++.so.5.0.3" "${lgsmdir}/lib/libstdc++.so.5"
 fi
 
 
