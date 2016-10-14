@@ -189,11 +189,14 @@ fn_info_config_wolfensteinenemyterritory(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		slots="${zero}"
+		port="27960"
 	else
+		port=$(grep "net_port" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
 		rconpassword=$(grep "zmq_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set zmq_rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//g' -e '/^\//d' | xargs -0)
 		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | xargs -0)
 		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set g_password//g' | tr -d '=\";,:' | xargs -0)
-		slots=$(grep "sv_maxclients" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		slots=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+
 
 		# Not Set
 		rconpassword=${rconpassword:-"NOT SET"}
