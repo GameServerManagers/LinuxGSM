@@ -256,6 +256,12 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	wget -N /dev/null ${githuburl}/BladeSymphony/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
 	sleep 1
 	fn_goldsourceconfig
+elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+	echo -e "downloading lgsm-default.cfg...\c"
+	wget -N /dev/null ${githuburl}/CallOfDutyUnitedOffensive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
+	sleep 1
+	fn_defaultconfig
+	fn_userinputconfig
 elif [ "${gamename}" == "Codename CURE" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/CodenameCURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
