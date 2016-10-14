@@ -350,7 +350,7 @@ elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	array_configs+=( Default.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-elif [ "${gamename}" == "Enemy Territory" ]; then
+elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	gamedirname="WolfensteinEnemyTerritory"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config

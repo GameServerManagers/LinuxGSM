@@ -17,7 +17,7 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="6c22fcef9e2e03ed154df97569af540c"
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; filedir="${tmpdir}"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
-	elif [ "${gamename}" == "Enemy Territory" ]; then
+	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${tmpdir}"; filename="enemy-territory.260b.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
