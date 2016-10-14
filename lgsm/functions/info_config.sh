@@ -164,7 +164,6 @@ fn_info_config_idtech3(){
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
-
 		slots="${zero}"
 	else
 		rconpassword=$(grep "zmq_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set zmq_rcon_password//g' | tr -d '=\";,:' | xargs -0)
@@ -177,6 +176,10 @@ fn_info_config_idtech3(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		slots=${slots:-"0"}
+		ipconfigcheck=$(grep "net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/net_ip//g' | tr -d '=\";,:' | xargs -0)
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
 	fi
 }
 
