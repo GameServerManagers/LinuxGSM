@@ -105,7 +105,7 @@ elif [ "${gamename}" == "Mumble" ]; then
 elif [ "${engine}" == "refractor" ]; then
 	glibcrequired="2.0"
 	glibcfix="no"
-elif [ "${engine}" == "Wolfenstein: Enemy Territory" ]; then
+elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	glibcrequired="2.2.4"
 	glibcfix="no"
 else
