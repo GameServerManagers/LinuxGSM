@@ -340,7 +340,7 @@ elif [ "${gamename}" == "Unreal Tournament" ]; then
 	fn_default_config_remote
 elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	gamedirname="UnrealTournament2004"
-	array_configs+=( Default.ini )
+	array_configs+=( UT2004.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 elif [ "${gamename}" == "Unreal Tournament 3" ]; then
