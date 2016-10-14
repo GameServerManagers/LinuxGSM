@@ -43,7 +43,7 @@ githubbranch="master"
 
 # Server Details
 servicename="et-server"
-gamename="Enemy Territory"
+gamename="Wolfenstein: Enemy Territory"
 engine="idtech3"
 
 # Directories
