@@ -384,7 +384,7 @@ fn_details_refractor(){
 	} | column -s $'\t' -t
 }
 
-fn_details_idtech3(){
+fn_details_quakelive(){
 	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
 	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
@@ -396,6 +396,19 @@ fn_details_idtech3(){
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
 		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_wolfensteinenemyterritory(){
+	echo -e "netstat -atunp | grep etded"
+	echo -e ""
+	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
+		echo -e "${red}ERROR!${default} Missing/commented ports in ${servercfg}."
+		echo -e ""
+	fi
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -621,8 +634,6 @@ fn_display_details() {
 		fn_details_minecraft
 	elif [ "${engine}" == "projectzomboid" ]; then
 		fn_details_projectzomboid
-	elif [ "${engine}" == "idtech3" ]; then
-		fn_details_idtech3
 	elif [ "${engine}" == "realvirtuality" ]; then
 		fn_details_realvirtuality
 	elif [ "${engine}" == "seriousengine35" ]; then
@@ -639,18 +650,22 @@ fn_display_details() {
 		fn_details_terraria
 	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		fn_details_unreal
+	elif [ "${gamename}" == "7 Days To Die" ]; then
+		fn_details_sdtd
 	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 		fn_details_ark
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
-	elif [ "${gamename}" == "7 Days To Die" ]; then
-		fn_details_sdtd
+	elif [ "${gamename}" == "Quake Live" ]; then
+		fn_details_quakelive
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_details_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_details_rust
+	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+		fn_details_wolfensteinenemyterritory
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
