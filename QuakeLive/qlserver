@@ -67,7 +67,7 @@ branch=""
 # Server Details
 servicename="ql-server"
 gamename="Quake Live"
-engine="idtech3"
+engine="idtech3_ql"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
