@@ -17,27 +17,30 @@ class GameServer:
 		self.server_response_timeout = 5
 		self.default_buffer_length = 1024
 		#
-		if self.option.engine == 'source':
-			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
+		if self.option.engine == 'avalanche':
+			self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
+		
 		elif self.option.engine == 'goldsource':
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
+		elif self.option.engine == 'idtech3':
+			self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
+		elif self.option.engine == 'quakelive':
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'				
+		elif self.option.engine == 'realvirtuality':
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'			
+		elif self.option.engine == 'refractor':
+			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'				
+		elif self.option.engine == 'source':
 			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'spark':
 			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-		elif self.option.engine == 'realvirtuality':
-			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-		elif self.option.engine == 'refractor':
-			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
 		elif self.option.engine == 'unity3d':
 			self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
-		elif self.option.engine == 'idtech3':
-			self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'			
 		elif self.option.engine == 'unreal':
 			self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
 		elif self.option.engine == 'unreal2':
 			self.query_prompt_string = b'\x79\x00\x00\x00\x00'
-		elif self.option.engine == 'avalanche':
-			self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
-		self.connected = False
+			self.connected = False
 		self.response = None
 		self.sanity_checks()
 
@@ -105,7 +108,7 @@ if __name__ == '__main__':
 		action = 'store',
 		dest = 'engine',
 		default = False,
-		help = 'Engine type: avalanche, goldsource, idtech3, realvirtuality, refractor, spark, source, unity3d, unreal, unreal2.'
+		help = 'Engine type: avalanche, goldsource, idtech3, realvirtuality, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
 	)
 	parser.add_option(
 		'-v', '--verbose',
