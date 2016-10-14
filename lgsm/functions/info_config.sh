@@ -159,7 +159,7 @@ fn_info_config_projectzomboid(){
 	fi
 }
 
-fn_info_config_idtech3(){
+fn_info_config_quakelive(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -176,7 +176,31 @@ fn_info_config_idtech3(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		slots=${slots:-"0"}
-		ipconfigcheck=$(grep "net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/net_ip//g' | tr -d '=\";,:' | xargs -0)
+		ipconfigcheck=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | xargs -0)
+		if [ -n "${ipconfigcheck}" ]; then
+			ip="${ipconfigcheck}"
+		fi
+	fi
+}
+
+fn_info_config_wolfensteinenemyterritory(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		slots="${zero}"
+	else
+		rconpassword=$(grep "zmq_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set zmq_rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//g' -e '/^\//d' | xargs -0)
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | xargs -0)
+		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set g_password//g' | tr -d '=\";,:' | xargs -0)
+		slots=$(grep "sv_maxclients" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		slots=${slots:-"0"}
+		ipconfigcheck=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | xargs -0)
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
 		fi
@@ -458,8 +482,8 @@ elif [ "${gamename}" == "Battlefield: 1942" ]; then
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
 # Quake Live
-elif [ "${engine}" == "idtech3" ]; then
-	fn_info_config_idtech3
+elif [ "${gamename}" == "Quake Live" ]; then
+	fn_info_config_quakelive
 # Minecraft
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_info_config_minecraft
@@ -495,4 +519,6 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 # 7 Day To Die (unity3d)
 elif [ "${gamename}" == "7 Days To Die" ]; then
 	fn_info_config_sdtd
+elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+	fn_info_config_wolfensteinenemyterritory
 fi
