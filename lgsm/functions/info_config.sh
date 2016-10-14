@@ -189,7 +189,7 @@ fn_info_config_wolfensteinenemyterritory(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		slots="${zero}"
-		port="27960"
+		port="${zero}"
 	else
 		port=$(grep "net_port" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
 		rconpassword=$(grep "zmq_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set zmq_rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//g' -e '/^\//d' | xargs -0)
@@ -203,6 +203,7 @@ fn_info_config_wolfensteinenemyterritory(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		slots=${slots:-"0"}
+		port=${port:-"27960"}
 		ipconfigcheck=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | xargs -0)
 		if [ -n "${ipconfigcheck}" ]; then
 			ip="${ipconfigcheck}"
