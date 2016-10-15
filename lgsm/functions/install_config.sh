@@ -223,7 +223,6 @@ elif [ "${gamename}" == "Just Cause 2" ]; then
 	array_configs+=( config.lua )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_user_input_config
 elif [ "${gamename}" == "Killing Floor" ]; then
 	gamedirname="KillingFloor"
 	array_configs+=( Default.ini )
