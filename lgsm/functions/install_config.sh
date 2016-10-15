@@ -324,7 +324,7 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 elif [ "${gamename}" == "Teeworlds" ]; then
-	gamedirname="TeeWorlds"
+	gamedirname="Teeworlds"
 	array_configs+=( server.cfg ctf.cfg dm.cfg duel.cfg tdm.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
