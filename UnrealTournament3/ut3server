@@ -54,6 +54,7 @@ parms="server ${defaultmap}?Game=${game}?bIsDedicated=${isdedicated}?bIsLanMatch
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
+
 # Server Details
 servicename="ut3-server"
 gamename="Unreal Tournament 3"
