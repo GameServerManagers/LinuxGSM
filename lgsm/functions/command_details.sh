@@ -290,7 +290,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "idtech3_ql" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -374,7 +374,17 @@ fn_details_realvirtuality(){
 	} | column -s $'\t' -t
 }
 
-fn_details_idtech3(){
+fn_details_refractor(){
+	echo -e "netstat -atunp | grep bf1942_lnxd"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_quakelive(){
 	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
 	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
@@ -386,6 +396,15 @@ fn_details_idtech3(){
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
 		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_wolfensteinenemyterritory(){
+	echo -e "netstat -atunp | grep etded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -568,6 +587,15 @@ fn_details_unreal(){
 	} | column -s $'\t' -t
 }
 
+fn_details_ut3(){
+	echo -e "netstat -atunp | grep ut3-bin"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+	} | column -s $'\t' -t
+}
+
 fn_details_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
@@ -599,18 +627,18 @@ fn_display_details() {
 		fn_details_commandlineparms
 	fi
 	fn_details_ports
-	
+
 	# Display details depending on game or engine.
 	if [ "${engine}" == "avalanche" ]; then
 		fn_details_avalanche
+	elif [ "${engine}" == "refractor" ]; then
+		fn_details_refractor
 	elif [ "${engine}" == "dontstarve" ]; then
 		fn_details_dontstarve
 	elif [ "${engine}" == "lwjgl2" ]; then
 		fn_details_minecraft
 	elif [ "${engine}" == "projectzomboid" ]; then
 		fn_details_projectzomboid
-	elif [ "${engine}" == "idtech3" ]; then
-		fn_details_idtech3
 	elif [ "${engine}" == "realvirtuality" ]; then
 		fn_details_realvirtuality
 	elif [ "${engine}" == "seriousengine35" ]; then
@@ -627,27 +655,33 @@ fn_display_details() {
 		fn_details_terraria
 	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		fn_details_unreal
+	elif [ "${engine}" == "unreal3" ]; then
+		fn_details_ut3
+	elif [ "${gamename}" == "7 Days To Die" ]; then
+		fn_details_sdtd
 	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 		fn_details_ark
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
-	elif [ "${gamename}" == "7 Days To Die" ]; then
-		fn_details_sdtd
+	elif [ "${gamename}" == "Quake Live" ]; then
+		fn_details_quakelive
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_details_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_details_rust
+	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+		fn_details_wolfensteinenemyterritory
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
-	
+
 	fn_details_statusbottom
 }
 
 if [ -z "${postdetails}" ] ;
-then 
+then
   fn_display_details
   core_exit.sh
 fi

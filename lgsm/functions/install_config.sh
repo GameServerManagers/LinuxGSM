@@ -8,15 +8,19 @@ local commandname="INSTALL"
 local commandaction="Install"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_defaultconfig(){
-	echo "creating ${servercfg} config file."
-	fn_script_log_info "creating ${servercfg} config file."
-	cp -v "${servercfgdefault}" "${servercfgfullpath}"
-	sleep 1
+fn_fetch_default_config(){
+	mkdir -pv "${lgsmdir}/default-configs"
+	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
+
+	for config in "${array_configs[@]}"
+	do
+		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
+		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+	done
 }
 
-fn_userinputconfig(){
-	# allow user to input server name and password
+# allow user to input server name and password
+fn_user_input_config(){
 	if [ -z "${autoinstall}" ]; then
 		echo ""
 		echo "Configuring ${gamename} Server"
@@ -25,437 +29,333 @@ fn_userinputconfig(){
 		read -p "Enter server name: " servername
 		read -p "Enter rcon password: " rconpass
 	else
-		servername="${servicename}"
-		rconpass="rconpassword"
+		servername="LinuxGSM"
+		rconpass="rcon$RANDOM"
 	fi
 	echo "changing hostname."
 	fn_script_log_info "changing hostname."
 	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
 	sleep 1
 	echo "changing rconpassword."
-	fn_script_log_info "changing rconpassword."
+	fn_script_log_info "changing RCON password."
 	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
 	sleep 1
 }
 
-fn_arma3config(){
-	fn_defaultconfig
-	echo "creating ${networkcfg} config file."
-	fn_script_log_info "creating ${networkcfg} config file."
-	cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
+# Copys the default configs from Game-Server-Configs repo to the
+# correct location
+fn_default_config_remote(){
+	for config in "${array_configs[@]}"
+	do
+		# every config is copied
+		echo "copying ${servercfg} config file."
+		fn_script_log_info "copying ${servercfg} config file."
+		if [ "${config}" == "${servercfgdefault}" ]; then
+			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+		elif [ "${config}" == "${networkcfgdefault}" ]; then
+			# ARMA 3
+			cp -v "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+		else
+			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+		fi
+	done
 	sleep 1
-	echo ""
-}
-
-fn_goldsourceconfig(){
-	fn_defaultconfig
-
-	# server.cfg redirects to ${servercfg} for added security
-	echo "creating server.cfg."
-	fn_script_log_info "creating server.cfg."
-	touch "server.cfg"
-	sleep 1
-	echo "creating redirect."
-	fn_script_log_info "creating redirect."
-	echo "server.cfg > ${servercfg}."
-	echo "exec ${servercfg}" > "server.cfg"
-	sleep 1
-
-	# creating other files required
-	echo "creating listip.cfg."
-	fn_script_log_info "creating listip.cfg."
-	touch "${systemdir}/listip.cfg"
-	sleep 1
-	echo "creating banned.cfg."
-	fn_script_log_info "creating banned.cfg."
-	touch "${systemdir}/banned.cfg"
-	sleep 1
-
-	fn_userinputconfig
-	echo ""
-}
-
-fn_serious3config(){
-	fn_defaultconfig
-	echo ""
-	echo "To edit ${gamename} server config use SS3 Server GUI 3 tool"
-	echo "http://mrag.nl/sgui3/"
-	fn_script_log_info "To edit ${gamename} server config use SS3 Server GUI 3 tool"
-	fn_script_log_info "http://mrag.nl/sgui3/"
-	sleep 1
-	echo ""
-}
-
-fn_sourceconfig(){
-	fn_defaultconfig
-
-	# server.cfg redirects to ${servercfg} for added security
-	echo "creating server.cfg."
-	fn_script_log_info "creating server.cfg."
-	touch "server.cfg"
-	sleep 1
-	echo "creating redirect."
-	fn_script_log_info "creating redirect."
-	echo "server.cfg > ${servercfg}."
-	echo "exec ${servercfg}" > "server.cfg"
-	sleep 1
-
-	fn_userinputconfig
-	echo ""
-}
-
-fn_teeworldsconfig(){
-	fn_defaultconfig
-
-	echo "adding logfile location to config."
-	fn_script_log_info "adding logfile location to config."
-	sed -i "s@\"<logfile>\"@\"${gamelog}\"@g" "${servercfgfullpath}"
-	sleep 1
-	echo "removing password holder."
-	fn_script_log_info "removing password holder."
-	sed -i "s/<password>//" "${servercfgfullpath}"
-	sleep 1
-
-	fn_userinputconfig
-	echo ""
-}
-
-fn_ut99config(){
-	echo "creating ${servercfg} config file."
-	fn_script_log_info "creating ${servercfg} config file."
-	echo "${servercfgdefault} > ${servercfgfullpath}"
-	tr -d '\r' < "${servercfgdefault}" > "${servercfgfullpath}"
-	sleep 1
-	echo ""
-	echo "Configuring ${gamename} Server"
-	echo "================================="
-	sleep 1
-	echo "enabling WebAdmin."
-	fn_script_log_info "enabling WebAdmin."
-	sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
-	sleep 1
-	echo "setting WebAdmin port to 8076."
-	fn_script_log_info "setting WebAdmin port to 8076."
-	sed -i '467i\ListenPort=8076' "${servercfgfullpath}"
-	sleep 1
-	echo ""
-}
-
-fn_unreal2config(){
-	fn_defaultconfig
-	echo ""
-	echo "Configuring ${gamename} Server"
-	echo "================================="
-	sleep 1
-	echo "setting WebAdmin username and password."
-	fn_script_log_info "setting WebAdmin username and password."
-	sed -i 's/AdminName=/AdminName=admin/g' "${servercfgfullpath}"
-	sed -i 's/AdminPassword=/AdminPassword=admin/g' "${servercfgfullpath}"
-	sleep 1
-	echo "enabling WebAdmin."
-	fn_script_log_info "enabling WebAdmin."
-	sed -i 's/bEnabled=False/bEnabled=True/g' "${servercfgfullpath}"
-	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
-		sleep 1
-		echo "setting WebAdmin port to 8075."
-		fn_script_log_info "setting WebAdmin port to 8075."
-		sed -i 's/ListenPort=80/ListenPort=8075/g' "${servercfgfullpath}"
-	fi
-	sleep 1
-	echo ""
-}
-
-fn_ut3config(){
-	echo ""
-	echo "Configuring ${gamename} Server"
-	echo "================================="
-	sleep 1
-	echo "setting ServerName to 'LinuxGSM UT3 Server'."
-	fn_script_log_info "setting ServerName to 'LinuxGSM UT3 Server'."
-	sleep 1
-	sed -i 's/ServerName=/ServerName=LinuxGSM UT3 Server/g' "${servercfgdir}/DefaultGame.ini"
-	echo "setting WebAdmin password to admin."
-	fn_script_log_info "setting WebAdmin password to admin."
-	echo '[Engine.AccessControl]' >> "${servercfgdir}/DefaultGame.ini"
-	echo 'AdminPassword=admin' >> "${servercfgdir}/DefaultGame.ini"
-	sleep 1
-	echo "enabling WebAdmin."
-	fn_script_log_info "enabling WebAdmin."
-	sed -i 's/bEnabled=false/bEnabled=True/g' "${servercfgdir}/DefaultWeb.ini"
-	if [ "${gamename}" == "Unreal Tournament 3" ]; then
-		sleep 1
-		echo "setting WebAdmin port to 8081."
-		fn_script_log_info "setting WebAdmin port to 8081."
-		sed -i 's/ListenPort=80/ListenPort=8081/g' "${servercfgdir}/DefaultWeb.ini"
-	fi
-	sleep 1
-	echo ""
-}
-
-fn_unrealtournament(){
-	# allow user to input server name and password
-	if [ -z "${autoinstall}" ]; then
-		echo ""
-		echo "Configuring ${gamename} Server"
-		echo "================================="
-		sleep 1
-		read -p "Enter server name: " servername
-		read -p "Enter rcon password: " rconpass
-	else
-		servername="${servicename}"
-		rconpass="rconpassword"
-	fi
-	echo "changing hostname."
-	fn_script_log_info "changing hostname."
-	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgdir}/Game.ini"
-	sleep 1
-	echo "changing rconpassword."
-	fn_script_log_info "changing rconpassword."
-	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgdir}/Engine.ini"
-	sleep 1
-
 }
 
 echo ""
-if [ "${gamename}" != "Hurtworld" ]; then
-echo "Creating Configs"
+echo "Downloading ${gamename} Config"
 echo "================================="
-sleep 1
-	mkdir -pv "${servercfgdir}"
-	cd "${servercfgdir}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}"
+echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
+sleep 2
+if [ "${gamename}" == "7 Days To Die" ]; then
+	gamedirname="7DaysToDie"
+	array_configs+=( serverconfig.xml )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	gamedirname="ARKSurvivalEvolved"
+	array_configs+=( GameUserSettings.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "ARMA 3" ]; then
+	gamedirname="Arma3"
+	array_configs+=( server.cfg network.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	gamedirname="Battlefield1942"
+	array_configs+=( serversettings.con )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Blade Symphony" ]; then
+	gamedirname="BladeSymphony"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "BrainBread 2" ]; then
+	gamedirname="BrainBread2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
+	gamedirname="BlackMesa"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Codename CURE" ]; then
+	gamedirname="CodenameCURE"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Counter-Strike 1.6" ]; then
+	gamedirname="CounterStrike"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Counter-Strike: Condition Zero" ]; then
+	gamedirname="CounterStrikeConditionZero"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
+	gamedirname="CounterStrikeGlobalOffensive"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Counter-Strike: Source" ]; then
+	gamedirname="CounterStrikeSource"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Day of Defeat" ]; then
+	gamedirname="DayOfDefeat"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Day of Defeat: Source" ]; then
+	gamedirname="DayOfDefeatSource"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Day of Infamy" ]; then
+	gamedirname="DayOfInfamy"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Deathmatch Classic" ]; then
+	gamedirname="DeathmatchClassic"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Don't Starve Together" ]; then
+	gamedirname="DontStarveTogether"
+	array_configs+=( Settings.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
+	gamedirname="DoubleActionBoogaloo"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Fistful of Frags" ]; then
+	gamedirname="FistfulofFrags"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Garry's Mod" ]; then
+	gamedirname="GarrysMod"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "GoldenEye: Source" ]; then
+	gamedirname="GoldenEyeSource"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Half Life: Deathmatch" ]; then
+	gamedirname="HalfLifeDeathmatch"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Half-Life Deathmatch: Source" ]; then
+	gamedirname="HalfLifeDeathmatchSource"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Half-Life: Opposing Force" ]; then
+	gamedirname="OpposingForce"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Half Life 2: Deathmatch" ]; then
+	gamedirname="HalfLife2Deathmatch"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Insurgency" ]; then
+	gamedirname="Insurgency"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Just Cause 2" ]; then
+	gamedirname="JustCause2"
+	array_configs+=( config.lua )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Killing Floor" ]; then
+	gamedirname="KillingFloor"
+	array_configs+=( Default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Left 4 Dead" ]; then
+	gamedirname="Left4Dead"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Left 4 Dead" ]; then
+	gamedirname="Left4Dead"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Left 4 Dead 2" ]; then
+	gamedirname="Left4Dead2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Minecraft" ]; then
+	gamedirname="Minecraft"
+	array_configs+=( server.properties )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "No More Room in Hell" ]; then
+	gamedirname="NoMoreRoominHell"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Mumble" ]; then
+	:
+elif [ "${gamename}" == "Natural Selection 2" ]; then
+	:
+elif [ "${gamename}" == "NS2: Combat" ]; then
+	:
+elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
+	gamedirname="PiratesVikingandKnightsII"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Project Zomboid" ]; then
+	gamedirname="ProjectZomboid"
+	array_configs+=( server.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Quake Live" ]; then
+	gamedirname="QuakeLive"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
+	:
+elif [ "${gamename}" == "Ricochet" ]; then
+	gamedirname="Ricochet"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_user_input_config
+elif [ "${gamename}" == "Rust" ]; then
+	gamedirname="Rust"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
+	gamedirname="SeriousSam3BFE"
+	array_configs+=( server.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Starbound" ]; then
+	gamedirname="Starbound"
+	array_configs+=( starbound.config )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Sven Co-op" ]; then
+	gamedirname="SvenCoop"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Team Fortress 2" ]; then
+	gamedirname="TeamFortress2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Team Fortress Classic" ]; then
+	gamedirname="TeamFortressClassic"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	gamedirname="TeamSpeak3"
+	array_configs+=( ts3server.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Teeworlds" ]; then
+	gamedirname="Teeworlds"
+	array_configs+=( server.cfg ctf.cfg dm.cfg duel.cfg tdm.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Terraria" ]; then
+	gamedirname="Terraria"
+	array_configs+=( serverconfig.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Unreal Tournament" ]; then
+	gamedirname="UnrealTournament"
+	array_configs+=( Game.ini Engine.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	gamedirname="UnrealTournament2004"
+	array_configs+=( UT2004.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+	gamedirname="UnrealTournament3"
+	array_configs+=( UTGame.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Unreal Tournament 99" ]; then
+	gamedirname="UnrealTournament99"
+	array_configs+=( Default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+	gamedirname="WolfensteinEnemyTerritory"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
 fi
 
-if [ "${gamename}" == "7 Days To Die" ]; then
-	fn_defaultconfig
-elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
-	wget -N /dev/null ${githuburl}/ARKSurvivalEvolved/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	echo -e "downloading lgsm-default.ini...\c"
-	fn_defaultconfig
-elif [ "${gamename}" == "ARMA 3" ]; then
-	echo -e "downloading lgsm-default.server.cfg...\c"
-	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.server.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	echo -e "downloading lgsm-default.network.cfg...\c"
-	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.network.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_arma3config
-elif [ "${gamename}" == "BrainBread 2" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/BrainBread2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/BlackMesa/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Blade Symphony" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/BladeSymphony/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Codename CURE" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/CodenameCURE/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Counter-Strike 1.6" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/CounterStrike/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Counter-Strike: Condition Zero" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/CounterStrikeConditionZero/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Counter-Strike: Source" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/CounterStrikeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Day of Defeat" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/DayOfDefeat/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Day of Defeat: Source" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/DayOfDefeatSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Day of Infamy" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/DayOfInfamy/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Don't Starve Together" ]; then
-	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/DontStarveTogether/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/DoubleActionBoogaloo/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Empires Mod" ]; then
-	fn_defaultconfig
-elif [ "${gamename}" == "Enemy Territory" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/EnemyTerritory/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-	fn_userinputconfig
-	echo ""
-elif [ "${gamename}" == "Fistful of Frags" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/FistfulOfFrags/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Garry's Mod" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/GarrysMod/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "GoldenEye: Source" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/GoldenEyeSource/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Half Life 2: Deathmatch" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/HalfLife2Deathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Half Life: Deathmatch" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/HalfLifeDeathmatch/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Insurgency" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/Insurgency/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Just Cause 2" ]; then
-	fn_defaultconfig
-elif [ "${gamename}" == "Killing Floor" ]; then
-	fn_unreal2config
-elif [ "${gamename}" == "Left 4 Dead" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/Left4Dead/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Left 4 Dead 2" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/Left4Dead2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Minecraft" ]; then
-	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/Minecraft/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "No More Room in Hell" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/NoMoreRoomInHell/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Natural Selection 2" ]; then
-	echo -e "no configs required."
-	sleep 1
-	echo ""
-elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/PiratesVikingandKnightsII/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Project Zomboid" ]; then
-	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/ProjectZomboid/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "Quake Live" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/QuakeLive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-	fn_userinputconfig
-elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
-	fn_unreal2config
-elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
-	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/SeriousSam3BFE/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_serious3config
-elif [ "${gamename}" == "Rust" ]; then
-	echo -e "downloading server.cfg...\c"
-	wget -N /dev/null  ${githuburl}/Rust/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "Sven Co-op" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/SvenCoop/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Starbound" ]; then
-	echo -e "downloading lgsm-default.config...\c"
-	wget -N /dev/null ${githuburl}/Starbound/cfg/lgsm-default.config 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-	fn_userinputconfig
-elif [ "${gamename}" == "TeamSpeak 3" ]; then
-	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/TeamSpeak3/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "Team Fortress 2" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/TeamFortress2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
-elif [ "${gamename}" == "Team Fortress Classic" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/TeamFortressClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
-elif [ "${gamename}" == "Teeworlds" ]; then
-	echo -e "downloading ctf.cfg...\c"
-	wget -N /dev/null ${githuburl}/Teeworlds/cfg/ctf.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	echo -e "downloading dm.cfg...\c"
-	wget -N /dev/null ${githuburl}/Teeworlds/cfg/dm.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	echo -e "downloading duel.cfg...\c"
-	wget -N /dev/null ${githuburl}/Teeworlds/cfg/duel.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	echo -e "downloading tdm.cfg...\c"
-	wget -N /dev/null ${githuburl}/Teeworlds/cfg/tdm.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/Teeworlds/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_teeworldsconfig
-elif [ "${gamename}" == "Terraria" ]; then
-	echo -e "downloading lgsm-default.txt...\c"
-	wget -N /dev/null ${githuburl}/Terraria/cfg/lgsm-default.txt 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "Unreal Tournament" ]; then
-	echo -e "downloading Engine.ini...\c"
-	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Engine.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	echo -e "downloading Game.ini...\c"
-	wget -N /dev/null ${githuburl}/UnrealTournament/cfg/Game.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_unrealtournament
-elif [ "${gamename}" == "Unreal Tournament 3" ]; then
-	fn_ut3config
-elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-	fn_unreal2config
-elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-	fn_ut99config
-fi

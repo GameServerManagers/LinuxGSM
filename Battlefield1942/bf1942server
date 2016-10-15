@@ -27,7 +27,6 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-ip="0.0.0.0"
 
 fn_parms(){
 parms=" +hostServer 1 +dedicated 1"
@@ -38,8 +37,8 @@ parms=" +hostServer 1 +dedicated 1"
 # Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="dgibbs64"
-githubrepo="linuxgsm"
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Server Details
@@ -60,6 +59,7 @@ systemdir="${filesdir}"
 executabledir="${systemdir}"
 executable="./start.sh"
 servercfg="serversettings.con"
+servercfgdefault="serversettings.con"
 servercfgdir="${systemdir}/mods/bf1942/settings"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"

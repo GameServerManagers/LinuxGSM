@@ -79,9 +79,9 @@ systemdir="${filesdir}/dab"
 executabledir="${filesdir}"
 executable="./dabds.sh"
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

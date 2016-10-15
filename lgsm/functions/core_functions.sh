@@ -12,6 +12,8 @@ elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	gamename="Counter-Strike: Global Offensive"
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	gamename="Counter-Strike: Source"
+elif [ "${gamename}" == "Quake Live" ]; then
+	engine="idtech3_ql"
 fi
 
 if [ "${emailnotification}" == "on" ]; then

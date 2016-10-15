@@ -67,7 +67,7 @@ branch=""
 # Server Details
 servicename="ql-server"
 gamename="Quake Live"
-engine="idtech3"
+engine="idtech3_ql"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -82,9 +82,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable=$([ "${arch}" == 'x64' ] && echo "./run_server_x64.sh" || echo "./run_server_x86.sh")
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${filesdir}/baseq3"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

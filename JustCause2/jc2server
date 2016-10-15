@@ -73,9 +73,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./Jcmp-Server"
 servercfg="config.lua"
+servercfgdefault="config.lua"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/default_config.lua"
 backupdir="${rootdir}/backups"
 
 # Logging

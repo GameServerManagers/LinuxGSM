@@ -74,9 +74,9 @@ systemdir="${filesdir}/Bin"
 executable="./runSam3_DedicatedServer.sh"
 executabledir="${systemdir}"
 servercfg="${servicename}.ini"
+servercfgdefault="server.ini"
 servercfgdir="${filesdir}/Content/SeriousSam3/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

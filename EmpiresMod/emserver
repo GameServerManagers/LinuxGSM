@@ -84,9 +84,9 @@ systemdir="${filesdir}/empires"
 executabledir="${filesdir}"
 executable="./srcds_run"
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/server.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
