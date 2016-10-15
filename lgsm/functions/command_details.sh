@@ -290,7 +290,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "idtech3_ql" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "idtech3_ql" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -379,7 +379,7 @@ fn_details_refractor(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
@@ -404,7 +404,7 @@ fn_details_wolfensteinenemyterritory(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -587,6 +587,15 @@ fn_details_unreal(){
 	} | column -s $'\t' -t
 }
 
+fn_details_ut3(){
+	echo -e "netstat -atunp | grep ut3-bin"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+	} | column -s $'\t' -t
+}
+
 fn_details_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
@@ -646,6 +655,8 @@ fn_display_details() {
 		fn_details_terraria
 	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		fn_details_unreal
+	elif [ "${engine}" == "unreal3" ]; then
+		fn_details_ut3
 	elif [ "${gamename}" == "7 Days To Die" ]; then
 		fn_details_sdtd
 	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
