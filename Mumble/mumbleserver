@@ -43,7 +43,6 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-
 # Server Details
 gamename="Mumble"
 servicename="mumble-server"

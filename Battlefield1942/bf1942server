@@ -27,7 +27,6 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-ip="0.0.0.0"
 
 fn_parms(){
 parms=" +hostServer 1 +dedicated 1"
