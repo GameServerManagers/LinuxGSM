@@ -33,11 +33,9 @@ fn_info_config_avalanche(){
 		slots=${slots:-"0"}
 		port=${port:-"0"}
 
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(grep "BindIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/BindIP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+		ip=$(grep "BindIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/BindIP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="BindIP"
 	fi
 }
 
@@ -62,11 +60,9 @@ fn_info_config_bf1942(){
 		slots=${slots:-"0"}
 		port=${port:-"0"}
 
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+		ip=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
+		ipsetinconfig=1
+		ipinconfigvar="game.serverIP"
 	fi
 }
 
@@ -125,11 +121,9 @@ fn_info_config_minecraft(){
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
 
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(grep "server-ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/server-ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+		ip=$(grep "server-ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/server-ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="server-ip"
 	fi
 }
 
@@ -176,10 +170,10 @@ fn_info_config_quakelive(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		slots=${slots:-"0"}
-		ipconfigcheck=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+
+		ip=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="set net_ip"
 	fi
 }
 
@@ -204,10 +198,10 @@ fn_info_config_wolfensteinenemyterritory(){
 		serverpassword=${serverpassword:-"NOT SET"}
 		slots=${slots:-"0"}
 		port=${port:-"27960"}
-		ipconfigcheck=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+
+		ip=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="set net_ip"
 	fi
 }
 
@@ -314,11 +308,9 @@ fn_info_config_teamspeak3(){
 		queryport=${queryport:-"10011"}
 		fileport=${fileport:-"30033"}
 
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+		ip=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="voice_ip"
 	fi
 }
 
@@ -336,11 +328,9 @@ fn_info_config_mumble(){
 		queryport=${queryport:-"64738"}
 		servername="Mumble Port ${port}"
 
-		# check if the ip exists in the config file. Failing this will fall back to the default.
-		ipconfigcheck=$(cat "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/voice_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		if [ -n "${ipconfigcheck}" ]; then
-			ip="${ipconfigcheck}"
-		fi
+		ip=$(cat "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/voice_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="voice_ip"
 	fi
 }
 
