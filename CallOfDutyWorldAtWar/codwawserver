@@ -47,7 +47,7 @@ githubbranch="codwaw"
 # Server Details
 servicename="codwaw-server"
 gamename="Call of Duty: World at War"
-engine="idtech3"
+engine="IW 3.0"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
