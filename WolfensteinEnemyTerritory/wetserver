@@ -27,7 +27,6 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-ip="0.0.0.0"
 
 fn_parms(){
 	parms="+set net_strict 1 +set fs_homepath ${filesdir} +exec ${servercfg}"
