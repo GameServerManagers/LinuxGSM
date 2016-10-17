@@ -14,7 +14,7 @@ fn_update_factorio_dl(){
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz" "${tmpdir}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/"* "${filesdir}"
+	cp -R "${tmpdir}/factorio/"* "${filesdir}"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
