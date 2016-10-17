@@ -11,7 +11,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_factorio_dl(){
 	fn_fetch_file "https://www.factorio.com/get-download/${availablebuild}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz"
-	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz" "${tmpdir}"
+	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz" "${tmpdir}/factorio_headless_${factorioarch}-${availablebuild}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
 	cp -R "${tmpdir}/factorio_headless_${factorioarch}-${availablebuild}/"* "${filesdir}"
