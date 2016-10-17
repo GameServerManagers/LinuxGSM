@@ -113,7 +113,7 @@ elif [ "${gamename}" == "Minecraft" ]; then
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ "${gamename}" == "Factorio" ]; then
-        update_factorio.sh
+  update_factorio.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
 fi

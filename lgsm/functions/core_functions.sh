@@ -444,6 +444,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_factorio.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
