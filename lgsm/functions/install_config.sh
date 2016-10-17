@@ -41,7 +41,7 @@ fn_check_cfgdir(){
 	if [ ! -d "${servercfgdir}" ]; then
 		echo "creating ${servercfgdir} config folder."
 		fn_script_log_info "creating ${servercfgdir} config folder."
-		mkdir -pv
+		mkdir -pv "${servercfgdir}"
 	fi
 }
 
