@@ -15,7 +15,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
 
-fn_info_config_idtech3(){
+fn_info_config_quakelive(){
 	# Not Set
 	port=${port:-"NOT SET"}
 	rconport=${rconport:-"0"}
@@ -128,8 +128,8 @@ elif [ "${engine}" == "dontstarve" ]; then
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_info_config_projectzomboid
 # Quake Live
-elif [ "${engine}" == "idtech3" ]; then
-	fn_info_config_idtech3
+elif [ "${gamename}" == "Quake Live" ]; then
+	fn_info_config_quakelive
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_info_config_realvirtuality

@@ -160,6 +160,7 @@ fn_gmod_fastdl(){
 	fn_script_log "Copying map files"
 	sleep 0.5
 	find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
+	find . -name '*.ain' | cpio --quiet -updm "${fastdldir}"
 	fn_print_ok "Map files copied"
 	sleep 0.5
 	echo -en "\n"

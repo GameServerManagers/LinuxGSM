@@ -9,10 +9,10 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_dl(){
-	fn_fetch_file "https://s3.amazonaws.com/Minecraft.Download/versions/${availablebuild}/minecraft_server.${availablebuild}.jar" "${lgsmdir}/tmp" "minecraft_server.${availablebuild}.jar"
+	fn_fetch_file "https://s3.amazonaws.com/Minecraft.Download/versions/${availablebuild}/minecraft_server.${availablebuild}.jar" "${tmpdir}" "minecraft_server.${availablebuild}.jar"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp "${lgsmdir}/tmp/minecraft_server.${availablebuild}.jar" "${filesdir}/minecraft_server.jar"
+	cp "${tmpdir}/minecraft_server.${availablebuild}.jar" "${filesdir}/minecraft_server.jar"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
