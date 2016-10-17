@@ -30,8 +30,8 @@ fn_set_config_vars(){
 	fn_script_log_info "changing hostname."
 	sleep 1
 	sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
-	echo "changing rconpassword."
-	fn_script_log_info "changing RCON/ADMIN password."
+	echo "changing rcon/admin password."
+	fn_script_log_info "changing rcon/admin password."
 	sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
 	sleep 1
 }
