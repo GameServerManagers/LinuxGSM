@@ -320,7 +320,7 @@ fn_info_config_mumble(){
 		queryport="${port}"
 		servername="Mumble"
 	else
-		port=$(grep "port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/port//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		port=$(grep "port=" "${servercfgfullpath}" | awk -F "=" '{ print $2 }' )
 		queryport="${port}"
 
 		# Not Set
