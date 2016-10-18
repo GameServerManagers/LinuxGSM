@@ -74,10 +74,47 @@ fn_check_permissions(){
 		if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
-			fn_print_information_nl "The following directorys does not have the correct permissions:"
-			fn_script_log_info "The following directorys does not have the correct permissions:"
+			fn_print_information_nl "The following directory does not have the correct permissions:"
+			fn_script_log_info "The following directory does not have the correct permissions:"
+			fn_script_log_info "${rootdir}"
 			ls -l "${rootdir}"
 			core_exit.sh
+		fi
+	fi
+	# Check if executable is executable and attempt to fix it
+	if [ -f "${executabledir}/${executable}" ]; then
+		# Get permission numbers on file under the form 775
+		execperm="$(stat -c %a "${executabledir}/${executable}")"
+		# Grab the first and second digit for user and group permission
+		userexecperm="${execperm:0:1}"
+		groupexecperm="${execperm:1:1}"
+		# Check for invalid user permission
+		if [ "${userexecperm}" == "0" ] || [ "${userexecperm}" == "2" ] || [ "${userexecperm}" == "4" ]  || [ "${userexecperm}" == "6" ]; then
+			# If user permission is invalid, then check for invalid group permissions
+			if [ "${groupexecperm}" == "0" ] || [ "${groupexecperm}" == "2" ] || [ "${groupexecperm}" == "4" ]  || [ "${groupexecperm}" == "6" ]; then
+				# If permission issues are found
+				fn_print_warning "Permissions issue found"
+				fn_script_log_warn "Permissions issue found"
+				fn_print_information_nl "The following file is not executable:"
+				ls -l "${executabledir}/${executable}"
+				fn_script_log_info "The following file is not executable:"
+				fn_script_log_info "${executabledir}/${executable}"
+				fn_print_information_nl "Applying chmod u+x,g+x ${executabledir}/${executable}"
+				fn_script_log_info "Applying chmod u+x,g+x ${execperm}"
+				# Make the executable executable
+				chmod u+x,g+x "${executabledir}/${executable}"
+				# Second check to see if it's been successfully applied
+				if [ "${userexecperm}" == "0" ] || [ "${userexecperm}" == "2" ] || [ "${userexecperm}" == "4" ]  || [ "${userexecperm}" == "6" ]; then
+					if [ "${groupexecperm}" == "0" ] || [ "${groupexecperm}" == "2" ] || [ "${groupexecperm}" == "4" ]  || [ "${groupexecperm}" == "6" ]; then
+					# If errors are still found
+					fn_print_fail_nl "The following file could not be set executable:"
+					ls -l "${executabledir}/${executable}"
+					fn_script_log_warn "The following file could not be set executable:"
+					fn_script_log_info "${executabledir}/${executable}"
+					core_exit.sh
+					fi
+				fi
+			fi
 		fi
 	fi
 }
