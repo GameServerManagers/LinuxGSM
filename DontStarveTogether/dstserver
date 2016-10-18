@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="130516"
+version="160916"
 
 #### Variables ####
 
@@ -19,6 +19,7 @@ version="130516"
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -53,6 +54,11 @@ githubbranch="master"
 # Steam
 appid="343050"
 
+# Steam App Branch Select
+# Allows to opt into the various Steam app branches. Default branch is "".
+# Example: "-beta anewreignbeta"
+branch=""
+
 # Server Details
 servicename="dst-server"
 gamename="Don't Starve Together"
@@ -65,11 +71,13 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}/bin"
 executable="./dontstarve_dedicated_server_nullrenderer"
 servercfg="settings.ini"
+servercfgdefault="settings.ini"
 servercfgdir="${HOME}/.klei/DoNotStarveTogether"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.ini"

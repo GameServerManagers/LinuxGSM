@@ -68,12 +68,6 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo "================================="
 		sleep 1
 		fix_ut2k4.sh
-	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-		echo ""
-		echo "Applying ${gamename} Server Fixes"
-		echo "================================="
-		sleep 1
-		fix_ut99.sh
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"

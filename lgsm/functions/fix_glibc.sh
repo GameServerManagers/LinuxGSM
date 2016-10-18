@@ -16,7 +16,7 @@ do
 	fi
 done
 
-local libm_servers_array=( "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
+local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
 for libm_server in "${libm_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libm_server}" ]; then
@@ -24,7 +24,7 @@ do
 	fi
 done
 
-local libc_servers_array=( "Garry's Mod" "GoldenEye: Source" )
+local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then
@@ -32,7 +32,7 @@ do
 	fi
 done
 
-local libpthread_servers_array=( "Garry's Mod" )
+local libpthread_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" )
 for libpthread_server in "${libpthread_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libpthread_server}" ]; then

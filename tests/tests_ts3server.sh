@@ -19,6 +19,7 @@ fi
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -53,14 +54,15 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./ts3server_startscript.sh"
 servercfg="${servicename}.ini"
+servercfgdefault="ts3server.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

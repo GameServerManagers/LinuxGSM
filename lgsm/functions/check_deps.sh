@@ -6,28 +6,37 @@
 
 local commandname="CHECK"
 
+
+
 fn_deps_detector(){
 	# Checks if dependency is missing
-	if [ -n "$(command -v dpkg-query)" ]; then
+	if [ "${tmuxcheck}" == "1" ]; then
+		# Added for users compiling tmux from source to bypass check.
+		depstatus=0
+		deptocheck="tmux"
+		unset tmuxcheck
+	elif [ "${javacheck}" == "1" ]; then
+		# Added for users using Oracle JRE to bypass check.
+		depstatus=0
+		deptocheck="${javaversion}"
+		unset javacheck
+	elif [ -n "$(command -v apt-get)" ]; then
 		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed$'
 		depstatus=$?
 	elif [ -n "$(command -v yum)" ]; then
 		yum -q list installed ${deptocheck} > /dev/null 2>&1
 		depstatus=$?
 	fi
+
 	if [ "${depstatus}" == "0" ]; then
+		# if dependency is found
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
-			if [ "${tmuxcheck}" == "1" ]; then
-				# Added for users compiling tmux from source to bypass rpm check
-				echo -e "${green}tmux${default}"
-				unset tmuxcheck
-			fi
 			echo -e "${green}${deptocheck}${default}"
 			sleep 0.5
 		fi
 	else
-		# if missing dependency is found
+		# if dependency is not found
 		missingdep=1
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${red}${deptocheck}${default}"
@@ -141,9 +150,9 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip )
 
 	# All servers except ts3 require tmux
-	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]; then
 		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
-			tmuxcheck=1 # Added for users compiling tmux from source to bypass rpm check
+			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
 			array_deps_required+=( tmux )
 		fi
@@ -181,7 +190,12 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		array_deps_required+=( libncurses5:i386 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
-		array_deps_required+=( default-jdk )
+		javaversion=$(java -version 2>&1 | grep "version")
+		if [ -n "${javaversion}" ]; then
+			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+		else
+			array_deps_required+=( default-jre )
+		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
 		array_deps_required+=( zlib1g:i386 )
@@ -213,9 +227,9 @@ elif [ -n "$(command -v yum)" ]; then
 	fi
 
 	# All servers except ts3 require tmux
-	if [ "${executable}" != "./ts3server_startscript.sh" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]; then
 		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
-			tmuxcheck=1 # Added for users compiling tmux from source to bypass rpm check
+			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
 			array_deps_required+=( tmux )
 		fi
@@ -242,7 +256,12 @@ elif [ -n "$(command -v yum)" ]; then
 		array_deps_required+=( libcurl.i686 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
-		array_deps_required+=( java-1.8.0-openjdk )
+		javaversion=$(java -version 2>&1 | grep "version")
+		if [ -n "${javaversion}" ]; then
+			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+		else
+			array_deps_required+=( java-1.8.0-openjdk )
+		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
 		array_deps_required+=( zlib.i686 )

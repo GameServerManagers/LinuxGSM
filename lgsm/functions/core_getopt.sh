@@ -29,6 +29,8 @@ case "${getopt}" in
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	b|backup)
 		command_backup.sh;;
 	c|console)
@@ -45,6 +47,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -66,6 +70,7 @@ case "${getopt}" in
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
@@ -74,6 +79,71 @@ case "${getopt}" in
 	} | column -s $'\t' -t
 	esac
 }
+
+fn_getopt_generic_no_update(){
+case "${getopt}" in
+	st|start)
+		command_start.sh;;
+	sp|stop)
+		command_stop.sh;;
+	r|restart)
+		command_restart.sh;;
+	uf|update-functions)
+		command_update_functions.sh;;
+	m|monitor)
+		command_monitor.sh;;
+	ta|test-alert)
+		command_test_alert.sh;;
+	dt|details)
+		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
+	b|backup)
+		command_backup.sh;;
+	c|console)
+		command_console.sh;;
+	d|debug)
+		command_debug.sh;;
+	dev|dev-debug)
+		command_dev_debug.sh;;
+	i|install)
+		command_install.sh;;
+	ai|auto-install)
+		fn_autoinstall;;
+	dd|detect-deps)
+		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
+	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
+		exitcode=2
+	fi
+	echo "Usage: $0 [option]"
+	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "https://gameservermanagers.com/${selfname}"
+	echo -e ""
+	echo -e "${lightyellow}Commands${default}"
+	{
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+	} | column -s $'\t' -t
+	esac
+}
+
 
 fn_getopt_teamspeak3(){
 case "${getopt}" in
@@ -93,6 +163,8 @@ case "${getopt}" in
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	b|backup)
 		command_backup.sh;;
 	pw|change-password)
@@ -107,6 +179,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -121,11 +195,12 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from teamspeak.com."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
 		echo -e "${blue}change-password\t${default}pw |Changes TS3 serveradmin password."
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}install\t${default}i  |Install the server."
@@ -152,6 +227,8 @@ case "${getopt}" in
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	b|backup)
 		command_backup.sh;;
 	c|console)
@@ -168,6 +245,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -187,6 +266,7 @@ case "${getopt}" in
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
@@ -214,6 +294,8 @@ case "${getopt}" in
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	b|backup)
 		command_backup.sh;;
 	dev|dev-debug)
@@ -224,6 +306,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -238,11 +322,12 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
-		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from GitHub."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
 		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}install\t${default}i  |Install the server."
 	} | column -s $'\t' -t
@@ -261,7 +346,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -272,6 +357,8 @@ case "${getopt}" in
 		command_test_alert.sh;;
 	dt|details)
 		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
 	b|backup)
 		command_backup.sh;;
 	c|console)
@@ -288,6 +375,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	fd|fastdl)
 		command_fastdl.sh;;
 	*)
@@ -355,6 +444,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -396,7 +487,7 @@ case "${getopt}" in
 		command_update.sh;;
 	fu|force-update|update-restart)
 		forceupdate=1;
-		update_check.sh;;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	v|validate)
@@ -423,6 +514,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	mc|map-compressor)
 		compress_unreal2_maps.sh;;
 	*)
@@ -493,6 +586,8 @@ case "${getopt}" in
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -524,6 +619,8 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
+elif [ "${gamename}" == "Battlefield: 1942" ]|| [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+	fn_getopt_generic_no_update
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_getopt_minecraft
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
