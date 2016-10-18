@@ -328,7 +328,7 @@ fn_info_config_mumble(){
 		queryport=${queryport:-"64738"}
 		servername="Mumble Port ${port}"
 
-		ip=$(cat "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/voice_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		ipsetinconfig=1
 		ipinconfigvar="voice_ip"
 	fi
