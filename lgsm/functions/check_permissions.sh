@@ -95,7 +95,7 @@ fn_check_permissions(){
 			# If user permission is invalid, then check for invalid group permissions
 			if [ "${groupexecperm}" == "0" ] || [ "${groupexecperm}" == "2" ] || [ "${groupexecperm}" == "4" ]  || [ "${groupexecperm}" == "6" ]; then
 				# If permission issues are found
-				fn_print_warn "Permissions issue found"
+				fn_print_warn_nl "Permissions issue found"
 				fn_script_log_warn "Permissions issue found"
 				fn_print_information_nl "The following file is not executable:"
 				ls -l "${executabledir}/${execname}"
