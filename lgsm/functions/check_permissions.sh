@@ -106,6 +106,11 @@ fn_check_permissions(){
 				# Make the executable executable
 				chmod u+x,g+x "${executabledir}/${execname}"
 				# Second check to see if it's been successfully applied
+				# Get permission numbers on file under the form 775
+				execperm="$(stat -c %a "${executabledir}/${execname}")"
+				# Grab the first and second digit for user and group permission
+				userexecperm="${execperm:0:1}"
+				groupexecperm="${execperm:1:1}"
 				if [ "${userexecperm}" == "0" ] || [ "${userexecperm}" == "2" ] || [ "${userexecperm}" == "4" ]  || [ "${userexecperm}" == "6" ]; then
 					if [ "${groupexecperm}" == "0" ] || [ "${groupexecperm}" == "2" ] || [ "${groupexecperm}" == "4" ]  || [ "${groupexecperm}" == "6" ]; then
 					# If errors are still found
