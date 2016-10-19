@@ -116,7 +116,7 @@ fn_fetch_core_dl
 }
 
 
-# Command
+# Commands
 
 command_console.sh(){
 functionfile="${FUNCNAME}"
@@ -263,6 +263,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+check_tmuxception.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 
 # Compress
 
@@ -298,6 +303,7 @@ command_dev_detect_ldd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 
 # Fix
 
