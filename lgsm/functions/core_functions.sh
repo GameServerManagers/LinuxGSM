@@ -258,11 +258,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-check_tmux.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 check_tmuxception.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
