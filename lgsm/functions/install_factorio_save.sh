@@ -11,4 +11,4 @@ echo ""
 echo "Creating initial Factorio savefile"
 echo "================================="
 sleep 1
-${filesdir}/bin/x64/factorio --create-save ${filesdir}/save1
+${filesdir}/bin/x64/factorio --create ${filesdir}/save1
