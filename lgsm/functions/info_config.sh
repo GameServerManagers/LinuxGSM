@@ -321,14 +321,12 @@ fn_info_config_mumble(){
 		servername="Mumble"
 	else
 		port=$(grep "port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/port//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		queryport="${port}"
-
+		ip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		# Not Set
 		port=${port:-"64738"}
 		queryport=${queryport:-"64738"}
 		servername="Mumble Port ${port}"
-
-		ip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		# Misc variables
 		ipsetinconfig=1
 		ipinconfigvar="voice_ip"
 	fi
