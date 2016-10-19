@@ -11,17 +11,21 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_check_is_in_tmux(){
 	if [ -n "${TMUX}" ];then
-		fn_print_fail_nl "Can't start a tmux session inside of a tmux session."
-		fn_script_log_fatal "Can't start a tmux session inside of a tmux session."
-		fn_print_information_nl "LGSM already runs the server inside of a tmux session whenever it's possible."
+		fn_print_fail_nl "tmuxception error: Sorry Cobb you cannot start a tmux session inside of a tmux session."
+		fn_script_log_fatal "tmuxception error: Attempted to start a tmux session inside of a tmux session."
+		fn_print_information_nl "LGSM creates a tmux session when starting the server."
+		echo "It is not possible to run a tmux session inside another tmux session"
+		echo "https://github.com/GameServerManagers/LinuxGSM/wiki/Tmux#tmuxception"
 		core_exit.sh
 	fi
 }
 fn_check_is_in_screen(){
-	if [ "$TERM" = "screen" ];then
-		fn_print_fail_nl "Can't start a tmux session inside of a screen session."
-		fn_script_log_fatal "Can't start a tmux session inside of a screen session."
-		fn_print_information_nl "LGSM already runs the server inside of a tmux session whenever it's possible."
+	if [ "$TERM" == "screen" ];then
+		fn_print_fail_nl "tmuxception error: Sorry Cobb you cannot start a tmux session inside of a screen session."
+		fn_script_log_fatal "tmuxception error: Attempted to start a tmux session inside of a screen session."
+		fn_print_information_nl "LGSM creates a tmux session when starting the server."
+		echo "It is not possible to run a tmux session inside screen session"
+		echo "https://github.com/GameServerManagers/LinuxGSM/wiki/Tmux#tmuxception"
 		core_exit.sh
 	fi
 }
