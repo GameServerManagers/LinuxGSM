@@ -300,6 +300,8 @@ case "${getopt}" in
 		command_backup.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;
+	c|console)
+		command_console.sh;;
 	i|install)
 		command_install.sh;;
 	dd|detect-deps)
@@ -329,6 +331,7 @@ case "${getopt}" in
 		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
 		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
 	} | column -s $'\t' -t
 	esac
