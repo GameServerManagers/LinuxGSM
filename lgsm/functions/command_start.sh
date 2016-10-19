@@ -9,6 +9,23 @@ local commandname="START"
 local commandaction="Starting"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
+fn_check_is_in_tmux(){
+	if [ -n "${TMUX}" ];then
+		fn_print_fail_nl "Can't start a tmux session inside of a tmux session."
+		fn_script_log_fail "Can't start a tmux session inside of a tmux session."
+		fn_print_information_nl "LGSM already runs the server inside of a tmux session."
+		core_exit.sh
+	fi
+}
+fn_check_is_in_screen(){
+	if [ "$TERM" = "screen" ];then
+		fn_print_fail_nl "Can't start a tmux session inside of a screen session."
+		fn_script_log_fail "Can't start a tmux session inside of a screen session."
+		fn_print_information_nl "LGSM already runs the server inside of a tmux session."
+		core_exit.sh
+	fi
+}
+
 fn_start_teamspeak3(){
 	if [ ! -e "${servercfgfullpath}" ]; then
 		fn_print_warn_nl "${servercfgfullpath} is missing"
@@ -165,6 +182,8 @@ fn_start_tmux(){
 
 fn_print_dots "${servername}"
 sleep 1
+fn_check_is_in_tmux
+fn_check_is_in_screen
 check.sh
 fix.sh
 info_config.sh
