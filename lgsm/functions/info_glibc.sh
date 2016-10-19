@@ -23,6 +23,9 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 elif [ "${gamename}" == "Empires Mod" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Factorio" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
