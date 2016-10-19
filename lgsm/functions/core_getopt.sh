@@ -408,7 +408,7 @@ case "${getopt}" in
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
 		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
-		echo -e "${blue}fastdl\t${default}fd |Generates or update a FastDL folder for your server."
+		echo -e "${blue}fastdl\t${default}fd |Generates or update a FastDL directory for your server."
 	} | column -s $'\t' -t
 	esac
 }

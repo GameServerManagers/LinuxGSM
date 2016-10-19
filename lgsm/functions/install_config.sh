@@ -39,8 +39,8 @@ fn_set_config_vars(){
 # Checks if cfg dir exists, creates it if it doesn't
 fn_check_cfgdir(){
 	if [ ! -d "${servercfgdir}" ]; then
-		echo "creating ${servercfgdir} config folder."
-		fn_script_log_info "creating ${servercfgdir} config folder."
+		echo "creating ${servercfgdir} config directory."
+		fn_script_log_info "creating ${servercfgdir} config directory."
 		mkdir -pv "${servercfgdir}"
 	fi
 }

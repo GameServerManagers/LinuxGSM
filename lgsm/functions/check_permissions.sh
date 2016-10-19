@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Checks ownership & permissions of scripts, files and folders.
+# Description: Checks ownership & permissions of scripts, files and directorys.
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -66,7 +66,7 @@ fn_check_permissions(){
 
 	# Check rootdir permissions
 	if [ -n "${rootdir}" ]; then
-		# Get permission numbers on folder under the form 775
+		# Get permission numbers on directory under the form 775
 		rootdirperm="$(stat -c %a "${rootdir}")"
 		# Grab the first and second digit for user and group permission
 		userrootdirperm="${rootdirperm:0:1}"
