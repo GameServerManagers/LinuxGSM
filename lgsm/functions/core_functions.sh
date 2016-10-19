@@ -544,11 +544,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_ut99.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 # Calls the global Ctrl-C trap
 core_trap.sh
 
