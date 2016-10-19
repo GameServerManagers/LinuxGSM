@@ -13,15 +13,15 @@ fn_check_is_in_tmux(){
 	if [ -n "${TMUX}" ];then
 		fn_print_fail_nl "Can't start a tmux session inside of a tmux session."
 		fn_script_log_fatal "Can't start a tmux session inside of a tmux session."
-		fn_print_information_nl "LGSM already runs the server inside of a tmux session."
+		fn_print_information_nl "LGSM already runs the server inside of a tmux session whenever it's possible."
 		core_exit.sh
 	fi
 }
 fn_check_is_in_screen(){
 	if [ "$TERM" = "screen" ];then
 		fn_print_fail_nl "Can't start a tmux session inside of a screen session."
-		fn_script_log_fail "Can't start a tmux session inside of a screen session."
-		fn_print_information_nl "LGSM already runs the server inside of a tmux session."
+		fn_script_log_fatal "Can't start a tmux session inside of a screen session."
+		fn_print_information_nl "LGSM already runs the server inside of a tmux session whenever it's possible."
 		core_exit.sh
 	fi
 }
