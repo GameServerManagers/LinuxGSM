@@ -479,6 +479,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_factorio_save.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
