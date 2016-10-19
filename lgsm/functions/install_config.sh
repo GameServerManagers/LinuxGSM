@@ -270,7 +270,11 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 elif [ "${gamename}" == "Mumble" ]; then
-	:
+	gamedirname="Mumble"
+	array_configs+=( murmur.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Natural Selection 2" ]; then
 	:
 elif [ "${gamename}" == "NS2: Combat" ]; then
