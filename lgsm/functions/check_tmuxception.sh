@@ -27,3 +27,6 @@ fn_check_is_in_screen(){
 		core_exit.sh
 	fi
 }
+
+fn_check_is_in_tmux
+fn_check_is_in_screen
