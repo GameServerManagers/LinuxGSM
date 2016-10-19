@@ -52,7 +52,7 @@ fn_fastdl_init(){
 	done
 	fn_script_log "Initiating FastDL creation"
 
-	# Check and create directorys
+	# Check and create directories
 	if [ ! -d "${webdir}" ]; then
 		echo ""
 		fn_print_info "Creating FastDL directories"
