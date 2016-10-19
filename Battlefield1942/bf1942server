@@ -29,7 +29,7 @@ pushbullettoken="accesstoken"
 # Start Variables
 
 fn_parms(){
-parms=" +hostServer 1 +dedicated 1"
+parms="+hostServer 1 +dedicated 1"
 }
 
 #### Advanced Variables ####

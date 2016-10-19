@@ -30,10 +30,19 @@ fn_set_config_vars(){
 	fn_script_log_info "changing hostname."
 	sleep 1
 	sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
-	echo "changing rconpassword."
-	fn_script_log_info "changing RCON/ADMIN password."
+	echo "changing rcon/admin password."
+	fn_script_log_info "changing rcon/admin password."
 	sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
 	sleep 1
+}
+
+# Checks if cfg dir exists, creates it if it doesn't
+fn_check_cfgdir(){
+	if [ ! -d "${servercfgdir}" ]; then
+		echo "creating ${servercfgdir} config folder."
+		fn_script_log_info "creating ${servercfgdir} config folder."
+		mkdir -pv "${servercfgdir}"
+	fi
 }
 
 # Copys the default configs from Game-Server-Configs repo to the
@@ -75,6 +84,7 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "ARMA 3" ]; then
 	gamedirname="Arma3"
+	fn_check_cfgdir
 	array_configs+=( server.cfg network.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
