@@ -114,6 +114,7 @@ elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
+  install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	fn_install_server_files
 fi
