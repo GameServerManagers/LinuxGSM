@@ -325,8 +325,8 @@ fn_info_config_mumble(){
 		queryport="${port}"
 		servername="Mumble"
 	else
-		port=$(grep "port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/port//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		ip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		port=$(grep "port=" "${servercfgfullpath}" | awk -F "=" '{ print $2 }' )
+		ip=$(grep "host=" "${servercfgfullpath}" | awk -F "=" '{ print $2 }' )
 		
 		# Not Set
 		port=${port:-"64738"}
