@@ -82,6 +82,9 @@ servercfgdir="${systemdir}/Saved/Config/LinuxServer"
 servercfg="GameUserSettings.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/GameUserSettings.ini"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
