@@ -76,6 +76,9 @@ servercfg="${servicename}.ini"
 servercfgdefault="UTGame.ini"
 servercfgdir="${systemdir}/UTGame/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
