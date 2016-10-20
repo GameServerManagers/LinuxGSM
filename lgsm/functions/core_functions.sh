@@ -116,7 +116,7 @@ fn_fetch_core_dl
 }
 
 
-# Command
+# Commands
 
 command_console.sh(){
 functionfile="${FUNCNAME}"
@@ -258,7 +258,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-check_tmux.sh(){
+check_tmuxception.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -298,6 +298,7 @@ command_dev_detect_ldd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 
 # Fix
 
@@ -539,11 +540,6 @@ fn_fetch_function
 }
 
 install_ut2k4_key.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fix_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

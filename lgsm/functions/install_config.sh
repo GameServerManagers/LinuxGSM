@@ -39,8 +39,8 @@ fn_set_config_vars(){
 # Checks if cfg dir exists, creates it if it doesn't
 fn_check_cfgdir(){
 	if [ ! -d "${servercfgdir}" ]; then
-		echo "creating ${servercfgdir} config folder."
-		fn_script_log_info "creating ${servercfgdir} config folder."
+		echo "creating ${servercfgdir} config directory."
+		fn_script_log_info "creating ${servercfgdir} config directory."
 		mkdir -pv "${servercfgdir}"
 	fi
 }
@@ -270,7 +270,11 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 elif [ "${gamename}" == "Mumble" ]; then
-	:
+	gamedirname="Mumble"
+	array_configs+=( murmur.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Natural Selection 2" ]; then
 	:
 elif [ "${gamename}" == "NS2: Combat" ]; then
