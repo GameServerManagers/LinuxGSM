@@ -63,6 +63,9 @@ servercfg="${servicename}.ini"
 servercfgdefault="murmur.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
