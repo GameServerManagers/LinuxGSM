@@ -54,7 +54,7 @@ if [ "${status}" != "0" ]; then
 	while true; do
 		read -e -i "n" -p "Stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
-		[Yy]* ) fn_script_log "User choose to stop the server"; command_stop.sh; serverstopped="yes"; break;;
+		[Yy]* ) exitbypass=1; fn_script_log "User choose to stop the server"; command_stop.sh; serverstopped="yes"; break;;
 		[Nn]* ) fn_script_log "User choose to not stop the server"; serverstopped="no"; break;;
 		* ) echo "Please answer yes or no.";;
 	esac
@@ -131,6 +131,7 @@ if [ $? == 0 ]; then
 	fi
 	# Restart the server if it was stopped for the backup
 	if [ "${serverstopped}" == "yes" ]; then
+		exitbypass=1
 		command_start.sh
 	fi
 else
