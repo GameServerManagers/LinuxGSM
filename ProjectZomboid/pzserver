@@ -78,6 +78,9 @@ servercfg="server.ini"
 servercfgdefault="server.cfg"
 servercfgdir="${HOME}/Zomboid/Server"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
