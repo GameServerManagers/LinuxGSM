@@ -75,6 +75,9 @@ servercfg="config.lua"
 servercfgdefault="config.lua"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
