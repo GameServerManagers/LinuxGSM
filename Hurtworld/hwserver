@@ -96,6 +96,9 @@ if [ "${x64mode}" == "1" ]; then
 else
 	executable="./Hurtworld.x86"
 fi
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
