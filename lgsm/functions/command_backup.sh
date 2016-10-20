@@ -16,12 +16,13 @@ fn_script_log "Entering backup"
 # Check if a backup is pending or has been aborted using .backup.lock
 fn_check_pending_backup(){
 	if [ -f "${tmpdir}/.backup.lock" ]; then
-		fn_print_warning_nl "A backup is currently running or has been aborted."
-		fn_script_log_warn "A backup is currently running or has been aborted"
-			# Exit if is in noprompt mode
-			fn_print_error "Backup already in progress."
-			fn_script_log_fatal "Backup already in progress"
-			core_exit.sh
+		fn_print_error "A backup is currently running or has been aborted."
+		fn_print_info_nl "If you keep seing this message, remove the following file:"
+		echo "${tmpdir}/.backup.lock"
+		fn_script_log_fatal "A backup is currently running or has been aborted."
+		fin_script_log_info "If you keep seing this message, remove the following file: ${tmpdir}/.backup.lock"
+		core_exit.sh
+	fi
 }
 
 # Initialization
