@@ -62,6 +62,9 @@ servercfg="serversettings.con"
 servercfgdefault="serversettings.con"
 servercfgdir="${systemdir}/mods/bf1942/settings"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
