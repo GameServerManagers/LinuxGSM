@@ -81,6 +81,9 @@ servercfg="${servicename}.cfg"
 servercfgdefault="server.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
