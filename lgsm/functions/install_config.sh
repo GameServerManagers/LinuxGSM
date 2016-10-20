@@ -291,6 +291,12 @@ elif [ "${gamename}" == "Project Zomboid" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Quake 3: Arena" ]; then
+	gamedirname="QuakeLive"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Quake Live" ]; then
 	gamedirname="QuakeLive"
 	array_configs+=( server.cfg )
