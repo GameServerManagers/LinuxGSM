@@ -88,6 +88,9 @@ executable="./server_linux32"
 servercfgdir="${rootdir}/server1"
 servercfgfullpath="${servercfgdir}"
 modstoragedir="${servercfgdir}/Workshop"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
