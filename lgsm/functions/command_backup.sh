@@ -14,7 +14,7 @@ fn_script_log "Entering backup"
 # Check if a backup is pending or has been aborted using .backup.lock
 if [ -f "${tmpdir}/.backup.lock" ]; then
 	fn_print_warning_nl "A backup is currently running or has been aborted."
-	fn_script_log_warn "A backup is currently running or has been aborted."
+	fn_script_log_warn "A backup is currently running or has been aborted"
 	while true; do
 		read -e -i "y" -p "Continue anyway? [Y/N]" yn
 		case $yn in
@@ -49,7 +49,7 @@ check_status.sh
 if [ "${status}" != "0" ]; then
 	echo ""
 	fn_print_warning_nl "${servicename} is currently running."
-	fn_script_log_warn "${servicename} is currently running."
+	fn_script_log_warn "${servicename} is currently running"
 	sleep 0.5
 	while true; do
 		read -e -i "n" -p "Stop ${servicename} while running the backup? [y/N]" yn
@@ -85,9 +85,9 @@ if [ -d "${tmpdir}" ]; then
 fi
 
 # Compressing files
-fn_script_log "Compressing ${rootdirduexbackup}..."
+fn_script_log "Compressing ${rootdirduexbackup}"
 tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
-fn_script_log "Compression over."
+fn_script_log "Compression over"
 
 # Remove lockfile
 if [ -d "${tmpdir}" ]; then
@@ -108,7 +108,7 @@ if [ $? == 0 ]; then
 		# Check if there is any backup to clear
 		if [ "${backupclearcount}" -ne "0" ]; then
 			fn_print_info_nl "${backupclearcount} backups older than ${backupdays} days can be cleared."
-			fn_script_log "${backupclearcount} backups older than ${backupdays} days can be cleared."
+			fn_script_log "${backupclearcount} backups older than ${backupdays} days can be cleared"
 			while true; do
 				read -p -e"Clear older backups? [Y/N]" yn
 				case $yn in
@@ -121,13 +121,13 @@ if [ $? == 0 ]; then
 			if [ "${clearoldbackups}" == "yes" ]; then
 				find "${backupdir}"/ -mtime +"${backupdays}" -type f -exec rm -f {} \;
 				fn_print_ok_nl "Cleared ${backupclearcount} backups."
-				fn_script_log_pass "Cleared ${backupclearcount} backups."
+				fn_script_log_pass "Cleared ${backupclearcount} backups"
 			fi
 		else
-			fn_script_log "No backups older than ${backupdays} days were found."
+			fn_script_log "No backups older than ${backupdays} days were found"
 		fi
 	else
-		fn_script_log "No backups to clear since backupdays variable is empty."
+		fn_script_log "No backups to clear since backupdays variable is empty"
 	fi
 	# Restart the server if it was stopped for the backup
 	if [ "${serverstopped}" == "yes" ]; then
