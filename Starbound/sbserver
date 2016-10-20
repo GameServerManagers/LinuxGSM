@@ -76,6 +76,9 @@ servercfg="starbound_server.config"
 servercfgdefault="starbound_server.config"
 servercfgdir="${filesdir}/storage"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
