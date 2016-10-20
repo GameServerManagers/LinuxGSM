@@ -72,6 +72,9 @@ servercfg="${servicename}.cfg" # Teeworlds can also auto load any config if an a
 servercfgdefault="server.cfg"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
