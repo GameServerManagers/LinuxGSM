@@ -428,7 +428,7 @@ fn_details_source(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
 		if [ -n "${sourcetvport}" ]; then
-		        echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
+			echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
 		fi
 		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
 	} | column -s $'\t' -t
