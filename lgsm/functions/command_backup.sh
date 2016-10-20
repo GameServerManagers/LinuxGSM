@@ -36,14 +36,12 @@ fn_backup_init(){
 	fn_print_info_nl "A total of ${rootdirduexbackup} will be compressed into the following backup:"
 	fn_script_log "A total of ${rootdirduexbackup} will be compressed into the following backup: ${backupdir}/${backupname}.tar.gz"
 	echo "${backupdir}/${backupname}.tar.gz"
-	echo ""
 }
 
 
 # Check if server is started and wether to shut it down
 fn_backup_stop_server(){
 	check_status.sh
-	echo ""
 	# Server is shut down
 	if [ "${status}" == "0" ]; then
 		serverstopped="no"
@@ -149,6 +147,7 @@ fn_backup_clearing(){
 			fn_print_ok_nl "Cleared ${backupclearcount} backups."
 			fn_script_log_pass "Cleared ${backupclearcount} backups"
 		else
+			fn_print_info_nl "No backups older than ${maxbackupdays} days were found."
 			fn_script_log "No backups older than ${maxbackupdays} days were found"
 		fi
 	else
