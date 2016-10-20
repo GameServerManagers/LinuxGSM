@@ -96,6 +96,9 @@ networkcfgdefault="network.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 networkcfgfullpath="${servercfgdir}/${networkcfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
