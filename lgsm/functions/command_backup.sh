@@ -10,7 +10,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 fn_print_header
-fn_script_log "Backup initiated"
+fn_script_log "Entering backup"
 # Check if a backup is pending or has been aborted using .backup.lock
 if [ -f "${tmpdir}/.backup.lock" ]; then
 	fn_print_warning_nl "A backup is currently running or has been aborted."
@@ -32,7 +32,7 @@ backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 # Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue
 info_distro.sh
 fn_print_info_nl "A total of ${rootdirduexbackup} will be compressed into the following backup:"
-fn_script_log "A total of ${rootdirduexbackup} will be compressed into the following backup:"
+fn_script_log "A total of ${rootdirduexbackup} will be compressed into the following backup: ${backupdir}/${backupname}.tar.gz"
 echo "${backupdir}/${backupname}.tar.gz"
 echo ""
 while true; do
@@ -50,20 +50,20 @@ if [ "${status}" != "0" ]; then
 	echo ""
 	fn_print_warning_nl "${servicename} is currently running."
 	fn_script_log_warn "${servicename} is currently running."
-	sleep 1
+	sleep 0.5
 	while true; do
 		read -e -i "n" -p "Stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
-		[Yy]* ) fn_script_log "Stopping the server"; command_stop.sh; serverstopped="yes"; break;;
-		[Nn]* ) fn_script_log "Not stopping the server"; serverstopped="no"; break;;
+		[Yy]* ) fn_script_log "User choose to stop the server"; command_stop.sh; serverstopped="yes"; break;;
+		[Nn]* ) fn_script_log "User choose to not stop the server"; serverstopped="no"; break;;
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
 fi
 
 fn_print_dots "Backup in progress, please wait..."
-fn_script_log_info "Started backup"
-sleep 1
+fn_script_log_info "Initiating backup"
+sleep 0.5
 
 # Directories creation
 # Create backupdir if it doesn't exist
@@ -85,8 +85,9 @@ if [ -d "${tmpdir}" ]; then
 fi
 
 # Compressing files
-fn_script_log "Compressing ${rootdirduexbackup}".
+fn_script_log "Compressing ${rootdirduexbackup}..."
 tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+fn_script_log "Compression over."
 
 # Remove lockfile
 if [ -d "${tmpdir}" ]; then
