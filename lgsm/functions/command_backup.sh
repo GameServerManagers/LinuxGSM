@@ -169,15 +169,19 @@ fn_backup_clearing(){
 		if [ "${backupclearcount}" -ne "0" ]; then
 			fn_print_info_nl "${backupclearcount} backups older than ${backupdays} days can be cleared."
 			fn_script_log "${backupclearcount} backups older than ${backupdays} days can be cleared"
-			while true; do
-				read -p -e"Clear older backups? [Y/N]" yn
-				case $yn in
-				[Yy]* ) clearoldbackups="yes"; break;;
-				[Nn]* ) clearoldbackups="no"; fn_script_log "Not clearing backups"; break;;
-				* ) echo "Please answer yes or no.";;
-			esac
-			done
-			# If user wants to clear backups
+			if [ "${backupnoprompt}" != "1" ]; then
+				while true; do
+					read -p -e"Clear older backups? [Y/N]" yn
+					case $yn in
+					[Yy]* ) clearoldbackups="yes"; break;;
+					[Nn]* ) clearoldbackups="no"; fn_script_log "Not clearing backups"; break;;
+					* ) echo "Please answer yes or no.";;
+				esac
+				done
+			else
+				clearoldbackups="yes"
+			fi
+			# If user wants to clear backups or if noprompt
 			if [ "${clearoldbackups}" == "yes" ]; then
 				find "${backupdir}"/ -mtime +"${backupdays}" -type f -exec rm -f {} \;
 				fn_print_ok_nl "Cleared ${backupclearcount} backups."
