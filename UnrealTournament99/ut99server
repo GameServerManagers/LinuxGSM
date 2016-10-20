@@ -65,6 +65,9 @@ servercfgdefault="Default.ini"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 compressedmapsdir="${rootdir}/Maps-Compressed"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
