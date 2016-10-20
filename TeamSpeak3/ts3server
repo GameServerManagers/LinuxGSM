@@ -50,6 +50,9 @@ servercfg="${servicename}.ini"
 servercfgdefault="ts3server.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
