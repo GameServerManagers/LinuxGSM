@@ -9,7 +9,6 @@ local commandaction="Backup"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-backuplock=
 # Check if a backup is pending or has been aborted using .backup.lock
 if [ -f "${tmpdir}/.backup.lock" ]; then
 	fn_print_warning_nl "A backup is currently pending or has been aborted."
