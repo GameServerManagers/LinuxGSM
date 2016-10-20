@@ -10,6 +10,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 fn_print_header
+fn_script_log "Backup initiated"
 # Check if a backup is pending or has been aborted using .backup.lock
 if [ -f "${tmpdir}/.backup.lock" ]; then
 	fn_print_warning_nl "A backup is currently running or has been aborted."
@@ -22,6 +23,7 @@ if [ -f "${tmpdir}/.backup.lock" ]; then
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
+echo ""
 fi
 fn_print_dots ""
 sleep 0.5
@@ -30,11 +32,13 @@ backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
 # Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue
 info_distro.sh
 fn_print_info_nl "A total of ${rootdirduexbackup} will be compressed into the following backup:"
+fn_script_log "A total of ${rootdirduexbackup} will be compressed into the following backup:"
 echo "${backupdir}/${backupname}.tar.gz"
+echo ""
 while true; do
-	read -e -i "y" -p "Continue? [Y/N]" yn
+	read -e -i "y" -p "Continue? [Y/n]" yn
 	case $yn in
-	[Yy]* ) break;;
+	[Yy]* ) fn_script_log "User validates"; break;;
 	[Nn]* ) echo "Exiting"; fn_script_log "User aborted"; return;;
 	* ) echo "Please answer yes or no.";;
 esac
@@ -45,13 +49,13 @@ check_status.sh
 if [ "${status}" != "0" ]; then
 	echo ""
 	fn_print_warning_nl "${servicename} is currently running."
-	
+	fin_script_log_warning "${servicename} is currently running."
 	sleep 1
 	while true; do
-		read -p "Stop ${servicename} while running the backup? [Y/N]" yn
+		read -p -e -i "n" "Stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
-		[Yy]* ) command_stop.sh; serverstopped="yes"; break;;
-		[Nn]* ) serverstopped="no"; break;;
+		[Yy]* ) fn_script_log "Stopping the server"; command_stop.sh; serverstopped="yes"; break;;
+		[Nn]* ) fn_script_log "Not stopping the server"; serverstopped="no"; break;;
 		* ) echo "Please answer yes or no.";;
 	esac
 	done
@@ -60,18 +64,36 @@ fi
 fn_print_dots "Backup in progress, please wait..."
 fn_script_log_info "Started backup"
 sleep 1
+
+# Directories creation
+# Create backupdir if it doesn't exist
 if [ ! -d "${backupdir}" ]; then
+	fn_print_info_nl "Creating ${backupdir}"
+	fn_script_log_info "Creating ${backupdir}"
 	mkdir "${backupdir}"
 fi
+# Create tmpdir if it doesn't exist
+if [ -n "${tmpdir}" ]&&[ ! -d "${tmpdir}" ]; then
+	fn_print_info_nl "Creating ${tmpdir}"
+	fn_script_log "Creating ${tmpdir}"
+	mkdir -p "${tmpdir}"
+fi
 # Create lockfile
-touch "${tmpdir}/.backup.lock"
-fn_script_log "Lockfile created"
+if [ -d "${tmpdir}" ]; then
+	touch "${tmpdir}/.backup.lock"
+	fn_script_log "Lockfile created"
+fi
+
 # Compressing files
 fn_script_log "Compressing ${rootdirduexbackup}".
 tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+
 # Remove lockfile
-rm "${tmpdir}/.backup.lock"
-fn_script_log "Lockfile removed"
+if [ -d "${tmpdir}" ]; then
+	rm "${tmpdir}/.backup.lock"
+	fn_script_log "Lockfile removed"
+fi
+
 # Check tar exit code and act accordingly
 if [ $? == 0 ]; then
 	# Exit code doesn't report any error
@@ -87,10 +109,10 @@ if [ $? == 0 ]; then
 			fn_print_info_nl "${backupclearcount} backups older than ${backupdays} days can be cleared."
 			fn_script_log "${backupclearcount} backups older than ${backupdays} days can be cleared."
 			while true; do
-				read -p "Clear older backups? [Y/N]" yn
+				read -p -e"Clear older backups? [Y/N]" yn
 				case $yn in
 				[Yy]* ) clearoldbackups="yes"; break;;
-				[Nn]* ) clearoldbackups="no"; fn_script_log "User didn't clear backups"; break;;
+				[Nn]* ) clearoldbackups="no"; fn_script_log "Not clearing backups"; break;;
 				* ) echo "Please answer yes or no.";;
 			esac
 			done
@@ -98,8 +120,13 @@ if [ $? == 0 ]; then
 			if [ "${clearoldbackups}" == "yes" ]; then
 				find "${backupdir}"/ -mtime +"${backupdays}" -type f -exec rm -f {} \;
 				fn_print_ok_nl "Cleared ${backupclearcount} backups."
+				fn_script_log_pass "Cleared ${backupclearcount} backups."
 			fi
+		else
+			fn_script_log "No backups older than ${backupdays} days were found."
 		fi
+	else
+		fn_script_log "No backups to clear since backupdays variable is empty."
 	fi
 	# Restart the server if it was stopped for the backup
 	if [ "${serverstopped}" == "yes" ]; then
