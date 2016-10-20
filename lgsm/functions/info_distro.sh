@@ -105,19 +105,21 @@ fi
 
 ## Backup info
 if [ -d "${backupdir}" ]; then
-	# used space in backups dir.
+	# Ued space in backups dir.
 	backupdirdu=$(du -sh "${backupdir}" | awk '{print $1}')
+	# If no backup dir, size is 0M
 	if [ -z "${backupdirdu}" ]; then
 		backupdirdu="0M"
 	fi
-
-	# number of backups.
-	backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
-	# most recent backup.
-	lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
-	# date of most recent backup.
-	lastbackupdate=$(date -r "${lastbackup}")
-	# size of most recent backup.
-	lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
-
+	# If there are backups in backup dir.
+	if [ $(find "${backupdir}" -name "*.tar.gz" | wc -l) -ne "0" ]; then
+		# number of backups.
+		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
+		# most recent backup.
+		lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
+		# date of most recent backup.
+		lastbackupdate=$(date -r "${lastbackup}")
+		# size of most recent backup.
+		lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
+	fi
 fi
