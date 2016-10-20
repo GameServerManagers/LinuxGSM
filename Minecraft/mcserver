@@ -63,6 +63,9 @@ servercfgdefault="server.properties"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.ini"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
