@@ -68,6 +68,9 @@ executable="./UE4Server-Linux-Shipping"
 servercfg="Game.ini"
 servercfgdir="${systemdir}/UnrealTournament/Saved/Config/LinuxServer"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+backupdays="30"
 backupdir="${rootdir}/backups"
 
 # Logging
