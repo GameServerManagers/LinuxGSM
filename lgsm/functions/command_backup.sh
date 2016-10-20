@@ -127,11 +127,11 @@ fn_script_log "Compression over"
 
 # Check tar exit code and set the result
 fn_check_tar_exit(){
-	if [ $? == 0 ]; then
-		backupresult="FAIL"
-	else
-		backupresult="PASS"
-	fi
+if [ $? == 0 ]; then
+	backupresult="PASS"
+else
+	backupresult="FAIL"
+fi
 }
 
 # Remove lockfile
@@ -148,7 +148,7 @@ fn_backup_summary(){
 		fn_print_ok_nl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 		fn_script_log_pass "Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
 	# When backupresult="FAIL"
-	elif [ "${backupresult}" == "PASS" ]; then
+	elif [ "${backupresult}" == "FAIL" ]; then
 		fn_print_error_nl "Backup failed: ${backupname}.tar.gz"
 		fn_script_log_error "Backup failed: ${backupname}.tar.gz"
 		core_exit.sh
