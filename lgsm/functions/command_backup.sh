@@ -1,6 +1,7 @@
 #!/bin/bash
 # LGSM command_backup.sh function
 # Author: Daniel Gibbs
+# Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -171,7 +172,7 @@ fn_backup_clearing(){
 			fn_script_log "${backupclearcount} backups older than ${backupdays} days can be cleared"
 			if [ "${backupnoprompt}" != "1" ]; then
 				while true; do
-					read -p -e"Clear older backups? [Y/N]" yn
+					read -e -p "Clear older backups? [Y/N]" yn
 					case $yn in
 					[Yy]* ) clearoldbackups="yes"; break;;
 					[Nn]* ) clearoldbackups="no"; fn_script_log "Not clearing backups"; break;;
