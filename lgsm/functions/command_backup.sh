@@ -48,10 +48,10 @@ fn_backup_stop_server(){
 	# Server is up and shutdownonbackup is off
 	elif [ "${shutdownonbackup}" == "off" ]; then
 		serverstopped="no"
-		fn_print_warning_nl "${servicename} is started and will not be stopped."
-		fn_print_info_nl "It is advised to shutdown the server to prevent a file change during compression resulting in a tar error."
-		fn_script_log_warn "${servicename} is started during the backup"
-		fn_script_log_info "It is advised to shutdown the server to prevent a file change during compression resulting in a tar error."
+		fn_print_info_nl "${servicename} is started and will not be stopped."
+		fn_print_information_nl "It is advised to stop the server to prevent a file changes and tar errors."
+		fn_script_log_info "${servicename} is started during the backup"
+		fn_script_log_info "It is advised to stop the server to prevent a file changes and tar errors."
 	# Server is up and will be stopped if shutdownonbackup has no value or anything else than "off"
 	else
 		fn_print_warning_nl "${servicename} will be stopped during the backup."
