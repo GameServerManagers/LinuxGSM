@@ -49,10 +49,10 @@ check_status.sh
 if [ "${status}" != "0" ]; then
 	echo ""
 	fn_print_warning_nl "${servicename} is currently running."
-	fin_script_log_warning "${servicename} is currently running."
+	fn_script_log_warn "${servicename} is currently running."
 	sleep 1
 	while true; do
-		read -p -e -i "n" "Stop ${servicename} while running the backup? [y/N]" yn
+		read -e -i "n" -p "Stop ${servicename} while running the backup? [y/N]" yn
 		case $yn in
 		[Yy]* ) fn_script_log "Stopping the server"; command_stop.sh; serverstopped="yes"; break;;
 		[Nn]* ) fn_script_log "Not stopping the server"; serverstopped="no"; break;;
