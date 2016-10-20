@@ -18,24 +18,10 @@ fn_check_pending_backup(){
 	if [ -f "${tmpdir}/.backup.lock" ]; then
 		fn_print_warning_nl "A backup is currently running or has been aborted."
 		fn_script_log_warn "A backup is currently running or has been aborted"
-		if [ "${backupnoprompt}" == "1" ]; then
 			# Exit if is in noprompt mode
-			fn_print_error "Backup already in progress"
+			fn_print_error "Backup already in progress."
 			fn_script_log_fatal "Backup already in progress"
 			core_exit.sh
-		else
-			# Prompts user if in regular mode
-			while true; do
-				read -e -i "y" -p "Continue anyway? [Y/N]" yn
-				case $yn in
-				[Yy]* ) fn_script_log "User continues anyway"; break;;
-				[Nn]* ) echo Exiting; fn_script_log "User aborted"; return;;
-				* ) echo "Please answer yes or no.";;
-			esac
-			done
-			echo ""
-		fi
-	fi
 }
 
 # Initialization
@@ -50,43 +36,31 @@ fn_backup_init(){
 	fn_script_log "A total of ${rootdirduexbackup} will be compressed into the following backup: ${backupdir}/${backupname}.tar.gz"
 	echo "${backupdir}/${backupname}.tar.gz"
 	echo ""
-	# Prompt to start the backup if not in noprompt mode
-	if [ "${backupnoprompt}" != "1" ]; then
-		while true; do
-			read -e -i "y" -p "Continue? [Y/n]" yn
-			case $yn in
-			[Yy]* ) fn_script_log "User validates"; break;;
-			[Nn]* ) echo "Exiting"; fn_script_log "User aborted"; return;;
-			* ) echo "Please answer yes or no.";;
-		esac
-		done
-		echo ""
-	fi
 }
 
 
-# Check if server is started
+# Check if server is started and wether to shut it down
 fn_backup_stop_server(){
 	check_status.sh
-	if [ "${status}" != "0" ]; then
-		echo ""
-		fn_print_warning_nl "${servicename} is currently running."
-		fn_script_log_warn "${servicename} is currently running"
-		sleep 0.5
-		if [ "${backupnoprompt}" == "1" ]; then
-			# Don't stop the server in noprompt mode
-			serverstopped="no"
-		else
-			# Otherwise ask the user if it should be stopped or not
-			while true; do
-				read -e -i "n" -p "Stop ${servicename} while running the backup? [y/N]" yn
-				case $yn in
-				[Yy]* ) exitbypass=1; fn_script_log "User choose to stop the server"; command_stop.sh; serverstopped="yes"; break;;
-				[Nn]* ) fn_script_log "User choose to not stop the server"; serverstopped="no"; break;;
-				* ) echo "Please answer yes or no.";;
-			esac
-			done
-		fi
+	echo ""
+	# Server is shut down
+	if [ "${status}" == "0" ]; then
+		serverstopped="no"
+	# Server is up and shutdownonbackup is off
+	elif [ "${shutdownonbackup}" == "off" ]; then
+		serverstopped="no"
+		fn_print_warning_nl "${servicename} is started and will not be stopped."
+		fn_print_info_nl "It is advised to shutdown the server to prevent a file change during compression resulting in a tar error."
+		fn_script_log_warn "${servicename} is started during the backup"
+		fn_script_log_info "It is advised to shutdown the server to prevent a file change during compression resulting in a tar error."
+	# Server is up and will be stopped if shutdownonbackup has no value or anything else than "off"
+	else
+		fn_print_warning_nl "${servicename} will be stopped during the backup."
+		fn_script_log_warn "${servicename} will be stopped during the backup"
+		sleep 4
+		serverstopped="yes"
+		exitbypass=1
+		command_stop.sh
 	fi
 }
 
@@ -163,36 +137,21 @@ fn_backup_summary(){
 
 # Clear old backups according to maxbackups and maxbackupdays variables
 fn_backup_clearing(){
-	if [ -n "${backupdays}" ]; then
+	if [ -n "${maxbackupdays}" ]; then
 		# Count how many backups can be cleared
-		backupclearcount=$(find "${backupdir}"/ -type f -mtime +"${backupdays}"|wc -l)
+		backupclearcount=$(find "${backupdir}"/ -type f -mtime +"${maxbackupdays}"|wc -l)
 		# Check if there is any backup to clear
 		if [ "${backupclearcount}" -ne "0" ]; then
-			fn_print_info_nl "${backupclearcount} backups older than ${backupdays} days can be cleared."
-			fn_script_log "${backupclearcount} backups older than ${backupdays} days can be cleared"
-			if [ "${backupnoprompt}" != "1" ]; then
-				while true; do
-					read -e -p "Clear older backups? [Y/N]" yn
-					case $yn in
-					[Yy]* ) clearoldbackups="yes"; break;;
-					[Nn]* ) clearoldbackups="no"; fn_script_log "Not clearing backups"; break;;
-					* ) echo "Please answer yes or no.";;
-				esac
-				done
-			else
-				clearoldbackups="yes"
-			fi
-			# If user wants to clear backups or if noprompt
-			if [ "${clearoldbackups}" == "yes" ]; then
-				find "${backupdir}"/ -mtime +"${backupdays}" -type f -exec rm -f {} \;
-				fn_print_ok_nl "Cleared ${backupclearcount} backups."
-				fn_script_log_pass "Cleared ${backupclearcount} backups"
-			fi
+			fn_print_info_nl "${backupclearcount} backups older than ${maxbackupdays} days can be cleared."
+			fn_script_log "${backupclearcount} backups older than ${maxbackupdays} days can be cleared"
+			find "${backupdir}"/ -mtime +"${maxbackupdays}" -type f -exec rm -f {} \;
+			fn_print_ok_nl "Cleared ${backupclearcount} backups."
+			fn_script_log_pass "Cleared ${backupclearcount} backups"
 		else
-			fn_script_log "No backups older than ${backupdays} days were found"
+			fn_script_log "No backups older than ${maxbackupdays} days were found"
 		fi
 	else
-		fn_script_log "No backups to clear since backupdays variable is empty"
+		fn_script_log "No backups to clear since maxbackupdays variable is empty"
 	fi
 }
 
