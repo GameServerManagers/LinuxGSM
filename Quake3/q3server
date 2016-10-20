@@ -1,5 +1,5 @@
 #!/bin/bash
-# Quake 3
+# Quake 3: Arena
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -45,7 +45,7 @@ githubbranch="master"
 
 # Server Details
 servicename="quake3-server"
-gamename="Quake 3"
+gamename="Quake 3: Arena"
 engine="idtech3"
 
 # Directories
