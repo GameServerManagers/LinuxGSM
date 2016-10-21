@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Creates a FastDL folder.
+# Description: Creates a FastDL directory.
 
 local commandname="FASTDL"
 local commandaction="FastDL"
@@ -52,7 +52,7 @@ fn_fastdl_init(){
 	done
 	fn_script_log "Initiating FastDL creation"
 
-	# Check and create folders
+	# Check and create directories
 	if [ ! -d "${webdir}" ]; then
 		echo ""
 		fn_print_info "Creating FastDL directories"
@@ -67,7 +67,7 @@ fn_fastdl_init(){
 		echo -en "\n"
 	fi
 	if [ ! -d "${fastdldir}" ]; then
-		# No folder, won't ask for removing old ones
+		# No directory, won't ask for removing old ones
 		newfastdl=1
 		fn_print_dots "Creating fastdl directory"
 		sleep 0.5
@@ -88,7 +88,7 @@ fn_fastdl_config(){
 	fn_script_log "Configuration"
 	sleep 2
 	echo -en "\n"
-	# Prompt for clearing old files if folder was already here
+	# Prompt for clearing old files if directory was already here
 	if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
 		fn_print_dots
 		while true; do
@@ -133,12 +133,12 @@ fn_fastdl_gmod_config(){
 fn_clear_old_fastdl(){
 	# Clearing old FastDL if user answered yes
 	if [ "${clearoldfastdl}" == "on" ]; then
-		fn_print_info "Clearing existing FastDL folder"
-		fn_script_log "Clearing existing FastDL folder"
+		fn_print_info "Clearing existing FastDL directory"
+		fn_script_log "Clearing existing FastDL directory"
 		sleep 0.5
 		rm -R "${fastdldir:?}"/*
-		fn_print_ok "Old FastDL folder cleared"
-		fn_script_log "Old FastDL folder cleared"
+		fn_print_ok "Old FastDL directory cleared"
+		fn_script_log "Old FastDL directory cleared"
 		sleep 1
 		echo -en "\n"
 	fi
@@ -152,7 +152,7 @@ fn_gmod_fastdl(){
 	sleep 1
 	echo -en "\n"
 
-	# No choice to cd to the directory, as find can't then display relative folder
+	# No choice to cd to the directory, as find can't then display relative directory
 	cd "${systemdir}"
 
 	# Map Files
@@ -160,6 +160,7 @@ fn_gmod_fastdl(){
 	fn_script_log "Copying map files"
 	sleep 0.5
 	find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
+	find . -name '*.ain' | cpio --quiet -updm "${fastdldir}"
 	fn_print_ok "Map files copied"
 	sleep 0.5
 	echo -en "\n"
@@ -220,7 +221,7 @@ fn_gmod_fastdl(){
 	# Going back to rootdir in order to prevent mistakes
 	cd "${rootdir}"
 
-	# Correct addons folder structure for FastDL
+	# Correct addons directory structure for FastDL
 	if [ -d "${fastdldir}/addons" ]; then
 		fn_print_info "Adjusting addons' file structure"
 		fn_script_log "Adjusting addon's file structure"
@@ -232,7 +233,7 @@ fn_gmod_fastdl(){
 		echo -en "\n"
 	fi
 
-	# Correct content that may be into a lua folder by mistake like some darkrpmodification addons
+	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
 	if [ -d "${fastdldir}/lua" ]; then
 		fn_print_dots "Typical DarkRP shit detected, fixing"
 		sleep 2
@@ -243,7 +244,7 @@ fn_gmod_fastdl(){
 	fi
 }
 
-# Generate lua file that will force download any file into the FastDL folder
+# Generate lua file that will force download any file into the FastDL directory
 fn_lua_fastdl(){
 	# Remove lua file if luaressource is turned off and file exists
 	echo ""

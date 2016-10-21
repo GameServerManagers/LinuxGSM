@@ -209,6 +209,7 @@ fn_stop_ark(){
 								rev | cut -d\/ -f1)
 						#
 						# check for a valid pid
+						pid=${pid//[!0-9]/}
 						let pid+=0 # turns an empty string into a valid number, '0',
 						# and a valid numeric pid remains unchanged.
 						if [[ ${pid} -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
@@ -244,8 +245,10 @@ fn_stop_teamspeak3(){
 }
 
 fn_stop_mumble(){
+	# Get needed port info
+	info_config.sh
 	fn_print_dots "Stopping ${servername}"
-	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep 64738 | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
+	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep "${port}" | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
 	kill ${mumblepid}
 	sleep 1
 	check_status.sh

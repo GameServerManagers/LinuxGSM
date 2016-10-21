@@ -8,13 +8,19 @@
 # Fixes for legacy code
 if [ "${gamename}" == "Teamspeak 3" ]; then
 	gamename="TeamSpeak 3"
+elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
+	gamename="Counter-Strike: Global Offensive"
+elif [ "${gamename}" == "Counter Strike: Source" ]; then
+	gamename="Counter-Strike: Source"
+elif [ "${gamename}" == "Quake Live" ]; then
+	engine="idtech3_ql"
 fi
 
 if [ "${emailnotification}" == "on" ]; then
     emailalert="on"
 fi
 
-# Code/functions for legacy servers
+## Code/functions for legacy servers
 fn_functions(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -25,13 +31,15 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# fn_fetch_core_dl also placed here to allow legacy servers to still download core functions
-if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]; then
+## In case older versions are missing these vars
+if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]||[ -z "${tmpdir}" ]; then
 	lgsmdir="${rootdir}/lgsm"
 	functionsdir="${lgsmdir}/functions"
 	libdir="${lgsmdir}/lib"
+	tmpdir="${lgsmdir}/tmp"
 fi
 
+## fn_fetch_core_dl placed here to allow legacy servers to still download core functions
 fn_fetch_core_dl(){
 github_file_url_dir="lgsm/functions"
 github_file_url_name="${functionfile}"
@@ -74,6 +82,10 @@ fi
 source "${filedir}/${filename}"
 }
 
+# Creates tmp dir if missing
+if [ ! -d "${tmpdir}" ]; then
+	mkdir -p "${tmpdir}"
+fi
 
 # Core
 
@@ -104,7 +116,7 @@ fn_fetch_core_dl
 }
 
 
-# Command
+# Commands
 
 command_console.sh(){
 functionfile="${FUNCNAME}"
@@ -114,6 +126,18 @@ fn_fetch_function
 command_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
+}
+
+command_postdetails.sh(){
+    functionfile="${FUNCNAME}"
+    tempffname="${functionfile}"
+    # First, grab the command_postdetails.sh file
+    fn_fetch_function
+    # But then next, command_details.sh needs to also be pulled
+    # because command_postdetails.sh sources its functions -CedarLUG
+    functionfile="command_details.sh"
+    fn_fetch_function
+    functionfile="${tempffname}"
 }
 
 command_details.sh(){
@@ -234,7 +258,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-check_tmux.sh(){
+check_tmuxception.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -269,6 +293,12 @@ command_dev_detect_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
+command_dev_detect_ldd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 
 # Fix
 
@@ -510,11 +540,6 @@ fn_fetch_function
 }
 
 install_ut2k4_key.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fix_ut99.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
