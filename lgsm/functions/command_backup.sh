@@ -139,6 +139,7 @@ fn_backup_clearing(){
 backupscount=$(find "${backupdir}/" -type f -name "*.tar.gz"|wc -l)
 # How many backups exceed maxbackups
 backupquotadiff=$((backupscount-maxbackups))
+# How many backups exceed maxbackupdays
 backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
 # If backup variables are set
 if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
