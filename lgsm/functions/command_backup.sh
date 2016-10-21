@@ -10,7 +10,6 @@ local commandaction="Backup"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-fn_print_header
 fn_script_log "Entering backup"
 
 # Check if a backup is pending or has been aborted using .backup.lock
@@ -136,23 +135,39 @@ fn_backup_summary(){
 
 # Clear old backups according to maxbackups and maxbackupdays variables
 fn_backup_clearing(){
-	if [ -n "${maxbackupdays}" ]; then
-		# Count how many backups can be cleared
-		backupclearcount=$(find "${backupdir}"/ -type f -mtime +"${maxbackupdays}"|wc -l)
-		# Check if there is any backup to clear
-		if [ "${backupclearcount}" -ne "0" ]; then
-			fn_print_info_nl "${backupclearcount} backups older than ${maxbackupdays} days can be cleared."
-			fn_script_log "${backupclearcount} backups older than ${maxbackupdays} days can be cleared"
+# How many backups there are
+backupscount=$(find "${backupdir}/" -type f -name "*.tar.gz"|wc -l)
+# How many backups exceed maxbackups
+backupquotadiff=$((backupscount-maxbackups))
+#backupquotadiff=$(find ${backupdir}"/ -type f -printf '%T@ %p\n' | sort -rn | tail -n +"${maxbackups}" | cut -f2- -d" " | wc -l)
+backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
+# If backup variables are set
+if [ -n "${maxbackupdays}" ]&&{ -n "${maxbackups}" ]; then
+	# If anything can be cleared
+	if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
+		# If maxbackups is used over maxbackupdays
+		if [ "${backupquotadiff}" -gt "${backupsoudatedcount}" ]||[ "${backupquotadiff}" -eq "${backupsoudatedcount}" ]; then
+			# Display how many backups will be cleared
+			echo "${backupquotadiff} backups will be clearned"
+			fn_print_info_nl "${backupquotadiff}  backups than max ${maxbackups} will be cleared."
+			fn_script_log "${backupquotadiff}  backups than max ${maxbackups} will be cleared"
+			echo "... Once this update is over"
+			# Clear over quota backups
+			#find "${backupdir}"/ -type f -printf '%T@ %p\n' | sort -rn | tail "${backupquotadiff}" | cut -f2- -d" "
+		# If maxbackupdays is used over maxbackups
+		elif [ "${backupquotadiff}" -gt "${backupsoudatedcount}" ]; then
+			# Display how many backups will be cleared
+			fn_print_info_nl "${backupsoudatedcount} backups older than ${maxbackupdays} days will be cleared."
+			fn_script_log "${backupsoudatedcount} backups older than ${maxbackupdays} days will be cleared"
 			find "${backupdir}"/ -mtime +"${maxbackupdays}" -type f -exec rm -f {} \;
-			fn_print_ok_nl "Cleared ${backupclearcount} backups."
-			fn_script_log_pass "Cleared ${backupclearcount} backups"
+			fn_print_ok_nl "Cleared ${backupsoudatedcount} backups."
+			fn_script_log_pass "Cleared ${backupsoudatedcount} backups"
 		else
-			fn_print_info_nl "No backups older than ${maxbackupdays} days were found."
 			fn_script_log "No backups older than ${maxbackupdays} days were found"
-		fi
-	else
-		fn_script_log "No backups to clear since maxbackupdays variable is empty"
 	fi
+else
+	fn_script_log "No backups to clear since maxbackupdays variable is empty"
+fi
 }
 
 # Restart the server if it was stopped for the backup
