@@ -139,21 +139,20 @@ fn_backup_clearing(){
 backupscount=$(find "${backupdir}/" -type f -name "*.tar.gz"|wc -l)
 # How many backups exceed maxbackups
 backupquotadiff=$((backupscount-maxbackups))
-#backupquotadiff=$(find ${backupdir}"/ -type f -printf '%T@ %p\n' | sort -rn | tail -n +"${maxbackups}" | cut -f2- -d" " | wc -l)
 backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
 # If backup variables are set
 if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
 	# If anything can be cleared
 	if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
-		# If maxbackups is used over maxbackupdays
+		# If maxbackups greater or equal than backupsoutdatedcount, then it is used over maxbackupdays
 		if [ "${backupquotadiff}" -gt "${backupsoudatedcount}" ]||[ "${backupquotadiff}" -eq "${backupsoudatedcount}" ]; then
 			# Display how many backups will be cleared
 			echo "${backupquotadiff} backups will be clearned"
-			fn_print_info_nl "${backupquotadiff}  backups than max ${maxbackups} will be cleared."
-			fn_script_log "${backupquotadiff}  backups than max ${maxbackups} will be cleared"
-			echo "... Once this update is over"
+			fn_print_info_nl "${backupquotadiff} backups exceed max ${maxbackups} and will be cleared."
+			fn_script_log "${backupquotadiff} backups exceed max ${maxbackups} and will be cleared"
+			sleep 2
 			# Clear over quota backups
-			#find "${backupdir}"/ -type f -printf '%T@ %p\n' | sort -rn | tail "${backupquotadiff}" | cut -f2- -d" "
+			find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
 		# If maxbackupdays is used over maxbackups
 		elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 			# Display how many backups will be cleared
