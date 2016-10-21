@@ -177,3 +177,4 @@ World =
     -- The default weather severity at world creation.
     -- Default value: 0
     WeatherSeverity             = 0
+}

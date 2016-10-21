@@ -22,6 +22,7 @@ fn_lockfile_trap(){
 check.sh
 fix.sh
 info_distro.sh
+info_config.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh
 fn_parms
 fn_print_header
@@ -94,6 +95,11 @@ trap fn_lockfile_trap INT
 cd "${executabledir}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	${executable} ${parms} -debug
+elif [ "${engine}" == "realvirtuality" ]; then
+	# Arma3 requires semicolons in the module list, which need to
+	# be escaped for regular (tmux) loading, but need to be
+	# stripped when loading straight from the console.
+	${executable} ${parms//\\;/;}
 else
 	${executable} ${parms}
 fi

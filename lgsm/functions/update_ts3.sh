@@ -9,11 +9,11 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_ts3_dl(){
-	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
-	fn_dl_extract "${lgsmdir}/tmp" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${lgsmdir}/tmp"
+	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
+	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${lgsmdir}/tmp/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}"
+	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
@@ -86,16 +86,11 @@ fi
 fn_update_ts3_availablebuild(){
 	# Gets latest build info.
 
-	# Creates tmp dir if missing
-	if [ ! -d "${lgsmdir}/tmp" ]; then
-		mkdir -p "${lgsmdir}/tmp"
-	fi
-
 	# Grabs all version numbers but not in correct order.
-	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
+	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${tmpdir}/.ts3_version_numbers_unsorted.tmp"
 
 	# Sort version numbers
-	cat "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+	cat "${tmpdir}/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${tmpdir}/.ts3_version_numbers_sorted.tmp"
 
 	# Finds directory with most recent server version.
 	while read ts3_version_number; do
@@ -105,11 +100,11 @@ fn_update_ts3_availablebuild(){
 			# Break while-loop, if the latest release could be found.
 			break
 		fi
-	done < "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+	done < "${tmpdir}/.ts3_version_numbers_sorted.tmp"
 
 	# Tidy up
-	rm -f "${lgsmdir}/tmp/.ts3_version_numbers_unsorted.tmp"
-	rm -f "${lgsmdir}/tmp/.ts3_version_numbers_sorted.tmp"
+	rm -f "${tmpdir}/.ts3_version_numbers_unsorted.tmp"
+	rm -f "${tmpdir}/.ts3_version_numbers_sorted.tmp"
 
 	# Checks availablebuild info is available
 	if [ -z "${availablebuild}" ]; then

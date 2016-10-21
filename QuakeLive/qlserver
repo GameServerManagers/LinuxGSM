@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="060516"
+version="211016"
 
 #### Variables ####
 
@@ -19,6 +19,7 @@ version="060516"
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -43,7 +44,7 @@ updateonstart="off"
 # Install/Config Guide : https://steamcommunity.com/sharedfiles/filedetails/?id=542966946
 # Console Commands : http://www.regurge.at/ql/
 fn_parms(){
-	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir}/${port} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rconpassword} +set zmq_stats_enable 1 +set zmq_stats_password ${statspassword} +set zmq_stats_port ${statsport} +set sv_mapPoolFile ${mappool} +exec ${servercfg}"
+parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir}/${port} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rconpassword} +set zmq_stats_enable 1 +set zmq_stats_password ${statspassword} +set zmq_stats_port ${statsport} +set sv_mapPoolFile ${mappool} +exec ${servercfg}"
 }
 
 #### Advanced Variables ####
@@ -58,10 +59,15 @@ githubbranch="master"
 # Steam
 appid="349090"
 
+# Steam App Branch Select
+# Allows to opt into the various Steam app branches. Default branch is "".
+# Example: "-beta beta"
+branch=""
+
 # Server Details
 servicename="ql-server"
 gamename="Quake Live"
-engine="idtech3"
+engine="idtech3_ql"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -70,14 +76,15 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable=$([ "${arch}" == 'x64' ] && echo "./run_server_x64.sh" || echo "./run_server_x86.sh")
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${filesdir}/baseq3"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

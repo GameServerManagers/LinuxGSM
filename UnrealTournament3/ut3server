@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="211016"
 
 #### Variables ####
 
@@ -19,6 +19,7 @@ version="210516"
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -45,6 +46,15 @@ fn_parms(){
 parms="server ${defaultmap}?Game=${game}?bIsDedicated=${isdedicated}?bIsLanMatch=${islanmatch}?bUsesStats=${usesstats}?bShouldAdvertise=${shouldadvertise}?PureServer=${pureserver}?bAllowJoinInProgress=${allowjoininprogress}?MaxPlayers=${maxplayers}?Mutator=${mutators} -port=${port} -queryport=${queryport} -multihome=${ip} -nohomedir -unattended -log=${gamelog}"
 }
 
+#### Advanced Variables ####
+
+# Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
+githubbranch="master"
+
 # Server Details
 servicename="ut3-server"
 gamename="Unreal Tournament 3"
@@ -57,11 +67,13 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${systemdir}/Binaries"
 executable="./ut3"
-servercfg="UTGame.ini"
+servercfg="${servicename}.ini"
+servercfgdefault="UTGame.ini"
 servercfgdir="${systemdir}/UTGame/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
@@ -81,13 +93,6 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 gamelogdate="${gamelogdir}/${servicename}-game-$(date '+%d-%m-%Y-%H-%M-%S').log"
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
-# Github Branch Select
-# Allows for the use of different function files
-# from a different repo and/or branch.
-githubuser="GameServerManagers"
-githubrepo="LinuxGSM"
-githubbranch="master"
 
 ##### Script #####
 # Do not edit
@@ -152,4 +157,3 @@ core_functions.sh
 
 getopt=$1
 core_getopt.sh
-

@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="290716"
+version="211016"
 
 #### Variables ####
 
@@ -20,6 +20,7 @@ version="290716"
 # Email
 emailalert="off"
 email="email@example.com"
+#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -42,7 +43,6 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-
 # Server Details
 gamename="Mumble"
 servicename="mumble-server"
@@ -54,11 +54,13 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./murmur.x86"
-servercfg="murmur.ini"
+servercfg="${servicename}.ini"
+servercfgdefault="murmur.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
