@@ -142,7 +142,7 @@ backupquotadiff=$((backupscount-maxbackups))
 #backupquotadiff=$(find ${backupdir}"/ -type f -printf '%T@ %p\n' | sort -rn | tail -n +"${maxbackups}" | cut -f2- -d" " | wc -l)
 backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
 # If backup variables are set
-if [ -n "${maxbackupdays}" ]&&{ -n "${maxbackups}" ]; then
+if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
 	# If anything can be cleared
 	if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
 		# If maxbackups is used over maxbackupdays
@@ -164,6 +164,7 @@ if [ -n "${maxbackupdays}" ]&&{ -n "${maxbackups}" ]; then
 			fn_script_log_pass "Cleared ${backupsoudatedcount} backups"
 		else
 			fn_script_log "No backups older than ${maxbackupdays} days were found"
+		fi
 	fi
 else
 	fn_script_log "No backups to clear since maxbackupdays variable is empty"
