@@ -155,7 +155,7 @@ if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
 			# Clear over quota backups
 			#find "${backupdir}"/ -type f -printf '%T@ %p\n' | sort -rn | tail "${backupquotadiff}" | cut -f2- -d" "
 		# If maxbackupdays is used over maxbackups
-		elif [ "${backupquotadiff}" -gt "${backupsoudatedcount}" ]; then
+		elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 			# Display how many backups will be cleared
 			fn_print_info_nl "${backupsoudatedcount} backups older than ${maxbackupdays} days will be cleared."
 			fn_script_log "${backupsoudatedcount} backups older than ${maxbackupdays} days will be cleared"
