@@ -98,7 +98,9 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 networkcfgfullpath="${servercfgdir}/${networkcfg}"
 
 # Backup
-backupdays="30"
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

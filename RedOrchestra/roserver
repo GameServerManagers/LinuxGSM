@@ -75,7 +75,9 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 compressedmapsdir="${rootdir}/Maps-Compressed"
 
 # Backup
-backupdays="30"
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging
