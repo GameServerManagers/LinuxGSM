@@ -38,20 +38,20 @@ fn_backup_init(){
 }
 
 
-# Check if server is started and wether to shut it down
+# Check if server is started and wether to stop it
 fn_backup_stop_server(){
 	check_status.sh
-	# Server is shut down
+	# Server is stopped
 	if [ "${status}" == "0" ]; then
 		serverstopped="no"
-	# Server is up and shutdownonbackup is off
-	elif [ "${shutdownonbackup}" == "off" ]; then
+	# Server is up and stoponbackup is off
+	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
 		fn_print_info_nl "${servicename} is started and will not be stopped."
 		fn_print_information_nl "It is advised to stop the server to prevent a file changes and tar errors."
 		fn_script_log_info "${servicename} is started during the backup"
 		fn_script_log_info "It is advised to stop the server to prevent a file changes and tar errors."
-	# Server is up and will be stopped if shutdownonbackup has no value or anything else than "off"
+	# Server is up and will be stopped if stoponbackup has no value or anything else than "off"
 	else
 		fn_print_warning_nl "${servicename} will be stopped during the backup."
 		fn_script_log_warn "${servicename} will be stopped during the backup"
