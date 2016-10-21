@@ -24,7 +24,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${tmpdir}"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
-		fileurl="https://s3.amazonaws.com/linuxgsm/quake3-1.32c-x86-full-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake3-1.32c-x86-full-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
+		fileurl="http://files.gameservermanagers.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake3-1.32c-x86-full-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
