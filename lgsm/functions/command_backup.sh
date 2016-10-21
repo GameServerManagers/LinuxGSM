@@ -153,6 +153,8 @@ if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
 			sleep 2
 			# Clear over quota backups
 			find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
+			fn_print_ok_nl "Cleared ${backupquotadiff} backups."
+			fn_script_log "Cleared ${backupquotadiff} backups"
 		# If maxbackupdays is used over maxbackups
 		elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 			# Display how many backups will be cleared
