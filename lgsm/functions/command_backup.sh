@@ -147,28 +147,27 @@ if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
 		# If maxbackups greater or equal than backupsoutdatedcount, then it is used over maxbackupdays
 		if [ "${backupquotadiff}" -gt "${backupsoudatedcount}" ]||[ "${backupquotadiff}" -eq "${backupsoudatedcount}" ]; then
 			# Display how many backups will be cleared
-			echo "${backupquotadiff} backups will be clearned"
-			fn_print_info_nl "${backupquotadiff} backups exceed max ${maxbackups} and will be cleared."
-			fn_script_log "${backupquotadiff} backups exceed max ${maxbackups} and will be cleared"
+			fn_print_info_nl "${backupquotadiff} backup(s) exceed max ${maxbackups} and will be cleared."
+			fn_script_log "${backupquotadiff} backup(s) exceed max ${maxbackups} and will be cleared"
 			sleep 2
 			# Clear over quota backups
 			find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
-			fn_print_ok_nl "Cleared ${backupquotadiff} backups."
-			fn_script_log "Cleared ${backupquotadiff} backups"
+			fn_print_ok_nl "Cleared ${backupquotadiff} backup(s)."
+			fn_script_log "Cleared ${backupquotadiff} backup(s)"
 		# If maxbackupdays is used over maxbackups
 		elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 			# Display how many backups will be cleared
-			fn_print_info_nl "${backupsoudatedcount} backups older than ${maxbackupdays} days will be cleared."
-			fn_script_log "${backupsoudatedcount} backups older than ${maxbackupdays} days will be cleared"
+			fn_print_info_nl "${backupsoudatedcount} backup(s) older than ${maxbackupdays} days will be cleared."
+			fn_script_log "${backupsoudatedcount} backup(s) older than ${maxbackupdays} days will be cleared"
 			find "${backupdir}"/ -mtime +"${maxbackupdays}" -type f -exec rm -f {} \;
-			fn_print_ok_nl "Cleared ${backupsoudatedcount} backups."
-			fn_script_log_pass "Cleared ${backupsoudatedcount} backups"
+			fn_print_ok_nl "Cleared ${backupsoudatedcount} backup(s)."
+			fn_script_log_pass "Cleared ${backupsoudatedcount} backup(s)"
 		else
 			fn_script_log "No backups older than ${maxbackupdays} days were found"
 		fi
 	fi
 else
-	fn_script_log "No backups to clear since maxbackupdays variable is empty"
+	fn_script_log "No backups to clear since maxbackupdays and maxbackups variables are not set"
 fi
 }
 
