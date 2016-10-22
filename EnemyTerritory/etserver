@@ -1,5 +1,5 @@
 #!/bin/bash
-# Quake 2
+# Enemy Territory
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -26,12 +26,11 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
-defaultmap="q2dm1"
 ip="0.0.0.0"
-port="27910"
+port="27960"
 
 fn_parms(){
-parms="+set dedicated 1 +set ip ${ip} +set port ${port} +exec ${servercfg} +set deathmatch 1 +map ${defaultmap}"
+	parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir} +exec ${servicename}.cfg"
 }
 
 #### Advanced Variables ####
@@ -44,9 +43,9 @@ githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Server Details
-servicename="quake2server"
-gamename="Quake 2"
-engine="idtech2"
+servicename="et-server"
+gamename="Enemy Territory"
+engine="idtech3"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -55,15 +54,14 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
-tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/baseq2"
-executabledir="${filesdir}"
-executable="./quake2"
+systemdir="${filesdir}"
+executabledir="${systemdir}"
+executable="./etded"
 servercfg="${servicename}.cfg"
-servercfgdefault="server.cfg"
-servercfgdir="${systemdir}"
+servercfgdir="${systemdir}/etmain"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

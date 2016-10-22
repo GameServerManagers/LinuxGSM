@@ -1,5 +1,5 @@
 #!/bin/bash
-# Quake 2
+# Sven Co-op
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -25,13 +25,21 @@ email="email@example.com"
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-# Start Variables
-defaultmap="q2dm1"
-ip="0.0.0.0"
-port="27910"
+# Steam login
+steamuser="anonymous"
+steampass=""
 
+# Start Variables
+defaultmap="svencoop1"
+maxplayers="16"
+port="27015"
+clientport="27005"
+ip="0.0.0.0"
+updateonstart="off"
+
+# https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="+set dedicated 1 +set ip ${ip} +set port ${port} +exec ${servercfg} +set deathmatch 1 +map ${defaultmap}"
+parms="-game svencoop -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
 
 #### Advanced Variables ####
@@ -43,10 +51,13 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
+# Steam
+appid="276060"
+
 # Server Details
-servicename="quake2server"
-gamename="Quake 2"
-engine="idtech2"
+servicename="svencoop-server"
+gamename="Sven Co-op"
+engine="goldsource"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -55,20 +66,19 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
-tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/baseq2"
+systemdir="${filesdir}/svencoop"
 executabledir="${filesdir}"
-executable="./quake2"
+executable="./svends_run"
 servercfg="${servicename}.cfg"
-servercfgdefault="server.cfg"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
 logdays="7"
-gamelogdir="${filesdir}/Logs"
+gamelogdir="${systemdir}/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 consolelogging="on"
