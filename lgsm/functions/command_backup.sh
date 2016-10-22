@@ -160,7 +160,7 @@ if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
 			# Display how many backups will be cleared
 			fn_print_info_nl "${backupsoudatedcount} backup(s) older than ${maxbackupdays} days will be cleared."
 			fn_script_log "${backupsoudatedcount} backup(s) older than ${maxbackupdays} days will be cleared"
-			find "${backupdir}"/ -mtime +"${maxbackupdays}" -type f -exec rm -f {} \;
+			find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
 			fn_print_ok_nl "Cleared ${backupsoudatedcount} backup(s)."
 			fn_script_log_pass "Cleared ${backupsoudatedcount} backup(s)"
 		else
