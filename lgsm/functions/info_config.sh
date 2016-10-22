@@ -154,6 +154,44 @@ fn_info_config_projectzomboid(){
 	fi
 }
 
+fn_info_config_quake2(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		slots="${zero}"
+	else
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		slots=$(grep "maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		slots=${slots:-"0"}
+	fi
+}
+
+fn_info_config_quake3(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		slots="${zero}"
+	else
+		rconpassword=$(grep "zmq_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set zmq_rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		slots=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		slots=${slots:-"0"}
+	fi
+}
+
 fn_info_config_quakelive(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
@@ -475,6 +513,12 @@ elif [ "${gamename}" == "Battlefield: 1942" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
+# Quake 2
+elif [ "${gamename}" == "Quake 2" ]; then
+	fn_info_config_quake2
+# Quake 3
+elif [ "${gamename}" == "Quake 3: Arena" ]; then
+	fn_info_config_quake3
 # Quake Live
 elif [ "${gamename}" == "Quake Live" ]; then
 	fn_info_config_quakelive

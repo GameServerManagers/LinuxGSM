@@ -227,6 +227,8 @@ fn_details_script(){
 		if [ -n "${servercfgfullpath}" ]; then
 			if [ -f "${servercfgfullpath}" ]; then
 				echo -e "${blue}Config file:\t${default}${servercfgfullpath}"
+			elif [ -d "${servercfgfullpath}" ]; then
+				echo -e "${blue}Config dir:\t${default}${servercfgfullpath}"
 			else
 				echo -e "${blue}Config file:\t${default}${red}${servercfgfullpath}${default} (${red}FILE MISSING${default})"
 			fi
@@ -290,7 +292,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech3" "lwjgl2" "projectzomboid" "idtech3_ql" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "lwjgl2" "projectzomboid" "idtech3_ql" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -384,6 +386,24 @@ fn_details_refractor(){
 	} | column -s $'\t' -t
 }
 
+fn_details_quake2(){
+	echo -e "netstat -atunp | grep quake2"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_quake3(){
+	echo -e "netstat -atunp | grep q3ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_quakelive(){
 	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
@@ -426,7 +446,7 @@ fn_details_source(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
 		if [ -n "${sourcetvport}" ]; then
-		        echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
+			echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
 		fi
 		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
 	} | column -s $'\t' -t
@@ -663,6 +683,10 @@ fn_display_details() {
 		fn_details_ark
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
+	elif [ "${gamename}" == "Quake 2" ]; then
+		fn_details_quake2
+	elif [ "${gamename}" == "Quake 3: Arena" ]; then
+		fn_details_quake3
 	elif [ "${gamename}" == "Quake Live" ]; then
 		fn_details_quakelive
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then

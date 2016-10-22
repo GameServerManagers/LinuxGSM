@@ -26,22 +26,21 @@ fn_info_config_quakelive(){
 	rconpassword=${rconpassword:-"NOT SET"}
 }
 
-fn_info_config_realvirtuality(){
-	port=$(grep "^serverport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-	queryport=$(grep "^steamqueryport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-	masterport=$(grep "^steamport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-	# Not Set
-	port=${port:-"2302"}
-	queryport=${queryport:-"2303"}
-	masterport=${masterport:-"2304"}
-}
-
 fn_info_config_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
 	clientport=${clientport:-"0"}
+}
+
+fn_info_config_spark(){
+	# Not Set
+	port=${port:-"0"}
+	queryport=$((port + 1))
+	maxplayers=${maxplayers:-"0"}
+	webadminuser=${webadminuser:-"NOT SET"}
+	webadminpass=${webadminpass:-"NOT SET"}
+	webadminport=${webadminport:-"0"}
 }
 
 fn_info_config_teeworlds(){
@@ -139,6 +138,9 @@ elif [ "${engine}" == "seriousengine35" ]; then
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
+# Spark
+elif [ "${engine}" == "spark" ]; then
+	fn_info_config_spark
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds
