@@ -386,6 +386,15 @@ fn_details_refractor(){
 	} | column -s $'\t' -t
 }
 
+fn_details_quake2(){
+	echo -e "netstat -atunp | grep quake2"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_quake3(){
 	echo -e "netstat -atunp | grep q3ded"
 	echo -e ""
@@ -674,6 +683,8 @@ fn_display_details() {
 		fn_details_ark
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
+	elif [ "${gamename}" == "Quake 2" ]; then
+		fn_details_quake2
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
 		fn_details_quake3
 	elif [ "${gamename}" == "Quake Live" ]; then
