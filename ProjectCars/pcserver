@@ -56,7 +56,6 @@ branch=""
 # Server Details
 servicename="projectcars-server"
 gamename="Project Cars"
-#engine="source"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
