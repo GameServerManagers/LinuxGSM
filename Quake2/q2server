@@ -44,7 +44,7 @@ githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Server Details
-servicename="quake2-server"
+servicename="quake2server"
 gamename="Quake 2"
 engine="idtech2"
 
@@ -55,14 +55,15 @@ lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/baseq2"
 executabledir="${filesdir}"
 executable="./quake2"
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging
