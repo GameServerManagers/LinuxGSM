@@ -33,7 +33,7 @@ steampass=""
 # Start Variables
 
 fn_parms(){
-params=" --config ${servercfg}"
+parms=" --config ${servercfg}"
 }
 
 #### Advanced Variables ####
