@@ -73,7 +73,7 @@ physmemtotalmb=$(free -m | awk '/Mem:/ {print $2}')
 physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
 physmemfree=$(free ${humanreadable} | awk '/Mem:/ {print $4}')
 physmemcached=$(free ${humanreadable} | awk '/cache:/ {print $4}')
-if [ -z "${physmemcached} ]; then
+if [ -z "${physmemcached}" ]; then
 	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $5}')
 fi
 swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
