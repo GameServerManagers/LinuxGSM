@@ -37,27 +37,29 @@ parms="-logfile ${gamelogdir}/output_log__`date +%Y-%m-%d__%H-%M-%S`.txt -quit -
 
 #### LinuxGSM Settings ####
 
-## Notification Alerts
-# (on|off)
-
-# Email | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
+## Notifications
+# Get alerts upon important activity (on|off)
+# Goes along with cronjobs | https://github.com/GameServerManagers/LinuxGSM/wiki/Cronjobs
+# Email Notifications | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
 emailalert="off"
 email="email@example.com"
-#emailfrom="email@example.com"
-
-# Pushbullet | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
+emailfrom=""
+# Pushbullet Notifications | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-# Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
+## Updating
+# Update server on server start | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
 
-## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
+## Backup 
+# Prevent backups from filling up your drive | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
 maxbackups="4"
 maxbackupdays="30"
 stoponbackup="on"
 
-## Logging | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
+## Logging
+# Prevent logs from filling your up drive | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
 consolelogging="on"
 logdays="7"
 
@@ -74,17 +76,14 @@ githubrepo="LinuxGSM"
 githubbranch="master"
 
 ## SteamCMD Settings
-
 # Server appid
 appid="294420"
-
 # Steam App Branch Select
 # Allows to opt into the various Steam app branches. Default branch is "".
 # Example: "-beta latest_experimental"
 branch=""
 
 ## Service Name
-
 # For multiple servers | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="sdtd-server"
 
