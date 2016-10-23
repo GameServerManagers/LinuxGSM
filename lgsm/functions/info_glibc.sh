@@ -42,7 +42,7 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Quake 2" ]; then
-	glibcrequired="2.0"
+	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Quake 3: Arena" ]; then
 	glibcrequired="2.1"
@@ -82,6 +82,9 @@ elif [ "${engine}" == "spark" ]; then
 	glibcfix="yes"
 elif [ "${engine}" == "starbound" ]; then
 	glibcrequired="2.17"
+	glibcfix="no"
+elif [ "${engine}" == "quake" ]; then
+	glibcrequired="2.0"
 	glibcfix="no"
 elif [ "${engine}" == "terraria" ]; then
 	glibcrequired="2.7"

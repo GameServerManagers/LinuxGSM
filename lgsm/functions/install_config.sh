@@ -308,6 +308,12 @@ elif [ "${gamename}" == "Quake Live" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "QuakeWorld" ]; then
+	gamedirname="QuakeWorld"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 	:
 elif [ "${gamename}" == "Ricochet" ]; then
