@@ -92,7 +92,10 @@ servicename="sdtd-server"
 gamename="7 Days To Die"
 engine="unity3d"
 
-## Directories
+#### Directories ####
+# Edit with care and don't change order
+
+## Work Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
@@ -102,6 +105,8 @@ libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
+
+## Server Specific Directories
 executabledir="${filesdir}"
 executable="./7DaysToDieServer.x86"
 servercfg="${servicename}.xml"
@@ -109,10 +114,10 @@ servercfgdefault="serverconfig.xml"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
-# Backup
+## Backup Directory
 backupdir="${rootdir}/backups"
 
-# Logging
+## Logging Directories
 gamelogdir="${rootdir}/log/server"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
@@ -121,9 +126,9 @@ scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
-# Log timing
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
+## Logs Naming
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################
 ######## Script ########
