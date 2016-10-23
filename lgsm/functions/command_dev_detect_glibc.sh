@@ -37,4 +37,4 @@ while IFS= read -r -d $'\0' line; do
 done
 echo ""
 cat "${tmpdir}/detect_glibc.tmp"|sort|uniq|sort -r --version-sort
-#rm "${tmpdir}/detect_glibc.tmp"
+rm "${tmpdir}/detect_glibc.tmp"
