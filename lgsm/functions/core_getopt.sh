@@ -300,6 +300,8 @@ case "${getopt}" in
 		command_backup.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;
+	c|console)
+		command_console.sh;;
 	i|install)
 		command_install.sh;;
 	dd|detect-deps)
@@ -329,6 +331,7 @@ case "${getopt}" in
 		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
 		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
 	} | column -s $'\t' -t
 	esac
@@ -405,7 +408,7 @@ case "${getopt}" in
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
 		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
-		echo -e "${blue}fastdl\t${default}fd |Generates or update a FastDL folder for your server."
+		echo -e "${blue}fastdl\t${default}fd |Generates or update a FastDL directory for your server."
 	} | column -s $'\t' -t
 	esac
 }
@@ -619,7 +622,7 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-elif [ "${gamename}" == "Battlefield: 1942" ]|| [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_getopt_generic_no_update
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_getopt_minecraft

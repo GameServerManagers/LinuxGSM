@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="290716"
+version="211016"
 
 #### Variables ####
 
@@ -59,7 +59,7 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./murmur.x86"
-servercfg="murmur.ini"
+servercfg="${servicename}.ini"
 servercfgdefault="murmur.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
