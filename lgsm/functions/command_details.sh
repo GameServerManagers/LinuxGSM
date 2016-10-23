@@ -218,7 +218,9 @@ fn_details_script(){
 		echo -e "${blue}Pushbullet alert:\t${default}${pushbulletalert}"
 
 		# Update on start
-		echo -e "${blue}Update on start:\t${default}${updateonstart}"
+		if [ -n "${updateonstart}" ]; then
+			echo -e "${blue}Update on start:\t${default}${updateonstart}"
+		fi
 
 		# Script location
 		echo -e "${blue}Location:\t${default}${rootdir}"
