@@ -42,7 +42,7 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Quake 2" ]; then
-	glibcrequired="2.0"
+	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Quake 3: Arena" ]; then
 	glibcrequired="2.1"
