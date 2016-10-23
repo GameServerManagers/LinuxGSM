@@ -4,12 +4,12 @@
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
-        exec 5>dev-debug.log
-        BASH_XTRACEFD="5"
-        set -x
+	exec 5>dev-debug.log
+	BASH_XTRACEFD="5"
+	set -x
 fi
 
-version="210816"
+version="211016"
 
 #### Variables ####
 
@@ -59,6 +59,7 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="java -Xmx${javaram}M -jar minecraft_server.jar"
 servercfg="server.properties"
+servercfgdefault="server.properties"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.ini"
@@ -90,36 +91,36 @@ filename="${github_file_url_name}"
 githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 # If the file is missing, then download
 if [ ! -f "${filedir}/${filename}" ]; then
-        if [ ! -d "${filedir}" ]; then
-                mkdir -p "${filedir}"
-        fi
-        echo -e "    fetching ${filename}...\c"
-        # Check curl exists and use available path
-        curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-        for curlcmd in ${curlpaths}
-        do
-                if [ -x "${curlcmd}" ]; then
-                        break
-                fi
-        done
-        # If curl exists download file
-        if [ "$(basename ${curlcmd})" == "curl" ]; then
-                curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
-                if [ $? -ne 0 ]; then
-                        echo -e "\e[0;31mFAIL\e[0m\n"
-                        echo "${curlfetch}"
-                        echo -e "${githuburl}\n"
-                        exit 1
-                else
-                        echo -e "\e[0;32mOK\e[0m"
-                fi
-        else
-                echo -e "\e[0;31mFAIL\e[0m\n"
-                echo "Curl is not installed!"
-                echo -e ""
-                exit 1
-        fi
-        chmod +x "${filedir}/${filename}"
+	if [ ! -d "${filedir}" ]; then
+		mkdir -p "${filedir}"
+	fi
+	echo -e "    fetching ${filename}...\c"
+	# Check curl exists and use available path
+	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+	for curlcmd in ${curlpaths}
+	do
+		if [ -x "${curlcmd}" ]; then
+			break
+		fi
+	done
+	# If curl exists download file
+	if [ "$(basename ${curlcmd})" == "curl" ]; then
+		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+		if [ $? -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo "${curlfetch}"
+			echo -e "${githuburl}\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi
+	else
+		echo -e "\e[0;31mFAIL\e[0m\n"
+		echo "Curl is not installed!"
+		echo -e ""
+		exit 1
+	fi
+	chmod +x "${filedir}/${filename}"
 fi
 source "${filedir}/${filename}"
 }

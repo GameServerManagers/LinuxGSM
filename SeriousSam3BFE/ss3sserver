@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -74,9 +74,9 @@ systemdir="${filesdir}/Bin"
 executable="./runSam3_DedicatedServer.sh"
 executabledir="${systemdir}"
 servercfg="${servicename}.ini"
+servercfgdefault="server.ini"
 servercfgdir="${filesdir}/Content/SeriousSam3/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

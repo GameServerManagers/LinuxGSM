@@ -60,9 +60,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./ts3server_startscript.sh"
 servercfg="${servicename}.ini"
+servercfgdefault="ts3server.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
 backupdir="${rootdir}/backups"
 
 # Logging

@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -74,9 +74,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./7DaysToDieServer.x86"
 servercfg="${servicename}.xml"
+servercfgdefault="serverconfig.xml"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/serverconfig.xml"
 backupdir="${rootdir}/backups"
 
 # Logging

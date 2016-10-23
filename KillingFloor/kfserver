@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -78,9 +78,9 @@ systemdir="${filesdir}/System"
 executabledir="${systemdir}"
 executable="./ucc-bin"
 servercfg="${servicename}.ini"
+servercfgdefault="Default.ini"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/Default.ini"
 compressedmapsdir="${rootdir}/Maps-Compressed"
 backupdir="${rootdir}/backups"
 

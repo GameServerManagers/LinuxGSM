@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -31,7 +31,6 @@ steamuser="anonymous"
 steampass=""
 
 # Start Variables
-ip="0.0.0.0"
 updateonstart="off"
 
 fn_parms(){
@@ -73,9 +72,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./Jcmp-Server"
 servercfg="config.lua"
+servercfgdefault="config.lua"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/default_config.lua"
 backupdir="${rootdir}/backups"
 
 # Logging

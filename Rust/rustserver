@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -97,9 +97,9 @@ executabledir="${filesdir}"
 executable="./RustDedicated"
 serveridentitydir="${systemdir}/server/${servicename}"
 servercfg="server.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${serveridentitydir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

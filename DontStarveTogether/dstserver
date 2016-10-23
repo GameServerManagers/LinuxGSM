@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -77,6 +77,7 @@ systemdir="${filesdir}"
 executabledir="${filesdir}/bin"
 executable="./dontstarve_dedicated_server_nullrenderer"
 servercfg="settings.ini"
+servercfgdefault="settings.ini"
 servercfgdir="${HOME}/.klei/DoNotStarveTogether"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.ini"

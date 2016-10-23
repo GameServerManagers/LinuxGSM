@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="211016"
 
 #### Variables ####
 
@@ -29,7 +29,7 @@ pushbullettoken="accesstoken"
 # Start Variables
 
 fn_parms(){
-	parms="+set net_strict 1 +set fs_homepath ${filesdir} +exec ${servercfgfullpath}"
+	parms="+set net_strict 1 +set fs_homepath ${filesdir} +exec ${servercfg}"
 }
 
 #### Advanced Variables ####
@@ -43,7 +43,7 @@ githubbranch="master"
 
 # Server Details
 servicename="et-server"
-gamename="Enemy Territory"
+gamename="Wolfenstein: Enemy Territory"
 engine="idtech3"
 
 # Directories
@@ -59,9 +59,9 @@ systemdir="${filesdir}"
 executabledir="${systemdir}"
 executable="./etded"
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${systemdir}/etmain"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

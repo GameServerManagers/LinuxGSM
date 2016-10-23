@@ -29,6 +29,8 @@ if [ "${gsquery}" == "yes" ]; then
 		port=$((port + 1))
 	elif [ "${engine}" == "spark" ]; then
 		port=$((port + 1))
+	elif [ "${engine}" == "idtech3_ql" ]; then
+		engine="quakelive"
 	fi
 
 	if [ -n "${queryport}" ]; then

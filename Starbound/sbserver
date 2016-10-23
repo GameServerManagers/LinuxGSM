@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -73,9 +73,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}/linux"
 executable="./starbound_server"
 servercfg="starbound_server.config"
+servercfgdefault="starbound_server.config"
 servercfgdir="${filesdir}/storage"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.config"
 backupdir="${rootdir}/backups"
 
 # Logging

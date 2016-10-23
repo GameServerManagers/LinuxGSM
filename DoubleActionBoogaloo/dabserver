@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -79,9 +79,9 @@ systemdir="${filesdir}/dab"
 executabledir="${filesdir}"
 executable="./dabds.sh"
 servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
 servercfgdir="${systemdir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

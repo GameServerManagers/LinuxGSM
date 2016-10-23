@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="211016"
 
 #### Variables ####
 
@@ -69,9 +69,9 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./teeworlds_srv"
 servercfg="${servicename}.cfg" # Teeworlds can also auto load any config if an autoexec.cfg file is present in the server dir
+servercfgdefault="server.cfg"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.cfg"
 backupdir="${rootdir}/backups"
 
 # Logging

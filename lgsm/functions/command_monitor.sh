@@ -79,7 +79,7 @@ fn_monitor_tmux(){
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
 		# runs gsquery check on game with specific engines.
-		local allowed_engines_array=( avalanche goldsource realvirtuality source spark unity3d unreal unreal2 )
+		local allowed_engines_array=( avalanche goldsource idtech3 idtech3_ql quake refractor realvirtuality source spark unity3d unreal unreal2 )
 		for allowed_engine in "${allowed_engines_array[@]}"
 		do
 			if [ "${allowed_engine}" == "${engine}" ]; then
