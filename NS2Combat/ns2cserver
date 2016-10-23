@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -88,6 +88,11 @@ executable="./ns2combatserver_linux32"
 servercfgdir="${rootdir}/server1"
 servercfgfullpath="${servercfgdir}"
 modstoragedir="${servercfgdir}/Workshop"
+
+# Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -100,6 +100,11 @@ servercfg="server.cfg"
 servercfgdefault="server.cfg"
 servercfgdir="${serveridentitydir}/cfg"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

@@ -10,7 +10,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -96,6 +96,11 @@ if [ "${x64mode}" == "1" ]; then
 else
 	executable="./Hurtworld.x86"
 fi
+
+# Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

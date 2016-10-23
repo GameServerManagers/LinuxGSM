@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="160916"
+version="211016"
 
 #### Variables ####
 
@@ -81,6 +81,11 @@ servercfgdefault="settings.ini"
 servercfgdir="${HOME}/.klei/DoNotStarveTogether"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 servercfgdefault="${servercfgdir}/lgsm-default.ini"
+
+# Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

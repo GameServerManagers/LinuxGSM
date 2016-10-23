@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="211016"
 
 #### Variables ####
 
@@ -68,6 +68,11 @@ executable="./UE4Server-Linux-Shipping"
 servercfg="Game.ini"
 servercfgdir="${systemdir}/UnrealTournament/Saved/Config/LinuxServer"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

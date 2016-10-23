@@ -1,5 +1,5 @@
 #!/bin/bash
-# Battlefield: 1942
+# Quake 3: Arena
 # Server Management Script
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="211016"
+version="210516"
 
 #### Variables ####
 
@@ -19,7 +19,6 @@ version="211016"
 # Email
 emailalert="off"
 email="email@example.com"
-#emailfrom="email@example.com"
 
 # Pushbullet
 # https://www.pushbullet.com/#settings
@@ -27,9 +26,12 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 
 # Start Variables
+defaultmap="q3dm17"
+ip="0.0.0.0"
+port="27960"
 
 fn_parms(){
-parms="+hostServer 1 +dedicated 1"
+parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set com_hunkMegs 32 +set net_ip ${ip} +set net_port ${port} +exec ${servercfg} +map ${defaultmap}"
 }
 
 #### Advanced Variables ####
@@ -42,9 +44,9 @@ githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Server Details
-servicename="bf1942-server"
-gamename="Battlefield: 1942"
-engine="refractor"
+servicename="quake3-server"
+gamename="Quake 3: Arena"
+engine="idtech3"
 
 # Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -55,18 +57,13 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
-executabledir="${systemdir}"
-executable="./start.sh"
-servercfg="serversettings.con"
-servercfgdefault="serversettings.con"
-servercfgdir="${systemdir}/mods/bf1942/settings"
+systemdir="${filesdir}/baseq3"
+executabledir="${filesdir}"
+executable="./q3ded"
+servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
+servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-
-# Backup
-maxbackups="4"
-maxbackupdays="30"
-stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging

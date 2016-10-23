@@ -9,7 +9,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="211016"
 
 #### Variables ####
 
@@ -76,6 +76,11 @@ servercfg="${servicename}.ini"
 servercfgdefault="UTGame.ini"
 servercfgdir="${systemdir}/UTGame/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+# Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 backupdir="${rootdir}/backups"
 
 # Logging
