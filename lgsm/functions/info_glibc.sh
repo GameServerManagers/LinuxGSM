@@ -83,6 +83,9 @@ elif [ "${engine}" == "spark" ]; then
 elif [ "${engine}" == "starbound" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
+elif [ "${engine}" == "quake" ]; then
+	glibcrequired="2.0"
+	glibcfix="no"
 elif [ "${engine}" == "terraria" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"

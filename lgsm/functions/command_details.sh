@@ -218,7 +218,9 @@ fn_details_script(){
 		echo -e "${blue}Pushbullet alert:\t${default}${pushbulletalert}"
 
 		# Update on start
-		echo -e "${blue}Update on start:\t${default}${updateonstart}"
+		if [ -n "${updateonstart}" ]; then
+			echo -e "${blue}Update on start:\t${default}${updateonstart}"
+		fi
 
 		# Script location
 		echo -e "${blue}Location:\t${default}${rootdir}"
@@ -292,7 +294,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "lwjgl2" "projectzomboid" "idtech3_ql" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -397,6 +399,15 @@ fn_details_quake2(){
 
 fn_details_quake3(){
 	echo -e "netstat -atunp | grep q3ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_quake(){
+	echo -e "netstat -atunp | grep mvdsv"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -683,6 +694,8 @@ fn_display_details() {
 		fn_details_ark
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
+	elif [ "${gamename}" == "QuakeWorld" ]; then
+		fn_details_quake
 	elif [ "${gamename}" == "Quake 2" ]; then
 		fn_details_quake2
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
