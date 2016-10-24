@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161024"
+version="161026"
 
 ##########################
 ######## Settings ########
@@ -22,14 +22,15 @@ version="161024"
 
 #### Server Settings ####
 
-## SteamCMD Login (required) | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
+## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
 steamuser="username"
 steampass="password"
 
-## Server Start Parameters | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
+## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 ip="0.0.0.0"
 
-## Server Start Command | http://7daystodie.gamepedia.com/Server
+## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
+# Edit with care | http://7daystodie.gamepedia.com/Server
 fn_parms(){
 parms="-logfile ${gamelogdir}/output_log__`date +%Y-%m-%d__%H-%M-%S`.txt -quit -batchmode -nographics -dedicated -configfile=${servercfgfullpath}"
 }
@@ -37,29 +38,25 @@ parms="-logfile ${gamelogdir}/output_log__`date +%Y-%m-%d__%H-%M-%S`.txt -quit -
 
 #### LinuxGSM Settings ####
 
-## Notifications
-# Get alerts upon important activity (on|off)
-# Goes along with cronjobs | https://github.com/GameServerManagers/LinuxGSM/wiki/Cronjobs
-# Email Notifications | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
+## Notification Alerts
+# (on|off]
+# Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
 emailalert="off"
 email="email@example.com"
 emailfrom=""
-# Pushbullet Notifications | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
+# Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-## Updating
-# Update server on server start | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
+## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
 
-## Backup 
-# Prevent backups from filling up your drive | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
+## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
 maxbackups="4"
 maxbackupdays="30"
 stoponbackup="on"
 
-## Logging
-# Prevent logs from filling your up drive | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
+## Logging | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
 consolelogging="on"
 logdays="7"
 
@@ -67,13 +64,6 @@ logdays="7"
 #### LinuxGSM Advanced Settings ####
 
 ## Github Settings
-
-# Github Branch Select
-# Allows for the use of different function files
-# from a different repo and/or branch.
-githubuser="GameServerManagers"
-githubrepo="LinuxGSM"
-githubbranch="master"
 
 ## SteamCMD Settings
 # Server appid
@@ -83,17 +73,23 @@ appid="294420"
 # Example: "-beta latest_experimental"
 branch=""
 
-## Service Name
-# For multiple servers | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="sdtd-server"
+## Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
+githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
 gamename="7 Days To Die"
 engine="unity3d"
 
+## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
+servicename="sdtd-server"
+
 #### Directories ####
-# Edit with care and don't change order
+# Edit with care
 
 ## Work Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -190,8 +186,18 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+# Prevent from running this script as root.
+if [ "$(whoami)" = "root" ]; then
+	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/core_exit.sh" ]; then
+		echo "[ FAIL ] Do NOT run this script as root!"
+		exit 1
+	else
+		core_functions.sh
+		check_root.sh
+		fi
+fi
+
 core_dl.sh
 core_functions.sh
-
 getopt=$1
 core_getopt.sh
