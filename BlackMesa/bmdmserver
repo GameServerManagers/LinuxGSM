@@ -29,7 +29,6 @@ port="27015"
 sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
-updateonstart="off"
 
 ## Optional: Game Server Login Token
 # GSLT can be used for running a public server.
