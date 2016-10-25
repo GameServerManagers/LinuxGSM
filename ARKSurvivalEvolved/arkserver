@@ -61,7 +61,6 @@ stoponbackup="on"
 consolelogging="on"
 logdays="7"
 
-
 #### LinuxGSM Advanced Settings ####
 
 ## Github Settings
@@ -81,7 +80,6 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-
 ## LinuxGSM Server Details
 # Do not edit
 gamename="ARK: Survivial Evolved"
@@ -89,7 +87,6 @@ engine="unreal4"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="ark-server"
-
 
 #### Directories ####
 # Edit with care
