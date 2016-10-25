@@ -27,13 +27,13 @@ fn_check_steamcmd_user(){
 	fi
 	# Anonymous user is set if steamuser is missing
 	if [ -z "${steamuser}" ]; then
-		fn_print_information_nl "Steam login not set. Using anonymous login."
+		fn_print_info_nl "Steam login not set. Using anonymous login."
 		if [ -d "${scriptlogdir}" ]; then
 			fn_script_log_info "Steam login not set. Using anonymous login."
 		fi
 		steamuser="anonymous"
 		steampass=""
-		sleep 2
+		sleep 1
 	fi
 }
 
