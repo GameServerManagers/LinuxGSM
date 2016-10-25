@@ -35,7 +35,6 @@ sourcetvport="27020"
 clientport="27005"
 tickrate="66"
 ip="0.0.0.0"
-updateonstart="off"
 
 ## Custom Start Parameters
 # Default +r_hunkalloclightmaps 0, fixes a start issue on maps with many lights
