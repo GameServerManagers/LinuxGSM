@@ -43,7 +43,7 @@ parms="-autoupdate -strictportbind -ip ${ip} -port ${port} +clientport ${clientp
 #### LinuxGSM Settings ####
 
 ## Notification Alerts
-# (on|off]
+# (on|off)
 # Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
 emailalert="off"
 email="email@example.com"
