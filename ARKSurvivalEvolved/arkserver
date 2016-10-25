@@ -40,7 +40,7 @@ parms="\"TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=$
 #### LinuxGSM Settings ####
 
 ## Notification Alerts
-# (on|off]
+# (on|off)
 # Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
 emailalert="off"
 email="email@example.com"
