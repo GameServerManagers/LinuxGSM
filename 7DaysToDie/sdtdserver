@@ -35,7 +35,6 @@ fn_parms(){
 parms="-logfile ${gamelogdir}/output_log__`date +%Y-%m-%d__%H-%M-%S`.txt -quit -batchmode -nographics -dedicated -configfile=${servercfgfullpath}"
 }
 
-
 #### LinuxGSM Settings ####
 
 ## Notification Alerts
@@ -59,7 +58,6 @@ stoponbackup="on"
 ## Logging | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
 consolelogging="on"
 logdays="7"
-
 
 #### LinuxGSM Advanced Settings ####
 
