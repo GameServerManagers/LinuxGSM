@@ -100,9 +100,9 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}"
 
 ## Server Specific Directories
+systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./7DaysToDieServer.x86"
 servercfg="${servicename}.xml"
