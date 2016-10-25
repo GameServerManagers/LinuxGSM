@@ -2,7 +2,7 @@
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2016 Daniel Gibbs
-# Purpose: Counter-Strike | Server Management Script
+# Purpose: GAMENAME | Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
@@ -14,7 +14,6 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161026"
 
 ##########################
 ######## Settings ########
@@ -22,17 +21,17 @@ version="161026"
 
 #### Server Settings ####
 
+## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
+steamuser="username"
+steampass="password"
+
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-defaultmap="de_dust2"
-maxplayers="16"
-port="27015"
-clientport="27005"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care | https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
-parms="-game cstrike -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
+parms=""
 }
 
 #### LinuxGSM Settings ####
@@ -59,12 +58,11 @@ stoponbackup="on"
 consolelogging="on"
 logdays="7"
 
-#### Advanced Variables ####
+#### LinuxGSM Advanced Settings ####
 
 ## SteamCMD Settings
 # Server appid
-appid="90"
-appidmod="cstrike"
+appid=""
 # Steam App Branch Select
 # Allows to opt into the various Steam app branches. Default branch is "".
 # Example: "-beta latest_experimental"
@@ -79,11 +77,11 @@ githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
-gamename="Counter-Strike 1.6"
-engine="goldsource"
+gamename="GAMENAME"
+engine="ENGINE"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="cs-server"
+servicename="SERVICENAME"
 
 #### Directories ####
 # Edit with care
@@ -99,21 +97,22 @@ tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-systemdir="${filesdir}/cstrike"
+systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="./hlds_run"
+executable="./EXECUTABLENAME"
 servercfg="${servicename}.cfg"
-servercfgdefault="server.cfg"
-servercfgdir="${systemdir}"
+servercfgdefault="SERVER_REPO_CONFIG_NAME.cfg"
+servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${systemdir}/logs"
+gamelogdir="${rootdir}/log/server"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
