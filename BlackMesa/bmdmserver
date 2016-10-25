@@ -44,7 +44,7 @@ parms="-game bms -strictportbind -ip ${ip} -port ${port} +clientport ${clientpor
 #### LinuxGSM Settings ####
 
 ## Notification Alerts
-# (on|off]
+# (on|off)
 # Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
 emailalert="off"
 email="email@example.com"
