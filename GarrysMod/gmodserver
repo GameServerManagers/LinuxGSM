@@ -118,9 +118,9 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/garrysmod"
 
 ## Server Specific Directories
+systemdir="${filesdir}/garrysmod"
 addonsdir="${systemdir}/addons"
 executabledir="${filesdir}"
 executable="./srcds_run"
