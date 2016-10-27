@@ -18,7 +18,7 @@ fn_check_is_in_tmux(){
 	fi
 }
 fn_check_is_in_screen(){
-	if [ "$TERM" == "screen" ];then
+	if [ -n "${STY}" ];then
 		fn_print_fail_nl "tmuxception error: Sorry Cobb you cannot start a tmux session inside of a screen session."
 		fn_script_log_fatal "tmuxception error: Attempted to start a tmux session inside of a screen session."
 		fn_print_information_nl "LGSM creates a tmux session when starting the server."
