@@ -78,12 +78,12 @@ fn_dl_extract(){
 # Trap to remove file download if canceled before completed
 fn_fetch_trap(){
 	echo ""
-	echo -ne "downloading ${filename}: "
+	echo -ne "downloading ${filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "downloading ${filename}: CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
-	echo -ne "downloading ${filename}: "
+	echo -ne "downloading ${filename}..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "downloading ${filename}: REMOVED"
 	core_exit.sh
