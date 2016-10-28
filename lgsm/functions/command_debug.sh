@@ -89,6 +89,8 @@ fn_print_ok_nl "Starting debug"
 
 # create lock file.
 date > "${rootdir}/${lockselfname}"
+fn_script_log_info "Lockfile generated"
+fn_script_log_info "${rootdir}/${lockselfname}"
 # trap to remove lockfile on quit.
 trap fn_lockfile_trap INT
 
