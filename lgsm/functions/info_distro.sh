@@ -122,6 +122,8 @@ if [ -d "${backupdir}" ]; then
 		lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
 		# date of most recent backup.
 		lastbackupdate=$(date -r "${lastbackup}")
+		# no of days since last backup.
+		lastbackupdaysago=$(( ( $(date +'%s') - $(date -r "${lastbackup}" +'%s') )/60/60/24 ))
 		# size of most recent backup.
 		lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
 	fi
