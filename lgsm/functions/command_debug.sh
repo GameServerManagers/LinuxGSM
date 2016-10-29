@@ -87,7 +87,7 @@ fn_script_log_info "Starting debug"
 sleep 1
 fn_print_ok_nl "Starting debug"
 
-# create lock file.
+# Create lockfile
 date > "${rootdir}/${lockselfname}"
 fn_script_log_info "Lockfile generated"
 fn_script_log_info "${rootdir}/${lockselfname}"
