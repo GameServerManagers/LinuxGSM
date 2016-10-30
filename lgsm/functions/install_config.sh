@@ -280,7 +280,6 @@ elif [ "${gamename}" == "Mumble" ]; then
 	array_configs+=( murmur.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "Natural Selection 2" ]; then
 	:
 elif [ "${gamename}" == "NS2: Combat" ]; then
@@ -331,10 +330,10 @@ elif [ "${gamename}" == "Ricochet" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Rust" ]; then
 	gamedirname="Rust"
+	fn_check_cfgdir
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	gamedirname="SeriousSam3BFE"
 	array_configs+=( server.ini )
@@ -370,7 +369,6 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	array_configs+=( ts3server.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "Teeworlds" ]; then
 	gamedirname="Teeworlds"
 	array_configs+=( server.cfg ctf.cfg dm.cfg duel.cfg tdm.cfg )
