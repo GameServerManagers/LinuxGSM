@@ -262,7 +262,13 @@ fn_details_backup(){
 		{
 			echo -e "${blue}No. of backups:\t${default}${backupcount}"
 			echo -e "${blue}Latest backup:${default}"
-			echo -e "${blue}    date:\t${default}${lastbackupdate}"
+			if [ "${lastbackupdaysago}" == "0" ]; then
+				echo -e "${blue}    date:\t${default}${lastbackupdate} (less than 1 day ago)"
+			elif [ "${lastbackupdaysago}" == "1" ]; then
+				echo -e "${blue}    date:\t${default}${lastbackupdate} (1 day ago)"
+			else
+				echo -e "${blue}    date:\t${default}${lastbackupdate} (${lastbackupdaysago} days ago)"
+			fi
 			echo -e "${blue}    file:\t${default}${lastbackup}"
 			echo -e "${blue}    size:\t${default}${lastbackupsize}"
 		} | column -s $'\t' -t

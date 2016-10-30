@@ -10,31 +10,57 @@ local commandaction="Backup"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-fn_script_log "Entering backup"
+
+# Trap to remove lockfile on quit.
+fn_backup_trap(){
+	echo ""
+	echo -ne "backup ${backupname}.tar.gz..."
+	fn_print_canceled_eol_nl
+	fn_script_log_info "backup ${backupname}.tar.gz: CANCELED"
+	sleep 1
+	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${scriptlog}"
+	echo -ne "backup ${backupname}.tar.gz..."
+	fn_print_removed_eol_nl
+	fn_script_log_info "backup ${backupname}.tar.gz: REMOVED"
+	# Remove lock file
+	rm -f "${tmpdir}/.backup.lock"
+	core_exit.sh
+}
 
 # Check if a backup is pending or has been aborted using .backup.lock
-fn_check_pending_backup(){
+fn_backup_check_lockfile(){
 	if [ -f "${tmpdir}/.backup.lock" ]; then
-		fn_print_error "A backup is currently running or has been aborted."
-		fn_print_info_nl "If you keep seing this message, remove the following file:"
-		echo "${tmpdir}/.backup.lock"
-		fn_script_log_fatal "A backup is currently running or has been aborted."
-		fin_script_log_info "If you keep seing this message, remove the following file: ${tmpdir}/.backup.lock"
+		fn_print_info_nl "Lock file found: Backup is currently running"
+		fn_script_log_error "Lock file found: Backup is currently running: ${tmpdir}/.backup.lock"
 		core_exit.sh
 	fi
 }
 
-# Initialization
+# Initialisation
 fn_backup_init(){
-	fn_print_dots ""
-	sleep 0.5
-	# Prepare backup file name with servicename current date
+	# Backup file name with servicename and current date
 	backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
-	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue
+
 	info_distro.sh
-	fn_print_info_nl "A total of ${rootdirduexbackup} will be compressed into the following backup:"
-	fn_script_log "A total of ${rootdirduexbackup} will be compressed into the following backup: ${backupdir}/${backupname}.tar.gz"
-	echo "${backupdir}/${backupname}.tar.gz"
+	fn_print_dots "Backup starting"
+	fn_script_log_info "Backup starting"
+	sleep 1
+	fn_print_ok "Backup starting"
+	sleep 1
+	echo -ne "\n"
+	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
+		fn_print_info_nl "There are no previous backups"
+	else
+		if [ "${lastbackupdaysago}" == "0" ]; then
+			daysago="less than 1 day ago"
+		elif [ "${lastbackupdaysago}" == "1" ]; then
+			daysago="1 day ago"
+		else
+			daysago="${lastbackupdaysago} days ago"
+		fi
+		echo "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
+		sleep 1
+	fi
 }
 
 
@@ -44,16 +70,16 @@ fn_backup_stop_server(){
 	# Server is stopped
 	if [ "${status}" == "0" ]; then
 		serverstopped="no"
-	# Server is up and stoponbackup is off
+	# Server is running and stoponbackup=off
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
-		fn_print_info_nl "${servicename} is started and will not be stopped."
-		fn_print_information_nl "It is advised to stop the server to prevent a file changes and tar errors."
-		fn_script_log_info "${servicename} is started during the backup"
-		fn_script_log_info "It is advised to stop the server to prevent a file changes and tar errors."
-	# Server is up and will be stopped if stoponbackup has no value or anything else than "off"
+		fn_print_warn_nl "${servicename} is currently running"
+		echo "	* Although unlikely; creating a backup while ${servicename} is running might corrupt the backup."
+		fn_script_log_warn "${servicename} is currently running"
+		fn_script_log_warn "Although unlikely; creating a backup while ${servicename} is running might corrupt the backup"
+	# Server is running and will be stopped if stoponbackup=on or unset
 	else
-		fn_print_warning_nl "${servicename} will be stopped during the backup."
+		fn_print_warn_nl "${servicename} will be stopped during the backup"
 		fn_script_log_warn "${servicename} will be stopped during the backup"
 		sleep 4
 		serverstopped="yes"
@@ -63,117 +89,97 @@ fn_backup_stop_server(){
 }
 
 # Create required folders
-fn_backup_directories(){
-fn_print_dots "Backup in progress, please wait..."
-fn_script_log_info "Initiating backup"
-sleep 0.5
-
-# Directories creation
-# Create backupdir if it doesn't exist
-if [ ! -d "${backupdir}" ]; then
-	fn_print_info_nl "Creating ${backupdir}"
-	fn_script_log_info "Creating ${backupdir}"
-	mkdir "${backupdir}"
-fi
-# Create tmpdir if it doesn't exist
-if [ -n "${tmpdir}" ]&&[ ! -d "${tmpdir}" ]; then
-	fn_print_info_nl "Creating ${tmpdir}"
-	fn_script_log "Creating ${tmpdir}"
-	mkdir -p "${tmpdir}"
-fi
+fn_backup_dir(){
+	# Create backupdir if it doesn't exist
+	if [ ! -d "${backupdir}" ]; then
+		mkdir -p "${backupdir}"
+	fi
 }
 
-# Create lockfile
 fn_backup_create_lockfile(){
-if [ -d "${tmpdir}" ]; then
-	touch "${tmpdir}/.backup.lock"
-	fn_script_log "Lockfile created"
-fi
+	# Create lockfile
+	date > "${tmpdir}/.backup.lock"
+	fn_script_log_info "Lockfile generated"
+	fn_script_log_info "${tmpdir}/.backup.lock"
+	# trap to remove lockfile on quit.
+	trap fn_backup_trap INT
 }
 
 # Compressing files
 fn_backup_compression(){
-fn_script_log "Compressing ${rootdirduexbackup}"
-tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
-fn_script_log "Compression over"
-}
-
-# Check tar exit code and set the result
-fn_check_tar_exit(){
-if [ $? == 0 ]; then
-	backupresult="PASS"
-else
-	backupresult="FAIL"
-fi
-}
-
-# Remove lockfile
-fn_backup_remove_lockfile(){
-if [ -d "${tmpdir}" ]&&[ -f "${tmpdir}/.backup.lock" ]; then
-	rm "${tmpdir}/.backup.lock"
-	fn_script_log "Lockfile removed"
-fi
-}
-
-fn_backup_summary(){
-	# when backupresult="PASS"
-	if [ "${backupresult}" == "PASS" ]; then
-		fn_print_ok_nl "Backup created: ${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
-		fn_script_log_pass "Backup created: ${backupdir}/${backupname}.tar.gz is $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}') size"
-	# When backupresult="FAIL"
-	elif [ "${backupresult}" == "FAIL" ]; then
-		fn_print_error_nl "Backup failed: ${backupname}.tar.gz"
-		fn_script_log_error "Backup failed: ${backupname}.tar.gz"
-		core_exit.sh
+	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue
+	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
+	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
+	sleep 2
+	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
+	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+	local exitcode=$?
+	if [ ${exitcode} -ne 0 ]; then
+		fn_print_fail_eol
+		fn_script_log_fatal "Backup in progress: FAIL"
+		echo "${tarcmd}" | tee -a "${scriptlog}"
+		fn_print_fail_nl "Starting backup"
+		fn_script_log_fatal "Starting backup"
 	else
-		fn_print_error_nl "Could not determine compression result."
-		fn_script_log_error "Could not determine compression result."
-		core_exit.sh
+		fn_print_ok_eol
+		sleep 1
+		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 }
-
 
 # Clear old backups according to maxbackups and maxbackupdays variables
-fn_backup_clearing(){
-# How many backups there are
-backupscount=$(find "${backupdir}/" -type f -name "*.tar.gz"|wc -l)
-# How many backups exceed maxbackups
-backupquotadiff=$((backupscount-maxbackups))
-# How many backups exceed maxbackupdays
-backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
-# If backup variables are set
-if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
-	# If anything can be cleared
-	if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
-		# If maxbackups greater or equal than backupsoutdatedcount, then it is used over maxbackupdays
-		if [ "${backupquotadiff}" -gt "${backupsoudatedcount}" ]||[ "${backupquotadiff}" -eq "${backupsoudatedcount}" ]; then
-			# Display how many backups will be cleared
-			fn_print_info_nl "${backupquotadiff} backup(s) exceed max ${maxbackups} and will be cleared."
-			fn_script_log "${backupquotadiff} backup(s) exceed max ${maxbackups} and will be cleared"
-			sleep 2
-			# Clear over quota backups
-			find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
-			fn_print_ok_nl "Cleared ${backupquotadiff} backup(s)."
-			fn_script_log "Cleared ${backupquotadiff} backup(s)"
-		# If maxbackupdays is used over maxbackups
-		elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
-			# Display how many backups will be cleared
-			fn_print_info_nl "${backupsoudatedcount} backup(s) older than ${maxbackupdays} days will be cleared."
-			fn_script_log "${backupsoudatedcount} backup(s) older than ${maxbackupdays} days will be cleared"
-			find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
-			fn_print_ok_nl "Cleared ${backupsoudatedcount} backup(s)."
-			fn_script_log_pass "Cleared ${backupsoudatedcount} backup(s)"
-		else
-			fn_script_log "No backups older than ${maxbackupdays} days were found"
+fn_backup_prune(){
+	# How many backups there are
+	info_distro.sh
+	# How many backups exceed maxbackups
+	backupquotadiff=$((backupcount-maxbackups))
+	# How many backups exceed maxbackupdays
+	backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
+	# If backup variables are set
+	if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
+		# If anything can be cleared
+		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
+			fn_print_dots "Pruning"
+			fn_script_log_info "Backup pruning activated"
+			sleep 1
+			fn_print_ok_nl "Pruning"
+			sleep 1
+			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
+			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
+				# Display how many backups will be cleared
+				echo "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				sleep 1
+				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
+				sleep 1
+				# Clear backups over quota
+				find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
+				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
+			# If maxbackupdays is used over maxbackups
+			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
+				# Display how many backups will be cleared
+				echo "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
+				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
+				sleep 1
+				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
+				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
+				sleep 1
+				# Clear backups over quota
+				find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
+				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
+			fi
+			sleep 1
 		fi
 	fi
-else
-	fn_script_log "No backups to clear since maxbackupdays and maxbackups variables are not set"
-fi
 }
 
 # Restart the server if it was stopped for the backup
-fn_backup_start_back(){
+fn_backup_start_server(){
 	if [ "${serverstopped}" == "yes" ]; then
 		exitbypass=1
 		command_start.sh
@@ -181,17 +187,16 @@ fn_backup_start_back(){
 }
 
 # Run functions
-fn_check_pending_backup
+fn_backup_check_lockfile
+fn_backup_create_lockfile
 fn_backup_init
 fn_backup_stop_server
-fn_backup_directories
-fn_backup_create_lockfile
+fn_backup_dir
 fn_backup_compression
-fn_check_tar_exit
-fn_backup_remove_lockfile
-fn_backup_summary
-fn_backup_clearing
-fn_backup_start_back
+fn_backup_prune
+fn_backup_start_server
 
-sleep 0.5
+# Remove lock file
+rm -f "${tmpdir}/.backup.lock"
+
 core_exit.sh
