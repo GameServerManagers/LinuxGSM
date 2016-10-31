@@ -114,10 +114,14 @@ if [ -d "${backupdir}" ]; then
 	if [ -z "${backupdirdu}" ]; then
 		backupdirdu="0M"
 	fi
-	# number of backups.
-	backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
+
+	# number of backups set to 0 by default
+	backupcount=0
+
 	# If there are backups in backup dir.
 	if [ $(find "${backupdir}" -name "*.tar.gz" | wc -l) -ne "0" ]; then
+		# number of backups.
+		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
 		# most recent backup.
 		lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
 		# date of most recent backup.
