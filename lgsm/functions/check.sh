@@ -83,11 +83,3 @@ do
 		check_system_requirements.sh
 	fi
 done
-
-local allowed_commands_array=( install_server_files.sh command_install.sh update_steamcmd.sh )
-for allowed_command in "${allowed_commands_array[@]}"
-do
-	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		info_distro.sh
-	fi
-done
