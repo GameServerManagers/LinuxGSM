@@ -62,6 +62,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			# Detects if unbuffer command is available.
+			info_distro.sh
 			if [ $(command -v stdbuf) ]&&[ "${arch}" != "x86_64" ]; then
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
