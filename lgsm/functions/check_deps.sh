@@ -257,6 +257,9 @@ elif [ -n "$(command -v yum)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
+	# Battlefield: 1942
+	elif [ "${gamename}" == "Battlefield: 1942" ]; then
+		array_deps_required+=( ncurses-libs.i686 )
 	# Call of Duty
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
