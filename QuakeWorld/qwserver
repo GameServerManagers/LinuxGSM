@@ -1,88 +1,53 @@
 #!/bin/bash
-# Project: Game Server Managers - LinuxGSM
+# Quake World (nQuake)
+# Server Management Script
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2016 Daniel Gibbs
-# Purpose: Project Zomboid | Server Management Script
-# Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
-# Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
-
-# Debugging
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
 
-version="161030"
+version="210516"
 
-##########################
-######## Settings ########
-##########################
+#### Variables ####
 
-#### Server Settings ####
-
-## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-adminpassword="CHANGE_ME"
-ip="0.0.0.0"
-
-fn_parms(){
-parms="-ip ${ip} -adminpassword \"${adminpassword}\""
-}
-
-#### LinuxGSM Settings ####
-
-## Notification Alerts
+# Notification Alerts
 # (on|off)
-# Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
+
+# Email
 emailalert="off"
 email="email@example.com"
-emailfrom=""
-# Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
+
+# Pushbullet
+# https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
-updateonstart="off"
+# Start Variables
+ip="0.0.0.0"
+port="27500"
 
-## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
-maxbackups="4"
-maxbackupdays="30"
-stoponbackup="on"
+fn_parms(){
+parms="-port ${port} -game ktx +exec ${servercfg}"
+}
 
-## Logging | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
-consolelogging="on"
-logdays="7"
+#### Advanced Variables ####
 
-#### LinuxGSM Advanced Settings ####
-
-## SteamCMD Settings
-# Server appid
-appid="380870"
-# Steam App Branch Select
-# Allows to opt into the various Steam app branches. Default branch is "".
-# Example: "-beta latest_experimental"
-branch=""
-
-## Github Branch Select
+# Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-## LinuxGSM Server Details
-# Do not edit
-gamename="Project Zomboid"
-engine="projectzomboid"
+# Server Details
+servicename="quakeworld_server"
+gamename="QuakeWorld"
+engine="quake"
 
-## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="pz-server"
-
-#### Directories ####
-# Edit with care
-
-## Work Directories
+# Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
@@ -91,35 +56,31 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-
-## Server Specific Directories
-systemdir="${filesdir}"
+systemdir="${filesdir}/ktx"
 executabledir="${filesdir}"
-executable="./start-server.sh"
-servercfg="server.ini"
+executable="./mvdsv"
+servercfg="${servicename}.cfg"
 servercfgdefault="server.cfg"
-servercfgdir="${HOME}/Zomboid/Server"
+servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-
-## Backup Directory
 backupdir="${rootdir}/backups"
 
-## Logging Directories
-gamelogdir="${HOME}/Zomboid/Logs"
+# Logging
+logdays="7"
+gamelogdir="${filesdir}/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
+consolelogging="on"
+
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
-## Logs Naming
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
-consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%Y-%m-%d-%H:%M:%S').log"
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
-########################
-######## Script ########
-###### Do not edit #####
-########################
+##### Script #####
+# Do not edit
 
 # Fetches core_dl for file downloads
 fn_fetch_core_dl(){
@@ -176,18 +137,8 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
-# Prevent from running this script as root.
-if [ "$(whoami)" = "root" ]; then
-	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/core_exit.sh" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
-		exit 1
-	else
-		core_functions.sh
-		check_root.sh
-		fi
-fi
-
 core_dl.sh
 core_functions.sh
+
 getopt=$1
 core_getopt.sh

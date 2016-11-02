@@ -32,17 +32,39 @@ fn_userinputconfig(){
 	fn_script_log_info "changing hostname."
 	sed -i "s/\"<hostname>\"/\"${servername}\"/g" "${servercfgfullpath}"
 	sleep 1
-	echo "changing rconpassword."
-	fn_script_log_info "changing rconpassword."
-	sed -i "s/\"<rconpassword>\"/\"${rconpass}\"/g" "${servercfgfullpath}"
+	sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+	echo "changing rcon/admin password."
+	fn_script_log_info "changing rcon/admin password."
+	sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
 	sleep 1
 }
 
-fn_arma3config(){
-	fn_defaultconfig
-	echo "creating ${networkcfg} config file."
-	fn_script_log_info "creating ${networkcfg} config file."
-	cp -v "${networkcfgdefault}" "${networkcfgfullpath}"
+# Checks if cfg dir exists, creates it if it doesn't
+fn_check_cfgdir(){
+	if [ ! -d "${servercfgdir}" ]; then
+		echo "creating ${servercfgdir} config directory."
+		fn_script_log_info "creating ${servercfgdir} config directory."
+		mkdir -pv "${servercfgdir}"
+	fi
+}
+
+# Copys the default configs from Game-Server-Configs repo to the
+# correct location
+fn_default_config_remote(){
+	for config in "${array_configs[@]}"
+	do
+		# every config is copied
+		echo "copying ${servercfg} config file."
+		fn_script_log_info "copying ${servercfg} config file."
+		if [ "${config}" == "${servercfgdefault}" ]; then
+			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+		elif [ "${config}" == "${networkcfgdefault}" ]; then
+			# ARMA 3
+			cp -v "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+		else
+			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+		fi
+	done
 	sleep 1
 	echo ""
 }
@@ -234,13 +256,24 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	echo -e "downloading lgsm-default.ini...\c"
 	fn_defaultconfig
 elif [ "${gamename}" == "ARMA 3" ]; then
-	echo -e "downloading lgsm-default.server.cfg...\c"
-	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.server.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	echo -e "downloading lgsm-default.network.cfg...\c"
-	wget -N /dev/null ${githuburl}/Arma3/cfg/lgsm-default.network.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_arma3config
+	gamedirname="Arma3"
+	fn_check_cfgdir
+	array_configs+=( server.cfg network.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	gamedirname="Battlefield1942"
+	array_configs+=( serversettings.con )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Blade Symphony" ]; then
+	gamedirname="BladeSymphony"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	echo -e "downloading lgsm-default.cfg...\c"
 	wget -N /dev/null ${githuburl}/BrainBread2/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -371,10 +404,16 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	sleep 1
 	fn_defaultconfig
 elif [ "${gamename}" == "No More Room in Hell" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/NoMoreRoomInHell/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_sourceconfig
+	gamedirname="NoMoreRoominHell"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Mumble" ]; then
+	gamedirname="Mumble"
+	array_configs+=( murmur.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
 elif [ "${gamename}" == "Natural Selection 2" ]; then
 	echo -e "no configs required."
 	sleep 1
@@ -385,16 +424,35 @@ elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Project Zomboid" ]; then
-	echo -e "downloading lgsm-default.ini...\c"
-	wget -N /dev/null ${githuburl}/ProjectZomboid/cfg/lgsm-default.ini 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
+	gamedirname="ProjectZomboid"
+	array_configs+=( server.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Quake 2" ]; then
+	gamedirname="Quake2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Quake 3: Arena" ]; then
+	gamedirname="Quake3Arena"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Quake Live" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/QuakeLive/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-	fn_userinputconfig
+	gamedirname="QuakeLive"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "QuakeWorld" ]; then
+	gamedirname="QuakeWorld"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
 	fn_unreal2config
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
@@ -403,15 +461,17 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	sleep 1
 	fn_serious3config
 elif [ "${gamename}" == "Rust" ]; then
-	echo -e "downloading server.cfg...\c"
-	wget -N /dev/null  ${githuburl}/Rust/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-elif [ "${gamename}" == "Sven Co-op" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/SvenCoop/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
+	gamedirname="Rust"
+	fn_check_cfgdir
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
+	gamedirname="SeriousSam3BFE"
+	array_configs+=( server.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Starbound" ]; then
 	echo -e "downloading lgsm-default.config...\c"
 	wget -N /dev/null ${githuburl}/Starbound/cfg/lgsm-default.config 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -429,10 +489,16 @@ elif [ "${gamename}" == "Team Fortress 2" ]; then
 	sleep 1
 	fn_sourceconfig
 elif [ "${gamename}" == "Team Fortress Classic" ]; then
-	echo -e "downloading lgsm-default.cfg...\c"
-	wget -N /dev/null ${githuburl}/TeamFortressClassic/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_goldsourceconfig
+	gamedirname="TeamFortressClassic"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	gamedirname="TeamSpeak3"
+	array_configs+=( ts3server.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
 elif [ "${gamename}" == "Teeworlds" ]; then
 	echo -e "downloading ctf.cfg...\c"
 	wget -N /dev/null ${githuburl}/Teeworlds/cfg/ctf.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
@@ -465,4 +531,3 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fn_ut99config
 fi
-

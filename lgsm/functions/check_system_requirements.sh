@@ -14,14 +14,13 @@ info_distro.sh
 if [ "${gamename}" == "Rust" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-fi
-
-if [ "${gamename}" == "ARMA 3" ]; then
+elif [ "${gamename}" == "ARMA 3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-fi
-
-if [ "${gamename}" == "Minecraft" ]; then
+elif [ "${gamename}" == "Minecraft" ]; then
+	ramrequirementmb="1000"
+	ramrequirementgb="1"
+elif [ "${gamename}" == "Natural Selection 2" ]||[ "${gamename}" == "NS2: Combat" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 fi

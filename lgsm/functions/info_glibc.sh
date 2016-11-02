@@ -41,6 +41,12 @@ elif [ "${gamename}" == "Mumble" ]; then
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Quake 2" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${gamename}" == "Quake 3: Arena" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
@@ -77,6 +83,9 @@ elif [ "${engine}" == "spark" ]; then
 elif [ "${engine}" == "starbound" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
+elif [ "${engine}" == "quake" ]; then
+	glibcrequired="2.0"
+	glibcfix="no"
 elif [ "${engine}" == "terraria" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"
@@ -101,7 +110,6 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
-
 elif [ "${engine}" == "refractor" ]; then
 	glibcrequired="2.0"
 	glibcfix="no"
