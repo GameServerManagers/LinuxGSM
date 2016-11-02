@@ -254,6 +254,9 @@ elif [ -n "$(command -v yum)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
+	# Battlefield: 1942
+	elif [ "${gamename}" == "Battlefield: 1942" ]; then
+		array_deps_required+=( ncurses-libs.i686 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
