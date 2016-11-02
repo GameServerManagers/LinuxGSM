@@ -185,7 +185,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
-	# Battlefield: 1942 requies ncurses
+	# Battlefield: 1942
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		array_deps_required+=( libncurses5:i386 )
 	# Project Zomboid and Minecraft
