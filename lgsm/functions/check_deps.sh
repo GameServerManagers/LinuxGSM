@@ -188,8 +188,8 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Battlefield: 1942
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		array_deps_required+=( libncurses5:i386 )
-	# Call of Duty 2
-	elif [ "${gamename}" == "Call of Duty 2" ]; then
+	# Call of Duty
+	elif [ "${gamename}" == "Call of Duty" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
@@ -257,6 +257,9 @@ elif [ -n "$(command -v yum)" ]; then
 	# Brainbread 2 and Don't Starve Together
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
 		array_deps_required+=( libcurl.i686 )
+	# Call of Duty
+	elif [ "${gamename}" == "Call of Duty" ]; then
+		array_deps_required+=( compat-libstdc++-33.i686 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
