@@ -37,8 +37,6 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 
 	if  [ "${gamename}" == "ARMA 3" ]; then
 		fix_arma3.sh
-	elif [ "${gamename}" == "Call of Duty" ]; then
-		fix_cod.sh
 	elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
 		fix_csgo.sh
 	elif [ "${gamename}" == "Don't Starve Together" ]; then
