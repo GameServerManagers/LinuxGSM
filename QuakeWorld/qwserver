@@ -24,6 +24,10 @@ email="email@example.com"
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+# Pushbullet Channel | Do not set unless the channel exists on the 
+# account associated with the access token. Set without using the '#' 
+# E.g: "thisisachanneltag" would push to #thisisachanneltag
+channeltag=""
 
 # Start Variables
 ip="0.0.0.0"
