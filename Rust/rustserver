@@ -116,7 +116,7 @@ filesdir="${rootdir}/serverfiles"
 ## Server Specific Directories
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="./RustDedicated"
+executable="LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`dirname $0`/RustDedicated_Data/Plugins/x86_64 ./RustDedicated"
 serveridentitydir="${systemdir}/server/${servicename}"
 servercfg="server.cfg"
 servercfgdefault="server.cfg"
