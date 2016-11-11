@@ -36,7 +36,6 @@ ip="0.0.0.0"
 port="11000"
 steamauthenticationport="8768"
 steammasterserverport="27018"
-tickrate="15"
 
 # Edit with care
 persistentstorageroot="${HOME}/.klei"
@@ -44,7 +43,7 @@ confdir="DoNotStarveTogether"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-parms="-bind_ip ${ip} -port ${port} -steam_master_server_port ${steammasterserverport} -steam_authentication_port ${steamauthenticationport} -tick ${tickrate} -persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -cluster ${cluster} -shard ${shard}"
+parms="-bind_ip ${ip} -port ${port} -steam_master_server_port ${steammasterserverport} -steam_authentication_port ${steamauthenticationport} -persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -cluster ${cluster} -shard ${shard}"
 # -console -cluster MyDediServer -shard Master
 }
 
@@ -117,7 +116,7 @@ executable="./dontstarve_dedicated_server_nullrenderer"
 clustercfg="cluster.ini"
 clustercfgdir="${persistentstorageroot}/${confdir}/${cluster}"
 clustercfgfullpath="${clustercfgdir}/${clustercfg}"
-clustercfgdefault="${clustercfgdir}/cluster.ini"
+clustercfgdefault="cluster.ini"
 servercfg="server.ini"
 servercfgdir="${clustercfgdir}/${shard}"
 servercfgfullpath="${servercfgdir}/${servercfg}"

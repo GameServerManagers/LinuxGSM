@@ -97,11 +97,11 @@ fn_dstconfig(){
 	cp -v "${lgsmdir}/default-configs/${servercfgdefault}" "${servercfgfullpath}"
 	sleep 1
 	# removing unnecessary options (dependent on sharding & shard type)
-	if [ "sharding" == "false" ]; then 
+	if [ "${sharding}" == "false" ]; then 
 		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
-		sed -d "/SHARDNAME/d" "${servercfgfullpath}"
-	elif [ "master" == "true" ]; then
-		sed -d "/SHARDNAME/d" "${servercfgfullpath}"
+		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
+	elif [ "${master}" == "true" ]; then
+		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
 	fi
 	# configure settings
 	echo "changing shard name."
@@ -233,6 +233,7 @@ elif [ "${gamename}" == "Deathmatch Classic" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	gamedirname="DontStarveTogether"
+	fn_check_cfgdir
 	array_configs+=( cluster.ini server.ini )
 	fn_fetch_default_config
 	fn_dstconfig
