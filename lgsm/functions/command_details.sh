@@ -152,6 +152,16 @@ fn_details_gameserver(){
 		if [ -n "${tickrate}" ]; then
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
+				
+		# Cluster (Don't Starve Together)
+		if [ -n "${cluster}" ]; then
+			echo -e "${blue}Cluster:\t${default}${cluster}"
+		fi
+		
+		# Shard (Don't Starve Together)
+		if [ -n "${shard}" ]; then
+			echo -e "${blue}Shard:\t${default}${shard}"
+		fi
 
 		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
@@ -355,7 +365,10 @@ fn_details_dontstarve(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game: Server\tINBOUND\t${port}\tudp"
+		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
+		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
+		echo -e "> Steam: Master\tINBOUND\t${steammasterserverport}\tudp"
 	} | column -s $'\t' -t
 }
 

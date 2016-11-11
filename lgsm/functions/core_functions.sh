@@ -475,6 +475,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_dst_token.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

@@ -10,11 +10,11 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_fetch_default_config(){
 	mkdir -pv "${lgsmdir}/default-configs"
-	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
+	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/dstserver"
 
 	for config in "${array_configs[@]}"
 	do
-		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
+		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/dstserver/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
 		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	done
 }
@@ -63,6 +63,64 @@ fn_default_config_remote(){
 		fi
 	done
 	sleep 1
+}
+
+fn_dstconfig(){
+	## cluster.ini
+	# this config shouldn't be overridden
+	if [ ! -s "${clustercfgfullpath}" ]; then
+		echo "copying ${clustercfg} config file."
+		fn_script_log_info "copying ${clustercfg} config file."
+		cp -v "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
+		sleep 1
+		echo "changing server name."
+		fn_script_log_info "changing server name."
+		sed -i "s/SERVERNAME/LinuxGSM/g" "${clustercfgfullpath}"
+		sleep 1
+		echo "changing shard mode."
+		fn_script_log_info "changing shard mode."
+		sed -i "s/USESHARDING/${sharding}/g" "${clustercfgfullpath}"
+		sleep 1
+		echo "randomizing cluster key."
+		fn_script_log_info "randomizing cluster key."
+		randomkey=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
+		sleep 1
+	else	
+		echo "${clustercfg} already exists."
+		fn_script_log_info "${clustercfg} already exists."
+	fi
+	
+	## server.ini
+	echo "copying ${servercfg} config file."
+	fn_script_log_info "copying ${servercfg} config file."
+	cp -v "${lgsmdir}/default-configs/${servercfgdefault}" "${servercfgfullpath}"
+	sleep 1
+	# removing unnecessary options (dependent on sharding & shard type)
+	if [ "sharding" == "false" ]; then 
+		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
+		sed -d "/SHARDNAME/d" "${servercfgfullpath}"
+	elif [ "master" == "true" ];
+		sed -d "/SHARDNAME/d" "${servercfgfullpath}"
+	fi
+	# configure settings
+	echo "changing shard name."
+	fn_script_log_info "changing shard name."
+	sed -i "s/SHARDNAME/${shard}/g" "${servercfgfullpath}"
+	sleep 1
+	echo "changing master setting."
+	fn_script_log_info "changing master setting."
+	sed -i "s/ISMASTER/${master}/g" "${servercfgfullpath}"
+	sleep 1
+	
+	## worldgenoverride.lua
+	if [ "${cave}" == "true" ]; then
+		echo "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
+		fn_script_log_info "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
+		echo 'return { override_enabled = true, preset = "DST_CAVE", }' > "${servercfgdir}/worldgenoverride.lua"
+	fi
+	sleep 1
+	echo ""
 }
 
 echo ""
@@ -175,10 +233,9 @@ elif [ "${gamename}" == "Deathmatch Classic" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	gamedirname="DontStarveTogether"
-	array_configs+=( Settings.ini )
+	array_configs+=( cluster.ini server.ini )
 	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
+	fn_dstconfig
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	gamedirname="DoubleActionBoogaloo"
 	array_configs+=( server.cfg )
