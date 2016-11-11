@@ -100,7 +100,7 @@ fn_dstconfig(){
 	if [ "sharding" == "false" ]; then 
 		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
 		sed -d "/SHARDNAME/d" "${servercfgfullpath}"
-	elif [ "master" == "true" ];
+	elif [ "master" == "true" ]; then
 		sed -d "/SHARDNAME/d" "${servercfgfullpath}"
 	fi
 	# configure settings
