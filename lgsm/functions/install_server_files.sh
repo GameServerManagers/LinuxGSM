@@ -12,7 +12,7 @@ fn_install_server_files(){
 	if [ "${gamename}" == "Unreal Tournament 99" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
-		fileurl="http://files.gameservermanagers.com/CoD2/cod2-lnxded-1.3-full.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="078128f83d06dc3d7699428dc2870214"
+		fileurl="http://files.gameservermanagers.com/CallOfDuty2/cod2-lnxded-1.3-full.tar.bz2"; filedir="${tmpdir}"; filename="cod2-lnxded-1.3-full.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="078128f83d06dc3d7699428dc2870214"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
