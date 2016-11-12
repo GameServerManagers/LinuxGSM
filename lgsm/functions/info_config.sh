@@ -80,6 +80,20 @@ fn_info_config_cod(){
 	fi
 }
 
+fn_info_config_cod2(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		rconpassword="${unavailable}"
+	else
+		servername=$(grep "sv_hostname " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname //g' | tr -d '=\";,:' | xargs)
+		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword //g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		rconpassword=${rconpassword=:-"NOT SET"}
+	fi
+}
+
 fn_info_config_dontstarve(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -525,6 +539,9 @@ elif [ "${gamename}" == "Battlefield: 1942" ]; then
 # Call of Duty
 elif [ "${gamename}" == "Call of Duty" ]; then
 	fn_info_config_cod
+# Call of Duty 2
+elif [ "${gamename}" == "Call of Duty 2" ]; then
+	fn_info_config_cod2
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve

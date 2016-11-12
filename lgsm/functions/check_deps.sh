@@ -189,7 +189,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		array_deps_required+=( libncurses5:i386 )
 	# Call of Duty
-	elif [ "${gamename}" == "Call of Duty" ]; then
+	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
@@ -261,7 +261,7 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Call of Duty
-	elif [ "${gamename}" == "Call of Duty" ]; then
+	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then

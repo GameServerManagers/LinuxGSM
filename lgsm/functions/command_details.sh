@@ -652,6 +652,14 @@ fn_details_ark(){
 	} | column -s $'\t' -t
 }
 
+fn_details_cod2(){
+	echo -e "netstat -atunp | grep cod2_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
 
 # Run checks and gathers details to display.
 
@@ -709,6 +717,8 @@ fn_display_details() {
 		fn_details_ark
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_details_cod
+	elif [ "${gamename}" == "Call of Duty 2" ]; then
+		fn_details_cod2
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
 	elif [ "${gamename}" == "QuakeWorld" ]; then
