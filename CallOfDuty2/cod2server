@@ -67,7 +67,7 @@ githubbranch="master"
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Call of Duty 2"
-engine="IW 2.0"
+engine="iw2.0"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="cod-server"
