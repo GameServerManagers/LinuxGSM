@@ -70,7 +70,7 @@ gamename="Call of Duty 2"
 engine="iw2.0"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="cod-server"
+servicename="cod2-server"
 
 #### Directories ####
 # Edit with care
