@@ -14,8 +14,12 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	glibcrequired="2.17"
+elif [ "${gamename}" == "Call of Duty" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
 elif [ "${gamename}" == "Call of Duty 2" ]; then
 	glibcrequired="2.1.3"
+	glibcfix="no"
 elif [ "${gamename}" == "Day of Infamy" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"

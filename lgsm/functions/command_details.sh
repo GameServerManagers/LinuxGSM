@@ -341,6 +341,15 @@ fn_details_avalanche(){
 	} | column -s $'\t' -t
 }
 
+fn_details_cod(){
+	echo -e "netstat -atunp | grep cod_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_dontstarve(){
 	echo -e "netstat -atunp | grep dontstarve"
 	echo -e ""
@@ -706,6 +715,8 @@ fn_display_details() {
 		fn_details_sdtd
 	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 		fn_details_ark
+	elif [ "${gamename}" == "Call of Duty" ]; then
+		fn_details_cod
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
 		fn_details_cod2
 	elif [ "${gamename}" == "Hurtworld" ]; then
