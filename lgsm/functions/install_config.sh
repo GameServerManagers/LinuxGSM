@@ -113,6 +113,18 @@ elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty" ]; then
+	gamedirname="CallOfDuty"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty 2" ]; then
+	gamedirname="CallofDuty2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Codename CURE" ]; then
 	gamedirname="CodenameCURE"
 	array_configs+=( server.cfg )
@@ -336,7 +348,7 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Starbound" ]; then
 	gamedirname="Starbound"
-	array_configs+=( starbound.config )
+	array_configs+=( starbound_server.config )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
