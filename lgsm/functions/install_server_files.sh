@@ -9,32 +9,32 @@ local commandaction="Install"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_server_files(){
-	if [ "${gamename}" == "Unreal Tournament 99" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
-	elif [ "${gamename}" == "Call of Duty 2" ]; then
-		fileurl="http://files.gameservermanagers.com/CallOfDuty2/cod2-lnxded-1.3-full.tar.bz2"; filedir="${tmpdir}"; filename="cod2-lnxded-1.3-full.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="078128f83d06dc3d7699428dc2870214"
-	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
-	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
-	elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	if [ "${gamename}" == "Battlefield: 1942" ]; then
 		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; filedir="${tmpdir}"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
-	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
-		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${tmpdir}"; filename="enemy-territory.260b.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
-	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
-	elif [ "${gamename}" == "GoldenEye: Source" ]; then
-		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${tmpdir}"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
-	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
-		fileurl="https://s3.amazonaws.com/linuxgsm/coduo-lnxded-1.51b-full.tar.bz2"; filedir="${tmpdir}"; filename="coduo-lnxded-1.51b-full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f1804ef13036e2b4ab535db000b19e97"
+	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
+		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fileurl="http://files.gameservermanagers.com/CallOfDuty/cod-lnxded-1.5b-full.tar.bz2"; filedir="${tmpdir}"; filename="cod-lnxded-1.5-large.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="19629895a4cf6fd8f6d1ee198b5304cd"
+	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+		fileurl="https://s3.amazonaws.com/linuxgsm/coduo-lnxded-1.51b-full.tar.bz2"; filedir="${tmpdir}"; filename="coduo-lnxded-1.51b-full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f1804ef13036e2b4ab535db000b19e97"
+	elif [ "${gamename}" == "Call of Duty 2" ]; then
+		fileurl="http://files.gameservermanagers.com/CallOfDuty2/cod2-lnxded-1.3-full.tar.bz2"; filedir="${tmpdir}"; filename="cod2-lnxded-1.3-full.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="078128f83d06dc3d7699428dc2870214"
+	elif [ "${gamename}" == "GoldenEye: Source" ]; then
+		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${tmpdir}"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
 	elif [ "${gamename}" == "Quake 2" ]; then
 		fileurl="http://files.gameservermanagers.com/Quake2/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
 		fileurl="http://files.gameservermanagers.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake3-1.32c-x86-full-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
 	elif [ "${gamename}" == "QuakeWorld" ]; then
 		fileurl="http://files.gameservermanagers.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="nquake.server.linux.083116.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
+	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
+		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
+	elif [ "${gamename}" == "Unreal Tournament" ]; then
+		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
+	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
+	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${tmpdir}"; filename="enemy-territory.260b.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
