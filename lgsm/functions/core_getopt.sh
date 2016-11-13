@@ -622,7 +622,7 @@ case "${getopt}" in
 
 if [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_getopt_generic_no_update
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_getopt_minecraft

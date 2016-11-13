@@ -26,6 +26,8 @@ class GameServer:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine == 'idtech3':
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
+        elif self.option.engine == 'iw2.0':
+            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
         elif self.option.engine == 'quake':
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine == 'quakelive':
@@ -113,7 +115,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche, goldsource, idtech2, idtech3, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
+        help='Engine type: avalanche, goldsource, idtech2, idtech3, iw2.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
     )
     parser.add_option(
         '-v', '--verbose',

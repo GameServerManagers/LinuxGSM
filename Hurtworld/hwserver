@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161026"
+version="161030"
 
 ##########################
 ######## Settings ########
@@ -29,7 +29,7 @@ port="12871"
 queryport="12881"
 maxplayers="20"
 map="" #Optional
-creativemode="0" #Free Build: creativemode="1" 
+creativemode="0" #Free Build: creativemode="1"
 logfile="gamelog.txt"
 
 ## Adding admins using STEAMID64

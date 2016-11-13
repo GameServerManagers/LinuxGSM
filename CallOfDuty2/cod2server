@@ -2,7 +2,7 @@
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2016 Daniel Gibbs
-# Purpose: Red Orchestra: Ostfront 41-45 | Server Management Script
+# Purpose: Call of Duty 2 | Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
@@ -22,18 +22,16 @@ version="161030"
 
 #### Server Settings ####
 
-## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
-steamuser="username"
-steampass="password"
-
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-defaultmap="RO-Arad.rom"
+
+defaultmap="mp_leningrad"
+maxclients="20"
+port="28960"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
-parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
+parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set net_ip ${ip} +set net_port ${port} +set sv_maxclients ${maxclients} +exec ${servercfg} +map ${defaultmap}"
 }
 
 #### LinuxGSM Settings ####
@@ -48,9 +46,6 @@ emailfrom=""
 pushbulletalert="off"
 pushbullettoken="accesstoken"
 
-## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
-updateonstart="off"
-
 ## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
 maxbackups="4"
 maxbackupdays="30"
@@ -60,15 +55,7 @@ stoponbackup="on"
 consolelogging="on"
 logdays="7"
 
-#### LinuxGSM Advanced Settings ####
-
-## SteamCMD Settings
-# Server appid
-appid="223250"
-# Steam App Branch Select
-# Allows to opt into the various Steam app branches. Default branch is "".
-# Example: "-beta latest_experimental"
-branch=""
+#### Advanced Variables ####
 
 ## Github Branch Select
 # Allows for the use of different function files
@@ -79,11 +66,11 @@ githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
-gamename="Red Orchestra: Ostfront 41-45"
-engine="unreal2"
+gamename="Call of Duty 2"
+engine="iw2.0"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="ro-server"
+servicename="cod2-server"
 
 #### Directories ####
 # Edit with care
@@ -96,38 +83,31 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
+filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-filesdir="${rootdir}/serverfiles"
-systemdir="${filesdir}/system"
-executabledir="${systemdir}"
-executable="./ucc-bin"
-servercfg="${servicename}.ini"
-servercfgdefault="default.ini"
-servercfgdir="${systemdir}"
+systemdir="${filesdir}"
+executabledir="${filesdir}"
+executable="./cod2_lnxded"
+servercfg="${servicename}.cfg"
+servercfgdefault="server.cfg"
+servercfgdir="${systemdir}/main"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-compressedmapsdir="${rootdir}/Maps-Compressed"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${rootdir}/log/server"
+gamelogdir="${filesdir}/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
-gamelog="${gamelogdir}/${servicename}-game.log"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
-
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
-consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
-
 ## Logs Naming
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%Y-%m-%d-%H:%M:%S').log"
-gamelogdate="${gamelogdir}/${servicename}-game-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################
 ######## Script ########

@@ -108,12 +108,16 @@ fi
 
 ## Backup info
 if [ -d "${backupdir}" ]; then
-	# Ued space in backups dir.
+	# Used space in backups dir.
 	backupdirdu=$(du -sh "${backupdir}" | awk '{print $1}')
 	# If no backup dir, size is 0M
 	if [ -z "${backupdirdu}" ]; then
 		backupdirdu="0M"
 	fi
+
+	# number of backups set to 0 by default
+	backupcount=0
+
 	# If there are backups in backup dir.
 	if [ $(find "${backupdir}" -name "*.tar.gz" | wc -l) -ne "0" ]; then
 		# number of backups.

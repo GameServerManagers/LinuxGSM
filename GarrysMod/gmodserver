@@ -14,17 +14,13 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161026"
+version="161030"
 
 ##########################
 ######## Settings ########
 ##########################
 
 #### Server Settings ####
-
-## Workshop Parameters | http://wiki.garrysmod.com/page/Workshop_for_Dedicated_Servers
-workshopauth=""
-workshopcollectionid=""
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 defaultmap="gm_construct"
@@ -35,6 +31,10 @@ sourcetvport="27020"
 clientport="27005"
 tickrate="66"
 ip="0.0.0.0"
+
+## Workshop Parameters | http://wiki.garrysmod.com/page/Workshop_for_Dedicated_Servers
+workshopauth=""
+workshopcollectionid=""
 
 ## Custom Start Parameters
 # Default +r_hunkalloclightmaps 0, fixes a start issue on maps with many lights
