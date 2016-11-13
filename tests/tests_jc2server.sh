@@ -8,7 +8,7 @@
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
 
-version="101716"
+travistest=1
 
 # Debugging
 if [ -f ".dev-debug" ]; then
@@ -17,7 +17,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161030"
+version="161113"
 
 ##########################
 ######## Settings ########
