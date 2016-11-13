@@ -12,6 +12,8 @@ elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	gamename="Counter-Strike: Global Offensive"
 elif [ "${gamename}" == "Counter Strike: Source" ]; then
 	gamename="Counter-Strike: Source"
+elif [ "${gamename}" == "Quake Live" ]; then
+	engine="idtech3_ql"
 fi
 
 if [ "${emailnotification}" == "on" ]; then
@@ -114,7 +116,7 @@ fn_fetch_core_dl
 }
 
 
-# Command
+# Commands
 
 command_console.sh(){
 functionfile="${FUNCNAME}"
@@ -256,7 +258,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-check_tmux.sh(){
+check_tmuxception.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -296,6 +298,7 @@ command_dev_detect_ldd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 
 # Fix
 
@@ -541,7 +544,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_ut99.sh(){
+fix_cod2.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

@@ -9,6 +9,12 @@ echo "================================="
 echo "GLIBC Requirements Checker"
 echo "================================="
 
+if [ -z "$(command -v objdump)" ]; then
+	fn_print_failure_nl "objdump is missing"
+	fn_script_log_fatal "objdump is missing"
+	core_exit.sh
+fi
+
 if [ -z "${filesdir}" ]; then
 	dir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 fi

@@ -37,8 +37,6 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 
 	if  [ "${gamename}" == "ARMA 3" ]; then
 		fix_arma3.sh
-	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
-		fix_coduo.sh
 	elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
 		fix_csgo.sh
 	elif [ "${gamename}" == "Don't Starve Together" ]; then
@@ -70,12 +68,6 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo "================================="
 		sleep 1
 		fix_ut2k4.sh
-	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-		echo ""
-		echo "Applying ${gamename} Server Fixes"
-		echo "================================="
-		sleep 1
-		fix_ut99.sh
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"

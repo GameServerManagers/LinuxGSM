@@ -10,7 +10,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){
-	# Remove lock file
+	# Remove lockfile
 	rm -f "${rootdir}/${lockselfname}"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
@@ -22,6 +22,7 @@ fn_lockfile_trap(){
 check.sh
 fix.sh
 info_distro.sh
+info_config.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh
 fn_parms
 fn_print_header
@@ -86,8 +87,10 @@ fn_script_log_info "Starting debug"
 sleep 1
 fn_print_ok_nl "Starting debug"
 
-# create lock file.
+# Create lockfile
 date > "${rootdir}/${lockselfname}"
+fn_script_log_info "Lockfile generated"
+fn_script_log_info "${rootdir}/${lockselfname}"
 # trap to remove lockfile on quit.
 trap fn_lockfile_trap INT
 
