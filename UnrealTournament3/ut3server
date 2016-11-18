@@ -54,9 +54,6 @@ emailfrom=""
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
-# Pushbullet Channel | Do not set unless the channel exists on the 
-# account associated with the access token. Set without using the '#' 
-# E.g: "thisisachanneltag" would push to #thisisachanneltag
 channeltag=""
 
 ## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
