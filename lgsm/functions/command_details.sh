@@ -350,6 +350,24 @@ fn_details_cod(){
 	} | column -s $'\t' -t
 }
 
+fn_details_coduo(){
+	echo -e "netstat -atunp | grep coduo_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_cod2(){
+	echo -e "netstat -atunp | grep cod2_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_dontstarve(){
 	echo -e "netstat -atunp | grep dontstarve"
 	echo -e ""
@@ -652,15 +670,6 @@ fn_details_ark(){
 	} | column -s $'\t' -t
 }
 
-fn_details_cod2(){
-	echo -e "netstat -atunp | grep cod2_lnxded"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t
-}
-
 # Run checks and gathers details to display.
 
 fn_display_details() {
@@ -717,6 +726,8 @@ fn_display_details() {
 		fn_details_ark
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_details_cod
+	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+		fn_details_coduo
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
 		fn_details_cod2
 	elif [ "${gamename}" == "Hurtworld" ]; then
