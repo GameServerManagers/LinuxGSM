@@ -10,11 +10,11 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_fetch_default_config(){
 	mkdir -pv "${lgsmdir}/default-configs"
-	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/dstserver"
+	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
 
 	for config in "${array_configs[@]}"
 	do
-		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/dstserver/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
+		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
 		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	done
 }
@@ -65,6 +65,7 @@ fn_default_config_remote(){
 	sleep 1
 }
 
+# this should be somehow standardized
 fn_dstconfig(){
 	## cluster.ini
 	# this config shouldn't be overridden
