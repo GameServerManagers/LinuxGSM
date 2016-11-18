@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161030"
+version="161113"
 
 ##########################
 ######## Settings ########
@@ -27,7 +27,7 @@ adminpassword="CHANGE_ME"
 ip="0.0.0.0"
 
 fn_parms(){
-parms="-ip ${ip} -adminpassword \"${adminpassword}\""
+parms="-ip ${ip} -adminpassword \"${adminpassword}\" -servername ${servicename}"
 }
 
 #### LinuxGSM Settings ####
@@ -38,9 +38,11 @@ parms="-ip ${ip} -adminpassword \"${adminpassword}\""
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
@@ -96,8 +98,8 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./start-server.sh"
-servercfg="server.ini"
-servercfgdefault="server.cfg"
+servercfg="${servicename}.ini"
+servercfgdefault="server.ini"
 servercfgdir="${HOME}/Zomboid/Server"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 

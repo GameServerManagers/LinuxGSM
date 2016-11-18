@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161030"
+version="161113"
 
 ##########################
 ######## Settings ########
@@ -41,9 +41,11 @@ parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set n
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
 maxbackups="4"

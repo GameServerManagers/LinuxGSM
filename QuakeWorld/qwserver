@@ -24,6 +24,7 @@ email="email@example.com"
 # https://www.pushbullet.com/#settings
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 # Start Variables
 ip="0.0.0.0"
