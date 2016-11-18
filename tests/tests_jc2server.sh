@@ -187,7 +187,7 @@ if [ "$(whoami)" = "root" ]; then
 	else
 		core_functions.sh
 		check_root.sh
-		fi
+	fi
 fi
 
 core_dl.sh

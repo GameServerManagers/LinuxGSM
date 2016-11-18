@@ -2,7 +2,7 @@
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2016 Daniel Gibbs
-# Purpose: Counter-Strike: Global Offensive | Server Management Script
+# Purpose: Call of Duty: United Offensive | Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
@@ -23,40 +23,15 @@ version="161113"
 #### Server Settings ####
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-# https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
-# [Game Modes]				gametype		gamemode
-# Arms Race				1			0
-# Classic Casual			0			0
-# Classic Competitive		0			1
-# Demolition				1			1
-# Deathmatch				1			2
-gametype="0"
-gamemode="0"
-defaultmap="de_dust2"
-mapgroup="random_classic"
-maxplayers="16"
-tickrate="64"
-port="27015"
-sourcetvport="27020"
-clientport="27005"
+
+defaultmap="mp_cassino"
+maxclients="20"
+port="28960"
 ip="0.0.0.0"
 
-## Required: Game Server Login Token
-# GSLT is required for running a public server.
-# More info: https://gameservermanagers.com/gslt
-gslt=""
-
-## Optional: Workshop Parameters
-# https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
-# To get an authkey visit - http://steamcommunity.com/dev/apikey
-# authkey=""
-# ws_collection_id=""
-# ws_start_map=""
-
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care | https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
+parms="+set sv_punkbuster 0 +set fs_basepath ${filesdir} +set dedicated 1 +set net_ip ${ip} +set net_port ${port} +set sv_maxclients ${maxclients} +exec ${servercfg} +map ${defaultmap}"
 }
 
 #### LinuxGSM Settings ####
@@ -73,9 +48,6 @@ pushbulletalert="off"
 pushbullettoken="accesstoken"
 channeltag=""
 
-## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
-updateonstart="off"
-
 ## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
 maxbackups="4"
 maxbackupdays="30"
@@ -85,15 +57,7 @@ stoponbackup="on"
 consolelogging="on"
 logdays="7"
 
-#### LinuxGSM Advanced Settings ####
-
-## SteamCMD Settings
-# Server appid
-appid="740"
-# Steam App Branch Select
-# Allows to opt into the various Steam app branches. Default branch is "".
-# Example: "-beta latest_experimental"
-branch=""
+#### Advanced Variables ####
 
 ## Github Branch Select
 # Allows for the use of different function files
@@ -104,11 +68,11 @@ githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
-gamename="Counter-Strike: Global Offensive"
-engine="source"
+gamename="Call of Duty: United Offensive"
+engine="idtech3"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="csgo-server"
+servicename="coduo-server"
 
 #### Directories ####
 # Edit with care
@@ -124,19 +88,19 @@ tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-systemdir="${filesdir}/csgo"
+systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="./srcds_run"
+executable="./coduo_lnxded"
 servercfg="${servicename}.cfg"
 servercfgdefault="server.cfg"
-servercfgdir="${systemdir}/cfg"
+servercfgdir="${systemdir}/uo"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${systemdir}/logs"
+gamelogdir="${filesdir}/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
