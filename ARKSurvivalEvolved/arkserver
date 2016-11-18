@@ -45,6 +45,7 @@ parms="\"TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=$
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"

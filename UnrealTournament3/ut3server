@@ -51,6 +51,7 @@ parms="server ${defaultmap}?Game=${game}?bIsDedicated=${isdedicated}?bIsLanMatch
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
