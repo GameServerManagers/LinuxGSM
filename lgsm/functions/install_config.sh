@@ -298,6 +298,7 @@ elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Project Zomboid" ]; then
 	gamedirname="ProjectZomboid"
+	fn_check_cfgdir
 	array_configs+=( server.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
