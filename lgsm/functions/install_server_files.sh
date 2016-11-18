@@ -11,8 +11,6 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_install_server_files(){
 	if [ "${gamename}" == "Battlefield: 1942" ]; then
 		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; filedir="${tmpdir}"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
-	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fileurl="http://files.gameservermanagers.com/CallOfDuty/cod-lnxded-1.5b-full.tar.bz2"; filedir="${tmpdir}"; filename="cod-lnxded-1.5-large.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="19629895a4cf6fd8f6d1ee198b5304cd"
 	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
@@ -29,6 +27,8 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="nquake.server.linux.083116.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
+	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
+		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
