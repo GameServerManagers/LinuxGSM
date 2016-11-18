@@ -1,5 +1,4 @@
 #!/bin/bash
-# Just Cause 2
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2016 Daniel Gibbs
@@ -15,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161113"
+version="161118"
 
 ##########################
 ######## Settings ########
