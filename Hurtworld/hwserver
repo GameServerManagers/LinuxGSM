@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161113"
+version="161118"
 
 ##########################
 ######## Settings ########
@@ -56,9 +56,11 @@ parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport 
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
@@ -203,7 +205,7 @@ if [ "$(whoami)" = "root" ]; then
 	else
 		core_functions.sh
 		check_root.sh
-		fi
+	fi
 fi
 
 core_dl.sh

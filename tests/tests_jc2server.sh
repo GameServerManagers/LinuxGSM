@@ -17,7 +17,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161113"
+version="161118"
 
 ##########################
 ######## Settings ########
@@ -40,6 +40,7 @@ parms=""
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
@@ -186,7 +187,7 @@ if [ "$(whoami)" = "root" ]; then
 	else
 		core_functions.sh
 		check_root.sh
-		fi
+	fi
 fi
 
 core_dl.sh

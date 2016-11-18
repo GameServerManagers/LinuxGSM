@@ -537,7 +537,7 @@ if [ "${engine}" == "avalanche" ]; then
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	fn_info_config_bf1942
 # Call of Duty
-elif [ "${gamename}" == "Call of Duty" ]; then
+elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]; then
 	fn_info_config_cod
 # Call of Duty 2
 elif [ "${gamename}" == "Call of Duty 2" ]; then
