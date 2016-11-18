@@ -127,18 +127,20 @@ fn_backup_compression(){
 		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
+	# Remove lock file
+	rm -f "${tmpdir}/.backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables
 fn_backup_prune(){
-	# How many backups there are
-	info_distro.sh
-	# How many backups exceed maxbackups
-	backupquotadiff=$((backupcount-maxbackups))
-	# How many backups exceed maxbackupdays
-	backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
-	# If backup variables are set
-	if [ -n "${maxbackupdays}" ]&&[ -n "${maxbackups}" ]; then
+	# Clear if backup variables are set
+	if [ -n "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
+		# How many backups there are
+		info_distro.sh
+		# How many backups exceed maxbackups
+		backupquotadiff=$((backupcount-maxbackups))
+		# How many backups exceed maxbackupdays
+		backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
 		# If anything can be cleared
 		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
@@ -195,8 +197,4 @@ fn_backup_dir
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
-
-# Remove lock file
-rm -f "${tmpdir}/.backup.lock"
-
 core_exit.sh
