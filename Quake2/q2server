@@ -39,6 +39,7 @@ parms="+set dedicated 1 +set ip ${ip} +set port ${port} +exec ${servercfg} +set 
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"

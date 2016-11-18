@@ -44,6 +44,7 @@ parms="-game dod -strictportbind -ip ${ip} -port ${port} +clientport ${clientpor
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
