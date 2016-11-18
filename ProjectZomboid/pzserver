@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161113"
+version="161118"
 
 ##########################
 ######## Settings ########
@@ -27,7 +27,7 @@ adminpassword="CHANGE_ME"
 ip="0.0.0.0"
 
 fn_parms(){
-parms="-ip ${ip} -adminpassword \"${adminpassword}\""
+parms="-ip ${ip} -adminpassword \"${adminpassword}\" -servername ${servicename}"
 }
 
 #### LinuxGSM Settings ####
@@ -96,8 +96,8 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./start-server.sh"
-servercfg="server.ini"
-servercfgdefault="server.cfg"
+servercfg="${servicename}.ini"
+servercfgdefault="server.ini"
 servercfgdir="${HOME}/Zomboid/Server"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
