@@ -45,6 +45,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ges.sh
 	elif [ "${gamename}" == "Insurgency" ]; then
 		fix_ins.sh
+	elif [ "${gamename}" == "Rust" ]; then
+		fix_rust.sh
 	fi
 fi
 
