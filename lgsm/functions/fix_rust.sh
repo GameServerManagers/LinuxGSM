@@ -7,5 +7,5 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Fixes: ./srcds_linux: error while loading shared libraries: libtier0.so: cannot open shared object file: No such file or directory.
+# Fixes: [Raknet] Server Shutting Down (Shutting Down)
 export LD_LIBRARY_PATH="${systemdir}/RustDedicated_Data/Plugins/x86_64"
