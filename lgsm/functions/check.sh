@@ -11,6 +11,7 @@ local commandname="CHECK"
 # check.sh selects which checks to run by using arrays
 
 check_root.sh
+check_tmuxception.sh
 check_permissions.sh
 
 if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]; then

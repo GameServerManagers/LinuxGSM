@@ -234,7 +234,7 @@ fn_stop_teamspeak3(){
 	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lock file
+		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
@@ -245,13 +245,15 @@ fn_stop_teamspeak3(){
 }
 
 fn_stop_mumble(){
+	# Get needed port info
+	info_config.sh
 	fn_print_dots "Stopping ${servername}"
-	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep 64738 | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
+	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep "${port}" | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
 	kill ${mumblepid}
 	sleep 1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lock file
+		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		fn_stop_tmux
 		fn_script_log_pass "Stopped ${servername}"
@@ -270,7 +272,7 @@ fn_stop_tmux(){
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lock file
+		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
 				# Make certain the ports are cleared before continuing.

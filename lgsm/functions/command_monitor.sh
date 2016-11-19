@@ -13,8 +13,8 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
-		fn_print_error_nl "Disabled: No lock file found"
-		fn_script_log_error "Disabled: No lock file found"
+		fn_print_error_nl "Disabled: No lockfile found"
+		fn_script_log_error "Disabled: No lockfile found"
 		echo "	* To enable monitor run ./${selfname} start"
 		core_exit.sh
 	fi
@@ -79,7 +79,7 @@ fn_monitor_tmux(){
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
 		# runs gsquery check on game with specific engines.
-		local allowed_engines_array=( avalanche goldsource idtech3 idtech3_ql refractor realvirtuality source spark unity3d unreal unreal2 )
+		local allowed_engines_array=( avalanche goldsource idtech3 idtech3_ql iw2.0 quake refractor realvirtuality source spark unity3d unreal unreal2 )
 		for allowed_engine in "${allowed_engines_array[@]}"
 		do
 			if [ "${allowed_engine}" == "${engine}" ]; then
