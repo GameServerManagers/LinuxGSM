@@ -51,7 +51,7 @@ fn_default_config_remote(){
 	for config in "${array_configs[@]}"
 	do
 		# every config is copied
-		echo "copying ${servercfg} config file."
+		echo "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
