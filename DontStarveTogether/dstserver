@@ -29,19 +29,13 @@ shard="Master"
 cluster="Cluster_1"
 cave="false"
 
-## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-ip="0.0.0.0"
-port="11000"
-steamauthenticationport="8768"
-steammasterserverport="27018"
-
 # Edit with care
 persistentstorageroot="${HOME}/.klei"
 confdir="DoNotStarveTogether"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-parms="-bind_ip ${ip} -port ${port} -steam_master_server_port ${steammasterserverport} -steam_authentication_port ${steamauthenticationport} -persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -cluster ${cluster} -shard ${shard}"
+parms="-persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -cluster ${cluster} -shard ${shard}"
 }
 
 #### LinuxGSM Settings ####
@@ -91,7 +85,7 @@ gamename="Don't Starve Together"
 engine="dontstarve"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="dst-server"
+servicename="dst-server-${shard}"
 
 #### Directories ####
 # Edit with care

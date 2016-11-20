@@ -95,6 +95,10 @@ fn_info_config_dontstarve(){
 		gamemode=$(grep "game_mode" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_mode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		tickrate=$(grep "tick_rate" "${clustercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		masterport=$(grep "master_port" "${clustercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		
+		ip=$(grep "bind_ip" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bind_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="bind_ip"
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
@@ -103,6 +107,21 @@ fn_info_config_dontstarve(){
 		gamemode=${gamemode:-"NOT SET"}
 		tickrate=${tickrate:-"0"}
 		masterport=${masterport:-"0"}
+	fi
+	
+	if [ ! -f "${servercfgfullpath}" ]; then
+		port="${zero}"
+		steamauthenticationport="${zero}"
+		steammasterserverport="${zero}"
+	else
+		port=$(grep "server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		steamauthenticationport=$(grep "authentication_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		steammasterserverport=$(grep "master_server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		
+		# Not Set
+		port=${port:-"0"}
+		steamauthenticationport=${steamauthenticationport:-"0"}
+		steammasterserverport=${steammasterserverport:-"0"}
 	fi
 }
 
