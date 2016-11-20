@@ -114,7 +114,7 @@ fn_info_config_dontstarve(){
 		steamauthenticationport="${zero}"
 		steammasterserverport="${zero}"
 	else
-		port=$(grep "server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		port=$(grep "server_port" "${servercfgfullpath}" | grep "^server_port" | grep -v "#" | tr -cd '[:digit:]')
 		steamauthenticationport=$(grep "authentication_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		steammasterserverport=$(grep "master_server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		
