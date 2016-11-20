@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161111"
+version="161120"
 
 ##########################
 ######## Settings ########
@@ -22,9 +22,7 @@ version="161111"
 
 #### Server Settings ####
 
-## Installation Variables
-# Visit the following link for more information:
-# https://github.com/GameServerManagers/LinuxGSM/wiki/Don't-Starve-Together
+## Installation Variables | https://github.com/GameServerManagers/LinuxGSM/wiki/Don't-Starve-Together
 sharding="false"
 master="true"
 shard="Master" 
@@ -44,7 +42,6 @@ confdir="DoNotStarveTogether"
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
 parms="-bind_ip ${ip} -port ${port} -steam_master_server_port ${steammasterserverport} -steam_authentication_port ${steamauthenticationport} -persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -cluster ${cluster} -shard ${shard}"
-# -console -cluster MyDediServer -shard Master
 }
 
 #### LinuxGSM Settings ####

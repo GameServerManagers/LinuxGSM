@@ -55,9 +55,10 @@ fn_default_config_remote(){
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
-		elif [ "${config}" == "${networkcfgdefault}" ]; then
-			# ARMA 3
+		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
 			cp -v "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+		elif [ "${gamename}" == "Don't Starve Together" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
+			cp -nv "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
 			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
 		fi
@@ -65,15 +66,10 @@ fn_default_config_remote(){
 	sleep 1
 }
 
-# this should be somehow standardized
-fn_dstconfig(){
+# Changes some variables within the default Don't Starve Together configs
+fn_set_dst_config_vars(){
 	## cluster.ini
-	# this config shouldn't be overridden
-	if [ ! -s "${clustercfgfullpath}" ]; then
-		echo "copying ${clustercfg} config file."
-		fn_script_log_info "copying ${clustercfg} config file."
-		cp -v "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
-		sleep 1
+	if grep -Fq "SERVERNAME" "${clustercfgfullpath}"; then
 		echo "changing server name."
 		fn_script_log_info "changing server name."
 		sed -i "s/SERVERNAME/LinuxGSM/g" "${clustercfgfullpath}"
@@ -88,15 +84,11 @@ fn_dstconfig(){
 		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
 		sleep 1
 	else	
-		echo "${clustercfg} already exists."
-		fn_script_log_info "${clustercfg} already exists."
+		echo "${clustercfg} is already configured."
+		fn_script_log_info "${clustercfg} is already configured."
 	fi
 	
 	## server.ini
-	echo "copying ${servercfg} config file."
-	fn_script_log_info "copying ${servercfg} config file."
-	cp -v "${lgsmdir}/default-configs/${servercfgdefault}" "${servercfgfullpath}"
-	sleep 1
 	# removing unnecessary options (dependent on sharding & shard type)
 	if [ "${sharding}" == "false" ]; then 
 		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
@@ -104,7 +96,7 @@ fn_dstconfig(){
 	elif [ "${master}" == "true" ]; then
 		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
 	fi
-	# configure settings
+	
 	echo "changing shard name."
 	fn_script_log_info "changing shard name."
 	sed -i "s/SHARDNAME/${shard}/g" "${servercfgfullpath}"
@@ -237,7 +229,8 @@ elif [ "${gamename}" == "Don't Starve Together" ]; then
 	fn_check_cfgdir
 	array_configs+=( cluster.ini server.ini )
 	fn_fetch_default_config
-	fn_dstconfig
+	fn_default_config_remote
+	fn_set_dst_config_vars
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	gamedirname="DoubleActionBoogaloo"
 	array_configs+=( server.cfg )
