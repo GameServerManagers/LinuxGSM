@@ -131,6 +131,12 @@ elif [ "${gamename}" == "Call of Duty 2" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+	gamedirname="CallOfDutyWorldAtWar"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Codename CURE" ]; then
 	gamedirname="CodenameCURE"
 	array_configs+=( server.cfg )
