@@ -135,7 +135,7 @@ fn_details_gameserver(){
 
 		# Maxplayers
 		if [ -n "${maxplayers}" ]; then
-			echo -e "${blue}Maxplayers:\t${default}${slots}"
+			echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
 		fi
 
 		# Game mode
