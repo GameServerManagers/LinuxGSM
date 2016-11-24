@@ -170,6 +170,24 @@ elif [ "${gamename}" == "Call of Duty" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+	gamedirname="CallOfDutyUnitedOffensive"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty 2" ]; then
+	gamedirname="CallofDuty2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+	gamedirname="CallOfDutyWorldAtWar"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Codename CURE" ]; then
 	gamedirname="CodenameCURE"
 	array_configs+=( server.cfg )
@@ -344,6 +362,7 @@ elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Project Zomboid" ]; then
 	gamedirname="ProjectZomboid"
+	fn_check_cfgdir
 	array_configs+=( server.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -394,7 +413,7 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Starbound" ]; then
 	gamedirname="Starbound"
-	array_configs+=( starbound.config )
+	array_configs+=( starbound_server.config )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

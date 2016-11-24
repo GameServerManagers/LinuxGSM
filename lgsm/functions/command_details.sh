@@ -98,7 +98,7 @@ fn_details_gameserver(){
 	# Server IP:        1.2.3.4:27960
 	# RCON password:    CHANGE_ME
 	# Server password:  NOT SET
-	# Slots:            16
+	# Maxplayers:		16
 	# Status:           OFFLINE
 
 	echo -e ""
@@ -133,9 +133,9 @@ fn_details_gameserver(){
 			echo -e "${blue}Stats password:\t${default}${statspassword}"
 		fi
 
-		# Slots
-		if [ -n "${slots}" ]; then
-			echo -e "${blue}Slots:\t${default}${slots}"
+		# Maxplayers
+		if [ -n "${maxplayers}" ]; then
+			echo -e "${blue}Maxplayers:\t${default}${slots}"
 		fi
 
 		# Game mode
@@ -318,7 +318,7 @@ fn_details_ports(){
 		fi
 	done
 	# engines that require editing in the script file
-	local ports_edit_array=( "starbound" "spark" "source" "goldsource" "Rust" "Hurtworld" "unreal4")
+	local ports_edit_array=( "Hurtworld" "iw3.0" "goldsource" "Rust" "spark" "source" "starbound" "unreal4" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -353,6 +353,33 @@ fn_details_avalanche(){
 
 fn_details_cod(){
 	echo -e "netstat -atunp | grep cod_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_coduo(){
+	echo -e "netstat -atunp | grep coduo_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_cod2(){
+	echo -e "netstat -atunp | grep cod2_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_codwaw(){
+	echo -e "netstat -atunp | grep codwaw_lnxded"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -665,7 +692,6 @@ fn_details_ark(){
 	} | column -s $'\t' -t
 }
 
-
 # Run checks and gathers details to display.
 
 fn_display_details() {
@@ -722,6 +748,12 @@ fn_display_details() {
 		fn_details_ark
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_details_cod
+	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+		fn_details_coduo
+	elif [ "${gamename}" == "Call of Duty 2" ]; then
+		fn_details_cod2
+	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+		fn_details_codwaw
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
 	elif [ "${gamename}" == "QuakeWorld" ]; then

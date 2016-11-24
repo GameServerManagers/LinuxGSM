@@ -49,20 +49,20 @@ fn_info_config_teeworlds(){
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
 		port="8303"
-		slots="12"
+		maxplayers="12"
 	else
 		servername=$(grep "sv_name" "${servercfgfullpath}" | sed 's/sv_name //g' | sed 's/"//g')
 		serverpassword=$(grep "password " "${servercfgfullpath}" | awk '!/sv_rcon_password/'| sed 's/password //g' | tr -d '=\"; ')
 		rconpassword=$(grep "sv_rcon_password" "${servercfgfullpath}" | sed 's/sv_rcon_password //g' | tr -d '=\"; ')
 		port=$(grep "sv_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		slots=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		maxplayers=$(grep "sv_max_clients" "${servercfgfullpath}" | tr -cd '[:digit:]')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"8303"}
-		slots=${slots:-"12"}
+		maxplayers=${maxplayers:-"12"}
 	fi
 }
 

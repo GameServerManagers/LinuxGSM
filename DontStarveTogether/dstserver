@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161120"
+version="161118"
 
 ##########################
 ######## Settings ########
@@ -46,9 +46,11 @@ parms="-persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -c
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
@@ -196,7 +198,7 @@ if [ "$(whoami)" = "root" ]; then
 	else
 		core_functions.sh
 		check_root.sh
-		fi
+	fi
 fi
 
 core_dl.sh

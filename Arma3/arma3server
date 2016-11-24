@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161030"
+version="161118"
 
 ##########################
 ######## Settings ########
@@ -59,9 +59,11 @@ parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${serv
 emailalert="off"
 email="email@example.com"
 emailfrom=""
+
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
@@ -208,7 +210,7 @@ if [ "$(whoami)" = "root" ]; then
 	else
 		core_functions.sh
 		check_root.sh
-		fi
+	fi
 fi
 
 core_dl.sh

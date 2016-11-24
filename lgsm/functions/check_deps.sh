@@ -189,7 +189,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		array_deps_required+=( libncurses5:i386 )
 	# Call of Duty
-	elif [ "${gamename}" == "Call of Duty" ]; then
+	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
@@ -201,7 +201,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
-		array_deps_required+=( zlib1g:i386 )
+		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
@@ -261,7 +261,7 @@ elif [ -n "$(command -v yum)" ]; then
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Call of Duty
-	elif [ "${gamename}" == "Call of Duty" ]; then
+	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
@@ -273,7 +273,7 @@ elif [ -n "$(command -v yum)" ]; then
 		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
-		array_deps_required+=( zlib.i686 )
+		array_deps_required+=( zlib.i686 openldap.i686 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4

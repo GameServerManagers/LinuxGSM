@@ -16,7 +16,16 @@ elif [ "${gamename}" == "BrainBread 2" ]; then
 	glibcrequired="2.17"
 elif [ "${gamename}" == "Call of Duty" ]; then
 	glibcrequired="2.1"
-	glibcfix="yes"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty 2" ]; then
+	glibcrequired="2.1.3"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+	glibcrequired="2.3.2"
+	glibcfix="no"
 elif [ "${gamename}" == "Day of Infamy" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -34,7 +43,7 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "GoldenEye: Source" ]; then
 	glibcrequired="2.15"
-	glibcfix="no"
+	glibcfix="yes"
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
