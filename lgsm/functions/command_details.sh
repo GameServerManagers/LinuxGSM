@@ -98,7 +98,7 @@ fn_details_gameserver(){
 	# Server IP:        1.2.3.4:27960
 	# RCON password:    CHANGE_ME
 	# Server password:  NOT SET
-	# Slots:            16
+	# Maxplayers:		16
 	# Status:           OFFLINE
 
 	echo -e ""
@@ -133,9 +133,9 @@ fn_details_gameserver(){
 			echo -e "${blue}Stats password:\t${default}${statspassword}"
 		fi
 
-		# Slots
-		if [ -n "${slots}" ]; then
-			echo -e "${blue}Slots:\t${default}${slots}"
+		# Maxplayers
+		if [ -n "${maxplayers}" ]; then
+			echo -e "${blue}Maxplayers:\t${default}${slots}"
 		fi
 
 		# Game mode
