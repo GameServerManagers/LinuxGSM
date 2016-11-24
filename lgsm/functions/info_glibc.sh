@@ -43,7 +43,7 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "GoldenEye: Source" ]; then
 	glibcrequired="2.15"
-	glibcfix="no"
+	glibcfix="yes"
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
