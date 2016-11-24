@@ -79,7 +79,7 @@ branch=""
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="dstserver-new"
+githubbranch="develop"
 
 ## LinuxGSM Server Details
 # Do not edit
