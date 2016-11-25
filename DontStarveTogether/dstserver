@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161118"
+version="161125"
 
 ##########################
 ######## Settings ########
@@ -22,16 +22,20 @@ version="161118"
 
 #### Server Settings ####
 
-## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-ip="0.0.0.0"
+## Installation Variables | https://github.com/GameServerManagers/LinuxGSM/wiki/Don't-Starve-Together
+sharding="false"
+master="true"
+shard="Master"
+cluster="Cluster_1"
+cave="false"
+
+# Edit with care
+persistentstorageroot="${HOME}/.klei"
+confdir="DoNotStarveTogether"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care | http://dont-starve-game.wikia.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers
-# Overworld: -conf_dir DST_Overworld
-# Cave: -conf_dir DST_Cave
 fn_parms(){
-parms="-console -cluster MyDediServer -shard Master"
-# -console -cluster MyDediServer -shard Master
+parms="-persistent_storage_root ${persistentstorageroot} -conf_dir ${confdir} -cluster ${cluster} -shard ${shard}"
 }
 
 #### LinuxGSM Settings ####
@@ -83,7 +87,7 @@ gamename="Don't Starve Together"
 engine="dontstarve"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="dst-server"
+servicename="dst-server-${shard}"
 
 #### Directories ####
 # Edit with care
@@ -102,11 +106,14 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}/bin"
 executable="./dontstarve_dedicated_server_nullrenderer"
-servercfg="settings.ini"
-servercfgdefault="settings.ini"
-servercfgdir="${HOME}/.klei/DoNotStarveTogether"
+clustercfg="cluster.ini"
+clustercfgdir="${persistentstorageroot}/${confdir}/${cluster}"
+clustercfgfullpath="${clustercfgdir}/${clustercfg}"
+clustercfgdefault="cluster.ini"
+servercfg="server.ini"
+servercfgdir="${clustercfgdir}/${shard}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
+servercfgdefault="server.ini"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"

@@ -201,7 +201,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
-		array_deps_required+=( zlib1g:i386 )
+		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
@@ -273,7 +273,7 @@ elif [ -n "$(command -v yum)" ]; then
 		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
-		array_deps_required+=( zlib.i686 )
+		array_deps_required+=( zlib.i686 openldap.i686 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4

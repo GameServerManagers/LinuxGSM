@@ -98,7 +98,7 @@ fn_details_gameserver(){
 	# Server IP:        1.2.3.4:27960
 	# RCON password:    CHANGE_ME
 	# Server password:  NOT SET
-	# Slots:            16
+	# Maxplayers:		16
 	# Status:           OFFLINE
 
 	echo -e ""
@@ -133,9 +133,9 @@ fn_details_gameserver(){
 			echo -e "${blue}Stats password:\t${default}${statspassword}"
 		fi
 
-		# Slots
-		if [ -n "${slots}" ]; then
-			echo -e "${blue}Slots:\t${default}${slots}"
+		# Maxplayers
+		if [ -n "${maxplayers}" ]; then
+			echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
 		fi
 
 		# Game mode
@@ -151,6 +151,16 @@ fn_details_gameserver(){
 		# Tick rate
 		if [ -n "${tickrate}" ]; then
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
+		fi
+				
+		# Cluster (Don't Starve Together)
+		if [ -n "${cluster}" ]; then
+			echo -e "${blue}Cluster:\t${default}${cluster}"
+		fi
+		
+		# Shard (Don't Starve Together)
+		if [ -n "${shard}" ]; then
+			echo -e "${blue}Shard:\t${default}${shard}"
 		fi
 
 		# TeamSpeak dbplugin
@@ -308,7 +318,7 @@ fn_details_ports(){
 		fi
 	done
 	# engines that require editing in the script file
-	local ports_edit_array=( "starbound" "spark" "source" "goldsource" "Rust" "Hurtworld" "unreal4")
+	local ports_edit_array=( "Hurtworld" "iw3.0" "goldsource" "Rust" "spark" "source" "starbound" "unreal4" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -368,12 +378,24 @@ fn_details_cod2(){
 	} | column -s $'\t' -t
 }
 
+fn_details_codwaw(){
+	echo -e "netstat -atunp | grep codwaw_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_dontstarve(){
 	echo -e "netstat -atunp | grep dontstarve"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game: Server\tINBOUND\t${port}\tudp"
+		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
+		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
+		echo -e "> Steam: Master\tINBOUND\t${steammasterserverport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -730,6 +752,8 @@ fn_display_details() {
 		fn_details_coduo
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
 		fn_details_cod2
+	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+		fn_details_codwaw
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
 	elif [ "${gamename}" == "QuakeWorld" ]; then

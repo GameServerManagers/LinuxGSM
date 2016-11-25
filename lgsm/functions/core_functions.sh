@@ -362,6 +362,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Info
 
 info_config.sh(){
@@ -471,6 +476,11 @@ fn_fetch_function
 }
 
 install_config.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_dst_token.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
