@@ -25,7 +25,7 @@ version="161118"
 ## Installation Variables | https://github.com/GameServerManagers/LinuxGSM/wiki/Don't-Starve-Together
 sharding="false"
 master="true"
-shard="Master" 
+shard="Master"
 cluster="Cluster_1"
 cave="false"
 
@@ -79,7 +79,7 @@ branch=""
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="develop"
+githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
