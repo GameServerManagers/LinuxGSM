@@ -342,6 +342,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_jk2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+
 fix_ro.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

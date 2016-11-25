@@ -152,12 +152,12 @@ fn_details_gameserver(){
 		if [ -n "${tickrate}" ]; then
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
-				
+
 		# Cluster (Don't Starve Together)
 		if [ -n "${cluster}" ]; then
 			echo -e "${blue}Cluster:\t${default}${cluster}"
 		fi
-		
+
 		# Shard (Don't Starve Together)
 		if [ -n "${shard}" ]; then
 			echo -e "${blue}Shard:\t${default}${shard}"
@@ -485,6 +485,15 @@ fn_details_quakelive(){
 	} | column -s $'\t' -t
 }
 
+fn_details_jk2(){
+	echo -e "netstat -atunp | grep jk2ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_wolfensteinenemyterritory(){
 	echo -e "netstat -atunp | grep etded"
 	echo -e ""
@@ -764,6 +773,8 @@ fn_display_details() {
 		fn_details_quake3
 	elif [ "${gamename}" == "Quake Live" ]; then
 		fn_details_quakelive
+	elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
+		fn_details_jk2
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
 	elif [ "${gamename}" == "Mumble" ]; then

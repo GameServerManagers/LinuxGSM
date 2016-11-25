@@ -43,6 +43,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_dst.sh
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fix_ges.sh
+	elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
+		fix_jk2.sh
 	elif [ "${gamename}" == "Insurgency" ]; then
 		fix_ins.sh
 	elif [ "${gamename}" == "Rust" ]; then

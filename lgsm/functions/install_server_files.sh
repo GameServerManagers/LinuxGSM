@@ -25,8 +25,8 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/Quake2/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
 		fileurl="http://files.gameservermanagers.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake3-1.32c-x86-full-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
-	elif [ "${gamename}" == "QuakeWorld" ]; then
-		fileurl="http://files.gameservermanagers.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="nquake.server.linux.083116.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
+	elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
+		fileurl="http://www.nateberkopec.com/jk2.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="jk2.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="605081820bc570e6424858aa165f790c"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
@@ -78,6 +78,9 @@ fn_install_server_files_steamcmd(){
 				if [ "${engine}" == "goldsource" ]; then
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
+				elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
+					${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
+					local exitcode=$?
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
@@ -85,6 +88,9 @@ fn_install_server_files_steamcmd(){
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
+					local exitcode=$?
+				elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
+					${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
