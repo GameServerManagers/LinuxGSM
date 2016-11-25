@@ -30,6 +30,8 @@ fi
 install_config.sh
 if [ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
 	install_gslt.sh
+elif [ "${gamename}" == "Don't Starve Together" ]; then
+	install_dst_token.sh
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 fi

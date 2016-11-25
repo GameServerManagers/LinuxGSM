@@ -337,6 +337,83 @@ case "${getopt}" in
 	esac
 }
 
+fn_getopt_dstserver(){
+case "${getopt}" in
+	st|start)
+		command_start.sh;;
+	sp|stop)
+		command_stop.sh;;
+	r|restart)
+		command_restart.sh;;
+	u|update)
+		command_update.sh;;
+	fu|force-update|update-restart)
+		forceupdate=1;
+		command_update.sh;;
+	uf|update-functions)
+		command_update_functions.sh;;
+	v|validate)
+		command_validate.sh;;
+	m|monitor)
+		command_monitor.sh;;
+	ta|test-alert)
+		command_test_alert.sh;;
+	dt|details)
+		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
+	b|backup)
+		command_backup.sh;;
+	c|console)
+		command_console.sh;;
+	d|debug)
+		command_debug.sh;;
+	dev|dev-debug)
+		command_dev_debug.sh;;
+	i|install)
+		command_install.sh;;
+	ai|auto-install)
+		fn_autoinstall;;
+	ct|cluster-token)
+		install_dst_token.sh;;
+	dd|detect-deps)
+		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
+	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
+		exitcode=2
+	fi
+	echo "Usage: $0 [option]"
+	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "https://gameservermanagers.com/${selfname}"
+	echo -e ""
+	echo -e "${lightyellow}Commands${default}"
+	{
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from SteamCMD."
+		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from SteamCMD."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}validate\t${default}v  |Validate server files with SteamCMD."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful information about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}cluster-token\t${default}ct |Configure cluster token."
+	} | column -s $'\t' -t
+	esac
+}
+
 fn_getopt_gmodserver(){
 case "${getopt}" in
 	st|start)
@@ -628,6 +705,8 @@ elif [ "${engine}" == "lwjgl2" ]; then
 	fn_getopt_minecraft
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
+elif [ "${gamename}" == "Don't Starve Together" ]; then
+	fn_getopt_dstserver
 elif [ "${gamename}" == "Garry's Mod" ]; then
 	fn_getopt_gmodserver
 elif [ "${engine}" == "unreal2" ]; then
