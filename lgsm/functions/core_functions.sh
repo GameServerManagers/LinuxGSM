@@ -555,5 +555,8 @@ core_trap.sh
 # Calls on-screen messages
 core_messages.sh
 
+# Calls YAML parser
+core_yaml.sh
+
 #Calls file downloader
 core_dl.sh
