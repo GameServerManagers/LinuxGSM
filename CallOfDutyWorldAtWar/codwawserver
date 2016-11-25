@@ -69,10 +69,10 @@ githubbranch="master"
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Call of Duty: World at War"
-engine="IW 3.0"
+engine="iw3.0"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="coduo-server"
+servicename="codwaw-server"
 
 #### Directories ####
 # Edit with care
