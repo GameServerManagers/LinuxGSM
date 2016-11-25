@@ -115,6 +115,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+core_yaml.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
 
 # Commands
 
