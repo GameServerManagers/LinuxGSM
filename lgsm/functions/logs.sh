@@ -29,6 +29,9 @@ fi
 # Log manager will start the cleanup if it finds logs older than "${logdays}"
 if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; then
 	fn_print_dots "Starting"
+	# Set common logs directories
+	commonlogs="${systemdir}/logs"
+	commonsourcelogs="${systemdir}/*/logs"
 	# Set addon logs directories
 	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
 	ulxlogdir="${systemdir}/data/ulx_logs"
@@ -56,6 +59,17 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 		find "${consolelogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 		find "${consolelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
+	fi
+	# Common logfiles
+	if [ -d ${commonlogs} ]; then
+		find "${commonlogs}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
+		smcount=$(find "${commonlogs}"/ -type f -mtime +"${logdays}"|wc -l)
+		find "${commonlogs}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
+	fi
+	if [ -d ${commonsourcelogs} ]; then
+		find "${commonsourcelogs}"/* -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
+		smcount=$(find "${commonsourcelogs}"/* -type f -mtime +"${logdays}"|wc -l)
+		find "${commonsourcelogs}"/* -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
 	# Source addons logfiles
 	if [ "${engine}" == "source" ]; then

@@ -144,29 +144,29 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of source using rcon '/stop' command.
+# Attempts graceful of source using rcon 'stop' command.
 fn_stop_graceful_minecraft(){
-	fn_print_dots "Graceful: console /stop"
-	fn_script_log_info "Graceful: console /stop"
+	fn_print_dots "Graceful: console stop"
+	fn_script_log_info "Graceful: console stop"
 	# sends quit
-	tmux send -t "${servicename}" /stop ENTER > /dev/null 2>&1
+	tmux send -t "${servicename}" stop ENTER > /dev/null 2>&1
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
 	for seconds in {1..30}; do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: console /stop: ${seconds}: "
+			fn_print_ok "Graceful: console stop: ${seconds}: "
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: console /stop: OK: ${seconds} seconds"
+			fn_script_log_pass "Graceful: console stop: OK: ${seconds} seconds"
 			break
 		fi
 		sleep 1
-		fn_print_dots "Graceful: console /stop: ${seconds}"
+		fn_print_dots "Graceful: console stop: ${seconds}"
 	done
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: console /stop: "
+		fn_print_error "Graceful: console stop: "
 		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: console /stop: FAIL"
+		fn_script_log_error "Graceful: console stop: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -234,7 +234,7 @@ fn_stop_teamspeak3(){
 	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lock file
+		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
@@ -253,7 +253,7 @@ fn_stop_mumble(){
 	sleep 1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lock file
+		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		fn_stop_tmux
 		fn_script_log_pass "Stopped ${servername}"
@@ -272,7 +272,7 @@ fn_stop_tmux(){
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lock file
+		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
 				# Make certain the ports are cleared before continuing.

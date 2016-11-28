@@ -33,11 +33,11 @@ fn_start_teamspeak3(){
 	fi
 
 	mv "${scriptlog}" "${scriptlogdate}"
-	# Create lock file
+	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	if [ "${ts3serverpass}" == "1" ];then
-		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}"
+		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
 	else
 		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 	fi
@@ -78,7 +78,7 @@ fn_start_tmux(){
 		core_exit.sh
 	fi
 
-	# Create lock file
+	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
