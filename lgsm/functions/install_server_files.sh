@@ -17,6 +17,8 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/CallOfDutyUnitedOffensive/coduo-lnxded-1.51b-full.tar.bz2"; filedir="${tmpdir}"; filename="coduo-lnxded-1.51b-full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f1804ef13036e2b4ab535db000b19e97"
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
 		fileurl="http://files.gameservermanagers.com/CallOfDuty2/cod2-lnxded-1.3-full.tar.bz2"; filedir="${tmpdir}"; filename="cod2-lnxded-1.3-full.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="078128f83d06dc3d7699428dc2870214"
+	elif [ "${gamename}" == "Call of Duty 4" ]; then
+		fileurl="http://files.gameservermanagers.com/CallOfDuty4/cod4x18_dedrun.tar.bz2"; filedir="${tmpdir}"; filename="cod2-lnxded-1.3-full.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="87744d1ab4ac49ac0edd2200f5152ccf"
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fileurl="http://files.gameservermanagers.com/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.bz2"; filedir="${tmpdir}"; filename="codwaw-lnxded-1.7-full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0489697ff3bf678c109bfb377d1b7895"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
