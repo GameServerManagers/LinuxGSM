@@ -83,20 +83,20 @@ fn_set_dst_config_vars(){
 		randomkey=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
 		sleep 1
-	else	
+	else
 		echo "${clustercfg} is already configured."
 		fn_script_log_info "${clustercfg} is already configured."
 	fi
-	
+
 	## server.ini
 	# removing unnecessary options (dependent on sharding & shard type)
-	if [ "${sharding}" == "false" ]; then 
+	if [ "${sharding}" == "false" ]; then
 		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
 		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
 	elif [ "${master}" == "true" ]; then
 		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
 	fi
-	
+
 	echo "changing shard name."
 	fn_script_log_info "changing shard name."
 	sed -i "s/SHARDNAME/${shard}/g" "${servercfgfullpath}"
@@ -105,7 +105,7 @@ fn_set_dst_config_vars(){
 	fn_script_log_info "changing master setting."
 	sed -i "s/ISMASTER/${master}/g" "${servercfgfullpath}"
 	sleep 1
-	
+
 	## worldgenoverride.lua
 	if [ "${cave}" == "true" ]; then
 		echo "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
@@ -178,6 +178,12 @@ elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Call of Duty 2" ]; then
 	gamedirname="CallofDuty2"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Call of Duty 4" ]; then
+	gamedirname="CallOfDuty4"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
