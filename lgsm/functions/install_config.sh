@@ -177,7 +177,7 @@ elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 elif [ "${gamename}" == "Call of Duty 2" ]; then
-	gamedirname="CallofDuty2"
+	gamedirname="CallOfDuty2"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
