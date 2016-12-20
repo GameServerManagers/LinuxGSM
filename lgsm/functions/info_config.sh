@@ -94,6 +94,20 @@ fn_info_config_cod2(){
 	fi
 }
 
+fn_info_config_cod4(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		rconpassword="${unavailable}"
+	else
+		servername=$(grep "sv_hostname " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname //g' | tr -d '=\";,:' | xargs)
+		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword //g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		rconpassword=${rconpassword=:-"NOT SET"}
+	fi
+}
+
 fn_info_config_codwaw(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -123,7 +137,6 @@ fn_info_config_dontstarve(){
 		gamemode=$(grep "game_mode" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_mode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		tickrate=$(grep "tick_rate" "${clustercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		masterport=$(grep "master_port" "${clustercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
 		ip=$(grep "bind_ip" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bind_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		ipsetinconfig=1
 		ipinconfigvar="bind_ip"
@@ -136,7 +149,7 @@ fn_info_config_dontstarve(){
 		tickrate=${tickrate:-"0"}
 		masterport=${masterport:-"0"}
 	fi
-	
+
 	if [ ! -f "${servercfgfullpath}" ]; then
 		port="${zero}"
 		steamauthenticationport="${zero}"
@@ -145,7 +158,7 @@ fn_info_config_dontstarve(){
 		port=$(grep "server_port" "${servercfgfullpath}" | grep "^server_port" | grep -v "#" | tr -cd '[:digit:]')
 		steamauthenticationport=$(grep "authentication_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		steammasterserverport=$(grep "master_server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		port=${port:-"0"}
 		steamauthenticationport=${steamauthenticationport:-"0"}
@@ -575,6 +588,9 @@ elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: Unit
 # Call of Duty 2
 elif [ "${gamename}" == "Call of Duty 2" ]; then
 	fn_info_config_cod2
+# Call of Duty 4
+elif [ "${gamename}" == "Call of Duty 4" ]; then
+	fn_info_config_cod4
 # Call of Duty: World at War
 elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 	fn_info_config_codwaw
