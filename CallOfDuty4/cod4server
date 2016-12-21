@@ -27,7 +27,7 @@ version="161221"
 defaultmap="mp_crossfire"
 maxclients="32"
 port="28960"
-ip="138.68.147.159"
+ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
