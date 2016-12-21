@@ -144,29 +144,29 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of source using rcon '/stop' command.
+# Attempts graceful of source using rcon 'stop' command.
 fn_stop_graceful_minecraft(){
-	fn_print_dots "Graceful: console /stop"
-	fn_script_log_info "Graceful: console /stop"
+	fn_print_dots "Graceful: console stop"
+	fn_script_log_info "Graceful: console stop"
 	# sends quit
-	tmux send -t "${servicename}" /stop ENTER > /dev/null 2>&1
+	tmux send -t "${servicename}" stop ENTER > /dev/null 2>&1
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
 	for seconds in {1..30}; do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: console /stop: ${seconds}: "
+			fn_print_ok "Graceful: console stop: ${seconds}: "
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: console /stop: OK: ${seconds} seconds"
+			fn_script_log_pass "Graceful: console stop: OK: ${seconds} seconds"
 			break
 		fi
 		sleep 1
-		fn_print_dots "Graceful: console /stop: ${seconds}"
+		fn_print_dots "Graceful: console stop: ${seconds}"
 	done
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: console /stop: "
+		fn_print_error "Graceful: console stop: "
 		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: console /stop: FAIL"
+		fn_script_log_error "Graceful: console stop: FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
