@@ -152,12 +152,12 @@ fn_details_gameserver(){
 		if [ -n "${tickrate}" ]; then
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
-				
+
 		# Cluster (Don't Starve Together)
 		if [ -n "${cluster}" ]; then
 			echo -e "${blue}Cluster:\t${default}${cluster}"
 		fi
-		
+
 		# Shard (Don't Starve Together)
 		if [ -n "${shard}" ]; then
 			echo -e "${blue}Shard:\t${default}${shard}"
@@ -371,6 +371,15 @@ fn_details_coduo(){
 
 fn_details_cod2(){
 	echo -e "netstat -atunp | grep cod2_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_cod4(){
+	echo -e "netstat -atunp"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -752,6 +761,8 @@ fn_display_details() {
 		fn_details_coduo
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
 		fn_details_cod2
+	elif [ "${gamename}" == "Call of Duty 4" ]; then
+		fn_details_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_details_codwaw
 	elif [ "${gamename}" == "Hurtworld" ]; then
