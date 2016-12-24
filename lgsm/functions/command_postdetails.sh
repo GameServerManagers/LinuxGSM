@@ -128,7 +128,7 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
 	echo "  Please share the following url for support: ${posttarget}${link}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
-	fn_print_dots "Posting details to hastebin.com for ${postexpire}"
+	fn_print_dots "Posting details to hastebin.com (expires 30 days after last view)"
 	sleep 1
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
