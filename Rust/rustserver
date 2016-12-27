@@ -29,7 +29,7 @@ ip="0.0.0.0"
 port="28015"
 rconport="28016"
 rconpassword="CHANGE_ME"
-rconweb="1"
+webrcon="true"
 maxplayers="50"
 # Advanced Start Settings
 seed="" #  default random; range : 1 to 2147483647 ; used to change or reproduce a procedural map
@@ -40,7 +40,7 @@ tickrate="30" # default 30; range : 15 to 100
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care | https://developer.valvesoftware.com/wiki/Rust_Dedicated_Server
 fn_parms(){
-parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickrate} +server.hostname \"${servername}\" +server.identity \"${servicename}\" ${conditionalseed} +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} +rcon.web ${rconweb} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -logfile ${gamelogfile}"
+parms="-batchmode +server.ip ${ip} +server.port ${port} +server.tickrate ${tickrate} +server.hostname \"${servername}\" +server.identity \"${servicename}\" ${conditionalseed} +server.maxplayers ${maxplayers} +server.worldsize ${worldsize} +server.saveinterval ${saveinterval} ${webrcon} +rcon.ip ${ip} +rcon.port ${rconport} +rcon.password \"${rconpassword}\" -logfile ${gamelogfile}"
 }
 
 # Specific to Rust
@@ -105,6 +105,15 @@ servicename="rust-server"
 
 #### Directories ####
 # Edit with care
+
+# WebRcon
+if [ "${webrcon}" = true ]; then
+	# If set, then Enable webrcon
+	wrcon="+rcon.web 1"
+else
+	# Disable webrcon
+	wrcon="+rcon.web 0"
+fi
 
 ## Work Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
