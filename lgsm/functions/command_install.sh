@@ -18,7 +18,7 @@ check_deps.sh
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_server_files.sh
 	install_ut2k4_key.sh
-elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "Call of Duty 4" ]||[ "${gamename}" == "Call of Duty: World at War" ]||[ "${gamename}" == "Minecraft" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament" ]||[ "${gamename}" == "Unreal Tournament 3" ]||[ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Mumble" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "Call of Duty 4" ]||[ "${gamename}" == "Call of Duty: World at War" ]||[ "${gamename}" == "Minecraft" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Unreal Tournament 99" ]||[ "${gamename}" == "Unreal Tournament" ]||[ "${gamename}" == "Unreal Tournament 3" ]||[ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Mumble" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]||[ "${gamename}" == "Multi Theft Auto" ]; then
 	installer=1
 	install_server_files.sh
 elif [ -n "${appid}" ]; then
@@ -34,6 +34,8 @@ elif [ "${gamename}" == "Don't Starve Together" ]; then
 	install_dst_token.sh
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	install_mta_resources.sh
 fi
 
 fix.sh

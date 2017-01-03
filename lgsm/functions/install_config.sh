@@ -488,4 +488,10 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	gamedirname="MultiTheftAuto"
+	array_configs+=( acl.xml mtaserver.conf vehiclecolors.conf )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 fi

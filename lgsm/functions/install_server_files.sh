@@ -39,6 +39,8 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${tmpdir}"; filename="enemy-territory.260b.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fileurl="https://linux.mtasa.com/dl/153/multitheftauto_linux_x64-1.5.3.tar.gz"; filedir="${tempdir}"; filename="multitheftauto_linux_x64-1.5.3.tar.gz"; executecmd="noexecute" run="norun"; force="noforce"; md5="77caf91fe280877a8d21f8046d5f42ba"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
