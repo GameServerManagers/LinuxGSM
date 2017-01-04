@@ -9,32 +9,47 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="210516"
+version="170103"
 
-#### Variables ####
+##########################
+######## Settings ########
+##########################
 
-# Notification Alerts
-# (on|off)
+#### Server Settings ####
 
-# Email
-emailalert="off"
-email="email@example.com"
-#emailfrom="email@example.com"
+## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
+# None Available
 
-# Pushbullet
-# https://www.pushbullet.com/#settings
-pushbulletalert="off"
-pushbullettoken="accesstoken"
-
-# Start Variables
-ip="0.0.0.0"
-port="22003"
-
+## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
+# Edit with care
 fn_parms(){
 parms=" "
 }
 
-#### Advanced Variables ####
+#### LinuxGSM Settings ####
+
+## Notification Alerts
+# (on|off)
+# Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
+emailalert="off"
+email="email@example.com"
+emailfrom=""
+
+# Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
+pushbulletalert="off"
+pushbullettoken="accesstoken"
+channeltag=""
+
+## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
+
+## Logging | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
+consolelogging="on"
+logdays="7"
+
+#### LinuxGSM Advanced Settings ####
 
 # Github Branch Select
 # Allows for the use of different function files
@@ -43,12 +58,18 @@ githubuser="dgibbs64"
 githubrepo="linuxgsm"
 githubbranch="mta"
 
-# Server Details
-servicename="mta-server"
+## LinuxGSM Server Details
+# Do not edit
 gamename="Multi Theft Auto"
 engine="RenderWare"
 
-# Directories
+## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
+servicename="mta-server"
+
+#### Directories ####
+# Edit with care
+
+## Work Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
@@ -58,7 +79,7 @@ libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
-# Server Specific
+## Server Specific Directories
 systemdir="${filesdir}"
 resourcesdir="${systemdir}/mods/deathmatch/resources"
 executabledir="${systemdir}"
@@ -67,20 +88,18 @@ servercfg="mtaserver.conf"
 servercfgdir="${systemdir}/mods/deathmatch"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
-# Backups
+## Backup Directory
 backupdir="${rootdir}/backups"
 
-# Logging
-logdays="7"
+## Logging Directories
 gamelogdir="${filesdir}/mods/deathmatch/logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
-consolelogging="on"
-
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
+## Logs Naming
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%d-%m-%Y-%H-%M-%S').log"
 
