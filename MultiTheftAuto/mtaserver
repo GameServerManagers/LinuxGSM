@@ -56,7 +56,7 @@ logdays="7"
 # from a different repo and/or branch.
 githubuser="dgibbs64"
 githubrepo="linuxgsm"
-githubbranch="mta"
+githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
