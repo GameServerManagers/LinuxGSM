@@ -27,7 +27,7 @@ version="161224"
 # [Game Modes]				gametype		gamemode
 # Arms Race				1			0
 # Classic Casual			0			0
-# Classic Competitive		0			1
+# Classic Competitive			0			1
 # Demolition				1			1
 # Deathmatch				1			2
 gametype="0"
