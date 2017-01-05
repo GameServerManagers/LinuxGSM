@@ -168,6 +168,11 @@ fn_details_gameserver(){
 			echo -e "${blue}dbplugin:\t${default}${dbplugin}"
 		fi
 
+		# ASE (Multi Theft Auto)
+		if [ -n "${ase}" ]; then
+			echo -e "${blue}ASE:\t${default}${ase}"
+		fi
+
 		# Online status
 		if [ "${status}" == "0" ]; then
 			echo -e "${blue}Status:\t${red}OFFLINE${default}"
@@ -310,7 +315,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "RenderWare" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -701,6 +706,19 @@ fn_details_ark(){
 	} | column -s $'\t' -t
 }
 
+fn_details_mta(){
+	echo -e "netstat -atunp | grep mta-server64"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
+		echo -e "> Game\tOUTBOUND\t${port}\tudp\tPort=${port}"
+		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
+		if [ "${ase}" == "Enabled" ]; then
+			echo -e "> ASE Game_Monitor\tOUTBOUND\t$((${port} + 123))\tudp"
+		fi
+	} | column -s $'\t' -t
+}
+
 # Run checks and gathers details to display.
 
 fn_display_details() {
@@ -716,7 +734,7 @@ fn_display_details() {
 	fn_details_script
 	fn_details_backup
 	# Some game servers do not have parms.
-	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "RenderWare" ]; then
 		fn_parms
 		fn_details_commandlineparms
 	fi
@@ -783,6 +801,8 @@ fn_display_details() {
 		fn_details_rust
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_details_wolfensteinenemyterritory
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fn_details_mta
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
