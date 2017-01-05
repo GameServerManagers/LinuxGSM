@@ -15,7 +15,7 @@ fn_install_libmysqlclient16(){
 	echo "================================="
 	sleep 1
 	if [ ! -f /usr/lib/libmysqlclient.so.16 ]; then
-		fn_print_warn "libmysqlclient16 not installed. Installing.."
+		fn_print_warn_nl "libmysqlclient16 not installed. Installing.."
 		sleep 1
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
