@@ -1,7 +1,7 @@
 #!/bin/bash
 # LGSM install_mta_resources.sh function
 # Author: Daniel Gibbs
-# Contributor: PhilPhonic
+# Contributor: ChaosMTA
 # Website: https://gameservermanagers.com
 # Description: Installs the libmysqlclient for database functions on the server and optionally installs default resources required to run the server
 
