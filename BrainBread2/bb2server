@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161125"
+version="161224"
 
 ##########################
 ######## Settings ########
@@ -41,7 +41,7 @@ gslt=""
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care | https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
-parms="-game brainbread2 -insecure -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
+parms="-game brainbread2 -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers ${maxplayers}"
 }
 
 #### LinuxGSM Settings ####

@@ -378,6 +378,15 @@ fn_details_cod2(){
 	} | column -s $'\t' -t
 }
 
+fn_details_cod4(){
+	echo -e "netstat -atunp"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_codwaw(){
 	echo -e "netstat -atunp | grep codwaw_lnxded"
 	echo -e ""
@@ -761,6 +770,8 @@ fn_display_details() {
 		fn_details_coduo
 	elif [ "${gamename}" == "Call of Duty 2" ]; then
 		fn_details_cod2
+	elif [ "${gamename}" == "Call of Duty 4" ]; then
+		fn_details_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_details_codwaw
 	elif [ "${gamename}" == "Hurtworld" ]; then
