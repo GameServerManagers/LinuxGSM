@@ -318,7 +318,7 @@ fn_details_ports(){
 		fi
 	done
 	# engines that require editing in the script file
-	local ports_edit_array=( "Hurtworld" "iw3.0" "goldsource" "Rust" "spark" "source" "starbound" "unreal4" )
+	local ports_edit_array=( "Factorio" "goldsource" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -405,6 +405,15 @@ fn_details_dontstarve(){
 		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
 		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
 		echo -e "> Steam: Master\tINBOUND\t${steammasterserverport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_factorio(){
+	echo -e "netstat -atunp | grep factorio"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -783,6 +792,8 @@ fn_display_details() {
 		fn_details_rust
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_details_wolfensteinenemyterritory
+	elif [ "${gamename}" == "Factorio" ]; then
+		fn_details_factorio
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
@@ -795,3 +806,4 @@ then
   fn_display_details
   core_exit.sh
 fi
+

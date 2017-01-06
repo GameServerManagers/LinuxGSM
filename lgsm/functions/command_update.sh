@@ -19,6 +19,8 @@ elif [ "${engine}" == "lwjgl2" ]; then
 	update_minecraft.sh
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
+elif [ "${gamename}" == "Factorio" ]; then
+        update_factorio.sh
 else
 	update_steamcmd.sh
 fi
