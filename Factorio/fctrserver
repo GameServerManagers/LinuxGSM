@@ -93,9 +93,9 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}/bin/x64"
 executable="./factorio"
-servercfg="server-settings.json"
+servercfg="${servicename}.json"
 servercfgdefault="server-settings.json"
-servercfgdir="${filesdir}/data/"
+servercfgdir="${filesdir}/data"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
