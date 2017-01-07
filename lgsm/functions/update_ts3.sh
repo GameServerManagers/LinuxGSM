@@ -15,7 +15,7 @@ fn_update_ts3_dl(){
 	fn_script_log "Copying to ${filesdir}"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}"
 	local exitcode=$?
-	if [ ${exitcode} -eq 0 ]; then
+	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 	else
 		fn_print_fail_eol_nl
@@ -23,8 +23,8 @@ fn_update_ts3_dl(){
 }
 
 fn_update_ts3_currentbuild(){
-	# Gets currentbuild info
-	# Checks currentbuild info is available, if fails a server restart will be forced to generate logs.
+	# Gets current build info
+	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
 	if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 		fn_print_error "Checking for update: teamspeak.com"
 		sleep 1
