@@ -173,14 +173,13 @@ fn_info_config_factorio(){
 		maxplayers="${zero}"
 	else
 		servername="Factorio Server"
-		serverpassword=$(grep "game_password" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "\"max_players\"" "${clustercfgfullpath}" | tr -cd '[:digit:]')
+		serverpassword=$(grep "game_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"max_players\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers=:-"0"}
 		rconpassword=${rconpassword=:-"NOT SET"}
-		
 	fi
 }
 
