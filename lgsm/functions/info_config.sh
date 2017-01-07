@@ -616,7 +616,7 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
 # Factorio	
-elif [ "${engine}" == "factorio" ]; then
+elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
 # Quake 2
 elif [ "${gamename}" == "Quake 2" ]; then
