@@ -178,7 +178,7 @@ fn_info_config_factorio(){
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
-		maxplayers==${maxplayers=:-"0"}
+		maxplayers=${maxplayers=:-"0"}
 		rconpassword=${rconpassword=:-"NOT SET"}
 		
 	fi
