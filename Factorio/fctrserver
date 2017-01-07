@@ -1,8 +1,8 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2016 Daniel Gibbs
-# Purpose: Empires Mod | Server Management Script
+# License: MIT License, Copyright (c) 2017 Daniel Gibbs
+# Purpose: Factorio | Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
@@ -25,8 +25,9 @@ version="161224"
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 port="34197"
 rconport="34198"
-rconpassword="factorio"
+rconpassword="CHANGE_ME"
 ip="0.0.0.0"
+
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care
 fn_parms(){
