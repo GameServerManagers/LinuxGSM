@@ -166,6 +166,24 @@ fn_info_config_dontstarve(){
 	fi
 }
 
+fn_info_config_factorio(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="Factorio Server"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername="Factorio Server"
+		serverpassword=$(grep "game_password" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"max_players\"" "${clustercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers==${maxplayers=:-"0"}
+		rconpassword=${rconpassword=:-"NOT SET"}
+		
+	fi
+}
+
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
