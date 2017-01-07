@@ -49,7 +49,7 @@ fn_update_factorio_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null | sort | grep -oP '(?<=Factorio ).*?(?= \()')
+	currentbuild=$(grep "Loading mod base" "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null|awk '{print $5}')
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: factorio.com: Current build version not found"
 		fn_script_log_error "Checking for update: factorio.com: Current build version not found"
@@ -60,7 +60,7 @@ fn_update_factorio_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null | sort | grep -oP '(?<=Factorio ).*?(?= /)')
+		currentbuild=$(grep "Loading mod base" "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null|awk '{print $5}')
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: factorio.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: factorio.com: Current build version still not found"
