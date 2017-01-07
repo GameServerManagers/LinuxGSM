@@ -11,5 +11,4 @@ echo ""
 echo "Creating initial Factorio savefile"
 echo "================================="
 sleep 1
-${filesdir}/bin/x64/factorio --create ${filesdir}/save1
-cp ${filesdir}/data/server-settings.example.json ${filesdir}/data/server-settings.json
+"${executabledir}"/factorio --create ${filesdir}/save1

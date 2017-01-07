@@ -309,7 +309,7 @@ fn_details_ports(){
 	echo -e "Change ports by editing the parameters in:"
 
 	parmslocation="${red}UNKNOWN${default}"
-	# engines that require editing in the config file
+	# engines/games that require editing in the config file
 	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
@@ -317,8 +317,8 @@ fn_details_ports(){
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines that require editing in the script file
-	local ports_edit_array=( "Factorio" "goldsource" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" )
+	# engines/games that require editing in the script file
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
