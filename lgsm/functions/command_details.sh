@@ -756,7 +756,7 @@ fn_display_details() {
 		fn_details_realvirtuality
 	elif [ "${engine}" == "seriousengine35" ]; then
 		fn_details_seriousengine35
-	elif [ "${engine}" == "source" ]
+	elif [ "${engine}" == "source" ]; then
 		fn_details_source
 	elif [ "${engine}" == "spark" ]; then
 		fn_details_spark
