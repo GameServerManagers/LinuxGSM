@@ -20,7 +20,7 @@ do
 done
 
 # libm.so.6
-local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Factorio" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
+local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
 for libm_server in "${libm_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libm_server}" ]; then
@@ -29,7 +29,7 @@ do
 done
 
 # libc.so.6
-local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Factorio" "Garry's Mod" "GoldenEye: Source" )
+local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then
@@ -60,7 +60,7 @@ do
 done
 
 # libc.so.6
-local libm_servers_array=( "Factorio" )
+local libc_servers_array=( "Factorio" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then
