@@ -510,6 +510,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_unreal_tournament_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_retry.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
