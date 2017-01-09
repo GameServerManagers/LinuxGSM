@@ -8,6 +8,7 @@ local commandname="FIX"
 local commandaction="Fix"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
+# libstdc++.so.6
 local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" "Just Cause 2" )
 for libstdc_server in "${libstdc_servers_array[@]}"
 do
@@ -16,7 +17,8 @@ do
 	fi
 done
 
-local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
+# libm.so.6
+local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Factorio" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
 for libm_server in "${libm_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libm_server}" ]; then
@@ -24,7 +26,8 @@ do
 	fi
 done
 
-local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" )
+# libc.so.6
+local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Factorio" "Garry's Mod" "GoldenEye: Source" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then
@@ -32,6 +35,7 @@ do
 	fi
 done
 
+# libpthread.so.0
 local libpthread_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" )
 for libpthread_server in "${libpthread_servers_array[@]}"
 do
@@ -39,13 +43,5 @@ do
 		fn_fetch_file_github "lgsm/lib/ubuntu12.04/i386" "libpthread.so.0" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
 	fi
 done
-
-if [ "${gamename}" == "Call of Duty: United Offensive" ]; then
-	fn_fetch_file_github "lgsm/lib/gcc3" "libgcc_s.so.1" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
-	fn_fetch_file_github "lgsm/lib/gcc3" "libstdc++.so.5.0.3" "${lgsmdir}/lib" "noexecutecmd" "norun" "noforce" "nomd5"
-	if [ ! -f "${lgsmdir}/lib/libstdc++.so.5" ]; then	
-		ln -s "${lgsmdir}/lib/libstdc++.so.5.0.3" "${lgsmdir}/lib/libstdc++.so.5"
-	fi
-fi
 
 export LD_LIBRARY_PATH=:"${libdir}"
