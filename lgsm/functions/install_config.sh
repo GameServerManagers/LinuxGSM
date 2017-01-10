@@ -139,7 +139,6 @@ elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	array_configs+=( GameUserSettings.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "ARMA 3" ]; then
 	gamedirname="Arma3"
 	fn_check_cfgdir
