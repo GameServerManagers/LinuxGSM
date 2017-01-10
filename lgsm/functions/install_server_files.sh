@@ -129,6 +129,9 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	update_minecraft.sh
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
+elif [ "${gamename}" == "Factorio" ]; then
+  update_factorio.sh
+  install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh

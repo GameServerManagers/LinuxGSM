@@ -261,6 +261,12 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Factorio" ]; then
+	gamedirname="Factorio"
+	array_configs+=( server-settings.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	gamedirname="FistfulofFrags"
 	array_configs+=( server.cfg )

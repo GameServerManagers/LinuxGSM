@@ -29,7 +29,7 @@ class GameServer:
         elif self.option.engine == 'iw2.0':
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
         elif self.option.engine == 'iw3.0':
-            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'            
+            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
         elif self.option.engine == 'quake':
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine == 'quakelive':

@@ -36,7 +36,7 @@ posttarget=${posttarget="https://hastebin.com"}
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
 # This, too, may be overridden from the command line at the top-level
-postexpire="${postexpire="1W"}"
+postexpire="${postexpire="30D"}"
 
 # This file sources the command_details.sh file to leverage all
 # of the already-defined functions.  To keep the command_details.sh
@@ -128,7 +128,7 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
 	echo "  Please share the following url for support: ${posttarget}${link}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
-	fn_print_dots "Posting details to hastebin.com (expires 30 days after last view)"
+	fn_print_dots "Posting details to hastebin.com"
 	sleep 1
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that

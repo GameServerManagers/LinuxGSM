@@ -166,6 +166,23 @@ fn_info_config_dontstarve(){
 	fi
 }
 
+fn_info_config_factorio(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="Factorio Server"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername="Factorio Server"
+		serverpassword=$(grep "game_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"max_players\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers=:-"0"}
+		rconpassword=${rconpassword=:-"NOT SET"}
+	fi
+}
+
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -597,6 +614,9 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
+# Factorio	
+elif [ "${gamename}" == "Factorio" ]; then
+	fn_info_config_factorio
 # Quake 2
 elif [ "${gamename}" == "Quake 2" ]; then
 	fn_info_config_quake2
