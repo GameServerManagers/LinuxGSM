@@ -79,6 +79,8 @@ fn_update_availablebuild(){
 		fn_print_fail "Checking for update: mojang.com: Not returning version info"
 		fn_script_log_fatal "Failure! Checking for update: mojang.com: Not returning version info"
 		core_exit.sh
+	elif [ "${installer}" == "1" ]; then
+		:
 	else
 		fn_print_ok_nl "Checking for update: mojang.com"
 		fn_script_log_pass "Checking for update: mojang.com"

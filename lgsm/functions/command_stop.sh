@@ -58,6 +58,24 @@ fn_stop_graceful_goldsource(){
 	fn_stop_tmux
 }
 
+fn_stop_graceful_factorio(){
+	fn_print_dots "Graceful: console CTRL+c"
+	fn_script_log_info "Graceful: console CTRL+c"
+	# sends quit
+	tmux send-keys C-c -t "${servicename}" > /dev/null 2>&1
+	# waits 3 seconds as goldsource servers restart with the quit command
+	for seconds in {1..3}; do
+		sleep 1
+		fn_print_dots "Graceful: console CTRL+c: ${seconds}"
+	done
+	fn_print_ok "Graceful: console CTRL+c: ${seconds}: "
+	fn_print_ok_eol_nl
+	fn_script_log_pass "Graceful: console CTRL+c: OK: ${seconds} seconds"
+	sleep 1
+	fn_stop_tmux
+}
+
+
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
 	sdtd_telnet_shutdown=$( expect -c '
@@ -175,6 +193,8 @@ fn_stop_graceful_minecraft(){
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
+	elif [ "${gamename}" == "Factorio" ]; then
+		fn_stop_graceful_factorio
 	elif [ "${engine}" == "source" ]; then
 		fn_stop_graceful_source
 	elif [ "${engine}" == "goldsource" ]; then

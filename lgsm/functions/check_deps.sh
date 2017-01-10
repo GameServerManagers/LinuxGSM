@@ -92,7 +92,7 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query)" ]; then
-				cmd="sudo dpkg --add-architecture i386; sudo apt-get -y install ${array_deps_missing[@]}"
+				cmd="sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
 				eval ${cmd}
 			elif [ -n "$(command -v yum)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
@@ -110,7 +110,7 @@ fn_found_missing_deps(){
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			if [ -n "$(command -v dpkg-query)" ]; then
-				echo "	sudo dpkg --add-architecture i386; sudo apt-get install ${array_deps_missing[@]}"
+				echo "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum)" ]; then
 				echo "	sudo yum install ${array_deps_missing[@]}"
 			fi
@@ -202,6 +202,9 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
 		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
+	# Serious Sam 3: BFE
+	elif [ "${gamename}" ==  "Serious Sam 3: BFE" ]; then
+		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )		
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4

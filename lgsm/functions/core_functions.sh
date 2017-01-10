@@ -450,6 +450,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_factorio.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -480,6 +485,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_factorio_save.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_dst_token.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -506,6 +516,11 @@ fn_fetch_function
 }
 
 install_minecraft_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_unreal_tournament_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

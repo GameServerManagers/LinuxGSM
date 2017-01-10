@@ -34,7 +34,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3045522-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3045522-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="553fed5645a9fc623e92563049bf79f6"
+		fileurl="http://files.gameservermanagers.com/UnrealTournament/UnrealTournament-Server-XAN-3193528-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3193528-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="e3dd5853c4eb193674d5c832f60040d8"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
@@ -78,18 +78,18 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -le "4" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" '${steampass}' +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" '${steampass}' +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" '${steampass}' +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" '${steampass}' +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				fi
 			fi
@@ -107,7 +107,7 @@ fn_install_server_files_steamcmd(){
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} -validate +quit
+			${unbuffer} ./steamcmd.sh +login "${steamuser}" '${steampass}' +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} -validate +quit
 			local exitcode=$?
 		done
 	fi
@@ -125,11 +125,17 @@ fi
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh
 elif [ "${gamename}" == "Minecraft" ]; then
-	update_minecraft.sh
 	install_minecraft_eula.sh
+	update_minecraft.sh
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
+elif [ "${gamename}" == "Factorio" ]; then
+  update_factorio.sh
+  install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+	if [ "${gamename}" == "Unreal Tournament" ]; then
+		install_unreal_tournament_eula.sh
+	fi
 	fn_install_server_files
 fi
 
