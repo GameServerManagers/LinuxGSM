@@ -39,6 +39,7 @@ fn_set_config_vars(){
 		fn_script_log_warn "Config file not found, cannot alter it."
 		echo "Config file not found, cannot alter it."
 		sleep 1
+	fi
 }
 
 # Checks if cfg dir exists, creates it if it doesn't
