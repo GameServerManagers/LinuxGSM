@@ -72,7 +72,7 @@ githubbranch="master"
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Factorio"
-engine=""
+engine="factorio"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="fctr-server"
