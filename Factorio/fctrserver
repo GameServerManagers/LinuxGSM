@@ -67,7 +67,7 @@ logdays="7"
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="feature/factorio"
+githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
