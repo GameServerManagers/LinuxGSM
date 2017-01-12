@@ -24,7 +24,7 @@ version="170110"
 
 ## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
 steamuser="username"
-steampass="password"
+steampass='password'
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 defaultmap="ns2_summit"
