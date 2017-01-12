@@ -23,17 +23,23 @@ fn_fetch_default_config(){
 # SERVERNAME to LinuxGSM
 # PASSWORD to random password
 fn_set_config_vars(){
-	random=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; echo)
-	servername="LinuxGSM"
-	rconpass="admin$random"
-	echo "changing hostname."
-	fn_script_log_info "changing hostname."
-	sleep 1
-	sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
-	echo "changing rcon/admin password."
-	fn_script_log_info "changing rcon/admin password."
-	sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
-	sleep 1
+	if [ -f "${servercfgfullpath}" ]; then
+		random=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; echo)
+		servername="LinuxGSM"
+		rconpass="admin$random"
+		echo "changing hostname."
+		fn_script_log_info "changing hostname."
+		sleep 1
+		sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+		echo "changing rcon/admin password."
+		fn_script_log_info "changing rcon/admin password."
+		sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
+		sleep 1
+	else
+		fn_script_log_warn "Config file not found, cannot alter it."
+		echo "Config file not found, cannot alter it."
+		sleep 1
+	fi
 }
 
 # Checks if cfg dir exists, creates it if it doesn't
@@ -129,10 +135,10 @@ if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	gamedirname="ARKSurvivalEvolved"
+	fn_check_cfgdir
 	array_configs+=( GameUserSettings.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "ARMA 3" ]; then
 	gamedirname="Arma3"
 	fn_check_cfgdir
