@@ -777,7 +777,7 @@ fn_display_details() {
 		fn_details_ut3
 	elif [ "${gamename}" == "7 Days To Die" ]; then
 		fn_details_sdtd
-	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 		fn_details_ark
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_details_cod
