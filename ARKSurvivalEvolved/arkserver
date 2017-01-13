@@ -24,11 +24,11 @@ version="170110"
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 servername="ark-server"
-port="7778"
+port="7777"
 queryport="27015"
-rconport="32330"
+rconport="27020"
 rconpassword="" # Set to enable rcon
-maxplayers="50"
+maxplayers="60"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
