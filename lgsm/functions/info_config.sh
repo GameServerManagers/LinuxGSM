@@ -39,6 +39,16 @@ fn_info_config_avalanche(){
 	fi
 }
 
+fn_info_config_ark(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+	else
+		servername=$(grep "Name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		# Not Set
+		servername=${servername:-"NOT SET"}
+	fi
+}
+
 fn_info_config_bf1942(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -596,6 +606,9 @@ fn_info_config_sdtd(){
 # Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
+# ARK: Survival Evolved
+elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	fn_info_config_ark
 # Battlefield: 1942
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	fn_info_config_bf1942
