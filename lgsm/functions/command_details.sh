@@ -347,9 +347,14 @@ fn_details_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		if [ "${port}" -eq "${port}" ];then 
+			echo -e "> RAW\t\INBOUND\t$((port+1))\tudp
+		fi
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\INBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
