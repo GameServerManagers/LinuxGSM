@@ -80,7 +80,7 @@ githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
-gamename="ARK: Survivial Evolved"
+gamename="ARK: Survival Evolved"
 engine="unreal4"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
