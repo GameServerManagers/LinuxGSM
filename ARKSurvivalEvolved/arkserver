@@ -23,7 +23,7 @@ version="170110"
 #### Server Settings ####
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-servername="ark-server"
+servername="LGSM ARK Server"
 port="7777"
 queryport="27015"
 rconport="27020"
