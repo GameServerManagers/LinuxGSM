@@ -296,7 +296,7 @@ fn_stop_tmux(){
 		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
 				# Make certain the ports are cleared before continuing.
-				if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+				if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 						fn_stop_ark
 						echo -en "\n"
 				fi
