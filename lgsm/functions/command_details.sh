@@ -350,7 +350,7 @@ fn_details_ark(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ];then 
+		if [ "${port}" -eq "${port}" ]; then 
 			echo -e "> RAW\t\INBOUND\t$((port+1))\tudp
 		fi
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
