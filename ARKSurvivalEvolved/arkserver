@@ -23,18 +23,16 @@ version="170110"
 #### Server Settings ####
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-servername="LGSM ARK Server"
 port="7777"
 queryport="27015"
 rconport="27020"
-rconpassword="" # Set to enable rcon
-maxplayers="60"
+maxplayers="70"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care
 fn_parms(){
-parms="\"TheIsland?listen?MultiHome=${ip}?SessionName=${servername}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?ServerAdminPassword=${rconpassword}\""
+parms="\"TheIsland?listen?MultiHome=${ip}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?\""
 }
 
 #### LinuxGSM Settings ####
