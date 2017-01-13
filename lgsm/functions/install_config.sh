@@ -130,7 +130,7 @@ if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	gamedirname="ARKSurvivalEvolved"
 	fn_check_cfgdir
 	array_configs+=( GameUserSettings.ini )
