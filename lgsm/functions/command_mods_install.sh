@@ -38,7 +38,7 @@ fn_mods_install_init(){
 	# Gives a pretty name to the user and get all mod info
 	currentmod="${usermodselect}"
 	fn_mod_get_info_from_command
-	fn_print_dots "Installing ${modprettyname}"
+	fn_print_dots_nl "Installing ${modprettyname}"
 	sleep 1
 	fn_script_log "Installing ${modprettyname}."
 }
