@@ -43,15 +43,6 @@ fn_mods_install_init(){
 	fn_script_log "Installing ${modprettyname}."
 }
 
-fn_mods_requirements(){
-	# If tompdir variable doesn't exist, LGSM is too old
-	if [ -z "${tmpdir}" ]||[ -z "${lgsmdir}" ]; then
-		fn_print_fail "Your LGSM version is too old."
-		echo " * Please do a full update, including ${selfname} script."
-		core_exit.sh
-	fi
-}
-
 # Create mods directory if it doesn't exist
 # Assuming the game is already installed as mods_list.sh checked for it.
 fn_mods_dir(){
@@ -179,6 +170,5 @@ fn_mod_installation(){
 	fi
 }
 
-fn_mods_requirements
 fn_mods_install_init
 fn_mod_installation
