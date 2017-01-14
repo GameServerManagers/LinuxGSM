@@ -82,6 +82,16 @@ fn_mods_scrape_urls(){
 	sourcemodurl="${sourcemodfasterurl}/${sourcemodlatestfile}"
 }
 
+# Sets some gsm requirements
+fn_gsm_requirements(){
+	# If tmpdir variable doesn't exist, LGSM is too old
+	if [ -z "${tmpdir}" ]||[ -z "${lgsmdir}" ]; then
+		fn_print_fail "Your LGSM version is too old."
+		echo " * Please do a full update, including ${selfname} script."
+		core_exit.sh
+	fi
+}
+
 # Define all variables from a mod at once when index is set to a separator
 fn_mod_info(){
 # If for some reason no index is set, none of this can work
@@ -267,6 +277,7 @@ fn_mod_get_info_from_command(){
 	done
 }
 
+fn_gsm_requirements
 fn_mods_scrape_urls
 fn_mods_info
 fn_mods_available
