@@ -234,6 +234,11 @@ fn_mods_show_available(){
 		# Increment index from the amount of values we just displayed
 		let "compatiblemodslistindex+=4"
 	done
+	# If no mods are found
+	if [ -z "${compatiblemodslist}" ]; then
+		fn_print_fail "No mods are currently available for ${gamename}."
+		core_exit.sh
+	fi
 }
 
 # Get details of a mod any (relevant and unique, such as full mod name or install command) value
@@ -262,25 +267,6 @@ fn_mod_get_info_from_command(){
 	done
 }
 
-# Requirements to install mods
-fn_mods_install_checks(){
-	# If no mods are found
-	if [ -z "${compatiblemodslist}" ]; then
-		fn_print_fail "No mods are currently available for ${gamename}."
-		core_exit.sh
-	# If systemdir doesn't exist, then the game isn't installed
-	elif [ ! -d "${systemdir}" ]; then
-		fn_print_fail "${gamename} needs to be installed first."
-		core_exit.sh
-	# If tompdir variable doesn't exist, LGSM is too old
-	elif [ -z "${tmpdir}" ]||[ -z "${lgsmdir}" ]; then
-		fn_print_fail "Your LGSM version is too old."
-		echo " * Please do a full update, including ${selfname} script."
-		core_exit.sh
-	fi
-}
-
 fn_mods_scrape_urls
 fn_mods_info
 fn_mods_available
-fn_mods_install_checks
