@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: List and installs available mods along with mods_list.sh.
+# Description: Core functions for mods list/install/update/remove
 
 local commandname="MODS"
 local commandaction="Core functions for mods"
@@ -12,6 +12,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 ## Useful variables
 # Files and Directories
 modstmpdir="${tmpdir}/mods"
+extractdir="${modstmpdir}/extracted"
 modsdatadir="${lgsmdir}/data/mods"
 modslockfile="installed-mods-listing"
 modslockfilefullpath="${modsdatadir}/${modslockfile}"
@@ -65,7 +66,6 @@ fn_mod_dl(){
 fn_mod_extract(){
 	# fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
 	filename="${modfilename}"
-	extractdir="${modstmpdir}/extracted"
 	if [ ! -d "${extractdir}" ]; then
 		mkdir -p "${extractdir}"
 	fi
@@ -89,15 +89,18 @@ fn_remove_cfg_files(){
 	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
 		# Upon mods updates, config files should not be overwritten
 		# We will just remove these files before copying the mod to the destination
+		# Let's count how many files there are to remove
 		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
 		# Test all subvalue of "modgames" using the ";" separator
 		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
-			# Put current game name into modtest variable
-			removefiletest="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
-			# If it matches
-			if [ -f "${extractdir}/${removefiletest}" ]||[ -d "${extractdir}/${removefiletest}" ]; then
+			# Put current file we're looking for into a variable
+			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
+			echo "Testing ${filetoremove}"
+			# If it matches an existing file that have been extracted
+			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
+				echo "Removing ${extractdir}/${filetoremove}"
 				# Then delete the file!
-				rm -R "${extractdir}/${removefiletest}"
+				rm -R "${extractdir}/${filetoremove}"
 				# Write this file path in a tmp file, to rebuild a full file list
 				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
 					touch "${modsdatadir}/.removedfiles.tmp"
