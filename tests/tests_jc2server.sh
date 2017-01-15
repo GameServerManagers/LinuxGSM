@@ -358,8 +358,6 @@ echo "start ${gamename} server."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 fn_setstatus
-dpkg -l > /tmp/packages
-curl --upload-file /tmp/packages https://transfer.sh/lgsm
 (command_start.sh)
 fn_test_result_pass
 
