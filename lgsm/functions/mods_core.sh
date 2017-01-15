@@ -69,6 +69,17 @@ fn_mod_extract(){
 	fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
 }
 
+fn_mod_lowercase(){
+	# Converting files to lowercase
+	if [ "${modlowercase}" == "LowercaseOn" ]; then
+		fn_print_dots "Converting ${modprettyname} files to lowercase"
+		fn_script_log "Converting ${modprettyname} files to lowercase"
+		find "${extractdir}" -exec readlink -e '{}' \; | rename  'y/A-Z/a-z/'
+		fn_print_ok "Converting ${modprettyname} files to lowercase"
+		sleep 1
+	fi
+}
+
 fn_mod_fileslist(){
 	# ${modsdatadir}/${modcommand}-files.list
 	find "${extractdir}" -mindepth 1 -printf '%P\n' >> ${modsdatadir}/${modcommand}-files.list
