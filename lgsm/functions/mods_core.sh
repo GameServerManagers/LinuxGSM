@@ -184,12 +184,13 @@ fn_check_files_list(){
 }
 
 fn_postinstall_tasks(){
-	# Sourcemod, but any other game as well should never delete "cfg" or "addons" folder
 	# Prevent addons folder from being removed by clearing them in: ${modsdatadir}/${modcommand}-files.list
+	# Check file validity
 	fn_check_files_list
 	# Output to the user
 	fn_print_dots "Rearranging ${modcommand}-files.list"
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
+	# What lines/files to remove from file list
 	removefromlist="cfg;addons;"
 	# Loop through files to remove from file list,
 	# that way these files won't get removed upon uninstall
@@ -200,7 +201,7 @@ fn_postinstall_tasks(){
 		# Put current file into test variable
 		removefilevar="$( echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
 		# Then delete matching line(s)!
-		sed -i "/^${testline}$/d" "${modsdatadir}/${modcommand}-files.list"
+		sed -i "/^${removefilevar}$/d" "${modsdatadir}/${modcommand}-files.list"
 	done
 	fn_print_ok "Rearranging ${modcommand}-files.list"
 }
