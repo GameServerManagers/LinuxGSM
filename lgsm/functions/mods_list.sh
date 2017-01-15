@@ -20,7 +20,7 @@ modseparator="MOD"
 
 # Define mods information (required)
 fn_mods_info(){
-	# REQUIRED: mod_info_name=( MOD "modcommand" "Pretty Name" "URL" "filename" "modsubfolders" "LowercaseOn/Off" "/files/to/keep;" "/install/path" "ENGINES" "GAMES" "NOTGAMES" "AUTHOR_URL" "Short Description" )
+	# REQUIRED: mod_info_name=( MOD "modcommand" "Pretty Name" "URL" "filename" "modsubdirs" "LowercaseOn/Off" "/files/to/keep;" "/install/path" "ENGINES" "GAMES" "NOTGAMES" "AUTHOR_URL" "Short Description" )
 	# Example 1) Well made mod: mod_info_name=( MOD "awesomemod" "This is an Awesome Mod" "https://awesomemod.com/latest.zip" "awesomemod.zip" "0" "LowercaseOff" "OVERWRITE" "${systemdir}/addons" "source;unity3d;" "GAMES" "NOTGAMES" "https://awesomemod.com/" "This mod knows that 42 is the answer" )
 	# Example 2) Poorly made mod: mod_info_name=( MOD "stupidmod" "This is a stupid mod" "${crappymodurl}" "StupidMod.zip" "2" "LowercaseOn" "cfg;data/crappymod;" "${systemdir}" "source;" "GAMES" "Garry's mod;Counter-Strike: Source;" "This mod is dumber than dumb" )
 	# None of those values can be empty
@@ -30,7 +30,7 @@ fn_mods_info(){
 	# [2] 	| "Pretty Name": the common name people use to call the mod that will be displayed to the user
 	# [3] 	| "URL": link to the file; can be a variable defined in fn_mods_nasty_urls (make sure curl can download it)
 	# [4] 	| "filename": the output filename
-	# [5]	| "modsubfolders": in how many subfolders is the mod (none is 1)
+	# [5]	| "modsubdirs": in how many subdirectories is the mod (none is 0)
 	# [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
 	# [7] 	| "modinstalldir": the directory in which to install the mode ( use LGSM dir variables such as ${systemdir})
 	# [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" to ignore the value or "NOUPDATE" to disallow updating
@@ -41,8 +41,8 @@ fn_mods_info(){
 	# [13]	| "Short Description" a description showed to the user upon installation
 
 	# Source mods
-	mod_info_metamod=( MOD "metamod" "MetaMod" "${metamodurl}" "${metamodlatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "source;" "GAMES" "Garry's Mod;" "https://www.sourcemm.net" "Plugins Framework" )
-	mod_info_sourcemod=( MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;" "source;" "GAMES" "Garry's Mod;" "http://www.sourcemod.net" "Admin Features (requires MetaMod)" )
+	mod_info_metamod=( MOD "metamod" "MetaMod" "${metamodurl}" "${metamodlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source;" "GAMES" "Garry's Mod;" "https://www.sourcemm.net" "Plugins Framework" )
+	mod_info_sourcemod=( MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "GAMES" "Garry's Mod;" "http://www.sourcemod.net" "Admin Features (requires MetaMod)" )
 	# Garry's Mod Addons
 	mod_info_ulib=( MOD "ulib" "ULib" "https://codeload.github.com/TeamUlysses/ulib/zip/master" "ulib-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Complete Framework" )
 	mod_info_ulx=( MOD "ulx" "ULX" "https://codeload.github.com/TeamUlysses/ulx/zip/master" "ulx-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Admin Panel (requires ULib)" )
@@ -99,7 +99,7 @@ fi
 	modprettyname="${mods_global_array[index+2]}"
 	modurl="${mods_global_array[index+3]}"
 	modfilename="${mods_global_array[index+4]}"
-	modsubfolders="${mods_global_array[index+5]}"
+	modsubdirs="${mods_global_array[index+5]}"
 	modlowercase="${mods_global_array[index+6]}"
 	modinstalldir="${mods_global_array[index+7]}"
 	modkeepfiles="${mods_global_array[index+8]}"
