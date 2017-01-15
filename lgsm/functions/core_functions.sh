@@ -298,6 +298,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+mods_core.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Dev
 
 command_dev_debug.sh(){
