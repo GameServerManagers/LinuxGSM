@@ -110,7 +110,7 @@ fn_remove_cfg_files(){
 
 fn_mod_fileslist(){
 	# Create lgsm/data/mods directory
-	if [ ! -d  "${modsdatadir}" ]; then
+	if [ ! -d "${modsdatadir}" ]; then
 		mkdir -p "${modsdatadir}"
 		fn_script_log "Created ${modsdatadir}"
 	fi
