@@ -1,5 +1,5 @@
 language: bash
-sudo: required
+sudo: false
 env:
 - DISTRO=ubuntu-trusty
 
