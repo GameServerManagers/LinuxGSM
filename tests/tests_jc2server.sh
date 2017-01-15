@@ -358,7 +358,7 @@ echo "start ${gamename} server."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 fn_setstatus
-strace -f bash tests/tests_jc2server.sh start | tee /tmp/output; curl --upload-file /tmp/output https://transfer.sh/output
+strace -f bash tests/tests_jc2server.sh start > /tmp/output 2>&1; curl --upload-file /tmp/output https://transfer.sh/output
 fn_test_result_pass
 
 echo ""
