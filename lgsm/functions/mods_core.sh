@@ -191,19 +191,16 @@ fn_postinstall_tasks(){
 	fn_print_dots "Rearranging ${modcommand}-files.list"
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
 	removefromlist="cfg;addons;"
-	# Loop through files to remove and remove them from file list
-	# that way these files won't get removed upon update or uninstall
+	# Loop through files to remove from file list,
+	# that way these files won't get removed upon uninstall
 	# How many elements to remove from list
 	removefromlistamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
 	# Test all subvalue of "removefromlist" using the ";" separator
 	for ((filesindex=1; filesindex < ${removefromlistamount}; filesindex++)); do
 		# Put current file into test variable
 		removefilevar="$( echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
-		# If it matches
-		if [ "${testline}" == "${removefilevar}" ]; then
-			# Then delete matching line(s)!
-			sed -i "/^${testline}$/d" "${modsdatadir}/${modcommand}-files.list"
-		fi
+		# Then delete matching line(s)!
+		sed -i "/^${testline}$/d" "${modsdatadir}/${modcommand}-files.list"
 	done
 	fn_print_ok "Rearranging ${modcommand}-files.list"
 }
