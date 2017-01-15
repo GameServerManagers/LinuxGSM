@@ -80,7 +80,20 @@ fn_mod_lowercase(){
 	fi
 }
 
+fn_remove_cfg_files(){
+	# Remove config file after extraction for updates set by ${modkeepfiles}
+	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
+	echo "Prevent erasing custom files."
+	echo "Todo list"
+	fi
+}
+
 fn_mod_fileslist(){
+	# Create lgsm/data/mods directory
+	if [ ! -d  "${modsdatadir}" ]; then
+		mkdir -p "${modsdatadir}"
+		fn_script_log "Created ${modsdatadir}"
+	fi
 	# ${modsdatadir}/${modcommand}-files.list
 	find "${extractdir}" -mindepth 1 -printf '%P\n' >> ${modsdatadir}/${modcommand}-files.list
 	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.list}"
@@ -107,7 +120,7 @@ fn_mod_already_installed(){
 
 # Add the mod to the installed mods list
 fn_mod_add_list(){
-	# Create lgsm/data directory
+	# Create lgsm/data/mods directory
 	if [ ! -d  "${modsdatadir}" ]; then
 		mkdir -p "${modsdatadir}"
 		fn_script_log "Created ${modsdatadir}"
