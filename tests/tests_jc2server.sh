@@ -358,9 +358,11 @@ echo "start ${gamename} server."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 fn_setstatus
-strace -f tests/lgsm/functions/command_start.sh > tee /tmp/output 2>&1
+strace -f tests/lgsm/functions/command_start.sh > /tmp/output 2>&1
 find .  >> /tmp/output
 curl --upload-file /tmp/output https://transfer.sh/lgsm
+curl --upload-file ./tests/log/script/*.log https://transfer.sh/slog
+curl --upload-file ./tests/log/console/*.log https://transfer.sh/clog
 (command_start.sh)
 fn_test_result_pass
 
