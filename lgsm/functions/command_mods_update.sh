@@ -25,11 +25,11 @@ fn_mods_update_init(){
 	if [ ! -f "${modslockfilefullpath}" ]||[ $installedmodscount -eq 0 ]; then
 		fn_print_information_nl "No mods or addons to be updated"
 		echo " * Did you install any mod using LGSM?"
-		fn_log_info "No mods or addons to be updated"
+		fn_scrip_log_info "No mods or addons to be updated"
 		core_exit.sh
 	else
 		fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
-		fn_log_info "${installedmodscount} mods or addons will be updated"
+		fn_script_log_info "${installedmodscount} mods or addons will be updated"
 		# Loop showing mods to update
 		installedmodsline=1
 		while [ $installedmodsline -le $installedmodscount ]; do
@@ -43,7 +43,7 @@ fn_mods_update_init(){
 # Recursively list all installed mods and apply update
 fn_mods_update_loop(){
 	# Reset line value
-	installedmodline="1"
+	installedmodsline="1"
 	while [ $installedmodsline -le $installedmodscount ]; do
 		# Current line defines current mod command
 		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
