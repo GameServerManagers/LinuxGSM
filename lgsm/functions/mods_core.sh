@@ -76,7 +76,7 @@ fn_mod_extract(){
 fn_mod_lowercase(){
 	# Converting files to lowercase
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
-		fn_print_dots "Converting ${modprettyname} files to lowercase"
+		fn_print_dots_nl "Converting ${modprettyname} files to lowercase"
 		fn_script_log "Converting ${modprettyname} files to lowercase"
 		find "${extractdir}" -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 		fn_print_ok "Converting ${modprettyname} files to lowercase"
@@ -90,6 +90,8 @@ fn_remove_cfg_files(){
 		# Upon mods updates, config files should not be overwritten
 		# We will just remove these files before copying the mod to the destination
 		# Let's count how many files there are to remove
+		fn_print_dots_nl "Allow for preserving ${modprettyname} config files"
+		sleep 0.5
 		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
 		# Test all subvalue of "modgames" using the ";" separator
 		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
@@ -103,9 +105,10 @@ fn_remove_cfg_files(){
 				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
 					touch "${modsdatadir}/.removedfiles.tmp"
 				fi
-					echo "${filetoremove}" > "${modsdatadir}/.removedfiles.tmp"
+					echo "${filetoremove}" >> "${modsdatadir}/.removedfiles.tmp"
 			fi
 		done
+		fn_print_ok "Allow for preserving ${modprettyname} config files"
 	fi
 }
 
@@ -115,6 +118,8 @@ fn_mod_fileslist(){
 		mkdir -p "${modsdatadir}"
 		fn_script_log "Created ${modsdatadir}"
 	fi
+	fn_print_dots_nl "Building ${modcommand}-files.list"
+	fn_script_log "Building ${modcommand}-files.list"
 	# ${modsdatadir}/${modcommand}-files.list
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > ${modsdatadir}/${modcommand}-files.list
 	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.list}"
@@ -122,10 +127,12 @@ fn_mod_fileslist(){
 	if [ -f "${modsdatadir}/.removedfiles.tmp" ]; then
 		cat "${modsdatadir}/.removedfiles.tmp" >> ${modsdatadir}/${modcommand}-files.list
 	fi
+	fn_print_ok "Building ${modcommand}-files.list"
 }
 
 fn_mod_copy_destination(){
 	# Destination directory: ${modinstalldir}
+	fn_print_dots_nl "Copying ${modprettyname} to ${modinstalldir}"
 	fn_script_log "Copying ${modprettyname} to ${modinstalldir}"
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 }
@@ -134,12 +141,12 @@ fn_mod_copy_destination(){
 fn_mod_already_installed(){
 	if [ -f "${modslockfilefullpath}" ]; then
 		if [ -n "$(cat "${modslockfilefullpath}" | grep "${modcommand}")" ]; then
-			echo ""
 			fn_print_warning_nl "${modprettyname} has already been installed."
-			echo " * Config files might be overwritten."
+			echo " * Config files, if any, might be overwritten."
 			echo " * Press ctrl + c to abort."
 			sleep 4
 		fi
+	fn_script_log "${modprettyname} is already installed, overwriting any file."
 	fi
 }
 
@@ -157,7 +164,7 @@ fn_mod_add_list(){
 	fi
 	# Input mod name to lockfile
 	if [ ! -n "$(cat "${modslockfilefullpath}" | grep "${modcommand}")" ]; then
-		echo "${modcommand}" >> "${modslockfilefullpath}"
+		echo "${modcommand}" > "${modslockfilefullpath}"
 		fn_script_log "${modcommand} added to ${modslockfile}"
 	fi
 }
@@ -190,6 +197,7 @@ fn_postinstall_tasks(){
 	fn_check_files_list
 	# Output to the user
 	fn_print_dots "Rearranging ${modcommand}-files.list"
+	sleep 1
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
 	# What lines/files to remove from file list
 	removefromlist="cfg;addons;"
