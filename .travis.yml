@@ -4,13 +4,7 @@ env:
 - DISTRO=ubuntu-trusty
 
 before_script:
-    - sudo ls -l /sys
-    - sudo ls -l --dereference /sys/class/net 
-    - sudo ls -lad /sys/class
-    - sudo ls -lad /sys/devices
-    - sudo chmod a+x /sys
-    - sudo chmod a+rx /sys/class
-    - sudo chmod a+r /sys/class/net
+    - sudo ls -ld /sys
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
 
 addons:
