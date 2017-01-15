@@ -34,6 +34,10 @@ fn_clear_tmp_mods(){
 		rm -r "${modstmpdir}"
 		fn_script_log "Clearing temp mod download directory: ${modstmpdir}"
 	fi
+	# Clear temp file list as well
+	if [ -f "${modsdatadir}/.removedfiles.tmp" ]; then
+		rm "${modsdatadir}/.removedfiles.tmp"
+	fi
 }
 
 # Create tmp download mod directory
@@ -83,8 +87,24 @@ fn_mod_lowercase(){
 fn_remove_cfg_files(){
 	# Remove config file after extraction for updates set by ${modkeepfiles}
 	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
-	echo "Prevent erasing custom files."
-	echo "Todo list"
+		# Upon mods updates, config files should not be overwritten
+		# We will just remove these files before copying the mod to the destination
+		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		# Test all subvalue of "modgames" using the ";" separator
+		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
+			# Put current game name into modtest variable
+			removefiletest="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
+			# If it matches
+			if [ -f "${extractdir}/${removefiletest}" ]||[ -d "${extractdir}/${removefiletest}" ]; then
+				# Then delete the file!
+				rm -R "${extractdir}/${removefiletest}"
+				# Write this file path in a tmp file, to rebuild a full file list
+				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
+					touch "${modsdatadir}/.removedfiles.tmp"
+				fi
+					echo "${removefiletest}" > ${modsdatadir}/.removedfiles.tmp"
+			fi
+		done
 	fi
 }
 
@@ -95,8 +115,12 @@ fn_mod_fileslist(){
 		fn_script_log "Created ${modsdatadir}"
 	fi
 	# ${modsdatadir}/${modcommand}-files.list
-	find "${extractdir}" -mindepth 1 -printf '%P\n' >> ${modsdatadir}/${modcommand}-files.list
+	find "${extractdir}" -mindepth 1 -printf '%P\n' > ${modsdatadir}/${modcommand}-files.list
 	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.list}"
+	# Adding removed files if needed
+	if [ -f "${modsdatadir}/.removedfiles.tmp" ]; then
+		cat "${modsdatadir}/.removedfiles.tmp" >> ${modsdatadir}/${modcommand}-files.list
+	fi
 }
 
 fn_mod_copy_destination(){
@@ -135,4 +159,55 @@ fn_mod_add_list(){
 		echo "${modcommand}" >> "${modslockfilefullpath}"
 		fn_script_log "${modcommand} added to ${modslockfile}"
 	fi
+}
+
+fn_check_files_list(){
+	# File list must exist and be valid before any operation on it
+	if [ -f "${modsdatadir}/${modcommand}-files.list" ]; then
+	# How many lines is the file list
+		modsfilelistsize="$(cat "${modsdatadir}/${modcommand}-files.list" | wc -l)"
+		# If file list is empty
+		if [ $modsfilelistsize -eq 0 ]; then
+			fn_print_error_nl "${modcommand}-files.list is empty"
+			echo "Exiting."
+			fn_scrip_log_fatal "${modcommand}-files.list is empty"
+			exitcode="2"
+			core_exit.sh
+		fi
+	else
+			fn_print_error_nl "${modsdatadir}/${modcommand}-files.list don't exist"
+			echo "Exiting."
+			fn_scrip_log_fatal "${modsdatadir}/${modcommand}-files.list don't exist"
+			exitcode="2"
+			core_exit.sh
+		fi
+}
+
+fn_postinstall_tasks(){
+	# Sourcemod, but any other game as well should never delete "cfg" or "addons" folder
+	# Prevent addons folder from being removed by clearing them in: ${modsdatadir}/${modcommand}-files.list
+	fn_check_files_list
+	# Output to the user
+	fn_print_information_nl "Rearranging ${modcommand}-files.list"
+	fn_script_log_info "Rearranging ${modcommand}-files.list"
+	smremovefromlist="cfg;addons"
+	# Loop through every single line to find any of the files to remove from the list
+	# that way these files won't get removed upon update or uninstall
+	fileslistline=1
+	while [ $fileslistline -le $modsfilelistsize ]; do
+		testline="$(sed "${fileslistline}q;d" "${modsdatadir}/${modcommand}-files.list")"
+		# How many elements to remove from list
+		smremoveamount="$(echo "${smremovefromlist}" | awk -F ';' '{ print NF }')"
+		# Test all subvalue of "modkeepfiles" using the ";" separator
+		for ((filesindex=1; filesindex < ${smremoveamount}; filesindex++)); do
+			# Put current file into test variable
+			smremovetestvar="$( echo "${smremovefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
+			# If it matches
+			if [ "${testline}" == "${smremovetestvar}" ]; then
+				# Then delete the line!
+				sed -i "${testline}d" "${modsdatadir}/${modcommand}-files.list"
+			fi
+		done
+		let fileslistline=fileslistline+1
+	done
 }
