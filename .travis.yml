@@ -1,5 +1,5 @@
 language: bash
-sudo: required
+sudo: false
 env:
 - DISTRO=ubuntu-trusty
 
@@ -19,6 +19,7 @@ addons:
     - libstdc++6:i386 
     - telnet 
     - expect
+    - strace
 
 script:
 
