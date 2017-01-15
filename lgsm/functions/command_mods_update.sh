@@ -54,9 +54,9 @@ fn_mods_update_loop(){
 			if [ "${modkeepfiles}" == "NOUPDATE" ]; then
 				fn_print_warning "${modprettyname} update has been disabled by LGSM."
 				echo " * Usual reason is to prevent erasing custom files."
-				echo " * If you still wish to update this mod:
-				echo " *  1) Backup your critical mod files
-				echo " *  2) Uninstall the mod with ./${selfname} mods-uninstall (optionnal)
+				echo " * If you still wish to update this mod:"
+				echo " *  1) Backup your critical mod files"
+				echo " *  2) Uninstall the mod with ./${selfname} mods-uninstall (optionnal)"
 				echo " *  3) Re-install the mod with ./${selfname} mods-install"
 			else
 				fn_print_dots_nl "Updating ${modprettyname}"
