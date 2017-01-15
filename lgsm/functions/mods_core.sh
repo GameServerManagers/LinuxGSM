@@ -102,7 +102,7 @@ fn_remove_cfg_files(){
 				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
 					touch "${modsdatadir}/.removedfiles.tmp"
 				fi
-					echo "${removefiletest}" > ${modsdatadir}/.removedfiles.tmp"
+					echo "${removefiletest}" > "${modsdatadir}/.removedfiles.tmp"
 			fi
 		done
 	fi
@@ -180,7 +180,7 @@ fn_check_files_list(){
 			fn_scrip_log_fatal "${modsdatadir}/${modcommand}-files.list don't exist"
 			exitcode="2"
 			core_exit.sh
-		fi
+	fi
 }
 
 fn_postinstall_tasks(){
