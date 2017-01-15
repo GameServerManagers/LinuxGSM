@@ -98,7 +98,8 @@ fn_mod_extract(){
 
 fn_mod_fileslist(){
 	# ${modsdatadir}/${modcommand}-files.list
-	true;
+	find "${extractdir}" -mindepth 1 -printf '%P\n' >> ${modsdatadir}/${modcommand}-files.list
+	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.list}"
 }
 
 fn_mod_copy_destination(){
