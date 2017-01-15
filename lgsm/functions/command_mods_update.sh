@@ -61,6 +61,10 @@ fn_mods_update_loop(){
 			fn_mod_dl
 			# Extract the mod
 			fn_mod_extract
+			# Remove files that should not be erased
+			# fn_remove_cfg_files
+			# Convert to lowercase if needed
+			fn_mod_lowercase
 			# Build a file list
 			fn_mod_fileslist
 			# Copying to destination
