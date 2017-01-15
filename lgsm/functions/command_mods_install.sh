@@ -69,6 +69,9 @@ fn_mod_installation(){
 		fn_mod_copy_destination
 		# Ending with installation routines
 		fn_mod_add_list
+		# Post install fixes
+		fn_postinstall_tasks
+		# Cleaning
 		fn_clear_tmp_mods
 		fn_print_ok_nl "${modprettyname} installed."
 		fn_script_log "${modprettyname} installed."
