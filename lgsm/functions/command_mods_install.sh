@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: List and installs available mods along with mods_list.sh.
+# Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"
 local commandaction="Mod Installation"
