@@ -190,16 +190,24 @@ fn_postinstall_tasks(){
 	# Output to the user
 	fn_print_information_nl "Rearranging ${modcommand}-files.list"
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
-	removefromlist="cfg;addons;"
+	smremovefromlist="cfg;addons;"
 	# Loop through every single line to find any of the files to remove from the list
 	# that way these files won't get removed upon update or uninstall
-	# How many elements to remove from list
-	smremoveamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
-	# Test all subvalue of "modkeepfiles" using the ";" separator
-	for ((filesindex=1; filesindex < ${smremoveamount}; filesindex++)); do
-		# Put current file into test variable
-		rmtestvar="$( echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
-		# Remove matches
-		grep -vFf ${modsdatadir}/${modcommand}-files.list "${rmtestvar}" > ${modsdatadir}/${modcommand}-files.list
+	fileslistline=1
+	while [ $fileslistline -le $modsfilelistsize ]; do
+		testline="$(sed "${fileslistline}q;d" "${modsdatadir}/${modcommand}-files.list")"
+		# How many elements to remove from list
+		smremoveamount="$(echo "${smremovefromlist}" | awk -F ';' '{ print NF }')"
+		# Test all subvalue of "modkeepfiles" using the ";" separator
+		for ((filesindex=1; filesindex < ${smremoveamount}; filesindex++)); do
+			# Put current file into test variable
+			smremovetestvar="$( echo "${smremovefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
+			# If it matches
+			if [ "${testline}" == "${smremovetestvar}" ]; then
+				# Then delete the line!
+				sed -i "${testline}d" "${modsdatadir}/${modcommand}-files.list"
+			fi
+		done
+		let fileslistline=fileslistline+1
 	done
 }
