@@ -71,16 +71,19 @@ fn_mods_update_loop(){
 				fn_mod_dl
 				# Extract the mod
 				fn_mod_extract
-				# Remove files that should not be erased
-				# fn_remove_cfg_files
 				# Convert to lowercase if needed
 				fn_mod_lowercase
+				# Remove files that should not be erased
+				fn_remove_cfg_files
 				# Build a file list
 				fn_mod_fileslist
 				# Copying to destination
 				fn_mod_copy_destination
 				# Ending with installation routines
 				fn_mod_add_list
+				# Post install fixes
+				fn_postinstall_tasks
+				# Cleaning
 				fn_clear_tmp_mods
 				fn_print_ok_nl "${modprettyname} installed."
 				fn_script_log "${modprettyname} installed."
