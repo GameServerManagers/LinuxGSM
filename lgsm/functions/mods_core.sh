@@ -188,26 +188,22 @@ fn_postinstall_tasks(){
 	# Prevent addons folder from being removed by clearing them in: ${modsdatadir}/${modcommand}-files.list
 	fn_check_files_list
 	# Output to the user
-	fn_print_information_nl "Rearranging ${modcommand}-files.list"
+	fn_print_dots "Rearranging ${modcommand}-files.list"
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
-	smremovefromlist="cfg;addons;"
-	# Loop through every single line to find any of the files to remove from the list
+	removefromlist="cfg;addons;"
+	# Loop through files to remove and remove them from file list
 	# that way these files won't get removed upon update or uninstall
-	fileslistline=1
-	while [ $fileslistline -le $modsfilelistsize ]; do
-		testline="$(sed "${fileslistline}q;d" "${modsdatadir}/${modcommand}-files.list")"
-		# How many elements to remove from list
-		smremoveamount="$(echo "${smremovefromlist}" | awk -F ';' '{ print NF }')"
-		# Test all subvalue of "modkeepfiles" using the ";" separator
-		for ((filesindex=1; filesindex < ${smremoveamount}; filesindex++)); do
-			# Put current file into test variable
-			smremovetestvar="$( echo "${smremovefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
-			# If it matches
-			if [ "${testline}" == "${smremovetestvar}" ]; then
-				# Then delete the line!
-				sed -i "${testline}d" "${modsdatadir}/${modcommand}-files.list"
-			fi
-		done
-		let fileslistline=fileslistline+1
+	# How many elements to remove from list
+	removefromlistamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
+	# Test all subvalue of "removefromlist" using the ";" separator
+	for ((filesindex=1; filesindex < ${removefromlistamount}; filesindex++)); do
+		# Put current file into test variable
+		removefilevar="$( echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
+		# If it matches
+		if [ "${testline}" == "${removefilevar}" ]; then
+			# Then delete matching line(s)!
+			sed -i "/^${testline}$/d" "${modsdatadir}/${modcommand}-files.list"
+		fi
 	done
+	fn_print_ok "Rearranging ${modcommand}-files.list"
 }
