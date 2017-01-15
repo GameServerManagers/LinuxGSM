@@ -60,7 +60,8 @@ fn_mods_update_loop(){
 				echo " *  3) Re-install the mod with ./${selfname} mods-install"
 				let installedmodsline=installedmodsline+1
 			else
-				fn_print_dots_nl "Updating ${modprettyname}"
+				echo ""
+				fn_print_dots "Updating ${modprettyname}"
 				fn_script_log "Updating ${modprettyname}."
 				# Check and create required directories
 				fn_mods_dir
