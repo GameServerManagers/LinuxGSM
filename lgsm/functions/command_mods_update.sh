@@ -3,13 +3,14 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Updates installed mods along with mods_list.sh.
+# Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"
 local commandaction="Mods Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
+mods_core.sh
 mods_list.sh
 
 fn_mods_update_init(){
@@ -19,18 +20,27 @@ fn_mods_update_init(){
 	echo ""
 	# Installed mod dir is "${modslockfilefullpath}"
 	# How many mods will be updated
-	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
-	echo "${installedmodscount} addons will be updated:"
-	# Loop showing mods to update
-	installedmodsline=1
-	while [ $installedmodsline -le $installedmodscount ]; do
-		echo -e " * \e[36m$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")\e[0m"
-		let installedmodsline=installedmodsline+1
-	done
-	sleep 2
+	if [ -f "${modslockfilefullpath}" ]; then
+		installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+		if 
+		echo "${installedmodscount} addons will be updated:"
+		# Loop showing mods to update
+		installedmodsline=1
+		while [ $installedmodsline -le $installedmodscount ]; do
+			echo -e " * \e[36m$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")\e[0m"
+			let installedmodsline=installedmodsline+1
+		done
+		sleep 2
+	else
+		fn_print_info_nl "No mods to be updated!"
+		echo " * Did you install any mod using LGSM?"
+		fn_print_log "No mods to be updated"
+		core_exit.sh
+	fi
 }
 
 fn_mods_update_loop(){
+	installedmodline="1"
 	while [ $installedmodsline -le $installedmodscount ]; do
 		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
 		fn_mod_get_info_from_command
@@ -60,6 +70,8 @@ fn_mods_update_loop(){
 			fn_clear_tmp_mods
 			fn_print_ok_nl "${modprettyname} installed."
 			fn_script_log "${modprettyname} installed."
+			let installedmodsline=installedmodsline+1
+					
 		else
 			fn_print_fail "No mod was selected."
 			core_exit.sh
@@ -68,3 +80,4 @@ fn_mods_update_loop(){
 }
 
 fn_mods_update_init
+fn_mods_update_loop
