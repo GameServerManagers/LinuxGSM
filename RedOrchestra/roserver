@@ -31,7 +31,6 @@ defaultmap="RO-Arad.rom"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="server ${defaultmap}?game=ROGame.ROTeamGame?VACSecured=true -nohomedir ini=${servercfg} log=${gamelog}"
 }

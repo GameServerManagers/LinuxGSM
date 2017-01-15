@@ -46,7 +46,6 @@ servermods=""
 bepath=""
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="-netlog -ip=${ip} -port=${port} -cfg=${networkcfgfullpath} -config=${servercfgfullpath} -mod=${mods} -servermod=${servermods} -bepath=${bepath} -autoinit -loadmissiontomemory"
 }

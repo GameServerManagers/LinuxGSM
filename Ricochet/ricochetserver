@@ -22,7 +22,7 @@ version="170110"
 
 #### Server Settings ####
 
-# Start Variables
+## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 defaultmap="rc_arena"
 maxplayers="16"
 port="27015"
@@ -30,7 +30,6 @@ clientport="27005"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care | https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_2
 fn_parms(){
 parms="-game ricochet -strictportbind +ip ${ip} -port ${port} +clientport ${clientport} +map ${defaultmap} -maxplayers ${maxplayers}"
 }
@@ -50,7 +49,6 @@ ip="0.0.0.0"
 gslt=""
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care | https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms=""
 }

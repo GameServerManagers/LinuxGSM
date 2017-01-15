@@ -29,7 +29,6 @@ rconpassword="CHANGE_ME"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="--start-server ${filesdir}/save1.zip --server-settings ${servercfgfullpath} --port ${port} --rcon-port ${rconport} --rcon-password ${rconpassword}"
 }

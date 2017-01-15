@@ -54,7 +54,6 @@ gslt=""
 # ws_start_map=""
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care | https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
 parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} +sv_setsteamaccount ${gslt} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
 }

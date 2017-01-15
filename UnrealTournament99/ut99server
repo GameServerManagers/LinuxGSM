@@ -27,7 +27,6 @@ defaultmap="DM-Deck16]["
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="server ${defaultmap}.unr ini=${servercfgfullpath}"
 }

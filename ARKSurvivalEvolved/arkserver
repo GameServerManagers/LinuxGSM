@@ -30,7 +30,6 @@ maxplayers="70"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="\"TheIsland?listen?MultiHome=${ip}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port}?\""
 }

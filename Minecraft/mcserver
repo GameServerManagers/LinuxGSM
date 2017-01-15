@@ -26,7 +26,6 @@ version="170110"
 javaram="1024" # -Xmx$1024M
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="nogui"
 }
