@@ -17,17 +17,20 @@ fn_mods_update_init(){
 	echo "================================="
 	echo "${gamename} mods & addons update"
 	echo ""
-  # Installed mod dir is "${modslockfilefullpath}"
-  # How many mods will be updated
-  installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
-  # Loop showing mods to update
-  for (( installedmodsline=$installedmodscount; installedmodsline<=5; installedmodsline++ )); do
-  sed -n 'installedmodsline{p;q}' "${modslockfilefullpath}"
-  done
+	# Installed mod dir is "${modslockfilefullpath}"
+	# How many mods will be updated
+	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+	# Loop showing mods to update
+	while [ $installedmodsline -lte $installedmodscount ]; do
+ 		sed -n 'installedmodsline{p;q}' "${modslockfilefullpath}"
+		let installedmodscount=installedmodscount+1 
+  	done
   
-	currentmod="${usermodselect}"
-	fn_mod_get_info_from_command
-	fn_print_dots_nl "Updating ${modprettyname}"
-	sleep 1
-	fn_script_log "Updating ${modprettyname}."
+	#currentmod="${usermodselect}"
+	#fn_mod_get_info_from_command
+	#fn_print_dots_nl "Updating ${modprettyname}"
+	#sleep 1
+	#fn_script_log "Updating ${modprettyname}."
 }
+
+fn_mods_update_init
