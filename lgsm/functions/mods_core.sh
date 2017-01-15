@@ -95,17 +95,15 @@ fn_remove_cfg_files(){
 		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
 			# Put current file we're looking for into a variable
 			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
-			echo "Testing ${filetoremove}"
 			# If it matches an existing file that have been extracted
 			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
-				echo "Removing ${extractdir}/${filetoremove}"
 				# Then delete the file!
 				rm -R "${extractdir}/${filetoremove}"
 				# Write this file path in a tmp file, to rebuild a full file list
 				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
 					touch "${modsdatadir}/.removedfiles.tmp"
 				fi
-					echo "${removefiletest}" > "${modsdatadir}/.removedfiles.tmp"
+					echo "${filetoremove}" > "${modsdatadir}/.removedfiles.tmp"
 			fi
 		done
 	fi
