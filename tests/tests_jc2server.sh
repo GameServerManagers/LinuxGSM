@@ -359,10 +359,10 @@ echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 fn_setstatus
 bash -x tests/jc2server start | tee /tmp/output 2>&1
+find .  >> /tmp/output
 curl --upload-file /tmp/output https://transfer.sh/lgsm
 (command_start.sh)
 fn_test_result_pass
-find . -name *.log
 
 echo ""
 echo "3.2 - start - online"
