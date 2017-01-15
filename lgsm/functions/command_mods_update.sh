@@ -20,12 +20,14 @@ fn_mods_update_init(){
 	# Installed mod dir is "${modslockfilefullpath}"
 	# How many mods will be updated
 	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+	echo "${installedmodscount} addons will be updated:"
 	# Loop showing mods to update
-	while [ $installedmodsline -lte $installedmodscount ]; do
- 		sed -n 'installedmodsline{p;q}' "${modslockfilefullpath}"
-		let installedmodscount=installedmodscount+1 
-  	done
-  
+	installedmodsline=1
+	while [ $installedmodsline -le $installedmodscount ]; do
+		echo -e " * \e[36m$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")\e[0m"
+		let installedmodsline=installedmodsline+1
+	done
+	exit
 	#currentmod="${usermodselect}"
 	#fn_mod_get_info_from_command
 	#fn_print_dots_nl "Updating ${modprettyname}"
