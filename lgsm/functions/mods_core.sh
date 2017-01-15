@@ -74,7 +74,7 @@ fn_mod_lowercase(){
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
 		fn_print_dots "Converting ${modprettyname} files to lowercase"
 		fn_script_log "Converting ${modprettyname} files to lowercase"
-		find "${extractdir}" -exec readlink -e '{}' \; | rename  'y/A-Z/a-z/'
+		find "${extractdir}" -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 		fn_print_ok "Converting ${modprettyname} files to lowercase"
 		sleep 1
 	fi
