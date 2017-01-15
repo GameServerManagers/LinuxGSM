@@ -61,6 +61,8 @@ fn_mod_installation(){
 		fn_mod_dl
 		# Extract the mod
 		fn_mod_extract
+		# Convert to lowercase if needed
+		fn_mod_lowercase
 		# Build a file list
 		fn_mod_fileslist
 		# Copying to destination
