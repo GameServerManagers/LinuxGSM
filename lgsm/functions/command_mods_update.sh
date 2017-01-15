@@ -52,12 +52,11 @@ fn_mods_update_loop(){
 			fn_mod_get_info_from_command
 			# Don't update the mod if it's policy is to "NOUPDATE"
 			if [ "${modkeepfiles}" == "NOUPDATE" ]; then
-				fn_print_warning_nl "${modprettyname} update has been disabled by LGSM."
-				echo " * Usual reason is to prevent erasing custom files."
+				fn_print_info_nl "${modprettyname} won't be updated to prevent erasing custom files."
 				echo " * If you still wish to update this mod:"
-				echo " *  1) Backup your critical mod files"
-				echo " *  2) Uninstall the mod with ./${selfname} mods-uninstall (optionnal)"
-				echo " *  3) Re-install the mod with ./${selfname} mods-install"
+				echo "   1) Backup your critical mod files"
+				echo "   2) Uninstall the mod with ./${selfname} mods-uninstall (optionnal)"
+				echo "   3) Re-install the mod with ./${selfname} mods-install"
 				let installedmodsline=installedmodsline+1
 			else
 				echo ""
