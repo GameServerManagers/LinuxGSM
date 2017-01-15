@@ -15,11 +15,6 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 
 ## Useful variables
-# Files and Directories
-modstmpdir="${tmpdir}/mods"
-modsdatadir="${lgsmdir}/data/mods"
-modslockfile="installed-mods-listing"
-modslockfilefullpath="${modsdatadir}/${modslockfile}"
 # Separator name
 modseparator="MOD"
 
