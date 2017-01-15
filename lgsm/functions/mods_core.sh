@@ -98,7 +98,8 @@ fn_mod_already_installed(){
 		if [ -n "$(cat "${modslockfilefullpath}" | grep "${modcommand}")" ]; then
 			echo ""
 			fn_print_warning_nl "${modprettyname} has already been installed."
-			echo " * Mod files will be overwritten."
+			echo " * Config files might be overwritten."
+			echo " * Press ctrl + c to abort."
 			sleep 4
 		fi
 	fi
