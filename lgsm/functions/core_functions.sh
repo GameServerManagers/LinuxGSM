@@ -6,7 +6,9 @@
 # This function is called first before any other function. Without this file other functions will not load.
 
 # Fixes for legacy code
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	gamename="ARK: Survival Evolved"
+elif [ "${gamename}" == "Teamspeak 3" ]; then
 	gamename="TeamSpeak 3"
 elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	gamename="Counter-Strike: Global Offensive"
