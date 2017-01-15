@@ -360,10 +360,10 @@ requiredstatus="OFFLINE"
 fn_setstatus
 PATH=${PATH}:./tests/lgsm/functions strace -f tests/lgsm/functions/command_start.sh > /tmp/output 2>&1
 (command_start.sh)
-echo curl --upload-file ./tests/log/script/*.log https://transfer.sh/slog
-curl --upload-file ./tests/log/script/*.log https://transfer.sh/slog
-echo curl --upload-file ./tests/log/console/*.log https://transfer.sh/clog
-curl --upload-file ./tests/log/console/*.log https://transfer.sh/clog
+for x in ./tests/log/*/*.log /tmp/output
+do
+curl --upload-file $x https://transfer.sh/lgsm
+done
 fn_test_result_pass
 
 echo ""
