@@ -20,10 +20,16 @@ fn_mods_update_init(){
 	echo ""
 	# Installed mod dir is "${modslockfilefullpath}"
 	# How many mods will be updated
-	if [ -f "${modslockfilefullpath}" ]; then
-		installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
-		if 
-		echo "${installedmodscount} addons will be updated:"
+	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+	# If no mods to be updated
+	if [ ! -f "${modslockfilefullpath}" ]||[ $installedmodscount -eq 0 ]; then
+		fn_print_information_nl "No mods or addons to be updated"
+		echo " * Did you install any mod using LGSM?"
+		fn_log_info "No mods or addons to be updated"
+		core_exit.sh
+	else
+		fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
+		fn_log_info "${installedmodscount} mods or addons will be updated"
 		# Loop showing mods to update
 		installedmodsline=1
 		while [ $installedmodsline -le $installedmodscount ]; do
@@ -31,27 +37,21 @@ fn_mods_update_init(){
 			let installedmodsline=installedmodsline+1
 		done
 		sleep 2
-	else
-		fn_print_info_nl "No mods to be updated!"
-		echo " * Did you install any mod using LGSM?"
-		fn_print_log "No mods to be updated"
-		core_exit.sh
 	fi
 }
 
+# Recursively list all installed mods and apply update
 fn_mods_update_loop(){
+	# Reset line value
 	installedmodline="1"
 	while [ $installedmodsline -le $installedmodscount ]; do
+		# Current line defines current mod command
 		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
-		fn_mod_get_info_from_command
 		if [ -n "${currentmod}" ]; then
-			fn_print_dots_nl "Updating ${modprettyname}"
-			sleep 0.5
-			fn_script_log "Updating ${modprettyname}."
 			# Get mod info
 			fn_mod_get_info_from_command
-			# Check if mod is already installed
-			fn_mod_already_installed
+			fn_print_dots_nl "Updating ${modprettyname}"
+			fn_script_log "Updating ${modprettyname}."
 			# Check and create required directories
 			fn_mods_dir
 			# Clear lgsm/tmp/mods dir if exists then recreate it
@@ -70,8 +70,7 @@ fn_mods_update_loop(){
 			fn_clear_tmp_mods
 			fn_print_ok_nl "${modprettyname} installed."
 			fn_script_log "${modprettyname} installed."
-			let installedmodsline=installedmodsline+1
-					
+			let installedmodsline=installedmodsline+1		
 		else
 			fn_print_fail "No mod was selected."
 			core_exit.sh
