@@ -36,22 +36,23 @@ fn_mods_remove_init(){
 		echo -e " * \e[36m$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")\e[0m"
 		let installedmodsline=installedmodsline+1
 	done
-	sleep 2
+	echo ""
+	sleep 1
   
-  # Keep prompting as long as the user input doesn't correspond to an available mod
+  	# Keep prompting as long as the user input doesn't correspond to an available mod
 	while [[ ! " ${availablemodsremove[@]} " =~ " ${usermodselect} " ]]; do
-			echo -en "Enter a \e[36mmod\e[0m to \e[31mremove\e[0m (or exit to abort): "
-			read -r usermodselect
-			# Exit if user says exit or abort
-			if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
-					fn_script_log "User aborted."
-					echo "Aborted."
-					core_exit.sh
+		echo -en "Enter a \e[36mmod\e[0m to \e[31mremove\e[0m (or exit to abort): "
+		read -r usermodselect
+		# Exit if user says exit or abort
+		if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
+			fn_script_log "User aborted."
+			echo "Aborted."
+			core_exit.sh
 			# Supplementary output upon invalid user input 
-			elif [[ ! " ${availablemodsremove[@]} " =~ " ${usermodselect} " ]]; then
+		elif [[ ! " ${availablemodsremove[@]} " =~ " ${usermodselect} " ]]; then
 				fn_print_error2_nl "${usermodselect} is not a valid mod."
 				echo " * Enter a valid mod or input exit to abort."
-			fi
+		fi
 	done
 	# Gives a pretty name to the user and get all mod info
 	currentmod="${usermodselect}"
