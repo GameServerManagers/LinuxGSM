@@ -60,7 +60,7 @@ fn_mods_update_loop(){
 				let installedmodsline=installedmodsline+1
 			else
 				echo ""
-				fn_print_dots "Updating ${modprettyname}"
+				fn_print_dots_nl "Updating ${modprettyname}"
 				fn_script_log "Updating ${modprettyname}."
 				# Check and create required directories
 				fn_mods_dir
@@ -85,8 +85,8 @@ fn_mods_update_loop(){
 				fn_postinstall_tasks
 				# Cleaning
 				fn_clear_tmp_mods
-				fn_print_ok_nl "${modprettyname} installed."
-				fn_script_log "${modprettyname} installed."
+				fn_print_ok_nl "${modprettyname} updated"
+				fn_script_log "${modprettyname} updated."
 				let installedmodsline=installedmodsline+1
 			fi
 		else
