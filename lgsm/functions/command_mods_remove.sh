@@ -25,7 +25,7 @@ fn_mods_remove_init(){
 	if [ ! -f "${modslockfilefullpath}" ]||[ $installedmodscount -eq 0 ]; then
 		fn_print_information_nl "No mods or addons to remove"
 		echo " * Did you install any mod using LGSM?"
-		fn_scrip_log_info "No mods or addons to remove."
+		fn_script_log_info "No mods or addons to remove."
 		core_exit.sh
 	fi
 	# Build installed mods list and display to the user.
