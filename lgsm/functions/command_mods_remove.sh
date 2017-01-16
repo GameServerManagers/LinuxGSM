@@ -73,7 +73,7 @@ fn_mod_remove_process(){
 		if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -f "${modinstalldir}/${currentfileremove}" ]; then
 			rm -rfv "${currentfileremove}"
 		fi
-		let installedmodsline=installedmodsline+1
+		let modfileline=modfileline+1
 	done
 	# Remove file list
 	rm -rfv "${modsdatadir}/${modcommand}-files.list"
