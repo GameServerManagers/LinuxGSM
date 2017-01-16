@@ -16,7 +16,7 @@ mods_list.sh
 fn_mods_remove_init(){
   fn_script_log "Entering mods & addons removal"
 	echo "================================="
-	echo "${gamename} mods & addons update"
+	echo "${gamename} mods & addons removal"
 	echo ""
 	# Installed mod dir is "${modslockfilefullpath}"
 	# How many mods are installed
