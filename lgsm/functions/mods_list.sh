@@ -76,5 +76,3 @@ fn_mods_scrape_urls(){
 	sourcemodfasterurl="http://cdn.probablyaserver.com/sourcemod/"
 	sourcemodurl="${sourcemodfasterurl}/${sourcemodlatestfile}"
 }
-
-fn_mods_scrape_urls
