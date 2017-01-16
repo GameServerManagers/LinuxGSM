@@ -92,6 +92,9 @@ fn_mods_update_loop(){
 			core_exit.sh
 		fi
 	done
+	echo ""
+	fn_print_ok_nl "Mods update complete"
+	fn_script_log "Mods update complete."
 }
 
 fn_mods_update_init
