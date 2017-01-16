@@ -59,6 +59,7 @@ fn_mods_remove_init(){
 	fn_check_files_list
 	fn_script_log "Removing ${modsfilelistsize} files from ${modprettyname}"
 	fn_print_dots "Removing ${modsfilelistsize} files from ${modprettyname}"
+	echo ""
 	echo " * Any mod's custom file will be deleted."
 	echo " * Press ctrl + c to abort."
 	sleep 4
