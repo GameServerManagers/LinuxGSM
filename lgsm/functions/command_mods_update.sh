@@ -25,7 +25,7 @@ fn_mods_update_init(){
 	if [ ! -f "${modslockfilefullpath}" ]||[ $installedmodscount -eq 0 ]; then
 		fn_print_information_nl "No mods or addons to be updated"
 		echo " * Did you install any mod using LGSM?"
-		fn_scrip_log "No mods or addons to be updated"
+		fn_script_log_info "No mods or addons to be updated"
 		core_exit.sh
 	else
 		fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
