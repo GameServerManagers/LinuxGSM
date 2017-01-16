@@ -70,8 +70,8 @@ fn_mod_remove_process(){
 	while [ $modfileline -le $modsfilelistsize ]; do
 		# Current line defines current mod command
 		currentfileremove="$(sed "${modfileline}q;d" "${modsdatadir}/${modcommand}-files.list")"
-		if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -f "${modinstalldir}/${currentfileremove}" ]; then
-			rm -rfv "${currentfileremove}"
+		if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
+			rm -rfv "${modinstalldir}/${currentfileremove}"
 		fi
 		let modfileline=modfileline+1
 	done
