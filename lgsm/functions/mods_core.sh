@@ -35,9 +35,10 @@ fn_mods_dir(){
 	if [ ! -d "${modinstalldir}" ]; then
 		fn_script_log_info "Creating mods directory: ${modinstalldir}"
 		fn_print_dots "Creating mods directory"
-		sleep 1
+		sleep 0.5
 		mkdir -p "${modinstalldir}"
 		fn_print_ok "Created mods directory"
+		sleep 0.5
 	fi
 }
 
@@ -89,10 +90,11 @@ fn_mod_lowercase(){
 	# Converting files to lowercase
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
 		fn_print_dots "Converting ${modprettyname} files to lowercase"
+		sleep 0.5
 		fn_script_log "Converting ${modprettyname} files to lowercase"
 		find "${extractdir}" -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 		fn_print_ok "Converting ${modprettyname} files to lowercase"
-		sleep 1
+		sleep 0.5
 	fi
 }
 
@@ -121,6 +123,7 @@ fn_remove_cfg_files(){
 			fi
 		done
 		fn_print_ok "Allow for preserving ${modprettyname} config files"
+		sleep 0.5
 	fi
 }
 
@@ -132,6 +135,7 @@ fn_mod_fileslist(){
 	fi
 	fn_print_dots "Building ${modcommand}-files.list"
 	fn_script_log "Building ${modcommand}-files.list"
+	sleep 0.5
 	# ${modsdatadir}/${modcommand}-files.list
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > ${modsdatadir}/${modcommand}-files.list
 	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.list}"
@@ -140,14 +144,15 @@ fn_mod_fileslist(){
 		cat "${modsdatadir}/.removedfiles.tmp" >> ${modsdatadir}/${modcommand}-files.list
 	fi
 	fn_print_ok "Building ${modcommand}-files.list"
+	sleep 0.5
 }
 
 fn_mod_copy_destination(){
 	# Destination directory: ${modinstalldir}
 	fn_print_dots "Copying ${modprettyname} to ${modinstalldir}"
 	fn_script_log "Copying ${modprettyname} to ${modinstalldir}"
-	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	sleep 0.5
+	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	fn_print_ok "Copying ${modprettyname} to ${modinstalldir}"
 	sleep 0.5
 }
@@ -157,9 +162,10 @@ fn_mod_already_installed(){
 	if [ -f "${modslockfilefullpath}" ]; then
 		if [ -n "$(cat "${modslockfilefullpath}" | grep "${modcommand}")" ]; then
 			fn_print_warning_nl "${modprettyname} has already been installed"
+			sleep 1
 			echo " * Config files, if any, might be overwritten."
 			echo " * Press ctrl + c to abort."
-			sleep 4
+			sleep 3
 		fi
 	fn_script_log "${modprettyname} is already installed, overwriting any file."
 	fi
@@ -212,7 +218,7 @@ fn_postinstall_tasks(){
 	fn_check_files_list
 	# Output to the user
 	fn_print_dots "Rearranging ${modcommand}-files.list"
-	sleep 1
+	sleep 0.5
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
 	# What lines/files to remove from file list
 	removefromlist="cfg;addons;"
@@ -235,6 +241,7 @@ fn_postinstall_tasks(){
 		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdatadir}/${modcommand}-files.list"
 	fi
 	fn_print_ok "Rearranging ${modcommand}-files.list"
+	sleep 0.5
 }
 
 ## mods_list.sh arrays
