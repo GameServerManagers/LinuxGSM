@@ -73,10 +73,10 @@ fn_mod_installation(){
 		fn_postinstall_tasks
 		# Cleaning
 		fn_clear_tmp_mods
-		fn_print_ok_nl "${modprettyname} installed."
+		fn_print_ok_nl "${modprettyname} installed"
 		fn_script_log "${modprettyname} installed."
 	else
-		fn_print_fail "No mod was selected."
+		fn_print_fail "No mod was selected"
 		core_exit.sh
 	fi
 }
