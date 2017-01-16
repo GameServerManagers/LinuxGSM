@@ -80,7 +80,7 @@ fn_mod_remove_process(){
 	fn_script_log "Removing: ${modsdatadir}/${modcommand}-files.list"
 	rm -rf "${modsdatadir}/${modcommand}-files.list"
 	# Remove from installed mods list
-	fn_script_log "Removing: ${modcommand} from "${modslockfilefullpath}"
+	fn_script_log "Removing: ${modcommand} from ${modslockfilefullpath}"
 	sed -i "/^${modcommand}$/d" "${modslockfilefullpath}"
 	fn_print_ok_nl "Removed ${modprettyname}"
 	fn_script_log "Removed ${modprettyname}"
