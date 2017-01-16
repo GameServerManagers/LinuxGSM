@@ -149,13 +149,14 @@ fn_mod_copy_destination(){
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	sleep 0.5
 	fn_print_ok "Copying ${modprettyname} to ${modinstalldir}"
+	sleep 0.5
 }
 
 # Check if the mod is already installed and warn the user
 fn_mod_already_installed(){
 	if [ -f "${modslockfilefullpath}" ]; then
 		if [ -n "$(cat "${modslockfilefullpath}" | grep "${modcommand}")" ]; then
-			fn_print_warning_nl "${modprettyname} has already been installed."
+			fn_print_warning_nl "${modprettyname} has already been installed"
 			echo " * Config files, if any, might be overwritten."
 			echo " * Press ctrl + c to abort."
 			sleep 4
