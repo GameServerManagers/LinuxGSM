@@ -226,6 +226,13 @@ fn_postinstall_tasks(){
 		# Then delete matching line(s)!
 		sed -i "/^${removefilevar}$/d" "${modsdatadir}/${modcommand}-files.list"
 	done
+	# Sourcemod fix
+	# Remove metamod from sourcemod fileslist
+	if [ "${modcommand}" == "sourcemod" ]; then
+		# Remove addons/metamod & addons/metamod/sourcemod.vdf from ${modcommand}-files.list
+		sed -i "/^addons/metamod$/d" "${modsdatadir}/${modcommand}-files.list"
+		sed -i "/^addons/metamod/sourcemod.vdf$/d" "${modsdatadir}/${modcommand}-files.list"
+	fi
 	fn_print_ok "Rearranging ${modcommand}-files.list"
 }
 
