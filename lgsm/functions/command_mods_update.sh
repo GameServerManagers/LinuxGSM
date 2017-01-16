@@ -52,11 +52,8 @@ fn_mods_update_loop(){
 			fn_mod_get_info_from_command
 			# Don't update the mod if it's policy is to "NOUPDATE"
 			if [ "${modkeepfiles}" == "NOUPDATE" ]; then
-				fn_print_info_nl "${modprettyname} won't be updated to prevent erasing custom files."
-				echo " * If you still wish to update this mod:"
-				echo "   1) Backup your critical mod files"
-				echo "   2) Uninstall the mod with ./${selfname} mods-uninstall (optionnal)"
-				echo "   3) Re-install the mod with ./${selfname} mods-install"
+				fn_print_info_nl "${modprettyname} won't be updated to preserve custom files"
+				fn_script_log "${modprettyname} won't be updated to preserve custom files."
 				let installedmodsline=installedmodsline+1
 			else
 				echo ""
@@ -85,7 +82,7 @@ fn_mods_update_loop(){
 				fn_postinstall_tasks
 				# Cleaning
 				fn_clear_tmp_mods
-				fn_print_ok_nl "${modprettyname} updated"
+				fn_print_ok "${modprettyname} updated"
 				fn_script_log "${modprettyname} updated."
 				let installedmodsline=installedmodsline+1
 			fi
