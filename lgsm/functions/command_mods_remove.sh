@@ -62,4 +62,26 @@ fn_mods_remove_init(){
 	fn_script_log "Removing ${modprettyname}."
 }
 
+fn_mod_remove_process(){
+	# Check file list in order to make sure we're able to remove the mod
+	# Returns ${modsfilelistsize}
+	fn_check_files_list
+	modfileline="1"
+	while [ $modfileline -le $modsfilelistsize ]; do
+		# Current line defines current mod command
+		currentfileremove="$(sed "${modfileline}q;d" "${modsdatadir}/${modcommand}-files.list")"
+		if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -f "${modinstalldir}/${currentfileremove}" ]; then
+			rm -rfv "${currentfileremove}"
+		fi
+		let installedmodsline=installedmodsline+1
+	done
+	# Remove file list
+	rm -rfv "${modsdatadir}/${modcommand}-files.list"
+	# Remove from installed mods list
+	sed -i "/^${modcommand}$/d" "${modslockfilefullpath}"
+	fn_print_ok_nl "Removed ${modprettyname}"
+	fn_script_log "Removed ${modprettyname}"
+}
+
 fn_mods_remove_init
+fn_mod_remove_process
