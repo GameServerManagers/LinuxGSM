@@ -57,27 +57,30 @@ fn_mods_remove_init(){
 	# Gives a pretty name to the user and get all mod info
 	currentmod="${usermodselect}"
 	fn_mod_get_info_from_command
-	fn_print_dots_nl "Removing ${modprettyname}"
-	sleep 1
-	fn_script_log "Removing ${modprettyname}."
+	# Returns ${modsfilelistsize}
+	fn_check_files_list
+	fn_script_log "Removing ${modsfilelistsize} files from ${modprettyname}"
+	fn_print_dots_nl "Removing ${modsfilelistsize} files from ${modprettyname}"
+	sleep 4
 }
 
 fn_mod_remove_process(){
 	# Check file list in order to make sure we're able to remove the mod
-	# Returns ${modsfilelistsize}
-	fn_check_files_list
 	modfileline="1"
 	while [ $modfileline -le $modsfilelistsize ]; do
 		# Current line defines current mod command
 		currentfileremove="$(sed "${modfileline}q;d" "${modsdatadir}/${modcommand}-files.list")"
 		if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
-			rm -rfv "${modinstalldir}/${currentfileremove}"
+			fn_script_log "Removing: ${modinstalldir}/${currentfileremove}"
+			rm -rf "${modinstalldir}/${currentfileremove}"
 		fi
 		let modfileline=modfileline+1
 	done
 	# Remove file list
-	rm -rfv "${modsdatadir}/${modcommand}-files.list"
+	fn_script_log "Removing: ${modsdatadir}/${modcommand}-files.list"
+	rm -rf "${modsdatadir}/${modcommand}-files.list"
 	# Remove from installed mods list
+	fn_script_log "Removing: ${modcommand} from "${modslockfilefullpath}"
 	sed -i "/^${modcommand}$/d" "${modslockfilefullpath}"
 	fn_print_ok_nl "Removed ${modprettyname}"
 	fn_script_log "Removed ${modprettyname}"
