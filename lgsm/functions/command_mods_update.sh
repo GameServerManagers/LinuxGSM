@@ -87,7 +87,7 @@ fn_mods_update_loop(){
 				let installedmodsline=installedmodsline+1
 			fi
 		else
-			fn_print_fail "No mod was selected."
+			fn_print_fail "No mod was selected"
 			fn_script_log_fail "No mod was selected."
 			core_exit.sh
 		fi
