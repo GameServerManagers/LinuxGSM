@@ -30,9 +30,9 @@ fn_mods_remove_init(){
 	fi
 	# Build installed mods list and display to the user.
 	installedmodsline=1
-  availablemodsremove=()
+	availablemodsremove=()
 	while [ $installedmodsline -le $installedmodscount ]; do
-    availablemodsremove+=( "$(sed "${installedmodsline}q;d" "${modslockfilefullpath})" )
+		availablemodsremove+=( "$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )" )
 		echo -e " * \e[36m$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")\e[0m"
 		let installedmodsline=installedmodsline+1
 	done
@@ -40,7 +40,7 @@ fn_mods_remove_init(){
   
   # Keep prompting as long as the user input doesn't correspond to an available mod
 	while [[ ! " ${availablemodsremove[@]} " =~ " ${usermodselect} " ]]; do
-			echo -en "Enter a \e[36mmod\e[0m to ${red}remove${default} (or exit to abort): "
+			echo -en "Enter a \e[36mmod\e[0m to \e[31mremove\e[0m (or exit to abort): "
 			read -r usermodselect
 			# Exit if user says exit or abort
 			if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
