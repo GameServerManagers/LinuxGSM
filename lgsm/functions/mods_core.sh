@@ -416,6 +416,6 @@ fn_mod_get_info_from_command(){
 }
 
 fn_gsm_requirements
-fn_mods_info
 fn_mods_scrape_urls
+fn_mods_info
 fn_mods_available
