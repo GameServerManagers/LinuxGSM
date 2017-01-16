@@ -37,8 +37,6 @@ fn_mods_remove_init(){
 		let installedmodsline=installedmodsline+1
 	done
 	echo ""
-	sleep 1
-  
   	# Keep prompting as long as the user input doesn't correspond to an available mod
 	while [[ ! " ${availablemodsremove[@]} " =~ " ${usermodselect} " ]]; do
 		echo -en "Enter a \e[36mmod\e[0m to \e[31mremove\e[0m (or exit to abort): "
