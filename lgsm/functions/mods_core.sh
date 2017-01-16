@@ -25,7 +25,7 @@ fn_mods_dir(){
 		fn_print_dots "Creating mods directory"
 		sleep 1
 		mkdir -p "${modinstalldir}"
-		fn_print_ok_nl "Created mods directory"
+		fn_print_ok "Created mods directory"
 	fi
 }
 
@@ -76,7 +76,7 @@ fn_mod_extract(){
 fn_mod_lowercase(){
 	# Converting files to lowercase
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
-		fn_print_dots_nl "Converting ${modprettyname} files to lowercase"
+		fn_print_dots "Converting ${modprettyname} files to lowercase"
 		fn_script_log "Converting ${modprettyname} files to lowercase"
 		find "${extractdir}" -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 		fn_print_ok "Converting ${modprettyname} files to lowercase"
@@ -90,7 +90,7 @@ fn_remove_cfg_files(){
 		# Upon mods updates, config files should not be overwritten
 		# We will just remove these files before copying the mod to the destination
 		# Let's count how many files there are to remove
-		fn_print_dots_nl "Allow for preserving ${modprettyname} config files"
+		fn_print_dots "Allow for preserving ${modprettyname} config files"
 		sleep 0.5
 		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
 		# Test all subvalue of "modgames" using the ";" separator
@@ -118,7 +118,7 @@ fn_mod_fileslist(){
 		mkdir -p "${modsdatadir}"
 		fn_script_log "Created ${modsdatadir}"
 	fi
-	fn_print_dots_nl "Building ${modcommand}-files.list"
+	fn_print_dots "Building ${modcommand}-files.list"
 	fn_script_log "Building ${modcommand}-files.list"
 	# ${modsdatadir}/${modcommand}-files.list
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > ${modsdatadir}/${modcommand}-files.list
@@ -132,9 +132,11 @@ fn_mod_fileslist(){
 
 fn_mod_copy_destination(){
 	# Destination directory: ${modinstalldir}
-	fn_print_dots_nl "Copying ${modprettyname} to ${modinstalldir}"
+	fn_print_dots "Copying ${modprettyname} to ${modinstalldir}"
 	fn_script_log "Copying ${modprettyname} to ${modinstalldir}"
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
+	sleep 0.5
+	fn_print_ok "Copying ${modprettyname} to ${modinstalldir}"
 }
 
 # Check if the mod is already installed and warn the user
@@ -164,7 +166,7 @@ fn_mod_add_list(){
 	fi
 	# Input mod name to lockfile
 	if [ ! -n "$(cat "${modslockfilefullpath}" | grep "${modcommand}")" ]; then
-		echo "${modcommand}" > "${modslockfilefullpath}"
+		echo "${modcommand}" >> "${modslockfilefullpath}"
 		fn_script_log "${modcommand} added to ${modslockfile}"
 	fi
 }
