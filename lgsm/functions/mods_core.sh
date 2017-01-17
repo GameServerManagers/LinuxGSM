@@ -29,9 +29,9 @@ fn_gsm_requirements(){
 	fi
 }
 
-# Create mods directory if it doesn't exist
+# Create mods files and directories if it doesn't exist
 # Assuming the game is already installed as mods_list.sh checked for it.
-fn_mods_dir(){
+fn_mods_files(){
 	if [ ! -d "${modinstalldir}" ]; then
 		fn_script_log_info "Creating mods directory: ${modinstalldir}"
 		fn_print_dots "Creating mods directory"
@@ -39,6 +39,16 @@ fn_mods_dir(){
 		mkdir -p "${modinstalldir}"
 		fn_print_ok "Created mods directory"
 		sleep 0.5
+	fi
+	# Create lgsm/data/mods directory
+	if [ ! -d  "${modsdatadir}" ]; then
+		mkdir -p "${modsdatadir}"
+		fn_script_log "Created ${modsdatadir}"
+	fi
+	# Create lgsm/data/${modslockfile}
+	if [ ! -f "${modslockfilefullpath}" ]; then
+		touch "${modslockfilefullpath}"
+		fn_script_log "Created ${modslockfilefullpath}"
 	fi
 }
 
@@ -62,6 +72,7 @@ fn_mods_tmpdir(){
 	fi
 }
 
+# Fetches mod URL
 fn_mod_dl(){
 	# fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fileurl="${modurl}"
@@ -76,6 +87,7 @@ fn_mod_dl(){
 	fi
 }
 
+# Extract the mod
 fn_mod_extract(){
 	# fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
 	filename="${modfilename}"
@@ -86,8 +98,8 @@ fn_mod_extract(){
 	fn_dl_extract "${filedir}" "${filename}" "${extractdir}"
 }
 
+# Convert mod files to lowercase if needed
 fn_mod_lowercase(){
-	# Converting files to lowercase
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
 		fn_print_dots "Converting ${modprettyname} files to lowercase"
 		sleep 0.5
@@ -98,24 +110,24 @@ fn_mod_lowercase(){
 	fi
 }
 
+# Don't overwrite specified files upon update (set by ${modkeepfiles})
+# For that matter, remove cfg files after extraction before copying them to destination
 fn_remove_cfg_files(){
-	# Remove config file after extraction for updates set by ${modkeepfiles}
 	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
-		# Upon mods updates, config files should not be overwritten
-		# We will just remove these files before copying the mod to the destination
-		# Let's count how many files there are to remove
-		fn_print_dots "Allow for preserving ${modprettyname} config files"
+		fn_print_dots "Allow for not overwriting ${modprettyname} config files"
+		fn_script_log "Allow for not overwriting ${modprettyname} config files"
 		sleep 0.5
+		# Let's count how many files there are to remove
 		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
-		# Test all subvalue of "modgames" using the ";" separator
+		# Test all subvalue of "modkeepfiles" using the ";" separator
 		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
 			# Put current file we're looking for into a variable
 			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
 			# If it matches an existing file that have been extracted
 			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
 				# Then delete the file!
-				rm -R "${extractdir}/${filetoremove}"
-				# Write this file path in a tmp file, to rebuild a full file list
+				rm -r "${extractdir}/${filetoremove}"
+				# Write this file path in a tmp file, to rebuild a full file list since it is rebuilt upon update
 				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
 					touch "${modsdatadir}/.removedfiles.tmp"
 				fi
@@ -127,12 +139,8 @@ fn_remove_cfg_files(){
 	fi
 }
 
+# Create ${modcommand}-files.list containing the full extracted file/directory list
 fn_mod_fileslist(){
-	# Create lgsm/data/mods directory
-	if [ ! -d "${modsdatadir}" ]; then
-		mkdir -p "${modsdatadir}"
-		fn_script_log "Created ${modsdatadir}"
-	fi
 	fn_print_dots "Building ${modcommand}-files.list"
 	fn_script_log "Building ${modcommand}-files.list"
 	sleep 0.5
@@ -147,8 +155,8 @@ fn_mod_fileslist(){
 	sleep 0.5
 }
 
+# Copy the mod to the destination ${modinstalldir}
 fn_mod_copy_destination(){
-	# Destination directory: ${modinstalldir}
 	fn_print_dots "Copying ${modprettyname} to ${modinstalldir}"
 	fn_script_log "Copying ${modprettyname} to ${modinstalldir}"
 	sleep 0.5
@@ -160,7 +168,6 @@ fn_mod_copy_destination(){
 # Check if the mod is already installed and warn the user
 fn_mod_already_installed(){
 	if [ -f "${modslockfilefullpath}" ]; then
-	
 		if [ -n "$(sed -n "/^${modcommand}$/p" "${modslockfilefullpath}")" ]; then
 			fn_print_warning_nl "${modprettyname} has already been installed"
 			sleep 1
@@ -174,17 +181,7 @@ fn_mod_already_installed(){
 
 # Add the mod to the installed mods list
 fn_mod_add_list(){
-	# Create lgsm/data/mods directory
-	if [ ! -d  "${modsdatadir}" ]; then
-		mkdir -p "${modsdatadir}"
-		fn_script_log "Created ${modsdatadir}"
-	fi
-	# Create lgsm/data/${modslockfile}
-	if [ ! -f "${modslockfilefullpath}" ]; then
-		touch "${modslockfilefullpath}"
-		fn_script_log "Created ${modslockfilefullpath}"
-	fi
-	# Input mod name to lockfile
+	# Append modname to lockfile if it's not already in it
 	if [ ! -n "$(sed -n "/^${modcommand}$/p" "${modslockfilefullpath}")" ]; then
 		echo "${modcommand}" >> "${modslockfilefullpath}"
 		fn_script_log "${modcommand} added to ${modslockfile}"
@@ -213,15 +210,16 @@ fn_check_files_list(){
 	fi
 }
 
+# Apply some postinstall fixes to make sure everything will be fine
 fn_postinstall_tasks(){
-	# Prevent addons folder from being removed by clearing them in: ${modsdatadir}/${modcommand}-files.list
+	# Prevent sensitive directories from being erased upon uninstall by removing them them from: ${modsdatadir}/${modcommand}-files.list
 	# Check file validity
 	fn_check_files_list
 	# Output to the user
 	fn_print_dots "Rearranging ${modcommand}-files.list"
 	sleep 0.5
 	fn_script_log_info "Rearranging ${modcommand}-files.list"
-	# What lines/files to remove from file list
+	# What lines/files to remove from file list (end var with a ";" separator)
 	removefromlist="cfg;addons;"
 	# Loop through files to remove from file list,
 	# that way these files won't get removed upon uninstall
@@ -234,6 +232,7 @@ fn_postinstall_tasks(){
 		# Then delete matching line(s)!
 		sed -i "/^${removefilevar}$/d" "${modsdatadir}/${modcommand}-files.list"
 	done
+	
 	# Sourcemod fix
 	# Remove metamod from sourcemod fileslist
 	if [ "${modcommand}" == "sourcemod" ]; then
@@ -245,7 +244,11 @@ fn_postinstall_tasks(){
 	sleep 0.5
 }
 
-## mods_list.sh arrays
+#########################
+## mods_list.sh arrays ##
+#########################
+
+## Define info for a mod
 
 # Define all variables from a mod at once when index is set to a separator
 fn_mod_info(){
@@ -253,6 +256,7 @@ fn_mod_info(){
 if [ -z "$index" ]; then
 	fn_print_error "index variable not set. Please report an issue to LGSM Team."
 	echo "* https://github.com/GameServerManagers/LinuxGSM/issues"
+	exitcode="1"
 	core_exit.sh
 fi
 	modcommand="${mods_global_array[index+1]}"
@@ -270,6 +274,7 @@ fi
 	moddescription="${mods_global_array[index+13]}"
 }
 
+## Mod compatibility check
 
 # Find out if a game is compatible with a mod from a modgames (list of games supported by a mod) variable
 fn_compatible_mod_games(){
