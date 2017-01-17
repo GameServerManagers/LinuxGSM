@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Uninstall mods along with mods_list.sh.
+# Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"
 local commandaction="Mod Remove"
@@ -11,7 +11,6 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 mods_core.sh
-mods_list.sh
 
 fn_mods_remove_init(){
   fn_script_log "Entering mods & addons removal"
@@ -55,7 +54,7 @@ fn_mods_remove_init(){
 	# Gives a pretty name to the user and get all mod info
 	currentmod="${usermodselect}"
 	fn_mod_get_info_from_command
-	# Returns ${modsfilelistsize}
+	# Check file list in order to make sure we're able to remove the mod (returns ${modsfilelistsize})
 	fn_check_files_list
 	fn_script_log "Removing ${modsfilelistsize} files from ${modprettyname}"
 	fn_print_dots "Removing ${modsfilelistsize} files from ${modprettyname}"
@@ -65,12 +64,14 @@ fn_mods_remove_init(){
 	sleep 4
 }
 
+# Uninstall the mod
 fn_mod_remove_process(){
-	# Check file list in order to make sure we're able to remove the mod
+	# Go through every file and remove it
 	modfileline="1"
 	while [ $modfileline -le $modsfilelistsize ]; do
-		# Current line defines current mod command
+		# Current line defines current file to remove
 		currentfileremove="$(sed "${modfileline}q;d" "${modsdatadir}/${modcommand}-files.list")"
+		# If file or directory exists, then remove it
 		if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
 			fn_script_log "Removing: ${modinstalldir}/${currentfileremove}"
 			rm -rf "${modinstalldir}/${currentfileremove}"
@@ -89,3 +90,4 @@ fn_mod_remove_process(){
 
 fn_mods_remove_init
 fn_mod_remove_process
+core_exit.sh
