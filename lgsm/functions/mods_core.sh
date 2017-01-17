@@ -245,14 +245,15 @@ fn_postinstall_tasks(){
 }
 
 # Apply some post-uninstall fixes to make sure everything will be fine
-
 fn_postuninstall_tasks(){
 	# Oxide fix
 	# Oxide replaces server files, so a validate is required after uninstall
 	if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
 		fn_print_information_nl "Validating to restore original ${gamename} files replaced by Oxide"
 		fn_script_log "Validating to restore original ${gamename} files replaced by Oxide"
+		exitbypass="1"
 		command_validate.sh
+		unset exitbypass
 	fi
 }
 
