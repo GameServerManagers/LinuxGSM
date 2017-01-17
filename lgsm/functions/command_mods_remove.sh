@@ -84,6 +84,8 @@ fn_mod_remove_process(){
 	# Remove from installed mods list
 	fn_script_log "Removing: ${modcommand} from ${modslockfilefullpath}"
 	sed -i "/^${modcommand}$/d" "${modslockfilefullpath}"
+	# Post install tasks to solve potential issues
+	fn_postuninstall_tasks
 	fn_print_ok_nl "Removed ${modprettyname}"
 	fn_script_log "Removed ${modprettyname}"
 }
