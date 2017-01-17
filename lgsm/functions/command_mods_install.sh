@@ -11,7 +11,6 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 mods_core.sh
-mods_list.sh
 
 fn_mods_install_init(){
 	fn_script_log "Entering mods & addons installation"
@@ -52,8 +51,8 @@ fn_mod_installation(){
 		fn_mod_get_info_from_command
 		# Check if mod is already installed
 		fn_mod_already_installed
-		# Check and create required directories
-		fn_mods_dir
+		# Check and create required files
+		fn_mods_files
 		# Clear lgsm/tmp/mods dir if exists then recreate it
 		fn_clear_tmp_mods
 		fn_mods_tmpdir
@@ -77,9 +76,11 @@ fn_mod_installation(){
 		fn_script_log "${modprettyname} installed."
 	else
 		fn_print_fail "No mod was selected"
+		exitcode="1"
 		core_exit.sh
 	fi
 }
 
 fn_mods_install_init
 fn_mod_installation
+core_exit.sh
