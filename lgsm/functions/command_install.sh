@@ -34,6 +34,8 @@ elif [ "${gamename}" == "Don't Starve Together" ]; then
 	install_dst_token.sh
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	install_mta_resources.sh
 fi
 
 fix.sh

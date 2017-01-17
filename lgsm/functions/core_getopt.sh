@@ -789,7 +789,7 @@ elif [ "${engine}" == "unreal2" ]; then
 elif [ "${engine}" == "unreal" ]; then
 	fn_getopt_unreal
 # Generic
-elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "Call of Duty 4" ]||[ "${gamename}" == "Call of Duty: World at War" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "Call of Duty 4" ]||[ "${gamename}" == "Call of Duty: World at War" ]||[ "${gamename}" == "Multi Theft Auto" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_getopt_generic_no_update
 elif  [ "${gamename}" == "Factorio" ]; then
 	fn_getopt_generic_update_no_steam	

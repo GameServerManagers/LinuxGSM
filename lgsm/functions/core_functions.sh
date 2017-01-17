@@ -571,6 +571,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_mta_resources.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Calls the global Ctrl-C trap
 core_trap.sh
 
