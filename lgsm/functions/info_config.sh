@@ -39,6 +39,16 @@ fn_info_config_avalanche(){
 	fi
 }
 
+fn_info_config_ark(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+	else
+		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		# Not Set
+		servername=${servername:-"NOT SET"}
+	fi
+}
+
 fn_info_config_bf1942(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -163,6 +173,23 @@ fn_info_config_dontstarve(){
 		port=${port:-"0"}
 		steamauthenticationport=${steamauthenticationport:-"0"}
 		steammasterserverport=${steammasterserverport:-"0"}
+	fi
+}
+
+fn_info_config_factorio(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="Factorio Server"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername="Factorio Server"
+		serverpassword=$(grep "game_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"max_players\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers=:-"0"}
+		rconpassword=${rconpassword=:-"NOT SET"}
 	fi
 }
 
@@ -611,6 +638,9 @@ fn_info_config_mta(){
 # Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
+# ARK: Survival Evolved
+elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	fn_info_config_ark
 # Battlefield: 1942
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	fn_info_config_bf1942
@@ -629,6 +659,9 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
+# Factorio	
+elif [ "${gamename}" == "Factorio" ]; then
+	fn_info_config_factorio
 # Quake 2
 elif [ "${gamename}" == "Quake 2" ]; then
 	fn_info_config_quake2

@@ -314,16 +314,16 @@ fn_details_ports(){
 	echo -e "Change ports by editing the parameters in:"
 
 	parmslocation="${red}UNKNOWN${default}"
-	# engines that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "RenderWare" )
+	# engines/games that require editing in the config file
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "RenderWare" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines that require editing in the script file
-	local ports_edit_array=( "Hurtworld" "iw3.0" "goldsource" "Rust" "spark" "source" "starbound" "unreal4" )
+	# engines/games that require editing in the script file
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -345,7 +345,23 @@ fn_details_statusbottom(){
 	echo -e ""
 }
 
+
 # Engine Specific details
+
+fn_details_ark(){
+	echo -e "netstat -atunp | grep ShooterGame"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		if [ "${port}" -eq "${port}" ]; then 
+			echo -e "> RAW\tINBOUND\t$((port+1))\tudp"
+		fi
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
 
 fn_details_avalanche(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
@@ -413,12 +429,51 @@ fn_details_dontstarve(){
 	} | column -s $'\t' -t
 }
 
+fn_details_factorio(){
+	echo -e "netstat -atunp | grep factorio"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_details_goldsource(){
+	echo -e "netstat -atunp | grep hlds_linux"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
+		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_hurtworld(){
+	echo -e "netstat -atunp | grep Hurtworld"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_minecraft(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_details_mumble(){
+	echo -e "netstat -atunp | grep murmur"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Voice\tINBOUND\t${port}\tudp"
+		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -431,29 +486,12 @@ fn_details_projectzomboid(){
 	} | column -s $'\t' -t
 }
 
-
-fn_details_realvirtuality(){
-	echo -e "netstat -atunp | grep arma3server"
+fn_details_quake(){
+	echo -e "netstat -atunp | grep mvdsv"
 	echo -e ""
-	if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
-		echo -e "${red}ERROR!${default} Missing/commented ports in ${servercfg}."
-		echo -e ""
-	fi
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
-	} | column -s $'\t' -t
-}
-
-fn_details_refractor(){
-	echo -e "netstat -atunp | grep bf1942_lnxd"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -468,15 +506,6 @@ fn_details_quake2(){
 
 fn_details_quake3(){
 	echo -e "netstat -atunp | grep q3ded"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t
-}
-
-fn_details_quake(){
-	echo -e "netstat -atunp | grep mvdsv"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -499,15 +528,44 @@ fn_details_quakelive(){
 	} | column -s $'\t' -t
 }
 
-fn_details_wolfensteinenemyterritory(){
-	echo -e "netstat -atunp | grep etded"
+fn_details_realvirtuality(){
+	echo -e "netstat -atunp | grep arma3server"
+	echo -e ""
+	# Default port
+	if [ -z "${port}" ]; then
+		port="2302"
+	fi
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		if [ "${port}" -eq "${port}" ]; then 
+			echo -e "> Steam: Query\tINBOUND\t$((port+1))\tudp"
+			echo -e "> Steam: Master traffic\tINBOUND\t$((port+2))\tudp"
+			echo -e "> Undocumented Port\tINBOUND\t$((port+3))\tudp"
+		fi
+	} | column -s $'\t' -t
+}
+
+fn_details_refractor(){
+	echo -e "netstat -atunp | grep bf1942_lnxd"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
+fn_details_rust(){
+	echo -e "netstat -atunp | grep Rust"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
 
 fn_details_seriousengine35(){
 	echo -e "netstat -atunp | grep Sam3_Dedicate"
@@ -519,15 +577,41 @@ fn_details_seriousengine35(){
 	} | column -s $'\t' -t
 }
 
+fn_details_sdtd(){
+	echo -e "netstat -atunp | grep 7DaysToDie"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} Telnet${default}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	{
+		echo -e "${blue}Telnet enabled:\t${default}${telnetenabled}"
+		echo -e "${blue}Telnet address:\t${default}${ip} ${telnetport}"
+		echo -e "${blue}Telnet password:\t${default}${telnetpass}"
+	} | column -s $'\t' -t
+}
+
 fn_details_source(){
 	echo -e "netstat -atunp | grep srcds_linux"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
-		if [ -n "${sourcetvport}" ]; then
-			echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
-		fi
+		echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
 		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
 	} | column -s $'\t' -t
 }
@@ -573,16 +657,6 @@ fn_details_teamspeak3(){
 	} | column -s $'\t' -t
 }
 
-fn_details_mumble(){
-	echo -e "netstat -atunp | grep murmur"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Voice\tINBOUND\t${port}\tudp"
-		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
-	} | column -s $'\t' -t
-}
-
 fn_details_teeworlds(){
 	echo -e "netstat -atunp | grep teeworlds_srv"
 	echo -e ""
@@ -598,54 +672,6 @@ fn_details_terraria(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-	} | column -s $'\t' -t
-}
-
-fn_details_sdtd(){
-	echo -e "netstat -atunp | grep 7DaysToDie"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
-		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-	{
-		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Telnet${default}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-	{
-		echo -e "${blue}Telnet enabled:\t${default}${telnetenabled}"
-		echo -e "${blue}Telnet address:\t${default}${ip} ${telnetport}"
-		echo -e "${blue}Telnet password:\t${default}${telnetpass}"
-	} | column -s $'\t' -t
-}
-
-fn_details_hurtworld(){
-	echo -e "netstat -atunp | grep Hurtworld"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	} | column -s $'\t' -t
-}
-
-fn_details_rust(){
-	echo -e "netstat -atunp | grep Rust"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -696,13 +722,12 @@ fn_details_ut3(){
 	} | column -s $'\t' -t
 }
 
-fn_details_ark(){
-	echo -e "netstat -atunp | grep ShooterGame"
+fn_details_wolfensteinenemyterritory(){
+	echo -e "netstat -atunp | grep etded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -747,6 +772,8 @@ fn_display_details() {
 		fn_details_refractor
 	elif [ "${engine}" == "dontstarve" ]; then
 		fn_details_dontstarve
+	elif [ "${engine}" == "goldsource" ]; then
+		fn_details_goldsource
 	elif [ "${engine}" == "lwjgl2" ]; then
 		fn_details_minecraft
 	elif [ "${engine}" == "projectzomboid" ]; then
@@ -755,7 +782,7 @@ fn_display_details() {
 		fn_details_realvirtuality
 	elif [ "${engine}" == "seriousengine35" ]; then
 		fn_details_seriousengine35
-	elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+	elif [ "${engine}" == "source" ]; then
 		fn_details_source
 	elif [ "${engine}" == "spark" ]; then
 		fn_details_spark
@@ -771,7 +798,7 @@ fn_display_details() {
 		fn_details_ut3
 	elif [ "${gamename}" == "7 Days To Die" ]; then
 		fn_details_sdtd
-	elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 		fn_details_ark
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_details_cod
@@ -783,6 +810,8 @@ fn_display_details() {
 		fn_details_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_details_codwaw
+	elif [ "${gamename}" == "Factorio" ]; then
+		fn_details_factorio    
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
 	elif [ "${gamename}" == "QuakeWorld" ]; then
@@ -795,14 +824,14 @@ fn_display_details() {
 		fn_details_quakelive
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fn_details_mta    
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_details_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_details_rust
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_details_wolfensteinenemyterritory
-	elif [ "${gamename}" == "Multi Theft Auto" ]; then
-		fn_details_mta
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi

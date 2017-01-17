@@ -2,7 +2,7 @@
 # Just Cause 2
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2016 Daniel Gibbs
+# License: MIT License, Copyright (c) 2017 Daniel Gibbs
 # Purpose: TravisCI Test: Just Cause 2 | Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
@@ -17,7 +17,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="161224"
+version="170110"
 
 ##########################
 ######## Settings ########
@@ -27,7 +27,6 @@ version="161224"
 # No settings available for Just Cause 2
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms=""
 }

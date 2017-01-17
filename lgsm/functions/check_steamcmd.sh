@@ -31,7 +31,7 @@ fn_check_steamcmd_user(){
 			fn_script_log_info "Using anonymous Steam login."
 		fi
 		steamuser="anonymous"
-		steampass=""
+		steampass=''
 		sleep 1
 	fi
 }

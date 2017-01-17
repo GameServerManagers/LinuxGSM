@@ -2,7 +2,7 @@
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2017 Daniel Gibbs
-# Purpose: Enemy Territory | Server Management Script
+# Purpose: Factorio | Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
@@ -22,9 +22,15 @@ version="170110"
 
 #### Server Settings ####
 
+## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
+port="34197"
+rconport="34198"
+rconpassword="CHANGE_ME"
+ip="0.0.0.0"
+
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-	parms="+set net_strict 1 +set fs_homepath ${filesdir} +exec ${servercfg}"
+parms="--start-server ${filesdir}/save1.zip --server-settings ${servercfgfullpath} --port ${port} --rcon-port ${rconport} --rcon-password ${rconpassword}"
 }
 
 #### LinuxGSM Settings ####
@@ -64,11 +70,11 @@ githubbranch="master"
 
 ## LinuxGSM Server Details
 # Do not edit
-gamename="Wolfenstein: Enemy Territory"
-engine="idtech3"
+gamename="Factorio"
+engine="factorio"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="et-server"
+servicename="fctr-server"
 
 #### Directories ####
 # Edit with care
@@ -85,18 +91,18 @@ filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
 systemdir="${filesdir}"
-executabledir="${systemdir}"
-executable="./etded"
-servercfg="${servicename}.cfg"
-servercfgdefault="server.cfg"
-servercfgdir="${systemdir}/etmain"
+executabledir="${filesdir}/bin/x64"
+executable="./factorio"
+servercfg="${servicename}.json"
+servercfgdefault="server-settings.json"
+servercfgdir="${filesdir}/data"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${filesdir}/Logs"
+gamelogdir="${filesdir}"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
