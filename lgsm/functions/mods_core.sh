@@ -210,7 +210,7 @@ fn_check_files_list(){
 	fi
 }
 
-# Apply some postinstall fixes to make sure everything will be fine
+# Apply some post-install fixes to make sure everything will be fine
 fn_postinstall_tasks(){
 	# Prevent sensitive directories from being erased upon uninstall by removing them them from: ${modsdatadir}/${modcommand}-files.list
 	# Check file validity
@@ -242,6 +242,18 @@ fn_postinstall_tasks(){
 	fi
 	fn_print_ok "Rearranging ${modcommand}-files.list"
 	sleep 0.5
+}
+
+# Apply some post-uninstall fixes to make sure everything will be fine
+
+fn_postuninstall_tasks(){
+	# Oxide fix
+	# Oxide replaces server files, so a validate is required after uninstall
+	if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
+		fn_print_information_nl "Validating to restore original ${gamename} files replaced by Oxide"
+		fn_script_log "Validating to restore original ${gamename} files replaced by Oxide"
+		command_validate.sh
+	fi
 }
 
 #########################
