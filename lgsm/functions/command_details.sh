@@ -315,7 +315,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "RenderWare" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -759,7 +759,7 @@ fn_display_details() {
 	fn_details_script
 	fn_details_backup
 	# Some game servers do not have parms.
-	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "RenderWare" ]; then
+	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
 		fn_parms
 		fn_details_commandlineparms
 	fi

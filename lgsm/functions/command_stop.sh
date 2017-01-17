@@ -229,7 +229,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_goldsource
 	elif [ "${engine}" == "lwjgl2" ]; then
 		fn_stop_graceful_minecraft
-	elif [ "${engine}" == "RenderWare" ]; then
+	elif [ "${engine}" == "renderware" ]; then
 		fn_stop_graceful_mta
 	else
 		fn_stop_tmux
