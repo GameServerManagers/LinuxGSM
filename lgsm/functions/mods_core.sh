@@ -438,6 +438,28 @@ fn_installed_mods_list(){
 	echo ""
 }
 
+# Display a simple list of installed mods
+fn_installed_mods_lightlist(){
+	# How many mods installed
+	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+	if [ -f "${modslockfilefullpath}" ]&&[ $installedmodscount -gt 0 ]; then
+		echo "================================="
+		echo "Installed mods/addons
+		# Set variables
+		installedmodsline="1"
+		installedmodslist=()
+		# Loop through mods
+		while [ $installedmodsline -le $installedmodscount ]; do
+			currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )"
+			fn_mod_get_info_from_command
+			echo -e " * \e[1m${modprettyname}\e[0m"
+			installedmodslist+=( "${modcommand}" )
+			let installedmodsline=installedmodsline+1
+		done
+		echo ""
+	fi
+}
+
 # Get details of a mod any (relevant and unique, such as full mod name or install command) value
 fn_mod_get_info_from_command(){
 	# Variable to know when job is done
