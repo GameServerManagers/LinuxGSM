@@ -429,10 +429,10 @@ fn_installed_mods_list(){
 	installedmodslist=()
 	while [ $installedmodsline -le $installedmodscount ]; do
 		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )"
-		installedmodslist+="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
 		fn_mod_get_info_from_command
 		echo -e "\e[1m${modprettyname}\e[0m - ${moddescription} - ${modsite}"
 		echo -e " * \e[36m${modcommand}\e[0m"
+		installedmodslist+=( "${modcommand}" )
 		let installedmodsline=installedmodsline+1
 	done
 	echo ""
