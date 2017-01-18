@@ -631,11 +631,11 @@ fn_info_config_mta(){
 		ipinconfigvar="serverip"
 
 		# Not Set
-		port=${port:-"NOT SET - Defaults to 22003"}
-		httpport=${httpport:-"NOT SET - Defaults to 22005"}
-		ase=${ase:-"NOT SET - Defaults to Disabled"}
+		port=${port:-"22003"}
+		httpport=${httpport:-"22005"}
+		ase=${ase:-"Disabled"}
 		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET - Defaults to none"}
+		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
 	fi
 }
