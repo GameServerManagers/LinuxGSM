@@ -29,6 +29,7 @@ fn_mods_remove_init(){
 	fi
 	# Displays installed addons to the user
 	fn_installed_mods_list
+	echo ""
   	# Keep prompting as long as the user input doesn't correspond to an available mod
 	while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
 		echo -en "Enter a \e[36mmod\e[0m to \e[31mremove\e[0m (or exit to abort): "
