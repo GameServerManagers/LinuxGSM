@@ -444,7 +444,7 @@ fn_installed_mods_lightlist(){
 	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
 	if [ -f "${modslockfilefullpath}" ]&&[ $installedmodscount -gt 0 ]; then
 		echo "================================="
-		echo "Installed mods/addons
+		echo "Installed mods/addons"
 		# Set variables
 		installedmodsline="1"
 		installedmodslist=()
