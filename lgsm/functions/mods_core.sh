@@ -422,15 +422,14 @@ fn_mods_show_available(){
 	fi
 }
 
-
 # Builds installed mods list and display it to the user.
 fn_installed_mods_list(){
 	# Set variables
-	installedmodsline=1
+	installedmodsline="1"
 	installedmodslist=()
 	while [ $installedmodsline -le $installedmodscount ]; do
-		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )""
-		installedmodslist+=( "$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )" )
+		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )"
+		installedmodslist+="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
 		fn_mod_get_info_from_command
 		echo -e "\e[1m${displayedmodname}\e[0m - ${displayedmoddescription} - ${displayedmodsite}"
 		echo -e " * \e[36m${displayedmodcommand}\e[0m"
