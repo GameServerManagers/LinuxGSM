@@ -435,7 +435,6 @@ fn_installed_mods_list(){
 		installedmodslist+=( "${modcommand}" )
 		let installedmodsline=installedmodsline+1
 	done
-	echo ""
 }
 
 # Display a simple list of installed mods
@@ -456,7 +455,6 @@ fn_installed_mods_lightlist(){
 			installedmodslist+=( "${modcommand}" )
 			let installedmodsline=installedmodsline+1
 		done
-		echo ""
 	fi
 }
 
