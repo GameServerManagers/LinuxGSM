@@ -67,8 +67,8 @@ fn_clear_tmp_mods(){
 # Create tmp download mod directory
 fn_mods_tmpdir(){
 	if [ ! -d "${modstmpdir}" ]; then
-			mkdir -p "${modstmpdir}"
-			fn_script_log "Creating temp mod download directory: ${modstmpdir}"
+		mkdir -p "${modstmpdir}"
+		fn_script_log "Creating temp mod download directory: ${modstmpdir}"
 	fi
 }
 
