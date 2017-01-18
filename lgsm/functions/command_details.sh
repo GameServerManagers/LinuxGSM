@@ -735,8 +735,8 @@ fn_details_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-		echo -e "> Game\tOUTBOUND\t${port}\tudp\tPort=${port}"
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tOUTBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
 			echo -e "> ASE Game_Monitor\tOUTBOUND\t$((${port} + 123))\tudp"
