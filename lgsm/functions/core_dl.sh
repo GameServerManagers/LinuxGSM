@@ -117,7 +117,7 @@ fn_fetch_file(){
 			# trap to remove part downloaded files
 			trap fn_fetch_trap INT
 			# if larger file shows progress bar
-			if [ ${filename##*.} == "bz2" ]||[ ${filename##*.} == "gz" ]||[ ${filename##*.} == "zip" ]||[ ${filename##*.} == "jar" ]; then
+			if [ "${filename##*.}" == "bz2" ]||[ "${filename##*.}" == "gz" ]||[ "${filename##*.}" == "zip" ]||[ "${filename##*.}" == "jar" ]; then
 				echo -ne "downloading ${filename}..."
 				sleep 1
 				curlcmd=$(${curlcmd} --progress-bar --fail -L -o "${filedir}/${filename}" "${fileurl}")
