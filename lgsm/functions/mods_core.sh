@@ -402,7 +402,6 @@ fn_mods_available(){
 fn_mods_show_available(){
 	# Set and reset vars
 	compatiblemodslistindex=0
-	spaces=" "
 	# As long as we're within index values
 	while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
 		# Set values for convenience
@@ -421,6 +420,23 @@ fn_mods_show_available(){
 		fn_print_fail "No mods are currently available for ${gamename}."
 		core_exit.sh
 	fi
+}
+
+
+# Builds installed mods list and display it to the user.
+fn_installed_mods_list(){
+	# Set variables
+	installedmodsline=1
+	installedmodslist=()
+	while [ $installedmodsline -le $installedmodscount ]; do
+		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )""
+		installedmodslist+=( "$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )" )
+		fn_mod_get_info_from_command
+		echo -e "\e[1m${displayedmodname}\e[0m - ${displayedmoddescription} - ${displayedmodsite}"
+		echo -e " * \e[36m${displayedmodcommand}\e[0m"
+		let installedmodsline=installedmodsline+1
+	done
+	echo ""
 }
 
 # Get details of a mod any (relevant and unique, such as full mod name or install command) value
