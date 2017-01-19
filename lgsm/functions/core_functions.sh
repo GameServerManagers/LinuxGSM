@@ -228,6 +228,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+check_executable.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 check_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
