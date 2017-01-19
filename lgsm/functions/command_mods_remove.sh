@@ -13,7 +13,7 @@ check.sh
 mods_core.sh
 
 fn_mods_remove_init(){
-  fn_script_log "Entering mods & addons removal"
+	fn_script_log "Entering mods & addons removal"
 	echo "================================="
 	echo "${gamename} mods & addons removal"
 	echo ""
