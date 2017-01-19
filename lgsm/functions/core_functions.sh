@@ -182,6 +182,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_install_resources_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_fastdl.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
