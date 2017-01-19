@@ -172,8 +172,14 @@ fn_mod_already_installed(){
 			fn_print_warning_nl "${modprettyname} has already been installed"
 			sleep 1
 			echo " * Config files, if any, might be overwritten."
-			echo " * Press ctrl + c to abort."
-			sleep 3
+			while true; do
+				read -e -i "y" -p "Continue? [Y/n]" yn
+				case $yn in
+				[Yy]* ) break;;
+				[Nn]* ) echo Exiting; core_exit.sh;;
+				* ) echo "Please answer yes or no.";;
+				esac
+				done
 		fi
 	fn_script_log "${modprettyname} is already installed, overwriting any file."
 	fi
