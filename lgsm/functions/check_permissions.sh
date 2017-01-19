@@ -123,11 +123,6 @@ fn_check_permissions(){
 				fi
 			fi
 		fi
-	else
-		fn_script_log_warn "Expected executable not found: ${executabledir}/${execname}"
-		fn_print_fail_nl "Executable ${execname} was not found"
-		exitcode="1"
-		core_exit.sh
 	fi
 }
 
