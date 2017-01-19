@@ -68,12 +68,12 @@ fn_mods_scrape_urls(){
 	# Metamod
 	metamodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
 	metamodlatestfile="$(wget "${metamodscrapeurl}/?MD" -q -O -| grep "mmsource" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"
-	metamodfasterurl="http://cdn.probablyaserver.com/sourcemod/"
-	metamodurl="${metamodfasterurl}/${metamodlatestfile}"
+	metamoddownloadurl="http://cdn.probablyaserver.com/sourcemod/"
+	metamodurl="${metamoddownloadurl}/${metamodlatestfile}"
 	# Sourcemod
 	sourcemodmversion="1.8"
-	sourcemodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
-	sourcemodlatestfile="$(wget "${sourcemodscrapeurl}/?MD" -q -O -| grep "sourcemod-" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"
-	sourcemodfasterurl="http://cdn.probablyaserver.com/sourcemod/"
-	sourcemodurl="${sourcemodfasterurl}/${sourcemodlatestfile}"
+	sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
+	sourcemodlatestfile="$(wget "${sourcemodscrapeurl}/?MD" -q -O -)"
+	sourcemoddownloadurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}"
+	sourcemodurl="${sourcemoddownloadurl}/${sourcemodlatestfile}"
 }
