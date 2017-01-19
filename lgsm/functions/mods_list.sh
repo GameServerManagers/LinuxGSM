@@ -73,7 +73,7 @@ fn_mods_scrape_urls(){
 	# Sourcemod
 	sourcemodmversion="1.8"
 	sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
-	sourcemodlatestfile="$(wget "${sourcemodscrapeurl}/?MD" -q -O -)"
+	sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 	sourcemoddownloadurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}"
 	sourcemodurl="${sourcemoddownloadurl}/${sourcemodlatestfile}"
 }
