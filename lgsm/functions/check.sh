@@ -83,3 +83,11 @@ do
 		check_system_requirements.sh
 	fi
 done
+
+local allowed_commands_array=( command_start.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_executable.sh
+	fi
+done
