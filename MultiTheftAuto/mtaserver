@@ -61,7 +61,7 @@ githubbranch="master"
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Multi Theft Auto"
-engine="RenderWare"
+engine="renderware"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="mta-server"
