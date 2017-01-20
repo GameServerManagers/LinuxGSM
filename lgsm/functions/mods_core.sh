@@ -587,7 +587,7 @@ fn_mod_get_info_from_command(){
 	# What happens if mod is not found
 	if [ "${modinfocommand}" == "0" ]; then
 		fn_script_log_error "Couldn't find information for ${currentmod}"
-		fn_print_error_nl ""Couldn't find information for ${currentmod}"
+		fn_print_error_nl "Couldn't find information for ${currentmod}"
 		exitcode="1"
 		core_exit.sh
 	fi
