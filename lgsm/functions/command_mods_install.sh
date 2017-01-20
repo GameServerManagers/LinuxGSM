@@ -16,10 +16,9 @@ fn_mods_install_init(){
 	fn_print_header
 	# Display installed mods
 	fn_installed_mods_light_list
-	echo ""
+
 	echo "Available addons/mods"
 	echo "================================="
-	
 	# Display available mods from mods_list.sh
 	fn_mods_show_available
 	echo ""
