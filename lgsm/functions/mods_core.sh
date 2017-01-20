@@ -428,40 +428,136 @@ fn_mods_show_available(){
 	fi
 }
 
-# Builds installed mods list and display it to the user.
-fn_installed_mods_list(){
-	# Set variables
+# Checks if mods have been installed
+# Also returns ${installedmodscount} if mods were found
+fn_check_installed_mods(){
+	# Count installed mods
+	if [ -f "${modslockfilefullpath}" ]; then
+		installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+	fi
+}
+
+# A simple function to exit if no mods were installed
+# Also returns ${installedmodscount} if mods were found
+fn_mods_exit_if_not_installed(){
+	# Checks if mods have been installed
+	# Also returns ${installedmodscount} if mods were found
+	fn_check_installed_mods
+	# If no mods lockfile is found or if it is empty
+	if [ ! -f "${modslockfilefullpath}" ]||[ -z "${installedmodscount}" ]||[ $installedmodscount -le 0 ]; then
+		fn_print_information_nl "No installed mods or addons were found"
+		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
+		fn_script_log_info "No installed mods or addons were found."
+		core_exit.sh
+	fi
+}
+
+# Builds installed mods list and sets available commands according to installed mods
+# (requires ${installedmodscount} from fn_check_installed_mods)
+fn_mods_available_commands_from_installed(){
+	# Set/reset variables
 	installedmodsline="1"
 	installedmodslist=()
+	# Loop through every line of the installed mods list ${modslockfilefullpath}
 	while [ $installedmodsline -le $installedmodscount ]; do
-		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )"
+		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
+		# Get mod info to make sure mod exists
 		fn_mod_get_info_from_command
-		echo -e "\e[1m${modprettyname}\e[0m - ${moddescription} - ${modsite}"
-		echo -e " * \e[36m${modcommand}\e[0m"
+		# Add the mod to available commands
 		installedmodslist+=( "${modcommand}" )
+		# Increment line check
 		let installedmodsline=installedmodsline+1
 	done
 }
 
-# Display a simple list of installed mods
-fn_installed_mods_lightlist(){
-	# How many mods installed
-	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
-	if [ -f "${modslockfilefullpath}" ]&&[ $installedmodscount -gt 0 ]; then
+# Displays a detailed list of installed mods
+# Requires fn_check_installed_mods and fn_mods_available_commands_from_installed to run
+fn_installed_mods_detailed_list(){
+	fn_check_installed_mods
+	fn_mods_available_commands_from_installed
+	# Were now based on ${installedmodslist} array's values
+	# We're gonna go through all available commands, get details and display them to the user
+	for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
+		# Current mod is the "index" value of the array we're going through
+		currentmod="${installedmodslist[index]}"
+		# Get mod info
+		fn_mod_get_info_from_command
+		# Display mod info to the user
+		echo -e "\e[1m${modprettyname}\e[0m - ${moddescription} - ${modsite}"
+		echo -e " * \e[36m${modcommand}\e[0m"
+	done
+}
+
+# Displays a detailed list of installed mods
+# Requires fn_check_installed_mods and fn_mods_available_commands_from_installed to run
+fn_installed_mods_medium_list(){
+	fn_check_installed_mods
+	fn_mods_available_commands_from_installed
+	# Were now based on ${installedmodslist} array's values
+	# We're gonna go through all available commands, get details and display them to the user
+	for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
+		# Current mod is the "index" value of the array we're going through
+		currentmod="${installedmodslist[index]}"
+		# Get mod info
+		fn_mod_get_info_from_command
+		# Display mod info to the user
+		echo -e "\e[36m${modcommand}\e[0m - \e[1m${modprettyname}\e[0m - ${moddescription}"
+	done
+}
+
+# Displays a simple list of installed mods
+# Requires fn_check_installed_mods and fn_mods_available_commands_from_installed to run
+# This list is only displayed when some mods are installed 
+fn_installed_mods_light_list(){
+	fn_check_installed_mods
+	fn_mods_available_commands_from_installed
+	if [ $installedmodscount -gt 0 ]; then
 		echo "================================="
 		echo "Installed mods/addons"
-		# Set variables
-		installedmodsline="1"
-		installedmodslist=()
-		# Loop through mods
-		while [ $installedmodsline -le $installedmodscount ]; do
-			currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}" )"
+		# Were now based on ${installedmodslist} array's values
+		# We're gonna go through all available commands, get details and display them to the user
+		for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
+			# Current mod is the "index" value of the array we're going through
+			currentmod="${installedmodslist[index]}"
+			# Get mod info
 			fn_mod_get_info_from_command
+			# Display simple mod info to the user
 			echo -e " * \e[1m${modprettyname}\e[0m"
-			installedmodslist+=( "${modcommand}" )
-			let installedmodsline=installedmodsline+1
 		done
 	fi
+}
+
+# Displays a simple list of installed mods for mods-update command
+# Requires fn_check_installed_mods and fn_mods_available_commands_from_installed to run
+fn_installed_mods_update_list(){
+	fn_check_installed_mods
+	fn_mods_available_commands_from_installed
+	echo "================================="
+	echo "Installed mods/addons"
+	# Were now based on ${installedmodslist} array's values
+	# We're gonna go through all available commands, get details and display them to the user
+	for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
+		# Current mod is the "index" value of the array we're going through
+		currentmod="${installedmodslist[index]}"
+		# Get mod info
+		fn_mod_get_info_from_command
+		# Display simple mod info to the user according to the update policy
+		# If modkeepfiles is not set for some reason, that's a problem
+		if [ -z "${modkeepfiles}" ]; then
+			fn_script_log_error "Couldn't find update policy for ${modprettyname}"
+			fn_print_error_nl "Couldn't find update policy for ${modprettyname}"
+			exitcode="1"
+			core_exit.sh
+		# If the mod won't get updated
+		elif [ "${modkeepfiles}" == "NOUPDATE" ]; then
+			echo -e " * \e[31m${modprettyname}\e[0m (won't be updated)"
+		# If the mode is just overwritten
+		elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
+			echo -e " * \e[1m${modprettyname}\e[0m (overwrite)"
+		else			
+			echo -e " * \e[33m${modprettyname}\e[0m (common custom files remain untouched)"
+		fi
+	done
 }
 
 # Get details of a mod any (relevant and unique, such as full mod name or install command) value
@@ -488,6 +584,13 @@ fn_mod_get_info_from_command(){
 			break
 		fi
 	done
+	# What happens if mod is not found
+	if [ "${modinfocommand}" == "0" ]; then
+		fn_script_log_error "Couldn't find information for ${currentmod}"
+		fn_print_error_nl ""Couldn't find information for ${currentmod}"
+		exitcode="1"
+		core_exit.sh
+	fi
 }
 
 fn_gsm_requirements
