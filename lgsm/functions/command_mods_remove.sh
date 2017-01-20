@@ -16,10 +16,10 @@ fn_mods_remove_init(){
 	fn_script_log "Entering mods & addons removal"
 	echo "================================="
 	echo "${gamename} mods & addons removal"
-	echo ""
 	# A simple function to exit if no mods were installed
 	# Also returns ${installedmodscount} if mods were found
 	fn_mods_exit_if_not_installed
+	echo ""
 	# Displays installed addons to the user
 	fn_installed_mods_medium_list
 	echo ""
