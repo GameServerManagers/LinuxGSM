@@ -38,7 +38,7 @@ fn_mods_update_loop(){
 			fn_mod_get_info_from_command
 			# Don't update the mod if it's policy is to "NOUPDATE"
 			if [ "${modkeepfiles}" == "NOUPDATE" ]; then
-				fn_print_info_nl "${modprettyname} won't be updated to preserve custom files"
+				fn_print_info "${modprettyname} won't be updated to preserve custom files"
 				fn_script_log "${modprettyname} won't be updated to preserve custom files."
 				let installedmodsline=installedmodsline+1
 			else
