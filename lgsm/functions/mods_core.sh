@@ -477,9 +477,9 @@ fn_installed_mods_detailed_list(){
 	fn_mods_available_commands_from_installed
 	# Were now based on ${installedmodslist} array's values
 	# We're gonna go through all available commands, get details and display them to the user
-	for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
-		# Current mod is the "index" value of the array we're going through
-		currentmod="${installedmodslist[index]}"
+	for ((dlindex=0; dlindex <= ${#installedmodslist[@]}; dlindex++)); do
+		# Current mod is the "dlindex" value of the array we're going through
+		currentmod="${installedmodslist[dlindex]}"
 		# Get mod info
 		fn_mod_get_info_from_command
 		# Display mod info to the user
@@ -495,9 +495,9 @@ fn_installed_mods_medium_list(){
 	fn_mods_available_commands_from_installed
 	# Were now based on ${installedmodslist} array's values
 	# We're gonna go through all available commands, get details and display them to the user
-	for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
-		# Current mod is the "index" value of the array we're going through
-		currentmod="${installedmodslist[index]}"
+	for ((mlindex=0; mlindex <= ${#installedmodslist[@]}; mlindex++)); do
+		# Current mod is the "mlindex" value of the array we're going through
+		currentmod="${installedmodslist[mlindex]}"
 		# Get mod info
 		fn_mod_get_info_from_command
 		# Display mod info to the user
@@ -516,9 +516,9 @@ fn_installed_mods_light_list(){
 		echo "Installed mods/addons"
 		# Were now based on ${installedmodslist} array's values
 		# We're gonna go through all available commands, get details and display them to the user
-		for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
-			# Current mod is the "index" value of the array we're going through
-			currentmod="${installedmodslist[index]}"
+		for ((llindex=0; llindex <= ${#installedmodslist[@]}; llindex++)); do
+			# Current mod is the "llindex" value of the array we're going through
+			currentmod="${installedmodslist[llindex]}"
 			# Get mod info
 			fn_mod_get_info_from_command
 			# Display simple mod info to the user
@@ -536,9 +536,9 @@ fn_installed_mods_update_list(){
 	echo "Installed mods/addons"
 	# Were now based on ${installedmodslist} array's values
 	# We're gonna go through all available commands, get details and display them to the user
-	for ((index=0; index <= ${#installedmodslist[@]}; index++)); do
-		# Current mod is the "index" value of the array we're going through
-		currentmod="${installedmodslist[index]}"
+	for ((ulindex=0; ulindex <= ${#installedmodslist[@]}; ulindex++)); do
+		# Current mod is the "ulindex" value of the array we're going through
+		currentmod="${installedmodslist[ulindex]}"
 		# Get mod info
 		fn_mod_get_info_from_command
 		# Display simple mod info to the user according to the update policy
