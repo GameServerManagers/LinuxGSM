@@ -17,18 +17,11 @@ fn_mods_remove_init(){
 	echo "================================="
 	echo "${gamename} mods & addons removal"
 	echo ""
-	# Installed mod dir is "${modslockfilefullpath}"
-	# How many mods are installed
-	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
-	# If no mods to be updated
-	if [ ! -f "${modslockfilefullpath}" ]||[ $installedmodscount -eq 0 ]; then
-		fn_print_information_nl "No mods or addons to remove"
-		echo " * Did you install any mod using LGSM?"
-		fn_script_log_info "No mods or addons to remove."
-		core_exit.sh
-	fi
+	# A simple function to exit if no mods were installed
+	# Also returns ${installedmodscount} if mods were found
+	fn_mods_exit_if_not_installed
 	# Displays installed addons to the user
-	fn_installed_mods_list
+	fn_installed_mods_medium_list
 	echo ""
   	# Keep prompting as long as the user input doesn't correspond to an available mod
 	while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
