@@ -17,7 +17,6 @@ if [ ! -f /usr/lib/libmysqlclient.so.16 ]; then
   fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	fn_fix_msg_end
 fi
-}
 
 fixname="libmysqlclient16"
 fn_fix_msg_start
