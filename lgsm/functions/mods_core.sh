@@ -6,7 +6,7 @@
 # Description: Core functions for mods list/install/update/remove
 
 local commandname="MODS"
-local commandaction="Core functions for mods"
+local commandaction="addons/mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 ## Useful variables
@@ -416,8 +416,8 @@ fn_mods_show_available(){
 		displayedmodsite="${compatiblemodslist[compatiblemodslistindex+2]}"
 		displayedmoddescription="${compatiblemodslist[compatiblemodslistindex+3]}"
 		# Output mods to the user
-		echo -e "\e[1m${displayedmodname}\e[0m - ${displayedmoddescription} - ${displayedmodsite}"
-		echo -e " * \e[36m${displayedmodcommand}\e[0m"
+		echo -e "\e[1m${displayedmodname}${default} - ${displayedmoddescription} - ${displayedmodsite}"
+		echo -e " * ${cyan}${displayedmodcommand}${default}"
 		# Increment index from the amount of values we just displayed
 		let "compatiblemodslistindex+=4"
 	done
@@ -483,8 +483,8 @@ fn_installed_mods_detailed_list(){
 		# Get mod info
 		fn_mod_get_info_from_command
 		# Display mod info to the user
-		echo -e "\e[1m${modprettyname}\e[0m - ${moddescription} - ${modsite}"
-		echo -e " * \e[36m${modcommand}\e[0m"
+		echo -e "\e[1m${modprettyname}${default} - ${moddescription} - ${modsite}"
+		echo -e " * ${cyan}${modcommand}${default}"
 	done
 }
 
@@ -501,7 +501,7 @@ fn_installed_mods_medium_list(){
 		# Get mod info
 		fn_mod_get_info_from_command
 		# Display mod info to the user
-		echo -e "\e[36m${modcommand}\e[0m - \e[1m${modprettyname}\e[0m - ${moddescription}"
+		echo -e "${cyan}${modcommand}${default} - \e[1m${modprettyname}${default} - ${moddescription}"
 	done
 }
 
@@ -512,8 +512,8 @@ fn_installed_mods_light_list(){
 	fn_check_installed_mods
 	fn_mods_available_commands_from_installed
 	if [ $installedmodscount -gt 0 ]; then
+		echo "Installed addons/mods"
 		echo "================================="
-		echo "Installed mods/addons"
 		# Were now based on ${installedmodslist} array's values
 		# We're gonna go through all available commands, get details and display them to the user
 		for ((llindex=0; llindex < ${#installedmodslist[@]}; llindex++)); do
@@ -522,7 +522,7 @@ fn_installed_mods_light_list(){
 			# Get mod info
 			fn_mod_get_info_from_command
 			# Display simple mod info to the user
-			echo -e " * \e[1m${modprettyname}\e[0m"
+			echo -e " * \e[1m${green}${modprettyname}${default}${default}"
 		done
 	fi
 }
@@ -533,7 +533,7 @@ fn_installed_mods_update_list(){
 	fn_check_installed_mods
 	fn_mods_available_commands_from_installed
 	echo "================================="
-	echo "Installed mods/addons"
+	echo "Installed addons/mods"
 	# Were now based on ${installedmodslist} array's values
 	# We're gonna go through all available commands, get details and display them to the user
 	for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
@@ -550,12 +550,12 @@ fn_installed_mods_update_list(){
 			core_exit.sh
 		# If the mod won't get updated
 		elif [ "${modkeepfiles}" == "NOUPDATE" ]; then
-			echo -e " * \e[31m${modprettyname}\e[0m (won't be updated)"
+			echo -e " * \e[31m${modprettyname}${default} (won't be updated)"
 		# If the mode is just overwritten
 		elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
-			echo -e " * \e[1m${modprettyname}\e[0m (overwrite)"
+			echo -e " * \e[1m${modprettyname}${default} (overwrite)"
 		else			
-			echo -e " * \e[33m${modprettyname}\e[0m (common custom files remain untouched)"
+			echo -e " * \e[33m${modprettyname}${default} (common custom files remain untouched)"
 		fi
 	done
 }

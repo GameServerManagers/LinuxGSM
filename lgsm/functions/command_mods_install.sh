@@ -6,35 +6,33 @@
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"
-local commandaction="Mod Installation"
+local commandaction="addons/mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 mods_core.sh
 
 fn_mods_install_init(){
+	fn_print_header
 	# Display installed mods
 	fn_installed_mods_light_list
-	fn_script_log "Entering mods & addons installation"
-	echo "================================="
-	echo "${gamename} mods & addons installation"
 	echo ""
+	echo "Available addons/mods"
+	echo "================================="
+	
 	# Display available mods from mods_list.sh
 	fn_mods_show_available
 	echo ""
 	# Keep prompting as long as the user input doesn't correspond to an available mod
 	while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
-			echo -en "Enter a \e[36mmod\e[0m to install (or exit to abort): "
+			echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
 			read -r usermodselect
 			# Exit if user says exit or abort
 			if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
-					fn_script_log "User aborted."
-					echo "Aborted."
 					core_exit.sh
 			# Supplementary output upon invalid user input 
 			elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
-				fn_print_error2_nl "${usermodselect} is not a valid mod."
-				echo " * Enter a valid mod or input exit to abort."
+				fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 			fi
 	done
 	# Gives a pretty name to the user and get all mod info
@@ -77,7 +75,7 @@ fn_mod_installation(){
 		fn_print_ok_nl "${modprettyname} installed"
 		fn_script_log "${modprettyname} installed."
 	else
-		fn_print_fail "No mod was selected"
+		fn_print_fail "No addon/mod was selected"
 		exitcode="1"
 		core_exit.sh
 	fi
