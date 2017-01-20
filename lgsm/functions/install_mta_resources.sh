@@ -33,5 +33,5 @@ fn_install_libmysqlclient16(){
 
 fn_install_libmysqlclient16
 
-fn_print_header
 fn_print_information_nl "Server is inoperable by default without resources, you can install default ones by running the command install-default-resources"
+echo ""
