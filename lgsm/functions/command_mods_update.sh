@@ -14,11 +14,11 @@ mods_core.sh
 
 fn_mods_update_init(){
 	fn_script_log "Entering mods & addons update"
+	echo "================================="
+	echo "${gamename} mods & addons update"
 	# A simple function to exit if no mods were installed
 	# Also returns ${installedmodscount} if mods were found
 	fn_mods_exit_if_not_installed
-	echo "================================="
-	echo "${gamename} mods & addons update"
 	echo ""
 	fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
 	fn_script_log_info "${installedmodscount} mods or addons will be updated"
