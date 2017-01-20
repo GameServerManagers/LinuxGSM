@@ -536,7 +536,7 @@ fn_installed_mods_update_list(){
 	echo "Installed mods/addons"
 	# Were now based on ${installedmodslist} array's values
 	# We're gonna go through all available commands, get details and display them to the user
-	for ((ulindex=0; ulindex <= ${#installedmodslist[@]}; ulindex++)); do
+	for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 		# Current mod is the "ulindex" value of the array we're going through
 		currentmod="${installedmodslist[ulindex]}"
 		# Get mod info
