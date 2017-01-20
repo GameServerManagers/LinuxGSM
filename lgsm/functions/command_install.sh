@@ -35,7 +35,7 @@ elif [ "${gamename}" == "Don't Starve Together" ]; then
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
-	install_mta_resources.sh
+	command_install_resources_mta.sh
 fi
 
 fix.sh

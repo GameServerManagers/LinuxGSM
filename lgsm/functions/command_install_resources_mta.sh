@@ -19,7 +19,6 @@ fn_install_resources(){
 }
 
 fn_print_header
-
 fn_print_warning_nl "Installing the default resources with existing resources may cause issues."
 while true; do
 	read -e -i "y" -p "Do you want to install MTA default resources? [Y/n]" yn
