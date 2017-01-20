@@ -14,29 +14,16 @@ mods_core.sh
 
 fn_mods_update_init(){
 	fn_script_log "Entering mods & addons update"
+	# A simple function to exit if no mods were installed
+	# Also returns ${installedmodscount} if mods were found
+	fn_mods_exit_if_not_installed
 	echo "================================="
 	echo "${gamename} mods & addons update"
 	echo ""
-	# Installed mod dir is "${modslockfilefullpath}"
-	# How many mods will be updated
-	installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
-	# If no mods to be updated
-	if [ ! -f "${modslockfilefullpath}" ]||[ $installedmodscount -eq 0 ]; then
-		fn_print_information_nl "No mods or addons to be updated"
-		echo " * Did you install any mod using LGSM?"
-		fn_script_log_info "No mods or addons to be updated"
-		core_exit.sh
-	else
-		fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
-		fn_script_log_info "${installedmodscount} mods or addons will be updated"
-		# Loop showing mods to update
-		installedmodsline=1
-		while [ $installedmodsline -le $installedmodscount ]; do
-			echo -e " * \e[36m$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")\e[0m"
-			let installedmodsline=installedmodsline+1
-		done
-		sleep 2
-	fi
+	fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
+	fn_script_log_info "${installedmodscount} mods or addons will be updated"
+	# Display a list of installed addons
+	fn_installed_mods_update_list
 }
 
 # Recursively list all installed mods and apply update
