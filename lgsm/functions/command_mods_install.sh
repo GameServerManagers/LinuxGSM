@@ -14,7 +14,7 @@ mods_core.sh
 
 fn_mods_install_init(){
 	# Display installed mods
-	fn_installed_mods_lightlist
+	fn_installed_mods_light_list
 	fn_script_log "Entering mods & addons installation"
 	echo "================================="
 	echo "${gamename} mods & addons installation"
