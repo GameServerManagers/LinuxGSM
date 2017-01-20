@@ -47,6 +47,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ins.sh
 	elif [ "${gamename}" == "Rust" ]; then
 		fix_rust.sh
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fix_mta.sh
 	fi
 fi
 

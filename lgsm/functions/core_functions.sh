@@ -374,6 +374,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Info
 
 info_config.sh(){
@@ -572,11 +577,6 @@ fn_fetch_function
 }
 
 install_ut2k4_key.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_mta_resources.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
