@@ -16,14 +16,14 @@ extractdir="${modstmpdir}/extracted"
 modsdatadir="${lgsmdir}/data/mods"
 modslockfile="installed-mods-listing"
 modslockfilefullpath="${modsdatadir}/${modslockfile}"
-# Database initialization
+# Database initialisation
 mods_list.sh
 
-# Sets some gsm requirements
-fn_gsm_requirements(){
+# Sets some lgsm requirements
+fn_lgsm_requirements(){
 	# If tmpdir variable doesn't exist, LGSM is too old
 	if [ -z "${tmpdir}" ]||[ -z "${lgsmdir}" ]; then
-		fn_print_fail "Your LGSM version is too old."
+		fn_print_fail "Your LinuxGSM version is too old."
 		echo " * Please do a full update, including ${selfname} script."
 		core_exit.sh
 	fi
@@ -145,11 +145,11 @@ fn_mod_fileslist(){
 	fn_script_log "Building ${modcommand}-files.list"
 	sleep 0.5
 	# ${modsdatadir}/${modcommand}-files.list
-	find "${extractdir}" -mindepth 1 -printf '%P\n' > ${modsdatadir}/${modcommand}-files.list
+	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdatadir}"/${modcommand}-files.list
 	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.list}"
 	# Adding removed files if needed
 	if [ -f "${modsdatadir}/.removedfiles.tmp" ]; then
-		cat "${modsdatadir}/.removedfiles.tmp" >> ${modsdatadir}/${modcommand}-files.list
+		cat "${modsdatadir}/.removedfiles.tmp" >> "${modsdatadir}"/${modcommand}-files.list
 	fi
 	fn_print_ok "Building ${modcommand}-files.list"
 	sleep 0.5
@@ -511,7 +511,7 @@ fn_installed_mods_medium_list(){
 fn_installed_mods_light_list(){
 	fn_check_installed_mods
 	fn_mods_available_commands_from_installed
-	if [ $installedmodscount -gt 0 ]; then
+	if [ "${installedmodscount}" -gt 0 ]; then
 		echo "Installed addons/mods"
 		echo "================================="
 		# Were now based on ${installedmodslist} array's values
@@ -522,8 +522,9 @@ fn_installed_mods_light_list(){
 			# Get mod info
 			fn_mod_get_info_from_command
 			# Display simple mod info to the user
-			echo -e " * \e[1m${green}${modprettyname}${default}${default}"
+			echo -e " * \e[1m${green}${modcommand}${default}${default}"
 		done
+		echo ""
 	fi
 }
 
@@ -593,7 +594,7 @@ fn_mod_get_info_from_command(){
 	fi
 }
 
-fn_gsm_requirements
+fn_lgsm_requirements
 fn_mods_scrape_urls
 fn_mods_info
 fn_mods_available
