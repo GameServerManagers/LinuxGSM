@@ -22,8 +22,8 @@ elif [ -f "${filesdir}" ]; then
 fi
 echo ""
 
-files=$(find ${filesdir} | wc -l)
-find ${filesdir} -type f -print0 |
+files=$(find "${filesdir}" | wc -l)
+find "${filesdir}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	#ldd -v $line 2>/dev/null|grep "=>" >>"${tmpdir}/detect_ldd.tmp"
 	if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable")" ]; then
