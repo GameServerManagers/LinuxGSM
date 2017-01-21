@@ -93,21 +93,23 @@ fn_mod_lowercase(){
 		fn_script_log "Converting ${modprettyname} files to lowercase"
 		files=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
-		while read SRC; do
-		    DST=`dirname "${SRC}"`/`basename "${SRC}" | tr '[A-Z]' '[a-z]'`
-		    if [ "${SRC}" != "${DST}" ]
-		    then
-		        [ ! -e "${DST}" ] && mv -T "${SRC}" "${DST}" || echo "${SRC} was not renamed"
-		        ((renamedwc++))
-		    fi
+		while read src; do
+			dst=`dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]'`
+			if [ "${src}" != "${dst}" ]
+			then
+				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo "${src} was not renamed"
+				local exitcode=$?
+				((renamedwc++))
+			fi
 			echo -ne "${renamedwc} / ${totalfileswc} / $files converting ${modprettyname} files to lowercase..." $'\r'
 			((totalfileswc++))
 		done < <(find "${extractdir}" -depth)
 		echo -ne "${renamedwc} / ${totalfileswc} / $files converting ${modprettyname} files to lowercase..."
-		local exitcode=$?
+
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-		else	
+			core_exit.sh
+		else
 			fn_print_ok_eol_nl
 		fi
 		sleep 0.5
@@ -153,7 +155,7 @@ fn_mod_fileslist(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-	else	
+	else
 		fn_print_ok_eol_nl
 	fi
 	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.txt}"
@@ -173,7 +175,7 @@ fn_mod_copy_destination(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-	else	
+	else
 		fn_print_ok_eol_nl
 	fi
 }
@@ -213,19 +215,16 @@ fn_check_files_list(){
 	# How many lines is the file list
 		modsfilelistsize="$(cat "${modsdatadir}/${modcommand}-files.txt" | wc -l)"
 		# If file list is empty
-		if [ $modsfilelistsize -eq 0 ]; then
-			fn_print_error_nl "${modcommand}-files.txt is empty"
-			echo "Exiting."
-			fn_scrip_log_fatal "${modcommand}-files.txt is empty"
-			exitcode="2"
+		if [ "${modsfilelistsize}" -eq 0 ]; then
+			fn_print_failure "${modcommand}-files.txt is empty"
+			echo "* Unable to remove ${modprettyname}"
+			fn_script_log_fatal "${modcommand}-files.txt is empty: Unable to remove ${modprettyname}."
 			core_exit.sh
 		fi
 	else
-			fn_print_error_nl "${modsdatadir}/${modcommand}-files.txt don't exist"
-			echo "Exiting."
-			fn_scrip_log_fatal "${modsdatadir}/${modcommand}-files.txt don't exist"
-			exitcode="2"
-			core_exit.sh
+		fn_print_failure "${modsdatadir}/${modcommand}-files.txt does not exist"
+		fn_script_log_fatal "${modsdatadir}/${modcommand}-files.txt does not exist: Unable to remove ${modprettyname}."
+		core_exit.sh
 	fi
 }
 
@@ -253,11 +252,11 @@ fn_postinstall_tasks(){
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			break
-		fi	
-	done	
+		fi
+	done
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-	else	
+	else
 		fn_print_ok_eol_nl
 	fi
 
@@ -527,7 +526,7 @@ fn_installed_mods_medium_list(){
 
 # Displays a simple list of installed mods
 # Requires fn_check_installed_mods and fn_mods_available_commands_from_installed to run
-# This list is only displayed when some mods are installed 
+# This list is only displayed when some mods are installed
 fn_installed_mods_light_list(){
 	fn_check_installed_mods
 	fn_mods_available_commands_from_installed
@@ -575,9 +574,11 @@ fn_installed_mods_update_list(){
 		# If the mode is just overwritten
 		elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
 			echo -e " * \e[1m${modprettyname}${default} (overwrite)"
-		else			
+		else
 			echo -e " * ${yellow}${modprettyname}${default} (common custom files remain untouched)"
 		fi
+		((totalmodsinstalled++))
+		fn_script_log_info "${totalmodsinstalled} are already installed"
 	done
 }
 
@@ -598,17 +599,20 @@ fn_mod_get_info_from_command(){
 					modinfocommand="1"
 					break
 				fi
+				((totalmods++))
 			done
+
 		fi
 		# Exit the loop if job is done
 		if [ "${modinfocommand}" == "1" ]; then
 			break
 		fi
 	done
+	fn_script_log_info "${totalmods} are available for install"
 	# What happens if mod is not found
 	if [ "${modinfocommand}" == "0" ]; then
-		fn_script_log_error "Couldn't find information for ${currentmod}"
-		fn_print_error_nl "Couldn't find information for ${currentmod}"
+		fn_script_log_error "Could not find information for ${currentmod}"
+		fn_print_error_nl "Could not find information for ${currentmod}"
 		exitcode="1"
 		core_exit.sh
 	fi

@@ -4,7 +4,7 @@
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Lists and defines available mods for LGSM supported servers.
-# Usage: To add a mod, you just need to add an array variable into fn_mods_info following the guide to set proper values. 
+# Usage: To add a mod, you just need to add an array variable into fn_mods_info following the guide to set proper values.
 # Usage: Then add this array to the mods_global_array.
 # Usage: If needed, you can scrape to define the download URL inside the fn_mods_scrape_urls function.
 
@@ -35,7 +35,7 @@ fn_mods_info(){
 	# [7] 	| "modinstalldir": the directory in which to install the mode ( use LGSM dir variables such as ${systemdir})
 	# [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" to ignore the value or "NOUPDATE" to disallow updating
 	# [9] 	| "Supported Engines;": list them according to LGSM ${engine} variables, separated and ended with a semicolon, or use ENGINES to ignore the value
-	# [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value 
+	# [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value
 	# [11]	| "Unsupported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use NOTGAMES to ignore the value (useful to exclude a game when using Supported Engines)
 	# [12]	| "AUTHOR_URL" is the author's website, displayed to the user when chosing mods to install
 	# [13]	| "Short Description" a description showed to the user upon installation
@@ -64,7 +64,7 @@ fn_mods_info(){
 
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_mods_scrape_urls(){
-	fn_script_log "Retriving latest mods URLs"
+	fn_script_log_info "retrieving latest mods URLs"
 	# Metamod
 	metamodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
 	metamodlatestfile="$(wget "${metamodscrapeurl}/?MD" -q -O -| grep "mmsource" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"

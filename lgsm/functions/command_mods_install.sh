@@ -29,14 +29,14 @@ fn_mods_install_init(){
 			# Exit if user says exit or abort
 			if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
 					core_exit.sh
-			# Supplementary output upon invalid user input 
+			# Supplementary output upon invalid user input
 			elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
 				fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 			fi
 	done
 	echo ""
 	echo "Installing ${modprettyname}"
-	echo "================================="	
+	echo "================================="
 	fn_script_log "Installing ${modprettyname}."
 	# Gives a pretty name to the user and get all mod info
 	currentmod="${usermodselect}"
