@@ -12,8 +12,6 @@ local commandname="MODS"
 local commandaction="List Mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-check.sh
-
 ## Useful variables
 # Separator name
 modseparator="MOD"
@@ -64,7 +62,7 @@ fn_mods_info(){
 
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_mods_scrape_urls(){
-	fn_script_log_info "retrieving latest mods URLs"
+	fn_script_log_info "Retrieving latest mods URLs"
 	# Metamod
 	metamodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
 	metamodlatestfile="$(wget "${metamodscrapeurl}/?MD" -q -O -| grep "mmsource" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"

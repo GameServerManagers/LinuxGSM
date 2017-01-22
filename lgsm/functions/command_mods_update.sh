@@ -9,8 +9,6 @@ local commandname="MODS"
 local commandaction="Mods Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-check.sh
-mods_core.sh
 
 fn_mods_update_init(){
 	fn_script_log "Entering mods & addons update"
@@ -84,6 +82,8 @@ fn_mods_update_loop(){
 	fn_script_log "Mods update complete."
 }
 
+check.sh
+mods_core.sh
 fn_mods_update_init
 fn_mods_update_loop
 core_exit.sh

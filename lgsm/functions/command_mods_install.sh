@@ -9,9 +9,6 @@ local commandname="MODS"
 local commandaction="addons/mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-check.sh
-mods_core.sh
-
 fn_mods_install_init(){
 	fn_print_header
 	# Display installed mods
@@ -37,7 +34,7 @@ fn_mods_install_init(){
 	echo ""
 	echo "Installing ${modprettyname}"
 	echo "================================="
-	fn_script_log "Installing ${modprettyname}."
+	fn_script_log_info "${modprettyname} selected for install"
 	# Gives a pretty name to the user and get all mod info
 	currentmod="${usermodselect}"
 }
@@ -68,9 +65,11 @@ fn_mod_installation(){
 	# Cleaning
 	fn_clear_tmp_mods
 	echo "${modprettyname} installed"
-	fn_script_log "${modprettyname} installed."
+	fn_script_log_pass "${modprettyname} installed."
 }
 
+check.sh
+mods_core.sh
 fn_mods_install_init
 fn_mod_installation
 core_exit.sh

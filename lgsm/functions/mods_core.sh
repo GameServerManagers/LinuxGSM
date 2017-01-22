@@ -9,57 +9,41 @@ local commandname="MODS"
 local commandaction="addons/mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-## Useful variables
 # Files and Directories
 modsdir="${lgsmdir}/mods"
 modstmpdir="${modsdir}/tmp"
 extractdir="${modstmpdir}/extract"
-modsdatadir="${modsdir}"
-modslockfile="installed-mods-listing"
-modslockfilefullpath="${modsdatadir}/${modslockfile}"
+modsinstalledlist="installed-mods.txt"
+modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
+
 # Database initialisation
 mods_list.sh
 
-# Sets some lgsm requirements
-fn_lgsm_requirements(){
-	# If tmpdir variable doesn't exist, LGSM is too old
-	if [ -z "${tmpdir}" ]||[ -z "${lgsmdir}" ]; then
-		fn_print_fail "Your LinuxGSM version is too old."
-		echo " * Please do a full update, including ${selfname} script."
-		core_exit.sh
-	fi
-}
+## Directory management
 
 # Create mods files and directories if it doesn't exist
 # Assuming the game is already installed as mods_list.sh checked for it.
 fn_mods_files(){
+	# Create mod install directory
 	if [ ! -d "${modinstalldir}" ]; then
-		fn_script_log_info "Creating mods directory: ${modinstalldir}"
-		echo "Creating mods directory"
+		echo "creating mods install directory ${modinstalldir}..."
+		mkdir -p "${modinstalldir}"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Creating mod download dir ${modstmpdir}"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Creating mod download dir ${modstmpdir}"
+		fi
 		sleep 0.5
-		mkdir -pv "${modinstalldir}"
 	fi
-	# Create data/mods directory
-	if [ ! -d  "${modsdatadir}" ]; then
-		mkdir -p "${modsdatadir}"
-		fn_script_log "Created ${modsdatadir}"
-	fi
-	# Create lgsm/data/${modslockfile}
-	if [ ! -f "${modslockfilefullpath}" ]; then
-		touch "${modslockfilefullpath}"
-		fn_script_log "Created ${modslockfilefullpath}"
-	fi
-}
 
-# Clear mod download directory so that there is only one file in it since we don't know the file name and extention
-fn_clear_tmp_mods(){
-	if [ -d "${modstmpdir}" ]; then
-		rm -r "${modstmpdir}"
-		fn_script_log "Clearing mod download directory: ${modstmpdir}"
-	fi
-	# Clear temp file list as well
-	if [ -f "${modsdatadir}/.removedfiles.tmp" ]; then
-		rm "${modsdatadir}/.removedfiles.tmp"
+	# Create lgsm/data/${modsinstalledlist}
+	if [ ! -f "${modsinstalledlistfullpath}" ]; then
+		touch "${modsinstalledlistfullpath}"
+		fn_script_log "Created ${modsinstalledlistfullpath}"
 	fi
 }
 
@@ -67,10 +51,42 @@ fn_clear_tmp_mods(){
 fn_mods_tmpdir(){
 	if [ ! -d "${modstmpdir}" ]; then
 		mkdir -p "${modstmpdir}"
-		fn_script_log "Creating mod download directory: ${modstmpdir}"
+		exitcode=$?
+		echo -ne "creating mod download dir ${modstmpdir}..."
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Creating mod download dir ${modstmpdir}"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Creating mod download dir ${modstmpdir}"
+		fi
 	fi
 }
 
+# Clear contents of mod download directory when finished
+fn_clear_tmp_mods(){
+	if [ -d "${modstmpdir}" ]; then
+		rm -r "${modstmpdir}"/*
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Clearing mod download directory ${modstmpdir}"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Clearing mod download directory ${modstmpdir}"
+		fi
+
+	fi
+	# Clear temp file list as well
+	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
+		rm "${modsdir}/.removedfiles.tmp"
+	fi
+}
+
+
+## Download management
 fn_install_mod_dl_extract(){
 	fn_fetch_file "${modurl}" "${modstmpdir}" "${modfilename}"
 	# Check if variable is valid checking if file has been downloaded and exists
@@ -134,10 +150,10 @@ fn_remove_cfg_files(){
 				# Then delete the file!
 				rm -r "${extractdir}/${filetoremove}"
 				# Write this file path in a tmp file, to rebuild a full file list since it is rebuilt upon update
-				if [ ! -f "${modsdatadir}/.removedfiles.tmp" ]; then
-					touch "${modsdatadir}/.removedfiles.tmp"
+				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
+					touch "${modsdir}/.removedfiles.tmp"
 				fi
-					echo "${filetoremove}" >> "${modsdatadir}/.removedfiles.tmp"
+					echo "${filetoremove}" >> "${modsdir}/.removedfiles.tmp"
 			fi
 		done
 		fn_print_ok "Allow for preserving ${modprettyname} config files"
@@ -148,20 +164,23 @@ fn_remove_cfg_files(){
 # Create ${modcommand}-files.txt containing the full extracted file/directory list
 fn_mod_fileslist(){
 	echo -ne "building ${modcommand}-files.txt..."
-	fn_script_log "Building ${modcommand}-files.txt"
+
 	sleep 0.5
-	# ${modsdatadir}/${modcommand}-files.txt
-	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdatadir}"/${modcommand}-files.txt
+	# ${modsdir}/${modcommand}-files.txt
+	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}"/${modcommand}-files.txt
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
+		fn_script_log_fatal "Building ${modcommand}-files.txt"
+		core_exit.sh
 	else
 		fn_print_ok_eol_nl
+		fn_script_log_pass "Building ${modcommand}-files.txt"
 	fi
-	fn_script_log "Writing file list: ${modsdatadir}/${modcommand}-files.txt}"
+	fn_script_log "Writing file list ${modsdir}/${modcommand}-files.txt"
 	# Adding removed files if needed
-	if [ -f "${modsdatadir}/.removedfiles.tmp" ]; then
-		cat "${modsdatadir}/.removedfiles.tmp" >> "${modsdatadir}"/${modcommand}-files.txt
+	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
+		cat "${modsdir}/.removedfiles.tmp" >> "${modsdir}"/${modcommand}-files.txt
 	fi
 	sleep 0.5
 }
@@ -169,24 +188,26 @@ fn_mod_fileslist(){
 # Copy the mod to the destination ${modinstalldir}
 fn_mod_copy_destination(){
 	echo -ne "copying ${modprettyname} to ${modinstalldir}..."
-	fn_script_log "Copying ${modprettyname} to ${modinstalldir}"
 	sleep 0.5
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
+		fn_script_log_fatal "Copying ${modprettyname} to ${modinstalldir}"
 	else
 		fn_print_ok_eol_nl
+		fn_script_log_pass "Copying ${modprettyname} to ${modinstalldir}"
 	fi
 }
 
 # Check if the mod is already installed and warn the user
 fn_mod_already_installed(){
-	if [ -f "${modslockfilefullpath}" ]; then
-		if [ -n "$(sed -n "/^${modcommand}$/p" "${modslockfilefullpath}")" ]; then
-			fn_print_warning_nl "${modprettyname} has already been installed"
+	if [ -f "${modsinstalledlistfullpath}" ]; then
+		if [ -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
+			fn_print_warning_nl "${modprettyname} is already installed"
+			fn_script_log_warn "${modprettyname} is already installed"
 			sleep 1
-			echo " * Config files, if any, might be overwritten."
+			echo " * Any configs may be overwritten."
 			while true; do
 				read -e -i "y" -p "Continue? [Y/n]" yn
 				case $yn in
@@ -196,24 +217,24 @@ fn_mod_already_installed(){
 				esac
 				done
 		fi
-	fn_script_log "${modprettyname} is already installed, overwriting any file."
+	fn_script_log_info "User selected to continue"
 	fi
 }
 
 # Add the mod to the installed mods list
 fn_mod_add_list(){
 	# Append modname to lockfile if it's not already in it
-	if [ ! -n "$(sed -n "/^${modcommand}$/p" "${modslockfilefullpath}")" ]; then
-		echo "${modcommand}" >> "${modslockfilefullpath}"
-		fn_script_log "${modcommand} added to ${modslockfile}"
+	if [ ! -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
+		echo "${modcommand}" >> "${modsinstalledlistfullpath}"
+		fn_script_log_info "${modcommand} added to ${modsinstalledlist}"
 	fi
 }
 
 fn_check_files_list(){
 	# File list must exist and be valid before any operation on it
-	if [ -f "${modsdatadir}/${modcommand}-files.txt" ]; then
+	if [ -f "${modsdir}/${modcommand}-files.txt" ]; then
 	# How many lines is the file list
-		modsfilelistsize="$(cat "${modsdatadir}/${modcommand}-files.txt" | wc -l)"
+		modsfilelistsize="$(cat "${modsdir}/${modcommand}-files.txt" | wc -l)"
 		# If file list is empty
 		if [ "${modsfilelistsize}" -eq 0 ]; then
 			fn_print_failure "${modcommand}-files.txt is empty"
@@ -222,15 +243,15 @@ fn_check_files_list(){
 			core_exit.sh
 		fi
 	else
-		fn_print_failure "${modsdatadir}/${modcommand}-files.txt does not exist"
-		fn_script_log_fatal "${modsdatadir}/${modcommand}-files.txt does not exist: Unable to remove ${modprettyname}."
+		fn_print_failure "${modsdir}/${modcommand}-files.txt does not exist"
+		fn_script_log_fatal "${modsdir}/${modcommand}-files.txt does not exist: Unable to remove ${modprettyname}."
 		core_exit.sh
 	fi
 }
 
 # Apply some post-install fixes to make sure everything will be fine
 fn_postinstall_tasks(){
-	# Prevent sensitive directories from being erased upon uninstall by removing them from: ${modsdatadir}/${modcommand}-files.txt
+	# Prevent sensitive directories from being erased upon uninstall by removing them from: ${modsdir}/${modcommand}-files.txt
 	# Check file validity
 	fn_check_files_list
 	# Output to the user
@@ -248,7 +269,7 @@ fn_postinstall_tasks(){
 		# Put current file into test variable
 		removefilevar="$( echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }' )"
 		# Then delete matching line(s)!
-		sed -i "/^${removefilevar}$/d" "${modsdatadir}/${modcommand}-files.txt"
+		sed -i "/^${removefilevar}$/d" "${modsdir}/${modcommand}-files.txt"
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			break
@@ -264,8 +285,8 @@ fn_postinstall_tasks(){
 	# Remove metamod from sourcemod fileslist
 	if [ "${modcommand}" == "sourcemod" ]; then
 		# Remove addons/metamod & addons/metamod/sourcemod.vdf from ${modcommand}-files.txt
-		sed -i "/^addons\/metamod$/d" "${modsdatadir}/${modcommand}-files.txt"
-		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdatadir}/${modcommand}-files.txt"
+		sed -i "/^addons\/metamod$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 }
 
@@ -392,7 +413,7 @@ fn_mod_compatible_test(){
 	fi
 }
 
-# Checks if a mod is compatibile for installation
+# Checks if a mod is compatible for installation
 # Provides available mods for installation
 # Provides commands for mods installation
 fn_mods_available(){
@@ -439,20 +460,22 @@ fn_mods_show_available(){
 		echo -e " * ${cyan}${displayedmodcommand}${default}"
 		# Increment index from the amount of values we just displayed
 		let "compatiblemodslistindex+=4"
+		((totalmods++))
 	done
 	# If no mods are found
 	if [ -z "${compatiblemodslist}" ]; then
 		fn_print_fail "No mods are currently available for ${gamename}."
 		core_exit.sh
 	fi
+	fn_script_log_info "${totalmods} addons/mods are available for install"
 }
 
 # Checks if mods have been installed
 # Also returns ${installedmodscount} if mods were found
 fn_check_installed_mods(){
 	# Count installed mods
-	if [ -f "${modslockfilefullpath}" ]; then
-		installedmodscount="$(cat "${modslockfilefullpath}" | wc -l)"
+	if [ -f "${modsinstalledlistfullpath}" ]; then
+		installedmodscount="$(cat "${modsinstalledlistfullpath}" | wc -l)"
 	fi
 }
 
@@ -463,7 +486,7 @@ fn_mods_exit_if_not_installed(){
 	# Also returns ${installedmodscount} if mods were found
 	fn_check_installed_mods
 	# If no mods lockfile is found or if it is empty
-	if [ ! -f "${modslockfilefullpath}" ]||[ -z "${installedmodscount}" ]||[ ${installedmodscount} -le 0 ]; then
+	if [ ! -f "${modsinstalledlistfullpath}" ]||[ -z "${installedmodscount}" ]||[ ${installedmodscount} -le 0 ]; then
 		fn_print_information_nl "No installed mods or addons were found"
 		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
 		fn_script_log_info "No installed mods or addons were found."
@@ -477,9 +500,9 @@ fn_mods_available_commands_from_installed(){
 	# Set/reset variables
 	installedmodsline="1"
 	installedmodslist=()
-	# Loop through every line of the installed mods list ${modslockfilefullpath}
+	# Loop through every line of the installed mods list ${modsinstalledlistfullpath}
 	while [ ${installedmodsline} -le ${installedmodscount} ]; do
-		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
+		currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
 		# Get mod info to make sure mod exists
 		fn_mod_get_info_from_command
 		# Add the mod to available commands
@@ -487,6 +510,9 @@ fn_mods_available_commands_from_installed(){
 		# Increment line check
 		let installedmodsline=installedmodsline+1
 	done
+	if [ -n "${totalmods}" ] ;then
+		fn_script_log_info "${totalmods} addons/mods are already installed"
+	fi
 }
 
 # Displays a detailed list of installed mods
@@ -542,6 +568,7 @@ fn_installed_mods_light_list(){
 			fn_mod_get_info_from_command
 			# Display simple mod info to the user
 			echo -e " * \e[1m${green}${modcommand}${default}${default}"
+		((totalmodsinstalled++))
 		done
 		echo ""
 	fi
@@ -577,8 +604,6 @@ fn_installed_mods_update_list(){
 		else
 			echo -e " * ${yellow}${modprettyname}${default} (common custom files remain untouched)"
 		fi
-		((totalmodsinstalled++))
-		fn_script_log_info "${totalmodsinstalled} are already installed"
 	done
 }
 
@@ -608,7 +633,7 @@ fn_mod_get_info_from_command(){
 			break
 		fi
 	done
-	fn_script_log_info "${totalmods} are available for install"
+
 	# What happens if mod is not found
 	if [ "${modinfocommand}" == "0" ]; then
 		fn_script_log_error "Could not find information for ${currentmod}"
@@ -618,7 +643,6 @@ fn_mod_get_info_from_command(){
 	fi
 }
 
-fn_lgsm_requirements
 fn_mods_scrape_urls
 fn_mods_info
 fn_mods_available

@@ -9,8 +9,7 @@ local commandname="MODS"
 local commandaction="addons/mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-check.sh
-mods_core.sh
+
 
 fn_mods_remove_init(){
 	fn_print_header
@@ -116,6 +115,8 @@ fn_mod_remove_process(){
 	fn_script_log "${modprettyname} removed"
 }
 
+check.sh
+mods_core.sh
 fn_mods_remove_init
 fn_mod_remove_process
 core_exit.sh
