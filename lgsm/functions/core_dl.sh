@@ -54,7 +54,6 @@ fn_dl_extract(){
 	extractdir="${3}"
 	# extracts archives
 	echo -ne "extracting ${filename}..."
-	fn_script_log_info "Extracting download"
 	mime=$(file -b --mime-type "${filedir}/${filename}")
 
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
@@ -72,6 +71,7 @@ fn_dl_extract(){
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
+		fn_script_log_pass "Extracting download: OK"
 	fi
 }
 
