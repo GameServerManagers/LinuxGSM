@@ -78,7 +78,7 @@ fn_found_missing_deps(){
 		fn_print_dots "Checking dependencies"
 		sleep 0.5
 		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
-		fn_script_log_error "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
+		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
 		sleep 1
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
@@ -204,7 +204,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
 	# Serious Sam 3: BFE
 	elif [ "${gamename}" ==  "Serious Sam 3: BFE" ]; then
-		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )		
+		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
 	# Unreal Engine
 	elif [ "${executable}" ==  "./ucc-bin" ]; then
 		#UT2K4
