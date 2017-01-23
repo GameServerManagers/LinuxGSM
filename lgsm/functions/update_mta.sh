@@ -70,7 +70,7 @@ fn_update_mta_currentbuild(){
 
 fn_mta_getServerVersion()
 {
-		fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" # we need to find latest stable version here
+		fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
 		local MAJOR_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
 		local MINOR_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
 		local MAINTENANCE_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')"
