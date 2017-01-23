@@ -14,7 +14,7 @@ fn_update_mta_dl(){
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${FUL_VERSION}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}/"* "${filesdir}"
+	cp -R "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}/multitheftauto_linux_x64-${FUL_VERSION}"* "${filesdir}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
