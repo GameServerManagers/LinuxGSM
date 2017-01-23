@@ -21,7 +21,7 @@ elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
-elif [ "$Pgamename" == "Multi Theft Auto" ]; then
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	update_mta.sh
 else
 	update_steamcmd.sh
