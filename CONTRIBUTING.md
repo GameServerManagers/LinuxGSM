@@ -1,6 +1,6 @@
-# How to contribute
+# How to contribute to LinuxGSM
 
-I'm really glad you're reading this, because if you are then you have shown an interest in helping make LinuxGSM great.
+We are really glad you're reading this, because if you are then you have shown an interest in helping make LinuxGSM great.
 
 If you haven't already, come find us on [Discord](https://gameservermanagers.com/discord). From there you will have contact with other contributers of the project. We want you working on things you're excited about.
 
