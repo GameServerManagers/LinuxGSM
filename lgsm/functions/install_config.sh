@@ -367,7 +367,6 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	array_configs+=( acl.xml mtaserver.conf vehiclecolors.conf )
 	fn_fetch_default_config
 	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "Mumble" ]; then
 	gamedirname="Mumble"
 	array_configs+=( murmur.ini )
