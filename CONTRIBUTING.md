@@ -15,7 +15,7 @@ Here are some important resources:
 ## Testing
 
 Please make sure all the code you write is working properly **before** you create a pull request. Information on debugging can be found in the following document:
-[Debug Command](https://github.com/GameServerManagers/LinuxGSM/wiki/debug)
+[Developer Commands](https://github.com/GameServerManagers/LinuxGSM/wiki/Developer-Commands)
 [Debugging your code](https://github.com/GameServerManagers/LinuxGSM/wiki/Developing-LGSM#testing-and-debugging-your-code)
 
 ## Submitting changes
