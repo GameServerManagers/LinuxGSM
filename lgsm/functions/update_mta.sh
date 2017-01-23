@@ -9,11 +9,12 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_mta_dl(){
-	fn_fetch_file "http://linux.mtasa.com/dl/${NUM_VERSION}/multitheftauto_linux_x64-${FUL_VERSION}.tar.gz"
-	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${FUL_VERSION}.tar.gz" "${tmpdir}"
+	fn_fetch_file "http://linux.mtasa.com/dl/${NUM_VERSION}/multitheftauto_linux_x64-${FUL_VERSION}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${FUL_VERSION}.tar.gz"
+  mkdir "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}"
+	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${FUL_VERSION}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}.tar.gz"* "${filesdir}"
+	cp -R "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}/"* "${filesdir}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
