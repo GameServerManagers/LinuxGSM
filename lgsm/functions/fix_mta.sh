@@ -8,7 +8,7 @@ local commandname="FIX"
 local commandaction="Fix"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ ! -f /usr/lib/libmysqlclient.so.16 ]; then
+if [ ! -f "${lgsmdir}/lib/libmysqlclient.so.16" ]; then
 	fixname="libmysqlclient16 install"
 	fn_fix_msg_start
 	fn_print_warn_nl "libmysqlclient16 not installed. Installing.."
