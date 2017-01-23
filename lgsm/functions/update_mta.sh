@@ -9,12 +9,12 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_mta_dl(){
-	fn_fetch_file "http://linux.mtasa.com/dl/${NUM_VERSION}/multitheftauto_linux_x64-${FUL_VERSION}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${FUL_VERSION}.tar.gz"
-  mkdir "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}"
-	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${FUL_VERSION}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}"
+	fn_fetch_file "http://linux.mtasa.com/dl/${NUM_VERSION}/multitheftauto_linux_x64-${FULL_VERSION}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${FULL_VERSION}.tar.gz"
+  mkdir "${tmpdir}/multitheftauto_linux_x64-${FULL_VERSION}"
+	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${FULL_VERSION}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${FULL_VERSION}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/multitheftauto_linux_x64-${FUL_VERSION}/multitheftauto_linux_x64-${FUL_VERSION}/"* "${filesdir}"
+	cp -R "${tmpdir}/multitheftauto_linux_x64-${FULL_VERSION}/multitheftauto_linux_x64-${FULL_VERSION}/"* "${filesdir}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -76,7 +76,7 @@ fn_mta_getServerVersion()
 		local MINOR_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
 		local MAINTENANCE_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')"
 		NUM_VERSION="${MAJOR_VERSION}${MINOR_VERSION}${MAINTENANCE_VERSION}"
-		FUL_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}.${MAINTENANCE_VERSION}"
+		FULL_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}.${MAINTENANCE_VERSION}"
 		rm -f "${tmpdir}/version.h"
 }
 
