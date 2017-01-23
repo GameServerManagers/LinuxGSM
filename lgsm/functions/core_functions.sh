@@ -462,6 +462,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_factorio.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

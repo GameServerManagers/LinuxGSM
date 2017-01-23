@@ -20,7 +20,9 @@ elif [ "${engine}" == "lwjgl2" ]; then
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
 elif [ "${gamename}" == "Factorio" ]; then
-        update_factorio.sh
+  update_factorio.sh
+elif [ "$Pgamename" == "Multi Theft Auto" ]; then
+	update_mta.sh
 else
 	update_steamcmd.sh
 fi

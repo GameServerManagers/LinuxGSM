@@ -350,6 +350,8 @@ case "${getopt}" in
 		command_stop.sh;;
 	r|restart)
 		command_restart.sh;;
+	u|update)
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
@@ -394,6 +396,7 @@ case "${getopt}" in
 		echo -e "${blue}start\t${default}st |Start the server."
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from linux.mtasa.com."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
@@ -845,7 +848,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 # Mumble
 elif [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-# Teamspeak 3	
+# Teamspeak 3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 # Unreal 2 Engine
@@ -855,14 +858,14 @@ elif [ "${engine}" == "unreal2" ]; then
 	else
 		fn_getopt_unreal2
 	fi
-# Unreal Engine	
+# Unreal Engine
 elif [ "${engine}" == "unreal" ]; then
 	fn_getopt_unreal
 # Generic
 elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "Call of Duty 4" ]||[ "${gamename}" == "Call of Duty: World at War" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_getopt_generic_no_update
 elif  [ "${gamename}" == "Factorio" ]; then
-	fn_getopt_generic_update_no_steam	
+	fn_getopt_generic_update_no_steam
 else
 	fn_getopt_generic
 fi
