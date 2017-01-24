@@ -84,9 +84,15 @@ fn_update_mta_compare(){
 	# Removes dots so if can compare version numbers
 	currentbuilddigit=$(echo "${currentbuild}"|tr -cd '[:digit:]')
 
-	if [ "${currentbuilddigit}" -ne "${NUM_VERSION}" ]; then
+	if [ "${currentbuilddigit}" -ne "${NUM_VERSION}" ]||[ "${forceupdate}" == "1" ]; then
+		if [ "${forceupdate}" == "1" ]; then
+			# forceupdate bypasses checks, useful for small build changes
+			mta_update_string="forced"
+		else
+			mta_update_string="available"
+		fi
 		echo -e "\n"
-		echo -e "Update available:"
+		echo -e "Update ${mta_update_string}:"
 		sleep 1
 		echo -e "	Current build: ${red}${currentbuild} ${default}"
 		echo -e "	Available build: ${green}${FULL_VERSION} ${default}"
@@ -100,7 +106,7 @@ fn_update_mta_compare(){
 		echo -en "Applying update...\r"
 		sleep 1
 		echo -en "\n"
-		fn_script_log "Update available"
+		fn_script_log "Update ${mta_update_string}"
 		fn_script_log "Current build: ${currentbuild}"
 		fn_script_log "Available build: ${FULL_VERSION}"
 		fn_script_log "${currentbuild} > ${FULL_VERSION}"

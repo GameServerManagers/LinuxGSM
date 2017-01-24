@@ -352,6 +352,9 @@ case "${getopt}" in
 		command_restart.sh;;
 	u|update)
 		command_update.sh;;
+	fu|force-update|update-restart)
+		forceupdate=1;
+		command_update.sh;;
 	uf|update-functions)
 		command_update_functions.sh;;
 	m|monitor)
@@ -397,6 +400,7 @@ case "${getopt}" in
 		echo -e "${blue}stop\t${default}sp |Stop the server."
 		echo -e "${blue}restart\t${default}r  |Restart the server."
 		echo -e "${blue}update\t${default}u  |Checks and applies updates from linux.mtasa.com."
+		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from linux.mtasa.com."
 		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
 		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
 		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
