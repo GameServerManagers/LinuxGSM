@@ -84,6 +84,7 @@ while [ ${installedmodsline} -le ${installedmodscount} ]; do
 			fn_script_log_info "${modprettyname} will not be updated to preserve custom files"
 		else
 			echo ""
+			echo "==> Updating ${modprettyname}"
 			fn_create_mods_dir
 			fn_mods_clear_tmp_dir
 			fn_mods_create_tmp_dir
