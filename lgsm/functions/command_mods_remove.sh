@@ -81,7 +81,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	((modfileline++))
 done
 tput rc; tput ed;
-echo -ne "removing ${modprettyname} ${modfileline} / ${modsfilelistsize}..."
+echo -ne "sed ${modprettyname} ${modfileline} / ${modsfilelistsize}..."
 if [ ${exitcode} -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -106,8 +106,8 @@ fi
 # Remove mods from installed mods list
 echo -en "removing ${modcommand} from ${modslockfile}..."
 sleep 0.5
-fn_script_log "Removing: ${modcommand} from ${modslockfilefullpath}"
-sed -i "/^${modcommand}$/d" "${modslockfilefullpath}"
+fn_script_log "Removing: ${modcommand} from ${modsinstalledlist}"
+sed -i "/^${modcommand}$/d" "${modsinstalledlist}"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
 	fn_print_fail_eol_nl

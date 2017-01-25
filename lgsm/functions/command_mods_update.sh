@@ -51,7 +51,7 @@ done
 # Reset line value
 installedmodsline="1"
 while [ ${installedmodsline} -le ${installedmodscount} ]; do
-	currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
+	currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlist}")"
 	if [ -n "${currentmod}" ]; then
 		fn_mod_get_info
 		# Don not update mod if the policy is set to "NOUPDATE"

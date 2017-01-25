@@ -421,7 +421,7 @@ fn_mods_count_installed(){
 # Exit if no mods were installed
 fn_mods_check_installed(){
 	# Count installed mods
-
+	fn_mods_count_installed
 	# If no mods are found
 	if [ ${installedmodscount} -eq 0 ]; then
 		fn_print_information_nl "No installed mods or addons were found"
