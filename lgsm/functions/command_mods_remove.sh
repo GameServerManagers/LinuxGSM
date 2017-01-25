@@ -69,7 +69,7 @@ modfileline="1"
 tput sc
 while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove
-	currentfileremove="$(sed "${modfileline}q;d" "${modsdatadir}/${modcommand}-files.txt")"
+	currentfileremove="$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")"
 	# If file or directory exists, then remove it
 	fn_script_log "Removing: ${modinstalldir}/${currentfileremove}"
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
@@ -93,8 +93,8 @@ sleep 0.5
 # Remove file list
 echo -en "removing ${modcommand}-files.txt..."
 sleep 0.5
-fn_script_log "Removing: ${modsdatadir}/${modcommand}-files.txt"
-rm -rf "${modsdatadir}/${modcommand}-files.txt"
+fn_script_log "Removing: ${modsdir}/${modcommand}-files.txt"
+rm -rf "${modsdir}/${modcommand}-files.txt"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
 	fn_print_fail_eol_nl
