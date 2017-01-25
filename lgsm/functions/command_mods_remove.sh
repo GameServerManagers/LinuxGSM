@@ -75,19 +75,17 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir}/${currentfileremove}"
 		local exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
 	fi
 	tput rc; tput el
 	printf  "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
-tput rc; tput ed;
-echo -ne "sed ${modprettyname} ${modfileline} / ${modsfilelistsize}..."
-if [ ${exitcode} -ne 0 ]; then
-	fn_print_fail_eol_nl
-	core_exit.sh
-else
-	fn_print_ok_eol_nl
-fi
 sleep 0.5
 
 # Remove file list
