@@ -12,7 +12,20 @@ local commandname="MODS"
 local commandaction="List Mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-## Useful variables
+# Get a proper URL for mods that don't provide a good one (optional)
+fn_script_log_info "Retrieving latest mods URLs"
+# Metamod
+metamodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
+metamodlatestfile="$(wget "${metamodscrapeurl}/?MD" -q -O -| grep "mmsource" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"
+metamoddownloadurl="http://cdn.probablyaserver.com/sourcemod/"
+metamodurl="${metamoddownloadurl}/${metamodlatestfile}"
+# Sourcemod
+sourcemodmversion="1.8"
+sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
+sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
+sourcemoddownloadurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}"
+sourcemodurl="${sourcemoddownloadurl}/${sourcemodlatestfile}"
+
 # Separator name
 modseparator="MOD"
 
@@ -58,16 +71,3 @@ mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "https://raw.gith
 # REQUIRED: Set all mods info into one array for convenience
 mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
 
-# Get a proper URL for mods that don't provide a good one (optional)
-fn_script_log_info "Retrieving latest mods URLs"
-# Metamod
-metamodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
-metamodlatestfile="$(wget "${metamodscrapeurl}/?MD" -q -O -| grep "mmsource" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"
-metamoddownloadurl="http://cdn.probablyaserver.com/sourcemod/"
-metamodurl="${metamoddownloadurl}/${metamodlatestfile}"
-# Sourcemod
-sourcemodmversion="1.8"
-sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
-sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
-sourcemoddownloadurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}"
-sourcemodurl="${sourcemoddownloadurl}/${sourcemodlatestfile}"
