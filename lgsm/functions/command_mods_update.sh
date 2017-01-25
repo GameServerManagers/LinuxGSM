@@ -12,8 +12,6 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 mods_core.sh
 
-fn_print_header
-
 # Prevents specific files being overwritten upon update (set by ${modkeepfiles})
 # For that matter, remove cfg files after extraction before copying them to destination
 fn_remove_cfg_files(){
@@ -45,8 +43,7 @@ fn_remove_cfg_files(){
 fn_print_dots "Update addons/mods"
 sleep 0.5
 fn_mods_check_installed
-fn_print_info "Update addons/mods: ${installedmodscount} addons/mods will be updated"
-sleep 0.5
+fn_print_info_nl "Update addons/mods: ${installedmodscount} addons/mods will be updated"
 fn_script_log_info "${installedmodscount} mods or addons will be updated"
 fn_mods_installed_list
 # Go through all available commands, get details and display them to the user
@@ -63,14 +60,15 @@ for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 		core_exit.sh
 	# If the mod won't get updated
 	elif [ "${modkeepfiles}" == "NOUPDATE" ]; then
-		echo -e " * \e[31m${modprettyname}${default} (won't be updated)"
+		echo -e "	* \e[31m${modprettyname}${default} (won't be updated)"
 	# If the mode is just overwritten
 	elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
-		echo -e " * \e[1m${modprettyname}${default} (overwrite)"
+		echo -e "	* \e[1m${modprettyname}${default} (overwrite)"
 	else
-		echo -e " * ${yellow}${modprettyname}${default} (common custom files remain untouched)"
+		echo -e "	* ${yellow}${modprettyname}${default} (common custom files remain untouched)"
 	fi
 done
+sleep 1
 
 ## Update
 # List all installed mods and apply update
