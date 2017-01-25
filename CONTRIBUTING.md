@@ -4,6 +4,8 @@ We are really glad you're reading this, because if you are then you have shown a
 
 If you haven't already, come find us on [Discord](https://gameservermanagers.com/discord). From there you will have contact with other contributers of the project. We want you working on things you're excited about.
 
+Before working on a project we recommend that you create a issue in regards to the issue/feature. This will prevent duplicates while you work on the feature. If an issue already exists, make note that you are working on it so nobody else wastes their time working on the same project at the same time!
+
 Here are some important resources:
 
   * [Issues Page](https://github.com/GameServerManagers/LinuxGSM/issues) provides a list of areas that could use some work,
