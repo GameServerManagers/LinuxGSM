@@ -9,81 +9,107 @@ local commandname="MODS"
 local commandaction="Mods Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-
-fn_mods_update_init(){
-	fn_script_log "Entering mods & addons update"
-	echo "================================="
-	echo "${gamename} mods & addons update"
-	# A simple function to exit if no mods were installed
-	# Also returns ${installedmodscount} if mods were found
-	fn_mods_exit_if_not_installed
-	echo ""
-	fn_print_information_nl "${installedmodscount} mods or addons will be updated:"
-	fn_script_log_info "${installedmodscount} mods or addons will be updated"
-	# Display a list of installed addons
-	fn_installed_mods_update_list
-}
-
-# Recursively list all installed mods and apply update
-fn_mods_update_loop(){
-	# Reset line value
-	installedmodsline="1"
-	while [ $installedmodsline -le $installedmodscount ]; do
-		# Current line defines current mod command
-		currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
-		if [ -n "${currentmod}" ]; then
-			# Get mod info
-			fn_mod_get_info_from_command
-			# Don't update the mod if it's policy is to "NOUPDATE"
-			if [ "${modkeepfiles}" == "NOUPDATE" ]; then
-				fn_print_info "${modprettyname} won't be updated to preserve custom files"
-				fn_script_log "${modprettyname} won't be updated to preserve custom files."
-				let installedmodsline=installedmodsline+1
-			else
-				echo ""
-				fn_print_dots_nl "Updating ${modprettyname}"
-				fn_script_log "Updating ${modprettyname}."
-				# Check and create required files
-				fn_mods_files
-				# Clear lgsm/tmp/mods dir if exists then recreate it
-				fn_clear_tmp_mods
-				fn_mods_tmpdir
-				# Download mod
-				fn_mod_dl
-				# Extract the mod
-				fn_mod_extract
-				# Convert to lowercase if needed
-				fn_mod_lowercase
-				# Remove files that should not be erased
-				fn_remove_cfg_files
-				# Build a file list
-				fn_mod_fileslist
-				# Copying to destination
-				fn_mod_copy_destination
-				# Ending with installation routines
-				fn_mod_add_list
-				# Post install fixes
-				fn_postinstall_tasks
-				# Cleaning
-				fn_clear_tmp_mods
-				fn_print_ok "${modprettyname} updated"
-				fn_script_log "${modprettyname} updated."
-				let installedmodsline=installedmodsline+1
-			fi
-		else
-			fn_print_fail "No mod was selected"
-			fn_script_log_fail "No mod was selected."
-			exitcode="1"
-			core_exit.sh
-		fi
-	done
-	echo ""
-	fn_print_ok_nl "Mods update complete"
-	fn_script_log "Mods update complete."
-}
-
 check.sh
 mods_core.sh
-fn_mods_update_init
-fn_mods_update_loop
+
+fn_print_header
+
+echo "Update addons/mods"
+echo "================================="
+fn_mods_check_installed
+fn_print_information_nl "${installedmodscount} addons/mods will be updated"
+fn_script_log_info "${installedmodscount} mods or addons will be updated"
+fn_mods_installed_list
+echo ""
+echo "Installed addons/mods"
+echo "================================="
+# Go through all available commands, get details and display them to the user
+for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
+	# Current mod is the "ulindex" value of the array we're going through
+	currentmod="${installedmodslist[ulindex]}"
+	fn_mod_get_info
+	# Display installed mods and the update policy
+	if [ -z "${modkeepfiles}" ]; then
+		# If modkeepfiles is not set for some reason, that's a problem
+		fn_script_log_error "Couldn't find update policy for ${modprettyname}"
+		fn_print_error_nl "Couldn't find update policy for ${modprettyname}"
+		exitcode="1"
+		core_exit.sh
+	# If the mod won't get updated
+	elif [ "${modkeepfiles}" == "NOUPDATE" ]; then
+		echo -e " * \e[31m${modprettyname}${default} (won't be updated)"
+	# If the mode is just overwritten
+	elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
+		echo -e " * \e[1m${modprettyname}${default} (overwrite)"
+	else
+		echo -e " * ${yellow}${modprettyname}${default} (common custom files remain untouched)"
+	fi
+done
+
+## Update
+# List all installed mods and apply update
+# Reset line value
+installedmodsline="1"
+while [ ${installedmodsline} -le ${installedmodscount} ]; do
+	currentmod="$(sed "${installedmodsline}q;d" "${modslockfilefullpath}")"
+	if [ -n "${currentmod}" ]; then
+		fn_mod_get_info
+		# Don not update mod if the policy is set to "NOUPDATE"
+		if [ "${modkeepfiles}" == "NOUPDATE" ]; then
+			fn_print_info "${modprettyname} will not be updated to preserve custom files"
+			fn_script_log_info "${modprettyname} will not be updated to preserve custom files"
+		else
+			echo ""
+			fn_create_mods_dir
+			fn_mods_clear_tmp_dir
+			fn_mods_create_tmp_dir
+			fn_mod_install_files
+			fn_mod_lowercase
+			fn_remove_cfg_files
+			fn_mod_create_filelist
+			fn_mod_copy_destination
+			fn_mod_add_list
+			fn_mod_tidy_files_list
+			fn_mods_clear_tmp_dir
+		fi
+		((installedmodsline++))
+	else
+		fn_print_fail "No mod was selected"
+		fn_script_log_fail "No mod was selected"
+		exitcode="1"
+		core_exit.sh
+	fi
+done
+echo ""
+fn_print_ok_nl "Mods update complete"
+fn_script_log "Mods update complete"
+
+# Prevents specific files being overwritten upon update (set by ${modkeepfiles})
+# For that matter, remove cfg files after extraction before copying them to destination
+fn_remove_cfg_files(){
+	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
+		fn_print_dots "Preventing overwriting of ${modprettyname} config files"
+		fn_script_log "Preventing overwriting of ${modprettyname} config files"
+		sleep 0.5
+		# Count how many files there are to remove
+		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		# Test all subvalues of "modkeepfiles" using the ";" separator
+		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
+			# Put the current file we are looking for into a variable
+			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
+			# If it matches an existing file that have been extracted delete the file
+			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
+				rm -r "${extractdir}/${filetoremove}"
+				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
+				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
+					touch "${modsdir}/.removedfiles.tmp"
+				fi
+					echo "${filetoremove}" >> "${modsdir}/.removedfiles.tmp"
+			fi
+		done
+		fn_print_ok "Preventing overwriting of ${modprettyname} config files"
+		sleep 0.5
+	fi
+}
+
 core_exit.sh

@@ -9,67 +9,113 @@ local commandname="MODS"
 local commandaction="addons/mods"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_mods_install_init(){
-	fn_print_header
-	# Display installed mods
-	fn_installed_mods_light_list
-
-	echo "Available addons/mods"
-	echo "================================="
-	# Display available mods from mods_list.sh
-	fn_mods_show_available
-	echo ""
-	# Keep prompting as long as the user input doesn't correspond to an available mod
-	while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
-			echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
-			read -r usermodselect
-			# Exit if user says exit or abort
-			if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
-					core_exit.sh
-			# Supplementary output upon invalid user input
-			elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
-				fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
-			fi
-	done
-	echo ""
-	echo "Installing ${modprettyname}"
-	echo "================================="
-	fn_script_log_info "${modprettyname} selected for install"
-	# Gives a pretty name to the user and get all mod info
-	currentmod="${usermodselect}"
-}
-
-# Run all required operation
-fn_mod_installation(){
-	# Get mod info
-	fn_mod_get_info_from_command
-	# Check if mod is already installed
-	fn_mod_already_installed
-	# Check and create required files
-	fn_mods_files
-	# Clear lgsm/tmp/mods dir if exists then recreate it
-	fn_clear_tmp_mods
-	fn_mods_tmpdir
-	# Download & extract mod
-	fn_install_mod_dl_extract
-	# Convert to lowercase if needed
-	fn_mod_lowercase
-	# Build a file list
-	fn_mod_fileslist
-	# Copying to destination
-	fn_mod_copy_destination
-	# Ending with installation routines
-	fn_mod_add_list
-	# Post install fixes
-	fn_postinstall_tasks
-	# Cleaning
-	fn_clear_tmp_mods
-	echo "${modprettyname} installed"
-	fn_script_log_pass "${modprettyname} installed."
-}
-
 check.sh
 mods_core.sh
-fn_mods_install_init
-fn_mod_installation
+
+fn_print_header
+
+# exits if no mods installed
+fn_mods_check_installed
+
+# Displays a list of installed mods
+fn_mods_installed_list
+if [ ${installedmodscount} -gt 0 ]; then
+	echo "Installed addons/mods"
+	echo "================================="
+	# Go through all available commands, get details and display them to the user
+	for ((llindex=0; llindex < ${#installedmodslist[@]}; llindex++)); do
+		# Current mod is the "llindex" value of the array we're going through
+		currentmod="${installedmodslist[llindex]}"
+		fn_mod_get_info
+		# Display mod info to the user
+		echo -e " * \e[1m${green}${modcommand}${default}${default}"
+	((totalmodsinstalled++))
+	done
+	echo ""
+fi
+
+echo "Available addons/mods"
+echo "================================="
+# Display available mods from mods_list.sh
+# Set and reset vars
+compatiblemodslistindex=0
+# As long as we're within index values
+while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
+	# Set values for convenience
+	displayedmodname="${compatiblemodslist[compatiblemodslistindex]}"
+	displayedmodcommand="${compatiblemodslist[compatiblemodslistindex+1]}"
+	displayedmodsite="${compatiblemodslist[compatiblemodslistindex+2]}"
+	displayedmoddescription="${compatiblemodslist[compatiblemodslistindex+3]}"
+	# Output mods to the user
+	echo -e "\e[1m${displayedmodname}${default} - ${displayedmoddescription} - ${displayedmodsite}"
+	echo -e " * ${cyan}${displayedmodcommand}${default}"
+	# Increment index from the amount of values we just displayed
+	let "compatiblemodslistindex+=4"
+	((totalmods++))
+done
+
+# If no mods are available for a specific game
+if [ -z "${compatiblemodslist}" ]; then
+	fn_print_fail "No mods are currently available for ${gamename}."
+	fn_script_log_info "No mods are currently available for ${gamename}."
+	core_exit.sh
+fi
+fn_script_log_info "${totalmods} addons/mods are available for install"
+
+## User selects a mod
+echo ""
+while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
+	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
+	read -r usermodselect
+	# Exit if user says exit or abort
+	if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
+			core_exit.sh
+	# Supplementary output upon invalid user input
+	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
+		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
+	fi
+done
+currentmod="${usermodselect}"
+
+echo ""
+echo "Installing ${modprettyname}"
+echo "================================="
+fn_script_log_info "${modprettyname} selected for install"
+
+# Check if the mod is already installed and warn the user
+if [ -f "${modsinstalledlistfullpath}" ]; then
+	if [ -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
+		fn_print_warning_nl "${modprettyname} is already installed"
+		fn_script_log_warn "${modprettyname} is already installed"
+		sleep 1
+		echo " * Any configs may be overwritten."
+		while true; do
+			read -e -i "y" -p "Continue? [Y/n]" yn
+			case $yn in
+			[Yy]* ) break;;
+			[Nn]* ) echo Exiting; core_exit.sh;;
+			* ) echo "Please answer yes or no.";;
+			esac
+		done
+	fi
+fn_script_log_info "User selected to continue"
+fi
+
+## Installation
+
+fn_mod_get_info
+fn_mod_already_installed
+fn_create_mods_dir
+fn_mods_clear_tmp_dir
+fn_mods_create_tmp_dir
+fn_mod_install_files
+fn_mod_lowercase
+fn_mod_create_filelist
+fn_mod_copy_destination
+fn_mod_add_list
+fn_mod_tidy_files_list
+fn_mods_clear_tmp_dir
+echo "${modprettyname} installed"
+fn_script_log_pass "${modprettyname} installed."
+
 core_exit.sh
