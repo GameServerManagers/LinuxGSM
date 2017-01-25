@@ -377,14 +377,14 @@ fn_mods_create_tmp_dir(){
 	if [ ! -d "${modstmpdir}" ]; then
 		mkdir -p "${modstmpdir}"
 		exitcode=$?
-		echo -ne "creating mod download dir ${modstmpdir}..."
+		echo -ne "creating mod download directory ${modstmpdir}..."
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Creating mod download dir ${modstmpdir}"
+			fn_script_log_fatal "Creating mod download directory ${modstmpdir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Creating mod download dir ${modstmpdir}"
+			fn_script_log_pass "Creating mod download directory ${modstmpdir}"
 		fi
 	fi
 }
@@ -392,6 +392,7 @@ fn_mods_create_tmp_dir(){
 # Remove the tmp mod download directory when finished
 fn_mods_clear_tmp_dir(){
 	if [ -d "${modstmpdir}" ]; then
+		echo -ne "clearing mod download directory ${modstmpdir}..."
 		rm -r "${modstmpdir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
