@@ -14,6 +14,34 @@ mods_core.sh
 
 fn_print_header
 
+# Prevents specific files being overwritten upon update (set by ${modkeepfiles})
+# For that matter, remove cfg files after extraction before copying them to destination
+fn_remove_cfg_files(){
+	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
+		fn_print_dots "Preventing overwriting of ${modprettyname} config files"
+		fn_script_log "Preventing overwriting of ${modprettyname} config files"
+		sleep 0.5
+		# Count how many files there are to remove
+		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		# Test all subvalues of "modkeepfiles" using the ";" separator
+		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
+			# Put the current file we are looking for into a variable
+			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
+			# If it matches an existing file that have been extracted delete the file
+			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
+				rm -r "${extractdir}/${filetoremove}"
+				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
+				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
+					touch "${modsdir}/.removedfiles.tmp"
+				fi
+					echo "${filetoremove}" >> "${modsdir}/.removedfiles.tmp"
+			fi
+		done
+		fn_print_ok "Preventing overwriting of ${modprettyname} config files"
+		sleep 0.5
+	fi
+}
+
 echo "Update addons/mods"
 echo "================================="
 fn_mods_check_installed
@@ -83,33 +111,5 @@ done
 echo ""
 fn_print_ok_nl "Mods update complete"
 fn_script_log "Mods update complete"
-
-# Prevents specific files being overwritten upon update (set by ${modkeepfiles})
-# For that matter, remove cfg files after extraction before copying them to destination
-fn_remove_cfg_files(){
-	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
-		fn_print_dots "Preventing overwriting of ${modprettyname} config files"
-		fn_script_log "Preventing overwriting of ${modprettyname} config files"
-		sleep 0.5
-		# Count how many files there are to remove
-		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
-		# Test all subvalues of "modkeepfiles" using the ";" separator
-		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
-			# Put the current file we are looking for into a variable
-			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
-			# If it matches an existing file that have been extracted delete the file
-			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
-				rm -r "${extractdir}/${filetoremove}"
-				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
-				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
-					touch "${modsdir}/.removedfiles.tmp"
-				fi
-					echo "${filetoremove}" >> "${modsdir}/.removedfiles.tmp"
-			fi
-		done
-		fn_print_ok "Preventing overwriting of ${modprettyname} config files"
-		sleep 0.5
-	fi
-}
 
 core_exit.sh
