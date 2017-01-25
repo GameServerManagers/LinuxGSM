@@ -107,7 +107,7 @@ fi
 echo -en "removing ${modcommand} from ${modslockfile}..."
 sleep 0.5
 fn_script_log "Removing: ${modcommand} from ${modsinstalledlist}"
-sed -i "/^${modcommand}$/d" "${modsinstalledlist}"
+sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
 	fn_print_fail_eol_nl
