@@ -42,15 +42,13 @@ fn_remove_cfg_files(){
 	fi
 }
 
-echo "Update addons/mods"
-echo "================================="
+fn_print_dots "Update addons/mods"
+sleep 0.5
 fn_mods_check_installed
-fn_print_information_nl "${installedmodscount} addons/mods will be updated"
+fn_print_info "Update addons/mods: ${installedmodscount} addons/mods will be updated"
+sleep 0.5
 fn_script_log_info "${installedmodscount} mods or addons will be updated"
 fn_mods_installed_list
-echo ""
-echo "Installed addons/mods"
-echo "================================="
 # Go through all available commands, get details and display them to the user
 for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 	# Current mod is the "ulindex" value of the array we're going through
@@ -59,8 +57,8 @@ for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 	# Display installed mods and the update policy
 	if [ -z "${modkeepfiles}" ]; then
 		# If modkeepfiles is not set for some reason, that's a problem
-		fn_script_log_error "Couldn't find update policy for ${modprettyname}"
-		fn_print_error_nl "Couldn't find update policy for ${modprettyname}"
+		fn_script_log_error "Could not find update policy for ${modprettyname}"
+		fn_print_error_nl "Could not find update policy for ${modprettyname}"
 		exitcode="1"
 		core_exit.sh
 	# If the mod won't get updated
