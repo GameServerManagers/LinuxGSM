@@ -72,7 +72,9 @@ while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
 		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 	fi
 done
+# Get mod info
 currentmod="${usermodselect}"
+fn_mod_get_info
 
 echo ""
 echo "Installing ${modprettyname}"
@@ -100,7 +102,6 @@ fi
 
 ## Installation
 
-fn_mod_get_info
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
 fn_mods_create_tmp_dir
