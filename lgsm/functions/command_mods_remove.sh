@@ -86,8 +86,8 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	printf  "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
+fn_print_ok_eol_nl
 sleep 0.5
-
 # Remove file list
 echo -en "removing ${modcommand}-files.txt..."
 sleep 0.5
