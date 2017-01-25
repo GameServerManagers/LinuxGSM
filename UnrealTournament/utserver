@@ -31,7 +31,6 @@ ip="0.0.0.0"
 port="7777"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="UnrealTournament ${defaultmap}?Game=${gametype}?TimeLimit=${timelimit} -port=${port}"
 }

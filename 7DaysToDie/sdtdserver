@@ -30,7 +30,6 @@ steampass='password'
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care | http://7daystodie.gamepedia.com/Server
 fn_parms(){
 parms="-logfile ${gamelogdir}/output_log__`date +%Y-%m-%d__%H-%M-%S`.txt -quit -batchmode -nographics -dedicated -configfile=${servercfgfullpath}"
 }

@@ -22,7 +22,7 @@ version="170110"
 
 #### Server Settings ####
 
-## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
+## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
 parms="+hostServer 1 +dedicated 1"
 }

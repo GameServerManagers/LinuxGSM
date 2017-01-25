@@ -310,7 +310,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -318,7 +318,7 @@ fn_details_ports(){
 		fi
 	done
 	# engines/games that require editing in the script file
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" )
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -526,15 +526,19 @@ fn_details_quakelive(){
 fn_details_realvirtuality(){
 	echo -e "netstat -atunp | grep arma3server"
 	echo -e ""
-	if [ -z "${port}" ]||[ -z "${queryport}" ]||[ -z "${masterport}" ]; then
-		echo -e "${red}ERROR!${default} Missing/commented ports in ${servercfg}."
-		echo -e ""
+	# Default port
+	if [ -z "${port}" ]; then
+		port="2302"
 	fi
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam: Master traffic\tINBOUND\t${masterport}\tudp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		if [ "${port}" -eq "${port}" ]; then 
+			echo -e "> Steam: Query\tINBOUND\t$((port+1))\tudp"
+			echo -e "> Steam: Master traffic\tINBOUND\t$((port+2))\tudp"
+			echo -e "> Undocumented Port\tINBOUND\t$((port+3))\tudp"
+		fi
 	} | column -s $'\t' -t
 }
 
@@ -821,4 +825,3 @@ then
   fn_display_details
   core_exit.sh
 fi
-

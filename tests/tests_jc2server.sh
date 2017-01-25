@@ -27,7 +27,6 @@ version="170110"
 # No settings available for Just Cause 2
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms=""
 }

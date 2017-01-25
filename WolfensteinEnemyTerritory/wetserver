@@ -22,11 +22,7 @@ version="170110"
 
 #### Server Settings ####
 
-## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-# Please use Enemy Territory config file.
-
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 	parms="+set net_strict 1 +set fs_homepath ${filesdir} +exec ${servercfg}"
 }

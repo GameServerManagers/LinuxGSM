@@ -30,7 +30,6 @@ steampass='password'
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="-config ${servercfgfullpath}"
 }

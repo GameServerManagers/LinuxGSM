@@ -23,7 +23,6 @@ version="170110"
 #### Server Settings ####
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-
 defaultmap="mp_leningrad"
 maxclients="20"
 port="28960"
