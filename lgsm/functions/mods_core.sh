@@ -44,7 +44,7 @@ fn_mod_lowercase(){
 		fn_script_log "Converting ${modprettyname} files to lowercase"
 		files=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
-		while read src; do
+		while read -r src; do
 			dst=`dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]'`
 			if [ "${src}" != "${dst}" ]
 			then
@@ -126,7 +126,7 @@ fn_mod_tidy_files_list(){
 	# generate elements to remove from list
 	removefromlistamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
 	# Test all subvalue of "removefromlist" using the ";" separator
-	for ((filesindex=1; filesindex < ${removefromlistamount}; filesindex++)); do
+	for ((filesindex=1; filesindex < removefromlistamount; filesindex++)); do
 		# Put current file into test variable
 		removefilevar="$(echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }')"
 		# Delete matching line(s)
@@ -166,31 +166,13 @@ fn_mod_get_info(){
 				# When "MOD" is found
 				if [ "${mods_global_array[index]}" == "MOD" ]; then
 					# Get info
-					if [ -z "$index" ]; then
-						fn_print_error "index variable not set. Please report an issue."
-						echo "* https://github.com/GameServerManagers/LinuxGSM/issues"
-						exitcode="1"
-						core_exit.sh
-					fi
-						modcommand="${mods_global_array[index+1]}"
-						modprettyname="${mods_global_array[index+2]}"
-						modurl="${mods_global_array[index+3]}"
-						modfilename="${mods_global_array[index+4]}"
-						modsubdirs="${mods_global_array[index+5]}"
-						modlowercase="${mods_global_array[index+6]}"
-						modinstalldir="${mods_global_array[index+7]}"
-						modkeepfiles="${mods_global_array[index+8]}"
-						modengines="${mods_global_array[index+9]}"
-						modgames="${mods_global_array[index+10]}"
-						modexcludegames="${mods_global_array[index+11]}"
-						modsite="${mods_global_array[index+12]}"
-						moddescription="${mods_global_array[index+13]}"
-					fi
+					fn_mod_info
 					modinfocommand="1"
 					break
 				fi
 				((totalmods++))
 			done
+
 		fi
 		# Exit the loop if job is done
 		if [ "${modinfocommand}" == "1" ]; then
@@ -207,12 +189,40 @@ fn_mod_get_info(){
 	fi
 }
 
+# Define all variables for a mod at once when index is set to a separator
+fn_mods_define(){
+if [ -z "$index" ]; then
+	fn_print_error "index variable not set. Please report an issue."
+	echo "* https://github.com/GameServerManagers/LinuxGSM/issues"
+	exitcode="1"
+	core_exit.sh
+fi
+	modcommand="${mods_global_array[index+1]}"
+	modprettyname="${mods_global_array[index+2]}"
+	modurl="${mods_global_array[index+3]}"
+	modfilename="${mods_global_array[index+4]}"
+	modsubdirs="${mods_global_array[index+5]}"
+	modlowercase="${mods_global_array[index+6]}"
+	modinstalldir="${mods_global_array[index+7]}"
+	modkeepfiles="${mods_global_array[index+8]}"
+	modengines="${mods_global_array[index+9]}"
+	modgames="${mods_global_array[index+10]}"
+	modexcludegames="${mods_global_array[index+11]}"
+	modsite="${mods_global_array[index+12]}"
+	moddescription="${mods_global_array[index+13]}"
+}
+
 # Builds list of installed mods
 # using installed-mods.txt grabing mod info from mods_list.sh
 fn_mods_installed_list(){
+	fn_mods_count_installed
 	# Set/reset variables
 	installedmodsline="1"
 	installedmodslist=()
+	modprettynamemaxlength="0"
+	modsitemaxlength="0"
+	moddescriptionmaxlength="0"
+	modcommandmaxlength="0"
 	# Loop through every line of the installed mods list ${modsinstalledlistfullpath}
 	while [ ${installedmodsline} -le ${installedmodscount} ]; do
 		currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
@@ -235,10 +245,6 @@ fn_mods_available(){
 	# First, reset variables
 	compatiblemodslist=()
 	availablemodscommands=()
-	modprettynamemaxlength="0"
-	modsitemaxlength="0"
-	moddescriptionmaxlength="0"
-	modcommandmaxlength="0"
 	# Find compatible games
 	# Find separators through the global array
 	for ((index="0"; index <= ${#mods_global_array[@]}; index++)); do
@@ -270,7 +276,7 @@ fn_compatible_mod_games(){
 		# How many games we need to test
 		gamesamount="$(echo "${modgames}" | awk -F ';' '{ print NF }')"
 		# Test all subvalue of "modgames" using the ";" separator
-		for ((gamevarindex=1; gamevarindex < ${gamesamount}; gamevarindex++)); do
+		for ((gamevarindex=1; gamevarindex < gamesamount; gamevarindex++)); do
 			# Put current game name into modtest variable
 			gamemodtest="$( echo "${modgames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )"
 			# If game name matches
@@ -312,7 +318,7 @@ fn_not_compatible_mod_games(){
 		# How many engines we need to test
 		excludegamesamount="$(echo "${modexcludegames}" | awk -F ';' '{ print NF }')"
 		# Test all subvalue of "modexcludegames" using the ";" separator
-		for ((gamevarindex=1; gamevarindex < ${excludegamesamount}; gamevarindex++)); do
+		for ((gamevarindex=1; gamevarindex < excludegamesamount; gamevarindex++)); do
 			# Put current engine name into modtest variable
 			excludegamemodtest="$( echo "${modexcludegames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )"
 			# If engine name matches
@@ -404,15 +410,18 @@ fn_mods_clear_tmp_dir(){
 	fi
 }
 
+fn_mods_count_installed(){
+	if [ -f "${modsinstalledlistfullpath}" ]; then
+		installedmodscount="$(wc -l < "${modsinstalledlistfullpath}")"
+	else
+		installedmodscount=0
+	fi
+}
 
 # Exit if no mods were installed
 fn_mods_check_installed(){
 	# Count installed mods
-	if [ -f "${modsinstalledlistfullpath}" ]; then
-		installedmodscount="$(cat "${modsinstalledlistfullpath}" | wc -l)"
-	else
-		installedmodscount=0
-	fi
+
 	# If no mods are found
 	if [ ${installedmodscount} -eq 0 ]; then
 		fn_print_information_nl "No installed mods or addons were found"
@@ -426,7 +435,7 @@ fn_check_mod_files_list(){
 	# File list must exist and be valid before any operation on it
 	if [ -f "${modsdir}/${modcommand}-files.txt" ]; then
 	# How many lines is the file list
-		modsfilelistsize="$(cat "${modsdir}/${modcommand}-files.txt" | wc -l)"
+		modsfilelistsize="$(wc -l < "${modsdir}/${modcommand}-files.txt")"
 		# If file list is empty
 		if [ "${modsfilelistsize}" -eq 0 ]; then
 			fn_print_failure "${modcommand}-files.txt is empty"
@@ -443,5 +452,4 @@ fn_check_mod_files_list(){
 
 # Database initialisation
 mods_list.sh
-mods_dir.sh
 fn_mods_available

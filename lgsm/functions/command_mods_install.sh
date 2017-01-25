@@ -14,9 +14,6 @@ mods_core.sh
 
 fn_print_header
 
-# exits if no mods installed
-fn_mods_check_installed
-
 # Displays a list of installed mods
 fn_mods_installed_list
 if [ ${installedmodscount} -gt 0 ]; then
@@ -104,7 +101,6 @@ fi
 ## Installation
 
 fn_mod_get_info
-fn_mod_already_installed
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
 fn_mods_create_tmp_dir
