@@ -166,7 +166,7 @@ fn_mod_get_info(){
 				# When "MOD" is found
 				if [ "${mods_global_array[index]}" == "MOD" ]; then
 					# Get info
-					fn_mod_info
+					fn_mods_define
 					modinfocommand="1"
 					break
 				fi
