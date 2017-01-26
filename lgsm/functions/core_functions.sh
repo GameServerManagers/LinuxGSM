@@ -187,6 +187,21 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_mods_install.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_update.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_remove.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_fastdl.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -216,6 +231,11 @@ fn_fetch_function
 }
 
 check_deps.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+check_executable.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -283,6 +303,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Mods
+
+mods_list.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+mods_core.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Dev
 

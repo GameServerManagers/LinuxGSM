@@ -16,12 +16,12 @@ fn_backup_trap(){
 	echo ""
 	echo -ne "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
-	fn_script_log_info "backup ${backupname}.tar.gz: CANCELED"
+	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
 	sleep 1
 	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${scriptlog}"
 	echo -ne "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
-	fn_script_log_info "backup ${backupname}.tar.gz: REMOVED"
+	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file
 	rm -f "${tmpdir}/.backup.lock"
 	core_exit.sh

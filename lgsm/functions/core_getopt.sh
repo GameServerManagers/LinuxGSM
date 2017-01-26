@@ -43,6 +43,12 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
+	mi|mods-install)
+		command_mods_install.sh;;
+	mu|mods-update)
+		command_mods_update.sh;;
+	mr|mods-remove)
+		command_mods_remove.sh;;
 	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
@@ -76,6 +82,9 @@ case "${getopt}" in
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
 		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}mods-install\t${default}mi |View and install available mods/addons."
+		echo -e "${blue}mods-update\t${default}mu |Update installed mods/addons."
+		echo -e "${blue}mods-remove\t${default}mr |Remove installed mods/addons."
 	} | column -s $'\t' -t
 	esac
 }
@@ -591,14 +600,20 @@ case "${getopt}" in
 		command_install.sh;;
 	ai|auto-install)
 		fn_autoinstall;;
+	fd|fastdl)
+		command_fastdl.sh;;
+	mi|mods-install)
+		command_mods_install.sh;;
+	mu|mods-update)
+		command_mods_update.sh;;
+	mr|mods-remove)
+		command_mods_remove.sh;;
 	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
 		command_dev_detect_glibc.sh;;
 	dl|detect-ldd)
 		command_dev_detect_ldd.sh;;
-	fd|fastdl)
-		command_fastdl.sh;;
 	*)
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
@@ -626,6 +641,9 @@ case "${getopt}" in
 		echo -e "${blue}install\t${default}i  |Install the server."
 		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
 		echo -e "${blue}fastdl\t${default}fd |Generates or update a FastDL directory for your server."
+		echo -e "${blue}mods-install\t${default}mi |View and install available mods/addons."
+		echo -e "${blue}mods-update\t${default}mu |Update installed mods/addons."
+		echo -e "${blue}mods-remove\t${default}mr |Remove installed mods/addons."
 	} | column -s $'\t' -t
 	esac
 }

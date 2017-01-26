@@ -165,9 +165,9 @@ fn_print_error(){
 
 fn_print_error_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${red}ERROR!${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "${creeol}[${red}ERROR ${default}] $@"
+		echo -en "${creeol}[${red}ERROR!${default}] $@"
 	fi
 	sleep 0.5
 	echo -en "\n"
