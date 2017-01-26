@@ -26,7 +26,6 @@ if [ ${installedmodscount} -gt 0 ]; then
 		fn_mod_get_info
 		# Display mod info to the user
 		echo -e " * \e[1m${green}${modcommand}${default}${default}"
-	((totalmodsinstalled++))
 	done
 	echo ""
 fi
