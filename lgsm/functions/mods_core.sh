@@ -26,7 +26,7 @@ fn_mod_install_files(){
 	# Check if variable is valid checking if file has been downloaded and exists
 	if [ ! -f "${modstmpdir}/${modfilename}" ]; then
 		fn_print_failure "An issue occurred downloading ${modprettyname}"
-		fn_script_log_fail "An issue occurred downloading ${modprettyname}"
+		fn_script_log_fatal "An issue occurred downloading ${modprettyname}"
 		core_exit.sh
 	fi
 	if [ ! -d "${extractdir}" ]; then
