@@ -48,7 +48,7 @@ while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
 	echo -e " * ${cyan}${displayedmodcommand}${default}"
 	# Increment index from the amount of values we just displayed
 	let "compatiblemodslistindex+=4"
-	((totalmods++))
+	((totalmodsavailable++))
 done
 
 # If no mods are available for a specific game
@@ -57,7 +57,7 @@ if [ -z "${compatiblemodslist}" ]; then
 	fn_script_log_info "No mods are currently available for ${gamename}."
 	core_exit.sh
 fi
-fn_script_log_info "${totalmods} addons/mods are available for install"
+fn_script_log_info "${totalmodsavailable} addons/mods are available for install"
 
 ## User selects a mod
 echo ""
