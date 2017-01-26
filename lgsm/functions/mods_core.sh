@@ -169,7 +169,6 @@ fn_mod_get_info(){
 					modinfocommand="1"
 					break
 				fi
-				((totalmodsavailable++))
 			done
 		fi
 		# Exit the loop if job is done
