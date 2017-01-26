@@ -169,7 +169,7 @@ fn_mod_get_info(){
 					modinfocommand="1"
 					break
 				fi
-				((totalmods++))
+				((totalmodsavailable++))
 			done
 		fi
 		# Exit the loop if job is done
@@ -231,8 +231,8 @@ fn_mods_installed_list(){
 		# Increment line check
 		((installedmodsline++))
 	done
-	if [ -n "${totalmods}" ] ;then
-		fn_script_log_info "${totalmods} addons/mods are already installed"
+	if [ -n "${installedmodscount}" ] ;then
+		fn_script_log_info "${installedmodscount} addons/mods are already installed"
 	fi
 }
 
