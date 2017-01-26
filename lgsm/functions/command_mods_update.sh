@@ -105,6 +105,6 @@ while [ ${installedmodsline} -le ${installedmodscount} ]; do
 done
 echo ""
 fn_print_ok_nl "Mods update complete"
-fn_script_log "Mods update complete"
+fn_script_log_info "Mods update complete"
 
 core_exit.sh
