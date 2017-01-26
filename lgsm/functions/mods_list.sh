@@ -3,10 +3,10 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Lists and defines available mods for LGSM supported servers.
-# Usage: To add a mod, you just need to add an array variable into fn_mods_info following the guide to set proper values.
+# Description: Lists and defines available mods for LGSM supported servers; works along with mods_core.sh.
+# Usage: To add a mod, you need to add an array variable following the guide to set proper values;
 # Usage: Then add this array to the mods_global_array.
-# Usage: If needed, you can scrape to define the download URL inside the fn_mods_scrape_urls function.
+# Usage: If needed, you can scrape the download URL first.
 
 local commandname="MODS"
 local commandaction="List Mods"
@@ -26,10 +26,11 @@ sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 sourcemoddownloadurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}"
 sourcemodurl="${sourcemoddownloadurl}/${sourcemodlatestfile}"
 
+# Define mods information (required)
+
 # Separator name
 modseparator="MOD"
 
-# Define mods information (required)
 # REQUIRED: mod_info_name=( MOD "modcommand" "Pretty Name" "URL" "filename" "modsubdirs" "LowercaseOn/Off" "/files/to/keep;" "/install/path" "ENGINES" "GAMES" "NOTGAMES" "AUTHOR_URL" "Short Description" )
 # Example 1) Well made mod: mod_info_name=( MOD "awesomemod" "This is an Awesome Mod" "https://awesomemod.com/latest.zip" "awesomemod.zip" "0" "LowercaseOff" "OVERWRITE" "${systemdir}/addons" "source;unity3d;" "GAMES" "NOTGAMES" "https://awesomemod.com/" "This mod knows that 42 is the answer" )
 # Example 2) Poorly made mod: mod_info_name=( MOD "stupidmod" "This is a stupid mod" "${crappymodurl}" "StupidMod.zip" "2" "LowercaseOn" "cfg;data/crappymod;" "${systemdir}" "source;" "GAMES" "Garry's mod;Counter-Strike: Source;" "This mod is dumber than dumb" )
@@ -38,17 +39,17 @@ modseparator="MOD"
 # [0] 	| MOD: separator, all mods must begin with it
 # [1] 	| "modcommand": the LGSM name and command to install the mod (must be unique and lowercase)
 # [2] 	| "Pretty Name": the common name people use to call the mod that will be displayed to the user
-# [3] 	| "URL": link to the file; can be a variable defined in fn_mods_nasty_urls (make sure curl can download it)
+# [3] 	| "URL": link to the mod archive file; can be a variable previously defined while scraping a URL
 # [4] 	| "filename": the output filename
-# [5]	| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
-# [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
+# [5]		| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
+# [6]		| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
 # [7] 	| "modinstalldir": the directory in which to install the mode ( use LGSM dir variables such as ${systemdir})
-# [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" to ignore the value or "NOUPDATE" to disallow updating
+# [8]		| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating
 # [9] 	| "Supported Engines;": list them according to LGSM ${engine} variables, separated and ended with a semicolon, or use ENGINES to ignore the value
 # [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value
 # [11]	| "Unsupported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use NOTGAMES to ignore the value (useful to exclude a game when using Supported Engines)
 # [12]	| "AUTHOR_URL" is the author's website, displayed to the user when chosing mods to install
-# [13]	| "Short Description" a description showed to the user upon installation
+# [13]	| "Short Description" a description showed to the user upon installation/removal
 
 # Source mods
 mod_info_metamod=( MOD "metamod" "MetaMod" "${metamodurl}" "${metamodlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source;" "GAMES" "NOTGAMES" "https://www.sourcemm.net" "Plugins Framework" )
@@ -68,6 +69,5 @@ mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "https://raw.githubusercon
 mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "https://raw.githubusercontent.com/OxideMod/Snapshots/master/Oxide-Hurtworld.zip" "Oxide-Hurtworld_Linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-hurtworld.1332" "Allows for the use of plugins" )
 mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "https://raw.githubusercontent.com/OxideMod/Snapshots/master/Oxide-7DaysToDie.zip" "Oxide-7DaysToDie_Linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813" "Allows for the use of plugins" )
 
-# REQUIRED: Set all mods info into one array for convenience
+# REQUIRED: Set all mods info into the global array
 mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
-
