@@ -41,10 +41,10 @@ modseparator="MOD"
 # [2] 	| "Pretty Name": the common name people use to call the mod that will be displayed to the user
 # [3] 	| "URL": link to the mod archive file; can be a variable previously defined while scraping a URL
 # [4] 	| "filename": the output filename
-# [5]		| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
-# [6]		| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
+# [5]	| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
+# [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
 # [7] 	| "modinstalldir": the directory in which to install the mode ( use LGSM dir variables such as ${systemdir})
-# [8]		| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating
+# [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating
 # [9] 	| "Supported Engines;": list them according to LGSM ${engine} variables, separated and ended with a semicolon, or use ENGINES to ignore the value
 # [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value
 # [11]	| "Unsupported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use NOTGAMES to ignore the value (useful to exclude a game when using Supported Engines)
