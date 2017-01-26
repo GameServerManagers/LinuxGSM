@@ -112,9 +112,9 @@ fn_mod_add_list(){
 	fi
 }
 
+# Prevent sensitive directories from being erased upon uninstall by removing them from: ${modcommand}-files.txt
 fn_mod_tidy_files_list(){
-	# Prevent sensitive directories from being erased by removing them from: ${modcommand}-files.txt
-	# Check file validity
+	# Check file list validity
 	fn_check_mod_files_list
 	# Output to the user
 	echo -ne "tidy up ${modcommand}-files.txt..."
@@ -129,19 +129,18 @@ fn_mod_tidy_files_list(){
 	for ((filesindex=1; filesindex < removefromlistamount; filesindex++)); do
 		# Put current file into test variable
 		removefilevar="$(echo "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }')"
-		# Delete matching line(s)
+		# Delete line(s) matching exactly
 		sed -i "/^${removefilevar}$/d" "${modsdir}/${modcommand}-files.txt"
+		# Exit on error
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Error while tidying line: ${removefilevar} from: ${modsdir}/${modcommand}-files.txt"
+			core_exit.sh
 			break
 		fi
 	done
-	if [ ${exitcode} -ne 0 ]; then
-		fn_print_fail_eol_nl
-	else
-		fn_print_ok_eol_nl
-	fi
-
+	fn_print_ok_eol_nl
 	# Sourcemod fix
 	# Remove metamod from sourcemod fileslist
 	if [ "${modcommand}" == "sourcemod" ]; then
@@ -172,7 +171,6 @@ fn_mod_get_info(){
 				fi
 				((totalmods++))
 			done
-
 		fi
 		# Exit the loop if job is done
 		if [ "${modinfocommand}" == "1" ]; then
@@ -192,9 +190,9 @@ fn_mod_get_info(){
 # Define all variables for a mod at once when index is set to a separator
 fn_mods_define(){
 if [ -z "$index" ]; then
+	fn_script_log_fatal "index variable not set. Please report an issue."
 	fn_print_error "index variable not set. Please report an issue."
 	echo "* https://github.com/GameServerManagers/LinuxGSM/issues"
-	exitcode="1"
 	core_exit.sh
 fi
 	modcommand="${mods_global_array[index+1]}"
@@ -238,9 +236,7 @@ fn_mods_installed_list(){
 	fi
 }
 
-# Checks if a mod is compatible for installation
-# Provides available mods for installation
-# Provides commands for mods installation
+# Loops through mods_global_array to define available mods & provide available commands for mods installation
 fn_mods_available(){
 	# First, reset variables
 	compatiblemodslist=()
@@ -302,7 +298,7 @@ fn_compatible_mod_engines(){
 			enginemodtest="$( echo "${modengines}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )"
 			# If engine name matches
 			if [ "${enginemodtest}" == "${engine}" ]; then
-				# Mod is compatible !
+				# Mod is compatible!
 				modcompatibleengine="1"
 			fi
 		done
@@ -323,7 +319,7 @@ fn_not_compatible_mod_games(){
 			excludegamemodtest="$( echo "${modexcludegames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )"
 			# If engine name matches
 			if [ "${excludegamemodtest}" == "${gamename}" ]; then
-				# Mod is compatible !
+				# Mod is compatible!
 				modeincompatiblegame="1"
 			fi
 		done
@@ -411,6 +407,7 @@ fn_mods_clear_tmp_dir(){
 	fi
 }
 
+# Counts how many mods were installed
 fn_mods_count_installed(){
 	if [ -f "${modsinstalledlistfullpath}" ]; then
 		installedmodscount="$(wc -l < "${modsinstalledlistfullpath}")"
@@ -419,12 +416,13 @@ fn_mods_count_installed(){
 	fi
 }
 
-# Exit if no mods were installed
+# Exits if no mods were installed
 fn_mods_check_installed(){
 	# Count installed mods
 	fn_mods_count_installed
 	# If no mods are found
 	if [ ${installedmodscount} -eq 0 ]; then
+		echo ""
 		fn_print_information_nl "No installed mods or addons were found"
 		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
 		fn_script_log_info "No installed mods or addons were found."
@@ -432,6 +430,7 @@ fn_mods_check_installed(){
 	fi
 }
 
+# Checks that mod files list exists and isn't empty
 fn_check_mod_files_list(){
 	# File list must exist and be valid before any operation on it
 	if [ -f "${modsdir}/${modcommand}-files.txt" ]; then
@@ -451,6 +450,7 @@ fn_check_mod_files_list(){
 	fi
 }
 
-# Database initialisation
+## Database initialisation
+
 mods_list.sh
 fn_mods_available
