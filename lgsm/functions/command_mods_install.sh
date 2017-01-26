@@ -25,7 +25,7 @@ if [ ${installedmodscount} -gt 0 ]; then
 		currentmod="${installedmodslist[llindex]}"
 		fn_mod_get_info
 		# Display mod info to the user
-		echo -e " * \e[1m${green}${modcommand}${default}${default}"
+		echo -e " * ${green}${modcommand}${default}${default}"
 	done
 	echo ""
 fi
@@ -43,7 +43,7 @@ while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
 	displayedmodsite="${compatiblemodslist[compatiblemodslistindex+2]}"
 	displayedmoddescription="${compatiblemodslist[compatiblemodslistindex+3]}"
 	# Output mods to the user
-	echo -e "\e[1m${displayedmodname}${default} - ${displayedmoddescription} - ${displayedmodsite}"
+	echo -e "${displayedmodname} - ${displayedmoddescription} - ${displayedmodsite}"
 	echo -e " * ${cyan}${displayedmodcommand}${default}"
 	# Increment index from the amount of values we just displayed
 	let "compatiblemodslistindex+=4"

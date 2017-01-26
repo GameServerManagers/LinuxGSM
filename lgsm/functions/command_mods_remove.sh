@@ -26,7 +26,7 @@ for ((mlindex=0; mlindex < ${#installedmodslist[@]}; mlindex++)); do
 	# Get mod info
 	fn_mod_get_info
 	# Display mod info to the user
-	echo -e "${cyan}${modcommand}${default} - \e[1m${modprettyname}${default} - ${moddescription}"
+	echo -e "${red}${modcommand}${default} - ${modprettyname} - ${moddescription}"
 done
 
 echo ""

@@ -16,27 +16,25 @@ mods_core.sh
 # For that matter, remove cfg files after extraction before copying them to destination
 fn_remove_cfg_files(){
 	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
-		fn_print_dots "Preventing overwriting of ${modprettyname} config files"
-		fn_script_log "Preventing overwriting of ${modprettyname} config files"
+		echo -e "the following files/directories will be preserved:"
 		sleep 0.5
 		# Count how many files there are to remove
-		removefilesamount="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		filestopreserve="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
 		# Test all subvalues of "modkeepfiles" using the ";" separator
-		for ((removefilesindex=1; removefilesindex < ${removefilesamount}; removefilesindex++)); do
+		for ((preservefilesindex=1; preservefilesindex < ${filestopreserve}; preservefilesindex++)); do
 			# Put the current file we are looking for into a variable
-			filetoremove="$( echo "${modkeepfiles}" | awk -F ';' -v x=${removefilesindex} '{ print $x }' )"
+			filetopreserve="$(echo "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )"
+			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file
-			if [ -f "${extractdir}/${filetoremove}" ]||[ -d "${extractdir}/${filetoremove}" ]; then
-				rm -r "${extractdir}/${filetoremove}"
+			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
+				rm -r "${extractdir}/${filetopreserve}"
 				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"
 				fi
-					echo "${filetoremove}" >> "${modsdir}/.removedfiles.tmp"
+					echo "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
 			fi
 		done
-		fn_print_ok "Preventing overwriting of ${modprettyname} config files"
-		sleep 0.5
 	fi
 }
 
@@ -60,12 +58,12 @@ for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 		core_exit.sh
 	# If the mod won't get updated
 	elif [ "${modkeepfiles}" == "NOUPDATE" ]; then
-		echo -e "	* \e[31m${modprettyname}${default} (won't be updated)"
+		echo -e "	* ${red}{modprettyname}${default} (won't be updated)"
 	# If the mode is just overwritten
 	elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
-		echo -e "	* \e[1m${modprettyname}${default} (overwrite)"
+		echo -e "	* ${modprettyname} (overwrite)"
 	else
-		echo -e "	* ${yellow}${modprettyname}${default} (common custom files remain untouched)"
+		echo -e "	* ${yellow}${modprettyname}${default} (retain common custom files)"
 	fi
 done
 sleep 1

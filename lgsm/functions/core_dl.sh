@@ -80,12 +80,12 @@ fn_fetch_trap(){
 	echo ""
 	echo -ne "downloading ${filename}..."
 	fn_print_canceled_eol_nl
-	fn_script_log_info "downloading ${filename}...CANCELED"
+	fn_script_log_info "Downloading ${filename}...CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
 	echo -ne "downloading ${filename}..."
 	fn_print_removed_eol_nl
-	fn_script_log_info "downloading ${filename}...REMOVED"
+	fn_script_log_info "Downloading ${filename}...REMOVED"
 	core_exit.sh
 }
 
@@ -130,7 +130,7 @@ fn_fetch_file(){
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_script_log_fatal "downloading ${filename}: FAIL"
+					fn_script_log_fatal "Downloading ${filename}: FAIL"
 				fi
 				echo -e "${fileurl}" | tee -a "${scriptlog}"
 				echo "${curlcmd}" | tee -a "${scriptlog}"
@@ -138,7 +138,7 @@ fn_fetch_file(){
 			else
 				fn_print_ok_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_script_log_pass "downloading ${filename}: OK"
+					fn_script_log_pass "Downloading ${filename}: OK"
 				fi
 			fi
 			# remove trap

@@ -41,7 +41,7 @@ fn_mod_lowercase(){
 
 		echo -ne "converting ${modprettyname} files to lowercase..."
 		sleep 0.5
-		fn_script_log "Converting ${modprettyname} files to lowercase"
+		fn_script_log_info "Converting ${modprettyname} files to lowercase"
 		files=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
@@ -231,7 +231,7 @@ fn_mods_installed_list(){
 		((installedmodsline++))
 	done
 	if [ -n "${installedmodscount}" ] ;then
-		fn_script_log_info "${installedmodscount} addons/mods are already installed"
+		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }
 
