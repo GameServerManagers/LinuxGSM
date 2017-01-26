@@ -96,8 +96,8 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 			* ) echo "Please answer yes or no.";;
 			esac
 		done
+		fn_script_log_info "User selected to continue"
 	fi
-fn_script_log_info "User selected to continue"
 fi
 
 ## Installation
