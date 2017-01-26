@@ -59,7 +59,7 @@ fn_mod_get_info
 fn_check_mod_files_list
 
 # Uninstall the mod
-fn_script_log "Removing ${modsfilelistsize} files from ${modprettyname}"
+fn_script_log_info "Removing ${modsfilelistsize} files from ${modprettyname}"
 echo -e "removing ${modprettyname}"
 echo -e "* ${modsfilelistsize} files to be removed"
 echo -e "* location: ${modinstalldir}"
@@ -71,10 +71,16 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove
 	currentfileremove="$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")"
 	# If file or directory exists, then remove it
-	fn_script_log "Removing: ${modinstalldir}/${currentfileremove}"
+
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir}/${currentfileremove}"
 		((exitcode=$?))
+		if [ ${exitcode} -ne 0 ]; then
+			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
+			break
+		else
+			fn_script_log_pass "Removing ${modinstalldir}/${currentfileremove}"
+		fi
 	fi
 	tput rc; tput el
 	printf "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
@@ -90,26 +96,29 @@ sleep 0.5
 # Remove file list
 echo -en "removing ${modcommand}-files.txt..."
 sleep 0.5
-fn_script_log "Removing: ${modsdir}/${modcommand}-files.txt"
 rm -rf "${modsdir}/${modcommand}-files.txt"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
+	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
+	fn_script_log_pass "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_ok_eol_nl
 fi
 
 # Remove mods from installed mods list
 echo -en "removing ${modcommand} from ${modsinstalledlist}..."
 sleep 0.5
-fn_script_log "Removing: ${modcommand} from ${modsinstalledlist}"
+
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
+	fn_script_loga_fatal "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
+	fn_script_loga_pass "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_ok_eol_nl
 fi
 
