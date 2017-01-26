@@ -74,19 +74,18 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	fn_script_log "Removing: ${modinstalldir}/${currentfileremove}"
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir}/${currentfileremove}"
-		local exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
-			fn_print_fail_eol_nl
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-		fi
+		((exitcode=$?))
 	fi
 	tput rc; tput el
-	printf  "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
+	printf "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
-fn_print_ok_eol_nl
+if [ ${exitcode} -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
 sleep 0.5
 # Remove file list
 echo -en "removing ${modcommand}-files.txt..."
@@ -102,7 +101,7 @@ else
 fi
 
 # Remove mods from installed mods list
-echo -en "removing ${modcommand} from ${modslockfile}..."
+echo -en "removing ${modcommand} from ${modsinstalledlist}..."
 sleep 0.5
 fn_script_log "Removing: ${modcommand} from ${modsinstalledlist}"
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"

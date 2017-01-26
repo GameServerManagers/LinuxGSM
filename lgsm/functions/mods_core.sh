@@ -423,9 +423,9 @@ fn_mods_check_installed(){
 	# If no mods are found
 	if [ ${installedmodscount} -eq 0 ]; then
 		echo ""
-		fn_print_information_nl "No installed mods or addons were found"
+		fn_print_failure_nl "No installed mods or addons were found"
 		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
-		fn_script_log_info "No installed mods or addons were found."
+		fn_script_log_fail "No installed mods or addons were found."
 		core_exit.sh
 	fi
 }
