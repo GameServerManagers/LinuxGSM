@@ -9,12 +9,12 @@ local commandaction="Update"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_mta_dl(){
-	fn_fetch_file "http://linux.mtasa.com/dl/${NUM_VERSION}/multitheftauto_linux_x64-${FULL_VERSION}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${FULL_VERSION}.tar.gz"
-  mkdir "${tmpdir}/multitheftauto_linux_x64-${FULL_VERSION}"
-	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${FULL_VERSION}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${FULL_VERSION}"
+	fn_fetch_file "http://linux.mtasa.com/dl/${numversion}/multitheftauto_linux_x64-${fullversion}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${fullversion}.tar.gz"
+  mkdir "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
+	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${fullversion}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
 	echo -e "copying to ${filesdir}...\c"
 	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/multitheftauto_linux_x64-${FULL_VERSION}/multitheftauto_linux_x64-${FULL_VERSION}/"* "${filesdir}"
+	cp -R "${tmpdir}/multitheftauto_linux_x64-${fullversion}/multitheftauto_linux_x64-${fullversion}/"* "${filesdir}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -69,22 +69,21 @@ fn_update_mta_currentbuild(){
 	fi
 }
 
-fn_mta_getServerVersion()
+fn_mta_get_availablebuild()
 {
-		fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
-		local MAJOR_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
-		local MINOR_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
-		local MAINTENANCE_VERSION="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')"
-		NUM_VERSION="${MAJOR_VERSION}${MINOR_VERSION}${MAINTENANCE_VERSION}"
-		FULL_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}.${MAINTENANCE_VERSION}"
-		rm -f "${tmpdir}/version.h"
+	fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
+	local majorversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
+	local minorversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
+	local maintenanceversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')"
+	numversion="${majorversion}${minorversion}${maintenanceversion}"
+	fullversion="${majorversion}.${minorversion}.${maintenanceversion}"
+	rm -f "${tmpdir}/version.h"
 }
 
 fn_update_mta_compare(){
 	# Removes dots so if can compare version numbers
 	currentbuilddigit=$(echo "${currentbuild}"|tr -cd '[:digit:]')
-
-	if [ "${currentbuilddigit}" -ne "${NUM_VERSION}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${currentbuilddigit}" -ne "${numversion}" ]||[ "${forceupdate}" == "1" ]; then
 		if [ "${forceupdate}" == "1" ]; then
 			# forceupdate bypasses checks, useful for small build changes
 			mta_update_string="forced"
@@ -95,7 +94,7 @@ fn_update_mta_compare(){
 		echo -e "Update ${mta_update_string}:"
 		sleep 1
 		echo -e "	Current build: ${red}${currentbuild} ${default}"
-		echo -e "	Available build: ${green}${FULL_VERSION} ${default}"
+		echo -e "	Available build: ${green}${fullversion} ${default}"
 		echo -e ""
 		sleep 1
 		echo ""
@@ -108,8 +107,8 @@ fn_update_mta_compare(){
 		echo -en "\n"
 		fn_script_log "Update ${mta_update_string}"
 		fn_script_log "Current build: ${currentbuild}"
-		fn_script_log "Available build: ${FULL_VERSION}"
-		fn_script_log "${currentbuild} > ${FULL_VERSION}"
+		fn_script_log "Available build: ${fullversion}"
+		fn_script_log "${currentbuild} > ${fullversion}"
 
 		unset updateonstart
 
@@ -133,17 +132,17 @@ fn_update_mta_compare(){
 		echo -e "\n"
 		echo -e "No update available:"
 		echo -e "	Current version: ${green}${currentbuild}${default}"
-		echo -e "	Available version: ${green}${FULL_VERSION}${default}"
+		echo -e "	Available version: ${green}${fullversion}${default}"
 		echo -e ""
 		fn_print_ok_nl "No update available"
 		fn_script_log_info "Current build: ${currentbuild}"
-		fn_script_log_info "Available build: ${FULL_VERSION}"
+		fn_script_log_info "Available build: ${fullversion}"
 	fi
 }
 
 
 if [ "${installer}" == "1" ]; then
-	fn_mta_getServerVersion
+	fn_mta_get_availablebuild
 	fn_update_mta_dl
 else
 	# Checks for server update from linux.mtasa.com using the github repo.
@@ -151,6 +150,6 @@ else
 	fn_script_log_info "Checking for update: linux.mtasa.com"
 	sleep 1
 	fn_update_mta_currentbuild
-	fn_mta_getServerVersion
+	fn_mta_get_availablebuild
 	fn_update_mta_compare
 fi
