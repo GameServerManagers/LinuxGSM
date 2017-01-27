@@ -121,7 +121,7 @@ fn_mod_tidy_files_list(){
 	sleep 0.5
 	fn_script_log_info "Tidy up ${modcommand}-files.txt"
 	# Lines/files to remove from file list (end with ";" separator)
-	removefromlist="cfg;addons;RustDedicated_Data;RustDedicated_Data\/Managed;RustDedicated_Data\/Managed\/x86;"
+	removefromlist="cfg;addons;RustDedicated_Data;RustDedicated_Data\/Managed;RustDedicated_Data\/Managed\/x86;RustDedicated_Data\/Managed\/x64"
 	# Loop through files to remove from file list,
 	# generate elements to remove from list
 	removefromlistamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
