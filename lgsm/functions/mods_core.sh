@@ -121,7 +121,7 @@ fn_mod_tidy_files_list(){
 	sleep 0.5
 	fn_script_log_info "Tidy up ${modcommand}-files.txt"
 	# Lines/files to remove from file list (end with ";" separator)
-	removefromlist="cfg;addons;RustDedicated_Data;RustDedicated_Data/Managed;RustDedicated_Data/Managed/x86;"
+	removefromlist="cfg;addons;RustDedicated_Data;RustDedicated_Data\/Managed;RustDedicated_Data\/Managed\/x86;"
 	# Loop through files to remove from file list,
 	# generate elements to remove from list
 	removefromlistamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
@@ -439,7 +439,7 @@ fn_mods_check_installed(){
 		echo ""
 		fn_print_failure_nl "No installed mods or addons were found"
 		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
-		fn_script_log_fail "No installed mods or addons were found."
+		fn_script_log_error "No installed mods or addons were found."
 		core_exit.sh
 	fi
 }
