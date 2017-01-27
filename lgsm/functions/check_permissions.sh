@@ -135,6 +135,7 @@ fn_sys_perm_errors_detect(){
 	classdirpermerror="0"
 	netdirpermerror="0"
 	# Check permissions
+	# /sys, /sys/class and /sys/class/net should be readable & executable
 	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
 		sysdirpermerror="1"
 	fi
@@ -176,19 +177,20 @@ fn_sys_perm_errors_fix(){
 		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 			fn_print_error "Could not fix permissions"
 			fn_script_log_error "Could not fix permissions."
+			# Show the user how to fix
 			fn_sys_perm_fix_manually_msg
 		else
 			fn_print_ok "Automatically fixing permissions"
 		fi
 	else
+	# Show the user how to fix
 	fn_sys_perm_fix_manually_msg
 	fi
 }
 
 # Processes to the /sys related permission errors check & fix/info
 fn_sys_perm_error_process(){
-	fn_sys_perm_errors
-	# /sys, /sys/class and /sys/class/net should be readable & executable
+	fn_sys_perm_errors_detect
 	# If any error was found
 	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 		fn_print_error_nl "Permission error(s) found:"
