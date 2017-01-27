@@ -162,9 +162,9 @@ fn_sys_perm_fix_manually_msg(){
 fn_sys_perm_errors_fix(){
 	sudo -v > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
-		fn_print_information_nl "Automatically fixing permissions"
-		sleep 1
-		fn_script_log_info "Automatically fixing permissions."
+		fn_print_dots "Automatically fixing /sys permissions"
+		sleep 2
+		fn_script_log_info "Automatically fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
 			sudo chmod a+rx "/sys"
 		fi
@@ -177,13 +177,14 @@ fn_sys_perm_errors_fix(){
 		# Run check again to see if it's fixed
 		fn_sys_perm_errors_detect
 		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
-			fn_print_error "Could not fix permissions"
-			fn_script_log_error "Could not fix permissions."
+			fn_print_error "Could not fix /sys permissions"
+			fn_script_log_error "Could not fix /sys permissions."
 			sleep 1
 			# Show the user how to fix
 			fn_sys_perm_fix_manually_msg
 		else
-			fn_print_ok "Automatically fixing permissions"
+			fn_print_ok "Automatically fixing /sys permissions"
+			fn_script_log_pass "Permissions in /sys fixed"
 			sleep 1
 		fi
 	else
@@ -197,21 +198,8 @@ fn_sys_perm_error_process(){
 	fn_sys_perm_errors_detect
 	# If any error was found
 	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
-		fn_print_warn_nl "Permission error(s) found:"
-		fn_script_log_info "Permission error(s) found:"
-		sleep 1
-		if [ "${sysdirpermerror}" == "1" ]; then
-			echo "		* /sys permissions are $(stat -c %a /sys) instead of expected 555"
-			fn_script_log "/sys permissions are $(stat -c %a /sys) instead of expected 555"
-		fi
-		if [ "${classdirpermerror}" == "1" ]; then
-			echo "		* /sys/class permissions are $(stat -c %a /sys/class) instead of expected 755"
-			fn_script_log "/sys/class permissions are $(stat -c %a /sys/class) instead of expected 755"
-		fi
-		if [ "${netdirpermerror}" == "1" ]; then
-			echo "		* /sys/class/net permissions are $(stat -c %a /sys/class/net) instead of expected 755"
-			fn_script_log "/sys/class/net permissions are $(stat -c %a /sys/class/net) instead of expected 755"
-		fi
+		fn_print_error_nl "Permission error(s) found in /sys"
+		fn_script_log_error "Permission error(s) found in /sys"
 		sleep 1
 		fn_print_information_nl "This error causes servers to fail starting properly"
 		fn_script_log_info "This error causes servers to fail starting properly."
