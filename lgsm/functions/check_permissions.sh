@@ -141,7 +141,7 @@ fn_sys_perm_errors(){
 	if [ ! -r "/sys/class" ]||[ ! -x "/sys/class" ]; then
 		classdirpermerror="1"
 	fi
-	if [ ! -r "/sys/class/net" ]||[ ! -x "sys/class/net" ]; then
+	if [ ! -r "/sys/class/net" ]||[ ! -x "/sys/class/net" ]; then
 		netdirpermerror="1"
 	fi
 }
@@ -162,8 +162,8 @@ fn_sys_perm_error_display(){
 			fn_script_log "/sys/class permissions are $(stat -c %a /sys/class) instead of expected 755"
 		fi
 		if [ "${netdirpermerror}" == "1" ]; then
-			echo " * /sys/class/net permissions are $(stat -c %a /sys/class) instead of expected 755"
-			fn_script_log "/sys/class/net permissions are $(stat -c %a /sys/class) instead of expected 755"
+			echo " * /sys/class/net permissions are $(stat -c %a /sys/class/net) instead of expected 755"
+			fn_script_log "/sys/class/net permissions are $(stat -c %a /sys/class/net) instead of expected 755"
 		fi
 		echo ""
 		fn_print_information_nl "This error causes servers to fail starting properly"
