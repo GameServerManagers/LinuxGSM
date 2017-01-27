@@ -1,0 +1,22 @@
+"AppState"
+{
+	"appid"		"10"
+	"Universe"		"1"
+	"StateFlags"		"68"
+	"installdir"		"Half-Life"
+	"LastUpdated"		"1380661260"
+	"UpdateResult"		"0"
+	"SizeOnDisk"		"292798406"
+	"buildid"		"100698"
+	"LastOwner"		"0"
+	"BytesToDownload"		"0"
+	"BytesDownloaded"		"0"
+	"UserConfig"
+	{
+		"betakey"		"beta"
+	}
+	"MountedDepots"
+	{
+		"11"		"2402119522546692832"
+	}
+}
