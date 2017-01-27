@@ -618,7 +618,7 @@ case "${getopt}" in
 	mr|mods-remove)
 		command_mods_remove.sh;;
 	wi|wipe
-		command_wipe.sh
+		command_wipe.sh;;
 	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
