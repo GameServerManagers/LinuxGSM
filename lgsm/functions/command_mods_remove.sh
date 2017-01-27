@@ -114,11 +114,11 @@ sleep 0.5
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
-	fn_script_loga_fatal "Removing ${modcommand} from ${modsinstalledlist}"
+	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
-	fn_script_loga_pass "Removing ${modcommand} from ${modsinstalledlist}"
+	fn_script_log_pass "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_ok_eol_nl
 fi
 
