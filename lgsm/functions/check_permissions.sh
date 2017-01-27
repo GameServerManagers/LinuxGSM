@@ -150,9 +150,11 @@ fn_sys_perm_errors_detect(){
 # Display a message on how to fix the issue manually
 fn_sys_perm_fix_manually_msg(){
 	echo ""
-	fn_print_information_nl "To fix this issue, run this command as root:"
-	fn_script_log_info "To fix this issue, run this command as root:"
-	echo " * chmod a+rx /sys /sys/class /sys/class/net"
+	fn_print_information_nl "This error causes servers to fail starting properly"
+	fn_script_log_info "This error causes servers to fail starting properly."
+	echo "	* To fix this issue, run the following command as root:"
+	fn_script_log_info "To fix this issue, run the following command as root:"
+	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
 	sleep 1
 	core_exit.sh
@@ -201,8 +203,6 @@ fn_sys_perm_error_process(){
 		fn_print_error_nl "Permission error(s) found in /sys"
 		fn_script_log_error "Permission error(s) found in /sys"
 		sleep 1
-		fn_print_information_nl "This error causes servers to fail starting properly"
-		fn_script_log_info "This error causes servers to fail starting properly."
 		# Run the fix
 		fn_sys_perm_errors_fix
 	fi
