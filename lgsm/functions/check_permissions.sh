@@ -126,5 +126,96 @@ fn_check_permissions(){
 	fi
 }
 
+## The following fn_sys_perm_* functions checks for permission errors in /sys directory
+
+# Checks for permission errors in /sys directory
+fn_sys_perm_errors(){
+	# Reset test variables
+	sysdirpermerror="0"
+	classdirpermerror="0"
+	netdirpermerror="0"
+	# Check permissions
+	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
+		sysdirpermerror="1"
+	fi
+	if [ ! -r "/sys/class" ]||[ ! -x "/sys/class" ]; then
+		classdirpermerror="1"
+	if [ ! -r "/sys/class/net" ]||[ ! -x "sys/class/net" ]; then
+		netdirpermerror="1"
+	fi
+}
+
+# Displays /sys related permission errors to the user
+fn_sys_perm_error_display(){
+	# /sys, /sys/class and /sys/class/net should be readable & executable
+	# If any error was found
+	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
+		fn_print_error_nl "Permission error(s) found:"
+		fn_script_log_error "Permission error(s) found:"
+		if [ "${sysdirpermerror}" == "1" ]; then
+			echo " * /sys permissions are $(stat -c %a /sys) instead of expected 555"
+			fn_script_log "/sys permissions are $(stat -c %a /sys) instead of expected 555"
+		fi
+		if [ "${classdirpermerror}" == "1" ]; then
+			echo " * /sys/class permissions are $(stat -c %a /sys/class) instead of expected 755"
+			fn_script_log "/sys/class permissions are $(stat -c %a /sys/class) instead of expected 755"
+		fi
+		if [ "${netdirpermerror}" == "1" ]; then
+			echo " * /sys/class/net permissions are $(stat -c %a /sys/class) instead of expected 755"
+			fn_script_log "/sys/class/net permissions are $(stat -c %a /sys/class) instead of expected 755"
+		fi
+		echo ""
+		fn_print_information_nl "This error causes servers to fail starting properly"
+		fn_script_log_info "This error causes servers to fail starting properly."
+}
+
+# Attempt to fix /sys related permission errors if sudo is available, exits otherwise
+fn_fix_sys_perm_errors(){
+	sudo -v > /dev/null 2>&1
+	iif [ $? -eq 0 ]; then
+		fn_print_information_nl "Automatically fixing permissions"
+		fn_script_log_info "Automatically fixing permissions."
+		if [ "${sysdirpermerror}" == "1" ]; then
+			sudo chmod a+rx "/sys"
+		fi
+		if [ "${classdirpermerror}" == "1" ]; then
+			sudo chmod a+rx "/sys/class"
+		fi
+		if [ "${netdirpermerror}" == "1" ]; then
+			sudo a+rx "/sys/class/net"
+		fi
+	else
+	fn_fix_sys_perm_manually_msg
+	fi
+	# Run check again to see if it's fixed
+	fn_sys_perm_errors
+	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
+		fn_print_error "Could not fix permissions"
+		fn_script_log_error "Could not fix permissions."
+		fn_fix_sys_perm_manually_msg
+	else
+		fn_print_ok "Automatically fixing permissions"
+	fi
+}
+
+# Display a message on how to fix the issue manually
+fn_fix_sys_perm_manually_msg(){
+	echo ""
+	fn_print_information_nl "To fix this issue, run this command as root:"
+	fn_script_log_info "To fix this issue, run this command as root:"
+	echo " * chmod a+rx /sys /sys/class /sys/class/net"
+	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
+	core_exit.sh
+}
+
+# Run perm error detect & fix/alert functions on /sys directories
+fn_fix_sus_perm_run(){
+	fn_sys_perm_errors
+	fn_sys_perm_error_display
+	fn_fix_sys_perm_errors
+}
+
+## Run checks
 fn_check_ownership
 fn_check_permissions
+fn_fix_sus_perm_run
