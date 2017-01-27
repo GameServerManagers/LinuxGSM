@@ -185,7 +185,7 @@ fn_sys_perm_errors_fix(){
 			# Show the user how to fix
 			fn_sys_perm_fix_manually_msg
 		else
-			fn_print_ok "Automatically fixing /sys permissions"
+			fn_print_ok_nl "Automatically fixing /sys permissions"
 			fn_script_log_pass "Permissions in /sys fixed"
 			sleep 1
 		fi
