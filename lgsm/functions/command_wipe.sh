@@ -17,7 +17,7 @@ fn_print_header
 fn_wipe_server(){
 	# Rust Wipe
 	if [ "${gamename}" == "Rust" ]; then
-		if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "{serveridentitydir}" -type f -name "proceduralmap*.sav")" ]; then
+		if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]; then
 			echo " * Any user, storage, and map data will be erased."
 			while true; do
 				read -e -i "y" -p "Continue? [Y/n]" yn
@@ -42,7 +42,7 @@ fn_wipe_server(){
 # Removes files to wipe server
 fn_wipe_server_remove_files(){
 	if [ "${gamename}" == "Rust" ]; then
-		if [ -n "$(find "{serveridentitydir}" -type f -name "proceduralmap*.sav")" ]; then
+		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]; then
 			echo "Removing map"
 			rm -f "${serveridentitydir}/proceduralmap*.sav"
 		fi
