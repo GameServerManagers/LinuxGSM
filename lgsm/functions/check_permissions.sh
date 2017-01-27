@@ -170,7 +170,7 @@ fn_sys_perm_errors_fix(){
 			sudo chmod a+rx "/sys/class"
 		fi
 		if [ "${netdirpermerror}" == "1" ]; then
-			sudo a+rx "/sys/class/net"
+			sudo chmod a+rx "/sys/class/net"
 		fi
 		# Run check again to see if it's fixed
 		fn_sys_perm_errors_detect
