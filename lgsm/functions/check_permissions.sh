@@ -140,6 +140,7 @@ fn_sys_perm_errors(){
 	fi
 	if [ ! -r "/sys/class" ]||[ ! -x "/sys/class" ]; then
 		classdirpermerror="1"
+	fi
 	if [ ! -r "/sys/class/net" ]||[ ! -x "sys/class/net" ]; then
 		netdirpermerror="1"
 	fi
@@ -167,12 +168,13 @@ fn_sys_perm_error_display(){
 		echo ""
 		fn_print_information_nl "This error causes servers to fail starting properly"
 		fn_script_log_info "This error causes servers to fail starting properly."
+	fi
 }
 
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise
-fn_fix_sys_perm_errors(){
+fn_sys_perm_errors_fix(){
 	sudo -v > /dev/null 2>&1
-	iif [ $? -eq 0 ]; then
+	if [ $? -eq 0 ]; then
 		fn_print_information_nl "Automatically fixing permissions"
 		fn_script_log_info "Automatically fixing permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
@@ -184,22 +186,22 @@ fn_fix_sys_perm_errors(){
 		if [ "${netdirpermerror}" == "1" ]; then
 			sudo a+rx "/sys/class/net"
 		fi
+		# Run check again to see if it's fixed
+		fn_sys_perm_errors
+		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
+			fn_print_error "Could not fix permissions"
+			fn_script_log_error "Could not fix permissions."
+			fn_sys_perm_fix_manually_msg
+		else
+			fn_print_ok "Automatically fixing permissions"
+		fi
 	else
-	fn_fix_sys_perm_manually_msg
-	fi
-	# Run check again to see if it's fixed
-	fn_sys_perm_errors
-	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
-		fn_print_error "Could not fix permissions"
-		fn_script_log_error "Could not fix permissions."
-		fn_fix_sys_perm_manually_msg
-	else
-		fn_print_ok "Automatically fixing permissions"
+	fn_sys_perm_fix_manually_msg
 	fi
 }
 
 # Display a message on how to fix the issue manually
-fn_fix_sys_perm_manually_msg(){
+fn_sys_perm_fix_manually_msg(){
 	echo ""
 	fn_print_information_nl "To fix this issue, run this command as root:"
 	fn_script_log_info "To fix this issue, run this command as root:"
@@ -209,13 +211,13 @@ fn_fix_sys_perm_manually_msg(){
 }
 
 # Run perm error detect & fix/alert functions on /sys directories
-fn_fix_sus_perm_run(){
+fn_fix_sum_perm_run(){
 	fn_sys_perm_errors
 	fn_sys_perm_error_display
-	fn_fix_sys_perm_errors
+	fn_sys_perm_errors_fix
 }
 
 ## Run checks
 fn_check_ownership
 fn_check_permissions
-fn_fix_sus_perm_run
+fn_fix_sum_perm_run
