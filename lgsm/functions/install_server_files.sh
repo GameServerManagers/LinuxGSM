@@ -129,6 +129,8 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	update_minecraft.sh
 elif [ "${gamename}" == "Mumble" ]; then
 	update_mumble.sh
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	update_mta.sh
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh

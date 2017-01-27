@@ -351,6 +351,80 @@ case "${getopt}" in
 	esac
 }
 
+fn_getopt_mta(){
+case "${getopt}" in
+	st|start)
+		command_start.sh;;
+	sp|stop)
+		command_stop.sh;;
+	r|restart)
+		command_restart.sh;;
+	u|update)
+		command_update.sh;;
+	fu|force-update|update-restart)
+		forceupdate=1;
+		command_update.sh;;
+	uf|update-functions)
+		command_update_functions.sh;;
+	m|monitor)
+		command_monitor.sh;;
+	ta|test-alert)
+		command_test_alert.sh;;
+	dt|details)
+		command_details.sh;;
+	pd|postdetails)
+		command_postdetails.sh;;
+	b|backup)
+		command_backup.sh;;
+	c|console)
+		command_console.sh;;
+	d|debug)
+		command_debug.sh;;
+	dev|dev-debug)
+		command_dev_debug.sh;;
+	i|install)
+		command_install.sh;;
+	ir|install-default-resources)
+		command_install_resources_mta.sh;;
+	ai|auto-install)
+		fn_autoinstall;;
+	dd|detect-deps)
+		command_dev_detect_deps.sh;;
+	dg|detect-glibc)
+		command_dev_detect_glibc.sh;;
+	dl|detect-ldd)
+		command_dev_detect_ldd.sh;;
+	*)
+	if [ -n "${getopt}" ]; then
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
+		exitcode=2
+	fi
+	echo "Usage: $0 [option]"
+	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "https://gameservermanagers.com/${selfname}"
+	echo -e ""
+	echo -e "${lightyellow}Commands${default}"
+	{
+		echo -e "${blue}start\t${default}st |Start the server."
+		echo -e "${blue}stop\t${default}sp |Stop the server."
+		echo -e "${blue}restart\t${default}r  |Restart the server."
+		echo -e "${blue}update\t${default}u  |Checks and applies updates from linux.mtasa.com."
+		echo -e "${blue}force-update\t${default}fu |Bypasses the check and applies updates from linux.mtasa.com."
+		echo -e "${blue}update-functions\t${default}uf |Removes all functions so latest can be downloaded."
+		echo -e "${blue}monitor\t${default}m  |Checks that the server is running."
+		echo -e "${blue}test-alert\t${default}ta |Sends test alert."
+		echo -e "${blue}details\t${default}dt |Displays useful infomation about the server."
+		echo -e "${blue}postdetails\t${default}pd |Post stripped details to pastebin (for support)"
+		echo -e "${blue}backup\t${default}b  |Create archive of the server."
+		echo -e "${blue}console\t${default}c  |Console allows you to access the live view of a server."
+		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
+		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
+		echo -e "${blue}install-default-resources\t${default}ir |Install the MTA default resources."
+	} | column -s $'\t' -t
+	esac
+}
+
 fn_getopt_mumble(){
 case "${getopt}" in
 	st|start)
@@ -790,10 +864,13 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 # Minecraft
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_getopt_minecraft
+# Multi Theft Auto
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	fn_getopt_mta
 # Mumble
 elif [ "${gamename}" == "Mumble" ]; then
 	fn_getopt_mumble
-# Teamspeak 3	
+# Teamspeak 3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_getopt_teamspeak3
 # Unreal 2 Engine
@@ -803,14 +880,14 @@ elif [ "${engine}" == "unreal2" ]; then
 	else
 		fn_getopt_unreal2
 	fi
-# Unreal Engine	
+# Unreal Engine
 elif [ "${engine}" == "unreal" ]; then
 	fn_getopt_unreal
 # Generic
 elif [ "${gamename}" == "Battlefield: 1942" ]||[ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]||[ "${gamename}" == "Call of Duty 4" ]||[ "${gamename}" == "Call of Duty: World at War" ]||[ "${gamename}" == "QuakeWorld" ]||[ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]||[ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_getopt_generic_no_update
 elif  [ "${gamename}" == "Factorio" ]; then
-	fn_getopt_generic_update_no_steam	
+	fn_getopt_generic_update_no_steam
 else
 	fn_getopt_generic
 fi

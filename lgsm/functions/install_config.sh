@@ -34,13 +34,13 @@ fn_default_config_remote(){
 		echo "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
-			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
 		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
-			cp -v "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
 		elif [ "${gamename}" == "Don't Starve Together" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
 			cp -nv "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
-			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	sleep 1
@@ -361,6 +361,12 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	gamedirname="MultiTheftAuto"
+	fn_check_cfgdir
+	array_configs+=( acl.xml mtaserver.conf vehiclecolors.conf )
+	fn_fetch_default_config
+	fn_default_config_remote
 elif [ "${gamename}" == "Mumble" ]; then
 	gamedirname="Mumble"
 	array_configs+=( murmur.ini )

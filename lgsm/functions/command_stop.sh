@@ -190,6 +190,34 @@ fn_stop_graceful_minecraft(){
 	fn_stop_tmux
 }
 
+# Attempts graceful of mta using rcon 'quit' command.
+fn_stop_graceful_mta(){
+	fn_print_dots "Graceful: console quit"
+	fn_script_log_info "Graceful: console quit"
+	# sends quit
+	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
+	# waits up to 120 seconds giving the server time to shutdown gracefuly, we need a long wait time here as resources are stopped individually and process their own shutdowns
+	for seconds in {1..120}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: console quit: ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: console quit: OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: console quit: ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: console quit: "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: console quit: FAIL"
+	fi
+	sleep 1
+	fn_stop_tmux
+}
+
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
@@ -201,6 +229,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_goldsource
 	elif [ "${engine}" == "lwjgl2" ]; then
 		fn_stop_graceful_minecraft
+	elif [ "${engine}" == "renderware" ]; then
+		fn_stop_graceful_mta
 	else
 		fn_stop_tmux
 	fi
