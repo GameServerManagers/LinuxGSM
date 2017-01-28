@@ -117,7 +117,7 @@ if [ "${gamename}" == "Rust" ]; then
 		sleep 1
 		fn_wipe_server_process
 	else 
-		fn_print_information "No data to wipe was found"
+		fn_print_information_nl "No data to wipe was found"
 		fn_script_log_info "No data to wipe was found."
 		sleep 1
 		core_exit.sh
@@ -125,7 +125,7 @@ if [ "${gamename}" == "Rust" ]; then
 # You can add an "elif" here to add another game or engine
 else
 	# Game not listed
-	fn_print_information "Wipe is not available for this game"
+	fn_print_information_nl "Wipe is not available for this game"
 	fn_script_log_info "Wipe is not available for this game."
 	sleep 1
 	core_exit.sh
