@@ -1,7 +1,10 @@
 #!/bin/bash
-# Multi Theft Auto
-# Server Management Script
+# Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
+# License: MIT License, Copyright (c) 2017 Daniel Gibbs
+# Purpose: Multi Theft Auto | Server Management Script
+# Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
+# Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
