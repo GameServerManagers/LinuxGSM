@@ -217,6 +217,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_wipe.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Checks
 

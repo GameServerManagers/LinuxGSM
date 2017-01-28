@@ -121,7 +121,7 @@ fn_mod_tidy_files_list(){
 	sleep 0.5
 	fn_script_log_info "Tidy up ${modcommand}-files.txt"
 	# Lines/files to remove from file list (end with ";" separator)
-	removefromlist="cfg;addons;"
+	removefromlist="cfg;addons;RustDedicated_Data;RustDedicated_Data\/Managed;RustDedicated_Data\/Managed\/x86;RustDedicated_Data\/Managed\/x64;"
 	# Loop through files to remove from file list,
 	# generate elements to remove from list
 	removefromlistamount="$(echo "${removefromlist}" | awk -F ';' '{ print NF }')"
@@ -344,6 +344,21 @@ fn_mod_compatible_test(){
 
 # Create mods files and directories if it doesn't exist
 fn_create_mods_dir(){
+	# Create lgsm data modsdir
+	if [ ! -d "${modsdir}" ];then
+		echo "creating lgsm mods data directory ${modsdir}..."
+		mkdir -p "${modsdir}"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Creating mod download dir ${modsdir}"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Creating mod download dir ${modsdir}"
+		fi
+		sleep 0.5
+	fi
 	# Create mod install directory
 	if [ ! -d "${modinstalldir}" ]; then
 		echo "creating mods install directory ${modinstalldir}..."
@@ -351,11 +366,11 @@ fn_create_mods_dir(){
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Creating mod download dir ${modinstalldir}"
+			fn_script_log_fatal "Creating mod install directory ${modinstalldir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Creating mod download dir ${modinstalldir}"
+			fn_script_log_pass "Creating mod install directory ${modinstalldir}"
 		fi
 		sleep 0.5
 	fi
@@ -424,7 +439,7 @@ fn_mods_check_installed(){
 		echo ""
 		fn_print_failure_nl "No installed mods or addons were found"
 		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
-		fn_script_log_fail "No installed mods or addons were found."
+		fn_script_log_error "No installed mods or addons were found."
 		core_exit.sh
 	fi
 }
