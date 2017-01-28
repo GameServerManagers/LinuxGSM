@@ -130,3 +130,5 @@ else
 	sleep 1
 	core_exit.sh
 fi
+
+core_exit.sh
