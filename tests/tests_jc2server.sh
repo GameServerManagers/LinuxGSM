@@ -575,12 +575,13 @@ echo "gsquery.py will fail to query port."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 fn_setstatus
+cp "${servercfgfullpath}" "config.lua"
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 fn_test_result_fail
 echo ""
 fn_print_info_nl "Re-generating ${servercfg}."
-install_config.sh
+cp -v "config.lua" "${servercfgfullpath}"
 echo "================================="
 
 echo ""
