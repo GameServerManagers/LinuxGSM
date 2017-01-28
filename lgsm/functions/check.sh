@@ -18,6 +18,14 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" 
 	check_system_dir.sh
 fi
 
+local allowed_commands_array=( command_start.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_executable.sh
+	fi
+done
+
 local allowed_commands_array=( command_debug.sh command_start.sh command_install.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
@@ -26,7 +34,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh command_update.sh command_validate.sh command_update_functions.sh command_email_test.sh )
+local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh command_update.sh command_validate.sh command_update_functions.sh command_email_test.sh command_mods_install.sh command_mods_update.sh command_mods_remove.sh command_wipe.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
@@ -39,6 +47,14 @@ for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
 		check_deps.sh
+	fi
+done
+
+local allowed_commands_array=( command_console.sh command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
+for allowed_command in "${allowed_commands_array[@]}"
+do
+	if [ "${allowed_command}" == "${function_selfname}" ]; then
+		check_config.sh
 	fi
 done
 
@@ -60,13 +76,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_console.sh command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
-for allowed_command in "${allowed_commands_array[@]}"
-do
-	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		check_config.sh
-	fi
-done
+
 
 local allowed_commands_array=( command_details.sh command_monitor.sh command_start.sh command_stop.sh command_ts3_server_pass.sh command_update.sh command_details.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"

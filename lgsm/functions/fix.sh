@@ -17,6 +17,14 @@ fn_fix_msg_start(){
 	sleep 1
 }
 
+fn_fix_msg_start_nl(){
+	fn_print_dots "Applying ${fixname} fix: ${gamename}"
+	sleep 1
+	fn_print_info "Applying ${fixname} fix: ${gamename}"
+	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
+	sleep 1
+}
+
 fn_fix_msg_end(){
 	if [ $? -ne 0 ]; then
 		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
@@ -47,6 +55,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ins.sh
 	elif [ "${gamename}" == "Rust" ]; then
 		fix_rust.sh
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fix_mta.sh
 	fi
 fi
 

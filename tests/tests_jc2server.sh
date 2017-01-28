@@ -17,17 +17,13 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170110"
+version="170128"
 
 ##########################
 ######## Settings ########
 ##########################
 
-#### Server Settings ####
-# No settings available for Just Cause 2
-
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms=""
 }
@@ -44,6 +40,7 @@ emailfrom=""
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
@@ -578,12 +575,13 @@ echo "gsquery.py will fail to query port."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 fn_setstatus
+cp "${servercfgfullpath}" "config.lua"
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 (command_monitor.sh)
 fn_test_result_fail
 echo ""
 fn_print_info_nl "Re-generating ${servercfg}."
-install_config.sh
+cp -v "config.lua" "${servercfgfullpath}"
 echo "================================="
 
 echo ""

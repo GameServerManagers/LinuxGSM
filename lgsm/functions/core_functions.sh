@@ -6,7 +6,9 @@
 # This function is called first before any other function. Without this file other functions will not load.
 
 # Fixes for legacy code
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	gamename="ARK: Survival Evolved"
+elif [ "${gamename}" == "Teamspeak 3" ]; then
 	gamename="TeamSpeak 3"
 elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	gamename="Counter-Strike: Global Offensive"
@@ -180,6 +182,26 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_install_resources_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_install.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_update.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_remove.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_fastdl.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -195,6 +217,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_wipe.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Checks
 
@@ -209,6 +235,11 @@ fn_fetch_function
 }
 
 check_deps.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+check_executable.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -276,6 +307,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Mods
+
+mods_list.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+mods_core.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Dev
 
@@ -367,6 +409,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Info
 
 info_config.sh(){
@@ -446,6 +493,11 @@ fn_fetch_function
 }
 
 update_mumble.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

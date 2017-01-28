@@ -8,35 +8,7 @@ local commandname="INSTALL"
 local commandaction="Install"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_fetch_default_config(){
-	mkdir -pv "${lgsmdir}/default-configs"
-	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
-
-	for config in "${array_configs[@]}"
-	do
-		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
-		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
-	done
-}
-
-# Changes some variables within the default configs
-# SERVERNAME to LinuxGSM
-# PASSWORD to random password
-fn_set_config_vars(){
-	random=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; echo)
-	servername="LinuxGSM"
-	rconpass="admin$random"
-	echo "changing hostname."
-	fn_script_log_info "changing hostname."
-	sleep 1
-	sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
-	echo "changing rcon/admin password."
-	fn_script_log_info "changing rcon/admin password."
-	sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
-	sleep 1
-}
-
-# Checks if cfg dir exists, creates it if it doesn't
+# Checks if server cfg dir exists, creates it if it doesn't
 fn_check_cfgdir(){
 	if [ ! -d "${servercfgdir}" ]; then
 		echo "creating ${servercfgdir} config directory."
@@ -45,25 +17,56 @@ fn_check_cfgdir(){
 	fi
 }
 
-# Copys the default configs from Game-Server-Configs repo to the
-# correct location
+# Downloads default configs from Game-Server-Configs repo to lgsm/default-configs
+fn_fetch_default_config(){
+	mkdir -pv "${lgsmdir}/default-configs"
+	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
+	for config in "${array_configs[@]}"; do
+		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
+		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+	done
+}
+
+# Copys default configs from Game-Server-Configs repo to server config location
 fn_default_config_remote(){
-	for config in "${array_configs[@]}"
-	do
+	for config in "${array_configs[@]}"; do
 		# every config is copied
 		echo "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
-			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
 		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
-			cp -v "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
 		elif [ "${gamename}" == "Don't Starve Together" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
 			cp -nv "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
-			cp -v "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	sleep 1
+}
+
+# Changes some variables within the default configs
+# SERVERNAME to LinuxGSM
+# PASSWORD to random password
+fn_set_config_vars(){
+	if [ -f "${servercfgfullpath}" ]; then
+		random=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; echo)
+		servername="LinuxGSM"
+		rconpass="admin$random"
+		echo "changing hostname."
+		fn_script_log_info "changing hostname."
+		sleep 1
+		sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+		echo "changing rcon/admin password."
+		fn_script_log_info "changing rcon/admin password."
+		sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
+		sleep 1
+	else
+		fn_script_log_warn "Config file not found, cannot alter it."
+		echo "Config file not found, cannot alter it."
+		sleep 1
+	fi
 }
 
 # Changes some variables within the default Don't Starve Together configs
@@ -127,8 +130,9 @@ if [ "${gamename}" == "7 Days To Die" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	gamedirname="ARKSurvivalEvolved"
+	fn_check_cfgdir
 	array_configs+=( GameUserSettings.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -357,6 +361,12 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	gamedirname="MultiTheftAuto"
+	fn_check_cfgdir
+	array_configs+=( acl.xml mtaserver.conf vehiclecolors.conf )
+	fn_fetch_default_config
+	fn_default_config_remote
 elif [ "${gamename}" == "Mumble" ]; then
 	gamedirname="Mumble"
 	array_configs+=( murmur.ini )

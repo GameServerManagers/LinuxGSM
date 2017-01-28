@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170110"
+version="170128"
 
 ##########################
 ######## Settings ########
@@ -29,7 +29,6 @@ rconpassword="CHANGE_ME"
 ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
-# Edit with care
 fn_parms(){
 parms="--start-server ${filesdir}/save1.zip --server-settings ${servercfgfullpath} --port ${port} --rcon-port ${rconport} --rcon-password ${rconpassword}"
 }
@@ -72,7 +71,7 @@ githubbranch="master"
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Factorio"
-engine=""
+engine="factorio"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="fctr-server"
