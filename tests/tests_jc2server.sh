@@ -23,9 +23,6 @@ version="170110"
 ######## Settings ########
 ##########################
 
-#### Server Settings ####
-# No settings available for Just Cause 2
-
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
 parms=""
@@ -43,6 +40,7 @@ emailfrom=""
 # Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
