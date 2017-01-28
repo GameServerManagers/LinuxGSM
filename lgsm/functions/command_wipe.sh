@@ -45,32 +45,40 @@ fn_wipe_server_remove_files(){
 	# Rust Wipe
 	if [ "${gamename}" == "Rust" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]; then
-			currentaction="Removing map ${serveridentitydir}/proceduralmap*.sav"
-			echo -en "${currentaction}"
+			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap*.sav"
+			echo -en "Removing map proceduralmap*.sav file(s)..."
+			sleep 1
 			fn_script_log "${currentaction}"
 			rm -f "${serveridentitydir}/proceduralmap*.sav"
 			fn_wipe_exit_code
+			sleep 0.5
 		fi
 		if [ -d "${serveridentitydir}/user" ]; then
-			currentaction="Removing user ${serveridentitydir}/user"
-			echo -en "${currentaction}"
+			currentaction="Removing user directory: ${serveridentitydir}/user"
+			echo -en "Removing user directory..."
+			sleep 1
 			fn_script_log "${currentaction}"
 			rm -rf "${serveridentitydir}/user"
 			fn_wipe_exit_code
+			sleep 0.5
 		fi
 		if [ -d "${serveridentitydir}/storage" ]; then
-			currentaction="Removing storage ${serveridentitydir}/storage"
-			echo -en "${currentaction}"
+			currentaction="Removing storage directory: ${serveridentitydir}/storage"
+			echo -en "Removing storage directory..."
+			sleep 1
 			fn_script_log "${currentaction}"
 			rm -rf "${serveridentitydir}/storage"
 			fn_wipe_exit_code
+			sleep 0.5
 		fi
 		if [ -d "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
-			currentaction="Removing storage ${serveridentitydir}/Log.*.txt"
-			echo -en "${currentaction}"
+			currentaction="Removing log files: ${serveridentitydir}/Log.*.txt"
+			echo -en "Removing Log files..."
+			sleep 1
 			fn_script_log "${currentaction}"
 			rm -f "${serveridentitydir}/Log.*.txt"
 			fn_wipe_exit_code
+			sleep 0.5
 		fi
 	# You can add an "elif" here to add another game or engine
 	fi
@@ -90,10 +98,12 @@ if [ "${gamename}" == "Rust" ]; then
 			esac
 		done
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
+		sleep 1
 		fn_wipe_server_process
 	else 
 		fn_print_information "No data to wipe was found"
 		fn_script_log_info "No data to wipe was found."
+		sleep 1
 		core_exit.sh
 	fi
 # You can add an "elif" here to add another game or engine
@@ -101,5 +111,6 @@ else
 	# Game not listed
 	fn_print_information "Wipe is not available for this game"
 	fn_script_log_info "Wipe is not available for this game."
+	sleep 1
 	core_exit.sh
 fi
