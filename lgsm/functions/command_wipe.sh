@@ -44,14 +44,17 @@ fn_wipe_exit_code(){
 fn_wipe_server_remove_files(){
 	# Rust Wipe
 	if [ "${gamename}" == "Rust" ]; then
-		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]; then
-			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap*.sav"
-			echo -en "Removing map proceduralmap*.sav file(s)..."
+		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
+			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.sav"
+			echo -en "Removing map proceduralmap.*.sav file(s)..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			rm -f "${serveridentitydir}/proceduralmap*.sav"
+			rm -f "${serveridentitydir}/proceduralmap.*.sav"
 			fn_wipe_exit_code
 			sleep 0.5
+		else
+			fn_print_information "No map file to remove"
+			fn_script_log_info "No map file to remove."
 		fi
 		if [ -d "${serveridentitydir}/user" ]; then
 			currentaction="Removing user directory: ${serveridentitydir}/user"
@@ -61,6 +64,9 @@ fn_wipe_server_remove_files(){
 			rm -rf "${serveridentitydir}/user"
 			fn_wipe_exit_code
 			sleep 0.5
+		else
+			fn_print_information "No user directory to remove"
+			fn_script_log_info "No user directory to remove."
 		fi
 		if [ -d "${serveridentitydir}/storage" ]; then
 			currentaction="Removing storage directory: ${serveridentitydir}/storage"
@@ -70,8 +76,11 @@ fn_wipe_server_remove_files(){
 			rm -rf "${serveridentitydir}/storage"
 			fn_wipe_exit_code
 			sleep 0.5
+		else
+			fn_print_information "No storage directory to remove"
+			fn_script_log_info "No storage directory to remove."
 		fi
-		if [ -d "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
+		if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 			currentaction="Removing log files: ${serveridentitydir}/Log.*.txt"
 			echo -en "Removing Log files..."
 			sleep 1
@@ -79,6 +88,9 @@ fn_wipe_server_remove_files(){
 			rm -f "${serveridentitydir}/Log.*.txt"
 			fn_wipe_exit_code
 			sleep 0.5
+		else
+			fn_print_information "No log files to remove"
+			fn_script_log_info "No log files to remove."
 		fi
 	# You can add an "elif" here to add another game or engine
 	fi
