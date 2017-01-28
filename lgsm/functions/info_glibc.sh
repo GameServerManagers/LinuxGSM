@@ -135,7 +135,7 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	glibcrequired="2.2.4"
 	glibcfix="no"
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
-	glibcrequired="NOT REQUIRED"
+	glibcrequired="2.7"
 	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"
