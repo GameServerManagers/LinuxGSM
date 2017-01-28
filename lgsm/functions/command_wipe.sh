@@ -49,11 +49,11 @@ fn_wipe_server_remove_files(){
 			echo -en "Removing map proceduralmap.*.sav file(s)..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			rm -f "${serveridentitydir}/proceduralmap.*.sav"
+			find "${serveridentitydir}" -type f -name "proceduralmap.*.sav" -delete
 			fn_wipe_exit_code
 			sleep 0.5
 		else
-			fn_print_information "No map file to remove"
+			fn_print_information_nl "No map file to remove"
 			fn_script_log_info "No map file to remove."
 		fi
 		if [ -d "${serveridentitydir}/user" ]; then
@@ -65,7 +65,7 @@ fn_wipe_server_remove_files(){
 			fn_wipe_exit_code
 			sleep 0.5
 		else
-			fn_print_information "No user directory to remove"
+			fn_print_information_nl "No user directory to remove"
 			fn_script_log_info "No user directory to remove."
 		fi
 		if [ -d "${serveridentitydir}/storage" ]; then
@@ -77,7 +77,7 @@ fn_wipe_server_remove_files(){
 			fn_wipe_exit_code
 			sleep 0.5
 		else
-			fn_print_information "No storage directory to remove"
+			fn_print_information_nl "No storage directory to remove"
 			fn_script_log_info "No storage directory to remove."
 		fi
 		if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
@@ -85,11 +85,11 @@ fn_wipe_server_remove_files(){
 			echo -en "Removing Log files..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			rm -f "${serveridentitydir}/Log.*.txt"
+			find "${serveridentitydir}" -type f -name "Log.*.txt" -delete
 			fn_wipe_exit_code
 			sleep 0.5
 		else
-			fn_print_information "No log files to remove"
+			fn_print_information_nl "No log files to remove"
 			fn_script_log_info "No log files to remove."
 		fi
 	# You can add an "elif" here to add another game or engine
