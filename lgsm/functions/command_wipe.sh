@@ -55,6 +55,7 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No map file to remove"
 			fn_script_log_info "No map file to remove."
+			sleep 0.5
 		fi
 		if [ -d "${serveridentitydir}/user" ]; then
 			currentaction="Removing user directory: ${serveridentitydir}/user"
@@ -67,6 +68,7 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No user directory to remove"
 			fn_script_log_info "No user directory to remove."
+			sleep 0.5
 		fi
 		if [ -d "${serveridentitydir}/storage" ]; then
 			currentaction="Removing storage directory: ${serveridentitydir}/storage"
@@ -79,6 +81,7 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No storage directory to remove"
 			fn_script_log_info "No storage directory to remove."
+			sleep 0.5
 		fi
 		if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 			currentaction="Removing log files: ${serveridentitydir}/Log.*.txt"
@@ -91,6 +94,7 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No log files to remove"
 			fn_script_log_info "No log files to remove."
+			sleep 0.5
 		fi
 	# You can add an "elif" here to add another game or engine
 	fi
