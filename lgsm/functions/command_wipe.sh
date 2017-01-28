@@ -11,7 +11,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
 fn_print_header
-fn_scripg_log "Entering ${gamename} ${commandaction}"
+fn_script_log "Entering ${gamename} ${commandaction}"
 
 # Process to server wipe
 fn_wipe_server_process(){
