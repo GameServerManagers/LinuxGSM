@@ -86,7 +86,7 @@ filesdir="${rootdir}/serverfiles"
 ## Server Specific Directories
 systemdir="${filesdir}"
 executabledir="${filesdir}"
-executable="java -Xmx${javaram}M -jar minecraft_server.jar"
+executable="java -Xmx${javaram}M -jar ${filesdir}/minecraft_server.jar"
 servercfg="server.properties"
 servercfgdefault="server.properties"
 servercfgdir="${filesdir}"
