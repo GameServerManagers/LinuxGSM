@@ -676,7 +676,7 @@ fn_details_terraria(){
 }
 
 fn_details_towerunite(){
-	echo -e "netstat -atunp | grep TowerServer-Linux-Shipping"
+	echo -e "netstat -atunp | grep TowerServer"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
