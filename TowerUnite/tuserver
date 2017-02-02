@@ -100,10 +100,10 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}/Tower"
 executabledir="${systemdir}/Binaries/Linux"
 executable="./TowerServer-Linux-Shipping"
-servercfgdir="${systemdir}/Saved/Config/LinuxServer"
+servercfgdir="${systemdir}/Binaries/Linux"
 servercfg="${servicename}.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/TowerServer.ini"
+servercfgdefault="TowerServer.ini"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"

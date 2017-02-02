@@ -720,7 +720,7 @@ elif [ "${engine}" == "teeworlds" ]; then
 elif [ "${engine}" == "terraria" ]; then
 	fn_info_config_terraria
 # Tower Unite
-elif [ "${gamename}" == "towerunite" ]; then
+elif [ "${gamename}" == "Tower Unite" ]; then
 	fn_info_config_towerunite
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
