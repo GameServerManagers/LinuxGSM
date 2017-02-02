@@ -480,6 +480,12 @@ elif [ "${gamename}" == "Terraria" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Tower Unite" ]; then
+	gamedirname="TowerUnite"
+	array_configs+=( TowerServer.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Unreal Tournament" ]; then
 	gamedirname="UnrealTournament"
 	array_configs+=( Game.ini Engine.ini )
