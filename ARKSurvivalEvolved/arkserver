@@ -111,7 +111,7 @@ servercfgfullpath="${servercfgdir}/${servercfg}"
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${systemdir}/logs"
+gamelogdir="${systemdir}/Saved/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
