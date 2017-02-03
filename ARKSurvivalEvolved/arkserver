@@ -104,8 +104,8 @@ executabledir="${systemdir}/Binaries/Linux"
 executable="./ShooterGameServer"
 servercfgdir="${systemdir}/Saved/Config/LinuxServer"
 servercfg="GameUserSettings.ini"
+servercfgdefault="GameUserSettings.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/GameUserSettings.ini"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"

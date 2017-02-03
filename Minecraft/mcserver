@@ -91,7 +91,6 @@ servercfg="server.properties"
 servercfgdefault="server.properties"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/lgsm-default.ini"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
