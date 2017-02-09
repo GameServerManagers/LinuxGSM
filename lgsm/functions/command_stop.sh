@@ -58,7 +58,7 @@ fn_stop_graceful_goldsource(){
 	fn_stop_tmux
 }
 
-fn_stop_graceful_factorio(){
+fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: console CTRL+c"
 	fn_script_log_info "Graceful: console CTRL+c"
 	# sends quit
@@ -222,7 +222,7 @@ fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
 	elif [ "${gamename}" == "Factorio" ]; then
-		fn_stop_graceful_factorio
+		fn_stop_graceful_ctrlc
 	elif [ "${engine}" == "source" ]; then
 		fn_stop_graceful_source
 	elif [ "${engine}" == "goldsource" ]; then
@@ -231,6 +231,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_minecraft
 	elif [ "${engine}" == "renderware" ]; then
 		fn_stop_graceful_mta
+	elif [ "${engine}" == "unreal4" ]; then
+		fn_stop_graceful_ctrlc
 	else
 		fn_stop_tmux
 	fi
