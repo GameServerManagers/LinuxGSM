@@ -105,18 +105,13 @@ fn_wipe_server_remove_files(){
 if [ "${gamename}" == "Rust" ]; then
 	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
-		while true; do
-			read -e -i "y" -p "Continue? [Y/n]" yn
-			case $yn in
-			[Yy]* ) break;;
-			[Nn]* ) echo Exiting; core_exit.sh;;
-			* ) echo "Please answer yes or no.";;
-			esac
-		done
+		if ! fn_prompt_yn "Continue?" Y; then
+				echo Exiting; core_exit.sh
+		fi
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
 		sleep 1
 		fn_wipe_server_process
-	else 
+	else
 		fn_print_information_nl "No data to wipe was found"
 		fn_script_log_info "No data to wipe was found."
 		sleep 1

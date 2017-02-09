@@ -16,14 +16,9 @@ echo "eula=false" > "${filesdir}/eula.txt"
 if [ -z "${autoinstall}" ]; then
 echo "By continuing you are indicating your agreement to the EULA."
 echo ""
-	while true; do
-		read -e -i "y" -p "Continue [Y/n]" yn
-		case $yn in
-		[Yy]* ) break;;
-		[Nn]* ) core_exit.sh;;
-		* ) echo "Please answer yes or no.";;
-		esac
-	done
+	if ! fn_prompt_yn "Continue?" Y; then
+		core_exit.sh
+	fi
 else
 echo "By using auto-install you are indicating your agreement to the EULA."
 echo ""

@@ -13,13 +13,9 @@ fn_print_header
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo ""
-while true; do
-	read -e -i "y" -p "Continue? [Y/n]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return;;
-	* ) echo "Please answer yes or no.";;
-esac
+if ! fn_prompt_yn "Continue?" Y; then
+	echo Exiting; return
+fi
 done
 fn_print_dots "Accessing console"
 sleep 1
@@ -35,14 +31,9 @@ else
 	fn_print_error_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"
 	sleep 1
-	while true; do
-		read -e -i "y" -p  "Do you want to start the server? [Y/n]" yn
-		case $yn in
-		[Yy]* ) exitbypass=1; command_start.sh; break;;
-		[Nn]* ) break;;
-		* ) echo "Please answer yes or no.";;
-	esac
-	done
+	if fn_prompt_yn "Do you want to start the server?" Y; then
+		exitbypass=1; command_start.sh
+	fi
 fi
 
 core_exit.sh

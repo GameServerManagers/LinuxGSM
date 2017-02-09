@@ -21,11 +21,6 @@ fn_install_resources(){
 fn_print_header
 
 fn_print_warning_nl "Installing the default resources with existing resources may cause issues."
-while true; do
-	read -e -i "y" -p "Do you want to install MTA default resources? [Y/n]" yn
-	case $yn in
-	[Yy]* ) fn_install_resources && break;;
-	[Nn]* ) break;;
-	* ) echo "Please answer yes or no.";;
-	esac
-done
+if fn_prompt_yn "Do you want to install MTA default resources?" Y; then
+	fn_install_resources
+fi

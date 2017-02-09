@@ -146,12 +146,7 @@ fi
 if [ -z "${autoinstall}" ]; then
 	echo ""
 	echo "================================="
-	while true; do
-	read -e -i "y" -p "Was the install successful? [Y/n]" yn
-		case $yn in
-			[Yy]* ) break;;
-			[Nn]* ) install_retry.sh;;
-			* ) echo "Please answer yes or no.";;
-		esac
-	done
+	if ! fn_prompt_yn "Was the install successful?" Y; then
+		install_retry.sh
+	fi
 fi

@@ -21,15 +21,12 @@ if [ -z "${autoinstall}" ]; then
 	if [ -s "${clustercfgdir}/cluster_token.txt" ]; then
 		echo "The cluster token is already set. Do you want to overwrite it?"
 		fn_script_log_info "Don't Starve Together cluster token is already set"
-		while true; do
-			read -e -i "n" -p "Continue? [Y/n]" yn
-			case $yn in
-			[Yy]* ) overwritetoken="true"; break;;
-			[Nn]* ) overwritetoken="false"; break;;
-			* ) echo "Please answer yes or no.";;
-			esac
-		done
-	fi	
+		if fn_prompt_yn "Continue?" N; then
+			overwritetoken="true"
+		else
+			overwritetoken="false"
+		fi
+	fi
 	if [ "${overwritetoken}" == "true" ]; then
 		echo "Once you have the cluster token, enter it below"
 		echo -n "Cluster Token: "
