@@ -104,14 +104,14 @@ executabledir="${systemdir}/Binaries/Linux"
 executable="./ShooterGameServer"
 servercfgdir="${systemdir}/Saved/Config/LinuxServer"
 servercfg="GameUserSettings.ini"
+servercfgdefault="GameUserSettings.ini"
 servercfgfullpath="${servercfgdir}/${servercfg}"
-servercfgdefault="${servercfgdir}/GameUserSettings.ini"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${systemdir}/logs"
+gamelogdir="${systemdir}/Saved/Logs"
 scriptlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
 scriptlog="${scriptlogdir}/${servicename}-script.log"

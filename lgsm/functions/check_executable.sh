@@ -1,8 +1,8 @@
 #!/bin/bash
-# LGSM check_system_dir.sh function
+# LGSM check_executable.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Checks if systemdir is accessible.
+# Description: Checks if executable exists.
 
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"

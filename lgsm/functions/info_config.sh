@@ -514,6 +514,20 @@ fn_info_config_terraria(){
 	fi
 }
 
+fn_info_config_towerunite(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(grep "ServerTitle" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerTitle//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 fn_info_config_unreal(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -705,6 +719,9 @@ elif [ "${engine}" == "teeworlds" ]; then
 # Terraria
 elif [ "${engine}" == "terraria" ]; then
 	fn_info_config_terraria
+# Tower Unite
+elif [ "${gamename}" == "Tower Unite" ]; then
+	fn_info_config_towerunite
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal

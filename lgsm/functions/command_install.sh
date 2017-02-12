@@ -28,7 +28,7 @@ fi
 
 # Configuration
 install_config.sh
-if [ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "BrainBread 2" ]; then
+if [ "${gamename}" == "BrainBread 2" ]||[ "${gamename}" == "Black Mesa: Deathmatch" ]||[ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Empires Mod" ]||[ "${gamename}" == "Garry’s Mod" ]||[ "${gamename}" == "No more Room in Hell" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "Tower Unite" ]; then
 	install_gslt.sh
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	install_dst_token.sh

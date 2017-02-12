@@ -40,4 +40,12 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${scriptlog}"
 		fn_fix_msg_end
 	fi
+elif [ "${gamename}" == "Tower Unite" ]; then
+	# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
+	if [ ! -f "${executabledir}/steamclient.so" ]; then
+		fixname="steamclient.so"
+		fn_fix_msg_start
+		cp -v "${filesdir}/linux64/steamclient.so" "${executabledir}/steamclient.so" >> "${scriptlog}"
+		fn_fix_msg_end
+	fi
 fi

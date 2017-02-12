@@ -675,6 +675,20 @@ fn_details_terraria(){
 	} | column -s $'\t' -t
 }
 
+fn_details_towerunite(){
+	echo -e "netstat -atunp | grep TowerServer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		if [ "${port}" -eq "${port}" ]; then 
+			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
+		fi
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_unreal(){
 	echo -e "netstat -atunp | grep ucc-bin"
 	echo -e ""
@@ -824,6 +838,8 @@ fn_display_details() {
 		fn_details_quakelive
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
+	elif [ "${gamename}" == "Tower Unite" ]; then
+		fn_details_towerunite
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_details_mta    
 	elif [ "${gamename}" == "Mumble" ]; then

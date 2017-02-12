@@ -106,6 +106,9 @@ else
 	${executable} ${parms}
 fi
 
+fn_print_dots "Stopping debug"
+sleep 1
+fn_print_ok_nl "Stopping debug"
 # remove trap.
 trap - INT
 core_exit.sh
