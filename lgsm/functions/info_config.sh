@@ -562,17 +562,14 @@ fn_info_config_ballistic_overkill(){
 		queryport="${zero}"
 		maxplayers="${unavailable}"
 		gamemode="${unavailable}"
-		gameworld="${unavailable}"
 	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*ServerName="//' | cut -f1 -d"\"")
+		serverpassword=$(grep "Password" "${servercfgfullpath}" | sed 's/^.*Password="//' | cut -f1 -d"\"")
 		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
 
 		maxplayers=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		gameworld=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-
+		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*GameMode="//' | cut -f1 -d"\"")
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
@@ -580,7 +577,6 @@ fn_info_config_ballistic_overkill(){
 		queryport=${queryport:-"0"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		gamemode=${gamemode:-"NOT SET"}
-		gameworld=${gameworld:-"NOT SET"}
 	fi
 }
 
