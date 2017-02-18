@@ -355,11 +355,21 @@ fn_details_ark(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ]; then 
+		if [ "${port}" -eq "${port}" ]; then
 			echo -e "> RAW\tINBOUND\t$((port+1))\tudp"
 		fi
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_details_ballisticoverkill(){
+	echo -e "netstat -atunp | grep BODS.x86"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -539,7 +549,7 @@ fn_details_realvirtuality(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ]; then 
+		if [ "${port}" -eq "${port}" ]; then
 			echo -e "> Steam: Query\tINBOUND\t$((port+1))\tudp"
 			echo -e "> Steam: Master traffic\tINBOUND\t$((port+2))\tudp"
 			echo -e "> Undocumented Port\tINBOUND\t$((port+3))\tudp"
@@ -800,6 +810,8 @@ fn_display_details() {
 		fn_details_sdtd
 	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 		fn_details_ark
+	elif [ "${gamename}" == "Ballistic Overkill" ]; then
+		fn_details_ballisticoverkill
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_details_cod
 	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
@@ -811,7 +823,7 @@ fn_display_details() {
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_details_codwaw
 	elif [ "${gamename}" == "Factorio" ]; then
-		fn_details_factorio    
+		fn_details_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
 	elif [ "${gamename}" == "QuakeWorld" ]; then
@@ -825,7 +837,7 @@ fn_display_details() {
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
-		fn_details_mta    
+		fn_details_mta
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_details_mumble
 	elif [ "${gamename}" == "Rust" ]; then
