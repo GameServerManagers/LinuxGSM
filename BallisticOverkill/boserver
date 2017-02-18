@@ -101,7 +101,7 @@ systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./BODS.x86"
 servercfg="${servicename}.txt"
-servercfgdefault="${servercfg}"
+servercfgdefault="config.txt"
 servercfgdir="${systemdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
