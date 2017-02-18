@@ -554,6 +554,36 @@ fn_info_config_unreal(){
 	fi
 }
 
+fn_info_config_ballistic_overkill(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		maxplayers="${unavailable}"
+		gamemode="${unavailable}"
+		gameworld="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$((port + 1))
+
+		maxplayers=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+		gameworld=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		maxplayers=${maxplayers:-"NOT SET"}
+		gamemode=${gamemode:-"NOT SET"}
+		gameworld=${gameworld:-"NOT SET"}
+	fi
+}
+
 fn_info_config_sdtd(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -646,6 +676,9 @@ if [ "${engine}" == "avalanche" ]; then
 # ARK: Survival Evolved
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_info_config_ark
+# Ballistic Overkill
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	fn_info_config_ballistic_overkill
 # Battlefield: 1942
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	fn_info_config_bf1942
@@ -664,7 +697,7 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-# Factorio	
+# Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
 # Quake 2
