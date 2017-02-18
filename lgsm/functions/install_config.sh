@@ -144,6 +144,12 @@ elif [ "${gamename}" == "ARMA 3" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	gamedirname="BladeSymphony"
+	array_configs+=( config.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	gamedirname="Battlefield1942"
 	array_configs+=( serversettings.con )
