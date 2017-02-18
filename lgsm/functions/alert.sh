@@ -33,7 +33,7 @@ fn_alert_update(){
 
 fn_alert_permissions(){
 	fn_script_log_info "Sending permissions error alert"
-	alertsubject="LinuxGSM - Permissions Error - ${servername}"
+	alertsubject="LinuxGSM - Error - ${servername}"
 	alertbody="${servicename} has permissions issues."
 }
 
