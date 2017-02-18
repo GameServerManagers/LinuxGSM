@@ -12,7 +12,10 @@ local commandname="CHECK"
 
 check_root.sh
 check_tmuxception.sh
-check_permissions.sh
+
+if [ "${function_selfname}" != "command_monitor.sh" ]
+	check_permissions.sh
+fi
 
 if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]; then
 	check_system_dir.sh
