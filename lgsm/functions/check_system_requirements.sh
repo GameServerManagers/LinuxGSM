@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_system_requirements.sh
+# LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

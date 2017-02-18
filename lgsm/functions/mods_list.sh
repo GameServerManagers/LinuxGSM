@@ -1,9 +1,9 @@
 #!/bin/bash
-# LGSM mods_list.sh function
+# LinuxGSM mods_list.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Lists and defines available mods for LGSM supported servers; works along with mods_core.sh.
+# Description: Lists and defines available mods for LinuxGSM supported servers; works along with mods_core.sh.
 # Usage: To add a mod, you need to add an array variable following the guide to set proper values;
 # Usage: Then add this array to the mods_global_array.
 # Usage: If needed, you can scrape the download URL first.
@@ -43,7 +43,7 @@ modseparator="MOD"
 # [4] 	| "filename": the output filename
 # [5]	| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
 # [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
-# [7] 	| "modinstalldir": the directory in which to install the mode ( use LGSM dir variables such as ${systemdir})
+# [7] 	| "modinstalldir": the directory in which to install the mode (use LGSM dir variables such as ${systemdir})
 # [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating; for files to keep upon uninstall, see fn_mod_tidy_files_list from mods_core.sh
 # [9] 	| "Supported Engines;": list them according to LGSM ${engine} variables, separated and ended with a semicolon, or use ENGINES to ignore the value
 # [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value

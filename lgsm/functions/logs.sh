@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM logs.sh function
+# LinuxGSM logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_details.sh function
+# LinuxGSM command_details.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -70,7 +70,7 @@ fn_details_disk(){
 	# Total:        15G
 	# Used:         8.4G
 	# Available:    5.7G
-	# LGSM Total:	1G
+	# LinuxGSM Total:	1G
 	# Serverfiles:  961M
 	# Backups:  	2G
 
@@ -82,7 +82,7 @@ fn_details_disk(){
 		echo -e "${blue}Total:\t${default}${totalspace}"
 		echo -e "${blue}Used:\t${default}${usedspace}"
 		echo -e "${blue}Available:\t${default}${availspace}"
-		echo -e "${blue}LGSM Total:\t${default}${rootdirdu}"
+		echo -e "${blue}LinuxGSM Total:\t${default}${rootdirdu}"
 		echo -e "${blue}Serverfiles:\t${default}${filesdirdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "${blue}Backups:\t${default}${backupdirdu}"
@@ -692,7 +692,7 @@ fn_details_towerunite(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ]; then 
+		if [ "${port}" -eq "${port}" ]; then
 			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
 		fi
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"

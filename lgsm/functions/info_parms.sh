@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM info_parms.sh function
+# LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Gets specific details from server parameters.

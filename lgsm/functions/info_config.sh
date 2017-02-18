@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM info_config.sh function
+# LinuxGSM info_config.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -521,7 +521,7 @@ fn_info_config_towerunite(){
 	else
 		servername=$(grep "ServerTitle" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerTitle//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}

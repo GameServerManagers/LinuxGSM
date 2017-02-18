@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_stop.sh function
+# LinuxGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Contributors: UltimateByte
 # Website: https://gameservermanagers.com

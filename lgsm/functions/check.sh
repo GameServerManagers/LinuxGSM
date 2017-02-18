@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check.sh function
+# LinuxGSM check.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Overall function for managing checks.

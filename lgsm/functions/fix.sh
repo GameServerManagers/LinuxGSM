@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix.sh function
+# LinuxGSM fix.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Overall function for managing fixes.

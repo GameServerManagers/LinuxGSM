@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_test_alert.sh function
+# LinuxGSM command_test_alert.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Sends a test alert.

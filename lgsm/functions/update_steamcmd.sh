@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM update_steamcmd.sh function
+# LinuxGSM update_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Handles updating using SteamCMD.

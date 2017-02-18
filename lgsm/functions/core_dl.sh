@@ -1,9 +1,9 @@
 #!/bin/bash
-# LGSM core_dl.sh function
+# LinuxGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Deals with all downloads for LGSM.
+# Description: Deals with all downloads for LinuxGSM.
 
 # fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
 # filedir: location the file is to be saved: /home/server/lgsm/tmp

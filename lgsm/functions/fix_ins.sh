@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_ins.sh function
+# LinuxGSM fix_ins.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Insurgency.

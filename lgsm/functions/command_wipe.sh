@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_backup.sh function
+# LinuxGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -116,7 +116,7 @@ if [ "${gamename}" == "Rust" ]; then
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
 		sleep 1
 		fn_wipe_server_process
-	else 
+	else
 		fn_print_information_nl "No data to wipe was found"
 		fn_script_log_info "No data to wipe was found."
 		sleep 1

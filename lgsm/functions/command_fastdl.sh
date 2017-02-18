@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_fastdl.sh function
+# LinuxGSM command_fastdl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

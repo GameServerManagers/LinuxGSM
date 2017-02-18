@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_ts3db.sh function
+# LinuxGSM install_ts3db.sh function
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
 # Website: https://gameservermanagers.com

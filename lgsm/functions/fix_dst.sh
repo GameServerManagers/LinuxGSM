@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_dst.sh function
+# LinuxGSM fix_dst.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Don't Starve Together.

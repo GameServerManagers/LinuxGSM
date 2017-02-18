@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM core_messages.sh function
+# LinuxGSM core_messages.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.

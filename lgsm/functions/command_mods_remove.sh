@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_mods_uninstall.sh function
+# LinuxGSM command_mods_uninstall.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

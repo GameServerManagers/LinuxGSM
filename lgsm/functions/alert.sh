@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM alert.sh function
+# LinuxGSM alert.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Overall function for managing alerts.
@@ -9,25 +9,25 @@ local commandaction="Alert"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alertsubject="LGSM - Test Alert - ${servername}"
-	alertbody="LGSM test alert, how you read?"
+	alertsubject="LinuxGSM - Test Alert - ${servername}"
+	alertbody="LinuxGSM test alert, how you read?"
 }
 
 fn_alert_restart(){
 	fn_script_log_info "Sending restart alert: ${executable} process not running"
-	alertsubject="LGSM - Restarted - ${servername}"
+	alertsubject="LinuxGSM - Restarted - ${servername}"
 	alertbody="${servicename} ${executable} process not running"
 }
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending restart alert: ${gsquerycmd}"
-	alertsubject="LGSM - Restarted - ${servername}"
+	alertsubject="LinuxGSM - Restarted - ${servername}"
 	alertbody="gsquery.py failed to query: ${gsquerycmd}"
 }
 
 fn_alert_update(){
 	fn_script_log_info "Sending update alert"
-	alertsubject="LGSM - Updated - ${servername}"
+	alertsubject="LinuxGSM - Updated - ${servername}"
 	alertbody="${servicename} received update"
 }
 

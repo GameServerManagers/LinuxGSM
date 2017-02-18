@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_logs.sh function
+# LinuxGSM check_logs.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Checks if log files exist.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_monitor.sh function
+# LinuxGSM command_monitor.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

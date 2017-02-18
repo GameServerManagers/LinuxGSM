@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_permissions.sh
+# LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

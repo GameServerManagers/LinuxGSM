@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_logs.sh function
+# LinuxGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Creates log directories.

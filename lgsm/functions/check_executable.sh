@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_executable.sh function
+# LinuxGSM check_executable.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Checks if executable exists.

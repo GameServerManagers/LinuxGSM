@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_start.sh function
+# LinuxGSM command_start.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

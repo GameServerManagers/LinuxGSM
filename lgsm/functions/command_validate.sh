@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_validate.sh function
+# LinuxGSM command_validate.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Runs a server validation.

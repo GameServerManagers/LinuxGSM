@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_status.sh function
+# LinuxGSM check_status.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -19,7 +19,7 @@ if [ "${gamename}" == "TeamSpeak 3" ]; then
 		ts3error="${status}"
 		status=0
 	fi
-	
+
 elif [ "${gamename}" == "Mumble" ]; then
 	# Get config info
 	info_config.sh

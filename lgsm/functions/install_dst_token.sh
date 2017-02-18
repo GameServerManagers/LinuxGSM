@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_dst_token.sh function
+# LinuxGSM install_dst_token.sh function
 # Author: Daniel Gibbs & Marvin Lehmann (marvinl97)
 # Website: https://gameservermanagers.com
 # Description: Configures Don't Starve Together cluster with given token.
@@ -29,7 +29,7 @@ if [ -z "${autoinstall}" ]; then
 			* ) echo "Please answer yes or no.";;
 			esac
 		done
-	fi	
+	fi
 	if [ "${overwritetoken}" == "true" ]; then
 		echo "Once you have the cluster token, enter it below"
 		echo -n "Cluster Token: "

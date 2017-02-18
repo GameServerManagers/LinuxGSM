@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_mta_resources.sh function
+# LinuxGSM install_mta_resources.sh function
 # Author: Daniel Gibbs
 # Contributor: ChaosMTA
 # Website: https://gameservermanagers.com

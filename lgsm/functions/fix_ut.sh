@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_ut.sh function
+# LinuxGSM fix_ut.sh function
 # Author: Alexander Hurd
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Unreal Tournament.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_gslt.sh function
+# LinuxGSM install_gslt.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Configures GSLT.
