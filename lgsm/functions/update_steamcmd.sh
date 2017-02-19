@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM update_steamcmd.sh function
+# LinuxGSM update_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Handles updating using SteamCMD.
@@ -156,7 +156,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Gets availablebuild info
-	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | grep -EA 1000 "^\s+\"branches\"$" | grep -EA 5 "^\s+\"${branchname}\"$" | grep -m 1 -EB 10 "^\s+}$" | grep -E "^\s+\"buildid\"\s+" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
+	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | sed -n '/branch/,$p' | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: SteamCMD"
 		sleep 1

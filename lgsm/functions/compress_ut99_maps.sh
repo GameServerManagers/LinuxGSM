@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM compress_ut99_maps.sh function
+# LinuxGSM compress_ut99_maps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Compresses unreal maps.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_backup.sh function
+# LinuxGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

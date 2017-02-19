@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_stop.sh function
+# LinuxGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Contributors: UltimateByte
 # Website: https://gameservermanagers.com
@@ -58,7 +58,7 @@ fn_stop_graceful_goldsource(){
 	fn_stop_tmux
 }
 
-fn_stop_graceful_factorio(){
+fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: console CTRL+c"
 	fn_script_log_info "Graceful: console CTRL+c"
 	# sends quit
@@ -221,8 +221,8 @@ fn_stop_graceful_mta(){
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
-	elif [ "${gamename}" == "Factorio" ]; then
-		fn_stop_graceful_factorio
+	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]; then
+		fn_stop_graceful_ctrlc
 	elif [ "${engine}" == "source" ]; then
 		fn_stop_graceful_source
 	elif [ "${engine}" == "goldsource" ]; then
@@ -237,45 +237,45 @@ fn_stop_graceful_select(){
 }
 
 fn_stop_ark(){
-		maxpiditer=15 # The maximum number of times to check if the ark pid has closed gracefully.
-		info_config.sh
-		if [ -z "${queryport}" ]; then
-				fn_print_warn "No queryport found using info_config.sh"
-				fn_script_log_warn "No queryport found using info_config.sh"
-				userconfigfile="${filesdir}"
-				userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
-				queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
-		fi
-		if [ -z "${queryport}" ]; then
-				fn_print_warn "No queryport found in the GameUsersettings.ini file"
-				fn_script_log_warn "No queryport found in the GameUsersettings.ini file"
-				return
-		fi
+	maxpiditer=15 # The maximum number of times to check if the ark pid has closed gracefully.
+	info_config.sh
+	if [ -z "${queryport}" ]; then
+		fn_print_warn "No queryport found using info_config.sh"
+		fn_script_log_warn "No queryport found using info_config.sh"
+		userconfigfile="${filesdir}"
+		userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
+		queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
+	fi
+	if [ -z "${queryport}" ]; then
+		fn_print_warn "No queryport found in the GameUsersettings.ini file"
+		fn_script_log_warn "No queryport found in the GameUsersettings.ini file"
+		return
+	fi
 
-		if [[ ${#queryport} -gt 0 ]] ; then
-				for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
-						pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
-								grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
-								rev | cut -d\/ -f1)
-						#
-						# check for a valid pid
-						pid=${pid//[!0-9]/}
-						let pid+=0 # turns an empty string into a valid number, '0',
-						# and a valid numeric pid remains unchanged.
-						if [[ ${pid} -gt 1 && $pid -le $(cat /proc/sys/kernel/pid_max) ]] ; then
-						fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
-								sleep 1
-						else
-								break # Our job is done here
-						fi # end if for pid range check
-				done
-				if [[ ${pidcheck} -eq ${maxpiditer} ]] ; then
-						# The process doesn't want to close after 20 seconds.
-						# kill it hard.
-						fn_print_error "Terminating reluctant Ark process: ${pid}"
-						kill -9 $pid
-				fi
-		fi # end if for port check
+	if [ "${#queryport}" -gt 0 ] ; then
+		for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
+			pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
+				grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
+				rev | cut -d\/ -f1)
+			#
+			# check for a valid pid
+			pid=${pid//[!0-9]/}
+			let pid+=0 # turns an empty string into a valid number, '0',
+			# and a valid numeric pid remains unchanged.
+			if [ "${pid}" -gt 1 && "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
+			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
+				sleep 1
+			else
+				break # Our job is done here
+			fi # end if for pid range check
+		done
+		if [[ ${pidcheck} -eq ${maxpiditer} ]] ; then
+			# The process doesn't want to close after 20 seconds.
+			# kill it hard.
+			fn_print_error "Terminating reluctant Ark process: ${pid}"
+			kill -9 ${pid}
+		fi
+	fi # end if for port check
 } # end of fn_stop_ark
 
 fn_stop_teamspeak3(){
@@ -325,11 +325,10 @@ fn_stop_tmux(){
 		# Remove lockfile
 		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
-				# Make certain the ports are cleared before continuing.
-				if [ "${gamename}" == "ARK: Survival Evolved" ]; then
-						fn_stop_ark
-						echo -en "\n"
-				fi
+		# Make certain the ports are cleared before continuing.
+		if [ "${gamename}" == "ARK: Survival Evolved" ]; then
+			fn_stop_ark
+		fi
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else

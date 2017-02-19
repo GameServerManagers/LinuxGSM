@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_mta.sh function
+# LinuxGSM fix_mta.sh function
 # Author: Daniel Gibbs
 # Contributor: ChaosMTA
 # Website: https://gameservermanagers.com

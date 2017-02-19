@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_gslt.sh function
+# LinuxGSM install_gslt.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Configures GSLT.
@@ -26,12 +26,19 @@ fn_script_log_info "Get more info and a token here:"
 fn_script_log_info "https://gameservermanagers.com/gslt"
 echo ""
 if [ -z "${autoinstall}" ]; then
-	echo "Enter token below (Can be blank)."
-	echo -n "GSLT TOKEN: "
-	read token
-	sed -i -e "s/gslt=\"\"/gslt=\"${token}\"/g" "${rootdir}/${selfname}"
+	if [ "${gamename}" != "Tower Unite" ];then
+		echo "Enter token below (Can be blank)."
+		echo -n "GSLT TOKEN: "
+		read token
+		sed -i -e "s/gslt=\"\"/gslt=\"${token}\"/g" "${rootdir}/${selfname}"
+	fi
 fi
 sleep 1
-echo "The GSLT can be changed by editing ${selfname}."
-fn_script_log_info "The GSLT can be changed by editing ${selfname}."
+if [ "${gamename}" == "Tower Unite" ];then
+	echo "The GSLT can be changed by editing ${servercfg}."
+	fn_script_log_info "The GSLT can be changed by editing ${servercfg}."
+else
+	echo "The GSLT can be changed by editing ${selfname}."
+	fn_script_log_info "The GSLT can be changed by editing ${selfname}."
+fi
 echo ""

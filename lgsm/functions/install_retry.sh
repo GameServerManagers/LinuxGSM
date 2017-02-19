@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_retry.sh function
+# LinuxGSM install_retry.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Asks for installation retry after failure.

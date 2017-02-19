@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_system_requirements.sh
+# LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -11,12 +11,16 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 info_distro.sh
 
 # RAM requirements in megabytes for each game or engine.
-if [ "${gamename}" == "Rust" ]; then
+
+if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	ramrequirementmb="4000"
-	ramrequirementgb="4"
+	ramrequirementgb="1"
 elif [ "${gamename}" == "ARMA 3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
+elif [ "${gamename}" == "Rust" ]; then
+	ramrequirementmb="4000"
+	ramrequirementgb="4"
 elif [ "${gamename}" == "Minecraft" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"

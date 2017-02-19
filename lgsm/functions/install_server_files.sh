@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_server_files.sh function
+# LinuxGSM install_server_files.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Installs server files.
@@ -21,8 +21,6 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/CallOfDuty4/cod4x18_dedrun.tar.bz2"; filedir="${tmpdir}"; filename="cod4x18_dedrun.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="bebdfc1755626462bdaad49f6f926c08"
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fileurl="http://files.gameservermanagers.com/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.bz2"; filedir="${tmpdir}"; filename="codwaw-lnxded-1.7-full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0489697ff3bf678c109bfb377d1b7895"
-	elif [ "${gamename}" == "Counter-Strike: Classic Offensive" ]; then
-		fileurl="https://s3.amazonaws.com/linuxgsm/ClassicOffensive_Beta1.1d.zip"; filedir="${tmpdir}"; filename="ClassicOffensive_Beta1.1d.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="922ff1abe08ba12309b19900f1cbd33a"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${tmpdir}"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
 	elif [ "${gamename}" == "Quake 2" ]; then
@@ -136,7 +134,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Counter-Strike: Classic Offensive" ]; then
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi

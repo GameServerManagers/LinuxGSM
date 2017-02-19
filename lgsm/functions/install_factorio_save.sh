@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_factorio_save.sh function
+# LinuxGSM install_factorio_save.sh function
 # Author: Kristian Polso
 # Website: https://gameservermanagers.com
 # Description: Creates the initial save file for Factorio

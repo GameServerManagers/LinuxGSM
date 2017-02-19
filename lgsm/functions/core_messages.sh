@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM core_messages.sh function
+# LinuxGSM core_messages.sh function
 # Author: Daniel Gibbs
 # Contributor: s-eam
 # Website: https://gameservermanagers.com

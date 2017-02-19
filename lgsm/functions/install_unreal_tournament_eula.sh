@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_unreal_tournament_eula.sh function
+# LinuxGSM install_unreal_tournament_eula.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Gets user to accept the EULA.

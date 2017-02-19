@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_config.sh function
+# LinuxGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Creates default server configs.
@@ -144,6 +144,12 @@ elif [ "${gamename}" == "ARMA 3" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	gamedirname="BallisticOverkill"
+	array_configs+=( config.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	gamedirname="Battlefield1942"
 	array_configs+=( serversettings.con )
@@ -206,12 +212,6 @@ elif [ "${gamename}" == "Codename CURE" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Counter-Strike 1.6" ]; then
 	gamedirname="CounterStrike"
-	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-elif [ "${gamename}" == "Counter-Strike: Classic Offensive" ]; then
-	gamedirname="CounterStrikeClassicOffensive"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -477,6 +477,13 @@ elif [ "${gamename}" == "Teeworlds" ]; then
 elif [ "${gamename}" == "Terraria" ]; then
 	gamedirname="Terraria"
 	array_configs+=( serverconfig.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Tower Unite" ]; then
+	gamedirname="TowerUnite"
+	fn_check_cfgdir
+	array_configs+=( TowerServer.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

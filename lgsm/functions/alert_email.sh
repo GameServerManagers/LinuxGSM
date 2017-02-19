@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM alert_email.sh function
+# LinuxGSM alert_email.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Sends email alert including server details and logs.

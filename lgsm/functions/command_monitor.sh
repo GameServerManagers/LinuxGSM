@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_monitor.sh function
+# LinuxGSM command_monitor.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -98,6 +98,7 @@ fn_monitor_tmux(){
 	fi
 }
 
+monitorflag=1
 fn_print_dots "${servername}"
 sleep 1
 check.sh

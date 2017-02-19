@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_steamcmd.sh function
+# LinuxGSM install_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Downloads SteamCMD on install.

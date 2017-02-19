@@ -1,11 +1,11 @@
 #!/bin/bash
-# LGSM command_update_functions.sh function
+# LinuxGSM command_update_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
-local commandname="UPDATE LGSM"
-local commandaction="Update LGSM"
+local commandname="UPDATE LinuxGSM"
+local commandaction="Update LinuxGSM"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_print_dots "Updating functions"

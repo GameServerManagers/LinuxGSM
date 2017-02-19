@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_arma3.sh function
+# LinuxGSM fix_arma3.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves an issue with ARMA3.

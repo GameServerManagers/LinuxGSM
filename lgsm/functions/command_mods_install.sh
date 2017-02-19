@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_mods_install.sh function
+# LinuxGSM command_mods_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -52,7 +52,7 @@ done
 
 # If no mods are available for a specific game
 if [ -z "${compatiblemodslist}" ]; then
-	fn_print_fail "No mods are currently available for ${gamename}."
+	fn_print_fail_nl "No mods are currently available for ${gamename}."
 	fn_script_log_info "No mods are currently available for ${gamename}."
 	core_exit.sh
 fi

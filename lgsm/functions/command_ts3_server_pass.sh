@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_ts3_server_pass.sh function
+# LinuxGSM command_ts3_server_pass.sh function
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
 # Website: https://gameservermanagers.com

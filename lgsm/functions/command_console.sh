@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_console.sh function
+# LinuxGSM command_console.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Gives access to the server tmux console.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM core_trap.sh function
+# LinuxGSM core_trap.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Handles CTRL-C trap to give an exit code.

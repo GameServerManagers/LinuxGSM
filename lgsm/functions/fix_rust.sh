@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_rust.sh function
+# LinuxGSM fix_rust.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves startup issue with Rust
