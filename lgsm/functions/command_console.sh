@@ -16,7 +16,6 @@ echo ""
 if ! fn_prompt_yn "Continue?" Y; then
 	echo Exiting; return
 fi
-done
 fn_print_dots "Accessing console"
 sleep 1
 check_status.sh
