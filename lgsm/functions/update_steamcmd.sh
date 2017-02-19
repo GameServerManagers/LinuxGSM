@@ -98,7 +98,11 @@ fn_update_request_log(){
 	fn_print_dots "Checking for update: Server logs"
 	fn_script_log_info "Checking for update: Server logs"
 	sleep 1
-	requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
+	if [ -f ${consolelog} ]; then
+		requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
+	else
+		requestrestart="0"
+	fi
 	if [ "${requestrestart}" -ge "1" ]; then
 		fn_print_ok_nl "Checking for update: Server logs: Update requested"
 		fn_script_log_pass "Checking for update: Server logs: Update requested"
