@@ -17,7 +17,7 @@ if [ "${function_selfname}" != "command_monitor.sh" ];then
 	check_permissions.sh
 fi
 
-if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]; then
+if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]&&[ "${function_selfname}" != "command_details.sh" ]&&[ "${function_selfname}" != "command_postdetails.sh" ]; then
 	check_system_dir.sh
 fi
 
@@ -53,7 +53,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_console.sh command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
+local allowed_commands_array=( command_console.sh command_debug.sh command_monitor.sh command_start.sh command_stop.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
