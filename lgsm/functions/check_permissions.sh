@@ -232,4 +232,6 @@ fn_sys_perm_error_process(){
 ## Run checks
 fn_check_ownership
 fn_check_permissions
-fn_sys_perm_error_process
+if [ "${function_selfname}" == "command_start.sh" ]; then
+	fn_sys_perm_error_process
+fi
