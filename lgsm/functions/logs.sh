@@ -101,10 +101,6 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 		find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${scriptlog}"
 		legacycount=$(find "${legacyserverlogdir}"/ -type f -mtime +"${logdays}"|wc -l)
 		find "${legacyserverlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
-		# Remove directory if empty
-		if [ ! "$(ls -A "${legacyserverlogdir}")" ]; then
-		rm -rf "${legacyserverlogdir}"
-		fi
 	fi
 
 	# Count total amount of files removed
