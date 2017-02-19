@@ -277,9 +277,9 @@ fn_prompt_yn(){
   if [ "${initial}" == "Y" ]; then
     prompt+=" [Y/n]  "
   elif [ "${initial}" == "N" ]; then
-    prompt+=" [y/N]  "
+    prompt+=" [y/N] "
   else
-    prompt+=" [y/n]  "
+    prompt+=" [y/n] "
   fi
 
   while true; do
