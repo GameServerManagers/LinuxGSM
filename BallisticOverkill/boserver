@@ -26,10 +26,10 @@ version="170219"
 # GSLT can be used for running a public server.
 # More info: https://gameservermanagers.com/gslt
 gslt=""
-
+ip=""
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-parms=" -batchmode -nographics -logFile output.txt"
+parms=" -batchmode -nographics -dedicated -configfile=${servercfgfullpath}"
 }
 
 #### LinuxGSM Settings ####
@@ -78,7 +78,7 @@ branch=""
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Ballistic Overkill"
-engine="unity"
+engine="unity3d"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="bo-server"
