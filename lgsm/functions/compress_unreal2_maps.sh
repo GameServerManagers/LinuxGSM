@@ -19,14 +19,9 @@ echo "Compressed maps saved to:"
 echo ""
 echo "${compressedmapsdir}"
 echo ""
-while true; do
-	read -e -i "y" -p "Start compression [Y/n]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return;;
-	* ) echo "Please answer yes or no.";;
-	esac
-done
+if ! fn_prompt_yn "Start compression?" Y; then
+	echo Exiting; return
+fi
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
 rm -rfv "${filesdir}/Maps/"*.ut2.uz2
 cd "${systemdir}"
