@@ -99,8 +99,8 @@ tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-systemdir="${filesdir}"
-executabledir="${filesdir}"
+systemdir="${filesdir}/tw"
+executabledir="${systemdir}"
 executable="./teeworlds_srv"
 servercfg="${servicename}.cfg" # Teeworlds can also auto load any config if an autoexec.cfg file is present in the server dir
 servercfgdefault="server.cfg"
