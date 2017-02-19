@@ -31,14 +31,22 @@ fn_alert_update(){
 	alertbody="${servicename} received update"
 }
 
-if [ "${alert}" == "restart" ]; then
+fn_alert_permissions(){
+	fn_script_log_info "Sending permissions error alert"
+	alertsubject="LinuxGSM - Error - ${servername}"
+	alertbody="${servicename} has permissions issues."
+}
+
+if [ "${alert}" == "permissions" ]; then
+	fn_alert_permissions
+elif [ "${alert}" == "restart" ]; then
 	fn_alert_restart
 elif [ "${alert}" == "restartquery" ]; then
 	fn_alert_restart_query
-elif [ "${alert}" == "update" ]; then
-	fn_alert_update
 elif [ "${alert}" == "test" ]; then
 	fn_alert_test
+elif [ "${alert}" == "update" ]; then
+	fn_alert_update
 fi
 
 if [ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
