@@ -6,7 +6,6 @@
 # Description: Checks ownership & permissions of scripts, files and directories.
 
 local commandname="CHECK"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
@@ -45,8 +44,10 @@ fn_check_ownership(){
 		echo ""
 		fn_print_information_nl "please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
 		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
-		alert="permissions"
-		alert.sh
+		if [ "${monitorflag}" == 1 ]; then
+			alert="permissions"
+			alert.sh
+		fi
 		core_exit.sh
 	fi
 }
@@ -62,6 +63,10 @@ fn_check_permissions(){
 				echo -e "File\n"
 				find "${functionsdir}" -type f -not -executable -printf "%p\n"
 			} | column -s $'\t' -t | tee -a "${scriptlog}"
+			if [ "${monitorflag}" == 1 ]; then
+				alert="permissions"
+				alert.sh
+			fi
 			core_exit.sh
 		fi
 	fi
@@ -80,6 +85,10 @@ fn_check_permissions(){
 			fn_script_log_info "The following directory does not have the correct permissions:"
 			fn_script_log_info "${rootdir}"
 			ls -l "${rootdir}"
+			if [ "${monitorflag}" == 1 ]; then
+				alert="permissions"
+				alert.sh
+			fi
 			core_exit.sh
 		fi
 	fi
@@ -120,6 +129,10 @@ fn_check_permissions(){
 					ls -l "${executabledir}/${execname}"
 					fn_script_log_warn "The following file could not be set executable:"
 					fn_script_log_info "${executabledir}/${execname}"
+					if [ "${monitorflag}" == 1 ]; then
+						alert="permissions"
+						alert.sh
+					fi
 					core_exit.sh
 					fi
 				fi
@@ -159,6 +172,10 @@ fn_sys_perm_fix_manually_msg(){
 	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
 	sleep 1
+	if [ "${monitorflag}" == 1 ]; then
+		alert="permissions"
+		alert.sh
+	fi
 	core_exit.sh
 }
 

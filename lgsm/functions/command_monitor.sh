@@ -98,6 +98,7 @@ fn_monitor_tmux(){
 	fi
 }
 
+monitorflag=1
 fn_print_dots "${servername}"
 sleep 1
 check.sh
