@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_ut2k4.sh function
+# LinuxGSM fix_ut2k4.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Unreal Tournament 2004.

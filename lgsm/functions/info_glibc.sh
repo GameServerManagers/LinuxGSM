@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM info_glibc.sh function
+# LinuxGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Stores details on servers Glibc requirements.
@@ -9,6 +9,9 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -78,7 +81,7 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Teeworlds" ]; then
-	glibcrequired="2.3"
+	glibcrequired="2.14"
 	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"

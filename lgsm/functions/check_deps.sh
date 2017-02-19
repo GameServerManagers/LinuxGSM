@@ -1,8 +1,8 @@
 #!/bin/bash
-# LGSM check_deps.sh function
+# LinuxGSM check_deps.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Checks if required dependencies are installed for LGSM.
+# Description: Checks if required dependencies are installed for LinuxGSM.
 
 local commandname="CHECK"
 
@@ -144,7 +144,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
-	# LGSM requirements
+	# LinuxGSM requirements
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip )
 
 	# All servers except ts3 require tmux
@@ -223,7 +223,7 @@ elif [ -n "$(command -v yum)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
-	# LGSM requirements
+	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip )
 	else

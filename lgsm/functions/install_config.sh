@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_config.sh function
+# LinuxGSM install_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Creates default server configs.
@@ -141,6 +141,12 @@ elif [ "${gamename}" == "ARMA 3" ]; then
 	gamedirname="Arma3"
 	fn_check_cfgdir
 	array_configs+=( server.cfg network.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	gamedirname="BallisticOverkill"
+	array_configs+=( config.txt )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

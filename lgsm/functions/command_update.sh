@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_update.sh function
+# LinuxGSM command_update.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Handles updating of servers.
@@ -11,7 +11,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_print_dots ""
 sleep 0.5
 check.sh
-
+logs.sh
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	update_ts3.sh

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_postdetails.sh function
+# LinuxGSM command_postdetails.sh function
 # Author: CedarLUG
 # Contributor: CedarLUG
 # Website: https://gameservermanagers.com

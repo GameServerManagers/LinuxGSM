@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM info_config.sh function
+# LinuxGSM info_config.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -521,7 +521,7 @@ fn_info_config_towerunite(){
 	else
 		servername=$(grep "ServerTitle" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerTitle//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
@@ -565,6 +565,29 @@ fn_info_config_unreal(){
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
+	fi
+}
+
+fn_info_config_ballistic_overkill(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		maxplayers="${unavailable}"
+	else
+		servername=$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "Password=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		port=$(grep "ServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$((port + 1))
+		maxplayers=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		maxplayers=${maxplayers:-"NOT SET"}
 	fi
 }
 
@@ -660,6 +683,9 @@ if [ "${engine}" == "avalanche" ]; then
 # ARK: Survival Evolved
 elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_info_config_ark
+# Ballistic Overkill
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	fn_info_config_ballistic_overkill
 # Battlefield: 1942
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	fn_info_config_bf1942
@@ -678,7 +704,7 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
-# Factorio	
+# Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
 # Quake 2

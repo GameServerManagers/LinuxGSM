@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_debug.sh function
+# LinuxGSM command_debug.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Runs the server without tmux and directly from the terminal.
@@ -68,14 +68,9 @@ echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${servicename} is already running it will be stopped."
 echo ""
-while true; do
-	read -e -i "y" -p "Continue? [Y/n]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return;;
-	* ) echo "Please answer yes or no.";;
-esac
-done
+if ! fn_prompt_yn "Continue?" Y; then
+	echo Exiting; return
+fi
 
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"

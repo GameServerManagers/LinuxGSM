@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_mods_uninstall.sh function
+# LinuxGSM command_mods_uninstall.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -45,14 +45,9 @@ done
 
 fn_print_warning_nl "You are about to remove ${cyan}${usermodselect}${default}."
 echo " * Any custom files/configuration will be removed."
-while true; do
-	read -e -i "y" -p "Continue? [Y/n]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; exit;;
-	* ) echo "Please answer yes or no.";;
-esac
-done
+if ! fn_prompt_yn "Continue?" Y; then
+	echo Exiting; exit
+fi
 
 currentmod="${usermodselect}"
 fn_mod_get_info

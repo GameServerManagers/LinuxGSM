@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM update_mumble.sh function
+# LinuxGSM update_mumble.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

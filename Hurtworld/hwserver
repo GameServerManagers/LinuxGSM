@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170212"
+version="170219"
 
 ##########################
 ######## Settings ########
@@ -23,7 +23,7 @@ version="170212"
 #### Server Settings ####
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
-servername="Hurtworld LGSM Server"
+servername="Hurtworld LinuxGSM Server"
 ip="0.0.0.0"
 port="12871"
 queryport="12881"

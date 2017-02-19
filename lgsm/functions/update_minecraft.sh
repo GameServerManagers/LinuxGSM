@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM update_minecraft.sh function
+# LinuxGSM update_minecraft.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Handles updating of Minecraft servers.

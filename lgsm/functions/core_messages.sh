@@ -1,6 +1,7 @@
 #!/bin/bash
-# LGSM core_messages.sh function
+# LinuxGSM core_messages.sh function
 # Author: Daniel Gibbs
+# Contributor: s-eam
 # Website: https://gameservermanagers.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
@@ -266,6 +267,29 @@ fn_print_information(){
 
 fn_print_information_nl(){
 	echo -e "${cyan}Information!${default} $@"
+}
+
+# Y/N Prompt
+fn_prompt_yn(){
+	local prompt="$1"
+	local initial="$2"
+
+	if [ "${initial}" == "Y" ]; then
+		prompt+=" [Y/n] "
+	elif [ "${initial}" == "N" ]; then
+		prompt+=" [y/N] "
+	else
+		prompt+=" [y/n] "
+	fi
+
+	while true; do
+		read -e -i "${initial}" -p  "${prompt}" -r yn
+		case "${yn}" in
+			[Yy]|[Yy][Ee][Ss]) return 0 ;;
+			[Nn]|[Nn][Oo]) return 1 ;;
+		*) echo "Please answer yes or no." ;;
+		esac
+	done
 }
 
 # On-Screen End of Line

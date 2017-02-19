@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM info_distro.sh function
+# LinuxGSM info_distro.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
@@ -88,19 +88,19 @@ totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
 usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
 availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
 
-## LGSM used space total.
+## LinuxGSM used space total.
 rootdirdu=$(du -sh "${rootdir}" 2> /dev/null | awk '{print $1}')
 if [ -z "${rootdirdu}" ]; then
 	rootdirdu="0M"
 fi
 
-## LGSM used space in serverfiles dir.
+## LinuxGSM used space in serverfiles dir.
 filesdirdu=$(du -sh "${filesdir}" 2> /dev/null | awk '{print $1}')
 if [ -z "${filesdirdu}" ]; then
 	filesdirdu="0M"
 fi
 
-## LGSM used space total minus backup dir.
+## LinuxGSM used space total minus backup dir.
 rootdirduexbackup=$(du -sh --exclude="${backupdir}" "${filesdir}" 2> /dev/null | awk '{print $1}')
 if [ -z "${rootdirduexbackup}" ]; then
 	rootdirduexbackup="0M"

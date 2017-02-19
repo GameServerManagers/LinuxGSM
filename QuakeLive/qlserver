@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170212"
+version="170219"
 
 ##########################
 ######## Settings ########
@@ -24,19 +24,12 @@ version="170212"
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 arch="x64" # x64 or x86
-port="27960"
-rconport="28960"
-rconpassword="CHANGE_ME"
-statsport="${port}"
-statspassword="CHANGE_ME"
-mappool='mappool.txt'
-ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care | Install/Config Guide : https://steamcommunity.com/sharedfiles/filedetails/?id=542966946
 # Console Commands : http://www.regurge.at/ql/
 fn_parms(){
-parms="+set net_strict 1 +set net_ip ${ip} +set net_port ${port} +set fs_homepath ${filesdir}/${port} +set zmq_rcon_enable 1 +set zmq_rcon_port ${rconport} +set zmq_rcon_password ${rconpassword} +set zmq_stats_enable 1 +set zmq_stats_password ${statspassword} +set zmq_stats_port ${statsport} +set sv_mapPoolFile ${mappool} +exec ${servercfg}"
+parms="+exec ${servercfg}"
 }
 
 #### LinuxGSM Settings ####

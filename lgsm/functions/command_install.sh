@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_install.sh function
+# LinuxGSM command_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com

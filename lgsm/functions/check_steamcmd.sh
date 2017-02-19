@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_steamcmd.sh function
+# LinuxGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Checks if SteamCMD is installed correctly.
@@ -18,17 +18,17 @@ fn_install_steamcmd(){
 fn_check_steamcmd_user(){
 	# Checks if steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
-		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}."
+		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}"
 		echo "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${scriptlogdir}" ]; then
-			fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}."
+			fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}"
 		fi
 		core_exit.sh
 	fi
 	# Anonymous user is set if steamuser is missing
 	if [ -z "${steamuser}" ]; then
 		if [ -d "${scriptlogdir}" ]; then
-			fn_script_log_info "Using anonymous Steam login."
+			fn_script_log_info "Using anonymous Steam login"
 		fi
 		steamuser="anonymous"
 		steampass=''

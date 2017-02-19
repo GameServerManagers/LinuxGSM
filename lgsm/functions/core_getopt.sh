@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM core_getopt.sh function
+# LinuxGSM core_getopt.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: getopt arguments.

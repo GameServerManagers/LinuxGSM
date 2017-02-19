@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_mods_install.sh function
+# LinuxGSM command_mods_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -87,14 +87,9 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 		fn_script_log_warn "${modprettyname} is already installed"
 		sleep 1
 		echo " * Any configs may be overwritten."
-		while true; do
-			read -e -i "y" -p "Continue? [Y/n]" yn
-			case $yn in
-			[Yy]* ) break;;
-			[Nn]* ) echo Exiting; core_exit.sh;;
-			* ) echo "Please answer yes or no.";;
-			esac
-		done
+		if ! fn_prompt_yn "Continue?" Y; then
+			echo Exiting; core_exit.sh
+		fi
 		fn_script_log_info "User selected to continue"
 	fi
 fi
