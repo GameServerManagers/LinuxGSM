@@ -14,7 +14,7 @@ if [ "${checklogs}" != "1" ]; then
 	echo "================================="
 fi
 sleep 1
-# Create dirs for script and console logs
+# Create script and console log directories
 mkdir -v "${rootdir}/log"
 mkdir -v "${scriptlogdir}"
 touch "${scriptlog}"
