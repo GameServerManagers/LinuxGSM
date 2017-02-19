@@ -42,7 +42,7 @@ fi
 
 # If a server is unreal2 or unity3d create a dir.
 if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Teeworlds" ]||[ "${gamename}" == "seriousengine35" ]; then
-	if [ ! -d ${gamelogdir}" ]; then
+	if [ ! -d "${gamelogdir}" ]; then
 		mkdir -pv "${gamelogdir}"
 	fi
 fi
