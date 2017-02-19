@@ -275,7 +275,7 @@ fn_prompt_yn(){
   local initial="$2"
 
   if [ "${initial}" == "Y" ]; then
-    prompt+=" [Y/n]  "
+    prompt+=" [Y/n] "
   elif [ "${initial}" == "N" ]; then
     prompt+=" [y/N] "
   else
