@@ -271,25 +271,25 @@ fn_print_information_nl(){
 
 # Y/N Prompt
 fn_prompt_yn(){
-  local prompt="$1"
-  local initial="$2"
+	local prompt="$1"
+	local initial="$2"
 
-  if [ "${initial}" == "Y" ]; then
-    prompt+=" [Y/n] "
-  elif [ "${initial}" == "N" ]; then
-    prompt+=" [y/N] "
-  else
-    prompt+=" [y/n] "
-  fi
+	if [ "${initial}" == "Y" ]; then
+		prompt+=" [Y/n] "
+	elif [ "${initial}" == "N" ]; then
+		prompt+=" [y/N] "
+	else
+		prompt+=" [y/n] "
+	fi
 
-  while true; do
-    read -e -i "${initial}" -p  "${prompt}" -r yn
-    case "${yn}" in
-      [Yy]|[Yy][Ee][Ss]) return 0 ;;
-      [Nn]|[Nn][Oo]) return 1 ;;
-      *) echo "Please answer yes or no." ;;
-    esac
-  done
+	while true; do
+		read -e -i "${initial}" -p  "${prompt}" -r yn
+		case "${yn}" in
+			[Yy]|[Yy][Ee][Ss]) return 0 ;;
+			[Nn]|[Nn][Oo]) return 1 ;;
+		*) echo "Please answer yes or no." ;;
+		esac
+	done
 }
 
 # On-Screen End of Line
