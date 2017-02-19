@@ -20,7 +20,7 @@ if [ ! -d "${scriptlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${gamename}" != "
 	fn_check_logs
 fi
 
-# Create gamelogdir if variable exist but dir doesn't exist
+# Create gamelogdir if variable exist but dir does not exist
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	fn_check_logs
 fi
