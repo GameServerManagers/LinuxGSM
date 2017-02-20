@@ -373,13 +373,13 @@ fn_fastdl_bzip2(){
 			if fn_prompt_yn "Keep original/uncompressed FastDL files?" N; then
 				fn_print_info "Keeping uncompressed FastDL files"; fn_script_log fn_print_info "Keeping uncompressed FastDL files"
 			else
-				find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \; fn_print_dots "Clearing uncompressed FastDL files..."; sleep 1; fn_print_ok "Cleared uncompressed FastDL files"; fn_script_log "Cleared uncompressed FastDL files."
+				find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \;;fn_print_dots "Clearing uncompressed FastDL files..."; sleep 1; fn_print_ok "Cleared uncompressed FastDL files"; fn_script_log "Cleared uncompressed FastDL files."
 			fi
 			echo -en "\n"
 		else
 			fn_print_dots "Clearing uncompressed FastDL files..."
 			sleep 1
-			find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \
+			find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
 			fn_print_ok "Cleared uncompressed FastDL files."
 			fn_script_log "Cleared uncompressed FastDL files."
 		fi	
