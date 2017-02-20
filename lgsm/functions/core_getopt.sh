@@ -453,6 +453,8 @@ case "${getopt}" in
 		command_console.sh;;
 	i|install)
 		command_install.sh;;
+	ai|auto-install)
+		fn_autoinstall;;
 	dd|detect-deps)
 		command_dev_detect_deps.sh;;
 	dg|detect-glibc)
@@ -482,6 +484,7 @@ case "${getopt}" in
 		echo -e "${blue}backup\t${default}b  |Create archive of the server."
 		echo -e "${blue}debug\t${default}d  |See the output of the server directly to your terminal."
 		echo -e "${blue}install\t${default}i  |Install the server."
+		echo -e "${blue}auto-install\t${default}ai |Install the server, without prompts."
 	} | column -s $'\t' -t
 	esac
 }
