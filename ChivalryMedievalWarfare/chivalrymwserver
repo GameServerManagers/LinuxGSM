@@ -24,7 +24,7 @@ version="170219"
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 ip="0.0.0.0"
-port=7000"
+port="7000"
 queryport="7010"
 adminpassword="CHANGE_ME"
 
