@@ -118,9 +118,9 @@ fn_fastdl_config(){
 				# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
 				fn_print_dots
 				if fn_prompt_yn "Keep original uncompressed FastDL files?" N; then
-					clearnonbzip2="on"; fn_script_log "Original uncompressed fastDL files won't be kept."; fn_print_ok "Original uncompressed fastDL files won't be kept"
-				else
 					clearnonbzip2="off"; fn_script_log "Original uncompressed fastDL files will be kept."; fn_print_ok "Original uncompressed fastDL files will be kept"
+				else
+					clearnonbzip2="on"; fn_script_log "Original uncompressed fastDL files won't be kept."; fn_print_ok "Original uncompressed fastDL files won't be kept"
 				fi
 				echo -en "\n"		
 		else
