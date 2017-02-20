@@ -394,7 +394,7 @@ fn_fastdl_completed(){
 	sleep 2
 	echo -en "\n"
 	echo ""
-	fn_print_info_nl "Need more documentation? 
+	fn_print_info_nl "Need more documentation?"
 	echo " * https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL"
 	echo -en "\n"
 	if [ "$bzip2installed" == "0" ]; then
