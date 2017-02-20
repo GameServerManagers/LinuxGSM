@@ -44,11 +44,11 @@ fn_check_bzip2(){
 	fi
 }
 
+# Initiates FastDL
 fn_fastdl_init(){
 	fn_print_header
 	fn_script_log "Started FastDL Generator"
 	sleep 1
-	echo -en "\n"
 	fn_check_bzip2
 	# User confirmation
 	if ! fn_prompt_yn "Build FastDL directory?" Y; then
@@ -72,28 +72,30 @@ fn_fastdl_init(){
 	fi
 	if [ ! -d "${fastdldir}" ]; then
 		# No directory, won't ask for removing old ones
-		newfastdl=1
+		newfastdl="true"
 		fn_print_dots "Creating fastdl directory"
 		sleep 0.5
 		mkdir "${fastdldir}"
 		fn_print_ok "Created fastdl directory"
-		fn_script_log "FastDL created fastdl directory"
+		fn_script_log "Created fastdl directory"
 		sleep 1
 		echo -en "\n"
 		clearoldfastdl="off" # Nothing to clear
 	elif  [ "$(ls -A "${fastdldir}")" ]; then
-		newfastdl=0
+		newfastdl="false"
+	else
+		newfastdl="true"
 	fi
 }
 
+# Prompts user for FastDL creation settings
 fn_fastdl_config(){
-	# Global settings for FastDL creation
 	fn_print_info "Entering configuration"
 	fn_script_log "Configuration"
 	sleep 2
 	echo -en "\n"
 	# Prompt for clearing old files if directory was already here
-	if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
+	if [ "${newfastdl}" == "false" ]; then
 		fn_print_dots
 		if fn_prompt_yn "Clear old FastDL files?" Y; then
 			clearoldfastdl="on"; fn_script_log "clearoldfastdl enabled"; fn_print_ok "Clearing Enabled"
@@ -102,27 +104,42 @@ fn_fastdl_config(){
 		fi
 		echo -en "\n"
 	fi
-	# Prompt for using bzip2 if it's installed
+	# Settings for bzip2 users
 	if [ ${bzip2installed} == 1 ]; then
+		# Prompt for using bzip2 if it's installed
 		fn_print_dots
-		if fn_prompt_yn "Enable file compression using bzip2?" Y; then
+		if fn_prompt_yn "Enable bzip2 file compression?" Y; then
 			bzip2enable="on"; fn_script_log "bzip2 enabled"; fn_print_ok "bzip2 Enabled"
 		else
 			bzip2enable="off"; fn_script_log "bzip2 disabled"; fn_print_ok "bzip2 Disabled"
 		fi
 		echo -en "\n"
+		if [ "${gamename}" == "Garry's Mod" ]&&[ "${bzip2enable}" == "on" ]; then
+				# Prompt for removing uncompressed FastDL files
+				fn_print_dots
+				if fn_prompt_yn "Keep original uncompressed FastDL files?" N; then
+					clearnonbzip2="on"; fn_script_log "Original uncompressed fastDL files won't be kept."; fn_print_ok "Original uncompressed fastDL files won't be kept"
+				else
+					clearnonbzip2="off"; fn_script_log "Original uncompressed fastDL files will be kept."; fn_print_ok "Original uncompressed fastDL files will be kept"
+				fi
+				echo -en "\n"		
+		else
+			# Other games default remove non bzip2 files
+			clearnonbzip2="on"
+			fn_script_log "Original uncompressed fastDL files won't be kept."
+		fi
 	fi
-}
-
-fn_fastdl_gmod_luaenforcer(){
-	# Prompt for download enforcer, that is using a .lua addfile resource generator
-	fn_print_dots
-	if fn_prompt_yn "Use client download enforcer?" Y; then
-		luaressource="on"; fn_script_log "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"
-	else
-		luaressource="off"; fn_script_log "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"
+	# Garry's Mod Specific
+	if [ "${gamename}" == "Garry's Mod" ]; then
+		# Prompt for download enforcer, which is using a .lua addfile resource generator
+		fn_print_dots
+		if fn_prompt_yn "Use client download enforcer?" Y; then
+			luaressource="on"; fn_script_log "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"
+		else
+			luaressource="off"; fn_script_log "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"
+		fi
+		echo -en "\n"
 	fi
-	echo -en "\n"
 }
 
 fn_clear_old_fastdl(){
@@ -148,8 +165,8 @@ fn_fastdl_gmod(){
 	echo -en "\n"
 
 	# No choice to cd to the directory, as find can't then display relative directory
-	cd "${systemdir}"
-
+	cd "${systemdir}" || exit
+	
 	# Map Files
 	fn_print_dots "Copying map files..."
 	fn_script_log "Copying map files"
@@ -312,7 +329,7 @@ fn_fastdl_source(){
 }
 
 # Generate lua file that will force download any file into the FastDL directory
-fn_fastdl_gmod_lua(){
+fn_fastdl_gmod_lua_enforcer(){
 	# Remove lua file if luaressource is turned off and file exists
 	echo ""
 	if [ "${luaressource}" == "off" ]; then
@@ -341,8 +358,8 @@ fn_fastdl_gmod_lua(){
 		fn_script_log "Generating new download enforcer"
 		sleep 1
 		# Read all filenames and put them into a lua file at the right path
-		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
-			echo "resource.AddFile( "\""${line}"\"" )" >> ${luafastdlfullpath}
+		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
+			echo "resource.AddFile( "\""${line}"\"" )" >> "${luafastdlfullpath}"
 		done
 		fn_print_ok "Download enforcer generated"
 		fn_script_log "Download enforcer generated"
@@ -362,24 +379,18 @@ fn_fastdl_bzip2(){
 		fn_print_dots "Compressing files using bzip2..."
 		fn_script_log "Compressing files using bzip2..."
 		# bzip2 all files that are not already compressed (keeping original files)
-		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
+		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
 		fn_print_ok "bzip2 compression done"
 		fn_script_log "bzip2 compression done"
 		sleep 1
 		echo -en "\n"
 		# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
 		fn_print_dots
-		if [ "${gamename}" == "Garry's Mod" ]; then
-			if fn_prompt_yn "Keep original/uncompressed FastDL files?" N; then
-				fn_print_info "Keeping uncompressed FastDL files"; fn_script_log fn_print_info "Keeping uncompressed FastDL files"
-			else
-				find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \;;fn_print_dots "Clearing uncompressed FastDL files..."; sleep 1; fn_print_ok "Cleared uncompressed FastDL files"; fn_script_log "Cleared uncompressed FastDL files."
-			fi
-			echo -en "\n"
-		else
-			fn_print_dots "Clearing uncompressed FastDL files..."
+		# Clear non compressed FastDL files
+		if [ "${clearnonbzip2}" == "on" ]; then
+			fn_print_dots "Clearing original uncompressed FastDL files..."
 			sleep 1
-			find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
+			find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
 			fn_print_ok "Cleared uncompressed FastDL files"
 			fn_script_log "Cleared uncompressed FastDL files."
 		fi	
@@ -409,9 +420,8 @@ fn_fastdl_init
 fn_fastdl_config
 fn_clear_old_fastdl
 if [ "${gamename}" == "Garry's Mod" ]; then
-	fn_fastdl_gmod_luaenforcer
 	fn_fastdl_gmod
-	fn_fastdl_gmod_lua
+	fn_fastdl_gmod_lua_enforcer
 else
 	fn_fastdl_source
 fi
