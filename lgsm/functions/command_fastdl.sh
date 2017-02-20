@@ -380,7 +380,7 @@ fn_fastdl_bzip2(){
 			fn_print_dots "Clearing uncompressed FastDL files..."
 			sleep 1
 			find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
-			fn_print_ok "Cleared uncompressed FastDL files."
+			fn_print_ok "Cleared uncompressed FastDL files"
 			fn_script_log "Cleared uncompressed FastDL files."
 		fi	
 	fi
