@@ -99,7 +99,7 @@ filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
 systemdir="${filesdir}"
-executabledir="${filesdir}"
+executabledir="${filesdir}/Binaries/Linux/"
 executable="./UDKGameServer-Linux"
 servercfg="unknown"
 servercfgdefault="unknown"
