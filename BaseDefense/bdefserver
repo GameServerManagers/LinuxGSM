@@ -99,7 +99,7 @@ tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-systemdir="${filesdir}/bdfe"
+systemdir="${filesdir}/bdef"
 executabledir="${filesdir}"
 executable="./hlds_run"
 servercfg="${servicename}.cfg"
