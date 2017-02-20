@@ -9,7 +9,9 @@ local commandaction="Install"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_install_server_files(){
-	if [ "${gamename}" == "Battlefield: 1942" ]; then
+	if [ "${gamename}" == "Base Defense" ]; then
+		fileurl="https://s3.amazonaws.com/linuxgsm/base_defense_1775.tar.gz"; filedir="${tmpdir}"; filename="base_defense_1775.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="a272b65ab014d9e9a103fad26ce11ea5"
+	elif [ "${gamename}" == "Battlefield: 1942" ]; then
 		fileurl="http://files.gameservermanagers.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; filedir="${tmpdir}"; filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fileurl="http://files.gameservermanagers.com/CallOfDuty/cod-lnxded-1.5b-full.tar.bz2"; filedir="${tmpdir}"; filename="cod-lnxded-1.5-large.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="19629895a4cf6fd8f6d1ee198b5304cd"
@@ -134,7 +136,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi
