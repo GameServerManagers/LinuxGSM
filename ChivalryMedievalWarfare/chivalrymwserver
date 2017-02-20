@@ -24,13 +24,12 @@ version="170219"
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 ip="0.0.0.0"
-port="7000"
-queryport="7010"
-adminpassword="CHANGE_ME"
+port="7777"
+queryport="27960"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-parms="aocffa-moor_p\?steamsockets\?adminpassword=${adminpassword}\?port=${port}\?queryport=${queryport} -multihome=${ip} -nohomedir -unattended -log=${gamelog} -seekfreeloadingserver"
+parms="aocffa-moor_p\?steamsockets\?port=${port}\?queryport=${queryport} -multihome=${ip} -nohomedir -unattended -log=${gamelog} -seekfreeloadingserver"
 }
 
 #### LinuxGSM Settings ####
