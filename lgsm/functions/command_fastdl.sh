@@ -117,10 +117,10 @@ fn_fastdl_config(){
 		if [ "${gamename}" == "Garry's Mod" ]&&[ "${bzip2enable}" == "on" ]; then
 				# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
 				fn_print_dots
-				if fn_prompt_yn "Keep original uncompressed FastDL files?" N; then
-					clearnonbzip2="off"; fn_script_log "Original uncompressed fastDL files will be kept."; fn_print_ok "Original uncompressed fastDL files will be kept"
+				if fn_prompt_yn "Clear non-bzip2 FastDL files?" Y; then
+					clearnonbzip2="on"; fn_script_log "Clearing non-bzip2 files Enabled."; fn_print_ok "Clearing non-bzip2 files Enabled"
 				else
-					clearnonbzip2="on"; fn_script_log "Original uncompressed fastDL files won't be kept."; fn_print_ok "Original uncompressed fastDL files won't be kept"
+					clearnonbzip2="off"; fn_script_log "Clearing non-bzip2 files Disabled."; fn_print_ok "Clearing non-bzip2 files Disabled"
 				fi
 				echo -en "\n"		
 		else
@@ -131,12 +131,18 @@ fn_fastdl_config(){
 	fi
 	# Garry's Mod Specific
 	if [ "${gamename}" == "Garry's Mod" ]; then
+		if fn_prompt_yn "Clear addons dir from fastdl dir?" Y; then
+			cleargmodaddons="on"; fn_script_log "Addons clearing Enabled."; fn_print_ok "Addons clearing Enabled"
+		else
+			cleargmodaddons="off"; fn_script_log "Addons clearing Disabled."; fn_print_ok "Addons clearing Disabled"
+		fi
+		echo -en "\n"
 		# Prompt for download enforcer, which is using a .lua addfile resource generator
 		fn_print_dots
 		if fn_prompt_yn "Use client download enforcer?" Y; then
-			luaressource="on"; fn_script_log "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"
+			luaressource="on"; fn_script_log "DL enforcer Enabled."; fn_print_ok "Enforcer Enabled"
 		else
-			luaressource="off"; fn_script_log "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"
+			luaressource="off"; fn_script_log "DL enforcer Disabled."; fn_print_ok "Enforcer Disabled"
 		fi
 		echo -en "\n"
 	fi
@@ -239,10 +245,19 @@ fn_fastdl_gmod(){
 		fn_script_log "Adjusting addons' file structure"
 		sleep 1
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-	# Don't remove yet	rm -R "${fastdldir:?}/addons"
 		fn_print_ok "Adjusted addons' file structure"
 		sleep 1
 		echo -en "\n"
+		# Clear addons directory in fastdl
+		if [ "${cleargmodaddons}" == "on" ]; then
+			fn_print_info "Clearing addons dir from fastdl dir"
+			fn_script_log "Clearing addons dir from fastdl dir"
+			sleep 1
+			rm -R "${fastdldir:?}/addons"
+			fn_print_ok "Cleared addons dir from fastdl dir"
+			sleep 1
+			echo -en "\n"
+		fi
 	fi
 
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
