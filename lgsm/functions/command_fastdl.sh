@@ -219,11 +219,11 @@ fn_fastdl_gmod(){
 	# Correct addons directory structure for FastDL
 	if [ -d "${fastdldir}/addons" ]; then
 		fn_print_info "Adjusting addons' file structure"
-		fn_script_log "Adjusting addon's file structure"
+		fn_script_log "Adjusting addons' file structure"
 		sleep 1
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
 	# Don't remove yet	rm -R "${fastdldir:?}/addons"
-		fn_print_ok "Adjusted addon's file structure"
+		fn_print_ok "Adjusted addons' file structure"
 		sleep 1
 		echo -en "\n"
 	fi
