@@ -447,6 +447,8 @@ case "${getopt}" in
 		command_postdetails.sh;;
 	b|backup)
 		command_backup.sh;;
+	d|debug)
+		command_debug.sh;;
 	dev|dev-debug)
 		command_dev_debug.sh;;
 	c|console)
