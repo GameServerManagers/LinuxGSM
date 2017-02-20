@@ -115,7 +115,7 @@ fn_fastdl_config(){
 		fi
 		echo -en "\n"
 		if [ "${gamename}" == "Garry's Mod" ]&&[ "${bzip2enable}" == "on" ]; then
-				# Prompt for removing uncompressed FastDL files
+				# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
 				fn_print_dots
 				if fn_prompt_yn "Keep original uncompressed FastDL files?" N; then
 					clearnonbzip2="on"; fn_script_log "Original uncompressed fastDL files won't be kept."; fn_print_ok "Original uncompressed fastDL files won't be kept"
@@ -384,8 +384,6 @@ fn_fastdl_bzip2(){
 		fn_script_log "bzip2 compression done"
 		sleep 1
 		echo -en "\n"
-		# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
-		fn_print_dots
 		# Clear non compressed FastDL files
 		if [ "${clearnonbzip2}" == "on" ]; then
 			fn_print_dots "Clearing original uncompressed FastDL files..."
