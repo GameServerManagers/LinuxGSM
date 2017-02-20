@@ -16,7 +16,7 @@ cmd_stop=( "sp;stop" "command_stop.sh" "Stop the server." )
 cmd_restart=( "r;restart" "command_restart.sh" "Restart the server." )
 cmd_details=( "dt;details" "command_details.sh" "Display relevant server information." )
 cmd_postdetails=( "pd;postdetails" "command_postdetails.sh" "Post stripped details to pastebin for support." )
-cmd_backup=( "b;backup;" "command_backup.sh" "Create archives of the server." )
+cmd_backup=( "b;backup" "command_backup.sh" "Create archives of the server." )
 cmd_update_functions=( "uf;update-functions" "command_update_functions.sh" "Update LinuxGSM functions." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart it if crashed." )
@@ -112,16 +112,18 @@ optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 	cmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
-	for ((cmdindex=1; cmdindex < ${cmdamount}; cmdindex++)); do
+	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
 		optcommands+=( "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
 
 ### Check if user command exists or run the command
-if [[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
-	echo -e "${red}Unknown command${default}: $0 ${getopt}"
-	exitcode=2
-	echo "Usage: $0 [option]"
+if [[ ! "${optcommands[@]}" =~ "${getopt}" ]]||[ -z "${getopt}" ]; then
+	if [ -z "${getopt}" ]; then
+		echo -e "${red}Unknown command${default}: $0 ${getopt}"
+		exitcode=2
+		echo "Usage: $0 [option]"
+	fi
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
@@ -129,7 +131,7 @@ if [[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
 	# Display available commands
 	index="0"
 	{
-	for ((index="0"; index <= ${#currentopt[@]}; index++)); do
+	for ((index="0"; index <= ${#currentopt[@]}; index+=3)); do
 		echo -e "${blue}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }') |${currentopt[index+2]}"
 	done
 	} | column -s $'\t' -t
