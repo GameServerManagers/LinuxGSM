@@ -101,9 +101,9 @@ filesdir="${rootdir}/serverfiles"
 systemdir="${filesdir}"
 executabledir="${filesdir}/Binaries/Linux/"
 executable="./UDKGameServer-Linux"
-servercfg="unknown"
-servercfgdefault="unknown"
-servercfgdir="${systemdir}"
+servercfg="PCServer-UDKGame.ini"
+servercfgdefault="PCServer-UDKGame.ini"
+servercfgdir="${systemdir}/UDKGame/Config"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
