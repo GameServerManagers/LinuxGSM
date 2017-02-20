@@ -110,9 +110,9 @@ fi
 ### Build list of available commands
 optcommands=()
 index="0"
-for ((index="0"; index <= ${#currentopt[@]}; index+3)); do
+for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 	cmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
-	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
+	for ((cmdindex=1; cmdindex < ${cmdamount}; cmdindex++)); do
 		optcommands+=( "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
@@ -136,9 +136,9 @@ if [[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
 else
 	# Seek and run command
 	index="0"
-	for ((index="0"; index <= ${#currentopt[@]}; index+3)); do
+	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 		currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
-		for ((currcmdindex=1; cmdindex <= ${currcmdamount}; currcmdindex++)); do
+		for ((currcmdindex=1; cmdindex < ${currcmdamount}; currcmdindex++)); do
 			if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" == "${getopt}" ]; then
 				# Run command
 				${currentopt[index+1]}
