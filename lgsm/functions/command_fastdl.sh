@@ -131,6 +131,8 @@ fn_fastdl_config(){
 	fi
 	# Garry's Mod Specific
 	if [ "${gamename}" == "Garry's Mod" ]; then
+		# Prompt to clear addons dir from fastdl, can use unnecessary space or be required depending on addon's file structures
+		fn_print_dots
 		if fn_prompt_yn "Clear addons dir from fastdl dir?" Y; then
 			cleargmodaddons="on"; fn_script_log "Addons clearing Enabled."; fn_print_ok "Addons clearing Enabled"
 		else
