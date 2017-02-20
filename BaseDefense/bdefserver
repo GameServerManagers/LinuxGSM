@@ -83,7 +83,7 @@ gamename="Base Defense"
 engine="goldsource"
 
 ## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
-servicename="bdef-server"
+servicename="bdef_server"
 
 #### Directories ####
 # Edit with care
