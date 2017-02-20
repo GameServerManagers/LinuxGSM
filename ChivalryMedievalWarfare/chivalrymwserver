@@ -30,7 +30,7 @@ adminpassword="CHANGE_ME"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-parms="aocffa-moor_p\?steamsockets\?adminpassword=${adminpassword}\?port=${port}\?queryport=${queryport} -seekfreeloadingserver"
+parms="aocffa-moor_p\?steamsockets\?adminpassword=${adminpassword}\?port=${port}\?queryport=${queryport} -multihome=${ip} -nohomedir -unattended -log=${gamelog} -seekfreeloadingserver"
 }
 
 #### LinuxGSM Settings ####
@@ -121,6 +121,7 @@ emaillog="${scriptlogdir}/${servicename}-email.log"
 ## Logs Naming
 scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%Y-%m-%d-%H:%M:%S').log"
+gamelogdate="${gamelogdir}/${servicename}-game-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################
 ######## Script ########
