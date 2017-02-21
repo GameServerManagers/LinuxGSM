@@ -42,8 +42,8 @@ cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server c
 cmd_install_dst_token=( "ct;cluster-token" "install_dst_token.sh" "Configure cluster token." )
 cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory." )
 # Dev commands
-cmd_dev_debug=( "dev;dev-debug" "command_dev_debug.sh" "DEVCOMMAND"
-cmd_dev_detect_deps=( "dd;detect-depts" "command_dev_detect_deps.sh" "DEVCOMMAND" )
+cmd_dev_debug=( "dev;dev-debug" "command_dev_debug.sh" "DEVCOMMAND" )
+cmd_dev_detect_deps=( "dd;detect-deps" "command_dev_detect_deps.sh" "DEVCOMMAND" )
 cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "DEVCOMMAND" )
 cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "DEVCOMMAND" )
 
