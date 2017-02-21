@@ -135,7 +135,7 @@ fn_opt_usage(){
 	{
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 		# Hide developer commands
-		if [ "${currentopt[index+3]}" != "DEVCOMMAND" ]; then
+		if [ "${currentopt[index+2]}" != "DEVCOMMAND" ]; then
 			echo -e "${cyan}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index+2]}"
 		fi
 	done
