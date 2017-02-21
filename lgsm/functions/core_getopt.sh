@@ -42,9 +42,10 @@ cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server c
 cmd_install_dst_token=( "ct;cluster-token" "install_dst_token.sh" "Configure cluster token." )
 cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory." )
 # Dev commands
-cmd_dev_detect_deps=( "dd;detect-depts" "command_dev_detect_deps.sh" "Detect server dependencies." )
-cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect server glibc requirements." )
-cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect server ldd requirements." )
+cmd_dev_debug=( "dev;dev-debug" "command_dev_debug.sh" "DEVCOMMAND"
+cmd_dev_detect_deps=( "dd;detect-depts" "command_dev_detect_deps.sh" "DEVCOMMAND" )
+cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "DEVCOMMAND" )
+cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "DEVCOMMAND" )
 
 ### Set specific opt here ###
 
@@ -107,6 +108,9 @@ if [ "${gamename}" == "Multi Theft Auto" ]; then
 	currentopt+=( "${cmd_install_default_ressources[@]}" )
 fi
 
+## Developer commands
+currentopt+=( "${cmd_dev_debug[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" )
+
 
 ### Build list of available commands
 optcommands=()
@@ -133,7 +137,10 @@ if [ -z "${getopt}" ]||[[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
 	index="0"
 	{
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-		echo -e "${cyan}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t|${currentopt[index+2]}"
+		# Hide developer commands
+		if [ "${currentopt[index+3]}" != "DEVCOMMAND" ]; then
+			echo -e "${cyan}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index+2]}"
+		fi
 	done
 	} | column -s $'\t' -t
 else
