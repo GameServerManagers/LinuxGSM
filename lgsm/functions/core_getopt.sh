@@ -141,7 +141,7 @@ else
 	index="0"
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 		currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
-		for ((currcmdindex=1; currcmdindex < ${currcmdamount}; currcmdindex++)); do
+		for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
 			if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 				# Run command
 				${currentopt[index+1]}
