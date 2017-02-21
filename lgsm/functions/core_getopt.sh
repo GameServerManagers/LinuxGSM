@@ -122,17 +122,17 @@ if [ -z "${getopt}" ]||[[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
 	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
-		echo "Usage: $0 [option]"
 	fi
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
+	echo "Usage: $0 [option]"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
 	# Display available commands
 	index="0"
 	{
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-		echo -e "${blue}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t|${currentopt[index+2]}"
+		echo -e "${cyan}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t|${currentopt[index+2]}"
 	done
 	} | column -s $'\t' -t
 else
