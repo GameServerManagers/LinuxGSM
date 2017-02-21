@@ -131,8 +131,8 @@ if [[ ! "${optcommands[@]}" =~ "${getopt}" ]]||[ -z "${getopt}" ]; then
 	# Display available commands
 	index="0"
 	{
-	for ((index="0"; index <= ${#currentopt[@]}; index+=3)); do
-		echo -e "${blue}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }') |${currentopt[index+2]}"
+	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
+		echo -e "${blue}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t|${currentopt[index+2]}"
 	done
 	} | column -s $'\t' -t
 else
@@ -141,7 +141,7 @@ else
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 		currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
 		for ((currcmdindex=1; cmdindex < ${currcmdamount}; currcmdindex++)); do
-			if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" == "${getopt}" ]; then
+			if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 				# Run command
 				${currentopt[index+1]}
 				break
