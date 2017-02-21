@@ -40,6 +40,7 @@ cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
 cmd_install_dst_token=( "ct;cluster-token" "install_dst_token.sh" "Configure cluster token." )
+cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory."
 # Dev commands
 cmd_dev_detect_deps=( "dd;detect-depts" "command_dev_detect_deps.sh" "Detect server dependencies." )
 cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect server glibc requirements." )
@@ -56,11 +57,11 @@ currentopt+=( "${cmd_backup[@]}" "${cmd_update_functions[@]}" "${cmd_test_alert[
 
 # Exclude games without a console
 if [ "${gamename}" != "TeamSpeak 3" ]; then
-	currentopt+=( "${cmd_console[@]}" )
+	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
 # Exclude noupdated games here
 if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${gamename}" != "Call of Duty" ]&&[ "${gamename}" != "Call of Duty: United Offensive" ]&&[ "${gamename}" != "Call of Duty 2" ]&&[ "${gamename}" != "Call of Duty 4" ]&&[ "${gamename}" != "Call of Duty: World at War" ]&&[ "${gamename}" != "QuakeWorld" ]&&[ "${gamename}" != "Quake 2" ]&&[ "${gamename}" != "Quake 3: Arena" ]&&[ "${gamename}" != "Wolfenstein: Enemy Territory" ]; then
-	currentopt+=( "${cmd_update[@]}" )
+	currentopt+=( "${cmd_update[@]}" "${cmd_force_update[@]}")
 fi
 
 ## Include games that have access to specific commands
@@ -123,9 +124,9 @@ if [ -z "${getopt}" ]||[[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 	fi
+	echo "Usage: $0 [option]"
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
-	echo "Usage: $0 [option]"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
 	# Display available commands
