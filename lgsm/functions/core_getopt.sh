@@ -122,13 +122,10 @@ for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 	done
 done
 
-### Check if user command exists or run the command
-if [ -z "${getopt}" ]||[[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
-	if [ -n "${getopt}" ]; then
-		echo -e "${red}Unknown command${default}: $0 ${getopt}"
-		exitcode=2
-	fi
+# Shows LinuxGSM usage
+fn_opt_usage(){
 	echo "Usage: $0 [option]"
+	echo -e ""
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
 	echo "https://gameservermanagers.com/${selfname}"
 	echo -e ""
@@ -143,19 +140,35 @@ if [ -z "${getopt}" ]||[[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
 		fi
 	done
 	} | column -s $'\t' -t
-else
-	# Seek and run command
-	index="0"
-	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-		currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
-		for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
-			if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
-				# Run command
-				${currentopt[index+1]}
-				break
-			fi
-		done	
-	done
-fi
+	core_exit.sh
+}
 
+### Check if user commands exist and run corresponding scripts, or display script usage
+if [ -z "${getopt}" ]; then
+	fn_opt_usage
+fi
+# Command exists
+for i in "${optcommands[@]}"; do
+	if [ "${i}" == "${getopt}" ] ; then
+		# Seek and run command
+		index="0"
+		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
+			currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
+				if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+					# Run command
+					${currentopt[index+1]}
+					break
+				fi
+			done	
+		done
+		break
+		core_exit.sh
+	fi
+done
+
+# If we're executing this, it means command was not found
+echo -e "${red}Unknown command${default}: $0 ${getopt}"
+exitcode=2
+fn_opt_usage
 core_exit.sh
