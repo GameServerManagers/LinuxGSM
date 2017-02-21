@@ -40,7 +40,7 @@ cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
 cmd_install_dst_token=( "ct;cluster-token" "install_dst_token.sh" "Configure cluster token." )
-cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory."
+cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory." )
 # Dev commands
 cmd_dev_detect_deps=( "dd;detect-depts" "command_dev_detect_deps.sh" "Detect server dependencies." )
 cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect server glibc requirements." )
