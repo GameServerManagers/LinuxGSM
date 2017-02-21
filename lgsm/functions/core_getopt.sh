@@ -118,8 +118,8 @@ for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 done
 
 ### Check if user command exists or run the command
-if [[ ! "${optcommands[@]}" =~ "${getopt}" ]]||[ -z "${getopt}" ]; then
-	if [ -z "${getopt}" ]; then
+if [ -z "${getopt}" ]||[[ ! "${optcommands[@]}" =~ "${getopt}" ]]; then
+	if [ -n "${getopt}" ]; then
 		echo -e "${red}Unknown command${default}: $0 ${getopt}"
 		exitcode=2
 		echo "Usage: $0 [option]"
@@ -140,7 +140,7 @@ else
 	index="0"
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 		currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
-		for ((currcmdindex=1; cmdindex < ${currcmdamount}; currcmdindex++)); do
+		for ((currcmdindex=1; currcmdindex < ${currcmdamount}; currcmdindex++)); do
 			if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 				# Run command
 				${currentopt[index+1]}
