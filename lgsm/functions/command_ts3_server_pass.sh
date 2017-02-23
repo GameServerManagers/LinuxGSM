@@ -6,15 +6,12 @@
 # Description: Changes TS3 serveradmin password.
 
 local commandname="TS3-CHANGE-PASS"
-local commandaction="TS3 Change Password"
+local commandaction="ServerAdmin Password Change"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 
 fn_serveradmin_password_prompt(){
-	echo ""
-	echo "${gamename} ServerAdmin Password Change"
-	echo "================================="
-	echo ""
+	fn_print_header
 	echo "Press \"CTRL+b d\" to exit console."
 	fn_print_information_nl "You are about to change the ${gamename} ServerAdmin password."
 	fn_print_warning_nl "${gamename} will restart during this process."
