@@ -8,9 +8,7 @@ local commandaction="Unreal Map Compressor"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-clear
-echo "${gamename} Map Compressor"
-echo "================================="
+fn_print_header
 echo "Will compress all maps in:"
 echo ""
 pwd
