@@ -10,14 +10,14 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 ## User commands | Trigger commands | Description
 # Standard commands
 cmd_install=( "i;install" "command_install.sh" "Install the server." )
-cmd_auto_install=( "ai;auto-install" "command_autoinstall.sh" "Install the server without prompts." )
+cmd_auto_install=( "ai;auto-install" "fn_autoinstall" "Install the server without prompts." )
 cmd_start=( "st;start" "command_start.sh" "Start the server." )
 cmd_stop=( "sp;stop" "command_stop.sh" "Stop the server." )
 cmd_restart=( "r;restart" "command_restart.sh" "Restart the server." )
 cmd_details=( "dt;details" "command_details.sh" "Display relevant server information." )
 cmd_postdetails=( "pd;postdetails" "command_postdetails.sh" "Post stripped details to pastebin for support." )
 cmd_backup=( "b;backup" "command_backup.sh" "Create archives of the server." )
-cmd_update_functions=( "uf;update-functions" "command_update_functions.sh" "Update LinuxGSM functions." )
+cmd_update_functions=( "ul;update-lgsm;uf;update-functions" "command_update_functions.sh" "Update LinuxGSM functions." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart it if crashed." )
 # Console servers only
@@ -25,7 +25,7 @@ cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
 # Update servers only
 cmd_update=( "u;update" "command_update.sh" "Check for updates and apply if available." )
-cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Unconditionally update the server." )
+cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Force update the server." )
 # SteamCMD servers only
 cmd_validate=( "v;validate" "command_validate.sh" "Validate server files with SteamCMD." )
 # Server with mods-install
@@ -42,45 +42,45 @@ cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server c
 cmd_install_dst_token=( "ct;cluster-token" "install_dst_token.sh" "Configure cluster token." )
 cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory." )
 # Dev commands
-cmd_dev_debug=( "dev;dev-debug" "command_dev_debug.sh" "DEVCOMMAND" )
-cmd_dev_detect_deps=( "dd;detect-deps" "command_dev_detect_deps.sh" "DEVCOMMAND" )
-cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "DEVCOMMAND" )
-cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "DEVCOMMAND" )
+cmd_dev_debug=( "dev;developer" "command_dev_debug.sh" "Enable developer Mode." )
+cmd_dev_detect_deps=( "dd;detect-deps" "command_dev_detect_deps.sh" "Detect required dependencies." )
+cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc." )
+cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies." )
 
 ### Set specific opt here ###
 
 ## Common opt to all servers
+currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
 
-currentopt=( "${cmd_install[@]}" "${cmd_auto_install[@]}" "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_details[@]}" )
-currentopt+=( "${cmd_backup[@]}" "${cmd_update_functions[@]}" "${cmd_test_alert[@]}" "${cmd_monitor[@]}" )
+# Exclude noupdated games here
+if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]; then
+	currentopt+=( "${cmd_update[@]}" )
+	# force update for SteamCMD only
+	if [ -n "${appid}" ]; then
+		currentopt+=( "${cmd_force_update[@]}" )
+	fi
+fi
 
-## Servers that do not have a feature
+# Validate command
+if [ -n "${appid}" ]; then
+	currentopt+=( "${cmd_validate[@]}" )
+fi
+
+# Update LGSM
+currentopt+=( "${cmd_update_functions[@]}" )
+
+#Backup
+currentopt+=( "${cmd_backup[@]}" )
+
 
 # Exclude games without a console
 if [ "${gamename}" != "TeamSpeak 3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
-# Exclude noupdated games here
-if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]; then
-	currentopt+=( "${cmd_update[@]}" "${cmd_force_update[@]}")
-fi
 
-## Include games that have access to specific commands
-# Validate command
-if [ -n "${appid}" ]; then
-	currentopt+=( "${cmd_validate[@]}" )
-fi
 # FastDL command
 if [ "${engine}" == "source" ]; then
 	currentopt+=( "${cmd_fastdl[@]}" )
-fi
-# Wipe command
-if [ "${gamename}" == "Rust" ]; then
-	currentopt+=( "${cmd_wipe[@]}" )
-fi
-# Mods commands
-if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "7 Days To Die" ]; then
-	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
 fi
 
 ## Game server exclusive commands
@@ -89,6 +89,9 @@ if [ "${gamename}" == "TeamSpeak 3" ]; then
 	currentopt+=( "${cmd_change_password[@]}" )
 fi
 # Unreal exclusive
+if [ "${gamename}" == "Rust" ]; then
+	currentopt+=( "${cmd_wipe[@]}" )
+fi
 if [ "${engine}" == "unreal2" ]; then
 	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		currentopt+=( "${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}" )
@@ -108,9 +111,16 @@ if [ "${gamename}" == "Multi Theft Auto" ]; then
 	currentopt+=( "${cmd_install_default_resources[@]}" )
 fi
 
-## Developer commands
-currentopt+=( "${cmd_dev_debug[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" )
+## Mods commands
+if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "7 Days To Die" ]; then
+	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
+fi
 
+## Developer commands
+currentopt+=( "${cmd_dev_debug[@]}" )
+if [ -f ".dev-debug" ]; then
+	currentopt+=(  "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" )
+fi
 
 ### Build list of available commands
 optcommands=()
