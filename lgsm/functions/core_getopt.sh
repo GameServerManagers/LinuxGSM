@@ -49,10 +49,9 @@ cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect require
 
 ### Set specific opt here ###
 
-## Common opt to all servers
 currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
 
-# Exclude noupdated games here
+# Exclude noupdate games here
 if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only
@@ -78,16 +77,18 @@ if [ "${gamename}" != "TeamSpeak 3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
 
+## Game server exclusive commands
+
 # FastDL command
 if [ "${engine}" == "source" ]; then
 	currentopt+=( "${cmd_fastdl[@]}" )
 fi
 
-## Game server exclusive commands
 # TeamSpeak exclusive
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	currentopt+=( "${cmd_change_password[@]}" )
 fi
+
 # Unreal exclusive
 if [ "${gamename}" == "Rust" ]; then
 	currentopt+=( "${cmd_wipe[@]}" )
@@ -102,10 +103,12 @@ fi
 if [ "${engine}" == "unreal" ]; then
 	currentopt+=( "${cmd_map_compressor_u99[@]}" )
 fi
+
 # DST exclusive
 if [ "${gamename}" == "Don't Starve Together" ]; then
 	currentopt+=( "${cmd_install_dst_token[@]}" )
 fi
+
 # MTA exclusive
 if [ "${gamename}" == "Multi Theft Auto" ]; then
 	currentopt+=( "${cmd_install_default_resources[@]}" )
