@@ -122,7 +122,7 @@ fn_fastdl_config(){
 				else
 					clearnonbzip2="off"; fn_script_log "Clearing non-bzip2 files Disabled."; fn_print_ok "Clearing non-bzip2 files Disabled"
 				fi
-				echo -en "\n"		
+				echo -en "\n"
 		else
 			# Other games default remove non bzip2 files
 			clearnonbzip2="on"
@@ -174,7 +174,7 @@ fn_fastdl_gmod(){
 
 	# No choice to cd to the directory, as find can't then display relative directory
 	cd "${systemdir}" || exit
-	
+
 	# Map Files
 	fn_print_dots "Copying map files..."
 	fn_script_log "Copying map files"
@@ -408,7 +408,7 @@ fn_fastdl_bzip2(){
 			find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
 			fn_print_ok "Cleared uncompressed FastDL files"
 			fn_script_log "Cleared uncompressed FastDL files."
-		fi	
+		fi
 	fi
 }
 
