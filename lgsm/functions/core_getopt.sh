@@ -34,7 +34,7 @@ cmd_mods_remove=( "mr;mods-remove" "command_mods_remove.sh" "View and remove an 
 cmd_mods_update=( "mu;mods-update" "command_mods_update.sh" "Update installed mods/addons." )
 # Server specific
 cmd_change_password=( "pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password." )
-cmd_install_default_ressources=( "ir;install-default-ressources" "command_install_resources_mta.sh" "Install the MTA default resources." )
+cmd_install_default_resources=( "ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources." )
 cmd_wipe=( "wi;wipe" "command_wipe.sh" "Wipe your server data." )
 cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
@@ -61,7 +61,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
 # Exclude noupdated games here
-if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${gamename}" != "Call of Duty" ]&&[ "${gamename}" != "Call of Duty: United Offensive" ]&&[ "${gamename}" != "Call of Duty 2" ]&&[ "${gamename}" != "Call of Duty 4" ]&&[ "${gamename}" != "Call of Duty: World at War" ]&&[ "${gamename}" != "QuakeWorld" ]&&[ "${gamename}" != "Quake 2" ]&&[ "${gamename}" != "Quake 3: Arena" ]&&[ "${gamename}" != "Wolfenstein: Enemy Territory" ]; then
+if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&; then
 	currentopt+=( "${cmd_update[@]}" "${cmd_force_update[@]}")
 fi
 
@@ -79,7 +79,7 @@ if [ "${gamename}" == "Rust" ]; then
 	currentopt+=( "${cmd_wipe[@]}" )
 fi
 # Mods commands
-if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]|[ "${gamename}" == "Hurtworld" ]|[ "${gamename}" == "7 Days To Die" ]; then
+if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "7 Days To Die" ]; then
 	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
 fi
 
@@ -105,7 +105,7 @@ if [ "${gamename}" == "Don't Starve Together" ]; then
 fi
 # MTA exclusive
 if [ "${gamename}" == "Multi Theft Auto" ]; then
-	currentopt+=( "${cmd_install_default_ressources[@]}" )
+	currentopt+=( "${cmd_install_default_resources[@]}" )
 fi
 
 ## Developer commands
@@ -160,7 +160,7 @@ for i in "${optcommands[@]}"; do
 					${currentopt[index+1]}
 					break
 				fi
-			done	
+			done
 		done
 		break
 		core_exit.sh
