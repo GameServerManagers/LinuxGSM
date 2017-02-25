@@ -14,18 +14,18 @@ cmd_auto_install=( "ai;auto-install" "fn_autoinstall" "Install the server withou
 cmd_start=( "st;start" "command_start.sh" "Start the server." )
 cmd_stop=( "sp;stop" "command_stop.sh" "Stop the server." )
 cmd_restart=( "r;restart" "command_restart.sh" "Restart the server." )
-cmd_details=( "dt;details" "command_details.sh" "Display relevant server information." )
-cmd_postdetails=( "pd;postdetails" "command_postdetails.sh" "Post stripped details to pastebin for support." )
-cmd_backup=( "b;backup" "command_backup.sh" "Create archives of the server." )
+cmd_details=( "dt;details" "command_details.sh" "Display server information." )
+cmd_postdetails=( "pd;postdetails" "command_postdetails.sh" "Post details to hastebin (removing passwords)." )
+cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the server." )
 cmd_update_functions=( "ul;update-lgsm;uf;update-functions" "command_update_functions.sh" "Update LinuxGSM functions." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
-cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart it if crashed." )
+cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
 # Console servers only
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
 # Update servers only
-cmd_update=( "u;update" "command_update.sh" "Check for updates and apply if available." )
-cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Force update the server." )
+cmd_update=( "u;update" "command_update.sh" "Check and apply any updates." )
+cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Bypass update check and apply any updates." )
 # SteamCMD servers only
 cmd_validate=( "v;validate" "command_validate.sh" "Validate server files with SteamCMD." )
 # Server with mods-install
