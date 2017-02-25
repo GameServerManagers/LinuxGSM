@@ -346,7 +346,7 @@ fn_mod_compatible_test(){
 fn_create_mods_dir(){
 	# Create lgsm data modsdir
 	if [ ! -d "${modsdir}" ];then
-		echo "creating lgsm mods data directory ${modsdir}..."
+		echo -en "creating LinuxGSM mods data directory ${modsdir}..."
 		mkdir -p "${modsdir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -361,7 +361,7 @@ fn_create_mods_dir(){
 	fi
 	# Create mod install directory
 	if [ ! -d "${modinstalldir}" ]; then
-		echo "creating mods install directory ${modinstalldir}..."
+		echo -en "creating mods install directory ${modinstalldir}..."
 		mkdir -p "${modinstalldir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -438,7 +438,7 @@ fn_mods_check_installed(){
 	if [ ${installedmodscount} -eq 0 ]; then
 		echo ""
 		fn_print_failure_nl "No installed mods or addons were found"
-		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
+		echo " * Install mods using LinuxGSM first with: ./${selfname} mods-install"
 		fn_script_log_error "No installed mods or addons were found."
 		core_exit.sh
 	fi
