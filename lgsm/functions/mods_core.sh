@@ -42,7 +42,7 @@ fn_mod_lowercase(){
 		echo -ne "converting ${modprettyname} files to lowercase..."
 		sleep 0.5
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
-		files=$(find "${extractdir}" -depth | wc -l)
+		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
 			dst=`dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]'`
@@ -52,10 +52,10 @@ fn_mod_lowercase(){
 				local exitcode=$?
 				((renamedwc++))
 			fi
-			echo -ne "${renamedwc} / ${totalfileswc} / $files converting ${modprettyname} files to lowercase..." $'\r'
+			echo -ne "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..." $'\r'
 			((totalfileswc++))
 		done < <(find "${extractdir}" -depth)
-		echo -ne "${renamedwc} / ${totalfileswc} / $files converting ${modprettyname} files to lowercase..."
+		echo -ne "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
 
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
