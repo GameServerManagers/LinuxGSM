@@ -6,17 +6,10 @@
 # Description: Creates a FastDL directory.
 
 local commandname="FASTDL"
-local commandaction="FastDL Generator"
+local commandaction="FastDL"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-
-# Only Source supports FastDL
-if [ "${engine}" != "source" ]; then
-	fn_print_error "${gamename} does not support FastDL"
-	fn_script_log_error "${gamename} does not support FastDL"
-	core_exit.sh
-fi
 
 # Directories
 webdir="${rootdir}/public_html"
@@ -44,123 +37,90 @@ fn_check_bzip2(){
 	fi
 }
 
-# Initiates FastDL
-fn_fastdl_init(){
-	fn_print_header
-	fn_script_log "Started FastDL Generator"
-	sleep 1
-	fn_check_bzip2
-	# User confirmation
-	if ! fn_prompt_yn "Build FastDL directory?" Y; then
-		exit
-	fi
-	fn_script_log "Initiating FastDL creation"
-
-	# Check and create directories
-	if [ ! -d "${webdir}" ]; then
-		echo ""
-		fn_print_info "Creating FastDL directories"
-		echo -en "\n"
-		sleep 1
-		fn_print_dots "Creating ${webdir} directory"
-		sleep 0.5
-		mkdir "${webdir}"
-		fn_print_ok "Created ${webdir} directory"
-		fn_script_log "FastDL created ${webdir} directory"
-		sleep 1
-		echo -en "\n"
-	fi
-	if [ ! -d "${fastdldir}" ]; then
-		# No directory, won't ask for removing old ones
-		newfastdl="true"
-		fn_print_dots "Creating fastdl directory"
-		sleep 0.5
-		mkdir "${fastdldir}"
-		fn_print_ok "Created fastdl directory"
-		fn_script_log "Created fastdl directory"
-		sleep 1
-		echo -en "\n"
-		clearoldfastdl="off" # Nothing to clear
-	elif  [ "$(ls -A "${fastdldir}")" ]; then
-		newfastdl="false"
-	else
-		newfastdl="true"
-	fi
-}
-
 # Prompts user for FastDL creation settings
 fn_fastdl_config(){
-	fn_print_info "Entering configuration"
-	fn_script_log "Configuration"
-	sleep 2
-	echo -en "\n"
+	echo "FastDL setup"
+	echo "================================="
+
 	# Prompt for clearing old files if directory was already here
-	if [ "${newfastdl}" == "false" ]; then
-		fn_print_dots
-		if fn_prompt_yn "Clear old FastDL files?" Y; then
-			clearoldfastdl="on"; fn_script_log "clearoldfastdl enabled"; fn_print_ok "Clearing Enabled"
+	if [ -d "${fastdldir}" ]; then
+		fn_print_warning_nl "FastDL directory already exists."
+		echo "${fastdldir}"
+		echo ""
+		if fn_prompt_yn "Overwrite existing directory?" Y; then
+			clearoldfastdl="on"
 		else
-			clearoldfastdl="off"; fn_script_log "clearoldfastdl disabled"; fn_print_ok "Clearing Disabled"
-		fi
-		echo -en "\n"
-	fi
-	# Settings for bzip2 users
-	if [ ${bzip2installed} == 1 ]; then
-		# Prompt for using bzip2 if it's installed
-		fn_print_dots
-		if fn_prompt_yn "Enable bzip2 file compression?" Y; then
-			bzip2enable="on"; fn_script_log "bzip2 enabled"; fn_print_ok "bzip2 Enabled"
-		else
-			bzip2enable="off"; fn_script_log "bzip2 disabled"; fn_print_ok "bzip2 Disabled"
-		fi
-		echo -en "\n"
-		if [ "${gamename}" == "Garry's Mod" ]&&[ "${bzip2enable}" == "on" ]; then
-				# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
-				fn_print_dots
-				if fn_prompt_yn "Clear non-bzip2 FastDL files?" Y; then
-					clearnonbzip2="on"; fn_script_log "Clearing non-bzip2 files Enabled."; fn_print_ok "Clearing non-bzip2 files Enabled"
-				else
-					clearnonbzip2="off"; fn_script_log "Clearing non-bzip2 files Disabled."; fn_print_ok "Clearing non-bzip2 files Disabled"
-				fi
-				echo -en "\n"		
-		else
-			# Other games default remove non bzip2 files
-			clearnonbzip2="on"
-			fn_script_log "Original uncompressed fastDL files won't be kept."
+			clearoldfastdl="off"
 		fi
 	fi
+
 	# Garry's Mod Specific
 	if [ "${gamename}" == "Garry's Mod" ]; then
 		# Prompt to clear addons dir from fastdl, can use unnecessary space or be required depending on addon's file structures
 		fn_print_dots
 		if fn_prompt_yn "Clear addons dir from fastdl dir?" Y; then
-			cleargmodaddons="on"; fn_script_log "Addons clearing Enabled."; fn_print_ok "Addons clearing Enabled"
+			cleargmodaddons="on";
 		else
-			cleargmodaddons="off"; fn_script_log "Addons clearing Disabled."; fn_print_ok "Addons clearing Disabled"
+			cleargmodaddons="off";
 		fi
-		echo -en "\n"
+
 		# Prompt for download enforcer, which is using a .lua addfile resource generator
 		fn_print_dots
 		if fn_prompt_yn "Use client download enforcer?" Y; then
-			luaressource="on"; fn_script_log "DL enforcer Enabled."; fn_print_ok "Enforcer Enabled"
+			luaressource="on"
 		else
-			luaressource="off"; fn_script_log "DL enforcer Disabled."; fn_print_ok "Enforcer Disabled"
+			luaressource="off"
 		fi
-		echo -en "\n"
+	fi
+}
+
+fn_fastdl_dirs(){
+	# Check and create directories
+	if [ ! -d "${modsdir}" ];then
+		echo -en "creating web directory ${webdir}..."
+		mkdir -p "${webdir}"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating web directory ${webdir}..."
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating web directory ${webdir}..."
+		fi
+		sleep 0.5
+	fi
+	if [ ! -d "${fastdldir}" ];then
+		echo -en "creating fastdl directory ${fastdldir}..."
+		mkdir -p "${fastdldir}"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating fastdl directory ${fastdldir}..."
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating fastdl directory ${fastdldir}..."
+		fi
+		sleep 0.5
 	fi
 }
 
 fn_clear_old_fastdl(){
 	# Clearing old FastDL if user answered yes
-	if [ "${clearoldfastdl}" == "on" ]; then
-		fn_print_info "Clearing existing FastDL directory"
-		fn_script_log "Clearing existing FastDL directory"
-		sleep 0.5
+	if [ ! -d "${modsdir}" ];then
+		echo -en "clearing existing FastDL directory ${fastdldir}..."
 		rm -R "${fastdldir:?}"/*
-		fn_print_ok "Old FastDL directory cleared"
-		fn_script_log "Old FastDL directory cleared"
-		sleep 1
-		echo -en "\n"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "clearing existing FastDL directory ${fastdldir}..."
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "clearing existing FastDL directory ${fastdldir}..."
+		fi
+		sleep 0.5
 	fi
 }
 
@@ -174,7 +134,7 @@ fn_fastdl_gmod(){
 
 	# No choice to cd to the directory, as find can't then display relative directory
 	cd "${systemdir}" || exit
-	
+
 	# Map Files
 	fn_print_dots "Copying map files..."
 	fn_script_log "Copying map files"
@@ -273,76 +233,206 @@ fn_fastdl_gmod(){
 	fi
 }
 
+# Using this gist https://gist.github.com/agunnerson-ibm/efca449565a3e7356906
+fn_human_readable_file_size() {
+    local abbrevs=(
+        $((1 << 60)):ZB
+        $((1 << 50)):EB
+        $((1 << 40)):TB
+        $((1 << 30)):GB
+        $((1 << 20)):MB
+        $((1 << 10)):KB
+        $((1)):bytes
+    )
+
+    local bytes="${1}"
+    local precision="${2}"
+
+    if [[ "${bytes}" == "1" ]]; then
+        echo "1 byte"
+    else
+        for item in "${abbrevs[@]}"; do
+            local factor="${item%:*}"
+            local abbrev="${item#*:}"
+            if [[ "${bytes}" -ge "${factor}" ]]; then
+                local size="$(bc -l <<< "${bytes} / ${factor}")"
+                printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
+                break
+            fi
+        done
+    fi
+}
+
 fn_fastdl_source(){
 	# Copy all needed files for FastDL
-	echo ""
-	fn_print_dots "Starting gathering all needed files"
-	fn_script_log "Starting gathering all needed files"
-	sleep 1
-	echo -en "\n"
+	if [ -n "${copyflag}" ]; then
+		# Removes all existing FastDL files.
+		if [ -d "${fastdldir}" ]; then
+			echo -e "removing existing FastDL files"
+			sleep 0.1
+			fileswc=1
+			totalfileswc=$(find "${fastdldir}" | wc -l)
+			tput sc
+			while read -r filetoremove; do
+				tput rc; tput el
+				printf "removing ${fileswc} / ${totalfileswc} : ${filetoremove}..."
+				((fileswc++))
+				rm -rf "${filetoremove}"
+				((exitcode=$?))
+				if [ ${exitcode} -ne 0 ]; then
+					fn_script_log_fatal "Removing ${filetoremove}"
+					break
+				else
+					fn_script_log_pass "Removing ${filetoremove}"
+				fi
+				sleep 0.01
+			done < <(find "${fastdldir}")
+			if [ ${exitcode} -ne 0 ]; then
+				fn_print_fail_eol_nl
+				core_exit.sh
+			else
+				fn_print_ok_eol_nl
+			fi
+		fi
+		fn_fastdl_dirs
 
-	# Map Files
-	fn_print_dots "Copying map files..."
-	fn_script_log "Copying map files"
-	sleep 0.5
-	mkdir "${fastdldir}/maps"
-	find "${systemdir}/maps" -name '*.bsp' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.ain' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.nav' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.jpg' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.txt' -exec cp {} "${fastdldir}/maps" \;
-	fn_print_ok "Map files copied"
-	sleep 0.5
-	echo -en "\n"
+		echo -e "copying files to ${fastdldir}"
+		fn_script_log "copying files to ${fastdldir}"
+	else
+		if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
+			rm -f "${tmpdir}/fastdl_files_to_compress.txt"
+		fi
+		echo -e "analyzing required files"
+		fn_script_log "analyzing required files"
+	fi
+
+	# Maps
+	if [ -d "${systemdir}/maps" ]; then
+		local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+		for allowed_extention in "${allowed_extentions_array[@]}"
+		do
+			fileswc=0
+			tput sc
+			if [ -z "${copyflag}" ]; then
+				tput rc; tput el
+				printf "gathering maps ${allowed_extention} : ${fileswc}..."
+			fi
+			while read -r mapfile; do
+				((fileswc++))
+				if [ -n "${copyflag}" ]; then
+					tput rc; tput el
+					printf "copying maps ${allowed_extention} : ${fileswc}..."
+					if [ ! -d "${fastdldir}/maps" ]; then
+						mkdir "${fastdldir}/maps"
+					fi
+					cp "${mapfile}" "${fastdldir}/maps"
+				else
+					tput rc; tput el
+					printf "gathering maps ${allowed_extention} : ${fileswc}..."
+					sleep 0.01
+					echo "${mapfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+				fi
+			done < <(find "${systemdir}/maps" -type f -iname ${allowed_extention})
+
+			if [ -z "${copyflag}" ]; then
+				tput rc; tput el
+				printf "gathering maps ${allowed_extention} : ${fileswc}..."
+			fi
+			if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
+				fn_print_ok_eol_nl
+			fi
+		done
+	fi
 
 	# Materials
-	fn_print_dots "Copying materials..."
-	fn_script_log "Copying materials"
-	sleep 0.5
-	mkdir "${fastdldir}/materials"
-	find "${systemdir}/materials" -name '*.vtf' -exec cp {} "${fastdldir}/materials" \;
-	find "${systemdir}/materials" -name '*.vmt' -exec cp {} "${fastdldir}/materials" \;
-	find "${systemdir}/materials" -name '*.vbf' -exec cp {} "${fastdldir}/materials" \;
-	fn_print_ok "Materials copied"
-	sleep 0.5
-	echo -en "\n"
+	if [ -d "${systemdir}/materials" ]; then
+		local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+		for allowed_extention in "${allowed_extentions_array[@]}"
+		do
+			while read -r materialfile; do
+				((totalfileswc++))
+				echo -en "materials: ${allowed_extention} : ${totalfileswc}..." $'\r'
+				sleep 0.01
+				echo "${materialfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+			done < <(find "${systemdir}/materials" -type f -iname ${allowed_extention})
+			echo -en "materials: ${allowed_extention} : ${totalfileswc}..."
+			fn_print_ok_eol_nl
+			totalfileswc=0
+		done
+	fi
 
 	# Models
-	fn_print_dots "Copying models..."
-	fn_script_log "Copying models"
-	sleep 1
-	mkdir "${fastdldir}/models"
-	find "${systemdir}/models" -name '*.vtx' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.vvd' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.mdl' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.phy' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.jpg' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.png' -exec cp {} "${fastdldir}/models" \;
-	fn_print_ok "Models copied"
-	sleep 0.5
-	echo -en "\n"
+	if [ -d "${systemdir}/models" ]; then
+		local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+		for allowed_extention in "${allowed_extentions_array[@]}"
+		do
+			while read -r modelfile; do
+				((totalfileswc++))
+				echo -en "models: ${allowed_extention} : ${totalfileswc}..." $'\r'
+				sleep 0.01
+				echo "${modelfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+			done < <(find "${systemdir}/materials" -type f -iname ${allowed_extention})
+			echo -en "models: ${allowed_extention} : ${totalfileswc}..."
+			fn_print_ok_eol_nl
+			totalfileswc=0
+		done
+	fi
 
 	# Particles
-	fn_print_dots "Copying particles..."
-	fn_script_log "Copying particles"
-	sleep 0.5
-	mkdir "${fastdldir}/particles"
-	find "${systemdir}" -name '*.pcf' -exec cp {} "${fastdldir}/particles" \;
-	fn_print_ok "Particles copied"
-	sleep 0.5
-	echo -en "\n"
+	if [ -d "${systemdir}/particles" ]; then
+		local allowed_extentions_array=( "*.pcf" )
+		for allowed_extention in "${allowed_extentions_array[@]}"
+		do
+			while read -r particlefile; do
+				((totalfileswc++))
+				echo -en "models: ${allowed_extention} : ${totalfileswc}..." $'\r'
+				sleep 0.01
+				echo "${particlefile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+			done < <(find "${systemdir}/models" -type f -iname ${allowed_extention})
+			echo -en "models: ${allowed_extention} : ${totalfileswc}..."
+			fn_print_ok_eol_nl
+			totalfileswc=0
+		done
+	fi
 
 	# Sounds
-	fn_print_dots "Copying sounds..."
-	fn_script_log "Copying sounds"
-	sleep 0.5
-	mkdir "${fastdldir}/sound"
-	find "${systemdir}" -name '*.wav' -exec cp {} "${fastdldir}/sound" \;
-	find "${systemdir}" -name '*.mp3' -exec cp {} "${fastdldir}/sound" \;
-	find "${systemdir}" -name '*.ogg' -exec cp {} "${fastdldir}/sound" \;
-	fn_print_ok "Sounds copied"
-	sleep 0.5
-	echo -en "\n"
+	if [ -d "${systemdir}/sounds" ]; then
+		local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
+		for allowed_extention in "${allowed_extentions_array[@]}"
+		do
+			while read -r soundfile; do
+				((totalfileswc++))
+				echo -en "sounds: ${allowed_extention} : ${totalfileswc}..." $'\r'
+				sleep 0.01
+				echo "${soundfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+			done < <(find "${systemdir}/models" -type f -iname ${allowed_extention})
+			echo -en "sounds: ${allowed_extention} : ${totalfileswc}..."
+			fn_print_ok_eol_nl
+			totalfileswc=0
+		done
+	fi
+
+if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
+	totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
+	# Calculates total file size
+	while read dufile; do
+		filesize=$(du -b "${dufile}"| awk '{ print $1 }')
+		filesizetotal=$(( ${filesizetotal} + ${filesize} ))
+	done <"${tmpdir}/fastdl_files_to_compress.txt"
+fi
+
+if [ -z "${copyflag}" ]; then
+	echo "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0) "
+	rm "${tmpdir}/fastdl_files_to_compress.txt"
+	if fn_prompt_yn "Continue?" Y; then
+		copyflag=1
+		fn_fastdl_source
+	else
+		core_exit.sh
+	fi
+else
+	fn_fastdl_bzip2
+fi
 }
 
 # Generate lua file that will force download any file into the FastDL directory
@@ -387,59 +477,48 @@ fn_fastdl_gmod_lua_enforcer(){
 }
 
 fn_fastdl_bzip2(){
-	# Compressing using bzip2 if user said yes
-	echo ""
-	if [ ${bzip2enable} == "on" ]; then
-		fn_print_info "Have a break, this step could take a while..."
-		echo -en "\n"
-		echo ""
-		fn_print_dots "Compressing files using bzip2..."
-		fn_script_log "Compressing files using bzip2..."
-		# bzip2 all files that are not already compressed (keeping original files)
-		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
-		fn_print_ok "bzip2 compression done"
-		fn_script_log "bzip2 compression done"
-		sleep 1
-		echo -en "\n"
-		# Clear non compressed FastDL files
-		if [ "${clearnonbzip2}" == "on" ]; then
-			fn_print_dots "Clearing original uncompressed FastDL files..."
-			sleep 1
-			find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
-			fn_print_ok "Cleared uncompressed FastDL files"
-			fn_script_log "Cleared uncompressed FastDL files."
-		fi	
-	fi
+	while read -r filetocompress; do
+		echo -en "compressing ${filetocompress}..."
+		bzip2 "${filetocompress}"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating web directory ${webdir}..."
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating web directory ${webdir}..."
+		fi
+	done < <(find  "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
 }
 
 fn_fastdl_completed(){
 	# Finished message
-	echo ""
-	fn_print_ok "FastDL created!"
-	fn_script_log "FastDL job done"
-	sleep 2
-	echo -en "\n"
-	echo ""
-	fn_print_info_nl "Need more documentation?"
-	echo " * https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL"
-	echo -en "\n"
-	if [ "$bzip2installed" == "0" ]; then
-		echo "By the way, you'd better install bzip2 and re-run this command!"
-	fi
-	echo "Credits: UltimateByte"
+	echo "FastDL files are located in:"
+	echo "${webdir}"
+	echo "FastDL completed"
+	fn_script_log "FastDL completed"
 }
 
+# Only Source supports FastDL
+if [ "${engine}" != "source" ]; then
+	fn_print_fatal "${gamename} does not support FastDL"
+	fn_script_log_fatal "${gamename} does not support FastDL"
+	core_exit.sh
+fi
+
 # Run functions
-fn_check_bzip2
-fn_fastdl_init
+fn_print_header
+echo "More info: https://git.io/vyk9a"
+echo ""
 fn_fastdl_config
-fn_clear_old_fastdl
+
+
 if [ "${gamename}" == "Garry's Mod" ]; then
 	fn_fastdl_gmod
 	fn_fastdl_gmod_lua_enforcer
 else
 	fn_fastdl_source
 fi
-fn_fastdl_bzip2
 fn_fastdl_completed
 core_exit.sh
