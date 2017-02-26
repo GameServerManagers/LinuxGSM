@@ -119,6 +119,9 @@ if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == 
 	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
 fi
 
+## Installer
+currentopt+=( "${cmd_install[@]}" "${cmd_auto_install[@]}" )
+
 ## Developer commands
 currentopt+=( "${cmd_dev_debug[@]}" )
 if [ -f ".dev-debug" ]; then
