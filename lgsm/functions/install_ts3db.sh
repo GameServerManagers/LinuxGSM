@@ -48,7 +48,7 @@ fn_install_ts3db_mariadb(){
 
 if [ -z "${autoinstall}" ]; then
 	echo ""
-	if ! fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)?" N; then
+	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)?" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
