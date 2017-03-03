@@ -306,12 +306,12 @@ fn_fastdl_source(){
 		fn_script_log "analyzing required files"
 	fi
 
-	local directorys_array_=( "maps" "materials" "particles" "sounds" "*.txt" )
+	local directorys_array=( "maps" "materials" "particles" "sounds" )
 	for directory in "${directorys_array[@]}"
 	do
 		if [ -d "${systemdir}/${directory}" ]; then
 			if [ "${directory}" == "maps" ]; then
-				local allowed_extentions_array_=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+				local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
 			elif [ "${directory}" == "materials" ]; then
 				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
 			elif [ "${directory}" == "particles" ]; then
@@ -366,9 +366,7 @@ fn_fastdl_source(){
 
 	if [ -z "${copyflag}" ]; then
 		echo "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0) "
-		if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-			rm "${tmpdir}/fastdl_files_to_compress.txt"
-		fi
+		rm "${tmpdir}/fastdl_files_to_compress.txt"
 		if fn_prompt_yn "Continue?" Y; then
 			copyflag=1
 			fn_fastdl_source
