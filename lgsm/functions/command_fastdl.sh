@@ -306,179 +306,76 @@ fn_fastdl_source(){
 		fn_script_log "analyzing required files"
 	fi
 
-	# Maps
-	if [ -d "${systemdir}/maps" ]; then
-		local allowed_extentions_array_=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
-		for allowed_extention in "${allowed_extentions_array[@]}"
-		do
-			fileswc=0
-			tput sc
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering maps ${allowed_extention} : ${fileswc}..."
+	local directorys_array_=( "maps" "materials" "particles" "sounds" "*.txt" )
+	for directory in "${directorys_array[@]}"
+	do
+		if [ -d "${systemdir}/${directory}" ]; then
+			if [ "${directory}" == "maps" ]; then
+				local allowed_extentions_array_=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+			elif [ "${directory}" == "materials" ]; then
+				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+			elif [ "${directory}" == "particles" ]; then
+				local allowed_extentions_array=( "*.pcf" )
+			elif [ "${directory}" == "sounds" ]; then
+				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
 			fi
-			while read -r mapfile; do
-				((fileswc++))
-				if [ -n "${copyflag}" ]; then
+			for allowed_extention in "${allowed_extentions_array[@]}"
+			do
+				fileswc=0
+				tput sc
+				if [ -z "${copyflag}" ]; then
 					tput rc; tput el
-					printf "copying maps ${allowed_extention} : ${fileswc}..."
-					if [ ! -d "${fastdldir}/maps" ]; then
-						mkdir "${fastdldir}/maps"
-					fi
-					cp "${mapfile}" "${fastdldir}/maps"
-				else
-					tput rc; tput el
-					printf "gathering maps ${allowed_extention} : ${fileswc}..."
-					sleep 0.01
-					echo "${mapfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+					printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 				fi
-			done < <(find "${systemdir}/maps" -type f -iname ${allowed_extention})
+				while read -r mapfile; do
+					((fileswc++))
+					if [ -n "${copyflag}" ]; then
+						tput rc; tput el
+						printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
+						if [ ! -d "${fastdldir}/${directory}" ]; then
+							mkdir "${fastdldir}/${directory}"
+						fi
+						cp "${mapfile}" "${fastdldir}/${directory}"
+					else
+						tput rc; tput el
+						printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+						sleep 0.01
+						echo "${mapfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+					fi
+				done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
 
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering maps ${allowed_extention} : ${fileswc}..."
-			fi
-			if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
-				fn_print_ok_eol_nl
-			fi
-		done
+				if [ -z "${copyflag}" ]; then
+					tput rc; tput el
+					printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+				fi
+				if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
+					fn_print_ok_eol_nl
+				fi
+			done
+		fi
+	done
+
+	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
+		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
+		# Calculates total file size
+		while read dufile; do
+			filesize=$(du -b "${dufile}"| awk '{ print $1 }')
+			filesizetotal=$(( ${filesizetotal} + ${filesize} ))
+		done <"${tmpdir}/fastdl_files_to_compress.txt"
 	fi
 
-	# Materials
-	if [ -d "${systemdir}/materials" ]; then
-		local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
-		for allowed_extention in "${allowed_extentions_array[@]}"
-		do
-			fileswc=0
-			tput sc
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering materials ${allowed_extention} : ${fileswc}..."
-			fi
-			while read -r mapfile; do
-				((fileswc++))
-				if [ -n "${copyflag}" ]; then
-					tput rc; tput el
-					printf "copying materials ${allowed_extention} : ${fileswc}..."
-					if [ ! -d "${fastdldir}/materials" ]; then
-						mkdir "${fastdldir}/materials"
-					fi
-					cp "${mapfile}" "${fastdldir}/materials"
-				else
-					tput rc; tput el
-					printf "gathering materials ${allowed_extention} : ${fileswc}..."
-					sleep 0.01
-					echo "${mapfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-				fi
-			done < <(find "${systemdir}/materials" -type f -iname ${allowed_extention})
-
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering materials ${allowed_extention} : ${fileswc}..."
-			fi
-			if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
-				fn_print_ok_eol_nl
-			fi
-		done
-	fi
-
-	# Particles
-	if [ -d "${systemdir}/particles" ]; then
-		local allowed_extentions_array=( "*.pcf" )
-		for allowed_extention in "${allowed_extentions_array[@]}"
-		do
-			fileswc=0
-			tput sc
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering particles ${allowed_extention} : ${fileswc}..."
-			fi
-			while read -r mapfile; do
-				((fileswc++))
-				if [ -n "${copyflag}" ]; then
-					tput rc; tput el
-					printf "copying particles ${allowed_extention} : ${fileswc}..."
-					if [ ! -d "${fastdldir}/particles" ]; then
-						mkdir "${fastdldir}/particles"
-					fi
-					cp "${mapfile}" "${fastdldir}/particles"
-				else
-					tput rc; tput el
-					printf "gathering particles ${allowed_extention} : ${fileswc}..."
-					sleep 0.01
-					echo "${mapfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-				fi
-			done < <(find "${systemdir}/particles" -type f -iname ${allowed_extention})
-
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering particles ${allowed_extention} : ${fileswc}..."
-			fi
-			if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
-				fn_print_ok_eol_nl
-			fi
-		done
-	fi
-
-	# Sounds
-	if [ -d "${systemdir}/sounds" ]; then
-		local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
-		for allowed_extention in "${allowed_extentions_array[@]}"
-		do
-			fileswc=0
-			tput sc
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering sounds ${allowed_extention} : ${fileswc}..."
-			fi
-			while read -r mapfile; do
-				((fileswc++))
-				if [ -n "${copyflag}" ]; then
-					tput rc; tput el
-					printf "copying soundss ${allowed_extention} : ${fileswc}..."
-					if [ ! -d "${fastdldir}/sounds" ]; then
-						mkdir "${fastdldir}/sounds"
-					fi
-					cp "${mapfile}" "${fastdldir}/sounds"
-				else
-					tput rc; tput el
-					printf "gathering sounds ${allowed_extention} : ${fileswc}..."
-					sleep 0.01
-					echo "${mapfile}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-				fi
-			done < <(find "${systemdir}/sounds" -type f -iname ${allowed_extention})
-
-			if [ -z "${copyflag}" ]; then
-				tput rc; tput el
-				printf "gathering sounds ${allowed_extention} : ${fileswc}..."
-			fi
-			if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
-				fn_print_ok_eol_nl
-			fi
-		done
-	fi
-
-if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-	totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
-	# Calculates total file size
-	while read dufile; do
-		filesize=$(du -b "${dufile}"| awk '{ print $1 }')
-		filesizetotal=$(( ${filesizetotal} + ${filesize} ))
-	done <"${tmpdir}/fastdl_files_to_compress.txt"
-fi
-
-if [ -z "${copyflag}" ]; then
-	echo "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0) "
-	rm "${tmpdir}/fastdl_files_to_compress.txt"
-	if fn_prompt_yn "Continue?" Y; then
-		copyflag=1
-		fn_fastdl_source
+	if [ -z "${copyflag}" ]; then
+		echo "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0) "
+		rm "${tmpdir}/fastdl_files_to_compress.txt"
+		if fn_prompt_yn "Continue?" Y; then
+			copyflag=1
+			fn_fastdl_source
+		else
+			core_exit.sh
+		fi
 	else
-		core_exit.sh
+		fn_fastdl_bzip2
 	fi
-else
-	fn_fastdl_bzip2
-fi
 }
 
 # Generate lua file that will force download any file into the FastDL directory
