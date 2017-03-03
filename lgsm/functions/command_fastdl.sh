@@ -23,17 +23,9 @@ luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 fn_check_bzip2(){
 	# Returns true if not installed
 	if [ -z "$(command -v bzip2)" ]; then
-		bzip2installed="0"
-		fn_print_info "bzip2 is not installed! Install it to enable file compression"
-		fn_script_log_info "bzip2 is not installed. Install it to enable file compression."
-		fn_script_log_info "https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL#bzip2-compression"
-		echo -en "\n"
-		sleep 1
-		echo " * https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL#bzip2-compression"
-		sleep 2
-		echo ""
-	else
-		bzip2installed="1"
+		fn_print_fail "bzip2 is not installed"
+		fn_script_log_fatal "bzip2 is not installed"
+		core_exit.sh
 	fi
 }
 
@@ -56,9 +48,9 @@ fn_fastdl_config(){
 
 	# Garry's Mod Specific
 	if [ "${gamename}" == "Garry's Mod" ]; then
-		# Prompt to clear addons dir from fastdl, can use unnecessary space or be required depending on addon's file structures
+		# Prompt to clear addons dir from fastdl, can use unnecessary space or not be required depending on addon's file structures
 		fn_print_dots
-		if fn_prompt_yn "Clear addons dir from fastdl dir?" Y; then
+		if fn_prompt_yn "Clear addons directory from FastDL?" Y; then
 			cleargmodaddons="on";
 		else
 			cleargmodaddons="off";
@@ -125,111 +117,51 @@ fn_clear_old_fastdl(){
 }
 
 fn_fastdl_gmod(){
-	# Copy all needed files for FastDL
-	echo ""
-	fn_print_dots "Starting gathering all needed files"
-	fn_script_log "Starting gathering all needed files"
-	sleep 1
-	echo -en "\n"
-
-	# No choice to cd to the directory, as find can't then display relative directory
-	cd "${systemdir}" || exit
-
-	# Map Files
-	fn_print_dots "Copying map files..."
-	fn_script_log "Copying map files"
-	sleep 0.5
-	find . -name '*.bsp' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.ain' | cpio --quiet -updm "${fastdldir}"
-	fn_print_ok "Map files copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Materials
-	fn_print_dots "Copying materials..."
-	fn_script_log "Copying materials"
-	sleep 0.5
-	find . -name '*.vtf' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.vmt' | cpio --quiet -updm "${fastdldir}"
-	fn_print_ok "Materials copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Models
-	fn_print_dots "Copying models..."
-	fn_script_log "Copying models"
-	sleep 1
-	find . -name '*.vtx' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.vvd' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.mdl' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.phy' | cpio --quiet -updm "${fastdldir}"
-	fn_print_ok "Models copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Particles
-	fn_print_dots "Copying particles..."
-	fn_script_log "Copying particles"
-	sleep 0.5
-	find . -name '*.pcf' | cpio --quiet -updm "${fastdldir}"
-	fn_print_ok "Particles copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Sounds
-	fn_print_dots "Copying sounds..."
-	fn_script_log "Copying sounds"
-	sleep 0.5
-	find . -name '*.wav' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.mp3' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.ogg' | cpio --quiet -updm "${fastdldir}"
-	fn_print_ok "Sounds copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Resources (mostly fonts)
-	fn_print_dots "Copying fonts and png..."
-	fn_script_log "Copying fonts and png"
-	sleep 1
-	find . -name '*.otf' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.ttf' | cpio --quiet -updm "${fastdldir}"
-	find . -name '*.png' | cpio --quiet -updm "${fastdldir}"
-	fn_print_ok "Fonts and png copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Going back to rootdir in order to prevent mistakes
-	cd "${rootdir}"
-
 	# Correct addons directory structure for FastDL
 	if [ -d "${fastdldir}/addons" ]; then
-		fn_print_info "Adjusting addons' file structure"
-		fn_script_log "Adjusting addons' file structure"
-		sleep 1
+		echo -en "updating addons file structure..."
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-		fn_print_ok "Adjusted addons' file structure"
-		sleep 1
-		echo -en "\n"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "updating addons file structure"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "updating addons file structure"
+		fi
 		# Clear addons directory in fastdl
 		if [ "${cleargmodaddons}" == "on" ]; then
-			fn_print_info "Clearing addons dir from fastdl dir"
-			fn_script_log "Clearing addons dir from fastdl dir"
+			echo -en "clearing addons dir from fastdl dir"
+			fn_script_log "clearing addons dir from fastdl dir..."
 			sleep 1
 			rm -R "${fastdldir:?}/addons"
-			fn_print_ok "Cleared addons dir from fastdl dir"
-			sleep 1
-			echo -en "\n"
+			exitcode=$?
+			if [ ${exitcode} -ne 0 ]; then
+				fn_print_fail_eol_nl
+				fn_script_log_fatal "clearing addons dir from fastdl dir"
+				core_exit.sh
+			else
+				fn_print_ok_eol_nl
+				fn_script_log_pass "clearing addons dir from fastdl dir"
+			fi
 		fi
 	fi
 
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
 	if [ -d "${fastdldir}/lua" ]; then
-		fn_print_dots "Typical DarkRP files detected, fixing"
+		echo -en "correcting DarkRP files..."
 		sleep 2
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
-		fn_print_ok "Stupid DarkRP file structure fixed"
-		sleep 2
-		echo -en "\n"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "correcting DarkRP files"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "correcting DarkRP files"
+		fi
 	fi
 }
 
@@ -310,14 +242,30 @@ fn_fastdl_source(){
 	for directory in "${directorys_array[@]}"
 	do
 		if [ -d "${systemdir}/${directory}" ]; then
-			if [ "${directory}" == "maps" ]; then
-				local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
-			elif [ "${directory}" == "materials" ]; then
-				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
-			elif [ "${directory}" == "particles" ]; then
-				local allowed_extentions_array=( "*.pcf" )
-			elif [ "${directory}" == "sounds" ]; then
-				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
+			if [ "${gamename}" == "Garry's Mod" ]; then
+				if [ "${directory}" == "maps" ]; then
+					local allowed_extentions_array=( "*.bsp" "*.ain" )
+				elif [ "${directory}" == "materials" ]; then
+					local allowed_extentions_array=( "*.vtf" "*.vmt" )
+				elif [ "${directory}" == "models" ]; then
+					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" )
+				elif [ "${directory}" == "particles" ]; then
+					local allowed_extentions_array=( "*.pcf" )
+				elif [ "${directory}" == "sounds" ]; then
+					local allowed_extentions_array=( "*.wav" "*.mp3" "*.ogg" )
+				elif [ "${directory}" == "resources" ]; then
+					local allowed_extentions_array=( "*.otf" "*.ttf" "*.png" )
+				fi
+			else
+				if [ "${directory}" == "maps" ]; then
+					local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+				elif [ "${directory}" == "materials" ]; then
+					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+				elif [ "${directory}" == "particles" ]; then
+					local allowed_extentions_array=( "*.pcf" )
+				elif [ "${directory}" == "sounds" ]; then
+					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
+				fi
 			fi
 			for allowed_extention in "${allowed_extentions_array[@]}"
 			do
@@ -381,41 +329,36 @@ fn_fastdl_source(){
 # Generate lua file that will force download any file into the FastDL directory
 fn_fastdl_gmod_lua_enforcer(){
 	# Remove lua file if luaressource is turned off and file exists
-	echo ""
-	if [ "${luaressource}" == "off" ]; then
-		if [ -f "${luafastdlfullpath}" ]; then
-			fn_print_dots "Removing download enforcer"
-			sleep 1
-			rm -R "${luafastdlfullpath:?}"
-			fn_print_ok "Removed download enforcer"
-			fn_script_log "Removed old download inforcer"
-			echo -en "\n"
-			sleep 2
+	if [ -f "${luafastdlfullpath}" ]; then
+		echo -en "removing existing download enforcer..."
+		rm -R "${luafastdlfullpath:?}"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "removing existing download enforcer"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "removing existing download enforcer"
 		fi
 	fi
 	# Remove old lua file and generate a new one if user said yes
 	if [ "${luaressource}" == "on" ]; then
-		if [ -f "${luafastdlfullpath}" ]; then
-			fn_print_dots "Removing old download enforcer"
-			sleep 1
-			rm "${luafastdlfullpath}"
-			fn_print_ok "Removed old download enforcer"
-			fn_script_log "Removed old download enforcer"
-			echo -en "\n"
-			sleep 1
-		fi
-		fn_print_dots "Generating new download enforcer"
-		fn_script_log "Generating new download enforcer"
-		sleep 1
+		echo -en "creating new download enforcer..."
+		fn_script_log "creating new download enforcer"
 		# Read all filenames and put them into a lua file at the right path
 		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
 			echo "resource.AddFile( "\""${line}"\"" )" >> "${luafastdlfullpath}"
 		done
-		fn_print_ok "Download enforcer generated"
-		fn_script_log "Download enforcer generated"
-		echo -en "\n"
-		echo ""
-		sleep 2
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating new download enforcer"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating new download enforcer"
+		fi
 	fi
 }
 
@@ -448,12 +391,10 @@ fn_print_header
 echo "More info: https://git.io/vyk9a"
 echo ""
 fn_fastdl_config
-
+fn_fastdl_source
 if [ "${gamename}" == "Garry's Mod" ]; then
 	fn_fastdl_gmod
 	fn_fastdl_gmod_lua_enforcer
-else
-	fn_fastdl_source
 fi
 fn_fastdl_completed
 core_exit.sh
