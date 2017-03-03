@@ -366,7 +366,9 @@ fn_fastdl_source(){
 
 	if [ -z "${copyflag}" ]; then
 		echo "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0) "
-		rm "${tmpdir}/fastdl_files_to_compress.txt"
+		if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
+			rm "${tmpdir}/fastdl_files_to_compress.txt"
+		fi
 		if fn_prompt_yn "Continue?" Y; then
 			copyflag=1
 			fn_fastdl_source
