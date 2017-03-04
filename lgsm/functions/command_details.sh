@@ -840,6 +840,8 @@ fn_display_details() {
 		fn_details_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
+	elif [ "${gamename}" == "Project Cars" ]; then
+		fn_details_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then
 		fn_details_quake
 	elif [ "${gamename}" == "Quake 2" ]; then
