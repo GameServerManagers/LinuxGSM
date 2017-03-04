@@ -12,7 +12,9 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 check.sh
 
 # Directories
-webdir="${rootdir}/public_html"
+if [ -z "${webdir}" ]; then
+	webdir="${lgsmdir}/public_html"
+fi
 fastdldir="${webdir}/fastdl"
 addonsdir="${systemdir}/addons"
 # Server lua autorun dir, used to autorun lua on client connect to the server
@@ -238,7 +240,7 @@ fn_fastdl_source(){
 		fn_script_log_info "Analysing required files"
 	fi
 
-	local directorys_array=( "maps" "materials" "particles" "sounds" )
+	local directorys_array=( "maps" "materials" "models" "particles" "sounds" "resources" )
 	for directory in "${directorys_array[@]}"
 	do
 		if [ -d "${systemdir}/${directory}" ]; then
