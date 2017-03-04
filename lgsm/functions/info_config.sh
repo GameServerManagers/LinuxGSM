@@ -249,6 +249,7 @@ fn_info_config_minecraft(){
 
 	fi
 }
+
 fn_info_config_projectcars(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -269,6 +270,7 @@ fn_info_config_projectcars(){
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
+	fi
 }
 
 fn_info_config_projectzomboid(){
