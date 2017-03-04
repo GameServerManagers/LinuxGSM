@@ -45,11 +45,24 @@ fn_wipe_server_remove_files(){
 	# Rust Wipe
 	if [ "${gamename}" == "Rust" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
-			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.sav"
-			echo -en "Removing map proceduralmap.*.sav file(s)..."
+			currentaction="Removing map save(s): ${serveridentitydir}/proceduralmap.*.sav"
+			echo -en "Removing map saves proceduralmap.*.sav file(s)..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			find "${serveridentitydir}" -type f -name "proceduralmap.*.sav" -delete
+			find "${serveridentitydir:?}" -type f -name "proceduralmap.*.sav" -delete
+			fn_wipe_exit_code
+			sleep 0.5
+		else
+			fn_print_information_nl "No map save to remove"
+			fn_script_log_info "No map save to remove."
+			sleep 0.5
+		fi
+		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
+			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.map"
+			echo -en "Removing map proceduralmap.*.map file(s)..."
+			sleep 1
+			fn_script_log "${currentaction}"
+			find "${serveridentitydir:?}" -type f -name "proceduralmap.*.map" -delete
 			fn_wipe_exit_code
 			sleep 0.5
 		else
@@ -62,7 +75,7 @@ fn_wipe_server_remove_files(){
 			echo -en "Removing user directory..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			rm -rf "${serveridentitydir}/user"
+			rm -rf "${serveridentitydir:?}/user"
 			fn_wipe_exit_code
 			sleep 0.5
 		else
@@ -75,7 +88,7 @@ fn_wipe_server_remove_files(){
 			echo -en "Removing storage directory..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			rm -rf "${serveridentitydir}/storage"
+			rm -rf "${serveridentitydir:?}/storage"
 			fn_wipe_exit_code
 			sleep 0.5
 		else
@@ -88,7 +101,7 @@ fn_wipe_server_remove_files(){
 			echo -en "Removing Log files..."
 			sleep 1
 			fn_script_log "${currentaction}"
-			find "${serveridentitydir}" -type f -name "Log.*.txt" -delete
+			find "${serveridentitydir:?}" -type f -name "Log.*.txt" -delete
 			fn_wipe_exit_code
 			sleep 0.5
 		else
