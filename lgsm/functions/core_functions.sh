@@ -1,12 +1,14 @@
 #!/bin/bash
-# LGSM core_functions.sh function
+# LinuxGSM core_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
 # Fixes for legacy code
-if [ "${gamename}" == "Teamspeak 3" ]; then
+if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+	gamename="ARK: Survival Evolved"
+elif [ "${gamename}" == "Teamspeak 3" ]; then
 	gamename="TeamSpeak 3"
 elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
 	gamename="Counter-Strike: Global Offensive"
@@ -180,6 +182,26 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_install_resources_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_install.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_update.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_remove.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_fastdl.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -195,6 +217,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_wipe.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Checks
 
@@ -209,6 +235,11 @@ fn_fetch_function
 }
 
 check_deps.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+check_executable.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -276,6 +307,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Mods
+
+mods_list.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+mods_core.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Dev
 
@@ -358,6 +400,16 @@ fn_fetch_function
 }
 
 fix_ut.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -445,6 +497,16 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_factorio.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -475,6 +537,16 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_factorio_save.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_dst_token.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -496,6 +568,11 @@ fn_fetch_function
 }
 
 install_minecraft_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_unreal_tournament_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

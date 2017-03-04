@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_steamcmd.sh function
+# LinuxGSM fix_steamcmd.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues related to SteamCMD.
@@ -38,6 +38,14 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 		fixname="steamclient.so x86_64"
 		fn_fix_msg_start
 		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${filesdir}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${scriptlog}"
+		fn_fix_msg_end
+	fi
+elif [ "${gamename}" == "Tower Unite" ]; then
+	# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
+	if [ ! -f "${executabledir}/steamclient.so" ]; then
+		fixname="steamclient.so"
+		fn_fix_msg_start
+		cp -v "${filesdir}/linux64/steamclient.so" "${executabledir}/steamclient.so" >> "${scriptlog}"
 		fn_fix_msg_end
 	fi
 fi

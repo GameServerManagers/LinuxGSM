@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM monitor_gsquery.sh function
+# LinuxGSM monitor_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Uses gsquery.py to query the server port.

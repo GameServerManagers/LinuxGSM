@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_start.sh function
+# LinuxGSM command_start.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -33,11 +33,11 @@ fn_start_teamspeak3(){
 	fi
 
 	mv "${scriptlog}" "${scriptlogdate}"
-	# Create lock file
+	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	if [ "${ts3serverpass}" == "1" ];then
-		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}"
+		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
 	else
 		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 	fi
@@ -78,22 +78,22 @@ fn_start_tmux(){
 		core_exit.sh
 	fi
 
-	# Create lock file
+	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 
 	# tmux pipe-pane not supported in tmux versions < 1.6
 	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
-		echo "Console logging disabled: Tmux => 1.6 required" >> "${consolelog}"
-		echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
-		echo "Currently installed: $(tmux -V)" >> "${consolelog}"
+		echo "Console logging disabled: Tmux => 1.6 required
+		https://gameservermanagers.com/tmux-upgrade
+		Currently installed: $(tmux -V)" > "${consolelog}"
 
 	# Console logging disabled: Bug in tmux 1.8 breaks logging
 	elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; then
-		echo "Console logging disabled: Bug in tmux 1.8 breaks logging" >> "${consolelog}"
-		echo "https://gameservermanagers.com/tmux-upgrade" >> "${consolelog}"
-		echo "Currently installed: $(tmux -V)" >> "${consolelog}"
+		echo "Console logging disabled: Bug in tmux 1.8 breaks logging
+		https://gameservermanagers.com/tmux-upgrade
+		Currently installed: $(tmux -V)" > "${consolelog}"
 
 	# Console logging enable or not set
 	elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_ges.sh function
+# LinuxGSM fix_ges.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with GoldenEye: Source.

@@ -1,12 +1,11 @@
 #!/bin/bash
-# LGSM check_permissions.sh
+# LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
 local commandname="CHECK"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
@@ -43,8 +42,12 @@ fn_check_ownership(){
 
 		} | column -s $'\t' -t | tee -a "${scriptlog}"
 		echo ""
-		fn_print_information_nl "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
+		fn_print_information_nl "please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
 		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
+		if [ "${monitorflag}" == 1 ]; then
+			alert="permissions"
+			alert.sh
+		fi
 		core_exit.sh
 	fi
 }
@@ -60,6 +63,10 @@ fn_check_permissions(){
 				echo -e "File\n"
 				find "${functionsdir}" -type f -not -executable -printf "%p\n"
 			} | column -s $'\t' -t | tee -a "${scriptlog}"
+			if [ "${monitorflag}" == 1 ]; then
+				alert="permissions"
+				alert.sh
+			fi
 			core_exit.sh
 		fi
 	fi
@@ -78,6 +85,10 @@ fn_check_permissions(){
 			fn_script_log_info "The following directory does not have the correct permissions:"
 			fn_script_log_info "${rootdir}"
 			ls -l "${rootdir}"
+			if [ "${monitorflag}" == 1 ]; then
+				alert="permissions"
+				alert.sh
+			fi
 			core_exit.sh
 		fi
 	fi
@@ -118,6 +129,10 @@ fn_check_permissions(){
 					ls -l "${executabledir}/${execname}"
 					fn_script_log_warn "The following file could not be set executable:"
 					fn_script_log_info "${executabledir}/${execname}"
+					if [ "${monitorflag}" == 1 ]; then
+						alert="permissions"
+						alert.sh
+					fi
 					core_exit.sh
 					fi
 				fi
@@ -126,5 +141,97 @@ fn_check_permissions(){
 	fi
 }
 
+## The following fn_sys_perm_* functions checks for permission errors in /sys directory
+
+# Checks for permission errors in /sys directory
+fn_sys_perm_errors_detect(){
+	# Reset test variables
+	sysdirpermerror="0"
+	classdirpermerror="0"
+	netdirpermerror="0"
+	# Check permissions
+	# /sys, /sys/class and /sys/class/net should be readable & executable
+	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
+		sysdirpermerror="1"
+	fi
+	if [ ! -r "/sys/class" ]||[ ! -x "/sys/class" ]; then
+		classdirpermerror="1"
+	fi
+	if [ ! -r "/sys/class/net" ]||[ ! -x "/sys/class/net" ]; then
+		netdirpermerror="1"
+	fi
+}
+
+# Display a message on how to fix the issue manually
+fn_sys_perm_fix_manually_msg(){
+	echo ""
+	fn_print_information_nl "This error causes servers to fail starting properly"
+	fn_script_log_info "This error causes servers to fail starting properly."
+	echo "	* To fix this issue, run the following command as root:"
+	fn_script_log_info "To fix this issue, run the following command as root:"
+	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
+	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
+	sleep 1
+	if [ "${monitorflag}" == 1 ]; then
+		alert="permissions"
+		alert.sh
+	fi
+	core_exit.sh
+}
+
+# Attempt to fix /sys related permission errors if sudo is available, exits otherwise
+fn_sys_perm_errors_fix(){
+	sudo -v > /dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		fn_print_dots "Automatically fixing /sys permissions"
+		sleep 2
+		fn_script_log_info "Automatically fixing /sys permissions."
+		if [ "${sysdirpermerror}" == "1" ]; then
+			sudo chmod a+rx "/sys"
+		fi
+		if [ "${classdirpermerror}" == "1" ]; then
+			sudo chmod a+rx "/sys/class"
+		fi
+		if [ "${netdirpermerror}" == "1" ]; then
+			sudo chmod a+rx "/sys/class/net"
+		fi
+		# Run check again to see if it's fixed
+		fn_sys_perm_errors_detect
+		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
+			fn_print_error "Could not fix /sys permissions"
+			fn_script_log_error "Could not fix /sys permissions."
+			sleep 1
+			# Show the user how to fix
+			fn_sys_perm_fix_manually_msg
+		else
+			fn_print_ok_nl "Automatically fixing /sys permissions"
+			fn_script_log_pass "Permissions in /sys fixed"
+			sleep 1
+		fi
+	else
+	# Show the user how to fix
+	fn_sys_perm_fix_manually_msg
+	fi
+}
+
+# Processes to the /sys related permission errors check & fix/info
+fn_sys_perm_error_process(){
+	fn_sys_perm_errors_detect
+	# If any error was found
+	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
+		fn_print_error_nl "Permission error(s) found in /sys"
+		fn_script_log_error "Permission error(s) found in /sys"
+		sleep 1
+		# Run the fix
+		fn_sys_perm_errors_fix
+	fi
+}
+
+# Run perm error detect & fix/alert functions on /sys directories
+
+## Run checks
 fn_check_ownership
 fn_check_permissions
+if [ "${function_selfname}" == "command_start.sh" ]; then
+	fn_sys_perm_error_process
+fi

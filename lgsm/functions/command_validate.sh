@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_validate.sh function
+# LinuxGSM command_validate.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Runs a server validation.
@@ -9,6 +9,7 @@ local commandaction="Validate"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
+	echo ""
 	echo -e "	* Validating may overwrite some customised files."
 	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
 	sleep 3
@@ -19,7 +20,9 @@ fn_validation(){
 
 	cd "${rootdir}/steamcmd"
 
-	if [ $(command -v stdbuf) ]; then
+	# Detects if unbuffer command is available for 32 bit distributions only.
+	info_distro.sh
+	if [ $(command -v stdbuf) ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 

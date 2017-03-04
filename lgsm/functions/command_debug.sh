@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_debug.sh function
+# LinuxGSM command_debug.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Runs the server without tmux and directly from the terminal.
@@ -10,7 +10,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){
-	# Remove lock file
+	# Remove lockfile
 	rm -f "${rootdir}/${lockselfname}"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
@@ -68,14 +68,9 @@ echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${servicename} is already running it will be stopped."
 echo ""
-while true; do
-	read -e -i "y" -p "Continue? [Y/n]" yn
-	case $yn in
-	[Yy]* ) break;;
-	[Nn]* ) echo Exiting; return;;
-	* ) echo "Please answer yes or no.";;
-esac
-done
+if ! fn_prompt_yn "Continue?" Y; then
+	echo Exiting; return
+fi
 
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
@@ -87,8 +82,10 @@ fn_script_log_info "Starting debug"
 sleep 1
 fn_print_ok_nl "Starting debug"
 
-# create lock file.
+# Create lockfile
 date > "${rootdir}/${lockselfname}"
+fn_script_log_info "Lockfile generated"
+fn_script_log_info "${rootdir}/${lockselfname}"
 # trap to remove lockfile on quit.
 trap fn_lockfile_trap INT
 
@@ -104,6 +101,9 @@ else
 	${executable} ${parms}
 fi
 
+fn_print_dots "Stopping debug"
+sleep 1
+fn_print_ok_nl "Stopping debug"
 # remove trap.
 trap - INT
 core_exit.sh

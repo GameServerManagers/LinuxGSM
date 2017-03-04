@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_logs.sh function
+# LinuxGSM install_logs.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Creates log directories.
@@ -14,7 +14,7 @@ if [ "${checklogs}" != "1" ]; then
 	echo "================================="
 fi
 sleep 1
-# Create dir's for the script and console logs
+# Create script and console log directories
 mkdir -v "${rootdir}/log"
 mkdir -v "${scriptlogdir}"
 touch "${scriptlog}"
@@ -23,19 +23,19 @@ if [ -n "${consolelogdir}" ]; then
 	touch "${consolelog}"
 fi
 
-# If a server is source or goldsource, TeamSpeak 3, Starbound, Project Zomhoid create a symbolic link to the game server logs.
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${gamename}" == "TeamSpeak 3" ]||[ "${engine}" == "starbound" ]||[ "${engine}" == "projectzomboid" ]||[ "${engine}" == "unreal" ]; then
+# Create gamelogdir if variable exists but directory does not
+if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
+	mkdir -pv "${gamelogdir}"
+fi
+
+# Symlink gamelogdir to lgsm logs if variable exists
+if [ -n "${gamelogdir}" ]; then
 	if [ ! -h "${rootdir}/log/server" ]; then
 		ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
 	fi
 fi
 
-# If a server is unreal2 or unity3d create a dir.
-if [ "${engine}" == "unreal2" ]||[ "${engine}" == "unity3d" ]||[ "${gamename}" == "Teeworlds" ]||[ "${gamename}" == "seriousengine35" ]; then
-	mkdir -pv "${gamelogdir}"
-fi
-
-# If server uses SteamCMD create a symbolic link to the Steam logs.
+# If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -h "${rootdir}/log/steamcmd" ]; then
 		ln -nfsv "${rootdir}/Steam/logs" "${rootdir}/log/steamcmd"

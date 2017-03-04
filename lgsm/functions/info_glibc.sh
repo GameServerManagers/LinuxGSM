@@ -1,12 +1,18 @@
 #!/bin/bash
-# LGSM info_glibc.sh function
+# LinuxGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Stores details on servers Glibc requirements.
 
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
+if [ "${gamename}" == "ARK: Survival Evolved" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${gamename}" == "Ballistic Overkill" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
+elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Blade Symphony" ]; then
@@ -14,6 +20,21 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	glibcrequired="2.17"
+elif [ "${gamename}" == "Call of Duty" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty 2" ]; then
+	glibcrequired="2.1.3"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty 4" ]; then
+	glibcrequired="2.3"
+	glibcfix="no"
+elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+	glibcrequired="2.3.2"
+	glibcfix="no"
 elif [ "${gamename}" == "Day of Infamy" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -21,6 +42,9 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Empires Mod" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
+elif [ "${gamename}" == "Factorio" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Fistful of Frags" ]; then
@@ -31,7 +55,7 @@ elif [ "${gamename}" == "Garry's Mod" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "GoldenEye: Source" ]; then
 	glibcrequired="2.15"
-	glibcfix="no"
+	glibcfix="yes"
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -45,7 +69,7 @@ elif [ "${gamename}" == "Project Cars" ]; then
 	glibcrequired="2.1"
 	glibcfix="no"
 elif [ "${gamename}" == "Quake 2" ]; then
-	glibcrequired="2.0"
+	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Quake 3: Arena" ]; then
 	glibcrequired="2.1"
@@ -53,11 +77,14 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "Sven Co-op" ]; then
+	glibcrequired="2.18"
+	glibcfix="no"
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Teeworlds" ]; then
-	glibcrequired="2.3"
+	glibcrequired="2.14"
 	glibcfix="no"
 elif [ "${engine}" == "avalanche" ]; then
 	glibcrequired="2.13"
@@ -85,6 +112,9 @@ elif [ "${engine}" == "spark" ]; then
 	glibcfix="yes"
 elif [ "${engine}" == "starbound" ]; then
 	glibcrequired="2.17"
+	glibcfix="no"
+elif [ "${engine}" == "quake" ]; then
+	glibcrequired="2.0"
 	glibcfix="no"
 elif [ "${engine}" == "terraria" ]; then
 	glibcrequired="2.7"
@@ -115,6 +145,9 @@ elif [ "${engine}" == "refractor" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	glibcrequired="2.2.4"
+	glibcfix="no"
+elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	glibcrequired="2.7"
 	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_fastdl.sh function
+# LinuxGSM command_fastdl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -42,14 +42,9 @@ fn_fastdl_init(){
 	sleep 1
 	echo -en "\n"
 	fn_script_log "Started FastDL creation"
-	while true; do
-		read -e -i "y" -p "Continue? [Y/n]" yn
-		case $yn in
-		[Yy]* ) break;;
-		[Nn]* ) exit;;
-		* ) echo "Please answer yes or no.";;
-		esac
-	done
+	if ! fn_prompt_yn "Continue?" Y; then
+		exit
+	fi
 	fn_script_log "Initiating FastDL creation"
 
 	# Check and create directories
@@ -91,27 +86,21 @@ fn_fastdl_config(){
 	# Prompt for clearing old files if directory was already here
 	if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
 		fn_print_dots
-		while true; do
-			read -e -i "y" -p "Clear old FastDL files? [Y/n]" yn
-			case $yn in
-			[Yy]* ) clearoldfastdl="on"; fn_script_log "clearoldfastdl enabled"; fn_print_ok "Clearing Enabled"; break;;
-			[Nn]* ) clearoldfastdl="off"; fn_script_log "clearoldfastdl disabled"; fn_print_ok "Clearing Disabled"; break;;
-			* ) echo "Please answer yes or no.";;
-			esac
-		done
+		if fn_prompt_yn "Clear old FastDL files?" Y; then
+			clearoldfastdl="on"; fn_script_log "clearoldfastdl enabled"; fn_print_ok "Clearing Enabled"
+		else
+			clearoldfastdl="off"; fn_script_log "clearoldfastdl disabled"; fn_print_ok "Clearing Disabled"
+		fi
 		echo -en "\n"
 	fi
 	# Prompt for using bzip2 if it's installed
 	if [ ${bzip2installed} == 1 ]; then
 		fn_print_dots
-		while true; do
-			read -e -i "y" -p "Enable file compression using bzip2? [Y/n]" yn
-			case $yn in
-			[Yy]* ) bzip2enable="on"; fn_script_log "bzip2 enabled"; fn_print_ok "bzip2 Enabled"; break;;
-			[Nn]* ) bzip2enable="off"; fn_script_log "bzip2 disabled"; fn_print_ok "bzip2 Disabled"; break;;
-			* ) echo "Please answer yes or no.";;
-			esac
-		done
+		if fn_prompt_yn "Enable file compression using bzip2?" Y; then
+			bzip2enable="on"; fn_script_log "bzip2 enabled"; fn_print_ok "bzip2 Enabled"
+		else
+			bzip2enable="off"; fn_script_log "bzip2 disabled"; fn_print_ok "bzip2 Disabled"
+		fi
 		echo -en "\n"
 	fi
 }
@@ -119,14 +108,11 @@ fn_fastdl_config(){
 fn_fastdl_gmod_config(){
 	# Prompt for download enforcer, that is using a .lua addfile resource generator
 	fn_print_dots
-	while true; do
-		read -e -i "y" -p "Use client download enforcer? [Y/n]" yn
-		case $yn in
-		[Yy]* ) luaressource="on"; fn_script_log "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"; break;;
-		[Nn]* ) luaressource="off"; fn_script_log "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"; break;;
-		* ) echo "Please answer yes or no.";;
-		esac
-	done
+	if fn_prompt_yn "Use client download enforcer?" Y; then
+		luaressource="on"; fn_script_log "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"
+	else
+		luaressource="off"; fn_script_log "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"
+	fi
 	echo -en "\n"
 }
 

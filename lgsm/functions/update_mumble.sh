@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM update_mumble.sh function
+# LinuxGSM update_mumble.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
@@ -86,6 +86,8 @@ fn_update_mumble_availablebuild(){
 		fn_print_fail "Checking for update: GitHub: Not returning version info"
 		fn_script_log_fatal "Failure! Checking for update: GitHub: Not returning version info"
 		core_exit.sh
+	elif [ "${installer}" == "1" ]; then
+		:
 	else
 		fn_print_ok "Checking for update: GitHub"
 		fn_script_log_pass "Checking for update: GitHub"

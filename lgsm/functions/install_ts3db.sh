@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_ts3db.sh function
+# LinuxGSM install_ts3db.sh function
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
 # Website: https://gameservermanagers.com
@@ -48,14 +48,9 @@ fn_install_ts3db_mariadb(){
 
 if [ -z "${autoinstall}" ]; then
 	echo ""
-	while true; do
-		read -e -i "n" -p "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)? [y/N]" yn
-		case $yn in
-		[Yy]* ) fn_install_ts3db_mariadb && break;;
-		[Nn]* ) break;;
-		* ) echo "Please answer yes or no.";;
-		esac
-	done
+	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)?" N; then
+		fn_install_ts3db_mariadb
+	fi
 else
 fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
 fi

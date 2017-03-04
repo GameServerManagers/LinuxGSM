@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_ro.sh function
+# LinuxGSM fix_ro.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with Red Orchestra.

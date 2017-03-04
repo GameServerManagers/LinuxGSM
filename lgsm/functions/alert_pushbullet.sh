@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM alert_pushbullet.sh function
+# LinuxGSM alert_pushbullet.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Sends Pushbullet alert including the server status.

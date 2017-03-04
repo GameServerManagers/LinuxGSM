@@ -1,9 +1,9 @@
 #!/bin/bash
-# LGSM core_dl.sh function
+# LinuxGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Deals with all downloads for LGSM.
+# Description: Deals with all downloads for LinuxGSM.
 
 # fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
 # filedir: location the file is to be saved: /home/server/lgsm/tmp
@@ -54,7 +54,6 @@ fn_dl_extract(){
 	extractdir="${3}"
 	# extracts archives
 	echo -ne "extracting ${filename}..."
-	fn_script_log_info "Extracting download"
 	mime=$(file -b --mime-type "${filedir}/${filename}")
 
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
@@ -72,20 +71,21 @@ fn_dl_extract(){
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
+		fn_script_log_pass "Extracting download: OK"
 	fi
 }
 
 # Trap to remove file download if canceled before completed
 fn_fetch_trap(){
 	echo ""
-	echo -ne "downloading ${filename}: "
+	echo -ne "downloading ${filename}..."
 	fn_print_canceled_eol_nl
-	fn_script_log_info "downloading ${filename}: CANCELED"
+	fn_script_log_info "Downloading ${filename}...CANCELED"
 	sleep 1
 	rm -f "${filedir}/${filename}" | tee -a "${scriptlog}"
-	echo -ne "downloading ${filename}: "
+	echo -ne "downloading ${filename}..."
 	fn_print_removed_eol_nl
-	fn_script_log_info "downloading ${filename}: REMOVED"
+	fn_script_log_info "Downloading ${filename}...REMOVED"
 	core_exit.sh
 }
 
@@ -117,7 +117,7 @@ fn_fetch_file(){
 			# trap to remove part downloaded files
 			trap fn_fetch_trap INT
 			# if larger file shows progress bar
-			if [ ${filename##*.} == "bz2" ]||[ ${filename##*.} == "jar" ]; then
+			if [ "${filename##*.}" == "bz2" ]||[ "${filename##*.}" == "gz" ]||[ "${filename##*.}" == "zip" ]||[ "${filename##*.}" == "jar" ]; then
 				echo -ne "downloading ${filename}..."
 				sleep 1
 				curlcmd=$(${curlcmd} --progress-bar --fail -L -o "${filedir}/${filename}" "${fileurl}")
@@ -130,7 +130,7 @@ fn_fetch_file(){
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_script_log_fatal "downloading ${filename}: FAIL"
+					fn_script_log_fatal "Downloading ${filename}: FAIL"
 				fi
 				echo -e "${fileurl}" | tee -a "${scriptlog}"
 				echo "${curlcmd}" | tee -a "${scriptlog}"
@@ -138,7 +138,7 @@ fn_fetch_file(){
 			else
 				fn_print_ok_eol_nl
 				if [ -f "${scriptlog}" ]; then
-					fn_script_log_pass "downloading ${filename}: OK"
+					fn_script_log_pass "Downloading ${filename}: OK"
 				fi
 			fi
 			# remove trap

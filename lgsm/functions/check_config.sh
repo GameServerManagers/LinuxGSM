@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_config.sh function
+# LinuxGSM check_config.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Checks if the server config is missing and warns the user if needed.
@@ -15,7 +15,8 @@ if [ ! -e "${servercfgfullpath}" ]; then
 		echo "${servercfgfullpath}"
 		fn_script_log_warn "Configuration file missing!"
 		fn_script_log_warn "${servercfgfullpath}"
-		sleep 2
+		sleep 1
+		install_config.sh
 	fi
 fi
 

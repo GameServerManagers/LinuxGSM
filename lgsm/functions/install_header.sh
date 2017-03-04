@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM install_header.sh function
+# LinuxGSM install_header.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Prints installation header.

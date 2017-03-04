@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM check_ip.sh function
+# LinuxGSM check_ip.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Automatically identifies the server interface IP.
@@ -8,7 +8,7 @@
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ "${gamename}" != "TeamSpeak 3" ] && [ "${gamename}" != "Mumble" ]; then
+if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then
 		ipcommand="/sbin/ip"
 	else

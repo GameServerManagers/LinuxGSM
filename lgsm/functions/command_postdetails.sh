@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM command_postdetails.sh function
+# LinuxGSM command_postdetails.sh function
 # Author: CedarLUG
 # Contributor: CedarLUG
 # Website: https://gameservermanagers.com
@@ -17,7 +17,7 @@ postdetails=yes
 
 # The options for posttarget are:
 # The default destination - hastebin
-# posttarget="http://hastebin.com"
+# posttarget="https://hastebin.com"
 #
 # Secondary destination - pastebin
 # posttarget="http://pastebin.com
@@ -31,12 +31,12 @@ postdetails=yes
 # to post to pastebin, or
 #  rustserver@gamerig:~$ posttarget= ./rustserver pd
 # to leave the output on the filesystem.
-posttarget=${posttarget="http://hastebin.com"}
+posttarget=${posttarget="https://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
 # This, too, may be overridden from the command line at the top-level
-postexpire="${postexpire="1W"}"
+postexpire="${postexpire="30D"}"
 
 # This file sources the command_details.sh file to leverage all
 # of the already-defined functions.  To keep the command_details.sh
@@ -126,16 +126,16 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 
 	 # Output the resulting link.
 	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
-	echo "  * url: ${posttarget}${link}"
-elif [ "${posttarget}" == "http://hastebin.com" ] ; then
-	fn_print_dots "Posting details to hastebin.com for ${postexpire}"
+	echo "  Please share the following url for support: ${posttarget}${link}"
+elif [ "${posttarget}" == "https://hastebin.com" ] ; then
+	fn_print_dots "Posting details to hastebin.com"
 	sleep 1
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
-	link=$(curl -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
+	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
-	echo "  * url: ${posttarget}/${link}"
+	echo "  Please share the following url for support: ${posttarget}/${link}"
 else
 	 fn_print_warn_nl Review the output in "${tmpfile}"
 	 core_exit.sh

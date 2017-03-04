@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM fix_csgo.sh function
+# LinuxGSM fix_csgo.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Resolves various issues with CS:GO.

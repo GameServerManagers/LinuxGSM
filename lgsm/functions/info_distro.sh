@@ -1,5 +1,5 @@
 #!/bin/bash
-# LGSM info_distro.sh function
+# LinuxGSM info_distro.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
@@ -73,6 +73,9 @@ physmemtotalmb=$(free -m | awk '/Mem:/ {print $2}')
 physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
 physmemfree=$(free ${humanreadable} | awk '/Mem:/ {print $4}')
 physmemcached=$(free ${humanreadable} | awk '/cache:/ {print $4}')
+if [ -z "${physmemcached}" ]; then
+	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $5}')
+fi
 swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
 swapused=$(free ${humanreadable} | awk '/Swap:/ {print $3}')
 swapfree=$(free ${humanreadable} | awk '/Swap:/ {print $4}')
@@ -85,19 +88,19 @@ totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
 usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
 availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
 
-## LGSM used space total.
+## LinuxGSM used space total.
 rootdirdu=$(du -sh "${rootdir}" 2> /dev/null | awk '{print $1}')
 if [ -z "${rootdirdu}" ]; then
 	rootdirdu="0M"
 fi
 
-## LGSM used space in serverfiles dir.
+## LinuxGSM used space in serverfiles dir.
 filesdirdu=$(du -sh "${filesdir}" 2> /dev/null | awk '{print $1}')
 if [ -z "${filesdirdu}" ]; then
 	filesdirdu="0M"
 fi
 
-## LGSM used space total minus backup dir.
+## LinuxGSM used space total minus backup dir.
 rootdirduexbackup=$(du -sh --exclude="${backupdir}" "${filesdir}" 2> /dev/null | awk '{print $1}')
 if [ -z "${rootdirduexbackup}" ]; then
 	rootdirduexbackup="0M"
@@ -105,19 +108,27 @@ fi
 
 ## Backup info
 if [ -d "${backupdir}" ]; then
-	# used space in backups dir.
+	# Used space in backups dir.
 	backupdirdu=$(du -sh "${backupdir}" | awk '{print $1}')
+	# If no backup dir, size is 0M
 	if [ -z "${backupdirdu}" ]; then
 		backupdirdu="0M"
 	fi
 
-	# number of backups.
-	backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
-	# most recent backup.
-	lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
-	# date of most recent backup.
-	lastbackupdate=$(date -r "${lastbackup}")
-	# size of most recent backup.
-	lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
+	# number of backups set to 0 by default
+	backupcount=0
 
+	# If there are backups in backup dir.
+	if [ $(find "${backupdir}" -name "*.tar.gz" | wc -l) -ne "0" ]; then
+		# number of backups.
+		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
+		# most recent backup.
+		lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
+		# date of most recent backup.
+		lastbackupdate=$(date -r "${lastbackup}")
+		# no of days since last backup.
+		lastbackupdaysago=$(( ( $(date +'%s') - $(date -r "${lastbackup}" +'%s') )/60/60/24 ))
+		# size of most recent backup.
+		lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
+	fi
 fi

@@ -1,53 +1,75 @@
 #!/bin/bash
-# TravisCI Tests: Teamspeak 3
-# Server Management Script
+# Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
+# License: MIT License, Copyright (c) 2017 Daniel Gibbs
+# Purpose: TravisCI Tests: Teamspeak 3 | Server Management Script
+# Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
+# Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
-version="101716"
 
+# Debugging
 if [ -f ".dev-debug" ]; then
 	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
 
-#### Variables ####
+version="170219"
 
-# Notification Alerts
+##########################
+######## Settings ########
+##########################
+
+## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
+# Edit serverfiles/ts3-server.ini after installation
+
+#### LinuxGSM Settings ####
+
+## Notification Alerts
 # (on|off)
-
-# Email
+# Email Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Email
 emailalert="off"
 email="email@example.com"
-#emailfrom="email@example.com"
+emailfrom=""
 
-# Pushbullet
-# https://www.pushbullet.com/#settings
+# Pushbullet Alerts | https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet
 pushbulletalert="off"
 pushbullettoken="accesstoken"
+channeltag=""
 
-# Start Variables
+## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
 
-fn_parms(){
-parms=""
-}
+## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
+maxbackups="4"
+maxbackupdays="30"
+stoponbackup="on"
 
-#### Advanced Variables ####
+## Logging | https://github.com/GameServerManagers/LinuxGSM/wiki/Logging
+consolelogging="on"
+logdays="7"
 
-# Github Branch Select
+#### LinuxGSM Advanced Settings ####
+
+## Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="$TRAVIS_BRANCH"
 
-# Server Details
-gamename="Teamspeak 3"
-servername="Teamspeak 3 Server"
+## LinuxGSM Server Details
+# Do not edit
+gamename="TeamSpeak 3"
+servername="TeamSpeak 3 Server"
+
+## Service Name | https://github.com/GameServerManagers/LinuxGSM/wiki/Multiple-Servers
 servicename="ts3-server"
 
-# Directories
+#### Directories ####
+# Edit with care
+
+## Work Directories
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 lockselfname=".${servicename}.lock"
@@ -56,6 +78,8 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
+
+## Server Specific Directories
 systemdir="${filesdir}"
 executabledir="${filesdir}"
 executable="./ts3server_startscript.sh"
@@ -63,20 +87,23 @@ servercfg="${servicename}.ini"
 servercfgdefault="ts3server.ini"
 servercfgdir="${filesdir}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
+
+## Backup Directory
 backupdir="${rootdir}/backups"
 
-# Logging
-logdays="7"
+## Logging Directories
 gamelogdir="${filesdir}/logs"
 scriptlogdir="${rootdir}/log/script"
-
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
 
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%d-%m-%Y-%H-%M-%S').log"
+## Logs Naming
+scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
-##### Script #####
-# Do not edit
+########################
+######## Script ########
+###### Do not edit #####
+########################
 
 # Fetches core_dl for file downloads
 fn_fetch_core_dl(){
