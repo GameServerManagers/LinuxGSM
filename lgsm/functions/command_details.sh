@@ -487,6 +487,17 @@ fn_details_mumble(){
 	} | column -s $'\t' -t
 }
 
+fn_details_projectcars(){
+	echo -e "netstat -atunp | grep DedicatedS"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_details_projectzomboid(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
