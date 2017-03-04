@@ -6,17 +6,10 @@
 # Description: Creates a FastDL directory.
 
 local commandname="FASTDL"
-local commandaction="FastDL Generator"
+local commandaction="FastDL"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 check.sh
-
-# Only Source supports FastDL
-if [ "${engine}" != "source" ]; then
-	fn_print_error "${gamename} does not support FastDL"
-	fn_script_log_error "${gamename} does not support FastDL"
-	core_exit.sh
-fi
 
 # Directories
 webdir="${rootdir}/public_html"
@@ -31,27 +24,25 @@ fn_check_bzip2(){
 	# Returns true if not installed
 	if [ -z "$(command -v bzip2)" ]; then
 		bzip2installed="0"
-		fn_print_info "bzip2 is not installed! Install it to enable file compression"
-		fn_script_log_info "bzip2 is not installed. Install it to enable file compression."
-		fn_script_log_info "https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL#bzip2-compression"
+		fn_print_info "bzip2 is not installed !"
+		fn_script_log_info "bzip2 is not installed"
 		echo -en "\n"
 		sleep 1
-		echo " * https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL#bzip2-compression"
+		echo "We advise using it"
+		echo "For more information, see https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL#bzip2-compression"
 		sleep 2
-		echo ""
 	else
 		bzip2installed="1"
 	fi
 }
 
-# Initiates FastDL
 fn_fastdl_init(){
-	fn_print_header
-	fn_script_log "Started FastDL Generator"
-	sleep 1
-	fn_check_bzip2
 	# User confirmation
-	if ! fn_prompt_yn "Build FastDL directory?" Y; then
+	fn_print_ok "Welcome to LGSM's FastDL generator"
+	sleep 1
+	echo -en "\n"
+	fn_script_log "Started FastDL creation"
+	if ! fn_prompt_yn "Continue?" Y; then
 		exit
 	fi
 	fn_script_log "Initiating FastDL creation"
@@ -72,30 +63,28 @@ fn_fastdl_init(){
 	fi
 	if [ ! -d "${fastdldir}" ]; then
 		# No directory, won't ask for removing old ones
-		newfastdl="true"
+		newfastdl=1
 		fn_print_dots "Creating fastdl directory"
 		sleep 0.5
 		mkdir "${fastdldir}"
 		fn_print_ok "Created fastdl directory"
-		fn_script_log "Created fastdl directory"
+		fn_script_log "FastDL created fastdl directory"
 		sleep 1
 		echo -en "\n"
 		clearoldfastdl="off" # Nothing to clear
 	elif  [ "$(ls -A "${fastdldir}")" ]; then
-		newfastdl="false"
-	else
-		newfastdl="true"
+		newfastdl=0
 	fi
 }
 
-# Prompts user for FastDL creation settings
 fn_fastdl_config(){
+	# Global settings for FastDL creation
 	fn_print_info "Entering configuration"
 	fn_script_log "Configuration"
 	sleep 2
 	echo -en "\n"
 	# Prompt for clearing old files if directory was already here
-	if [ "${newfastdl}" == "false" ]; then
+	if [ -n "${newfastdl}" ] && [ "${newfastdl}" == "0" ]; then
 		fn_print_dots
 		if fn_prompt_yn "Clear old FastDL files?" Y; then
 			clearoldfastdl="on"; fn_script_log "clearoldfastdl enabled"; fn_print_ok "Clearing Enabled"
@@ -104,50 +93,27 @@ fn_fastdl_config(){
 		fi
 		echo -en "\n"
 	fi
-	# Settings for bzip2 users
+	# Prompt for using bzip2 if it's installed
 	if [ ${bzip2installed} == 1 ]; then
-		# Prompt for using bzip2 if it's installed
 		fn_print_dots
-		if fn_prompt_yn "Enable bzip2 file compression?" Y; then
+		if fn_prompt_yn "Enable file compression using bzip2?" Y; then
 			bzip2enable="on"; fn_script_log "bzip2 enabled"; fn_print_ok "bzip2 Enabled"
 		else
 			bzip2enable="off"; fn_script_log "bzip2 disabled"; fn_print_ok "bzip2 Disabled"
 		fi
 		echo -en "\n"
-		if [ "${gamename}" == "Garry's Mod" ]&&[ "${bzip2enable}" == "on" ]; then
-				# Prompt for clearing uncompressed files, can save some space but might cause issues for gmod
-				fn_print_dots
-				if fn_prompt_yn "Clear non-bzip2 FastDL files?" Y; then
-					clearnonbzip2="on"; fn_script_log "Clearing non-bzip2 files Enabled."; fn_print_ok "Clearing non-bzip2 files Enabled"
-				else
-					clearnonbzip2="off"; fn_script_log "Clearing non-bzip2 files Disabled."; fn_print_ok "Clearing non-bzip2 files Disabled"
-				fi
-				echo -en "\n"
-		else
-			# Other games default remove non bzip2 files
-			clearnonbzip2="on"
-			fn_script_log "Original uncompressed fastDL files won't be kept."
-		fi
 	fi
-	# Garry's Mod Specific
-	if [ "${gamename}" == "Garry's Mod" ]; then
-		# Prompt to clear addons dir from fastdl, can use unnecessary space or be required depending on addon's file structures
-		fn_print_dots
-		if fn_prompt_yn "Clear addons dir from fastdl dir?" Y; then
-			cleargmodaddons="on"; fn_script_log "Addons clearing Enabled."; fn_print_ok "Addons clearing Enabled"
-		else
-			cleargmodaddons="off"; fn_script_log "Addons clearing Disabled."; fn_print_ok "Addons clearing Disabled"
-		fi
-		echo -en "\n"
-		# Prompt for download enforcer, which is using a .lua addfile resource generator
-		fn_print_dots
-		if fn_prompt_yn "Use client download enforcer?" Y; then
-			luaressource="on"; fn_script_log "DL enforcer Enabled."; fn_print_ok "Enforcer Enabled"
-		else
-			luaressource="off"; fn_script_log "DL enforcer Disabled."; fn_print_ok "Enforcer Disabled"
-		fi
-		echo -en "\n"
+}
+
+fn_fastdl_gmod_config(){
+	# Prompt for download enforcer, that is using a .lua addfile resource generator
+	fn_print_dots
+	if fn_prompt_yn "Use client download enforcer?" Y; then
+		luaressource="on"; fn_script_log "DL enforcer Enabled"; fn_print_ok "Enforcer Enabled"
+	else
+		luaressource="off"; fn_script_log "DL enforcer Disabled"; fn_print_ok "Enforcer Disabled"
 	fi
+	echo -en "\n"
 }
 
 fn_clear_old_fastdl(){
@@ -164,7 +130,7 @@ fn_clear_old_fastdl(){
 	fi
 }
 
-fn_fastdl_gmod(){
+fn_gmod_fastdl(){
 	# Copy all needed files for FastDL
 	echo ""
 	fn_print_dots "Starting gathering all needed files"
@@ -173,7 +139,7 @@ fn_fastdl_gmod(){
 	echo -en "\n"
 
 	# No choice to cd to the directory, as find can't then display relative directory
-	cd "${systemdir}" || exit
+	cd "${systemdir}"
 
 	# Map Files
 	fn_print_dots "Copying map files..."
@@ -244,27 +210,18 @@ fn_fastdl_gmod(){
 	# Correct addons directory structure for FastDL
 	if [ -d "${fastdldir}/addons" ]; then
 		fn_print_info "Adjusting addons' file structure"
-		fn_script_log "Adjusting addons' file structure"
+		fn_script_log "Adjusting addon's file structure"
 		sleep 1
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-		fn_print_ok "Adjusted addons' file structure"
+	#Don't remove yet	rm -R "${fastdldir:?}/addons"
+		fn_print_ok "Adjusted addon's file structure"
 		sleep 1
 		echo -en "\n"
-		# Clear addons directory in fastdl
-		if [ "${cleargmodaddons}" == "on" ]; then
-			fn_print_info "Clearing addons dir from fastdl dir"
-			fn_script_log "Clearing addons dir from fastdl dir"
-			sleep 1
-			rm -R "${fastdldir:?}/addons"
-			fn_print_ok "Cleared addons dir from fastdl dir"
-			sleep 1
-			echo -en "\n"
-		fi
 	fi
 
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
 	if [ -d "${fastdldir}/lua" ]; then
-		fn_print_dots "Typical DarkRP files detected, fixing"
+		fn_print_dots "Typical DarkRP shit detected, fixing"
 		sleep 2
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 		fn_print_ok "Stupid DarkRP file structure fixed"
@@ -273,80 +230,8 @@ fn_fastdl_gmod(){
 	fi
 }
 
-fn_fastdl_source(){
-	# Copy all needed files for FastDL
-	echo ""
-	fn_print_dots "Starting gathering all needed files"
-	fn_script_log "Starting gathering all needed files"
-	sleep 1
-	echo -en "\n"
-
-	# Map Files
-	fn_print_dots "Copying map files..."
-	fn_script_log "Copying map files"
-	sleep 0.5
-	mkdir "${fastdldir}/maps"
-	find "${systemdir}/maps" -name '*.bsp' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.ain' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.nav' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.jpg' -exec cp {} "${fastdldir}/maps" \;
-	find "${systemdir}/maps" -name '*.txt' -exec cp {} "${fastdldir}/maps" \;
-	fn_print_ok "Map files copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Materials
-	fn_print_dots "Copying materials..."
-	fn_script_log "Copying materials"
-	sleep 0.5
-	mkdir "${fastdldir}/materials"
-	find "${systemdir}/materials" -name '*.vtf' -exec cp {} "${fastdldir}/materials" \;
-	find "${systemdir}/materials" -name '*.vmt' -exec cp {} "${fastdldir}/materials" \;
-	find "${systemdir}/materials" -name '*.vbf' -exec cp {} "${fastdldir}/materials" \;
-	fn_print_ok "Materials copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Models
-	fn_print_dots "Copying models..."
-	fn_script_log "Copying models"
-	sleep 1
-	mkdir "${fastdldir}/models"
-	find "${systemdir}/models" -name '*.vtx' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.vvd' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.mdl' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.phy' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.jpg' -exec cp {} "${fastdldir}/models" \;
-	find "${systemdir}/models" -name '*.png' -exec cp {} "${fastdldir}/models" \;
-	fn_print_ok "Models copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Particles
-	fn_print_dots "Copying particles..."
-	fn_script_log "Copying particles"
-	sleep 0.5
-	mkdir "${fastdldir}/particles"
-	find "${systemdir}" -name '*.pcf' -exec cp {} "${fastdldir}/particles" \;
-	fn_print_ok "Particles copied"
-	sleep 0.5
-	echo -en "\n"
-
-	# Sounds
-	fn_print_dots "Copying sounds..."
-	fn_script_log "Copying sounds"
-	sleep 0.5
-	mkdir "${fastdldir}/sound"
-	find "${systemdir}" -name '*.wav' -exec cp {} "${fastdldir}/sound" \;
-	find "${systemdir}" -name '*.mp3' -exec cp {} "${fastdldir}/sound" \;
-	find "${systemdir}" -name '*.ogg' -exec cp {} "${fastdldir}/sound" \;
-	fn_print_ok "Sounds copied"
-	sleep 0.5
-	echo -en "\n"
-}
-
 # Generate lua file that will force download any file into the FastDL directory
-fn_fastdl_gmod_lua_enforcer(){
+fn_lua_fastdl(){
 	# Remove lua file if luaressource is turned off and file exists
 	echo ""
 	if [ "${luaressource}" == "off" ]; then
@@ -375,8 +260,8 @@ fn_fastdl_gmod_lua_enforcer(){
 		fn_script_log "Generating new download enforcer"
 		sleep 1
 		# Read all filenames and put them into a lua file at the right path
-		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
-			echo "resource.AddFile( "\""${line}"\"" )" >> "${luafastdlfullpath}"
+		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
+			echo "resource.AddFile( "\""${line}"\"" )" >> ${luafastdlfullpath}
 		done
 		fn_print_ok "Download enforcer generated"
 		fn_script_log "Download enforcer generated"
@@ -396,50 +281,41 @@ fn_fastdl_bzip2(){
 		fn_print_dots "Compressing files using bzip2..."
 		fn_script_log "Compressing files using bzip2..."
 		# bzip2 all files that are not already compressed (keeping original files)
-		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
+		find "${fastdldir}" \( -type f ! -name "*.bz2" \) -exec bzip2 -qk \{\} \;
 		fn_print_ok "bzip2 compression done"
 		fn_script_log "bzip2 compression done"
 		sleep 1
 		echo -en "\n"
-		# Clear non compressed FastDL files
-		if [ "${clearnonbzip2}" == "on" ]; then
-			fn_print_dots "Clearing original uncompressed FastDL files..."
-			sleep 1
-			find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -exec rm {} \;
-			fn_print_ok "Cleared uncompressed FastDL files"
-			fn_script_log "Cleared uncompressed FastDL files."
-		fi
 	fi
 }
 
 fn_fastdl_completed(){
 	# Finished message
 	echo ""
-	fn_print_ok "FastDL created!"
+	fn_print_ok "Congratulations, it's done!"
 	fn_script_log "FastDL job done"
 	sleep 2
 	echo -en "\n"
 	echo ""
-	fn_print_info_nl "Need more documentation?"
-	echo " * https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL"
+	fn_print_info "Need more documentation? See https://github.com/GameServerManagers/LinuxGSM/wiki/FastDL"
 	echo -en "\n"
 	if [ "$bzip2installed" == "0" ]; then
-		echo "By the way, you'd better install bzip2 and re-run this command!"
+	echo "By the way, you'd better install bzip2 and re-run this command!"
 	fi
-	echo "Credits: UltimateByte"
+	echo "Credits : UltimateByte"
 }
 
-# Run functions
-fn_check_bzip2
-fn_fastdl_init
-fn_fastdl_config
-fn_clear_old_fastdl
+# Game checking and functions running
+# Garry's Mod
 if [ "${gamename}" == "Garry's Mod" ]; then
-	fn_fastdl_gmod
-	fn_fastdl_gmod_lua_enforcer
-else
-	fn_fastdl_source
+	fn_check_bzip2
+	fn_fastdl_init
+	fn_fastdl_config
+	fn_fastdl_gmod_config
+	fn_clear_old_fastdl
+	fn_gmod_fastdl
+	fn_lua_fastdl
+	fn_fastdl_bzip2
+	fn_fastdl_completed
+	exit
 fi
-fn_fastdl_bzip2
-fn_fastdl_completed
-core_exit.sh
