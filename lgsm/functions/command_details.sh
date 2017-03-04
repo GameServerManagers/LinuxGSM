@@ -315,7 +315,7 @@ fn_details_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -484,6 +484,17 @@ fn_details_mumble(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_details_projectcars(){
+	echo -e "netstat -atunp | grep DedicatedS"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -840,6 +851,8 @@ fn_display_details() {
 		fn_details_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_details_hurtworld
+	elif [ "${gamename}" == "Project Cars" ]; then
+		fn_details_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then
 		fn_details_quake
 	elif [ "${gamename}" == "Quake 2" ]; then
