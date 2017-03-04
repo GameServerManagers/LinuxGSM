@@ -341,10 +341,10 @@ fn_fastdl_source(){
 
 # Generate lua file that will force download any file into the FastDL directory
 fn_fastdl_gmod_lua_enforcer(){
-	# Remove lua file if luaressource is turned off and file exists
+	# Clear old lua file
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo -en "removing existing download enforcer: ${luafastdlfile}..."
-		rm -R "${luafastdlfullpath:?}"
+		rm "${luafastdlfullpath:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -355,9 +355,10 @@ fn_fastdl_gmod_lua_enforcer(){
 			fn_script_log_pass "removing existing download enforcer ${luafastdlfullpath}"
 		fi
 	fi
-	# Remove old lua file and generate a new one if user said yes
+	# Generate new one if user said yes
 	if [ "${luaressource}" == "on" ]; then
 		echo -en "creating new download enforcer: ${luafastdlfile}..."
+		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path
 		find "${fastdldir:?}" \( -type f -name "*.bz2" \) -printf '%P\n' | while read line; do
 			echo "resource.AddFile( "\""${line}"\"" )" >> "${luafastdlfullpath}"
