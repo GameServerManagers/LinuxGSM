@@ -360,7 +360,7 @@ fn_fastdl_gmod_lua_enforcer(){
 		echo -en "creating new download enforcer: ${luafastdlfile}..."
 		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path
-		find "${fastdldir:?}" \( -type f -name "*.bz2" \) -printf '%P\n' | while read line; do
+		find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n' | while read line; do
 			echo "resource.AddFile( "\""${line}"\"" )" >> "${luafastdlfullpath}"
 		done
 		exitcode=$?
