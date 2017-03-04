@@ -149,3 +149,5 @@ rm -f "${tmpdir}/.depdetect_readelf"
 
 rm -f "${tmpdir}/.depdetect_unknown"
 rm -f "${tmpdir}/.depdetect_unknown_uniq"
+
+core_exit.sh
