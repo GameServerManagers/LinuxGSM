@@ -174,12 +174,11 @@ for i in "${optcommands[@]}"; do
 				if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command
 					${currentopt[index+1]}
+					core_exit.sh
 					break
 				fi
 			done
 		done
-		break
-		core_exit.sh
 	fi
 done
 
