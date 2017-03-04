@@ -13,7 +13,7 @@ check.sh
 
 # Directories
 if [ -z "${webdir}" ]; then
-	webdir="${lgsmdir}/public_html"
+	webdir="${rootdir}/public_html"
 fi
 fastdldir="${webdir}/fastdl"
 addonsdir="${systemdir}/addons"
@@ -121,6 +121,88 @@ fn_clear_old_fastdl(){
 }
 
 fn_fastdl_gmod(){
+	# Copy all needed files for FastDL
+	if [ -n "${copyflag}" ]; then
+		# Removes all existing FastDL files.
+		if [ -d "${fastdldir}" ]; then
+			echo -e "removing existing FastDL files"
+			sleep 0.1
+			fileswc=1
+			totalfileswc=$(find "${fastdldir}" | wc -l)
+			tput sc
+			while read -r filetoremove; do
+				tput rc; tput el
+				printf "removing ${fileswc} / ${totalfileswc} : ${filetoremove}..."
+				((fileswc++))
+				rm -rf "${filetoremove}"
+				((exitcode=$?))
+				if [ ${exitcode} -ne 0 ]; then
+					fn_script_log_fatal "Removing ${filetoremove}"
+					break
+				else
+					fn_script_log_pass "Removing ${filetoremove}"
+				fi
+				sleep 0.01
+			done < <(find "${fastdldir}")
+			if [ ${exitcode} -ne 0 ]; then
+				fn_print_fail_eol_nl
+				core_exit.sh
+			else
+				fn_print_ok_eol_nl
+			fi
+		fi
+		fn_fastdl_dirs
+
+		echo -e "copying files to ${fastdldir}"
+		fn_script_log_info "Copying files to ${fastdldir}"
+	else
+		if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
+			rm -f "${tmpdir}/fastdl_files_to_compress.txt"
+		fi
+		echo -e "analysing required files"
+		fn_script_log_info "Analysing required files"
+	fi
+	cd "${systemdir}"
+	local allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
+	for allowed_extention in "${allowed_extentions_array[@]}"
+	do
+		fileswc=0
+		tput sc
+		if [ -z "${copyflag}" ]; then
+			tput rc; tput el
+			printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
+		fi
+		while read -r ext; do
+			((fileswc++))
+			if [ -n "${copyflag}" ]; then
+				tput rc; tput el
+				printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
+				sleep 0.01
+				cp --parents "${ext}" "${fastdldir}"
+				exitcode=$?
+				if [ ${exitcode} -ne 0 ]; then
+					fn_print_fail_eol_nl
+					fn_script_log_fatal "Copying ${ext} > ${fastdldir}"
+					core_exit.sh
+				else
+					fn_script_log_pass "Copying ${ext} > ${fastdldir}"
+				fi
+			else
+				tput rc; tput el
+				printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+				sleep 0.01
+				echo "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+			fi
+		done < <(find . -type f -iname ${allowed_extention})
+
+		if [ -z "${copyflag}" ]; then
+			tput rc; tput el
+			printf "gathering ${allowed_extention} : ${fileswc}..."
+		fi
+		if [ ${fileswc} != 0 ]&&[ -n "${copyflag}" ]||[ -z "${copyflag}" ]; then
+			fn_print_ok_eol_nl
+		fi
+	done
 	# Correct addons directory structure for FastDL
 	if [ -d "${fastdldir}/addons" ]; then
 		echo -en "updating addons file structure..."
@@ -136,7 +218,7 @@ fn_fastdl_gmod(){
 		fi
 		# Clear addons directory in fastdl
 		if [ "${cleargmodaddons}" == "on" ]; then
-			echo -en "clearing addons dir from fastdl dir"
+			echo -en "clearing addons dir from fastdl dir..."
 			sleep 1
 			rm -R "${fastdldir:?}/addons"
 			exitcode=$?
@@ -164,6 +246,31 @@ fn_fastdl_gmod(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "correcting DarkRP files"
 		fi
+	fi
+	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
+		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
+		# Calculates total file size
+		while read dufile; do
+			filesize=$(du -b "${dufile}"| awk '{ print $1 }')
+			filesizetotal=$(( ${filesizetotal} + ${filesize} ))
+		done <"${tmpdir}/fastdl_files_to_compress.txt"
+	fi
+
+	if [ -z "${copyflag}" ]; then
+		echo "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
+		fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
+		rm "${tmpdir}/fastdl_files_to_compress.txt"
+		if fn_prompt_yn "Continue?" Y; then
+			copyflag=1
+			fn_fastdl_gmod
+		else
+			core_exit.sh
+		fi
+	else
+		if [ "${gamename}" == "Garry's Mod" ]; then
+			fn_fastdl_gmod_lua_enforcer
+		fi
+		fn_fastdl_bzip2
 	fi
 }
 
@@ -244,30 +351,14 @@ fn_fastdl_source(){
 	for directory in "${directorys_array[@]}"
 	do
 		if [ -d "${systemdir}/${directory}" ]; then
-			if [ "${gamename}" == "Garry's Mod" ]; then
-				if [ "${directory}" == "maps" ]; then
-					local allowed_extentions_array=( "*.bsp" "*.ain" )
-				elif [ "${directory}" == "materials" ]; then
-					local allowed_extentions_array=( "*.vtf" "*.vmt" )
-				elif [ "${directory}" == "models" ]; then
-					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" )
-				elif [ "${directory}" == "particles" ]; then
-					local allowed_extentions_array=( "*.pcf" )
-				elif [ "${directory}" == "sounds" ]; then
-					local allowed_extentions_array=( "*.wav" "*.mp3" "*.ogg" )
-				elif [ "${directory}" == "resources" ]; then
-					local allowed_extentions_array=( "*.otf" "*.ttf" "*.png" )
-				fi
-			else
-				if [ "${directory}" == "maps" ]; then
-					local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
-				elif [ "${directory}" == "materials" ]; then
-					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
-				elif [ "${directory}" == "particles" ]; then
-					local allowed_extentions_array=( "*.pcf" )
-				elif [ "${directory}" == "sounds" ]; then
-					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
-				fi
+			if [ "${directory}" == "maps" ]; then
+				local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+			elif [ "${directory}" == "materials" ]; then
+				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+			elif [ "${directory}" == "particles" ]; then
+				local allowed_extentions_array=( "*.pcf" )
+			elif [ "${directory}" == "sounds" ]; then
+				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.mdl" "*.phy" "*.jpg" "*.png" )
 			fi
 			for allowed_extention in "${allowed_extentions_array[@]}"
 			do
@@ -380,7 +471,7 @@ fn_fastdl_gmod_lua_enforcer(){
 fn_fastdl_bzip2(){
 	while read -r filetocompress; do
 		echo -en "compressing ${filetocompress}..."
-		bzip2 "${filetocompress}"
+		bzip2 -f "${filetocompress}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -406,9 +497,11 @@ fn_print_header
 echo "More info: https://git.io/vyk9a"
 echo ""
 fn_fastdl_config
-fn_fastdl_source
+
 if [ "${gamename}" == "Garry's Mod" ]; then
 	fn_fastdl_gmod
+else
+	fn_fastdl_source
 fi
 fn_fastdl_completed
 core_exit.sh
