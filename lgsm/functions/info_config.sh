@@ -742,6 +742,9 @@ elif [ "${gamename}" == "Quake Live" ]; then
 # Minecraft
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_info_config_minecraft
+# Project Cars
+elif [ "${gamename}" == "Project Cars" ]; then
+	fn_info_config_projectzomboid
 # Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_info_config_projectzomboid
