@@ -263,11 +263,11 @@ fn_fastdl_gmod(){
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "updating addons file structure"
+			fn_script_log_fatal "Updating addons file structure"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "updating addons file structure"
+			fn_script_log_pass "Updating addons file structure"
 		fi
 		# Clear addons directory in fastdl
 		echo -en "clearing addons dir from fastdl dir..."
@@ -276,11 +276,11 @@ fn_fastdl_gmod(){
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "clearing addons dir from fastdl dir"
+			fn_script_log_fatal "Clearing addons dir from fastdl dir"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "clearing addons dir from fastdl dir"
+			fn_script_log_pass "Clearing addons dir from fastdl dir"
 		fi
 	fi
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
@@ -291,11 +291,11 @@ fn_fastdl_gmod(){
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "correcting DarkRP files"
+			fn_script_log_fatal "Correcting DarkRP files"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "correcting DarkRP files"
+			fn_script_log_pass "Correcting DarkRP files"
 		fi
 	fi
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
@@ -375,11 +375,11 @@ fn_fastdl_gmod_dl_enforcer(){
 		exitcode=$?
 		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "removing existing download enforcer ${luafastdlfullpath}"
+			fn_script_log_fatal "Removing existing download enforcer ${luafastdlfullpath}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "removing existing download enforcer ${luafastdlfullpath}"
+			fn_script_log_pass "Removing existing download enforcer ${luafastdlfullpath}"
 		fi
 	fi
 	# Generate new one if user said yes
@@ -393,11 +393,11 @@ fn_fastdl_gmod_dl_enforcer(){
 		exitcode=$?
 		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "creating new download enforcer ${luafastdlfullpath}"
+			fn_script_log_fatal "Creating new download enforcer ${luafastdlfullpath}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "creating new download enforcer ${luafastdlfullpath}"
+			fn_script_log_pass "Creating new download enforcer ${luafastdlfullpath}"
 		fi
 	fi
 }
@@ -410,10 +410,10 @@ fn_fastdl_bzip2(){
 		exitcode=$?
 		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "compressing ${filetocompress}"
+			fn_script_log_fatal "Compressing ${filetocompress}"
 			core_exit.sh
 		else
-			fn_script_log_pass "compressing ${filetocompress}"
+			fn_script_log_pass "Compressing ${filetocompress}"
 		fi
 	done < <(find  "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
 	fn_print_ok_eol_nl
