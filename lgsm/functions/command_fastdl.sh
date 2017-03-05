@@ -165,13 +165,13 @@ fn_fastdl_gmod(){
 		tput sc
 		if [ -z "${copyflag}" ]; then
 			tput rc; tput el
-			printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
+			printf "copying ${allowed_extention} : ${fileswc}..."
 		fi
 		while read -r ext; do
 			((fileswc++))
 			if [ -n "${copyflag}" ]; then
 				tput rc; tput el
-				printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
+				printf "copying ${allowed_extention} : ${fileswc}..."
 				sleep 0.01
 				cp --parents "${ext}" "${fastdldir}"
 				exitcode=$?
@@ -184,7 +184,7 @@ fn_fastdl_gmod(){
 				fi
 			else
 				tput rc; tput el
-				printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+				printf "gathering ${allowed_extention} : ${fileswc}..."
 				sleep 0.01
 				echo "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 			fi
