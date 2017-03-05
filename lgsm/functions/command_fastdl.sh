@@ -63,8 +63,8 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 fi
 
 fn_clear_old_fastdl(){
-	# Clearing old FastDL	
-	if [ -d "${fastdldir}" ];then	
+	# Clearing old FastDL
+	if [ -d "${fastdldir}" ]; then
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
 		rm -R "${fastdldir:?}"/*
 		exitcode=$?
@@ -112,7 +112,7 @@ fn_clear_old_fastdl_alt(){
 
 fn_fastdl_dirs(){
 	# Check and create directories
-	if [ ! -d "${webdir}" ];then
+	if [ ! -d "${webdir}" ]; then
 		echo -en "creating web directory ${webdir}..."
 		mkdir -p "${webdir}"
 		exitcode=$?
@@ -126,7 +126,7 @@ fn_fastdl_dirs(){
 		fi
 		sleep 0.5
 	fi
-	if [ ! -d "${fastdldir}" ];then
+	if [ ! -d "${fastdldir}" ]; then
 		echo -en "creating fastdl directory ${fastdldir}..."
 		mkdir -p "${fastdldir}"
 		exitcode=$?
