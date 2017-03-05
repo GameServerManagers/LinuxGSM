@@ -259,11 +259,6 @@ fn_fastdl_gmod(){
 		else
 			core_exit.sh
 		fi
-	else
-		if [ "${gamename}" == "Garry's Mod" ]; then
-			fn_fastdl_gmod_lua_enforcer
-		fi
-		fn_fastdl_bzip2
 	fi
 }
 
@@ -389,11 +384,6 @@ fn_fastdl_source(){
 		else
 			core_exit.sh
 		fi
-	else
-		if [ "${gamename}" == "Garry's Mod" ]; then
-			fn_fastdl_gmod_lua_enforcer
-		fi
-		fn_fastdl_bzip2
 	fi
 }
 
@@ -434,8 +424,10 @@ fn_fastdl_gmod_lua_enforcer(){
 }
 
 fn_fastdl_bzip2(){
+	echo -en "compressing files..."
+	echo ""
 	while read -r filetocompress; do
-		echo -en "compressing ${filetocompress}..."
+		echo -en "\r\033[Kcompressing ${filetocompress}..."
 		bzip2 -f "${filetocompress}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -447,14 +439,17 @@ fn_fastdl_bzip2(){
 			fn_script_log_pass "compressing ${filetocompress}"
 		fi
 	done < <(find  "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
+	echo ""
 }
 
 # Run functions
 if [ "${gamename}" == "Garry's Mod" ]; then
 	fn_fastdl_gmod
+	fn_fastdl_gmod_lua_enforcer
 else
 	fn_fastdl_source
 fi
+fn_fastdl_bzip2
 # Finished message
 echo "FastDL files are located in:"
 echo "${webdir}"
