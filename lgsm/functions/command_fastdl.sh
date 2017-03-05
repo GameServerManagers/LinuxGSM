@@ -22,57 +22,97 @@ luasvautorundir="${systemdir}/lua/autorun/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
-fn_check_bzip2(){
-	# Returns true if not installed
-	if [ -z "$(command -v bzip2)" ]; then
-		fn_print_fail "bzip2 is not installed"
-		fn_script_log_fatal "bzip2 is not installed"
-		core_exit.sh
-	fi
-}
+# Check if bzip2 is installed
+if [ -z "$(command -v bzip2)" ]; then
+	fn_print_fail "bzip2 is not installed"
+	fn_script_log_fatal "bzip2 is not installed"
+	core_exit.sh
+fi
+
+# Header
+fn_print_header
+echo "More info: https://git.io/vyk9a"
+echo ""
 
 # Prompts user for FastDL creation settings
-fn_fastdl_config(){
-	echo "FastDL setup"
-	echo "================================="
+echo "${commandaction} setup"
+echo "================================="
 
-	# Prompt for clearing old files if directory was already here
-	if [ -d "${fastdldir}" ]; then
-		fn_print_warning_nl "FastDL directory already exists."
-		echo "${fastdldir}"
-		echo ""
-		if fn_prompt_yn "Overwrite existing directory?" Y; then
-			fn_script_log_info "Overwrite existing directory: YES"
-		else
-			core_exit.sh
-		fi
+# Prompt for clearing old files if directory was already here
+if [ -d "${fastdldir}" ]; then
+	fn_print_warning_nl "FastDL directory already exists."
+	echo "${fastdldir}"
+	echo ""
+	if fn_prompt_yn "Overwrite existing directory?" Y; then
+		fn_script_log_info "Overwrite existing directory: YES"
+	else
+		core_exit.sh
 	fi
+fi
 
-	# Garry's Mod Specific
-	if [ "${gamename}" == "Garry's Mod" ]; then
-		# Prompt to clear addons dir from fastdl, can use unnecessary space or not be required depending on addon's file structures
-		if fn_prompt_yn "Clear addons directory from FastDL?" Y; then
-			cleargmodaddons="on";
-			fn_script_log_info "Clear addons directory from FastDL: YES"
-		else
-			cleargmodaddons="off";
-			fn_script_log_info "Clear addons directory from FastDL: NO"
-		fi
+# Garry's Mod Specific
+if [ "${gamename}" == "Garry's Mod" ]; then
+	# Prompt for download enforcer, which is using a .lua addfile resource generator
+	if fn_prompt_yn "Force clients to download files?" Y; then
+		luaresource="on"
+		fn_script_log_info "Force clients to download files: YES"
+	else
+		luaresource="off"
+		fn_script_log_info "Force clients to download filesr: NO"
+	fi
+fi
 
-		# Prompt for download enforcer, which is using a .lua addfile resource generator
-		if fn_prompt_yn "Use client download enforcer?" Y; then
-			luaressource="on"
-			fn_script_log_info "Use client download enforcer: YES"
+fn_clear_old_fastdl(){		
+	# Clearing old FastDL		
+	if [ -d "${fastdldir}" ];then		
+		echo -en "clearing existing FastDL directory ${fastdldir}..."		
+		rm -R "${fastdldir:?}"/*		
+		exitcode=$?		
+		if [ ${exitcode} -ne 0 ]; then		
+			fn_print_fail_eol_nl		
+			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"		
+			core_exit.sh		
+		else		
+			fn_print_ok_eol_nl		
+			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"		
+		fi		
+		sleep 0.5		
+	fi		
+}
+
+fn_clear_old_fastdl_alt(){
+	if [ -d "${fastdldir}" ]; then
+		echo -e "removing existing FastDL files"
+		sleep 0.1
+		fileswc=1
+		totalfileswc=$(find "${fastdldir}" | wc -l)
+		tput sc
+		while read -r filetoremove; do
+			tput rc; tput el
+			printf "removing ${fileswc} / ${totalfileswc} : ${filetoremove}..."
+			((fileswc++))
+			rm -rf "${filetoremove}"
+			((exitcode=$?))
+			if [ ${exitcode} -ne 0 ]; then
+				fn_script_log_fatal "Removing ${filetoremove}"
+				break
+			else
+				fn_script_log_pass "Removing ${filetoremove}"
+			fi
+			sleep 0.01
+		done < <(find "${fastdldir}")
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
 		else
-			luaressource="off"
-			fn_script_log_info "Use client download enforcer: NO"
+			fn_print_ok_eol_nl
 		fi
 	fi
 }
 
 fn_fastdl_dirs(){
 	# Check and create directories
-	if [ ! -d "${modsdir}" ];then
+	if [ ! -d "${webdir}" ];then
 		echo -en "creating web directory ${webdir}..."
 		mkdir -p "${webdir}"
 		exitcode=$?
@@ -102,57 +142,12 @@ fn_fastdl_dirs(){
 	fi
 }
 
-fn_clear_old_fastdl(){
-	# Clearing old FastDL if user answered yes
-	if [ ! -d "${modsdir}" ];then
-		echo -en "clearing existing FastDL directory ${fastdldir}..."
-		rm -R "${fastdldir:?}"/*
-		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
-			fn_print_fail_eol_nl
-			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"
-		fi
-		sleep 0.5
-	fi
-}
-
 fn_fastdl_gmod(){
 	# Copy all needed files for FastDL
 	if [ -n "${copyflag}" ]; then
-		# Removes all existing FastDL files.
-		if [ -d "${fastdldir}" ]; then
-			echo -e "removing existing FastDL files"
-			sleep 0.1
-			fileswc=1
-			totalfileswc=$(find "${fastdldir}" | wc -l)
-			tput sc
-			while read -r filetoremove; do
-				tput rc; tput el
-				printf "removing ${fileswc} / ${totalfileswc} : ${filetoremove}..."
-				((fileswc++))
-				rm -rf "${filetoremove}"
-				((exitcode=$?))
-				if [ ${exitcode} -ne 0 ]; then
-					fn_script_log_fatal "Removing ${filetoremove}"
-					break
-				else
-					fn_script_log_pass "Removing ${filetoremove}"
-				fi
-				sleep 0.01
-			done < <(find "${fastdldir}")
-			if [ ${exitcode} -ne 0 ]; then
-				fn_print_fail_eol_nl
-				core_exit.sh
-			else
-				fn_print_ok_eol_nl
-			fi
-		fi
+		# Clear previous FastDL dir
+		fn_clear_old_fastdl_alt
 		fn_fastdl_dirs
-
 		echo -e "copying files to ${fastdldir}"
 		fn_script_log_info "Copying files to ${fastdldir}"
 	else
@@ -217,19 +212,17 @@ fn_fastdl_gmod(){
 			fn_script_log_pass "updating addons file structure"
 		fi
 		# Clear addons directory in fastdl
-		if [ "${cleargmodaddons}" == "on" ]; then
-			echo -en "clearing addons dir from fastdl dir..."
-			sleep 1
-			rm -R "${fastdldir:?}/addons"
-			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
-				fn_print_fail_eol_nl
-				fn_script_log_fatal "clearing addons dir from fastdl dir"
-				core_exit.sh
-			else
-				fn_print_ok_eol_nl
-				fn_script_log_pass "clearing addons dir from fastdl dir"
-			fi
+		echo -en "clearing addons dir from fastdl dir..."
+		sleep 1
+		rm -R "${fastdldir:?}/addons"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "clearing addons dir from fastdl dir"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "clearing addons dir from fastdl dir"
 		fi
 	fi
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
@@ -307,36 +300,8 @@ fn_human_readable_file_size() {
 fn_fastdl_source(){
 	# Copy all needed files for FastDL
 	if [ -n "${copyflag}" ]; then
-		# Removes all existing FastDL files.
-		if [ -d "${fastdldir}" ]; then
-			echo -e "removing existing FastDL files"
-			sleep 0.1
-			fileswc=1
-			totalfileswc=$(find "${fastdldir}" | wc -l)
-			tput sc
-			while read -r filetoremove; do
-				tput rc; tput el
-				printf "removing ${fileswc} / ${totalfileswc} : ${filetoremove}..."
-				((fileswc++))
-				rm -rf "${filetoremove}"
-				((exitcode=$?))
-				if [ ${exitcode} -ne 0 ]; then
-					fn_script_log_fatal "Removing ${filetoremove}"
-					break
-				else
-					fn_script_log_pass "Removing ${filetoremove}"
-				fi
-				sleep 0.01
-			done < <(find "${fastdldir}")
-			if [ ${exitcode} -ne 0 ]; then
-				fn_print_fail_eol_nl
-				core_exit.sh
-			else
-				fn_print_ok_eol_nl
-			fi
-		fi
+		fn_clear_old_fastdl_alt
 		fn_fastdl_dirs
-
 		echo -e "copying files to ${fastdldir}"
 		fn_script_log_info "Copying files to ${fastdldir}"
 	else
@@ -347,8 +312,8 @@ fn_fastdl_source(){
 		fn_script_log_info "Analysing required files"
 	fi
 
-	local directorys_array=( "maps" "materials" "models" "particles" "sounds" "resources" )
-	for directory in "${directorys_array[@]}"
+	local directories_array=( "maps" "materials" "models" "particles" "sounds" "resources" )
+	for directory in "${directories_array[@]}"
 	do
 		if [ -d "${systemdir}/${directory}" ]; then
 			if [ "${directory}" == "maps" ]; then
@@ -449,7 +414,7 @@ fn_fastdl_gmod_lua_enforcer(){
 		fi
 	fi
 	# Generate new one if user said yes
-	if [ "${luaressource}" == "on" ]; then
+	if [ "${luaresource}" == "on" ]; then
 		echo -en "creating new download enforcer: ${luafastdlfile}..."
 		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path
@@ -484,24 +449,15 @@ fn_fastdl_bzip2(){
 	done < <(find  "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
 }
 
-fn_fastdl_completed(){
-	# Finished message
-	echo "FastDL files are located in:"
-	echo "${webdir}"
-	echo "FastDL completed"
-	fn_script_log_info "FastDL completed"
-}
-
 # Run functions
-fn_print_header
-echo "More info: https://git.io/vyk9a"
-echo ""
-fn_fastdl_config
-
 if [ "${gamename}" == "Garry's Mod" ]; then
 	fn_fastdl_gmod
 else
 	fn_fastdl_source
 fi
-fn_fastdl_completed
+# Finished message
+echo "FastDL files are located in:"
+echo "${webdir}"
+echo "FastDL completed"
+fn_script_log_info "FastDL completed"
 core_exit.sh
