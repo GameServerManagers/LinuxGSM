@@ -75,6 +75,13 @@ appid="228780"
 # Example: "-beta latest_experimental"
 branch=""
 
+## Github Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
+githubbranch="master"
+
 ## LinuxGSM Server Details
 # Do not edit
 gamename="Blade Symphony"
