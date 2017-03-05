@@ -62,22 +62,22 @@ if [ "${gamename}" == "Garry's Mod" ]; then
 	fi
 fi
 
-fn_clear_old_fastdl(){		
-	# Clearing old FastDL		
-	if [ -d "${fastdldir}" ];then		
-		echo -en "clearing existing FastDL directory ${fastdldir}..."		
-		rm -R "${fastdldir:?}"/*		
-		exitcode=$?		
-		if [ ${exitcode} -ne 0 ]; then		
-			fn_print_fail_eol_nl		
-			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"		
-			core_exit.sh		
-		else		
-			fn_print_ok_eol_nl		
-			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"		
-		fi		
-		sleep 0.5		
-	fi		
+fn_clear_old_fastdl(){
+	# Clearing old FastDL	
+	if [ -d "${fastdldir}" ];then	
+		echo -en "clearing existing FastDL directory ${fastdldir}..."
+		rm -R "${fastdldir:?}"/*
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"
+		fi
+		sleep 0.5
+	fi
 }
 
 fn_clear_old_fastdl_alt(){
@@ -435,11 +435,10 @@ fn_fastdl_bzip2(){
 			fn_script_log_fatal "compressing ${filetocompress}"
 			core_exit.sh
 		else
-			fn_print_ok_eol_nl
 			fn_script_log_pass "compressing ${filetocompress}"
 		fi
 	done < <(find  "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
-	echo ""
+	fn_print_ok_eol_nl
 }
 
 # Run functions
@@ -452,7 +451,7 @@ fi
 fn_fastdl_bzip2
 # Finished message
 echo "FastDL files are located in:"
-echo "${webdir}"
+echo "${fastdldir}"
 echo "FastDL completed"
 fn_script_log_info "FastDL completed"
 core_exit.sh
