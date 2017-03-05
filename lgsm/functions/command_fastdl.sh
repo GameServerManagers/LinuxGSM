@@ -228,7 +228,7 @@ fn_fastdl_preview(){
 	if ! fn_prompt_yn "Continue?" Y; then
 		fn_script_log "User exited"
 		core_exit.sh
-	fi	
+	fi
 }
 
 # Builds Garry's Mod fastdl directory content
@@ -404,8 +404,6 @@ fn_fastdl_gmod_dl_enforcer(){
 
 # Compresses FastDL files using bzip2
 fn_fastdl_bzip2(){
-	echo -en "compressing files..."
-	echo ""
 	while read -r filetocompress; do
 		echo -en "\r\033[Kcompressing ${filetocompress}..."
 		bzip2 -f "${filetocompress}"
