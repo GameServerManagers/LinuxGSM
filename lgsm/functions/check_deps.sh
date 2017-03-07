@@ -180,8 +180,8 @@ if [ -n "$(command -v dpkg-query)" ]; then
 		else
 			array_deps_required+=( libtinfo5 )
 		fi
-	# Brainbread 2 and Don't Starve Together
-	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
+	# Brainbread 2 ,Don't Starve Together & Team Fortress 2
+	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]||[ "${gamename}" == "Team Fortress 2" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
 	# Battlefield: 1942
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then
@@ -255,8 +255,8 @@ elif [ -n "$(command -v yum)" ]; then
 	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
 	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
-	# Brainbread 2 and Don't Starve Together
-	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]; then
+	# Brainbread 2, Don't Starve Together & Team Fortress 2
+	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]||[ "${gamename}" == "Team Fortress 2" ]; then
 		array_deps_required+=( libcurl.i686 )
 	# Battlefield: 1942
 	elif [ "${gamename}" == "Battlefield: 1942" ]; then

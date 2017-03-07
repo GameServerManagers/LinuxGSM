@@ -12,12 +12,11 @@ echo ""
 echo "Server Directory"
 echo "================================="
 sleep 1
-echo ""
-pwd
-echo ""
 if [ -d "${filesdir}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi
+pwd
+echo ""
 if [ -z "${autoinstall}" ]; then
 	if ! fn_prompt_yn "Continue?" Y; then
 		exit

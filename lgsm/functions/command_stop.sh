@@ -231,9 +231,9 @@ fn_stop_graceful_mta(){
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
-	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]; then
+	elif [ "${gamename}" == "Factorio" ]||[ "${gamename}" == "Minecraft" ]||[ "${gamename}" == "Multi Theft Auto" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
-	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]; then
+	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]; then
 		fn_stop_graceful_quit
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
@@ -272,7 +272,7 @@ fn_stop_ark(){
 			pid=${pid//[!0-9]/}
 			let pid+=0 # turns an empty string into a valid number, '0',
 			# and a valid numeric pid remains unchanged.
-			if [ "${pid}" -gt 1 && "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
+			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
 			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
 				sleep 1
 			else
@@ -290,8 +290,8 @@ fn_stop_ark(){
 
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
-	sleep 1
-	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
+	sleep 0.5
+	"${filesdir}"/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# Remove lockfile
@@ -304,29 +304,10 @@ fn_stop_teamspeak3(){
 	fi
 }
 
-fn_stop_mumble(){
-	# Get needed port info
-	info_config.sh
-	fn_print_dots "Stopping ${servername}"
-	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep "${port}" | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
-	kill ${mumblepid}
-	sleep 1
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		# Remove lockfile
-		rm -f "${rootdir}/${lockselfname}"
-		fn_stop_tmux
-		fn_script_log_pass "Stopped ${servername}"
-	else
-		fn_print_fail_nl "Unable to stop ${servername}"
-		fn_script_log_error "Unable to stop ${servername}"
-	fi
-}
-
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${servername}"
-	sleep 1
+	sleep 0.5
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	sleep 0.5
@@ -357,13 +338,6 @@ fn_stop_pre_check(){
 		else
 			fn_stop_teamspeak3
 		fi
-	elif [ "${gamename}" == "Mumble" ]; then
-		if [ "${status}" == "0" ]; then
-			fn_print_info_nl "${servername} is already stopped"
-			fn_script_log_error "${servername} is already stopped"
-		else
-		fn_stop_mumble
-		fi
 	else
 		if [ "${status}" == "0" ]; then
 			fn_print_info_nl "${servername} is already stopped"
@@ -375,7 +349,7 @@ fn_stop_pre_check(){
 }
 
 fn_print_dots "${servername}"
-sleep 1
+sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check

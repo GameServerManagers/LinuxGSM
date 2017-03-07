@@ -38,3 +38,5 @@ done
 echo ""
 cat "${tmpdir}/detect_glibc.tmp"|sort|uniq|sort -r --version-sort
 rm "${tmpdir}/detect_glibc.tmp"
+
+core_exit.sh

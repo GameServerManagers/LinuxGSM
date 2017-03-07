@@ -14,16 +14,11 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170219"
+version="170305"
 
 ##########################
 ######## Settings ########
 ##########################
-
-## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
-# Steam login
-steamuser="username"
-steampass='password'
 
 ## Server Start Settings | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters
 defaultmap="bba_barracks"
