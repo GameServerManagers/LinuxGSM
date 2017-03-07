@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="1700305"
+version="170305"
 
 ##########################
 ######## Settings ########
