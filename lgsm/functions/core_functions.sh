@@ -89,6 +89,14 @@ if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
 fi
 
+# External dependencies
+
+JSON.sh(){
+# Functions are defined in core_functions.sh.
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
 # Core
 
 core_dl.sh(){
