@@ -173,7 +173,7 @@ for i in "${optcommands[@]}"; do
 			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
 				if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command
-					${currentopt[index+1]}
+					eval ${currentopt[index+1]}
 					core_exit.sh
 					break
 				fi
