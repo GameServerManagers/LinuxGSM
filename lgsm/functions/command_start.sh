@@ -126,7 +126,7 @@ fn_start_tmux(){
 			echo "================================="
 			cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
 
-			# Detected error https://gameservermanagers.com/issues
+			# Detected error https://gameservermanagers.com/support
 			if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
 			echo ""
 			echo "Fix"
@@ -148,8 +148,8 @@ fn_start_tmux(){
 				else
 					echo "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo "https://gameservermanagers.com/issues"
-					fn_script_log_info "https://gameservermanagers.com/issues"
+					echo "https://gameservermanagers.com/support"
+					fn_script_log_info "https://gameservermanagers.com/support"
 				fi
 			fi
 		fi
