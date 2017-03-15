@@ -16,7 +16,14 @@ fn_install_steamcmd(){
 }
 
 fn_check_steamcmd_user(){
-	# Checks if steamuser is setup.
+	# Check if steamuser is setup in ENV.
+	if [ -n "${globalsteamuser}" ]; then
+		fn_print_ok_eol_nl
+		fn_print_info "Steam Credentials taken from environment variables"
+		steamuser="${globalsteamuser}"
+		steampass="${globalsteampass}"
+	fi
+	# Checks if steamuser is setup in config file.
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}"
 		echo "	* Change steamuser=\"username\" to a valid steam login."
