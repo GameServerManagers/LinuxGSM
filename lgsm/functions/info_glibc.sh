@@ -80,6 +80,9 @@ elif [ "${gamename}" == "Quake Live" ]; then
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	glibcrequired="2.18"
 	glibcfix="no"
+elif [ "${gamename}" == "Team Fortress 2" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
