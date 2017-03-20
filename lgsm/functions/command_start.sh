@@ -84,7 +84,7 @@ fn_start_tmux(){
 	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 
 	# tmux pipe-pane not supported in tmux versions < 1.6
-	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then
+	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then # Tmux compiled from source will not return a number, therefore bypass this check and trash the error
 		echo "Console logging disabled: Tmux => 1.6 required
 		https://gameservermanagers.com/tmux-upgrade
 		Currently installed: $(tmux -V)" > "${consolelog}"
