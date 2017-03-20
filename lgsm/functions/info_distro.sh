@@ -37,12 +37,14 @@ glibcversion="$(ldd --version | sed -n '1s/.* //p')"
 
 ## tmux version
 # e.g: tmux 1.6
-if [ -z "$(command -v tmux)" ]; then
+if [ -z "$(command -V tmux)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
-elif [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
-	tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 else
-	tmuxv=$(tmux -V)
+	if [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then
+		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
+	else
+		tmuxv=$(tmux -V)
+	fi
 fi
 
 ## Uptime
