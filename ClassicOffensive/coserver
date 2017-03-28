@@ -95,6 +95,10 @@ appid_co="600380"
 # Example: "-beta latest_experimental"
 branch=""
 
+## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
+steamuser="accountname"
+steampass='accountpassword'
+
 ## Github Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
