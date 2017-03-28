@@ -228,7 +228,6 @@ elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-	fn_set_config_vars
 elif [ "${gamename}" == "Classic Offensive" ]; then
 	gamedirname="ClassicOffensive"
 	array_configs+=( server.cfg )
