@@ -27,10 +27,6 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="config"
 
-source lgsm/config/_default.cfg
-source lgsm/config/common.cfg
-source lgsm/config/${servicename.cfg
-
 # LinuxGSM installer
 if [ "${sname}" == "core" ]; then
 	userinput=$1
@@ -69,7 +65,9 @@ if [ "${sname}" == "core" ]; then
 	fi
 fi
 
-
+source lgsm/config/_default.cfg
+source lgsm/config/common.cfg
+source lgsm/config/${servicename}.cfg
 
 
 ########################
