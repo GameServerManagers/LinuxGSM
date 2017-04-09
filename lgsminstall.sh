@@ -40,6 +40,18 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="feature/config"
 
+
+# Prevent from running this script as root.
+if [ "$(whoami)" = "root" ]; then
+	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/exit 1" ]; then
+		echo "[ FAIL ] Do NOT run this script as root!"
+		exit 1
+	else
+		core_functions.sh
+		check_root.sh
+	fi
+fi
+
 # LinuxGSM installer
 if [ "${shortname}" == "core" ]; then
 	userinput=$1
@@ -213,21 +225,9 @@ functionfile="${FUNCNAME}"
 fn_boostrap_fetch_function
 }
 
-# Prevent from running this script as root.
-if [ "$(whoami)" = "root" ]; then
-	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/exit 1" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
-		exit 1
-	else
-		core_functions.sh
-		check_root.sh
-	fi
-fi
 
 core_dl.sh
 core_functions.sh
-
-
 
 getopt=$1
 core_getopt.sh
