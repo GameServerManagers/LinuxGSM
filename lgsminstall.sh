@@ -17,12 +17,16 @@ fi
 version="170305"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-lgsmdir="${rootdir}/lgsm"
-tmpdir="${lgsmdir}/tmp"
 servicename="${selfname}"
 shortname="core"
-shortname="core"
-shortname="core"
+servername="core"
+gamename="core"
+lockselfname=".${servicename}.lock"
+lgsmdir="${rootdir}/lgsm"
+functionsdir="${lgsmdir}/functions"
+libdir="${lgsmdir}/lib"
+tmpdir="${lgsmdir}/tmp"
+filesdir="${rootdir}/serverfiles"
 configdir="${lgsmdir}/config"
 gameconfigdir="${configdir}/${servername}"
 
@@ -33,55 +37,141 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="feature/config"
 
-# Prevent from running this script as root.
-if [ "$(whoami)" = "root" ]; then
-	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/exit 1" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
-		exit 1
-	else
-		core_functions.sh
-		check_root.sh
+
+fn_print_center() {
+	columns="$(tput cols)"
+	line="$@"
+	printf "%*s\n" $(( (${#line} + columns) / 2)) "$line"
+}
+# Print horizontal line
+fn_print_horizontal(){
+	char="${1:-=}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+}
+
+# Display simple Bash menu
+fn_menu_bash() {
+	local resultvar=$1
+	title=$2
+	caption=$3
+	options=$4
+	fn_print_horizontal
+	fn_print_center $title
+	fn_print_center $caption
+	fn_print_horizontal
+	menu_options=()
+	while read -r line || [[ -n "$line" ]]; do
+		var=$(echo $line | awk -F "," '{print $2 " - " $3}')
+		menu_options+=( "${var}" )
+	done <  $options
+	menu_options+=( "Cancel" )
+	select option in "${menu_options[@]}"; do
+		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
+			eval "$resultvar=\"${option/%\ */}\""
+		fi
+		break
+	done
+}
+
+fn_menu() {
+	local resultvar=$1
+	local selection=""
+	title=$2
+	caption=$3
+	options=$4
+	# If this is a list of options as a string, dump it to a file so we can process it
+	if [ ! -e "${options}" ]; then
+		echo -ne "${options}\n" > "${cachedir}/menu.options"
+		options="${cachedir}/menu.options"
 	fi
-fi
+
+	# Get menu command
+#	for menucmd in whiptail dialog bash; do
+#		if [ -x $(which $menucmd) ]; then
+#			menucmd=$(which $menucmd)
+#			break
+#		fi
+#	done
+	case "$(basename $menucmd)" in
+		whiptail|dialog)
+			fn_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
+			;;
+		*)
+			fn_menu_bash selection "${title}" "${caption}" "${options}"
+			;;
+	esac
+	eval "$resultvar=\"${selection}\""
+	echo "$resultvar"
+}
+
+fn_serverlist(){
+	IFS=","
+	if [ -f "lgsm/data/serverlist.csv" ]; then
+		serverlist="lgsm/data/serverlist.csv"
+		server_info_array=($(awk '{ print $2 }' "${serverlist}" | grep "${userinput}" ))
+	else
+		serverlist="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv"
+		server_info_array=($(awk '{ print $2 }' <(curl -s "${serverlist}") | grep "${userinput}"))
+	fi
+	shortname="${server_info_array[0]}"
+	servername="${server_info_array[1]}"
+	gamename="${server_info_array[2]}"
+	echo "$server_info_array"
+	echo "shortname: $shortname"
+	echo "servername: $servername"
+	echo "gamename: $gamename"
+}
+
+fn_install_getopt(){
+	userinput="empty"
+	echo "Usage: $0 [option]"
+	echo -e ""
+	echo "Installer - Linux Game Server Manager - Version ${version}"
+	echo "https://gameservermanagers.com"
+	echo -e ""
+	echo -e "Commands"
+	echo -e "install |Select server to install."
+	echo -e "servername |e.g $0 csgoserver. Enter the required servername will install it."
+	echo -e "list |List all servers available for install."
+	exit
+}
 
 # LinuxGSM installer
 if [ "${shortname}" == "core" ]; then
 	userinput=$1
 	if [ -z "${userinput}" ]; then
-		userinput="empty"
-	fi
-	serverslist=$(grep "${userinput}" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv")|awk -F "," '{print $2}')
-	echo "USERINPUT: $userinput"
-	echo "SERVERLIST: $serverslist"
-	if [ "${userinput}" == "${serverslist}" ]; then
-		echo "installing"
-		shortname=$(grep ${userinput} <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv")|awk -F "," '{print $1}')
-		servername=$(grep ${userinput} <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv")|awk -F "," '{print $2}')
-		gamename=$(grep ${userinput} <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv")|awk -F "," '{print $3}')
-		if [ -e "${servername}" ]; then
-			i=2
-		while [ -e "$servername-$i" ] ; do
-			let i++
-		done
-			servername="${servername}-$i"
-		fi
-		cp "${selfname}" "${servername}"
-		sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${servername}"
-		sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${servername}"
-		sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${gamename}"
-		exit
+		fn_install_getopt
 	elif [ "${userinput}" == "list" ]; then
+		fn_serverlist
 		{
-			awk -F "," '{print $2 "\t" $3}' <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv")
-		} | column -s $'\t' -t
+		if [ -f "lgsm/data/serverlist.csv" ]; then
+			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
+		else
+			awk -F "," '{print $2 "\t" $3}' <(curl -s "${serverlist}")
+		fi
+		} | column -s $'\t' -t | more
 		exit
+	elif [ "${userinput}" == "install" ]; then
+	fn_menu result "Linux Game Server Manager" "Select game to install" "lgsm/data/serverlist.csv"
 	else
-		echo "Usage: ./${selfname} list"
-		echo "For a complete list of available servers"
-		echo ""
-		echo "Usage: ./${selfname} [servername]"
-		echo "To install a server"
-		exit
+		fn_serverlist
+		if [ "${userinput}" == "${server_info_array[1]}" ]; then
+
+			if [ -e "${servername}" ]; then
+				i=2
+			while [ -e "$servername-$i" ] ; do
+				let i++
+			done
+				servername="${servername}-$i"
+			fi
+			cp "${selfname}" "${servername}"
+			sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${servername}"
+			sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${servername}"
+			sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${servername}"
+			exit
+		else
+			fn_install_getopt
+		fi
 	fi
 fi
 
@@ -217,6 +307,16 @@ functionfile="${FUNCNAME}"
 fn_boostrap_fetch_function
 }
 
+# Prevent from running this script as root.
+if [ "$(whoami)" = "root" ]; then
+	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/exit 1" ]; then
+		echo "[ FAIL ] Do NOT run this script as root!"
+		exit 1
+	else
+		core_functions.sh
+		check_root.sh
+	fi
+fi
 
 core_dl.sh
 core_functions.sh
