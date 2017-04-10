@@ -33,14 +33,6 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="feature/config"
 
-## Github Branch Select
-# Allows for the use of different function files
-# from a different repo and/or branch.
-githubuser="GameServerManagers"
-githubrepo="LinuxGSM"
-githubbranch="feature/config"
-
-
 # Prevent from running this script as root.
 if [ "$(whoami)" = "root" ]; then
 	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/exit 1" ]; then
