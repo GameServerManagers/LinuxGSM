@@ -95,7 +95,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -x ${tmux-x} -y ${tmux-y} --s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x ${tmux-x} -y ${tmux-y} -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 
 	# tmux pipe-pane not supported in tmux versions < 1.6
 	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
