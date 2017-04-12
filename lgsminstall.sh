@@ -37,144 +37,6 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="feature/config"
 
-
-fn_print_center() {
-	columns="$(tput cols)"
-	line="$@"
-	printf "%*s\n" $(( (${#line} + columns) / 2)) "$line"
-}
-# Print horizontal line
-fn_print_horizontal(){
-	char="${1:-=}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
-}
-
-# Display simple Bash menu
-fn_menu_bash() {
-	local resultvar=$1
-	title=$2
-	caption=$3
-	options=$4
-	fn_print_horizontal
-	fn_print_center $title
-	fn_print_center $caption
-	fn_print_horizontal
-	menu_options=()
-	while read -r line || [[ -n "$line" ]]; do
-		var=$(echo $line | awk -F "," '{print $2 " - " $3}')
-		menu_options+=( "${var}" )
-	done <  $options
-	menu_options+=( "Cancel" )
-	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
-			eval "$resultvar=\"${option/%\ */}\""
-		fi
-		break
-	done
-}
-
-fn_menu() {
-	local resultvar=$1
-	local selection=""
-	title=$2
-	caption=$3
-	options=$4
-	# If this is a list of options as a string, dump it to a file so we can process it
-	if [ ! -e "${options}" ]; then
-		echo -ne "${options}\n" > "${cachedir}/menu.options"
-		options="${cachedir}/menu.options"
-	fi
-
-	# Get menu command
-#	for menucmd in whiptail dialog bash; do
-#		if [ -x $(which $menucmd) ]; then
-#			menucmd=$(which $menucmd)
-#			break
-#		fi
-#	done
-	case "$(basename $menucmd)" in
-		whiptail|dialog)
-			fn_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
-			;;
-		*)
-			fn_menu_bash selection "${title}" "${caption}" "${options}"
-			;;
-	esac
-	eval "$resultvar=\"${selection}\""
-	echo "$resultvar"
-}
-
-fn_serverlist(){
-	IFS=","
-	if [ -f "lgsm/data/serverlist.csv" ]; then
-		serverlist="lgsm/data/serverlist.csv"
-		server_info_array=($(awk '{ print $2 }' "${serverlist}" | grep "${userinput}" ))
-	else
-		serverlist="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/serverlist.csv"
-		server_info_array=($(awk '{ print $2 }' <(curl -s "${serverlist}") | grep "${userinput}"))
-	fi
-	shortname="${server_info_array[0]}"
-	servername="${server_info_array[1]}"
-	gamename="${server_info_array[2]}"
-	echo "$server_info_array"
-	echo "shortname: $shortname"
-	echo "servername: $servername"
-	echo "gamename: $gamename"
-}
-
-fn_install_getopt(){
-	userinput="empty"
-	echo "Usage: $0 [option]"
-	echo -e ""
-	echo "Installer - Linux Game Server Manager - Version ${version}"
-	echo "https://gameservermanagers.com"
-	echo -e ""
-	echo -e "Commands"
-	echo -e "install |Select server to install."
-	echo -e "servername |e.g $0 csgoserver. Enter the required servername will install it."
-	echo -e "list |List all servers available for install."
-	exit
-}
-
-# LinuxGSM installer
-if [ "${shortname}" == "core" ]; then
-	userinput=$1
-	if [ -z "${userinput}" ]; then
-		fn_install_getopt
-	elif [ "${userinput}" == "list" ]; then
-		fn_serverlist
-		{
-		if [ -f "lgsm/data/serverlist.csv" ]; then
-			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
-		else
-			awk -F "," '{print $2 "\t" $3}' <(curl -s "${serverlist}")
-		fi
-		} | column -s $'\t' -t | more
-		exit
-	elif [ "${userinput}" == "install" ]; then
-	fn_menu result "Linux Game Server Manager" "Select game to install" "lgsm/data/serverlist.csv"
-	else
-		fn_serverlist
-		if [ "${userinput}" == "${server_info_array[1]}" ]; then
-
-			if [ -e "${servername}" ]; then
-				i=2
-			while [ -e "$servername-$i" ] ; do
-				let i++
-			done
-				servername="${servername}-$i"
-			fi
-			cp "${selfname}" "${servername}"
-			sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${servername}"
-			sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${servername}"
-			sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${servername}"
-			exit
-		else
-			fn_install_getopt
-		fi
-	fi
-fi
-
 # Bootstrap
 
 # Fetches bootstrap files (configs and core functions)
@@ -260,36 +122,227 @@ fn_boostrap_fetch_config(){
 	fn_boostrap_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
 
-# Load the default config. If missing download it. If changed reload it.
-if [ ! -f "${tmpdir}/config/${servername}/_default.cfg" ];then
-	fn_boostrap_fetch_config "lgsm/config/${servername}" "_default.cfg" "${tmpdir}/config/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
-fi
-if [ ! -f "${gameconfigdir}/_default.cfg" ];then
-	echo "hello"
-	cp "${tmpdir}/config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
-else
-	function_file_diff=$(diff -q ${tmpdir}/config/${servername}/_default.cfg ${gameconfigdir}/_default.cfg)
-	if [ "${function_file_diff}" != "" ]; then
-		echo "config different onverwriting"
-		cp "${tmpdir}/config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+fn_print_center() {
+	columns="$(tput cols)"
+	line="$@"
+	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
+}
+# Print horizontal line
+fn_print_horizontal(){
+	char="${1:-=}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+}
+
+# Bash Menu
+fn_install_menu_bash() {
+	local resultvar=$1
+	title=$2
+	caption=$3
+	options=$4
+	fn_print_horizontal
+	fn_print_center $title
+	fn_print_center $caption
+	fn_print_horizontal
+	menu_options=()
+	while read -r line || [[ -n "${line}" ]]; do
+		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
+		menu_options+=( "${var}" )
+	done <  $options
+	menu_options+=( "Cancel" )
+	select option in "${menu_options[@]}"; do
+		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
+			eval "$resultvar=\"${option/%\ */}\""
+		fi
+		break
+	done
+}
+
+# Whiptail/Dialog Menu
+fn_install_menu_whiptail() {
+	local menucmd=$1
+	local resultvar=$2
+	title=$3
+	caption=$4
+	options=$5
+	height=${6:-40}
+	width=${7:-80}
+	menuheight=${8:-30}
+	IFS=","
+	menu_options=()
+	while read -r line; do
+		key=$(echo "${line}" | awk -F "," '{print $3}')
+		val=$(echo "${line}" | awk -F "," '{print $2}')
+		menu_options+=( ${val//\"} "${key//\"}" )
+	done < $options
+	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" ${height} ${width} ${menuheight} "${menu_options[@]}" 3>&1 1>&2 2>&3)
+	if [ $? = 0 ]; then
+		eval "$resultvar=\"${OPTION}\""
+	else
+		eval "$resultvar="
 	fi
-	source lgsm/config/${servername}/_default.cfg
+}
+
+# Menu selector
+fn_install_menu() {
+	local resultvar=$1
+	local selection=""
+	title=$2
+	caption=$3
+	options=$4
+	# Get menu command
+	for menucmd in whiptail dialog bash; do
+		if [ -x $(which ${menucmd}) ]; then
+			menucmd=$(which ${menucmd})
+			break
+		fi
+	done
+	case "$(basename ${menucmd})" in
+		whiptail|dialog)
+			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30;;
+		*)
+			fn_install_menu_bash selection "${title}" "${caption}" "${options}";;
+	esac
+	eval "$resultvar=\"${selection}\""
+}
+
+# Gets server info from serverlist.csv and puts in to array
+fn_server_info(){
+	IFS=","
+	server_info_array=($(grep -a "${userinput}" "${serverlist}"))
+	shortname="${server_info_array[0]}" # csgo
+	servername="${server_info_array[1]}" # csgoserver
+	gamename="${server_info_array[2]}" # Counter Strike: Global Offensive
+	echo "shortname: $shortname"
+	echo "servername: $servername"
+	echo "gamename: $gamename"
+}
+
+fn_install_getopt(){
+	userinput="empty"
+	echo "Usage: $0 [option]"
+	echo -e ""
+	echo "Installer - Linux Game Server Managers - Version ${version}"
+	echo "https://gameservermanagers.com"
+	echo -e ""
+	echo -e "Commands"
+	echo -e "install |Select server to install."
+	echo -e "servername |e.g $0 csgoserver. Enter the required servername will install it."
+	echo -e "list |List all servers available for install."
+	exit
+}
+
+fn_install_file(){
+	filename="${servername}"
+	if [ -e "${filename}" ]; then
+		i=2
+	while [ -e "${filename}-${i}" ] ; do
+		let i++
+	done
+		filename="${filename}-${i}"
+	fi
+	cp -R "${selfname}" "${filename}"
+	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${filename}"
+	sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${filename}"
+	sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${filename}"
+	exit
+}
+
+# Prevent from running this script as root.
+if [ "$(whoami)" = "root" ]; then
+	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
+		echo "[ FAIL ] Do NOT run this script as root!"
+		exit 1
+	else
+		core_functions.sh
+		check_root.sh
+	fi
 fi
 
-if [ ! -f "${gameconfigdir}/common.cfg" ];then
-	fn_boostrap_fetch_config "lgsm/config" "common-template.cfg" "${lgsmdir}/config/${servername}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
-	source lgsm/config/${servername}/common.cfg
+# LinuxGSM installer mode
+if [ "${shortname}" == "core" ]; then
+	userinput=$1
+	datadir="${lgsmdir}/data"
+	serverlist="${datadir}/serverlist.csv"
+	serverlist_tmp="${tmpdir}/data/serverlist.csv"
+
+	# Download the serverlist. This is the complete list of all supported servers.
+	# Download to tmp dir
+	fn_boostrap_fetch_config "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
+	# if missing in lgsm dir copy it accross
+	if [ ! -f "${serverlist}" ]; then
+		mkdir -p "${datadir}"
+		cp -R "${serverlist_tmp}" "${serverlist}"
+	# check if the files are different.
+	else
+		file_diff=$(diff -q "${serverlist_tmp}" "${serverlist}")
+		if [ "${file_diff}" != "" ]; then
+			cp -Rf "${serverlist_tmp}" "${serverlist}"
+		fi
+	fi
+
+	if [ ! -f "${serverlist}" ];then
+		echo "[ FAIL ] serverlist.csv could not be loaded."
+		exit 1
+	fi
+
+	if [ "${userinput}" == "list" ]; then
+		{
+			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
+		} | column -s $'\t' -t | more
+		exit
+	elif [ "${userinput}" == "install" ]; then
+		fn_install_menu result "LinuxGSM" "Select game to install" "lgsm/data/serverlist.csv"
+		userinput="${result}"
+		fn_server_info
+		echo "result is ${result}"
+		echo "RESULT: ${result}"
+		echo "VALIDATE: ${servername}"
+		if [ "${result}" == "${servername}" ]; then
+			fn_install_file
+		else
+			echo "[ FAIL ] menu result does not match servername"
+		fi
+	elif [ -n "${userinput}" ]; then
+		fn_server_info
+		if [ "${userinput}" == "${servername}" ]; then
+			fn_install_file
+		fi
+	else
+		fn_install_getopt
+	fi
+# LinuxGSM Server Mode
 else
-	source lgsm/config/${servername}/common.cfg
+	# Load LinuxGSM configs
+	# These are required to get all the default variables for the specific server.
+	# Load the default config. If missing download it. If changed reload it.
+	if [ ! -f "${tmpdir}/config/${servername}/_default.cfg" ];then
+		fn_boostrap_fetch_config "lgsm/config/${servername}" "_default.cfg" "${tmpdir}/config/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+	fi
+	if [ ! -f "${gameconfigdir}/_default.cfg" ];then
+		cp -R "${tmpdir}/config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+	else
+		function_file_diff=$(diff -q ${tmpdir}/config/${servername}/_default.cfg ${gameconfigdir}/_default.cfg)
+		if [ "${function_file_diff}" != "" ]; then
+			echo "config different onverwriting"
+			cp -R "${tmpdir}/config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+		fi
+		source lgsm/config/${servername}/_default.cfg
+	fi
+	# Load the common.cfg config. If missing download it
+	if [ ! -f "${gameconfigdir}/common.cfg" ];then
+		fn_boostrap_fetch_config "lgsm/config" "common-template.cfg" "${lgsmdir}/config/${servername}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
+		source lgsm/config/${servername}/common.cfg
+	else
+		source lgsm/config/${servername}/common.cfg
+	fi
+	# Load the instance.cfg config. If missing download it
+	if [ ! -f "${gameconfigdir}/${servicename}.cfg" ];then
+		fn_boostrap_fetch_config "lgsm/config" "instance-template.cfg" "${lgsmdir}/config/${servername}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		source lgsm/config/${servername}/${servicename}.cfg
+	else
+		source lgsm/config/${servername}/${servicename}.cfg
+	fi
 fi
-
-if [ ! -f "${gameconfigdir}/${servicename}.cfg" ];then
-	fn_boostrap_fetch_config "lgsm/config" "instance-template.cfg" "${lgsmdir}/config/${servername}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
-	source lgsm/config/${servername}/${servicename}.cfg
-else
-	source lgsm/config/${servername}/${servicename}.cfg
-fi
-
 ########################
 ######## Script ########
 ###### Do not edit #####
@@ -307,16 +360,7 @@ functionfile="${FUNCNAME}"
 fn_boostrap_fetch_function
 }
 
-# Prevent from running this script as root.
-if [ "$(whoami)" = "root" ]; then
-	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]||[ ! -f "${functionsdir}/exit 1" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
-		exit 1
-	else
-		core_functions.sh
-		check_root.sh
-	fi
-fi
+
 
 core_dl.sh
 core_functions.sh
