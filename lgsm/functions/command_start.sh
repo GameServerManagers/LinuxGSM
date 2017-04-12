@@ -59,7 +59,7 @@ fn_start_tmux(){
 	
 	# check for tmux size variables
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
-		sessionwidth="${servercfgwidth}"
+		sessionwidth="${servercfgtmuxwidth}"
 	else
 		sessionwidth="80"
 	fi
