@@ -60,15 +60,15 @@ fn_start_tmux(){
 	# check for tmux size variables
 	if [[ ${tmux_width} =~ ^[0-9]+$ ]]
 	then
-		tmux-x=${tmux_width}
+		tmux_x=${tmux_width}
 	else
-		tmux-x=80
+		tmux_x=80
 	fi
 	if [[ ${tmux_height} =~ ^[0-9]+$ ]]
 	then
-		tmux-y=${tmux_height}
+		tmux_y=${tmux_height}
 	else
-		tmux-y=23
+		tmux_y=23
 	fi
 
 	# Log rotation
@@ -95,7 +95,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -x ${tmux-x} -y ${tmux-y} -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x ${tmux_x} -y ${tmux_y} -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 
 	# tmux pipe-pane not supported in tmux versions < 1.6
 	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
