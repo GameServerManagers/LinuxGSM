@@ -212,9 +212,6 @@ fn_server_info(){
 	shortname="${server_info_array[0]}" # csgo
 	servername="${server_info_array[1]}" # csgoserver
 	gamename="${server_info_array[2]}" # Counter Strike: Global Offensive
-	echo "shortname: $shortname"
-	echo "servername: $servername"
-	echo "gamename: $gamename"
 }
 
 fn_install_getopt(){
@@ -244,6 +241,8 @@ fn_install_file(){
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${filename}"
 	sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${filename}"
 	sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${filename}"
+	echo "Installed ${gamename} server as ${filename}"
+	echo "./${filename} install"
 	exit
 }
 
@@ -294,9 +293,6 @@ if [ "${shortname}" == "core" ]; then
 		fn_install_menu result "LinuxGSM" "Select game to install" "lgsm/data/serverlist.csv"
 		userinput="${result}"
 		fn_server_info
-		echo "result is ${result}"
-		echo "RESULT: ${result}"
-		echo "VALIDATE: ${servername}"
 		if [ "${result}" == "${servername}" ]; then
 			fn_install_file
 		else
@@ -315,16 +311,17 @@ else
 	# Load LinuxGSM configs
 	# These are required to get all the default variables for the specific server.
 	# Load the default config. If missing download it. If changed reload it.
-	if [ ! -f "${tmpdir}/config/${servername}/_default.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config/${servername}" "_default.cfg" "${tmpdir}/config/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+	if [ ! -f "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" ];then
+		mkdir -p "${lgsmdir}/default-configs/lgsm-config/${servername}"
+		fn_boostrap_fetch_config "lgsm/config/${servername}" "_default.cfg" "${lgsmdir}/default-configs/lgsm-config/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 	fi
 	if [ ! -f "${gameconfigdir}/_default.cfg" ];then
-		cp -R "${tmpdir}/config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+		cp -R "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
 	else
-		function_file_diff=$(diff -q ${tmpdir}/config/${servername}/_default.cfg ${gameconfigdir}/_default.cfg)
+		function_file_diff=$(diff -q ${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg ${gameconfigdir}/_default.cfg)
 		if [ "${function_file_diff}" != "" ]; then
 			echo "config different onverwriting"
-			cp -R "${tmpdir}/config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+			cp -R "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
 		fi
 		source lgsm/config/${servername}/_default.cfg
 	fi
