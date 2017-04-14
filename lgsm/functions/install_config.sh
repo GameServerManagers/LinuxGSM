@@ -17,12 +17,12 @@ fn_check_cfgdir(){
 	fi
 }
 
-# Downloads default configs from Game-Server-Configs repo to lgsm/default-configs
+# Downloads default configs from Game-Server-Configs repo to lgsm/config-default
 fn_fetch_default_config(){
-	mkdir -pv "${lgsmdir}/default-configs"
+	mkdir -pv "${lgsmdir}/config-default"
 	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
+		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/config-default"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
 		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	done
 }
@@ -34,13 +34,13 @@ fn_default_config_remote(){
 		echo "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/${config}" "${servercfgfullpath}"
 		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
-			cp -nv "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/${config}" "${networkcfgfullpath}"
 		elif [ "${gamename}" == "Don't Starve Together" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
-			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/config-default/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	sleep 1
