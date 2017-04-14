@@ -27,8 +27,10 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
-configdir="${lgsmdir}/config"
-gameconfigdir="${configdir}/${servername}"
+configdir="${lgsmdir}/config-lgsm"
+configdirserver="${configdir}/${servername}"
+configdirdefault="${lgsmdir}/config-default"
+
 
 ## Github Branch Select
 # Allows for the use of different function files
@@ -311,36 +313,37 @@ else
 	# Load LinuxGSM configs
 	# These are required to get all the default variables for the specific server.
 	# Load the default config. If missing download it. If changed reload it.
-	if [ ! -f "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" ];then
-		mkdir -p "${lgsmdir}/default-configs/lgsm-config/${servername}"
-		fn_boostrap_fetch_config "lgsm/config/${servername}" "_default.cfg" "${lgsmdir}/default-configs/lgsm-config/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ];then
+		mkdir -p "${configdirdefault}/config-lgsm/${servername}"
+		fn_boostrap_fetch_config "lgsm/config-default/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 	fi
-	if [ ! -f "${gameconfigdir}/_default.cfg" ];then
-		mkdir -p "${gameconfigdir}"
-		cp -R "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+	if [ ! -f "${configdirserver}/_default.cfg" ];then
+		mkdir -p "${configdirserver}"
+		cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
 	else
-		function_file_diff=$(diff -q ${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg ${gameconfigdir}/_default.cfg)
+		function_file_diff=$(diff -q ${configdirdefault}/config-lgsm/${servername}/_default.cfg ${configdirserver}/_default.cfg)
 		if [ "${function_file_diff}" != "" ]; then
-			echo "config different onverwriting"
-			cp -R "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
+			echo "_default.cfg has been altered. Reloading config."
+			cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
 		fi
-		source "lgsm/config/${servername}/_default.cfg"
 	fi
+	source "${configdirserver}/_default.cfg"
 	# Load the common.cfg config. If missing download it
-	if [ ! -f "${gameconfigdir}/common.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config" "common-template.cfg" "${lgsmdir}/config/${servername}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
-		source "lgsm/config/${servername}/common.cfg"
+	if [ ! -f "${configdirserver}/common.cfg" ];then
+		fn_boostrap_fetch_config "lgsm/config-default" "common-template.cfg" "${configdirserver}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
+		source "${configdirserver}/common.cfg"
 	else
-		source "lgsm/config/${servername}/common.cfg"
+		source "${configdirserver}/common.cfg"
 	fi
 	# Load the instance.cfg config. If missing download it
-	if [ ! -f "${gameconfigdir}/${servicename}.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config" "instance-template.cfg" "${lgsmdir}/config/${servername}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
-		source "lgsm/config/${servername}/${servicename}.cfg"
+	if [ ! -f "${configdirserver}/${servicename}.cfg" ];then
+		fn_boostrap_fetch_config "lgsm/config-default" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		source "${configdirserver}/${servicename}.cfg"
 	else
-		source "lgsm/config/${servername}/${servicename}.cfg"
+		source "${configdirserver}/${servicename}.cfg"
 	fi
 fi
+
 ########################
 ######## Script ########
 ###### Do not edit #####
@@ -357,8 +360,6 @@ core_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_boostrap_fetch_function
 }
-
-
 
 core_dl.sh
 core_functions.sh
