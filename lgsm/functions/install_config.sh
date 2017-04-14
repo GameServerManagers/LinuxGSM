@@ -22,7 +22,7 @@ fn_fetch_default_config(){
 	mkdir -pv "${lgsmdir}/config-default"
 	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/config-default"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
+		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/config-default/config-game"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
 		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 	done
 }
@@ -34,13 +34,13 @@ fn_default_config_remote(){
 		echo "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/config-default/${config}" "${servercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
 		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
-			cp -nv "${lgsmdir}/config-default/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
 		elif [ "${gamename}" == "Don't Starve Together" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/config-default/${clustercfgdefault}" "${clustercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
-			cp -nv "${lgsmdir}/config-default/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	sleep 1
