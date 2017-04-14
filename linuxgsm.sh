@@ -316,6 +316,7 @@ else
 		fn_boostrap_fetch_config "lgsm/config/${servername}" "_default.cfg" "${lgsmdir}/default-configs/lgsm-config/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 	fi
 	if [ ! -f "${gameconfigdir}/_default.cfg" ];then
+		mkdir -p "${gameconfigdir}"
 		cp -R "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
 	else
 		function_file_diff=$(diff -q ${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg ${gameconfigdir}/_default.cfg)
@@ -323,21 +324,21 @@ else
 			echo "config different onverwriting"
 			cp -R "${lgsmdir}/default-configs/lgsm-config/${servername}/_default.cfg" "${gameconfigdir}/_default.cfg"
 		fi
-		source lgsm/config/${servername}/_default.cfg
+		source "lgsm/config/${servername}/_default.cfg"
 	fi
 	# Load the common.cfg config. If missing download it
 	if [ ! -f "${gameconfigdir}/common.cfg" ];then
 		fn_boostrap_fetch_config "lgsm/config" "common-template.cfg" "${lgsmdir}/config/${servername}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
-		source lgsm/config/${servername}/common.cfg
+		source "lgsm/config/${servername}/common.cfg"
 	else
-		source lgsm/config/${servername}/common.cfg
+		source "lgsm/config/${servername}/common.cfg"
 	fi
 	# Load the instance.cfg config. If missing download it
 	if [ ! -f "${gameconfigdir}/${servicename}.cfg" ];then
 		fn_boostrap_fetch_config "lgsm/config" "instance-template.cfg" "${lgsmdir}/config/${servername}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
-		source lgsm/config/${servername}/${servicename}.cfg
+		source "lgsm/config/${servername}/${servicename}.cfg"
 	else
-		source lgsm/config/${servername}/${servicename}.cfg
+		source "lgsm/config/${servername}/${servicename}.cfg"
 	fi
 fi
 ########################
