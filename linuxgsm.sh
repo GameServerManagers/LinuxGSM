@@ -315,7 +315,7 @@ else
 	# Load the default config. If missing download it. If changed reload it.
 	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ];then
 		mkdir -p "${configdirdefault}/config-lgsm/${servername}"
-		fn_boostrap_fetch_config "lgsm/config-default/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_boostrap_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 	fi
 	if [ ! -f "${configdirserver}/_default.cfg" ];then
 		mkdir -p "${configdirserver}"
@@ -330,14 +330,14 @@ else
 	source "${configdirserver}/_default.cfg"
 	# Load the common.cfg config. If missing download it
 	if [ ! -f "${configdirserver}/common.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config-default" "common-template.cfg" "${configdirserver}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_boostrap_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
 		source "${configdirserver}/common.cfg"
 	else
 		source "${configdirserver}/common.cfg"
 	fi
 	# Load the instance.cfg config. If missing download it
 	if [ ! -f "${configdirserver}/${servicename}.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config-default" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_boostrap_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 		source "${configdirserver}/${servicename}.cfg"
 	else
 		source "${configdirserver}/${servicename}.cfg"
