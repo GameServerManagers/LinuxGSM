@@ -13,29 +13,28 @@ fi
 # Core
 
 core_dl.sh(){
-# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_fetch_function
 }
 
 core_exit.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_fetch_function
 }
 
 core_getopt.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_fetch_function
 }
 
 core_trap.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_fetch_function
 }
 
 core_messages.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+fn_fetch_function
 }
 
 
