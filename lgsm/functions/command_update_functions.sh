@@ -1,4 +1,4 @@
-aa#!/bin/bash
+#!/bin/bash
 # LinuxGSM command_update_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
