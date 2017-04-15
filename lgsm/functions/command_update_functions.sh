@@ -8,34 +8,35 @@ local commandname="UPDATE LinuxGSM"
 local commandaction="Update LinuxGSM"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_print_dots "Updating functions"
+fn_print_dots "Updating LinuxGSM"
 sleep 1
 check.sh
-fn_script_log_info "Updating functions"
+fn_script_log_info "Updating LinuxGSM"
 echo -ne "\n"
 
-echo -ne "    checking _default.cfg...\c"
-function_file_diff=$(diff "${configdirdefault}/config-lgsm/${servername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
-if [ "${function_file_diff}" != "" ]; then
+# Check and update _default.cfg
+echo -ne "    checking config _default.cfg...\c"
+config_file_diff=$(diff "${configdirdefault}/config-lgsm/${servername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
+if [ "${config_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_info "checking ${functionfile}: UPDATE"
-	rm -rf "${configdirdefault}/config-lgsm/${servername}/_default.cfg"
+	fn_script_log_info "checking config _default.cfg: UPDATE"
+	rm -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg"
 	fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
-
 else
 	fn_print_ok_eol_nl
 fi
 
+# Check and update functions
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
 		cd "${functionsdir}"
 		for functionfile in *
 		do
-			echo -ne "    checking ${functionfile}...\c"
+			echo -ne "    checking function ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
-				fn_script_log_info "checking ${functionfile}: UPDATE"
+				fn_script_log_info "checking function ${functionfile}: UPDATE"
 				rm -rf "${functionsdir}/${functionfile}"
 				fn_update_function
 			else
