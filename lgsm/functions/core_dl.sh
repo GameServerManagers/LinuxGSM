@@ -177,6 +177,19 @@ fn_fetch_file(){
 # force: force download of file even if exists
 # md5: Checks fail against an md5 sum
 
+fn_fetch_config(){
+	github_file_url_dir="${1}" # github dir containing the file
+	github_file_url_name="${2}" # name of the github file
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fileurl="${githuburl}"
+	filedir="${3}"
+	filename="${4}"
+	executecmd="noexecutecmd"
+	run="norun"
+	force="noforce"
+	md5="nomd5"
+	fn_boostrap_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+}
 
 # Fetches files from the github repo
 fn_fetch_file_github(){

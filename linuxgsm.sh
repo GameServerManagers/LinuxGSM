@@ -39,16 +39,32 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="feature/config"
 
-# Bootstrap
+# Core Functions that are required first
+core_dl.sh(){
+	functionfile="${FUNCNAME}"
+	fn_bootstrap_fetch_file
+}
 
-# Fetches bootstrap files (configs and core functions)
-fn_boostrap_fetch_file(){
-	fileurl="${1}"
-	filedir="${2}"
-	filename="${3}"
-	executecmd="${4:-0}"
-	run="${5:-0}"
-	force="${6:-0}"
+core_functions.sh(){
+	functionfile="${FUNCNAME}"
+	fn_bootstrap_fetch_file
+}
+
+# Bootstrap
+# Fetches the core functions required before passed off to core_dl.sh
+
+# Fetches core functions
+fn_bootstrap_fetch_file(){
+	github_file_url_dir="lgsm/functions" # github dir containing the file
+	github_file_url_name="${functionfile}" # name of the github file
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fileurl="${githuburl}"
+	filedir="${functionsdir}"
+	filename="${github_file_url_name}"
+	executecmd="executecmd"
+	run="run"
+	force="noforce"
+	md5="nomd5"
 	# If the file is missing, then download
 	if [ ! -f "${filedir}/${filename}" ]; then
 		if [ ! -d "${filedir}" ]; then
@@ -77,9 +93,7 @@ fn_boostrap_fetch_file(){
 				echo -e "\e[0;32mOK\e[0m"
 			fi
 		else
-			echo -e "\e[0;31mFAIL\e[0m\n"
-			echo "Curl is not installed!"
-			echo -e ""
+			echo "[ FAIL ] Curl is not installed"
 			exit 1
 		fi
 		# make file executecmd if executecmd is set
@@ -96,40 +110,15 @@ fn_boostrap_fetch_file(){
 	fi
 }
 
-fn_boostrap_fetch_function(){
-	github_file_url_dir="lgsm/functions" # github dir containing the file
-	github_file_url_name="${functionfile}" # name of the github file
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-	fileurl="${githuburl}"
-	filedir="${functionsdir}"
-	filename="${github_file_url_name}"
-	executecmd="executecmd"
-	run="run"
-	force="noforce"
-	md5="nomd5"
-	fn_boostrap_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
-}
 
-fn_boostrap_fetch_config(){
-	github_file_url_dir="${1}" # github dir containing the file
-	github_file_url_name="${2}" # name of the github file
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-	fileurl="${githuburl}"
-	filedir="${3}"
-	filename="${4}"
-	executecmd="noexecutecmd"
-	run="norun"
-	force="noforce"
-	md5="nomd5"
-	fn_boostrap_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
-}
+# Installer menu
 
 fn_print_center() {
 	columns="$(tput cols)"
 	line="$@"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
-# Print horizontal line
+
 fn_print_horizontal(){
 	char="${1:-=}"
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
@@ -310,12 +299,15 @@ if [ "${shortname}" == "core" ]; then
 	fi
 # LinuxGSM Server Mode
 else
+	core_dl.sh
+	core_functions.sh
+
 	# Load LinuxGSM configs
 	# These are required to get all the default variables for the specific server.
 	# Load the default config. If missing download it. If changed reload it.
 	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ];then
 		mkdir -p "${configdirdefault}/config-lgsm/${servername}"
-		fn_boostrap_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 	fi
 	if [ ! -f "${configdirserver}/_default.cfg" ];then
 		mkdir -p "${configdirserver}"
@@ -330,39 +322,19 @@ else
 	source "${configdirserver}/_default.cfg"
 	# Load the common.cfg config. If missing download it
 	if [ ! -f "${configdirserver}/common.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
 		source "${configdirserver}/common.cfg"
 	else
 		source "${configdirserver}/common.cfg"
 	fi
 	# Load the instance.cfg config. If missing download it
 	if [ ! -f "${configdirserver}/${servicename}.cfg" ];then
-		fn_boostrap_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 		source "${configdirserver}/${servicename}.cfg"
 	else
 		source "${configdirserver}/${servicename}.cfg"
 	fi
 fi
-
-########################
-######## Script ########
-###### Do not edit #####
-########################
-
-core_dl.sh(){
-# Functions are defined in core_functions.sh.
-functionfile="${FUNCNAME}"
-fn_boostrap_fetch_function
-}
-
-core_functions.sh(){
-# Functions are defined in core_functions.sh.
-functionfile="${FUNCNAME}"
-fn_boostrap_fetch_function
-}
-
-core_dl.sh
-core_functions.sh
 
 getopt=$1
 core_getopt.sh
