@@ -56,18 +56,18 @@ if [ ! -f "${filedir}/${filename}" ]; then
 	echo -e "    fetching ${filename}...\c"
 	# Check curl exists and use available path
 	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-	for curlcmd in ${curlpaths}
+	for curlpath in ${curlpaths}
 	do
-		if [ -x "${curlcmd}" ]; then
+		if [ -x "${curlpath}" ]; then
 			break
 		fi
 	done
 	# If curl exists download file
-	if [ "$(basename ${curlcmd})" == "curl" ]; then
-		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
+	if [ "$(basename ${curlpath})" == "curl" ]; then
+		curlcmd=$(${curlpath} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
 		if [ $? -ne 0 ]; then
 			echo -e "${red}FAIL${default}\n"
-			echo "${curlfetch}"
+			echo "${curlcmd}"
 			echo -e "${githuburl}\n"
 			exit 1
 		else

@@ -21,17 +21,18 @@ if [ -n "${rootdir}" ]; then
 		exitcode=$?
 	fi
 fi
-# Check if curl exists and use available path
+# Check curl exists and use available path
 curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-for curlcmd in ${curlpaths}
+for curlpath in ${curlpaths}
 do
-	if [ -x "${curlcmd}" ]; then
-		curlcmd=${curlcmd}
+	if [ -x "${curlpath}" ]; then
 		break
 	fi
 done
+
+
 echo -ne "    checking _default.cfg...\c"
-function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
+function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
 if [ "${function_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_info "checking ${functionfile}: UPDATE"
@@ -48,7 +49,7 @@ if [ -n "${functionsdir}" ]; then
 		for functionfile in *
 		do
 			echo -ne "    checking ${functionfile}...\c"
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlcmd} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
 				fn_script_log_info "checking ${functionfile}: UPDATE"

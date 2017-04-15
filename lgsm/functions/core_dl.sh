@@ -106,25 +106,25 @@ fn_fetch_file(){
 
 		# Check curl exists and use available path
 		curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-		for curlcmd in ${curlpaths}
+		for curlpath in ${curlpaths}
 		do
-			if [ -x "${curlcmd}" ]; then
+			if [ -x "${curlpath}" ]; then
 				break
 			fi
 		done
 		# If curl exists download file
-		if [ "$(basename ${curlcmd})" == "curl" ]; then
+		if [ "$(basename ${curlpath})" == "curl" ]; then
 			# trap to remove part downloaded files
 			trap fn_fetch_trap INT
 			# if larger file shows progress bar
 			if [ "${filename##*.}" == "bz2" ]||[ "${filename##*.}" == "gz" ]||[ "${filename##*.}" == "zip" ]||[ "${filename##*.}" == "jar" ]; then
 				echo -ne "downloading ${filename}..."
 				sleep 1
-				curlcmd=$(${curlcmd} --progress-bar --fail -L -o "${filedir}/${filename}" "${fileurl}")
+				curlcmd=$(${curlpath} --progress-bar --fail -L -o "${filedir}/${filename}" "${fileurl}")
 				echo -ne "downloading ${filename}..."
 			else
 				echo -ne "    fetching ${filename}...\c"
-				curlcmd=$(${curlcmd} -s --fail -L -o "${filedir}/${filename}" "${fileurl}" 2>&1)
+				curlcmd=$(${curlpath} -s --fail -L -o "${filedir}/${filename}" "${fileurl}" 2>&1)
 			fi
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
