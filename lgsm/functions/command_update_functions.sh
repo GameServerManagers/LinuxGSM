@@ -15,7 +15,7 @@ fn_script_log_info "Updating functions"
 echo -ne "\n"
 
 echo -ne "    checking _default.cfg...\c"
-function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
+function_file_diff=$(diff "${configdirdefault}/config-lgsm/${servername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
 if [ "${function_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_info "checking ${functionfile}: UPDATE"
