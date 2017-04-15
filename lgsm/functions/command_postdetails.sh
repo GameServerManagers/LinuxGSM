@@ -112,12 +112,12 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
 	sleep 1
 	# grab the return from 'value' from an initial visit to pastebin.
-	csrftoken=$(curl -s "${posttarget}" |
+	csrftoken=$(${curlpath} -s "${posttarget}" |
 					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
 	#
 	# Use the csrftoken to then post the content.
 	#
-	link=$(curl -s "${posttarget}/post.php" -D - -F "submit_hidden=submit_hidden" \
+	link=$(${curlpath} -s "${posttarget}/post.php" -D - -F "submit_hidden=submit_hidden" \
 				-F "post_key=${csrftoken}" -F "paste_expire_date=${postexpire}" \
 				-F "paste_name=${gamename} Debug Info" \
 				-F "paste_format=8" -F "paste_private=0" \
@@ -133,7 +133,7 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
-	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
+	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	echo "  Please share the following url for support: ${posttarget}/${link}"
 else

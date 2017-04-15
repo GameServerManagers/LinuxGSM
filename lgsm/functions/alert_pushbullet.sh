@@ -11,7 +11,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_print_dots "Sending Pushbullet alert"
 sleep 1
 
-pushbulletsend=$(curl --silent -u """${pushbullettoken}"":" -d channel_tag="${channeltag}" -d type="note" -d body="${alertbody}" -d title="${alertsubject}" 'https://api.pushbullet.com/v2/pushes'|grep -o invalid_access_token|uniq)
+pushbulletsend=$(${curlpath} --silent -u """${pushbullettoken}"":" -d channel_tag="${channeltag}" -d type="note" -d body="${alertbody}" -d title="${alertsubject}" 'https://api.pushbullet.com/v2/pushes'|grep -o invalid_access_token|uniq)
 
 if [ "${pushbulletsend}" == "invalid_access_token" ]; then
 	fn_print_fail_nl "Sending Pushbullet alert: invalid_access_token"

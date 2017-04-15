@@ -69,7 +69,7 @@ fn_update_currentbuild(){
 
 fn_update_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(curl -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | sed -e 's/^.*"release":"\([^"]*\)".*$/\1/')
+	availablebuild=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | sed -e 's/^.*"release":"\([^"]*\)".*$/\1/')
 	sleep 1
 
 	# Checks if availablebuild variable has been set

@@ -1,4 +1,4 @@
-#!/bin/bash
+aa#!/bin/bash
 # LinuxGSM command_update_functions.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
@@ -13,23 +13,6 @@ sleep 1
 check.sh
 fn_script_log_info "Updating functions"
 echo -ne "\n"
-
-# Removed legacy functions dir
-if [ -n "${rootdir}" ]; then
-	if [ -d "${rootdir}/functions/" ]; then
-		rm -rfv "${rootdir}/functions/"
-		exitcode=$?
-	fi
-fi
-# Check curl exists and use available path
-curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-for curlpath in ${curlpaths}
-do
-	if [ -x "${curlpath}" ]; then
-		break
-	fi
-done
-
 
 echo -ne "    checking _default.cfg...\c"
 function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))

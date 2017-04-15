@@ -236,3 +236,13 @@ fn_update_function(){
 	md5="nomd5"
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
 }
+
+
+# Defines curl path
+curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
+for curlpath in "${curlpaths}"
+do
+	if [ -x "${curlpath}" ]; then
+		break
+	fi
+done

@@ -76,7 +76,7 @@ fn_update_mumble_arch(){
 
 fn_update_mumble_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(curl -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
+	availablebuild=$(${curlpath} -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	sleep 1
 
 	# Checks if availablebuild variable has been set
