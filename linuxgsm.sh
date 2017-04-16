@@ -43,7 +43,7 @@ githubbranch="feature/config"
 # Core Function that is required first
 core_functions.sh(){
 	functionfile="${FUNCNAME}"
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 # Bootstrap
@@ -51,17 +51,17 @@ core_functions.sh(){
 
 # Fetches core functions
 fn_bootstrap_fetch_file(){
-	fileurl="${1}"
-	filedir="${2}"
-	filename="${3}"
-	executecmd="${4:-0}"
+	remote_fileurl="${1}"
+	local_filedir="${2}"
+	local_filename="${3}"
+	chmodx="${4:-0}"
 	run="${5:-0}"
-	force="${6:-0}"
+	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# If the file is missing, then download
-	if [ ! -f "${filedir}/${filename}" ]; then
-		if [ ! -d "${filedir}" ]; then
-			mkdir -p "${filedir}"
+	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+		if [ ! -d "${local_filedir}" ]; then
+			mkdir -p "${local_filedir}"
 		fi
 		# Check curl exists and use available path
 		curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
@@ -74,12 +74,12 @@ fn_bootstrap_fetch_file(){
 		# If curl exists download file
 		if [ "$(basename ${curlpath})" == "curl" ]; then
 			# trap to remove part downloaded files
-			echo -ne "    fetching ${filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${filedir}/${filename}" "${fileurl}" 2>&1)
+			echo -ne "    fetching ${local_filename}...\c"
+			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "\e[0;31mFAIL\e[0m\n"
-				echo -e "${fileurl}" | tee -a "${scriptlog}"
+				echo -e "${remote_fileurl}" | tee -a "${scriptlog}"
 				echo "${curlcmd}" | tee -a "${scriptlog}"
 				exit 1
 			else
@@ -89,16 +89,16 @@ fn_bootstrap_fetch_file(){
 			echo "[ FAIL ] Curl is not installed"
 			exit 1
 		fi
-		# make file executecmd if executecmd is set
-		if [ "${executecmd}" == "executecmd" ]; then
-			chmod +x "${filedir}/${filename}"
+		# make file chmodx if chmodx is set
+		if [ "${chmodx}" == "chmodx" ]; then
+			chmod +x "${local_filedir}/${local_filename}"
 		fi
 	fi
 
-	if [ -f "${filedir}/${filename}" ]; then
+	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# run file if run is set
 		if [ "${run}" == "run" ]; then
-			source "${filedir}/${filename}"
+			source "${local_filedir}/${local_filename}"
 		fi
 	fi
 }
@@ -108,15 +108,15 @@ fn_bootstrap_fetch_file_github(){
 	github_file_url_name="${2}"
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 
-	remote_fileurl="${githuburl}"
-	local_filedir="${3}"
-	local_filename="${github_file_url_name}"
+	remote_remote_fileurl="${githuburl}"
+	local_local_filedir="${3}"
+	local_local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
 	run="${5:-0}"
-	forcedl="${6:-0}"
+	forcedldl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download function
-	fn_bootstrap_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_bootstrap_fetch_file "${remote_remote_fileurl}" "${local_local_filedir}" "${local_local_filename}" "${chmodx}" "${run}" "${forcedldl}" "${md5}"
 }
 
 # Installer menu
@@ -174,7 +174,7 @@ fn_install_menu_whiptail() {
 		menu_options+=( ${val//\"} "${key//\"}" )
 	done < $options
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" ${height} ${width} ${menuheight} "${menu_options[@]}" 3>&1 1>&2 2>&3)
-	if [ $? = 0 ]; then
+	if [ $? == 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
 	else
 		eval "$resultvar="
@@ -228,25 +228,25 @@ fn_install_getopt(){
 }
 
 fn_install_file(){
-	filename="${servername}"
-	if [ -e "${filename}" ]; then
+	local_filename="${servername}"
+	if [ -e "${local_filename}" ]; then
 		i=2
-	while [ -e "${filename}-${i}" ] ; do
+	while [ -e "${local_filename}-${i}" ] ; do
 		let i++
 	done
-		filename="${filename}-${i}"
+		local_filename="${local_filename}-${i}"
 	fi
-	cp -R "${selfname}" "${filename}"
-	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${filename}"
-	sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${filename}"
-	sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${filename}"
-	echo "Installed ${gamename} server as ${filename}"
-	echo "./${filename} install"
+	cp -R "${selfname}" "${local_filename}"
+	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
+	sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${local_filename}"
+	sed -i -e "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${local_filename}"
+	echo "Installed ${gamename} server as ${local_filename}"
+	echo "./${local_filename} install"
 	exit
 }
 
 # Prevent from running this script as root.
-if [ "$(whoami)" = "root" ]; then
+if [ "$(whoami)" == "root" ]; then
 	if [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
 		echo "[ FAIL ] Do NOT run this script as root!"
 		exit 1
@@ -265,7 +265,7 @@ if [ "${shortname}" == "core" ]; then
 
 	# Download the serverlist. This is the complete list of all supported servers.
 	# Download to tmp dir
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
 	# if missing in lgsm dir copy it accross
 	if [ ! -f "${serverlist}" ]; then
 		mkdir -p "${datadir}"
@@ -317,7 +317,7 @@ else
 	# Load the default config. If missing download it. If changed reload it.
 	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ];then
 		mkdir -p "${configdirdefault}/config-lgsm/${servername}"
-		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 	fi
 	if [ ! -f "${configdirserver}/_default.cfg" ];then
 		mkdir -p "${configdirserver}"
@@ -332,14 +332,14 @@ else
 	source "${configdirserver}/_default.cfg"
 	# Load the common.cfg config. If missing download it
 	if [ ! -f "${configdirserver}/common.cfg" ];then
-		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${executecmd}" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
 		source "${configdirserver}/common.cfg"
 	else
 		source "${configdirserver}/common.cfg"
 	fi
 	# Load the instance.cfg config. If missing download it
 	if [ ! -f "${configdirserver}/${servicename}.cfg" ];then
-		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 		source "${configdirserver}/${servicename}.cfg"
 	else
 		source "${configdirserver}/${servicename}.cfg"

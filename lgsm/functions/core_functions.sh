@@ -5,16 +5,11 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
-# Creates tmp dir if missing
-if [ ! -d "${tmpdir}" ]; then
-	mkdir -p "${tmpdir}"
-fi
-
 # Core
 
 core_dl.sh(){
 functionfile="${FUNCNAME}"
-fn_bootstrap_fetch_file
+fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 core_exit.sh(){
@@ -34,7 +29,7 @@ fn_fetch_function
 
 core_messages.sh(){
 functionfile="${FUNCNAME}"
-fn_bootstrap_fetch_file
+fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 
@@ -540,6 +535,11 @@ install_ut2k4_key.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
+# Creates tmp dir if missing
+if [ ! -d "${tmpdir}" ]; then
+    mkdir -p "${tmpdir}"
+fi
 
 # Calls on-screen messages (bootstrap)
 core_messages.sh
