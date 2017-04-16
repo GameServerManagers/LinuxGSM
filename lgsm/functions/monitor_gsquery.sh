@@ -9,11 +9,6 @@ local commandname="MONITOR"
 local commandaction="Monitor"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-# Forces legacy servers to use gsquery
-if [ -z "${gsquery}" ]; then
-	gsquery="yes"
-fi
-
 if [ "${gsquery}" == "yes" ]; then
 
 	# Downloads gsquery.py if missing

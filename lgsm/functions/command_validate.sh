@@ -18,8 +18,7 @@ fn_validation(){
 	fn_script_log_info "Validating files: SteamCMD"
 	sleep 1
 
-	cd "${rootdir}/steamcmd"
-
+	cd "${steamcmddir}"
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
 	if [ $(command -v stdbuf) ]&&[ "${arch}" != "x86_64" ]; then

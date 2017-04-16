@@ -46,7 +46,7 @@ fn_start_teamspeak3(){
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
-		echo -e "	Check log files: ${rootdir}/log"
+		echo -e "	Check log files: ${logdir}"
 		core_exit.sh
 	else
 		fn_print_ok_nl "${servername}"

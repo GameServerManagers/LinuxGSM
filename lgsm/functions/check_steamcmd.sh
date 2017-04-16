@@ -39,7 +39,6 @@ fn_check_steamcmd_user(){
 fn_check_steamcmd_sh(){
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Installs if missing.
-	steamcmddir="${rootdir}/steamcmd"
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
@@ -55,17 +54,5 @@ fn_check_steamcmd_sh(){
 	fi
 }
 
-fn_check_steamcmd_guard(){
-	if [ "${function_selfname}" == "command_update.sh" ]||[ "${function_selfname}" == "command_validate.sh" ]; then
-		# Checks that SteamCMD is working correctly and will prompt Steam Guard if required.
-		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
-		if [ $? -ne 0 ]; then
-			fn_print_failure_nl "Error running SteamCMD"
-		fi
-	fi
-}
-
 fn_check_steamcmd_user
 fn_check_steamcmd_sh
-# stdbuf has now replaced unbuffer. This should not longer be required.
-#fn_check_steamcmd_guard

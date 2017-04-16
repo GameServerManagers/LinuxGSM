@@ -48,7 +48,7 @@ fn_install_server_files_steamcmd(){
 	counter="0"
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
-		cd "${rootdir}/steamcmd"
+		cd "${steamcmddir}"
 		if [ "${counter}" -le "10" ]; then
 			# Attempt 1-4: Standard attempt
 			# Attempt 5-6: Validate attempt
@@ -66,7 +66,7 @@ fn_install_server_files_steamcmd(){
 				find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
-				rm -rf "${rootdir}/steamcmd"
+				rm -rf "${steamcmddir}"
 				check_steamcmd.sh
 			fi
 

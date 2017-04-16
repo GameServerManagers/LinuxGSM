@@ -13,7 +13,7 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fixname="steamclient.so general"
 	fn_fix_msg_start
 	mkdir -pv "${HOME}/.steam/sdk32" >> "${scriptlog}"
-	cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${scriptlog}"
+	cp -v "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${scriptlog}"
 	fn_fix_msg_end
 fi
 
@@ -31,13 +31,13 @@ elif [ "${gamename}" == "Hurtworld" ]; then
 	if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
 		fixname="steamclient.so x86"
 		fn_fix_msg_start
-		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${scriptlog}"
+		cp -v "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${scriptlog}"
 		fn_fix_msg_end
 	fi
 	if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
 		fixname="steamclient.so x86_64"
 		fn_fix_msg_start
-		cp -v "${rootdir}/steamcmd/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${scriptlog}"
+		cp -v "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${scriptlog}"
 		fn_fix_msg_end
 	fi
 elif [ "${gamename}" == "Tower Unite" ]; then

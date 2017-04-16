@@ -15,7 +15,7 @@ if [ "${checklogs}" != "1" ]; then
 fi
 sleep 1
 # Create script and console log directories
-mkdir -v "${rootdir}/log"
+mkdir -v "${logdir}"
 mkdir -v "${scriptlogdir}"
 touch "${scriptlog}"
 if [ -n "${consolelogdir}" ]; then
@@ -30,15 +30,15 @@ fi
 
 # Symlink gamelogdir to lgsm logs if variable exists
 if [ -n "${gamelogdir}" ]; then
-	if [ ! -h "${rootdir}/log/server" ]; then
-		ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
+	if [ ! -h "${logdir}/server" ]; then
+		ln -nfsv "${gamelogdir}" "${logdir}/server"
 	fi
 fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
-	if [ ! -h "${rootdir}/log/steamcmd" ]; then
-		ln -nfsv "${rootdir}/Steam/logs" "${rootdir}/log/steamcmd"
+	if [ ! -h "${logdir}/steamcmd" ]; then
+		ln -nfsv "${rootdir}/Steam/logs" "${logdir}/steamcmd"
 	fi
 fi
 sleep 1

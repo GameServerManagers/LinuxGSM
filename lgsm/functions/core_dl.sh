@@ -55,7 +55,9 @@ fn_dl_extract(){
 	# extracts archives
 	echo -ne "extracting ${local_filename}..."
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
-
+	if [ ! -d "${extractdir}" ]; then
+		mkdir "${extractdir}"
+	fi
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
 		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then

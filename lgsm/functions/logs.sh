@@ -37,7 +37,7 @@ if [ $(find "${scriptlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; th
 	sourcemodlogdir="${systemdir}/addons/sourcemod/logs"
 	ulxlogdir="${systemdir}/data/ulx_logs"
 	darkrplogdir="${systemdir}/data/darkrp_logs"
-	legacyserverlogdir="${rootdir}/log/server"
+	legacyserverlogdir="${logdir}/server"
 	# Setting up counting variables
 	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
 	sleep 1
