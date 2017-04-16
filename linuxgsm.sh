@@ -39,12 +39,7 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="feature/config"
 
-# Core Functions that are required first
-core_dl.sh(){
-	functionfile="${FUNCNAME}"
-	fn_bootstrap_fetch_file
-}
-
+# Core Function that is required first
 core_functions.sh(){
 	functionfile="${FUNCNAME}"
 	fn_bootstrap_fetch_file
@@ -297,9 +292,9 @@ if [ "${shortname}" == "core" ]; then
 	else
 		fn_install_getopt
 	fi
+
 # LinuxGSM Server Mode
 else
-	core_dl.sh
 	core_functions.sh
 
 	# Load LinuxGSM configs

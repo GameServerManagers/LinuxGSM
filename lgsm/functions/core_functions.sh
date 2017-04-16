@@ -14,7 +14,7 @@ fi
 
 core_dl.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_function
+fn_bootstrap_fetch_file
 }
 
 core_exit.sh(){
@@ -34,7 +34,7 @@ fn_fetch_function
 
 core_messages.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_function
+fn_bootstrap_fetch_file
 }
 
 
@@ -541,11 +541,13 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Calls on-screen messages (bootstrap)
+core_messages.sh
+
+#Calls file downloader (bootstrap)
+core_dl.sh
+
 # Calls the global Ctrl-C trap
 core_trap.sh
 
-# Calls on-screen messages
-core_messages.sh
 
-#Calls file downloader
-core_dl.sh
