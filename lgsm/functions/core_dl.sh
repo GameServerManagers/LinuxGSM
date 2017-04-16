@@ -233,8 +233,8 @@ fn_update_function(){
 
 
 # Defines curl path
-curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-for curlpath in "${curlpaths}"
+curl_paths_array=($(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)
+for curlpath in "${curl_paths_array}"
 do
 	if [ -x "${curlpath}" ]; then
 		break

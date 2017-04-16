@@ -63,9 +63,9 @@ fn_bootstrap_fetch_file(){
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
-		# Check curl exists and use available path
-		curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-		for curlpath in ${curlpaths}
+		# Defines curl path
+		curl_paths_array=($(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)
+		for curlpath in "${curl_paths_array}"
 		do
 			if [ -x "${curlpath}" ]; then
 				break
