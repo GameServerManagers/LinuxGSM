@@ -18,8 +18,8 @@ fn_check_ownership(){
 			funcownissue=1
 		fi
 	fi
-	if [ -d "${filesdir}" ]; then
-		if [ $(find "${filesdir}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+	if [ -d "${serverfiles}" ]; then
+		if [ $(find "${serverfiles}" -not -user $(whoami)|wc -l) -ne "0" ]; then
 			filesownissue=1
 		fi
 	fi
@@ -37,7 +37,7 @@ fn_check_ownership(){
 				find "${functionsdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1"  ]; then
-				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+				find "${serverfiles}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 
 		} | column -s $'\t' -t | tee -a "${scriptlog}"

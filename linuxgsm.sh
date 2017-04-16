@@ -26,13 +26,13 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
-filesdir="${rootdir}/serverfiles"
+serverfiles="${rootdir}/serverfiles"
 configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${servername}"
 configdirdefault="${lgsmdir}/config-default"
 
 
-## Github Branch Select
+## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
@@ -42,7 +42,7 @@ githubbranch="feature/config"
 # Core Function that is required first
 core_functions.sh(){
 	functionfile="${FUNCNAME}"
-	fn_bootstrap_fetch_file
+	fn_bootstrap_fetch_file "lgsm/functions" "core_functions.sh" "${functionsdir}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 }
 
 # Bootstrap
@@ -50,16 +50,13 @@ core_functions.sh(){
 
 # Fetches core functions
 fn_bootstrap_fetch_file(){
-	github_file_url_dir="lgsm/functions" # github dir containing the file
-	github_file_url_name="${functionfile}" # name of the github file
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-	fileurl="${githuburl}"
-	filedir="${functionsdir}"
-	filename="${github_file_url_name}"
-	executecmd="executecmd"
-	run="run"
-	force="noforce"
-	md5="nomd5"
+	fileurl="${1}"
+	filedir="${2}"
+	filename="${3}"
+	executecmd="${4:-0}"
+	run="${5:-0}"
+	force="${6:-0}"
+	md5="${7:-0}"
 	# If the file is missing, then download
 	if [ ! -f "${filedir}/${filename}" ]; then
 		if [ ! -d "${filedir}" ]; then
@@ -252,7 +249,7 @@ if [ "${shortname}" == "core" ]; then
 
 	# Download the serverlist. This is the complete list of all supported servers.
 	# Download to tmp dir
-	fn_boostrap_fetch_config "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_boostrap_fetch_file "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
 	# if missing in lgsm dir copy it accross
 	if [ ! -f "${serverlist}" ]; then
 		mkdir -p "${datadir}"

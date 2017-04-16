@@ -10,9 +10,9 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_update_dl(){
 	fn_fetch_file "https://s3.amazonaws.com/Minecraft.Download/versions/${availablebuild}/minecraft_server.${availablebuild}.jar" "${tmpdir}" "minecraft_server.${availablebuild}.jar"
-	echo -e "copying to ${filesdir}...\c"
-	fn_script_log "Copying to ${filesdir}"
-	cp "${tmpdir}/minecraft_server.${availablebuild}.jar" "${filesdir}/minecraft_server.jar"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp "${tmpdir}/minecraft_server.${availablebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
@@ -47,7 +47,7 @@ fn_update_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat "${filesdir}/logs/latest.log" 2> /dev/null | grep version | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+	currentbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: mojang.com: Current build version not found"
 		fn_script_log_error "Checking for update: mojang.com: Current build version not found"
@@ -58,7 +58,7 @@ fn_update_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat "${filesdir}/logs/latest.log" 2> /dev/null | grep version | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		currentbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: mojang.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: mojang.com: Current build version still not found"

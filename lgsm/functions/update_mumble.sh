@@ -12,9 +12,9 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 fn_update_mumble_dl(){
 	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}"
-	echo -e "copying to ${filesdir}...\c"
-	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/murmur-static_${mumblearch}-${availablebuild}/"* "${filesdir}"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp -R "${tmpdir}/murmur-static_${mumblearch}-${availablebuild}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl

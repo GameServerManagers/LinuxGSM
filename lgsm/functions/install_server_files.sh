@@ -24,11 +24,11 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.1_full_server_linux.tar.bz2"; filedir="${tmpdir}"; filename="GoldenEye_Source_v5.0.1_server_full_Linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
 	elif [ "${gamename}" == "Quake 2" ]; then
-		fileurl="http://files.gameservermanagers.com/Quake2/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
+		fileurl="http://files.gameservermanagers.com/Quake2/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; filedir="${tmpdir}"; filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
-		fileurl="http://files.gameservermanagers.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="quake3-1.32c-x86-full-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
+		fileurl="http://files.gameservermanagers.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; filedir="${tmpdir}"; filename="quake3-1.32c-x86-full-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
 	elif [ "${gamename}" == "QuakeWorld" ]; then
-		fileurl="http://files.gameservermanagers.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; filedir="${lgsmdir}/tmp"; filename="nquake.server.linux.083116.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
+		fileurl="http://files.gameservermanagers.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; filedir="${tmpdir}"; filename="nquake.server.linux.083116.full.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament2004/ut2004-server-3339-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut2004-server-3339-ultimate-linux.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
@@ -41,7 +41,7 @@ fn_install_server_files(){
 		fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; filedir="${tmpdir}"; filename="enemy-territory.260b.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	fi
 	fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
-	fn_dl_extract "${filedir}" "${filename}" "${filesdir}"
+	fn_dl_extract "${filedir}" "${filename}" "${serverfiles}"
 }
 
 fn_install_server_files_steamcmd(){
@@ -62,8 +62,8 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
-				echo "Removing $(find ${filesdir} -type d -print0 | grep -Ez '[^/]{30}$')"
-				find ${filesdir} -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
+				echo "Removing $(find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$')"
+				find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
 				rm -rf "${rootdir}/steamcmd"
@@ -78,18 +78,18 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -le "4" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
 				fi
 			fi
@@ -107,7 +107,7 @@ fn_install_server_files_steamcmd(){
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} -validate +quit
+			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} -validate +quit
 			local exitcode=$?
 		done
 	fi

@@ -10,8 +10,8 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 echo "applying WebAdmin ut2003.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
-sed -i 's/none}/none;/g' "${filesdir}/Web/ServerAdmin/ut2003.css"
-sed -i 's/underline}/underline;/g' "${filesdir}/Web/ServerAdmin/ut2003.css"
+sed -i 's/none}/none;/g' "${serverfiles}/Web/ServerAdmin/ut2003.css"
+sed -i 's/underline}/underline;/g' "${serverfiles}/Web/ServerAdmin/ut2003.css"
 sleep 1
 echo "applying WebAdmin CharSet fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"

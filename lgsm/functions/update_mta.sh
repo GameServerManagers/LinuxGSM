@@ -12,9 +12,9 @@ fn_update_mta_dl(){
 	fn_fetch_file "http://linux.mtasa.com/dl/${numversion}/multitheftauto_linux_x64-${fullversion}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${fullversion}.tar.gz"
   mkdir "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${fullversion}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
-	echo -e "copying to ${filesdir}...\c"
-	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/multitheftauto_linux_x64-${fullversion}/multitheftauto_linux_x64-${fullversion}/"* "${filesdir}"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp -R "${tmpdir}/multitheftauto_linux_x64-${fullversion}/multitheftauto_linux_x64-${fullversion}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl

@@ -252,7 +252,7 @@ fn_stop_ark(){
 	if [ -z "${queryport}" ]; then
 		fn_print_warn "No queryport found using info_config.sh"
 		fn_script_log_warn "No queryport found using info_config.sh"
-		userconfigfile="${filesdir}"
+		userconfigfile="${serverfiles}"
 		userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
 		queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
 	fi
@@ -291,7 +291,7 @@ fn_stop_ark(){
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
 	sleep 0.5
-	"${filesdir}"/ts3server_startscript.sh stop > /dev/null 2>&1
+	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# Remove lockfile

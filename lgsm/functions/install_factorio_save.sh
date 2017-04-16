@@ -12,4 +12,4 @@ echo "Creating initial Factorio savefile"
 echo "================================="
 sleep 1
 check_glibc.sh
-"${executabledir}"/factorio --create ${filesdir}/save1
+"${executabledir}"/factorio --create ${serverfiles}/save1

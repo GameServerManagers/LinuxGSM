@@ -93,12 +93,12 @@ tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-systemdir="${filesdir}"
-executabledir="${filesdir}"
+systemdir="${serverfiles}"
+executabledir="${serverfiles}"
 executable="./Jcmp-Server"
 servercfg="config.lua"
 servercfgdefault="config.lua"
-servercfgdir="${filesdir}"
+servercfgdir="${serverfiles}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
@@ -443,7 +443,7 @@ echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
+sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 (command_update.sh)
 fn_test_result_pass
 
@@ -456,7 +456,7 @@ echo "Command: ./jc2server update"
 requiredstatus="ONLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
+sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 (command_update.sh)
 fn_test_result_pass
 
@@ -469,7 +469,7 @@ echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "removed appmanifest_${appid}.acf."
-rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
+rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 (command_update.sh)
 fn_test_result_pass
 

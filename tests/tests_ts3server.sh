@@ -80,19 +80,19 @@ tmpdir="${lgsmdir}/tmp"
 filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
-systemdir="${filesdir}"
-executabledir="${filesdir}"
+systemdir="${serverfiles}"
+executabledir="${serverfiles}"
 executable="./ts3server_startscript.sh"
 servercfg="${servicename}.ini"
 servercfgdefault="ts3server.ini"
-servercfgdir="${filesdir}"
+servercfgdir="${serverfiles}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${filesdir}/logs"
+gamelogdir="${serverfiles}/logs"
 scriptlogdir="${rootdir}/log/script"
 scriptlog="${scriptlogdir}/${servicename}-script.log"
 emaillog="${scriptlogdir}/${servicename}-email.log"
