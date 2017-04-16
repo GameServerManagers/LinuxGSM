@@ -43,7 +43,7 @@ githubbranch="feature/config"
 # Core Function that is required first
 core_functions.sh(){
 	functionfile="${FUNCNAME}"
-	fn_bootstrap_fetch_file "lgsm/functions" "core_functions.sh" "${functionsdir}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
 }
 
 # Bootstrap
@@ -103,6 +103,21 @@ fn_bootstrap_fetch_file(){
 	fi
 }
 
+fn_bootstrap_fetch_file_github(){
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
+	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+
+	remote_fileurl="${githuburl}"
+	local_filedir="${3}"
+	local_filename="${github_file_url_name}"
+	chmodx="${4:-0}"
+	run="${5:-0}"
+	forcedl="${6:-0}"
+	md5="${7:-0}"
+	# Passes vars to the file download function
+	fn_bootstrap_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+}
 
 # Installer menu
 
@@ -250,7 +265,7 @@ if [ "${shortname}" == "core" ]; then
 
 	# Download the serverlist. This is the complete list of all supported servers.
 	# Download to tmp dir
-	fn_bootstrap_fetch_file "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
 	# if missing in lgsm dir copy it accross
 	if [ ! -f "${serverlist}" ]; then
 		mkdir -p "${datadir}"
