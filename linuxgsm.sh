@@ -80,8 +80,10 @@ fn_bootstrap_fetch_file(){
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "\e[0;31mFAIL\e[0m\n"
-				echo -e "${remote_fileurl}" | tee -a "${scriptlog}"
-				echo "${curlcmd}" | tee -a "${scriptlog}"
+				if [ -f "${scriptlog}" ]; then
+					echo -e "${remote_fileurl}" | tee -a "${scriptlog}"
+					echo "${curlcmd}" | tee -a "${scriptlog}"
+				fi
 				exit 1
 			else
 				echo -e "\e[0;32mOK\e[0m"
@@ -322,12 +324,28 @@ else
 	fi
 	if [ ! -f "${configdirserver}/_default.cfg" ];then
 		mkdir -p "${configdirserver}"
+		echo -ne "    copying _default.cfg...\c"
 		cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi
 	else
 		function_file_diff=$(diff -q ${configdirdefault}/config-lgsm/${servername}/_default.cfg ${configdirserver}/_default.cfg)
 		if [ "${function_file_diff}" != "" ]; then
-			echo "_default.cfg has been altered. Reloading config."
+			fn_print_warn_nl "_default.cfg has been altered. reloading config."
+			echo -ne "    copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
+			exitcode=$?
+			if [ ${exitcode} -ne 0 ]; then
+				echo -e "\e[0;31mFAIL\e[0m\n"
+				exit 1
+			else
+				echo -e "\e[0;32mOK\e[0m"
+			fi
 		fi
 	fi
 	source "${configdirserver}/_default.cfg"
