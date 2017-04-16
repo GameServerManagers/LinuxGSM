@@ -250,7 +250,7 @@ if [ "${shortname}" == "core" ]; then
 
 	# Download the serverlist. This is the complete list of all supported servers.
 	# Download to tmp dir
-	fn_boostrap_fetch_file "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_bootstrap_fetch_file "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "noexecutecmd" "norun" "noforce" "nomd5"
 	# if missing in lgsm dir copy it accross
 	if [ ! -f "${serverlist}" ]; then
 		mkdir -p "${datadir}"
