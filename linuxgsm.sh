@@ -294,6 +294,8 @@ if [ "${shortname}" == "core" ]; then
 		fn_server_info
 		if [ "${result}" == "${servername}" ]; then
 			fn_install_file
+		elif [ "${result}" == "" ]; then
+			echo "Install canceled"
 		else
 			echo "[ FAIL ] menu result does not match servername"
 		fi
@@ -342,7 +344,6 @@ else
 	else
 		source "${configdirserver}/${servicename}.cfg"
 	fi
+	getopt=$1
+	core_getopt.sh
 fi
-
-getopt=$1
-core_getopt.sh
