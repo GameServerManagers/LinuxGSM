@@ -26,7 +26,7 @@ else
 	fn_print_ok_eol_nl
 fi
 
-echo -ne "    checking ${selfname}...\c"
+echo -ne "    checking linuxgsm.sh...\c"
 config_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
 if [ "${config_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
