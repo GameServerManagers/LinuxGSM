@@ -110,8 +110,11 @@ elif [ "${engine}" == "realvirtuality" ]; then
 elif [ "${engine}" == "seriousengine35" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-	glibcrequired="2.3.6"
+elif [ "${engine}" == "source" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${engine}" == "goldsource" ]	; then
+	glibcrequired="2.14"
 	glibcfix="no"
 elif [ "${engine}" == "spark" ]; then
 	glibcrequired="2.15"
