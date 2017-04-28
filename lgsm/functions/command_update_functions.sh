@@ -26,6 +26,17 @@ else
 	fn_print_ok_eol_nl
 fi
 
+echo -ne "    checking ${selfname}...\c"
+config_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+if [ "${config_file_diff}" != "" ]; then
+	fn_print_update_eol_nl
+	fn_script_log_info "checking ${selfname}: UPDATE"
+	rm -f "${tmpdir}/linuxgsm.sh"
+	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "linuxgsm.sh" "noexecutecmd" "norun" "noforce" "nomd5"
+else
+	fn_print_ok_eol_nl
+fi
+
 # Check and update functions
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
