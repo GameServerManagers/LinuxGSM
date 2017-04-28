@@ -145,7 +145,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	array_deps_missing=()
 
 	# LinuxGSM requirements
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils )
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
