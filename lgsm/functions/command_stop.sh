@@ -113,7 +113,7 @@ fn_stop_graceful_sdtd(){
 	sleep 1
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ "$(command -v expect)" ]||[ "$(which expect >/dev/null 2>&1)" ]; then
+	elif [ "$(command -v expect 2>/dev/null)" ]||[ "$(which expect >/dev/null 2>&1)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}"

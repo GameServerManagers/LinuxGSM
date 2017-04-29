@@ -34,9 +34,9 @@ elif [ "${executable}" ==  "./ts3server_startscript.sh" ]; then
 	executable=ts3server_linux_amd64
 fi
 
-if [ "$(command -v eu-readelf)" ]; then
+if [ "$(command -v eu-readelf 2>/dev/null)" ]; then
 	readelf=eu-readelf
-elif [ "$(command -v readelf)" ]; then
+elif [ "$(command -v readelf 2>/dev/null)" ]; then
 	readelf=readelf
 else
 	echo "readelf/eu-readelf not installed"
