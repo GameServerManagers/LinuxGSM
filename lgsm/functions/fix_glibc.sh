@@ -20,7 +20,7 @@ do
 done
 
 # libm.so.6
-local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
+local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" "Team Fortress 2" )
 for libm_server in "${libm_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libm_server}" ]; then

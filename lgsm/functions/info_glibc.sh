@@ -113,8 +113,8 @@ elif [ "${engine}" == "seriousengine35" ]; then
 elif [ "${engine}" == "source" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
-elif [ "${engine}" == "goldsource" ]	; then
-	glibcrequired="2.14"
+elif [ "${engine}" == "goldsource" ]; then
+	glibcrequired="2.3.4"
 	glibcfix="no"
 elif [ "${engine}" == "spark" ]; then
 	glibcrequired="2.15"
@@ -143,6 +143,9 @@ elif [ "${engine}" == "unreal4" ]; then
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${engine}" == "Team Fortress 2" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
