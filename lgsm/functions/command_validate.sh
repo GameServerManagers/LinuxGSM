@@ -9,6 +9,7 @@ local commandaction="Validate"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_validation(){
+	appid="${1}"
 	echo ""
 	echo -e "	* Validating may overwrite some customised files."
 	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
