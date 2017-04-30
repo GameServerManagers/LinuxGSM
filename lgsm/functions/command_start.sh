@@ -31,8 +31,9 @@ fn_start_teamspeak3(){
 		fn_script_log_error "${servername} is already running"
 		core_exit.sh
 	fi
-
-	mv "${scriptlog}" "${scriptlogdate}"
+	if [ -f "${scriptlog}" ]; then
+		mv "${scriptlog}" "${scriptlogdate}"
+	fi
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
@@ -56,7 +57,7 @@ fn_start_teamspeak3(){
 
 fn_start_tmux(){
 	fn_parms
-	
+
 	# check for tmux size variables
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
 		sessionwidth="${servercfgtmuxwidth}"
