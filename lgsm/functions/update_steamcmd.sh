@@ -29,6 +29,10 @@ fn_update_steamcmd_dl(){
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +quit | tee -a "${scriptlog}"
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit | tee -a "${scriptlog}"
+
+		if [ "${gamename}" == "Classic Offensive" ]; then
+			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} +quit | tee -a "${scriptlog}"
+		fi
 	fi
 
 	fix.sh
@@ -136,6 +140,7 @@ fn_update_request_log(){
 }
 
 fn_update_steamcmd_check(){
+	appid="${1}"
 	fn_appmanifest_check
 	# Checks for server update from SteamCMD
 	fn_print_dots "Checking for update: SteamCMD"
@@ -181,7 +186,6 @@ fn_update_steamcmd_check(){
 		sleep 1
 		echo -e "	Current build: ${red}${currentbuild}${default}"
 		echo -e "	Available build: ${green}${availablebuild}${default}"
-		echo -e ""
 		echo -e "	https://steamdb.info/app/${appid}/"
 		sleep 1
 		echo ""
@@ -240,5 +244,9 @@ if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	fi
 else
 	fn_update_request_log
-	fn_update_steamcmd_check
+	fn_update_steamcmd_check "${appid}"
+	# will also check for second appid
+	if [ "${gamename}" == "Classic Offensive" ]; then
+		fn_update_steamcmd_check "${appid_co}"
+	fi
 fi

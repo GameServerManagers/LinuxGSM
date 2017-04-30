@@ -31,8 +31,9 @@ fn_start_teamspeak3(){
 		fn_script_log_error "${servername} is already running"
 		core_exit.sh
 	fi
-
-	mv "${scriptlog}" "${scriptlogdate}"
+	if [ -f "${scriptlog}" ]; then
+		mv "${scriptlog}" "${scriptlogdate}"
+	fi
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
@@ -56,6 +57,18 @@ fn_start_teamspeak3(){
 
 fn_start_tmux(){
 	fn_parms
+
+	# check for tmux size variables
+	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
+		sessionwidth="${servercfgtmuxwidth}"
+	else
+		sessionwidth="80"
+	fi
+	if [[ "${servercfgtmuxheight}" =~ ^[0-9]+$ ]]; then
+		sessionheight="${servercfgtmuxheight}"
+	else
+		sessionheight="23"
+	fi
 
 	# Log rotation
 	check_status.sh
@@ -81,16 +94,16 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionheight}" -y "${sessionwidth}" -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
 
 	# tmux pipe-pane not supported in tmux versions < 1.6
-	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
+	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then # Tmux compiled from source will not return a number, therefore bypass this check and trash the error
 		echo "Console logging disabled: Tmux => 1.6 required
 		https://gameservermanagers.com/tmux-upgrade
 		Currently installed: $(tmux -V)" > "${consolelog}"
 
 	# Console logging disabled: Bug in tmux 1.8 breaks logging
-	elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; then
+	elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ] 2>/dev/null; then
 		echo "Console logging disabled: Bug in tmux 1.8 breaks logging
 		https://gameservermanagers.com/tmux-upgrade
 		Currently installed: $(tmux -V)" > "${consolelog}"
@@ -126,7 +139,7 @@ fn_start_tmux(){
 			echo "================================="
 			cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
 
-			# Detected error https://gameservermanagers.com/issues
+			# Detected error https://gameservermanagers.com/support
 			if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
 			echo ""
 			echo "Fix"
@@ -148,8 +161,8 @@ fn_start_tmux(){
 				else
 					echo "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo "https://gameservermanagers.com/issues"
-					fn_script_log_info "https://gameservermanagers.com/issues"
+					echo "https://gameservermanagers.com/support"
+					fn_script_log_info "https://gameservermanagers.com/support"
 				fi
 			fi
 		fi

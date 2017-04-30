@@ -11,7 +11,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 ## i386
 
 # libstdc++.so.6
-local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" "Just Cause 2" )
+local libstdc_servers_array=( "ARMA 3" "Blade Symphony" "Counter-Strike: Global Offensive" "Garry's Mod" "GoldenEye: Source" "Just Cause 2" "Team Fortress 2" )
 for libstdc_server in "${libstdc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libstdc_server}" ]; then
@@ -20,7 +20,7 @@ do
 done
 
 # libm.so.6
-local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" )
+local libm_servers_array=( "Black Mesa: Deathmatch" "Codename CURE" "Day of Infamy" "Double Action: Boogaloo" "Empires Mod" "Fistful of Frags" "Garry's Mod" "GoldenEye: Source" "Insurgency" "Natural Selection 2" "NS2: Combat" "No More Room in Hell" "Pirates, Vikings, and Knights II" "Team Fortress 2" )
 for libm_server in "${libm_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libm_server}" ]; then
@@ -29,7 +29,7 @@ do
 done
 
 # libc.so.6
-local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" )
+local libc_servers_array=( "Black Mesa: Deathmatch" "Blade Symphony" "Garry's Mod" "GoldenEye: Source" "Team Fortress 2" )
 for libc_server in "${libc_servers_array[@]}"
 do
 	if [ "${gamename}" == "${libc_server}" ]; then

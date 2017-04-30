@@ -34,7 +34,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; filedir="${tmpdir}"; filename="ut99-server-451-ultimate-linux.tar.bz2"; executecmd="noexecute" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Server-XAN-3270765-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3270765-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="8791dc087383061d7f7f9f523237b8b3"
+		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Server-XAN-3395761-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3395761-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="f04ad5b96865b19613303331ff4075eb"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 		fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; filedir="${tmpdir}"; filename="UT3-linux-server-2.1.tar.bz2";  executecmd="noexecute" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
@@ -72,7 +72,7 @@ fn_install_server_files_steamcmd(){
 
 			# Detects if unbuffer command is available for 32 bit distributions only.
 			info_distro.sh
-			if [ $(command -v stdbuf) ]&&[ "${arch}" != "x86_64" ]; then
+			if [ $(command -v stdbuf 2>/dev/null) ]&&[ "${arch}" != "x86_64" ]; then
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
@@ -83,6 +83,11 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
+
+					if [ "${gamename}" == "Classic Offensive" ]; then
+						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} +quit
+						local exitcode=$?
+					fi
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
@@ -91,6 +96,11 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
+
+					if [ "${gamename}" == "Classic Offensive" ]; then
+						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} -validate +quit
+						local exitcode=$?
+					fi
 				fi
 			fi
 		elif [ "${counter}" -ge "11" ]; then
