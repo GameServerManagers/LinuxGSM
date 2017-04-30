@@ -1,5 +1,5 @@
 #!/bin/bash
-# command_dev_detect_glibc.sh function
+# LinuxGSM command_dev_detect_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
 # Description: Automatically detects the version of GLIBC that is required.
@@ -15,10 +15,6 @@ if [ -z "$(command -v objdump)" ]; then
 	core_exit.sh
 fi
 
-if [ -z "${filesdir}" ]; then
-	dir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-fi
-
 if [ -d "${filesdir}" ]; then
 	echo "Checking directory: "
 	echo "${filesdir}"
@@ -29,10 +25,10 @@ fi
 echo ""
 
 files=$(find ${filesdir} | wc -l)
-find ${filesdir} -type f -print0 |
+find "${filesdir}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	objdump -T $line 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc.tmp"
-	echo -n "$i / $files" $'\r'
+	objdump -T "${line}" 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc.tmp"
+	echo -n "${i} / ${files}" $'\r'
 	((i++))
 done
 echo ""
