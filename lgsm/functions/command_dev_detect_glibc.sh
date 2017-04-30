@@ -27,12 +27,19 @@ echo ""
 files=$(find ${filesdir} | wc -l)
 find "${filesdir}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
+	glibcversion=$(objdump -T "${line}" 2>/dev/null|grep -oP "GLIBC[^ ]+" |grep -v GLIBCXX|sort|uniq|sort -r --version-sort| head -n 1)
+	if [ "${glibcversion}" ];then
+		echo "${glibcversion}: ${line}" >>"${tmpdir}/detect_glibc_files.tmp"
+	fi
 	objdump -T "${line}" 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc.tmp"
 	echo -n "${i} / ${files}" $'\r'
 	((i++))
 done
 echo ""
+cat "${tmpdir}/detect_glibc_files.tmp"
+echo ""
 cat "${tmpdir}/detect_glibc.tmp"|sort|uniq|sort -r --version-sort
 rm "${tmpdir}/detect_glibc.tmp"
+rm "${tmpdir}/detect_glibc_files.tmp"
 
 core_exit.sh
