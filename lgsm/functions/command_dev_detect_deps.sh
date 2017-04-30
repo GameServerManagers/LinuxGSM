@@ -20,11 +20,14 @@ elif [ "$(command -v readelf 2>/dev/null)" ]; then
 else
 	echo "readelf/eu-readelf not installed"
 fi
-
 files=$(find ${filesdir} | wc -l)
 find "${filesdir}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $5 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+	if [ "${readelf}" == "eu-readelf" ];then
+		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $4 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+	else
+		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $5 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+	fi
 	echo -n "${i} / ${files}" $'\r'
 	((i++))
 done
@@ -32,7 +35,6 @@ done
 sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
 
 while read lib; do
-
 	if [ "${lib}" == "libm.so.6" ]||[ "${lib}" == "libc.so.6" ]||[ "${lib}" == "libtcmalloc_minimal.so.4" ]||[ "${lib}" == "libpthread.so.0" ]||[ "${lib}" == "libdl.so.2" ]||[ "${lib}" == "libnsl.so.1" ]||[ "${lib}" == "libgcc_s.so.1" ]||[ "${lib}" == "librt.so.1" ]||[ "${lib}" == "ld-linux.so.2" ]; then
 		echo "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo "lib32gcc1" >> "${tmpdir}/.depdetect_ubuntu_list"
@@ -129,7 +131,7 @@ rm -f "${tmpdir}/.depdetect_ubuntu_list"
 rm -f "${tmpdir}/.depdetect_ubuntu_list_uniq"
 
 rm -f "${tmpdir}/.depdetect_readelf"
-
+rm -f "${tmpdir}/.depdetect_readelf_uniq"
 rm -f "${tmpdir}/.depdetect_unknown"
 rm -f "${tmpdir}/.depdetect_unknown_uniq"
 
