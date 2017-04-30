@@ -236,10 +236,7 @@ if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	if [ "${status}" != "0" ]; then
 		exitbypass=1
 		command_stop.sh
-		if [ "${gamename}" == "Classic Offensive" ]; then
-			appid="${appid_co}"
-			fn_update_steamcmd_dl
-		fi
+		fn_update_steamcmd_dl
 		exitbypass=1
 		command_start.sh
 	else
@@ -248,6 +245,7 @@ if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 else
 	fn_update_request_log
 	fn_update_steamcmd_check "${appid}"
+	# will also check for second appid
 	if [ "${gamename}" == "Classic Offensive" ]; then
 		fn_update_steamcmd_check "${appid_co}"
 	fi
