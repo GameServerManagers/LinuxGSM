@@ -117,7 +117,7 @@ elif [ "${engine}" == "seriousengine35" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
 elif [ "${engine}" == "source" ]; then
-	glibcrequired="2.15"
+	glibcrequired="2.3.6"
 	glibcfix="no"
 elif [ "${engine}" == "goldsource" ]; then
 	glibcrequired="2.3.4"
