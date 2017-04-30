@@ -83,6 +83,11 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
+
+					if [ "${gamename}" == "Classic Offensive" ]; then
+						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} +quit
+						local exitcode=$?
+					fi
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
@@ -91,6 +96,11 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} -validate +quit
 					local exitcode=$?
+
+					if [ "${gamename}" == "Classic Offensive" ]; then
+						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} -validate +quit
+						local exitcode=$?
+					fi
 				fi
 			fi
 		elif [ "${counter}" -ge "11" ]; then
