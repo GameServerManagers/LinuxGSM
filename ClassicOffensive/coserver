@@ -14,7 +14,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170530"
+version="170501"
 
 ##########################
 ######## Settings ########
@@ -96,8 +96,8 @@ appid_co="600380"
 branch=""
 
 ## SteamCMD Login | https://github.com/GameServerManagers/LinuxGSM/wiki/SteamCMD#steamcmd-login
-steamuser="accountname"
-steampass='accountpassword'
+steamuser="username"
+steampass='password'
 
 ## Github Branch Select
 # Allows for the use of different function files

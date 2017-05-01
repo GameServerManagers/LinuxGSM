@@ -15,16 +15,17 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_script_log_info "Retrieving latest mods URLs"
 # Metamod
-metamodscrapeurl="http://www.gsptalk.com/mirror/sourcemod"
-metamodlatestfile="$(wget "${metamodscrapeurl}/?MD" -q -O -| grep "mmsource" | grep "\-linux" | head -n1 | awk -F '>' '{ print $3 }' | awk -F '<' '{ print $1}')"
-metamoddownloadurl="http://cdn.probablyaserver.com/sourcemod/"
-metamodurl="${metamoddownloadurl}/${metamodlatestfile}"
+metamodmversion="1.10"
+metamodscrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodmversion}/mmsource-latest-linux"
+metamodlatestfile="$(wget "${metamodscrapeurl}" -q -O -)"
+metamoddownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodmversion}"
+metamodurl="${metamoddownloadurl}"
 # Sourcemod
 sourcemodmversion="1.8"
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
 sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
-sourcemoddownloadurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}"
-sourcemodurl="${sourcemoddownloadurl}/${sourcemodlatestfile}"
+sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
+sourcemodurl="${sourcemoddownloadurl}"
 
 # Define mods information (required)
 
