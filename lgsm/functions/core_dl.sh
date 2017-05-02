@@ -60,6 +60,8 @@ fn_dl_extract(){
 		tarcmd=$(tar -zxf "${filedir}/${filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		tarcmd=$(tar -jxf "${filedir}/${filename}" -C "${extractdir}")
+	elif [ "${mime}" == "application/x-xz" ]; then
+		tarcmd=$(tar -xf "${filedir}/${filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/zip" ]; then
 		tarcmd=$(unzip -d "${extractdir}" "${filedir}/${filename}")
 	fi
