@@ -76,7 +76,7 @@ fn_update_factorio_arch(){
 
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(curl -s https://www.factorio.com/download-headless/stable | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+	availablebuild=$(curl -s https://www.factorio.com/download-headless/"${updatebranch}" | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
 	sleep 1
 
 	# Checks if availablebuild variable has been set
