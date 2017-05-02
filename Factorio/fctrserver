@@ -49,6 +49,7 @@ channeltag=""
 
 ## Updating | https://github.com/GameServerManagers/LinuxGSM/wiki/Update
 updateonstart="off"
+updatebranch="stable"
 
 ## Backup | https://github.com/GameServerManagers/LinuxGSM/wiki/Backup
 maxbackups="4"
