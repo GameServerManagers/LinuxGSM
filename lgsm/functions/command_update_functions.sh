@@ -27,12 +27,33 @@ else
 fi
 
 echo -ne "    checking linuxgsm.sh...\c"
-config_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
-if [ "${config_script_diff}" != "" ]; then
+tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+if [ "${tmp_script_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_info "checking ${selfname}: UPDATE"
 	rm -f "${tmpdir}/linuxgsm.sh"
-	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "linuxgsm.sh" "noexecutecmd" "norun" "noforce" "nomd5"
+	# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
+	script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/servername/d;/gamename/d' "${rootdir}/${selfname}"))
+	if [ "${script_diff}" != "" ]; then
+		echo -ne "    backup linuxgsm.sh...\c"
+		cp "${rootdir}/${selfname}" "${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			echo -en "${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		fi
+		copyshortname="$(grep -m 1 shortname=)" "${rootdir}/${selfname}"
+		copyservername="$(grep -m 1 servername=)" "${rootdir}/${selfname}"
+		copygamename="$(grep -m 1 gamename=)" "${rootdir}/${selfname}"
+
+		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
+		sed -i 's/shortname="core"/${copyshortname}/g' "${rootdir}/${selfname}"
+		sed -i 's/shortname="core"/${copyshortname}/g' "${rootdir}/${selfname}"
+		sed -i 's/shortname="core"/${copyshortname}/g' "${rootdir}/${selfname}"
+	fi
 else
 	fn_print_ok_eol_nl
 fi
