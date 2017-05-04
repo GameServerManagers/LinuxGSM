@@ -46,15 +46,15 @@ fn_fetch_function
 }
 
 command_postdetails.sh(){
-    functionfile="${FUNCNAME}"
-    tempffname="${functionfile}"
-    # First, grab the command_postdetails.sh file
-    fn_fetch_function
-    # But then next, command_details.sh needs to also be pulled
-    # because command_postdetails.sh sources its functions -CedarLUG
-    functionfile="command_details.sh"
-    fn_fetch_function
-    functionfile="${tempffname}"
+functionfile="${FUNCNAME}"
+tempffname="${functionfile}"
+# First, grab the command_postdetails.sh file
+fn_fetch_function
+# But then next, command_details.sh needs to also be pulled
+# because command_postdetails.sh sources its functions -CedarLUG
+functionfile="command_details.sh"
+fn_fetch_function
+functionfile="${tempffname}"
 }
 
 command_details.sh(){

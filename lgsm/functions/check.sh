@@ -79,8 +79,6 @@ do
 	fi
 done
 
-
-
 local allowed_commands_array=( command_details.sh command_monitor.sh command_start.sh command_stop.sh command_ts3_server_pass.sh command_update.sh command_details.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
