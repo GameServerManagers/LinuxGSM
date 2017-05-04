@@ -17,7 +17,7 @@ cmd_restart=( "r;restart" "command_restart.sh" "Restart the server." )
 cmd_details=( "dt;details" "command_details.sh" "Display server information." )
 cmd_postdetails=( "pd;postdetails" "command_postdetails.sh" "Post details to hastebin (removing passwords)." )
 cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the server." )
-cmd_update_functions=( "ul;update-lgsm;uf;update-functions" "command_update_functions.sh" "Update LinuxGSM functions." )
+cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Update LinuxGSM." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
 # Console servers only
@@ -66,7 +66,7 @@ if [ -n "${appid}" ]; then
 fi
 
 # Update LGSM
-currentopt+=( "${cmd_update_functions[@]}" )
+currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 #Backup
 currentopt+=( "${cmd_backup[@]}" )

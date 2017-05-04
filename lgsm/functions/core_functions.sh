@@ -392,6 +392,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_update_linuxgsm.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_update.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
