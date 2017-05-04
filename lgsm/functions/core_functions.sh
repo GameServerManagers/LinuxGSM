@@ -543,7 +543,7 @@ fn_fetch_function
 
 # Creates tmp dir if missing
 if [ ! -d "${tmpdir}" ]; then
-    mkdir -p "${tmpdir}"
+	mkdir -p "${tmpdir}"
 fi
 
 # Calls on-screen messages (bootstrap)
