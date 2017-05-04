@@ -29,7 +29,8 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 				echo -en "${servercfgfullpath}\n"
 				echo -en "Set ${ipinconfigvar} to one of the following:\n"
 			else
-				fn_print_information "Specify the IP you want to use within the ${selfname} script.\n"
+				fn_print_information "Specify the IP you want to use within the LinuxGSM config file."
+				echo -en "Location: ${configdir}\n"
 				echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			fi
 			echo -en "${getip}\n"
