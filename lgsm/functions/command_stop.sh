@@ -88,6 +88,9 @@ fn_stop_graceful_goldsource(){
 
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
+	if [ ! "${telnetpass}"]; then
+		telnetpass="NOTSET"
+	fi
 	sdtd_telnet_shutdown=$( expect -c '
 	proc abort {} {
 		puts "Timeout or EOF\n"
