@@ -34,6 +34,8 @@ if [ "${tmp_script_diff}" != "" ]; then
 	rm -f "${tmpdir}/linuxgsm.sh"
 	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "linuxgsm.sh" "noexecutecmd" "norun" "noforce" "nomd5"
 	# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
+else
+	fn_print_ok_eol_nl
 fi
 script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/servername/d;/gamename/d' "${rootdir}/${selfname}"))
 if [ "${script_diff}" != "" ]; then
@@ -46,9 +48,6 @@ if [ "${script_diff}" != "" ]; then
 		fn_print_ok_eol_nl
 		echo -en "${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	fi
-	copyshortname="$(grep -m 1 shortname= "${rootdir}/${selfname}")"
-	copyservername="$(grep -m 1 servername= "${rootdir}/${selfname}")"
-	copygamename="$(grep -m 1 gamename= "${rootdir}/${selfname}")"
 
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 	sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
