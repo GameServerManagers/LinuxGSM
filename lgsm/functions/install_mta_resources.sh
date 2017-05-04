@@ -19,7 +19,7 @@ fn_install_libmysqlclient16(){
 		sleep 1
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
-			fn_fetch_file "https://nightly.mtasa.com/files/modules/64/libmysqlclient.so.16" "${filedir}" "libmysqlclient.so.16" "executecmd" "norun" "noforce" "6c188e0f8fb5d7a29f4bc413b9fed6c2"
+			fn_fetch_file "https://nightly.mtasa.com/files/modules/64/libmysqlclient.so.16" "${filedir}" "libmysqlclient.so.16" "chmodx" "norun" "noforce" "6c188e0f8fb5d7a29f4bc413b9fed6c2"
 			sudo mv "${tmpdir}/libmysqlclient.so.16" "/usr/lib/libmysqlclient.so.16"
 		else
 			fn_print_fail_nl "Failed to install libmysqlclient16, $(whoami) does not have sudo access. Download it manually and place it in /usr/lib"

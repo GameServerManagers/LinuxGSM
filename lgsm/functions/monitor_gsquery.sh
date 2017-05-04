@@ -13,7 +13,7 @@ if [ "${gsquery}" == "yes" ]; then
 
 	# Downloads gsquery.py if missing
 	if [ ! -f "${functionsdir}/gsquery.py" ]; then
-		fn_fetch_file_github "lgsm/functions" "gsquery.py" "${functionsdir}" "executecmd" "norun" "noforce" "nomd5"
+		fn_fetch_file_github "lgsm/functions" "gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 	fi
 
 	info_config.sh

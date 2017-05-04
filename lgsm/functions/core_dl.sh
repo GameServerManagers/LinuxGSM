@@ -190,7 +190,7 @@ fn_fetch_config(){
 	remote_fileurl="${githuburl}"
 	local_filedir="${3}"
 	local_filename="${4}"
-	chmodx="noexecutecmd"
+	chmodx="nochmodx"
 	run="norun"
 	forcedl="noforce"
 	md5="nomd5"

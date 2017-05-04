@@ -21,7 +21,7 @@ if [ "${config_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_info "checking config _default.cfg: UPDATE"
 	rm -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg"
-	fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "noexecutecmd" "norun" "noforce" "nomd5"
+	fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
 else
 	fn_print_ok_eol_nl
 	fn_script_log_info "checking config _default.cfg: OK"
