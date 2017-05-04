@@ -44,6 +44,7 @@ script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${functionsdi
 if [ "${script_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	echo -ne "    backup ${selfname}...\c"
+	mkdir -p "${backupdir}/script/"
 	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	if [ $? -ne 0 ]; then
 		fn_print_fail_eol_nl
