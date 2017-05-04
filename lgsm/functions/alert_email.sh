@@ -83,7 +83,7 @@ fn_details_disk(){
 		echo -e "Total: ${totalspace}"
 		echo -e "Used: ${usedspace}"
 		echo -e "Available: ${availspace}"
-		echo -e "Serverfiles: ${filesdirdu}"
+		echo -e "Serverfiles: ${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "Backups: ${backupdirdu}"
 		fi

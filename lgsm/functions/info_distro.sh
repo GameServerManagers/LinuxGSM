@@ -95,9 +95,9 @@ if [ -z "${rootdirdu}" ]; then
 fi
 
 ## LinuxGSM used space in serverfiles dir.
-filesdirdu=$(du -sh "${serverfiles}" 2> /dev/null | awk '{print $1}')
-if [ -z "${filesdirdu}" ]; then
-	filesdirdu="0M"
+serverfilesdu=$(du -sh "${serverfiles}" 2> /dev/null | awk '{print $1}')
+if [ -z "${serverfilesdu}" ]; then
+	serverfilesdu="0M"
 fi
 
 ## LinuxGSM used space total minus backup dir.

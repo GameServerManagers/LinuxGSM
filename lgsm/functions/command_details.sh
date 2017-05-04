@@ -83,7 +83,7 @@ fn_details_disk(){
 		echo -e "${blue}Used:\t${default}${usedspace}"
 		echo -e "${blue}Available:\t${default}${availspace}"
 		echo -e "${blue}LinuxGSM Total:\t${default}${rootdirdu}"
-		echo -e "${blue}Serverfiles:\t${default}${filesdirdu}"
+		echo -e "${blue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "${blue}Backups:\t${default}${backupdirdu}"
 		fi

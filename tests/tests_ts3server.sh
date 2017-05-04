@@ -77,7 +77,7 @@ lgsmdir="${rootdir}/lgsm"
 functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
-filesdir="${rootdir}/serverfiles"
+serverfiles="${rootdir}/serverfiles"
 
 ## Server Specific Directories
 systemdir="${serverfiles}"
