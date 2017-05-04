@@ -231,7 +231,7 @@ fn_details_disk
 fn_details_gameserver
 fn_alert_email_template_logs
 if [ -n "${emailfrom}" ]; then
-	mail -s "${alertsubject}" -a "From: ${emailfrom}" "${email}" < "${emaillog}"
+	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${emaillog}"
 else
 	mail -s "${alertsubject}" "${email}" < "${emaillog}"
 fi
