@@ -51,9 +51,9 @@ if [ "${script_diff}" != "" ]; then
 	copygamename="$(grep -m 1 gamename= "${rootdir}/${selfname}")"
 
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
-	sed -i "s/shortname="core"/${copyshortname}/g" "${rootdir}/${selfname}"
-	sed -i "s/shortname="core"/${copyservername}/g" "${rootdir}/${selfname}"
-	sed -i "s/shortname="core"/${copygamename}/g" "${rootdir}/${selfname}"
+	sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
+	sed -i "s/servername=\"core\"/servername=\"${servername}\"/g" "${rootdir}/${selfname}"
+	sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
 else
 	fn_print_ok_eol_nl
 fi
