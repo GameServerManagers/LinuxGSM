@@ -33,7 +33,7 @@ if [ "${tmp_script_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_info "checking linuxgsm.sh: UPDATE"
 	rm -f "${functionsdir}/linuxgsm.sh"
-	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+	fn_fetch_file_github "" "linuxgsm.sh" "${functionsdir}" "nochmodx" "norun" "noforcedl" "nomd5"
 	# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
 else
 	fn_script_log_info "checking linuxgsm.sh: OK"
@@ -44,7 +44,7 @@ script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${functionsdi
 if [ "${script_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	echo -ne "    backup ${selfname}...\c"
-	cp "${rootdir}/${selfname}" "${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	if [ $? -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh

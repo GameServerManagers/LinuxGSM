@@ -364,8 +364,8 @@ else
 		source "${configdirserver}/${servicename}.cfg"
 	fi
 	# Load the linuxgsm.sh in to tmpdir. If missing download it
-	if [ ! -f "${tmpdir}/linuxgsm.sh" ];then
-		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+	if [ ! -f "${functionsdir}/linuxgsm.sh" ];then
+		fn_fetch_file_github "" "linuxgsm.sh" "${functionsdir}" "nochmodx" "norun" "noforcedl" "nomd5"
 	fi
 	getopt=$1
 	core_getopt.sh
