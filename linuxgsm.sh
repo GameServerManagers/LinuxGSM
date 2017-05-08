@@ -269,7 +269,7 @@ if [ "${shortname}" == "core" ]; then
 	# Download the serverlist. This is the complete list of all supported servers.
 	# Download to tmp dir
 	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
-	# if missing in lgsm dir copy it accross
+	# if missing in lgsm dir copy it across
 	if [ ! -f "${serverlist}" ]; then
 		mkdir -p "${datadir}"
 		cp -R "${serverlist_tmp}" "${serverlist}"
