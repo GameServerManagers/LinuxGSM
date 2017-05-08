@@ -81,6 +81,12 @@ if [ -n "${functionsdir}" ]; then
 				echo -ne "    removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
 				rm -f "${functionfile}"
+				if [ $? -ne 0 ]; then
+					fn_print_fail_eol_nl
+					core_exit.sh
+				else
+					fn_print_ok_eol_nl
+				fi
 			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
 				fn_script_log_info "checking function ${functionfile}: UPDATE"
