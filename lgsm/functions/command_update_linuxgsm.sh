@@ -76,7 +76,6 @@ if [ -n "${functionsdir}" ]; then
 		do
 			echo -ne "    checking function ${functionfile}...\c"
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}";exitcode=$?))
-			exitcode=$?
 			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_fail_eol_nl
 				echo -ne "    removing unknown function ${functionfile}...\c"
