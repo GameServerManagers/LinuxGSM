@@ -75,8 +75,10 @@ if [ -n "${functionsdir}" ]; then
 		for functionfile in *
 		do
 			echo -ne "    checking function ${functionfile}...\c"
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
-			if [ $? -ne 0 ]; then
+			get_function_file=$(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
+			exitcode=$?
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				echo -ne "    removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
