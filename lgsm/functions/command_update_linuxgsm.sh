@@ -75,8 +75,14 @@ if [ -n "${functionsdir}" ]; then
 		for functionfile in *
 		do
 			echo -ne "    checking function ${functionfile}...\c"
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
-			if [ "${function_file_diff}" != "" ]; then
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}";exitcode=$?))
+			exitcode=$?
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_print_fail_eol_nl
+				echo -ne "    removing unknown function ${functionfile}...\c"
+				fn_script_log_fatal "removing unknown function ${functionfile}"
+				rm -f "${functionfile}"
+			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
 				fn_script_log_info "checking function ${functionfile}: UPDATE"
 				rm -rf "${functionsdir}/${functionfile}"
