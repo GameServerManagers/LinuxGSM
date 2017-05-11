@@ -9,7 +9,11 @@
 
 core_dl.sh(){
 functionfile="${FUNCNAME}"
-fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+if [ -z $(type fn_bootstrap_fetch_file_github) ];then
+	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+else
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+fi
 }
 
 core_exit.sh(){
@@ -554,5 +558,3 @@ core_dl.sh
 
 # Calls the global Ctrl-C trap
 core_trap.sh
-
-
