@@ -7,7 +7,7 @@
 local commandname="CHECK"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-if [ "${function_selfname}" != "command_validate.sh" ];then
+if [ "${function_selfname}" != "command_validate.sh" ]; then
 	checkdir="${serverfiles}"
 else
 	checkdir="${systemdir}"

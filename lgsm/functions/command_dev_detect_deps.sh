@@ -23,7 +23,7 @@ fi
 files=$(find ${filesdir} | wc -l)
 find "${filesdir}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	if [ "${readelf}" == "eu-readelf" ];then
+	if [ "${readelf}" == "eu-readelf" ]; then
 		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $4 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
 	else
 		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $5 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"

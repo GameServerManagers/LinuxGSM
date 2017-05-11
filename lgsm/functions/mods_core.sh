@@ -230,7 +230,7 @@ fn_mods_installed_list(){
 		# Increment line check
 		((installedmodsline++))
 	done
-	if [ -n "${installedmodscount}" ] ;then
+	if [ -n "${installedmodscount}" ] ; then
 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }
@@ -345,7 +345,7 @@ fn_mod_compatible_test(){
 # Create mods files and directories if it doesn't exist
 fn_create_mods_dir(){
 	# Create lgsm data modsdir
-	if [ ! -d "${modsdir}" ];then
+	if [ ! -d "${modsdir}" ]; then
 		echo -en "creating LinuxGSM mods data directory ${modsdir}..."
 		mkdir -p "${modsdir}"
 		exitcode=$?

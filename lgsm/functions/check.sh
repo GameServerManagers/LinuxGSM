@@ -13,7 +13,7 @@ local commandname="CHECK"
 check_root.sh
 check_tmuxception.sh
 
-if [ "${function_selfname}" != "command_monitor.sh" ];then
+if [ "${function_selfname}" != "command_monitor.sh" ]; then
 	check_permissions.sh
 fi
 

@@ -281,7 +281,7 @@ if [ "${shortname}" == "core" ]; then
 		fi
 	fi
 
-	if [ ! -f "${serverlist}" ];then
+	if [ ! -f "${serverlist}" ]; then
 		echo "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
 	fi
@@ -318,11 +318,11 @@ else
 	# Load LinuxGSM configs
 	# These are required to get all the default variables for the specific server.
 	# Load the default config. If missing download it. If changed reload it.
-	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ];then
+	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ]; then
 		mkdir -p "${configdirdefault}/config-lgsm/${servername}"
 		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 	fi
-	if [ ! -f "${configdirserver}/_default.cfg" ];then
+	if [ ! -f "${configdirserver}/_default.cfg" ]; then
 		mkdir -p "${configdirserver}"
 		echo -ne "    copying _default.cfg...\c"
 		cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
@@ -350,21 +350,21 @@ else
 	fi
 	source "${configdirserver}/_default.cfg"
 	# Load the common.cfg config. If missing download it
-	if [ ! -f "${configdirserver}/common.cfg" ];then
+	if [ ! -f "${configdirserver}/common.cfg" ]; then
 		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
 		source "${configdirserver}/common.cfg"
 	else
 		source "${configdirserver}/common.cfg"
 	fi
 	# Load the instance.cfg config. If missing download it
-	if [ ! -f "${configdirserver}/${servicename}.cfg" ];then
+	if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
 		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 		source "${configdirserver}/${servicename}.cfg"
 	else
 		source "${configdirserver}/${servicename}.cfg"
 	fi
 	# Load the linuxgsm.sh in to tmpdir. If missing download it
-	if [ ! -f "${tmpdir}/linuxgsm.sh" ];then
+	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 	fi
 	getopt=$1
