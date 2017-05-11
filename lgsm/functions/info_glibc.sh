@@ -38,6 +38,9 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 elif [ "${gamename}" == "Codename CURE" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "Day of Infamy" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -71,6 +74,9 @@ elif [ "${gamename}" == "No More Room in Hell" ]; then
 elif [ "${gamename}" == "Project Cars" ]; then
 	glibcrequired="2.4"
 	glibcfix="no"
+elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 elif [ "${gamename}" == "Quake 2" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -110,8 +116,11 @@ elif [ "${engine}" == "realvirtuality" ]; then
 elif [ "${engine}" == "seriousengine35" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ]; then
 	glibcrequired="2.3.6"
+	glibcfix="no"
+elif [ "${engine}" == "goldsource" ]; then
+	glibcrequired="2.3.4"
 	glibcfix="no"
 elif [ "${engine}" == "spark" ]; then
 	glibcrequired="2.15"

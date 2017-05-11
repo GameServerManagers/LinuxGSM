@@ -3,6 +3,7 @@
 
 [![Build Status](https://travis-ci.org/GameServerManagers/LinuxGSM.svg?branch=master)](https://travis-ci.org/GameServerManagers/LinuxGSM)
 [![Under Development](https://badge.waffle.io/GameServerManagers/LinuxGSM.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/GameServerManagers/LinuxGSM)
+[![Discord](https://discordapp.com/api/guilds/127498813903601664/widget.png?style=shield)](https://gameservermanagers.com/discord)
 
 The Linux Game Server Managers are command line tools for quick, simple deployment and management of various dedicated game servers and voice alert servers.
 

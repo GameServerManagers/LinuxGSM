@@ -18,10 +18,10 @@ fn_deps_detector(){
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
-	elif [ -n "$(command -v apt-get)" ]; then
+	elif [ -n "$(command -v apt-get 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed$'
 		depstatus=$?
-	elif [ -n "$(command -v yum)" ]; then
+	elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 		yum -q list installed ${deptocheck} > /dev/null 2>&1
 		depstatus=$?
 	fi
@@ -56,15 +56,15 @@ fn_deps_email(){
 				array_deps_required+=( exim4 )
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=( sendmail )
-			elif [ -n "$(command -v dpkg-query)" ]; then
+			elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v yum)" ]; then
+			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		else
-			if [ -n "$(command -v dpkg-query)" ]; then
+			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v yum)" ]; then
+			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		fi
@@ -89,10 +89,10 @@ fn_found_missing_deps(){
 			echo -en "...\r"
 			sleep 1
 			echo -en "   \r"
-			if [ -n "$(command -v dpkg-query)" ]; then
+			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				cmd="sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
 				eval ${cmd}
-			elif [ -n "$(command -v yum)" ]; then
+			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
 				eval ${cmd}
 			fi
@@ -107,9 +107,9 @@ fn_found_missing_deps(){
 			echo ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
-			if [ -n "$(command -v dpkg-query)" ]; then
+			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				echo "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
-			elif [ -n "$(command -v yum)" ]; then
+			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				echo "	sudo yum install ${array_deps_missing[@]}"
 			fi
 			echo ""
@@ -140,16 +140,16 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 fi
 
 # Check will only run if using apt-get or yum
-if [ -n "$(command -v dpkg-query)" ]; then
+if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
 	# LinuxGSM requirements
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils )
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
-		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+		if [ "$(command -v tmux 2>/dev/null)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
 			array_deps_required+=( tmux )
@@ -219,7 +219,7 @@ if [ -n "$(command -v dpkg-query)" ]; then
 	fn_deps_email
 	fn_check_loop
 
-elif [ -n "$(command -v yum)" ]; then
+elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
@@ -232,7 +232,7 @@ elif [ -n "$(command -v yum)" ]; then
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
-		if [ "$(command -v tmux)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+		if [ "$(command -v tmux 2>/dev/null)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
 			array_deps_required+=( tmux )
