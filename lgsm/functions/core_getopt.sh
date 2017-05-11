@@ -17,15 +17,15 @@ cmd_restart=( "r;restart" "command_restart.sh" "Restart the server." )
 cmd_details=( "dt;details" "command_details.sh" "Display server information." )
 cmd_postdetails=( "pd;postdetails" "command_postdetails.sh" "Post details to hastebin (removing passwords)." )
 cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the server." )
-cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Update LinuxGSM." )
+cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
 # Console servers only
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
 # Update servers only
-cmd_update=( "u;update" "command_update.sh" "Check and apply any updates." )
-cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Bypass update check and apply any updates." )
+cmd_update=( "u;update" "command_update.sh" "Check and apply any server updates." )
+cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Apply server updates bypassing check." )
 # SteamCMD servers only
 cmd_validate=( "v;validate" "command_validate.sh" "Validate server files with SteamCMD." )
 # Server with mods-install
@@ -51,6 +51,9 @@ cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect require
 
 currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
 
+# Update LGSM
+currentopt+=( "${cmd_update_linuxgsm[@]}" )
+
 # Exclude noupdate games here
 if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]; then
 	currentopt+=( "${cmd_update[@]}" )
@@ -64,9 +67,6 @@ fi
 if [ -n "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
-
-# Update LGSM
-currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 #Backup
 currentopt+=( "${cmd_backup[@]}" )
