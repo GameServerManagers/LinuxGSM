@@ -9,10 +9,28 @@
 
 core_dl.sh(){
 functionfile="${FUNCNAME}"
-if [ -z $(type fn_bootstrap_fetch_file_github) ];then
+if [ "$(type fn_fetch_core_dl)" ];then
 	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 else
 	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+fi
+}
+
+core_messages.sh(){
+functionfile="${FUNCNAME}"
+if [ "$(type fn_fetch_core_dl)" ];then
+	fn_fetch_core_dl "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+else
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+fi
+}
+
+core_legacy.sh(){
+functionfile="${FUNCNAME}"
+if [ "$(type fn_fetch_core_dl)" ];then
+	fn_fetch_core_dl "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+else
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 fi
 }
 
@@ -29,11 +47,6 @@ fn_fetch_function
 core_trap.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
-}
-
-core_messages.sh(){
-functionfile="${FUNCNAME}"
-fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 
@@ -549,6 +562,9 @@ fn_fetch_function
 if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
 fi
+
+# Calls code required for legacy servers
+core_legacy.sh
 
 # Calls on-screen messages (bootstrap)
 core_messages.sh
