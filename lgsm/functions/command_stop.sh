@@ -172,7 +172,7 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of source using rcon 'stop' command.
+# Attempts graceful of Minecraft using rcon 'stop' command.
 fn_stop_graceful_minecraft(){
 	fn_print_dots "Graceful: sending \"stop\""
 	fn_script_log_info "Graceful: sending \"stop\""
@@ -228,7 +228,7 @@ fn_stop_graceful_mta(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of source using rcon 'exit' command.
+# Attempts graceful of Terraria using 'exit' console command.
 fn_stop_graceful_terraria(){
 	fn_print_dots "Graceful: sending \"exit\""
 	fn_script_log_info "Graceful: sending \"exit\""
@@ -261,13 +261,13 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_sdtd
 	elif [ "${gamename}" == "Terraria" ]; then
 		fn_stop_graceful_terraria
-	elif [ "${engine}" == "lwjgl2" ]; then
+	elif [ "${gamename}" == "Minecraft" ]; then
 		fn_stop_graceful_minecraft
-	elif [ "${engine}" == "renderware" ]; then
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_stop_graceful_mta
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${gamename}" == "Factorio" ]||[ "${gamename}" == "Minecraft" ]||[ "${gamename}" == "Multi Theft Auto" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
+	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]; then
 		fn_stop_graceful_quit
