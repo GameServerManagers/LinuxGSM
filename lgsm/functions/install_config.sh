@@ -20,9 +20,9 @@ fn_check_cfgdir(){
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default
 fn_fetch_default_config(){
 	mkdir -p "${lgsmdir}/config-default/config-game"
-	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
+	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fn_fetch_file "${githuburl}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "noforce" "nomd5"
+		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "noforce" "nomd5"
 	done
 }
 
