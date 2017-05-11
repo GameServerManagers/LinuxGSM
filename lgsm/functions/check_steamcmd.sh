@@ -8,7 +8,7 @@ local commandname="CHECK"
 
 fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then
-		mkdir -v "${steamcmddir}"
+		mkdir -pv "${steamcmddir}"
 	fi
 	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
