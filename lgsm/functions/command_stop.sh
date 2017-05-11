@@ -228,6 +228,34 @@ fn_stop_graceful_mta(){
 	fn_stop_tmux
 }
 
+# Attempts graceful of source using rcon 'exit' command.
+fn_stop_graceful_terraria(){
+	fn_print_dots "Graceful: sending \"exit\""
+	fn_script_log_info "Graceful: sending \"exit\""
+	# sends exit
+	tmux send -t "${servicename}" exit ENTER > /dev/null 2>&1
+	# waits up to 30 seconds giving the server time to shutdown gracefuly
+	for seconds in {1..30}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: sending \"exit\": ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: sending \"exit\": OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: sending \"exit\": ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: sending \"exit\": "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: sending \"exit\": FAIL"
+	fi
+	sleep 1
+	fn_stop_tmux
+}
+
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
@@ -241,6 +269,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_minecraft
 	elif [ "${engine}" == "renderware" ]; then
 		fn_stop_graceful_mta
+	elif [ "${engine}" == "terraria" ]; then
+		fn_stop_graceful_terraria
 	else
 		fn_stop_tmux
 	fi
