@@ -15,11 +15,11 @@ if [ "${checklogs}" != "1" ]; then
 fi
 sleep 1
 # Create script and console log directories
-mkdir -v "${logdir}"
-mkdir -v "${scriptlogdir}"
+mkdir -pv "${logdir}"
+mkdir -pv "${scriptlogdir}"
 touch "${scriptlog}"
 if [ -n "${consolelogdir}" ]; then
-	mkdir -v "${consolelogdir}"
+	mkdir -pv "${consolelogdir}"
 	touch "${consolelog}"
 fi
 

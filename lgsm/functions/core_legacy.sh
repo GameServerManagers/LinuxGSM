@@ -4,6 +4,10 @@
 # Website: https://gameservermanagers.com
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
-if [ -z ${serverfiles} ]; then
+if [ -z "${serverfiles}" ]; then
 	serverfiles="${filesdir}"
+fi
+
+if [ -z "${logdir}" ]; then
+	logdir="${rootdir}/log"
 fi
