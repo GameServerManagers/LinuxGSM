@@ -52,14 +52,6 @@ fn_info_parms_hurtworld(){
 	maxplayers=${maxplayers:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
 	creativemode=${creativemode:-"NOT SET"}
-	x64mode=${creativemode:-"NOT SET"}
-	admins=""
-
-	## Advanced Server Start Settings
-	# Rollback server state (remove after start command)
-	loadsave=""
-	# Use unstable 64 bit server executable (O/1)
-	x64mode="0"
 }
 
 fn_info_parms_source(){
@@ -83,15 +75,15 @@ fn_info_parms_spark(){
 }
 
 fn_info_parms_unreal(){
-:
+	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 # ARK: Survival Evolved
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
-fn_info_parms_ark
+	fn_info_parms_ark
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
-fn_info_parms_realvirtuality
+	fn_info_parms_realvirtuality
 # Call of Duty
 elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
