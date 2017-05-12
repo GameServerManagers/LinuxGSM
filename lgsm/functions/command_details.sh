@@ -178,6 +178,11 @@ fn_details_gameserver(){
 			echo -e "${blue}Cave:\t${default}${cave}"
 		fi
 
+		# Creativemode (Hurtworld)
+		if [ -n "${creativemode}" ]; then
+			echo -e "${blue}Creativemode:\t${default}${creativemode}"
+		fi
+
 		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
 			echo -e "${blue}dbplugin:\t${default}${dbplugin}"
