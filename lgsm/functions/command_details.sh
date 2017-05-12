@@ -153,14 +153,29 @@ fn_details_gameserver(){
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
 
-		# Cluster (Don't Starve Together)
-		if [ -n "${cluster}" ]; then
-			echo -e "${blue}Cluster:\t${default}${cluster}"
+		# Sharding (Don't Starve Together)
+		if [ -n "${sharding}" ]; then
+			echo -e "${blue}Sharding:\t${default}${sharding}"
+		fi
+
+		# Master (Don't Starve Together)
+		if [ -n "${master}" ]; then
+			echo -e "${blue}Master:\t${default}${master}"
 		fi
 
 		# Shard (Don't Starve Together)
 		if [ -n "${shard}" ]; then
 			echo -e "${blue}Shard:\t${default}${shard}"
+		fi
+
+		# Cluster (Don't Starve Together)
+		if [ -n "${cluster}" ]; then
+			echo -e "${blue}Cluster:\t${default}${cluster}"
+		fi
+
+		# Cave (Don't Starve Together)
+		if [ -n "${cave}" ]; then
+			echo -e "${blue}Cave:\t${default}${cave}"
 		fi
 
 		# TeamSpeak dbplugin
