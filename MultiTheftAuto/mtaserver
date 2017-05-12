@@ -26,7 +26,7 @@ version="170501"
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care
 fn_parms(){
-parms=" "
+parms=""
 }
 
 #### LinuxGSM Settings ####
