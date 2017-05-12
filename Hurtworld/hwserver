@@ -28,7 +28,7 @@ ip="0.0.0.0"
 port="12871"
 queryport="12881"
 maxplayers="20"
-map="" #Optional
+defaultmap="" #Optional
 creativemode="0" #Free Build: creativemode="1"
 logfile="gamelog.txt"
 
@@ -45,7 +45,7 @@ x64mode="0"
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 # Edit with care | http://hurtworld.wikia.com/wiki/Hosting_A_Server
 fn_parms(){
-parms="-batchmode -nographics -exec \"host ${port} ${map} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
+parms="-batchmode -nographics -exec \"host ${port} ${defaultmap} ${loadsave};queryport ${queryport};maxplayers ${maxplayers};servername ${servername};creativemode ${creativemode};${admins}\" -logfile \"${logfile}\" "
 }
 
 #### LinuxGSM Settings ####
