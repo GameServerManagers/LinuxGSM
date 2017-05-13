@@ -46,12 +46,25 @@ fn_info_parms_factorio(){
 }
 
 fn_info_parms_hurtworld(){
-	servername=${defaultmap:-"NOT SET"}
+	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	maxplayers=${maxplayers:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
 	creativemode=${creativemode:-"NOT SET"}
+}
+
+fn_info_parms_projectzomboid(){
+	adminpassword=${adminpassword:-"NOT SET"}
+}
+
+fn_info_parms_quakeworld(){
+	port=${port:-"0"}
+}
+
+fn_info_parms_quake2(){
+	port=${port:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 fn_info_parms_source(){
@@ -67,11 +80,11 @@ fn_info_parms_spark(){
 	port=${port:-"0"}
 	queryport=$((port + 1))
 	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
 	webadminuser=${webadminuser:-"NOT SET"}
 	webadminpass=${webadminpass:-"NOT SET"}
 	webadminport=${webadminport:-"0"}
 	mods=${mods:-"NOT SET"}
-	password=${password:-"NOT SET"}
 }
 
 fn_info_parms_unreal(){
@@ -90,6 +103,13 @@ elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: Unit
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_parms_factorio
+# Project Zomboid
+elif [ "${engine}" == "projectzomboid" ]; then
+	fn_info_parms_projectzomboid
+elif [ "${gamename}" == "QuakeWorld" ]; then
+	fn_info_parms_quakeworld
+elif [ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]; then
+	fn_info_parms_quake2
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_parms_source
 # Spark
