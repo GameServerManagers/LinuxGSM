@@ -34,7 +34,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 		remote_fileurl="http://files.gameservermanagers.com/UnrealTournament99/ut99-server-451-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filedir="ut99-server-451-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="49cb24d0550ff6ddeaba6007045c6edd"
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Server-XAN-3395761-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3395761-Linux.zip";  executecmd="noexecute" run="norun"; force="noforce"; md5="f04ad5b96865b19613303331ff4075eb"
+		fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Client-XAN-3395761-Linux.zip"; filedir="${tmpdir}"; filename="UnrealTournament-Server-XAN-3395761-Linux.zip";  chmodx="noexecute" run="norun"; force="noforce"; md5="f04ad5b96865b19613303331ff4075eb"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 		remote_fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; local_filedir="${tmpdir}"; local_filedir="UT3-linux-server-2.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
