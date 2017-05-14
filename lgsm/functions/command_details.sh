@@ -123,6 +123,11 @@ fn_details_gameserver(){
 			echo -e "${blue}RCON password:\t${default}${rconpassword}"
 		fi
 
+		# RCON web (Rust)
+		if [ -n "${rconweb}" ]; then
+			echo -e "${blue}RCON web:\t${default}${rconweb}"
+		fi
+
 		# Admin password
 		if [ -n "${adminpassword}" ]; then
 			echo -e "${blue}Admin password:\t${default}${adminpassword}"
@@ -191,6 +196,11 @@ fn_details_gameserver(){
 		# ASE (Multi Theft Auto)
 		if [ -n "${ase}" ]; then
 			echo -e "${blue}ASE:\t${default}${ase}"
+		fi
+
+		# Save interval (Rust)
+		if [ -n "${saveinterval}" ]; then
+			echo -e "${blue}ASE:\t${default}${saveinterval} s"
 		fi
 
 		# Online status
