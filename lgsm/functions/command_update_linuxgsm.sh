@@ -14,58 +14,60 @@ check.sh
 fn_script_log_info "Updating LinuxGSM"
 echo -ne "\n"
 
-# Check and update _default.cfg
-echo -ne "    checking config _default.cfg...\c"
-config_file_diff=$(diff "${configdirdefault}/config-lgsm/${servername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
-if [ "${config_file_diff}" != "" ]; then
-	fn_print_update_eol_nl
-	fn_script_log_info "checking config _default.cfg: UPDATE"
-	rm -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg"
-	fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
-else
-	fn_print_ok_eol_nl
-	fn_script_log_info "checking config _default.cfg: OK"
-fi
+if [ -z "${legacymode}" ];then
+	# Check and update _default.cfg
+	echo -ne "    checking config _default.cfg...\c"
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${servername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
+	if [ "${config_file_diff}" != "" ]; then
+		fn_print_update_eol_nl
+		fn_script_log_info "checking config _default.cfg: UPDATE"
+		rm -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg"
+		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_info "checking config _default.cfg: OK"
+	fi
 
-echo -ne "    checking linuxgsm.sh...\c"
-tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
-if [ "${tmp_script_diff}" != "" ]; then
-	fn_print_update_eol_nl
-	fn_script_log_info "checking linuxgsm.sh: UPDATE"
-	rm -f "${tmpdir}/linuxgsm.sh"
-	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
-	# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
-else
-	fn_script_log_info "checking linuxgsm.sh: OK"
-	fn_print_ok_eol_nl
-fi
-echo -ne "    checking ${selfname}...\c"
-script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/servername/d;/gamename/d' "${rootdir}/${selfname}"))
-if [ "${script_diff}" != "" ]; then
-	fn_print_update_eol_nl
-	echo -ne "    backup ${selfname}...\c"
-	mkdir -p "${backupdir}/script/"
-	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
-	if [ $? -ne 0 ]; then
-		fn_print_fail_eol_nl
-		core_exit.sh
+	echo -ne "    checking linuxgsm.sh...\c"
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+	if [ "${tmp_script_diff}" != "" ]; then
+		fn_print_update_eol_nl
+		fn_script_log_info "checking linuxgsm.sh: UPDATE"
+		rm -f "${tmpdir}/linuxgsm.sh"
+		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+		# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
 	else
-		fn_print_ok_eol_nl
-		echo -e "	Backup: ${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
-	fi
-	echo -ne "    fetching ${selfname}...\c"
-	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
-	sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
-	sed -i "s/servername=\"core\"/servername=\"${servername}\"/g" "${rootdir}/${selfname}"
-	sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
-	if [ $? -ne 0 ]; then
-		fn_print_fail_eol_nl
-		core_exit.sh
-	else
+		fn_script_log_info "checking linuxgsm.sh: OK"
 		fn_print_ok_eol_nl
 	fi
-else
-	fn_print_ok_eol_nl
+	echo -ne "    checking ${selfname}...\c"
+	script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/servername/d;/gamename/d' "${rootdir}/${selfname}"))
+	if [ "${script_diff}" != "" ]; then
+		fn_print_update_eol_nl
+		echo -ne "    backup ${selfname}...\c"
+		mkdir -p "${backupdir}/script/"
+		cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			echo -e "	Backup: ${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		fi
+		echo -ne "    fetching ${selfname}...\c"
+		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
+		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
+		sed -i "s/servername=\"core\"/servername=\"${servername}\"/g" "${rootdir}/${selfname}"
+		sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
+	else
+		fn_print_ok_eol_nl
+	fi
 fi
 
 # Check and update functions
