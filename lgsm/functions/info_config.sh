@@ -607,6 +607,10 @@ fn_info_config_unreal(){
 	fi
 }
 
+fn_info_config_unreal3(){
+	servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+}
+
 fn_info_config_sdtd(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -800,6 +804,9 @@ elif [ "${gamename}" == "Tower Unite" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal
+# Unreal 3 engine
+elif [ "${engine}" == "unreal3" ]; then
+	fn_info_config_unreal3
 # 7 Day To Die (unity3d)
 elif [ "${gamename}" == "7 Days To Die" ]; then
 	fn_info_config_sdtd

@@ -107,6 +107,15 @@ fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_parms_unreal3(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	adminpassword=${adminpassword:-"NOT SET"}
+}
+
 # ARK: Survival Evolved
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	fn_info_parms_ark
@@ -142,4 +151,7 @@ elif [ "${gamename}" == "Tower Unite" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
+# Unreal/Unreal 2 engine
+elif [ "${engine}" == "unreal3" ]; then
+	fn_info_parms_unreal3
 fi
