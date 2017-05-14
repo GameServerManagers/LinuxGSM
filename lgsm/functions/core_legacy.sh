@@ -5,6 +5,7 @@
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
 if [ -z "${serverfiles}" ]; then
+	legacymode=1
 	serverfiles="${filesdir}"
 fi
 
