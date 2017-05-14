@@ -41,7 +41,7 @@ fn_install_server_files(){
 		remote_fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	fi
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
-	fn_dl_extract "${filedir}" "${filename}" "${serverfiles}"
+	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
 }
 
 fn_install_server_files_steamcmd(){
