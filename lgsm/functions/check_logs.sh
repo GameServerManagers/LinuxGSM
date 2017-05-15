@@ -20,7 +20,8 @@ if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${gamename}" != "Te
 	fn_check_logs
 fi
 
-# Create gamelogdir if variable exist but dir does not exist
-if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
+# Create gamelogdir
+# If variable exists gamelogdir exists and log/server does not
+if [ -n "${gamelogdir}" ]&&[ -d "${gamelogdir}" ]&&[ ! -d "${logdir}/server" ]; then
 	fn_check_logs
 fi
