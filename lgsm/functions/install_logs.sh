@@ -42,7 +42,7 @@ fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
-	if [ ! -h "${logdir}/steamcmd" ]; then
+	if [ ! -L "${logdir}/steamcmd" ]; then
 		ln -nfsv "${rootdir}/Steam/logs" "${logdir}/steamcmd"
 	fi
 fi
