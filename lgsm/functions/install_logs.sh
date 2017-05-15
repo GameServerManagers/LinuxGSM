@@ -30,9 +30,12 @@ if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	mkdir -pv "${gamelogdir}"
 fi
 
-# Symlink gamelogdir to lgsm logs if variable exists
+# Symlink to gamelogdir
+# unless gamelogdir is within logdir
+# e.g serverfiles/log is not within log/: symlink created
+# log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ]; then
-	if [ ! -h "${logdir}/server" ]; then
+	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ];then
 		ln -nfsv "${gamelogdir}" "${logdir}/server"
 	fi
 fi
