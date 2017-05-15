@@ -13,6 +13,10 @@ if [ -z "${logdir}" ]; then
 	logdir="${rootdir}/log"
 fi
 
+if [ -z "${lgsmlogdir}" ]; then
+	lgsmlogdir="${scriptlogdir}"
+fi
+
 if [ -z "${steamcmddir}" ]; then
 	steamcmddir="${rootdir}/steamcmd"
 fi
