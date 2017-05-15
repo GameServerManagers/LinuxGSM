@@ -110,6 +110,11 @@ fn_details_gameserver(){
 			echo -e "${blue}Server name:\t${default}${servername}"
 		fi
 
+		# Branch
+		if [ -n "${branch}" ]; then
+			echo -e "${blue}Branch:\t${default}${branch}"
+		fi
+
 		# Server ip
 		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 
