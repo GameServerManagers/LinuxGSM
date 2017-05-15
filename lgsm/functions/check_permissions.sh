@@ -40,7 +40,7 @@ fn_check_ownership(){
 				find "${serverfiles}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 
-		} | column -s $'\t' -t | tee -a "${scriptlog}"
+		} | column -s $'\t' -t | tee -a "${lgsmlog}"
 		echo ""
 		fn_print_information_nl "please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
 		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
@@ -62,7 +62,7 @@ fn_check_permissions(){
 			{
 				echo -e "File\n"
 				find "${functionsdir}" -type f -not -executable -printf "%p\n"
-			} | column -s $'\t' -t | tee -a "${scriptlog}"
+			} | column -s $'\t' -t | tee -a "${lgsmlog}"
 			if [ "${monitorflag}" == 1 ]; then
 				alert="permissions"
 				alert.sh

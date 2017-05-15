@@ -16,7 +16,7 @@ fn_check_logs(){
 }
 
 # Create directories for the script and console logs
-if [ ! -d "${scriptlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${gamename}" != "TeamSpeak 3" ]; then
+if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${gamename}" != "TeamSpeak 3" ]; then
 	fn_check_logs
 fi
 

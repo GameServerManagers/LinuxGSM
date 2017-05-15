@@ -81,9 +81,9 @@ fn_bootstrap_fetch_file(){
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "\e[0;31mFAIL\e[0m\n"
-				if [ -f "${scriptlog}" ]; then
-					echo -e "${remote_fileurl}" | tee -a "${scriptlog}"
-					echo "${curlcmd}" | tee -a "${scriptlog}"
+				if [ -f "${lgsmlog}" ]; then
+					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
+					echo "${curlcmd}" | tee -a "${lgsmlog}"
 				fi
 				exit 1
 			else

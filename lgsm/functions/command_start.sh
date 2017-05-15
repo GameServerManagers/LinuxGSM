@@ -31,8 +31,8 @@ fn_start_teamspeak3(){
 		fn_script_log_error "${servername} is already running"
 		core_exit.sh
 	fi
-	if [ -f "${scriptlog}" ]; then
-		mv "${scriptlog}" "${scriptlogdate}"
+	if [ -f "${lgsmlog}" ]; then
+		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
@@ -79,7 +79,7 @@ fn_start_tmux(){
 				mv "${gamelog}" "${gamelogdate}"
 			fi
 		fi
-		mv "${scriptlog}" "${scriptlogdate}"
+		mv "${lgsmlog}" "${lgsmlogdate}"
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
@@ -94,7 +94,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -x "${sessionheight}" -y "${sessionwidth}" -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionheight}" -y "${sessionwidth}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
 	# tmux pipe-pane not supported in tmux versions < 1.6
 	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then # Tmux compiled from source will not return a number, therefore bypass this check and trash the error
@@ -127,20 +127,20 @@ fn_start_tmux(){
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
 		sleep 1
-		if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
+		if [ -s "${lgsmlogdir}/.${servicename}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
 			echo ""
 			echo "Command"
 			echo "================================="
-			echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${scriptlog}"
+			echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo ""
 			echo "Error"
 			echo "================================="
-			cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
+			cat "${lgsmlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${lgsmlog}"
 
 			# Detected error https://gameservermanagers.com/support
-			if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
+			if [ $(grep -c "Operation not permitted" "${lgsmlogdir}/.${servicename}-tmux-error.tmp") ]; then
 			echo ""
 			echo "Fix"
 			echo "================================="
@@ -172,7 +172,7 @@ fn_start_tmux(){
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	rm "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 	echo -en "\n"
 }
 

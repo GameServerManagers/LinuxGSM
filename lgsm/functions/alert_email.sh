@@ -173,15 +173,15 @@ fn_alert_email_template_logs(){
 	echo -e "${servicename} Logs"
 	echo -e "================================="
 
-	if [ -n "${scriptlog}" ]; then
+	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
-		if [ ! "$(ls -A ${scriptlogdir})" ]; then
-			echo "${scriptlogdir} (NO LOG FILES)"
-		elif [ ! -s "${scriptlog}" ]; then
-			echo "${scriptlog} (LOG FILE IS EMPTY)"
+		if [ ! "$(ls -A ${lgsmlogdir})" ]; then
+			echo "${lgsmlogdir} (NO LOG FILES)"
+		elif [ ! -s "${lgsmlog}" ]; then
+			echo "${lgsmlog} (LOG FILE IS EMPTY)"
 		else
-			echo "${scriptlog}"
-			tail -25 "${scriptlog}"
+			echo "${lgsmlog}"
+			tail -25 "${lgsmlog}"
 		fi
 		echo ""
 	fi

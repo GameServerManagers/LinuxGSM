@@ -14,16 +14,18 @@ if [ "${checklogs}" != "1" ]; then
 	echo "================================="
 fi
 sleep 1
-# Create script and console log directories
+# Create LinuxGSM logs
 mkdir -pv "${logdir}"
-mkdir -pv "${scriptlogdir}"
-touch "${scriptlog}"
+mkdir -pv "${lgsmlogdir}"
+touch "${lgsmlog}"
+
+# Create Console logs
 if [ -n "${consolelogdir}" ]; then
 	mkdir -pv "${consolelogdir}"
 	touch "${consolelog}"
 fi
 
-# Create gamelogdir if variable exists but directory does not
+# Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	mkdir -pv "${gamelogdir}"
 fi

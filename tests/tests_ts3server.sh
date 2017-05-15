@@ -93,12 +93,12 @@ backupdir="${rootdir}/backups"
 
 ## Logging Directories
 gamelogdir="${serverfiles}/logs"
-scriptlogdir="${rootdir}/log/script"
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
+lgsmlogdir="${rootdir}/log/script"
+lgsmlog="${lgsmlogdir}/${servicename}-script.log"
+emaillog="${lgsmlogdir}/${servicename}-email.log"
 
 ## Logs Naming
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
+lgsmlogdate="${lgsmlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################
 ######## Script ########

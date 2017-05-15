@@ -15,7 +15,7 @@ fi
 
 if [ ! -d "${checkdir}" ]; then
 	fn_print_fail_nl "Cannot access ${checkdir}: No such directory"
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		fn_script_log_fatal "Cannot access ${checkdir}: No such directory."
 	fi
 	core_exit.sh

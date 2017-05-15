@@ -106,14 +106,14 @@ backupdir="${rootdir}/backups"
 
 ## Logging Directories
 #gamelogdir="" # No server logs available
-scriptlogdir="${rootdir}/log/script"
+lgsmlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
-scriptlog="${scriptlogdir}/${servicename}-script.log"
+lgsmlog="${lgsmlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
+emaillog="${lgsmlogdir}/${servicename}-email.log"
 
 ## Logs Naming
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
+lgsmlogdate="${lgsmlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################

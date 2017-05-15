@@ -161,10 +161,10 @@ fn_stop_graceful_sdtd(){
 				fn_print_error_nl "Graceful: telnet: Unknown error"
 				fn_script_log_error "Graceful: telnet: Unknown error"
 			fi
-			echo -en "\n" | tee -a "${scriptlog}"
-			echo -en "Telnet output:" | tee -a "${scriptlog}"
-			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${scriptlog}"
-			echo -en "\n\n" | tee -a "${scriptlog}"
+			echo -en "\n" | tee -a "${lgsmlog}"
+			echo -en "Telnet output:" | tee -a "${lgsmlog}"
+			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
 		fn_print_warn "Graceful: telnet: expect not installed: "

@@ -69,7 +69,7 @@ fn_dl_extract(){
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting download: FAIL"
-		echo "${extractcmd}" | tee -a "${scriptlog}"
+		echo "${extractcmd}" | tee -a "${lgsmlog}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -84,7 +84,7 @@ fn_fetch_trap(){
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	sleep 1
-	rm -f "${local_filedir}/${local_filename}" | tee -a "${scriptlog}"
+	rm -f "${local_filedir}/${local_filename}" | tee -a "${lgsmlog}"
 	echo -ne "downloading ${local_filename}..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
@@ -120,15 +120,15 @@ fn_fetch_file(){
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
-			if [ -f "${scriptlog}" ]; then
+			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_fatal "Downloading ${local_filename}: FAIL"
 			fi
-			echo -e "${remote_fileurl}" | tee -a "${scriptlog}"
-			echo "${curlcmd}" | tee -a "${scriptlog}"
+			echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
+			echo "${curlcmd}" | tee -a "${lgsmlog}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			if [ -f "${scriptlog}" ]; then
+			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_pass "Downloading ${local_filename}: OK"
 			fi
 		fi
