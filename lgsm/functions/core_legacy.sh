@@ -17,6 +17,14 @@ if [ -z "${lgsmlogdir}" ]; then
 	lgsmlogdir="${scriptlogdir}"
 fi
 
+if [ -z "${lgsmlog}" ]; then
+	lgsmlog="${scriptlog}"
+fi
+
+if [ -z "${scriptlogdate}" ]; then
+	lgsmlogdate="${scriptlogdate}"
+fi
+
 if [ -z "${steamcmddir}" ]; then
 	steamcmddir="${rootdir}/steamcmd"
 fi
