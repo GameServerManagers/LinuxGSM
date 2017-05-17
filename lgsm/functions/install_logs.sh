@@ -78,7 +78,7 @@ fi
 # log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ];then
-		echo -ne "creating symlink to game log dir: ${gamelogdir} > ${logdir}/server..."
+		echo -ne "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
 		ln -nfs "${gamelogdir}" "${logdir}/server"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -92,7 +92,7 @@ fi
 # If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
-		echo -ne "creating symlink to steam log dir: ${rootdir}/Steam/logs > ${logdir}/steamcmd..."
+		echo -ne "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."
 		ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
