@@ -79,7 +79,7 @@ fi
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ];then
 		echo -ne "creating symlink to game log dir: ${gamelogdir} > ${logdir}/server..."
-		ln -nfsv "${gamelogdir}" "${logdir}/server"
+		ln -nfs "${gamelogdir}" "${logdir}/server"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
@@ -93,7 +93,7 @@ fi
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
 		echo -ne "creating symlink to steam log dir: ${rootdir}/Steam/logs > ${logdir}/steamcmd..."
-		ln -nfsv "${rootdir}/Steam/logs" "${logdir}/steamcmd"
+		ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
