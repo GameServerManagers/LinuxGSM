@@ -25,7 +25,7 @@ else
 fi
 
 echo -ne "installing LinuxGSM log dir: ${lgsmlogdir}..."
-mkdir -v "${lgsmlogdir}"
+mkdir -p "${lgsmlogdir}"
 if [ $? -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -43,7 +43,7 @@ fi
 # Create Console logs
 if [ -n "${consolelogdir}" ]; then
 	echo -ne "installing console log dir: ${consolelogdir}..."
-	mkdir -v "${consolelogdir}"
+	mkdir -p "${consolelogdir}"
 	if [ $? -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -57,7 +57,7 @@ fi
 # Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	echo -ne "installing game log dir: ${gamelogdir}..."
-	mkdir -v "${gamelogdir}"
+	mkdir -p "${gamelogdir}"
 	if [ $? -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
