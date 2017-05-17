@@ -15,19 +15,55 @@ if [ "${checklogs}" != "1" ]; then
 fi
 sleep 1
 # Create LinuxGSM logs
-mkdir -pv "${logdir}"
-mkdir -pv "${lgsmlogdir}"
-touch "${lgsmlog}"
+echo -ne "installing log dir: ${logdir}..."
+mkdir -p "${logdir}"
+if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
 
+echo -ne "installing LinuxGSM log dir: ${lgsmlogdir}..."
+mkdir -v "${lgsmlogdir}"
+if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
+echo -ne "creating LinuxGSM log: ${lgsmlog}..."
+touch -v "${lgsmlog}"
+if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
 # Create Console logs
 if [ -n "${consolelogdir}" ]; then
-	mkdir -pv "${consolelogdir}"
+	echo -ne "installing console log dir: ${consolelogdir}..."
+	mkdir -v "${consolelogdir}"
+	if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
+	echo -ne "creating console log:"
 	touch "${consolelog}"
 fi
 
 # Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
-	mkdir -pv "${gamelogdir}"
+	echo -ne "installing game log dir: ${gamelogdir}..."
+	mkdir -v "${gamelogdir}"
+	if [ $? -ne 0 ]; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
 fi
 
 # Symlink to gamelogdir
@@ -36,14 +72,28 @@ fi
 # log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ];then
+		echo -ne "creating symlink to game log dir: ${gamelogdir} > ${logdir}/server..."
 		ln -nfsv "${gamelogdir}" "${logdir}/server"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
 	fi
 fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
+		echo -ne "creating symlink to steam log dir: ${rootdir}/Steam/logs > ${logdir}/steamcmd..."
 		ln -nfsv "${rootdir}/Steam/logs" "${logdir}/steamcmd"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
 	fi
 fi
 sleep 1
