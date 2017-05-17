@@ -50,8 +50,14 @@ if [ -n "${consolelogdir}" ]; then
 	else
 		fn_print_ok_eol_nl
 	fi
-	echo -ne "creating console log:"
+	echo -ne "creating console log: ${consolelog}..."
 	touch "${consolelog}"
+	if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
 fi
 
 # Create Game logs
