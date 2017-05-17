@@ -85,7 +85,7 @@ fn_install_server_files_steamcmd(){
 					local exitcode=$?
 
 					if [ "${gamename}" == "Classic Offensive" ]; then
-						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} +quit
+						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} +quit
 						local exitcode=$?
 					fi
 				fi
@@ -98,7 +98,7 @@ fn_install_server_files_steamcmd(){
 					local exitcode=$?
 
 					if [ "${gamename}" == "Classic Offensive" ]; then
-						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid_co}" ${branch} -validate +quit
+						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} -validate +quit
 						local exitcode=$?
 					fi
 				fi

@@ -12,7 +12,7 @@ echo "================================="
 echo "Dependencies Checker"
 echo "================================="
 echo "Checking directory: "
-echo "${filesdir}"
+echo "${serverfiles}"
 if [ "$(command -v eu-readelf 2>/dev/null)" ]; then
 	readelf=eu-readelf
 elif [ "$(command -v readelf 2>/dev/null)" ]; then
@@ -20,8 +20,8 @@ elif [ "$(command -v readelf 2>/dev/null)" ]; then
 else
 	echo "readelf/eu-readelf not installed"
 fi
-files=$(find ${filesdir} | wc -l)
-find "${filesdir}" -type f -print0 |
+files=$(find ${serverfiles} | wc -l)
+find "${serverfiles}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	if [ "${readelf}" == "eu-readelf" ]; then
 		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $4 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
