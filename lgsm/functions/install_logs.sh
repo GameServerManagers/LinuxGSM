@@ -33,7 +33,7 @@ else
 	fn_print_ok_eol_nl
 fi
 echo -ne "creating LinuxGSM log: ${lgsmlog}..."
-touch -v "${lgsmlog}"
+touch "${lgsmlog}"
 if [ $? -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
