@@ -151,7 +151,6 @@ fn_update_factorio_compare(){
 	fi
 }
 
-
 fn_update_factorio_arch
 if [ "${installer}" == "1" ]; then
 	fn_update_factorio_availablebuild

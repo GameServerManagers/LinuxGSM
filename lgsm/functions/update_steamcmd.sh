@@ -229,7 +229,6 @@ fn_update_steamcmd_check(){
 	fi
 }
 
-
 if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# Goldsource servers bypass checks as fn_update_steamcmd_check does not work for appid 90 servers.
 	# forceupdate bypasses checks

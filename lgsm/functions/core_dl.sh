@@ -154,7 +154,6 @@ fn_fetch_file(){
 	fi
 }
 
-
 # GitHub file download functions
 # Used to simplify downloading specific files from GitHub
 
@@ -235,7 +234,6 @@ fn_update_function(){
 	md5="nomd5"
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
-
 
 # Defines curl path
 curl_paths_array=($(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)

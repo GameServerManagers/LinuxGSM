@@ -139,7 +139,6 @@ fn_update_mta_compare(){
 	fi
 }
 
-
 if [ "${installer}" == "1" ]; then
 	fn_mta_get_availablebuild
 	fn_update_mta_dl

@@ -16,8 +16,6 @@ extractdir="${modstmpdir}/extract"
 modsinstalledlist="installed-mods.txt"
 modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
-
-
 ## Installation
 
 # Download management

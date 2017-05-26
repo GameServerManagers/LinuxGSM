@@ -380,7 +380,6 @@ fn_details_statusbottom(){
 	echo -e ""
 }
 
-
 # Engine Specific details
 
 fn_details_ark(){

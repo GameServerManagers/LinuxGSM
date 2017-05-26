@@ -151,7 +151,6 @@ fn_update_mumble_compare(){
 	fi
 }
 
-
 fn_update_mumble_arch
 if [ "${installer}" == "1" ]; then
 	fn_update_mumble_availablebuild

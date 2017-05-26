@@ -73,9 +73,7 @@ while read lib; do
 		unknownlib=1
 		echo "${lib}" >> "${tmpdir}/.depdetect_unknown"
 	fi
-
 done < "${tmpdir}/.depdetect_readelf_uniq"
-
 
 sort "${tmpdir}/.depdetect_centos_list" | uniq >> "${tmpdir}/.depdetect_centos_list_uniq"
 sort "${tmpdir}/.depdetect_ubuntu_list" | uniq >> "${tmpdir}/.depdetect_ubuntu_list_uniq"

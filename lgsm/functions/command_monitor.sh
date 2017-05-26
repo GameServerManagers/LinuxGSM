@@ -105,7 +105,6 @@ check.sh
 logs.sh
 info_config.sh
 
-
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_msg_checking

@@ -54,7 +54,6 @@ minutes=$(( uptime/60%60 ))
 hours=$(( uptime/60/60%24 ))
 days=$(( uptime/60/60/24 ))
 
-
 ### Performance information
 
 ## Average server load

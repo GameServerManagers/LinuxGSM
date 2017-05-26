@@ -34,7 +34,6 @@ configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${servername}"
 configdirdefault="${lgsmdir}/config-default"
 
-
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.

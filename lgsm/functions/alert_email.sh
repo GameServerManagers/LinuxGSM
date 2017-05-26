@@ -16,7 +16,6 @@ fn_details_email(){
 	echo -e "${alertbody}" >> "${emaillog}"
 }
 
-
 fn_details_os(){
 	#
 	# Distro Details
@@ -89,8 +88,6 @@ fn_details_disk(){
 		fi
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
-
-
 
 fn_details_gameserver(){
 	#

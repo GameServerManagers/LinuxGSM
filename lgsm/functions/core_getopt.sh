@@ -71,7 +71,6 @@ fi
 #Backup
 currentopt+=( "${cmd_backup[@]}" )
 
-
 # Exclude games without a console
 if [ "${gamename}" != "TeamSpeak 3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )

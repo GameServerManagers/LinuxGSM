@@ -63,7 +63,6 @@ fn_backup_init(){
 	fi
 }
 
-
 # Check if server is started and wether to stop it
 fn_backup_stop_server(){
 	check_status.sh

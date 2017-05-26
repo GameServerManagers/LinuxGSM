@@ -49,7 +49,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Commands
 
 command_console.sh(){
@@ -226,7 +225,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Compress
 
 compress_unreal2_maps.sh(){
@@ -272,7 +270,6 @@ command_dev_detect_ldd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
-
 
 # Fix
 
@@ -368,7 +365,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Alert
 
 alert.sh(){
@@ -393,14 +389,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Monitor
 
 monitor_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
-
 
 # Update
 
@@ -453,7 +447,6 @@ fn_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
-
 
 #
 ## Installer functions

@@ -178,7 +178,6 @@ fn_update_ts3_compare(){
 	fi
 }
 
-
 fn_update_ts3_arch
 if [ "${installer}" == "1" ]; then
 	fn_update_ts3_availablebuild

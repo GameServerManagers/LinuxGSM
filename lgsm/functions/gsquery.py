@@ -76,7 +76,6 @@ class PythonGSQ:
         if not self.option.port:
             self.fatal_error('No port supplied.', 4)
 
-
 if __name__ == '__main__':
     parser = optparse.OptionParser(
         usage='usage: python %prog [options]',

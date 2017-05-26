@@ -144,7 +144,6 @@ fn_update_compare(){
 	fi
 }
 
-
 if [ "${installer}" == "1" ]; then
 	fn_update_availablebuild
 	fn_update_dl

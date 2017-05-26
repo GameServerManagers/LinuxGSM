@@ -107,7 +107,6 @@ if ! grep -q "^steamuser[= ]\"anonymous\"" "${tmpfile}" ; then
 	sed -i -e 's/steamuser[= ]"[^"]*/steamuser "--stripped--/' "${tmpfile}"
 fi
 
-
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
 	sleep 1
