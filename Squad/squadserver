@@ -31,7 +31,7 @@ ip="0.0.0.0"
 
 ## Server Start Command | https://github.com/GameServerManagers/LinuxGSM/wiki/Start-Parameters#additional-parameters
 fn_parms(){
-parms="MULTIHOME=${ip} PORT=${port} QueryPort=${queryport} FIXEDMAXPLAYERS=${fixedmaxplayers} RANDOM={randommapmode}"
+parms="MULTIHOME=${ip} PORT=${port} QueryPort=${queryport} FIXEDMAXPLAYERS=${fixedmaxplayers} RANDOM=${randommapmode}"
 }
 
 #### LinuxGSM Settings ####
