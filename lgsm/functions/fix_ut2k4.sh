@@ -19,7 +19,7 @@ sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' "${systemdir}/UWeb.int"
 sleep 1
 echo "applying server name fix."
 sleep 1
-echo "forcing server restart..."
+echo "forcing server restart."
 sleep 1
 exitbypass=1
 command_start.sh
