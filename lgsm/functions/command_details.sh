@@ -174,7 +174,7 @@ fn_details_gameserver(){
 		fi
 
 		# Random map rotation mode (Squad)
-		if [ -n "${randommapmode}"]; then
+		if [ -n "${randommapmode}" ]; then
 			echo -e "${blue}Map rotation:\t${default}${randommapmode}"
 		fi
 
@@ -881,7 +881,7 @@ fn_display_details() {
 		fn_details_quake3
 	elif [ "${gamename}" == "Quake Live" ]; then
 		fn_details_quakelive
-	elif [ "${gamename}" == "Squad"]; then
+	elif [ "${gamename}" == "Squad" ]; then
 		fn_details_squad
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
