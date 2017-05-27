@@ -808,6 +808,6 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_info_config_wolfensteinenemyterritory
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	fn_info_config_mta
-elif [ "${gamename}" == "Squad"]; then
+elif [ "${gamename}" == "Squad" ]; then
 	fn_info_config_squad
 fi
