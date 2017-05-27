@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://gameservermanagers.com
-# Description: Acts as a log rotater, removing old logs.
+# Description: Acts as a log rotator, removing old logs.
 
 local commandname="LOGS"
 local commandaction="Log-Manager"
