@@ -40,6 +40,7 @@ cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
 cmd_install_dst_token=( "ct;cluster-token" "install_dst_token.sh" "Configure cluster token." )
+cmd_install_squad_license=( "li;license" "install_squad_license.sh" "Add your Squad server license." )
 cmd_fastdl=( "fd;fastdl" "command_fastdl.sh" "Build a FastDL directory." )
 # Dev commands
 cmd_dev_debug=( "dev;developer" "command_dev_debug.sh" "Enable developer Mode." )
@@ -111,6 +112,11 @@ fi
 # MTA exclusive
 if [ "${gamename}" == "Multi Theft Auto" ]; then
 	currentopt+=( "${cmd_install_default_resources[@]}" )
+fi
+
+# Squad license exclusive
+if [ "${gamename}" == "Squad" ]; then
+	currentopt+=( "${cmd_install_squad_license[@]}" )
 fi
 
 ## Mods commands

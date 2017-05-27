@@ -208,6 +208,11 @@ fn_details_gameserver(){
 			echo -e "${blue}ASE:\t${default}${saveinterval} s"
 		fi
 
+		# Random map rotation mode (Squad)
+		if [ -n "${randommapmode}" ]; then
+			echo -e "${blue}Map rotation:\t${default}${randommapmode}"
+		fi
+
 		# Online status
 		if [ "${status}" == "0" ]; then
 			echo -e "${blue}Status:\t${red}OFFLINE${default}"
@@ -225,7 +230,7 @@ fn_details_script(){
 	# Service name:        ql-server
 	# qlserver version:    150316
 	# User:                lgsm
-	# Email alert:  off
+	# Email alert:         off
 	# Update on start:     off
 	# Location:            /home/lgsm/qlserver
 	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
@@ -690,6 +695,17 @@ fn_details_spark(){
 	} | column -s $'\t' -t
 }
 
+fn_details_squad(){
+	echo -e "netstat -atunp | grep SquadServer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_details_starbound(){
 	echo -e "netstat -atunp | grep starbound"
 	echo -e ""
@@ -895,6 +911,8 @@ fn_display_details() {
 		fn_details_quake3
 	elif [ "${gamename}" == "Quake Live" ]; then
 		fn_details_quakelive
+	elif [ "${gamename}" == "Squad" ]; then
+		fn_details_squad
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_details_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
