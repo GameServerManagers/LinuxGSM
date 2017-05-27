@@ -662,7 +662,6 @@ fn_details_spark(){
 }
 
 fn_details_squad(){
-	rconport=$(cat ${servercfgdir}/Rcon.cfg | grep "Port=" | cut -c6-) # obtain rcon port from file
 	echo -e "netstat -atunp | grep SquadServer"
 	echo -e ""
 	{
