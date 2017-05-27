@@ -243,7 +243,12 @@ fn_install_file(){
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
 	sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${local_filename}"
 	echo "Installed ${gamename} server as ${local_filename}"
-	echo "./${local_filename} install"
+	echo ""
+	if [ ! -d "${serverfiles}" ]; then
+		echo "./${local_filename} install"
+	else
+		echo "Remember to check server ports"
+		echo "./${local_filename} details"
 	exit
 }
 
