@@ -249,6 +249,8 @@ fn_install_file(){
 	else
 		echo "Remember to check server ports"
 		echo "./${local_filename} details"
+	fi
+	echo ""
 	exit
 }
 
