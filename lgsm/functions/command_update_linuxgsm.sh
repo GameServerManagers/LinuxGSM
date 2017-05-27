@@ -52,7 +52,7 @@ if [ -z "${legacymode}" ];then
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			echo -e "	Backup: ${tmpdir}/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+			echo -e "	Backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
 		echo -ne "    fetching ${selfname}...\c"
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
