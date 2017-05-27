@@ -29,9 +29,7 @@ fn_start_teamspeak3(){
 	if [ "${status}" != "0" ]; then
 		fn_print_info_nl "${servername} is already running"
 		fn_script_log_error "${servername} is already running"
-		if [ "${exitbypass}" ]; then
-			exit
-		else
+		if [ -z "${exitbypass}" ]; then
 			core_exit.sh
 		fi
 	fi
@@ -92,7 +90,9 @@ fn_start_tmux(){
 	if [ "${status}" != "0" ]; then
 		fn_print_info_nl "${servername} is already running"
 		fn_script_log_error "${servername} is already running"
-		core_exit.sh
+		if [ -z "${exitbypass}" ]; then
+			core_exit.sh
+		fi
 	fi
 
 	# Create lockfile
