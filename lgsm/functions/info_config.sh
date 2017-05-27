@@ -709,17 +709,17 @@ fn_info_config_squad(){
 		maxplayers="${unavailable}"
 	else
 		servername="$(cat ${servercfgfullpath} | grep "ServerName=" | cut -c13- | rev | cut -c3- | rev)"
-		maxplayers="$(cat ${servercfgfullpath} | grep "MaxPlayers=" | cut -c12-)"
+		maxplayers="$(cat ${servercfgfullpath} | grep "MaxPlayers=" | cut -c12- | tr -cd '[:digit:]')"
 	fi
 
 	if [ ! -f "${servercfgdir}/Rcon.cfg" ]; then
 		rconport=${unavailable}
 		rconpassword=${unavailable}
 	else
-		rconport=$(cat ${servercfgdir}/Rcon.cfg | grep "Port=" | cut -c6-)
-		rconpassword=$(cat ${servercfgdir}/Rcon.cfg | grep "Password=" | cut -c6-)
-		if [ -z "${rconpassword}" ]; then
-			rconpassword="${cyan}DISABLED${default}"
+		rconport=$(cat ${servercfgdir}/Rcon.cfg | grep "Port=" | cut -c6- | tr -cd '[:digit:]')
+		rconpassword=$(cat ${servercfgdir}/Rcon.cfg | grep "Password=" | cut -c10-)
+		if [ -z "${rconpassword}" ]||[ ${#rconpassword} == 1 ]; then
+			rconpassword="${yellow}DISABLED${default}"
 		fi
 	fi
 }
