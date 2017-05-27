@@ -265,9 +265,11 @@ if [ "${shortname}" == "core" ]; then
 	serverlist="${datadir}/serverlist.csv"
 
 	# Download the serverlist. This is the complete list of all supported servers.
-	# Download to tmp dir
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
 
+	if [ -f "${serverlist}" ]; then
+		rm "${serverlist}"
+	fi
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
 		echo "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
