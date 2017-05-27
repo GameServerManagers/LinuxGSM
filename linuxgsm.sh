@@ -261,24 +261,12 @@ fi
 # LinuxGSM installer mode
 if [ "${shortname}" == "core" ]; then
 	userinput=$1
-	datadir="${lgsmdir}/data"
+	datadir="${tmpdir}/data"
 	serverlist="${datadir}/serverlist.csv"
-	serverlist_tmp="${tmpdir}/data/serverlist.csv"
 
 	# Download the serverlist. This is the complete list of all supported servers.
 	# Download to tmp dir
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${tmpdir}/data" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
-	# if missing in lgsm dir copy it across
-	if [ ! -f "${serverlist}" ]; then
-		mkdir -p "${datadir}"
-		cp -R "${serverlist_tmp}" "${serverlist}"
-	# check if the files are different.
-	else
-		file_diff=$(diff -q "${serverlist_tmp}" "${serverlist}")
-		if [ "${file_diff}" != "" ]; then
-			cp -Rf "${serverlist_tmp}" "${serverlist}"
-		fi
-	fi
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
 
 	if [ ! -f "${serverlist}" ]; then
 		echo "[ FAIL ] serverlist.csv could not be loaded."
@@ -291,7 +279,7 @@ if [ "${shortname}" == "core" ]; then
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ]; then
-		fn_install_menu result "LinuxGSM" "Select game to install" "lgsm/data/serverlist.csv"
+		fn_install_menu result "LinuxGSM" "Select game to install" "${serverlist}"
 		userinput="${result}"
 		fn_server_info
 		if [ "${result}" == "${servername}" ]; then
