@@ -65,7 +65,9 @@ local allowed_commands_array=( command_debug.sh command_details.sh command_monit
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		check_ip.sh
+		if [ -z "${installflag}" ]; then
+			check_ip.sh
+		fi
 	fi
 done
 
