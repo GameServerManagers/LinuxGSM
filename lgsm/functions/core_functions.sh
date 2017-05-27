@@ -187,6 +187,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_squad_license.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_mods_install.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
