@@ -77,6 +77,7 @@ if [ -n "${functionsdir}" ]; then
 		for functionfile in *
 		do
 			echo -ne "    checking function ${functionfile}...\c"
+			github_file_url_dir="lgsm/functions"
 			get_function_file=$(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			exitcode=$?
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
