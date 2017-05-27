@@ -32,6 +32,8 @@ if [ "${gamename}" == "BrainBread 2" ]||[ "${gamename}" == "Black Mesa: Deathmat
 	install_gslt.sh
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	install_dst_token.sh
+elif [ "${gamename}" == "Squad" ]; then
+	install_squad_license.sh
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
