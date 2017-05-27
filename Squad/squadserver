@@ -100,7 +100,7 @@ filesdir="${rootdir}/serverfiles"
 
 ## Server Specific Directories
 systemdir="${filesdir}/Squad"
-executabledir="${systemdir}"
+executabledir="${filesdir}"
 executable="./SquadServer.sh"
 servercfgdir="${systemdir}/ServerConfig"
 servercfg="Server.cfg"
