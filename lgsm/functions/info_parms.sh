@@ -38,6 +38,7 @@ fn_info_parms_dst(){
 	shard=${shard:-"NOT SET"}
 	cluster=${cluster:-"NOT SET"}
 	cave=${cave:-"NOT SET"}
+}
 
 fn_info_parms_factorio(){
 	port=${port:-"0"}
