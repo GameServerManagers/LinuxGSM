@@ -30,7 +30,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 				echo -en "Set ${ipinconfigvar} to one of the following:\n"
 			else
 				fn_print_information_nl "Specify the IP you want to use within a LinuxGSM config file."
-				echo -en "location: ${configdir}\n"
+				echo -en "location: ${configdirserver}\n"
 				echo ""
 				echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 			fi
