@@ -36,6 +36,8 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	command_install_resources_mta.sh
+elif [ "${gamename}" == "Squad" ]; then
+	install_squad_license.sh
 fi
 
 fix.sh
