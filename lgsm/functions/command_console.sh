@@ -38,7 +38,8 @@ else
 	fn_script_log_error "Failed to access: Server not running"
 	sleep 1
 	if fn_prompt_yn "Do you want to start the server?" Y; then
-		exitbypass=1; command_start.sh
+		exitbypass=1
+		command_start.sh
 	fi
 fi
 
