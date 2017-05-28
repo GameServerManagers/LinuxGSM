@@ -210,7 +210,7 @@ fn_install_menu() {
 # Gets server info from serverlist.csv and puts in to array
 fn_server_info(){
 	IFS=","
-	server_info_array=($(grep -a "${userinput}" "${serverlist}"))
+	server_info_array=($(grep -w "${userinput}" "${serverlist}"))
 	shortname="${server_info_array[0]}" # csgo
 	servername="${server_info_array[1]}" # csgoserver
 	gamename="${server_info_array[2]}" # Counter Strike: Global Offensive
@@ -297,6 +297,8 @@ if [ "${shortname}" == "core" ]; then
 			echo "Install canceled"
 		else
 			echo "[ FAIL ] menu result does not match servername"
+			echo "result: ${result}"
+			echo "servername: ${servername}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
