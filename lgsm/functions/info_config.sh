@@ -169,6 +169,7 @@ fn_info_config_dontstarve(){
 		gamemode=$(grep "game_mode" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_mode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		tickrate=$(grep "tick_rate" "${clustercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		masterport=$(grep "master_port" "${clustercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
 		ip=$(grep "bind_ip" "${clustercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bind_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		ipsetinconfig=1
 		ipinconfigvar="bind_ip"
@@ -307,11 +308,12 @@ fn_info_config_quakeworld(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
+		port="${zero}"
 	else
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-
+		port=
 		# Not Set
 		rconpassword=${rconpassword:-"NOT SET"}
 		servername=${servername:-"NOT SET"}
@@ -363,11 +365,17 @@ fn_info_config_quakelive(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
+		port="${zero}"
+		rconport="${zero}"
+		statsport="${zero}"
 	else
 		rconpassword=$(grep "zmq_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set zmq_rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "sv_maxClients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		port=$(grep "net_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		rconport=$(grep "zmq_rcon_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		statsport=$(grep "zmq_stats_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
 		ip=$(grep "set net_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set net_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		ipsetinconfig=1
@@ -378,6 +386,9 @@ fn_info_config_quakelive(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
+		port=${port:-"0"}
+		rconport=${rconport:-"0"}
+		statsport=${statsport:-"0"}
 	fi
 }
 
@@ -601,6 +612,7 @@ fn_info_config_unreal(){
 		serverpassword=${serverpassword:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
 		port=${port:-"0"}
+		queryport=${queryport:-"0"}
 		gsqueryport=${gsqueryport:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
 		webadminport=${webadminport:-"0"}
