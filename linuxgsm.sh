@@ -18,7 +18,7 @@ fi
 
 version="170305"
 shortname="core"
-servername="core"
+gameservername="core"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 servicename="${selfname}"
@@ -31,7 +31,7 @@ functionsdir="${lgsmdir}/functions"
 libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 configdir="${lgsmdir}/config-lgsm"
-configdirserver="${configdir}/${servername}"
+configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 
 ## GitHub Branch Select
@@ -212,7 +212,7 @@ fn_server_info(){
 	IFS=","
 	server_info_array=($(grep -w "${userinput}" "${serverlist}"))
 	shortname="${server_info_array[0]}" # csgo
-	servername="${server_info_array[1]}" # csgoserver
+	gameservername="${server_info_array[1]}" # csgoserver
 	gamename="${server_info_array[2]}" # Counter Strike: Global Offensive
 }
 
@@ -231,7 +231,7 @@ fn_install_getopt(){
 }
 
 fn_install_file(){
-	local_filename="${servername}"
+	local_filename="${gameservername}"
 	if [ -e "${local_filename}" ]; then
 		i=2
 	while [ -e "${local_filename}-${i}" ] ; do
@@ -241,7 +241,7 @@ fn_install_file(){
 	fi
 	cp -R "${selfname}" "${local_filename}"
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
-	sed -i -e "s/servername=\"core\"/servername=\"${servername}\"/g" "${local_filename}"
+	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
 	echo "Installed ${gamename} server as ${local_filename}"
 	echo ""
 	if [ ! -d "${serverfiles}" ]; then
@@ -291,18 +291,18 @@ if [ "${shortname}" == "core" ]; then
 		fn_install_menu result "LinuxGSM" "Select game to install" "${serverlist}"
 		userinput="${result}"
 		fn_server_info
-		if [ "${result}" == "${servername}" ]; then
+		if [ "${result}" == "${gameservername}" ]; then
 			fn_install_file
 		elif [ "${result}" == "" ]; then
 			echo "Install canceled"
 		else
-			echo "[ FAIL ] menu result does not match servername"
+			echo "[ FAIL ] menu result does not match gameservername"
 			echo "result: ${result}"
-			echo "servername: ${servername}"
+			echo "gameservername: ${gameservername}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
-		if [ "${userinput}" == "${servername}" ]; then
+		if [ "${userinput}" == "${gameservername}" ]; then
 			fn_install_file
 		fi
 	else
@@ -316,14 +316,14 @@ else
 	# Load LinuxGSM configs
 	# These are required to get all the default variables for the specific server.
 	# Load the default config. If missing download it. If changed reload it.
-	if [ ! -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg" ]; then
-		mkdir -p "${configdirdefault}/config-lgsm/${servername}"
-		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+	if [ ! -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" ]; then
+		mkdir -p "${configdirdefault}/config-lgsm/${gameservername}"
+		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 	fi
 	if [ ! -f "${configdirserver}/_default.cfg" ]; then
 		mkdir -p "${configdirserver}"
 		echo -ne "    copying _default.cfg...\c"
-		cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
+		cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			echo -e "\e[0;31mFAIL\e[0m\n"
@@ -332,11 +332,11 @@ else
 			echo -e "\e[0;32mOK\e[0m"
 		fi
 	else
-		function_file_diff=$(diff -q ${configdirdefault}/config-lgsm/${servername}/_default.cfg ${configdirserver}/_default.cfg)
+		function_file_diff=$(diff -q ${configdirdefault}/config-lgsm/${gameservername}/_default.cfg ${configdirserver}/_default.cfg)
 		if [ "${function_file_diff}" != "" ]; then
 			fn_print_warn_nl "_default.cfg has been altered. reloading config."
 			echo -ne "    copying _default.cfg...\c"
-			cp -R "${configdirdefault}/config-lgsm/${servername}/_default.cfg" "${configdirserver}/_default.cfg"
+			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "\e[0;31mFAIL\e[0m\n"
