@@ -17,12 +17,12 @@ echo -ne "\n"
 if [ -z "${legacymode}" ];then
 	# Check and update _default.cfg
 	echo -ne "    checking config _default.cfg...\c"
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${servername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${servername}/_default.cfg"))
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking config _default.cfg: UPDATE"
-		rm -f "${configdirdefault}/config-lgsm/${servername}/_default.cfg"
-		fn_fetch_config "lgsm/config-default/config-lgsm/${servername}" "_default.cfg" "${configdirdefault}/config-lgsm/${servername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
+		rm -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg"
+		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
 	else
 		fn_print_ok_eol_nl
 		fn_script_log_info "checking config _default.cfg: OK"
@@ -41,7 +41,7 @@ if [ -z "${legacymode}" ];then
 		fn_print_ok_eol_nl
 	fi
 	echo -ne "    checking ${selfname}...\c"
-	script_diff=$(diff <(sed '/shortname/d;/servername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/servername/d;/gamename/d' "${rootdir}/${selfname}"))
+	script_diff=$(diff <(sed '/shortname/d;/gameservername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/gameservername/d;/gamename/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		echo -ne "    backup ${selfname}...\c"
@@ -57,7 +57,7 @@ if [ -z "${legacymode}" ];then
 		echo -ne "    fetching ${selfname}...\c"
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
-		sed -i "s/servername=\"core\"/servername=\"${servername}\"/g" "${rootdir}/${selfname}"
+		sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
