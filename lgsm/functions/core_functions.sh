@@ -117,6 +117,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_core_dl
 }
 
+core_yaml.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_core_dl
+}
+
 
 # Commands
 
@@ -626,6 +631,9 @@ core_trap.sh
 
 # Calls on-screen messages
 core_messages.sh
+
+# Calls YAML parser
+core_yaml.sh
 
 #Calls file downloader
 core_dl.sh
