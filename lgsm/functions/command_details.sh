@@ -533,7 +533,7 @@ fn_details_projectcars(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
 	} | column -s $'\t' -t
 }
 
