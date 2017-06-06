@@ -15,20 +15,24 @@ if [ -z "$(command -v objdump)" ]; then
 	core_exit.sh
 fi
 
-if [ -d "${filesdir}" ]; then
+if [ -z "${serverfiles}" ]; then
+	dir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+fi
+
+if [ -d "${serverfiles}" ]; then
 	echo "Checking directory: "
-	echo "${filesdir}"
-elif [ -f "${filesdir}" ]; then
+	echo "${serverfiles}"
+elif [ -f "${serverfiles}" ]; then
 	echo "Checking file: "
-	echo "${filesdir}"
+	echo "${serverfiles}"
 fi
 echo ""
 
-files=$(find ${filesdir} | wc -l)
-find "${filesdir}" -type f -print0 |
+files=$(find ${serverfiles} | wc -l)
+find ${serverfiles} -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	glibcversion=$(objdump -T "${line}" 2>/dev/null|grep -oP "GLIBC[^ ]+" |grep -v GLIBCXX|sort|uniq|sort -r --version-sort| head -n 1)
-	if [ "${glibcversion}" ];then
+	if [ "${glibcversion}" ]; then
 		echo "${glibcversion}: ${line}" >>"${tmpdir}/detect_glibc_files.tmp"
 	fi
 	objdump -T "${line}" 2>/dev/null|grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc.tmp"

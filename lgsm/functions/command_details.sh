@@ -83,7 +83,7 @@ fn_details_disk(){
 		echo -e "${blue}Used:\t${default}${usedspace}"
 		echo -e "${blue}Available:\t${default}${availspace}"
 		echo -e "${blue}LinuxGSM Total:\t${default}${rootdirdu}"
-		echo -e "${blue}Serverfiles:\t${default}${filesdirdu}"
+		echo -e "${blue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "${blue}Backups:\t${default}${backupdirdu}"
 		fi
@@ -110,6 +110,11 @@ fn_details_gameserver(){
 			echo -e "${blue}Server name:\t${default}${servername}"
 		fi
 
+		# Branch
+		if [ -n "${branch}" ]; then
+			echo -e "${blue}Branch:\t${default}${branch}"
+		fi
+
 		# Server ip
 		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 
@@ -121,6 +126,11 @@ fn_details_gameserver(){
 		# RCON password
 		if [ -n "${rconpassword}" ]; then
 			echo -e "${blue}RCON password:\t${default}${rconpassword}"
+		fi
+
+		# RCON web (Rust)
+		if [ -n "${rconweb}" ]; then
+			echo -e "${blue}RCON web:\t${default}${rconweb}"
 		fi
 
 		# Admin password
@@ -153,14 +163,34 @@ fn_details_gameserver(){
 			echo -e "${blue}Tick rate:\t${default}${tickrate}"
 		fi
 
-		# Cluster (Don't Starve Together)
-		if [ -n "${cluster}" ]; then
-			echo -e "${blue}Cluster:\t${default}${cluster}"
+		# Sharding (Don't Starve Together)
+		if [ -n "${sharding}" ]; then
+			echo -e "${blue}Sharding:\t${default}${sharding}"
+		fi
+
+		# Master (Don't Starve Together)
+		if [ -n "${master}" ]; then
+			echo -e "${blue}Master:\t${default}${master}"
 		fi
 
 		# Shard (Don't Starve Together)
 		if [ -n "${shard}" ]; then
 			echo -e "${blue}Shard:\t${default}${shard}"
+		fi
+
+		# Cluster (Don't Starve Together)
+		if [ -n "${cluster}" ]; then
+			echo -e "${blue}Cluster:\t${default}${cluster}"
+		fi
+
+		# Cave (Don't Starve Together)
+		if [ -n "${cave}" ]; then
+			echo -e "${blue}Cave:\t${default}${cave}"
+		fi
+
+		# Creativemode (Hurtworld)
+		if [ -n "${creativemode}" ]; then
+			echo -e "${blue}Creativemode:\t${default}${creativemode}"
 		fi
 
 		# TeamSpeak dbplugin
@@ -171,6 +201,11 @@ fn_details_gameserver(){
 		# ASE (Multi Theft Auto)
 		if [ -n "${ase}" ]; then
 			echo -e "${blue}ASE:\t${default}${ase}"
+		fi
+
+		# Save interval (Rust)
+		if [ -n "${saveinterval}" ]; then
+			echo -e "${blue}ASE:\t${default}${saveinterval} s"
 		fi
 
 		# Random map rotation mode (Squad)
@@ -350,7 +385,6 @@ fn_details_statusbottom(){
 	echo -e ""
 }
 
-
 # Engine Specific details
 
 fn_details_ark(){
@@ -499,7 +533,7 @@ fn_details_projectcars(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
 	} | column -s $'\t' -t
 }
 

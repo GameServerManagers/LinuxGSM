@@ -8,7 +8,7 @@ local commandname="CHECK"
 
 fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then
-		mkdir -v "${steamcmddir}"
+		mkdir -pv "${steamcmddir}"
 	fi
 	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
@@ -20,14 +20,14 @@ fn_check_steamcmd_user(){
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}"
 		echo "	* Change steamuser=\"username\" to a valid steam login."
-		if [ -d "${scriptlogdir}" ]; then
+		if [ -d "${lgsmlogdir}" ]; then
 			fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}"
 		fi
 		core_exit.sh
 	fi
 	# Anonymous user is set if steamuser is missing
 	if [ -z "${steamuser}" ]; then
-		if [ -d "${scriptlogdir}" ]; then
+		if [ -d "${lgsmlogdir}" ]; then
 			fn_script_log_info "Using anonymous Steam login"
 		fi
 		steamuser="anonymous"
@@ -39,7 +39,6 @@ fn_check_steamcmd_user(){
 fn_check_steamcmd_sh(){
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Installs if missing.
-	steamcmddir="${rootdir}/steamcmd"
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
@@ -55,17 +54,5 @@ fn_check_steamcmd_sh(){
 	fi
 }
 
-fn_check_steamcmd_guard(){
-	if [ "${function_selfname}" == "command_update.sh" ]||[ "${function_selfname}" == "command_validate.sh" ]; then
-		# Checks that SteamCMD is working correctly and will prompt Steam Guard if required.
-		"${steamcmddir}"/steamcmd.sh +login "${steamuser}" "${steampass}" +quit
-		if [ $? -ne 0 ]; then
-			fn_print_failure_nl "Error running SteamCMD"
-		fi
-	fi
-}
-
 fn_check_steamcmd_user
 fn_check_steamcmd_sh
-# stdbuf has now replaced unbuffer. This should not longer be required.
-#fn_check_steamcmd_guard

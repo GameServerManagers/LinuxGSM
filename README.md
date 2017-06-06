@@ -48,7 +48,7 @@ If you want to donate to the project you can via PayPal. I have had a may kind p
 	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki">Wiki</a></li>
 	<li><a href="https://github.com/GameServerManagers/LinuxGSM">GitHub Code</a></li>
 	<li><a href="https://github.com/GameServerManagers/LinuxGSM/issues">GitHub Issues</a></li>
-	<li><a href="https://waffle.io/GameServerManagers/LinuxGSM">Waffle (Github Dashboard)</a></li>
+	<li><a href="https://waffle.io/GameServerManagers/LinuxGSM">Waffle (GitHub Dashboard)</a></li>
 	<li><a href="http://alternativeto.net/software/linux-game-server-managers/">alternativeTo.net</a></li>
 </ul>
 <h2>Social</h2>

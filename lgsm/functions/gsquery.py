@@ -17,7 +17,7 @@ class PythonGSQ:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=['quakelive','realvirtuality','refractor','source','goldsource','spark','unity3d']
+        sourcequery=['madness','quakelive','realvirtuality','refractor','source','goldsource','spark','unity3d']
         idtech2query=['idtech3','quake','iw3.0']
         idtech3query=['idtech2','iw2.0']
         if self.option.engine in sourcequery:
@@ -75,7 +75,6 @@ class PythonGSQ:
             self.fatal_error('No IPv4 address supplied.', 4)
         if not self.option.port:
             self.fatal_error('No port supplied.', 4)
-
 
 if __name__ == '__main__':
     parser = optparse.OptionParser(

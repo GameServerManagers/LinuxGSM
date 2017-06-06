@@ -88,6 +88,9 @@ fn_stop_graceful_goldsource(){
 
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
+	if [ -z "${telnetpass}"]; then
+		telnetpass="NOTSET"
+	fi
 	sdtd_telnet_shutdown=$( expect -c '
 	proc abort {} {
 		puts "Timeout or EOF\n"
@@ -158,10 +161,10 @@ fn_stop_graceful_sdtd(){
 				fn_print_error_nl "Graceful: telnet: Unknown error"
 				fn_script_log_error "Graceful: telnet: Unknown error"
 			fi
-			echo -en "\n" | tee -a "${scriptlog}"
-			echo -en "Telnet output:" | tee -a "${scriptlog}"
-			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${scriptlog}"
-			echo -en "\n\n" | tee -a "${scriptlog}"
+			echo -en "\n" | tee -a "${lgsmlog}"
+			echo -en "Telnet output:" | tee -a "${lgsmlog}"
+			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
 		fn_print_warn "Graceful: telnet: expect not installed: "
@@ -282,7 +285,7 @@ fn_stop_ark(){
 	if [ -z "${queryport}" ]; then
 		fn_print_warn "No queryport found using info_config.sh"
 		fn_script_log_warn "No queryport found using info_config.sh"
-		userconfigfile="${filesdir}"
+		userconfigfile="${serverfiles}"
 		userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
 		queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
 	fi
@@ -321,7 +324,7 @@ fn_stop_ark(){
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
 	sleep 0.5
-	"${filesdir}"/ts3server_startscript.sh stop > /dev/null 2>&1
+	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# Remove lockfile
