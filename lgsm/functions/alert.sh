@@ -68,3 +68,13 @@ elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_aler
 	fn_print_error_nl "Pushbullet token not set"
 	fn_script_error_warn "Pushbullet token not set"
 fi
+
+if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
+	alert_discord.sh
+elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "Discord alerts not enabled"
+	fn_script_log_warn "Discord alerts not enabled"
+elif [ -z "${discordalert}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Discord token not set"
+	fn_script_error_warn "Discord token not set"
+fi

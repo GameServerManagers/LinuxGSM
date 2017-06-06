@@ -30,7 +30,7 @@ fn_mod_install_files(){
 	if [ ! -d "${extractdir}" ]; then
 		mkdir -p "${extractdir}"
 	fi
-	fn_dl_extract "${modstmpdir}" "${filename}" "${extractdir}"
+	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdir}"
 }
 
 # Convert mod files to lowercase if needed
@@ -228,7 +228,7 @@ fn_mods_installed_list(){
 		# Increment line check
 		((installedmodsline++))
 	done
-	if [ -n "${installedmodscount}" ] ; then
+	if [ -n "${installedmodscount}" ]; then
 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }
