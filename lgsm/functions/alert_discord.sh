@@ -5,4 +5,4 @@
 # Website: https://gameservermanagers.com
 # Description: Sends Discord alert including the server status.
 
-curl -X POST --data '{ "embeds": [{"title": "${pbalertsubject}", "url": "https://example.com", "description": "${pbalertbody}", "type": "link", "thumbnail": {"url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-square-184-dark.png"}}] }' -H "Content-Type: application/json" "${discordwebhook}"
+curl -X POST --data '{ "embeds": [{"title": "${alertsubject}", "url": "https://example.com", "description": "${alertbody}", "type": "link", "thumbnail": {"url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-square-184-dark.png"}}] }' -H "Content-Type: application/json" "${discordwebhook}"
