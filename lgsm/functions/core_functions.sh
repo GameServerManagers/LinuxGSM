@@ -377,6 +377,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_discord.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 alert_email.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
