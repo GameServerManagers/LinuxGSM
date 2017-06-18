@@ -209,7 +209,7 @@ fn_install_menu() {
 
 # Gets server info from serverlist.csv and puts in to array
 fn_server_info(){
-	IFS=";"
+	IFS="	"
 	server_info_array=($(grep -w "${userinput}" "${serverlist}"))
 	shortname="${server_info_array[0]}" # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
