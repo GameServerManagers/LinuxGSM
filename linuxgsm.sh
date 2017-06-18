@@ -207,9 +207,9 @@ fn_install_menu() {
 	eval "$resultvar=\"${selection}\""
 }
 
-# Gets server info from serverlist.tsv and puts in to array
+# Gets server info from serverlist.csv and puts in to array
 fn_server_info(){
-	IFS="	"
+	IFS=","
 	server_info_array=($(grep -w "${userinput}" "${serverlist}"))
 	shortname="${server_info_array[0]}" # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
@@ -251,7 +251,6 @@ fn_install_file(){
 		echo "./${local_filename} details"
 	fi
 	echo ""
-	echo "server_info_array: ${server_info_array}"
 	exit
 }
 
@@ -270,16 +269,16 @@ fi
 if [ "${shortname}" == "core" ]; then
 	userinput=$1
 	datadir="${tmpdir}/data"
-	serverlist="${datadir}/serverlist.tsv"
+	serverlist="${datadir}/serverlist.csv"
 
 	# Download the serverlist. This is the complete list of all supported servers.
 
 	if [ -f "${serverlist}" ]; then
 		rm "${serverlist}"
 	fi
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.tsv" "${datadir}" "serverlist.tsv" "nochmodx" "norun" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
-		echo "[ FAIL ] serverlist.tsv could not be loaded."
+		echo "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
 	fi
 
@@ -288,7 +287,7 @@ if [ "${shortname}" == "core" ]; then
 			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
 		} | column -s $'\t' -t | more
 		exit
-	elif [ "${userinput}" == "install" ]; then
+	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
 		fn_install_menu result "LinuxGSM" "Select game to install" "${serverlist}"
 		userinput="${result}"
 		fn_server_info
@@ -300,7 +299,6 @@ if [ "${shortname}" == "core" ]; then
 			echo "[ FAIL ] menu result does not match gameservername"
 			echo "result: ${result}"
 			echo "gameservername: ${gameservername}"
-			echo "server_info_array: ${server_info_array}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
