@@ -32,14 +32,14 @@ libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${gameservername}"
-configdirdefault="${lgsmdir}/config-default"
+configdirdefault="${lgsmdir}/develop"
 
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="develop"
+githubbranch="feature/config"
 
 # Core Function that is required first
 core_functions.sh(){
@@ -207,7 +207,7 @@ fn_install_menu() {
 	eval "$resultvar=\"${selection}\""
 }
 
-# Gets server info from serverlist.csv and puts in to array
+# Gets server info from serverlist.tsv and puts in to array
 fn_server_info(){
 	IFS="	"
 	server_info_array=($(grep -w "${userinput}" "${serverlist}"))
@@ -251,6 +251,7 @@ fn_install_file(){
 		echo "./${local_filename} details"
 	fi
 	echo ""
+	echo "server_info_array: ${server_info_array}"
 	exit
 }
 
@@ -269,16 +270,16 @@ fi
 if [ "${shortname}" == "core" ]; then
 	userinput=$1
 	datadir="${tmpdir}/data"
-	serverlist="${datadir}/serverlist.csv"
+	serverlist="${datadir}/serverlist.tsv"
 
 	# Download the serverlist. This is the complete list of all supported servers.
 
 	if [ -f "${serverlist}" ]; then
 		rm "${serverlist}"
 	fi
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.tsv" "${datadir}" "serverlist.tsv" "nochmodx" "norun" "noforcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
-		echo "[ FAIL ] serverlist.csv could not be loaded."
+		echo "[ FAIL ] serverlist.tsv could not be loaded."
 		exit 1
 	fi
 
@@ -287,7 +288,7 @@ if [ "${shortname}" == "core" ]; then
 			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
 		} | column -s $'\t' -t | more
 		exit
-	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
+	elif [ "${userinput}" == "install" ]; then
 		fn_install_menu result "LinuxGSM" "Select game to install" "${serverlist}"
 		userinput="${result}"
 		fn_server_info
@@ -299,6 +300,7 @@ if [ "${shortname}" == "core" ]; then
 			echo "[ FAIL ] menu result does not match gameservername"
 			echo "result: ${result}"
 			echo "gameservername: ${gameservername}"
+			echo "server_info_array: ${server_info_array}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
