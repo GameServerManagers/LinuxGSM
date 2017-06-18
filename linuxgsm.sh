@@ -209,7 +209,7 @@ fn_install_menu() {
 
 # Gets server info from serverlist.csv and puts in to array
 fn_server_info(){
-	IFS=","
+	IFS=";"
 	server_info_array=($(grep -w "${userinput}" "${serverlist}"))
 	shortname="${server_info_array[0]}" # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
@@ -287,7 +287,7 @@ if [ "${shortname}" == "core" ]; then
 			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
 		} | column -s $'\t' -t | more
 		exit
-	elif [ "${userinput}" == "install" ]; then
+	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
 		fn_install_menu result "LinuxGSM" "Select game to install" "${serverlist}"
 		userinput="${result}"
 		fn_server_info
