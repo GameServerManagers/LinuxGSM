@@ -32,14 +32,14 @@ libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${gameservername}"
-configdirdefault="${lgsmdir}/develop"
+configdirdefault="${lgsmdir}/config-default"
 
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="feature/config"
+githubbranch="develop"
 
 # Core Function that is required first
 core_functions.sh(){
