@@ -29,6 +29,7 @@ fn_check_steamcmd_user(){
 				fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}"
 			else
 				fn_script_log_fatal "Steam login not set. Update steamuser in ${configdirserver}"
+			fi
 		fi
 		core_exit.sh
 	fi
