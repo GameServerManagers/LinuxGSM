@@ -68,8 +68,7 @@ fn_update_mta_currentbuild(){
 	fi
 }
 
-fn_mta_get_availablebuild()
-{
+fn_mta_get_availablebuild(){
 	fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
 	local majorversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
 	local minorversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
