@@ -58,8 +58,8 @@ currentopt+=( "${cmd_update_linuxgsm[@]}" )
 # Exclude noupdate games here
 if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]; then
 	currentopt+=( "${cmd_update[@]}" )
-	# force update for SteamCMD only
-	if [ -n "${appid}" ]; then
+	# force update for SteamCMD only or MTA
+	if [ -n "${appid}" ] || [ "${gamename}" == "Multi Theft Auto" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
