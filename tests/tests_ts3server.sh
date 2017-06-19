@@ -69,36 +69,26 @@ servicename="ts3-server"
 #### Directories ####
 # Edit with care
 
-## Work Directories
-rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-lockselfname=".${servicename}.lock"
-lgsmdir="${rootdir}/lgsm"
-functionsdir="${lgsmdir}/functions"
-libdir="${lgsmdir}/lib"
-tmpdir="${lgsmdir}/tmp"
-filesdir="${rootdir}/serverfiles"
-
 ## Server Specific Directories
-systemdir="${filesdir}"
-executabledir="${filesdir}"
+systemdir="${serverfiles}"
+executabledir="${serverfiles}"
 executable="./ts3server_startscript.sh"
 servercfg="${servicename}.ini"
 servercfgdefault="ts3server.ini"
-servercfgdir="${filesdir}"
+servercfgdir="${serverfiles}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
 backupdir="${rootdir}/backups"
 
 ## Logging Directories
-gamelogdir="${filesdir}/logs"
-scriptlogdir="${rootdir}/log/script"
-scriptlog="${scriptlogdir}/${servicename}-script.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
+gamelogdir="${serverfiles}/logs"
+lgsmlogdir="${rootdir}/log/script"
+lgsmlog="${lgsmlogdir}/${servicename}-script.log"
+emaillog="${lgsmlogdir}/${servicename}-email.log"
 
 ## Logs Naming
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
+lgsmlogdate="${lgsmlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################
 ######## Script ########

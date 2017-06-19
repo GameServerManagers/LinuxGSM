@@ -18,8 +18,8 @@ fn_check_ownership(){
 			funcownissue=1
 		fi
 	fi
-	if [ -d "${filesdir}" ]; then
-		if [ $(find "${filesdir}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+	if [ -d "${serverfiles}" ]; then
+		if [ $(find "${serverfiles}" -not -user $(whoami)|wc -l) -ne "0" ]; then
 			filesownissue=1
 		fi
 	fi
@@ -37,10 +37,10 @@ fn_check_ownership(){
 				find "${functionsdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1"  ]; then
-				find "${filesdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+				find "${serverfiles}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
 			fi
 
-		} | column -s $'\t' -t | tee -a "${scriptlog}"
+		} | column -s $'\t' -t | tee -a "${lgsmlog}"
 		echo ""
 		fn_print_information_nl "please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
 		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
@@ -62,7 +62,7 @@ fn_check_permissions(){
 			{
 				echo -e "File\n"
 				find "${functionsdir}" -type f -not -executable -printf "%p\n"
-			} | column -s $'\t' -t | tee -a "${scriptlog}"
+			} | column -s $'\t' -t | tee -a "${lgsmlog}"
 			if [ "${monitorflag}" == 1 ]; then
 				alert="permissions"
 				alert.sh

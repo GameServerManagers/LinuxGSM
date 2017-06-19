@@ -13,11 +13,11 @@ local commandname="CHECK"
 check_root.sh
 check_tmuxception.sh
 
-if [ "${function_selfname}" != "command_monitor.sh" ];then
+if [ "${function_selfname}" != "command_monitor.sh" ]; then
 	check_permissions.sh
 fi
 
-if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]&&[ "${function_selfname}" != "command_details.sh" ]&&[ "${function_selfname}" != "command_postdetails.sh" ]; then
+if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" != "command_update_functions.sh" ]&&[ "${function_selfname}" != "command_update_linuxgsm.sh" ]&&[ "${function_selfname}" != "command_details.sh" ]&&[ "${function_selfname}" != "command_postdetails.sh" ]; then
 	check_system_dir.sh
 fi
 
@@ -65,7 +65,9 @@ local allowed_commands_array=( command_debug.sh command_details.sh command_monit
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		check_ip.sh
+		if [ -z "${installflag}" ]; then
+			check_ip.sh
+		fi
 	fi
 done
 
@@ -78,8 +80,6 @@ do
 		fi
 	fi
 done
-
-
 
 local allowed_commands_array=( command_details.sh command_monitor.sh command_start.sh command_stop.sh command_ts3_server_pass.sh command_update.sh command_details.sh command_validate.sh )
 for allowed_command in "${allowed_commands_array[@]}"

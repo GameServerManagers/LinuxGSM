@@ -37,6 +37,3 @@ Start reading our code and you'll get the hang of it. Explore how functions are 
 
 Please give the following document a read and adjust your code according to its specifications.
 [Syntax & Coding Conventions](https://github.com/GameServerManagers/LinuxGSM/wiki/Syntax-&-Conventions)
-
-
-

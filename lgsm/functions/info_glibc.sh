@@ -149,9 +149,6 @@ elif [ "${engine}" == "unreal4" ]; then
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
-elif [ "${engine}" == "Team Fortress 2" ]; then
-	glibcrequired="2.15"
-	glibcfix="yes"
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"

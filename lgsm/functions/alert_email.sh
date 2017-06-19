@@ -16,7 +16,6 @@ fn_details_email(){
 	echo -e "${alertbody}" >> "${emaillog}"
 }
 
-
 fn_details_os(){
 	#
 	# Distro Details
@@ -83,14 +82,12 @@ fn_details_disk(){
 		echo -e "Total: ${totalspace}"
 		echo -e "Used: ${usedspace}"
 		echo -e "Available: ${availspace}"
-		echo -e "Serverfiles: ${filesdirdu}"
+		echo -e "Serverfiles: ${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "Backups: ${backupdirdu}"
 		fi
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
-
-
 
 fn_details_gameserver(){
 	#
@@ -173,15 +170,15 @@ fn_alert_email_template_logs(){
 	echo -e "${servicename} Logs"
 	echo -e "================================="
 
-	if [ -n "${scriptlog}" ]; then
+	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
-		if [ ! "$(ls -A ${scriptlogdir})" ]; then
-			echo "${scriptlogdir} (NO LOG FILES)"
-		elif [ ! -s "${scriptlog}" ]; then
-			echo "${scriptlog} (LOG FILE IS EMPTY)"
+		if [ ! "$(ls -A ${lgsmlogdir})" ]; then
+			echo "${lgsmlogdir} (NO LOG FILES)"
+		elif [ ! -s "${lgsmlog}" ]; then
+			echo "${lgsmlog} (LOG FILE IS EMPTY)"
 		else
-			echo "${scriptlog}"
-			tail -25 "${scriptlog}"
+			echo "${lgsmlog}"
+			tail -25 "${lgsmlog}"
 		fi
 		echo ""
 	fi
@@ -231,7 +228,7 @@ fn_details_disk
 fn_details_gameserver
 fn_alert_email_template_logs
 if [ -n "${emailfrom}" ]; then
-	mail -s "${alertsubject}" -a "From: ${emailfrom}" "${email}" < "${emaillog}"
+	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${emaillog}"
 else
 	mail -s "${alertsubject}" "${email}" < "${emaillog}"
 fi

@@ -82,23 +82,13 @@ servicename="jc2-server"
 #### Directories ####
 # Edit with care
 
-## Work Directories
-rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-lockselfname=".${servicename}.lock"
-lgsmdir="${rootdir}/lgsm"
-functionsdir="${lgsmdir}/functions"
-libdir="${lgsmdir}/lib"
-tmpdir="${lgsmdir}/tmp"
-filesdir="${rootdir}/serverfiles"
-
 ## Server Specific Directories
-systemdir="${filesdir}"
-executabledir="${filesdir}"
+systemdir="${serverfiles}"
+executabledir="${serverfiles}"
 executable="./Jcmp-Server"
 servercfg="config.lua"
 servercfgdefault="config.lua"
-servercfgdir="${filesdir}"
+servercfgdir="${serverfiles}"
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 ## Backup Directory
@@ -106,14 +96,14 @@ backupdir="${rootdir}/backups"
 
 ## Logging Directories
 #gamelogdir="" # No server logs available
-scriptlogdir="${rootdir}/log/script"
+lgsmlogdir="${rootdir}/log/script"
 consolelogdir="${rootdir}/log/console"
-scriptlog="${scriptlogdir}/${servicename}-script.log"
+lgsmlog="${lgsmlogdir}/${servicename}-script.log"
 consolelog="${consolelogdir}/${servicename}-console.log"
-emaillog="${scriptlogdir}/${servicename}-email.log"
+emaillog="${lgsmlogdir}/${servicename}-email.log"
 
 ## Logs Naming
-scriptlogdate="${scriptlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
+lgsmlogdate="${lgsmlogdir}/${servicename}-script-$(date '+%Y-%m-%d-%H:%M:%S').log"
 consolelogdate="${consolelogdir}/${servicename}-console-$(date '+%Y-%m-%d-%H:%M:%S').log"
 
 ########################
@@ -443,7 +433,7 @@ echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
+sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 (command_update.sh)
 fn_test_result_pass
 
@@ -456,7 +446,7 @@ echo "Command: ./jc2server update"
 requiredstatus="ONLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${filesdir}/steamapps/appmanifest_${appid}.acf"
+sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 (command_update.sh)
 fn_test_result_pass
 
@@ -469,7 +459,7 @@ echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "removed appmanifest_${appid}.acf."
-rm --verbose "${filesdir}/steamapps/appmanifest_${appid}.acf"
+rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 (command_update.sh)
 fn_test_result_pass
 

@@ -18,7 +18,7 @@ fn_backup_trap(){
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
 	sleep 1
-	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${scriptlog}"
+	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -ne "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
@@ -62,7 +62,6 @@ fn_backup_init(){
 		sleep 1
 	fi
 }
-
 
 # Check if server is started and wether to stop it
 fn_backup_stop_server(){
@@ -118,7 +117,7 @@ fn_backup_compression(){
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
-		echo "${tarcmd}" | tee -a "${scriptlog}"
+		echo "${tarcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else

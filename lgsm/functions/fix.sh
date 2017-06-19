@@ -36,7 +36,6 @@ fn_fix_msg_end(){
 	fi
 }
 
-
 # Fixes that are run on start
 if [ "${function_selfname}" != "command_install.sh" ]; then
 	if [ -n "${appid}" ]; then

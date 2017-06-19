@@ -9,10 +9,10 @@ local commandaction="Fix"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 # Fixes: server not always creating steam_appid.txt file.
-if [ ! -f "${filesdir}/steam_appid.txt" ]; then
+if [ ! -f "${serverfiles}/steam_appid.txt" ]; then
 	fixname="730 steam_appid.txt"
 	fn_fix_msg_start
-	echo -n "730" >> "${filesdir}/steam_appid.txt"
+	echo -n "730" >> "${serverfiles}/steam_appid.txt"
 	fn_fix_msg_end
 fi
 

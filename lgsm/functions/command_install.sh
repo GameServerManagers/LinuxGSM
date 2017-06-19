@@ -14,6 +14,7 @@ install_header.sh
 install_server_dir.sh
 install_logs.sh
 check_deps.sh
+installflag=1
 # Download and install
 if [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	install_server_files.sh
@@ -32,6 +33,8 @@ if [ "${gamename}" == "BrainBread 2" ]||[ "${gamename}" == "Black Mesa: Deathmat
 	install_gslt.sh
 elif [ "${gamename}" == "Don't Starve Together" ]; then
 	install_dst_token.sh
+elif [ "${gamename}" == "Squad" ]; then
+	install_squad_license.sh
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 elif [ "${gamename}" == "Multi Theft Auto" ]; then

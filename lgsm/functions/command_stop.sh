@@ -88,6 +88,9 @@ fn_stop_graceful_goldsource(){
 
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
+	if [ -z "${telnetpass}"]; then
+		telnetpass="NOTSET"
+	fi
 	sdtd_telnet_shutdown=$( expect -c '
 	proc abort {} {
 		puts "Timeout or EOF\n"
@@ -158,10 +161,10 @@ fn_stop_graceful_sdtd(){
 				fn_print_error_nl "Graceful: telnet: Unknown error"
 				fn_script_log_error "Graceful: telnet: Unknown error"
 			fi
-			echo -en "\n" | tee -a "${scriptlog}"
-			echo -en "Telnet output:" | tee -a "${scriptlog}"
-			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${scriptlog}"
-			echo -en "\n\n" | tee -a "${scriptlog}"
+			echo -en "\n" | tee -a "${lgsmlog}"
+			echo -en "Telnet output:" | tee -a "${lgsmlog}"
+			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
 		fn_print_warn "Graceful: telnet: expect not installed: "
@@ -172,7 +175,7 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of source using rcon 'stop' command.
+# Attempts graceful of Minecraft using rcon 'stop' command.
 fn_stop_graceful_minecraft(){
 	fn_print_dots "Graceful: sending \"stop\""
 	fn_script_log_info "Graceful: sending \"stop\""
@@ -228,19 +231,49 @@ fn_stop_graceful_mta(){
 	fn_stop_tmux
 }
 
+# Attempts graceful of Terraria using 'exit' console command.
+fn_stop_graceful_terraria(){
+	fn_print_dots "Graceful: sending \"exit\""
+	fn_script_log_info "Graceful: sending \"exit\""
+	# sends exit
+	tmux send -t "${servicename}" exit ENTER > /dev/null 2>&1
+	# waits up to 30 seconds giving the server time to shutdown gracefuly
+	for seconds in {1..30}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: sending \"exit\": ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: sending \"exit\": OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: sending \"exit\": ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: sending \"exit\": "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: sending \"exit\": FAIL"
+	fi
+	sleep 1
+	fn_stop_tmux
+}
+
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
-	elif [ "${gamename}" == "Factorio" ]||[ "${gamename}" == "Minecraft" ]||[ "${gamename}" == "Multi Theft Auto" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
+	elif [ "${gamename}" == "Terraria" ]; then
+		fn_stop_graceful_terraria
+	elif [ "${gamename}" == "Minecraft" ]; then
+		fn_stop_graceful_minecraft
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fn_stop_graceful_mta
+	elif [ "${engine}" == "goldsource" ]; then
+		fn_stop_graceful_goldsource
+	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]; then
 		fn_stop_graceful_quit
-	elif [ "${engine}" == "goldsource" ]; then
-		fn_stop_graceful_goldsource
-	elif [ "${engine}" == "lwjgl2" ]; then
-		fn_stop_graceful_minecraft
-	elif [ "${engine}" == "renderware" ]; then
-		fn_stop_graceful_mta
 	else
 		fn_stop_tmux
 	fi
@@ -252,7 +285,7 @@ fn_stop_ark(){
 	if [ -z "${queryport}" ]; then
 		fn_print_warn "No queryport found using info_config.sh"
 		fn_script_log_warn "No queryport found using info_config.sh"
-		userconfigfile="${filesdir}"
+		userconfigfile="${serverfiles}"
 		userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
 		queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
 	fi
@@ -291,7 +324,7 @@ fn_stop_ark(){
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
 	sleep 0.5
-	"${filesdir}"/ts3server_startscript.sh stop > /dev/null 2>&1
+	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# Remove lockfile

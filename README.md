@@ -1,11 +1,11 @@
-<a href="https://gameservermanagers.com"><img src="https://github.com/GameServerManagers/LinuxGSM/blob/master/images/logo/lgsm_full.png" alt="linux Game Server Managers" width="600" /></a>
+<a href="https://gameservermanagers.com"><img src="https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-light-full.png" alt="linux Game Server Managers" width="600" /></a>
 
 [![LinuxGSM](https://github.com/GameServerManagers/LinuxGSM/blob/master/images/logo/lgsmbutton.png)](https://linuxgsm.com)
 [![Build Status](https://travis-ci.org/GameServerManagers/LinuxGSM.svg?branch=master)](https://travis-ci.org/GameServerManagers/LinuxGSM)
 [![Under Development](https://badge.waffle.io/GameServerManagers/LinuxGSM.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/GameServerManagers/LinuxGSM)
 [![Discord](https://discordapp.com/api/guilds/127498813903601664/widget.png?style=shield)](https://gameservermanagers.com/discord)
 
-LinuxGSM he command line tool for quick, simple deployment and management of dedicated game server.
+<a href="https://gameservermanagers.com">LinuxGSM</a> is the command line tool for quick, simple deployment and management of dedicated game servers.
 
 <h2>Hassle-Free Dedicated Servers</h2>
 Game servers traditionally are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LinuxGSM is designed to be a simple as possible allowing admins to spend less time on management and more time gaming.

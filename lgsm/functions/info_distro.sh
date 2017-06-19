@@ -54,7 +54,6 @@ minutes=$(( uptime/60%60 ))
 hours=$(( uptime/60/60%24 ))
 days=$(( uptime/60/60/24 ))
 
-
 ### Performance information
 
 ## Average server load
@@ -97,13 +96,13 @@ if [ -z "${rootdirdu}" ]; then
 fi
 
 ## LinuxGSM used space in serverfiles dir.
-filesdirdu=$(du -sh "${filesdir}" 2> /dev/null | awk '{print $1}')
-if [ -z "${filesdirdu}" ]; then
-	filesdirdu="0M"
+serverfilesdu=$(du -sh "${serverfiles}" 2> /dev/null | awk '{print $1}')
+if [ -z "${serverfilesdu}" ]; then
+	serverfilesdu="0M"
 fi
 
 ## LinuxGSM used space total minus backup dir.
-rootdirduexbackup=$(du -sh --exclude="${backupdir}" "${filesdir}" 2> /dev/null | awk '{print $1}')
+rootdirduexbackup=$(du -sh --exclude="${backupdir}" "${serverfiles}" 2> /dev/null | awk '{print $1}')
 if [ -z "${rootdirduexbackup}" ]; then
 	rootdirduexbackup="0M"
 fi
