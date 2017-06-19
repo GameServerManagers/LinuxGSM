@@ -16,7 +16,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170305"
+version="170619"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -39,7 +39,7 @@ configdirdefault="${lgsmdir}/config-default"
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="develop"
+githubbranch="master"
 
 # Core Function that is required first
 core_functions.sh(){
