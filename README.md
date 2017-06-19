@@ -1,4 +1,4 @@
-<a href="https://gameservermanagers.com"><img src="https://github.com/GameServerManagers/LinuxGSM/blob/master/images/logo/lgsm-light-full.png" alt="linux Game Server Managers" width="600" /></a>
+<a href="https://gameservermanagers.com"><img src="https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/develop/images/logo/lgsm-light-full.png" alt="linux Game Server Managers" width="600" /></a>
 
 [![Build Status](https://travis-ci.org/GameServerManagers/LinuxGSM.svg?branch=master)](https://travis-ci.org/GameServerManagers/LinuxGSM)
 [![Under Development](https://badge.waffle.io/GameServerManagers/LinuxGSM.svg?label=Under%20Development&title=Under%20Development)](http://waffle.io/GameServerManagers/LinuxGSM)
