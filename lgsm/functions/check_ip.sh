@@ -39,7 +39,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			echo -en "https://gameservermanagers.com/network-interfaces\n"
 			echo -en ""
 			fn_script_log_fatal "Multiple active network interfaces found."
-			if [ "${legacymode}" == "1" ] then
+			if [ "${legacymode}" == "1" ]; then
 				fn_script_log_fatal "Manually specify the IP you want to use within the ${selfname} script."
 			else
 				fn_script_log_fatal "Manually specify the IP you want to use within: ${configdirserver}."
