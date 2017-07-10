@@ -112,7 +112,7 @@ fn_backup_compression(){
 	sleep 2
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${backupdir}" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol

@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170619"
+version="170710"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
@@ -29,6 +29,7 @@ servicename="${selfname}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
+lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${rootdir}/steamcmd"
 serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
@@ -369,6 +370,10 @@ else
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 	fi
-	getopt=$1
-	core_getopt.sh
+
+	# Prevents running of core_exit.sh for Travis.
+	if [ "${travistest}" != "1" ]; then
+		getopt=$1
+		core_getopt.sh
+	fi
 fi
