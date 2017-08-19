@@ -209,8 +209,8 @@ fn_details_gameserver(){
 		fi
 
 		# Random map rotation mode (Squad)
-		if [ -n "${randommapmode}" ]; then
-			echo -e "${blue}Map rotation:\t${default}${randommapmode}"
+		if [ -n "${randommap}" ]; then
+			echo -e "${blue}Map rotation:\t${default}${randommap}"
 		fi
 
 		# Online status
