@@ -69,6 +69,16 @@ elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_aler
 	fn_script_error_warn "Pushbullet token not set"
 fi
 
+if [ "${telegramalert}" == "on" ]&&[ -n "${telegramapikey}" ]; then
+	alert_telegram.sh
+elif [ "${telegramalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "Telegram Messages not enabled"
+	fn_script_log_warn "Telegram Messages not enabled"
+elif [ -z "${telegramapikey}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Telegram API-key not set. Get one from @botfather"
+	fn_script_error_warn "Telegram API-key not set. Get one from @botfather"
+fi
+
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
 	alert_discord.sh
 elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
