@@ -21,10 +21,6 @@ if [ -z "${lgsmlog}" ]; then
 	lgsmlog="${scriptlog}"
 fi
 
-if [ -z "${lgsmlogdir}" ]; then
-	lgsmlogdir="${scriptlogdir}"
-fi
-
 if [ -z "${lgsmlogdate}" ]; then
 	lgsmlogdate="${scriptlogdate}"
 fi
