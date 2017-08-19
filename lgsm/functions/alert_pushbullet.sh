@@ -24,12 +24,11 @@ fn_rawurlencode() {
      esac
      encoded+="${o}"
   done
-  echo "${encoded}"    # You can either set a return variable (FASTER)
-  REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
+  echo "${encoded}"    # If echo is faster, let's just echo it.
 }
 
-pbalertbody=$(fn_rawurlencode "${alertbody}"; echo ${REPLY})
-pbalertsubject=$(fn_rawurlencode "${alertsubject}"; echo ${REPLY})
+pbalertbody=$(fn_rawurlencode "${alertbody}")
+pbalertsubject=$(fn_rawurlencode "${alertsubject}")
 
 fn_print_dots "Sending Pushbullet alert"
 sleep 1
