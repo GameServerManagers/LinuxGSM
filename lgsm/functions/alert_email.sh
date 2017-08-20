@@ -2,7 +2,7 @@
 # LinuxGSM alert_email.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Sends email alert including server details and logs.
+# Description: Sends email alert.
 
 local commandname="ALERT"
 local commandaction="Alert"
@@ -211,6 +211,7 @@ fn_alert_email_template_logs(){
 }
 
 fn_print_dots "Sending alert: ${email}"
+sleep 0.5
 fn_script_log_info "Sending alert: ${email}"
 info_distro.sh
 info_config.sh
