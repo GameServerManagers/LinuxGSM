@@ -116,8 +116,12 @@ fn_details_gameserver(){
 		fi
 
 		# Server ip
-		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
-
+		if [ ${multiple_ip} == 1 ]; then
+		    echo -e "${blue}Server IP:\t${default}NOT SET"
+		else
+		    echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		fi
+		    
 		# Server password
 		if [ -n "${serverpassword}" ]; then
 			echo -e "${blue}Server password:\t${default}${serverpassword}"

@@ -19,9 +19,10 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 	info_config.sh
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		if [ "${getipwc}" -ge "2" ]; then
-			fn_print_dots "Check IP"
+		        multiple_ip=1
+		        fn_print_dots "Check IP"
 			sleep 1
-			fn_print_fail "Check IP: Multiple active network interfaces found."
+			fn_print_warn "Check IP: Multiple active network interfaces found."
 			sleep 1
 			echo -en "\n"
 			if [ "${ipsetinconfig}" == "1" ]; then
