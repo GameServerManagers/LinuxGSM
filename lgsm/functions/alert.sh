@@ -9,7 +9,7 @@ local commandaction="Alert"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alertsubject="LinuxGSM Alert- Test - ${servername}"
+	alertsubject="LinuxGSM Alert - Test - ${servername}"
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
 }
 
