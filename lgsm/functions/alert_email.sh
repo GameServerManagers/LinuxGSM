@@ -34,7 +34,7 @@ fn_details_os(){
 		echo -e "Distro: ${distroname}"
 		echo -e "Arch: ${arch}"
 		echo -e "Kernel: ${kernel}"
-		echo -e "Hostname: $HOSTNAME"
+		echo -e "Hostname: ${HOSTNAME}"
 		echo -e "tmux: ${tmuxv}"
 		echo -e "GLIBC: ${glibcversion}"
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
@@ -235,9 +235,9 @@ else
 fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
-	fn_print_ok_nl "Sending alert: ${email}"
-	fn_script_log_pass "Sending alert: ${email}"
+	fn_print_ok_nl "Sending Email alert: ${email}"
+	fn_script_log_pass "Sending Email alert: ${email}"
 else
-	fn_print_fail_nl "Sending alert: ${email}"
-	fn_script_log_fatal "Sending alert: ${email}"
+	fn_print_fail_nl "Sending Email alert: ${email}"
+	fn_script_log_fatal "Sending Email alert: ${email}"
 fi

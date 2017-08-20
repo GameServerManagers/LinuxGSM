@@ -21,12 +21,12 @@ EOF
 
 fn_print_dots "Sending Telegram Alert"
 sleep 0.5
-telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """$json""" "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep -Po '(?<="description":").*?(?=")'|uniq)
+telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep -Po '(?<="description":").*?(?=")'|uniq)
 
 if [ -n "${telegramsend}" ]; then
-	fn_print_fail_nl "Sending Telegram Alert: ${telegramsend}"
-	fn_script_log_fatal "Sending Telegram Alert: ${telegramsend}"
+	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"
+	fn_script_log_fatal "Sending Telegram alert: ${telegramsend}"
 else
-	fn_print_ok_nl "Sending Telegram Alert"
-	fn_script_log_pass "Sent Telegram Alert"
+	fn_print_ok_nl "Sending Telegram alert"
+	fn_script_log_pass "Sent Telegram alert"
 fi
