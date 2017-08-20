@@ -210,9 +210,9 @@ fn_alert_email_template_logs(){
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
-fn_print_dots "Sending alert: ${email}"
+fn_print_dots "Sending Email alert: ${email}"
 sleep 0.5
-fn_script_log_info "Sending alert: ${email}"
+fn_script_log_info "Sending Email alert: ${email}"
 info_distro.sh
 info_config.sh
 info_glibc.sh
