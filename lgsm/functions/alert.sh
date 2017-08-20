@@ -9,31 +9,31 @@ local commandaction="Alert"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alertsubject="LinuxGSM - Test Alert - ${servername}"
-	alertbody="LinuxGSM test alert, how you read?"
+	alertsubject="LinuxGSM Alert- Test - ${servername}"
+	alertbody="Testing LinuxGSM Alert. No action to be taken."
 }
 
 fn_alert_restart(){
 	fn_script_log_info "Sending restart alert: ${executable} process not running"
-	alertsubject="LinuxGSM - Restarted - ${servername}"
+	alertsubject="LinuxGSM Alert - Restarted - ${servername}"
 	alertbody="${servicename} ${executable} process not running"
 }
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending restart alert: ${gsquerycmd}"
-	alertsubject="LinuxGSM - Restarted - ${servername}"
+	alertsubject="LinuxGSM Alert- Restarted - ${servername}"
 	alertbody="gsquery.py failed to query: ${gsquerycmd}"
 }
 
 fn_alert_update(){
 	fn_script_log_info "Sending update alert"
-	alertsubject="LinuxGSM - Updated - ${servername}"
+	alertsubject="LinuxGSM Alert- Updated - ${servername}"
 	alertbody="${servicename} received update"
 }
 
 fn_alert_permissions(){
 	fn_script_log_info "Sending permissions error alert"
-	alertsubject="LinuxGSM - Error - ${servername}"
+	alertsubject="LinuxGSM Alert - Error - ${servername}"
 	alertbody="${servicename} has permissions issues."
 }
 
@@ -66,17 +66,23 @@ elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test
 	fn_script_log_warn "Pushbullet alerts not enabled"
 elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Pushbullet token not set"
+	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet"
 	fn_script_error_warn "Pushbullet token not set"
 fi
 
-if [ "${telegramalert}" == "on" ]&&[ -n "${telegramapikey}" ]; then
+if [ "${telegramalert}" == "on" ]&&[ -n "${telegramtoken}" ]; then
 	alert_telegram.sh
 elif [ "${telegramalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "Telegram Messages not enabled"
 	fn_script_log_warn "Telegram Messages not enabled"
-elif [ -z "${telegramapikey}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_error_nl "Telegram API-key not set. Get one from @botfather"
-	fn_script_error_warn "Telegram API-key not set. Get one from @botfather"
+elif [ -z "${telegramtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Telegram token not set."
+	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Telegram"
+	fn_script_error_warn "Telegram token not set."
+elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Telegram chat id not set."
+	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Telegram"
+	fn_script_error_warn "Telegram chat id not set. Get one from @botfather"
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then

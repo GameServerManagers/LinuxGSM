@@ -12,16 +12,15 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 json=$(cat <<EOF
 {
 	"chat_id": "${telegramchatid}",
-	"text": "<b>🚨🚨🚨${alertsubject}🚨🚨🚨</b>\n\n${alertbody}",
+	"text": "🚨<b>${alertsubject}</b>\n\n${alertbody}",
 	"parse_mode": "HTML",
-	"disable_notification": true
 }
 EOF
 )
 
 fn_print_dots "Sending Telegram Message"
 sleep 1
-telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """$json""" "https://api.telegram.org/bot${telegramapikey}/sendMessage" | grep -Po '(?<="description":").*?(?=")'|uniq)
+telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """$json""" "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep -Po '(?<="description":").*?(?=")'|uniq)
 
 if [ -n "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram Message: ${telegramsend}"
