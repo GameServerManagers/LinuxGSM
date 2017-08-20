@@ -566,13 +566,13 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Calls code required for legacy servers
+core_legacy.sh
+
 # Creates tmp dir if missing
 if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
 fi
-
-# Calls code required for legacy servers
-core_legacy.sh
 
 # Calls on-screen messages (bootstrap)
 core_messages.sh

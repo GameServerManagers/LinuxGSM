@@ -28,3 +28,11 @@ fi
 if [ -z "${steamcmddir}" ]; then
 	steamcmddir="${rootdir}/steamcmd"
 fi
+
+if [ -z "${lgsmdir}" ]; then
+	lgsmdir="${rootdir}/lgsm"
+fi
+
+if [ -z "${tmpdir}" ]; then
+	tmpdir="${lgsmdir}/tmp"
+fi
