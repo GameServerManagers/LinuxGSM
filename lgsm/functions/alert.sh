@@ -10,30 +10,40 @@ local commandaction="Alert"
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
 	alertsubject="LinuxGSM Alert - Test - ${servername}"
+	alertemoji="🚨"
+	alerturl="https://gameservermanagers.com"
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
 }
 
 fn_alert_restart(){
 	fn_script_log_info "Sending restart alert: ${executable} process not running"
 	alertsubject="LinuxGSM Alert - Restarted - ${servername}"
+	alertemoji="🚨"
+	alerturl="https://gameservermanagers.com"
 	alertbody="${servicename} ${executable} process not running"
 }
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending restart alert: ${gsquerycmd}"
 	alertsubject="LinuxGSM Alert- Restarted - ${servername}"
+	alertemoji="🚨"
+	alerturl="https://gameservermanagers.com"
 	alertbody="gsquery.py failed to query: ${gsquerycmd}"
 }
 
 fn_alert_update(){
 	fn_script_log_info "Sending update alert"
 	alertsubject="LinuxGSM Alert- Updated - ${servername}"
+	alertemoji="🎮"
+	alerturl="https://gameservermanagers.com"
 	alertbody="${servicename} received update"
 }
 
 fn_alert_permissions(){
 	fn_script_log_info "Sending permissions error alert"
 	alertsubject="LinuxGSM Alert - Error - ${servername}"
+	alertemoji="❗"
+	alerturl="https://gameservermanagers.com"
 	alertbody="${servicename} has permissions issues."
 }
 
@@ -82,7 +92,7 @@ elif [ -z "${telegramtoken}" ]&&[ "${function_selfname}" == "command_test_alert.
 elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Telegram chat id not set."
 	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Telegram"
-	fn_script_error_warn "Telegram chat id not set. Get one from @botfather"
+	fn_script_error_warn "Telegram chat id not set."
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
@@ -92,5 +102,6 @@ elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_al
 	fn_script_log_warn "Discord alerts not enabled"
 elif [ -z "${discordalert}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Discord token not set"
+	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Discord"
 	fn_script_error_warn "Discord token not set"
 fi
