@@ -100,8 +100,21 @@ if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
 elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "Discord alerts not enabled"
 	fn_script_log_warn "Discord alerts not enabled"
-elif [ -z "${discordalert}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Discord token not set"
 	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Discord"
 	fn_script_error_warn "Discord token not set"
 fi
+
+if [ "${pushoveralert}" == "on" ]&&[ -n "${pushoveralert}" ]; then
+	alert_discord.sh
+elif [ "${pushoveralert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "Pushover alerts not enabled"
+	fn_script_log_warn "Pushover alerts not enabled"
+elif [ -z "${pushovertoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Pushover token not set"
+	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Pushover"
+	fn_script_error_warn "Pushover token not set"
+fi
+
+
