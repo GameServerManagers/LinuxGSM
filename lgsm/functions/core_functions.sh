@@ -402,6 +402,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_ifttt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Logs
 
 logs.sh(){

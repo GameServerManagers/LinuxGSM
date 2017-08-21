@@ -117,4 +117,13 @@ elif [ -z "${pushovertoken}" ]&&[ "${function_selfname}" == "command_test_alert.
 	fn_script_error_warn "Pushover token not set"
 fi
 
-
+if [ "${iftttalert}" == "on" ]&&[ -n "${iftttalert}" ]; then
+	alert_ifttt.sh
+elif [ "${iftttalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "IFTTT alerts not enabled"
+	fn_script_log_warn "IFTTT alerts not enabled"
+elif [ -z "${ifttttoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "IFTTT token not set"
+	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/IFTTT"
+	fn_script_error_warn "IFTTT token not set"
+fi
