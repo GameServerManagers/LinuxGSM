@@ -5,10 +5,6 @@
 # Website: https://gameservermanagers.com
 # Description: Sends Discord alert including the server status.
 
-local commandname="ALERT"
-local commandaction="Alert"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-
 json=$(cat <<EOF
 {
 "username":"LinuxGSM",
@@ -49,7 +45,7 @@ json=$(cat <<EOF
 				"name": "More info",
 				"value": "${alerturl}"
 			}
-			]
+		]
 	}]
 }
 EOF
