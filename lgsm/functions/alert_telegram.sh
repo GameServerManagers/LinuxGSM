@@ -2,7 +2,7 @@
 # LinuxGSM alert_telegram.sh function
 # Author: Bennet Becker <bennet@becker-dd.de>
 # Website: https://bytegaming.de
-# Description: Sends Telegram Message alert.
+# Description: Sends Telegram Messenger alert.
 
 local commandname="ALERT"
 local commandaction="Alert"
