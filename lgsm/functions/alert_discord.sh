@@ -5,6 +5,10 @@
 # Website: https://gameservermanagers.com
 # Description: Sends Discord alert including the server status.
 
+local commandname="ALERT"
+local commandaction="Alert"
+local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+
 json=$(cat <<EOF
 {
 "username":"LinuxGSM",
@@ -51,8 +55,14 @@ json=$(cat <<EOF
 EOF
 )
 
-#curl -X POST --data "Content-Type: application/json" -X POST -d """${json}""" "${discordwebhook}"
+fn_print_dots "Sending Discord alert"
+sleep 0.5
+discordsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${discordwebhook})
 
-
-echo "$json" >f
-curl -v -X POST --data @f ${discordwebhook}
+if [ -n "${discordsend}" ]; then
+	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
+	fn_script_log_fatal "Sending Discord alert: ${discordsend}"
+else
+	fn_print_ok_nl "Sending Discord alert"
+	fn_script_log_pass "Sending Discord alert"
+fi
