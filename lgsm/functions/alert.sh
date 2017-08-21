@@ -107,7 +107,7 @@ elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.s
 fi
 
 if [ "${pushoveralert}" == "on" ]&&[ -n "${pushoveralert}" ]; then
-	alert_discord.sh
+	alert_pushover.sh
 elif [ "${pushoveralert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "Pushover alerts not enabled"
 	fn_script_log_warn "Pushover alerts not enabled"
