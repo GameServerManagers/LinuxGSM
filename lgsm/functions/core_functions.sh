@@ -392,6 +392,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_pushover.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 alert_telegram.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
