@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: faflfama
 # Website: https://gameservermanagers.com
-# Description: Sends Discord alert including the server status.
+# Description: Sends Discord alert.
 
 json=$(cat <<EOF
 {
