@@ -22,7 +22,12 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 		        multiple_ip=1
 		        fn_print_dots "Check IP"
 			sleep 1
-			fn_print_warn "Check IP: Multiple active network interfaces found."
+			command_arg=$(ps -o command $$ | tail -n +2 | cut -d' ' -f3)
+			if [[ "${command_arg}" = "details" ]] || [[ "${command_arg}" = "dt" ]] ; then
+			    fn_print_warn "Check IP: Multiple active network interfaces found."
+			else
+			    fn_print_fail "Check IP: Multiple active network interfaces found."
+			fi
 			sleep 1
 			echo -en "\n"
 			if [ "${ipsetinconfig}" == "1" ]; then
@@ -46,7 +51,9 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 				fn_script_log_fatal "Manually specify the IP you want to use within: ${configdirserver}."
 			fi
 			fn_script_log_fatal "https://gameservermanagers.com/network-interfaces\n"
-			core_exit.sh
+			if [[ "${command_arg}" != "details" ]] && [[ "${command_arg}" != "dt" ]] ; then
+			    core_exit.sh
+			fi
 		else
 			ip=${getip}
 		fi
