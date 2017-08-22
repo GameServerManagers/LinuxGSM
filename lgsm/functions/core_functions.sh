@@ -387,6 +387,16 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_ifttt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_mailgun.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 alert_pushbullet.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -398,11 +408,6 @@ fn_fetch_function
 }
 
 alert_telegram.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-alert_ifttt.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
