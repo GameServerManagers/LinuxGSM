@@ -10,12 +10,11 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 json=$(cat <<EOF
 {
-	"secret": "${pushjettoken}",
-	"level": "5",
-	"message": "all",
-	"link": "https://gameservermanagers.com"
+	"value1": "${servicename}",
+	"value2": "${alertemoji} ${alertsubject} ${alertemoji}",
+	"value3": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${ip}:${port}\n\nMore info\n${alerturl}"
 }
 EOF
 )
 
-curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/{event}/with/key/${ifttttoken}"
+curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/linuxgsm_alert/with/key/${ifttttoken}"
