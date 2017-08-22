@@ -9,7 +9,7 @@ local commandaction="Alert"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alertsubject="Alert - ${servicename}: Test"
+	alertsubject="Alert - ${servicename} - Test"
 	alertemoji="🚨"
 	alerturl="https://gameservermanagers.com"
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
@@ -17,7 +17,7 @@ fn_alert_test(){
 
 fn_alert_restart(){
 	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
-	alertsubject="Alert - ${servicename}: Restarted"
+	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alerturl="https://gameservermanagers.com"
 	alertbody="${servicename} ${executable} not running"
@@ -25,7 +25,7 @@ fn_alert_restart(){
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending alert: Restarted: ${gsquerycmd}"
-	alertsubject="Alert - ${servicename}: Restarted"
+	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alerturl="https://gameservermanagers.com"
 	alertbody="gsquery.py failed to query: ${gsquerycmd}"
@@ -33,7 +33,7 @@ fn_alert_restart_query(){
 
 fn_alert_update(){
 	fn_script_log_info "Sending alert: Updated"
-	alertsubject="Alert - ${servicename}: Updated"
+	alertsubject="Alert - ${servicename} - Updated"
 	alertemoji="🎮"
 	alerturl="https://gameservermanagers.com"
 	alertbody="${gamename} received update"
@@ -41,7 +41,7 @@ fn_alert_update(){
 
 fn_alert_permissions(){
 	fn_script_log_info "Sending alert: Permissions error"
-	alertsubject="Alert - ${servicename}: Permissions error"
+	alertsubject="Alert - ${servicename} - Permissions error"
 	alertemoji="❗"
 	alerturl="https://gameservermanagers.com"
 	alertbody="${servicename} has permissions issues"
