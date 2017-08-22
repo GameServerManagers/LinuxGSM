@@ -17,4 +17,14 @@ json=$(cat <<EOF
 EOF
 )
 
-curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/linuxgsm_alert/with/key/${ifttttoken}"
+fn_print_dots "Sending IFTTT alert"
+sleep 0.5
+iftttsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/linuxgsm_alert/with/key/${ifttttoken}"|grep "Bad Request")
+
+if [ -n "${iftttsend}" ]; then
+	fn_print_fail_nl "Sending IFTTT alert: ${pushbulletsend}"
+	fn_script_log_fatal "Sending IFTTT alert: ${pushbulletsend}"
+else
+	fn_print_ok_nl "Sending IFTTT alert"
+	fn_script_log_pass "Sent IFTTT alert"
+fi
