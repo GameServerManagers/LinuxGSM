@@ -9,7 +9,7 @@ local commandaction="Alert"
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alertsubject="Alert - ${servicename}: Test"
+	alertsubject="Alert - ${servicename} - Test"
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="https://gameservermanagers.com"
@@ -18,7 +18,7 @@ fn_alert_test(){
 
 fn_alert_restart(){
 	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
-	alertsubject="Alert - ${servicename}: Restarted"
+	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="https://gameservermanagers.com"
@@ -27,7 +27,7 @@ fn_alert_restart(){
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending alert: Restarted: ${gsquerycmd}"
-	alertsubject="Alert - ${servicename}: Restarted"
+	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="https://gameservermanagers.com"
@@ -36,7 +36,7 @@ fn_alert_restart_query(){
 
 fn_alert_update(){
 	fn_script_log_info "Sending alert: Updated"
-	alertsubject="Alert - ${servicename}: Updated"
+	alertsubject="Alert - ${servicename} - Updated"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="https://gameservermanagers.com"
