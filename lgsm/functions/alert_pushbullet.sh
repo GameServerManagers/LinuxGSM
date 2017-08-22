@@ -20,7 +20,7 @@ EOF
 
 fn_print_dots "Sending Pushbullet alert"
 sleep 0.5
-pushbulletsend=$(curl -sSL -u """${pushbullettoken}"":" -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
+pushbulletsend=$(${curlpath} -sSL -u """${pushbullettoken}"":" -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
 
 if [ -n "${pushbulletsend}" ]; then
 	fn_print_fail_nl "Sending Pushbullet alert: ${pushbulletsend}"
