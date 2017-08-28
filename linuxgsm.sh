@@ -366,6 +366,10 @@ else
 	else
 		source "${configdirserver}/${servicename}.cfg"
 	fi
+	# Load the backupexclusion.cfg config. If missing download it
+	if [ ! -f "${configdirserver}/backupexclusion.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "backupexclusion-template.cfg" "${configdirserver}" "backupexclusion.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+	fi
 	# Load the linuxgsm.sh in to tmpdir. If missing download it
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
