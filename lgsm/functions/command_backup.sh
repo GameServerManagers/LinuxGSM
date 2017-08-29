@@ -187,6 +187,16 @@ fn_backup_start_server(){
 	fi
 }
 
+# Send the backup file off to Dropbox
+fn_backup_cloud(){
+	if [ -f "${backupdir}/${backupname}.tar.gz" ]
+		fn_print_ok_nl "Sending ${backupname} to Dropbox"
+		fn_script_log_info "Sending ${backupname} to Dropbox"
+		sleep 1
+		"~/Dropbox-Uploader-master/dropbox_uploader.sh" upload "${backupdir}/${backupname}.tar.gz"
+	fi
+}
+
 # Run functions
 fn_backup_check_lockfile
 fn_backup_create_lockfile
@@ -196,4 +206,5 @@ fn_backup_dir
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
+fn_backup_cloud
 core_exit.sh
