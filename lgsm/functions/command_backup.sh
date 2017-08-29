@@ -190,10 +190,21 @@ fn_backup_start_server(){
 # Send the backup file off to Dropbox
 fn_backup_cloud(){
 	if [ -f "${backupdir}/${backupname}.tar.gz" ]; then
-		fn_print_ok_nl "Sending ${backupname} to Dropbox"
-		fn_script_log_info "Sending ${backupname} to Dropbox"
+		fn_print_ok_nl "Sending ${backupname}.tar.gz to Dropbox"
+		fn_script_log_info "Sending ${backupname}.tar.gz to Dropbox"
 		sleep 1
-		"~/Dropbox-Uploader-master/dropbox_uploader.sh" -p upload "${backupdir}/${backupname}.tar.gz" "${backupname}.tar.gz"
+		"~/Dropbox-Uploader-master/dropbox_uploader.sh" upload "${backupdir}/${backupname}.tar.gz" "${backupname}.tar.gz"
+		local exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then
+			sleep 1
+			fn_print_warn_nl "Upload to Dropbox failed. Please investigate."
+			fn_script_log_warn "Upload to Dropbox failed. Please investigate."
+		else
+			sleep 1
+			fn_print_ok_nl "Upload to Dropbox completed successfully."
+			fn_script_log_info "Upload to Dropbox completed successfully."
+		fi
+		sleep 1
 	fi
 }
 
