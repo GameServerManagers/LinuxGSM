@@ -193,7 +193,7 @@ fn_backup_cloud(){
 		fn_print_ok_nl "Sending ${backupname} to Dropbox"
 		fn_script_log_info "Sending ${backupname} to Dropbox"
 		sleep 1
-		"~/Dropbox-Uploader-master/dropbox_uploader.sh" upload "${backupdir}/${backupname}.tar.gz"
+		"~/Dropbox-Uploader-master/dropbox_uploader.sh" -p upload "${backupdir}/${backupname}.tar.gz" "${backupname}.tar.gz"
 	fi
 }
 
