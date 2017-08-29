@@ -189,7 +189,7 @@ fn_backup_start_server(){
 
 # Send the backup file off to Dropbox
 fn_backup_cloud(){
-	if [ -f "${backupdir}/${backupname}.tar.gz" ]
+	if [ -f "${backupdir}/${backupname}.tar.gz" ]; then
 		fn_print_ok_nl "Sending ${backupname} to Dropbox"
 		fn_script_log_info "Sending ${backupname} to Dropbox"
 		sleep 1
