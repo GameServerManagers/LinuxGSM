@@ -193,7 +193,7 @@ fn_backup_cloud(){
 		fn_print_ok_nl "Sending ${backupname}.tar.gz to Dropbox"
 		fn_script_log_info "Sending ${backupname}.tar.gz to Dropbox"
 		sleep 1
-		"~/Dropbox-Uploader-master/dropbox_uploader.sh" upload "${backupdir}/${backupname}.tar.gz" "${backupname}.tar.gz"
+		~/Dropbox-Uploader-master/dropbox_uploader.sh upload "${backupdir}/${backupname}.tar.gz" "${backupname}.tar.gz"
 		local exitcode=$?
 		if [ "${exitcode}" -ne 0 ]; then
 			sleep 1
