@@ -33,7 +33,7 @@ if [ -z "${autoinstall}" ]; then
 		if ! grep -q "^gslt=" "${configdirserver}/${servicename}.cfg" > /dev/null 2>&1; then
 			echo -e "\ngslt=\"${token}\"" >> "${configdirserver}/${servicename}.cfg"
 		else
-			sed -i -e "s/gslt=\".*\"/gslt=\"${token}\"/g" "${configdirserver}/${servicename}.cfg"
+			sed -i -e "s/gslt=\"[^\"]*\"/gslt=\"${token}\"/g" "${configdirserver}/${servicename}.cfg"
 		fi
 	fi
 fi
