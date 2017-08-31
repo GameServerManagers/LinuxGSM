@@ -8,12 +8,29 @@ local commandname="ALERT"
 local commandaction="Alert"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_details_email(){
-	#
-	# Failure reason: Testing bb2-server email alert
-	# Action Taken: Sent test email...hello is this thing on?
-
-	echo -e "${alertbody}" >> "${emaillog}"
+fn_details_head(){
+	{
+		echo -e ""
+		echo -e "Summery"
+		echo -e "================================="
+		echo -e "Message"
+		echo -e "${alertbody}"
+		echo -e ""
+		echo -e "Game"
+		echo -e "${gamename}"
+		echo -e ""
+		echo -e "Server name"
+		echo -e "${servername}"
+		echo -e ""
+		echo -e "Hostname"
+		echo -e "${HOSTNAME}"
+		echo -e ""
+		echo -e "Server IP"
+		echo -e "${ip}:${port}"
+		echo -e ""
+		echo -e "More info"
+		echo -e "${alerturl}"
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 fn_details_os(){
@@ -202,11 +219,11 @@ fn_alert_email_template_logs(){
 			echo "${gamelogdir} (NO LOG FILES)"
 		else
 			echo "${gamelogdir}"
-			tail "${gamelogdir}"/* | grep -v "==>" | sed '/^$/d' | tail -25
+			# dos2unix sed 's/\r//'
+			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//'| tail -25
 		fi
 		echo ""
 	fi
-
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
@@ -222,7 +239,7 @@ emaillog="${emaillog}"
 if [ -f "${emaillog}" ]; then
 	rm "${emaillog}"
 fi
-fn_details_email
+fn_details_head
 fn_details_os
 fn_details_performance
 fn_details_disk
