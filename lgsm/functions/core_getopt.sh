@@ -148,7 +148,7 @@ fn_opt_usage(){
 	echo "Usage: $0 [option]"
 	echo -e ""
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "https://gameservermanagers.com/${selfname}"
+	echo "https://gameservermanagers.com/${gameservername}"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
 	# Display available commands
