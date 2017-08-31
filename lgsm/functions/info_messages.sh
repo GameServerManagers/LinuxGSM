@@ -847,6 +847,87 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_select_engine(){
+	# Display details depending on game or engine.
+	if [ "${engine}" == "avalanche" ]; then
+		fn_info_message_avalanche
+	elif [ "${engine}" == "refractor" ]; then
+		fn_info_message_refractor
+	elif [ "${engine}" == "dontstarve" ]; then
+		fn_info_message_dontstarve
+	elif [ "${engine}" == "goldsource" ]; then
+		fn_info_message_goldsource
+	elif [ "${engine}" == "lwjgl2" ]; then
+		fn_info_message_minecraft
+	elif [ "${engine}" == "projectzomboid" ]; then
+		fn_info_message_projectzomboid
+	elif [ "${engine}" == "realvirtuality" ]; then
+		fn_info_message_realvirtuality
+	elif [ "${engine}" == "seriousengine35" ]; then
+		fn_info_message_seriousengine35
+	elif [ "${engine}" == "source" ]; then
+		fn_info_message_source
+	elif [ "${engine}" == "spark" ]; then
+		fn_info_message_spark
+	elif [ "${engine}" == "starbound" ]; then
+		fn_info_message_starbound
+	elif [ "${engine}" == "teeworlds" ]; then
+		fn_info_message_teeworlds
+	elif [ "${engine}" == "terraria" ]; then
+		fn_info_message_terraria
+	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+		fn_info_message_unreal
+	elif [ "${engine}" == "unreal3" ]; then
+		fn_info_message_ut3
+	elif [ "${gamename}" == "7 Days To Die" ]; then
+		fn_info_message_sdtd
+	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
+		fn_info_message_ark
+	elif [ "${gamename}" == "Ballistic Overkill" ]; then
+		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Call of Duty" ]; then
+		fn_info_message_cod
+	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+		fn_info_message_coduo
+	elif [ "${gamename}" == "Call of Duty 2" ]; then
+		fn_info_message_cod2
+	elif [ "${gamename}" == "Call of Duty 4" ]; then
+		fn_info_message_cod4
+	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+		fn_info_message_codwaw
+	elif [ "${gamename}" == "Factorio" ]; then
+		fn_info_message_factorio
+	elif [ "${gamename}" == "Hurtworld" ]; then
+		fn_info_message_hurtworld
+	elif [ "${gamename}" == "Project Cars" ]; then
+		fn_info_message_projectcars
+	elif [ "${gamename}" == "QuakeWorld" ]; then
+		fn_info_message_quake
+	elif [ "${gamename}" == "Quake 2" ]; then
+		fn_info_message_quake2
+	elif [ "${gamename}" == "Quake 3: Arena" ]; then
+		fn_info_message_quake3
+	elif [ "${gamename}" == "Quake Live" ]; then
+		fn_info_message_quakelive
+	elif [ "${gamename}" == "Squad" ]; then
+		fn_info_message_squad
+	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+		fn_info_message_teamspeak3
+	elif [ "${gamename}" == "Tower Unite" ]; then
+		fn_info_message_towerunite
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fn_info_message_mta
+	elif [ "${gamename}" == "Mumble" ]; then
+		fn_info_message_mumble
+	elif [ "${gamename}" == "Rust" ]; then
+		fn_info_message_rust
+	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+		fn_info_message_wolfensteinenemyterritory
+	else
+		fn_print_error_nl "Unable to detect server engine."
+	fi
+}
+
 # Separator is different for details
 fn_messages_separator(){
 	if [ "${function_selfname}" == "command_details.sh" ]; then
