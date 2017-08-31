@@ -143,11 +143,11 @@ if [ -f "${emaillog}" ]; then
 fi
 
 {
-	fn_details_head
-	fn_message_os
-	fn_message_performance
-	fn_message_disk
-	fn_message_gameserver
+	fn_info_message_head
+	fn_info_message_distro
+	fn_info_message_performance
+	fn_info_message_disk
+	fn_info_message_gameserver
 	fn_alert_email_template_logs
 } | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 

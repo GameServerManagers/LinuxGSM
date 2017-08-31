@@ -7,10 +7,10 @@
 # Standard Details
 # This applies to all engines
 
-info_message_head(){
+fn_info_message_head(){
 	echo -e ""
-	echo -e "Summary"
-	echo -e "================================="
+	echo -e "${lightyellow}Summary${default}"
+	fn_messages_separator
 	echo -e "Message"
 	echo -e "${alertbody}"
 	echo -e ""
@@ -30,7 +30,7 @@ info_message_head(){
 	echo -e "${alerturl}"
 }
 
-info_message_distro(){
+fn_info_message_distro(){
 	#
 	# Distro Details
 	# =====================================
@@ -54,7 +54,7 @@ info_message_distro(){
 	} | column -s $'\t' -t
 }
 
-info_message_performance(){
+fn_info_message_performance(){
 	#
 	# Performance
 	# =====================================
@@ -80,7 +80,7 @@ info_message_performance(){
 	} | column -s $'\t' -t
 }
 
-info_message_disk(){
+fn_info_message_disk(){
 	#
 	# Storage
 	# =====================================
@@ -108,7 +108,7 @@ info_message_disk(){
 	} | column -s $'\t' -t
 }
 
-info_message_gameserver(){
+fn_info_message_gameserver(){
 	#
 	# Quake Live Server Details
 	# =====================================
@@ -241,7 +241,7 @@ info_message_gameserver(){
 	echo -e ""
 }
 
-info_message_script(){
+fn_info_message_script(){
 	#
 	# qlserver Script Details
 	# =====================================
@@ -316,7 +316,7 @@ info_message_script(){
 	} | column -s $'\t' -t
 }
 
-info_message_backup(){
+fn_info_message_backup(){
 	#
 	# Backups
 	# =====================================
@@ -348,7 +348,7 @@ info_message_backup(){
 	fi
 }
 
-info_message_commandlineparms(){
+fn_info_message_commandlineparms(){
 	#
 	# Command-line Parameters
 	# =====================================
@@ -360,7 +360,7 @@ info_message_commandlineparms(){
 	echo -e "${executable} ${parms}"
 }
 
-info_message_ports(){
+fn_info_message_ports(){
 	# Ports
 	# =====================================
 	# Change ports by editing the parameters in:
@@ -393,7 +393,7 @@ info_message_ports(){
 	echo -e "Useful port diagnostic command:"
 }
 
-info_message_statusbottom(){
+fn_info_message_statusbottom(){
 	echo -e ""
 	if [ "${status}" == "0" ]; then
 		echo -e "${blue}Status:\t${red}OFFLINE${default}"
@@ -405,7 +405,7 @@ info_message_statusbottom(){
 
 # Engine/Game Specific details
 
-info_message_ark(){
+fn_info_message_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
 	{
@@ -420,7 +420,7 @@ info_message_ark(){
 	} | column -s $'\t' -t
 }
 
-info_message_ballisticoverkill(){
+fn_info_message_ballisticoverkill(){
 	echo -e "netstat -atunp | grep BODS.x86"
 	echo -e ""
 	{
@@ -430,7 +430,7 @@ info_message_ballisticoverkill(){
 	} | column -s $'\t' -t
 }
 
-info_message_avalanche(){
+fn_info_message_avalanche(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
 	echo -e ""
 	{
@@ -439,7 +439,7 @@ info_message_avalanche(){
 	} | column -s $'\t' -t
 }
 
-info_message_cod(){
+fn_info_message_cod(){
 	echo -e "netstat -atunp | grep cod_lnxded"
 	echo -e ""
 	{
@@ -448,7 +448,7 @@ info_message_cod(){
 	} | column -s $'\t' -t
 }
 
-info_message_coduo(){
+fn_info_message_coduo(){
 	echo -e "netstat -atunp | grep coduo_lnxded"
 	echo -e ""
 	{
@@ -457,7 +457,7 @@ info_message_coduo(){
 	} | column -s $'\t' -t
 }
 
-info_message_cod2(){
+fn_info_message_cod2(){
 	echo -e "netstat -atunp | grep cod2_lnxded"
 	echo -e ""
 	{
@@ -466,7 +466,7 @@ info_message_cod2(){
 	} | column -s $'\t' -t
 }
 
-info_message_cod4(){
+fn_info_message_cod4(){
 	echo -e "netstat -atunp"
 	echo -e ""
 	{
@@ -475,7 +475,7 @@ info_message_cod4(){
 	} | column -s $'\t' -t
 }
 
-info_message_codwaw(){
+fn_info_message_codwaw(){
 	echo -e "netstat -atunp | grep codwaw_lnxded"
 	echo -e ""
 	{
@@ -484,7 +484,7 @@ info_message_codwaw(){
 	} | column -s $'\t' -t
 }
 
-info_message_dontstarve(){
+fn_info_message_dontstarve(){
 	echo -e "netstat -atunp | grep dontstarve"
 	echo -e ""
 	{
@@ -496,7 +496,7 @@ info_message_dontstarve(){
 	} | column -s $'\t' -t
 }
 
-info_message_factorio(){
+fn_info_message_factorio(){
 	echo -e "netstat -atunp | grep factorio"
 	echo -e ""
 	{
@@ -505,7 +505,7 @@ info_message_factorio(){
 	} | column -s $'\t' -t
 }
 
-info_message_goldsource(){
+fn_info_message_goldsource(){
 	echo -e "netstat -atunp | grep hlds_linux"
 	echo -e ""
 	{
@@ -515,7 +515,7 @@ info_message_goldsource(){
 	} | column -s $'\t' -t
 }
 
-info_message_hurtworld(){
+fn_info_message_hurtworld(){
 	echo -e "netstat -atunp | grep Hurtworld"
 	echo -e ""
 	{
@@ -525,7 +525,7 @@ info_message_hurtworld(){
 	} | column -s $'\t' -t
 }
 
-info_message_minecraft(){
+fn_info_message_minecraft(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
@@ -534,7 +534,7 @@ info_message_minecraft(){
 	} | column -s $'\t' -t
 }
 
-info_message_mumble(){
+fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
 	{
@@ -544,7 +544,7 @@ info_message_mumble(){
 	} | column -s $'\t' -t
 }
 
-info_message_projectcars(){
+fn_info_message_projectcars(){
 	echo -e "netstat -atunp | grep DedicatedS"
 	echo -e ""
 	{
@@ -555,7 +555,7 @@ info_message_projectcars(){
 	} | column -s $'\t' -t
 }
 
-info_message_projectzomboid(){
+fn_info_message_projectzomboid(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
@@ -564,7 +564,7 @@ info_message_projectzomboid(){
 	} | column -s $'\t' -t
 }
 
-info_message_quake(){
+fn_info_message_quake(){
 	echo -e "netstat -atunp | grep mvdsv"
 	echo -e ""
 	{
@@ -573,7 +573,7 @@ info_message_quake(){
 	} | column -s $'\t' -t
 }
 
-info_message_quake2(){
+fn_info_message_quake2(){
 	echo -e "netstat -atunp | grep quake2"
 	echo -e ""
 	{
@@ -582,7 +582,7 @@ info_message_quake2(){
 	} | column -s $'\t' -t
 }
 
-info_message_quake3(){
+fn_info_message_quake3(){
 	echo -e "netstat -atunp | grep q3ded"
 	echo -e ""
 	{
@@ -591,7 +591,7 @@ info_message_quake3(){
 	} | column -s $'\t' -t
 }
 
-info_message_quakelive(){
+fn_info_message_quakelive(){
 	echo -e "netstat -atunp | grep qzeroded"
 	echo -e ""
 	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
@@ -606,7 +606,7 @@ info_message_quakelive(){
 	} | column -s $'\t' -t
 }
 
-info_message_realvirtuality(){
+fn_info_message_realvirtuality(){
 	echo -e "netstat -atunp | grep arma3server"
 	echo -e ""
 	# Default port
@@ -625,7 +625,7 @@ info_message_realvirtuality(){
 	} | column -s $'\t' -t
 }
 
-info_message_refractor(){
+fn_info_message_refractor(){
 	echo -e "netstat -atunp | grep bf1942_lnxd"
 	echo -e ""
 	{
@@ -635,7 +635,7 @@ info_message_refractor(){
 	} | column -s $'\t' -t
 }
 
-info_message_rust(){
+fn_info_message_rust(){
 	echo -e "netstat -atunp | grep Rust"
 	echo -e ""
 	{
@@ -645,7 +645,7 @@ info_message_rust(){
 	} | column -s $'\t' -t
 }
 
-info_message_seriousengine35(){
+fn_info_message_seriousengine35(){
 	echo -e "netstat -atunp | grep Sam3_Dedicate"
 	echo -e ""
 	{
@@ -655,7 +655,7 @@ info_message_seriousengine35(){
 	} | column -s $'\t' -t
 }
 
-info_message_sdtd(){
+fn_info_message_sdtd(){
 	echo -e "netstat -atunp | grep 7DaysToDie"
 	echo -e ""
 	{
@@ -683,7 +683,7 @@ info_message_sdtd(){
 	} | column -s $'\t' -t
 }
 
-info_message_source(){
+fn_info_message_source(){
 	echo -e "netstat -atunp | grep srcds_linux"
 	echo -e ""
 	{
@@ -694,7 +694,7 @@ info_message_source(){
 	} | column -s $'\t' -t
 }
 
-info_message_spark(){
+fn_info_message_spark(){
 	echo -e "netstat -atunp | grep server_linux3"
 	echo -e ""
 	{
@@ -713,7 +713,7 @@ info_message_spark(){
 	} | column -s $'\t' -t
 }
 
-info_message_squad(){
+fn_info_message_squad(){
 	echo -e "netstat -atunp | grep SquadServer"
 	echo -e ""
 	{
@@ -724,7 +724,7 @@ info_message_squad(){
 	} | column -s $'\t' -t
 }
 
-info_message_starbound(){
+fn_info_message_starbound(){
 	echo -e "netstat -atunp | grep starbound"
 	echo -e ""
 	{
@@ -735,7 +735,7 @@ info_message_starbound(){
 	} | column -s $'\t' -t
 }
 
-info_message_teamspeak3(){
+fn_info_message_teamspeak3(){
 	echo -e "netstat -atunp | grep ts3server"
 	echo -e ""
 	{
@@ -746,7 +746,7 @@ info_message_teamspeak3(){
 	} | column -s $'\t' -t
 }
 
-info_message_teeworlds(){
+fn_info_message_teeworlds(){
 	echo -e "netstat -atunp | grep teeworlds_srv"
 	echo -e ""
 	{
@@ -755,7 +755,7 @@ info_message_teeworlds(){
 	} | column -s $'\t' -t
 }
 
-info_message_terraria(){
+fn_info_message_terraria(){
 	echo -e "netstat -atunp | grep TerrariaServer"
 	echo -e ""
 	{
@@ -764,7 +764,7 @@ info_message_terraria(){
 	} | column -s $'\t' -t
 }
 
-info_message_towerunite(){
+fn_info_message_towerunite(){
 	echo -e "netstat -atunp | grep TowerServer"
 	echo -e ""
 	{
@@ -778,7 +778,7 @@ info_message_towerunite(){
 	} | column -s $'\t' -t
 }
 
-info_message_unreal(){
+fn_info_message_unreal(){
 	echo -e "netstat -atunp | grep ucc-bin"
 	echo -e ""
 	{
@@ -816,7 +816,7 @@ info_message_unreal(){
 	} | column -s $'\t' -t
 }
 
-info_message_ut3(){
+fn_info_message_ut3(){
 	echo -e "netstat -atunp | grep ut3-bin"
 	echo -e ""
 	{
@@ -825,7 +825,7 @@ info_message_ut3(){
 	} | column -s $'\t' -t
 }
 
-info_message_wolfensteinenemyterritory(){
+fn_info_message_wolfensteinenemyterritory(){
 	echo -e "netstat -atunp | grep etded"
 	echo -e ""
 	{
@@ -834,7 +834,7 @@ info_message_wolfensteinenemyterritory(){
 	} | column -s $'\t' -t
 }
 
-info_message_mta(){
+fn_info_message_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
 	{
