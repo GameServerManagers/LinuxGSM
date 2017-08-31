@@ -8,104 +8,6 @@ local commandname="ALERT"
 local commandaction="Alert"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-fn_details_head(){
-	{
-		echo -e ""
-		echo -e "Summery"
-		echo -e "================================="
-		echo -e "Message"
-		echo -e "${alertbody}"
-		echo -e ""
-		echo -e "Game"
-		echo -e "${gamename}"
-		echo -e ""
-		echo -e "Server name"
-		echo -e "${servername}"
-		echo -e ""
-		echo -e "Hostname"
-		echo -e "${HOSTNAME}"
-		echo -e ""
-		echo -e "Server IP"
-		echo -e "${ip}:${port}"
-		echo -e ""
-		echo -e "More info"
-		echo -e "${alerturl}"
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
-}
-
-fn_details_os(){
-	#
-	# Distro Details
-	# =====================================
-	# Distro:    Ubuntu 14.04.4 LTS
-	# Arch:      x86_64
-	# Kernel:    3.13.0-79-generic
-	# Hostname:  hostname
-	# tmux:      tmux 1.8
-	# GLIBC:     2.19
-
-	{
-		echo -e ""
-		echo -e "Distro Details"
-		echo -e "================================="
-		echo -e "Distro: ${distroname}"
-		echo -e "Arch: ${arch}"
-		echo -e "Kernel: ${kernel}"
-		echo -e "Hostname: ${HOSTNAME}"
-		echo -e "tmux: ${tmuxv}"
-		echo -e "GLIBC: ${glibcversion}"
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
-}
-
-fn_details_performance(){
-	#
-	# Performance
-	# =====================================
-	# Uptime:    55d, 3h, 38m
-	# Avg Load:  1.00, 1.01, 0.78
-	#
-	# Mem:       total   used   free
-	# Physical:  741M    656M   85M
-	# Swap:      0B      0B     0B
-
-	{
-		echo -e ""
-		echo -e "Performance"
-		echo -e "================================="
-		echo -e "Uptime: ${days}d, ${hours}h, ${minutes}m"
-		echo -e "Avg Load: ${load}"
-		echo -e ""
-		echo -e "Mem: total  used  free"
-		echo -e "Physical: ${physmemtotal} ${physmemused} ${physmemfree}"
-		echo -e "Swap: ${swaptotal} ${swapused} ${swapfree}"
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
-}
-
-fn_details_disk(){
-	#
-	# Storage
-	# =====================================
-	# Filesystem:   /dev/disk/by-uuid/320c8edd-a2ce-4a23-8c9d-e00a7af2d6ff
-	# Total:        15G
-	# Used:         8.4G
-	# Available:    5.7G
-	# Serverfiles:  961M
-
-	{
-		echo -e ""
-		echo -e "Storage"
-		echo -e "================================="
-		echo -e "Filesystem: ${filesystem}"
-		echo -e "Total: ${totalspace}"
-		echo -e "Used: ${usedspace}"
-		echo -e "Available: ${availspace}"
-		echo -e "Serverfiles: ${serverfilesdu}"
-		if [ -d "${backupdir}" ]; then
-			echo -e "Backups: ${backupdirdu}"
-		fi
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
-}
-
 fn_details_gameserver(){
 	#
 	# Quake Live Server Details
@@ -182,7 +84,6 @@ fn_details_gameserver(){
 }
 
 fn_alert_email_template_logs(){
-	{
 	echo -e ""
 	echo -e "${servicename} Logs"
 	echo -e "================================="
@@ -224,7 +125,6 @@ fn_alert_email_template_logs(){
 		fi
 		echo ""
 	fi
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
 fn_print_dots "Sending Email alert: ${email}"
@@ -233,18 +133,24 @@ fn_script_log_info "Sending Email alert: ${email}"
 info_distro.sh
 info_config.sh
 info_glibc.sh
-check_ip.sh
 
+check_ip.sh
+postdetails=1
+info_messages.sh
 emaillog="${emaillog}"
 if [ -f "${emaillog}" ]; then
 	rm "${emaillog}"
 fi
-fn_details_head
-fn_details_os
-fn_details_performance
-fn_details_disk
-fn_details_gameserver
-fn_alert_email_template_logs
+
+{
+	fn_details_head
+	fn_message_os
+	fn_message_performance
+	fn_message_disk
+	fn_message_gameserver
+	fn_alert_email_template_logs
+} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
+
 if [ -n "${emailfrom}" ]; then
 	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${emaillog}"
 else
