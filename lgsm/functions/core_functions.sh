@@ -365,6 +365,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+info_messages.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
