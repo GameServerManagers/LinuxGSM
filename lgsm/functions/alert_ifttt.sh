@@ -11,7 +11,7 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 json=$(cat <<EOF
 {
 	"value1": "${servicename}",
-	"value2": "${alertemoji} ${alertsubject} ${alertemoji}",
+	"value2": "${alertsubject}",
 	"value3": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${ip}:${port}\n\nMore info\n${alerturl}"
 }
 EOF
