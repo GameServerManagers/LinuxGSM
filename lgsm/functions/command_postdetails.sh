@@ -9,10 +9,6 @@ local commandname="postdetails"
 local commandaction="Postdetails"
 local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
-# postdetails variable affects the output of command_details.sh.  Setting
-# it here silences the output from sourcing command_details.sh.
-postdetails=yes
-
 # Set posttarget to the appropriately-defined post destination.
 
 # The options for posttarget are:
@@ -38,22 +34,17 @@ posttarget=${posttarget="https://hastebin.com"}
 # This, too, may be overridden from the command line at the top-level
 postexpire="${postexpire="30D"}"
 
-# This file sources the command_details.sh file to leverage all
-# of the already-defined functions.  To keep the command_details.sh
+# This file sources the info_messages.sh file to leverage all
+# of the already-defined functions. To keep the command_details.sh
 # from actually producing output, the main executable statements have
 # been wrapped in the equivalent of an ifdef clause, that looks
 # for the variable "postdetails" to be defined. -CedarLUG
 
 # source all of the functions defined in the details command
-command_details.sh
-
-# redefine as command_details.sh changes them
-local commandname="postdetails"
-local commandaction="Postdetails"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+info_messages.sh
 
 fn_bad_tmpfile() {
-	echo "There was a problem creating a temporary file ${tmpfile}."
+	fn_print_fail_nl "Unable to create temporary file ${tmpfile}."
 	core_exit.sh
 }
 
@@ -61,51 +52,29 @@ fn_bad_tmpfile() {
 tmpfile="${tmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
 
 touch "${tmpfile}" || fn_bad_tmpfile
-
-# fn_display_details is found in the command_details.sh file (which
-# was sourced above).  The output is parsed for passwords and other
-# confidential information. -CedarLUG
-
-# The numerous sed lines could certainly be condensed quite a bit,
-# but they are separated out to provide examples for how to add
-# additional criteria in a straight-forward manner.
-# (This was originally a sed one-liner.) -CedarLUG
-
-fn_display_details | sed -e 's/password="[^"]*/password="--stripped--/' |
-									sed -e 's/password "[^"]*/password "--stripped--/' |
-									sed -e 's/password: .*/password: --stripped--/' |
-									sed -e 's/gslt="[^"]*/gslt="--stripped--/' |
-									sed -e 's/gslt "[^"]*/gslt "--stripped--/' |
-									sed -e 's/pushbullettoken="[^"]*/pushbullettoken="--stripped--/' |
-									sed -e 's/pushbullettoken "[^"]*/pushbullettoken "--stripped--/' |
-									sed -e 's/authkey="[^"]*/authkey="--stripped--/' |
-									sed -e 's/authkey "[^"]*/authkey "--stripped--/' |
-									sed -e 's/authkey [A-Za-z0-9]\+/authkey --stripped--/' |
-									sed -e 's/rcts_strAdminPassword="[^"]*/rcts_strAdminPassword="--stripped--/' |
-									sed -e 's/rcts_strAdminPassword "[^"]*/rcts_strAdminPassword "--stripped--/' |
-									sed -e 's/sv_setsteamaccount [A-Za-z0-9]\+/sv_setsteamaccount --stripped--/' |
-									sed -e 's/sv_password="[^"]*/sv_password="--stripped--/' |
-									sed -e 's/sv_password "[^"]*/sv_password "--stripped--/' |
-									sed -e 's/zmq_stats_password="[^"]*/zmq_stats_password="--stripped--/' |
-									sed -e 's/zmq_stats_password "[^"]*/zmq_stats_password "--stripped--/' |
-									sed -e 's/zmq_rcon_password="[^"]*/zmq_rcon_password="--stripped--/' |
-									sed -e 's/zmq_rcon_password "[^"]*/zmq_rcon_password "--stripped--/' |
-									sed -e 's/pass="[^"]*/pass="--stripped--/' |
-									sed -e 's/pass "[^"]*/pass "--stripped--/' |
-									sed -e 's/rconServerPassword="[^"]*/rconServerPassword="--stripped--/' |
-									sed -e 's/rconServerPassword "[^"]*/rconServerPassword "--stripped--/' > "${tmpfile}"
-
-# strip off all console escape codes (colorization)
-sed -i -r "s/[\x1B,\x0B]\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" "${tmpfile}"
-
-# If the gameserver uses anonymous steam credentials, leave them displayed
-# in the output.  Otherwise, strip these out as well.
-if ! grep -q "^steampass[= ]\"\"" "${tmpfile}" ; then
-	sed -i -e 's/steampass[= ]"[^"]*/steampass "--stripped--/' "${tmpfile}"
-fi
-if ! grep -q "^steamuser[= ]\"anonymous\"" "${tmpfile}" ; then
-	sed -i -e 's/steamuser[= ]"[^"]*/steamuser "--stripped--/' "${tmpfile}"
-fi
+{
+	# Run checks and gathers details to display.
+	check.sh
+	info_config.sh
+	info_distro.sh
+	info_glibc.sh
+	info_parms.sh
+	info_messages.sh
+	fn_info_message_distro
+	fn_info_message_performance
+	fn_info_message_disk
+	fn_info_message_gameserver
+	fn_info_message_script
+	fn_info_message_backup
+	# Some game servers do not have parms.
+	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
+		fn_parms
+		fn_info_message_commandlineparms
+	fi
+	fn_info_message_ports
+	fn_info_message_select_engine
+	fn_info_message_statusbottom
+} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${tmpfile}" > /dev/null 2>&1
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
