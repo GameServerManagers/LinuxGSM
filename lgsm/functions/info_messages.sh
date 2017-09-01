@@ -988,11 +988,28 @@ fn_messages_separator(){
 # Removes the passwords form all but details
 fn_info_message_password_strip(){
 	if [ "${function_selfname}" != "command_details.sh" ]; then
-		serverpassword="********"
-		rconpassword="********"
-		adminpassword="********"
-		statspassword="********"
-		webadminpass="********"
-		telnetpass="********"
+		if [ -n "${serverpassword}" ]; then
+			serverpassword="********"
+		fi
+
+		if [ -n "${rconpassword}" ]; then
+			rconpassword="********"
+		fi
+
+		if [ -n "${adminpassword}" ]; then
+			adminpassword="********"
+		fi
+
+		if [ -n "${statspassword}" ]; then
+			statspassword="********"
+		fi
+
+		if [ -n "${webadminpass}" ]; then
+			webadminpass="********"
+		fi
+
+		if [ -n "${telnetpass}" ]; then
+			telnetpass="********"
+		fi
 	fi
 }
