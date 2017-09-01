@@ -7,6 +7,25 @@
 local commandname="ALERT"
 local commandaction="Alert"
 
+fn_alert_log(){
+	info_distro.sh
+	info_config.sh
+	info_glibc.sh
+	info_messages.sh
+	if [ -f "${alertlog}" ]; then
+		rm "${alertlog}"
+	fi
+
+	{
+		fn_info_message_head
+		fn_info_message_distro
+		fn_info_message_performance
+		fn_info_message_disk
+		fn_info_message_gameserver
+		fn_info_logs
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${alertlog}" > /dev/null 2>&1
+}
+
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
 	alertsubject="Alert - ${servicename} - Test"
@@ -52,6 +71,8 @@ fn_alert_permissions(){
 	alertbody="${servicename} has permissions issues"
 }
 
+
+
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
 elif [ "${alert}" == "restart" ]; then
@@ -63,6 +84,11 @@ elif [ "${alert}" == "test" ]; then
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
 fi
+
+# Generate alert log
+fn_alert_log
+alert=1
+command_postdetails.sh
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
 	alert_discord.sh

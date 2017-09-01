@@ -10,28 +10,11 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_print_dots "Sending Email alert: ${email}"
 sleep 0.5
-fn_script_log_info "Sending Email alert: ${email}"
-info_distro.sh
-info_config.sh
-info_glibc.sh
-info_messages.sh
-if [ -f "${emaillog}" ]; then
-	rm "${emaillog}"
-fi
-
-{
-	fn_info_message_head
-	fn_info_message_distro
-	fn_info_message_performance
-	fn_info_message_disk
-	fn_info_message_gameserver
-	fn_info_logs
-} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 
 if [ -n "${emailfrom}" ]; then
-	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${emaillog}"
+	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${alertlog}"
 else
-	mail -s "${alertsubject}" "${email}" < "${emaillog}"
+	mail -s "${alertsubject}" "${email}" < "${alertlog}"
 fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then

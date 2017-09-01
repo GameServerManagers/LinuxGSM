@@ -36,3 +36,7 @@ fi
 if [ -z "${tmpdir}" ]; then
 	tmpdir="${lgsmdir}/tmp"
 fi
+
+if [ -z "${alertlog}" ]; then
+	alertlog="${emaillog}"
+fi

@@ -43,38 +43,41 @@ postexpire="${postexpire="30D"}"
 # source all of the functions defined in the details command
 info_messages.sh
 
-fn_bad_tmpfile() {
-	fn_print_fail_nl "Unable to create temporary file ${tmpfile}."
+fn_bad_postdetailsfile() {
+	fn_print_fail_nl "Unable to create temporary file ${postdetailsfile}."
 	core_exit.sh
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
-tmpfile="${tmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
-
-touch "${tmpfile}" || fn_bad_tmpfile
-{
-	# Run checks and gathers details to display.
-	check.sh
-	info_config.sh
-	info_distro.sh
-	info_glibc.sh
-	info_parms.sh
-	info_messages.sh
-	fn_info_message_distro
-	fn_info_message_performance
-	fn_info_message_disk
-	fn_info_message_gameserver
-	fn_info_message_script
-	fn_info_message_backup
-	# Some game servers do not have parms.
-	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
-		fn_parms
-		fn_info_message_commandlineparms
-	fi
-	fn_info_message_ports
-	fn_info_message_select_engine
-	fn_info_message_statusbottom
-} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${tmpfile}" > /dev/null 2>&1
+if [ -n "${alert}" ]; then
+	postdetailsfile="${alertlog}"
+else
+	postdetailsfile="${tmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
+	touch "${postdetailsfile}" || fn_bad_postdetailsfile
+	{
+		# Run checks and gathers details to display.
+		check.sh
+		info_config.sh
+		info_distro.sh
+		info_glibc.sh
+		info_parms.sh
+		info_messages.sh
+		fn_info_message_distro
+		fn_info_message_performance
+		fn_info_message_disk
+		fn_info_message_gameserver
+		fn_info_message_script
+		fn_info_message_backup
+		# Some game servers do not have parms.
+		if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
+			fn_parms
+			fn_info_message_commandlineparms
+		fi
+		fn_info_message_ports
+		fn_info_message_select_engine
+		fn_info_message_statusbottom
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${postdetailsfile}" > /dev/null 2>&1
+fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
@@ -89,26 +92,33 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 				-F "post_key=${csrftoken}" -F "paste_expire_date=${postexpire}" \
 				-F "paste_name=${gamename} Debug Info" \
 				-F "paste_format=8" -F "paste_private=0" \
-				-F "paste_type=bash" -F "paste_code=<${tmpfile}" |
+				-F "paste_type=bash" -F "paste_code=<${postdetailsfile}" |
 				awk '/^location: / { print $2 }' | sed "s/\n//g")
 
 	 # Output the resulting link.
 	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
-	echo "  Please share the following url for support: ${posttarget}${link}"
+	pdurl="${posttarget}${link}"
+	echo "  Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	fn_print_dots "Posting details to hastebin.com"
 	sleep 1
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
-	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${tmpfile})" "${posttarget}/documents" | cut -d\" -f4)
+	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailsfile})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
-	echo "  Please share the following url for support: ${posttarget}/${link}"
+	pdurl="${posttarget}/${link}"
+	echo "  Please share the following url for support: ${pdurl}"
 else
-	 fn_print_warn_nl Review the output in "${tmpfile}"
+	 fn_print_warn_nl Review the output in "${postdetailsfile}"
 	 core_exit.sh
 fi
 
 # cleanup
-rm "${tmpfile}" || /bin/true
-core_exit.sh
+rm "${postdetailsfile}" || /bin/true
+
+if [ -n "${alert}" ]; then
+	core_exit.sh
+else
+	alerturl="${pdurl}"
+fi
