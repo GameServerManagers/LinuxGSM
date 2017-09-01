@@ -10,7 +10,30 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
 sleep 0.5
-mailgunsend=$(curl -s --user "api:${mailguntoken}" -F from="LinuxGSM <${mailgunemailfrom}>" -F to="LinuxGSM Admin <${mailgunemail}>" -F subject="${alertemoji} ${alertsubject} ${alertemoji}" --form-string html="<br><br><b>Message</b><br>${alertbody}<br><br><b>Game</b><br>${gamename}<br><br><b>Server name</b><br>${servername}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>Server IP</b><br><a href='https://www.gametracker.com/server_info/${ip}:${port}'>${ip}:${port}</a><br><br><b>More info</b><br><a href='${alerturl}'>${alerturl}</a>" https://api.mailgun.net/v3/${mailgundomain}/messages)
+info_distro.sh
+info_config.sh
+info_glibc.sh
+info_messages.sh
+if [ -f "${emaillog}" ]; then
+	rm "${emaillog}"
+fi
+
+{
+	fn_info_message_head
+	fn_info_message_distro
+	fn_info_message_performance
+	fn_info_message_disk
+	fn_info_message_gameserver
+	fn_info_logs
+} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
+
+mailgunsend=$(curl -s --user "api:${mailguntoken}" \
+-F from="LinuxGSM <${mailgunemailfrom}>" \
+-F to="LinuxGSM Admin <${mailgunemail}>" \
+-F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
+-F o:tag='alert' \
+-F o:tag='LinuxGSM' \
+-F text="$(cat ${emaillog})" https://api.mailgun.net/v3/${mailgundomain}/messages)
 
 if [ -z "${mailgunsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"
@@ -19,4 +42,3 @@ else
 	fn_print_ok_nl "Sending Email alert: Mailgun: ${email}"
 	fn_script_log_pass "Sending Email alert: Mailgun: ${email}"
 fi
-

@@ -83,61 +83,13 @@ fn_details_gameserver(){
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 }
 
-fn_alert_email_template_logs(){
-	echo -e ""
-	echo -e "${servicename} Logs"
-	echo -e "================================="
-
-	if [ -n "${lgsmlog}" ]; then
-		echo -e "\nScript log\n==================="
-		if [ ! "$(ls -A ${lgsmlogdir})" ]; then
-			echo "${lgsmlogdir} (NO LOG FILES)"
-		elif [ ! -s "${lgsmlog}" ]; then
-			echo "${lgsmlog} (LOG FILE IS EMPTY)"
-		else
-			echo "${lgsmlog}"
-			tail -25 "${lgsmlog}"
-		fi
-		echo ""
-	fi
-
-	if [ -n "${consolelog}" ]; then
-		echo -e "\nConsole log\n===================="
-		if [ ! "$(ls -A ${consolelogdir})" ]; then
-			echo "${consolelogdir} (NO LOG FILES)"
-		elif [ ! -s "${consolelog}" ]; then
-			echo "${consolelog} (LOG FILE IS EMPTY)"
-		else
-			echo "${consolelog}"
-			tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }'
-		fi
-		echo ""
-	fi
-
-	if [ -n "${gamelogdir}" ]; then
-		echo -e "\nServer log\n==================="
-		if [ ! "$(ls -A ${gamelogdir})" ]; then
-			echo "${gamelogdir} (NO LOG FILES)"
-		else
-			echo "${gamelogdir}"
-			# dos2unix sed 's/\r//'
-			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//'| tail -25
-		fi
-		echo ""
-	fi
-}
-
 fn_print_dots "Sending Email alert: ${email}"
 sleep 0.5
 fn_script_log_info "Sending Email alert: ${email}"
 info_distro.sh
 info_config.sh
 info_glibc.sh
-
-check_ip.sh
-postdetails=1
 info_messages.sh
-emaillog="${emaillog}"
 if [ -f "${emaillog}" ]; then
 	rm "${emaillog}"
 fi
@@ -148,7 +100,7 @@ fi
 	fn_info_message_performance
 	fn_info_message_disk
 	fn_info_message_gameserver
-	fn_alert_email_template_logs
+	fn_info_logs
 } | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${emaillog}" > /dev/null 2>&1
 
 if [ -n "${emailfrom}" ]; then
