@@ -117,7 +117,7 @@ fi
 # cleanup
 rm "${postdetailsfile}" || /bin/true
 
-if [ -n "${alert}" ]; then
+if [ -z "${alert}" ]; then
 	core_exit.sh
 else
 	alerturl="${pdurl}"
