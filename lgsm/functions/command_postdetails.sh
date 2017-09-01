@@ -110,7 +110,7 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	pdurl="${posttarget}/${link}"
 	echo "  Please share the following url for support: ${pdurl}"
 else
-	 fn_print_warn_nl Review the output in "${postdetailsfile}"
+	 fn_print_warn_nl "Review output in: ${postdetailsfile}"
 	 core_exit.sh
 fi
 
