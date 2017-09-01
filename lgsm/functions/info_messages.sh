@@ -121,6 +121,7 @@ fn_info_message_gameserver(){
 
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Server Details${default}"
+	fn_info_message_password_strip
 	fn_messages_separator
 	{
 		# Server name
@@ -700,6 +701,7 @@ fn_info_message_seriousengine35(){
 }
 
 fn_info_message_sdtd(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep 7DaysToDie"
 	echo -e ""
 	{
@@ -739,6 +741,7 @@ fn_info_message_source(){
 }
 
 fn_info_message_spark(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep server_linux3"
 	echo -e ""
 	{
@@ -823,6 +826,7 @@ fn_info_message_towerunite(){
 }
 
 fn_info_message_unreal(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep ucc-bin"
 	echo -e ""
 	{
@@ -978,5 +982,17 @@ fn_messages_separator(){
 		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	else
 		echo -e "================================="
+	fi
+}
+
+# Removes the passwords form all but details
+fn_info_message_password_strip(){
+	if [ "${function_selfname}" != "command_details.sh" ]; then
+		serverpassword="********"
+		rconpassword="********"
+		adminpassword="********"
+		statspassword="********"
+		webadminpass="********"
+		telnetpass="********"
 	fi
 }
