@@ -357,6 +357,7 @@ fn_info_message_commandlineparms(){
 
 	echo -e ""
 	echo -e "${lightgreen}Command-line Parameters${default}"
+	fn_info_message_password_strip
 	fn_messages_separator
 	echo -e "${executable} ${parms}"
 }
