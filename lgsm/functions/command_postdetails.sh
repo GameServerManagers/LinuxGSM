@@ -34,12 +34,6 @@ posttarget=${posttarget="https://hastebin.com"}
 # This, too, may be overridden from the command line at the top-level
 postexpire="${postexpire="30D"}"
 
-# This file sources the info_messages.sh file to leverage all
-# of the already-defined functions. To keep the command_details.sh
-# from actually producing output, the main executable statements have
-# been wrapped in the equivalent of an ifdef clause, that looks
-# for the variable "postdetails" to be defined. -CedarLUG
-
 # source all of the functions defined in the details command
 info_messages.sh
 
@@ -49,7 +43,7 @@ fn_bad_postdetailsfile() {
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
-if [ -n "${alert}" ]; then
+if [ -n "${alertflag}" ]; then
 	postdetailsfile="${alertlog}"
 else
 	postdetailsfile="${tmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
@@ -117,7 +111,7 @@ fi
 # cleanup
 rm "${postdetailsfile}" || /bin/true
 
-if [ -z "${alert}" ]; then
+if [ -z "${alertflag}" ]; then
 	core_exit.sh
 else
 	alerturl="${pdurl}"

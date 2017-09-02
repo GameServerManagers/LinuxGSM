@@ -87,7 +87,9 @@ fi
 
 # Generate alert log
 fn_alert_log
-alert=1
+
+# Generates the more info link
+alertflag=1
 command_postdetails.sh
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
