@@ -37,17 +37,16 @@ postexpire="${postexpire="30D"}"
 # source all of the functions defined in the details command
 info_messages.sh
 
-fn_bad_postdetailsfile() {
-	fn_print_fail_nl "Unable to create temporary file ${postdetailsfile}."
+fn_bad_postdetailslog() {
+	fn_print_fail_nl "Unable to create temporary file ${postdetailslog}."
 	core_exit.sh
 }
 
 # Rather than a one-pass sed parser, default to using a temporary directory
 if [ -n "${alertflag}" ]; then
-	postdetailsfile="${alertlog}"
+	postdetailslog="${alertlog}"
 else
-	postdetailsfile="${tmpdir}/postdetails-$(date +"%Y-%d-%m_%H-%M-%S").tmp"
-	touch "${postdetailsfile}" || fn_bad_postdetailsfile
+	touch "${postdetailslog}" || fn_bad_postdetailslog
 	{
 		# Run checks and gathers details to display.
 		check.sh
@@ -70,7 +69,7 @@ else
 		fn_info_message_ports
 		fn_info_message_select_engine
 		fn_info_message_statusbottom
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${postdetailsfile}" > /dev/null 2>&1
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${postdetailslog}" > /dev/null 2>&1
 fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
@@ -86,7 +85,7 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 				-F "post_key=${csrftoken}" -F "paste_expire_date=${postexpire}" \
 				-F "paste_name=${gamename} Debug Info" \
 				-F "paste_format=8" -F "paste_private=0" \
-				-F "paste_type=bash" -F "paste_code=<${postdetailsfile}" |
+				-F "paste_type=bash" -F "paste_code=<${postdetailslog}" |
 				awk '/^location: / { print $2 }' | sed "s/\n//g")
 
 	 # Output the resulting link.
@@ -99,17 +98,17 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
-	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailsfile})" "${posttarget}/documents" | cut -d\" -f4)
+	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
 	echo "  Please share the following url for support: ${pdurl}"
 else
-	 fn_print_warn_nl "Review output in: ${postdetailsfile}"
+	 fn_print_warn_nl "Review output in: ${postdetailslog}"
 	 core_exit.sh
 fi
 
 # cleanup
-rm "${postdetailsfile}" || /bin/true
+rm "${postdetailslog}" || /bin/true
 
 if [ -z "${alertflag}" ]; then
 	core_exit.sh
