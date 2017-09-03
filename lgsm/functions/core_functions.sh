@@ -63,14 +63,7 @@ fn_fetch_function
 
 command_postdetails.sh(){
 functionfile="${FUNCNAME}"
-tempffname="${functionfile}"
-# First, grab the command_postdetails.sh file
 fn_fetch_function
-# But then next, command_details.sh needs to also be pulled
-# because command_postdetails.sh sources its functions -CedarLUG
-functionfile="command_details.sh"
-fn_fetch_function
-functionfile="${tempffname}"
 }
 
 command_details.sh(){
@@ -365,6 +358,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+info_messages.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -387,7 +384,27 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_ifttt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_mailgun.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 alert_pushbullet.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_pushover.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_telegram.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -561,13 +578,13 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Calls code required for legacy servers
+core_legacy.sh
+
 # Creates tmp dir if missing
 if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
 fi
-
-# Calls code required for legacy servers
-core_legacy.sh
 
 # Calls on-screen messages (bootstrap)
 core_messages.sh

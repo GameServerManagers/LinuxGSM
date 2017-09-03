@@ -29,7 +29,7 @@ fn_print_header
 echo -e "${blue}Distro:\t${default}${distroname}"
 echo -e "${blue}Arch:\t${default}${arch}"
 echo -e "${blue}Kernel:\t${default}${kernel}"
-echo -e "${blue}Hostname:\t${default}$HOSTNAME"
+echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
 echo -e "${blue}tmux:\t${default}${tmuxv}"
 echo -e "${blue}Avg Load:\t${default}${load}"
 echo -e "${blue}Free Memory:\t${default}${physmemfree}"

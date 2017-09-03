@@ -86,6 +86,9 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "Squad" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	glibcrequired="2.18"
 	glibcfix="no"

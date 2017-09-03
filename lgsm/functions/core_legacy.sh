@@ -21,14 +21,22 @@ if [ -z "${lgsmlog}" ]; then
 	lgsmlog="${scriptlog}"
 fi
 
-if [ -z "${lgsmlogdir}" ]; then
-	lgsmlogdir="${scriptlogdir}"
-fi
-
 if [ -z "${lgsmlogdate}" ]; then
 	lgsmlogdate="${scriptlogdate}"
 fi
 
 if [ -z "${steamcmddir}" ]; then
 	steamcmddir="${rootdir}/steamcmd"
+fi
+
+if [ -z "${lgsmdir}" ]; then
+	lgsmdir="${rootdir}/lgsm"
+fi
+
+if [ -z "${tmpdir}" ]; then
+	tmpdir="${lgsmdir}/tmp"
+fi
+
+if [ -z "${alertlog}" ]; then
+	alertlog="${emaillog}"
 fi
