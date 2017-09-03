@@ -25,9 +25,6 @@ fn_info_message_head(){
 	echo -e ""
 	echo -e "Server IP"
 	echo -e "${ip}:${port}"
-	echo -e ""
-	echo -e "More info"
-	echo -e "${alerturl}"
 }
 
 fn_info_message_distro(){
