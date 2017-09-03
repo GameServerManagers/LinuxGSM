@@ -107,9 +107,6 @@ else
 	 core_exit.sh
 fi
 
-# cleanup
-rm "${postdetailslog}" || /bin/true
-
 if [ -z "${alertflag}" ]; then
 	core_exit.sh
 else
