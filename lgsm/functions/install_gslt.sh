@@ -30,15 +30,19 @@ if [ -z "${autoinstall}" ]; then
 		echo "Enter token below (Can be blank)."
 		echo -n "GSLT TOKEN: "
 		read token
-		sed -i -e "s/gslt=\"\"/gslt=\"${token}\"/g" "${rootdir}/${selfname}"
+		if ! grep -q "^gslt=" "${configdirserver}/${servicename}.cfg" > /dev/null 2>&1; then
+			echo -e "\ngslt=\"${token}\"" >> "${configdirserver}/${servicename}.cfg"
+		else
+			sed -i -e "s/gslt=\"[^\"]*\"/gslt=\"${token}\"/g" "${configdirserver}/${servicename}.cfg"
+		fi
 	fi
 fi
 sleep 1
 if [ "${gamename}" == "Tower Unite" ]; then
-	echo "The GSLT can be changed by editing ${servercfg}."
-	fn_script_log_info "The GSLT can be changed by editing ${servercfg}."
+	echo "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
+	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 else
-	echo "The GSLT can be changed by editing ${selfname}."
-	fn_script_log_info "The GSLT can be changed by editing ${selfname}."
+	echo "The GSLT can be changed by editing ${configdirserver}/${servicename}.cfg."
+	fn_script_log_info "The GSLT can be changed by editing ${configdirserver}/${servicename}.cfg."
 fi
 echo ""
