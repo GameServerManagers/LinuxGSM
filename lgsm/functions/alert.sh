@@ -71,8 +71,6 @@ fn_alert_permissions(){
 	alertbody="${servicename} has permissions issues"
 }
 
-
-
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
 elif [ "${alert}" == "restart" ]; then
