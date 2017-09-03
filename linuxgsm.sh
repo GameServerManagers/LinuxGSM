@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170710"
+version="170803"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
