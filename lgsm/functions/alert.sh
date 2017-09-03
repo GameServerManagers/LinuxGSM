@@ -31,7 +31,7 @@ fn_alert_test(){
 	alertsubject="Alert - ${servicename} - Test"
 	alertemoji="🚧"
 	alertsound="1"
-	alerturl="https://gameservermanagers.com"
+	alerturl="not enabled"
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
 }
 
@@ -40,7 +40,7 @@ fn_alert_restart(){
 	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
-	alerturl="https://gameservermanagers.com"
+	alerturl="not enabled"
 	alertbody="${servicename} ${executable} not running"
 }
 
@@ -49,7 +49,7 @@ fn_alert_restart_query(){
 	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
-	alerturl="https://gameservermanagers.com"
+	alerturl="not enabled"
 	alertbody="gsquery.py failed to query: ${gsquerycmd}"
 }
 
@@ -58,7 +58,7 @@ fn_alert_update(){
 	alertsubject="Alert - ${servicename} - Updated"
 	alertemoji="🎮"
 	alertsound="1"
-	alerturl="https://gameservermanagers.com"
+	alerturl="not enabled"
 	alertbody="${gamename} received update"
 }
 
@@ -67,7 +67,7 @@ fn_alert_permissions(){
 	alertsubject="Alert - ${servicename}: Permissions error"
 	alertemoji="❗"
 	alertsound="2"
-	alerturl="https://gameservermanagers.com"
+	alerturl="not enabled"
 	alertbody="${servicename} has permissions issues"
 }
 
@@ -89,8 +89,19 @@ fi
 fn_alert_log
 
 # Generates the more info link
-alertflag=1
-command_postdetails.sh
+if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
+	alertflag=1
+	command_postdetails.sh
+elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "Discord alerts not enabled"
+	fn_script_log_warn "Discord alerts not enabled"
+elif [ -z "${posttarget}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "posttarget not set"
+	fn_script_error_warn "posttarget not set"
+elif [ -z "${postdays}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "postdays not set"
+	fn_script_error_warn "postdays not set"
+fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
 	alert_discord.sh
