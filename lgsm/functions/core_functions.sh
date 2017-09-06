@@ -276,6 +276,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_ark.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_arma3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
