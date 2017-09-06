@@ -91,8 +91,8 @@ if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 	alertflag=1
 	command_postdetails.sh
 elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Discord alerts not enabled"
-	fn_script_log_warn "Discord alerts not enabled"
+	fn_print_warn_nl "More Info not enabled"
+	fn_script_log_warn "More Info alerts not enabled"
 elif [ -z "${posttarget}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "posttarget not set"
 	fn_script_error_warn "posttarget not set"
