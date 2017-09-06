@@ -39,8 +39,6 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	install_ts3db.sh
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	command_install_resources_mta.sh
-elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
-	ln -s "${steamcmddir}" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 fi
 
 fix.sh
