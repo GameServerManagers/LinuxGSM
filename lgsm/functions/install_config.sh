@@ -342,6 +342,12 @@ elif [ "${gamename}" == "Killing Floor" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Killing Floor 2" ]; then
+	gamedirname="KillingFloor2"
+	array_configs+=( LinuxServer-KFGame.ini LinuxServer-KFEngine.ini KFWeb.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Left 4 Dead" ]; then
 	gamedirname="Left4Dead"
 	array_configs+=( server.cfg )
