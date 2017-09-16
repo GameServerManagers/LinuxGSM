@@ -8,3 +8,7 @@
 if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
 	ln -s "${steamcmddir}" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 fi
+
+if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
+	ln -s "$HOME/Steam/steamapps/" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
+fi
