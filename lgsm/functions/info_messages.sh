@@ -136,7 +136,7 @@ fn_info_message_gameserver(){
 
 		# External server ip
 		if [ -n "${extip}" ]; then
-			if [ "${ip}" != "${extip}"]; then
+			if [ "${ip}" != "${extip}" ]; then
 				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
 			fi
 		fi
