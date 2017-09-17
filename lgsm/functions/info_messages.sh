@@ -862,12 +862,21 @@ fn_info_message_unreal(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_ut3(){
+fn_info_message_unreal3(){
 	echo -e "netstat -atunp | grep ut3-bin"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	fn_messages_separator
+	{
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -924,7 +933,7 @@ fn_info_message_select_engine(){
 	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		fn_info_message_unreal
 	elif [ "${engine}" == "unreal3" ]; then
-		fn_info_message_ut3
+		fn_info_message_unreal3
 	elif [ "${gamename}" == "7 Days To Die" ]; then
 		fn_info_message_sdtd
 	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
