@@ -881,6 +881,25 @@ fn_info_message_unreal3(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_kf2(){
+	echo -e "netstat -atunp | grep KFGame"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	fn_messages_separator
+	{
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_wolfensteinenemyterritory(){
 	echo -e "netstat -atunp | grep etded"
 	echo -e ""
@@ -955,6 +974,8 @@ fn_info_message_select_engine(){
 		fn_info_message_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_info_message_hurtworld
+	elif [ "${shortname}" == "kf2" ]; then
+		fn_info_message_kf2
 	elif [ "${gamename}" == "Project Cars" ]; then
 		fn_info_message_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then
