@@ -641,7 +641,7 @@ fn_info_config_unreal3(){
 		else
 			web=UT
 		fi
-		port=$(grep "Port" "${servercfgdir}/LinuxServer-KFEngine.ini" | grep -v "#" | tr -cd '[:digit:]')
+		port=$(grep "Port" "${servercfgdir}/LinuxServer-KFEngine.ini" | sed -e 's/^[ \t]*//g' | grep "^Port" | grep -v "#" | tr -cd '[:digit:]')
 		webadminenabled=$(grep "bEnabled" "${servercfgdir}/${web}Web.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		webadminport=$(grep "ListenPort" "${servercfgdir}/${web}Web.ini" | grep -v "#" | tr -cd '[:digit:]')
 		webadminuser="Admin"
