@@ -116,6 +116,11 @@ fn_info_parms_unreal3(){
 	adminpassword=${adminpassword:-"NOT SET"}
 }
 
+fn_info_parms_kf2(){
+	queryport=${queryport:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
 # ARK: Survival Evolved
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	fn_info_parms_ark
@@ -128,6 +133,8 @@ elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: Unit
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_parms_factorio
+elif [ "${shortname}" == "kf2" ]; then
+	fn_info_parms_kf2
 # Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_info_parms_projectzomboid
