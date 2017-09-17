@@ -1,4 +1,4 @@
-F#!/bin/bash
+#!/bin/bash
 # LinuxGSM info_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com
