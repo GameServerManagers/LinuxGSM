@@ -868,6 +868,7 @@ fn_info_message_unreal3(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
