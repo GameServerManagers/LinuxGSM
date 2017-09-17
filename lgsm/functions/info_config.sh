@@ -625,27 +625,15 @@ fn_info_config_unreal3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		webadminpass="${unavailable}"
+		maxplayers="${unavailable}"
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		webadminpass=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
+		webadminpass=$(grep "AdminPassword" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/MaxPlayers//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
-	fi
-}
-
-fn_info_config_kf2(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		webadminpass="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		webadminpass=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not Set
-		servername=${servername:-"NOT SET"}
-		webadminpass=${webadminpass:-"NOT SET"}
+		maxplayers=${maxplayers:-"NOT SET"}
 	fi
 }
 
@@ -818,18 +806,6 @@ elif [ "${engine}" == "dontstarve" ]; then
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
-# Killing Floor 2
-elif [ "${gamename}" == "Killing Floor 2" ]; then
-	fn_info_config_kf2
-# Minecraft
-elif [ "${engine}" == "lwjgl2" ]; then
-	fn_info_config_minecraft
-# Project Cars
-elif [ "${gamename}" == "Project Cars" ]; then
-	fn_info_config_projectcars
-# Project Zomboid
-elif [ "${engine}" == "projectzomboid" ]; then
-	fn_info_config_projectzomboid
 # QuakeWorld
 elif [ "${gamename}" == "QuakeWorld" ]; then
 	fn_info_config_quakeworld
@@ -842,6 +818,15 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 # Quake Live
 elif [ "${gamename}" == "Quake Live" ]; then
 	fn_info_config_quakelive
+# Minecraft
+elif [ "${engine}" == "lwjgl2" ]; then
+	fn_info_config_minecraft
+# Project Cars
+elif [ "${gamename}" == "Project Cars" ]; then
+	fn_info_config_projectcars
+# Project Zomboid
+elif [ "${engine}" == "projectzomboid" ]; then
+	fn_info_config_projectzomboid
 # ARMA 3
 elif [ "${engine}" == "realvirtuality" ]; then
 	fn_info_config_realvirtuality

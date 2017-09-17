@@ -112,7 +112,6 @@ fn_info_parms_unreal3(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	adminpassword=${adminpassword:-"NOT SET"}
 }
