@@ -626,6 +626,7 @@ fn_info_config_unreal3(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		adminpassword="${unavailable}"
+		port="${unavailable}"
 		webadminenabled="${unavailable}"
 		webadminport="${zero}"
 		webadminuser="${unavailable}"
@@ -640,8 +641,9 @@ fn_info_config_unreal3(){
 		else
 			web=UT
 		fi
-		webadminenabled=$(grep -h "bEnabled" "${servercfgdir}/${web}Web.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		webadminport=$(grep -h "ListenPort" "${servercfgdir}/${web}Web.ini" | grep -v "#" | tr -cd '[:digit:]')
+		port=$(grep "Port" "${servercfgdir}/LinuxServer-KFEngine.ini" | grep -v "#" | tr -cd '[:digit:]')
+		webadminenabled=$(grep "bEnabled" "${servercfgdir}/${web}Web.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		webadminport=$(grep "ListenPort" "${servercfgdir}/${web}Web.ini" | grep -v "#" | tr -cd '[:digit:]')
 		webadminuser="Admin"
 		webadminpass=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -649,6 +651,7 @@ fn_info_config_unreal3(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
+		port=${port:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
