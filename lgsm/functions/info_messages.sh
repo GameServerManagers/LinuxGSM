@@ -931,37 +931,7 @@ fn_info_message_mta(){
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
-	if [ "${engine}" == "avalanche" ]; then
-		fn_info_message_avalanche
-	elif [ "${engine}" == "refractor" ]; then
-		fn_info_message_refractor
-	elif [ "${engine}" == "dontstarve" ]; then
-		fn_info_message_dontstarve
-	elif [ "${engine}" == "goldsource" ]; then
-		fn_info_message_goldsource
-	elif [ "${engine}" == "lwjgl2" ]; then
-		fn_info_message_minecraft
-	elif [ "${engine}" == "projectzomboid" ]; then
-		fn_info_message_projectzomboid
-	elif [ "${engine}" == "realvirtuality" ]; then
-		fn_info_message_realvirtuality
-	elif [ "${engine}" == "seriousengine35" ]; then
-		fn_info_message_seriousengine35
-	elif [ "${engine}" == "source" ]; then
-		fn_info_message_source
-	elif [ "${engine}" == "spark" ]; then
-		fn_info_message_spark
-	elif [ "${engine}" == "starbound" ]; then
-		fn_info_message_starbound
-	elif [ "${engine}" == "teeworlds" ]; then
-		fn_info_message_teeworlds
-	elif [ "${engine}" == "terraria" ]; then
-		fn_info_message_terraria
-	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-		fn_info_message_unreal
-	elif [ "${engine}" == "unreal3" ]; then
-		fn_info_message_unreal3
-	elif [ "${gamename}" == "7 Days To Die" ]; then
+	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_info_message_sdtd
 	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 		fn_info_message_ark
@@ -1007,6 +977,36 @@ fn_info_message_select_engine(){
 		fn_info_message_rust
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_info_message_wolfensteinenemyterritory
+	elif [ "${engine}" == "avalanche" ]; then
+		fn_info_message_avalanche
+	elif [ "${engine}" == "refractor" ]; then
+		fn_info_message_refractor
+	elif [ "${engine}" == "dontstarve" ]; then
+		fn_info_message_dontstarve
+	elif [ "${engine}" == "goldsource" ]; then
+		fn_info_message_goldsource
+	elif [ "${engine}" == "lwjgl2" ]; then
+		fn_info_message_minecraft
+	elif [ "${engine}" == "projectzomboid" ]; then
+		fn_info_message_projectzomboid
+	elif [ "${engine}" == "realvirtuality" ]; then
+		fn_info_message_realvirtuality
+	elif [ "${engine}" == "seriousengine35" ]; then
+		fn_info_message_seriousengine35
+	elif [ "${engine}" == "source" ]; then
+		fn_info_message_source
+	elif [ "${engine}" == "spark" ]; then
+		fn_info_message_spark
+	elif [ "${engine}" == "starbound" ]; then
+		fn_info_message_starbound
+	elif [ "${engine}" == "teeworlds" ]; then
+		fn_info_message_teeworlds
+	elif [ "${engine}" == "terraria" ]; then
+		fn_info_message_terraria
+	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+		fn_info_message_unreal
+	elif [ "${engine}" == "unreal3" ]; then
+		fn_info_message_unreal3
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
