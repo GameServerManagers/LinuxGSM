@@ -626,7 +626,6 @@ fn_info_config_unreal3(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		adminpassword="${unavailable}"
-		maxplayers="${unavailable}"
 		webadminenabled="${unavailable}"
 		webadminport="${zero}"
 		webadminuser="${unavailable}"
@@ -636,7 +635,6 @@ fn_info_config_unreal3(){
 		# Not in UT3
 		serverpassword=$(grep "GamePassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/GamePassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		adminpassword=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ "${shortname}" == "kf2" ]; then
 			web=KF
 		else
@@ -651,7 +649,6 @@ fn_info_config_unreal3(){
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
