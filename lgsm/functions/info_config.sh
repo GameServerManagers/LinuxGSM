@@ -642,7 +642,7 @@ fn_info_config_unreal3(){
 		fi
 		webadminenabled=$(grep -h "bEnabled" "${servercfgdir}/${web}Web.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		webadminport=$(grep -h "ListenPort" "${servercfgdir}/${web}Web.ini" | grep -v "#" | tr -cd '[:digit:]')
-		webadminuser="admin"
+		webadminuser="Admin"
 		webadminpass=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not Set
