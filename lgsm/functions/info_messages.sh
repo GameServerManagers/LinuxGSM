@@ -851,9 +851,9 @@ fn_info_message_unreal(){
 		fi
 		if [ "${appid}" ]; then
 			if [ "${appid}" == "223250" ]; then
-				echo -e "< Steam\tOUTBOUND\t20610\tudp"
+				echo -e "< Steam\tINBOUND\t20610\tudp"
 			else
-				echo -e "< Steam\tOUTBOUND\t20660\tudp"
+				echo -e "< Steam\tINBOUND\t20660\tudp"
 			fi
 		fi
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
@@ -893,7 +893,9 @@ fn_info_message_kf2(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\ttcp/udp"
+		echo -e "> Steam\tINBOUND\t20560\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
