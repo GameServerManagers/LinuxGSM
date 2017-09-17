@@ -653,9 +653,10 @@ fn_info_config_unreal3(){
 		adminpassword=${adminpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
+		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
-		webadminport=${webadminport:-"0"}
+
 
 	fi
 }
