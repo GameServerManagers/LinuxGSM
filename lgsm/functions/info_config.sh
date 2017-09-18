@@ -633,8 +633,6 @@ fn_info_config_unreal3(){
 		webadminpass="${unavailable}"
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		# Not in UT3
-		serverpassword=$(grep "GamePassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/GamePassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		adminpassword=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "Port" "${servercfgdir}/UTEngine.ini" | sed -e 's/^[ \t]*//g' | grep "^Port" | grep -v "#" | tr -cd '[:digit:]')
 		webadminenabled=$(grep "bEnabled" "${servercfgdir}/UTWeb.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -651,8 +649,6 @@ fn_info_config_unreal3(){
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
-
-
 	fi
 }
 

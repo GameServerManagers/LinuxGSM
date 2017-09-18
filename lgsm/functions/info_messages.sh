@@ -382,12 +382,16 @@ fn_info_message_ports(){
 	local ports_edit_array=( "avalanche" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
-		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+		if [ "${shortname}" == "ut3" ]; then
+			parmslocation="${servercfgdir}/UTEngine.ini\n${servercfgdir}/UTWeb.ini"
+		elif [ "${shortname}" == "kf2" ]; then
+			parmslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
+		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
 	# engines/games that require editing in the script file
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
