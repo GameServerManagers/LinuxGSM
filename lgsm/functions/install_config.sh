@@ -50,7 +50,7 @@ fn_default_config_remote(){
 # PASSWORD to random password
 fn_set_config_vars(){
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; echo)
+		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin$random"
 		echo "changing hostname."
@@ -82,7 +82,7 @@ fn_set_dst_config_vars(){
 		sleep 1
 		echo "randomizing cluster key."
 		fn_script_log_info "randomizing cluster key."
-		randomkey=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+		randomkey=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
 		sleep 1
 	else
