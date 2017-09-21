@@ -289,12 +289,20 @@ fn_info_message_script(){
 			fi
 		fi
 
+		# Discord alert
+		echo -e "${blue}Discord alert:\t${default}${discordalert}"
 		# Email alert
 		echo -e "${blue}Email alert:\t${default}${emailalert}"
-
 		# Pushbullet alert
 		echo -e "${blue}Pushbullet alert:\t${default}${pushbulletalert}"
-
+		# IFTTT alert
+		echo -e "${blue}IFTTT alert:\t${default}${iftttalert}"
+		# Mailgun alert
+		echo -e "${blue}Mailgun (email) alert:\t${default}${mailgunalert}"
+		# Pushover alert
+		echo -e "${blue}Pushover alert:\t${default}${pushoveralert}"
+		# Telegram alert
+		echo -e "${blue}Telegram alert:\t${default}${telegramalert}"
 		# Update on start
 		if [ -n "${updateonstart}" ]; then
 			echo -e "${blue}Update on start:\t${default}${updateonstart}"
