@@ -192,6 +192,9 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Call of Duty
 	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]; then
 		array_deps_required+=( libstdc++5:i386 )
+	# Factorio
+	elif [ "${gamename}" == "Factorio" ]; then
+		array_deps_required+=( xz-utils )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
@@ -270,6 +273,9 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 	# Call of Duty
 	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty 2" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
+	# Factorio
+	elif [ "${gamename}" == "Factorio" ]; then
+		array_deps_required+=( xz )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
