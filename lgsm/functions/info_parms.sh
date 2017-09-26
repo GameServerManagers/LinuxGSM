@@ -112,9 +112,13 @@ fn_info_parms_unreal3(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	adminpassword=${adminpassword:-"NOT SET"}
+}
+
+fn_info_parms_kf2(){
+	queryport=${queryport:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 # ARK: Survival Evolved
@@ -129,6 +133,8 @@ elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: Unit
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_parms_factorio
+elif [ "${shortname}" == "kf2" ]; then
+	fn_info_parms_kf2
 # Project Zomboid
 elif [ "${engine}" == "projectzomboid" ]; then
 	fn_info_parms_projectzomboid

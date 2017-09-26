@@ -65,6 +65,9 @@ elif [ "${gamename}" == "GoldenEye: Source" ]; then
 elif [ "${gamename}" == "Insurgency" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${shortname}" == "kf2" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"

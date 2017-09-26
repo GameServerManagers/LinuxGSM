@@ -133,3 +133,6 @@ if [ -d "${backupdir}" ]; then
 		lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
 	fi
 fi
+
+# External IP address
+extip=$(curl -m 3 ifconfig.co 2>/dev/null)

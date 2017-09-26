@@ -191,6 +191,7 @@ logs.sh
 if [ "${status}" == "0" ]; then
 	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
 		exitbypass=1
+		unset updateonstart
 		command_update.sh
 	fi
 fi

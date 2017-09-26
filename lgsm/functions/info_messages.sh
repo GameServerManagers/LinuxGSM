@@ -134,6 +134,13 @@ fn_info_message_gameserver(){
 		# Server ip
 		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 
+		# External server ip
+		if [ -n "${extip}" ]; then
+			if [ "${ip}" != "${extip}" ]; then
+				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
+			fi
+		fi
+
 		# Server password
 		if [ -n "${serverpassword}" ]; then
 			echo -e "${blue}Server password:\t${default}${serverpassword}"
@@ -282,12 +289,20 @@ fn_info_message_script(){
 			fi
 		fi
 
+		# Discord alert
+		echo -e "${blue}Discord alert:\t${default}${discordalert}"
 		# Email alert
 		echo -e "${blue}Email alert:\t${default}${emailalert}"
-
 		# Pushbullet alert
 		echo -e "${blue}Pushbullet alert:\t${default}${pushbulletalert}"
-
+		# IFTTT alert
+		echo -e "${blue}IFTTT alert:\t${default}${iftttalert}"
+		# Mailgun alert
+		echo -e "${blue}Mailgun (email) alert:\t${default}${mailgunalert}"
+		# Pushover alert
+		echo -e "${blue}Pushover alert:\t${default}${pushoveralert}"
+		# Telegram alert
+		echo -e "${blue}Telegram alert:\t${default}${telegramalert}"
 		# Update on start
 		if [ -n "${updateonstart}" ]; then
 			echo -e "${blue}Update on start:\t${default}${updateonstart}"
@@ -375,12 +390,16 @@ fn_info_message_ports(){
 	local ports_edit_array=( "avalanche" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
-		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+		if [ "${shortname}" == "ut3" ]; then
+			parmslocation="${servercfgdir}/UTEngine.ini\n${servercfgdir}/UTWeb.ini"
+		elif [ "${shortname}" == "kf2" ]; then
+			parmslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
+		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
 	# engines/games that require editing in the script file
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0"  "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
@@ -844,9 +863,9 @@ fn_info_message_unreal(){
 		fi
 		if [ "${appid}" ]; then
 			if [ "${appid}" == "223250" ]; then
-				echo -e "< Steam\tOUTBOUND\t20610\tudp"
+				echo -e "< Steam\tINBOUND\t20610\tudp"
 			else
-				echo -e "< Steam\tOUTBOUND\t20660\tudp"
+				echo -e "< Steam\tINBOUND\t20660\tudp"
 			fi
 		fi
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
@@ -862,12 +881,43 @@ fn_info_message_unreal(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_ut3(){
+fn_info_message_unreal3(){
 	echo -e "netstat -atunp | grep ut3-bin"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	fn_messages_separator
+	{
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_kf2(){
+	echo -e "netstat -atunp | grep KFGame"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\ttcp/udp"
+		echo -e "> Steam\tINBOUND\t20560\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	fn_messages_separator
+	{
+		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -895,7 +945,53 @@ fn_info_message_mta(){
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
-	if [ "${engine}" == "avalanche" ]; then
+	if [ "${gamename}" == "7 Days To Die" ]; then
+		fn_info_message_sdtd
+	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
+		fn_info_message_ark
+	elif [ "${gamename}" == "Ballistic Overkill" ]; then
+		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Call of Duty" ]; then
+		fn_info_message_cod
+	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
+		fn_info_message_coduo
+	elif [ "${gamename}" == "Call of Duty 2" ]; then
+		fn_info_message_cod2
+	elif [ "${gamename}" == "Call of Duty 4" ]; then
+		fn_info_message_cod4
+	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+		fn_info_message_codwaw
+	elif [ "${gamename}" == "Factorio" ]; then
+		fn_info_message_factorio
+	elif [ "${gamename}" == "Hurtworld" ]; then
+		fn_info_message_hurtworld
+	elif [ "${shortname}" == "kf2" ]; then
+		fn_info_message_kf2
+	elif [ "${gamename}" == "Project Cars" ]; then
+		fn_info_message_projectcars
+	elif [ "${gamename}" == "QuakeWorld" ]; then
+		fn_info_message_quake
+	elif [ "${gamename}" == "Quake 2" ]; then
+		fn_info_message_quake2
+	elif [ "${gamename}" == "Quake 3: Arena" ]; then
+		fn_info_message_quake3
+	elif [ "${gamename}" == "Quake Live" ]; then
+		fn_info_message_quakelive
+	elif [ "${gamename}" == "Squad" ]; then
+		fn_info_message_squad
+	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+		fn_info_message_teamspeak3
+	elif [ "${gamename}" == "Tower Unite" ]; then
+		fn_info_message_towerunite
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		fn_info_message_mta
+	elif [ "${gamename}" == "Mumble" ]; then
+		fn_info_message_mumble
+	elif [ "${gamename}" == "Rust" ]; then
+		fn_info_message_rust
+	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+		fn_info_message_wolfensteinenemyterritory
+	elif [ "${engine}" == "avalanche" ]; then
 		fn_info_message_avalanche
 	elif [ "${engine}" == "refractor" ]; then
 		fn_info_message_refractor
@@ -924,51 +1020,7 @@ fn_info_message_select_engine(){
 	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 		fn_info_message_unreal
 	elif [ "${engine}" == "unreal3" ]; then
-		fn_info_message_ut3
-	elif [ "${gamename}" == "7 Days To Die" ]; then
-		fn_info_message_sdtd
-	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
-		fn_info_message_ark
-	elif [ "${gamename}" == "Ballistic Overkill" ]; then
-		fn_info_message_ballisticoverkill
-	elif [ "${gamename}" == "Call of Duty" ]; then
-		fn_info_message_cod
-	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
-		fn_info_message_coduo
-	elif [ "${gamename}" == "Call of Duty 2" ]; then
-		fn_info_message_cod2
-	elif [ "${gamename}" == "Call of Duty 4" ]; then
-		fn_info_message_cod4
-	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
-		fn_info_message_codwaw
-	elif [ "${gamename}" == "Factorio" ]; then
-		fn_info_message_factorio
-	elif [ "${gamename}" == "Hurtworld" ]; then
-		fn_info_message_hurtworld
-	elif [ "${gamename}" == "Project Cars" ]; then
-		fn_info_message_projectcars
-	elif [ "${gamename}" == "QuakeWorld" ]; then
-		fn_info_message_quake
-	elif [ "${gamename}" == "Quake 2" ]; then
-		fn_info_message_quake2
-	elif [ "${gamename}" == "Quake 3: Arena" ]; then
-		fn_info_message_quake3
-	elif [ "${gamename}" == "Quake Live" ]; then
-		fn_info_message_quakelive
-	elif [ "${gamename}" == "Squad" ]; then
-		fn_info_message_squad
-	elif [ "${gamename}" == "TeamSpeak 3" ]; then
-		fn_info_message_teamspeak3
-	elif [ "${gamename}" == "Tower Unite" ]; then
-		fn_info_message_towerunite
-	elif [ "${gamename}" == "Multi Theft Auto" ]; then
-		fn_info_message_mta
-	elif [ "${gamename}" == "Mumble" ]; then
-		fn_info_message_mumble
-	elif [ "${gamename}" == "Rust" ]; then
-		fn_info_message_rust
-	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
-		fn_info_message_wolfensteinenemyterritory
+		fn_info_message_unreal3
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
