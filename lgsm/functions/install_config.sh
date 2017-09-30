@@ -463,11 +463,11 @@ elif [ "${gamename}" == "Starbound" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
-	echo -e "downloading server.cfg...\c"
-	wget -N /dev/null  ${githuburl}/SanAndreasMultiplayer/cfg/lgsm-default.cfg 2>&1 | grep -F HTTP | cut -c45- | uniq
-	sleep 1
-	fn_defaultconfig
-	fn_userinputconfig
+	gamedirname="SanAndreasMultiplayer"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	gamedirname="SvenCoop"
 	array_configs+=( server.cfg )
