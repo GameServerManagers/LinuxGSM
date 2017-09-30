@@ -135,4 +135,6 @@ if [ -d "${backupdir}" ]; then
 fi
 
 # External IP address
-extip=$(curl -m 3 ifconfig.co 2>/dev/null)
+if [ -z "${extip}" ];then
+	extip=$(curl -m 3 ifconfig.co 2>/dev/null)
+fi
