@@ -539,6 +539,7 @@ fn_info_config_samp(){
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"8303"}
 		maxplayers=${maxplayers:-"12"}
+	fi
 }
 
 fn_info_config_teeworlds(){
