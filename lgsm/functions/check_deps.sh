@@ -145,7 +145,7 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	array_deps_missing=()
 
 	# LinuxGSM requirements
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc )
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
@@ -231,9 +231,9 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip )
+		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
 	else
-		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip )
+		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
 	fi
 
 	# All servers except ts3 require tmux
