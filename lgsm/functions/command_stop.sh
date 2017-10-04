@@ -37,29 +37,31 @@ fn_stop_graceful_ctrlc(){
 	fn_stop_tmux
 }
 
-# Attempts graceful shutdown by sending the 'quit' command.
-fn_stop_graceful_quit(){
-	fn_print_dots "Graceful: sending \"quit\""
-	fn_script_log_info "Graceful: sending \"quit\""
-	# sends quit
-	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
-	# waits up to 30 seconds giving the server time to shutdown gracefuly
-	for seconds in {1..30}; do
+# Attempts graceful shutdown by sending a specified command.
+# Usage: fn_stop_graceful_cmd "console_command" "timeout_in_seconds"
+#  e.g.: fn_stop_graceful_cmd "quit" "30"
+fn_stop_graceful_cmd(){
+	fn_print_dots "Graceful: sending \"${1}\""
+	fn_script_log_info "Graceful: sending \"${1}\""
+	# sends specific stop command
+	tmux send -t "${servicename}" ${1} ENTER > /dev/null 2>&1
+	# waits up to given seconds giving the server time to shutdown gracefully
+	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
+			fn_print_ok "Graceful: sending \"${1}\": ${seconds}: "
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
+			fn_script_log_pass "Graceful: sending \"${1}\": OK: ${seconds} seconds"
 			break
 		fi
 		sleep 1
-		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
+		fn_print_dots "Graceful: sending \"${1}\": ${seconds}"
 	done
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"quit\": "
+		fn_print_error "Graceful: sending \"${1}\": "
 		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"quit\": FAIL"
+		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -175,105 +177,22 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of Minecraft using rcon 'stop' command.
-fn_stop_graceful_minecraft(){
-	fn_print_dots "Graceful: sending \"stop\""
-	fn_script_log_info "Graceful: sending \"stop\""
-	# sends quit
-	tmux send -t "${servicename}" stop ENTER > /dev/null 2>&1
-	# waits up to 30 seconds giving the server time to shutdown gracefuly
-	for seconds in {1..30}; do
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"stop\": ${seconds}: "
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"stop\": OK: ${seconds} seconds"
-			break
-		fi
-		sleep 1
-		fn_print_dots "Graceful: sending \"stop\": ${seconds}"
-	done
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"stop\": "
-		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"stop\": FAIL"
-	fi
-	sleep 1
-	fn_stop_tmux
-}
-
-# Attempts graceful of mta using rcon 'quit' command.
-fn_stop_graceful_mta(){
-	fn_print_dots "Graceful: sending \"quit\""
-	fn_script_log_info "Graceful: sending \"quit\""
-	# sends quit
-	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
-	# waits up to 120 seconds giving the server time to shutdown gracefuly, we need a long wait time here as resources are stopped individually and process their own shutdowns
-	for seconds in {1..120}; do
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
-			break
-		fi
-		sleep 1
-		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
-	done
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"quit\": "
-		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"quit\": FAIL"
-	fi
-	sleep 1
-	fn_stop_tmux
-}
-
-# Attempts graceful of Terraria using 'exit' console command.
-fn_stop_graceful_terraria(){
-	fn_print_dots "Graceful: sending \"exit\""
-	fn_script_log_info "Graceful: sending \"exit\""
-	# sends exit
-	tmux send -t "${servicename}" exit ENTER > /dev/null 2>&1
-	# waits up to 30 seconds giving the server time to shutdown gracefuly
-	for seconds in {1..30}; do
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"exit\": ${seconds}: "
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"exit\": OK: ${seconds} seconds"
-			break
-		fi
-		sleep 1
-		fn_print_dots "Graceful: sending \"exit\": ${seconds}"
-	done
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"exit\": "
-		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"exit\": FAIL"
-	fi
-	sleep 1
-	fn_stop_tmux
-}
-
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
 	elif [ "${gamename}" == "Terraria" ]; then
-		fn_stop_graceful_terraria
+		fn_stop_graceful_cmd "exit" 30
 	elif [ "${gamename}" == "Minecraft" ]; then
-		fn_stop_graceful_minecraft
+		fn_stop_graceful_cmd "stop" 30
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
-		fn_stop_graceful_mta
+		# we need a long wait time here as resources are stopped individually and process their own shutdowns
+		fn_stop_graceful_cmd "quit" 120
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
 	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]; then
-		fn_stop_graceful_quit
+		fn_stop_graceful_cmd "quit" 30
 	else
 		fn_stop_tmux
 	fi
