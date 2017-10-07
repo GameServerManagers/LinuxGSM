@@ -14,6 +14,7 @@ parms="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""
 
 fn_print_information "starting Killing Floor 2 server to generate configs."
 sleep 1
+exitbypass=1
 command_start.sh
 sleep 10
 command_stop.sh
