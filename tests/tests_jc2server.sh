@@ -706,8 +706,7 @@ echo "Description:"
 echo "Inserting Travis IP in to config."
 echo "Allows monitor to work"
 travisip=$(ip -o -4 addr|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
-awk '/BindIP/ { print; print "BindIP                      = \"${travisip}\","; next }1' "${serverfiles}/config.lua" > "${serverfiles}/config.lua"
-
+sed -i '/BindIP/c\BindIP                      = \"${travisip}\",' "${serverfiles}/config.lua"
 echo ""
 echo "5.1 - monitor - online"
 echo "================================="
