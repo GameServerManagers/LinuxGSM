@@ -423,7 +423,7 @@ fn_setstatus(){
 
 # End of every test will expect the result to either pass or fail
 # If the script does not do as intended the whole test will fail
-# if excpecting a pass
+# if expecting a pass
 fn_test_result_pass(){
 	if [ $? != 0 ]; then
 		echo "================================="
@@ -441,7 +441,7 @@ fn_test_result_pass(){
 	fi
 }
 
-# if excpecting a fail
+# if expecting a fail
 fn_test_result_fail(){
 	if [ $? == 0 ]; then
 		echo "================================="
@@ -706,10 +706,10 @@ echo "================================="
 echo "Description:"
 echo "runs update-functions."
 echo ""
-echo "Command: ./jc2server update-functions"
+echo "Command: ./jc2server update-lgsm"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_update_functions.sh)
+(command_update_linuxgsm.sh)
 fn_test_result_pass
 
 echo ""
@@ -775,6 +775,61 @@ echo "Command: ./jc2server details"
 requiredstatus="ONLINE"
 fn_setstatus
 (command_details.sh)
+fn_test_result_pass
+
+echo ""
+echo "6.1 - post details"
+echo "================================="
+echo "Description:"
+echo "display details."
+echo "Command: ./jc2server postdetails"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_postdetails.sh)
+fn_test_result_pass
+
+echo ""
+echo "7.0 - backup"
+echo "================================="
+echo "Description:"
+echo "display details."
+echo "Command: ./jc2server backup"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_backup.sh)
+fn_test_result_pass
+
+echo ""
+echo "8.0 - dev - detect glibc"
+echo "================================="
+echo "Description:"
+echo "display details."
+echo "Command: ./jc2server detect-glibc"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_dev_detect_glibc.sh)
+fn_test_result_pass
+
+echo ""
+echo "8.1 - dev - detect ldd"
+echo "================================="
+echo "Description:"
+echo "display details."
+echo "Command: ./jc2server detect-ldd"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_dev_detect_ldd.sh)
+fn_test_result_pass
+
+echo ""
+echo "8.2 - dev - detect deps"
+echo "================================="
+echo "Description:"
+echo "display details."
+echo "Command: ./jc2server detect-deps"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_dev_detect_deps.sh)
 fn_test_result_pass
 
 echo ""
