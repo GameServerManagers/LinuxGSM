@@ -13,12 +13,14 @@ addons:
     packages:
     - tmux
     - mailutils
-    - postfix 
-    - lib32gcc1 
-    - libstdc++6 
-    - libstdc++6:i386 
-    - telnet 
+    - postfix
+    - lib32gcc1
+    - libstdc++6
+    - libstdc++6:i386
+    - telnet
     - expect
+    - bc
+    - binutils
 
 script:
 
