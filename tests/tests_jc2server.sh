@@ -701,18 +701,6 @@ fn_setstatus
 fn_test_result_pass
 
 echo ""
-echo "4.9 - update-functions"
-echo "================================="
-echo "Description:"
-echo "runs update-functions."
-echo ""
-echo "Command: ./jc2server update-lgsm"
-requiredstatus="OFFLINE"
-fn_setstatus
-(command_update_linuxgsm.sh)
-fn_test_result_pass
-
-echo ""
 echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"
@@ -722,7 +710,6 @@ requiredstatus="ONLINE"
 fn_setstatus
 (command_monitor.sh)
 fn_test_result_pass
-
 
 echo ""
 echo "5.2 - monitor - offline - with lockfile"
@@ -736,7 +723,6 @@ fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 fn_test_result_pass
-
 
 echo ""
 echo "5.3 - monitor - offline - no lockfile"
@@ -781,7 +767,7 @@ echo ""
 echo "6.1 - post details"
 echo "================================="
 echo "Description:"
-echo "display details."
+echo "post details."
 echo "Command: ./jc2server postdetails"
 requiredstatus="ONLINE"
 fn_setstatus
@@ -792,7 +778,7 @@ echo ""
 echo "7.0 - backup"
 echo "================================="
 echo "Description:"
-echo "display details."
+echo "run a backup."
 echo "Command: ./jc2server backup"
 requiredstatus="ONLINE"
 fn_setstatus
@@ -803,7 +789,7 @@ echo ""
 echo "8.0 - dev - detect glibc"
 echo "================================="
 echo "Description:"
-echo "display details."
+echo "detect glibc."
 echo "Command: ./jc2server detect-glibc"
 requiredstatus="ONLINE"
 fn_setstatus
@@ -814,7 +800,7 @@ echo ""
 echo "8.1 - dev - detect ldd"
 echo "================================="
 echo "Description:"
-echo "display details."
+echo "detect ldd."
 echo "Command: ./jc2server detect-ldd"
 requiredstatus="ONLINE"
 fn_setstatus
@@ -825,7 +811,7 @@ echo ""
 echo "8.2 - dev - detect deps"
 echo "================================="
 echo "Description:"
-echo "display details."
+echo "detect dependencies."
 echo "Command: ./jc2server detect-deps"
 requiredstatus="ONLINE"
 fn_setstatus
