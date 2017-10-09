@@ -529,15 +529,6 @@ echo "Command: ./jc2server auto-install"
 fn_test_result_pass
 
 echo ""
-echo "Inserting IP address"
-echo "================================="
-echo "Description:"
-echo "Inserting Travis IP in to config."
-echo "Allows monitor to work"
-travisip=$(ip -o -4 addr|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
-awk '/BindIP/ { print; print "BindIP                      = \"${travisip}\","; next }1' "${serverfiles}/config.lua" > "${serverfiles}/config.lua"
-
-echo ""
 echo "3.1 - start"
 echo "================================="
 echo "Description:"
@@ -707,6 +698,15 @@ requiredstatus="ONLINE"
 fn_setstatus
 (command_validate.sh)
 fn_test_result_pass
+
+echo ""
+echo "Inserting IP address"
+echo "================================="
+echo "Description:"
+echo "Inserting Travis IP in to config."
+echo "Allows monitor to work"
+travisip=$(ip -o -4 addr|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+awk '/BindIP/ { print; print "BindIP                      = \"${travisip}\","; next }1' "${serverfiles}/config.lua" > "${serverfiles}/config.lua"
 
 echo ""
 echo "5.1 - monitor - online"
