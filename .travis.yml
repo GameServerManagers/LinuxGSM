@@ -29,6 +29,8 @@ addons:
     - lib32gcc1
     - libstdc++6
     - libstdc++6:i386
+    - net-tools
+    - iproute2
 
 script:
 
