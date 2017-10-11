@@ -22,7 +22,7 @@ fn_install_server_files(){
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		remote_fileurl="http://files.gameservermanagers.com/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="codwaw-lnxded-1.7-full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="0489697ff3bf678c109bfb377d1b7895"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
-		remote_fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.bz2"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="ea227a150300abe346e757380325f84c"
+		remote_fileurl="http://files.gameservermanagers.com/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.bz2"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="c45c16293096706e8b5e2cd64a6f2931"
 	elif [ "${gamename}" == "Quake 2" ]; then
 		remote_fileurl="http://files.gameservermanagers.com/Quake2/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; local_filedir="${tmpdir}"; local_filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
