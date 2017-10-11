@@ -32,7 +32,7 @@ while IFS= read -r -d $'\0' line; do
 
 		if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found")" ]; then
 			echo "${line}" >> "${tmpdir}/detect_ldd_not_found.tmp"
-			ldd "${line} 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${tmpdir}/detect_ldd_not_found.tmp"
+			ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${tmpdir}/detect_ldd_not_found.tmp"
 		fi
 	fi
 	echo -n "$i / $files" $'\r'
