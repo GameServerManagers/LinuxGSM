@@ -67,7 +67,7 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; then
 		smcount=$(find "${commonlogs}"/ -type f -mtime +"${logdays}"|wc -l)
 		find "${commonlogs}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
-	if [ -d ${commonsourcelogs} ]; then
+	if [ -d "${commonsourcelogs}" ]; then
 		find "${commonsourcelogs}"/* -type f -mtime +"${logdays}"| tee >> "${lgsmlog}"
 		smcount=$(find "${commonsourcelogs}"/* -type f -mtime +"${logdays}"|wc -l)
 		find "${commonsourcelogs}"/* -mtime +"${logdays}" -type f -exec rm -f {} \;

@@ -23,8 +23,8 @@ fi
 version="170926"
 shortname="core"
 gameservername="core"
-rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
-selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 servicename="${selfname}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
@@ -337,7 +337,7 @@ else
 			echo -e "\e[0;32mOK\e[0m"
 		fi
 	else
-		function_file_diff=$(diff -q ${configdirdefault}/config-lgsm/${gameservername}/_default.cfg ${configdirserver}/_default.cfg)
+		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 		if [ "${function_file_diff}" != "" ]; then
 			fn_print_warn_nl "_default.cfg has been altered. reloading config."
 			echo -ne "    copying _default.cfg...\c"
