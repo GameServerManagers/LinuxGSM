@@ -455,6 +455,7 @@ fn_info_config_source(){
 fn_info_config_starbound(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		rconenabled="${unavailable}"
 		rconpassword="${unavailable}"
 		port="21025"
 		queryport="21025"
@@ -462,6 +463,7 @@ fn_info_config_starbound(){
 		maxplayers="8"
 	else
 		servername=$(grep "serverName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/serverName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconenabled=$(grep "runQueryServer" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/runQueryServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rconServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/rconServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "gameServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$(grep "queryServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
