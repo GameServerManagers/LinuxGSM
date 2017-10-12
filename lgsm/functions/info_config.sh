@@ -523,6 +523,27 @@ fn_info_config_mumble(){
 	fi
 }
 
+fn_info_config_samp(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="unnamed server"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
+		port="7777"
+		maxplayers="50"
+	else
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		port=${port:-"8303"}
+		maxplayers=${maxplayers:-"12"}
+	fi
+}
+
 fn_info_config_teeworlds(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="unnamed server"
@@ -897,8 +918,12 @@ elif [ "${engine}" == "starbound" ]; then
 # TeamSpeak 3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_info_config_teamspeak3
+# Mumble
 elif [ "${gamename}" == "Mumble" ]; then
 	fn_info_config_mumble
+# San Andreas Multiplayer
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	fn_info_config_samp
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds

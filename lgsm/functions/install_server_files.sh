@@ -39,6 +39,8 @@ fn_install_server_files(){
 		remote_fileurl="http://files.gameservermanagers.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; local_filedir="${tmpdir}"; local_filename="UT3-linux-server-2.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		remote_fileurl="http://files.gameservermanagers.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
+	elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+		remote_fileurl="http://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
 	fi
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
