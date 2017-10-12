@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 # Description: Stores details on servers Glibc requirements.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	glibcrequired="2.15"
