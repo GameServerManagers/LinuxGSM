@@ -84,7 +84,7 @@ fn_monitor_tmux(){
 		do
 			if [ "${allowed_engine}" == "starbound" ]; then
 				info_config.sh
-				if [ "${rconenabled}" == "true" ]; then
+				if [ "${queryenabled}" == "true" ]; then
 					monitor_gsquery.sh
 				fi
 			elif [ "${allowed_engine}" == "${engine}" ]; then

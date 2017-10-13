@@ -146,6 +146,16 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server password:\t${default}${serverpassword}"
 		fi
 
+		# Query enabled (Starbound)
+		if [ -n "${queryenabled}" ]; then
+			echo -e "${blue}Query enabled:\t${default}${rconpassword}"
+		fi
+
+		# RCON enabled (Starbound)
+		if [ -n "${rconenabled}" ]; then
+			echo -e "${blue}RCON enabled:\t${default}${rconpassword}"
+		fi
+
 		# RCON password
 		if [ -n "${rconpassword}" ]; then
 			echo -e "${blue}RCON password:\t${default}${rconpassword}"
