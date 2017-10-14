@@ -5,7 +5,7 @@
 # Website: https://gameservermanagers.com
 # Description: Gets specific details from config files.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -455,6 +455,8 @@ fn_info_config_source(){
 fn_info_config_starbound(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		queryenabled="${unavailable}"
+		rconenabled="${unavailable}"
 		rconpassword="${unavailable}"
 		port="21025"
 		queryport="21025"
@@ -462,6 +464,8 @@ fn_info_config_starbound(){
 		maxplayers="8"
 	else
 		servername=$(grep "serverName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/serverName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		queryenabled=$(grep "runQueryServer" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/runQueryServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconenabled=$(grep "runRconServer" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/runRconServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rconServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/rconServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "gameServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$(grep "queryServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -470,6 +474,8 @@ fn_info_config_starbound(){
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
+		queryenabled=${queryenabled:-"NOT SET"}
+		rconenabled==${rconenabled:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"21025"}
 		queryport=${queryport:-"21025"}
@@ -518,6 +524,27 @@ fn_info_config_mumble(){
 		port=${port:-"64738"}
 		queryport=${queryport:-"64738"}
 		servername="Mumble Port ${port}"
+	fi
+}
+
+fn_info_config_samp(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="unnamed server"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
+		port="7777"
+		maxplayers="50"
+	else
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		port=${port:-"8303"}
+		maxplayers=${maxplayers:-"12"}
 	fi
 }
 
@@ -895,8 +922,12 @@ elif [ "${engine}" == "starbound" ]; then
 # TeamSpeak 3
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_info_config_teamspeak3
+# Mumble
 elif [ "${gamename}" == "Mumble" ]; then
 	fn_info_config_mumble
+# San Andreas Multiplayer
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	fn_info_config_samp
 # Teeworlds
 elif [ "${engine}" == "teeworlds" ]; then
 	fn_info_config_teeworlds

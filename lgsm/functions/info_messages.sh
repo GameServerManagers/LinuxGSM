@@ -146,6 +146,16 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server password:\t${default}${serverpassword}"
 		fi
 
+		# Query enabled (Starbound)
+		if [ -n "${queryenabled}" ]; then
+			echo -e "${blue}Query enabled:\t${default}${rconpassword}"
+		fi
+
+		# RCON enabled (Starbound)
+		if [ -n "${rconenabled}" ]; then
+			echo -e "${blue}RCON enabled:\t${default}${rconpassword}"
+		fi
+
 		# RCON password
 		if [ -n "${rconpassword}" ]; then
 			echo -e "${blue}RCON password:\t${default}${rconpassword}"
@@ -707,6 +717,16 @@ fn_info_message_rust(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_samp(){
+	echo -e "netstat -atunp | grep samp03svr"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
+	} | column -s $'\t' -t
+}
+
+
 fn_info_message_seriousengine35(){
 	echo -e "netstat -atunp | grep Sam3_Dedicate"
 	echo -e ""
@@ -977,6 +997,8 @@ fn_info_message_select_engine(){
 		fn_info_message_quake3
 	elif [ "${gamename}" == "Quake Live" ]; then
 		fn_info_message_quakelive
+	elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+		fn_info_message_samp
 	elif [ "${gamename}" == "Squad" ]; then
 		fn_info_message_squad
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then

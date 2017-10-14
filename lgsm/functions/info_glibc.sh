@@ -4,7 +4,7 @@
 # Website: https://gameservermanagers.com
 # Description: Stores details on servers Glibc requirements.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	glibcrequired="2.15"
@@ -88,6 +88,9 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	glibcrequired="2.3"
 	glibcfix="no"
 elif [ "${gamename}" == "Squad" ]; then
 	glibcrequired="2.17"

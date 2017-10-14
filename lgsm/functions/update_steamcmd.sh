@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -102,7 +102,7 @@ fn_update_request_log(){
 	fn_print_dots "Checking for update: Server logs"
 	fn_script_log_info "Checking for update: Server logs"
 	sleep 1
-	if [ -f ${consolelog} ]; then
+	if [ -f "${consolelog}" ]; then
 		requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
 	else
 		requestrestart="0"

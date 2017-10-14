@@ -5,7 +5,7 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Distro information
 
@@ -135,4 +135,6 @@ if [ -d "${backupdir}" ]; then
 fi
 
 # External IP address
-extip=$(curl -m 3 ifconfig.co 2>/dev/null)
+if [ -z "${extip}" ];then
+	extip=$(curl -m 3 ifconfig.co 2>/dev/null)
+fi

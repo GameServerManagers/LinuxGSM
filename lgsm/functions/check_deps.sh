@@ -19,7 +19,7 @@ fn_deps_detector(){
 		deptocheck="${javaversion}"
 		unset javacheck
 	elif [ -n "$(command -v apt-get 2>/dev/null)" ]; then
-		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed$'
+		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
 	elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 		yum -q list installed ${deptocheck} > /dev/null 2>&1
@@ -145,7 +145,7 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	array_deps_missing=()
 
 	# LinuxGSM requirements
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc )
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
@@ -195,6 +195,9 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Factorio
 	elif [ "${gamename}" == "Factorio" ]; then
 		array_deps_required+=( xz-utils )
+	# Hurtword/Rust
+	elif [ "${gamename}" == "Hurtword" ]||[ "${gamename}" == "Rust" ]; then
+		array_deps_required+=( lib32z1 )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
@@ -231,9 +234,9 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip )
+		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
 	else
-		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip )
+		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
 	fi
 
 	# All servers except ts3 require tmux
@@ -276,6 +279,8 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 	# Factorio
 	elif [ "${gamename}" == "Factorio" ]; then
 		array_deps_required+=( xz )
+	elif [ "${gamename}" == "Hurtword" ]||[ "${gamename}" == "Rust" ]; then
+		array_deps_required+=( zlib-devel )
 	# Project Zomboid and Minecraft
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")

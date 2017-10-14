@@ -6,7 +6,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't
 fn_check_cfgdir(){
@@ -19,6 +19,11 @@ fn_check_cfgdir(){
 
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default
 fn_fetch_default_config(){
+	echo ""
+	echo "Downloading ${gamename} Configs"
+	echo "================================="
+	echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
+	sleep 1
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
@@ -118,11 +123,6 @@ fn_set_dst_config_vars(){
 	echo ""
 }
 
-echo ""
-echo "Downloading ${gamename} Config"
-echo "================================="
-echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
-sleep 2
 if [ "${gamename}" == "7 Days To Die" ]; then
 	gamedirname="7DaysToDie"
 	array_configs+=( serverconfig.xml )
@@ -383,10 +383,6 @@ elif [ "${gamename}" == "Mumble" ]; then
 	array_configs+=( murmur.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-elif [ "${gamename}" == "Natural Selection 2" ]; then
-	:
-elif [ "${gamename}" == "NS2: Combat" ]; then
-	:
 elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	gamedirname="PiratesVikingandKnightsII"
 	array_configs+=( server.cfg )
@@ -430,8 +426,6 @@ elif [ "${gamename}" == "QuakeWorld" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
-	:
 elif [ "${gamename}" == "Ricochet" ]; then
 	gamedirname="Ricochet"
 	array_configs+=( server.cfg )
@@ -459,6 +453,12 @@ elif [ "${gamename}" == "Squad" ]; then
 elif [ "${gamename}" == "Starbound" ]; then
 	gamedirname="Starbound"
 	array_configs+=( starbound_server.config )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	gamedirname="SanAndreasMultiplayer"
+	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

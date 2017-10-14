@@ -7,7 +7,7 @@
 
 local commandname="MONITOR"
 local commandaction="Monitor"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Downloads gsquery.py if missing
 if [ ! -f "${functionsdir}/gsquery.py" ]; then

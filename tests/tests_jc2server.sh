@@ -16,10 +16,10 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170619"
+version="171014"
 shortname="jc2"
 gameservername="jc2server"
-rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 servicename="${selfname}"
 lockselfname=".${servicename}.lock"
@@ -423,7 +423,7 @@ fn_setstatus(){
 
 # End of every test will expect the result to either pass or fail
 # If the script does not do as intended the whole test will fail
-# if excpecting a pass
+# if expecting a pass
 fn_test_result_pass(){
 	if [ $? != 0 ]; then
 		echo "================================="
@@ -441,7 +441,7 @@ fn_test_result_pass(){
 	fi
 }
 
-# if excpecting a fail
+# if expecting a fail
 fn_test_result_fail(){
 	if [ $? == 0 ]; then
 		echo "================================="
@@ -527,7 +527,6 @@ echo "install ${gamename} server."
 echo "Command: ./jc2server auto-install"
 (fn_autoinstall)
 fn_test_result_pass
-
 
 echo ""
 echo "3.1 - start"
@@ -701,16 +700,14 @@ fn_setstatus
 fn_test_result_pass
 
 echo ""
-echo "4.9 - update-functions"
+echo "Inserting IP address"
 echo "================================="
 echo "Description:"
-echo "runs update-functions."
-echo ""
-echo "Command: ./jc2server update-functions"
-requiredstatus="OFFLINE"
-fn_setstatus
-(command_update_functions.sh)
-fn_test_result_pass
+echo "Inserting Travis IP in to config."
+echo "Allows monitor to work"
+travisip=$(ip -o -4 addr|grep eth0|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+sed -i "/BindIP/c\BindIP                      = \"${travisip}\"," "${serverfiles}/config.lua"
+echo "IP: ${travisip}"
 
 echo ""
 echo "5.1 - monitor - online"
@@ -722,7 +719,6 @@ requiredstatus="ONLINE"
 fn_setstatus
 (command_monitor.sh)
 fn_test_result_pass
-
 
 echo ""
 echo "5.2 - monitor - offline - with lockfile"
@@ -736,7 +732,6 @@ fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
 (command_monitor.sh)
 fn_test_result_pass
-
 
 echo ""
 echo "5.3 - monitor - offline - no lockfile"
@@ -778,14 +773,67 @@ fn_setstatus
 fn_test_result_pass
 
 echo ""
+echo "6.1 - post details"
+echo "================================="
+echo "Description:"
+echo "post details."
+echo "Command: ./jc2server postdetails"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_postdetails.sh)
+fn_test_result_pass
+
+echo ""
+echo "7.0 - backup"
+echo "================================="
+echo "Description:"
+echo "run a backup."
+echo "Command: ./jc2server backup"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_backup.sh)
+fn_test_result_pass
+
+echo ""
+echo "8.0 - dev - detect glibc"
+echo "================================="
+echo "Description:"
+echo "detect glibc."
+echo "Command: ./jc2server detect-glibc"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_dev_detect_glibc.sh)
+fn_test_result_pass
+
+echo ""
+echo "8.1 - dev - detect ldd"
+echo "================================="
+echo "Description:"
+echo "detect ldd."
+echo "Command: ./jc2server detect-ldd"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_dev_detect_ldd.sh)
+fn_test_result_pass
+
+echo ""
+echo "8.2 - dev - detect deps"
+echo "================================="
+echo "Description:"
+echo "detect dependencies."
+echo "Command: ./jc2server detect-deps"
+requiredstatus="ONLINE"
+fn_setstatus
+(command_dev_detect_deps.sh)
+fn_test_result_pass
+
+echo ""
 echo "================================="
 echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
 echo "================================="
 requiredstatus="OFFLINE"
 fn_setstatus
-sleep 1
 fn_print_info "Tidying up directories."
-sleep 1
 rm -rfv "${serverfiles}"
 core_exit.sh

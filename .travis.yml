@@ -11,14 +11,26 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - tmux
     - mailutils
-    - postfix 
-    - lib32gcc1 
-    - libstdc++6 
-    - libstdc++6:i386 
-    - telnet 
-    - expect
+    - postfix
+    - curl
+    - wget
+    - file
+    - bzip2
+    - gzip
+    - unzip
+    - bsdmainutils
+    - python
+    - util-linux
+    - ca-certificates
+    - binutils
+    - bc
+    - tmux
+    - lib32gcc1
+    - libstdc++6
+    - libstdc++6:i386
+    - net-tools
+    - iproute2
 
 script:
 
