@@ -474,6 +474,8 @@ fn_info_config_starbound(){
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
+		queryenabled=${queryenabled:-"NOT SET"}
+		rconenabled==${rconenabled:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"21025"}
 		queryport=${queryport:-"21025"}
