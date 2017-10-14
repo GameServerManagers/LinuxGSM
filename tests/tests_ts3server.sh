@@ -16,10 +16,10 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="170619"
+version="171014"
 shortname="ts3"
 gameservername="ts3server"
-rootdir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 servicename="${selfname}"
 lockselfname=".${servicename}.lock"
