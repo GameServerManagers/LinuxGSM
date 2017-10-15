@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Contributors: UltimateByte

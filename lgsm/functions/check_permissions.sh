@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

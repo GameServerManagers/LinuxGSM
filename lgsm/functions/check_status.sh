@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM check_status.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

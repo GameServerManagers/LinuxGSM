@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM command_postdetails.sh function
 # Author: CedarLUG
 # Contributor: CedarLUG

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM monitor_gsquery.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com

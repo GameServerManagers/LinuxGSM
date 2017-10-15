@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM fix_kf3.sh function
 # Author: Daniel Gibbs
 # Website: https://gameservermanagers.com

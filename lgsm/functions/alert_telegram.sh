@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM alert_telegram.sh function
 # Author: Bennet Becker <bennet@becker-dd.de>
 # Website: https://bytegaming.de
