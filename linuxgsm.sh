@@ -229,9 +229,9 @@ fn_install_getopt(){
 	echo "https://gameservermanagers.com"
 	echo -e ""
 	echo -e "Commands"
-	echo -e "install\t\t|Select server to install."
-	echo -e "servername\t|e.g $0 csgoserver. Enter name of server/game to install."
-	echo -e "list\t\t|List all servers available for install."
+	echo -e "install\t\t| Select server to install."
+	echo -e "servername\t| e.g $0 csgoserver. Enter name of server/game to install."
+	echo -e "list\t\t| List all servers available for install."
 	exit
 }
 
