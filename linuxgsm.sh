@@ -281,7 +281,7 @@ if [ "${shortname}" == "core" ]; then
 	if [ -f "${serverlist}" ]; then
 		rm "${serverlist}"
 	fi
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "noforcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
 		echo "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
