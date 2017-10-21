@@ -20,7 +20,7 @@ fi
 if [ -f "${systemdir}/botprofile.db" ] && grep "^\s*Rank" "${systemdir}/botprofile.db" > /dev/null 2>&1; then
 	fixname="botprofile.db"
 	fn_fix_msg_start
-	sed -i 's/\s*Rank/\t\/\/Rank/g' "${systemdir}/botprofile.db" > /dev/null 2>&1
+	sed -i 's/^\s*Rank/\t\/\/Rank/g' "${systemdir}/botprofile.db" > /dev/null 2>&1
 	fn_fix_msg_end
 fi
 
