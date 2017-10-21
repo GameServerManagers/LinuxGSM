@@ -64,8 +64,8 @@ fn_bootstrap_fetch_file(){
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	# If the file is missing, then download
-	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+	# download file if missing or download forced
+	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
@@ -116,15 +116,15 @@ fn_bootstrap_fetch_file_github(){
 	github_file_url_name="${2}"
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 
-	remote_remote_fileurl="${githuburl}"
-	local_local_filedir="${3}"
-	local_local_filename="${github_file_url_name}"
+	remote_fileurl="${githuburl}"
+	local_filedir="${3}"
+	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
 	run="${5:-0}"
-	forcedldl="${6:-0}"
+	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download function
-	fn_bootstrap_fetch_file "${remote_remote_fileurl}" "${local_local_filedir}" "${local_local_filename}" "${chmodx}" "${run}" "${forcedldl}" "${md5}"
+	fn_bootstrap_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
 # Installer menu
