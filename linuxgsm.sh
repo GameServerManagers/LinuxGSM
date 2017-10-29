@@ -229,9 +229,9 @@ fn_install_getopt(){
 	echo "https://gameservermanagers.com"
 	echo -e ""
 	echo -e "Commands"
-	echo -e "install |Select server to install."
-	echo -e "servername |e.g $0 csgoserver. Enter the required servername will install it."
-	echo -e "list |List all servers available for install."
+	echo -e "install\t\t| Select server to install."
+	echo -e "servername\t| e.g $0 csgoserver. Enter name of server/game to install."
+	echo -e "list\t\t| List all servers available for install."
 	exit
 }
 
@@ -303,8 +303,10 @@ if [ "${shortname}" == "core" ]; then
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
-		if [ "${userinput}" == "${gameservername}" ]; then
+		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
+		else
+			echo "[ FAIL ] unknown game server"
 		fi
 	else
 		fn_install_getopt
