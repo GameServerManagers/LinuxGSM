@@ -235,6 +235,8 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
+	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
+        	array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
 	else
 		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
 	fi
@@ -250,7 +252,11 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
 	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${engine}" != "lwjgl2" ]&&[ "${engine}" != "renderware" ]; then
-		array_deps_required+=( glibc.i686 libstdc++.i686 )
+		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then		
+            		array_deps_required+=( glibc.i686 libstdc++64.i686 )
+        	else
+			array_deps_required+=( glibc.i686 libstdc++.i686 )
+		fi
 	fi
 
 	# Game Specific requirements
