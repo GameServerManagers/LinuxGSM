@@ -14,7 +14,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # grep -v "foo" filter out lines that contain foo
 # cut -f1 -d "/" remove everything after /
 
-fn_info_config_avalanche(){
+fn_info_config_justcause2(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -35,6 +35,38 @@ fn_info_config_avalanche(){
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
 		port=${port:-"0"}
+	fi
+}
+
+fn_info_config_justcause3(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryPort="${zero}"
+		steamport="${zero}"
+		tickrate="${zero}"
+	else
+		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"maxPlayers\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "\"port\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		steamport=$(grep "\"queryPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		steamport=$(grep "\"steamPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		tickrate=$(grep "\"maxTickRate\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		ip=$(grep "host" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/host//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="host"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers=:-"0"}
+		port=${port=:-"0"}
+		queryport=${queryport=:-"0"}
+		steamport=${steamport=:-"0"}
+		tickrate=${tickrate=:-"0"}
 	fi
 }
 
@@ -853,11 +885,9 @@ fn_info_config_squad(){
 	maxplayers=${maxplayers:-"0"}
 }
 
-# Just Cause 2
-if [ "${engine}" == "avalanche" ]; then
-	fn_info_config_avalanche
+
 # ARK: Survival Evolved
-elif [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_info_config_ark
 # Ballistic Overkill
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
@@ -883,6 +913,12 @@ elif [ "${engine}" == "dontstarve" ]; then
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
+# Just Cause 2
+if [ "${gamename}" == "Just Cause 2" ]; then
+	fn_info_config_justcause2
+# Just Cause 3
+if [ "${gamename}" == "Just Cause 3" ]; then
+	fn_info_config_justcause3
 # Killing Floor 2
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
