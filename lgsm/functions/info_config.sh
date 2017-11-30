@@ -507,7 +507,7 @@ fn_info_config_starbound(){
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		queryenabled=${queryenabled:-"NOT SET"}
-		rconenabled==${rconenabled:-"NOT SET"}
+		rconenabled=${rconenabled:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		port=${port:-"21025"}
 		queryport=${queryport:-"21025"}
@@ -914,10 +914,10 @@ elif [ "${engine}" == "dontstarve" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
 # Just Cause 2
-if [ "${gamename}" == "Just Cause 2" ]; then
+elif [ "${gamename}" == "Just Cause 2" ]; then
 	fn_info_config_justcause2
 # Just Cause 3
-if [ "${gamename}" == "Just Cause 3" ]; then
+elif [ "${gamename}" == "Just Cause 3" ]; then
 	fn_info_config_justcause3
 # Killing Floor 2
 elif [ "${shortname}" == "kf2" ]; then
