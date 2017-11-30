@@ -502,15 +502,6 @@ fn_info_message_ballisticoverkill(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_avalanche(){
-	echo -e "netstat -atunp | grep Jcmp-Server"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_cod(){
 	echo -e "netstat -atunp | grep cod_lnxded"
 	echo -e ""
@@ -594,6 +585,26 @@ fn_info_message_hurtworld(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_justcause2(){
+	echo -e "netstat -atunp | grep Jcmp-Server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_justcause3(){
+	echo -e "netstat -atunp | grep Server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -985,6 +996,10 @@ fn_info_message_select_engine(){
 		fn_info_message_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_info_message_hurtworld
+	elif [ "${gamename}" == "Just Cause 2" ]; then
+		fn_info_message_justcause2
+	elif [ "${gamename}" == "Just Cause 3" ]; then
+		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
 	elif [ "${gamename}" == "Project Cars" ]; then
@@ -1013,8 +1028,6 @@ fn_info_message_select_engine(){
 		fn_info_message_rust
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_info_message_wolfensteinenemyterritory
-	elif [ "${engine}" == "avalanche" ]; then
-		fn_info_message_avalanche
 	elif [ "${engine}" == "refractor" ]; then
 		fn_info_message_refractor
 	elif [ "${engine}" == "dontstarve" ]; then
