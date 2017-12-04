@@ -1,0 +1,19 @@
+##################################
+######## Common Settings #########
+## Found in lgsm/config-lgsm/SERVERNAME/ ##
+##################################
+# PLACE GLOBAL SETTINGS HERE
+## These settings will apply to all instances
+
+# Set the max number of players that can connect
+## Most servers are 32, some are 24 or less
+## Un-Comment to change from the instance default
+# maxplayers=
+
+# Server exists behind a firewall NAT (does not have public IP)
+## Leave this as is unless you know better
+serverbehindnat=true
+
+# Set first map to load on server start
+# If this map does nto exist, then the server will not start correctly
+defaultmap="MAP_NAME"
