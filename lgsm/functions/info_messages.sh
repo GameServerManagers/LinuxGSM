@@ -126,6 +126,11 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server name:\t${default}${servername}"
 		fi
 
+		# Server description
+		if [ -n "${serverdescription}" ]; then
+			echo -e "${blue}Server name:\t${default}${serverdescription}"
+		fi
+
 		# Branch
 		if [ -n "${branch}" ]; then
 			echo -e "${blue}Branch:\t${default}${branch}"

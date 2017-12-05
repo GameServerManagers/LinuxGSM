@@ -41,6 +41,7 @@ fn_info_config_justcause2(){
 fn_info_config_justcause3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		serverdescription="${unavailable}"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
 		port="${zero}"
@@ -48,6 +49,8 @@ fn_info_config_justcause3(){
 		steamport="${zero}"
 		tickrate="${zero}"
 	else
+		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverdescription=$(grep "description" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "\"maxPlayers\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		port=$(grep "\"port\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -61,6 +64,7 @@ fn_info_config_justcause3(){
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
+		serverdescription=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers=:-"0"}
 		port=${port=:-"0"}
