@@ -26,7 +26,7 @@ class PythonGSQ:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine in idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.option.engine == 'avalanche':
+        elif self.option.engine == 'avalanche2.0':
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.option.engine == 'unreal':
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
@@ -100,7 +100,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
+        help='Engine type: avalanche2.0, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
     )
     parser.add_option(
         '-v', '--verbose',
