@@ -64,7 +64,7 @@ fn_info_config_justcause3(){
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
-		serverdescription=${servername:-"NOT SET"}
+		serverdescription=${serverdescription:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers=:-"0"}
 		port=${port=:-"0"}
