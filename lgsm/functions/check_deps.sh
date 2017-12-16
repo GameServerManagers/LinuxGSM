@@ -260,7 +260,7 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# Natural Selection 2
 	if [ "${gamename}" == "Natural Selection 2" ]; then
-		array_deps_required+=( speex libtbb2 )
+		array_deps_required+=( speex tbb )
 	# NS2: Combat
 	elif [ "${gamename}" == "NS2: Combat" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
