@@ -180,6 +180,8 @@ fn_stop_graceful_sdtd(){
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
+	elif [ "${engine}" == "Spark" ]; then
+		fn_stop_graceful_cmd "q" 30
 	elif [ "${gamename}" == "Terraria" ]; then
 		fn_stop_graceful_cmd "exit" 30
 	elif [ "${gamename}" == "Minecraft" ]; then
