@@ -167,11 +167,14 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 
 	# Game Specific requirements
 
-	# Spark
-	if [ "${engine}" ==  "spark" ]; then
+	# Natural Selection 2
+	if [ "${gamename}" == "Natural Selection 2" ]; then
+		array_deps_required+=( speex libtbb2 )
+	# NS2: Combat
+	elif [ "${gamename}" == "NS2: Combat" ]; then
 		array_deps_required+=( speex:i386 libtbb2 )
 	# 7 Days to Die
-	elif [ "${gamename}" ==  "7 Days To Die" ]; then
+	elif [ "${gamename}" == "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
 	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
@@ -261,11 +264,14 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# Game Specific requirements
 
-	# Spark
-	if [ "${engine}" ==  "spark" ]; then
+	# Natural Selection 2
+	if [ "${gamename}" == "Natural Selection 2" ]; then
+		array_deps_required+=( speex tbb )
+	# NS2: Combat
+	elif [ "${gamename}" == "NS2: Combat" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
 	# 7 Days to Die
-	elif [ "${gamename}" ==  "7 Days To Die" ]; then
+	elif [ "${gamename}" == "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
 	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
