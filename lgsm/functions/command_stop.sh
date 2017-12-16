@@ -14,7 +14,7 @@ fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# sends quit
-	tmux send-keys C-c -t "${servicename}" > /dev/null 2>&1
+	tmux send-keys C-c -t "=${servicename}" > /dev/null 2>&1
 	# waits up to 30 seconds giving the server time to shutdown gracefuly
 	for seconds in {1..30}; do
 		check_status.sh
@@ -44,7 +44,7 @@ fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# sends specific stop command
-	tmux send -t "${servicename}" ${1} ENTER > /dev/null 2>&1
+	tmux send -t "=${servicename}" ${1} ENTER > /dev/null 2>&1
 	# waits up to given seconds giving the server time to shutdown gracefully
 	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
@@ -75,7 +75,7 @@ fn_stop_graceful_goldsource(){
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
-	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
+	tmux send -t "=${servicename}" quit ENTER > /dev/null 2>&1
 	# waits 3 seconds as goldsource servers restart with the quit command
 	for seconds in {1..3}; do
 		sleep 1
@@ -180,6 +180,8 @@ fn_stop_graceful_sdtd(){
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
+	elif [ "${engine}" == "Spark" ]; then
+		fn_stop_graceful_cmd "q" 30
 	elif [ "${gamename}" == "Terraria" ]; then
 		fn_stop_graceful_cmd "exit" 30
 	elif [ "${gamename}" == "Minecraft" ]; then
@@ -189,7 +191,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_cmd "quit" 120
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
+	elif [ "${engine}" == "avalanche2.0" ]||[ "${engine}" == "avalanche3.0" ]||[ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]; then
 		fn_stop_graceful_cmd "quit" 30
@@ -261,7 +263,7 @@ fn_stop_tmux(){
 	fn_script_log_info "tmux kill-session: ${servername}"
 	sleep 0.5
 	# Kill tmux session
-	tmux kill-session -t "${servicename}" > /dev/null 2>&1
+	tmux kill-session -t "=${servicename}" > /dev/null 2>&1
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then

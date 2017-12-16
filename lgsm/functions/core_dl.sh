@@ -105,8 +105,8 @@ fn_fetch_file(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 
-	# If the file is missing, then download
-	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+	# Download file if missing or download forced
+	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi

@@ -27,7 +27,7 @@ fn_fetch_default_config(){
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "noforce" "nomd5"
+		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
 	done
 }
 
@@ -333,6 +333,12 @@ elif [ "${gamename}" == "Insurgency" ]; then
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	gamedirname="JustCause2"
 	array_configs+=( config.lua )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Just Cause 3" ]; then
+	gamedirname="JustCause3"
+	array_configs+=( config.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
