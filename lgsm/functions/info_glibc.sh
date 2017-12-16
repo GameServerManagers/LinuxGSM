@@ -107,9 +107,12 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 elif [ "${gamename}" == "Teeworlds" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
-elif [ "${engine}" == "avalanche" ]; then
+elif [ "${gamename}" == "Just Cause 2" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
+elif [ "${gamename}" == "Just Cause 3" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${engine}" == "dontstarve" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
@@ -133,7 +136,7 @@ elif [ "${engine}" == "goldsource" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Natural Selection 2" ]; then
 	glibcrequired="2.17"
-	glibcfix="yes"
+	glibcfix="no"
 elif [ "${gamename}" == "NS2: Combat" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"

@@ -136,5 +136,5 @@ fi
 
 # External IP address
 if [ -z "${extip}" ];then
-	extip=$(curl -m 3 ifconfig.co 2>/dev/null)
+	extip=$(${curlpath} -m 3 ifconfig.co 2>/dev/null)
 fi
