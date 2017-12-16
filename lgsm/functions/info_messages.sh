@@ -795,7 +795,7 @@ fn_info_message_source(){
 
 fn_info_message_spark(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep server_linux3"
+	echo -e "netstat -atunp | grep server_linux"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
