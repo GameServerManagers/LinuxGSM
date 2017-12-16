@@ -179,6 +179,9 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"
+elif [ "${gamename}" == "Zombie Panic! Source" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"
