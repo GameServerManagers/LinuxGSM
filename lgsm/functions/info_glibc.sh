@@ -131,7 +131,10 @@ elif [ "${engine}" == "source" ]; then
 elif [ "${engine}" == "goldsource" ]; then
 	glibcrequired="2.3.4"
 	glibcfix="no"
-elif [ "${engine}" == "spark" ]; then
+elif [ "${gamename}" == "Natural Selection 2" ]; then
+	glibcrequired="2.17"
+	glibcfix="yes"
+elif [ "${gamename}" == "NS2: Combat" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${engine}" == "starbound" ]; then
