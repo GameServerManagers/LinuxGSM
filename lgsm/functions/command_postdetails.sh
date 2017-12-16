@@ -62,7 +62,7 @@ else
 		fn_info_message_script
 		fn_info_message_backup
 		# Some game servers do not have parms.
-		if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
+		if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche2.0" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
 			fn_parms
 			fn_info_message_commandlineparms
 		fi

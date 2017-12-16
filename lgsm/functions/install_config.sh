@@ -336,6 +336,12 @@ elif [ "${gamename}" == "Just Cause 2" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Just Cause 3" ]; then
+	gamedirname="JustCause3"
+	array_configs+=( config.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Killing Floor" ]; then
 	gamedirname="KillingFloor"
 	array_configs+=( Default.ini )
