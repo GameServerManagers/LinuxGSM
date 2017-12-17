@@ -112,7 +112,8 @@ fn_backup_compression(){
 	sleep 2
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
-	excludedir=$(realpath --relative-to="${rootdir}" "${backupdir}")
+	excludedir=fn_backup_relpath
+	# CHECK THAT excludedir isn't empty.  Sanity check here -CedarLUG
 	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
@@ -178,6 +179,35 @@ fn_backup_prune(){
 			sleep 1
 		fi
 	fi
+}
+
+fn_backup_relpath() {
+  	# Written by CedarLUG as a "realpath --relative-to" alternative in bash
+  	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+	# CHECK THAT the array is populated correctly.  Sanity check here -CedarLUG
+  	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	# CHECK THAT the array is populated correctly.  Sanity check here -CedarLUG
+
+  	for ((base=0; $base<${#rdirtoks[@]}; base++)) ;
+  	do
+      		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
+  	done
+
+  	for ((x=${base};$x<${#rdirtoks[@]};x++))
+  	do
+      		echo -n "../"
+  	done
+
+  	for ((x=${base};$x<$(( ${#bdirtoks[@]} - 1 ));x++))
+  	do
+      		echo -n "${bdirtoks[$x]}/"
+  	done
+
+  	if (( "$base" < "${#bdirtoks[@]}" )) ; then
+      		echo ${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}
+  	else
+      		echo
+  	fi
 }
 
 # Restart the server if it was stopped for the backup
