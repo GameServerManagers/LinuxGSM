@@ -188,7 +188,7 @@ fn_backup_relpath() {
   	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
 	# CHECK THAT the array is populated correctly.  Sanity check here -CedarLUG
 
-  	for ((base=0; $base<${#rdirtoks[@]}; base++)) ;
+  	for ((base=0; $base<${#rdirtoks[@]}; base++))
   	do
       		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
   	done
