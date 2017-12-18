@@ -112,7 +112,7 @@ fn_backup_compression(){
 	sleep 2
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
-	excludedir=fn_backup_relpath
+        excludedir=$(fn_backup_relpath)
 	# CHECK THAT excludedir isn't empty.  Sanity check here -CedarLUG
 	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" ./*
 	local exitcode=$?
