@@ -858,7 +858,6 @@ fn_info_config_stationeers(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
-		mapname="${unavailable}"
 		maxplayers="${unavailable}"		
 	else
 		servername=$(grep "SERVERNAME=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/SERVERNAME=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
