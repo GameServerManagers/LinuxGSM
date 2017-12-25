@@ -853,6 +853,27 @@ fn_info_config_squad(){
 	maxplayers=${maxplayers:-"0"}
 }
 
+fn_info_config_stationeers(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
+		mapname="${unavailable}"
+		maxplayers="${unavailable}"		
+	else
+		servername=$(grep "SERVERNAME=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/SERVERNAME=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "PASSWORD=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/PASSWORD=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "RCONPASSWORD=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/RCONPASSWORD=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MAXPLAYER=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/MAXPLAYER=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 # Just Cause 2
 if [ "${engine}" == "avalanche" ]; then
 	fn_info_config_avalanche
@@ -952,4 +973,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	fn_info_config_mta
 elif [ "${gamename}" == "Squad" ]; then
 	fn_info_config_squad
+# Stationeers
+elif [ "${gamename}" == "Stationeers" ]; then
+	fn_info_config_stationeers
 fi
