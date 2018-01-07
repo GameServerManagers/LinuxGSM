@@ -1031,6 +1031,8 @@ fn_info_message_select_engine(){
 		fn_info_message_samp
 	elif [ "${gamename}" == "Squad" ]; then
 		fn_info_message_squad
+	elif [ "${gamename}" == "Stationeers" ]; then
+		fn_info_message_stationeers
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
