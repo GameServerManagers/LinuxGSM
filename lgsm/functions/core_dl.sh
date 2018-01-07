@@ -105,8 +105,8 @@ fn_fetch_file(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 
-	# If the file is missing, then download
-	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+	# Download file if missing or download forced
+	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
@@ -115,7 +115,7 @@ fn_fetch_file(){
 		# if larger file shows progress bar
 		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]; then
 			echo -ne "downloading ${local_filename}..."
-			sleep 1
+			sleep 0.5
 			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 			echo -ne "downloading ${local_filename}..."
 		else

@@ -76,7 +76,11 @@ fn_update_factorio_arch(){
 
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(curl -s https://www.factorio.com/download-headless | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+	if [ "${branch}" != "stable" ]; then
+		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless/"${branch}" | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+	else
+		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+	fi
 	sleep 1
 
 	# Checks if availablebuild variable has been set
@@ -104,8 +108,8 @@ fn_update_factorio_compare(){
 		echo -e "\n"
 		echo -e "Update available:"
 		sleep 1
-		echo -e "	Current build: ${red}${currentbuild} ${factorioarch}${default}"
-		echo -e "	Available build: ${green}${availablebuild} ${factorioarch}${default}"
+		echo -e "	Current build: ${red}${currentbuild} ${factorioarch} ${branch} ${default}"
+		echo -e "	Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
 		echo -e ""
 		sleep 1
 		echo ""
@@ -117,8 +121,8 @@ fn_update_factorio_compare(){
 		sleep 1
 		echo -en "\n"
 		fn_script_log "Update available"
-		fn_script_log "Current build: ${currentbuild}"
-		fn_script_log "Available build: ${availablebuild}"
+		fn_script_log "Current build: ${currentbuild} ${factorioarch}${branch}"
+		fn_script_log "Available build: ${availablebuild} ${factorioarch}${branch}"
 		fn_script_log "${currentbuild} > ${availablebuild}"
 
 		unset updateonstart
@@ -142,12 +146,12 @@ fn_update_factorio_compare(){
 	else
 		echo -e "\n"
 		echo -e "No update available:"
-		echo -e "	Current version: ${green}${currentbuild}${default}"
-		echo -e "	Available version: ${green}${availablebuild}${default}"
+		echo -e "	Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
+		echo -e "	Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
 		echo -e ""
 		fn_print_ok_nl "No update available"
-		fn_script_log_info "Current build: ${currentbuild}"
-		fn_script_log_info "Available build: ${availablebuild}"
+		fn_script_log_info "Current build: ${currentbuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Available build: ${availablebuild} ${factorioarch} ${branch}"
 	fi
 }
 

@@ -17,7 +17,7 @@ class PythonGSQ:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=['madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d']
+        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d']
         idtech2query=['idtech3','quake','iw3.0']
         idtech3query=['idtech2','iw2.0']
         if self.option.engine in sourcequery:
@@ -26,7 +26,7 @@ class PythonGSQ:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine in idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.option.engine == 'avalanche':
+        elif self.option.engine == 'avalanche2.0':
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.option.engine == 'unreal':
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
@@ -100,7 +100,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
+        help='Engine type: avalanche2.0, avalanche3.0, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
     )
     parser.add_option(
         '-v', '--verbose',

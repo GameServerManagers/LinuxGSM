@@ -167,14 +167,17 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 
 	# Game Specific requirements
 
-	# Spark
-	if [ "${engine}" ==  "spark" ]; then
+	# Natural Selection 2
+	if [ "${gamename}" == "Natural Selection 2" ]; then
+		array_deps_required+=( speex libtbb2 )
+	# NS2: Combat
+	elif [ "${gamename}" == "NS2: Combat" ]; then
 		array_deps_required+=( speex:i386 libtbb2 )
 	# 7 Days to Die
-	elif [ "${gamename}" ==  "7 Days To Die" ]; then
+	elif [ "${gamename}" == "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
-	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
+	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Zombie Panic! Source" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32tinfo5 )
 		else
@@ -235,6 +238,8 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
+	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
+        	array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
 	else
 		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
 	fi
@@ -250,19 +255,26 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
 	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${engine}" != "lwjgl2" ]&&[ "${engine}" != "renderware" ]; then
-		array_deps_required+=( glibc.i686 libstdc++.i686 )
+		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
+            		array_deps_required+=( glibc.i686 libstdc++64.i686 )
+        	else
+			array_deps_required+=( glibc.i686 libstdc++.i686 )
+		fi
 	fi
 
 	# Game Specific requirements
 
-	# Spark
-	if [ "${engine}" ==  "spark" ]; then
+	# Natural Selection 2
+	if [ "${gamename}" == "Natural Selection 2" ]; then
+		array_deps_required+=( speex tbb )
+	# NS2: Combat
+	elif [ "${gamename}" == "NS2: Combat" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
 	# 7 Days to Die
-	elif [ "${gamename}" ==  "7 Days To Die" ]; then
+	elif [ "${gamename}" == "7 Days To Die" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
-	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]; then
+	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Zombie Panic! Source" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]||[ "${gamename}" == "Team Fortress 2" ]; then

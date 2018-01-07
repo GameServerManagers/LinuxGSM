@@ -107,9 +107,12 @@ elif [ "${gamename}" == "TeamSpeak 3" ]; then
 elif [ "${gamename}" == "Teeworlds" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
-elif [ "${engine}" == "avalanche" ]; then
+elif [ "${gamename}" == "Just Cause 2" ]; then
 	glibcrequired="2.13"
 	glibcfix="yes"
+elif [ "${gamename}" == "Just Cause 3" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${engine}" == "dontstarve" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
@@ -131,7 +134,10 @@ elif [ "${engine}" == "source" ]; then
 elif [ "${engine}" == "goldsource" ]; then
 	glibcrequired="2.3.4"
 	glibcfix="no"
-elif [ "${engine}" == "spark" ]; then
+elif [ "${gamename}" == "Natural Selection 2" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
+elif [ "${gamename}" == "NS2: Combat" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${engine}" == "starbound" ]; then
@@ -173,6 +179,9 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"
+elif [ "${gamename}" == "Zombie Panic! Source" ]; then
+	glibcrequired="2.15"
+	glibcfix="yes"
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"

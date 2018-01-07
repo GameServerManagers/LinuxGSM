@@ -180,6 +180,8 @@ fn_stop_graceful_sdtd(){
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
+	elif [ "${engine}" == "Spark" ]; then
+		fn_stop_graceful_cmd "q" 30
 	elif [ "${gamename}" == "Terraria" ]; then
 		fn_stop_graceful_cmd "exit" 30
 	elif [ "${gamename}" == "Minecraft" ]; then
@@ -189,7 +191,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_cmd "quit" 120
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
+	elif [ "${engine}" == "avalanche2.0" ]||[ "${engine}" == "avalanche3.0" ]||[ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]; then
 		fn_stop_graceful_cmd "quit" 30
