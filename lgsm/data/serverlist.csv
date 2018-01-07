@@ -35,11 +35,11 @@ ins,insserver,Insurgency,source,2.15,y,y,n,y,n,y,y
 jc2,jc2server,Just Cause 2,avalanche2.0,2.13,y,y,n,y,n,n,y
 jc3,jc3server,Just Cause 3,avalanche3.0,2.17,n,y,n,y,n,n,y
 kf,kfserver,Killing Floor,unreal2,2.4,n,y,n,y,y,n,y
-kf2,kf2server,Killing Floor 2,unreal3,2.17,n,y,n,y,n,n,n
+kf2,kf2server,Killing Floor 2,unreal3,2.17,n,n,y,y,n,n,n
 l4d,l4dserver,Left 4 Dead,source,2.3.6,n,y,n,y,n,n,y
 l4d2,l4d2server,Left 4 Dead 2,source,2.3.6,n,y,n,y,n,n,y
 mc,mcserver,Minecraft,lwjgl2,null,n,y,n,n,n,n,n
-mta,mtaserver,Multi Theft Auto,renderware,2.7,n,y,n,n,n,n,n
+mta,mtaserver,Multi Theft Auto,renderware,2.7,n,y,y,n,n,n,n
 mumble,mumbleserver,Mumble,null,null,n,y,n,n,n,n,n
 ns2,ns2server,Natural Selection 2,spark,2.17,n,n,y,y,y,n,y
 nmrih,nmrihserver,No More Room in Hell,source,2.15,y,y,n,y,n,y,y
@@ -58,7 +58,7 @@ rust,rustserver,Rust,unity3d,2.15,n,y,n,y,n,n,y
 samp,sampserver,San Andreas Multiplayer,renderware,2.3,n,y,n,n,n,n,n
 ss3,ss3server,Serious Sam 3: BFE,seriousengine35,2.13,y,y,n,y,n,n,n
 sb,sbserver,Starbound,starbound,2.17,n,y,n,y,y,n,y
-st,stserver,Stationeers,unity3d,2.15,n,y,n,y,n,n,y
+st,stserver,Stationeers,unity3d,2.15,n,n,y,y,n,n,y
 squad,squadserver,Squad,unreal4,2.17,n,y,n,y,n,n,n
 sven,svenserver,Sven Co-op,goldsource,2.18,n,y,n,y,n,n,y
 tf2,tf2server,Team Fortress 2,source,2.15,y,y,n,y,n,y,y
