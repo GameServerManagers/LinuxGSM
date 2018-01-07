@@ -273,7 +273,7 @@ fi
 # LinuxGSM installer mode
 if [ "${shortname}" == "core" ]; then
 	userinput=$1
-	datadir="${tmpdir}/data"
+	datadir="${lgsmdir}/data"
 	serverlist="${datadir}/serverlist.csv"
 
 	# Download the latest serverlist. This is the complete list of all supported servers.
