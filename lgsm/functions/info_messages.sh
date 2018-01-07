@@ -835,6 +835,16 @@ fn_info_message_starbound(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_stationeers(){
+	echo -e "netstat -atunp | grep rocketstation"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_teamspeak3(){
 	echo -e "netstat -atunp | grep ts3server"
 	echo -e ""
