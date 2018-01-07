@@ -462,6 +462,12 @@ elif [ "${gamename}" == "Starbound" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Stationeers" ]; then
+	gamedirname="Stationeers"
+	array_configs+=( default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
 	gamedirname="SanAndreasMultiplayer"
 	array_configs+=( server.cfg )
