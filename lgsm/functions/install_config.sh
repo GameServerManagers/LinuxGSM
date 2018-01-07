@@ -61,7 +61,12 @@ fn_set_config_vars(){
 		echo "changing hostname."
 		fn_script_log_info "changing hostname."
 		sleep 1
-		sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+
+		if [ $(grep SERVERNAME=SERVERNAME \"${lgsmdir}/config-default/config-game/${config}\") ]; then
+			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
+		else
+			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+		fi
 		echo "changing rcon/admin password."
 		fn_script_log_info "changing rcon/admin password."
 		sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
