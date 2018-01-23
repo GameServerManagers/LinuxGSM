@@ -210,19 +210,19 @@ fn_backup_relpath() {
 
 	# Compare the leading entries of each array.  These common elements will be clipped off
 	# for the relative path output.
-  	for ((base=0; $base<${#rdirtoks[@]}; base++))
+  	for ((base=0; base<${#rdirtoks[@]}; base++))
   	do
       		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
   	done
 
 	# Next, climb out of the remaining rootdir location with updir references...
-  	for ((x=${base};$x<${#rdirtoks[@]};x++))
+  	for ((x=base;x<${#rdirtoks[@]};x++))
   	do
       		echo -n "../"
   	done
 
 	# Climb down the remaining components of the backupdir location.
-  	for ((x=${base};$x<$(( ${#bdirtoks[@]} - 1 ));x++))
+  	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
   	do
       		echo -n "${bdirtoks[$x]}/"
   	done
@@ -231,7 +231,7 @@ fn_backup_relpath() {
 	# traverse down, just add a newline.  Otherwise at this point, there is
 	# one remaining directory component in the backupdir to navigate.
   	if (( "$base" < "${#bdirtoks[@]}" )) ; then
-      		echo ${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}
+      		echo "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
   	else
       		echo
   	fi
