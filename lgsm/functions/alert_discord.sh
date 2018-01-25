@@ -5,21 +5,26 @@
 # Website: https://gameservermanagers.com
 # Description: Sends Discord alert.
 
+bot_name="${discord_bot_name:-LinuxGSM}"
+avatar_url="${discord_avatar_url:-https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png}"
+shown_ip_address="${discord_public_ip:-$ip}"
+shown_port="${discord_public_port:-$port}"
+
 json=$(cat <<EOF
 {
-"username":"LinuxGSM",
-"avatar_url":"https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png",
+"username":"${bot_name}",
+"avatar_url":"${avatar_url}",
 "file":"content",
 
 "embeds": [{
 	"color": "2067276",
-	"author": {"name": "${alertemoji} ${alertsubject} ${alertemoji}", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
+	"author": {"name": "${alertemoji} ${alertsubject} ${alertemoji}", "icon_url": "${avatar_url}"},
 	"title": "",
 	"description": "",
 	"url": "",
 	"type": "content",
-	"thumbnail": {"url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
-	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
+	"thumbnail": {"url": "${avatar_url}"},
+	"footer": {"text": "${bot_name}", "icon_url": "${avatar_url}"},
 	"fields": [
 			{
 				"name": "Alert Message",
@@ -39,7 +44,7 @@ json=$(cat <<EOF
 			},
 			{
 				"name": "Server IP",
-				"value": "[${ip}:${port}](https://www.gametracker.com/server_info/${ip}:${port})"
+				"value": "[${shown_ip_address}:${shown_port}](https://www.gametracker.com/server_info/${shown_ip_address}:${shown_port})"
 			},
 			{
 				"name": "More info",
