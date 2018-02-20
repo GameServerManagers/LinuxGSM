@@ -63,6 +63,6 @@ sleep 1
 echo "IMPORANT! Save these details for later."
 sleep 1
 cd "${executabledir}"
-./ts3server_startscript.sh start inifile=ts3-server.ini
+./ts3server_startscript.sh start inifile=ts3-server.ini license_accepted=1
 sleep 5
 ./ts3server_startscript.sh stop
