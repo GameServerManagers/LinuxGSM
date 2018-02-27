@@ -40,9 +40,9 @@ fn_start_teamspeak3(){
 	date > "${rootdir}/${lockselfname}"
 	# Accept license
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
-		fn_script_log "Creating License acceptation file, which means you accept TeamSpeak License if you keep using it"
-		fn_print_info_nl "Creating License acceptation file, which means you accept TeamSpeak License if you keep using it"
-		fn_print_info_nl " * You can review the TeamSpeak License in ${executabledir}/LICENSE"
+		fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
+		fn_print_info_nl "Accepting TeamSpeak license:"
+		fn_print_info_nl " * ${executabledir}/LICENSE"
 		sleep 3
 		touch "${executabledir}/.ts3server_license_accepted"
 	fi
