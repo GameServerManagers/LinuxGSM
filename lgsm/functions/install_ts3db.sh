@@ -55,6 +55,13 @@ else
 fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
 fi
 
+## License
+fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
+fn_print_info_nl "Accepting TeamSpeak license:"
+fn_print_info_nl " * ${executabledir}/LICENSE"
+sleep 3
+touch "${executabledir}/.ts3server_license_accepted"
+
 ## Get privilege key
 echo ""
 echo "Getting privilege key"

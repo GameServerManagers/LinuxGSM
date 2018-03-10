@@ -26,6 +26,10 @@ sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/source
 sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
 sourcemodurl="${sourcemoddownloadurl}"
+# Oxide
+oxiderustlatestlink="$(curl -s https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+oxidehurtworldlatestlink="$(curl -s https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
+oxidesdtdlatestlink="$(curl -s https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 
 # Define mods information (required)
 
@@ -66,9 +70,9 @@ mod_info_advdupe2=( MOD "advdupe2" "Advanced Duplicator 2" "https://github.com/w
 mod_info_darkrp=( MOD "darkrp" "DarkRP" "https://github.com/FPtje/DarkRP/archive/master.zip" "darkrp-master.zip" "0" "LowercaseOn" "${systemdir}/gamemodes" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Most popular gamemode" )
 mod_info_darkrpmodification=( MOD "darkrpmodification" "DarkRP Modification" "https://github.com/FPtje/darkrpmodification/archive/master.zip" "darkrpmodification-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "NOUPDATE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Customize DarkRP settings" )
 # Oxidemod
-mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "https://github.com/OxideMod/Oxide/releases/download/latest/Oxide-Rust.zip" "Oxide-Rust.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-rust.1659/" "Allows for the use of plugins" )
-mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "https://github.com/OxideMod/Oxide/releases/download/latest/Oxide-Hurtworld.zip" "Oxide-Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-hurtworld.1332/" "Allows for the use of plugins" )
-mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "https://github.com/OxideMod/Oxide/releases/download/latest/Oxide-SevenDaysToDie.zip" "Oxide-SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
+mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "Oxide.Rust.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-rust.1659/" "Allows for the use of plugins" )
+mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlink}" "Oxide.Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-hurtworld.1332/" "Allows for the use of plugins" )
+mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
 
 # REQUIRED: Set all mods info into the global array
 mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
