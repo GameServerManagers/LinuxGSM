@@ -70,12 +70,10 @@ fn_update_currentbuild(){
 fn_update_availablebuild(){
 	# Gets latest build info.
 	availablebuild=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | sed -e 's/^.*"release":"\([^"]*\)".*$/\1/')
-	sleep 1
-
 	# Checks if availablebuild variable has been set
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: mojang.com"
-		sleep 1
+		sleep 0.5
 		fn_print_fail "Checking for update: mojang.com: Not returning version info"
 		fn_script_log_fatal "Failure! Checking for update: mojang.com: Not returning version info"
 		core_exit.sh
@@ -84,7 +82,7 @@ fn_update_availablebuild(){
 	else
 		fn_print_ok_nl "Checking for update: mojang.com"
 		fn_script_log_pass "Checking for update: mojang.com"
-		sleep 1
+		sleep 0.5
 	fi
 }
 
