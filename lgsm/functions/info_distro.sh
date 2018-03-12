@@ -5,7 +5,7 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Distro information
 
@@ -37,12 +37,14 @@ glibcversion="$(ldd --version | sed -n '1s/.* //p')"
 
 ## tmux version
 # e.g: tmux 1.6
-if [ -z "$(command -v tmux)" ]; then
+if [ -z "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
-elif [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
-	tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 else
-	tmuxv=$(tmux -V)
+	if [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then
+		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
+	else
+		tmuxv=$(tmux -V)
+	fi
 fi
 
 ## Uptime
@@ -51,7 +53,6 @@ uptime=${uptime/[. ]*/}
 minutes=$(( uptime/60%60 ))
 hours=$(( uptime/60/60%24 ))
 days=$(( uptime/60/60/24 ))
-
 
 ### Performance information
 
@@ -95,13 +96,13 @@ if [ -z "${rootdirdu}" ]; then
 fi
 
 ## LinuxGSM used space in serverfiles dir.
-filesdirdu=$(du -sh "${filesdir}" 2> /dev/null | awk '{print $1}')
-if [ -z "${filesdirdu}" ]; then
-	filesdirdu="0M"
+serverfilesdu=$(du -sh "${serverfiles}" 2> /dev/null | awk '{print $1}')
+if [ -z "${serverfilesdu}" ]; then
+	serverfilesdu="0M"
 fi
 
 ## LinuxGSM used space total minus backup dir.
-rootdirduexbackup=$(du -sh --exclude="${backupdir}" "${filesdir}" 2> /dev/null | awk '{print $1}')
+rootdirduexbackup=$(du -sh --exclude="${backupdir}" "${serverfiles}" 2> /dev/null | awk '{print $1}')
 if [ -z "${rootdirduexbackup}" ]; then
 	rootdirduexbackup="0M"
 fi
@@ -131,4 +132,9 @@ if [ -d "${backupdir}" ]; then
 		# size of most recent backup.
 		lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
 	fi
+fi
+
+# External IP address
+if [ -z "${extip}" ];then
+	extip=$(${curlpath} -m 3 ifconfig.co 2>/dev/null)
 fi

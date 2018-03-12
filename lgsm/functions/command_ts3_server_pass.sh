@@ -7,8 +7,7 @@
 
 local commandname="TS3-CHANGE-PASS"
 local commandaction="ServerAdmin Password Change"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
-
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_serveradmin_password_prompt(){
 	fn_print_header
@@ -22,7 +21,6 @@ fn_serveradmin_password_prompt(){
 	fn_script_log_info "Initiating ${gamename} ServerAdmin password change"
 	read -p "Enter new password : " newpassword
 }
-
 
 fn_serveradmin_password_set(){
 	fn_print_info_nl "Starting server with new password..."

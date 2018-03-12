@@ -6,7 +6,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
@@ -14,31 +14,92 @@ if [ "${checklogs}" != "1" ]; then
 	echo "================================="
 fi
 sleep 1
-# Create script and console log directories
-mkdir -v "${rootdir}/log"
-mkdir -v "${scriptlogdir}"
-touch "${scriptlog}"
+# Create LinuxGSM logs
+echo -ne "installing log dir: ${logdir}..."
+mkdir -p "${logdir}"
+if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
+
+echo -ne "installing LinuxGSM log dir: ${lgsmlogdir}..."
+mkdir -p "${lgsmlogdir}"
+if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
+echo -ne "creating LinuxGSM log: ${lgsmlog}..."
+touch "${lgsmlog}"
+if [ $? -ne 0 ]; then
+	fn_print_fail_eol_nl
+	core_exit.sh
+else
+	fn_print_ok_eol_nl
+fi
+# Create Console logs
 if [ -n "${consolelogdir}" ]; then
-	mkdir -v "${consolelogdir}"
+	echo -ne "installing console log dir: ${consolelogdir}..."
+	mkdir -p "${consolelogdir}"
+	if [ $? -ne 0 ]; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
+	echo -ne "creating console log: ${consolelog}..."
 	touch "${consolelog}"
+	if [ $? -ne 0 ]; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
 fi
 
-# Create gamelogdir if variable exists but directory does not
+# Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
-	mkdir -pv "${gamelogdir}"
+	echo -ne "installing game log dir: ${gamelogdir}..."
+	mkdir -p "${gamelogdir}"
+	if [ $? -ne 0 ]; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
 fi
 
-# Symlink gamelogdir to lgsm logs if variable exists
+# Symlink to gamelogdir
+# unless gamelogdir is within logdir
+# e.g serverfiles/log is not within log/: symlink created
+# log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ]; then
-	if [ ! -h "${rootdir}/log/server" ]; then
-		ln -nfsv "${gamelogdir}" "${rootdir}/log/server"
+	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ];then
+		echo -ne "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
+		ln -nfs "${gamelogdir}" "${logdir}/server"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
 	fi
 fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs
 if [ -d "${rootdir}/Steam/logs" ]; then
-	if [ ! -h "${rootdir}/log/steamcmd" ]; then
-		ln -nfsv "${rootdir}/Steam/logs" "${rootdir}/log/steamcmd"
+	if [ ! -L "${logdir}/steamcmd" ]; then
+		echo -ne "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."
+		ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
+		if [ $? -ne 0 ]; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
 	fi
 fi
 sleep 1

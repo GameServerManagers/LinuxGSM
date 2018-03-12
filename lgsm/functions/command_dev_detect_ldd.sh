@@ -9,30 +9,30 @@ echo "================================="
 echo "Shared Object dependencies Checker"
 echo "================================="
 
-if [ -z "${filesdir}" ]; then
-	dir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+if [ -z "${serverfiles}" ]; then
+	dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 fi
 
-if [ -d "${filesdir}" ]; then
+if [ -d "${serverfiles}" ]; then
 	echo "Checking directory: "
-	echo "${filesdir}"
-elif [ -f "${filesdir}" ]; then
+	echo "${serverfiles}"
+elif [ -f "${serverfiles}" ]; then
 	echo "Checking file: "
-	echo "${filesdir}"
+	echo "${serverfiles}"
 fi
 echo ""
 
-files=$(find "${filesdir}" | wc -l)
-find "${filesdir}" -type f -print0 |
+files=$(find "${serverfiles}" | wc -l)
+find "${serverfiles}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	#ldd -v $line 2>/dev/null|grep "=>" >>"${tmpdir}/detect_ldd.tmp"
-	if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable")" ]; then
-		echo "$line" >> "${tmpdir}/detect_ldd.tmp"
-		ldd $line 2>/dev/null |grep -v "not a dynamic executable" >> "${tmpdir}/detect_ldd.tmp"
+	if [ -n "$(ldd ${line} 2>/dev/null |grep -v "not a dynamic executable")" ]; then
+		echo "${line}" >> "${tmpdir}/detect_ldd.tmp"
+		ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable" >> "${tmpdir}/detect_ldd.tmp"
 
 		if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found")" ]; then
-			echo "$line" >> "${tmpdir}/detect_ldd_not_found.tmp"
-			ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${tmpdir}/detect_ldd_not_found.tmp"
+			echo "${line}" >> "${tmpdir}/detect_ldd_not_found.tmp"
+			ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${tmpdir}/detect_ldd_not_found.tmp"
 		fi
 	fi
 	echo -n "$i / $files" $'\r'

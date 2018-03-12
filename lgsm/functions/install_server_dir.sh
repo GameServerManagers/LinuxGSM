@@ -6,13 +6,13 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""
 echo "Server Directory"
 echo "================================="
 sleep 1
-if [ -d "${filesdir}" ]; then
+if [ -d "${serverfiles}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi
 pwd
@@ -22,7 +22,7 @@ if [ -z "${autoinstall}" ]; then
 		exit
 	fi
 fi
-if [ ! -d "${filesdir}" ]; then
-	mkdir -v "${filesdir}"
+if [ ! -d "${serverfiles}" ]; then
+	mkdir -v "${serverfiles}"
 fi
 sleep 1

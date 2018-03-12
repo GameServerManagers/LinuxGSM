@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -17,7 +17,7 @@ fn_update_steamcmd_dl(){
 	fn_print_ok_nl "SteamCMD"
 	fn_script_log_info "Starting SteamCMD"
 
-	cd "${rootdir}/steamcmd"
+	cd "${steamcmddir}"
 
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
@@ -25,18 +25,22 @@ fn_update_steamcmd_dl(){
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
+	cd "${steamcmddir}"
 	if [ "${engine}" == "goldsource" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +quit | tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} +quit | tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
+		if [ "${gamename}" == "Classic Offensive" ]; then
+			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} +quit | tee -a "${lgsmlog}"
+		fi
 	fi
 
 	fix.sh
 }
 
 fn_appmanifest_info(){
-	appmanifestfile=$(find "${filesdir}" -type f -name "appmanifest_${appid}.acf")
-	appmanifestfilewc=$(find "${filesdir}" -type f -name "appmanifest_${appid}.acf"|wc -l)
+	appmanifestfile=$(find "${serverfiles}" -type f -name "appmanifest_${appid}.acf")
+	appmanifestfilewc=$(find "${serverfiles}" -type f -name "appmanifest_${appid}.acf"|wc -l)
 }
 
 fn_appmanifest_check(){
@@ -98,7 +102,7 @@ fn_update_request_log(){
 	fn_print_dots "Checking for update: Server logs"
 	fn_script_log_info "Checking for update: Server logs"
 	sleep 1
-	if [ -f ${consolelog} ]; then
+	if [ -f "${consolelog}" ]; then
 		requestrestart=$(grep -Ec "MasterRequestRestart" "${consolelog}")
 	else
 		requestrestart="0"
@@ -136,6 +140,7 @@ fn_update_request_log(){
 }
 
 fn_update_steamcmd_check(){
+	appid="${1}"
 	fn_appmanifest_check
 	# Checks for server update from SteamCMD
 	fn_print_dots "Checking for update: SteamCMD"
@@ -146,7 +151,7 @@ fn_update_steamcmd_check(){
 	currentbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
 	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD
-	cd "${rootdir}/steamcmd"
+
 	if [ -f "${HOME}/Steam/appcache/appinfo.vdf" ]; then
 		rm -f "${HOME}/Steam/appcache/appinfo.vdf"
 	fi
@@ -160,6 +165,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Gets availablebuild info
+	cd "${steamcmddir}"
 	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | sed -n '/branch/,$p' | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: SteamCMD"
@@ -181,7 +187,6 @@ fn_update_steamcmd_check(){
 		sleep 1
 		echo -e "	Current build: ${red}${currentbuild}${default}"
 		echo -e "	Available build: ${green}${availablebuild}${default}"
-		echo -e ""
 		echo -e "	https://steamdb.info/app/${appid}/"
 		sleep 1
 		echo ""
@@ -224,7 +229,6 @@ fn_update_steamcmd_check(){
 	fi
 }
 
-
 if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	# Goldsource servers bypass checks as fn_update_steamcmd_check does not work for appid 90 servers.
 	# forceupdate bypasses checks
@@ -240,5 +244,9 @@ if [ "${engine}" == "goldsource" ]||[ "${forceupdate}" == "1" ]; then
 	fi
 else
 	fn_update_request_log
-	fn_update_steamcmd_check
+	fn_update_steamcmd_check "${appid}"
+	# will also check for second appid
+	if [ "${gamename}" == "Classic Offensive" ]; then
+		fn_update_steamcmd_check "${appid_co}"
+	fi
 fi

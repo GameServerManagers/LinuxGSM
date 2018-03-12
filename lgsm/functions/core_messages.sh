@@ -27,22 +27,22 @@ fi
 ########################
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
 fn_script_log_pass(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: PASS: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: PASS: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: PASS: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=0
@@ -50,11 +50,11 @@ fn_script_log_pass(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: FATAL: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: FATAL: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: FATAL: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=1
@@ -62,11 +62,11 @@ fn_script_log_fatal(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ERROR: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ERROR: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ERROR: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=2
@@ -74,11 +74,11 @@ fn_script_log_error(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: WARN: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: WARN: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: WARN: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=3
@@ -86,11 +86,11 @@ fn_script_log_warn(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: INFO: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: INFO: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: INFO: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }

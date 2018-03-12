@@ -11,7 +11,7 @@ sleep 1
 echo "You are required to accept the EULA:"
 echo "https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula/"
 
-echo "eula=false" > "${filesdir}/eula.txt"
+echo "eula=false" > "${serverfiles}/eula.txt"
 
 if [ -z "${autoinstall}" ]; then
 echo "By continuing you are indicating your agreement to the EULA."
@@ -25,4 +25,4 @@ echo ""
 	sleep 5
 fi
 
-sed -i "s/eula=false/eula=true/g" "${filesdir}/eula.txt"
+sed -i "s/eula=false/eula=true/g" "${serverfiles}/eula.txt"

@@ -7,7 +7,7 @@
 
 local commandname="WIPE"
 local commandaction="data wipe"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 fn_print_header
@@ -43,9 +43,10 @@ fn_wipe_exit_code(){
 # Removes files to wipe server
 fn_wipe_server_remove_files(){
 	# Rust Wipe
+#WipeProceduralSave
 	if [ "${gamename}" == "Rust" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
-			currentaction="Removing map save(s): ${serveridentitydir}/proceduralmap.*.sav"
+			currentaction="Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
 			echo -en "Removing map saves proceduralmap.*.sav file(s)..."
 			sleep 1
 			fn_script_log "${currentaction}"
@@ -53,21 +54,50 @@ fn_wipe_server_remove_files(){
 			fn_wipe_exit_code
 			sleep 0.5
 		else
-			fn_print_information_nl "No map save to remove"
-			fn_script_log_info "No map save to remove."
+			fn_print_information_nl "No procedural map save to remove"
+			fn_script_log_info "No procedural map save to remove."
 			sleep 0.5
 		fi
+#WipeBarrenSave
+			if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
+			currentaction="Removing barren map save(s): ${serveridentitydir}/barren*.sav"
+			echo -en "Removing barren map saves barren*.sav file(s)..."
+			sleep 1
+			fn_script_log "${currentaction}"
+			find "${serveridentitydir:?}" -type f -name "barren*.sav" -delete
+			fn_wipe_exit_code
+			sleep 0.5
+		else
+			fn_print_information_nl "No barren map save to remove"
+			fn_script_log_info "No barren map save to remove."
+			sleep 0.5
+		fi
+#WipeProceduralMap
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
 			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.map"
-			echo -en "Removing map proceduralmap.*.map file(s)..."
+			echo -en "Removing procedural map proceduralmap.*.map file(s)..."
 			sleep 1
 			fn_script_log "${currentaction}"
 			find "${serveridentitydir:?}" -type f -name "proceduralmap.*.map" -delete
 			fn_wipe_exit_code
 			sleep 0.5
 		else
-			fn_print_information_nl "No map file to remove"
-			fn_script_log_info "No map file to remove."
+			fn_print_information_nl "No procedural map file to remove"
+			fn_script_log_info "No procedural map file to remove."
+			sleep 0.5
+		fi
+#WipeBarrenMap
+				if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
+			currentaction="Removing map file(s): ${serveridentitydir}/barren*.map"
+			echo -en "Removing barren map barren*.map file(s)..."
+			sleep 1
+			fn_script_log "${currentaction}"
+			find "${serveridentitydir:?}" -type f -name "barren*.map" -delete
+			fn_wipe_exit_code
+			sleep 0.5
+		else
+			fn_print_information_nl "No barren map file to remove"
+			fn_script_log_info "No barren map file to remove."
 			sleep 0.5
 		fi
 		if [ -d "${serveridentitydir}/user" ]; then
@@ -116,7 +146,7 @@ fn_wipe_server_remove_files(){
 # Check if there is something to wipe, prompt the user, and call appropriate functions
 # Rust Wipe
 if [ "${gamename}" == "Rust" ]; then
-	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
+	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
 		if ! fn_prompt_yn "Continue?" Y; then
 				echo Exiting; core_exit.sh

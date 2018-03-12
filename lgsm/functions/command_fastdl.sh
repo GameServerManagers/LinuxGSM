@@ -7,7 +7,7 @@
 
 local commandname="FASTDL"
 local commandaction="FastDL"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -23,7 +23,7 @@ luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 # Check if bzip2 is installed
-if [ -z "$(command -v bzip2)" ]; then
+if [ -z "$(command -v bzip2 2>/dev/null)" ]; then
 	fn_print_fail "bzip2 is not installed"
 	fn_script_log_fatal "bzip2 is not installed"
 	core_exit.sh
@@ -115,32 +115,32 @@ fn_fastdl_dirs(){
 
 # Using this gist https://gist.github.com/agunnerson-ibm/efca449565a3e7356906
 fn_human_readable_file_size(){
-    local abbrevs=(
-        $((1 << 60)):ZB
-        $((1 << 50)):EB
-        $((1 << 40)):TB
-        $((1 << 30)):GB
-        $((1 << 20)):MB
-        $((1 << 10)):KB
-        $((1)):bytes
-    )
+	local abbrevs=(
+		$((1 << 60)):ZB
+		$((1 << 50)):EB
+		$((1 << 40)):TB
+		$((1 << 30)):GB
+		$((1 << 20)):MB
+		$((1 << 10)):KB
+		$((1)):bytes
+	)
 
-    local bytes="${1}"
-    local precision="${2}"
+	local bytes="${1}"
+	local precision="${2}"
 
-    if [[ "${bytes}" == "1" ]]; then
-        echo "1 byte"
-    else
-        for item in "${abbrevs[@]}"; do
-            local factor="${item%:*}"
-            local abbrev="${item#*:}"
-            if [[ "${bytes}" -ge "${factor}" ]]; then
-                local size="$(bc -l <<< "${bytes} / ${factor}")"
-                printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
-                break
-            fi
-        done
-    fi
+	if [[ "${bytes}" == "1" ]]; then
+		echo "1 byte"
+	else
+		for item in "${abbrevs[@]}"; do
+			local factor="${item%:*}"
+			local abbrev="${item#*:}"
+			if [[ "${bytes}" -ge "${factor}" ]]; then
+				local size="$(bc -l <<< "${bytes} / ${factor}")"
+				printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
+				break
+			fi
+		done
+	fi
 }
 
 # Provides info about the fastdl directory content and prompts for confirmation

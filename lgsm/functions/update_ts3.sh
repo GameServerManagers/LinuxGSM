@@ -6,14 +6,14 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl(){
 	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
-	echo -e "copying to ${filesdir}...\c"
-	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${filesdir}"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -177,7 +177,6 @@ fn_update_ts3_compare(){
 		fn_script_log_info "Available build: ${availablebuild}"
 	fi
 }
-
 
 fn_update_ts3_arch
 if [ "${installer}" == "1" ]; then

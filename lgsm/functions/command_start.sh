@@ -7,7 +7,7 @@
 
 local commandname="START"
 local commandaction="Starting"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -e "${servercfgfullpath}" ]; then
@@ -29,14 +29,25 @@ fn_start_teamspeak3(){
 	if [ "${status}" != "0" ]; then
 		fn_print_info_nl "${servername} is already running"
 		fn_script_log_error "${servername} is already running"
-		core_exit.sh
+		if [ -z "${exitbypass}" ]; then
+			core_exit.sh
+		fi
 	fi
-
-	mv "${scriptlog}" "${scriptlogdate}"
+	if [ -f "${lgsmlog}" ]; then
+		mv "${lgsmlog}" "${lgsmlogdate}"
+	fi
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
+	# Accept license
+	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
+		fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
+		fn_print_info_nl "Accepting TeamSpeak license:"
+		fn_print_info_nl " * ${executabledir}/LICENSE"
+		sleep 3
+		touch "${executabledir}/.ts3server_license_accepted"
+	fi
 	cd "${executabledir}"
-	if [ "${ts3serverpass}" == "1" ];then
+	if [ "${ts3serverpass}" == "1" ]; then
 		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
 	else
 		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
@@ -46,7 +57,7 @@ fn_start_teamspeak3(){
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
-		echo -e "	Check log files: ${rootdir}/log"
+		echo -e "	Check log files: ${logdir}"
 		core_exit.sh
 	else
 		fn_print_ok_nl "${servername}"
@@ -57,6 +68,18 @@ fn_start_teamspeak3(){
 fn_start_tmux(){
 	fn_parms
 
+	# check for tmux size variables
+	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
+		sessionwidth="${servercfgtmuxwidth}"
+	else
+		sessionwidth="80"
+	fi
+	if [[ "${servercfgtmuxheight}" =~ ^[0-9]+$ ]]; then
+		sessionheight="${servercfgtmuxheight}"
+	else
+		sessionheight="23"
+	fi
+
 	# Log rotation
 	check_status.sh
 	if [ "${status}" == "0" ]; then
@@ -66,7 +89,7 @@ fn_start_tmux(){
 				mv "${gamelog}" "${gamelogdate}"
 			fi
 		fi
-		mv "${scriptlog}" "${scriptlogdate}"
+		mv "${lgsmlog}" "${lgsmlogdate}"
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
@@ -75,38 +98,57 @@ fn_start_tmux(){
 	if [ "${status}" != "0" ]; then
 		fn_print_info_nl "${servername} is already running"
 		fn_script_log_error "${servername} is already running"
-		core_exit.sh
+		if [ -z "${exitbypass}" ]; then
+			core_exit.sh
+		fi
 	fi
 
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -s "${servicename}" "${executable} ${parms}" 2> "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionheight}" -y "${sessionwidth}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
-	# tmux pipe-pane not supported in tmux versions < 1.6
-	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -lt "16" ]; then
-		echo "Console logging disabled: Tmux => 1.6 required
-		https://gameservermanagers.com/tmux-upgrade
-		Currently installed: $(tmux -V)" > "${consolelog}"
+	# Create logfile
+	touch "${consolelog}"
 
-	# Console logging disabled: Bug in tmux 1.8 breaks logging
-	elif [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')" -eq "18" ]; then
-		echo "Console logging disabled: Bug in tmux 1.8 breaks logging
-		https://gameservermanagers.com/tmux-upgrade
-		Currently installed: $(tmux -V)" > "${consolelog}"
+	# Get tmux version
+	tmuxversion="$(tmux -V|sed "s/tmux //"|sed -n '1 p')"
+	# Tmux compiled from source will return "master", therefore ignore it
+	if [ "$(tmux -V|sed "s/tmux //"|sed -n '1 p')" == "master" ]; then
+		fn_script_log "Tmux version: master (user compiled)"
+		echo "Tmux version: master (user compiled)" >> "${consolelog}"
+		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+		fi
+	elif [ -n "${tmuxversion}" ]; then
+		# Get the digit version of tmux
+		tmuxversion="$(tmux -V|sed "s/tmux //"|sed -n '1 p'|tr -cd '[:digit:]')"
+		# tmux pipe-pane not supported in tmux versions < 1.6
+		if [ "${tmuxversion}" -lt "16" ]; then
+			echo "Console logging disabled: Tmux => 1.6 required
+			https://gameservermanagers.com/tmux-upgrade
+			Currently installed: $(tmux -V)" > "${consolelog}"
 
-	# Console logging enable or not set
-	elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-		touch "${consolelog}"
-		tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
-
-	# Console logging disabled
-	elif [ "${consolelogging}" == "off" ]; then
-		touch "${consolelog}"
-		cat "Console logging disabled by user" >> "{consolelog}"
-		fn_script_log_info "Console logging disabled by user"
+		# Console logging disabled: Bug in tmux 1.8 breaks logging
+		elif [ "${tmuxversion}" -eq "18" ]; then
+			echo "Console logging disabled: Bug in tmux 1.8 breaks logging
+			https://gameservermanagers.com/tmux-upgrade
+			Currently installed: $(tmux -V)" > "${consolelog}"
+		# Console logging enable or not set
+		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+		fi
+	else
+		echo "Unable to detect tmux version" >> "${consolelog}"
+		fn_script_log_warn "Unable to detect tmux version"
 	fi
-	sleep 1
+
+# Console logging disabled
+if [ "${consolelogging}" == "off" ]; then
+	echo "Console logging disabled by user" >> "${consolelog}"
+	fn_script_log_info "Console logging disabled by user"
+fi
+sleep 1
 
 	# If the server fails to start
 	check_status.sh
@@ -114,20 +156,20 @@ fn_start_tmux(){
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
 		sleep 1
-		if [ -s "${scriptlogdir}/.${servicename}-tmux-error.tmp" ]; then
+		if [ -s "${lgsmlogdir}/.${servicename}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
 			echo ""
 			echo "Command"
 			echo "================================="
-			echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${scriptlog}"
+			echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo ""
 			echo "Error"
 			echo "================================="
-			cat "${scriptlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${scriptlog}"
+			cat "${lgsmlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${lgsmlog}"
 
-			# Detected error https://gameservermanagers.com/issues
-			if [ $(grep -c "Operation not permitted" "${scriptlogdir}/.${servicename}-tmux-error.tmp") ]; then
+			# Detected error https://gameservermanagers.com/support
+			if [ $(grep -c "Operation not permitted" "${lgsmlogdir}/.${servicename}-tmux-error.tmp") ]; then
 			echo ""
 			echo "Fix"
 			echo "================================="
@@ -148,8 +190,8 @@ fn_start_tmux(){
 				else
 					echo "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo "https://gameservermanagers.com/issues"
-					fn_script_log_info "https://gameservermanagers.com/issues"
+					echo "https://gameservermanagers.com/support"
+					fn_script_log_info "https://gameservermanagers.com/support"
 				fi
 			fi
 		fi
@@ -159,7 +201,7 @@ fn_start_tmux(){
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${scriptlogdir}/.${servicename}-tmux-error.tmp"
+	rm "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 	echo -en "\n"
 }
 
@@ -174,6 +216,7 @@ logs.sh
 if [ "${status}" == "0" ]; then
 	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
 		exitbypass=1
+		unset updateonstart
 		command_update.sh
 	fi
 fi

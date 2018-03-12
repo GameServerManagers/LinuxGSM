@@ -6,7 +6,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't
 fn_check_cfgdir(){
@@ -17,13 +17,17 @@ fn_check_cfgdir(){
 	fi
 }
 
-# Downloads default configs from Game-Server-Configs repo to lgsm/default-configs
+# Downloads default configs from Game-Server-Configs repo to lgsm/config-default
 fn_fetch_default_config(){
-	mkdir -pv "${lgsmdir}/default-configs"
-	githuburl="https://github.com/GameServerManagers/Game-Server-Configs/master"
+	echo ""
+	echo "Downloading ${gamename} Configs"
+	echo "================================="
+	echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
+	sleep 1
+	mkdir -p "${lgsmdir}/config-default/config-game"
+	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fileurl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/${gamedirname}/${config}"; filedir="${lgsmdir}/default-configs"; filename="${config}";  executecmd="noexecute" run="norun"; force="noforce"
-		fn_fetch_file "${fileurl}" "${filedir}" "${filename}" "${executecmd}" "${run}" "${force}" "${md5}"
+		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
 	done
 }
 
@@ -34,13 +38,13 @@ fn_default_config_remote(){
 		echo "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
 		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
-			cp -nv "${lgsmdir}/default-configs/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
 		elif [ "${gamename}" == "Don't Starve Together" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/default-configs/${clustercfgdefault}" "${clustercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
-			cp -nv "${lgsmdir}/default-configs/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	sleep 1
@@ -51,13 +55,18 @@ fn_default_config_remote(){
 # PASSWORD to random password
 fn_set_config_vars(){
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; echo)
+		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin$random"
 		echo "changing hostname."
 		fn_script_log_info "changing hostname."
 		sleep 1
-		sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+
+		if [ $(grep SERVERNAME=SERVERNAME \"${lgsmdir}/config-default/config-game/${config}\") ]; then
+			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
+		else
+			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+		fi
 		echo "changing rcon/admin password."
 		fn_script_log_info "changing rcon/admin password."
 		sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
@@ -83,7 +92,7 @@ fn_set_dst_config_vars(){
 		sleep 1
 		echo "randomizing cluster key."
 		fn_script_log_info "randomizing cluster key."
-		randomkey=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+		randomkey=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
 		sleep 1
 	else
@@ -119,11 +128,6 @@ fn_set_dst_config_vars(){
 	echo ""
 }
 
-echo ""
-echo "Downloading ${gamename} Config"
-echo "================================="
-echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
-sleep 2
 if [ "${gamename}" == "7 Days To Die" ]; then
 	gamedirname="7DaysToDie"
 	array_configs+=( serverconfig.xml )
@@ -224,6 +228,12 @@ elif [ "${gamename}" == "Counter-Strike: Condition Zero" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
 	gamedirname="CounterStrikeGlobalOffensive"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Classic Offensive" ]; then
+	gamedirname="ClassicOffensive"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -331,6 +341,12 @@ elif [ "${gamename}" == "Just Cause 2" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Just Cause 3" ]; then
+	gamedirname="JustCause3"
+	array_configs+=( config.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Killing Floor" ]; then
 	gamedirname="KillingFloor"
 	array_configs+=( Default.ini )
@@ -378,10 +394,6 @@ elif [ "${gamename}" == "Mumble" ]; then
 	array_configs+=( murmur.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
-elif [ "${gamename}" == "Natural Selection 2" ]; then
-	:
-elif [ "${gamename}" == "NS2: Combat" ]; then
-	:
 elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	gamedirname="PiratesVikingandKnightsII"
 	array_configs+=( server.cfg )
@@ -425,8 +437,6 @@ elif [ "${gamename}" == "QuakeWorld" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
-	:
 elif [ "${gamename}" == "Ricochet" ]; then
 	gamedirname="Ricochet"
 	array_configs+=( server.cfg )
@@ -445,9 +455,27 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Squad" ]; then
+	gamedirname="Squad"
+	array_configs+=( Server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Starbound" ]; then
 	gamedirname="Starbound"
 	array_configs+=( starbound_server.config )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Stationeers" ]; then
+	gamedirname="Stationeers"
+	array_configs+=( default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	gamedirname="SanAndreasMultiplayer"
+	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -505,12 +533,6 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "Unreal Tournament 3" ]; then
-	gamedirname="UnrealTournament3"
-	array_configs+=( UTGame.ini )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	gamedirname="UnrealTournament99"
 	array_configs+=( Default.ini )
@@ -519,6 +541,12 @@ elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	gamedirname="WolfensteinEnemyTerritory"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Zombie Panic! Source" ]; then
+	gamedirname="ZombiePanicSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
