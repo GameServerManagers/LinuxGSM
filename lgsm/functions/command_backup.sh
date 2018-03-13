@@ -114,10 +114,10 @@ fn_backup_compression(){
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
 
-	# CHECK THAT excludedir is a valid path.
+	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ] ; then
-		fn_print_info_nl "Problem identifying the previous backup directory for exclusion."
-		fn_script_log_error "Problem identifying the previous backup directory for exclusion"
+		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
+		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
 	fi
 
@@ -195,16 +195,16 @@ fn_backup_relpath() {
   	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
 
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
-		fn_print_info_nl "Problem assessing rootdir during relative path assessment"
-		fn_script_log_error "Problem assessing rootdir during relative path assessment: ${rootdir}"
+		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
+		fn_script_log_fatal "Problem assessing rootdir during relative path assessment: ${rootdir}"
 		core_exit.sh
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components:
   	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
-		fn_print_info_nl "Problem assessing backupdir during relative path assessment"
-		fn_script_log_error "Problem assessing backupdir during relative path assessment: ${rootdir}"
+		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
+		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
 		core_exit.sh
 	fi
 

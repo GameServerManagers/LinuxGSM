@@ -83,7 +83,31 @@ else
 fi
 }
 
+
 fn_update_ts3_availablebuild(){
+	# Gets latest build info.
+	if [ "${arch}" == "x86_64" ]; then
+		availablebuild=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.version')
+	elif [ "${arch}" == "x86" ]; then
+		availablebuild=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.version')
+	fi
+	# Checks if availablebuild variable has been set
+	if [ -z "${availablebuild}" ]; then
+		fn_print_fail "Checking for update: teamspeak.com"
+		sleep 0.5
+		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
+		fn_script_log_fatal "Failure! Checking for update: teamspeak.com: Not returning version info"
+		core_exit.sh
+	elif [ "${installer}" == "1" ]; then
+		:
+	else
+		fn_print_ok_nl "Checking for update: teamspeak.com"
+		fn_script_log_pass "Checking for update: teamspeak.com"
+		sleep 0.5
+	fi
+}
+
+fn_update_ts3_availablebuild_legacy(){
 	# Gets latest build info.
 
 	# Grabs all version numbers but not in correct order.
@@ -180,9 +204,14 @@ fn_update_ts3_compare(){
 
 fn_update_ts3_arch
 if [ "${installer}" == "1" ]; then
-	fn_update_ts3_availablebuild
-	fn_update_ts3_dl
-else
+	# if jq available uses json update checker
+	if [ "$(command -v jq)" ]||[ "$(which jq >/dev/null 2>&1)" ]; then
+		fn_update_ts3_availablebuild
+	else
+		fn_update_ts3_availablebuild_legacy
+	fi
+		fn_update_ts3_dl
+	else
 	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
 	fn_print_dots "Checking for update: teamspeak.com"
 	fn_script_log_info "Checking for update: teamspeak.com"

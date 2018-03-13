@@ -18,8 +18,8 @@ class PythonGSQ:
         self.default_buffer_length = 1024
         #
         sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d']
-        idtech2query=['idtech3','quake','iw3.0']
-        idtech3query=['idtech2','iw2.0']
+        idtech3query=['idtech3','quake','iw3.0']
+        idtech2query=['idtech2','iw2.0']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:

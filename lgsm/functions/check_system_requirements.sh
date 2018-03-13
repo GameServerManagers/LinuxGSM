@@ -27,6 +27,9 @@ elif [ "${gamename}" == "Minecraft" ]; then
 elif [ "${gamename}" == "Natural Selection 2" ]||[ "${gamename}" == "NS2: Combat" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
+elif [ "${shortname}" == "st" ]; then
+	ramrequirementmb="1000"
+	ramrequirementgb="1"
 fi
 
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM.

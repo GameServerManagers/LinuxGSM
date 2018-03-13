@@ -402,7 +402,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -618,7 +618,7 @@ fn_info_message_minecraft(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -835,6 +835,16 @@ fn_info_message_starbound(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_stationeers(){
+	echo -e "netstat -atunp | grep rocketstation"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_teamspeak3(){
 	echo -e "netstat -atunp | grep ts3server"
 	echo -e ""
@@ -1021,6 +1031,8 @@ fn_info_message_select_engine(){
 		fn_info_message_samp
 	elif [ "${gamename}" == "Squad" ]; then
 		fn_info_message_squad
+	elif [ "${gamename}" == "Stationeers" ]; then
+		fn_info_message_stationeers
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
