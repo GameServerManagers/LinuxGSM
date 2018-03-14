@@ -7,5 +7,6 @@
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
 
-command -v shellcheck
+
+ls -al
 shellcheck --shell=bash --exclude=SC2154,SC2034 GameServerManagers/LinuxGSM/lgsm/functions/*
