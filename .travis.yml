@@ -2,6 +2,12 @@ language: bash
 dist: trusty
 sudo: required
 
+services:
+  - docker
+
+before_install:
+  - docker pull koalaman/shellcheck
+
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
 
@@ -35,4 +41,4 @@ script:
 
     #- bash tests/tests_jc2server.sh
     #- bash tests/tests_ts3server.sh
-    - bash tests/tests_shellcheck.sh
+    - docker run -v $(pwd):/scripts koalaman/shellcheckbash tests/tests_shellcheck.sh
