@@ -29,7 +29,7 @@ if [ -z "${autoinstall}" ]; then
 	if [ "${gamename}" != "Tower Unite" ]; then
 		echo "Enter token below (Can be blank)."
 		echo -n "GSLT TOKEN: "
-		read token
+		read -r token
 		if ! grep -q "^gslt=" "${configdirserver}/${servicename}.cfg" > /dev/null 2>&1; then
 			echo -e "\ngslt=\"${token}\"" >> "${configdirserver}/${servicename}.cfg"
 		else
