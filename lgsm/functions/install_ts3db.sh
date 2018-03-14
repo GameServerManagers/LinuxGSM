@@ -48,7 +48,7 @@ fn_install_ts3db_mariadb(){
 
 if [ -z "${autoinstall}" ]; then
 	echo ""
-	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)?" N; then
+	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite? (DB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
@@ -58,8 +58,8 @@ fi
 ## License
 fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
 fn_print_info_nl "Accepting TeamSpeak license:"
-fn_print_info_nl " * ${executabledir}/LICENSE"
-sleep 3
+echo " * ${executabledir}/LICENSE"
+sleep 1
 touch "${executabledir}/.ts3server_license_accepted"
 
 ## Get privilege key
