@@ -219,7 +219,7 @@ fn_mods_installed_list(){
 	moddescriptionmaxlength="0"
 	modcommandmaxlength="0"
 	# Loop through every line of the installed mods list ${modsinstalledlistfullpath}
-	while [ ${installedmodsline} -le ${installedmodscount} ]; do
+	while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 		currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
 		# Get mod info to make sure mod exists
 		fn_mod_get_info
