@@ -7,7 +7,6 @@
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
 
-
 echo "START Shellcheck"
 echo "================================="
 find . -type f -name "*.sh" -not -path "./shunit2-2.1.6/*" -exec shellcheck --shell=bash --exclude=SC2154,SC2034 {} \;
