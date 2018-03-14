@@ -240,7 +240,7 @@ fn_update_function(){
 # Defines curl path
 curlpath=$(command -v curl 2>/dev/null)
 
-if [ "$(basename ${curlpath})" != "curl" ]; then
+if [ "$(basename "${curlpath}")" != "curl" ]; then
 	echo "[ FAIL ] Curl is not installed"
 	exit 1
 fi
