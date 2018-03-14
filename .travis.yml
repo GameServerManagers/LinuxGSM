@@ -35,7 +35,6 @@ addons:
 jobs:
   include:
     - stage: jobs
-      language: bash
       script: bash tests/tests_jc2server.sh
     - # stage name not required
       script: bash tests/tests_ts3server.sh
