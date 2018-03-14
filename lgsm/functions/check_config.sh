@@ -5,10 +5,10 @@
 # Description: Checks if the server config is missing and warns the user if needed.
 
 local commandname="CHECK"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ ! -e "${servercfgfullpath}" ]; then
-	if [ "${gamename}" != "Hurtworld" ]; then
+	if [ "${gamename}" != "Hurtworld" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then
 		fn_print_dots ""
 		sleep 0.5
 		fn_print_warn_nl "Configuration file missing!"

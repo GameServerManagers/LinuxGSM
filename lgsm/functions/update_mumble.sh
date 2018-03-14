@@ -7,14 +7,14 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
 	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}"
-	echo -e "copying to ${filesdir}...\c"
-	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/murmur-static_${mumblearch}-${availablebuild}/"* "${filesdir}"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp -R "${tmpdir}/murmur-static_${mumblearch}-${availablebuild}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
@@ -76,7 +76,7 @@ fn_update_mumble_arch(){
 
 fn_update_mumble_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(curl -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
+	availablebuild=$(${curlpath} -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	sleep 1
 
 	# Checks if availablebuild variable has been set
@@ -150,7 +150,6 @@ fn_update_mumble_compare(){
 		fn_script_log_info "Available build: ${availablebuild}"
 	fi
 }
-
 
 fn_update_mumble_arch
 if [ "${installer}" == "1" ]; then

@@ -6,9 +6,10 @@
 
 local commandname="VALIDATE"
 local commandaction="Validate"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
+	appid="${1}"
 	echo ""
 	echo -e "	* Validating may overwrite some customised files."
 	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
@@ -18,8 +19,7 @@ fn_validation(){
 	fn_script_log_info "Validating files: SteamCMD"
 	sleep 1
 
-	cd "${rootdir}/steamcmd"
-
+	cd "${steamcmddir}"
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
 	if [ $(command -v stdbuf) ]&&[ "${arch}" != "x86_64" ]; then
@@ -27,9 +27,9 @@ fn_validation(){
 	fi
 
 	if [ "${engine}" == "goldsource" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit| tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit| tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit| tee -a "${scriptlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit| tee -a "${lgsmlog}"
 	fi
 	if [ $? != 0 ]; then
 		fn_print_fail_nl "Validating files: SteamCMD"
@@ -51,10 +51,18 @@ check_status.sh
 if [ "${status}" != "0" ]; then
 	exitbypass=1
 	command_stop.sh
-	fn_validation
+	fn_validation "${appid}"
+	# will also check for second appid
+	if [ "${gamename}" == "Classic Offensive" ]; then
+		fn_validation "${appid_co}"
+	fi
 	exitbypass=1
 	command_start.sh
 else
 	fn_validation
+	# will also check for second appid
+	if [ "${gamename}" == "Classic Offensive" ]; then
+		fn_validation "${appid_co}"
+	fi
 fi
 core_exit.sh

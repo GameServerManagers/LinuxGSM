@@ -6,15 +6,15 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mta_dl(){
 	fn_fetch_file "http://linux.mtasa.com/dl/${numversion}/multitheftauto_linux_x64-${fullversion}.tar.gz" "${tmpdir}" "multitheftauto_linux_x64-${fullversion}.tar.gz"
-  mkdir "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
+	mkdir "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64-${fullversion}.tar.gz" "${tmpdir}/multitheftauto_linux_x64-${fullversion}"
-	echo -e "copying to ${filesdir}...\c"
-	fn_script_log "Copying to ${filesdir}"
-	cp -R "${tmpdir}/multitheftauto_linux_x64-${fullversion}/multitheftauto_linux_x64-${fullversion}/"* "${filesdir}"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp -R "${tmpdir}/multitheftauto_linux_x64-${fullversion}/multitheftauto_linux_x64-${fullversion}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -26,7 +26,7 @@ fn_update_mta_dl(){
 fn_update_mta_currentbuild(){
 	# Gets current build info
 	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
-	if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
+	if [ ! -f "${gamelogdir}"/server.log ]; then
 		fn_print_error "Checking for update: linux.mtasa.com"
 		sleep 1
 		fn_print_error_nl "Checking for update: linux.mtasa.com: No logs with server version found"
@@ -41,7 +41,7 @@ fn_update_mta_currentbuild(){
 		command_start.sh
 		sleep 1
 		# Check again and exit on failure.
-		if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
+		if [ ! -f "${gamelogdir}"/server.log ]; then
 			fn_print_fail_nl "Checking for update: linux.mtasa.com: Still No logs with server version found"
 			fn_script_log_fatal "Checking for update: linux.mtasa.com: Still No logs with server version found"
 			core_exit.sh
@@ -49,7 +49,7 @@ fn_update_mta_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(awk -F"= Multi Theft Auto: San Andreas v" '{print $2}' "${consolelogdir}"/"${servicename}"-console.log | awk '{print $1}')
+	currentbuild=$(cat "${gamelogdir}"/server.log | grep "= Multi Theft Auto: San Andreas v" | awk '{ print $7 }'| sed -r 's/^.{1}//' | tail -1)
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: linux.mtasa.com: Current build version not found"
 		fn_script_log_error "Checking for update: linux.mtasa.com: Current build version not found"
@@ -60,7 +60,7 @@ fn_update_mta_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(awk -F"= Multi Theft Auto: San Andreas v" '{print $2}' "${consolelogdir}"/"${servicename}"-console.log | awk '{print $1}')
+		currentbuild=$(cat "${gamelogdir}"/server.log | grep "= Multi Theft Auto: San Andreas v" | awk '{ print $7 }'| sed -r 's/^.{1}//' | tail -1)
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: linux.mtasa.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: linux.mtasa.com: Current build version still not found"
@@ -69,8 +69,7 @@ fn_update_mta_currentbuild(){
 	fi
 }
 
-fn_mta_get_availablebuild()
-{
+fn_mta_get_availablebuild(){
 	fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
 	local majorversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
 	local minorversion="$(cat ${tmpdir}/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
@@ -93,8 +92,8 @@ fn_update_mta_compare(){
 		echo -e "\n"
 		echo -e "Update ${mta_update_string}:"
 		sleep 1
-		echo -e "	Current build: ${red}${currentbuild} ${default}"
-		echo -e "	Available build: ${green}${fullversion} ${default}"
+		echo -e "       Current build: ${red}${currentbuild} ${default}"
+		echo -e "       Available build: ${green}${fullversion} ${default}"
 		echo -e ""
 		sleep 1
 		echo ""
@@ -131,8 +130,8 @@ fn_update_mta_compare(){
 	else
 		echo -e "\n"
 		echo -e "No update available:"
-		echo -e "	Current version: ${green}${currentbuild}${default}"
-		echo -e "	Available version: ${green}${fullversion}${default}"
+		echo -e "       Current version: ${green}${currentbuild}${default}"
+		echo -e "       Available version: ${green}${fullversion}${default}"
 		echo -e ""
 		fn_print_ok_nl "No update available"
 		fn_script_log_info "Current build: ${currentbuild}"

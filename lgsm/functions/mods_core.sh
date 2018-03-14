@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="addons/mods"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories
 modsdir="${lgsmdir}/mods"
@@ -15,8 +15,6 @@ modstmpdir="${modsdir}/tmp"
 extractdir="${modstmpdir}/extract"
 modsinstalledlist="installed-mods.txt"
 modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
-
-
 
 ## Installation
 
@@ -32,7 +30,7 @@ fn_mod_install_files(){
 	if [ ! -d "${extractdir}" ]; then
 		mkdir -p "${extractdir}"
 	fi
-	fn_dl_extract "${modstmpdir}" "${filename}" "${extractdir}"
+	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdir}"
 }
 
 # Convert mod files to lowercase if needed
@@ -42,7 +40,7 @@ fn_mod_lowercase(){
 		echo -ne "converting ${modprettyname} files to lowercase..."
 		sleep 0.5
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
-		files=$(find "${extractdir}" -depth | wc -l)
+		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
 			dst=`dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]'`
@@ -52,10 +50,10 @@ fn_mod_lowercase(){
 				local exitcode=$?
 				((renamedwc++))
 			fi
-			echo -ne "${renamedwc} / ${totalfileswc} / $files converting ${modprettyname} files to lowercase..." $'\r'
+			echo -ne "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..." $'\r'
 			((totalfileswc++))
 		done < <(find "${extractdir}" -depth)
-		echo -ne "${renamedwc} / ${totalfileswc} / $files converting ${modprettyname} files to lowercase..."
+		echo -ne "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
 
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -230,7 +228,7 @@ fn_mods_installed_list(){
 		# Increment line check
 		((installedmodsline++))
 	done
-	if [ -n "${installedmodscount}" ] ;then
+	if [ -n "${installedmodscount}" ]; then
 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }
@@ -345,8 +343,8 @@ fn_mod_compatible_test(){
 # Create mods files and directories if it doesn't exist
 fn_create_mods_dir(){
 	# Create lgsm data modsdir
-	if [ ! -d "${modsdir}" ];then
-		echo "creating lgsm mods data directory ${modsdir}..."
+	if [ ! -d "${modsdir}" ]; then
+		echo -en "creating LinuxGSM mods data directory ${modsdir}..."
 		mkdir -p "${modsdir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -361,7 +359,7 @@ fn_create_mods_dir(){
 	fi
 	# Create mod install directory
 	if [ ! -d "${modinstalldir}" ]; then
-		echo "creating mods install directory ${modinstalldir}..."
+		echo -en "creating mods install directory ${modinstalldir}..."
 		mkdir -p "${modinstalldir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -438,7 +436,7 @@ fn_mods_check_installed(){
 	if [ ${installedmodscount} -eq 0 ]; then
 		echo ""
 		fn_print_failure_nl "No installed mods or addons were found"
-		echo " * Install mods using LGSM first with: ./${selfname} mods-install"
+		echo " * Install mods using LinuxGSM first with: ./${selfname} mods-install"
 		fn_script_log_error "No installed mods or addons were found."
 		core_exit.sh
 	fi

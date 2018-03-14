@@ -7,14 +7,14 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_ts3db_mariadb(){
 	echo ""
 	echo "checking if libmariadb2 is installed"
 	echo "================================="
 	sleep 1
-	ldd ${filesdir}/libts3db_mariadb.so | grep "libmariadb.so.2 => not found"
+	ldd ${serverfiles}/libts3db_mariadb.so | grep "libmariadb.so.2 => not found"
 	if [ $? -eq 0 ]; then
 		echo "libmariadb2 not installed. Please install it first."
 		echo "exiting..."
@@ -48,12 +48,19 @@ fn_install_ts3db_mariadb(){
 
 if [ -z "${autoinstall}" ]; then
 	echo ""
-	if ! fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)?" N; then
+	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite? (DB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
 fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
 fi
+
+## License
+fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
+fn_print_information_nl "Accepting TeamSpeak license:"
+echo " * ${executabledir}/LICENSE"
+sleep 1
+touch "${executabledir}/.ts3server_license_accepted"
 
 ## Get privilege key
 echo ""

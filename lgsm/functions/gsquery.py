@@ -1,16 +1,15 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# Game Server Query
+# PythonGSQ
 # Author: Anonymous & Daniel Gibbs
 # Website: https://gameservermanagers.com
-# Description: Handles querying of .
+# Description: Allows querying of various game servers.
 
 import optparse
 import socket
 import sys
 
-
-class GameServer:
+class PythonGSQ:
     def __init__(self, options, arguments):
         self.option = options
         self.argument = arguments
@@ -18,32 +17,17 @@ class GameServer:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        if self.option.engine == 'avalanche':
+        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d']
+        idtech3query=['idtech3','quake','iw3.0']
+        idtech2query=['idtech2','iw2.0']
+        if self.option.engine in sourcequery:
+            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
+        elif self.option.engine in idtech2query:
+            self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
+        elif self.option.engine in idtech3query:
+            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
+        elif self.option.engine == 'avalanche2.0':
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
-        elif self.option.engine == 'goldsource':
-            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-        elif self.option.engine == 'idtech2':
-            self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
-        elif self.option.engine == 'idtech3':
-            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.option.engine == 'iw2.0':
-            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.option.engine == 'iw3.0':
-            self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.option.engine == 'quake':
-            self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
-        elif self.option.engine == 'quakelive':
-            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-        elif self.option.engine == 'realvirtuality':
-            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-        elif self.option.engine == 'refractor':
-            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-        elif self.option.engine == 'source':
-            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-        elif self.option.engine == 'spark':
-            self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
-        elif self.option.engine == 'unity3d':
-            self.query_prompt_string = '\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine == 'unreal':
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.option.engine == 'unreal2':
@@ -92,7 +76,6 @@ class GameServer:
         if not self.option.port:
             self.fatal_error('No port supplied.', 4)
 
-
 if __name__ == '__main__':
     parser = optparse.OptionParser(
         usage='usage: python %prog [options]',
@@ -117,7 +100,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
+        help='Engine type: avalanche2.0, avalanche3.0, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
     )
     parser.add_option(
         '-v', '--verbose',
@@ -135,5 +118,5 @@ if __name__ == '__main__':
     )
     options, arguments = parser.parse_args()
     #
-    server = GameServer(options, arguments)
+    server = PythonGSQ(options, arguments)
     server.responding()

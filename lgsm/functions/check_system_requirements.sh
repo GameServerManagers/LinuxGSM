@@ -6,7 +6,7 @@
 # Description: Checks RAM requirements
 
 local commandname="CHECK"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 
@@ -14,7 +14,7 @@ info_distro.sh
 
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	ramrequirementmb="4000"
-	ramrequirementgb="1"
+	ramrequirementgb="4"
 elif [ "${gamename}" == "ARMA 3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
@@ -25,6 +25,9 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${gamename}" == "Natural Selection 2" ]||[ "${gamename}" == "NS2: Combat" ]; then
+	ramrequirementmb="1000"
+	ramrequirementgb="1"
+elif [ "${shortname}" == "st" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 fi

@@ -7,7 +7,7 @@
 
 local commandname="BACKUP"
 local commandaction="Backup"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -18,7 +18,7 @@ fn_backup_trap(){
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
 	sleep 1
-	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${scriptlog}"
+	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -ne "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
@@ -62,7 +62,6 @@ fn_backup_init(){
 		sleep 1
 	fi
 }
-
 
 # Check if server is started and wether to stop it
 fn_backup_stop_server(){
@@ -113,12 +112,21 @@ fn_backup_compression(){
 	sleep 2
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "backups" ./*
+        excludedir=$(fn_backup_relpath)
+
+	# Check that excludedir is a valid path.
+	if [ ! -d "${excludedir}" ] ; then
+		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
+		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
+		core_exit.sh
+	fi
+
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${tmpdir}/.backup.lock" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
-		echo "${tarcmd}" | tee -a "${scriptlog}"
+		echo "${tarcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
@@ -178,6 +186,55 @@ fn_backup_prune(){
 			sleep 1
 		fi
 	fi
+}
+
+fn_backup_relpath() {
+  	# Written by CedarLUG as a "realpath --relative-to" alternative in bash
+
+	# Populate an array of tokens initialized from the rootdir components:
+  	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+
+	if [ ${#rdirtoks[@]} -eq 0 ]; then
+		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
+		fn_script_log_fatal "Problem assessing rootdir during relative path assessment: ${rootdir}"
+		core_exit.sh
+	fi
+
+	# Populate an array of tokens initialized from the backupdir components:
+  	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	if [ ${#bdirtoks[@]} -eq 0 ]; then
+		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
+		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
+		core_exit.sh
+	fi
+
+	# Compare the leading entries of each array.  These common elements will be clipped off
+	# for the relative path output.
+  	for ((base=0; base<${#rdirtoks[@]}; base++))
+  	do
+      		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
+  	done
+
+	# Next, climb out of the remaining rootdir location with updir references...
+  	for ((x=base;x<${#rdirtoks[@]};x++))
+  	do
+      		echo -n "../"
+  	done
+
+	# Climb down the remaining components of the backupdir location.
+  	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
+  	do
+      		echo -n "${bdirtoks[$x]}/"
+  	done
+
+	# In the event there were no directories left in the backupdir above to
+	# traverse down, just add a newline.  Otherwise at this point, there is
+	# one remaining directory component in the backupdir to navigate.
+  	if (( "$base" < "${#bdirtoks[@]}" )) ; then
+      		echo "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
+  	else
+      		echo
+  	fi
 }
 
 # Restart the server if it was stopped for the backup

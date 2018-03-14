@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="addons/mods"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 mods_core.sh
@@ -32,7 +32,7 @@ done
 echo ""
 # Keep prompting as long as the user input doesn't correspond to an available mod
 while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
-	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
+	echo -en "Enter an ${cyan}addon/mod${default} to ${red}remove${default} (or exit to abort): "
 	read -r usermodselect
 	# Exit if user says exit or abort
 	if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then

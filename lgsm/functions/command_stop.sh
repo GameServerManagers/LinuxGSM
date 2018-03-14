@@ -7,7 +7,7 @@
 
 local commandname="STOP"
 local commandaction="Stopping"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Attempts graceful shutdown by sending the 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
@@ -37,29 +37,31 @@ fn_stop_graceful_ctrlc(){
 	fn_stop_tmux
 }
 
-# Attempts graceful shutdown by sending the 'quit' command.
-fn_stop_graceful_quit(){
-	fn_print_dots "Graceful: sending \"quit\""
-	fn_script_log_info "Graceful: sending \"quit\""
-	# sends quit
-	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
-	# waits up to 30 seconds giving the server time to shutdown gracefuly
-	for seconds in {1..30}; do
+# Attempts graceful shutdown by sending a specified command.
+# Usage: fn_stop_graceful_cmd "console_command" "timeout_in_seconds"
+#  e.g.: fn_stop_graceful_cmd "quit" "30"
+fn_stop_graceful_cmd(){
+	fn_print_dots "Graceful: sending \"${1}\""
+	fn_script_log_info "Graceful: sending \"${1}\""
+	# sends specific stop command
+	tmux send -t "${servicename}" ${1} ENTER > /dev/null 2>&1
+	# waits up to given seconds giving the server time to shutdown gracefully
+	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
+			fn_print_ok "Graceful: sending \"${1}\": ${seconds}: "
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
+			fn_script_log_pass "Graceful: sending \"${1}\": OK: ${seconds} seconds"
 			break
 		fi
 		sleep 1
-		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
+		fn_print_dots "Graceful: sending \"${1}\": ${seconds}"
 	done
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"quit\": "
+		fn_print_error "Graceful: sending \"${1}\": "
 		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"quit\": FAIL"
+		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
 	sleep 1
 	fn_stop_tmux
@@ -88,6 +90,9 @@ fn_stop_graceful_goldsource(){
 
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
+	if [ -z "${telnetpass}" ]; then
+		telnetpass="NOTSET"
+	fi
 	sdtd_telnet_shutdown=$( expect -c '
 	proc abort {} {
 		puts "Timeout or EOF\n"
@@ -113,7 +118,7 @@ fn_stop_graceful_sdtd(){
 	sleep 1
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ "$(command -v expect)" ]||[ "$(which expect >/dev/null 2>&1)" ]; then
+	elif [ "$(command -v expect 2>/dev/null)" ]||[ "$(which expect >/dev/null 2>&1)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}"
@@ -158,10 +163,10 @@ fn_stop_graceful_sdtd(){
 				fn_print_error_nl "Graceful: telnet: Unknown error"
 				fn_script_log_error "Graceful: telnet: Unknown error"
 			fi
-			echo -en "\n" | tee -a "${scriptlog}"
-			echo -en "Telnet output:" | tee -a "${scriptlog}"
-			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${scriptlog}"
-			echo -en "\n\n" | tee -a "${scriptlog}"
+			echo -en "\n" | tee -a "${lgsmlog}"
+			echo -en "Telnet output:" | tee -a "${lgsmlog}"
+			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
 		fn_print_warn "Graceful: telnet: expect not installed: "
@@ -172,75 +177,24 @@ fn_stop_graceful_sdtd(){
 	fn_stop_tmux
 }
 
-# Attempts graceful of source using rcon 'stop' command.
-fn_stop_graceful_minecraft(){
-	fn_print_dots "Graceful: sending \"stop\""
-	fn_script_log_info "Graceful: sending \"stop\""
-	# sends quit
-	tmux send -t "${servicename}" stop ENTER > /dev/null 2>&1
-	# waits up to 30 seconds giving the server time to shutdown gracefuly
-	for seconds in {1..30}; do
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"stop\": ${seconds}: "
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"stop\": OK: ${seconds} seconds"
-			break
-		fi
-		sleep 1
-		fn_print_dots "Graceful: sending \"stop\": ${seconds}"
-	done
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"stop\": "
-		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"stop\": FAIL"
-	fi
-	sleep 1
-	fn_stop_tmux
-}
-
-# Attempts graceful of mta using rcon 'quit' command.
-fn_stop_graceful_mta(){
-	fn_print_dots "Graceful: sending \"quit\""
-	fn_script_log_info "Graceful: sending \"quit\""
-	# sends quit
-	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
-	# waits up to 120 seconds giving the server time to shutdown gracefuly, we need a long wait time here as resources are stopped individually and process their own shutdowns
-	for seconds in {1..120}; do
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
-			break
-		fi
-		sleep 1
-		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
-	done
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_error "Graceful: sending \"quit\": "
-		fn_print_fail_eol_nl
-		fn_script_log_error "Graceful: sending \"quit\": FAIL"
-	fi
-	sleep 1
-	fn_stop_tmux
-}
-
 fn_stop_graceful_select(){
 	if [ "${gamename}" == "7 Days To Die" ]; then
 		fn_stop_graceful_sdtd
-	elif [ "${gamename}" == "Factorio" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]; then
-		fn_stop_graceful_ctrlc
-	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]; then
-		fn_stop_graceful_quit
+	elif [ "${engine}" == "Spark" ]; then
+		fn_stop_graceful_cmd "q" 30
+	elif [ "${gamename}" == "Terraria" ]; then
+		fn_stop_graceful_cmd "exit" 30
+	elif [ "${gamename}" == "Minecraft" ]; then
+		fn_stop_graceful_cmd "stop" 30
+	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+		# we need a long wait time here as resources are stopped individually and process their own shutdowns
+		fn_stop_graceful_cmd "quit" 120
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${engine}" == "lwjgl2" ]; then
-		fn_stop_graceful_minecraft
-	elif [ "${engine}" == "renderware" ]; then
-		fn_stop_graceful_mta
+	elif [ "${engine}" == "avalanche2.0" ]||[ "${engine}" == "avalanche3.0" ]||[ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
+		fn_stop_graceful_ctrlc
+	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]; then
+		fn_stop_graceful_cmd "quit" 30
 	else
 		fn_stop_tmux
 	fi
@@ -252,7 +206,7 @@ fn_stop_ark(){
 	if [ -z "${queryport}" ]; then
 		fn_print_warn "No queryport found using info_config.sh"
 		fn_script_log_warn "No queryport found using info_config.sh"
-		userconfigfile="${filesdir}"
+		userconfigfile="${serverfiles}"
 		userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
 		queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
 	fi
@@ -272,7 +226,7 @@ fn_stop_ark(){
 			pid=${pid//[!0-9]/}
 			let pid+=0 # turns an empty string into a valid number, '0',
 			# and a valid numeric pid remains unchanged.
-			if [ "${pid}" -gt 1 && "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
+			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
 			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
 				sleep 1
 			else
@@ -290,8 +244,8 @@ fn_stop_ark(){
 
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
-	sleep 1
-	${filesdir}/ts3server_startscript.sh stop > /dev/null 2>&1
+	sleep 0.5
+	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# Remove lockfile
@@ -304,29 +258,10 @@ fn_stop_teamspeak3(){
 	fi
 }
 
-fn_stop_mumble(){
-	# Get needed port info
-	info_config.sh
-	fn_print_dots "Stopping ${servername}"
-	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep "${port}" | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
-	kill ${mumblepid}
-	sleep 1
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		# Remove lockfile
-		rm -f "${rootdir}/${lockselfname}"
-		fn_stop_tmux
-		fn_script_log_pass "Stopped ${servername}"
-	else
-		fn_print_fail_nl "Unable to stop ${servername}"
-		fn_script_log_error "Unable to stop ${servername}"
-	fi
-}
-
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${servername}"
-	sleep 1
+	sleep 0.5
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	sleep 0.5
@@ -357,13 +292,6 @@ fn_stop_pre_check(){
 		else
 			fn_stop_teamspeak3
 		fi
-	elif [ "${gamename}" == "Mumble" ]; then
-		if [ "${status}" == "0" ]; then
-			fn_print_info_nl "${servername} is already stopped"
-			fn_script_log_error "${servername} is already stopped"
-		else
-		fn_stop_mumble
-		fi
 	else
 		if [ "${status}" == "0" ]; then
 			fn_print_info_nl "${servername} is already stopped"
@@ -375,7 +303,7 @@ fn_stop_pre_check(){
 }
 
 fn_print_dots "${servername}"
-sleep 1
+sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
