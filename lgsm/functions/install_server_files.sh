@@ -9,8 +9,6 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
-	if [ "${gamename}" == "Base Defense" ]; then
-		fileurl="https://s3.amazonaws.com/linuxgsm/base_defense_1775.tar.gz"; filedir="${tmpdir}"; filename="base_defense_1775.tar.gz";  executecmd="noexecute" run="norun"; force="noforce"; md5="a272b65ab014d9e9a103fad26ce11ea5"
 	if [ "${gamename}" == "Battlefield: 1942" ]; then
 		remote_fileurl="http://files.linuxgsm.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
 	elif [ "${gamename}" == "Call of Duty" ]; then
