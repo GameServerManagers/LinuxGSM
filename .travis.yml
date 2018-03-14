@@ -36,5 +36,5 @@ jobs:
   include:
     - stage: jobs
       script: bash tests/tests_jc2server.sh
+    - # stage name not required, will continue to use `test`
       script: bash tests/tests_ts3server.sh
-      script: bash tests/tests_shellcheck.sh
