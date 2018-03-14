@@ -27,7 +27,7 @@ fn_remove_cfg_files(){
 			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file
 			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
-				rm -r "${extractdir}/${filetopreserve}"
+				rm -r "${extractdir:?}/${filetopreserve}"
 				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"
