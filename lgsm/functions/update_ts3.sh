@@ -206,7 +206,7 @@ fn_update_ts3_compare(){
 fn_update_ts3_arch
 if [ "${installer}" == "1" ]; then
 	# if jq available uses json update checker
-	if [ "$(command -v jq)" ]||[ "$(which jq >/dev/null 2>&1)" ]; then
+	if [ "$(command -v jq >/dev/null 2>&1)" ]; then
 		fn_update_ts3_availablebuild
 	else
 		fn_update_ts3_availablebuild_legacy

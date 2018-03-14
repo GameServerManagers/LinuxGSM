@@ -149,7 +149,7 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
-		if [ "$(command -v tmux 2>/dev/null)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+		if [ "$(command -v tmux 2>/dev/null)" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
 			array_deps_required+=( tmux )
@@ -246,7 +246,7 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 
 	# All servers except ts3 require tmux
 	if [ "${gamename}" != "TeamSpeak 3" ]; then
-		if [ "$(command -v tmux 2>/dev/null)" ]||[ "$(which tmux 2>/dev/null)" ]||[ -f "/usr/bin/tmux" ]||[ -f "/bin/tmux" ]; then
+		if [ "$(command -v tmux 2>/dev/null)" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
 			array_deps_required+=( tmux )
