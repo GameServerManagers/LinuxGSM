@@ -87,12 +87,13 @@ fi
 fn_update_ts3_availablebuild(){
 	# Gets latest build info.
 	if [ "${arch}" == "x86_64" ]; then
-		availablebuild=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.version')
+		availablebuild="$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.version')"
 	elif [ "${arch}" == "x86" ]; then
-		availablebuild=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.version')
+		availablebuild="$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.version')"
 	fi
+	ts3_version_number="${availablebuild}"
 	# Checks if availablebuild variable has been set
-	if [ -z "${availablebuild}" ]; then
+	if [ -z "${availablebuild}" ]||[ "${availablebuild}" == "null" ]; then
 		fn_print_fail "Checking for update: teamspeak.com"
 		sleep 0.5
 		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
@@ -210,7 +211,7 @@ if [ "${installer}" == "1" ]; then
 	else
 		fn_update_ts3_availablebuild_legacy
 	fi
-		fn_update_ts3_dl
+	fn_update_ts3_dl
 	else
 	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
 	fn_print_dots "Checking for update: teamspeak.com"
