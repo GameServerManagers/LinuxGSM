@@ -72,7 +72,7 @@ sleep 1
 # List all installed mods and apply update
 # Reset line value
 installedmodsline="1"
-while [ ${installedmodsline} -le ${installedmodscount} ]; do
+while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 	currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
 	if [ -n "${currentmod}" ]; then
 		fn_mod_get_info
