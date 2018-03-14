@@ -62,7 +62,7 @@ fn_set_config_vars(){
 		fn_script_log_info "changing hostname."
 		sleep 1
 
-		if [ $(grep SERVERNAME=SERVERNAME \"${lgsmdir}/config-default/config-game/${config}\" 2>/dev/null) ]; then
+		if [ "$(grep SERVERNAME=SERVERNAME \"${lgsmdir}/config-default/config-game/${config}\" 2>/dev/null)" ]; then
 			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
 		else
 			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
