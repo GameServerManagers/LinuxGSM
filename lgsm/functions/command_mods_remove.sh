@@ -78,7 +78,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 		fi
 	fi
 	tput rc; tput el
-	printf "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
+	echo "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
 if [ ${exitcode} -ne 0 ]; then
