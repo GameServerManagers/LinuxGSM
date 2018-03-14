@@ -118,7 +118,7 @@ fn_update_ts3_availablebuild_legacy(){
 	cat "${tmpdir}/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${tmpdir}/.ts3_version_numbers_sorted.tmp"
 
 	# Finds directory with most recent server version.
-	while read ts3_version_number; do
+	while read -r ts3_version_number; do
 		wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 		if [ $? -eq 0 ]; then
 			availablebuild="${ts3_version_number}"
