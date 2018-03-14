@@ -57,7 +57,7 @@ fi
 
 ## License
 fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
-fn_print_info_nl "Accepting TeamSpeak license:"
+fn_print_information_nl "Accepting TeamSpeak license:"
 echo " * ${executabledir}/LICENSE"
 sleep 1
 touch "${executabledir}/.ts3server_license_accepted"
