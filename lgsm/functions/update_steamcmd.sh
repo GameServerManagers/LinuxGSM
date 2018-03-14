@@ -17,7 +17,7 @@ fn_update_steamcmd_dl(){
 	fn_print_ok_nl "SteamCMD"
 	fn_script_log_info "Starting SteamCMD"
 
-	cd "${steamcmddir}"
+	cd "${steamcmddir}" || exit
 
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
