@@ -2,7 +2,7 @@
 # LinuxGSM core_messages.sh function
 # Author: Daniel Gibbs
 # Contributor: s-eam
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
 # nl: new line: message is following by a new line

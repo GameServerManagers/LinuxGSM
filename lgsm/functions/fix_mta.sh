@@ -2,7 +2,7 @@
 # LinuxGSM fix_mta.sh function
 # Author: Daniel Gibbs
 # Contributor: ChaosMTA
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs the libmysqlclient for database functions on the server
 local commandname="FIX"
 local commandaction="Fix"

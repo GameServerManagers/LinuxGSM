@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_root.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if the user tried to run the script as root.
 
 local commandname="CHECK"

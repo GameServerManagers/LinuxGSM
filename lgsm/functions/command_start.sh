@@ -2,7 +2,7 @@
 # LinuxGSM command_start.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Starts the server.
 
 local commandname="START"
@@ -126,13 +126,13 @@ fn_start_tmux(){
 		# tmux pipe-pane not supported in tmux versions < 1.6
 		if [ "${tmuxversion}" -lt "16" ]; then
 			echo "Console logging disabled: Tmux => 1.6 required
-			https://gameservermanagers.com/tmux-upgrade
+			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 
 		# Console logging disabled: Bug in tmux 1.8 breaks logging
 		elif [ "${tmuxversion}" -eq "18" ]; then
 			echo "Console logging disabled: Bug in tmux 1.8 breaks logging
-			https://gameservermanagers.com/tmux-upgrade
+			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
@@ -168,7 +168,7 @@ sleep 1
 			echo "================================="
 			cat "${lgsmlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${lgsmlog}"
 
-			# Detected error https://gameservermanagers.com/support
+			# Detected error https://linuxgsm.com/support
 			if [ $(grep -c "Operation not permitted" "${lgsmlogdir}/.${servicename}-tmux-error.tmp") ]; then
 			echo ""
 			echo "Fix"
@@ -185,13 +185,13 @@ sleep 1
 					echo ""
 					echo "	usermod -G tty $(whoami)"
 					echo ""
-					echo "https://gameservermanagers.com/tmux-op-perm"
-					fn_script_log_info "https://gameservermanagers.com/tmux-op-perm"
+					echo "https://linuxgsm.com/tmux-op-perm"
+					fn_script_log_info "https://linuxgsm.com/tmux-op-perm"
 				else
 					echo "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo "https://gameservermanagers.com/support"
-					fn_script_log_info "https://gameservermanagers.com/support"
+					echo "https://linuxgsm.com/support"
+					fn_script_log_info "https://linuxgsm.com/support"
 				fi
 			fi
 		fi

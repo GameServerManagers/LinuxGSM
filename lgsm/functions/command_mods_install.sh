@@ -2,7 +2,7 @@
 # LinuxGSM command_mods_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"

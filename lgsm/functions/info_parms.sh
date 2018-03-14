@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -2,7 +2,7 @@
 # LinuxGSM check_status.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks the process status of the server. Either online or offline.
 
 local commandname="CHECK"

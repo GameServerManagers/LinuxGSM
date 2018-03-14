@@ -2,7 +2,7 @@
 # LinuxGSM info_config.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

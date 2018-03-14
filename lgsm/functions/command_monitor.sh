@@ -2,7 +2,7 @@
 # LinuxGSM command_monitor.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Monitors server by checking for running processes.
 # then passes to monitor_gsquery.sh.
 

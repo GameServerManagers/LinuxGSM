@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_logs.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates log directories.
 
 local commandname="INSTALL"

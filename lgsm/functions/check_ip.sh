@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_ip.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
@@ -50,9 +50,9 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			fi
 			echo -en "${getip}\n"
 			echo -en "\n"
-			echo -en "https://gameservermanagers.com/network-interfaces\n"
+			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
-			fn_script_log_fatal "https://gameservermanagers.com/network-interfaces\n"
+			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 			core_exit.sh
 		# Single interface
 		elif [ "${ipsetinconfig}" == "1" ]; then
@@ -65,11 +65,11 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			echo -en "Set ${ipinconfigvar} to the following:\n"
 			echo -en "${getip}\n"
 			echo -en "\n"
-			echo -en "https://gameservermanagers.com/network-interfaces\n"
+			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
 			fn_script_log_fatal "IP address not set in game config."
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
-			fn_script_log_fatal "https://gameservermanagers.com/network-interfaces\n"
+			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 			core_exit.sh
 		else
 			ip="${getip}"

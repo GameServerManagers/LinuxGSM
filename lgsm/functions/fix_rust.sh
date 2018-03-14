@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_rust.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves startup issue with Rust
 
 local commandname="FIX"

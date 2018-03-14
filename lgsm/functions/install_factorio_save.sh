@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_factorio_save.sh function
 # Author: Kristian Polso
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates the initial save file for Factorio
 
 local commandname="INSTALL"

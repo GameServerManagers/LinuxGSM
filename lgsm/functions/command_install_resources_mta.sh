@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_install_resources_mta.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs the default resources for Multi Theft Auto.
 
 local commandname="DEFAULT_RESOURCES"

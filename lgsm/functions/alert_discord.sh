@@ -2,7 +2,7 @@
 # LinuxGSM alert_discord.sh function
 # Author: Daniel Gibbs
 # Contributor: faflfama
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends Discord alert.
 
 json=$(cat <<EOF

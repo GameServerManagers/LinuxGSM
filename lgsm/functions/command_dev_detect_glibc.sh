@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_detect_glibc.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Automatically detects the version of GLIBC that is required.
 # Can check a file or directory recursively.
 

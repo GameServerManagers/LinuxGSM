@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_deps.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if required dependencies are installed for LinuxGSM.
 
 local commandname="CHECK"

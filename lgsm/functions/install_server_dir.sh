@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_server_dir.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates the server directory.
 
 local commandname="INSTALL"

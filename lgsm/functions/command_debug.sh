@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_debug.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Runs the server without tmux and directly from the terminal.
 
 local commandname="DEBUG"

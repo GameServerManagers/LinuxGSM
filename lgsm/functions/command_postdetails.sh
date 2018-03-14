@@ -2,7 +2,7 @@
 # LinuxGSM command_postdetails.sh function
 # Author: CedarLUG
 # Contributor: CedarLUG
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
 local commandname="postdetails"
