@@ -26,12 +26,12 @@ elif [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	fn_exit_dev_debug
 	# remove trap.
 	trap - INT
-	exit ${exitcode}
+	exit "${exitcode}"
 else
 	exitcode=0
 	fn_script_log_pass "${function_selfname} exiting with code: ${exitcode}"
 	fn_exit_dev_debug
 	# remove trap.
 	trap - INT
-	exit ${exitcode}
+	exit "${exitcode}"
 fi
