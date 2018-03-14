@@ -91,8 +91,9 @@ fn_update_ts3_availablebuild(){
 	elif [ "${arch}" == "x86" ]; then
 		availablebuild=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.version')
 	fi
+	ts3_version_number=${availablebuild}
 	# Checks if availablebuild variable has been set
-	if [ -z "${availablebuild}" ]; then
+	if [ "${availablebuild}" == "null" ]; then
 		fn_print_fail "Checking for update: teamspeak.com"
 		sleep 0.5
 		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
