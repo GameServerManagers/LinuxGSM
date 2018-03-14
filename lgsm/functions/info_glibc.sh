@@ -12,6 +12,9 @@ if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Base Defense" ]; then
+	glibcrequired="2.14"
+	glibcfix="no"
 elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
