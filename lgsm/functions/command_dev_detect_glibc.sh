@@ -28,8 +28,8 @@ elif [ -f "${serverfiles}" ]; then
 fi
 echo ""
 
-files=$(find ${serverfiles} | wc -l)
-find ${serverfiles} -type f -print0 |
+files=$(find "${serverfiles}" | wc -l)
+find "${serverfiles}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	glibcversion=$(objdump -T "${line}" 2>/dev/null|grep -oP "GLIBC[^ ]+" |grep -v GLIBCXX|sort|uniq|sort -r --version-sort| head -n 1)
 	if [ "${glibcversion}" ]; then
