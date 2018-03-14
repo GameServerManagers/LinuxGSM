@@ -68,7 +68,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# If file or directory exists, then remove it
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
-		rm -rf "${modinstalldir}/${currentfileremove}"
+		rm -rf "${modinstalldir:?}/${currentfileremove}"
 		((exitcode=$?))
 		if [ ${exitcode} -ne 0 ]; then
 			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
