@@ -10,6 +10,5 @@
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="$TRAVIS_BRANCH"
-
-git clone
+ls -al
 shellcheck --shell=bash --exclude=SC2154,SC2034 GameServerManagers/LinuxGSM/lgsm/functions/*
