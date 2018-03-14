@@ -157,7 +157,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Set branch for updateinfo
-	IFS=' ' read -a branchsplits <<< "${branch}"
+	IFS=' ' read -ra branchsplits <<< "${branch}"
 	if [ "${#branchsplits[@]}" -gt 1 ]; then
 		branchname="${branchsplits[1]}"
 	else
