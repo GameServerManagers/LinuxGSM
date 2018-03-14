@@ -7,8 +7,5 @@
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
 
-githubuser="GameServerManagers"
-githubrepo="LinuxGSM"
-githubbranch="$TRAVIS_BRANCH"
-ls -al
+command -v shellcheck
 shellcheck --shell=bash --exclude=SC2154,SC2034 GameServerManagers/LinuxGSM/lgsm/functions/*
