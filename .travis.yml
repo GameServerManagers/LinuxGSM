@@ -32,7 +32,9 @@ addons:
     - iproute2
     - shellcheck
 
-script:
-    - bash tests/tests_jc2server.sh
-    - bash tests/tests_ts3server.sh
-    - bash tests/tests_shellcheck.sh
+jobs:
+  include:
+    - stage: jobs
+      script: bash tests/tests_jc2server.sh
+      script: bash tests/tests_ts3server.sh
+      script: bash tests/tests_shellcheck.sh
