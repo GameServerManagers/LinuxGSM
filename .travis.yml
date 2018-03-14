@@ -36,4 +36,4 @@ script:
 
     #- bash tests/tests_jc2server.sh
     #- bash tests/tests_ts3server.sh
-    - tests/tests_shellcheck.sh
+    - bash tests/tests_shellcheck.sh
