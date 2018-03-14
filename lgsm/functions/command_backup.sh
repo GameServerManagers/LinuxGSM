@@ -118,6 +118,8 @@ fn_backup_compression(){
 	if [ ! -d "${excludedir}" ] ; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
+		fn_print_info_nl "excludedir=$excludedir was not a valid path."
+		fn_script_log_error "excludedir=$excludedir was not a valid path."
 		core_exit.sh
 	fi
 
