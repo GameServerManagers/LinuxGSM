@@ -42,7 +42,7 @@ fn_start_teamspeak3(){
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
 		fn_print_info_nl "Accepting TeamSpeak license:"
-		fn_print_info_nl " * ${executabledir}/LICENSE"
+		echo " * ${executabledir}/LICENSE"
 		sleep 3
 		touch "${executabledir}/.ts3server_license_accepted"
 	fi
