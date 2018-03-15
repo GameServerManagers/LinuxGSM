@@ -32,6 +32,7 @@ fn_backup_check_lockfile(){
 	if [ -f "${tmpdir}/.backup.lock" ]; then
 		fn_print_info_nl "Lock file found: Backup is currently running"
 		fn_script_log_error "Lock file found: Backup is currently running: ${tmpdir}/.backup.lock"
+		rm "${tmpdir}/.backup.lock" 
 		core_exit.sh
 	fi
 }
@@ -159,7 +160,7 @@ fn_backup_prune(){
 			sleep 1
 			fn_print_ok_nl "Pruning"
 			sleep 1
-			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
+			r If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared
 				echo "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
