@@ -113,17 +113,17 @@ fn_backup_compression(){
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
-
-	# Check that excludedir is a valid path.
+	excludebackupclause="--exclude \"${excludedir}\""
+	# Check that excludedir is a valid path.  If not, clear the exclude stanza for the backup directory.
 	if [ ! -d "${excludedir}" ] ; then
-		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
-		fn_print_info_nl "excludedir=$excludedir was not a valid path."
-		fn_script_log_error "excludedir=$excludedir was not a valid path."
-		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
-		core_exit.sh
+		fn_print_log_info "Problem identifying the previous backup directory for exclusion."
+		fn_print_log_info "excludedir=$excludedir was not a valid path. rootdir=\"${rootdir}\", backupdir=\"${backupdir}\""
+		fn_script_log_info "excludedir=$excludedir was not a valid path. rootdir=\"${rootdir}\", backupdir=\"${backupdir}\""
+		fn_script_log_info "Problem identifying the previous backup directory for exclusion"
+		excludebackupclause=""
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${tmpdir}/.backup.lock" ./*
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" "${excludebackupclause}" --exclude "${tmpdir}/.backup.lock" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
