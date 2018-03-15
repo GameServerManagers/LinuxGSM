@@ -2,7 +2,7 @@
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2017 Daniel Gibbs
-# Purpose: TravisCI Tests: Teamspeak 3 | Linux Game Server Management Script
+# Purpose: Travis CI Tests: Teamspeak 3 | Linux Game Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://gameservermanagers.com
@@ -460,10 +460,11 @@ fn_test_result_fail(){
 }
 
 echo "================================="
-echo "TravisCI Tests"
+echo "Travis CI Tests"
 echo "Linux Game Server Manager"
 echo "by Daniel Gibbs"
-echo "https://gameservermanagers.com"
+echo "Contributors: http://goo.gl/qLmitD"
+echo "https://linuxgsm.com"
 echo "================================="
 echo ""
 echo "================================="
