@@ -123,6 +123,7 @@ fn_backup_compression(){
 		excludebackupclause=""
 	fi
 
+	fn_print_log_info "tar -czf \"${backupdir}/${backupname}.tar.gz\" -C \"${rootdir}\" \"${excludebackupclause}\" --exclude \"${tmpdir}/.backup.lock\" \.\/\*"
 	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" "${excludebackupclause}" --exclude "${tmpdir}/.backup.lock" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
