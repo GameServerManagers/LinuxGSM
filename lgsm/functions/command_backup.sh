@@ -114,7 +114,7 @@ fn_backup_compression(){
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
 	excludebackupclause="--exclude ${excludedir}"
-	# Check that excludedir is a valid path.  If not, clear the exclude stanza for the backup directory.
+	
 	if [ ! -d "${excludedir}" ] ; then
 		fn_print_log_info "excludedir=${excludedir} was not a valid path. rootdir=\"${rootdir}\", backupdir=\"${backupdir}\""
 		fn_print_log_info "Problem identifying the previous backup directory for exclusion."
