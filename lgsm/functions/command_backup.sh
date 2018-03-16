@@ -32,7 +32,6 @@ fn_backup_check_lockfile(){
 	if [ -f "${tmpdir}/.backup.lock" ]; then
 		fn_print_info_nl "Lock file found: Backup is currently running"
 		fn_script_log_error "Lock file found: Backup is currently running: ${tmpdir}/.backup.lock"
-		rm "${tmpdir}/.backup.lock" 
 		core_exit.sh
 	fi
 }
