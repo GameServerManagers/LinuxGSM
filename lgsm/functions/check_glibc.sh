@@ -17,7 +17,7 @@ elif [ "${glibcrequired}" == "UNKNOWN" ]; then
 		fn_print_error_nl "Glibc fix: ${red}${glibcrequired}${default}"
 		echo -e "	* glibc required: ${red}${glibcrequired}${default}"
 		echo -e "	* glibc installed: ${glibcversion}"
-elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
+elif [ "$(printf "%s\n'${glibcrequired}'\n" "${glibcversion}" | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" == "yes" ]; then
 		if [ "${function_selfname}" != "command_install.sh" ]; then
 			fn_print_dots "Glibc fix"

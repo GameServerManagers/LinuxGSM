@@ -165,7 +165,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Gets availablebuild info
-	cd "${steamcmddir}"
+	cd "${steamcmddir}" || exit
 	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | sed -n '/branch/,$p' | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: SteamCMD"
