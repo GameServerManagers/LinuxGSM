@@ -26,19 +26,21 @@ fn_install_ts3db_mariadb(){
 	echo "Configuring ${gamename} Server for MariaDB/MySQL"
 	echo "================================="
 	sleep 1
-	read -p "Enter MariaDB hostname: " mariahostname
-	read -p "Enter MariaDB port: " mariaport
-	read -p "Enter MariaDB username: " mariausername
-	read -p "Enter MariaDB password: " mariapassword
-	read -p "Enter MariaDB database name: " mariadbname
+	read -rp "Enter MariaDB hostname: " mariahostname
+	read -rp "Enter MariaDB port: " mariaport
+	read -rp "Enter MariaDB username: " mariausername
+	read -rp "Enter MariaDB password: " mariapassword
+	read -rp "Enter MariaDB database name: " mariadbname
+	{
 	echo "updating config."
-	echo "[config]" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "host='${mariahostname}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "port='${mariaport}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "username='${mariausername}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "password='${mariapassword}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "database='${mariadbname}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "socket=" >> ${servercfgdir}/ts3db_mariadb.ini
+	echo "[config]"
+	echo "host='${mariahostname}'"
+	echo "port='${mariaport}'"
+	echo "username='${mariausername}'"
+	echo "password='${mariapassword}'"
+	echo "database='${mariadbname}'"
+	echo "socket="
+	} >> "${servercfgdir}/ts3db_mariadb.ini"
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
