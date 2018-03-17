@@ -17,7 +17,7 @@ class PythonGSQ:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d']
+        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4' ]
         idtech3query=['idtech3','quake','iw3.0']
         idtech2query=['idtech2','iw2.0']
         if self.option.engine in sourcequery:
