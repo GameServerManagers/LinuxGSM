@@ -71,7 +71,7 @@ echo "================================="
 sleep 1
 echo "IMPORANT! Save these details for later."
 sleep 1
-cd "${executabledir}"
+cd "${executabledir}" || exit
 ./ts3server_startscript.sh start inifile=ts3-server.ini
 sleep 5
 ./ts3server_startscript.sh stop
