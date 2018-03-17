@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_detect_deps.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
 local commandname="DEPS-DETECT"

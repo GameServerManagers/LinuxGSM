@@ -2,7 +2,7 @@
 # LinuxGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Deals with all downloads for LinuxGSM.
 
 # remote_fileurl: The URL of the file: http://example.com/dl/File.tar.bz2

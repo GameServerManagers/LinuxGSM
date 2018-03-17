@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_config.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
 local commandname="INSTALL"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_getopt.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: getopt arguments.
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -148,7 +148,7 @@ fn_opt_usage(){
 	echo "Usage: $0 [option]"
 	echo -e ""
 	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "https://gameservermanagers.com/${gameservername}"
+	echo "https://linuxgsm.com/${gameservername}"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
 	# Display available commands

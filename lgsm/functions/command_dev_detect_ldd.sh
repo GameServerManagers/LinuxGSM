@@ -1,7 +1,7 @@
 #!/bin/bash
 # command_dev_detect_ldd.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 

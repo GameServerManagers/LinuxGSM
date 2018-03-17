@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_validate.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
 local commandname="VALIDATE"

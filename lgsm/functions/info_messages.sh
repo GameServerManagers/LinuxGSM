@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_messages.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Defines server info messages for details, alerts.
 
 # Standard Details

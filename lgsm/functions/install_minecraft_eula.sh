@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_minecraft_eula.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
 echo ""

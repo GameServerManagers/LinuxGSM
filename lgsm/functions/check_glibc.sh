@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_glibc.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if the server has the correct Glibc version or a fix available.
 
 local commandname="CHECK"

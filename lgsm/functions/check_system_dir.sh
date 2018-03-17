@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_system_dir.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if systemdir/serverfiles is accessible.
 
 local commandname="CHECK"

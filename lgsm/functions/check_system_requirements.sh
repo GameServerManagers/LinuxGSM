@@ -2,7 +2,7 @@
 # LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks RAM requirements
 
 local commandname="CHECK"

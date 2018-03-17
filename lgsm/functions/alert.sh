@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
 local commandname="ALERT"

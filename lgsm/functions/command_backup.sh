@@ -2,7 +2,7 @@
 # LinuxGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
 local commandname="BACKUP"

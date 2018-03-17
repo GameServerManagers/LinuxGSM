@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_steamcmd.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles updating using SteamCMD.
 
 local commandname="UPDATE"

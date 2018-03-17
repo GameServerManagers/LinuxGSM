@@ -2,7 +2,7 @@
 # LinuxGSM install_ts3db.sh function
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs the database server MariaDB for TeamSpeak 3.
 
 local commandname="INSTALL"

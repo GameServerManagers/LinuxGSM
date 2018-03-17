@@ -2,7 +2,7 @@
 # LinuxGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Contributors: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Stops the server.
 
 local commandname="STOP"

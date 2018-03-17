@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_email.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends email alert.
 
 local commandname="ALERT"

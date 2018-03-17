@@ -2,7 +2,7 @@
 # LinuxGSM update_factorio.sh function
 # Author: Daniel Gibbs
 # Contributor: Kristian Polso
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
 local commandname="UPDATE"

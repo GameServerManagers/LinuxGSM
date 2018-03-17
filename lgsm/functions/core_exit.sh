@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_exit.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles exiting of LinuxGSM by running and reporting an exit code.
 
 fn_exit_dev_debug(){

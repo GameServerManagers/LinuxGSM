@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_mta.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles updating of Multi Theft Auto servers.
 
 local commandname="UPDATE"

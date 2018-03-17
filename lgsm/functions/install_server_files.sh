@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_server_files.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs server files.
 
 local commandname="INSTALL"

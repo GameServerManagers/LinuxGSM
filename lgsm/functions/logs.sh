@@ -2,7 +2,7 @@
 # LinuxGSM logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
 local commandname="LOGS"

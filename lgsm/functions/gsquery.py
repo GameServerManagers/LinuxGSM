@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # PythonGSQ
 # Author: Anonymous & Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
 
 import optparse

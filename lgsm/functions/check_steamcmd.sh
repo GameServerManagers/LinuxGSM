@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_steamcmd.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if SteamCMD is installed correctly.
 
 local commandname="CHECK"
