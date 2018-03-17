@@ -17,7 +17,7 @@ fn_update_steamcmd_dl(){
 	fn_print_ok_nl "SteamCMD"
 	fn_script_log_info "Starting SteamCMD"
 
-	cd "${steamcmddir}"
+	cd "${steamcmddir}" || exit
 
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
@@ -157,7 +157,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Set branch for updateinfo
-	IFS=' ' read -a branchsplits <<< "${branch}"
+	IFS=' ' read -ra branchsplits <<< "${branch}"
 	if [ "${#branchsplits[@]}" -gt 1 ]; then
 		branchname="${branchsplits[1]}"
 	else
@@ -165,7 +165,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Gets availablebuild info
-	cd "${steamcmddir}"
+	cd "${steamcmddir}" || exit
 	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | sed -n '/branch/,$p' | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: SteamCMD"

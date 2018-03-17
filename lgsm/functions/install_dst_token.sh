@@ -30,7 +30,7 @@ if [ -z "${autoinstall}" ]; then
 	if [ "${overwritetoken}" == "true" ]; then
 		echo "Once you have the cluster token, enter it below"
 		echo -n "Cluster Token: "
-		read token
+		read -r token
 		mkdir -pv "${clustercfgdir}"
 		echo "${token}" > "${clustercfgdir}/cluster_token.txt"
 		if [ -f "${clustercfgdir}/cluster_token.txt" ]; then

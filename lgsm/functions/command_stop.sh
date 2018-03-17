@@ -118,7 +118,7 @@ fn_stop_graceful_sdtd(){
 	sleep 1
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ "$(command -v expect 2>/dev/null)" ]||[ "$(which expect >/dev/null 2>&1)" ]; then
+	elif [ "$(command -v expect 2>/dev/null)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}"
@@ -219,14 +219,14 @@ fn_stop_ark(){
 	if [ "${#queryport}" -gt 0 ] ; then
 		for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
 			pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
-				grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
+				grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' |\
 				rev | cut -d\/ -f1)
 			#
 			# check for a valid pid
 			pid=${pid//[!0-9]/}
 			let pid+=0 # turns an empty string into a valid number, '0',
 			# and a valid numeric pid remains unchanged.
-			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
+			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le "$(cat "/proc/sys/kernel/pid_max")" ]; then
 			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
 				sleep 1
 			else

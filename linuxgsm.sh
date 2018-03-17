@@ -70,13 +70,8 @@ fn_bootstrap_fetch_file(){
 			mkdir -p "${local_filedir}"
 		fi
 		# Defines curl path
-		curl_paths_array=($(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)
-		for curlpath in "${curl_paths_array}"
-		do
-			if [ -x "${curlpath}" ]; then
-				break
-			fi
-		done
+		curlpath=$(command -v curl 2>/dev/null)
+
 		# If curl exists download file
 		if [ "$(basename ${curlpath})" == "curl" ]; then
 			# trap to remove part downloaded files
@@ -198,8 +193,8 @@ fn_install_menu() {
 	options=$4
 	# Get menu command
 	for menucmd in whiptail dialog bash; do
-		if [ -x $(which ${menucmd}) ]; then
-			menucmd=$(which ${menucmd})
+		if [ -x $(command -v ${menucmd}) ]; then
+			menucmd=$(command -v ${menucmd})
 			break
 		fi
 	done
