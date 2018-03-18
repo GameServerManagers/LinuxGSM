@@ -72,6 +72,9 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 			core_exit.sh
 		else
+			fn_print_info_nl "Check IP: ${getip}"
+			fn_script_log_info "IP automatically set as: ${getip}"
+			sleep 1
 			ip="${getip}"
 		fi
 	fi
