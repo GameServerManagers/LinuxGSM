@@ -485,8 +485,8 @@ echo ""
 (command_dev_debug.sh)
 fn_test_result_pass
 grep "functionfile=" "tests/dev-debug.log"
-echo "################## LS -AL"
-ls -al
+echo "################## tree"
+tree
 echo "################## pwd"
 pwd
 echo "1.0 - start - no files"
@@ -543,7 +543,8 @@ fn_setstatus
 (command_start.sh)
 fn_test_result_pass
 grep "functionfile=" "tests/dev-debug.log"
-
+echo "############## tree"
+tree
 echo ""
 echo "3.2 - start - online"
 echo "================================="
