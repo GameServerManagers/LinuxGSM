@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_ifttt.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends IFTTT alert.
 
 local commandname="ALERT"

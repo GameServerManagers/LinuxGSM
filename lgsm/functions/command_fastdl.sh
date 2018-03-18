@@ -2,7 +2,7 @@
 # LinuxGSM command_fastdl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
 local commandname="FASTDL"
@@ -69,7 +69,7 @@ fn_clear_old_fastdl(){
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
 		rm -R "${fastdldir:?}"
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"
 			core_exit.sh
@@ -337,7 +337,7 @@ fn_fastdl_source(){
 					fi
 					cp "${fastdlfile}" "${fastdldir}/${directory}"
 					exitcode=$?
-					if [ "${exitcode}" -ne 0 ]; then
+					if [ ${exitcode} -ne 0 ]; then
 						fn_print_fail_eol_nl
 						fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}/${directory}"
 						core_exit.sh
@@ -373,7 +373,7 @@ fn_fastdl_gmod_dl_enforcer(){
 		echo -en "removing existing download enforcer: ${luafastdlfile}..."
 		rm "${luafastdlfullpath:?}"
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Removing existing download enforcer ${luafastdlfullpath}"
 			core_exit.sh
@@ -391,7 +391,7 @@ fn_fastdl_gmod_dl_enforcer(){
 			echo "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
 		done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n')
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating new download enforcer ${luafastdlfullpath}"
 			core_exit.sh
@@ -408,7 +408,7 @@ fn_fastdl_bzip2(){
 		echo -en "\r\033[Kcompressing ${filetocompress}..."
 		bzip2 -f "${filetocompress}"
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Compressing ${filetocompress}"
 			core_exit.sh

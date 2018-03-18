@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_ts3.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles updating of teamspeak 3 servers.
 
 local commandname="UPDATE"
@@ -48,7 +48,7 @@ fn_update_ts3_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egrep -E -v '${rootdir}/.ts3version' | tail -1) | egrep -o 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | sort -V | tail -1)
+	currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | grep -Ev '${rootdir}/.ts3version' | tail -1) | grep -Eo 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | sort -V | tail -1)
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
 		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
@@ -59,7 +59,7 @@ fn_update_ts3_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | egrep -E -v '${rootdir}/.ts3version' | tail -1) | egrep -o 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | grep -Ev '${rootdir}/.ts3version' | tail -1) | grep -Eo 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: teamspeak.com: Current build version still not found"
@@ -112,13 +112,13 @@ fn_update_ts3_availablebuild_legacy(){
 	# Gets latest build info.
 
 	# Grabs all version numbers but not in correct order.
-	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | egrep -o '<a href=\".*\/\">.*\/<\/a>' | egrep -o '[0-9\.?]+'|uniq > "${tmpdir}/.ts3_version_numbers_unsorted.tmp"
+	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | grep -Eo '<a href=\".*\/\">.*\/<\/a>' | grep -Eo '[0-9\.?]+'|uniq > "${tmpdir}/.ts3_version_numbers_unsorted.tmp"
 
 	# Sort version numbers
 	cat "${tmpdir}/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${tmpdir}/.ts3_version_numbers_sorted.tmp"
 
 	# Finds directory with most recent server version.
-	while read ts3_version_number; do
+	while read -r ts3_version_number; do
 		wget --spider -q "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 		if [ $? -eq 0 ]; then
 			availablebuild="${ts3_version_number}"
@@ -206,13 +206,13 @@ fn_update_ts3_compare(){
 fn_update_ts3_arch
 if [ "${installer}" == "1" ]; then
 	# if jq available uses json update checker
-	if [ "$(command -v jq)" ]||[ "$(which jq >/dev/null 2>&1)" ]; then
+	if [ "$(command -v jq >/dev/null 2>&1)" ]; then
 		fn_update_ts3_availablebuild
 	else
 		fn_update_ts3_availablebuild_legacy
 	fi
 	fn_update_ts3_dl
-	else
+else
 	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
 	fn_print_dots "Checking for update: teamspeak.com"
 	fn_script_log_info "Checking for update: teamspeak.com"

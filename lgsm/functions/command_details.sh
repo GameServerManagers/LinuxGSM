@@ -2,7 +2,7 @@
 # LinuxGSM command_details.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Displays server information.
 
 local commandname="DETAILS"

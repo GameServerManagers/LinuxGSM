@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_mailgun.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends Mailgun Email alert.
 
 local commandname="ALERT"

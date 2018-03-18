@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_server_files.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs server files.
 
 local commandname="INSTALL"
@@ -146,7 +146,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi

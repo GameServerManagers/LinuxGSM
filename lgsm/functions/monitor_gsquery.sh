@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM monitor_gsquery.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Uses gsquery.py to query the server port.
 # Detects if the server has frozen with the process still running.
 

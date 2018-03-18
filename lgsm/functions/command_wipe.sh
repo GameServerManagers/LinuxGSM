@@ -2,7 +2,7 @@
 # LinuxGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Wipes server data, useful after updates for some games like Rust
 
 local commandname="WIPE"

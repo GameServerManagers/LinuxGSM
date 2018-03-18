@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_squad_license.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Configures the Squad server's license.
 
 local commandname="INSTALL"

@@ -2,7 +2,7 @@
 # LinuxGSM command_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 
 local commandname="INSTALL"

@@ -2,7 +2,7 @@
 # LinuxGSM update_mumble.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles updating of mumble servers.
 
 local commandname="UPDATE"
@@ -49,7 +49,7 @@ fn_update_mumble_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null | sort | egrep 'Murmur ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | awk '{print $4}')
+	currentbuild=$(cat "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null | sort | grep -E 'Murmur ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | awk '{print $4}')
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: GitHub: Current build version not found"
 		fn_script_log_error "Checking for update: GitHub: Current build version not found"
@@ -60,7 +60,7 @@ fn_update_mumble_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null | sort | egrep 'Murmur ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | awk '{print $4}')
+		currentbuild=$(cat "${consolelogdir}"/"${servicename}"-console.log 2> /dev/null | sort | grep -E 'Murmur ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | awk '{print $4}')
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: GitHub: Current build version still not found"
 			fn_script_log_fatal "Checking for update: GitHub: Current build version still not found"

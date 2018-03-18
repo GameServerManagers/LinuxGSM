@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_ut2k4_key.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Activates ut2k4 server with given key.
 
 local commandname="INSTALL"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_validate.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
 local commandname="VALIDATE"
@@ -22,7 +22,7 @@ fn_validation(){
 	cd "${steamcmddir}"
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
-	if [ $(command -v stdbuf) ]&&[ "${arch}" != "x86_64" ]; then
+	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 

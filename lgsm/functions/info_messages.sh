@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_messages.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Defines server info messages for details, alerts.
 
 # Standard Details
@@ -507,6 +507,22 @@ fn_info_message_ballisticoverkill(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_battalion1944(){
+	echo -e "netstat -atunp | grep BattalionServ"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		# unconfirmed - http://wiki.battaliongame.com/Community_Servers#Firewalls_.2F_Port_Forwarding
+		if [ "${port}" -eq "${port}" ]; then
+			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
+			echo -e "> Unused\tINBOUND\t$((port+2))\ttcp"
+		fi
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_cod(){
 	echo -e "netstat -atunp | grep cod_lnxded"
 	echo -e ""
@@ -997,6 +1013,8 @@ fn_info_message_select_engine(){
 		fn_info_message_ark
 	elif [ "${gamename}" == "Ballistic Overkill" ]; then
 		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Battalion 1944" ]; then
+		fn_info_message_battalion1944
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		fn_info_message_cod
 	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then

@@ -2,7 +2,7 @@
 # LinuxGSM logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
 local commandname="LOGS"
@@ -42,8 +42,8 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}"|wc -l) -ne "0" ]; then
 	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
 	sleep 1
 	fn_print_ok_nl "Starting"
-	fn_print_info_nl "Removing logs older than "${logdays}" days"
-	fn_script_log_info "Removing logs older than "${logdays}" days"
+	fn_print_info_nl "Removing logs older than ${logdays} days"
+	fn_script_log_info "Removing logs older than ${logdays} days"
 	# Logging logfiles to be removed according to "${logdays}", counting and removing them
 	# Script logfiles
 	find "${lgsmlogdir}"/ -type f -mtime +"${logdays}"| tee >> "${lgsmlog}"

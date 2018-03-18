@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_ut.sh function
 # Author: Alexander Hurd
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament.
 
 local commandname="FIX"

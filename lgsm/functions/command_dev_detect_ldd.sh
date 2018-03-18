@@ -1,7 +1,7 @@
 #!/bin/bash
 # command_dev_detect_ldd.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 
@@ -26,11 +26,11 @@ files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	#ldd -v $line 2>/dev/null|grep "=>" >>"${tmpdir}/detect_ldd.tmp"
-	if [ -n "$(ldd ${line} 2>/dev/null |grep -v "not a dynamic executable")" ]; then
+	if [ -n "$(ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable")" ]; then
 		echo "${line}" >> "${tmpdir}/detect_ldd.tmp"
 		ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable" >> "${tmpdir}/detect_ldd.tmp"
 
-		if [ -n "$(ldd $line 2>/dev/null |grep -v "not a dynamic executable"|grep "not found")" ]; then
+		if [ -n "$(ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable"|grep "not found")" ]; then
 			echo "${line}" >> "${tmpdir}/detect_ldd_not_found.tmp"
 			ldd "${line}" 2>/dev/null |grep -v "not a dynamic executable"|grep "not found" >> "${tmpdir}/detect_ldd_not_found.tmp"
 		fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_pushover.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends Pushover alert.
 
 local commandname="ALERT"

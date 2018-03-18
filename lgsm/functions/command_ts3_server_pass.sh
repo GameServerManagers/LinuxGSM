@@ -2,7 +2,7 @@
 # LinuxGSM command_ts3_server_pass.sh function
 # Author: Daniel Gibbs
 # Contributor : UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Changes TS3 serveradmin password.
 
 local commandname="TS3-CHANGE-PASS"
@@ -19,7 +19,7 @@ fn_serveradmin_password_prompt(){
 		echo Exiting; exit
 	fi
 	fn_script_log_info "Initiating ${gamename} ServerAdmin password change"
-	read -p "Enter new password : " newpassword
+	read -rp "Enter new password : " newpassword
 }
 
 fn_serveradmin_password_set(){

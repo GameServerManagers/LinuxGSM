@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_kf.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor.
 
 local commandname="FIX"

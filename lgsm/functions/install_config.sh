@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_config.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
 local commandname="INSTALL"
@@ -61,8 +61,7 @@ fn_set_config_vars(){
 		echo "changing hostname."
 		fn_script_log_info "changing hostname."
 		sleep 1
-
-		if [ $(grep SERVERNAME=SERVERNAME \"${lgsmdir}/config-default/config-game/${config}\") ]; then
+		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2>/dev/null; then
 			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
 		else
 			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
@@ -151,6 +150,19 @@ elif [ "${gamename}" == "ARMA 3" ]; then
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	gamedirname="BallisticOverkill"
 	array_configs+=( config.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Base Defense" ]; then
+	gamedirname="BaseDefense"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Battalion 1944" ]; then
+	gamedirname="Battalion1944"
+	fn_check_cfgdir
+	array_configs+=( DefaultGame.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
