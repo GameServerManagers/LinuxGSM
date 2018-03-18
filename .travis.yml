@@ -31,7 +31,6 @@ addons:
     - net-tools
     - iproute2
     - shellcheck
-    - tree
 
 jobs:
   include:
