@@ -9,14 +9,6 @@
 
 travistest="1"
 
-date > "${TRAVIS_BUILD_DIR}/dev-debug.log"
-# Debugging
-if [ -f "${TRAVIS_BUILD_DIR}/.dev-debug" ]; then
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-fi
-
 version="171014"
 shortname="jc2"
 gameservername="jc2server"
