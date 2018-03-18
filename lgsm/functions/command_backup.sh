@@ -113,18 +113,20 @@ fn_backup_compression(){
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
-	excludebackupclause="--exclude ${excludedir}"
-	
-	if [ ! -d "${excludedir}" ] ; then
-		fn_print_log_info "excludedir=${excludedir} was not a valid path. rootdir=\"${rootdir}\", backupdir=\"${backupdir}\""
-		fn_print_log_info "Problem identifying the previous backup directory for exclusion."
-		fn_script_log_info "excludedir=${excludedir} was not a valid path. rootdir=\"${rootdir}\", backupdir=\"${backupdir}\""
-		fn_script_log_info "Problem identifying the previous backup directory for exclusion"
-		excludebackupclause=""
+
+	# Create the backup directory if it does not yet exist.
+	if [ ! -d "${backupdir}" ] ; then
+		mkdir -p ${backkupdir}
 	fi
 
-	fn_print_log_info "tar -czf \"${backupdir}/${backupname}.tar.gz\" -C \"${rootdir}\" \"${excludebackupclause}\" --exclude \"${tmpdir}/.backup.lock\" \.\/\*"
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" "${excludebackupclause}" --exclude "${tmpdir}/.backup.lock" ./*
+	# Check that excludedir is a valid path.
+	if [ ! -d "${excludedir}" ] ; then
+		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
+		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
+		core_exit.sh
+	fi
+
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${tmpdir}/.backup.lock" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
@@ -159,7 +161,7 @@ fn_backup_prune(){
 			sleep 1
 			fn_print_ok_nl "Pruning"
 			sleep 1
-			r If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
+			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared
 				echo "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
