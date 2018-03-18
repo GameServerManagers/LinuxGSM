@@ -529,7 +529,7 @@ echo ""
 	set -x
 	core_getopt.sh)
 fn_test_result_pass
-grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
+cat "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
 echo ""
 echo "1.2 - getopt with incorrect args"
