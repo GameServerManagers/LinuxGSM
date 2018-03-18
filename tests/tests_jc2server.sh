@@ -485,9 +485,9 @@ echo ""
 (command_dev_debug.sh)
 fn_test_result_pass
 pwd
-echo "####### touch & date > tests/.dev-debug"
-touch tests/.dev-debug
-date > tests/.dev-debug
+echo "####### touch & date > /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug"
+touch /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug
+date > /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug
 
 echo "########## ${rootdir}/.dev-debug"
 grep "functionfile=" "tests/dev-debug.log"
