@@ -218,6 +218,10 @@ else
 	fn_script_log_info "Checking for update: teamspeak.com"
 	sleep 1
 	fn_update_ts3_currentbuild
-	fn_update_ts3_availablebuild
+	if [ "$(command -v jq >/dev/null 2>&1)" ]; then
+		fn_update_ts3_availablebuild
+	else
+		fn_update_ts3_availablebuild_legacy
+	fi
 	fn_update_ts3_compare
 fi
