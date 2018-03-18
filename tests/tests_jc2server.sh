@@ -9,6 +9,7 @@
 
 travistest="1"
 
+date > "tests/dev-debug.log"
 # Debugging
 if [ -f ".dev-debug" ]; then
 	exec 5>"tests/dev-debug.log"
