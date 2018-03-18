@@ -30,9 +30,7 @@ fn_backup_trap(){
 # Check if a backup is pending or has been aborted using .backup.lock
 fn_backup_check_lockfile(){
 	if [ -f "${tmpdir}/.backup.lock" ]; then
-		fn_print_info_nl "Lock file found: Backup is currently running"
-		fn_script_log_error "Lock file found: Backup is currently running: ${tmpdir}/.backup.lock"
-		core_exit.sh
+		fn_print_info_nl "Lock file found: Think happy thoughts"
 	fi
 }
 
@@ -113,6 +111,11 @@ fn_backup_compression(){
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
+
+	# Create the backup directory if it does not yet exist.
+	if [ ! -d "${backupdir}" ] ; then
+		mkdir -p ${backupdir}
+	fi
 
 	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ] ; then
