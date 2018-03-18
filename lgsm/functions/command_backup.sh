@@ -114,6 +114,11 @@ fn_backup_compression(){
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
 
+	# Create the backup directory if it does not yet exist.
+	if [ ! -d "${backupdir}" ] ; then
+		mkdir -p ${backupdir}
+	fi
+
 	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ] ; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
