@@ -9,10 +9,10 @@
 
 travistest="1"
 
-date > "tests/dev-debug.log"
+date > "${TRAVIS_BUILD_DIR}/dev-debug.log"
 # Debugging
-if [ -f ".dev-debug" ]; then
-	exec 5>"tests/dev-debug.log"
+if [ -f "${TRAVIS_BUILD_DIR}/.dev-debug" ]; then
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 fi
@@ -493,7 +493,7 @@ touch /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug
 date > /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug
 
 echo "########## ${rootdir}/.dev-debug"
-grep "functionfile=" "tests/dev-debug.log"
+grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 echo "################## tree"
 tree
 echo "################## pwd"
@@ -506,7 +506,7 @@ echo "Command: ./jc2server start"
 echo ""
 (command_start.sh)
 fn_test_result_fail
-grep "functionfile=" "tests/dev-debug.log"
+grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
 echo ""
 echo "1.1 - getopt"
@@ -517,7 +517,7 @@ echo "Command: ./jc2server"
 echo ""
 (core_getopt.sh)
 fn_test_result_pass
-grep "functionfile=" "tests/dev-debug.log"
+grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
 echo ""
 echo "1.2 - getopt with incorrect args"
@@ -529,7 +529,7 @@ echo ""
 getopt="abc123"
 (core_getopt.sh)
 fn_test_result_fail
-grep "functionfile=" "tests/dev-debug.log"
+grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
 echo ""
 echo "2.0 - install"
@@ -539,7 +539,7 @@ echo "install ${gamename} server."
 echo "Command: ./jc2server auto-install"
 (fn_autoinstall)
 fn_test_result_pass
-grep "functionfile=" "tests/dev-debug.log"
+grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
 echo ""
 echo "3.1 - start"
@@ -551,7 +551,7 @@ requiredstatus="OFFLINE"
 fn_setstatus
 (command_start.sh)
 fn_test_result_pass
-grep "functionfile=" "tests/dev-debug.log"
+grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 echo "############## tree"
 tree
 echo ""
