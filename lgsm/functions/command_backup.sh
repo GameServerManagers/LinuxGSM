@@ -116,7 +116,7 @@ fn_backup_compression(){
 
 	# Create the backup directory if it does not yet exist.
 	if [ ! -d "${backupdir}" ] ; then
-		mkdir -p ${backkupdir}
+		mkdir -p ${backupdir}
 	fi
 
 	# Check that excludedir is a valid path.
