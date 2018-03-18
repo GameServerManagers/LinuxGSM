@@ -108,6 +108,20 @@ fn_info_config_ballistic_overkill(){
 	fi
 }
 
+fn_info_config_battalion1944(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
+}
+
 fn_info_config_bf1942(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -916,6 +930,9 @@ if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 # Ballistic Overkill
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	fn_info_config_ballistic_overkill
+# Battalion 1944
+elif [ "${gamename}" == "Battalion 1944" ]; then
+	fn_info_config_battalion1944
 # Battlefield: 1942
 elif [ "${gamename}" == "Battlefield: 1942" ]; then
 	fn_info_config_bf1942
