@@ -484,6 +484,7 @@ echo "Enable dev-debug"
 echo ""
 (command_dev_debug.sh)
 fn_test_result_pass
+echo "########## ${rootdir}/.dev-debug"
 grep "functionfile=" "tests/dev-debug.log"
 echo "################## tree"
 tree
