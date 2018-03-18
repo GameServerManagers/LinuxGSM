@@ -483,7 +483,11 @@ echo "================================="
 echo "Description:"
 echo "Enable dev-debug"
 echo ""
-(command_dev_debug.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_debug.sh)
 fn_test_result_pass
 pwd
 echo "######travis build path"
@@ -504,7 +508,11 @@ echo "Description:"
 echo "test script reaction to missing server files."
 echo "Command: ./jc2server start"
 echo ""
-(command_start.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_start.sh)
 fn_test_result_fail
 grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
@@ -515,7 +523,11 @@ echo "Description:"
 echo "displaying options messages."
 echo "Command: ./jc2server"
 echo ""
-(core_getopt.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	core_getopt.sh)
 fn_test_result_pass
 grep "functionfile=" "${TRAVIS_BUILD_DIR}/dev-debug.log"
 
