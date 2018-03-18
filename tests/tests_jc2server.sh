@@ -485,7 +485,8 @@ echo ""
 (command_dev_debug.sh)
 fn_test_result_pass
 grep "functionfile=" dev-debug.log
-
+echo "################## LS -AL"
+ls -al
 echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
