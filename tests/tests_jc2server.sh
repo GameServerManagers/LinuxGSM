@@ -485,6 +485,8 @@ echo ""
 (command_dev_debug.sh)
 fn_test_result_pass
 pwd
+echo "######travis build path"
+echo "${TRAVIS_BUILD_DIR}"
 echo "####### touch & date > /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug"
 touch /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug
 date > /home/travis/build/GameServerManagers/LinuxGSM/tests/.dev-debug
