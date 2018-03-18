@@ -9,13 +9,6 @@
 
 travistest="1"
 
-# Debugging
-if [ -f ".dev-debug" ]; then
-	exec 5>dev-debug.log
-	BASH_XTRACEFD="5"
-	set -x
-fi
-
 version="171014"
 shortname="jc2"
 gameservername="jc2server"
@@ -474,25 +467,49 @@ echo "================================="
 echo "Description:"
 echo "Create log dir's"
 echo ""
-(install_logs.sh)
-
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	install_logs.sh
+)
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo "0.2 - Enable dev-debug"
 echo "================================="
 echo "Description:"
 echo "Enable dev-debug"
 echo ""
-(command_dev_debug.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_debug.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
+echo ""
 echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo "Command: ./jc2server start"
 echo ""
-(command_start.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_start.sh
+)
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "1.1 - getopt"
@@ -501,8 +518,16 @@ echo "Description:"
 echo "displaying options messages."
 echo "Command: ./jc2server"
 echo ""
-(core_getopt.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	core_getopt.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "1.2 - getopt with incorrect args"
@@ -512,8 +537,16 @@ echo "displaying options messages."
 echo "Command: ./jc2server abc123"
 echo ""
 getopt="abc123"
-(core_getopt.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	core_getopt.sh
+)
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "2.0 - install"
@@ -521,8 +554,16 @@ echo "================================="
 echo "Description:"
 echo "install ${gamename} server."
 echo "Command: ./jc2server auto-install"
-(fn_autoinstall)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	fn_autoinstall
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.1 - start"
@@ -532,8 +573,16 @@ echo "start ${gamename} server."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_start.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_start.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.2 - start - online"
@@ -543,8 +592,16 @@ echo "start ${gamename} server while already running."
 echo "Command: ./jc2server start"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_start.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_start.sh
+)
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.3 - start - updateonstart"
@@ -554,8 +611,16 @@ echo "will update server on start."
 echo "Command: ./jc2server start"
 requiredstatus="OFFLINE"
 fn_setstatus
-(updateonstart="on";command_start.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	updateonstart="on";command_start.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.4 - stop"
@@ -565,8 +630,16 @@ echo "stop ${gamename} server."
 echo "Command: ./jc2server stop"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_stop.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_stop.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.5 - stop - offline"
@@ -576,8 +649,16 @@ echo "stop ${gamename} server while already stopped."
 echo "Command: ./jc2server stop"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_stop.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_stop.sh
+)
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.6 - restart"
@@ -587,8 +668,16 @@ echo "restart ${gamename}."
 echo "Command: ./jc2server restart"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_restart.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_restart.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "3.7 - restart - offline"
@@ -598,8 +687,16 @@ echo "restart ${gamename} while already stopped."
 echo "Command: ./jc2server restart"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_restart.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_restart.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo "4.1 - update"
 echo "================================="
@@ -608,8 +705,16 @@ echo "check for updates."
 echo "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_update.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_update.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.2 - update  - change buildid"
@@ -621,8 +726,16 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
-(command_update.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_update.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.3 - update  - change buildid - online"
@@ -634,8 +747,16 @@ requiredstatus="ONLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
 sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
-(command_update.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_update.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.4 - update  - remove appmanifest file"
@@ -647,8 +768,16 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "removed appmanifest_${appid}.acf."
 rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
-(command_update.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_update.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.5 - force-update"
@@ -658,8 +787,16 @@ echo "force-update bypassing update check."
 echo "Command: ./jc2server force-update"
 requiredstatus="OFFLINE"
 fn_setstatus
-(forceupdate=1;command_update.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	forceupdate=1;command_update.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.6 - force-update - online"
@@ -669,8 +806,16 @@ echo "force-update bypassing update check server while already running."
 echo "Command: ./jc2server force-update"
 requiredstatus="ONLINE"
 fn_setstatus
-(forceupdate=1;command_update.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	forceupdate=1;command_update.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.7 - validate"
@@ -680,8 +825,16 @@ echo "validate server files."
 echo "Command: ./jc2server validate"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_validate.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_validate.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "4.8 - validate - online"
@@ -692,8 +845,16 @@ echo ""
 echo "Command: ./jc2server validate"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_validate.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_validate.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "Inserting IP address"
@@ -713,8 +874,16 @@ echo "run monitor server while already running."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_monitor.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_monitor.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "5.2 - monitor - offline - with lockfile"
@@ -726,8 +895,16 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
 date > "${rootdir}/${lockselfname}"
-(command_monitor.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_monitor.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "5.3 - monitor - offline - no lockfile"
@@ -737,8 +914,16 @@ echo "run monitor while server is offline with no lockfile."
 echo "Command: ./jc2server monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
-(command_monitor.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_monitor.sh
+)
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "5.4 - monitor - gsquery.py failure"
@@ -750,8 +935,17 @@ requiredstatus="ONLINE"
 fn_setstatus
 cp "${servercfgfullpath}" "config.lua"
 sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(command_monitor.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_monitor.sh
+)
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+
 echo ""
 fn_print_info_nl "Re-generating ${servercfg}."
 cp -v "config.lua" "${servercfgfullpath}"
@@ -765,8 +959,16 @@ echo "display details."
 echo "Command: ./jc2server details"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_details.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_details.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "6.1 - post details"
@@ -776,8 +978,16 @@ echo "post details."
 echo "Command: ./jc2server postdetails"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_postdetails.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_postdetails.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "7.0 - backup"
@@ -790,6 +1000,9 @@ fn_setstatus
 echo "test de-activated until issue #1839 fixed"
 #(command_backup.sh)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "8.0 - dev - detect glibc"
@@ -799,8 +1012,16 @@ echo "detect glibc."
 echo "Command: ./jc2server detect-glibc"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_dev_detect_glibc.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_detect_glibc.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "8.1 - dev - detect ldd"
@@ -810,8 +1031,16 @@ echo "detect ldd."
 echo "Command: ./jc2server detect-ldd"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_dev_detect_ldd.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_detect_ldd.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "8.2 - dev - detect deps"
@@ -821,8 +1050,16 @@ echo "detect dependencies."
 echo "Command: ./jc2server detect-deps"
 requiredstatus="ONLINE"
 fn_setstatus
-(command_dev_detect_deps.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_detect_deps.sh
+)
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
 
 echo ""
 echo "================================="
