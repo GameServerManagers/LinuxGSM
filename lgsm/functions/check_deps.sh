@@ -6,6 +6,52 @@
 
 local commandname="CHECK"
 
+fn_add_mono_repo(){
+	# TODO: Detect correct distro and version for source url
+	if [ "${monocheck}" != "0" ]; then
+		fn_print_dots_nl "Adding Mono repository"
+		sleep 0.5
+		sudo -v > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			fn_print_information_nl "Automatically adding repository."
+			fn_script_log_info "Automatically adding repository."
+			echo -en ".\r"
+			sleep 1
+			echo -en "..\r"
+			sleep 1
+			echo -en "...\r"
+			sleep 1
+			echo -en "   \r"
+			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+				cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && echo 'deb http://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list && sudo apt-get update"
+				eval ${cmd}
+			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+				cmd="rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+				eval ${cmd}
+			fi
+			if [ $? != 0 ]; then
+				fn_print_failure_nl "Unable to add Mono repository"
+				fn_script_log_fatal "Unable to add Mono repository"
+				exit 1
+			else
+				fn_print_complete_nl "Add Mono repository completed"
+				fn_script_log_pass "Add Mono repository completed"
+			fi
+		else
+			echo ""
+			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Mono repository."
+			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Mono repository."
+			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+				echo "	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && echo 'deb http://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list && sudo apt-get update"
+			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+				echo "	rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+			fi
+			echo ""
+			exit 1
+		fi
+	fi
+}
+
 fn_deps_detector(){
 	# Checks if dependency is missing
 	if [ "${tmuxcheck}" == "1" ]; then
@@ -18,6 +64,15 @@ fn_deps_detector(){
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
+	elif [ "${deptocheck}" == "mono-complete" ]; then
+		if [[ -n "$(mono --version)" && "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]]; then
+			# Mono >= 5.0.0 already installed
+			depstatus=0
+		else
+			# Mono not installed or installed Mono < 5.0.0
+			depstatus=1
+			monocheck=1
+		fi
 	elif [ -n "$(command -v apt-get 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
@@ -77,6 +132,10 @@ fn_found_missing_deps(){
 		sleep 0.5
 		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
 		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
+		sleep 1
+		if [ -n monocheck ]; then
+			fn_add_mono_repo
+		fi	
 		sleep 1
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
@@ -227,6 +286,9 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Unreal Tournament
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		array_deps_required+=( unzip )
+	# Eco
+	elif [ "${gamename}" == "Eco" ]; then
+		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -316,6 +378,9 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 	# Unreal Tournament
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		array_deps_required+=( unzip )
+	# Eco
+	elif [ "${gamename}" == "Eco" ]; then
+		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
