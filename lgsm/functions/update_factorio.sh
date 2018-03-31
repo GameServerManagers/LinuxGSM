@@ -26,7 +26,7 @@ fn_update_factorio_dl(){
 fn_update_factorio_currentbuild(){
 	# Gets current build info
 	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
-	if [ ! -f "${logdir}/server/factorio-current.log" ]; then
+	if [ ! -f "${serverfiles}/factorio-current.log" ]; then
 		fn_print_error "Checking for update: factorio.com"
 		sleep 1
 		fn_print_error_nl "Checking for update: factorio.com: No logs with server version found"
@@ -41,7 +41,7 @@ fn_update_factorio_currentbuild(){
 		command_start.sh
 		sleep 1
 		# Check again and exit on failure.
-		if [ ! -f "${logdir}/server/factorio-current.log" ]; then
+		if [ ! -f "${serverfiles}/factorio-current.log" ]; then
 			fn_print_fail_nl "Checking for update: factorio.com: Still No logs with server version found"
 			fn_script_log_fatal "Checking for update: factorio.com: Still No logs with server version found"
 			core_exit.sh
@@ -49,7 +49,7 @@ fn_update_factorio_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(grep "Loading mod base" "${logdir}/server/factorio-current.log" 2> /dev/null|awk '{print $5}'|tail -1)
+	currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null|awk '{print $5}'|tail -1)
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: factorio.com: Current build version not found"
 		fn_script_log_error "Checking for update: factorio.com: Current build version not found"
@@ -60,7 +60,7 @@ fn_update_factorio_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(grep "Loading mod base" "${logdir}/server/factorio-current.log" 2> /dev/null|awk '{print $5}'|tail -1)
+		currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null|awk '{print $5}'|tail -1)
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: factorio.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: factorio.com: Current build version still not found"
@@ -77,9 +77,9 @@ fn_update_factorio_arch(){
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
 	if [ "${branch}" != "stable" ]; then
-		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless/"${branch}" | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless/"${branch}" | grep 'headless/linux64' | head -n 2 | tail -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
 	else
-		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless | grep 'headless/linux64' | head -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless | grep 'headless/linux64' | head -n 2 | tail -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
 	fi
 	sleep 1
 
