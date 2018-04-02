@@ -992,6 +992,15 @@ fn_info_message_wolfensteinenemyterritory(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_etlegacy(){
+	echo -e "netstat -atunp | grep etlded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
@@ -1025,6 +1034,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_info_message_codwaw
+	elif [ "${gamename}" == "ET: Legacy" ]; then
+		fn_info_message_etlegacy
 	elif [ "${gamename}" == "Factorio" ]; then
 		fn_info_message_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
