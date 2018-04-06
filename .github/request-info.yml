@@ -12,4 +12,4 @@ requestInfoReplyComment: >
 #  - updates
 
 # *OPTIONAL* Label to be added to Issues and Pull Requests with insufficient information given
-requestInfoLabelToAdd: needs more info
+requestInfoLabelToAdd: Status: needs more info
