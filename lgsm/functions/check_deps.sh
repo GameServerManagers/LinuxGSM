@@ -18,7 +18,7 @@ fn_deps_detector(){
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
-	elif [ -n "$(command -v apt-get 2>/dev/null)" ]; then
+	elif [ -n "$(command -v apt 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' ${deptocheck} 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
 	elif [ -n "$(command -v yum 2>/dev/null)" ]; then
@@ -90,7 +90,7 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
+				cmd="sudo dpkg --add-architecture i386; sudo apt update; sudo apt -y install ${array_deps_missing[@]}"
 				eval ${cmd}
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
@@ -108,7 +108,7 @@ fn_found_missing_deps(){
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
+				echo "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				echo "	sudo yum install ${array_deps_missing[@]}"
 			fi
@@ -139,7 +139,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo "================================="
 fi
 
-# Check will only run if using apt-get or yum
+# Check will only run if using apt or yum
 if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
