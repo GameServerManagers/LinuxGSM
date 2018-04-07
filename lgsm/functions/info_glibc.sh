@@ -57,7 +57,7 @@ elif [ "${gamename}" == "Empires Mod" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Factorio" ]; then
-	glibcrequired="2.15"
+	glibcrequired="2.18"
 	glibcfix="yes"
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	glibcrequired="2.15"
