@@ -2,7 +2,7 @@
 # LinuxGSM info_messages.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Defines server info messages for details, alerts.
+# Description: Defines server info messages for details and alerts.
 
 # Standard Details
 # This applies to all engines
@@ -122,7 +122,9 @@ fn_info_message_gameserver(){
 	fn_messages_separator
 	{
 		# Server name
-		if [ -n "${servername}" ]; then
+		if [ -n "${gdname}" ];then
+			echo -e "${blue}Server name:\t${default}${gdname}"
+		elif [ -n "${servername}" ]; then
 			echo -e "${blue}Server name:\t${default}${servername}"
 		fi
 
@@ -181,9 +183,43 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Stats password:\t${default}${statspassword}"
 		fi
 
-		# Maxplayers
-		if [ -n "${maxplayers}" ]; then
-			echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+		# Players
+
+		if [ "${querystatus}" != "0" ]; then
+			if [ -n "${maxplayers}" ]; then
+				echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+			fi
+		else
+			if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}${gdplayers}/${gdmaxplayers}"
+
+			elif [ -n "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}${gdplayers}/${maxplayers}"
+
+			elif [ -z "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}0/${gdmaxplayers}"
+
+			elif [ -n "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}${gdplayers}|∞"
+
+			elif [ -z "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]&&[ -n "${maxplayers}" ]; then
+				echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+			fi
+		fi
+
+		# Bots
+		if [ -n "${gdbots}" ]; then
+			echo -e "${blue}Bots:\t${default}${gdbots}"
+		fi
+
+		# Current Map
+		if [ -n "${gdmap}" ]; then
+			echo -e "${blue}Current Map:\t${default}${gdmap}"
+		fi
+
+		# Default Map
+		if [ -n "${defaultmap}" ]; then
+			echo -e "${blue}Default Map:\t${default}${defaultmap}"
 		fi
 
 		# Game mode
@@ -406,19 +442,19 @@ fn_info_message_ports(){
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
-			parmslocation="${servercfgdir}/UTEngine.ini\n${servercfgdir}/UTWeb.ini"
+			parmslocation="${servercfgdir}/UTWeb.ini"
 		elif [ "${shortname}" == "kf2" ]; then
 			parmslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
 		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines/games that require editing in the script file
+	# engines/games that require editing the parms
 	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
-			parmslocation="${selfname}"
+			parmslocation="${configdirserver}"
 		fi
 	done
 	echo -e "${parmslocation}"
@@ -948,7 +984,8 @@ fn_info_message_unreal3(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
@@ -967,8 +1004,8 @@ fn_info_message_kf2(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\ttcp/udp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t20560\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t

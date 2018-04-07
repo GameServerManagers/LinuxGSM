@@ -269,6 +269,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_query_raw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Fix
 
 fix.sh(){
@@ -363,6 +368,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+info_gamedig.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 info_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -426,9 +436,9 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# Monitor
+# Query
 
-monitor_gsquery.sh(){
+query_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

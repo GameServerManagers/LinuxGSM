@@ -475,7 +475,7 @@ echo ""
 )
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo "0.2 - Enable dev-debug"
 echo "================================="
@@ -491,7 +491,7 @@ echo ""
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "1.0 - start - no files"
@@ -509,7 +509,7 @@ echo ""
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "1.1 - getopt"
@@ -527,7 +527,7 @@ echo ""
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "1.2 - getopt with incorrect args"
@@ -546,7 +546,7 @@ getopt="abc123"
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "2.0 - install"
@@ -563,7 +563,7 @@ echo "Command: ./jc2server auto-install"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.1 - start"
@@ -582,7 +582,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.2 - start - online"
@@ -601,7 +601,7 @@ fn_setstatus
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.3 - start - updateonstart"
@@ -620,7 +620,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.4 - stop"
@@ -639,7 +639,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.5 - stop - offline"
@@ -658,7 +658,7 @@ fn_setstatus
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.6 - restart"
@@ -677,7 +677,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "3.7 - restart - offline"
@@ -696,7 +696,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo "4.1 - update"
 echo "================================="
@@ -714,7 +714,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.2 - update  - change buildid"
@@ -735,7 +735,7 @@ sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.3 - update  - change buildid - online"
@@ -756,7 +756,7 @@ sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.4 - update  - remove appmanifest file"
@@ -777,7 +777,7 @@ rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.5 - force-update"
@@ -796,7 +796,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.6 - force-update - online"
@@ -815,7 +815,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.7 - validate"
@@ -834,7 +834,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "4.8 - validate - online"
@@ -854,7 +854,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "Inserting IP address"
@@ -883,7 +883,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "5.2 - monitor - offline - with lockfile"
@@ -904,7 +904,7 @@ date > "${rootdir}/${lockselfname}"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "5.3 - monitor - offline - no lockfile"
@@ -923,13 +923,13 @@ fn_setstatus
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
-echo "5.4 - monitor - gsquery.py failure"
+echo "5.4 - monitor - query_gsquery.py failure"
 echo "================================="
 echo "Description:"
-echo "gsquery.py will fail to query port."
+echo "query_gsquery.py will fail to query port."
 echo "Command: ./jc2server monitor"
 requiredstatus="ONLINE"
 fn_setstatus
@@ -944,7 +944,7 @@ sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 fn_print_info_nl "Re-generating ${servercfg}."
@@ -968,7 +968,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "6.1 - post details"
@@ -987,7 +987,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "7.0 - backup"
@@ -1002,7 +1002,7 @@ echo "test de-activated until issue #1839 fixed"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "8.0 - dev - detect glibc"
@@ -1021,7 +1021,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "8.1 - dev - detect ldd"
@@ -1040,7 +1040,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "8.2 - dev - detect deps"
@@ -1059,7 +1059,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"| sed 's/functionfile=//g'
 
 echo ""
 echo "================================="

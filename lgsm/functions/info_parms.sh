@@ -24,6 +24,7 @@ fn_info_parms_ark(){
 
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_cod(){
@@ -106,6 +107,12 @@ fn_info_config_towerunite(){
 
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
+	queryport=$((port + 1))
+}
+
+fn_info_parms_unreal2(){
+	defaultmap=${defaultmap:-"NOT SET"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_unreal3(){
@@ -158,7 +165,7 @@ elif [ "${gamename}" == "Tower Unite" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
-# Unreal/Unreal 2 engine
+# Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
 fi

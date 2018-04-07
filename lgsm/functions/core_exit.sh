@@ -8,6 +8,9 @@ fn_exit_dev_debug(){
 	if [ -f "${rootdir}/.dev-debug" ]; then
 		echo ""
 		echo "${function_selfname} exiting with code: ${exitcode}"
+		if [ -f "${rootdir}/dev-debug.log" ]; then
+			grep "functionfile=" "${rootdir}/dev-debug.log"| sed 's/functionfile=//g' > "${rootdir}/dev-debug-function-order.log"
+		fi
 	fi
 }
 
