@@ -118,7 +118,7 @@ fn_start_tmux(){
 		fn_script_log "Tmux version: master (user compiled)"
 		echo "Tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t="${servicename}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ -n "${tmuxversion}" ]; then
 		# Get the digit version of tmux
@@ -136,7 +136,7 @@ fn_start_tmux(){
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t="${servicename}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo "Unable to detect tmux version" >> "${consolelog}"
