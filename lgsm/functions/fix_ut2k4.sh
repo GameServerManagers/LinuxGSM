@@ -12,15 +12,15 @@ echo "applying WebAdmin ut2003.css fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
 sed -i 's/none}/none;/g' "${serverfiles}/Web/ServerAdmin/ut2003.css"
 sed -i 's/underline}/underline;/g' "${serverfiles}/Web/ServerAdmin/ut2003.css"
-sleep 1
+sleep 0.5
 echo "applying WebAdmin CharSet fix."
 echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
 sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' "${systemdir}/UWeb.int"
-sleep 1
+sleep 0.5
 echo "applying server name fix."
-sleep 1
+sleep 0.5
 echo "forcing server restart."
-sleep 1
+sleep 0.5
 exitbypass=1
 command_start.sh
 sleep 5

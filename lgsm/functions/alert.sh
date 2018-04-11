@@ -45,12 +45,12 @@ fn_alert_restart(){
 }
 
 fn_alert_restart_query(){
-	fn_script_log_info "Sending alert: Restarted: ${gsquerycmd}"
+	fn_script_log_info "Sending alert: Restarted: ${servicename}"
 	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="gsquery.py failed to query: ${gsquerycmd}"
+	alertbody="Unable to query: ${servicename}"
 }
 
 fn_alert_update(){

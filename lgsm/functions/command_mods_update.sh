@@ -66,7 +66,7 @@ for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 		echo -e "	* ${yellow}${modprettyname}${default} (retain common custom files)"
 	fi
 done
-sleep 1
+sleep 0.5
 
 ## Update
 # List all installed mods and apply update
