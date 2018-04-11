@@ -92,6 +92,7 @@ fn_info_parms_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
+	queryport=${port}
 	clientport=${clientport:-"0"}
 }
 
