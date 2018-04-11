@@ -13,7 +13,7 @@ fn_install_ts3db_mariadb(){
 	echo ""
 	echo "checking if libmariadb2 is installed"
 	echo "================================="
-	sleep 1
+	sleep 0.5
 	ldd "${serverfiles}/libts3db_mariadb.so" | grep "libmariadb.so.2 => not found"
 	if [ $? -eq 0 ]; then
 		echo "libmariadb2 not installed. Please install it first."
@@ -25,7 +25,7 @@ fn_install_ts3db_mariadb(){
 	echo ""
 	echo "Configuring ${gamename} Server for MariaDB/MySQL"
 	echo "================================="
-	sleep 1
+	sleep 0.5
 	read -rp "Enter MariaDB hostname: " mariahostname
 	read -rp "Enter MariaDB port: " mariaport
 	read -rp "Enter MariaDB username: " mariausername
@@ -45,7 +45,7 @@ fn_install_ts3db_mariadb(){
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
 	echo "================================="
-	sleep 1
+	sleep 0.5
 }
 
 if [ -z "${autoinstall}" ]; then
@@ -61,16 +61,16 @@ fi
 fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
 fn_print_information_nl "Accepting TeamSpeak license:"
 echo " * ${executabledir}/LICENSE"
-sleep 1
+sleep 0.5
 touch "${executabledir}/.ts3server_license_accepted"
 
 ## Get privilege key
 echo ""
 echo "Getting privilege key"
 echo "================================="
-sleep 1
+sleep 0.5
 echo "IMPORANT! Save these details for later."
-sleep 1
+sleep 0.5
 cd "${executabledir}" || exit
 ./ts3server_startscript.sh start inifile=ts3-server.ini
 sleep 5

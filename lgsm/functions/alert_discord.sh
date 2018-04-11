@@ -53,7 +53,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 sleep 0.5
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${discordwebhook})
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

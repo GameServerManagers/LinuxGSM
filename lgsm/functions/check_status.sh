@@ -12,7 +12,7 @@ if [ "${gamename}" == "TeamSpeak 3" ]; then
 	# 1: Server is running
 	# 0: Server seems to have died
 	# 0: No server running (ts3server.pid is missing)
-	status=$(${executabledir}/ts3server_startscript.sh status servercfgfullpathfile=${servercfgfullpath})
+	status=$("${executabledir}/ts3server_startscript.sh" status servercfgfullpathfile=${servercfgfullpath})
 	if [ "${status}" == "Server is running" ]; then
 		status=1
 	else
@@ -25,7 +25,7 @@ elif [ "${gamename}" == "Mumble" ]; then
 	info_config.sh
 	# 1: Server is listening
 	# 0: Server is not listening, considered closed
-	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep ${port} | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
+	mumblepid=$(netstat -nap  2>/dev/null | grep udp | grep "${port}" | grep murmur | awk '{ print $6 }' | awk -F'/' '{ print $1 }')
 	if [ -z "${mumblepid}" ]; then
 		status=0
 	else

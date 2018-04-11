@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="180318"
+version="180409"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -73,7 +73,7 @@ fn_bootstrap_fetch_file(){
 		curlpath=$(command -v curl 2>/dev/null)
 
 		# If curl exists download file
-		if [ "$(basename ${curlpath})" == "curl" ]; then
+		if [ "$(basename "${curlpath}")" == "curl" ]; then
 			# trap to remove part downloaded files
 			echo -ne "    fetching ${local_filename}...\c"
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
@@ -142,14 +142,14 @@ fn_install_menu_bash() {
 	caption=$3
 	options=$4
 	fn_print_horizontal
-	fn_print_center $title
-	fn_print_center $caption
+	fn_print_center "${title}"
+	fn_print_center "${caption}"
 	fn_print_horizontal
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
-	done <  $options
+	done <  ${options}
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
 		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
@@ -175,8 +175,8 @@ fn_install_menu_whiptail() {
 		key=$(echo "${line}" | awk -F "," '{print $3}')
 		val=$(echo "${line}" | awk -F "," '{print $2}')
 		menu_options+=( ${val//\"} "${key//\"}" )
-	done < $options
-	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" ${height} ${width} ${menuheight} "${menu_options[@]}" 3>&1 1>&2 2>&3)
+	done < "${options}"
+	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
 	else
@@ -193,12 +193,12 @@ fn_install_menu() {
 	options=$4
 	# Get menu command
 	for menucmd in whiptail dialog bash; do
-		if [ -x $(command -v ${menucmd}) ]; then
-			menucmd=$(command -v ${menucmd})
+		if [ -x "$(command -v "${menucmd}")" ]; then
+			menucmd=$(command -v "${menucmd}")
 			break
 		fi
 	done
-	case "$(basename ${menucmd})" in
+	case "$(basename "${menucmd}")" in
 		whiptail|dialog)
 			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30;;
 		*)

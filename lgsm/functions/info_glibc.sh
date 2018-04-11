@@ -26,6 +26,7 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Call of Duty" ]; then
 	glibcrequired="2.1"
 	glibcfix="no"
@@ -94,6 +95,9 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${shortname}" == "rw" ]; then
+	glibcrequired="2.14"
 	glibcfix="no"
 elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
 	glibcrequired="2.3"

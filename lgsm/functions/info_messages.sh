@@ -122,7 +122,7 @@ fn_info_message_gameserver(){
 	fn_messages_separator
 	{
 		# Server name
-		if [ -n "${gdname}" ];then
+		if [ -n "${gdname}" ]; then
 			echo -e "${blue}Server name:\t${default}${gdname}"
 		elif [ -n "${servername}" ]; then
 			echo -e "${blue}Server name:\t${default}${servername}"
@@ -479,7 +479,7 @@ fn_info_logs(){
 
 	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
-		if [ ! "$(ls -A ${lgsmlogdir})" ]; then
+		if [ ! "$(ls -A "${lgsmlogdir}")" ]; then
 			echo "${lgsmlogdir} (NO LOG FILES)"
 		elif [ ! -s "${lgsmlog}" ]; then
 			echo "${lgsmlog} (LOG FILE IS EMPTY)"
@@ -492,7 +492,7 @@ fn_info_logs(){
 
 	if [ -n "${consolelog}" ]; then
 		echo -e "\nConsole log\n===================="
-		if [ ! "$(ls -A ${consolelogdir})" ]; then
+		if [ ! "$(ls -A "${consolelogdir}")" ]; then
 			echo "${consolelogdir} (NO LOG FILES)"
 		elif [ ! -s "${consolelog}" ]; then
 			echo "${consolelog} (LOG FILE IS EMPTY)"
@@ -505,12 +505,12 @@ fn_info_logs(){
 
 	if [ -n "${gamelogdir}" ]; then
 		echo -e "\nServer log\n==================="
-		if [ ! "$(ls -A ${gamelogdir})" ]; then
+		if [ ! "$(ls -A "${gamelogdir}")" ]; then
 			echo "${gamelogdir} (NO LOG FILES)"
 		else
 			echo "${gamelogdir}"
 			# dos2unix sed 's/\r//'
-			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//'| tail -25
+			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
 		echo ""
 	fi
@@ -772,6 +772,17 @@ fn_info_message_refractor(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_risingworld(){
+	echo -e "netstat -atunp | grep java"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> http query\tINBOUND\t${httpqueryport}\ttcp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1109,6 +1120,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
+	elif [ "${shortname}" == "rw" ]; then
+		fn_info_message_risingworld
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_info_message_wolfensteinenemyterritory
 	elif [ "${engine}" == "refractor" ]; then

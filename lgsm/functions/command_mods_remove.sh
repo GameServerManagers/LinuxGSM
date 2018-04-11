@@ -58,7 +58,7 @@ fn_script_log_info "Removing ${modsfilelistsize} files from ${modprettyname}"
 echo -e "removing ${modprettyname}"
 echo -e "* ${modsfilelistsize} files to be removed"
 echo -e "* location: ${modinstalldir}"
-sleep 1
+sleep 0.5
 # Go through every file and remove it
 modfileline="1"
 tput sc

@@ -311,20 +311,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_steamcmd.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 fix_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_ro.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
 
 fix_kf.sh(){
 functionfile="${FUNCNAME}"
@@ -336,12 +327,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_ut2k4.sh(){
+fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_ut.sh(){
+fix_ro.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -351,7 +342,27 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_mta.sh(){
+fix_rw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut2k4.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

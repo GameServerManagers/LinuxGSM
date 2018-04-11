@@ -67,7 +67,7 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -ge "7" ]; then
 				echo "Removing $(find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$')"
-				find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
+				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
 				rm -rf "${steamcmddir}"
@@ -76,7 +76,7 @@ fn_install_server_files_steamcmd(){
 
 			# Detects if unbuffer command is available for 32 bit distributions only.
 			info_distro.sh
-			if [ $(command -v stdbuf 2>/dev/null) ]&&[ "${arch}" != "x86_64" ]; then
+			if [ "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
@@ -87,11 +87,6 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
-
-					if [ "${gamename}" == "Classic Offensive" ]; then
-						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} +quit
-						local exitcode=$?
-					fi
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
@@ -100,11 +95,6 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit
 					local exitcode=$?
-
-					if [ "${gamename}" == "Classic Offensive" ]; then
-						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} -validate +quit
-						local exitcode=$?
-					fi
 				fi
 			fi
 		elif [ "${counter}" -ge "11" ]; then
@@ -130,7 +120,7 @@ fn_install_server_files_steamcmd(){
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
-sleep 1
+sleep 0.5
 
 if [ -n "${appid}" ]; then
 	fn_install_server_files_steamcmd

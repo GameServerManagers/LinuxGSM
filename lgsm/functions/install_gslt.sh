@@ -11,7 +11,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo ""
 echo "Game Server Login Token"
 echo "================================="
-sleep 1
+sleep 0.5
 if [ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "No More Room in Hell" ]; then
 	echo "GSLT is required to run a public ${gamename} server"
 	fn_script_log_info "GSLT is required to run a public ${gamename} server"
@@ -37,7 +37,7 @@ if [ -z "${autoinstall}" ]; then
 		fi
 	fi
 fi
-sleep 1
+sleep 0.5
 if [ "${gamename}" == "Tower Unite" ]; then
 	echo "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."

@@ -2,15 +2,15 @@
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2017 Daniel Gibbs
-# Purpose: Travis CI Tests: Just Cause 2 | Linux Game Server Management Script
+# Purpose: Travis CI Tests: Factorio | Linux Game Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
 # Website: https://linuxgsm.com
 
 travistest="1"
 version="180409"
-shortname="jc2"
-gameservername="jc2server"
+shortname="fctr"
+gameservername="fctrserver"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 servicename="${selfname}"
@@ -359,7 +359,7 @@ else
 	fi
 
 	# Prevents running of core_exit.sh for Travis.
-	if [ "${travistest}" != "1" ]; then
+	if [ -z "${travistest}" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
@@ -504,7 +504,7 @@ echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
-echo "Command: ./jc2server start"
+echo "Command: ./fctrserver start"
 echo ""
 # Allows for testing not on Travis CI
 if [ ! -v TRAVIS ]; then
@@ -528,7 +528,7 @@ echo "1.1 - getopt"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo "Command: ./jc2server"
+echo "Command: ./fctrserver"
 echo ""
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -546,7 +546,7 @@ echo "1.2 - getopt with incorrect args"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo "Command: ./jc2server abc123"
+echo "Command: ./fctrserver abc123"
 echo ""
 getopt="abc123"
 (
@@ -565,7 +565,7 @@ echo "2.0 - install"
 echo "================================="
 echo "Description:"
 echo "install ${gamename} server."
-echo "Command: ./jc2server auto-install"
+echo "Command: ./fctrserver auto-install"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -582,7 +582,7 @@ echo "3.1 - start"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server."
-echo "Command: ./jc2server start"
+echo "Command: ./fctrserver start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -601,7 +601,7 @@ echo "3.2 - start - online"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server while already running."
-echo "Command: ./jc2server start"
+echo "Command: ./fctrserver start"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -620,7 +620,7 @@ echo "3.3 - start - updateonstart"
 echo "================================="
 echo "Description:"
 echo "will update server on start."
-echo "Command: ./jc2server start"
+echo "Command: ./fctrserver start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -639,7 +639,7 @@ echo "3.4 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
-echo "Command: ./jc2server stop"
+echo "Command: ./fctrserver stop"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -658,7 +658,7 @@ echo "3.5 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
-echo "Command: ./jc2server stop"
+echo "Command: ./fctrserver stop"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -677,7 +677,7 @@ echo "3.6 - restart"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename}."
-echo "Command: ./jc2server restart"
+echo "Command: ./fctrserver restart"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -696,7 +696,7 @@ echo "3.7 - restart - offline"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename} while already stopped."
-echo "Command: ./jc2server restart"
+echo "Command: ./fctrserver restart"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -715,7 +715,7 @@ echo "4.1 - update"
 echo "================================="
 echo "Description:"
 echo "check for updates."
-echo "Command: ./jc2server update"
+echo "Command: ./fctrserver update"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -728,163 +728,13 @@ fn_test_result_pass
 echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.2 - update  - change buildid"
-echo "================================="
-echo "Description:"
-echo "change the buildid tricking SteamCMD to update."
-echo "Command: ./jc2server update"
-requiredstatus="OFFLINE"
-fn_setstatus
-fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_update.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.3 - update  - change buildid - online"
-echo "================================="
-echo "Description:"
-echo "change the buildid tricking SteamCMD to update server while already running."
-echo "Command: ./jc2server update"
-requiredstatus="ONLINE"
-fn_setstatus
-fn_print_info_nl "changed buildid to 0."
-sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_update.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.4 - update  - remove appmanifest file"
-echo "================================="
-echo "Description:"
-echo "removing appmanifest file will cause script to repair."
-echo "Command: ./jc2server update"
-requiredstatus="OFFLINE"
-fn_setstatus
-fn_print_info_nl "removed appmanifest_${appid}.acf."
-rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_update.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.5 - force-update"
-echo "================================="
-echo "Description:"
-echo "force-update bypassing update check."
-echo "Command: ./jc2server force-update"
-requiredstatus="OFFLINE"
-fn_setstatus
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	forceupdate=1;command_update.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.6 - force-update - online"
-echo "================================="
-echo "Description:"
-echo "force-update bypassing update check server while already running."
-echo "Command: ./jc2server force-update"
-requiredstatus="ONLINE"
-fn_setstatus
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	forceupdate=1;command_update.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.7 - validate"
-echo "================================="
-echo "Description:"
-echo "validate server files."
-echo "Command: ./jc2server validate"
-requiredstatus="OFFLINE"
-fn_setstatus
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_validate.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "4.8 - validate - online"
-echo "================================="
-echo "Description:"
-echo "validate server files while server already running."
-echo ""
-echo "Command: ./jc2server validate"
-requiredstatus="ONLINE"
-fn_setstatus
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_validate.sh
-)
-fn_test_result_pass
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-echo "Inserting IP address"
-echo "================================="
-echo "Description:"
-echo "Inserting Travis IP in to config."
-echo "Allows monitor to work"
-travisip=$(ip -o -4 addr|grep eth0|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
-sed -i "/BindIP/c\BindIP                      = \"${travisip}\"," "${serverfiles}/config.lua"
-echo "IP: ${travisip}"
 
 echo ""
 echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"
 echo "run monitor server while already running."
-echo "Command: ./jc2server monitor"
+echo "Command: ./fctrserver monitor"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -903,7 +753,7 @@ echo "5.2 - monitor - offline - with lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with lockfile."
-echo "Command: ./jc2server monitor"
+echo "Command: ./fctrserver monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
@@ -924,7 +774,7 @@ echo "5.3 - monitor - offline - no lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with no lockfile."
-echo "Command: ./jc2server monitor"
+echo "Command: ./fctrserver monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -939,37 +789,11 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "5.4 - monitor - query_gsquery.py failure"
-echo "================================="
-echo "Description:"
-echo "query_gsquery.py will fail to query port."
-echo "Command: ./jc2server monitor"
-requiredstatus="ONLINE"
-fn_setstatus
-cp "${servercfgfullpath}" "config.lua"
-sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_monitor.sh
-)
-fn_test_result_fail
-echo "run order"
-echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
-
-echo ""
-fn_print_info_nl "Re-generating ${servercfg}."
-cp -v "config.lua" "${servercfgfullpath}"
-echo "================================="
-
-echo ""
 echo "6.0 - details"
 echo "================================="
 echo "Description:"
 echo "display details."
-echo "Command: ./jc2server details"
+echo "Command: ./fctrserver details"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -988,7 +812,7 @@ echo "6.1 - post details"
 echo "================================="
 echo "Description:"
 echo "post details."
-echo "Command: ./jc2server postdetails"
+echo "Command: ./fctrserver postdetails"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1007,7 +831,7 @@ echo "7.0 - backup"
 echo "================================="
 echo "Description:"
 echo "run a backup."
-echo "Command: ./jc2server backup"
+echo "Command: ./fctrserver backup"
 requiredstatus="ONLINE"
 fn_setstatus
 echo "test de-activated until issue #1839 fixed"
@@ -1022,7 +846,7 @@ echo "8.0 - dev - detect glibc"
 echo "================================="
 echo "Description:"
 echo "detect glibc."
-echo "Command: ./jc2server detect-glibc"
+echo "Command: ./fctrserver detect-glibc"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1041,7 +865,7 @@ echo "8.1 - dev - detect ldd"
 echo "================================="
 echo "Description:"
 echo "detect ldd."
-echo "Command: ./jc2server detect-ldd"
+echo "Command: ./fctrserver detect-ldd"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1060,7 +884,7 @@ echo "8.2 - dev - detect deps"
 echo "================================="
 echo "Description:"
 echo "detect dependencies."
-echo "Command: ./jc2server detect-deps"
+echo "Command: ./fctrserver detect-deps"
 requiredstatus="ONLINE"
 fn_setstatus
 (

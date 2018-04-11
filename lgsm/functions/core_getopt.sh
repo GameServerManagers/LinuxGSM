@@ -61,7 +61,7 @@ currentopt+=( "${cmd_update_linuxgsm[@]}" )
 if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${gamename}" != "San Andreas Multiplayer" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA
-	if [ -n "${appid}" ] || [ "${gamename}" == "Multi Theft Auto" ]; then
+	if [ -n "${appid}" ]||[ "${gamename}" == "Multi Theft Auto" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
@@ -139,9 +139,9 @@ fi
 optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-	cmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+	cmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
 	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
-		optcommands+=( "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" )
+		optcommands+=( "$(echo "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
 
@@ -176,11 +176,11 @@ for i in "${optcommands[@]}"; do
 		# Seek and run command
 		index="0"
 		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-			currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+			currcmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
 			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
-				if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+				if [ "$(echo "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command
-					eval ${currentopt[index+1]}
+					eval "${currentopt[index+1]}"
 					core_exit.sh
 					break
 				fi

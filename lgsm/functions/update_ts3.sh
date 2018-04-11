@@ -27,18 +27,18 @@ fn_update_ts3_currentbuild(){
 	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
 	if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 		fn_print_error "Checking for update: teamspeak.com"
-		sleep 1
+		sleep 0.5
 		fn_print_error_nl "Checking for update: teamspeak.com: No logs with server version found"
 		fn_script_log_error "Checking for update: teamspeak.com: No logs with server version found"
-		sleep 1
+		sleep 0.5
 		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
 		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
-		sleep 1
+		sleep 0.5
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		sleep 1
+		sleep 0.5
 		# Check again and exit on failure.
 		if [ -z "$(find ./* -name 'ts3server*_0.log')" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Still No logs with server version found"
@@ -52,7 +52,7 @@ fn_update_ts3_currentbuild(){
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
 		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
-		sleep 1
+		sleep 0.5
 		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
 		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
 		exitbypass=1
@@ -112,7 +112,7 @@ fn_update_ts3_availablebuild_legacy(){
 	# Gets latest build info.
 
 	# Grabs all version numbers but not in correct order.
-	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O -| grep -i dir | grep -Eo '<a href=\".*\/\">.*\/<\/a>' | grep -Eo '[0-9\.?]+'|uniq > "${tmpdir}/.ts3_version_numbers_unsorted.tmp"
+	wget "http://dl.4players.de/ts/releases/?C=M;O=D" -q -O - | grep -i dir | grep -Eo '<a href=\".*\/\">.*\/<\/a>' | grep -Eo '[0-9\.?]+' | uniq > "${tmpdir}/.ts3_version_numbers_unsorted.tmp"
 
 	# Sort version numbers
 	cat "${tmpdir}/.ts3_version_numbers_unsorted.tmp" | sort -r --version-sort -o "${tmpdir}/.ts3_version_numbers_sorted.tmp"
@@ -134,7 +134,7 @@ fn_update_ts3_availablebuild_legacy(){
 	# Checks availablebuild info is available
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: teamspeak.com"
-		sleep 1
+		sleep 0.5
 		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
 		fn_script_log_fatal "Failure! Checking for update: teamspeak.com: Not returning version info"
 		core_exit.sh
@@ -143,23 +143,23 @@ fn_update_ts3_availablebuild_legacy(){
 	else
 		fn_print_ok "Checking for update: teamspeak.com"
 		fn_script_log_pass "Checking for update: teamspeak.com"
-		sleep 1
+		sleep 0.5
 	fi
 }
 
 fn_update_ts3_compare(){
 	# Removes dots so if can compare version numbers
-	currentbuilddigit=$(echo "${currentbuild}"|tr -cd '[:digit:]')
-	availablebuilddigit=$(echo "${availablebuild}"|tr -cd '[:digit:]')
+	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
+	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
 
 	if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 		echo -e "\n"
 		echo -e "Update available:"
-		sleep 1
+		sleep 0.5
 		echo -e "	Current build: ${red}${currentbuild} ${ts3arch}${default}"
 		echo -e "	Available build: ${green}${availablebuild} ${ts3arch}${default}"
 		echo -e ""
-		sleep 1
+		sleep 0.5
 		echo ""
 		echo -en "Applying update.\r"
 		sleep 1
@@ -216,7 +216,7 @@ else
 	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
 	fn_print_dots "Checking for update: teamspeak.com"
 	fn_script_log_info "Checking for update: teamspeak.com"
-	sleep 1
+	sleep 0.5
 	fn_update_ts3_currentbuild
 	if [ "$(command -v jq >/dev/null 2>&1)" ]; then
 		fn_update_ts3_availablebuild
