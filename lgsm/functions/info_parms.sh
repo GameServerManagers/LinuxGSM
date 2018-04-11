@@ -80,6 +80,7 @@ fn_info_parms_risingworld(){
 fn_info_parms_rust(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
+	queryport=${port}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	rconweb=${rconweb:-"NOT SET"}
@@ -116,6 +117,7 @@ fn_info_config_towerunite(){
 
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_unreal3(){
