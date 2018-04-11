@@ -347,6 +347,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ut3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
