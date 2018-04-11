@@ -24,6 +24,7 @@ fn_info_parms_ark(){
 
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_cod(){
@@ -66,6 +67,14 @@ fn_info_parms_quakeworld(){
 fn_info_parms_quake2(){
 	port=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
+}
+
+fn_info_parms_risingworld(){
+	servername=${servername:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${port}
+	httpqueryport=$((port - 1))
+
 }
 
 fn_info_parms_rust(){
@@ -145,6 +154,9 @@ elif [ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]; then
 # Rust
 elif [ "${gamename}" == "Rust" ]; then
 	fn_info_parms_rust
+# Rising World
+elif [ "${shortname}" == "rw" ]; then
+	fn_info_parms_risingworld
 # Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
 	fn_info_config_seriousengine35
@@ -158,7 +170,7 @@ elif [ "${gamename}" == "Tower Unite" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
-# Unreal/Unreal 2 engine
+# Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
 fi

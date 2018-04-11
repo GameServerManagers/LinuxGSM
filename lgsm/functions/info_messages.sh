@@ -2,7 +2,7 @@
 # LinuxGSM info_messages.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Defines server info messages for details, alerts.
+# Description: Defines server info messages for details and alerts.
 
 # Standard Details
 # This applies to all engines
@@ -122,7 +122,9 @@ fn_info_message_gameserver(){
 	fn_messages_separator
 	{
 		# Server name
-		if [ -n "${servername}" ]; then
+		if [ -n "${gdname}" ]; then
+			echo -e "${blue}Server name:\t${default}${gdname}"
+		elif [ -n "${servername}" ]; then
 			echo -e "${blue}Server name:\t${default}${servername}"
 		fi
 
@@ -181,9 +183,43 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Stats password:\t${default}${statspassword}"
 		fi
 
-		# Maxplayers
-		if [ -n "${maxplayers}" ]; then
-			echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+		# Players
+
+		if [ "${querystatus}" != "0" ]; then
+			if [ -n "${maxplayers}" ]; then
+				echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+			fi
+		else
+			if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}${gdplayers}/${gdmaxplayers}"
+
+			elif [ -n "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}${gdplayers}/${maxplayers}"
+
+			elif [ -z "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}0/${gdmaxplayers}"
+
+			elif [ -n "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
+				echo -e "${blue}Players:\t${default}${gdplayers}|∞"
+
+			elif [ -z "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]&&[ -n "${maxplayers}" ]; then
+				echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+			fi
+		fi
+
+		# Bots
+		if [ -n "${gdbots}" ]; then
+			echo -e "${blue}Bots:\t${default}${gdbots}"
+		fi
+
+		# Current Map
+		if [ -n "${gdmap}" ]; then
+			echo -e "${blue}Current Map:\t${default}${gdmap}"
+		fi
+
+		# Default Map
+		if [ -n "${defaultmap}" ]; then
+			echo -e "${blue}Default Map:\t${default}${defaultmap}"
 		fi
 
 		# Game mode
@@ -406,19 +442,19 @@ fn_info_message_ports(){
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
-			parmslocation="${servercfgdir}/UTEngine.ini\n${servercfgdir}/UTWeb.ini"
+			parmslocation="${servercfgdir}/UTWeb.ini"
 		elif [ "${shortname}" == "kf2" ]; then
 			parmslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
 		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines/games that require editing in the script file
+	# engines/games that require editing the parms
 	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
-			parmslocation="${selfname}"
+			parmslocation="${configdirserver}"
 		fi
 	done
 	echo -e "${parmslocation}"
@@ -443,7 +479,7 @@ fn_info_logs(){
 
 	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
-		if [ ! "$(ls -A ${lgsmlogdir})" ]; then
+		if [ ! "$(ls -A "${lgsmlogdir}")" ]; then
 			echo "${lgsmlogdir} (NO LOG FILES)"
 		elif [ ! -s "${lgsmlog}" ]; then
 			echo "${lgsmlog} (LOG FILE IS EMPTY)"
@@ -456,7 +492,7 @@ fn_info_logs(){
 
 	if [ -n "${consolelog}" ]; then
 		echo -e "\nConsole log\n===================="
-		if [ ! "$(ls -A ${consolelogdir})" ]; then
+		if [ ! "$(ls -A "${consolelogdir}")" ]; then
 			echo "${consolelogdir} (NO LOG FILES)"
 		elif [ ! -s "${consolelog}" ]; then
 			echo "${consolelog} (LOG FILE IS EMPTY)"
@@ -469,12 +505,12 @@ fn_info_logs(){
 
 	if [ -n "${gamelogdir}" ]; then
 		echo -e "\nServer log\n==================="
-		if [ ! "$(ls -A ${gamelogdir})" ]; then
+		if [ ! "$(ls -A "${gamelogdir}")" ]; then
 			echo "${gamelogdir} (NO LOG FILES)"
 		else
 			echo "${gamelogdir}"
 			# dos2unix sed 's/\r//'
-			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//'| tail -25
+			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
 		echo ""
 	fi
@@ -739,6 +775,17 @@ fn_info_message_refractor(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_risingworld(){
+	echo -e "netstat -atunp | grep java"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> http query\tINBOUND\t${httpqueryport}\ttcp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_rust(){
 	echo -e "netstat -atunp | grep Rust"
 	echo -e ""
@@ -948,7 +995,8 @@ fn_info_message_unreal3(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
@@ -967,8 +1015,8 @@ fn_info_message_kf2(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\ttcp/udp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t20560\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
@@ -985,6 +1033,15 @@ fn_info_message_kf2(){
 
 fn_info_message_wolfensteinenemyterritory(){
 	echo -e "netstat -atunp | grep etded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_etlegacy(){
+	echo -e "netstat -atunp | grep etlded"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -1025,6 +1082,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_info_message_codwaw
+	elif [ "${gamename}" == "ET: Legacy" ]; then
+		fn_info_message_etlegacy
 	elif [ "${gamename}" == "Factorio" ]; then
 		fn_info_message_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
@@ -1061,6 +1120,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
+	elif [ "${shortname}" == "rw" ]; then
+		fn_info_message_risingworld
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_info_message_wolfensteinenemyterritory
 	elif [ "${engine}" == "refractor" ]; then

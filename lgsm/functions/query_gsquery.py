@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# PythonGSQ
+# query_gsquery.py
 # Author: Anonymous & Daniel Gibbs
 # Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
@@ -9,7 +9,7 @@ import optparse
 import socket
 import sys
 
-class PythonGSQ:
+class gsquery:
     def __init__(self, options, arguments):
         self.option = options
         self.argument = arguments
@@ -118,5 +118,5 @@ if __name__ == '__main__':
     )
     options, arguments = parser.parse_args()
     #
-    server = PythonGSQ(options, arguments)
+    server = gsquery(options, arguments)
     server.responding()

@@ -8,16 +8,16 @@
 # Website: https://linuxgsm.com
 
 travistest="1"
-
-version="171014"
+version="180409"
 shortname="ts3"
 gameservername="ts3server"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 servicename="${selfname}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
+lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${rootdir}/steamcmd"
 serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
@@ -27,12 +27,18 @@ configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 
+# Allows for testing not on Travis CI
+if [ ! -v TRAVIS ]; then
+	TRAVIS_BRANCH="develop"
+	TRAVIS_BUILD_DIR="${rootdir}"
+fi
+
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
-githubbranch="$TRAVIS_BRANCH"
+githubbranch="${TRAVIS_BRANCH}"
 
 # Core Function that is required first
 core_functions.sh(){
@@ -52,8 +58,8 @@ fn_bootstrap_fetch_file(){
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	# If the file is missing, then download
-	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+	# download file if missing or download forced
+	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
@@ -61,7 +67,7 @@ fn_bootstrap_fetch_file(){
 		curlpath=$(command -v curl 2>/dev/null)
 
 		# If curl exists download file
-		if [ "$(basename ${curlpath})" == "curl" ]; then
+		if [ "$(basename "${curlpath}")" == "curl" ]; then
 			# trap to remove part downloaded files
 			echo -ne "    fetching ${local_filename}...\c"
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
@@ -99,15 +105,15 @@ fn_bootstrap_fetch_file_github(){
 	github_file_url_name="${2}"
 	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 
-	remote_remote_fileurl="${githuburl}"
-	local_local_filedir="${3}"
-	local_local_filename="${github_file_url_name}"
+	remote_fileurl="${githuburl}"
+	local_filedir="${3}"
+	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
 	run="${5:-0}"
-	forcedldl="${6:-0}"
+	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download function
-	fn_bootstrap_fetch_file "${remote_remote_fileurl}" "${local_local_filedir}" "${local_local_filename}" "${chmodx}" "${run}" "${forcedldl}" "${md5}"
+	fn_bootstrap_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
 # Installer menu
@@ -130,14 +136,14 @@ fn_install_menu_bash() {
 	caption=$3
 	options=$4
 	fn_print_horizontal
-	fn_print_center $title
-	fn_print_center $caption
+	fn_print_center "${title}"
+	fn_print_center "${caption}"
 	fn_print_horizontal
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
-	done <  $options
+	done <  ${options}
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
 		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
@@ -163,8 +169,8 @@ fn_install_menu_whiptail() {
 		key=$(echo "${line}" | awk -F "," '{print $3}')
 		val=$(echo "${line}" | awk -F "," '{print $2}')
 		menu_options+=( ${val//\"} "${key//\"}" )
-	done < $options
-	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" ${height} ${width} ${menuheight} "${menu_options[@]}" 3>&1 1>&2 2>&3)
+	done < "${options}"
+	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
 	else
@@ -181,12 +187,12 @@ fn_install_menu() {
 	options=$4
 	# Get menu command
 	for menucmd in whiptail dialog bash; do
-		if [ -x $(command -v ${menucmd}) ]; then
-			menucmd=$(command -v ${menucmd})
+		if [ -x "$(command -v "${menucmd}")" ]; then
+			menucmd=$(command -v "${menucmd}")
 			break
 		fi
 	done
-	case "$(basename ${menucmd})" in
+	case "$(basename "${menucmd}")" in
 		whiptail|dialog)
 			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30;;
 		*)
@@ -212,9 +218,9 @@ fn_install_getopt(){
 	echo "https://linuxgsm.com"
 	echo -e ""
 	echo -e "Commands"
-	echo -e "install |Select server to install."
-	echo -e "servername |e.g $0 csgoserver. Enter the required servername will install it."
-	echo -e "list |List all servers available for install."
+	echo -e "install\t\t| Select server to install."
+	echo -e "servername\t| e.g $0 csgoserver. Enter name of server/game to install."
+	echo -e "list\t\t| List all servers available for install."
 	exit
 }
 
@@ -259,12 +265,8 @@ if [ "${shortname}" == "core" ]; then
 	datadir="${tmpdir}/data"
 	serverlist="${datadir}/serverlist.csv"
 
-	# Download the serverlist. This is the complete list of all supported servers.
-
-	if [ -f "${serverlist}" ]; then
-		rm "${serverlist}"
-	fi
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "serverlist.csv" "nochmodx" "norun" "noforcedl" "nomd5"
+	# Download the latest serverlist. This is the complete list of all supported servers.
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
 		echo "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
@@ -290,8 +292,10 @@ if [ "${shortname}" == "core" ]; then
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
-		if [ "${userinput}" == "${gameservername}" ]; then
+		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
+		else
+			echo "[ FAIL ] unknown game server"
 		fi
 	else
 		fn_install_getopt
@@ -320,7 +324,7 @@ else
 			echo -e "\e[0;32mOK\e[0m"
 		fi
 	else
-		function_file_diff=$(diff -q ${configdirdefault}/config-lgsm/${gameservername}/_default.cfg ${configdirserver}/_default.cfg)
+		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 		if [ "${function_file_diff}" != "" ]; then
 			fn_print_warn_nl "_default.cfg has been altered. reloading config."
 			echo -ne "    copying _default.cfg...\c"
@@ -353,6 +357,7 @@ else
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 	fi
+
 	# Prevents running of core_exit.sh for Travis.
 	if [ "${travistest}" != "1" ]; then
 		getopt=$1
@@ -475,27 +480,34 @@ echo ""
 )
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo""
+echo ""
 echo "0.2 - Enable dev-debug"
 echo "================================="
 echo "Description:"
 echo "Enable dev-debug"
 echo ""
-(command_dev_debug.sh)
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_debug.sh
+)
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo""
+echo ""
 echo "1.0 - start - no files"
 echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
 echo "Command: ./ts3server start"
 echo ""
+# Allows for testing not on Travis CI
+if [ ! -v TRAVIS ]; then
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -503,9 +515,13 @@ echo ""
 	command_start.sh
 )
 fn_test_result_fail
+else
+	echo "Test bypassed"
+fi
+
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "1.1 - getopt"
@@ -523,7 +539,7 @@ echo ""
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "1.2 - getopt with incorrect args"
@@ -542,7 +558,7 @@ getopt="abc123"
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "2.0 - install"
@@ -559,7 +575,7 @@ echo "Command: ./ts3server auto-install"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.1 - start"
@@ -578,7 +594,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.2 - start - online"
@@ -595,6 +611,9 @@ fn_setstatus
 	command_start.sh
 )
 fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.3 - start - updateonstart"
@@ -613,7 +632,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.4 - stop"
@@ -632,7 +651,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.5 - stop - offline"
@@ -651,7 +670,7 @@ fn_setstatus
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.6 - restart"
@@ -670,7 +689,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "3.7 - restart - offline"
@@ -689,8 +708,9 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
+echo ""
 echo "4.1 - update"
 echo "================================="
 echo "Description:"
@@ -707,7 +727,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "5.1 - monitor - online"
@@ -726,7 +746,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "5.2 - monitor - offline - with lockfile"
@@ -747,7 +767,7 @@ date > "${rootdir}/${lockselfname}"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "5.3 - monitor - offline - no lockfile"
@@ -766,7 +786,7 @@ fn_setstatus
 fn_test_result_fail
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "6.0 - details"
@@ -785,14 +805,14 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "6.1 - post details"
 echo "================================="
 echo "Description:"
 echo "post details."
-echo "Command: ./jc2server postdetails"
+echo "Command: ./ts3server postdetails"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -804,7 +824,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "7.0 - backup"
@@ -819,7 +839,7 @@ echo "test de-activated until issue #1839 fixed"
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "8.0 - dev - detect glibc"
@@ -838,7 +858,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "8.1 - dev - detect ldd"
@@ -857,7 +877,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "8.2 - dev - detect deps"
@@ -876,7 +896,7 @@ fn_setstatus
 fn_test_result_pass
 echo "run order"
 echo "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log"|  sed 's/functionfile=//g'
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
 echo "================================="

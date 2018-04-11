@@ -47,6 +47,8 @@ cmd_dev_debug=( "dev;developer" "command_dev_debug.sh" "Enable developer Mode." 
 cmd_dev_detect_deps=( "dd;detect-deps" "command_dev_detect_deps.sh" "Detect required dependencies." )
 cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc." )
 cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies." )
+cmd_dev_query_raw=( "qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery." )
+cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" "Delete the contents of the functions dir." )
 
 ### Set specific opt here ###
 
@@ -59,7 +61,7 @@ currentopt+=( "${cmd_update_linuxgsm[@]}" )
 if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${gamename}" != "San Andreas Multiplayer" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA
-	if [ -n "${appid}" ] || [ "${gamename}" == "Multi Theft Auto" ]; then
+	if [ -n "${appid}" ]||[ "${gamename}" == "Multi Theft Auto" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
@@ -130,16 +132,16 @@ currentopt+=( "${cmd_install[@]}" "${cmd_auto_install[@]}" )
 ## Developer commands
 currentopt+=( "${cmd_dev_debug[@]}" )
 if [ -f ".dev-debug" ]; then
-	currentopt+=(  "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" )
+	currentopt+=( "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" )
 fi
 
 ### Build list of available commands
 optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-	cmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+	cmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
 	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
-		optcommands+=( "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" )
+		optcommands+=( "$(echo "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
 
@@ -174,11 +176,11 @@ for i in "${optcommands[@]}"; do
 		# Seek and run command
 		index="0"
 		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-			currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+			currcmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
 			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
-				if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+				if [ "$(echo "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command
-					eval ${currentopt[index+1]}
+					eval "${currentopt[index+1]}"
 					core_exit.sh
 					break
 				fi

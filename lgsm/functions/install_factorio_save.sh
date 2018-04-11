@@ -10,6 +10,6 @@ local commandaction="Install"
 echo ""
 echo "Creating initial Factorio savefile"
 echo "================================="
-sleep 1
+sleep 0.5
 check_glibc.sh
-"${executabledir}"/factorio --create ${serverfiles}/save1
+"${executabledir}"/factorio --create "${serverfiles}/save1"
