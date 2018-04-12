@@ -15,7 +15,7 @@ if [ ! "$(command -v jq 2>/dev/null)" ]; then
 	fn_print_failure_nl "jq not installed"
 fi
 
-
+check.sh
 info_config.sh
 info_parms.sh
 if [ "${engine}" == "idtech3_ql" ]; then
