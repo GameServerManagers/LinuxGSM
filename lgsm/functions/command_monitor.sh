@@ -193,4 +193,3 @@ else
 fi
 
 core_exit.sh
-
