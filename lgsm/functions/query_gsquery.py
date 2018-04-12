@@ -1,15 +1,15 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# PythonGSQ
+# query_gsquery.py
 # Author: Anonymous & Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
 
 import optparse
 import socket
 import sys
 
-class PythonGSQ:
+class gsquery:
     def __init__(self, options, arguments):
         self.option = options
         self.argument = arguments
@@ -17,9 +17,9 @@ class PythonGSQ:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d']
-        idtech2query=['idtech3','quake','iw3.0']
-        idtech3query=['idtech2','iw2.0']
+        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4' ]
+        idtech3query=['idtech3','quake','iw3.0']
+        idtech2query=['idtech2','iw2.0']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:
@@ -118,5 +118,5 @@ if __name__ == '__main__':
     )
     options, arguments = parser.parse_args()
     #
-    server = PythonGSQ(options, arguments)
+    server = gsquery(options, arguments)
     server.responding()

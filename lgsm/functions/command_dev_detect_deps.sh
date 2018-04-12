@@ -1,11 +1,11 @@
 #!/bin/bash
 # LinuxGSM command_dev_detect_deps.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
-local commandname="DEPS-DETECT"
-local commandaction="Deps-Detect"
+local commandname="DETECT-DEPS"
+local commandaction="Detect-Deps"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="
@@ -20,13 +20,13 @@ elif [ "$(command -v readelf 2>/dev/null)" ]; then
 else
 	echo "readelf/eu-readelf not installed"
 fi
-files=$(find ${serverfiles} | wc -l)
+files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	if [ "${readelf}" == "eu-readelf" ]; then
-		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $4 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+		${readelf} -d "${line}" 2>/dev/null | grep NEEDED| awk '{ print $4 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
 	else
-		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $5 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+		${readelf} -d "${line}" 2>/dev/null | grep NEEDED | awk '{ print $5 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
 	fi
 	echo -n "${i} / ${files}" $'\r'
 	((i++))
@@ -34,7 +34,7 @@ done
 
 sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
 
-while read lib; do
+while read -r lib; do
 	if [ "${lib}" == "libm.so.6" ]||[ "${lib}" == "libc.so.6" ]||[ "${lib}" == "libtcmalloc_minimal.so.4" ]||[ "${lib}" == "libpthread.so.0" ]||[ "${lib}" == "libdl.so.2" ]||[ "${lib}" == "libnsl.so.1" ]||[ "${lib}" == "libgcc_s.so.1" ]||[ "${lib}" == "librt.so.1" ]||[ "${lib}" == "ld-linux.so.2" ]; then
 		echo "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo "lib32gcc1" >> "${tmpdir}/.depdetect_ubuntu_list"
@@ -114,7 +114,7 @@ fi
 echo ""
 echo "Required Librarys"
 echo "================================="
-sort "${tmpdir}/.depdetect_readelf" |uniq
+sort "${tmpdir}/.depdetect_readelf" | uniq
 echo -en "\n"
 rm -f "${tmpdir}/.depdetect_centos_line"
 rm -f "${tmpdir}/.depdetect_centos_list"

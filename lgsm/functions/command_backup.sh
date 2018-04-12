@@ -2,7 +2,7 @@
 # LinuxGSM command_backup.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
 local commandname="BACKUP"
@@ -17,7 +17,7 @@ fn_backup_trap(){
 	echo -ne "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
-	sleep 1
+	sleep 0.5
 	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -ne "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
@@ -44,9 +44,9 @@ fn_backup_init(){
 	info_distro.sh
 	fn_print_dots "Backup starting"
 	fn_script_log_info "Backup starting"
-	sleep 1
+	sleep 0.5
 	fn_print_ok "Backup starting"
-	sleep 1
+	sleep 0.5
 	echo -ne "\n"
 	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 		fn_print_info_nl "There are no previous backups"
@@ -59,11 +59,11 @@ fn_backup_init(){
 			daysago="${lastbackupdaysago} days ago"
 		fi
 		echo "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
-		sleep 1
+		sleep 0.5
 	fi
 }
 
-# Check if server is started and wether to stop it
+# Check if server is started and whether to stop it
 fn_backup_stop_server(){
 	check_status.sh
 	# Server is stopped
@@ -80,7 +80,7 @@ fn_backup_stop_server(){
 	else
 		fn_print_warn_nl "${servicename} will be stopped during the backup"
 		fn_script_log_warn "${servicename} will be stopped during the backup"
-		sleep 4
+		sleep 5
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh
@@ -112,8 +112,16 @@ fn_backup_compression(){
 	sleep 2
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
-	excludedir=$(realpath --relative-to="${rootdir}" "${backupdir}")
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" ./*
+        excludedir=$(fn_backup_relpath)
+
+	# Check that excludedir is a valid path.
+	if [ ! -d "${excludedir}" ] ; then
+		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
+		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
+		core_exit.sh
+	fi
+
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${tmpdir}/.backup.lock" ./*
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
@@ -123,7 +131,7 @@ fn_backup_compression(){
 		fn_script_log_fatal "Starting backup"
 	else
 		fn_print_ok_eol
-		sleep 1
+		sleep 0.5
 		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
@@ -145,18 +153,18 @@ fn_backup_prune(){
 		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
 			fn_script_log_info "Backup pruning activated"
-			sleep 1
+			sleep 0.5
 			fn_print_ok_nl "Pruning"
-			sleep 1
+			sleep 0.5
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared
 				echo "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
-				sleep 1
+				sleep 0.5
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
-				sleep 1
+				sleep 0.5
 				# Clear backups over quota
 				find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
 				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
@@ -166,18 +174,67 @@ fn_backup_prune(){
 				# Display how many backups will be cleared
 				echo "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
-				sleep 1
+				sleep 0.5
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
-				sleep 1
+				sleep 0.5
 				# Clear backups over quota
 				find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
 				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			fi
-			sleep 1
+			sleep 0.5
 		fi
 	fi
+}
+
+fn_backup_relpath() {
+  	# Written by CedarLUG as a "realpath --relative-to" alternative in bash
+
+	# Populate an array of tokens initialized from the rootdir components:
+  	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+
+	if [ ${#rdirtoks[@]} -eq 0 ]; then
+		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
+		fn_script_log_fatal "Problem assessing rootdir during relative path assessment: ${rootdir}"
+		core_exit.sh
+	fi
+
+	# Populate an array of tokens initialized from the backupdir components:
+  	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	if [ ${#bdirtoks[@]} -eq 0 ]; then
+		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
+		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
+		core_exit.sh
+	fi
+
+	# Compare the leading entries of each array.  These common elements will be clipped off
+	# for the relative path output.
+  	for ((base=0; base<${#rdirtoks[@]}; base++))
+  	do
+      		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
+  	done
+
+	# Next, climb out of the remaining rootdir location with updir references...
+  	for ((x=base;x<${#rdirtoks[@]};x++))
+  	do
+      		echo -n "../"
+  	done
+
+	# Climb down the remaining components of the backupdir location.
+  	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
+  	do
+      		echo -n "${bdirtoks[$x]}/"
+  	done
+
+	# In the event there were no directories left in the backupdir above to
+	# traverse down, just add a newline.  Otherwise at this point, there is
+	# one remaining directory component in the backupdir to navigate.
+  	if (( "$base" < "${#bdirtoks[@]}" )) ; then
+      		echo "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
+  	else
+      		echo
+  	fi
 }
 
 # Restart the server if it was stopped for the backup

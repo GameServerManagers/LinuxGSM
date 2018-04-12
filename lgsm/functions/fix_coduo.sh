@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_coduo.sh function
 # Author: Alexander Hurd
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Fixes for Call of Duty: United Offensive
 
 local commandname="FIX"
