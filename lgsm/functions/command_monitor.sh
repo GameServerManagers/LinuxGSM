@@ -181,8 +181,8 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
-# Query has to be enabled in starbound config
-if [ "${gamename}" == "starbound" ]; then
+# Query has to be enabled in Starbound config
+if [ "${gamename}" == "Starbound" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi
