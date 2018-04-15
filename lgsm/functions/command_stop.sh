@@ -263,7 +263,7 @@ fn_stop_tmux(){
 	fn_script_log_info "tmux kill-session: ${servername}"
 	sleep 0.5
 	# Kill tmux session
-	tmux kill-session -t="${servicename}" > /dev/null 2>&1
+	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
