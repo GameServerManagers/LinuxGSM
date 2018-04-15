@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_distro.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
@@ -124,7 +124,7 @@ if [ -d "${backupdir}" ]; then
 		# number of backups.
 		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
 		# most recent backup.
-		lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
+		lastbackup=$(find "${backupdir}"/*.tar.gz | head -1)
 		# date of most recent backup.
 		lastbackupdate=$(date -r "${lastbackup}")
 		# no of days since last backup.
@@ -135,6 +135,13 @@ if [ -d "${backupdir}" ]; then
 fi
 
 # External IP address
-if [ -z "${extip}" ];then
-	extip=$(${curlpath} -m 3 ifconfig.co 2>/dev/null)
+if [ -z "${extip}" ]; then
+	extip=$(${curlpath} -m 3 ifconfig.co > "${tmpdir}/extip.txt" 2>/dev/null)
+	if [ $? -ne 0 ]; then
+		if [ -f "${tmpdir}/extip.txt" ]; then
+			echo "${tmpdir}/extip.txt"
+		else
+			echo "x.x.x.x"
+		fi
+	fi
 fi

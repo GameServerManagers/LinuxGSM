@@ -2,7 +2,7 @@
 # LinuxGSM command_stop.sh function
 # Author: Daniel Gibbs
 # Contributors: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Stops the server.
 
 local commandname="STOP"
@@ -33,7 +33,7 @@ fn_stop_graceful_ctrlc(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: CTRL+c: FAIL"
 	fi
-	sleep 1
+	sleep 0.5
 	fn_stop_tmux
 }
 
@@ -44,7 +44,7 @@ fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# sends specific stop command
-	tmux send -t "${servicename}" ${1} ENTER > /dev/null 2>&1
+	tmux send -t "${servicename}" "${1}" ENTER > /dev/null 2>&1
 	# waits up to given seconds giving the server time to shutdown gracefully
 	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
@@ -63,7 +63,7 @@ fn_stop_graceful_cmd(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
-	sleep 1
+	sleep 0.5
 	fn_stop_tmux
 }
 
@@ -84,7 +84,7 @@ fn_stop_graceful_goldsource(){
 	fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
-	sleep 1
+	sleep 0.5
 	fn_stop_tmux
 }
 
@@ -115,18 +115,18 @@ fn_stop_telnet_sdtd(){
 fn_stop_graceful_sdtd(){
 	fn_print_dots "Graceful: telnet"
 	fn_script_log_info "Graceful: telnet"
-	sleep 1
+	sleep 0.5
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ "$(command -v expect 2>/dev/null)" ]||[ "$(which expect >/dev/null 2>&1)" ]; then
+	elif [ "$(command -v expect 2>/dev/null)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}"
 			fn_script_log_info "Graceful: telnet: ${telnetip}"
-			sleep 1
+			sleep 0.5
 			fn_stop_telnet_sdtd
-			completed=$(echo -en "\n ${sdtd_telnet_shutdown}"|grep "Completed.")
-			refused=$(echo -en "\n ${sdtd_telnet_shutdown}"|grep "Timeout or EOF")
+			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
+			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 			if [ -n "${refused}" ]; then
 				fn_print_error "Graceful: telnet: ${telnetip}: "
 				fn_print_fail_eol_nl
@@ -142,7 +142,7 @@ fn_stop_graceful_sdtd(){
 		if [ -n "${completed}" ]; then
 			for seconds in {1..30}; do
 				fn_stop_telnet_sdtd
-				refused=$(echo -en "\n ${sdtd_telnet_shutdown}"|grep "Timeout or EOF")
+				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 				if [ -n "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}: "
 					fn_print_ok_eol_nl
@@ -173,7 +173,7 @@ fn_stop_graceful_sdtd(){
 		fn_print_fail_eol_nl
 		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
-	sleep 1
+	sleep 0.5
 	fn_stop_tmux
 }
 
@@ -193,7 +193,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_goldsource
 	elif [ "${engine}" == "avalanche2.0" ]||[ "${engine}" == "avalanche3.0" ]||[ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]; then
 		fn_stop_graceful_ctrlc
-	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]; then
+	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]||[ "${shortname}" == "rw" ]; then
 		fn_stop_graceful_cmd "quit" 30
 	else
 		fn_stop_tmux
@@ -218,17 +218,17 @@ fn_stop_ark(){
 
 	if [ "${#queryport}" -gt 0 ] ; then
 		for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
-			pid=$(netstat -nap 2>/dev/null | grep ^udp[[:space:]] |\
-				grep :${queryport}[[:space:]] | rev | awk '{print $1}' |\
+			pid=$(netstat -nap 2>/dev/null | grep "^udp[[:space:]]" |\
+				grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' |\
 				rev | cut -d\/ -f1)
 			#
 			# check for a valid pid
 			pid=${pid//[!0-9]/}
 			let pid+=0 # turns an empty string into a valid number, '0',
 			# and a valid numeric pid remains unchanged.
-			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le $(cat /proc/sys/kernel/pid_max) ]; then
+			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le "$(cat "/proc/sys/kernel/pid_max")" ]; then
 			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
-				sleep 1
+				sleep 0.5
 			else
 				break # Our job is done here
 			fi # end if for pid range check
@@ -263,7 +263,7 @@ fn_stop_tmux(){
 	fn_script_log_info "tmux kill-session: ${servername}"
 	sleep 0.5
 	# Kill tmux session
-	tmux kill-session -t "${servicename}" > /dev/null 2>&1
+	tmux kill-session -t="${servicename}" > /dev/null 2>&1
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then

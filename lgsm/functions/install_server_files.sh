@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_server_files.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs server files.
 
 local commandname="INSTALL"
@@ -21,6 +21,8 @@ fn_install_server_files(){
 		remote_fileurl="http://files.linuxgsm.com/CallOfDuty4/cod4x18_dedrun.tar.bz2"; local_filedir="${tmpdir}"; local_filename="cod4x18_dedrun.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="bebdfc1755626462bdaad49f6f926c08"
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		remote_fileurl="http://files.linuxgsm.com/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="codwaw-lnxded-1.7-full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="0489697ff3bf678c109bfb377d1b7895"
+	elif [ "${shortname}" == "etl" ]; then
+		remote_fileurl="http://files.linuxgsm.com/WolfensteinEnemyTerritory/etlegacy-v2.75-i386-et-260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="92d7d4c26e0a295daed78cef623eeabb"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		remote_fileurl="http://files.linuxgsm.com/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.bz2"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="c45c16293096706e8b5e2cd64a6f2931"
 	elif [ "${gamename}" == "Quake 2" ]; then
@@ -65,7 +67,7 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -ge "7" ]; then
 				echo "Removing $(find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$')"
-				find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
+				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
 				rm -rf "${steamcmddir}"
@@ -74,7 +76,7 @@ fn_install_server_files_steamcmd(){
 
 			# Detects if unbuffer command is available for 32 bit distributions only.
 			info_distro.sh
-			if [ $(command -v stdbuf 2>/dev/null) ]&&[ "${arch}" != "x86_64" ]; then
+			if [ "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
@@ -85,11 +87,6 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
-
-					if [ "${gamename}" == "Classic Offensive" ]; then
-						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} +quit
-						local exitcode=$?
-					fi
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
@@ -98,11 +95,6 @@ fn_install_server_files_steamcmd(){
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit
 					local exitcode=$?
-
-					if [ "${gamename}" == "Classic Offensive" ]; then
-						${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid_co}" ${branch} -validate +quit
-						local exitcode=$?
-					fi
 				fi
 			fi
 		elif [ "${counter}" -ge "11" ]; then
@@ -128,7 +120,7 @@ fn_install_server_files_steamcmd(){
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
-sleep 1
+sleep 0.5
 
 if [ -n "${appid}" ]; then
 	fn_install_server_files_steamcmd
@@ -146,7 +138,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]; then
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi

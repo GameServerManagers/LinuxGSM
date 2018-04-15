@@ -30,8 +30,15 @@ addons:
     - libstdc++6:i386
     - net-tools
     - iproute2
+    - shellcheck
 
-script:
-
-    - bash tests/tests_jc2server.sh
-    - bash tests/tests_ts3server.sh
+jobs:
+  include:
+    - stage: jobs
+      script: bash tests/tests_jc2server.sh
+    - # stage name not required
+      script: bash tests/tests_fctrserver.sh
+    - # stage name not required
+      script: bash tests/tests_ts3server.sh
+    - # stage name not required
+      script: bash tests/tests_shellcheck.sh

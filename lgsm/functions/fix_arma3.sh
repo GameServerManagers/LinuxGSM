@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_arma3.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves an issue with ARMA3.
 
 local commandname="FIX"

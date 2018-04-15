@@ -2,7 +2,7 @@
 # LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks RAM requirements
 
 local commandname="CHECK"
@@ -39,8 +39,8 @@ if [ -n "${ramrequirementmb}" ]; then
 		sleep 0.5
 		# Warn the user
 		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
-		sleep 1
+		sleep 0.5
 		echo  "	* ${gamename} server may fail to run or experience poor performance."
-		sleep 1
+		sleep 0.5
 	fi
 fi

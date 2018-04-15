@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_glibc.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Stores details on servers Glibc requirements.
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -12,6 +12,12 @@ if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Battalion 1944" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
+elif [ "${gamename}" == "Base Defense" ]; then
+	glibcrequired="2.14"
+	glibcfix="no"
 elif [ "${gamename}" == "Black Mesa: Deathmatch" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -20,6 +26,7 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	glibcfix="yes"
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Call of Duty" ]; then
 	glibcrequired="2.1"
 	glibcfix="no"
@@ -51,7 +58,7 @@ elif [ "${gamename}" == "Empires Mod" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
 elif [ "${gamename}" == "Factorio" ]; then
-	glibcrequired="2.15"
+	glibcrequired="2.18"
 	glibcfix="yes"
 elif [ "${gamename}" == "Fistful of Frags" ]; then
 	glibcrequired="2.15"
@@ -88,6 +95,9 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${shortname}" == "rw" ]; then
+	glibcrequired="2.14"
 	glibcfix="no"
 elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
 	glibcrequired="2.3"
@@ -175,6 +185,9 @@ elif [ "${engine}" == "refractor" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	glibcrequired="2.2.4"
+	glibcfix="no"
+elif [ "${gamename}" == "ET: Legacy" ]; then
+	glibcrequired="2.7"
 	glibcfix="no"
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"

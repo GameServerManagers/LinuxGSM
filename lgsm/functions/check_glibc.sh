@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_glibc.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if the server has the correct Glibc version or a fix available.
 
 local commandname="CHECK"
@@ -17,7 +17,7 @@ elif [ "${glibcrequired}" == "UNKNOWN" ]; then
 		fn_print_error_nl "Glibc fix: ${red}${glibcrequired}${default}"
 		echo -e "	* glibc required: ${red}${glibcrequired}${default}"
 		echo -e "	* glibc installed: ${glibcversion}"
-elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
+elif [ "$(printf '%s\n'${glibcrequired}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 	if [ "${glibcfix}" == "yes" ]; then
 		if [ "${function_selfname}" != "command_install.sh" ]; then
 			fn_print_dots "Glibc fix"
