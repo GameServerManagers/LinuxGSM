@@ -25,14 +25,6 @@ fn_start_teamspeak3(){
 		touch "${servercfgfullpath}"
 	fi
 	sleep 0.5
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_info_nl "${servername} is already running"
-		fn_script_log_error "${servername} is already running"
-		if [ -z "${exitbypass}" ]; then
-			core_exit.sh
-		fi
-	fi
 	if [ -f "${lgsmlog}" ]; then
 		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
@@ -81,26 +73,15 @@ fn_start_tmux(){
 	fi
 
 	# Log rotation
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		fn_script_log_info "Rotating log files"
-		if [ "${engine}" == "unreal2" ]; then
-			if [ -f "${gamelog}" ]; then
-				mv "${gamelog}" "${gamelogdate}"
-			fi
-		fi
-		mv "${lgsmlog}" "${lgsmlogdate}"
-		mv "${consolelog}" "${consolelogdate}"
+	fn_script_log_info "Rotating log files"
+	if [ "${engine}" == "unreal2" ]&&[ -f "${gamelog}" ]; then
+		mv "${gamelog}" "${gamelogdate}"
 	fi
-
-	# If server is already running exit
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_print_info_nl "${servername} is already running"
-		fn_script_log_error "${servername} is already running"
-		if [ -z "${exitbypass}" ]; then
-			core_exit.sh
-		fi
+	if [ -f "${lgsmlog}" ]; then
+		mv "${lgsmlog}" "${lgsmlogdate}"
+	fi
+	if [ -f "${consolelog}" ]; then
+		mv "${consolelog}" "${consolelogdate}"
 	fi
 
 	# Create lockfile
@@ -118,7 +99,7 @@ fn_start_tmux(){
 		fn_script_log "Tmux version: master (user compiled)"
 		echo "Tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t="${servicename}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ -n "${tmuxversion}" ]; then
 		# Get the digit version of tmux
@@ -136,7 +117,7 @@ fn_start_tmux(){
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t="${servicename}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo "Unable to detect tmux version" >> "${consolelog}"
@@ -209,17 +190,23 @@ sleep 0.5
 fn_print_dots "${servername}"
 sleep 0.5
 check.sh
+# Is the server already started
+if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
+	fn_print_info_nl "${servername} is already running"
+	fn_script_log_error "${servername} is already running"
+	if [ -z "${exitbypass}" ]; then
+		core_exit.sh
+	fi
+fi
 fix.sh
 info_config.sh
 logs.sh
 
 # Will check for updates is updateonstart is yes
-if [ "${status}" == "0" ]; then
-	if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
-		exitbypass=1
-		unset updateonstart
-		command_update.sh
-	fi
+if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
+	exitbypass=1
+	unset updateonstart
+	command_update.sh
 fi
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then
