@@ -83,7 +83,7 @@ fn_start_tmux(){
 	if [ -f "${consolelog}" ]; then
 		mv "${consolelog}" "${consolelogdate}"
 	fi
-	
+
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
