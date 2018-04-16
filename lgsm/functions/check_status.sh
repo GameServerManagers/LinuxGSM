@@ -32,5 +32,5 @@ elif [ "${gamename}" == "Mumble" ]; then
 		status=1
 	fi
 else
-	status=$(tmux list-sessions -F "#{session_name}" | grep -Ecx "^${servicename}")
+	status=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -Ecx "^${servicename}")
 fi
