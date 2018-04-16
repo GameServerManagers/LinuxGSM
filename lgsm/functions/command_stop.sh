@@ -261,8 +261,6 @@ fn_stop_tmux(){
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lockfile
-		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
 		# Make certain the ports are cleared before continuing.
 		if [ "${gamename}" == "ARK: Survival Evolved" ]; then
@@ -299,4 +297,8 @@ sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
+# Remove lockfile
+if [ -f "${rootdir}/${lockselfname}" ]; then
+	rm -f "${rootdir}/${lockselfname}"
+fi
 core_exit.sh
