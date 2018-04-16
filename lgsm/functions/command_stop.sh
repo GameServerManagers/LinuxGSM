@@ -277,28 +277,21 @@ fn_stop_tmux(){
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else
-		fn_print_fail_nl "Unable to stop${servername}"
-		fn_script_log_fatal "Unable to stop${servername}"
+		fn_print_fail_nl "Unable to stop ${servername}"
+		fn_script_log_fatal "Unable to stop ${servername}"
 	fi
 }
 
 # checks if the server is already stopped before trying to stop.
 fn_stop_pre_check(){
-	if [ "${gamename}" == "TeamSpeak 3" ]; then
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_info_nl "${servername} is already stopped"
-			fn_script_log_error "${servername} is already stopped"
-		else
-			fn_stop_teamspeak3
-		fi
+# Is the server already stopped
+	if [ "${status}" == "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
+		fn_print_info_nl "${servername} is already stopped"
+		fn_script_log_error "${servername} is already stopped"
+	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+		fn_stop_teamspeak3
 	else
-		if [ "${status}" == "0" ]; then
-			fn_print_info_nl "${servername} is already stopped"
-			fn_script_log_error "${servername} is already stopped"
-		else
-			fn_stop_graceful_select
-		fi
+		fn_stop_graceful_select
 	fi
 }
 
