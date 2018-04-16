@@ -34,7 +34,6 @@ fn_stop_graceful_ctrlc(){
 		fn_script_log_error "Graceful: CTRL+c: FAIL"
 	fi
 	sleep 0.5
-	fn_stop_tmux
 }
 
 # Attempts graceful shutdown by sending a specified command.
@@ -64,7 +63,6 @@ fn_stop_graceful_cmd(){
 		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
 	sleep 0.5
-	fn_stop_tmux
 }
 
 # Attempts graceful of goldsource using rcon 'quit' command.
@@ -85,7 +83,6 @@ fn_stop_graceful_goldsource(){
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
 	sleep 0.5
-	fn_stop_tmux
 }
 
 # Attempts graceful of 7 Days To Die using telnet.
@@ -174,7 +171,6 @@ fn_stop_graceful_sdtd(){
 		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
 	sleep 0.5
-	fn_stop_tmux
 }
 
 fn_stop_graceful_select(){
@@ -195,8 +191,6 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]||[ "${shortname}" == "rw" ]; then
 		fn_stop_graceful_cmd "quit" 30
-	else
-		fn_stop_tmux
 	fi
 }
 
@@ -292,6 +286,11 @@ fn_stop_pre_check(){
 		fn_stop_teamspeak3
 	else
 		fn_stop_graceful_select
+	fi
+	# Check status again, a stop tmux session if needed
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_stop_tmux
 	fi
 }
 
