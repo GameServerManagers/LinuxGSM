@@ -74,14 +74,16 @@ fn_start_tmux(){
 
 	# Log rotation
 	fn_script_log_info "Rotating log files"
-	if [ "${engine}" == "unreal2" ]; then
-		if [ -f "${gamelog}" ]; then
-			mv "${gamelog}" "${gamelogdate}"
-		fi
+	if [ "${engine}" == "unreal2" ]&&[ -f "${gamelog}" ]; then
+		mv "${gamelog}" "${gamelogdate}"
+	fi
+	if [ -f "${lgsmlog}" ]; then
 		mv "${lgsmlog}" "${lgsmlogdate}"
+	fi
+	if [ -f "${consolelog}" ]; then
 		mv "${consolelog}" "${consolelogdate}"
 	fi
-
+	
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
