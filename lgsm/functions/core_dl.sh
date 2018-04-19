@@ -25,7 +25,7 @@ fn_dl_md5(){
 	# Runs MD5 Check if available
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
 		echo -ne "verifying ${local_filename} with MD5..."
-		sleep 1
+		sleep 0.5
 		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
@@ -88,7 +88,7 @@ fn_fetch_trap(){
 	echo -ne "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
-	sleep 1
+	sleep 0.5
 	rm -f "${local_filedir}/${local_filename}"
 	echo -ne "downloading ${local_filename}..."
 	fn_print_removed_eol_nl

@@ -48,7 +48,7 @@ fn_wipe_server_remove_files(){
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
 			currentaction="Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
 			echo -en "Removing map saves proceduralmap.*.sav file(s)..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			find "${serveridentitydir:?}" -type f -name "proceduralmap.*.sav" -delete
 			fn_wipe_exit_code
@@ -62,7 +62,7 @@ fn_wipe_server_remove_files(){
 			if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
 			currentaction="Removing barren map save(s): ${serveridentitydir}/barren*.sav"
 			echo -en "Removing barren map saves barren*.sav file(s)..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			find "${serveridentitydir:?}" -type f -name "barren*.sav" -delete
 			fn_wipe_exit_code
@@ -76,7 +76,7 @@ fn_wipe_server_remove_files(){
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
 			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.map"
 			echo -en "Removing procedural map proceduralmap.*.map file(s)..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			find "${serveridentitydir:?}" -type f -name "proceduralmap.*.map" -delete
 			fn_wipe_exit_code
@@ -90,7 +90,7 @@ fn_wipe_server_remove_files(){
 				if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
 			currentaction="Removing map file(s): ${serveridentitydir}/barren*.map"
 			echo -en "Removing barren map barren*.map file(s)..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			find "${serveridentitydir:?}" -type f -name "barren*.map" -delete
 			fn_wipe_exit_code
@@ -103,7 +103,7 @@ fn_wipe_server_remove_files(){
 		if [ -d "${serveridentitydir}/user" ]; then
 			currentaction="Removing user directory: ${serveridentitydir}/user"
 			echo -en "Removing user directory..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			rm -rf "${serveridentitydir:?}/user"
 			fn_wipe_exit_code
@@ -116,7 +116,7 @@ fn_wipe_server_remove_files(){
 		if [ -d "${serveridentitydir}/storage" ]; then
 			currentaction="Removing storage directory: ${serveridentitydir}/storage"
 			echo -en "Removing storage directory..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			rm -rf "${serveridentitydir:?}/storage"
 			fn_wipe_exit_code
@@ -129,7 +129,7 @@ fn_wipe_server_remove_files(){
 		if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 			currentaction="Removing log files: ${serveridentitydir}/Log.*.txt"
 			echo -en "Removing Log files..."
-			sleep 1
+			sleep 0.5
 			fn_script_log "${currentaction}"
 			find "${serveridentitydir:?}" -type f -name "Log.*.txt" -delete
 			fn_wipe_exit_code
@@ -152,12 +152,12 @@ if [ "${gamename}" == "Rust" ]; then
 				echo Exiting; core_exit.sh
 		fi
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
-		sleep 1
+		sleep 0.5
 		fn_wipe_server_process
 	else
 		fn_print_information_nl "No data to wipe was found"
 		fn_script_log_info "No data to wipe was found."
-		sleep 1
+		sleep 0.5
 		core_exit.sh
 	fi
 # You can add an "elif" here to add another game or engine
@@ -165,7 +165,7 @@ else
 	# Game not listed
 	fn_print_information_nl "Wipe is not available for this game"
 	fn_script_log_info "Wipe is not available for this game."
-	sleep 1
+	sleep 0.5
 	core_exit.sh
 fi
 

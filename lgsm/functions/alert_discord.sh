@@ -39,7 +39,7 @@ json=$(cat <<EOF
 			},
 			{
 				"name": "Server IP",
-				"value": "[${ip}:${port}](https://www.gametracker.com/server_info/${ip}:${port})"
+				"value": "[${extip:-$ip}:${port}](https://www.gametracker.com/server_info/${extip:-$ip}:${port})"
 			},
 			{
 				"name": "More info",
@@ -53,7 +53,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 sleep 0.5
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${discordwebhook})
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

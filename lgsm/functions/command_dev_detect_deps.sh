@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
-local commandname="DEPS-DETECT"
-local commandaction="Deps-Detect"
+local commandname="DETECT-DEPS"
+local commandaction="Detect-Deps"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="
@@ -24,9 +24,9 @@ files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	if [ "${readelf}" == "eu-readelf" ]; then
-		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $4 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+		${readelf} -d "${line}" 2>/dev/null | grep NEEDED| awk '{ print $4 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
 	else
-		${readelf} -d "${line}" 2>/dev/null|grep NEEDED|awk '{ print $5 }'|sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+		${readelf} -d "${line}" 2>/dev/null | grep NEEDED | awk '{ print $5 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
 	fi
 	echo -n "${i} / ${files}" $'\r'
 	((i++))
@@ -114,7 +114,7 @@ fi
 echo ""
 echo "Required Librarys"
 echo "================================="
-sort "${tmpdir}/.depdetect_readelf" |uniq
+sort "${tmpdir}/.depdetect_readelf" | uniq
 echo -en "\n"
 rm -f "${tmpdir}/.depdetect_centos_line"
 rm -f "${tmpdir}/.depdetect_centos_list"

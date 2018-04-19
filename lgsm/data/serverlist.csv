@@ -58,6 +58,7 @@ qw,qwserver,Quake World
 ro,roserver,Red Orchestra: Ostfront 41-45
 ricochet,ricochetserver,Ricochet
 rust,rustserver,Rust
+rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
@@ -74,4 +75,5 @@ ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
 wet,wetserver,Wolfenstein: Enemy Territory
+etl,etlserver,ET: Legacy
 zps,zpsserver,Zombie Panic! Source

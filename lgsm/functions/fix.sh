@@ -11,18 +11,18 @@ local commandaction="Fix"
 # Messages that are displayed for some fixes
 fn_fix_msg_start(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	sleep 1
+	sleep 0.5
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
-	sleep 1
+	sleep 0.5
 }
 
 fn_fix_msg_start_nl(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	sleep 1
+	sleep 0.5
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
-	sleep 1
+	sleep 0.5
 }
 
 fn_fix_msg_end(){
@@ -56,6 +56,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ins.sh
 	elif [ "${gamename}" == "Rust" ]; then
 		fix_rust.sh
+	elif [ "${shortname}" == "rw" ]; then
+		fix_rw.sh
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fix_mta.sh
 	fi
@@ -66,7 +68,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo ""
 		echo "Applying ${gamename} Server Fixes"
 		echo "================================="
-		sleep 1
+		sleep 0.5
 	if [ "${gamename}" == "Killing Floor" ]; then
 		fix_kf.sh
 	elif [ "${gamename}" == "Killing Floor 2" ]; then
@@ -77,5 +79,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		fix_ut2k4.sh
 	elif [ "${gamename}" == "Unreal Tournament" ]; then
 		fix_ut.sh
+	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+		fix_ut3.sh
 	fi
 fi

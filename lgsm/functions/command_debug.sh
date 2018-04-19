@@ -40,7 +40,7 @@ if [ -n "${glibcrequired}" ]; then
 			:
 	elif [ "${glibcrequired}" == "UNKNOWN" ]; then
 		echo -e "${blue}GLIBC required:\t${red}${glibcrequired}"
-	elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
+	elif [ "$(printf '%s\n'${glibcrequired}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibcrequired}" ]; then
 		if [ "${glibcfix}" == "yes" ]; then
 			echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
 		else
@@ -80,12 +80,12 @@ fi
 
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
-sleep 1
+sleep 0.5
 exitbypass=1
 command_stop.sh
 fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
-sleep 1
+sleep 0.5
 fn_print_ok_nl "Starting debug"
 
 # Create lockfile
@@ -95,7 +95,8 @@ fn_script_log_info "${rootdir}/${lockselfname}"
 # trap to remove lockfile on quit.
 trap fn_lockfile_trap INT
 
-cd "${executabledir}"
+cd "${executabledir}" || exit
+# Note: do not add double quotes to ${executable} ${parms}
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	${executable} ${parms} -debug
 elif [ "${engine}" == "realvirtuality" ]; then

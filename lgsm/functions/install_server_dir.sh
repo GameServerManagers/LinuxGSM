@@ -11,7 +11,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo ""
 echo "Server Directory"
 echo "================================="
-sleep 1
+sleep 0.5
 if [ -d "${serverfiles}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi
@@ -25,4 +25,3 @@ fi
 if [ ! -d "${serverfiles}" ]; then
 	mkdir -v "${serverfiles}"
 fi
-sleep 1
