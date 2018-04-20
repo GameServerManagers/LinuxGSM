@@ -8,7 +8,7 @@
 json=$(cat <<EOF
 {
 "username":"LinuxGSM",
-"avatar_url":"https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png",
+"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png",
 "file":"content",
 
 "embeds": [{
@@ -18,8 +18,8 @@ json=$(cat <<EOF
 	"description": "",
 	"url": "",
 	"type": "content",
-	"thumbnail": {"url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
-	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
+	"thumbnail": {"url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png"},
+	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png"},
 	"fields": [
 			{
 				"name": "Alert Message",

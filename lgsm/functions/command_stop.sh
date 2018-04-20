@@ -34,7 +34,6 @@ fn_stop_graceful_ctrlc(){
 		fn_script_log_error "Graceful: CTRL+c: FAIL"
 	fi
 	sleep 0.5
-	fn_stop_tmux
 }
 
 # Attempts graceful shutdown by sending a specified command.
@@ -64,7 +63,6 @@ fn_stop_graceful_cmd(){
 		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
 	sleep 0.5
-	fn_stop_tmux
 }
 
 # Attempts graceful of goldsource using rcon 'quit' command.
@@ -85,7 +83,6 @@ fn_stop_graceful_goldsource(){
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
 	sleep 0.5
-	fn_stop_tmux
 }
 
 # Attempts graceful of 7 Days To Die using telnet.
@@ -174,7 +171,6 @@ fn_stop_graceful_sdtd(){
 		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
 	sleep 0.5
-	fn_stop_tmux
 }
 
 fn_stop_graceful_select(){
@@ -195,8 +191,6 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]||[ "${shortname}" == "rw" ]; then
 		fn_stop_graceful_cmd "quit" 30
-	else
-		fn_stop_tmux
 	fi
 }
 
@@ -263,12 +257,10 @@ fn_stop_tmux(){
 	fn_script_log_info "tmux kill-session: ${servername}"
 	sleep 0.5
 	# Kill tmux session
-	tmux kill-session -t="${servicename}" > /dev/null 2>&1
+	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# Remove lockfile
-		rm -f "${rootdir}/${lockselfname}"
 		# ARK doesn't clean up immediately after tmux is killed.
 		# Make certain the ports are cleared before continuing.
 		if [ "${gamename}" == "ARK: Survival Evolved" ]; then
@@ -277,28 +269,26 @@ fn_stop_tmux(){
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else
-		fn_print_fail_nl "Unable to stop${servername}"
-		fn_script_log_fatal "Unable to stop${servername}"
+		fn_print_fail_nl "Unable to stop ${servername}"
+		fn_script_log_fatal "Unable to stop ${servername}"
 	fi
 }
 
 # checks if the server is already stopped before trying to stop.
 fn_stop_pre_check(){
-	if [ "${gamename}" == "TeamSpeak 3" ]; then
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_print_info_nl "${servername} is already stopped"
-			fn_script_log_error "${servername} is already stopped"
-		else
-			fn_stop_teamspeak3
-		fi
+# Is the server already stopped
+	if [ "${status}" == "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
+		fn_print_info_nl "${servername} is already stopped"
+		fn_script_log_error "${servername} is already stopped"
+	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+		fn_stop_teamspeak3
 	else
-		if [ "${status}" == "0" ]; then
-			fn_print_info_nl "${servername} is already stopped"
-			fn_script_log_error "${servername} is already stopped"
-		else
-			fn_stop_graceful_select
-		fi
+		fn_stop_graceful_select
+	fi
+	# Check status again, a stop tmux session if needed
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_stop_tmux
 	fi
 }
 
@@ -307,4 +297,8 @@ sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
+# Remove lockfile
+if [ -f "${rootdir}/${lockselfname}" ]; then
+	rm -f "${rootdir}/${lockselfname}"
+fi
 core_exit.sh
