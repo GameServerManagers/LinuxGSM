@@ -797,8 +797,6 @@ fn_info_config_kf2(){
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
-
-
 	fi
 }
 
