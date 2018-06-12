@@ -252,6 +252,34 @@ fn_info_config_dontstarve(){
 	fi
 }
 
+fn_info_config_eco(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		gamemode="${unavailable}"
+		tickrate="${zero}"
+		port="${zero}"
+		webadminport="${zero}"
+		public=""
+	else
+		servername=$(grep "Description" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "Password" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"MaxConnections\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
+		port=$(grep "\"GameServerPort\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
+		webadminport=$(grep "\"WebServerPort\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
+		public=$(grep "PublicServer" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/PublicServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers=:-"0"}
+		port=${port=:-"0"}
+		webadminport=${webadminport=:-"0"}
+		public=${public=:-"NOT SET"}
+	fi
+}
+
 fn_info_config_factorio(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="Factorio Server"
@@ -1020,6 +1048,9 @@ elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 # Dont Starve Together
 elif [ "${engine}" == "dontstarve" ]; then
 	fn_info_config_dontstarve
+# Eco
+elif [ "${shortname}" == "eco" ]; then
+	fn_info_config_eco
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
