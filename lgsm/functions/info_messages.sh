@@ -1204,5 +1204,9 @@ fn_info_message_password_strip(){
 		if [ -n "${telnetpass}" ]; then
 			telnetpass="********"
 		fi
+		if [ -n "${wsapikey}" ]; then
+			wsapikey="********"
+		fi
+
 	fi
 }
