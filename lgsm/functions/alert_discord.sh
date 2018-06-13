@@ -18,8 +18,8 @@ json=$(cat <<EOF
 	"description": "",
 	"url": "",
 	"type": "content",
-	"thumbnail": {"url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png"},
-	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png"},
+	"thumbnail": {"url": "https://github.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png"},
+	"footer": {"text": "LinuxGSM", "icon_url": "https://github.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png"},
 	"fields": [
 			{
 				"name": "Alert Message",
