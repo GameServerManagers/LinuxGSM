@@ -29,7 +29,7 @@ elif [ "${gamename}" == "Killing Floor 2" ]; then
 fi
 
 query_gamedig.sh
-echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${port}\"|jq"
+echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${queryport}\"|jq"
 echo""
 echo "${gamedigraw}" | jq
 echo""
@@ -37,7 +37,7 @@ echo "================================="
 echo "gsquery Raw Output"
 echo "================================="
 echo""
-echo "./query_gsquery.py -a \"${ip}\" -p \"${port}\" -e \"${engine}\""
+echo "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${engine}\""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
