@@ -54,10 +54,10 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-		local shortname_query_array=( unreal )
-		for shortname_query in "${shortname_query_array[@]}"
+		local engine_query_array=( unreal )
+		for engine_query in "${engine_query_array[@]}"
 		do
-			if [ "${shortname_query}" == "${shortname}" ]; then
+			if [ "${engine_query}" == "${engine}" ]; then
 				gamedigengine="ut"
 			fi
 		done
