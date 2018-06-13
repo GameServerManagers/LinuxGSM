@@ -66,9 +66,9 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		# checks if query is working 0 = pass
-		querystatus=$(gamedig --type "${gamedigengine}" --host "${ip}" --port "${queryport}" | jq '.error|length')
+		querystatus=$(gamedig --type "${gamedigengine}" --host "${ip}" --query_port "${queryport}" | jq '.error|length')
 		# raw output
-		gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --port "${queryport}")
+		gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --query_port "${queryport}")
 
 		# server name
 		gdname=$(echo "${gamedigraw}" | jq -re '.name')
