@@ -54,6 +54,13 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
+		local shortname_query_array=( unreal )
+		for shortname_query in "${shortname_query_array[@]}"
+		do
+			if [ "${shortname_query}" == "${shortname}" ]; then
+				gamedigengine="ut"
+			fi
+		done
 
 	# will bypass query if server offline
 	check_status.sh
