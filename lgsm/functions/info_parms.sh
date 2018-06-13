@@ -42,7 +42,7 @@ fn_info_parms_dst(){
 }
 
 fn_info_parms_eco(){
-	queryport=${port}
+	queryport=${webadminport}
 }
 
 
