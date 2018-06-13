@@ -41,6 +41,11 @@ fn_info_parms_dst(){
 	cave=${cave:-"NOT SET"}
 }
 
+fn_info_parms_eco(){
+	queryport=${webadminport}
+}
+
+
 fn_info_parms_factorio(){
 	port=${port:-"0"}
 	rconport=${rconport:-"0"}
@@ -147,6 +152,9 @@ elif [ "${engine}" == "realvirtuality" ]; then
 # Call of Duty
 elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
+# Eco
+elif [ "${gamename}" == "Eco" ]; then
+	fn_info_parms_eco
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_parms_factorio

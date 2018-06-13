@@ -186,7 +186,7 @@ if [ "${gamename}" == "Starbound" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi
-elif [ "${gamename}" == "TeamSpeak 3" ]; then
+elif [ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Eco" ]; then
 	fn_monitor_query_telnet
 else
 	fn_monitor_query
