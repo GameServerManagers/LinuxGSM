@@ -438,7 +438,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -613,6 +613,16 @@ fn_info_message_dontstarve(){
 		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
 		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
 		echo -e "> Steam: Master\tINBOUND\t${steammasterserverport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_eco(){
+	echo -e "netstat -atunp | grep mono"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1082,6 +1092,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_info_message_codwaw
+	elif [ "${gamename}" == "Eco" ]; then
+		fn_info_message_eco
 	elif [ "${gamename}" == "ET: Legacy" ]; then
 		fn_info_message_etlegacy
 	elif [ "${gamename}" == "Factorio" ]; then
