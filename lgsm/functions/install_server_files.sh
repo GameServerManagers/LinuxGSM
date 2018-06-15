@@ -11,6 +11,8 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_install_server_files(){
 	if [ "${gamename}" == "Battlefield: 1942" ]; then
 		remote_fileurl="http://files.linuxgsm.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
+	elif [ "${gamename}" == "BrainBread" ]; then
+		remote_fileurl="https://files.linuxgsm.com/BrainBread/brainbread-v1.2-linuxserver.tar.bz2"; local_filedir="${tmpdir}"; local_filename="brainbread-v1.2-linuxserver.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="5c729a7e9eecfa81b71a6a1f7267f0fd"
 	elif [ "${gamename}" == "Call of Duty" ]; then
 		remote_fileurl="http://files.linuxgsm.com/CallOfDuty/cod-lnxded-1.5b-full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="cod-lnxded-1.5-large.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="19629895a4cf6fd8f6d1ee198b5304cd"
 	elif [ "${gamename}" == "Call of Duty: United Offensive" ]; then
@@ -138,7 +140,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]; then
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]||[ "${gamename}" == "BrainBread" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi
