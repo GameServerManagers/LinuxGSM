@@ -45,8 +45,9 @@ l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
-ns2,ns2server,Natural Selection 2
 nmrih,nmrihserver,No More Room in Hell
+ns,nsserver,Natural Selection
+ns2,ns2server,Natural Selection 2
 ns2c,ns2cserver,NS2: Combat
 opfor,opforserver,Opposing Force
 pvkii,pvkiiserver,Pirates Vikings & Knights II
