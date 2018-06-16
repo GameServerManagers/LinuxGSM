@@ -43,6 +43,8 @@ fn_install_server_files(){
 		remote_fileurl="https://s3.amazonaws.com/unrealtournament/UnrealTournament-Client-XAN-3395761-Linux.zip"; local_filedir="${tmpdir}"; local_filename="UnrealTournament-Server-XAN-3395761-Linux.zip";  chmodx="noexecute" run="norun"; force="noforce"; md5="f04ad5b96865b19613303331ff4075eb"
 	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 		remote_fileurl="http://files.linuxgsm.com/UnrealTournament3/UT3-linux-server-2.1.tar.bz2"; local_filedir="${tmpdir}"; local_filename="UT3-linux-server-2.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="2527437b46f1b47f20228d27d72395a6"
+	elif [ "${gamename}" == "Vampire Slayer" ]; then
+		remote_fileurl="https://files.linuxgsm.com/VampireSlayer/vs_l-6.0_full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="vs_l-6.0_full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="38a79e44b98578bbdc5b15818493a066"
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		remote_fileurl="http://files.linuxgsm.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
