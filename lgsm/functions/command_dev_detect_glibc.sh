@@ -43,11 +43,14 @@ while IFS= read -r -d $'\0' line; do
 	echo -n "${i} / ${files}" $'\r'
 	((i++))
 done
-echo ""
-cat "${tmpdir}/detect_glibc_files.tmp"
-echo ""
-cat "${tmpdir}/detect_glibc.tmp" | sort | uniq | sort -r --version-sort
-rm "${tmpdir}/detect_glibc.tmp"
-rm "${tmpdir}/detect_glibc_files.tmp"
-
+if [ -f "${tmpdir}/detect_glibc_files.tmp" ]; then
+	echo ""
+	cat "${tmpdir}/detect_glibc_files.tmp"
+	echo ""
+	cat "${tmpdir}/detect_glibc.tmp" | sort | uniq | sort -r --version-sort
+	rm "${tmpdir}/detect_glibc.tmp"
+	rm "${tmpdir}/detect_glibc_files.tmp"
+else
+	fn_print_information_nl "GLIBC is not required"
+fi
 core_exit.sh
