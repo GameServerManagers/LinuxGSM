@@ -55,17 +55,18 @@ while read -r lib; do
 		echo "speex.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo "speex:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo "speex:i386" >> "${tmpdir}/.depdetect_debian_list"
-
 	elif [ "${lib}" == "./libSDL-1.2.so.0" ]||[ "${lib}" == "libSDL-1.2.so.0" ]; then
 		echo "SDL.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo "libsdl1.2debian" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo "libsdl1.2debian" >> "${tmpdir}/.depdetect_debian_list"
-
 	elif [ "${lib}" == "libtbb.so.2" ]; then
 		echo "tbb.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo "libtbb2" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo "libtbb2" >> "${tmpdir}/.depdetect_debian_list"
-
+	elif [ "${lib}" == "libawt.so" ]||[ "${lib}" == "libjava.so" ]||[ "${lib}" == "libjli.so" ]||[ "${lib}" == "libjvm.so" ]||[ "${lib}" == "libnet.so" ]||[ "${lib}" == "libnio.so" ]||[ "${lib}" == "libverify.so" ]; then
+		echo "java-1.8.0-openjdk" >> "${tmpdir}/.depdetect_centos_list"
+		echo "default-jre" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo "default-jre" >> "${tmpdir}/.depdetect_debian_list"
 	elif [ "${lib}" == "libtier0.so" ]||[ "${lib}" == "libtier0_srv.so" ]||[ "${lib}" == "libvstdlib_srv.so" ]||[ "${lib}" == "Core.so" ]||[ "${lib}" == "libvstdlib.so" ]||[ "${lib}" == "libtier0_s.so" ]||[ "${lib}" == "Editor.so" ]||[ "${lib}" == "Engine.so" ]||[ "${lib}" == "liblua.so" ]||[ "${lib}" == "libsteam_api.so" ]||[ "${lib}" == "ld-linux-x86-64.so.2" ]||[ "${lib}" == "libPhysX3_x86.so" ]||[ "${lib}" == "libPhysX3Common_x86.so" ]||[ "${lib}" == "libPhysX3Cooking_x86.so" ]; then
 		# Known shared libs what dont requires dependencies
 		:
