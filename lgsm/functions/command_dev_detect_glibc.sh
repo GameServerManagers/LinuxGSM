@@ -32,25 +32,52 @@ elif [ -f "${serverfiles}" ]; then
 fi
 echo ""
 
-files=$(find "${serverfiles}" | wc -l)
-find "${serverfiles}" -type f -print0 |
-while IFS= read -r -d $'\0' line; do
-	glibcversion=$(objdump -T "${line}" 2>/dev/null | grep -oP "GLIBC[^ ]+" | grep -v GLIBCXX | sort | uniq | sort -r --version-sort | head -n 1)
-	if [ "${glibcversion}" ]; then
-		echo "${glibcversion}: ${line}" >>"${tmpdir}/detect_glibc_files.tmp"
+
+local glibc_check_dir_array=( steamcmddir serverfiles  )
+for glibc_check_var in "${glibc_check_dir_array[@]}"
+do
+	if [ "${glibc_check_var}" == "serverfiles" ]; then
+		glibc_check_dir="${serverfiles}"
+		glibc_check_name="${gamename}"
+	elif [ "${glibc_check_var}" == "steamcmddir" ]; then
+		glibc_check_dir="${steamcmddir}"
+		glibc_check_name="SteamCMD"
 	fi
-	objdump -T "${line}" 2>/dev/null | grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc.tmp"
-	echo -n "${i} / ${files}" $'\r'
-	((i++))
+
+	if [ -d "${glibc_check_dir}" ]; then
+		glibc_check_files=$(find "${glibc_check_dir}" | wc -l)
+		find "${glibc_check_dir}" -type f -print0 |
+		while IFS= read -r -d $'\0' line; do
+			glibcversion=$(objdump -T "${line}" 2>/dev/null | grep -oP "GLIBC[^ ]+" | grep -v GLIBCXX | sort | uniq | sort -r --version-sort | head -n 1)
+			if [ "${glibcversion}" ]; then
+				echo "${glibcversion}: ${line}" >>"${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
+			fi
+			objdump -T "${line}" 2>/dev/null | grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
+			echo -n "${i} / ${glibc_check_files}" $'\r'
+			((i++))
+		done
+		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
+			echo ""
+			echo ""
+			echo "${glibc_check_name} GLIBC Requirements"
+			echo "================================="
+			echo "Required GLIBC"
+			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1
+			echo ""
+			echo "Files requiring GLIBC"
+			echo ""
+			echo "Highest verion required: filename"
+			cat "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
+			echo ""
+			echo "All required GLIBC versions"
+			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort
+			rm "${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
+			rm "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
+		else
+			fn_print_information_nl "GLIBC is not required"
+		fi
+	else
+		fn_print_information_nl "${glibc_check_name} is not installed"
+	fi
 done
-if [ -f "${tmpdir}/detect_glibc_files.tmp" ]; then
-	echo ""
-	cat "${tmpdir}/detect_glibc_files.tmp"
-	echo ""
-	cat "${tmpdir}/detect_glibc.tmp" | sort | uniq | sort -r --version-sort
-	rm "${tmpdir}/detect_glibc.tmp"
-	rm "${tmpdir}/detect_glibc_files.tmp"
-else
-	fn_print_information_nl "GLIBC is not required"
-fi
 core_exit.sh
