@@ -62,10 +62,9 @@ do
 			echo "================================="
 		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo "Required GLIBC"
-			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1
+			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 |tee -a "${tmpdir}/detect_glibc_highest.tmp"
 			echo ""
 			echo "Files requiring GLIBC"
-			echo ""
 			echo "Highest verion required: filename"
 			cat "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
 			echo ""
@@ -80,4 +79,13 @@ do
 		fn_print_information_nl "${glibc_check_name} is not installed"
 	fi
 done
+echo ""
+echo "Final GLIBC Requirement"
+echo "================================="
+if [ -f "${tmpdir}/detect_glibc_highest.tmp" ]; then
+	cat "${tmpdir}/detect_glibc_highest.tmp" | sort | uniq | sort -r --version-sort | head -1
+	rm "${tmpdir}/detect_glibc_highest.tmp"
+else
+	fn_print_information_nl "GLIBC is not required"
+fi
 core_exit.sh
