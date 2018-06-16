@@ -260,13 +260,22 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Hurtword/Rust
 	elif [ "${gamename}" == "Hurtword" ]||[ "${gamename}" == "Rust" ]; then
 		array_deps_required+=( lib32z1 )
-	# Project Zomboid and Minecraft
-	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
+	# Minecraft
+	elif [ "${shortname}" == "mc" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ -n "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
 		else
 			array_deps_required+=( default-jre )
+		fi
+	# Project Zomboid
+	elif [ "${engine}" ==  "projectzomboid" ]; then
+		javaversion=$(java -version 2>&1 | grep "version")
+		if [ -n "${javaversion}" ]; then
+			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			array_deps_required+=( rng-tools )
+		else
+			array_deps_required+=( default-jre rng-tools )
 		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
@@ -355,13 +364,22 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 		array_deps_required+=( xz )
 	elif [ "${gamename}" == "Hurtword" ]||[ "${gamename}" == "Rust" ]; then
 		array_deps_required+=( zlib-devel )
-	# Project Zomboid and Minecraft
+	# Minecraft
+	elif [ "${shortname}" == "mc" ]; then
+		javaversion=$(java -version 2>&1 | grep "version")
+		if [ -n "${javaversion}" ]; then
+			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			array_deps_required+=( java-1.8.0-openjdk )
+		else
+			array_deps_required+=( java-1.8.0-openjdk rng-tools )
+		fi
+	# Project Zomboid
 	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ -n "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
 		else
-			array_deps_required+=( java-1.8.0-openjdk )
+			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
 	# GoldenEye: Source
 	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
