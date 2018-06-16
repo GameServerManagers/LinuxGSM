@@ -135,7 +135,7 @@ fn_found_missing_deps(){
 		sleep 0.5
 		if [ -n monocheck ]; then
 			fn_add_mono_repo
-		fi	
+		fi
 		sleep 0.5
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
