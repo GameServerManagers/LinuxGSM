@@ -33,7 +33,7 @@ fi
 echo ""
 
 
-local glibc_check_dir_array=( steamcmddir serverfiles  )
+local glibc_check_dir_array=( steamcmddir serverfiles )
 for glibc_check_var in "${glibc_check_dir_array[@]}"
 do
 	if [ "${glibc_check_var}" == "serverfiles" ]; then
