@@ -56,11 +56,11 @@ do
 			echo -n "${i} / ${glibc_check_files}" $'\r'
 			((i++))
 		done
-		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo ""
 			echo ""
 			echo "${glibc_check_name} GLIBC Requirements"
 			echo "================================="
+		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo "Required GLIBC"
 			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1
 			echo ""
