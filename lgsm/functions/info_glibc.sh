@@ -54,6 +54,9 @@ elif [ "${gamename}" == "Day of Infamy" ]; then
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Eco" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
 elif [ "${gamename}" == "Empires Mod" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -198,4 +201,12 @@ elif [ "${gamename}" == "Zombie Panic! Source" ]; then
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"
+fi
+
+# Sets the SteamCMD GLIBC requirement if server requirement is less.
+if [ -n "${appid}" ]; then
+	if [ "${glibcrequired}" = "NOT REQUIRED" ]||[ "${glibcrequired}" < "2.14" ]||[ -z "${glibcrequired}" ] ; then
+		glibcrequired="2.14"
+		glibcfix="no"
+	fi
 fi
