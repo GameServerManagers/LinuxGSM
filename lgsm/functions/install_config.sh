@@ -404,6 +404,12 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Natural Selection" ]; then
+	gamedirname="NaturalSelection"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	gamedirname="NoMoreRoominHell"
 	array_configs+=( server.cfg )
