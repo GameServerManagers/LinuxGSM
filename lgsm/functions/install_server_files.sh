@@ -27,6 +27,8 @@ fn_install_server_files(){
 		remote_fileurl="http://files.linuxgsm.com/WolfensteinEnemyTerritory/etlegacy-v2.75-i386-et-260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="92d7d4c26e0a295daed78cef623eeabb"
 	elif [ "${gamename}" == "GoldenEye: Source" ]; then
 		remote_fileurl="http://files.linuxgsm.com/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.bz2"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="c45c16293096706e8b5e2cd64a6f2931"
+	elif [ "${gamename}" == "Natural Selection" ]; then
+		remote_fileurl="http://files.linuxgsm.com/NaturalSelection/ns_dedicated_server_v32.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ns_dedicated_server_v32.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="499cf63324b76925ada6baf5f2eacd67"
 	elif [ "${gamename}" == "Quake 2" ]; then
 		remote_fileurl="http://files.linuxgsm.com/Quake2/quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; local_filedir="${tmpdir}"; local_filename="quake2-3.20-glibc-i386-full-linux2.0.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="0b8c7e2d51f40b56b328c69e986e7c5f"
 	elif [ "${gamename}" == "Quake 3: Arena" ]; then
@@ -140,7 +142,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Factorio" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]||[ "${gamename}" == "BrainBread" ]; then
+elif [ -z "${appid}" ]||[ "${gamename}" == "GoldenEye: Source" ]||[ "${gamename}" == "Base Defense" ]||[ "${gamename}" == "BrainBread" ]||[ "${shortname}" == "ns" ]; then
 	if [ "${gamename}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi
