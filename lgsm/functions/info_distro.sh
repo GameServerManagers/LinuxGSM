@@ -13,23 +13,26 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Returns architecture, kernel and distro/os.
 arch=$(uname -m)
 kernel=$(uname -r)
-if [ -n "$(command -v lsb_release)" ]; then
-	distroname=$(lsb_release -s -d)
-elif [ -f "/etc/os-release" ]; then
-	distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
-elif [ -f "/etc/debian_version" ]; then
-	distroname="Debian $(cat /etc/debian_version)"
-elif [ -f "/etc/redhat-release" ]; then
-	distroname=$(cat /etc/redhat-release)
-else
-	distroname="$(uname -s) $(uname -r)"
-fi
 
+# Distro name - Ubuntu 16.04
+# Distro Version - 16.04
+# Distro ID - ubuntu
 if [ -f "/etc/os-release" ]; then
+	distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
 	distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
 	distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g')
-elif [ -n "$(command -v yum)" ]; then
-	distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos" | cut -d"-" -f3)
+if [ -n "$(command -v lsb_release)" ]; then
+	distroname="$(lsb_release -sd)"
+	distroversion="$(lsb_release -sr)"
+	distroid=$(lsb_release -sc)
+elif [ -f "/etc/debian_version" ]; then
+	distroname="Debian $(cat /etc/debian_version)"
+	distroversion="$(cat /etc/debian_version)"
+	distroid="debian"
+elif [ -f "/etc/redhat-release" ]; then
+	distroname=$(cat /etc/redhat-release)
+	distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
+	distroid="$(wk '{print $1;}' /etc/redhat-release)"
 fi
 
 ## Glibc version
