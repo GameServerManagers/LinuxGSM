@@ -314,8 +314,10 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]||[ -n "$(command -v dnf 2>/dev/null)
 	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
+	elif [ "${distroid}" == "fedora" ]; then
+			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc )
 	elif [ "${distroname}" == *"Amazon Linux AMI"* ]; then
-        	array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
+			array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
 	else
 		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
 	fi
