@@ -21,7 +21,7 @@ if [ -f "/etc/os-release" ]; then
 	distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
 	distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
 	distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g')
-if [ -n "$(command -v lsb_release)" ]; then
+elif [ -n "$(command -v lsb_release)" ]; then
 	distroname="$(lsb_release -sd)"
 	distroversion="$(lsb_release -sr)"
 	distroid=$(lsb_release -sc)
