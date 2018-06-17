@@ -83,7 +83,7 @@ if [ -n "${oldfree}" ]; then
 	physmemcached="n/a"
 else
 	physmemavailable=$(free ${humanreadable} | awk '/Mem:/ {print $7}')
-	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $5}')
+	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $6}')
 fi
 
 swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
