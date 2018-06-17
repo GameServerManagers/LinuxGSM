@@ -8,7 +8,7 @@ local commandname="CHECK"
 
 fn_add_mono_repo(){
 	# TODO: Detect correct distro and version for source url
-	if [ "${monocheck}" != "0" ]; then
+	if [ "${monostatus}" != "0" ]; then
 		fn_print_dots_nl "Adding Mono repository"
 		sleep 0.5
 		sudo -v > /dev/null 2>&1
@@ -65,19 +65,19 @@ fn_deps_detector(){
 		deptocheck="${javaversion}"
 		unset javacheck
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [[ -n "$(mono --version)" && "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]]; then
+		if [ "$(command -v mono 2>/dev/null)" && "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed
 			depstatus=0
 		else
 			# Mono not installed or installed Mono < 5.0.0
 			depstatus=1
-			monocheck=1
+			monostatus=1
 		fi
 	elif [ -n "$(command -v apt 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
-	elif [ -n "$(command -v yum 2>/dev/null)" ]; then
-		yum -q list installed "${deptocheck}" > /dev/null 2>&1
+	elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+		rpm -q list installed "${deptocheck}" > /dev/null 2>&1
 		depstatus=$?
 	fi
 
@@ -113,13 +113,13 @@ fn_deps_email(){
 				array_deps_required+=( sendmail )
 			elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+			elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		else
 			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+			elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		fi
@@ -133,7 +133,7 @@ fn_found_missing_deps(){
 		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
 		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
 		sleep 0.5
-		if [ -n monocheck ]; then
+		if [ -n "${monostatus}" ]; then
 			fn_add_mono_repo
 		fi
 		sleep 0.5
@@ -150,6 +150,9 @@ fn_found_missing_deps(){
 			echo -en "   \r"
 			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				cmd="sudo dpkg --add-architecture i386; sudo apt update; sudo apt -y install ${array_deps_missing[@]}"
+				eval "${cmd}"
+			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+				cmd="sudo dnf -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
@@ -168,6 +171,8 @@ fn_found_missing_deps(){
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 				echo "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+				echo "	sudo dnf install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				echo "	sudo yum install ${array_deps_missing[@]}"
 			fi
@@ -198,7 +203,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 	echo "================================="
 fi
 
-# Check will only run if using apt or yum
+# Check will only run if using apt dnf or yum
 if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
@@ -302,14 +307,14 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 	fn_deps_email
 	fn_check_loop
 
-elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+elif [ -n "$(command -v yum 2>/dev/null)" ]||[ -n "$(command -v dnf 2>/dev/null)" ]; then
 	# Generate array of missing deps
 	array_deps_missing=()
 
 	# LinuxGSM requirements
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
-	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
+	elif [ "${distroname}" == *"Amazon Linux AMI"* ]; then
         	array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
 	else
 		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
