@@ -14,26 +14,52 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 arch=$(uname -m)
 kernel=$(uname -r)
 
-# Distro name - Ubuntu 16.04
+# Distro Name - Ubuntu 16.04 LTS
 # Distro Version - 16.04
 # Distro ID - ubuntu
-if [ -f "/etc/os-release" ]; then
-	distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
-	distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
-	distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g')
-elif [ -n "$(command -v lsb_release)" ]; then
-	distroname="$(lsb_release -sd)"
-	distroversion="$(lsb_release -sr)"
-	distroid=$(lsb_release -sc)
-elif [ -f "/etc/debian_version" ]; then
-	distroname="Debian $(cat /etc/debian_version)"
-	distroversion="$(cat /etc/debian_version)"
-	distroid="debian"
-elif [ -f "/etc/redhat-release" ]; then
-	distroname=$(cat /etc/redhat-release)
-	distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
-	distroid="$(wk '{print $1;}' /etc/redhat-release)"
-fi
+# Distro Codename - xenial
+
+# Gathers distro info from various sources filling in missing gaps
+distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
+for distro_info in "${distro_info_array[@]}"
+do
+	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
+		distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
+		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
+		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
+		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
+	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
+		if [ -z "${distroname}" ];then
+			distroname="$(lsb_release -sd)"
+		elif [ -z "${distroversion}" ];then
+			distroversion="$(lsb_release -sr)"
+		elif [ -z "${distroid}" ];then
+			distroid=$(lsb_release -si)
+		elif [ -z "${distrocodename}" ];then
+			distrocodename=$(lsb_release -sc)
+		fi
+	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
+		if [ -z "${distroname}" ];then
+			distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
+		fi
+	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
+		if [ -z "${distroname}" ];then
+			distroname="Debian $(cat /etc/debian_version)"
+		elif [ -z "${distroversion}" ];then
+			distroversion="$(cat /etc/debian_version)"
+		elif [ -z "${distroid}" ];then
+			distroid="debian"
+		fi
+	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
+		if [ -z "${distroname}" ];then
+			distroname=$(cat /etc/redhat-release)
+		elif [ -z "${distroversion}" ];then
+			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
+		elif [ -z "${distroid}" ];then
+			distroid="$(wk '{print $1;}' /etc/redhat-release)"
+		fi
+	fi
+done
 
 ## Glibc version
 # e.g: 1.17
