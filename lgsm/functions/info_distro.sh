@@ -78,6 +78,9 @@ physmemtotalmb=$(free -m | awk '/Mem:/ {print $2}')
 physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
 physmemfree=$(free ${humanreadable} | awk '/Mem:/ {print $4}')
 physmemavailable=$(free ${humanreadable} | awk '/Mem:/ {print $7}')
+if [ -z "${physmemavailable}" ]; then
+	physmemavailable="n/a"
+fi
 physmemcached=$(free ${humanreadable} | awk '/cache:/ {print $4}')
 if [ -z "${physmemcached}" ]; then
 	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $6}')
