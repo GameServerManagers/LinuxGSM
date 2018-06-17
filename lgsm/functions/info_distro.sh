@@ -27,6 +27,7 @@ fi
 
 if [ -f "/etc/os-release" ]; then
 	distroversion=$(grep VERSION_ID /etc/os-release | tr -cd '[:digit:]')
+	distroid=$(grep ID /etc/os-release | grep -v _ID | sed 's/ID=//g')
 elif [ -n "$(command -v yum)" ]; then
 	distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos" | cut -d"-" -f3)
 fi
