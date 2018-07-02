@@ -58,6 +58,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
 		fix_rw.sh
+	elif [ "${shortname}" == "ss3" ]; then
+		fix_ss3.sh
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fix_mta.sh
 	fi
