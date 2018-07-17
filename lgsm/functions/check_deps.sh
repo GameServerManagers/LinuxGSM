@@ -7,14 +7,13 @@
 local commandname="CHECK"
 
 fn_add_mono_repo(){
-	# TODO: Detect correct distro and version for source url
 	if [ "${monostatus}" != "0" ]; then
 		fn_print_dots_nl "Adding Mono repository"
 		sleep 0.5
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
-			fn_print_information_nl "Automatically adding repository."
-			fn_script_log_info "Automatically adding repository."
+			fn_print_information_nl "Automatically adding Mono repository."
+			fn_script_log_info "Automatically adding Mono repository."
 			echo -en ".\r"
 			sleep 1
 			echo -en "..\r"
@@ -22,32 +21,44 @@ fn_add_mono_repo(){
 			echo -en "...\r"
 			sleep 1
 			echo -en "   \r"
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && echo 'deb http://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list && sudo apt-get update"
+			if [ "${distroid}" == "ubuntu" ]; then
+				cmd="sudo apt-key adv --keyserver http://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb http://download.mono-project.com/repo/ubuntu stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt-get update"
 				eval ${cmd}
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
-				cmd="rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+			elif [ "${distroid}" == "debian" ]; then
+				cmd="sudo apt install apt-transport-https dirmngr; sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb https://download.mono-project.com/repo/debian stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt update"
+				eval ${cmd}
+			elif [ "${distroid}" == "centos" ]; then
+				cmd="rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos${distroversion}-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+				eval ${cmd}
+			elif [ "${distroid}" == "fedora" ]; then
+				cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
 				eval ${cmd}
 			fi
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to add Mono repository"
 				fn_script_log_fatal "Unable to add Mono repository"
-				exit 1
+				monoautoinstall=1
 			else
 				fn_print_complete_nl "Add Mono repository completed"
 				fn_script_log_pass "Add Mono repository completed"
+				monoautoinstall=0
 			fi
-		else
+		fi
+		sudo -v > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
 			echo ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Mono repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Mono repository."
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo "	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && echo 'deb http://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list && sudo apt-get update"
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
-				echo "	rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+			if [ "${distroid}" == "ubuntu" ]; then
+				echo "	sudo apt-key adv --keyserver http://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb http://download.mono-project.com/repo/ubuntu stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt-get update"
+			elif [ "${distroid}" == "debian" ]; then
+				echo "	sudo apt install apt-transport-https dirmngr; sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb https://download.mono-project.com/repo/debian stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt update"
+			elif [ "${distroid}" == "centos" ]; then
+				echo "	rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos${distroversion}-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+			elif [ "${distroid}" == "fedora" ]; then
+				echo "	rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
 			fi
 			echo ""
-			exit 1
 		fi
 	fi
 }
@@ -65,7 +76,7 @@ fn_deps_detector(){
 		deptocheck="${javaversion}"
 		unset javacheck
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ "$(command -v mono 2>/dev/null)" && "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		if [ "$(command -v mono 2>/dev/null)" && "$(mono --version 2>&1) | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed
 			depstatus=0
 		else
@@ -73,7 +84,7 @@ fn_deps_detector(){
 			depstatus=1
 			monostatus=1
 		fi
-	elif [ -n "$(command -v apt 2>/dev/null)" ]; then
+	elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
 	elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
@@ -136,7 +147,6 @@ fn_found_missing_deps(){
 		if [ -n "${monostatus}" ]; then
 			fn_add_mono_repo
 		fi
-		sleep 0.5
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
 			fn_print_information_nl "Automatically installing missing dependencies."
@@ -195,24 +205,16 @@ fn_check_loop(){
 	fn_found_missing_deps
 }
 
-info_distro.sh
-
-if [ "${function_selfname}" == "command_install.sh" ]; then
-	echo ""
-	echo "Checking Dependencies"
-	echo "================================="
-fi
-
-# Check will only run if using apt dnf or yum
-if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+# Generate require dependencies for debian based systems
+fn_deps_build_debian(){
 	# Generate array of missing deps
 	array_deps_missing=()
 
-	# LinuxGSM requirements
+	## LinuxGSM requirements
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc )
 
 	# All servers except ts3 require tmux
-	if [ "${gamename}" != "TeamSpeak 3" ]; then
+	if [ "${shortname}" != "ts3" ]; then
 		if [ "$(command -v tmux 2>/dev/null)" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
@@ -220,8 +222,8 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 		fi
 	fi
 
-	# All servers except ts3,mumble,multitheftauto and minecraft servers require libstdc++6 and lib32gcc1
-	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${engine}" != "lwjgl2" ]&&[ "${engine}" != "renderware" ]; then
+	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
@@ -229,89 +231,90 @@ if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 		fi
 	fi
 
-	# Game Specific requirements
+	## Game Specific requirements
 
-	# Natural Selection 2
-	if [ "${gamename}" == "Natural Selection 2" ]; then
+	# Natural Selection 2 - x64 only
+	if [ "${shortname}" == "ns2" ]; then
 		array_deps_required+=( speex libtbb2 )
 	# NS2: Combat
-	elif [ "${gamename}" == "NS2: Combat" ]; then
+	elif [ "${shortname}" == "ns2c" ]; then
 		array_deps_required+=( speex:i386 libtbb2 )
 	# 7 Days to Die
-	elif [ "${gamename}" == "7 Days To Die" ]; then
+	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
 	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
-	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Zombie Panic! Source" ]; then
+	elif [ "${shortname}" == "nmrih" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32tinfo5 )
 		else
 			array_deps_required+=( libtinfo5 )
 		fi
 	# Brainbread 2 ,Don't Starve Together & Team Fortress 2
-	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]||[ "${gamename}" == "Team Fortress 2" ]; then
+	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
-		if [ "${gamename}" == "Team Fortress 2" ]; then
+		if [ "${shortname}" == "tf2" ]; then
 			array_deps_required+=( libtcmalloc-minimal4:i386 )
 		fi
 	# Battlefield: 1942
-	elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	elif [ "${shortname}" == "bf1942" ]; then
 		array_deps_required+=( libncurses5:i386 )
 	# Call of Duty
-	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]; then
+	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Factorio
-	elif [ "${gamename}" == "Factorio" ]; then
+	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz-utils )
 	# Hurtword/Rust
-	elif [ "${gamename}" == "Hurtword" ]||[ "${gamename}" == "Rust" ]; then
+	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
 	# Minecraft
 	elif [ "${shortname}" == "mc" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
-		if [ -n "${javaversion}" ]; then
+		if [ "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
 		else
-			array_deps_required+=( default-jre )
+			array_deps_required+=( openjdk-8-jre-headless )
 		fi
 	# Project Zomboid
-	elif [ "${engine}" ==  "projectzomboid" ]; then
-		javaversion=$(java -version 2>&1 | grep "version")
-		if [ -n "${javaversion}" ]; then
+	elif [ "${shortname}" == "pz" ]; then
+		if [ -n "$(java -version 2>&1 | grep "version")" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
 			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
 	# GoldenEye: Source
-	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
+	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
 	# Serious Sam 3: BFE
-	elif [ "${gamename}" ==  "Serious Sam 3: BFE" ]; then
+	elif [ "${shortname}" == "ss3" ]; then
 		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
 	# Unreal Engine
-	elif [ "${executable}" ==  "./ucc-bin" ]; then
+	elif [ "${executable}" == "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( libsdl1.2debian libstdc++5:i386 bzip2 )
+			array_deps_required+=( libsdl1.2debian libstdc++5:i386 )
 		#UT99
 		else
-			array_deps_required+=( libsdl1.2debian bzip2 )
+			array_deps_required+=( libsdl1.2debian )
 		fi
 	# Unreal Tournament
-	elif [ "${gamename}" == "Unreal Tournament" ]; then
+	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
 	# Eco
-	elif [ "${gamename}" == "Eco" ]; then
+	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
+}
 
-elif [ -n "$(command -v yum 2>/dev/null)" ]||[ -n "$(command -v dnf 2>/dev/null)" ]; then
+fn_deps_build_redhat(){
 	# Generate array of missing deps
 	array_deps_missing=()
 
 	# LinuxGSM requirements
+	## CentOS 6
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
 	elif [ "${distroid}" == "fedora" ]; then
@@ -323,7 +326,7 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]||[ -n "$(command -v dnf 2>/dev/null)
 	fi
 
 	# All servers except ts3 require tmux
-	if [ "${gamename}" != "TeamSpeak 3" ]; then
+	if [ "${shortname}" != "ts3" ]; then
 		if [ "$(command -v tmux 2>/dev/null)" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 		else
@@ -332,67 +335,68 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]||[ -n "$(command -v dnf 2>/dev/null)
 	fi
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
-	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${engine}" != "lwjgl2" ]&&[ "${engine}" != "renderware" ]; then
-		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-            		array_deps_required+=( glibc.i686 libstdc++64.i686 )
-        	else
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "nc" ]&&[ "${engine}" != "renderware" ]; then
+		if [ "${distroname}" == *"Amazon Linux AMI"* ]; then
+        	array_deps_required+=( glibc.i686 libstdc++64.i686 )
+        else
 			array_deps_required+=( glibc.i686 libstdc++.i686 )
 		fi
 	fi
 
 	# Game Specific requirements
 
-	# Natural Selection 2
-	if [ "${gamename}" == "Natural Selection 2" ]; then
+	# Natural Selection 2 (x64 only)
+	if [ "${shortname}" == "ns2" ]; then
 		array_deps_required+=( speex tbb )
 	# NS2: Combat
-	elif [ "${gamename}" == "NS2: Combat" ]; then
+	elif [ "${shortname}" == "ns2c" ]; then
 		array_deps_required+=( speex.i686 tbb.i686 )
 	# 7 Days to Die
-	elif [ "${gamename}" == "7 Days To Die" ]; then
+	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
-	elif [ "${gamename}" == "No More Room in Hell" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "Garry's Mod" ]||[ "${gamename}" == "Zombie Panic! Source" ]; then
+	# No More Room in Hell, Counter-Strike: Source, Garry's Mod and Zombie Panic: Source
+	elif [ "${shortname}" == "nmrih" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
-	elif [ "${gamename}" == "Brainbread 2" ]||[ "${gamename}" == "Don't Starve Together" ]||[ "${gamename}" == "Team Fortress 2" ]; then
+	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl.i686 )
 		if [ "${gamename}" == "Team Fortress 2" ]; then
 			array_deps_required+=( gperftools-libs.i686 )
 		fi
 	# Battlefield: 1942
-	elif [ "${gamename}" == "Battlefield: 1942" ]; then
+	elif [ "${shortname}" == "bf1942" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Call of Duty
-	elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${gamename}" == "Call of Duty 2" ]; then
+	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
 	# Factorio
-	elif [ "${gamename}" == "Factorio" ]; then
+	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz )
-	elif [ "${gamename}" == "Hurtword" ]||[ "${gamename}" == "Rust" ]; then
+	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
 	# Minecraft
 	elif [ "${shortname}" == "mc" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
-		if [ -n "${javaversion}" ]; then
+		if [ "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
-			array_deps_required+=( java-1.8.0-openjdk )
+			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Project Zomboid
-	elif [ "${engine}" ==  "projectzomboid" ]||[ "${engine}" == "lwjgl2" ]; then
+	# Project Zomboid & Minecraft
+	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
-		if [ -n "${javaversion}" ]; then
+		if [ "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
 	# GoldenEye: Source
-	elif [ "${gamename}" ==  "GoldenEye: Source" ]; then
+	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib.i686 openldap.i686 )
 	# Unreal Engine
-	elif [ "${executable}" ==  "./ucc-bin" ]; then
+	elif [ "${executable}" == "./ucc-bin" ]; then
 		#UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
 			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 )
@@ -401,12 +405,28 @@ elif [ -n "$(command -v yum 2>/dev/null)" ]||[ -n "$(command -v dnf 2>/dev/null)
 			array_deps_required+=( SDL.i686 bzip2 )
 		fi
 	# Unreal Tournament
-	elif [ "${gamename}" == "Unreal Tournament" ]; then
+	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
 	# Eco
-	elif [ "${gamename}" == "Eco" ]; then
+	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
+}
+
+if [ "${function_selfname}" == "command_install.sh" ]; then
+	echo ""
+	echo "Checking Dependencies"
+	echo "================================="
+fi
+
+# Filter checking in to Debian or Red Hat Based
+info_distro.sh
+if [ -f "/etc/debian_version" ]; then
+	fn_deps_build_debian
+elif [ -f "/etc/redhat-release" ]; then
+	fn_deps_build_redhat
+else
+	fn_print_warning_nl "${distroname} dependency checking unavailable"
 fi
