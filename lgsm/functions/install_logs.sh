@@ -16,8 +16,8 @@ fi
 sleep 0.5
 # Create LinuxGSM logs
 echo -ne "installing log dir: ${logdir}..."
-
-if mkdir -p "${logdir}"; then
+mkdir -p "${logdir}"
+if [ $? -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -25,16 +25,16 @@ else
 fi
 
 echo -ne "installing LinuxGSM log dir: ${lgsmlogdir}..."
-
-if mkdir -p "${lgsmlogdir}"; then
+mkdir -p "${lgsmlogdir}"
+if [ $? -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
 	fn_print_ok_eol_nl
 fi
 echo -ne "creating LinuxGSM log: ${lgsmlog}..."
-
-if touch "${lgsmlog}"; then
+touch "${lgsmlog}"
+if [ $? -ne 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -43,16 +43,16 @@ fi
 # Create Console logs
 if [ -n "${consolelogdir}" ]; then
 	echo -ne "installing console log dir: ${consolelogdir}..."
-
-	if mkdir -p "${consolelogdir}"; then
+	mkdir -p "${consolelogdir}"
+	if [ $? -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
 	fi
 	echo -ne "creating console log: ${consolelog}..."
-
-	if touch "${consolelog}"; then
+	touch "${consolelog}"
+	if [ $? -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -63,7 +63,8 @@ fi
 # Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	echo -ne "installing game log dir: ${gamelogdir}..."
-	if mkdir -p "${gamelogdir}"; then
+	mkdir -p "${gamelogdir}"
+	if [ $? -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -78,7 +79,8 @@ fi
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
 		echo -ne "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
-		if ln -nfs "${gamelogdir}" "${logdir}/server"; then
+		ln -nfs "${gamelogdir}" "${logdir}/server"
+		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
@@ -91,8 +93,8 @@ fi
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
 		echo -ne "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."
-
-		if ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"; then
+		ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
+		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
