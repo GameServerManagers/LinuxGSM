@@ -5,7 +5,7 @@
 # Description: Checks if executable exists.
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists
 if [ ! -f "${executabledir}/${execname}" ]; then

@@ -5,7 +5,7 @@
 # Description: Checks if the user tried to run the script as root.
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "$(whoami)" = "root" ]; then
 	fn_print_fail_nl "Do NOT run this script as root!"

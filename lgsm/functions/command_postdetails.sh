@@ -7,7 +7,7 @@
 
 local commandname="postdetails"
 local commandaction="Postdetails"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Set posttarget to the appropriately-defined post destination.
 

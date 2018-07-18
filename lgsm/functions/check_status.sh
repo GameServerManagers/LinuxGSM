@@ -6,7 +6,7 @@
 # Description: Checks the process status of the server. Either online or offline.
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	# 1: Server is running

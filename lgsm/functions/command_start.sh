@@ -7,7 +7,7 @@
 
 local commandname="START"
 local commandaction="Starting"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -e "${servercfgfullpath}" ]; then
@@ -155,7 +155,7 @@ sleep 0.5
 			echo ""
 			echo "Fix"
 			echo "================================="
-				if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ]; then
+				if [ ! $(grep "tty:" /etc/group | grep "$(whoami)") ]; then
 					echo "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
 					group=$(grep tty /etc/group)

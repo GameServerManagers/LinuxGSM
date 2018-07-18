@@ -7,7 +7,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
 	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2"

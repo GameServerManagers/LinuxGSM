@@ -5,7 +5,7 @@
 # Description: Compresses unreal maps.
 
 local commandaction="Unreal Map Compressor"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 fn_print_header

@@ -6,7 +6,7 @@
 
 local commandname="DEBUG"
 local commandaction="Debug"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){

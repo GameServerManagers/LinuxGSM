@@ -7,7 +7,7 @@
 
 local commandname="FASTDL"
 local commandaction="FastDL"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 

@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="addons/mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 mods_core.sh

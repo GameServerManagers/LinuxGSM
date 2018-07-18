@@ -7,7 +7,7 @@
 
 local commandname="STOP"
 local commandaction="Stopping"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Attempts graceful shutdown by sending the 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
