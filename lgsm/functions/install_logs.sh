@@ -16,8 +16,8 @@ fi
 sleep 0.5
 # Create LinuxGSM logs
 echo -ne "installing log dir: ${logdir}..."
-mkdir -p "${logdir}"
-if [ $? -ne 0 ]; then
+
+if mkdir -p "${logdir}"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -25,8 +25,8 @@ else
 fi
 
 echo -ne "installing LinuxGSM log dir: ${lgsmlogdir}..."
-mkdir -p "${lgsmlogdir}"
-if [ $? -ne 0 ]; then
+
+if mkdir -p "${lgsmlogdir}"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -63,8 +63,7 @@ fi
 # Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	echo -ne "installing game log dir: ${gamelogdir}..."
-	mkdir -p "${gamelogdir}"
-	if [ $? -ne 0 ]; then
+	if mkdir -p "${gamelogdir}"
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -79,8 +78,7 @@ fi
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
 		echo -ne "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
-		ln -nfs "${gamelogdir}" "${logdir}/server"
-		if [ $? -ne 0 ]; then
+		if ln -nfs "${gamelogdir}" "${logdir}/server"
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
