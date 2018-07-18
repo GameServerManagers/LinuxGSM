@@ -22,42 +22,77 @@ fn_add_mono_repo(){
 			sleep 1
 			echo -en "   \r"
 			if [ "${distroid}" == "ubuntu" ]; then
-				cmd="sudo apt-key adv --keyserver http://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb http://download.mono-project.com/repo/ubuntu stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt-get update"
-				eval ${cmd}
+				if [ "${distroversion}" == "18.04" ]; then
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				elif [ "${distroversion}" == "16.04" ]; then
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				elif [ "${distroversion}" == "14.04" ]; then
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				else
+					echo "Mono auto install not available for ${distroname}"
+					echo "	Follow instructions on mono site to install latest version of Mono"
+					echo "	https://www.mono-project.com/download/stable/#download-lin"
+					echo ""
+					monoautoinstall="1"
+				fi
 			elif [ "${distroid}" == "debian" ]; then
-				cmd="sudo apt install apt-transport-https dirmngr; sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb https://download.mono-project.com/repo/debian stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt update"
-				eval ${cmd}
+				if [ "${distroversion}" == "9" ]; then
+					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				elif [ "${distroversion}" == "8" ]; then
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				else
+					echo "Mono auto install not available for ${distroname}"
+					echo "	Follow instructions on mono site to install latest version of Mono"
+					echo "	https://www.mono-project.com/download/stable/#download-lin"
+					echo ""
+					monoautoinstall="1"
+				fi
 			elif [ "${distroid}" == "centos" ]; then
-				cmd="rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos${distroversion}-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
-				eval ${cmd}
+				if [ "${distroversion}" == "7" ]; then
+					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
+					eval ${cmd}
+				elif [ "${distroversion}" == "6" ]; then
+					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos6-stable.repo | tee /etc/yum.repos.d/mono-centos6-stable.repo'"
+					eval ${cmd}
+				else
+					echo "Mono auto install not available for ${distroname}"
+					echo "	Follow instructions on mono site to install latest version of Mono"
+					echo "	https://www.mono-project.com/download/stable/#download-lin"
+					echo ""
+					monoautoinstall="1"
+				fi
 			elif [ "${distroid}" == "fedora" ]; then
 				cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
 				eval ${cmd}
-			fi
-			if [ $? != 0 ]; then
-				fn_print_failure_nl "Unable to add Mono repository"
-				fn_script_log_fatal "Unable to add Mono repository"
-				monoautoinstall=1
 			else
-				fn_print_complete_nl "Add Mono repository completed"
-				fn_script_log_pass "Add Mono repository completed"
-				monoautoinstall=0
+				echo "Mono auto install not available for ${distroname}"
+				echo "	Follow instructions on mono site to install latest version of Mono"
+				echo "	https://www.mono-project.com/download/stable/#download-lin"
+				echo ""
+				monoautoinstall="1"
 			fi
-		fi
-		sudo -v > /dev/null 2>&1
-		if [ $? -eq 0 ]; then
+			if [ "${monoautoinstall}" -ne "1" ];then
+				if [ $? != 0 ]; then
+					fn_print_failure_nl "Unable to add Mono repository"
+					fn_script_log_fatal "Unable to add Mono repository"
+					monoautoinstall=1
+				else
+					fn_print_complete_nl "Add Mono repository completed"
+					fn_script_log_pass "Add Mono repository completed"
+					monoautoinstall=0
+				fi
+			fi
+		else
 			echo ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Mono repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Mono repository."
-			if [ "${distroid}" == "ubuntu" ]; then
-				echo "	sudo apt-key adv --keyserver http://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb http://download.mono-project.com/repo/ubuntu stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt-get update"
-			elif [ "${distroid}" == "debian" ]; then
-				echo "	sudo apt install apt-transport-https dirmngr; sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo 'deb https://download.mono-project.com/repo/debian stable-${distrocodename} main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; sudo apt update"
-			elif [ "${distroid}" == "centos" ]; then
-				echo "	rpm --import 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' && su -c 'curl https://download.mono-project.com/repo/centos${distroversion}-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
-			elif [ "${distroid}" == "fedora" ]; then
-				echo "	rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
-			fi
+			echo "	Follow instructions on mono site to install latest version of Mono"
+			echo "	https://www.mono-project.com/download/stable/#download-lin"
 			echo ""
 		fi
 	fi
@@ -76,14 +111,15 @@ fn_deps_detector(){
 		deptocheck="${javaversion}"
 		unset javacheck
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ "$(command -v mono 2>/dev/null)" && "$(mono --version 2>&1) | grep -Po '(?<=version )\d')" -ge 5 ]; then
-			# Mono >= 5.0.0 already installed
-			depstatus=0
-		else
-			# Mono not installed or installed Mono < 5.0.0
-			depstatus=1
-			monostatus=1
-		fi
+
+	if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		# Mono >= 5.0.0 already installed
+		depstatus=0
+	else
+		# Mono not installed or installed Mono < 5.0.0
+		depstatus=1
+		monostatus=1
+	fi
 	elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
