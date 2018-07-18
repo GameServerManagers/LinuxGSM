@@ -6,13 +6,13 @@
 
 local commandname="CHECK"
 
-fn_add_mono_repo(){
+fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
-		fn_print_dots_nl "Adding Mono repository"
+		fn_print_dots "Adding Mono repository"
 		sleep 0.5
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
-			fn_print_information_nl "Automatically adding Mono repository."
+			fn_print_info_nl "Automatically adding Mono repository."
 			fn_script_log_info "Automatically adding Mono repository."
 			echo -en ".\r"
 			sleep 1
@@ -32,10 +32,10 @@ fn_add_mono_repo(){
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval ${cmd}
 				else
+					fn_print_warn_nl "Installing Mono repository"
 					echo "Mono auto install not available for ${distroname}"
-					echo "	Follow instructions on mono site to install latest version of Mono"
+					echo "	Follow instructions on mono site to install the latest version of Mono."
 					echo "	https://www.mono-project.com/download/stable/#download-lin"
-					echo ""
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "debian" ]; then
@@ -47,9 +47,8 @@ fn_add_mono_repo(){
 					eval ${cmd}
 				else
 					echo "Mono auto install not available for ${distroname}"
-					echo "	Follow instructions on mono site to install latest version of Mono"
+					echo "	Follow instructions on mono site to install the latest version of Mono."
 					echo "	https://www.mono-project.com/download/stable/#download-lin"
-					echo ""
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "centos" ]; then
@@ -61,9 +60,8 @@ fn_add_mono_repo(){
 					eval ${cmd}
 				else
 					echo "Mono auto install not available for ${distroname}"
-					echo "	Follow instructions on mono site to install latest version of Mono"
+					echo "	Follow instructions on mono site to install the latest version of Mono."
 					echo "	https://www.mono-project.com/download/stable/#download-lin"
-					echo ""
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "fedora" ]; then
@@ -71,29 +69,28 @@ fn_add_mono_repo(){
 				eval ${cmd}
 			else
 				echo "Mono auto install not available for ${distroname}"
-				echo "	Follow instructions on mono site to install latest version of Mono"
+				echo "	Follow instructions on mono site to install the latest version of Mono."
 				echo "	https://www.mono-project.com/download/stable/#download-lin"
-				echo ""
 				monoautoinstall="1"
 			fi
-			if [ "${monoautoinstall}" -ne "1" ];then
+			if [ "${monoautoinstall}" != "1" ];then
 				if [ $? != 0 ]; then
-					fn_print_failure_nl "Unable to add Mono repository"
-					fn_script_log_fatal "Unable to add Mono repository"
+					fn_print_failure_nl "Unable to install Mono repository."
+					fn_script_log_fatal "Unable to installMono repository."
 					monoautoinstall=1
 				else
-					fn_print_complete_nl "Add Mono repository completed"
-					fn_script_log_pass "Add Mono repository completed"
+					fn_print_complete_nl "Installing Mono repository completed."
+					fn_script_log_pass "Installing Mono repository completed."
 					monoautoinstall=0
 				fi
 			fi
 		else
+			fn_print_information_nl "Installing Mono repository"
 			echo ""
-			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Mono repository."
-			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Mono repository."
-			echo "	Follow instructions on mono site to install latest version of Mono"
+			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install Mono repository."
+			fn_script_log_warn "$(whoami) does not have sudo access. Manually install Mono repository."
+			echo "	Follow instructions on mono site to install the latest version of Mono."
 			echo "	https://www.mono-project.com/download/stable/#download-lin"
-			echo ""
 		fi
 	fi
 }
@@ -111,15 +108,14 @@ fn_deps_detector(){
 		deptocheck="${javaversion}"
 		unset javacheck
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-
-	if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
-		# Mono >= 5.0.0 already installed
-		depstatus=0
-	else
-		# Mono not installed or installed Mono < 5.0.0
-		depstatus=1
-		monostatus=1
-	fi
+		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+			# Mono >= 5.0.0 already installed
+			depstatus=0
+		else
+			# Mono not installed or installed Mono < 5.0.0
+			depstatus=1
+			monostatus=1
+		fi
 	elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
@@ -133,14 +129,17 @@ fn_deps_detector(){
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${green}${deptocheck}${default}"
-			sleep 0.5
+			sleep 0.2
 		fi
 	else
 		# if dependency is not found
 		missingdep=1
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${red}${deptocheck}${default}"
-			sleep 0.5
+			sleep 0.2
+		fi
+		if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
+			steamcmdfail=1
 		fi
 	fi
 
@@ -181,7 +180,7 @@ fn_found_missing_deps(){
 		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
 		sleep 0.5
 		if [ -n "${monostatus}" ]; then
-			fn_add_mono_repo
+			fn_install_mono_repo
 		fi
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
@@ -207,6 +206,22 @@ fn_found_missing_deps(){
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install dependencies"
 				fn_script_log_fatal "Unable to install dependencies"
+				echo ""
+				fn_print_warning_nl "Manually install dependencies."
+				fn_script_log_warn "Manually install dependencies."
+				if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+					echo "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+				elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+					echo "	sudo dnf install ${array_deps_missing[@]}"
+				elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+					echo "	sudo yum install ${array_deps_missing[@]}"
+				fi
+				if [ "${steamcmdfail}" ]; then
+					echo ""
+					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
+					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+					core_exit.sh
+				fi
 			else
 				fn_print_complete_nl "Install dependencies completed"
 				fn_script_log_pass "Install dependencies completed"
@@ -221,6 +236,12 @@ fn_found_missing_deps(){
 				echo "	sudo dnf install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				echo "	sudo yum install ${array_deps_missing[@]}"
+			fi
+			if [ "${steamcmdfail}" ]; then
+				echo ""
+				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
+				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+				core_exit.sh
 			fi
 			echo ""
 		fi
@@ -355,7 +376,7 @@ fn_deps_build_redhat(){
 		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
 	elif [ "${distroid}" == "fedora" ]; then
 			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc )
-	elif [ "${distroname}" == *"Amazon Linux AMI"* ]; then
+	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
 			array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
 	else
 		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
@@ -372,9 +393,9 @@ fn_deps_build_redhat(){
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "nc" ]&&[ "${engine}" != "renderware" ]; then
-		if [ "${distroname}" == *"Amazon Linux AMI"* ]; then
-        	array_deps_required+=( glibc.i686 libstdc++64.i686 )
-        else
+		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
+			array_deps_required+=( glibc.i686 libstdc++64.i686 )
+		else
 			array_deps_required+=( glibc.i686 libstdc++.i686 )
 		fi
 	fi
