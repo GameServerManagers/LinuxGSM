@@ -58,6 +58,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
 		fix_rw.sh
+	elif [ "${shortname}" == "ss3" ]; then
+		fix_ss3.sh
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fix_mta.sh
 	fi
@@ -69,17 +71,20 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo "Applying ${gamename} Server Fixes"
 		echo "================================="
 		sleep 0.5
-	if [ "${gamename}" == "Killing Floor" ]; then
-		fix_kf.sh
-	elif [ "${gamename}" == "Killing Floor 2" ]; then
-		fix_kf2.sh
-	elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
-		fix_ro.sh
-	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
-		fix_ut2k4.sh
-	elif [ "${gamename}" == "Unreal Tournament" ]; then
-		fix_ut.sh
-	elif [ "${gamename}" == "Unreal Tournament 3" ]; then
-		fix_ut3.sh
-	fi
+		if [ "${gamename}" == "Killing Floor" ]; then
+			fix_kf.sh
+		elif [ "${gamename}" == "Killing Floor 2" ]; then
+			fix_kf2.sh
+		elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
+			fix_ro.sh
+		elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
+			fix_ut2k4.sh
+		elif [ "${gamename}" == "Unreal Tournament" ]; then
+			fix_ut.sh
+		elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+			fix_ut3.sh
+		else
+			fn_print_information "No fixes required."
+		fi
+
 fi

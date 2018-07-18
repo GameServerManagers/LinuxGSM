@@ -4,6 +4,10 @@
 # Website: https://gameservermanagers.com
 # Description: Raw gamedig output of the server.
 
+local commandname="QUERY-RAW"
+local commandaction="QUERY-RAW"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 echo "================================="
 echo "Gamedig Raw Output"
 echo "================================="
@@ -15,7 +19,7 @@ if [ ! "$(command -v jq 2>/dev/null)" ]; then
 	fn_print_failure_nl "jq not installed"
 fi
 
-
+check.sh
 info_config.sh
 info_parms.sh
 if [ "${engine}" == "idtech3_ql" ]; then
@@ -25,7 +29,7 @@ elif [ "${gamename}" == "Killing Floor 2" ]; then
 fi
 
 query_gamedig.sh
-echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${port}\"|jq"
+echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --query_port \"${queryport}\"|jq"
 echo""
 echo "${gamedigraw}" | jq
 echo""
@@ -33,8 +37,8 @@ echo "================================="
 echo "gsquery Raw Output"
 echo "================================="
 echo""
-echo "./query_gsquery.py -a \"${ip}\" -p \"${port}\" -e \"${engine}\""
+echo "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${engine}\""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
-"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${port}" -e "${engine}"
+"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"

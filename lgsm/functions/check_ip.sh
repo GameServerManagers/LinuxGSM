@@ -14,8 +14,8 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 	else
 		ipcommand="ip"
 	fi
-	getip=$(${ipcommand} -o -4 addr| awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
-	getipwc=$(${ipcommand} -o -4 addr| awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -vc 127.0.0)
+	getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -v 127.0.0)
+	getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
 	info_config.sh
 	info_parms.sh
 

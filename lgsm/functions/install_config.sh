@@ -181,6 +181,12 @@ elif [ "${gamename}" == "Blade Symphony" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "BrainBread" ]; then
+	gamedirname="BrainBread"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "BrainBread 2" ]; then
 	gamedirname="BrainBread2"
 	array_configs+=( server.cfg )
@@ -398,6 +404,12 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Natural Selection" ]; then
+	gamedirname="NaturalSelection"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	gamedirname="NoMoreRoominHell"
 	array_configs+=( server.cfg )
@@ -557,6 +569,12 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	gamedirname="UnrealTournament99"
 	array_configs+=( Default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Vampire Slayer" ]; then
+	gamedirname="VampireSlayer"
+	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

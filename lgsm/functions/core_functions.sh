@@ -249,6 +249,11 @@ fn_fetch_function
 
 # Dev
 
+command_dev_clear_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

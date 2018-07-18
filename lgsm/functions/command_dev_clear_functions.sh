@@ -9,6 +9,7 @@ echo "Clear Functions"
 echo "================================="
 echo ""
 if fn_prompt_yn "Do you want to delete all functions?" Y; then
-	rm -rfv "${functionsdir}/*"
+	rm -rfv "${functionsdir}"/*
+	rm -rfv "${configdirdefault}"/*
 fi
 core_exit.sh
