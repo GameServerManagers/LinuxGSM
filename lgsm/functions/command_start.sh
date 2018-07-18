@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local commandname="START"
-local commandaction="Starting"
+commandname="START"
+commandaction="Starting"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){

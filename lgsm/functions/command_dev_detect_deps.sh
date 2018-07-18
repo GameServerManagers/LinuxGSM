@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
-local commandname="DETECT-DEPS"
-local commandaction="Detect-Deps"
+commandname="DETECT-DEPS"
+commandaction="Detect-Deps"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="

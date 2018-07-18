@@ -5,8 +5,8 @@
 # Description: Automatically detects the version of GLIBC that is required.
 # Can check a file or directory recursively.
 
-local commandname="DETECT-GLIBC"
-local commandaction="Detect-Glibc"
+commandname="DETECT-GLIBC"
+commandaction="Detect-Glibc"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="

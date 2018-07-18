@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
-local commandname="VALIDATE"
-local commandaction="Validate"
+commandname="VALIDATE"
+commandaction="Validate"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){

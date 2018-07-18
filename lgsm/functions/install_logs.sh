@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Creates log directories.
 
-local commandname="INSTALL"
-local commandaction="Install"
+commandname="INSTALL"
+commandaction="Install"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then

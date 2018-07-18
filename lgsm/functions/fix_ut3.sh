@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with configs in Unreal Tournament 3.
 
-local commandname="FIX"
-local commandaction="Fix"
+commandname="FIX"
+commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_parms(){

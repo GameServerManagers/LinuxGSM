@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Installs the default resources for Multi Theft Auto.
 
-local commandname="DEFAULT_RESOURCES"
-local commandaction="Default Resources"
+commandname="DEFAULT_RESOURCES"
+commandaction="Default Resources"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_resources(){

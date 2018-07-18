@@ -4,8 +4,8 @@
 # Website: https://gameservermanagers.com
 # Description: Raw gamedig output of the server.
 
-local commandname="QUERY-RAW"
-local commandaction="QUERY-RAW"
+commandname="QUERY-RAW"
+commandaction="QUERY-RAW"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="

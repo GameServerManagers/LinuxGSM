@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating using SteamCMD.
 
-local commandname="UPDATE"
-local commandaction="Update"
+commandname="UPDATE"
+commandaction="Update"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh

@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Restarts the server.
 
-local commandname="RESTART"
-local commandaction="Restarting"
+commandname="RESTART"
+commandaction="Restarting"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_config.sh

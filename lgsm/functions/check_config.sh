@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if the server config is missing and warns the user if needed.
 
-local commandname="CHECK"
+commandname="CHECK"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ ! -e "${servercfgfullpath}" ]; then

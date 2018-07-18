@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Red Orchestra.
 
-local commandname="FIX"
-local commandaction="Fix"
+commandname="FIX"
+commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "Applying WebAdmin ROOst.css fix."

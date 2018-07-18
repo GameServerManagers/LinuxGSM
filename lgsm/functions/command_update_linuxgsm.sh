@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
-local commandname="UPDATE LinuxGSM"
-local commandaction="Update LinuxGSM"
+commandname="UPDATE LinuxGSM"
+commandaction="Update LinuxGSM"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Updating LinuxGSM"
