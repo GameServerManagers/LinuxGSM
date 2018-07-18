@@ -155,7 +155,7 @@ if [ -d "${backupdir}" ]; then
 	backupcount=0
 
 	# If there are backups in backup dir.
-	if [ $(find "${backupdir}" -name "*.tar.gz" | wc -l) -ne "0" ]; then
+	if [ "$(find "${backupdir}" -name "*.tar.gz" | wc -l)" -ne "0" ]; then
 		# number of backups.
 		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
 		# most recent backup.
