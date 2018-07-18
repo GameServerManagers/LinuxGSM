@@ -56,7 +56,7 @@ do
 		elif [ -z "${distroversion}" ];then
 			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
 		elif [ -z "${distroid}" ];then
-			distroid="$(wk '{print $1;}' /etc/redhat-release)"
+			distroid="$(awk '{print $1}' /etc/redhat-release)"
 		fi
 	fi
 done
