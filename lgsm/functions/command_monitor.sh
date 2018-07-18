@@ -8,7 +8,7 @@
 
 local commandname="MONITOR"
 local commandaction="Monitor"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_monitor_loop(){
 # Will query up to 5 times every 15 seconds.

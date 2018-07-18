@@ -6,7 +6,7 @@
 
 local commandname="UPDATE LinuxGSM"
 local commandaction="Update LinuxGSM"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Updating LinuxGSM"
 sleep 0.5

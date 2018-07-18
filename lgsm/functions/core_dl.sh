@@ -19,7 +19,7 @@
 
 local commandname="DOWNLOAD"
 local commandaction="Download"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_dl_md5(){
 	# Runs MD5 Check if available

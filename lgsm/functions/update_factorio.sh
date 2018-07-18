@@ -7,7 +7,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
 	fn_fetch_file "https://www.factorio.com/get-download/${availablebuild}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz"

@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl(){
 	fn_fetch_file "https://s3.amazonaws.com/Minecraft.Download/versions/${availablebuild}/minecraft_server.${availablebuild}.jar" "${tmpdir}" "minecraft_server.${availablebuild}.jar"

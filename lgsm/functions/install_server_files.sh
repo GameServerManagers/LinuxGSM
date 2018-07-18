@@ -6,7 +6,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
 	if [ "${gamename}" == "Battlefield: 1942" ]; then

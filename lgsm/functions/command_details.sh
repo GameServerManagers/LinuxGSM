@@ -7,7 +7,7 @@
 
 local commandname="DETAILS"
 local commandaction="Details"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Run checks and gathers details to display.
 check.sh

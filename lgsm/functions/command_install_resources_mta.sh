@@ -6,7 +6,7 @@
 
 local commandname="DEFAULT_RESOURCES"
 local commandaction="Default Resources"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_resources(){
 	echo ""
