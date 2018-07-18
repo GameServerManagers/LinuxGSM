@@ -17,7 +17,7 @@ sleep 0.5
 # Create LinuxGSM logs
 echo -ne "installing log dir: ${logdir}..."
 
-if mkdir -p "${logdir}"
+if mkdir -p "${logdir}"; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -26,7 +26,7 @@ fi
 
 echo -ne "installing LinuxGSM log dir: ${lgsmlogdir}..."
 
-if mkdir -p "${lgsmlogdir}"
+if mkdir -p "${lgsmlogdir}"; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -43,16 +43,16 @@ fi
 # Create Console logs
 if [ -n "${consolelogdir}" ]; then
 	echo -ne "installing console log dir: ${consolelogdir}..."
-	mkdir -p "${consolelogdir}"
-	if [ $? -ne 0 ]; then
+
+	if mkdir -p "${consolelogdir}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
 	fi
 	echo -ne "creating console log: ${consolelog}..."
-	touch "${consolelog}"
-	if [ $? -ne 0 ]; then
+
+	if touch "${consolelog}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -63,7 +63,7 @@ fi
 # Create Game logs
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	echo -ne "installing game log dir: ${gamelogdir}..."
-	if mkdir -p "${gamelogdir}"
+	if mkdir -p "${gamelogdir}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -78,7 +78,7 @@ fi
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
 		echo -ne "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
-		if ln -nfs "${gamelogdir}" "${logdir}/server"
+		if ln -nfs "${gamelogdir}" "${logdir}/server"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
@@ -91,8 +91,8 @@ fi
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
 		echo -ne "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."
-		ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
-		if [ $? -ne 0 ]; then
+
+		if ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
