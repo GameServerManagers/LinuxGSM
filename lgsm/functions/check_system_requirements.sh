@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks RAM requirements
 
-commandname="CHECK"
+local commandname="CHECK"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh

@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-commandname="BACKUP"
-commandaction="Backup"
+local commandname="BACKUP"
+local commandaction="Backup"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh

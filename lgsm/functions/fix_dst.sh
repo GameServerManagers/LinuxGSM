@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Don't Starve Together.
 
-commandname="FIX"
-commandaction="Fix"
+local commandname="FIX"
+local commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: ./dontstarve_dedicated_server_nullrenderer: ./lib32/libcurl-gnutls.so.4: no version information available (required by ./dontstarve_dedicated_server_nullrenderer)

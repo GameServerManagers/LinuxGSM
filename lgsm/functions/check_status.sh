@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks the process status of the server. Either online or offline.
 
-commandname="CHECK"
+local commandname="CHECK"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then

@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of teamspeak 3 servers.
 
-commandname="UPDATE"
-commandaction="Update"
+local commandname="UPDATE"
+local commandaction="Update"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl(){

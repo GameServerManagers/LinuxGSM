@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Runs the server without tmux and directly from the terminal.
 
-commandname="DEBUG"
-commandaction="Debug"
+local commandname="DEBUG"
+local commandaction="Debug"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Trap to remove lockfile on quit.

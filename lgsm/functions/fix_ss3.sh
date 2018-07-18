@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Serious Sam 3.
 
-commandname="FIX"
-commandaction="Fix"
+local commandname="FIX"
+local commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes https://steamcommunity.com/app/41070/discussions/0/353916981477716386/

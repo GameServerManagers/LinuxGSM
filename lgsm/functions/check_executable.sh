@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if executable exists.
 
-commandname="CHECK"
+local commandname="CHECK"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists

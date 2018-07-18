@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves an issue with ARMA3.
 
-commandname="FIX"
-commandaction="Fix"
+local commandname="FIX"
+local commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: 20150 Segmentation fault (core dumped) error.

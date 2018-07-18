@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
-commandname="LOGS"
-commandaction="Log-Manager"
+local commandname="LOGS"
+local commandaction="Log-Manager"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist
 if [ -n "${consolelog}" ]; then

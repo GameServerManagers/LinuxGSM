@@ -5,8 +5,8 @@
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 
-commandname="DETECT-LDD"
-commandaction="Detect-LDD"
+local commandname="DETECT-LDD"
+local commandaction="Detect-LDD"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="

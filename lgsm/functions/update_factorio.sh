@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
-commandname="UPDATE"
-commandaction="Update"
+local commandname="UPDATE"
+local commandaction="Update"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){

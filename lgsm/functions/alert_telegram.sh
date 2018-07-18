@@ -4,8 +4,8 @@
 # Website: https://bytegaming.de
 # Description: Sends Telegram Messenger alert.
 
-commandname="ALERT"
-commandaction="Alert"
+local commandname="ALERT"
+local commandaction="Alert"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF

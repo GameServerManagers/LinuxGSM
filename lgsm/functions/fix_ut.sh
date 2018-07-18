@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament.
 
-commandname="FIX"
-commandaction="Fix"
+local commandname="FIX"
+local commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 #Set Binary Executable

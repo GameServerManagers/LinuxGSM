@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
-commandname="INSTALL"
-commandaction="Install"
+local commandname="INSTALL"
+local commandaction="Install"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't

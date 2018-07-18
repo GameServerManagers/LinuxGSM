@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Downloads SteamCMD on install.
 
-commandname="INSTALL"
-commandaction="Install"
+local commandname="INSTALL"
+local commandaction="Install"
 
 echo ""
 echo "Installing SteamCMD"

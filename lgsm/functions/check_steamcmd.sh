@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if SteamCMD is installed correctly.
 
-commandname="CHECK"
+local commandname="CHECK"
 
 fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then

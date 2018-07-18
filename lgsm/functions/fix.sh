@@ -5,8 +5,8 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-commandname="FIX"
-commandaction="Fix"
+local commandname="FIX"
+local commandaction="Fix"
 
 # Messages that are displayed for some fixes
 fn_fix_msg_start(){

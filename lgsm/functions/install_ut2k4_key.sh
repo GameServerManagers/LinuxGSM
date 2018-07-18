@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Activates ut2k4 server with given key.
 
-commandname="INSTALL"
-commandaction="Install"
+local commandname="INSTALL"
+local commandaction="Install"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""

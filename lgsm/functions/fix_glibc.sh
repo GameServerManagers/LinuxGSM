@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Downloads required Glibc files and applies the Glibc fix if required.
 
-commandname="FIX"
-commandaction="Fix"
+local commandname="FIX"
+local commandaction="Fix"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## i386

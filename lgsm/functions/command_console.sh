@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Gives access to the server tmux console.
 
-commandname="CONSOLE"
-commandaction="Console"
+local commandname="CONSOLE"
+local commandaction="Console"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh

@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Prints installation header.
 
-commandname="INSTALL"
-commandaction="Install"
+local commandname="INSTALL"
+local commandaction="Install"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 clear

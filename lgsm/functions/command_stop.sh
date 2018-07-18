@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
-commandname="STOP"
-commandaction="Stopping"
+local commandname="STOP"
+local commandaction="Stopping"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Attempts graceful shutdown by sending the 'CTRL+c'.
