@@ -1,5 +1,5 @@
 ---
-name: New Server Request
+name: New server request
 about: Suggest a new game server to be added
 
 ---
