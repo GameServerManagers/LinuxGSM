@@ -1170,5 +1170,4 @@ elif [ "${gamename}" == "Squad" ]; then
 # Stationeers
 elif [ "${gamename}" == "Stationeers" ]; then
 	fn_info_config_stationeers
-
 fi
