@@ -19,6 +19,7 @@ GitHub is **NOT** for:
 * Anything not directly related to LinuxGSM development
 
 Any general support issues on GitHub will be closed.
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
