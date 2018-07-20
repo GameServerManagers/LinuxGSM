@@ -358,7 +358,7 @@ fn_info_config_pstbs(){
 	serverpassword=${serverpassword:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	numreservedslots=${maxplayers:-"0"}
-
+}
 
 fn_info_config_projectcars(){
 	if [ ! -f "${servercfgfullpath}" ]; then
