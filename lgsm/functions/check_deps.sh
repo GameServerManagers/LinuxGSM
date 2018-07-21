@@ -107,6 +107,8 @@ fn_deps_detector(){
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
+	elif [ "${deptocheck}" == "jq" ]&&[ "${distroversion}" == "6" ]; then
+		jqstatus=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
 		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed
@@ -181,6 +183,10 @@ fn_found_missing_deps(){
 		sleep 0.5
 		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
+		fi
+		if [ -n "${jqstatus}" ]; then
+			fn_print_warning_nl "jq is not available in the ${distroname} repository"
+			echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/jq"
 		fi
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
@@ -268,7 +274,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	## LinuxGSM requirements
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc jq )
 
 	# All servers except ts3 require tmux
 	if [ "${shortname}" != "ts3" ]; then
@@ -373,13 +379,13 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements
 	## CentOS 6
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc )
+		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc )
+			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc )
+			array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc jq )
 	else
-		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc )
+		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
 	fi
 
 	# All servers except ts3 require tmux

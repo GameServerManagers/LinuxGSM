@@ -9,11 +9,13 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl(){
-	fn_fetch_file "https://s3.amazonaws.com/Minecraft.Download/versions/${availablebuild}/minecraft_server.${availablebuild}.jar" "${tmpdir}" "minecraft_server.${availablebuild}.jar"
+	latestmcbuildurl=$(${curlpath} -s $(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.versions[0] | .url') |  jq -r '.downloads.server.url')
+	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${availablebuild}.jar"
 	echo -e "copying to ${serverfiles}...\c"
 	fn_script_log "Copying to ${serverfiles}"
 	cp "${tmpdir}/minecraft_server.${availablebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
+	chmod u+x "${serverfiles}/minecraft_server.jar"
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
 	else
@@ -69,7 +71,7 @@ fn_update_currentbuild(){
 
 fn_update_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | sed -e 's/^.*"release":"\([^"]*\)".*$/\1/')
+	availablebuild=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release')
 	# Checks if availablebuild variable has been set
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: mojang.com"
