@@ -140,7 +140,7 @@ fn_wipe_server_remove_files(){
 		if [ "${wipeall}" == "1" ]; then
 			if [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 				currentaction="Removing blueprint file(s): ${serveridentitydir}/player.blueprints.*.db"
-				echo -en "Removing procedural blueprints player.blueprints.*.db file(s)..."
+				echo -en "Removing blueprints player.blueprints.*.db file(s)..."
 				sleep 0.5
 				fn_script_log "${currentaction}"
 				find "${serveridentitydir:?}" -type f -name "player.blueprints.*.db" -delete
