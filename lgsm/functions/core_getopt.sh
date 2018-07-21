@@ -36,7 +36,7 @@ cmd_mods_update=( "mu;mods-update" "command_mods_update.sh" "Update installed mo
 cmd_change_password=( "pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password." )
 cmd_install_default_resources=( "ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources." )
 cmd_wipe=( "wi;wipe" "command_wipe.sh" "Wipe your main game server data." )
-cmd_wipeall=( "fw;wipeall" "fullwipe=1; command_wipe.sh" "Wipe your game server data and blueprints." )
+cmd_wipeall=( "wa;wipeall" "wipeall=1; command_wipe.sh" "Wipe your game server data and blueprints." )
 cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
