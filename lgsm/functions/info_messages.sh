@@ -1116,7 +1116,7 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
-	elif [ ${gamename}" == "Post Scriptum: The Bloody Seventh" ]; then
+	elif [ ${gamename}" == "pstbsserver" ]; then
 		fn_info_Message_pstbs
 	elif [ "${gamename}" == "Project Cars" ]; then
 		fn_info_message_projectcars
