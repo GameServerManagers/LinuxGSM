@@ -15,6 +15,7 @@ fn_update_dl(){
 	fn_script_log "Copying to ${serverfiles}"
 	cp "${tmpdir}/minecraft_server.${availablebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
+	chmod u+x "${serverfiles}/minecraft_server.jar"
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
 	else
