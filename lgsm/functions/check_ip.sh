@@ -53,13 +53,8 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			echo -en "\n"
 			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
-			# Do not exit for details and postdetails commands
-			if [ "${commandaction}" != "Details" ]&&[ "${commandaction}" != "Postdetails" ]; then
-				fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-				core_exit.sh
-			else
-				ip="NOT SET"
-			fi
+			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
+			core_exit.sh
 		# Single interface
 		elif [ "${ipsetinconfig}" == "1" ]; then
 			fn_print_fail "Check IP: IP address not set in game config."

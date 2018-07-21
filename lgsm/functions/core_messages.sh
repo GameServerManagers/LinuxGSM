@@ -315,20 +315,20 @@ fn_print_fail_eol_nl(){
 
 # WARN
 fn_print_warn_eol(){
-	echo -en "${red}WARN${default}"
+	echo -en "${red}FAIL${default}"
 }
 
 fn_print_warn_eol_nl(){
-	echo -e "${red}WARN${default}"
+	echo -e "${red}FAIL${default}"
 }
 
 # INFO
 fn_print_info_eol(){
-	echo -en "${red}INFO${default}"
+	echo -en "${red}FAIL${default}"
 }
 
 fn_print_info_eol_nl(){
-	echo -e "${red}INFO${default}"
+	echo -e "${red}FAIL${default}"
 }
 
 # QUERYING
