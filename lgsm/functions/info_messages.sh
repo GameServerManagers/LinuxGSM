@@ -693,7 +693,7 @@ fn_info_message_mumble(){
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
-fn_info_message_pstbs(){
+fn_info_Message_pstbs(){
 	echo -e "netstat -atunp | grep pstbsserver"
 	echo -e ""
 	{
