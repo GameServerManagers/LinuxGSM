@@ -43,7 +43,7 @@ if [ -z "${legacymode}" ]; then
 		fn_print_ok_eol_nl
 	fi
 	echo -ne "    checking ${selfname}...\c"
-	script_diff=$(diff <(sed '/shortname/d;/gameservername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/gameservername/d;/gamename/d' "${rootdir}/${selfname}"))
+	script_diff=$(diff <(sed '/shortname/d;/gameservername/d;/gamename/d;githubuser/d;githubrepo/d;githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/gameservername/d;/gamename/d;githubuser/d;githubrepo/d;githubbranch/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		echo -ne "    backup ${selfname}...\c"
