@@ -315,11 +315,11 @@ fn_print_fail_eol_nl(){
 
 # WARN
 fn_print_warn_eol(){
-	echo -en "${red}WARNING${default}"
+	echo -en "${red}WARN${default}"
 }
 
 fn_print_warn_eol_nl(){
-	echo -e "${red}WARNING${default}"
+	echo -e "${red}WARN${default}"
 }
 
 # INFO
