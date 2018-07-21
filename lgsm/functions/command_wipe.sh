@@ -122,6 +122,17 @@ fn_wipe_server_remove_files(){
 			sleep 0.5
 		# We do not print additional information if there is nothing to remove since this might be obsolete
 		fi
+		# Wipe sv.files
+		if [ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
+			currentaction="Removing server misc files: ${serveridentitydir}/sv.files.*.db"
+			echo -en "Removing server misc srv.files*.db file(s)..."
+			sleep 0.5
+			fn_script_log "${currentaction}"
+			find "${serveridentitydir:?}" -type f -name "sv.files.*.d" -delete
+			fn_wipe_exit_code
+			sleep 0.5
+		# No further information if not found because it should I could not get this file showing up
+		fi
 		# Wipe player death files
 		if [ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]; then
 			currentaction="Removing player death files: ${serveridentitydir}/player.deaths.*.db"
@@ -178,7 +189,7 @@ fn_wipe_server_remove_files(){
 # Check if there is something to wipe, prompt the user, and call appropriate functions
 # Rust Wipe
 if [ "${gamename}" == "Rust" ]; then
-	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
+	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
 		if ! fn_prompt_yn "Continue?" Y; then
 				echo Exiting; core_exit.sh
