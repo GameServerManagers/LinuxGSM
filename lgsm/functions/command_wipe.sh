@@ -58,7 +58,7 @@ fn_wipe_server_remove_files(){
 			fn_script_log_info "No procedural map file to remove."
 			sleep 0.5
 		fi
-		#Wipe procedural map save
+		# Wipe procedural map save
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
 			currentaction="Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
 			echo -en "Removing map saves proceduralmap.*.sav file(s)..."
