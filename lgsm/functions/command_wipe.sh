@@ -151,7 +151,7 @@ fn_wipe_server_remove_files(){
 				fn_script_log_info "No blueprint file to remove."
 				sleep 0.5
 			fi
-		elif [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]
+		elif [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 				fn_print_information_nl "Keeping blueprints"
 				fn_script_log_info "Keeping blueprints."
 				sleep 0.5
