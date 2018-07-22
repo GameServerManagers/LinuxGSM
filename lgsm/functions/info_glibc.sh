@@ -208,7 +208,7 @@ fi
 
 # Sets the SteamCMD GLIBC requirement if the game server requirement is less or not required.
 if [ -n "${appid}" ]; then
-	if [ "${glibcrequired}" = "NOT REQUIRED" ]||[ -z "${glibcrequired}" ]||[ "$(printf '%s\n'${glibcrequired}'\n' "${glibcversion}" | sort -V | head -n 1)" =< "2.14" ]; then
+	if [ "${glibcrequired}" = "NOT REQUIRED" ]||[ -z "${glibcrequired}" ]||[ "$(printf '%s\n'${glibcrequired}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibcrequired="2.14"
 		glibcfix="no"
 	fi
