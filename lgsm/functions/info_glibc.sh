@@ -90,6 +90,9 @@ elif [ "${gamename}" == "Project Cars" ]; then
 elif [ "${gamename}" == "Pirates, Vikings, and Knights II" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "pstbs" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Quake 2" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
