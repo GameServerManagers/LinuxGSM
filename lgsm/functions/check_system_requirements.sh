@@ -25,8 +25,8 @@ elif [ "${shortname}" == "mc" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pstbs" ]; then
-	ramrequirementmb="1000"
-	ramrequirementgb="1"
+	ramrequirementmb="2000"
+	ramrequirementgb="2"
 elif [ "${shortname}" == "ns2" ]||[ "${shortname}" == "ns2c" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
