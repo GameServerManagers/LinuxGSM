@@ -398,7 +398,7 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "nc" ]&&[ "${engine}" != "renderware" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
 			array_deps_required+=( glibc.i686 libstdc++64.i686 )
 		else
