@@ -330,6 +330,7 @@ fn_info_config_minecraft(){
 
 	fi
 }
+
 #Post Scriptum: The bloody Seventh
 fn_info_config_pstbs(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -337,7 +338,7 @@ fn_info_config_pstbs(){
 		maxplayers="${unavailable}"
 		numreservedslots="${unavailable}"
 	else
-		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )"
+		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
 		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
 		numreservedslots="$(grep "NumReservedSlots=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
 	fi
@@ -1109,7 +1110,7 @@ elif [ "${gamename}" == "Quake Live" ]; then
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_info_config_minecraft
 # Post Scriptum: The Bloody Seventh
-elif [ "${gamename}" == "Post Scriptum: The Bloody Seventh" ]; then
+elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_config_pstbs
 # Project Cars
 elif [ "${gamename}" == "Project Cars" ]; then
