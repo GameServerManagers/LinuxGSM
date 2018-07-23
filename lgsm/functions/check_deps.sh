@@ -140,8 +140,11 @@ fn_deps_detector(){
 			echo -e "${red}${deptocheck}${default}"
 			sleep 0.2
 		fi
-		if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
-			steamcmdfail=1
+		# Define required dependencies for SteamCMD
+		if [ -n "${appid}" ]; then
+			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
+				steamcmdfail=1
+			fi
 		fi
 	fi
 
