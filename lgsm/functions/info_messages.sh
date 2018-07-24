@@ -71,8 +71,8 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached${default}"
-		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}${default}"
+		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached\t available${default}"
+		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 }
@@ -438,7 +438,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -616,6 +616,16 @@ fn_info_message_dontstarve(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_eco(){
+	echo -e "netstat -atunp | grep mono"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_factorio(){
 	echo -e "netstat -atunp | grep factorio"
 	echo -e ""
@@ -740,7 +750,7 @@ fn_info_message_quakelive(){
 	fi
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
 		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
 	} | column -s $'\t' -t
@@ -894,7 +904,7 @@ fn_info_message_starbound(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1082,6 +1092,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_info_message_codwaw
+	elif [ "${gamename}" == "Eco" ]; then
+		fn_info_message_eco
 	elif [ "${gamename}" == "ET: Legacy" ]; then
 		fn_info_message_etlegacy
 	elif [ "${gamename}" == "Factorio" ]; then
@@ -1192,5 +1204,14 @@ fn_info_message_password_strip(){
 		if [ -n "${telnetpass}" ]; then
 			telnetpass="********"
 		fi
+
+		if [ -n "${wsapikey}" ]; then
+			wsapikey="********"
+		fi
+
+		if [ -n "${gslt}" ]; then
+			gslt="********"
+		fi
+
 	fi
 }
