@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
@@ -37,7 +37,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_ut99_maps.sh command_monitor.sh command_start.sh command_stop.sh command_update.sh command_validate.sh command_update_functions.sh command_email_test.sh command_mods_install.sh command_mods_update.sh command_mods_remove.sh command_wipe.sh )
+local allowed_commands_array=( command_backup.sh command_console.sh command_debug.sh command_details.sh command_unreal2_maps.sh command_fastdl.sh command_mods_install.sh command_mods_remove.sh command_mods_update.sh command_monitor.sh command_postdetails.sh command_restart.sh command_start.sh command_stop.sh command_test_alert.sh command_ts3_server_pass.sh command_update.sh command_update_functions.sh command_validate.sh command_wipe.sh command_unreal2_maps.sh command_ut99maps.sh)
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
@@ -61,7 +61,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh )
+local allowed_commands_array=( command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh command_dev_query_raw.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then

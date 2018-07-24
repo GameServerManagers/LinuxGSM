@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_functions.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
@@ -63,14 +63,7 @@ fn_fetch_function
 
 command_postdetails.sh(){
 functionfile="${FUNCNAME}"
-tempffname="${functionfile}"
-# First, grab the command_postdetails.sh file
 fn_fetch_function
-# But then next, command_details.sh needs to also be pulled
-# because command_postdetails.sh sources its functions -CedarLUG
-functionfile="command_details.sh"
-fn_fetch_function
-functionfile="${tempffname}"
 }
 
 command_details.sh(){
@@ -256,6 +249,11 @@ fn_fetch_function
 
 # Dev
 
+command_dev_clear_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -276,9 +274,19 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_query_raw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Fix
 
 fix.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ark.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -308,12 +316,23 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_steamcmd.sh(){
+fix_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
+
+fix_kf.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_kf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -323,7 +342,27 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_kf.sh(){
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rust.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -334,16 +373,6 @@ fn_fetch_function
 }
 
 fix_ut.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fix_rust.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -360,11 +389,20 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+info_gamedig.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 info_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+info_messages.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -387,7 +425,27 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_ifttt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_mailgun.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 alert_pushbullet.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_pushover.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_telegram.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -399,9 +457,9 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# Monitor
+# Query
 
-monitor_gsquery.sh(){
+query_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -561,13 +619,13 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Calls code required for legacy servers
+core_legacy.sh
+
 # Creates tmp dir if missing
 if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
 fi
-
-# Calls code required for legacy servers
-core_legacy.sh
 
 # Calls on-screen messages (bootstrap)
 core_messages.sh

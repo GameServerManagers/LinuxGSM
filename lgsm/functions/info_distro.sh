@@ -1,11 +1,11 @@
 #!/bin/bash
 # LinuxGSM info_distro.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Distro information
 
@@ -13,23 +13,53 @@ local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
 # Returns architecture, kernel and distro/os.
 arch=$(uname -m)
 kernel=$(uname -r)
-if [ -n "$(command -v lsb_release)" ]; then
-	distroname=$(lsb_release -s -d)
-elif [ -f "/etc/os-release" ]; then
-	distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
-elif [ -f "/etc/debian_version" ]; then
-	distroname="Debian $(cat /etc/debian_version)"
-elif [ -f "/etc/redhat-release" ]; then
-	distroname=$(cat /etc/redhat-release)
-else
-	distroname="$(uname -s) $(uname -r)"
-fi
 
-if [ -f "/etc/os-release" ]; then
-	distroversion=$(grep VERSION_ID /etc/os-release | tr -cd '[:digit:]')
-elif [ -n "$(command -v yum)" ]; then
-	distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos" | cut -d"-" -f3)
-fi
+# Distro Name - Ubuntu 16.04 LTS
+# Distro Version - 16.04
+# Distro ID - ubuntu
+# Distro Codename - xenial
+
+# Gathers distro info from various sources filling in missing gaps
+distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
+for distro_info in "${distro_info_array[@]}"
+do
+	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
+		distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
+		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
+		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
+		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
+	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
+		if [ -z "${distroname}" ];then
+			distroname="$(lsb_release -sd)"
+		elif [ -z "${distroversion}" ];then
+			distroversion="$(lsb_release -sr)"
+		elif [ -z "${distroid}" ];then
+			distroid=$(lsb_release -si)
+		elif [ -z "${distrocodename}" ];then
+			distrocodename=$(lsb_release -sc)
+		fi
+	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
+		if [ -z "${distroname}" ];then
+			distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
+		fi
+	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
+		if [ -z "${distroname}" ];then
+			distroname="Debian $(cat /etc/debian_version)"
+		elif [ -z "${distroversion}" ];then
+			distroversion="$(cat /etc/debian_version)"
+		elif [ -z "${distroid}" ];then
+			distroid="debian"
+		fi
+	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
+		if [ -z "${distroname}" ];then
+			distroname=$(cat /etc/redhat-release)
+		elif [ -z "${distroversion}" ];then
+			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
+		elif [ -z "${distroid}" ];then
+			distroid="$(awk '{print $1}' /etc/redhat-release)"
+		fi
+	fi
+done
 
 ## Glibc version
 # e.g: 1.17
@@ -73,10 +103,15 @@ physmemtotal=$(free ${humanreadable} | awk '/Mem:/ {print $2}')
 physmemtotalmb=$(free -m | awk '/Mem:/ {print $2}')
 physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
 physmemfree=$(free ${humanreadable} | awk '/Mem:/ {print $4}')
-physmemcached=$(free ${humanreadable} | awk '/cache:/ {print $4}')
-if [ -z "${physmemcached}" ]; then
-	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $5}')
+oldfree=$(free ${humanreadable} | awk '/cache:/')
+if [ -n "${oldfree}" ]; then
+	physmemavailable="n/a"
+	physmemcached="n/a"
+else
+	physmemavailable=$(free ${humanreadable} | awk '/Mem:/ {print $7}')
+	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $6}')
 fi
+
 swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
 swapused=$(free ${humanreadable} | awk '/Swap:/ {print $3}')
 swapfree=$(free ${humanreadable} | awk '/Swap:/ {print $4}')
@@ -120,16 +155,28 @@ if [ -d "${backupdir}" ]; then
 	backupcount=0
 
 	# If there are backups in backup dir.
-	if [ $(find "${backupdir}" -name "*.tar.gz" | wc -l) -ne "0" ]; then
+	if [ "$(find "${backupdir}" -name "*.tar.gz" | wc -l)" -ne "0" ]; then
 		# number of backups.
 		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
 		# most recent backup.
-		lastbackup=$(ls -t "${backupdir}"/*.tar.gz | head -1)
+		lastbackup=$(find "${backupdir}"/*.tar.gz | head -1)
 		# date of most recent backup.
 		lastbackupdate=$(date -r "${lastbackup}")
 		# no of days since last backup.
 		lastbackupdaysago=$(( ( $(date +'%s') - $(date -r "${lastbackup}" +'%s') )/60/60/24 ))
 		# size of most recent backup.
 		lastbackupsize=$(du -h "${lastbackup}" | awk '{print $1}')
+	fi
+fi
+
+# External IP address
+if [ -z "${extip}" ]; then
+	extip=$(${curlpath} -m 3 ifconfig.co > "${tmpdir}/extip.txt" 2>/dev/null)
+	if [ $? -ne 0 ]; then
+		if [ -f "${tmpdir}/extip.txt" ]; then
+			echo "${tmpdir}/extip.txt"
+		else
+			echo "x.x.x.x"
+		fi
 	fi
 fi

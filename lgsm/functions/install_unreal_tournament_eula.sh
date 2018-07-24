@@ -1,13 +1,13 @@
 #!/bin/bash
 # LinuxGSM install_unreal_tournament_eula.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
 echo ""
 echo "Accept ${gamename} EULA"
 echo "================================="
-sleep 1
+sleep 0.5
 echo "You are required to accept the EULA:"
 echo "https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula/"
 

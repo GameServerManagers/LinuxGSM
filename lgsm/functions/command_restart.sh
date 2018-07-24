@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_restart.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Restarts the server.
 
 local commandname="RESTART"
 local commandaction="Restarting"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_config.sh
 exitbypass=1
