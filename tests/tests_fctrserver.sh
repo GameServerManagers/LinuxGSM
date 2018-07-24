@@ -225,27 +225,78 @@ fn_install_getopt(){
 }
 
 fn_install_file(){
-	local_filename="${gameservername}"
-	if [ -e "${local_filename}" ]; then
+	local serverscriptname="${gameservername}"
+	if [ -e "${serverscriptname}" ]; then
 		i=2
-	while [ -e "${local_filename}-${i}" ] ; do
+	while [ -e "${serverscriptname}-${i}" ] ; do
 		let i++
 	done
-		local_filename="${local_filename}-${i}"
+		serverscriptname="${serverscriptname}-${i}"
 	fi
-	cp -R "${selfname}" "${local_filename}"
-	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
-	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
-	echo "Installed ${gamename} server as ${local_filename}"
+	cp -R "${selfname}" "${serverscriptname}"
+	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${serverscriptname}"
+	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${serverscriptname}"
+	echo "Downloaded ${gamename} server script as '${serverscriptname}'."
+	fn_install_default_configs "${serverscriptname}"
+	echo ""
+	echo "Make sure to the check installation settings if available before installing!"
+	echo "Information about configuration:"
+	echo "https://github.com/GameServerManagers/LinuxGSM/wiki/LinuxGSM-Config"
 	echo ""
 	if [ ! -d "${serverfiles}" ]; then
-		echo "./${local_filename} install"
+		echo "To install the server run:"
+		echo "./${serverscriptname} install"
 	else
 		echo "Remember to check server ports"
-		echo "./${local_filename} details"
+		echo "./${serverscriptname} details"
 	fi
 	echo ""
 	exit
+}
+
+fn_install_default_configs(){
+	core_functions.sh
+	local instancename=$1
+	local configdirnewserver="${configdir}/${gameservername}"
+	# Download default config if missing
+	if [ ! -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+	fi
+	# .. copy to server directory and reset if changed.
+	if [ ! -f "${configdirnewserver}/_default.cfg" ]; then
+		mkdir -p "${configdirnewserver}"
+		echo -ne "    copying _default.cfg...\c"
+		cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirnewserver}/_default.cfg"
+		exitcode=$?
+		if [ ${exitcode} -ne 0 ]; then
+			echo -e "\e[0;31mFAIL\e[0m\n"
+			exit 1
+		else
+			echo -e "\e[0;32mOK\e[0m"
+		fi
+	else
+		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirnewserver}/_default.cfg")
+		if [ "${function_file_diff}" != "" ]; then
+			fn_print_warn_nl "_default.cfg has been altered. reloading config."
+			echo -ne "    copying _default.cfg...\c"
+			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirnewserver}/_default.cfg"
+			exitcode=$?
+			if [ ${exitcode} -ne 0 ]; then
+				echo -e "\e[0;31mFAIL\e[0m\n"
+				exit 1
+			else
+				echo -e "\e[0;32mOK\e[0m"
+			fi
+		fi
+	fi
+	# Download common config if missing.
+	if [ ! -f "${configdirnewserver}/common.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirnewserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+	fi
+	# Download instance config if missing.
+	if [ ! -f "${configdirnewserver}/${instancename}.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirnewserver}" "${instancename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+	fi
 }
 
 # Prevent from running this script as root.
@@ -303,57 +354,20 @@ if [ "${shortname}" == "core" ]; then
 
 # LinuxGSM Server Mode
 else
-	core_functions.sh
-
 	# Load LinuxGSM configs
 	# These are required to get all the default variables for the specific server.
-	# Load the default config. If missing download it. If changed reload it.
-	if [ ! -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" ]; then
-		mkdir -p "${configdirdefault}/config-lgsm/${gameservername}"
-		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-	fi
-	if [ ! -f "${configdirserver}/_default.cfg" ]; then
-		mkdir -p "${configdirserver}"
-		echo -ne "    copying _default.cfg...\c"
-		cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
-			echo -e "\e[0;31mFAIL\e[0m\n"
-			exit 1
-		else
-			echo -e "\e[0;32mOK\e[0m"
-		fi
-	else
-		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
-		if [ "${function_file_diff}" != "" ]; then
-			fn_print_warn_nl "_default.cfg has been altered. reloading config."
-			echo -ne "    copying _default.cfg...\c"
-			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
-				echo -e "\e[0;31mFAIL\e[0m\n"
-				exit 1
-			else
-				echo -e "\e[0;32mOK\e[0m"
-			fi
-		fi
-	fi
+	fn_install_default_configs "${servicename}"
+	
+	#  Load the _default config.
 	source "${configdirserver}/_default.cfg"
-	# Load the common.cfg config. If missing download it
-	if [ ! -f "${configdirserver}/common.cfg" ]; then
-		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
-		source "${configdirserver}/common.cfg"
-	else
-		source "${configdirserver}/common.cfg"
-	fi
-	# Load the instance.cfg config. If missing download it
-	if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
-		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-		source "${configdirserver}/${servicename}.cfg"
-	else
-		source "${configdirserver}/${servicename}.cfg"
-	fi
-	# Load the linuxgsm.sh in to tmpdir. If missing download it
+	
+	#  Load the common.cfg config.
+	source "${configdirserver}/common.cfg"
+	
+	#  Load the instance.cfg config.
+	source "${configdirserver}/${servicename}.cfg"
+	
+	# Load the linuxgsm.sh into tmpdir (for later update checking). If missing download it.
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 	fi
