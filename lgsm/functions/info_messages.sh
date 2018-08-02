@@ -287,6 +287,11 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Map rotation:\t${default}${randommap}"
 		fi
 
+		# Listed on Master Server
+		if [ "${steammaster}" ];then
+			echo -e "${blue}Master Server:\t${default}${steammaster}"
+		fi
+
 		# Online status
 		if [ "${status}" == "0" ]; then
 			echo -e "${blue}Status:\t${red}OFFLINE${default}"

@@ -180,3 +180,11 @@ if [ -z "${extip}" ]; then
 		fi
 	fi
 fi
+
+# Steam Master Server - checks if detected by master server
+steammaster=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${ip}:${port}&format=json' | jq '.response.servers[]|.addr' | wc -l)
+if [ "${steammaster}" == "1" ]; then
+	steammaster="yes"
+else
+	steammaster="no"
+fi
