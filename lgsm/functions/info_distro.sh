@@ -95,10 +95,10 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 physmemtotalmb=$(($(grep MemTotal /proc/meminfo | awk '{print $2}')/1024))
 physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemTotal /proc/meminfo | awk '{print $2}')K")
 physmemfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemFree /proc/meminfo | awk '{print $2}')K")
-physmemused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^MemTotal /proc/meminfo | awk '{print $2}')-$(grep ^MemFree /proc/meminfo | awk '{print $2}')))K")
+physmemused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep "^MemTotal\:" /proc/meminfo | awk '{print $2}')-$(grep "^MemFree\:" /proc/meminfo | awk '{print $2}')-$(grep "^Buffers\:" /proc/meminfo | awk '{print $2}')-$(grep "^Cached\:" /proc/meminfo | awk '{print $2}')-$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
 { # try
 	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')K")
-	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^Cached /proc/meminfo | awk '{print $2}')K")
+	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^Cached /proc/meminfo | awk '{print $2}')+$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
 } 2>/dev/null || { # fail silently, catch
 	physmemavailable="n/a"
 	physmemcached="n/a"
