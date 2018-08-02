@@ -289,7 +289,11 @@ fn_info_message_gameserver(){
 
 		# Listed on Master Server
 		if [ "${steammaster}" ];then
-			echo -e "${blue}Master Server:\t${default}${steammaster}"
+			if [ "${steammaster}" == "true" ];then
+				echo -e "${blue}Master Server:\t${green}${steammaster}${default}"
+			else
+				echo -e "${blue}Master Server:\t${red}${steammaster}${default}"
+			fi
 		fi
 
 		# Online status
