@@ -9,12 +9,12 @@ local commandaction="Update LinuxGSM"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Updating LinuxGSM"
-sleep 1
+sleep 0.5
 check.sh
 fn_script_log_info "Updating LinuxGSM"
 echo -ne "\n"
 
-if [ -z "${legacymode}" ];then
+if [ -z "${legacymode}" ]; then
 	# Check and update _default.cfg
 	echo -ne "    checking config _default.cfg...\c"
 	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
@@ -43,7 +43,7 @@ if [ -z "${legacymode}" ];then
 		fn_print_ok_eol_nl
 	fi
 	echo -ne "    checking ${selfname}...\c"
-	script_diff=$(diff <(sed '/shortname/d;/gameservername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/gameservername/d;/gamename/d' "${rootdir}/${selfname}"))
+	script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		echo -ne "    backup ${selfname}...\c"
@@ -75,7 +75,7 @@ fi
 # Check and update functions
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
-		cd "${functionsdir}"
+		cd "${functionsdir}" || exit
 		for functionfile in *
 		do
 			echo -ne "    checking function ${functionfile}...\c"
@@ -97,7 +97,7 @@ if [ -n "${functionsdir}" ]; then
 			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
 				fn_script_log_info "checking function ${functionfile}: UPDATE"
-				rm -rf "${functionsdir}/${functionfile}"
+				rm -rf "${functionsdir:?}/${functionfile}"
 				fn_update_function
 			else
 				fn_print_ok_eol_nl

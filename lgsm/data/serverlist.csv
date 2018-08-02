@@ -6,7 +6,9 @@ bf1942,bf1942server,Battlefield 1942
 bd,bdserver,Base Defense
 bmdm,bmdmserver,Black Mesa: Deathmatch
 bs,bsserver,Blade Symphony
+bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
+bt1944,bt1944server,Battalion 1944
 cod,codserver,Call of Duty
 cod2,cod2server,Call of Duty 2
 cod4,cod4server,Call of Duty 4
@@ -23,6 +25,7 @@ doi,doiserver,Day of Infamy
 dmc,dmcserver,Deathmatch Classic
 dst,dstserver,Don't Starve Together
 dab,dabserver,Double Action: Boogaloo
+eco,ecoserver,Eco
 em,emserver,Empires Mod
 fctr,fctrserver,Factorio
 fof,fofserver,Fistful of Frags
@@ -42,8 +45,9 @@ l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
-ns2,ns2server,Natural Selection 2
 nmrih,nmrihserver,No More Room in Hell
+ns,nsserver,Natural Selection
+ns2,ns2server,Natural Selection 2
 ns2c,ns2cserver,NS2: Combat
 opfor,opforserver,Opposing Force
 pvkii,pvkiiserver,Pirates Vikings & Knights II
@@ -56,6 +60,7 @@ qw,qwserver,Quake World
 ro,roserver,Red Orchestra: Ostfront 41-45
 ricochet,ricochetserver,Ricochet
 rust,rustserver,Rust
+rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
@@ -71,5 +76,7 @@ tu,tuserver,Tower Unite
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
+vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
+etl,etlserver,ET: Legacy
 zps,zpsserver,Zombie Panic! Source

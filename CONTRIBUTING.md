@@ -36,4 +36,4 @@ This will help us in understanding your code and determining where problems may 
 Start reading our code and you'll get the hang of it. Explore how functions are organized and you'll see how we strive for readable code.
 
 Please give the following document a read and adjust your code according to its specifications.
-[Syntax & Coding Conventions](https://github.com/GameServerManagers/LinuxGSM/wiki/Syntax-&-Conventions)
+[Syntax & Coding Conventions](https://github.com/GameServerManagers/LinuxGSM/wiki/Syntax-and-Conventions)

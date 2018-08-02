@@ -11,7 +11,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo ""
 echo "Enter ${gamename} Cluster Token"
 echo "================================="
-sleep 1
+sleep 0.5
 echo "A cluster token is required to run this server!"
 echo "Follow the instructions in this link to obtain this key:"
 echo "https://linuxgsm.com/dst-auth-token"
@@ -30,7 +30,7 @@ if [ -z "${autoinstall}" ]; then
 	if [ "${overwritetoken}" == "true" ]; then
 		echo "Once you have the cluster token, enter it below"
 		echo -n "Cluster Token: "
-		read token
+		read -r token
 		mkdir -pv "${clustercfgdir}"
 		echo "${token}" > "${clustercfgdir}/cluster_token.txt"
 		if [ -f "${clustercfgdir}/cluster_token.txt" ]; then

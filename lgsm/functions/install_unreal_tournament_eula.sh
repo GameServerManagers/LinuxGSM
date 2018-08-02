@@ -7,7 +7,7 @@
 echo ""
 echo "Accept ${gamename} EULA"
 echo "================================="
-sleep 1
+sleep 0.5
 echo "You are required to accept the EULA:"
 echo "https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula/"
 

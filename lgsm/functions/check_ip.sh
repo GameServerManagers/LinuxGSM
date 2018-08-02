@@ -14,18 +14,19 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 	else
 		ipcommand="ip"
 	fi
-	getip=$(${ipcommand} -o -4 addr|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
-	getipwc=$(${ipcommand} -o -4 addr|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -vc 127.0.0)
+	getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -v 127.0.0)
+	getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
 	info_config.sh
+	info_parms.sh
 
 	# IP is not set to specific IP
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		fn_print_dots "Check IP"
-		sleep 1
+		sleep 0.5
 		# Multiple interfaces
 		if [ "${getipwc}" -ge "2" ]; then
 			fn_print_fail "Check IP: Multiple IP addresses found."
-			sleep 1
+			sleep 0.5
 			echo -en "\n"
 			# IP is set within game config
 			if [ "${ipsetinconfig}" == "1" ]; then
@@ -52,12 +53,17 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			echo -en "\n"
 			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
-			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-			core_exit.sh
+			# Do not exit for details and postdetails commands
+			if [ "${commandaction}" != "Details" ]&&[ "${commandaction}" != "Postdetails" ]; then
+				fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
+				core_exit.sh
+			else
+				ip="NOT SET"
+			fi
 		# Single interface
 		elif [ "${ipsetinconfig}" == "1" ]; then
 			fn_print_fail "Check IP: IP address not set in game config."
-			sleep 1
+			sleep 0.5
 			echo -en "\n"
 			fn_print_information "Specify the IP you want to bind within ${servercfg}.\n"
 			echo -en "	* location: ${servercfgfullpath}\n"
@@ -72,6 +78,9 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 			core_exit.sh
 		else
+			fn_print_info_nl "Check IP: ${getip}"
+			fn_script_log_info "IP automatically set as: ${getip}"
+			sleep 0.5
 			ip="${getip}"
 		fi
 	fi

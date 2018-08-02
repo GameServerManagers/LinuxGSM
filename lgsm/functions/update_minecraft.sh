@@ -9,11 +9,13 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl(){
-	fn_fetch_file "https://s3.amazonaws.com/Minecraft.Download/versions/${availablebuild}/minecraft_server.${availablebuild}.jar" "${tmpdir}" "minecraft_server.${availablebuild}.jar"
+	latestmcbuildurl=$(${curlpath} -s $(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.versions[0] | .url') |  jq -r '.downloads.server.url')
+	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${availablebuild}.jar"
 	echo -e "copying to ${serverfiles}...\c"
 	fn_script_log "Copying to ${serverfiles}"
 	cp "${tmpdir}/minecraft_server.${availablebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
+	chmod u+x "${serverfiles}/minecraft_server.jar"
 	if [ ${exitcode} -eq 0 ]; then
 		fn_print_ok_eol_nl
 	else
@@ -26,18 +28,18 @@ fn_update_currentbuild(){
 	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
 	if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 		fn_print_error "Checking for update: mojang.com"
-		sleep 1
+		sleep 0.5
 		fn_print_error_nl "Checking for update: mojang.com: No logs with server version found"
 		fn_script_log_error "Checking for update: mojang.com: No logs with server version found"
-		sleep 1
+		sleep 0.5
 		fn_print_info_nl "Checking for update: mojang.com: Forcing server restart"
 		fn_script_log_info "Checking for update: mojang.com: Forcing server restart"
-		sleep 1
+		sleep 0.5
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		sleep 1
+		sleep 0.5
 		# Check again and exit on failure.
 		if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 			fn_print_fail_nl "Checking for update: mojang.com: Still No logs with server version found"
@@ -47,18 +49,18 @@ fn_update_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+	currentbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: mojang.com: Current build version not found"
 		fn_script_log_error "Checking for update: mojang.com: Current build version not found"
-		sleep 1
+		sleep 0.5
 		fn_print_info_nl "Checking for update: mojang.com: Forcing server restart"
 		fn_script_log_info "Checking for update: mojang.com: Forcing server restart"
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | egrep -o '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		currentbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: mojang.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: mojang.com: Current build version still not found"
@@ -69,7 +71,7 @@ fn_update_currentbuild(){
 
 fn_update_availablebuild(){
 	# Gets latest build info.
-	availablebuild=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | sed -e 's/^.*"release":"\([^"]*\)".*$/\1/')
+	availablebuild=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release')
 	# Checks if availablebuild variable has been set
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: mojang.com"
@@ -88,17 +90,17 @@ fn_update_availablebuild(){
 
 fn_update_compare(){
 	# Removes dots so if can compare version numbers
-	currentbuilddigit=$(echo "${currentbuild}"|tr -cd '[:digit:]')
-	availablebuilddigit=$(echo "${availablebuild}"|tr -cd '[:digit:]')
+	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
+	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
 
 	if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
 		echo -e "\n"
 		echo -e "Update available:"
-		sleep 1
+		sleep 0.5
 		echo -e "	Current build: ${red}${currentbuild}${default}"
 		echo -e "	Available build: ${green}${availablebuild}${default}"
 		echo -e ""
-		sleep 1
+		sleep 0.5
 		echo ""
 		echo -en "Applying update.\r"
 		sleep 1
@@ -149,7 +151,7 @@ else
 	# Checks for server update from mojang.com
 	fn_print_dots "Checking for update: mojang.com"
 	fn_script_log_info "Checking for update: mojang.com"
-	sleep 1
+	sleep 0.5
 	fn_update_currentbuild
 	fn_update_availablebuild
 	fn_update_compare

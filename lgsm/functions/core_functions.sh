@@ -249,6 +249,11 @@ fn_fetch_function
 
 # Dev
 
+command_dev_clear_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -265,6 +270,11 @@ fn_fetch_function
 }
 
 command_dev_detect_ldd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_dev_query_raw.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -306,12 +316,23 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_steamcmd.sh(){
+fix_glibc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
+
+fix_kf.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_kf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -321,12 +342,27 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_kf.sh(){
+fix_rust.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_kf2.sh(){
+fix_rw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rust.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -341,16 +377,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_rust.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fix_mta.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 # Info
 
 info_config.sh(){
@@ -359,6 +385,11 @@ fn_fetch_function
 }
 
 info_distro.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+info_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -426,9 +457,9 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# Monitor
+# Query
 
-monitor_gsquery.sh(){
+query_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
