@@ -32,3 +32,19 @@ if [ -f "${servercfgdir}/valve.rc" ] && grep -E '^\s*exec\s*(default|joystick)\.
 	sed -i 's/^\s*exec\s*joystick.cfg/\/\/exec joystick.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
 	fn_fix_msg_end
 fi
+
+# Fixes: Hostname.
+if [ -n "${hostname}" ]; then
+	fixname="hostname"
+	fn_fix_msg_start
+	sed -i "s/hostname \".*\"/hostname \"${hostname}\"/g" "${servercfgfullpath}" > /dev/null 2>&1
+	fn_fix_msg_end
+fi
+
+# Fixes: rcon password.
+if [ -n $rcon_password ]; then
+	fixname="rcon_pass"
+	fn_fix_msg_start
+	sed -i "s/rcon_password \".*\"/rcon_password \"${rcon_password}\"/g" "${servercfgfullpath}" > /dev/null 2>&1
+	fn_fix_msg_end
+fi
