@@ -138,14 +138,31 @@ fn_mod_tidy_files_list(){
 			break
 		fi
 	done
-	fn_print_ok_eol_nl
+
 	# Sourcemod fix
 	# Remove metamod from sourcemod fileslist
 	if [ "${modcommand}" == "sourcemod" ]; then
 		# Remove addons/metamod & addons/metamod/sourcemod.vdf from ${modcommand}-files.txt
 		sed -i "/^addons\/metamod$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdir}/${modcommand}-files.txt"
+	elif [ "${modcommand}" == "smjansson" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ]; then
+		sed -i "/^addons\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/extensions$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
+    if [ "${modcommand}" == "steamworks" ]; then
+		sed -i "/^addons\/sourcemod\/scripting$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include$/d" "${modsdir}/${modcommand}-files.txt"
+    fi
+	if [ "${modcommand}" == "get5" ]; then
+		sed -i "/^addons\/sourcemod\/scripting$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/extensions$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/configs$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/translations$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/plugins\/disabled$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+	fn_print_ok_eol_nl
 }
 
 ## Information Gathering

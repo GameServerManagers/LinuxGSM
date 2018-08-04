@@ -59,6 +59,12 @@ modseparator="MOD"
 # Source mods
 mod_info_metamod=( MOD "metamod" "MetaMod" "${metamodurl}" "${metamodlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source;" "GAMES" "NOTGAMES" "https://www.sourcemm.net" "Plugins Framework" )
 mod_info_sourcemod=( MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "GAMES" "NOTGAMES" "http://www.sourcemod.net" "Admin Features (requires MetaMod)" )
+mod_info_steamworks=( MOD "steamworks" "SteamWorks" "https://github.com/mathiassmichno/SteamWorks/releases/download/v1.1/SteamWorks.zip" "SteamWorks.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KyleSanderson/SteamWorks" "Exposing SteamWorks functions to SourcePawn." )
+mod_info_smjansson=( MOD "smjansson" "SMJansson" "https://github.com/mathiassmichno/SMJansson/releases/download/v1.0/smjansson.zip" "smjansson.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/thraaawn/SMJansson" "A SourceMod extension, wrapping Jansson, a C library for encoding, decoding and manipulating JSON data." )
+
+# CSGO
+mod_info_pugsetup=( MOD "pugsetup" "Pug Setup" "https://github.com/splewis/csgo-pug-setup/releases/download/2.0.3/pugsetup_2.0.3.zip" "pugsetup_2.0.3.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/csgo-pug-setup" "CS:GO Sourcemod plugin for setting up pug/10man games" )
+mod_info_get5=( MOD "get5" "Get5" "https://github.com/splewis/get5/releases/download/0.6.0/get5_0.6.0.zip" "get5_0.6.0.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/get5" "CS:GO Sourcemod plugin for competitive matches" )
 
 # CS:GO Mods
 mod_info_gokz=( MOD "gokz" "GOKZ" "https://bitbucket.org/kztimerglobalteam/gokz/downloads/GOKZ-latest.zip" "gokz-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter Strike: Global Offensive" "NOTGAMES" "https://bitbucket.org/kztimerglobalteam/gokz/src/master/" "Implements the KZ game mode (requires SourceMod and MetaMod)")
@@ -85,4 +91,29 @@ mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestli
 mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
+mods_global_array=(
+	"${mod_info_metamod[@]}"
+	"${mod_info_sourcemod[@]}"
+	"${mod_info_smjansson[@]}"
+	"${mod_info_steamworks[@]}"
+	"${mod_info_pugsetup[@]}"
+	"${mod_info_get5[@]}"
+	"${mod_info_gokz[@]}"
+	"${mod_info_ttt[@]}"
+	"${mod_info_ulib[@]}"
+	"${mod_info_ulx[@]}"
+	"${mod_info_utime[@]}"
+	"${mod_info_uclip[@]}"
+	"${mod_info_acf[@]}"
+	"${mod_info_acf_missiles[@]}"
+	"${mod_info_acf_sweps[@]}"
+	"${mod_info_advdupe2[@]}"
+	"${mod_info_pac3[@]}"
+	"${mod_info_wiremod[@]}"
+	"${mod_info_wiremodextras[@]}"
+	"${mod_info_darkrp[@]}"
+	"${mod_info_darkrpmodification[@]}"
+	"${mod_info_rustoxide[@]}"
+	"${mod_info_hwoxide[@]}"
+	"${mod_info_sdtdoxide[@]}"
+)
