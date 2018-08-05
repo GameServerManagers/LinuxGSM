@@ -94,7 +94,7 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 # Available RAM and swap.
 physmemtotalmb=$(($(grep MemTotal /proc/meminfo | awk '{print $2}')/1024))
 physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemTotal /proc/meminfo | awk '{print $2}')K")
-physmemfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemFree /proc/meminfo | awk '{print $2}')K")
+physmemfree=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^MemFree /proc/meminfo | awk '{print $2}')-$(grep "^MemFree\:" /proc/meminfo | awk '{print $2}')+$(grep "^Buffers\:" /proc/meminfo | awk '{print $2}')+$(grep "^Cached\:" /proc/meminfo | awk '{print $2}')+$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
 physmemused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep "^MemTotal\:" /proc/meminfo | awk '{print $2}')-$(grep "^MemFree\:" /proc/meminfo | awk '{print $2}')-$(grep "^Buffers\:" /proc/meminfo | awk '{print $2}')-$(grep "^Cached\:" /proc/meminfo | awk '{print $2}')-$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
 { # try
 	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')K")
