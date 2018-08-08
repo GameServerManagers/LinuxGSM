@@ -140,8 +140,11 @@ fn_deps_detector(){
 			echo -e "${red}${deptocheck}${default}"
 			sleep 0.2
 		fi
-		if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
-			steamcmdfail=1
+		# Define required dependencies for SteamCMD
+		if [ -n "${appid}" ]; then
+			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
+				steamcmdfail=1
+			fi
 		fi
 	fi
 
@@ -398,7 +401,7 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "nc" ]&&[ "${engine}" != "renderware" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
 			array_deps_required+=( glibc.i686 libstdc++64.i686 )
 		else
