@@ -1051,7 +1051,6 @@ fn_info_config_stationeers(){
 	fi
 }
 
-
 # ARK: Survival Evolved
 if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
 	fn_info_config_ark
