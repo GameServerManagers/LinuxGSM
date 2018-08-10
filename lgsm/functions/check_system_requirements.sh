@@ -12,19 +12,22 @@ info_distro.sh
 
 # RAM requirements in megabytes for each game or engine.
 
-if [ "${gamename}" == "ARK: Survival Evolved" ]; then
+if [ "${shortname}" == "ark" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${gamename}" == "ARMA 3" ]; then
+elif [ "${shortname}" == "arma3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-elif [ "${gamename}" == "Rust" ]; then
+elif [ "${shortname}" == "rust" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${gamename}" == "Minecraft" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-elif [ "${gamename}" == "Natural Selection 2" ]||[ "${gamename}" == "NS2: Combat" ]; then
+elif [ "${shortname}" == "pstbs" ]; then
+	ramrequirementmb="2000"
+	ramrequirementgb="2"
+elif [ "${shortname}" == "ns2" ]||[ "${shortname}" == "ns2c" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "st" ]; then
