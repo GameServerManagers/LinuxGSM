@@ -15,6 +15,9 @@ info_distro.sh
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
+elif [ "${gamename}" == "Mordhau" ]; then
+	ramrequirementmb="4000"
+	ramrequirementgb="4"
 elif [ "${gamename}" == "ARMA 3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
