@@ -71,7 +71,7 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached\t available${default}"
+		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
@@ -285,6 +285,15 @@ fn_info_message_gameserver(){
 		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
 			echo -e "${blue}Map rotation:\t${default}${randommap}"
+		fi
+
+		# Listed on Master Server
+		if [ "${masterserver}" ];then
+			if [ "${masterserver}" == "true" ];then
+				echo -e "${blue}Master Server:\t${green}${masterserver}${default}"
+			else
+				echo -e "${blue}Master Server:\t${red}${masterserver}${default}"
+			fi
 		fi
 
 		# Online status
