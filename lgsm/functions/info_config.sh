@@ -331,6 +331,36 @@ fn_info_config_minecraft(){
 	fi
 }
 
+#Post Scriptum: The bloody Seventh
+fn_info_config_pstbs(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+		numreservedslots="${unavailable}"
+	else
+		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
+		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+		numreservedslots="$(grep "NumReservedSlots=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+	fi
+
+	if [ ! -f "${servercfgdir}/Rcon.cfg" ]; then
+		rconport=${unavailable}
+		rconpassword=${unavailable}
+	else
+		rconport=$(grep "Port=" "${servercfgdir}/Rcon.cfg" | tr -cd '[:digit:]')
+		rconpassword=$(grep "Password=" "${servercfgdir}/Rcon.cfg" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+	fi
+
+	rconport=${rconport:-"0"}
+	if [ -z "${rconpassword}" ]||[ ${#rconpassword} == 1 ]; then
+		rconpassword="NOT SET"
+	fi
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
+	numreservedslots=${maxplayers:-"0"}
+}
+
 fn_info_config_projectcars(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1078,6 +1108,9 @@ elif [ "${gamename}" == "Quake Live" ]; then
 # Minecraft
 elif [ "${engine}" == "lwjgl2" ]; then
 	fn_info_config_minecraft
+# Post Scriptum: The Bloody Seventh
+elif [ "${shortname}" == "pstbs" ]; then
+	fn_info_config_pstbs
 # Project Cars
 elif [ "${gamename}" == "Project Cars" ]; then
 	fn_info_config_projectcars

@@ -282,7 +282,7 @@ fn_info_message_gameserver(){
 			echo -e "${blue}ASE:\t${default}${saveinterval} s"
 		fi
 
-		# Random map rotation mode (Squad)
+		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
 			echo -e "${blue}Map rotation:\t${default}${randommap}"
 		fi
@@ -702,6 +702,16 @@ fn_info_message_mumble(){
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
+fn_info_Message_pstbs(){
+	echo -e "netstat -atunp | grep PostScriptum"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
 
 fn_info_message_projectcars(){
 	echo -e "netstat -atunp | grep DedicatedS"
@@ -1115,6 +1125,8 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
+	elif [ "${shortname}" == "pstbs" ]; then
+		fn_info_Message_pstbs
 	elif [ "${gamename}" == "Project Cars" ]; then
 		fn_info_message_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then
