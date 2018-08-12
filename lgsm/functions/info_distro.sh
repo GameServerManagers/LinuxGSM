@@ -175,10 +175,12 @@ fi
 
 # Steam Master Server - checks if detected by master server
 if [ "${ip}" ] && [ "${port}" ]; then
-	steammaster=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
-	if [ "${steammaster}" == "1" ]; then
-		steammaster="true"
-	else
-		steammaster="false"
+	if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
+		steammaster=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+		if [ "${steammaster}" == "1" ]; then
+			steammaster="true"
+		else
+			steammaster="false"
+		fi
 	fi
 fi
