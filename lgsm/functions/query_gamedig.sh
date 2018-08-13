@@ -1,7 +1,7 @@
 #!/bin/bash
 # query_gamedig.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Querys a gameserver using node-gamedig.
 # https://github.com/sonicsnes/node-gamedig
 
