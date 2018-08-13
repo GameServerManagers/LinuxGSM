@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_steamcmd.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves various issues related to SteamCMD.
 
 local commandname="FIX"

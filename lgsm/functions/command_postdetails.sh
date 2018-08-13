@@ -2,7 +2,7 @@
 # LinuxGSM command_postdetails.sh function
 # Author: CedarLUG
 # Contributor: CedarLUG
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
 local commandname="postdetails"
@@ -42,6 +42,11 @@ fn_bad_postdetailslog() {
 	core_exit.sh
 }
 
+# Remove any existing postdetails.log file
+if [ -f "${postdetailslog}" ]; then
+	rm -f "${postdetailslog}"
+fi
+
 # Rather than a one-pass sed parser, default to using a temporary directory
 if [ -n "${alertflag}" ]; then
 	postdetailslog="${alertlog}"
@@ -62,7 +67,7 @@ else
 		fn_info_message_script
 		fn_info_message_backup
 		# Some game servers do not have parms.
-		if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
+		if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche2.0" ]&&[ "${engine}" != "avalanche3.0" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
 			fn_parms
 			fn_info_message_commandlineparms
 		fi
@@ -74,7 +79,7 @@ fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
-	sleep 1
+	sleep 0.5
 	# grab the return from 'value' from an initial visit to pastebin.
 	csrftoken=$(${curlpath} -s "${posttarget}" |
 					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
@@ -94,7 +99,7 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	echo "  Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	fn_print_dots "Posting details to hastebin.com"
-	sleep 1
+	sleep 0.5
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG

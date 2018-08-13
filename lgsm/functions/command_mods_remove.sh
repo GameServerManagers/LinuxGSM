@@ -2,7 +2,7 @@
 # LinuxGSM command_mods_uninstall.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"
@@ -58,7 +58,7 @@ fn_script_log_info "Removing ${modsfilelistsize} files from ${modprettyname}"
 echo -e "removing ${modprettyname}"
 echo -e "* ${modsfilelistsize} files to be removed"
 echo -e "* location: ${modinstalldir}"
-sleep 1
+sleep 0.5
 # Go through every file and remove it
 modfileline="1"
 tput sc
@@ -68,7 +68,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# If file or directory exists, then remove it
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
-		rm -rf "${modinstalldir}/${currentfileremove}"
+		rm -rf "${modinstalldir:?}/${currentfileremove}"
 		((exitcode=$?))
 		if [ ${exitcode} -ne 0 ]; then
 			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
@@ -78,7 +78,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 		fi
 	fi
 	tput rc; tput el
-	printf "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
+	echo "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
 if [ ${exitcode} -ne 0 ]; then

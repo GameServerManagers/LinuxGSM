@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_kf3.sh function
+# LinuxGSM fix_kf2.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor 2.
 
 local commandname="FIX"
@@ -12,7 +12,7 @@ fn_parms(){
 parms="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""
 }
 
-fn_print_information "starting Killing Floor 2 server to generate configs."
+fn_print_information "starting ${gamename} server to generate configs."
 sleep 1
 exitbypass=1
 command_start.sh

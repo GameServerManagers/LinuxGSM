@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -24,6 +24,7 @@ fn_info_parms_ark(){
 
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_cod(){
@@ -39,6 +40,11 @@ fn_info_parms_dst(){
 	cluster=${cluster:-"NOT SET"}
 	cave=${cave:-"NOT SET"}
 }
+
+fn_info_parms_eco(){
+	queryport=${webadminport}
+}
+
 
 fn_info_parms_factorio(){
 	port=${port:-"0"}
@@ -68,9 +74,18 @@ fn_info_parms_quake2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_parms_risingworld(){
+	servername=${servername:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${port}
+	httpqueryport=$((port - 1))
+
+}
+
 fn_info_parms_rust(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
+	queryport=${port}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	rconweb=${rconweb:-"NOT SET"}
@@ -83,6 +98,7 @@ fn_info_parms_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
+	queryport=${port}
 	clientport=${clientport:-"0"}
 }
 
@@ -106,6 +122,12 @@ fn_info_config_towerunite(){
 
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
+	queryport=$((port + 1))
+}
+
+fn_info_parms_unreal2(){
+	defaultmap=${defaultmap:-"NOT SET"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_unreal3(){
@@ -130,6 +152,9 @@ elif [ "${engine}" == "realvirtuality" ]; then
 # Call of Duty
 elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
+# Eco
+elif [ "${gamename}" == "Eco" ]; then
+	fn_info_parms_eco
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_parms_factorio
@@ -145,6 +170,9 @@ elif [ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]; then
 # Rust
 elif [ "${gamename}" == "Rust" ]; then
 	fn_info_parms_rust
+# Rising World
+elif [ "${shortname}" == "rw" ]; then
+	fn_info_parms_risingworld
 # Serious Sam
 elif [ "${engine}" == "seriousengine35" ]; then
 	fn_info_config_seriousengine35
@@ -158,7 +186,7 @@ elif [ "${gamename}" == "Tower Unite" ]; then
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
-# Unreal/Unreal 2 engine
+# Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
 fi

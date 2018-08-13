@@ -2,7 +2,7 @@
 # LinuxGSM install_ts3db.sh function
 # Author: Daniel Gibbs
 # Contributor: PhilPhonic
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Installs the database server MariaDB for TeamSpeak 3.
 
 local commandname="INSTALL"
@@ -13,9 +13,9 @@ fn_install_ts3db_mariadb(){
 	echo ""
 	echo "checking if libmariadb2 is installed"
 	echo "================================="
-	sleep 1
-	ldd ${serverfiles}/libts3db_mariadb.so | grep "libmariadb.so.2 => not found"
-	if [ $? -eq 0 ]; then
+	sleep 0.5
+
+	if ldd "${serverfiles}/libts3db_mariadb.so" | grep "libmariadb.so.2 => not found"; then
 		echo "libmariadb2 not installed. Please install it first."
 		echo "exiting..."
 		exit
@@ -25,44 +25,53 @@ fn_install_ts3db_mariadb(){
 	echo ""
 	echo "Configuring ${gamename} Server for MariaDB/MySQL"
 	echo "================================="
-	sleep 1
-	read -p "Enter MariaDB hostname: " mariahostname
-	read -p "Enter MariaDB port: " mariaport
-	read -p "Enter MariaDB username: " mariausername
-	read -p "Enter MariaDB password: " mariapassword
-	read -p "Enter MariaDB database name: " mariadbname
+	sleep 0.5
+	read -rp "Enter MariaDB hostname: " mariahostname
+	read -rp "Enter MariaDB port: " mariaport
+	read -rp "Enter MariaDB username: " mariausername
+	read -rp "Enter MariaDB password: " mariapassword
+	read -rp "Enter MariaDB database name: " mariadbname
+	{
 	echo "updating config."
-	echo "[config]" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "host='${mariahostname}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "port='${mariaport}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "username='${mariausername}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "password='${mariapassword}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "database='${mariadbname}'" >> ${servercfgdir}/ts3db_mariadb.ini
-	echo "socket=" >> ${servercfgdir}/ts3db_mariadb.ini
+	echo "[config]"
+	echo "host='${mariahostname}'"
+	echo "port='${mariaport}'"
+	echo "username='${mariausername}'"
+	echo "password='${mariapassword}'"
+	echo "database='${mariadbname}'"
+	echo "socket="
+	} >> "${servercfgdir}/ts3db_mariadb.ini"
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
 	echo "================================="
-	sleep 1
+	sleep 0.5
 }
 
 if [ -z "${autoinstall}" ]; then
 	echo ""
-	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite (Database Server including user and database already has to be set up!)?" N; then
+	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite? (DB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
 fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
 fi
 
+## License
+fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
+fn_print_information_nl "Accepting TeamSpeak license:"
+echo " * ${executabledir}/LICENSE"
+sleep 0.5
+touch "${executabledir}/.ts3server_license_accepted"
+
 ## Get privilege key
 echo ""
 echo "Getting privilege key"
 echo "================================="
-sleep 1
+sleep 0.5
 echo "IMPORANT! Save these details for later."
-sleep 1
-cd "${executabledir}"
+sleep 0.5
+cd "${executabledir}" || exit
 ./ts3server_startscript.sh start inifile=ts3-server.ini
 sleep 5
 ./ts3server_startscript.sh stop

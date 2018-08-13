@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_csgo.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Resolves various issues with CS:GO.
 
 local commandname="FIX"
@@ -17,19 +17,19 @@ if [ ! -f "${serverfiles}/steam_appid.txt" ]; then
 fi
 
 # Fixes: Error parsing BotProfile.db - unknown attribute 'Rank'".
-if ! grep -q "//Rank" "${systemdir}/botprofile.db" > /dev/null 2>&1; then
+if [ -f "${systemdir}/botprofile.db" ] && grep "^\s*Rank" "${systemdir}/botprofile.db" > /dev/null 2>&1; then
 	fixname="botprofile.db"
 	fn_fix_msg_start
-	sed -i 's/\tRank/\t\/\/Rank/g' "${systemdir}/botprofile.db" > /dev/null 2>&1
+	sed -i 's/^\s*Rank/\t\/\/Rank/g' "${systemdir}/botprofile.db" > /dev/null 2>&1
 	fn_fix_msg_end
 fi
 
-# Fixes: Unknown command "cl_bobamt_vert".
-if ! grep -q "//exec default" "${servercfgdir}/valve.rc" > /dev/null 2>&1 || ! grep -q "//exec joystick" "${servercfgdir}/valve.rc" > /dev/null 2>&1; then
+# Fixes: Unknown command "cl_bobamt_vert" and exec: couldn't exec joystick.cfg.
+if [ -f "${servercfgdir}/valve.rc" ] && grep -E '^\s*exec\s*(default|joystick)\.cfg' "${servercfgdir}/valve.rc" > /dev/null 2>&1; then
 	fixname="valve.rc"
 	fn_fix_msg_start
-	sed -i 's/exec default.cfg/\/\/exec default.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
-	sed -i 's/exec joystick.cfg/\/\/exec joystick.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
+	sed -i 's/^\s*exec\s*default.cfg/\/\/exec default.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
+	sed -i 's/^\s*exec\s*joystick.cfg/\/\/exec joystick.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
 	fn_fix_msg_end
 fi
 

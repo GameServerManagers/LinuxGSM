@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
 local commandname="ALERT"
@@ -45,12 +45,12 @@ fn_alert_restart(){
 }
 
 fn_alert_restart_query(){
-	fn_script_log_info "Sending alert: Restarted: ${gsquerycmd}"
+	fn_script_log_info "Sending alert: Restarted: ${servicename}"
 	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="gsquery.py failed to query: ${gsquerycmd}"
+	alertbody="Unable to query: ${servicename}"
 }
 
 fn_alert_update(){
@@ -71,6 +71,15 @@ fn_alert_permissions(){
 	alertbody="${servicename} has permissions issues"
 }
 
+fn_alert_config(){
+	fn_script_log_info "Sending alert: New _default.cfg"
+	alertsubject="Alert - ${servicename} - New _default.cfg"
+	alertemoji="🎮"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${servicename} has recieved a new _default.cfg. Check file for changes."
+}
+
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
 elif [ "${alert}" == "restart" ]; then
@@ -81,6 +90,8 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
+elif [ "${alert}" == "config" ]; then
+	fn_alert_config
 fi
 
 # Generate alert log

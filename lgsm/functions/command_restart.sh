@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_restart.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Restarts the server.
 
 local commandname="RESTART"

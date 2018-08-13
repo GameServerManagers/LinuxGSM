@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_complete.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Prints installation completion message and hints.
 
 local commandname="INSTALL"

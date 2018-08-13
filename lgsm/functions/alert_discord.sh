@@ -2,24 +2,24 @@
 # LinuxGSM alert_discord.sh function
 # Author: Daniel Gibbs
 # Contributor: faflfama
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends Discord alert.
 
 json=$(cat <<EOF
 {
 "username":"LinuxGSM",
-"avatar_url":"https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png",
+"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png",
 "file":"content",
 
 "embeds": [{
 	"color": "2067276",
-	"author": {"name": "${alertemoji} ${alertsubject} ${alertemoji}", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
+	"author": {"name": "${alertemoji} ${alertsubject} ${alertemoji}", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
 	"title": "",
 	"description": "",
 	"url": "",
 	"type": "content",
-	"thumbnail": {"url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
-	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
+	"thumbnail": {"url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
+	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
 	"fields": [
 			{
 				"name": "Alert Message",
@@ -39,7 +39,7 @@ json=$(cat <<EOF
 			},
 			{
 				"name": "Server IP",
-				"value": "[${ip}:${port}](https://www.gametracker.com/server_info/${ip}:${port})"
+				"value": "[${extip:-$ip}:${port}](https://www.gametracker.com/server_info/${extip:-$ip}:${port})"
 			},
 			{
 				"name": "More info",
@@ -53,7 +53,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 sleep 0.5
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${discordwebhook})
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
