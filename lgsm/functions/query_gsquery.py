@@ -32,6 +32,8 @@ class gsquery:
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.option.engine == 'unreal2':
             self.query_prompt_string = b'\x79\x00\x00\x00\x00'
+        elif self.option.engine == 'minecraft':
+            self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
         self.connected = False
         self.response = None
         self.sanity_checks()
@@ -100,7 +102,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche2.0, avalanche3.0, goldsource, idtech2, idtech3, iw2.0, iw3.0, realvirtuality, quake, quakelive, refractor, spark, source, unity3d, unreal, unreal2.'
+        help='Engine type: avalanche2.0, avalanche3.0, goldsource, idtech2, idtech3, iw2.0, iw3.0, minecraft, quake, quakelive, realvirtuality, refractor, spark, source, unity3d, unreal, unreal2.'
     )
     parser.add_option(
         '-v', '--verbose',
