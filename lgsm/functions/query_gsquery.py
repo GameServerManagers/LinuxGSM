@@ -27,14 +27,15 @@ class gsquery:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine in idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
+        elif self.option.engine in minecraftquery:
+            self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
         elif self.option.engine == 'avalanche2.0':
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.option.engine == 'unreal':
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.option.engine == 'unreal2':
             self.query_prompt_string = b'\x79\x00\x00\x00\x00'
-        elif self.option.engine == 'minecraftquery':
-            self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
+
         self.connected = False
         self.response = None
         self.sanity_checks()
