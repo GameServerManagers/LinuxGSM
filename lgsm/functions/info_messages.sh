@@ -690,6 +690,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
