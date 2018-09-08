@@ -131,7 +131,7 @@ fn_monitor_check_session(){
 fn_monitor_query(){
 	fn_script_log_info "Querying port: query enabled"
 	# engines that work with query
-	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 )
+	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 )
 	for allowed_engine in "${allowed_engines_array[@]}"
 	do
 		if [ "${allowed_engine}" == "${engine}" ]; then
