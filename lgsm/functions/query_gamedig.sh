@@ -46,6 +46,14 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
+		local engine_query_array=( lwjgl2 )
+		for engine_query in "${engine_query_array[@]}"
+		do
+			if [ "${engine_query}" == "${engine}" ]; then
+				gamedigengine="minecraft"
+			fi
+		done
+
 		local shortname_query_array=( ts3 )
 		for shortname_query in "${shortname_query_array[@]}"
 		do
