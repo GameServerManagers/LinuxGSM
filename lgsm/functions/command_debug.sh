@@ -44,7 +44,7 @@ if [ -n "${glibcrequired}" ]; then
 		if [ "${glibcfix}" == "yes" ]; then
 			echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
 		else
-			echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC version too old${default})"
+			echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC distro version ${glibcversion} too old${default})"
 		fi
 	else
 		echo -e "${blue}GLIBC required:\t${green}${glibcrequired}${default}"

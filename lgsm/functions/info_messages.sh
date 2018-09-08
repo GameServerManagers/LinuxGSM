@@ -71,7 +71,7 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached\t available${default}"
+		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
@@ -282,9 +282,18 @@ fn_info_message_gameserver(){
 			echo -e "${blue}ASE:\t${default}${saveinterval} s"
 		fi
 
-		# Random map rotation mode (Squad)
+		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
 			echo -e "${blue}Map rotation:\t${default}${randommap}"
+		fi
+
+		# Listed on Master Server
+		if [ "${masterserver}" ];then
+			if [ "${masterserver}" == "true" ];then
+				echo -e "${blue}Master Server:\t${green}${masterserver}${default}"
+			else
+				echo -e "${blue}Master Server:\t${red}${masterserver}${default}"
+			fi
 		fi
 
 		# Online status
@@ -691,6 +700,16 @@ fn_info_message_mumble(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
+}
+fn_info_Message_pstbs(){
+	echo -e "netstat -atunp | grep PostScriptum"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1106,6 +1125,8 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
+	elif [ "${shortname}" == "pstbs" ]; then
+		fn_info_Message_pstbs
 	elif [ "${gamename}" == "Project Cars" ]; then
 		fn_info_message_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then

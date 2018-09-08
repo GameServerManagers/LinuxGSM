@@ -84,7 +84,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 			fix_ut3.sh
 		else
-			fn_print_information "No fixes required."
+			fn_print_information_nl "No fixes required."
 		fi
 
 fi

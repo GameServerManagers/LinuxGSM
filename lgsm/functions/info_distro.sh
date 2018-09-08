@@ -90,31 +90,23 @@ days=$(( uptime/60/60/24 ))
 load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
 ## Memory information
+
 # Available RAM and swap.
-
-# Older versions of free do not support -h option.
-if [ "$(free -h > /dev/null 2>&1; echo $?)" -ne "0" ]; then
-	humanreadable="-m"
-else
-	humanreadable="-h"
-fi
-
-physmemtotal=$(free ${humanreadable} | awk '/Mem:/ {print $2}')
-physmemtotalmb=$(free -m | awk '/Mem:/ {print $2}')
-physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
-physmemfree=$(free ${humanreadable} | awk '/Mem:/ {print $4}')
-oldfree=$(free ${humanreadable} | awk '/cache:/')
-if [ -n "${oldfree}" ]; then
+physmemtotalmb=$(($(grep MemTotal /proc/meminfo | awk '{print $2}')/1024))
+physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemTotal /proc/meminfo | awk '{print $2}')K")
+physmemfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')K")
+physmemused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep "^MemTotal\:" /proc/meminfo | awk '{print $2}')-$(grep "^MemFree\:" /proc/meminfo | awk '{print $2}')-$(grep "^Buffers\:" /proc/meminfo | awk '{print $2}')-$(grep "^Cached\:" /proc/meminfo | awk '{print $2}')-$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
+{ # try
+	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')K")
+	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^Cached /proc/meminfo | awk '{print $2}')+$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
+} 2>/dev/null || { # fail silently, catch
 	physmemavailable="n/a"
 	physmemcached="n/a"
-else
-	physmemavailable=$(free ${humanreadable} | awk '/Mem:/ {print $7}')
-	physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $6}')
-fi
+}
 
-swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
-swapused=$(free ${humanreadable} | awk '/Swap:/ {print $3}')
-swapfree=$(free ${humanreadable} | awk '/Swap:/ {print $4}')
+swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
+swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
+swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
 
 ### Disk information
 
@@ -177,6 +169,18 @@ if [ -z "${extip}" ]; then
 			echo "${tmpdir}/extip.txt"
 		else
 			echo "x.x.x.x"
+		fi
+	fi
+fi
+
+# Steam Master Server - checks if detected by master server
+if [ "${ip}" ] && [ "${port}" ]; then
+	if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
+		masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+		if [ "${steammaster}" == "1" ]; then
+			masterserver="true"
+		else
+			masterserver="false"
 		fi
 	fi
 fi

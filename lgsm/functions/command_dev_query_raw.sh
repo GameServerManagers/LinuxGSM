@@ -1,7 +1,7 @@
 #!/bin/bash
 # command_dev_query_raw.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
 local commandname="QUERY-RAW"
