@@ -79,14 +79,14 @@ fn_bootstrap_fetch_file(){
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
-				echo -e "\e[0;31mFAIL\e[0m\n"
+				echo -e "FAIL"
 				if [ -f "${lgsmlog}" ]; then
 					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
 					echo "${curlcmd}" | tee -a "${lgsmlog}"
 				fi
 				exit 1
 			else
-				echo -e "\e[0;32mOK\e[0m"
+				echo -e "OK"
 			fi
 		else
 			echo "[ FAIL ] Curl is not installed"
@@ -324,10 +324,10 @@ else
 		cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
-			echo -e "\e[0;31mFAIL\e[0m\n"
+			echo -e "FAIL"
 			exit 1
 		else
-			echo -e "\e[0;32mOK\e[0m"
+			echo -e "OK"
 		fi
 	else
 		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
@@ -337,10 +337,10 @@ else
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
-				echo -e "\e[0;31mFAIL\e[0m\n"
+				echo -e "FAIL"
 				exit 1
 			else
-				echo -e "\e[0;32mOK\e[0m"
+				echo -e "OK"
 			fi
 		fi
 	fi
@@ -359,11 +359,13 @@ else
 	else
 		source "${configdirserver}/${servicename}.cfg"
 	fi
+
 	# Load the linuxgsm.sh in to tmpdir. If missing download it
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 	fi
-
+	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off
+	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis.
 	if [ "${travistest}" != "1" ]; then
 		getopt=$1

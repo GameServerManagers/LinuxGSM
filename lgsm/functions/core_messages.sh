@@ -7,7 +7,7 @@
 
 # nl: new line: message is following by a new line
 # eol: end of line: message is placed at the end of the current line
-
+fn_ansi_loader(){
 if [ "${ansi}" != "off" ]; then
 	# echo colors
 	default="\e[0m"
@@ -27,6 +27,7 @@ if [ "${ansi}" != "off" ]; then
 	# carriage return & erase to end of line
 	creeol="\r\033[K"
 fi
+}
 
 # Log display
 ########################
