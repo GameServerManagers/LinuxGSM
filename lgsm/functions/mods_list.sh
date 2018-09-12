@@ -27,7 +27,7 @@ sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
 sourcemodurl="${sourcemoddownloadurl}"
 # Oxide
-oxiderustlatestlink="$(curl -s https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+oxiderustlatestlink="$(curl -s https://api.github.com/repos/theumod/umod.Rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 oxidehurtworldlatestlink="$(curl -s https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
 oxidesdtdlatestlink="$(curl -s https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 
