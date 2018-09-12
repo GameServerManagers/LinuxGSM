@@ -155,7 +155,7 @@ fn_info_message_gameserver(){
 
 		# Query enabled (Starbound)
 		if [ -n "${queryenabled}" ]; then
-			echo -e "${blue}Query enabled:\t${default}${rconpassword}"
+			echo -e "${blue}Query enabled:\t${default}${queryenabled}"
 		fi
 
 		# RCON enabled (Starbound)
@@ -690,6 +690,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
