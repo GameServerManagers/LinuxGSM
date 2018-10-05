@@ -187,6 +187,28 @@ sleep 0.5
 	echo -en "\n"
 }
 
+fn_start_docker(){
+	fn_parms
+	# Log rotation
+	fn_script_log_info "Rotating log files"
+	if [ "${engine}" == "unreal2" ]&&[ -f "${gamelog}" ]; then
+		mv "${gamelog}" "${gamelogdate}"
+	fi
+	if [ -f "${lgsmlog}" ]; then
+		mv "${lgsmlog}" "${lgsmlogdate}"
+	fi
+	if [ -f "${consolelog}" ]; then
+		mv "${consolelog}" "${consolelogdate}"
+	fi
+	# Create logfile
+	touch "${consolelog}"
+	
+	# Create lockfile
+	date > "${rootdir}/${lockselfname}"
+	cd "${executabledir}"
+	${executable} ${parms} 2> ${lgsmlogdir}/.${servicename}-tmux-error.tmp
+}
+
 fn_print_dots "${servername}"
 sleep 0.5
 check.sh
@@ -211,6 +233,8 @@ fi
 
 if [ "${gamename}" == "TeamSpeak 3" ]; then
 	fn_start_teamspeak3
+elif [ "${docker}" == "on" ]; then
+	fn_start_docker
 else
 	fn_start_tmux
 fi
