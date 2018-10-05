@@ -258,7 +258,9 @@ fn_install_file(){
 # Prevent from running this script as root.
 if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
-		shortname="tf2server"
+		if [ "${shortname}" == "core" ]; then
+			shortname="core-dep"
+		fi
 	elif [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
 		echo "[ FAIL ] Do NOT run this script as root!"
 		exit 1
@@ -312,7 +314,7 @@ if [ "${shortname}" == "core" ]; then
 # LinuxGSM Server Mode
 else
 	core_functions.sh
-	if [ "$(whoami)" != "root" ]; then
+	if [ "${shortname}" != "core-dep" ]; then
 		# Load LinuxGSM configs
 		# These are required to get all the default variables for the specific server.
 		# Load the default config. If missing download it. If changed reload it.
