@@ -178,12 +178,10 @@ fn_deps_email(){
 }
 
 fn_found_missing_deps(){
-	fn_print_dots "Checking dependencies"
-	sleep 0.5
 	if [ "${#array_deps_missing[@]}" != "0" ]; then
 
-		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
-		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
+		fn_print_warning_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
+		fn_script_log_warn "Checking dependencies: missing: ${array_deps_missing[@]}"
 		sleep 0.5
 		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
@@ -259,7 +257,7 @@ fn_found_missing_deps(){
 			sleep 5
 		fi
 	else
-		fn_print_ok_nl "Checking dependencies: all dependencies already installed"
+		fn_print_information_nl "Checking dependencies: all dependencies already installed"
 		fn_script_log_error "Checking dependencies: all dependencies already installed"
 	fi
 }
