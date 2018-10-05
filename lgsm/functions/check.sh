@@ -13,7 +13,7 @@ local commandname="CHECK"
 local allowed_inputs_array=( install auto-install i ai )
 for allowed_input in "${allowed_inputs_array[@]}"
 do
-	if [ "${allowed_input}" != "${userinput}" ]; then
+	if [ "${allowed_input}" == "${userinput}" ]; then
 		check_root.sh
 	fi
 done
