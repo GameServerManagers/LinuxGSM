@@ -260,7 +260,7 @@ fn_found_missing_deps(){
 	fi
 	# If running dependency check as root will remove any files that belong to root user.
 	if [ "$(whoami)" == "root" ]; then
-		find "${lgsmdir}" -group root -exec rm -fr {} \;
+		find "${lgsmdir}" -group root -exec rm -rf "{}" \;
 	fi
 }
 
