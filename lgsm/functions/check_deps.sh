@@ -482,9 +482,18 @@ fn_deps_build_redhat(){
 }
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
-	echo ""
-	echo "Checking Dependencies"
-	echo "================================="
+	if [ "$(whoami)" == "root" ]; then
+		echo ""
+		echo "Checking Dependencies as root"
+		echo "================================="
+		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
+		fn_print_information_nl "This will NOT install a ${gamename} server."
+		sleep 2
+	else
+		echo ""
+		echo "Checking Dependencies"
+		echo "================================="
+	fi
 fi
 
 # Filter checking in to Debian or Red Hat Based
