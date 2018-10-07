@@ -1,11 +1,10 @@
 # crlf line endings for text files
 * text eol=lf
-* text eol=auto
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary
 *.jpg binary
-*.so binary
+*.so.6 binary
 
 # Custom for Visual Studio
 *.cs     diff=csharp
