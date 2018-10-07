@@ -10,15 +10,9 @@ local commandname="CHECK"
 # Every command that requires checks just references check.sh
 # check.sh selects which checks to run by using arrays
 
-local allowed_inputs_array=( install auto-install i ai )
-for allowed_input in "${allowed_inputs_array[@]}"
-do
-	if [ "${allowed_input}" == "${userinput}" ]; then
-		break
-	else
-		check_root.sh
-	fi
-done
+if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
+	check_root.sh
+fi
 
 check_tmuxception.sh
 
