@@ -10,7 +10,7 @@ local commandname="CHECK"
 # Every command that requires checks just references check.sh
 # check.sh selects which checks to run by using arrays
 
-if [ "${userinput}" != "install" ]||[ "${userinput}" != "auto-install" ]||[ "${userinput}" != "i" ]||[ "${userinput}" != "ai" ]; then
+if [ "${userinput}" != "install" ]&&[ "${userinput}" != "auto-install" ]&&[ "${userinput}" != "i" ]&&[ "${userinput}" != "ai" ]; then
 	check_root.sh
 fi
 
