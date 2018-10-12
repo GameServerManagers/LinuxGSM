@@ -222,6 +222,11 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Default Map:\t${default}${defaultmap}"
 		fi
 
+		# Game type
+		if [ -n "${gametype}" ]; then
+			echo -e "${blue}Game type:\t${default}${gametype}"
+		fi
+
 		# Game mode
 		if [ -n "${gamemode}" ]; then
 			echo -e "${blue}Game mode:\t${default}${gamemode}"
