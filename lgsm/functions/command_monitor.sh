@@ -143,7 +143,11 @@ fn_monitor_query(){
 
 			# will first attempt to use gamedig then gsquery
 			totalseconds=0
-			local query_methods_array=( gamedig gsquery )
+			if [ "${shortname}" == "wurm" ]; then
+				local query_methods_array=( gsquery )
+			else
+				local query_methods_array=( gamedig gsquery )
+			fi
 			for query_method in "${query_methods_array[@]}"
 			do
 				if [ "${query_method}" == "gamedig" ]; then
