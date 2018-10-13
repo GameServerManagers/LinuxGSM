@@ -1080,6 +1080,16 @@ fn_info_message_etlegacy(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_wurmunlimited(){
+	echo -e "netstat -atunp | grep WurmServer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
@@ -1155,6 +1165,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
+	elif [ "${gamename}" == "Wurm Unlimited" ]; then
+		fn_info_message_wurmunlimited
 	elif [ "${shortname}" == "rw" ]; then
 		fn_info_message_risingworld
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
