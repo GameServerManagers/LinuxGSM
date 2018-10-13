@@ -62,6 +62,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ss3.sh
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fix_mta.sh
+	elif [ "${shortname}" == "wurm" ]; then
+		fix_wurm.sh
 	fi
 fi
 
