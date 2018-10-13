@@ -1086,7 +1086,7 @@ fn_info_message_wurmunlimited(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
