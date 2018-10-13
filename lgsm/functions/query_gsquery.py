@@ -17,7 +17,7 @@ class gsquery:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4' ]
+        sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4', 'wurm' ]
         idtech3query=['idtech3','quake','iw3.0']
         idtech2query=['idtech2','iw2.0']
         minecraftquery=['minecraft','lwjgl2']
