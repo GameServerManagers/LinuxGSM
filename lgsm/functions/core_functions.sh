@@ -377,6 +377,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_wurm.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Info
 
 info_config.sh(){
