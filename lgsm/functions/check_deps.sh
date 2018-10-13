@@ -257,8 +257,10 @@ fn_found_missing_deps(){
 			sleep 5
 		fi
 	else
-		fn_print_information_nl "Required dependencies already installed"
-		fn_script_log_info "Required dependencies already installed"
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			fn_print_information_nl "Required dependencies already installed"
+			fn_script_log_info "Required dependencies already installed"
+		fi
 	fi
 }
 
