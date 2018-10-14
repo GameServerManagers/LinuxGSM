@@ -13,7 +13,8 @@ fi
 # After first run new dirs are created
 if [ ! -d "${serverfiles}/Creative" ]; then
 	unset parms
+	exitbypass=1
 	command_start.sh
-	sleep 5
+	sleep 10
 	command_stop.sh
 fi
