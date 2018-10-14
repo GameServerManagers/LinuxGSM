@@ -192,10 +192,9 @@ sleep 0.5
 
 fn_print_dots "${servername}"
 sleep 0.5
-if [ -n "${fixbypass}" ];then
-	echo "CHECK"
-	check.sh
-fi
+
+check.sh
+
 # Is the server already started
 if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
 	fn_print_info_nl "${servername} is already running"
@@ -204,8 +203,7 @@ if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is r
 		core_exit.sh
 	fi
 fi
-if [ -n "${fixbypass}" ];then
-	echo "FIX"
+if [ -z "${fixbypass}" ];then
 	fix.sh
 fi
 info_config.sh
