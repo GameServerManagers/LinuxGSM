@@ -192,9 +192,7 @@ sleep 0.5
 
 fn_print_dots "${servername}"
 sleep 0.5
-
 check.sh
-
 # Is the server already started
 if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
 	fn_print_info_nl "${servername} is already running"
