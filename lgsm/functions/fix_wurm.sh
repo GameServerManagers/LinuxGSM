@@ -12,7 +12,7 @@ fi
 # First run requires start with no parms
 # After first run new dirs are created
 if [ ! -d "${serverfiles}/Creative" ]; then
-	unset parms
+	parms=""
 	exitbypass=1
 	command_start.sh
 	sleep 10

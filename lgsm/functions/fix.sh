@@ -62,6 +62,8 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ss3.sh
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fix_mta.sh
+	elif [ "${shortname}" == "wurm" ]; then
+		fix_wurm.sh
 	fi
 fi
 
@@ -83,8 +85,6 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			fix_ut.sh
 		elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 			fix_ut3.sh
-		elif [ "${shortname}" == "wurm" ]; then
-			fix_wurm.sh
 		else
 			fn_print_information_nl "No fixes required."
 		fi
