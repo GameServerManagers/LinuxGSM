@@ -292,11 +292,19 @@ fn_stop_pre_check(){
 	fi
 }
 
+# checks and kills any remaining processes relating to the server
+fn_stop_post_check(){
+	if ps -ef | grep ${serverpid} | grep -v grep; then
+		pkill -TERM -P "${serverpid}"
+	fi
+}
+
 fn_print_dots "${servername}"
 sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
+fn_stop_post_check
 # Remove lockfile
 if [ -f "${rootdir}/${lockselfname}" ]; then
 	rm -f "${rootdir}/${lockselfname}"
