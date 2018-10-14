@@ -377,7 +377,6 @@ fn_deps_build_debian(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
-	fi
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
