@@ -36,7 +36,7 @@ sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
 
 while read -r lib; do
 	echo "${lib}"
-	if [ "${lib}" == "libm.so.6" ]||[ "${lib}" == "libc.so.6" ]||[ "${lib}" == "libtcmalloc_minimal.so.4" ]||[ "${lib}" == "libpthread.so.0" ]||[ "${lib}" == "libdl.so.2" ]||[ "${lib}" == "libnsl.so.1" ]||[ "${lib}" == "libgcc_s.so.1" ]||[ "${lib}" == "librt.so.1" ]||[ "${lib}" == "ld-linux.so.2" ]; then
+	if [ "${lib}" == "libm.so.6" ]||[ "${lib}" == "libc.so.6" ]||[ "${lib}" == "libtcmalloc_minimal.so.4" ]||[ "${lib}" == "libpthread.so.0" ]||[ "${lib}" == "libdl.so.2" ]||[ "${lib}" == "libnsl.so.1" ]||[ "${lib}" == "libgcc_s.so.1" ]||[ "${lib}" == "librt.so.1" ]||[ "${lib}" == "ld-linux.so.2" ]||[ "${lib}" == "libglib-2.0.so.0" ]||[ "${lib}" == "libGL.so.1" ]; then
 		echo "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo "lib32gcc1" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo "lib32gcc1" >> "${tmpdir}/.depdetect_debian_list"
