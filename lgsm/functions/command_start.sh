@@ -58,8 +58,11 @@ fn_start_teamspeak3(){
 }
 
 fn_start_tmux(){
-	fn_parms
-
+	if [ "${parmsbypass}" ]; then
+		parms=""
+	else
+		fn_parms
+	fi
 	# check for tmux size variables
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
 		sessionwidth="${servercfgtmuxwidth}"
@@ -189,7 +192,10 @@ sleep 0.5
 
 fn_print_dots "${servername}"
 sleep 0.5
-check.sh
+if [ -n "${fixbypass}" ];then
+	echo "CHECK"
+	check.sh
+fi
 # Is the server already started
 if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
 	fn_print_info_nl "${servername} is already running"
@@ -198,7 +204,10 @@ if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is r
 		core_exit.sh
 	fi
 fi
-fix.sh
+if [ -n "${fixbypass}" ];then
+	echo "FIX"
+	fix.sh
+fi
 info_config.sh
 logs.sh
 
