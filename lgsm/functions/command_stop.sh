@@ -294,7 +294,7 @@ fn_stop_pre_check(){
 
 # checks and kills any remaining processes relating to the server
 fn_stop_post_check(){
-	if ps -ef | grep "${serverpid}" | grep -v grep; then
+	if [ "$(ps -ef | grep "${serverpid}" | grep -v grep)" ]; then
 		pkill -TERM -P "${serverpid}"
 	fi
 }
