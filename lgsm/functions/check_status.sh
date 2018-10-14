@@ -33,5 +33,4 @@ elif [ "${gamename}" == "Mumble" ]; then
 	fi
 else
 	status=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -Ecx "^${servicename}")
-	serverpid=$(ps -ef | grep $(whoami) | grep "tmux new-session" |  grep -w "${servicename}" | awk '{print $2}' 2>/dev/null)
 fi
