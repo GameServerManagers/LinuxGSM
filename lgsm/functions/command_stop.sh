@@ -297,7 +297,6 @@ sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
-fn_stop_post_check
 # Remove lockfile
 if [ -f "${rootdir}/${lockselfname}" ]; then
 	rm -f "${rootdir}/${lockselfname}"
