@@ -19,4 +19,5 @@ if [ ! -d "${serverfiles}/Creative" ]; then
 	sleep 10
 	exitbypass=1
 	command_stop.sh
+	unset parmsbypass
 fi
