@@ -8,3 +8,12 @@
 if [ ! -f "${serverfiles}/nativelibs" ]; then
 	cp -f "${serverfiles}/linux64/steamclient.so" "${serverfiles}/nativelibs"
 fi
+
+# First run requires start with no parms
+# After first run new dirs are created
+if [ ! -d "${serverfiles}/Creative" ]; then
+	unset parms
+	command_start.sh
+	sleep 5
+	command_stop.sh
+fi
