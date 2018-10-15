@@ -6,7 +6,6 @@
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then
@@ -29,7 +28,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 		        fn_print_dots "Check IP"
 			sleep 1
 			command_arg=$(ps -o command $$ | tail -n +2 | cut -d' ' -f3)
-			if [[ "${command_arg}" = "details" ]] || [[ "${command_arg}" = "dt" ]] ; then
+			if [ "${function_selfname}" == "command_details.sh" ]; then
 			    fn_print_warn "Check IP: Multiple active network interfaces found."
 			else
 			    fn_print_fail "Check IP: Multiple active network interfaces found."
@@ -62,7 +61,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
 			# Do not exit for details and postdetails commands
-			if [ "${commandaction}" != "Details" ]&&[ "${commandaction}" != "Postdetails" ]; then
+			if [ "${function_selfname}" != "command_details.sh" ]||[ "${function_selfname}" != "command_postdetails.sh" ]; then
 				fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 				core_exit.sh
 			else
@@ -84,7 +83,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			fn_script_log_fatal "IP address not set in game config."
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-			if [[ "${command_arg}" != "details" ]] && [[ "${command_arg}" != "dt" ]] ; then
+			if [ "${command_arg}" != "details" ]&&[ "${command_arg}" != "dt" ] ; then
 			    core_exit.sh
 			fi
 		else
