@@ -144,7 +144,7 @@ fn_deps_detector(){
 		    jqstatus=1
     elif [ "${deptocheck}" == "jq" ]&&[ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]&& ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
 	        depstatus=1
-            jquniversemissing=1
+            	jquniversemissing=1
 	        #1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
 	        #check if the universe exists and active
 	elif [ "${deptocheck}" == "mono-complete" ]; then
