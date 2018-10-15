@@ -1,11 +1,11 @@
 #!/bin/bash
 # LinuxGSM check_executable.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if executable exists.
 
 local commandname="CHECK"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists
 if [ ! -f "${executabledir}/${execname}" ]; then

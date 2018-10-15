@@ -2,24 +2,24 @@
 # LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
 local commandname="CHECK"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
-		if [ $(find "${rootdir}/${selfname}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+		if [ "$(find "${rootdir}/${selfname}" -not -user $(whoami) | wc -l)" -ne "0" ]; then
 			selfownissue=1
 		fi
 	fi
 	if [ -d "${functionsdir}" ]; then
-		if [ $(find "${functionsdir}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+		if [ "$(find "${functionsdir}" -not -user $(whoami) | wc -l)" -ne "0" ]; then
 			funcownissue=1
 		fi
 	fi
 	if [ -d "${serverfiles}" ]; then
-		if [ $(find "${serverfiles}" -not -user $(whoami)|wc -l) -ne "0" ]; then
+		if [ "$(find "${serverfiles}" -not -user $(whoami) | wc -l)" -ne "0" ]; then
 			filesownissue=1
 		fi
 	fi
@@ -31,13 +31,13 @@ fn_check_ownership(){
 		{
 			echo -e "User\tGroup\tFile\n"
 			if [ "${selfownissue}" == "1" ]; then
-				find "${rootdir}/${selfname}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+				find "${rootdir}/${selfname}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
 			fi
 			if [ "${funcownissue}" == "1" ]; then
-				find "${functionsdir}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+				find "${functionsdir}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1"  ]; then
-				find "${serverfiles}" -not -user $(whoami) -printf "%u\t\t%g\t%p\n"
+				find "${serverfiles}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
 			fi
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
@@ -54,7 +54,7 @@ fn_check_ownership(){
 
 fn_check_permissions(){
 	if [ -d "${functionsdir}" ]; then
-		if [ $(find "${functionsdir}" -type f -not -executable|wc -l) -ne "0" ]; then
+		if [ "$(find "${functionsdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
@@ -102,9 +102,9 @@ fn_check_permissions(){
 		userexecperm="${execperm:0:1}"
 		groupexecperm="${execperm:1:1}"
 		# Check for invalid user permission
-		if [ "${userexecperm}" == "0" ] || [ "${userexecperm}" == "2" ] || [ "${userexecperm}" == "4" ]  || [ "${userexecperm}" == "6" ]; then
+		if [ "${userexecperm}" == "0" ]||[ "${userexecperm}" == "2" ]||[ "${userexecperm}" == "4" ]||[ "${userexecperm}" == "6" ]; then
 			# If user permission is invalid, then check for invalid group permissions
-			if [ "${groupexecperm}" == "0" ] || [ "${groupexecperm}" == "2" ] || [ "${groupexecperm}" == "4" ]  || [ "${groupexecperm}" == "6" ]; then
+			if [ "${groupexecperm}" == "0" ]||[ "${groupexecperm}" == "2" ]||[ "${groupexecperm}" == "4" ]||[ "${groupexecperm}" == "6" ]; then
 				# If permission issues are found
 				fn_print_warn_nl "Permissions issue found"
 				fn_script_log_warn "Permissions issue found"
@@ -122,14 +122,14 @@ fn_check_permissions(){
 				# Grab the first and second digit for user and group permission
 				userexecperm="${execperm:0:1}"
 				groupexecperm="${execperm:1:1}"
-				if [ "${userexecperm}" == "0" ] || [ "${userexecperm}" == "2" ] || [ "${userexecperm}" == "4" ]  || [ "${userexecperm}" == "6" ]; then
-					if [ "${groupexecperm}" == "0" ] || [ "${groupexecperm}" == "2" ] || [ "${groupexecperm}" == "4" ]  || [ "${groupexecperm}" == "6" ]; then
+				if [ "${userexecperm}" == "0" ]||[ "${userexecperm}" == "2" ]||[ "${userexecperm}" == "4" ]||[ "${userexecperm}" == "6" ]; then
+					if [ "${groupexecperm}" == "0" ]||[ "${groupexecperm}" == "2" ]||[ "${groupexecperm}" == "4" ]||[ "${groupexecperm}" == "6" ]; then
 					# If errors are still found
 					fn_print_fail_nl "The following file could not be set executable:"
 					ls -l "${executabledir}/${execname}"
 					fn_script_log_warn "The following file could not be set executable:"
 					fn_script_log_info "${executabledir}/${execname}"
-					if [ "${monitorflag}" == 1 ]; then
+					if [ "${monitorflag}" == "1" ]; then
 						alert="permissions"
 						alert.sh
 					fi
@@ -171,7 +171,7 @@ fn_sys_perm_fix_manually_msg(){
 	fn_script_log_info "To fix this issue, run the following command as root:"
 	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
-	sleep 1
+	sleep 0.5
 	if [ "${monitorflag}" == 1 ]; then
 		alert="permissions"
 		alert.sh
@@ -184,7 +184,7 @@ fn_sys_perm_errors_fix(){
 	sudo -v > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		fn_print_dots "Automatically fixing /sys permissions"
-		sleep 2
+		sleep 0.5
 		fn_script_log_info "Automatically fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
 			sudo chmod a+rx "/sys"
@@ -200,13 +200,13 @@ fn_sys_perm_errors_fix(){
 		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 			fn_print_error "Could not fix /sys permissions"
 			fn_script_log_error "Could not fix /sys permissions."
-			sleep 1
+			sleep 0.5
 			# Show the user how to fix
 			fn_sys_perm_fix_manually_msg
 		else
 			fn_print_ok_nl "Automatically fixing /sys permissions"
 			fn_script_log_pass "Permissions in /sys fixed"
-			sleep 1
+			sleep 0.5
 		fi
 	else
 	# Show the user how to fix
@@ -221,7 +221,7 @@ fn_sys_perm_error_process(){
 	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 		fn_print_error_nl "Permission error(s) found in /sys"
 		fn_script_log_error "Permission error(s) found in /sys"
-		sleep 1
+		sleep 0.5
 		# Run the fix
 		fn_sys_perm_errors_fix
 	fi
@@ -230,8 +230,10 @@ fn_sys_perm_error_process(){
 # Run perm error detect & fix/alert functions on /sys directories
 
 ## Run checks
-fn_check_ownership
-fn_check_permissions
-if [ "${function_selfname}" == "command_start.sh" ]; then
-	fn_sys_perm_error_process
+if [ "$(whoami)" != "root" ]; then
+	fn_check_ownership
+	fn_check_permissions
+	if [ "${function_selfname}" == "command_start.sh" ]; then
+		fn_sys_perm_error_process
+	fi
 fi

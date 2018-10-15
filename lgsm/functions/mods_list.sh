@@ -2,7 +2,7 @@
 # LinuxGSM mods_list.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Lists and defines available mods for LinuxGSM supported servers; works along with mods_core.sh.
 # Usage: To add a mod, you need to add an array variable following the guide to set proper values;
 # Usage: Then add this array to the mods_global_array.
@@ -10,7 +10,7 @@
 
 local commandname="MODS"
 local commandaction="List Mods"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_script_log_info "Retrieving latest mods URLs"
@@ -21,11 +21,15 @@ metamodlatestfile="$(wget "${metamodscrapeurl}" -q -O -)"
 metamoddownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodmversion}"
 metamodurl="${metamoddownloadurl}"
 # Sourcemod
-sourcemodmversion="1.8"
+sourcemodmversion="1.9"
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
 sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
 sourcemodurl="${sourcemoddownloadurl}"
+# Oxide
+oxiderustlatestlink="$(curl -sL https://api.github.com/repos/theumod/umod.rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+oxidehurtworldlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
+oxidesdtdlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 
 # Define mods information (required)
 
@@ -55,6 +59,11 @@ modseparator="MOD"
 # Source mods
 mod_info_metamod=( MOD "metamod" "MetaMod" "${metamodurl}" "${metamodlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source;" "GAMES" "NOTGAMES" "https://www.sourcemm.net" "Plugins Framework" )
 mod_info_sourcemod=( MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "GAMES" "NOTGAMES" "http://www.sourcemod.net" "Admin Features (requires MetaMod)" )
+
+# CS:GO Mods
+mod_info_gokz=( MOD "gokz" "GOKZ" "https://bitbucket.org/kztimerglobalteam/gokz/downloads/GOKZ-latest.zip" "gokz-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "Counter Strike: Global Offensive" "NOTGAMES" "https://bitbucket.org/kztimerglobalteam/gokz/src/master/" "Implements the KZ game mode (requires SourceMod and MetaMod)")
+mod_info_ttt=( MOD "ttt" "Trouble in Terrorist Town" "https://csgottt.com/downloads/ttt-latest-dev-${sourcemodmversion}.zip" "ttt-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "Counter Strike: Global Offensive" "NOTGAMES" "https://github.com/Bara/TroubleinTerroristTown" "Implements the TTT game mode (requires SourceMod and MetaMod)")
+
 # Garry's Mod Addons
 mod_info_ulib=( MOD "ulib" "ULib" "https://codeload.github.com/TeamUlysses/ulib/zip/master" "ulib-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Complete Framework" )
 mod_info_ulx=( MOD "ulx" "ULX" "https://codeload.github.com/TeamUlysses/ulx/zip/master" "ulx-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Admin Panel (requires ULib)" )
@@ -63,12 +72,17 @@ mod_info_uclip=( MOD "uclip" "UClip" "https://github.com/TeamUlysses/uclip/archi
 mod_info_acf=( MOD "acf" "Armoured Combat Framework" "https://github.com/nrlulz/ACF/archive/master.zip" "acf-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "acf-master/lua/acf/shared/guns;" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/nrlulz/ACF" "Realistic Wepons & Engines" )
 mod_info_acf_missiles=( MOD "acfmissiles" "ACF Missiles" "https://github.com/Bubbus/ACF-Missiles/archive/master.zip" "acf-missiles-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/Bubbus/ACF-Missiles" "More missiles for ACF" )
 mod_info_advdupe2=( MOD "advdupe2" "Advanced Duplicator 2" "https://github.com/wiremod/advdupe2/archive/master.zip" "advdupe2-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://www.wiremod.com" "Save your constructions" )
-mod_info_darkrp=( MOD "darkrp" "DarkRP" "https://github.com/FPtje/DarkRP/archive/master.zip" "darkrp-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Most popular gamemode" )
+mod_info_pac3=( MOD "pac3" "PAC3" "https://github.com/CapsAdmin/pac3/archive/master.zip" "pac3-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/CapsAdmin/pac3" "Advanced player model customization" )
+mod_info_wiremod=( MOD "wiremod" "Wiremod" "https://github.com/wiremod/wire/archive/master.zip" "wire-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/wiremod/wire" "Base Wiremod Addon")
+mod_info_wiremodextras=( MOD "wiremod-extras" "Wiremod Extras" "https://github.com/wiremod/wire-extras/archive/master.zip" "wire-extras-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/wiremod/wire-extras/" "Addition to Wiremod, Extra Content")
+mod_info_darkrp=( MOD "darkrp" "DarkRP" "https://github.com/FPtje/DarkRP/archive/master.zip" "darkrp-master.zip" "0" "LowercaseOn" "${systemdir}/gamemodes" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Most popular gamemode" )
 mod_info_darkrpmodification=( MOD "darkrpmodification" "DarkRP Modification" "https://github.com/FPtje/darkrpmodification/archive/master.zip" "darkrpmodification-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "NOUPDATE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Customize DarkRP settings" )
+
+
 # Oxidemod
-mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "https://dl.bintray.com/oxidemod/builds/Oxide-Rust.zip" "Oxide-Rust.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-rust.1659/" "Allows for the use of plugins" )
-mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "https://dl.bintray.com/oxidemod/builds/Oxide-Hurtworld.zip" "Oxide-Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-hurtworld.1332/" "Allows for the use of plugins" )
-mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "https://dl.bintray.com/oxidemod/builds/Oxide-7DaysToDie.zip" "Oxide-7DaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
+mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "Oxide.Rust.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-rust.1659/" "Allows for the use of plugins" )
+mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlink}" "Oxide.Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-hurtworld.1332/" "Allows for the use of plugins" )
+mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
+mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )

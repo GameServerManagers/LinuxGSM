@@ -2,12 +2,12 @@
 # LinuxGSM command_mods_update.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
 local commandname="MODS"
 local commandaction="Mods Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 mods_core.sh
@@ -27,7 +27,7 @@ fn_remove_cfg_files(){
 			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file
 			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
-				rm -r "${extractdir}/${filetopreserve}"
+				rm -r "${extractdir:?}/${filetopreserve}"
 				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"
@@ -66,13 +66,13 @@ for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 		echo -e "	* ${yellow}${modprettyname}${default} (retain common custom files)"
 	fi
 done
-sleep 1
+sleep 0.5
 
 ## Update
 # List all installed mods and apply update
 # Reset line value
 installedmodsline="1"
-while [ ${installedmodsline} -le ${installedmodscount} ]; do
+while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 	currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
 	if [ -n "${currentmod}" ]; then
 		fn_mod_get_info

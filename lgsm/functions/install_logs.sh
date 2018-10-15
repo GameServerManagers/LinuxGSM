@@ -1,19 +1,19 @@
 #!/bin/bash
 # LinuxGSM install_logs.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Creates log directories.
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
 	echo "Creating log directories"
 	echo "================================="
 fi
-sleep 1
+sleep 0.5
 # Create LinuxGSM logs
 echo -ne "installing log dir: ${logdir}..."
 mkdir -p "${logdir}"
@@ -77,7 +77,7 @@ fi
 # e.g serverfiles/log is not within log/: symlink created
 # log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ]; then
-	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ];then
+	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
 		echo -ne "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
 		ln -nfs "${gamelogdir}" "${logdir}/server"
 		if [ $? -ne 0 ]; then
@@ -102,5 +102,5 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 		fi
 	fi
 fi
-sleep 1
+sleep 0.5
 fn_script_log_info "Logs installed"

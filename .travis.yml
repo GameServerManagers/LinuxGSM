@@ -1,7 +1,6 @@
 language: bash
+dist: trusty
 sudo: required
-env:
-- DISTRO=ubuntu-trusty
 
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
@@ -11,16 +10,36 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - tmux
     - mailutils
-    - postfix 
-    - lib32gcc1 
-    - libstdc++6 
-    - libstdc++6:i386 
-    - telnet 
-    - expect
+    - postfix
+    - curl
+    - wget
+    - file
+    - bzip2
+    - gzip
+    - unzip
+    - bsdmainutils
+    - python
+    - util-linux
+    - ca-certificates
+    - binutils
+    - bc
+    - jq
+    - tmux
+    - lib32gcc1
+    - libstdc++6
+    - libstdc++6:i386
+    - net-tools
+    - iproute2
+    - shellcheck
 
-script:
-
-    - bash tests/tests_jc2server.sh
-    - bash tests/tests_ts3server.sh
+jobs:
+  include:
+    - stage: jobs
+      script: bash tests/tests_jc2server.sh
+    - # stage name not required
+      script: bash tests/tests_fctrserver.sh
+    - # stage name not required
+      script: bash tests/tests_ts3server.sh
+    - # stage name not required
+      script: bash tests/tests_shellcheck.sh

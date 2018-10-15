@@ -2,7 +2,7 @@
 # LinuxGSM check_config.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if run from tmux or screen
 
 local commandname="check"

@@ -2,12 +2,12 @@
 # LinuxGSM command_mods_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Core functions for mods list/install/update/remove
 
 local commandname="MODS"
 local commandaction="addons/mods"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories
 modsdir="${lgsmdir}/mods"
@@ -43,7 +43,7 @@ fn_mod_lowercase(){
 		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
-			dst=`dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]'`
+			dst=$(dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]')
 			if [ "${src}" != "${dst}" ]
 			then
 				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo "${src} was not renamed"
@@ -219,7 +219,7 @@ fn_mods_installed_list(){
 	moddescriptionmaxlength="0"
 	modcommandmaxlength="0"
 	# Loop through every line of the installed mods list ${modsinstalledlistfullpath}
-	while [ ${installedmodsline} -le ${installedmodscount} ]; do
+	while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 		currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
 		# Get mod info to make sure mod exists
 		fn_mod_get_info

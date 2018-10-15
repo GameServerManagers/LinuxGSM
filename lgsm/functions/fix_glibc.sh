@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM fix_glibc.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Downloads required Glibc files and applies the Glibc fix if required.
 
 local commandname="FIX"
 local commandaction="Fix"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## i386
 
