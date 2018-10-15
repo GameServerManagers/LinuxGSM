@@ -79,7 +79,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			fn_script_log_fatal "IP address not set in game config."
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-			if [ "${command_arg}" != "details" ]&&[ "${command_arg}" != "dt" ] ; then
+			if [ "${function_selfname}" != "command_details.sh" ];then
 			    core_exit.sh
 			fi
 		else
