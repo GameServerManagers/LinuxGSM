@@ -99,11 +99,10 @@ fn_install_universe_repo(){
     # Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu
     if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
         fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
+        fn_print_dots "Adding Universe repository"
         sleep 0.5
         sudo -v > /dev/null 2>&1
         if [ $? -eq 0 ]; then
-            fn_print_info_nl "Automatically adding Universe repository."
-            fn_script_log_info "Automatically adding Universe repository."
             echo -en ".\r"
             sleep 1
             echo -en "..\r"
@@ -129,9 +128,7 @@ fn_install_universe_repo(){
             echo "	sudo apt-add-repository universe"
         fi
     fi
-
 }
-
 
 fn_deps_detector(){
 	# Checks if dependency is missing
