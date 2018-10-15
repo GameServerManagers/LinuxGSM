@@ -141,12 +141,12 @@ fn_deps_detector(){
 		deptocheck="${javaversion}"
 		unset javacheck
 	elif [ "${deptocheck}" == "jq" ]&&[ "${distroversion}" == "6" ]; then
-		    jqstatus=1
-    elif [ "${deptocheck}" == "jq" ]&&[ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]&& ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
-	        depstatus=1
-            jquniversemissing=1
-	        #1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
-	        #check if the universe exists and active
+		jqstatus=1
+	elif [ "${deptocheck}" == "jq" ]&&[ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]&& ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
+		depstatus=1
+		jquniversemissing=1
+		#1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
+		#check if the universe exists and active
 	elif [ "${deptocheck}" == "mono-complete" ]; then
 		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed
