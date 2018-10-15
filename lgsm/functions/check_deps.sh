@@ -95,6 +95,44 @@ fn_install_mono_repo(){
 	fi
 }
 
+fn_install_universe_repo(){
+    # Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu
+    if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
+        fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
+        sleep 0.5
+        sudo -v > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            fn_print_info_nl "Automatically adding Mono repository."
+            fn_script_log_info "Automatically adding Mono repository."
+            echo -en ".\r"
+            sleep 1
+            echo -en "..\r"
+            sleep 1
+            echo -en "...\r"
+            sleep 1
+            echo -en "   \r"
+            cmd="sudo apt-add-repository universe"
+            eval ${cmd}
+            if [ $? -eq 0 ]; then
+                fn_print_complete_nl "Installing universe repository completed."
+                fn_script_log_pass "Installing universe repository completed."
+            else
+                fn_print_failure_nl "Unable to install universe repository."
+                fn_script_log_fatal "Unable to install universe repository."
+            fi
+        else
+            fn_print_information_nl "Adding Universe Repo"
+            echo ""
+            fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Universe repository."
+            fn_script_log_warn "$(whoami) does not have sudo access. Manually add Universe repository."
+            echo "	Please run the following command as a user with sudo access, and re-run the installation"
+            echo "	sudo apt-add-repository universe"
+        fi
+    fi
+
+}
+
+
 fn_deps_detector(){
 	# Checks if dependency is missing
 	if [ "${tmuxcheck}" == "1" ]; then
@@ -107,8 +145,16 @@ fn_deps_detector(){
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
-	elif [ "${deptocheck}" == "jq" ]&&[ "${distroversion}" == "6" ]; then
-		jqstatus=1
+	elif [ "${deptocheck}" == "jq" ]; then
+	    if [ "${distroversion}" == "6" ]; then
+		    jqstatus=1
+	    elsif [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]; then
+	        #1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
+	        #check if the universe exists and active
+	        if ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
+	            jquniversemissing=1
+	        fi
+	    end
 	elif [ "${deptocheck}" == "mono-complete" ]; then
 		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed
@@ -190,6 +236,9 @@ fn_found_missing_deps(){
 		if [ -n "${jqstatus}" ]; then
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
 			echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/jq"
+		fi
+		if [ -n "${jquniversemissing}" ]; then
+		    fn_install_universe_repo
 		fi
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
