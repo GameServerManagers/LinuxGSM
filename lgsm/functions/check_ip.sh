@@ -24,14 +24,10 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 		sleep 0.5
 		# Multiple interfaces
 		if [ "${getipwc}" -ge "2" ]; then
-		        multiple_ip=1
-		        fn_print_dots "Check IP"
-			sleep 1
-			command_arg=$(ps -o command $$ | tail -n +2 | cut -d' ' -f3)
 			if [ "${function_selfname}" == "command_details.sh" ]; then
-			    fn_print_warn "Check IP: Multiple active network interfaces found."
+			    fn_print_warn "Check IP: Multiple IP addresses found."
 			else
-			    fn_print_fail "Check IP: Multiple active network interfaces found."
+			    fn_print_fail "Check IP: Multiple IP addresses found."
 			fi
 			sleep 0.5
 			echo -en "\n"
