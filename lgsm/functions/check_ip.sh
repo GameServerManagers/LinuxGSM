@@ -25,7 +25,15 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 		sleep 0.5
 		# Multiple interfaces
 		if [ "${getipwc}" -ge "2" ]; then
-			fn_print_fail "Check IP: Multiple IP addresses found."
+		        multiple_ip=1
+		        fn_print_dots "Check IP"
+			sleep 1
+			command_arg=$(ps -o command $$ | tail -n +2 | cut -d' ' -f3)
+			if [[ "${command_arg}" = "details" ]] || [[ "${command_arg}" = "dt" ]] ; then
+			    fn_print_warn "Check IP: Multiple active network interfaces found."
+			else
+			    fn_print_fail "Check IP: Multiple active network interfaces found."
+			fi
 			sleep 0.5
 			echo -en "\n"
 			# IP is set within game config
@@ -76,7 +84,9 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			fn_script_log_fatal "IP address not set in game config."
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-			core_exit.sh
+			if [[ "${command_arg}" != "details" ]] && [[ "${command_arg}" != "dt" ]] ; then
+			    core_exit.sh
+			fi
 		else
 			fn_print_info_nl "Check IP: ${getip}"
 			fn_script_log_info "IP automatically set as: ${getip}"
