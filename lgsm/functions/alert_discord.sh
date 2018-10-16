@@ -5,60 +5,62 @@
 # Website: https://linuxgsm.com
 # Description: Sends Discord alert.
 
+if ! command -v jq > /dev/null; then
+    fn_print_fail_nl "Sending Discord alert: jq is missing."
+    fn_script_log_fatal "Sending Discord alert: jq is missing."
+fi
+
+EscapedServername="$(echo -n "${servername}" | jq -sRr "@json")"
+EscapedAlertBody="$(echo -n "${alertbody}" | jq -sRr "@json")"
+
+echo "$servername" > /tmp/servername
+
 json=$(cat <<EOF
 {
-"username":"LinuxGSM",
-"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png",
-"file":"content",
+    "username":"LinuxGSM",
+    "avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png",
+    "file":"content",
 
-"embeds": [{
-	"color": "2067276",
-	"author": {"name": "${alertemoji} ${alertsubject} ${alertemoji}", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
-	"title": "",
-	"description": "",
-	"url": "",
-	"type": "content",
-	"thumbnail": {"url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
-	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
-	"fields": [
-			{
-				"name": "Alert Message",
-				"value": "${alertbody}"
-			},
-			{
-				"name": "Game",
-				"value": "${gamename}"
-			},
-			{
-				"name": "Server name",
-				"value": "${servername}"
-			},
-			{
-				"name": "Hostname",
-				"value": "${HOSTNAME}"
-			},
-			{
-				"name": "Server IP",
-				"value": "[${extip:-$ip}:${port}](https://www.gametracker.com/server_info/${extip:-$ip}:${port})"
-			},
-			{
-				"name": "More info",
-				"value": "${alerturl}"
-			}
-		]
-	}]
+    "embeds": [{
+        "color": "2067276",
+        "author": {"name": "${alertemoji} ${alertsubject}", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
+        "title": "",
+        "description": ${EscapedAlertBody},
+        "url": "",
+        "type": "content",
+        "thumbnail": {},
+        "footer": {"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}", "icon_url": ""},
+        "fields": [
+            {
+                "name": "Game",
+                "value": "${gamename}",
+                "inline": true
+            },
+            {
+                "name": "Server IP",
+                "value": "[${extip:-$ip}:${port}](https://www.gametracker.com/server_info/${extip:-$ip}:${port})",
+                "inline": true
+            },
+            {
+                "name": "Server name",
+                "value": ${EscapedServername},
+                "inline": true
+            }
+        ]
+    }]
 }
 EOF
 )
 
 fn_print_dots "Sending Discord alert"
-sleep 0.5
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "${discordwebhook}")
+
+minified="$(echo -n "$json" | jq -c -M "@json")"
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "${json}" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
-	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
-	fn_script_log_fatal "Sending Discord alert: ${discordsend}"
+    fn_print_fail_nl "Sending Discord alert: ${discordsend}"
+    fn_script_log_fatal "Sending Discord alert: ${discordsend}"
 else
-	fn_print_ok_nl "Sending Discord alert"
-	fn_script_log_pass "Sending Discord alert"
+    fn_print_ok_nl "Sending Discord alert"
+    fn_script_log_pass "Sending Discord alert"
 fi
