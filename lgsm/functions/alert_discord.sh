@@ -54,8 +54,11 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-minified="$(echo -n "$json" | jq -c -M "@json")"
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "${json}" "${discordwebhook}")
+minified="$(echo -n "$json" | jq -c .)"
+
+echo "$minified" > /tmp/json
+
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "${minified}" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
     fn_print_fail_nl "Sending Discord alert: ${discordsend}"
