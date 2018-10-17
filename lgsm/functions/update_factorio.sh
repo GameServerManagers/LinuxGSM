@@ -15,7 +15,7 @@ fn_update_factorio_dl(){
 	elif [ "${branch}" == "experimental" ]; then
 		downloadbranch="latest"
 	fi
-	fn_fetch_file "https://www.factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
+	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	fn_script_log "Copying to ${serverfiles}"
@@ -82,7 +82,7 @@ fn_update_factorio_arch(){
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
 	if [ "${branch}" != "stable" ]; then
-		availablebuild=$(${curlpath} -s https://www.factorio.com/get-download/stable/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
+		availablebuild=$(${curlpath} -s https://factorio.com/get-download/stable/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
 	else
 		availablebuild=$(${curlpath} -s https://factorio.com/get-download/latest/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
 	fi
