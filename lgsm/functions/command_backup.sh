@@ -14,12 +14,12 @@ check.sh
 # Trap to remove lockfile on quit.
 fn_backup_trap(){
 	echo ""
-	echo -ne "backup ${backupname}.tar.gz..."
+	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
 	sleep 0.5
 	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
-	echo -ne "backup ${backupname}.tar.gz..."
+	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file
@@ -47,7 +47,7 @@ fn_backup_init(){
 	sleep 0.5
 	fn_print_ok "Backup starting"
 	sleep 0.5
-	echo -ne "\n"
+	echo -en "\n"
 	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 		fn_print_info_nl "There are no previous backups"
 	else
