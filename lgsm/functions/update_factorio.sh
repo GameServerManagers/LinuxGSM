@@ -10,8 +10,13 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
-	fn_fetch_file "https://www.factorio.com/get-download/${availablebuild}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz"
-	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.gz" "${tmpdir}"
+	if [ "${availablebuild}" == "stable" ]; then
+		downloadbuild="stable"
+	elif [ "${availablebuild}" == "experimental" ]; then
+		downloadbuild="latest"
+	fi
+	fn_fetch_file "https://www.factorio.com/get-download/${downloadbuild}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
+	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	fn_script_log "Copying to ${serverfiles}"
 	cp -R "${tmpdir}/factorio/"* "${serverfiles}"
@@ -77,12 +82,10 @@ fn_update_factorio_arch(){
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
 	if [ "${branch}" != "stable" ]; then
-		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless/"${branch}" | grep 'headless/linux64' | head -n 2 | tail -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+		availablebuild=$(${curlpath} -s https://www.factorio.com/get-download/stable/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
 	else
-		availablebuild=$(${curlpath} -s https://www.factorio.com/download-headless | grep 'headless/linux64' | head -n 2 | tail -n 1 | grep -oP '(?<=get-download/).*?(?=/)')
+		availablebuild=$(${curlpath} -s https://factorio.com/get-download/latest/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
 	fi
-	sleep 0.5
-
 	# Checks if availablebuild variable has been set
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: factorio.com"
