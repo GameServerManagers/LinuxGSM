@@ -24,7 +24,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_dl_md5(){
 	# Runs MD5 Check if available
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
-		echo -ne "verifying ${local_filename} with MD5..."
+		echo -en "verifying ${local_filename} with MD5..."
 		sleep 0.5
 		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
@@ -53,7 +53,7 @@ fn_dl_extract(){
 	local_filename="${2}"
 	extractdir="${3}"
 	# extracts archives
-	echo -ne "extracting ${local_filename}..."
+	echo -en "extracting ${local_filename}..."
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ ! -d "${extractdir}" ]; then
 		mkdir "${extractdir}"
@@ -85,12 +85,12 @@ fn_dl_extract(){
 # Trap to remove file download if canceled before completed
 fn_fetch_trap(){
 	echo ""
-	echo -ne "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	sleep 0.5
 	rm -f "${local_filedir}/${local_filename}"
-	echo -ne "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
 	core_exit.sh
@@ -114,12 +114,12 @@ fn_fetch_file(){
 		trap fn_fetch_trap INT
 		# larger files show a progress bar
 		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]||[ "${local_filename##*.}" == "xz" ]; then
-			echo -ne "downloading ${local_filename}..."
+			echo -en "downloading ${local_filename}..."
 			sleep 0.5
-			echo -ne "downloading ${local_filename}..."
+			echo -en "downloading ${local_filename}..."
 			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 		else
-			echo -ne "    fetching ${local_filename}...\c"
+			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 		fi
 		local exitcode=$?

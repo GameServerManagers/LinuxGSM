@@ -76,7 +76,7 @@ fn_bootstrap_fetch_file(){
 		# If curl exists download file
 		if [ "$(basename "${curlpath}")" == "curl" ]; then
 			# trap to remove part downloaded files
-			echo -ne "    fetching ${local_filename}...\c"
+			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
@@ -325,7 +325,7 @@ else
 		fi
 		if [ ! -f "${configdirserver}/_default.cfg" ]; then
 			mkdir -p "${configdirserver}"
-			echo -ne "    copying _default.cfg...\c"
+			echo -en "    copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
@@ -338,7 +338,7 @@ else
 			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 			if [ "${function_file_diff}" != "" ]; then
 				fn_print_warn_nl "_default.cfg has been altered. reloading config."
-				echo -ne "    copying _default.cfg...\c"
+				echo -en "    copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 				exitcode=$?
 				if [ ${exitcode} -ne 0 ]; then
