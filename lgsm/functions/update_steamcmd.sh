@@ -111,7 +111,7 @@ fn_update_request_log(){
 		fn_print_ok_nl "Checking for update: Server logs: Update requested"
 		fn_script_log_pass "Checking for update: Server logs: Update requested"
 		sleep 0.5
-		echo ""
+		echo -e ""
 		echo -en "Applying update.\r"
 		sleep 1
 		echo -en "Applying update..\r"
