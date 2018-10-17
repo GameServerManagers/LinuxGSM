@@ -10,12 +10,12 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
-	if [ "${availablebuild}" == "stable" ]; then
-		downloadbuild="stable"
-	elif [ "${availablebuild}" == "experimental" ]; then
-		downloadbuild="latest"
+	if [ "${branch}" == "stable" ]; then
+		downloadbranch="stable"
+	elif [ "${branch}" == "experimental" ]; then
+		downloadbranch="latest"
 	fi
-	fn_fetch_file "https://www.factorio.com/get-download/${downloadbuild}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
+	fn_fetch_file "https://www.factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	fn_script_log "Copying to ${serverfiles}"
