@@ -70,7 +70,7 @@ fi
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo ""
-		echo "Applying ${gamename} Server Fixes"
+		echo "Applying Post-Install Fixes"
 		echo "================================="
 		sleep 0.5
 		if [ "${gamename}" == "Killing Floor" ]; then
