@@ -112,8 +112,8 @@ fn_fetch_file(){
 		fi
 		# Trap will remove part downloaded files if canceled
 		trap fn_fetch_trap INT
-		# if larger file shows progress bar
-		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]; then
+		# larger files show a progress bar
+		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ][ "${local_filename##*.}" == "xz" ]; then
 			echo -ne "downloading ${local_filename}..."
 			sleep 0.5
 			echo -ne "downloading ${local_filename}..."
