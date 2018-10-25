@@ -91,6 +91,28 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
 ## Memory information
 
+# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated
+
+# define the following as integers due to AWK string issues
+declare -i physmemtotalkb
+declare -i physmemfreekb
+declare -i physmembufferskb
+declare -i physmemcachedkb
+declare -i physmemactualfreekb
+
+# get the raw KB values of these fields
+physmemtotalkb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+physmemfreekb=$(grep ^MemFree /proc/meminfo | awk '{print $2}')
+physmembufferskb=$(grep ^Buffers /proc/meminfo | awk '{print $2}')
+physmemcachedkb=$(grep ^Cached /proc/meminfo | awk '{print $2}')
+
+# check if MemAvailable Exists
+if grep -q ^MemAvailable /proc/meminfo; then
+physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
+else
+physmemactualfreekb=${physmemfreekb}+${physmembufferskb}+${physmemcachedkb}
+fi
+
 # Available RAM and swap.
 physmemtotalmb=$(($(grep MemTotal /proc/meminfo | awk '{print $2}')/1024))
 physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemTotal /proc/meminfo | awk '{print $2}')K")
