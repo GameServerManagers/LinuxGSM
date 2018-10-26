@@ -10,10 +10,8 @@ if ! command -v jq > /dev/null; then
     fn_script_log_fatal "Sending Discord alert: jq is missing."
 fi
 
-EscapedServername="$(echo -n "${servername}" | jq -sRr "@json")"
-EscapedAlertBody="$(echo -n "${alertbody}" | jq -sRr "@json")"
-
-echo "$servername" > /tmp/servername
+escaped_servername="$(echo -n "${servername}" | jq -sRr "@json")"
+escaped_alertbody="$(echo -n "${alertbody}" | jq -sRr "@json")"
 
 json=$(cat <<EOF
 {
@@ -25,7 +23,7 @@ json=$(cat <<EOF
         "color": "2067276",
         "author": {"name": "${alertemoji} ${alertsubject}", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
         "title": "",
-        "description": ${EscapedAlertBody},
+        "description": ${escaped_alertbody},
         "url": "",
         "type": "content",
         "thumbnail": {},
@@ -42,8 +40,8 @@ json=$(cat <<EOF
                 "inline": true
             },
             {
-                "name": "Server name",
-                "value": ${EscapedServername},
+                "name": "Server Name",
+                "value": ${escaped_servername},
                 "inline": true
             }
         ]
@@ -54,11 +52,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-minified="$(echo -n "$json" | jq -c .)"
-
-echo "$minified" > /tmp/json
-
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "${minified}" "${discordwebhook}")
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
     fn_print_fail_nl "Sending Discord alert: ${discordsend}"
