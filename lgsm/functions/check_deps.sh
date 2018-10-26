@@ -217,10 +217,9 @@ fn_deps_email(){
 
 fn_found_missing_deps(){
 	if [ "${#array_deps_missing[@]}" != "0" ]; then
-		fn_print_dots "Checking dependencies"
-		sleep 0.5
-		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
-		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
+
+		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[@]}${default}"
+		fn_script_log_warn "Missing dependencies: ${array_deps_missing[@]}"
 		sleep 0.5
 		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
@@ -228,9 +227,6 @@ fn_found_missing_deps(){
 		if [ -n "${jqstatus}" ]; then
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
 			echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/jq"
-		fi
-		if [ -n "${jquniversemissing}" ]; then
-		    fn_install_universe_repo
 		fi
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then
@@ -297,6 +293,11 @@ fn_found_missing_deps(){
 		fi
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			sleep 5
+		fi
+	else
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			fn_print_information_nl "Required dependencies already installed"
+			fn_script_log_info "Required dependencies already installed"
 		fi
 	fi
 }
@@ -396,6 +397,9 @@ fn_deps_build_debian(){
 	# Serious Sam 3: BFE
 	elif [ "${shortname}" == "ss3" ]; then
 		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
+	# Sven Co-op
+	elif [ "${shortname}" == "sven" ]; then
+		array_deps_required+=( libssl1.0.0:i386 )
 	# Unreal Engine
 	elif [ "${executable}" == "./ucc-bin" ]; then
 		#UT2K4
@@ -411,6 +415,9 @@ fn_deps_build_debian(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
+	# Wurm: Unlimited
+	elif [ "${shortname}" == "wurm" ]; then
+		array_deps_required+=( xvfb )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -523,9 +530,18 @@ fn_deps_build_redhat(){
 }
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
-	echo ""
-	echo "Checking Dependencies"
-	echo "================================="
+	if [ "$(whoami)" == "root" ]; then
+		echo ""
+		echo "Checking Dependencies as root"
+		echo "================================="
+		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
+		fn_print_information_nl "This will NOT install a ${gamename} server."
+		sleep 2
+	else
+		echo ""
+		echo "Checking Dependencies"
+		echo "================================="
+	fi
 fi
 
 # Filter checking in to Debian or Red Hat Based
