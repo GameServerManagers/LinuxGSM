@@ -96,36 +96,36 @@ fn_install_mono_repo(){
 }
 
 fn_install_universe_repo(){
-    # Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu
-    if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
-        fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
-        fn_print_information_nl "Attempting to add Universe Repo"
-        sleep 0.5
-        sudo -v > /dev/null 2>&1
-        if [ $? -eq 0 ]; then
-            echo -en ".\r"
-            sleep 1
-            echo -en "..\r"
-            sleep 1
-            echo -en "...\r"
-            sleep 1
-            echo -en "   \r"
-            cmd="sudo apt-add-repository universe"
-            eval ${cmd}
-            if [ $? -eq 0 ]; then
-                fn_print_complete_nl "Installing universe repository completed."
-                fn_script_log_pass "Installing universe repository completed."
-            else
-                fn_print_failure_nl "Unable to install universe repository."
-                fn_script_log_fatal "Unable to install universe repository."
-            fi
-        else
-            fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Universe repository."
-            fn_script_log_warn "$(whoami) does not have sudo access. Manually add Universe repository."
-            echo "	Please run the following command as a user with sudo access, and re-run the installation"
-            echo "	sudo apt-add-repository universe"
-        fi
-    fi
+	# Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu
+   if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
+		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
+		fn_print_information_nl "Attempting to add Universe Repo"
+		sleep 0.5
+		sudo -v > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			echo -en ".\r"
+			sleep 1
+			echo -en "..\r"
+			sleep 1
+			echo -en "...\r"
+			sleep 1
+			echo -en "   \r"
+			cmd="sudo apt-add-repository universe"
+			eval ${cmd}
+			if [ $? -eq 0 ]; then
+				fn_print_complete_nl "Installing universe repository completed."
+				fn_script_log_pass "Installing universe repository completed."
+			else
+				fn_print_failure_nl "Unable to install universe repository."
+				fn_script_log_fatal "Unable to install universe repository."
+			fi
+		else
+			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Universe repository."
+			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Universe repository."
+			echo "	Please run the following command as a user with sudo access, and re-run the installation"
+			echo "	sudo apt-add-repository universe"
+		fi
+	fi
 }
 
 fn_deps_detector(){
