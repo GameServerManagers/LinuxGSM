@@ -24,7 +24,11 @@ fn_info_message_head(){
 	echo -e "${HOSTNAME}"
 	echo -e ""
 	echo -e "Server IP"
-	echo -e "${ip}:${port}"
+	if [ "${multiple_ip}" == "1" ]; then
+	    echo -e "NOT SET"
+	else
+	    echo -e "${ip}:${port}"
+	fi
 }
 
 fn_info_message_distro(){
@@ -139,10 +143,10 @@ fn_info_message_gameserver(){
 		fi
 
 		# Server ip
-		if [ ${multiple_ip} == 1 ]; then
-		    echo -e "${blue}Server IP:\t${default}NOT SET"
+		if [ "${multiple_ip}" == "1" ]; then
+			echo -e "${blue}Server IP:\t${default}NOT SET"
 		else
-		    echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 		fi
 
 		# External server ip
