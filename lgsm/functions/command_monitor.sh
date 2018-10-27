@@ -26,7 +26,7 @@ for queryattempt in {1..5}; do
 		fi
 		"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}" > /dev/null 2>&1
 		querystatus="$?"
-	elif [ "${querymethod}" ==  "telnet" ]; then
+	elif [ "${querymethod}" ==  "tcp" ]; then
 		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 		querystatus="$?"
 	fi
@@ -169,8 +169,8 @@ fn_monitor_query(){
 	done
 }
 
-fn_monitor_query_telnet(){
-	querymethod="telnet"
+fn_monitor_query_tcp(){
+	querymethod="tcp"
 	fn_monitor_loop
 }
 
@@ -190,8 +190,8 @@ if [ "${gamename}" == "Starbound" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi
-elif [ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Eco" ]; then
-	fn_monitor_query_telnet
+elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
+	fn_monitor_query_tcp
 else
 	fn_monitor_query
 fi
