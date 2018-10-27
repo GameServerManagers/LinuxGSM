@@ -139,7 +139,11 @@ fn_info_message_gameserver(){
 		fi
 
 		# Server ip
-		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		if [ ${multiple_ip} == 1 ]; then
+		    echo -e "${blue}Server IP:\t${default}NOT SET"
+		else
+		    echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		fi
 
 		# External server ip
 		if [ -n "${extip}" ]; then
