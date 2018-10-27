@@ -92,11 +92,10 @@ fn_update_mta_compare(){
 		echo -e "\n"
 		echo -e "Update ${mta_update_string}:"
 		sleep 0.5
-		echo -e "       Current build: ${red}${currentbuild} ${default}"
-		echo -e "       Available build: ${green}${fullversion} ${default}"
+		echo -e "	Current build: ${red}${currentbuild} ${default}"
+		echo -e "	Available build: ${green}${fullversion} ${default}"
 		echo -e ""
 		sleep 0.5
-		echo ""
 		echo -en "Applying update.\r"
 		sleep 1
 		echo -en "Applying update..\r"

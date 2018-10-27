@@ -87,7 +87,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -le "4" ]; then
-				if [ "${engine}" == "goldsource" ]; then
+				if [ "${appid}" == "90" ]; then
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				else

@@ -60,18 +60,25 @@ fn_set_config_vars(){
 	if [ -f "${servercfgfullpath}" ]; then
 		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		servername="LinuxGSM"
-		rconpass="admin$random"
+		rconpass="admin${random}"
 		echo "changing hostname."
 		fn_script_log_info "changing hostname."
 		sleep 0.5
+		# prevents var from being overwritten with the servername
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2>/dev/null; then
 			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
+		elif grep -q "SERVERNAME=\"SERVERNAME\"" "${lgsmdir}/config-default/config-game/${config}" 2>/dev/null; then
+			sed -i "s/SERVERNAME=\"SERVERNAME\"/SERVERNAME=\"${servername}\"/g" "${servercfgfullpath}"
 		else
 			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
 		fi
 		echo "changing rcon/admin password."
 		fn_script_log_info "changing rcon/admin password."
-		sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
+		if [ "${shortname}" == "squad" ]; then
+			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgdir}/Rcon.cfg"
+		else
+			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
+		fi
 		sleep 0.5
 	else
 		fn_script_log_warn "Config file not found, cannot alter it."
@@ -490,7 +497,7 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Squad" ]; then
 	gamedirname="Squad"
-	array_configs+=( Server.cfg )
+	array_configs+=( Server.cfg Rcon.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -580,6 +587,12 @@ elif [ "${gamename}" == "Vampire Slayer" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	gamedirname="WolfensteinEnemyTerritory"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Wurm Unlimited" ]; then
+	gamedirname="WurmUnlimited"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote

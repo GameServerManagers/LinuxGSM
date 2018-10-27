@@ -304,6 +304,9 @@ fn_info_config_minecraft(){
 		rconport="${zero}"
 		maxplayers="${zero}"
 		port="${zero}"
+		queryport="${zero}"
+		queryenabled="${unavailable}"
+		rconport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
@@ -312,6 +315,9 @@ fn_info_config_minecraft(){
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryport=$(grep "query.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryenabled=$(grep "enable-query" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/enable-query//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -1004,6 +1010,37 @@ fn_info_config_etlegacy(){
 	fi
 }
 
+fn_info_config_wurmunlimited(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		port="${zero}"
+		queryport="${zero}"
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		adminpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+
+		port=$(grep "EXTERNALPORT=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryport=$(grep "QUERYPORT=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		servername=$(grep "SERVERNAME=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/SERVERNAME//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "SERVERPASSWORD=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/SERVERPASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		adminpassword=$(grep "ADMINPWD=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMINPWD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MAXPLAYERS=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		ip=$(grep "IP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/IP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="IP"
+
+		# Not Set
+		port=${port:-"3724"}
+		queryport=${queryport:-"27017"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
 
 fn_info_config_squad(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1163,6 +1200,8 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_info_config_wolfensteinenemyterritory
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	fn_info_config_etlegacy
+elif [ "${gamename}" == "Wurm Unlimited" ]; then
+	fn_info_config_wurmunlimited
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	fn_info_config_mta
 elif [ "${gamename}" == "Squad" ]; then

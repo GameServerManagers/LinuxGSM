@@ -230,8 +230,10 @@ fn_sys_perm_error_process(){
 # Run perm error detect & fix/alert functions on /sys directories
 
 ## Run checks
-fn_check_ownership
-fn_check_permissions
-if [ "${function_selfname}" == "command_start.sh" ]; then
-	fn_sys_perm_error_process
+if [ "$(whoami)" != "root" ]; then
+	fn_check_ownership
+	fn_check_permissions
+	if [ "${function_selfname}" == "command_start.sh" ]; then
+		fn_sys_perm_error_process
+	fi
 fi

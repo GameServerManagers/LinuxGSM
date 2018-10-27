@@ -8,8 +8,23 @@ local commandname="UPDATE"
 local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_ts3_dl(){
+fn_update_ts3_dl_legacy(){
 	fn_fetch_file "http://dl.4players.de/ts/releases/${ts3_version_number}/teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
+	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
+	echo -e "copying to ${serverfiles}...\c"
+	fn_script_log "Copying to ${serverfiles}"
+	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
+	local exitcode=$?
+	if [ "${exitcode}" == "0" ]; then
+		fn_print_ok_eol_nl
+	else
+		fn_print_fail_eol_nl
+	fi
+}
+
+fn_update_ts3_dl(){
+	latestmcreleaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."4Netplayers.de"')
+	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	fn_script_log "Copying to ${serverfiles}"
@@ -152,7 +167,7 @@ fn_update_ts3_compare(){
 	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
 	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
 
-	if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
+	if [ "${currentbuilddigit}" -lt "${availablebuilddigit}" ]; then
 		echo -e "\n"
 		echo -e "Update available:"
 		sleep 0.5
@@ -160,7 +175,6 @@ fn_update_ts3_compare(){
 		echo -e "	Available build: ${green}${availablebuild} ${ts3arch}${default}"
 		echo -e ""
 		sleep 0.5
-		echo ""
 		echo -en "Applying update.\r"
 		sleep 1
 		echo -en "Applying update..\r"
@@ -208,10 +222,11 @@ if [ "${installer}" == "1" ]; then
 	# if jq available uses json update checker
 	if [ "$(command -v jq >/dev/null 2>&1)" ]; then
 		fn_update_ts3_availablebuild
+		fn_update_ts3_dl
 	else
 		fn_update_ts3_availablebuild_legacy
+		fn_update_ts3_dl_legacy
 	fi
-	fn_update_ts3_dl
 else
 	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
 	fn_print_dots "Checking for update: teamspeak.com"

@@ -14,7 +14,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			local engine="unreal4"
 		fi
 
-		local engine_query_array=( avalanche3.0 madness quakelive realvirtuality refractor source goldsource spark starbound unity3d unreal4 )
+		local engine_query_array=( avalanche3.0 madness quakelive realvirtuality refractor source goldsource spark starbound unity3d unreal4 wurm )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
@@ -43,6 +43,14 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
 				gamedigengine="protocol-quake3"
+			fi
+		done
+
+		local engine_query_array=( lwjgl2 )
+		for engine_query in "${engine_query_array[@]}"
+		do
+			if [ "${engine_query}" == "${engine}" ]; then
+				gamedigengine="minecraft"
 			fi
 		done
 

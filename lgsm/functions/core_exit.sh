@@ -14,6 +14,12 @@ fn_exit_dev_debug(){
 	fi
 }
 
+# If running dependency check as root will remove any files that belong to root user.
+if [ "$(whoami)" == "root" ]; then
+	find "${lgsmdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
+	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
+fi
+
 if [ -n "${exitbypass}" ]; then
 	unset exitbypass
 elif [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then

@@ -24,7 +24,11 @@ fn_info_message_head(){
 	echo -e "${HOSTNAME}"
 	echo -e ""
 	echo -e "Server IP"
-	echo -e "${ip}:${port}"
+	if [ "${multiple_ip}" == "1" ]; then
+	    echo -e "NOT SET"
+	else
+	    echo -e "${ip}:${port}"
+	fi
 }
 
 fn_info_message_distro(){
@@ -139,7 +143,11 @@ fn_info_message_gameserver(){
 		fi
 
 		# Server ip
-		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		if [ "${multiple_ip}" == "1" ]; then
+			echo -e "${blue}Server IP:\t${default}NOT SET"
+		else
+			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		fi
 
 		# External server ip
 		if [ -n "${extip}" ]; then
@@ -155,7 +163,7 @@ fn_info_message_gameserver(){
 
 		# Query enabled (Starbound)
 		if [ -n "${queryenabled}" ]; then
-			echo -e "${blue}Query enabled:\t${default}${rconpassword}"
+			echo -e "${blue}Query enabled:\t${default}${queryenabled}"
 		fi
 
 		# RCON enabled (Starbound)
@@ -220,6 +228,11 @@ fn_info_message_gameserver(){
 		# Default Map
 		if [ -n "${defaultmap}" ]; then
 			echo -e "${blue}Default Map:\t${default}${defaultmap}"
+		fi
+
+		# Game type
+		if [ -n "${gametype}" ]; then
+			echo -e "${blue}Game type:\t${default}${gametype}"
 		fi
 
 		# Game mode
@@ -447,7 +460,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -462,7 +475,7 @@ fn_info_message_ports(){
 	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
-		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
 		fi
 	done
@@ -690,6 +703,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1078,6 +1093,16 @@ fn_info_message_etlegacy(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_wurmunlimited(){
+	echo -e "netstat -atunp | grep WurmServer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game/Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
@@ -1153,6 +1178,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
+	elif [ "${gamename}" == "Wurm Unlimited" ]; then
+		fn_info_message_wurmunlimited
 	elif [ "${shortname}" == "rw" ]; then
 		fn_info_message_risingworld
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then

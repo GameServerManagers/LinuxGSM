@@ -91,18 +91,29 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
 ## Memory information
 
+# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated
+
+# get the raw KB values of these fields
+physmemtotalkb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+physmemfreekb=$(grep ^MemFree /proc/meminfo | awk '{print $2}')
+physmembufferskb=$(grep ^Buffers /proc/meminfo | awk '{print $2}')
+physmemcachedkb=$(grep ^Cached /proc/meminfo | awk '{print $2}')
+physmemreclaimablekb=$(grep ^SReclaimable /proc/meminfo | awk '{print $2}')
+
+# check if MemAvailable Exists
+if grep -q ^MemAvailable /proc/meminfo; then
+    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
+else
+    physmemactualfreekb=$((${physmemfreekb}+${physmembufferskb}+${physmemcachedkb}))
+fi
+
 # Available RAM and swap.
-physmemtotalmb=$(($(grep MemTotal /proc/meminfo | awk '{print $2}')/1024))
-physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemTotal /proc/meminfo | awk '{print $2}')K")
-physmemfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')K")
-physmemused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep "^MemTotal\:" /proc/meminfo | awk '{print $2}')-$(grep "^MemFree\:" /proc/meminfo | awk '{print $2}')-$(grep "^Buffers\:" /proc/meminfo | awk '{print $2}')-$(grep "^Cached\:" /proc/meminfo | awk '{print $2}')-$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
-{ # try
-	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')K")
-	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^Cached /proc/meminfo | awk '{print $2}')+$(grep "^SReclaimable\:" /proc/meminfo | awk '{print $2}')))K")
-} 2>/dev/null || { # fail silently, catch
-	physmemavailable="n/a"
-	physmemcached="n/a"
-}
+physmemtotalmb=$((${physmemtotalkb}/1024))
+physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")
+physmemfree=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
+physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemtotalkb}-${physmemfreekb}-${physmembufferskb}-${physmemcachedkb}-${physmemreclaimablekb}))K")
+physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
+physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemcachedkb}+${physmemreclaimablekb}))K")
 
 swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
 swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
@@ -174,13 +185,15 @@ if [ -z "${extip}" ]; then
 fi
 
 # Steam Master Server - checks if detected by master server
-if [ "${ip}" ] && [ "${port}" ]; then
-	if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
-		masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
-		if [ "${steammaster}" == "1" ]; then
-			masterserver="true"
-		else
-			masterserver="false"
+if [ ! "$(command -v jq 2>/dev/null)" ]; then
+	if [ "${ip}" ] && [ "${port}" ]; then
+		if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
+			masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			if [ "${steammaster}" == "1" ]; then
+				masterserver="true"
+			else
+				masterserver="false"
+			fi
 		fi
 	fi
 fi

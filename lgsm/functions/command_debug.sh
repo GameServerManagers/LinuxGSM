@@ -51,6 +51,11 @@ if [ -n "${glibcrequired}" ]; then
 	fi
 fi
 # Server ip
+if [ "${multiple_ip}" == "1" ]; then
+	echo -e "${blue}Server IP:\t${default}NOT SET"
+else
+	echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+fi
 echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 # External server ip
 if [ -n "${extip}" ]; then

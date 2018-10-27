@@ -21,9 +21,13 @@ echo "applying server name fix."
 sleep 0.5
 echo "forcing server restart..."
 sleep 0.5
+exitbypass=1
 command_start.sh
 sleep 5
+exitbypass=1
 command_stop.sh
+exitbypass=1
 command_start.sh
 sleep 5
+exitbypass=1
 command_stop.sh

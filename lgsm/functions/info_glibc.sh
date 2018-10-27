@@ -195,6 +195,9 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"
+elif [ "${gamename}" == "Wurm Unlimited" ]; then
+	glibcrequired="2.14"
+	glibcfix="no"
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"
