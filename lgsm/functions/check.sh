@@ -68,7 +68,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( command_debug.sh command_details.sh command_monitor.sh command_start.sh command_stop.sh command_dev_query_raw.sh )
+local allowed_commands_array=( command_debug.sh command_details.sh command_postdetails.sh command_monitor.sh command_start.sh command_stop.sh command_dev_query_raw.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
