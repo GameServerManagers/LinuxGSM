@@ -301,4 +301,6 @@ fn_stop_pre_check
 if [ -f "${rootdir}/${lockselfname}" ]; then
 	rm -f "${rootdir}/${lockselfname}"
 fi
-core_exit.sh
+if [ -z "${exitbypass}" ]; then
+	core_exit.sh
+fi
