@@ -91,33 +91,65 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
 ## Memory information
 
-# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated
 
-# get the raw KB values of these fields
-physmemtotalkb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-physmemfreekb=$(grep ^MemFree /proc/meminfo | awk '{print $2}')
-physmembufferskb=$(grep ^Buffers /proc/meminfo | awk '{print $2}')
-physmemcachedkb=$(grep ^Cached /proc/meminfo | awk '{print $2}')
-physmemreclaimablekb=$(grep ^SReclaimable /proc/meminfo | awk '{print $2}')
-
-# check if MemAvailable Exists
-if grep -q ^MemAvailable /proc/meminfo; then
-    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
-else
-    physmemactualfreekb=$((${physmemfreekb}+${physmembufferskb}+${physmemcachedkb}))
-fi
-
+## Memory information
 # Available RAM and swap.
-physmemtotalmb=$((${physmemtotalkb}/1024))
-physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")
-physmemfree=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
-physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemtotalkb}-${physmemfreekb}-${physmembufferskb}-${physmemcachedkb}-${physmemreclaimablekb}))K")
-physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
-physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemcachedkb}+${physmemreclaimablekb}))K")
 
-swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
-swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
-swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
+# Newer distros can use numfmt to give more accurate results
+if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated
+
+	# get the raw KB values of these fields
+	physmemtotalkb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+	physmemfreekb=$(grep ^MemFree /proc/meminfo | awk '{print $2}')
+	physmembufferskb=$(grep ^Buffers /proc/meminfo | awk '{print $2}')
+	physmemcachedkb=$(grep ^Cached /proc/meminfo | awk '{print $2}')
+	physmemreclaimablekb=$(grep ^SReclaimable /proc/meminfo | awk '{print $2}')
+
+	# check if MemAvailable Exists
+	if grep -q ^MemAvailable /proc/meminfo; then
+	    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
+	else
+	    physmemactualfreekb=$((${physmemfreekb}+${physmembufferskb}+${physmemcachedkb}))
+	fi
+
+	# Available RAM and swap.
+	physmemtotalmb=$((${physmemtotalkb}/1024))
+	physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")
+	physmemfree=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
+	physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemtotalkb}-${physmemfreekb}-${physmembufferskb}-${physmemcachedkb}-${physmemreclaimablekb}))K")
+	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
+	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemcachedkb}+${physmemreclaimablekb}))K")
+
+	swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
+	swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
+	swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
+else
+# Older distros will need to use free.
+	# Older versions of free do not support -h option.
+	if [ "$(free -h > /dev/null 2>&1; echo $?)" -ne "0" ]; then
+		humanreadable="-m"
+	else
+		humanreadable="-h"
+	fi
+	physmemtotalmb=$(free -m | awk '/Mem:/ {print $2}')
+	physmemtotal=$(free ${humanreadable} | awk '/Mem:/ {print $2}')
+	physmemfree=$(free ${humanreadable} | awk '/Mem:/ {print $4}')
+	physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
+
+	oldfree=$(free ${humanreadable} | awk '/cache:/')
+	if [ -n "${oldfree}" ]; then
+		physmemavailable="n/a"
+		physmemcached="n/a"
+	else
+		physmemavailable=$(free ${humanreadable} | awk '/Mem:/ {print $7}')
+		physmemcached=$(free ${humanreadable} | awk '/Mem:/ {print $6}')
+	fi
+
+	swaptotal=$(free ${humanreadable} | awk '/Swap:/ {print $2}')
+	swapused=$(free ${humanreadable} | awk '/Swap:/ {print $3}')
+	swapfree=$(free ${humanreadable} | awk '/Swap:/ {print $4}')
+fi
 
 ### Disk information
 
