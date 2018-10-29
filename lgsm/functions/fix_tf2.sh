@@ -10,7 +10,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [[ -f /etc/redhat-release ]]; then
 	echo "Applying missing libcurl-gnutls.so.4 fix for Redhat-based systems."
-	cd ${serverfiles}/bin
+	cd ${serverfiles}/bin || exit
 	if [[ -L libcurl-gnutls.so.4 ]]; then
 		echo "Fix already applied."
 	else
