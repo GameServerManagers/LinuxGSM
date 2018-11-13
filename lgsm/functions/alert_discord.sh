@@ -8,7 +8,7 @@
 json=$(cat <<EOF
 {
 "username":"LinuxGSM",
-"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png",
+"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png",
 "file":"content",
 
 "embeds": [{
