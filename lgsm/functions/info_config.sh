@@ -594,7 +594,6 @@ fn_info_config_sbots(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${unavailable}"
-		numreservedslots="${unavailable}"
 	else
 		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
 		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
