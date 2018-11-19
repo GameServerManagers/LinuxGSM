@@ -1156,7 +1156,7 @@ fn_info_message_select_engine(){
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_info_message_hurtworld
 	elif [ "${shortname}" == "inss" ]; then
-		fn_info_Message_inss
+		fn_info_message_inss
 	elif [ "${gamename}" == "Just Cause 2" ]; then
 		fn_info_message_justcause2
 	elif [ "${gamename}" == "Just Cause 3" ]; then
