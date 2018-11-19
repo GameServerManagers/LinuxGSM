@@ -691,7 +691,7 @@ fn_info_message_hurtworld(){
 	} | column -s $'\t' -t
 }
 
-fn_info_Message_inss(){
+fn_info_message_inss(){
 	echo -e "netstat -atunp | grep Insurgency"
 	echo -e ""
 	{
