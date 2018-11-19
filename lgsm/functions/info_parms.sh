@@ -54,7 +54,6 @@ fn_info_parms_factorio(){
 fn_info_parms_inss(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
-	rconport=${rconport:-"0"}
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	defaultmap=${defaultmap:-"NOT SET"}
