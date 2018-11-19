@@ -227,7 +227,7 @@ fn_info_message_gameserver(){
 
 		if [ -n "${defaultscenario}" ]; then
 			# Current Scenario
-			if [ -n "${currentscenario}" ]; then
+			if [ -n "${gdgamemode}" ]; then
 				echo -e "${blue}Current Scenario:\t${default}${gdgamemode}"
 			fi
 		else
