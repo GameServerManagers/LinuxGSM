@@ -110,6 +110,12 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			gdmap=
 		fi
 
+		# current gamemode
+		gdgamemode=$(echo "${gamedigraw}" | jq -re '.raw.rules.GameMode_s')
+		if [ "${gdgamemode}" == "null" ]; then
+			gdgamemode=
+		fi
+
 		# numbots
 		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
 		if [ "${gdbots}" == "null" ]; then

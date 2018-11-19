@@ -225,9 +225,13 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Current Map:\t${default}${gdmap}"
 		fi
 
-		# Current Scenario
-		if [ -n "${currentscenario}" ]; then
-			echo -e "${blue}Current Scenario:\t${default}${currentscenario}"
+		if [ -n "${defaultscenario}" ]; then
+			# Current Scenario
+			if [ -n "${currentscenario}" ]; then
+				echo -e "${blue}Current Scenario:\t${default}${gdgamemode}"
+			fi
+		else
+			echo -e "${blue}Current Game Mode:\t${default}${gdgamemode}"
 		fi
 
 		# Default Map
