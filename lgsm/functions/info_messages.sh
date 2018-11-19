@@ -460,7 +460,8 @@ fn_info_message_commandlineparms(){
 	fn_messages_separator
 	if [ "${serverpassword}" == "NOT SET" ]; then
 		unset serverpassword
-	fi	
+	fi
+	fn_parms
 	echo -e "${executable} ${parms}"
 }
 
