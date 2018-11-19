@@ -175,7 +175,7 @@ elif [ "${engine}" == "unreal3" ]; then
 	glibcrequired="2.3.2"
 	glibcfix="no"
 elif [ "${engine}" == "unreal4" ]; then
-	glibcrequired="2.14"
+	glibcrequired="2.17"
 	glibcfix="no"
 elif [ "${engine}" == "unity3d" ]; then
 	glibcrequired="2.15"
