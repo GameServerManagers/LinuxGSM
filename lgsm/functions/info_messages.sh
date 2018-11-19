@@ -225,9 +225,23 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Current Map:\t${default}${gdmap}"
 		fi
 
+		if [ -n "${defaultscenario}" ]; then
+			# Current Scenario
+			if [ -n "${gdgamemode}" ]; then
+				echo -e "${blue}Current Scenario:\t${default}${gdgamemode}"
+			fi
+		else
+			echo -e "${blue}Current Game Mode:\t${default}${gdgamemode}"
+		fi
+
 		# Default Map
 		if [ -n "${defaultmap}" ]; then
 			echo -e "${blue}Default Map:\t${default}${defaultmap}"
+		fi
+
+		# Default Scenario
+		if [ -n "${defaultscenario}" ]; then
+			echo -e "${blue}Default Scenario:\t${default}${defaultscenario}"
 		fi
 
 		# Game type
@@ -444,6 +458,10 @@ fn_info_message_commandlineparms(){
 	echo -e "${lightgreen}Command-line Parameters${default}"
 	fn_info_message_password_strip
 	fn_messages_separator
+	if [ "${serverpassword}" == "NOT SET" ]; then
+		unset serverpassword
+	fi
+	fn_parms
 	echo -e "${executable} ${parms}"
 }
 
@@ -674,6 +692,17 @@ fn_info_message_hurtworld(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_inss(){
+	echo -e "netstat -atunp | grep Insurgency"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1144,6 +1173,8 @@ fn_info_message_select_engine(){
 		fn_info_message_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_info_message_hurtworld
+	elif [ "${shortname}" == "inss" ]; then
+		fn_info_message_inss
 	elif [ "${gamename}" == "Just Cause 2" ]; then
 		fn_info_message_justcause2
 	elif [ "${gamename}" == "Just Cause 3" ]; then
