@@ -317,7 +317,7 @@ fn_info_config_inss(){
 		# Not Set
 		rconenabled=${rconenabled:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
-		rconport=${rconport=:-"0"}
+		rconport=${rconport:-"0"}
 	fi	
 }
 fn_info_config_minecraft(){
