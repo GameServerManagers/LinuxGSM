@@ -130,7 +130,6 @@ fn_info_parms_stickybots(){
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	defaultscenario=${defaultscenario:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 }
 
