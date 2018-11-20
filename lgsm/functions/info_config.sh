@@ -297,6 +297,29 @@ fn_info_config_factorio(){
 	fi
 }
 
+fn_info_config_inss(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconenabled="${unavailable}"
+		rconpassword="${unavailable}"
+		rconport="${zero}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		queryenabled="${unavailable}"
+		rconport="${zero}"
+		gamemode="${unavailable}"
+		gameworld="${unavailable}"
+	else
+		rconenabled=$(grep "bEnabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconport=$(grep "ListenPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconenabled=${rconenabled:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		rconport=${rconport:-"0"}
+	fi	
+}
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -364,7 +387,7 @@ fn_info_config_pstbs(){
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
-	numreservedslots=${maxplayers:-"0"}
+	numreservedslots=${numreservedslots:-"0"}
 }
 
 fn_info_config_projectcars(){
@@ -1136,6 +1159,9 @@ elif [ "${shortname}" == "eco" ]; then
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_config_factorio
+# Insurgency: Sandstorm
+elif [ "${shortname}" == "inss" ]; then
+	fn_info_config_inss
 # Just Cause 2
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	fn_info_config_justcause2

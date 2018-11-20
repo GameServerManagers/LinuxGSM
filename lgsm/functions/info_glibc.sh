@@ -12,9 +12,6 @@ if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
-elif [ "${gamename}" == "Battalion 1944" ]; then
-	glibcrequired="2.17"
-	glibcfix="no"
 elif [ "${gamename}" == "Base Defense" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
@@ -78,6 +75,9 @@ elif [ "${gamename}" == "Insurgency" ]; then
 elif [ "${shortname}" == "kf2" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
+elif [ "${shortname}" == "tu" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"	
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -132,57 +132,12 @@ elif [ "${gamename}" == "Just Cause 2" ]; then
 elif [ "${gamename}" == "Just Cause 3" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
-elif [ "${engine}" == "dontstarve" ]; then
-	glibcrequired="2.15"
-	glibcfix="no"
-elif [ "${engine}" == "lwjgl2" ]; then
-	glibcrequired="NOT REQUIRED"
-	glibcfix="no"
-elif [ "${engine}" == "projectzomboid" ]; then
-	glibcrequired="2.15"
-	glibcfix="no"
-elif [ "${engine}" == "realvirtuality" ]; then
-	glibcrequired="2.13"
-	glibcfix="yes"
-elif [ "${engine}" == "seriousengine35" ]; then
-	glibcrequired="2.13"
-	glibcfix="yes"
-elif [ "${engine}" == "source" ]; then
-	glibcrequired="2.3.6"
-	glibcfix="no"
-elif [ "${engine}" == "goldsource" ]; then
-	glibcrequired="2.3.4"
-	glibcfix="no"
 elif [ "${gamename}" == "Natural Selection 2" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
 elif [ "${gamename}" == "NS2: Combat" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
-elif [ "${engine}" == "starbound" ]; then
-	glibcrequired="2.17"
-	glibcfix="no"
-elif [ "${engine}" == "quake" ]; then
-	glibcrequired="2.0"
-	glibcfix="no"
-elif [ "${engine}" == "terraria" ]; then
-	glibcrequired="2.7"
-	glibcfix="no"
-elif [ "${engine}" == "unreal" ]; then
-	glibcrequired="2.1"
-	glibcfix="no"
-elif [ "${engine}" == "unreal2" ]; then
-	glibcrequired="2.4"
-	glibcfix="no"
-elif [ "${engine}" == "unreal3" ]; then
-	glibcrequired="2.3.2"
-	glibcfix="no"
-elif [ "${engine}" == "unreal4" ]; then
-	glibcrequired="2.14"
-	glibcfix="no"
-elif [ "${engine}" == "unity3d" ]; then
-	glibcrequired="2.15"
-	glibcfix="no"
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -207,6 +162,51 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 elif [ "${gamename}" == "Zombie Panic! Source" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${engine}" == "starbound" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
+elif [ "${engine}" == "quake" ]; then
+	glibcrequired="2.0"
+	glibcfix="no"
+elif [ "${engine}" == "terraria" ]; then
+	glibcrequired="2.7"
+	glibcfix="no"
+elif [ "${engine}" == "unreal" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
+elif [ "${engine}" == "unreal2" ]; then
+	glibcrequired="2.4"
+	glibcfix="no"
+elif [ "${engine}" == "unreal3" ]; then
+	glibcrequired="2.3.2"
+	glibcfix="no"
+elif [ "${engine}" == "unreal4" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
+elif [ "${engine}" == "unity3d" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${engine}" == "dontstarve" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${engine}" == "lwjgl2" ]; then
+	glibcrequired="NOT REQUIRED"
+	glibcfix="no"
+elif [ "${engine}" == "projectzomboid" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
+elif [ "${engine}" == "realvirtuality" ]; then
+	glibcrequired="2.13"
+	glibcfix="yes"
+elif [ "${engine}" == "seriousengine35" ]; then
+	glibcrequired="2.13"
+	glibcfix="yes"
+elif [ "${engine}" == "source" ]; then
+	glibcrequired="2.3.6"
+	glibcfix="no"
+elif [ "${engine}" == "goldsource" ]; then
+	glibcrequired="2.3.4"
+	glibcfix="no"	
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"
