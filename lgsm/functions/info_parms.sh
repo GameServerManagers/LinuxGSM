@@ -31,6 +31,7 @@ fn_info_parms_cod(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_dst(){
