@@ -5,7 +5,7 @@
 # Description: Shows ways to donate
 
 echo ""
-echo "Support LinuxGSM"
+echo "${lightyellow}Support LinuxGSM${default}"
 echo "================================="
 echo ""
 echo "Been using LinuxGSM?"
