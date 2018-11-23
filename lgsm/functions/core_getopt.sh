@@ -20,6 +20,7 @@ cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the serve
 cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
+cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
 # Console servers only
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
@@ -50,8 +51,7 @@ cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect r
 cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies." )
 cmd_dev_query_raw=( "qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery." )
 cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" "Delete the contents of the functions dir." )
-# Donate
-cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
+
 
 ### Set specific opt here ###
 
@@ -138,6 +138,9 @@ if [ -f ".dev-debug" ]; then
 	currentopt+=( "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_functions[@]}" )
 fi
 
+## Donate
+currentopt+=( "${cmd_donate[@]}" )
+
 ### Build list of available commands
 optcommands=()
 index="0"
@@ -152,7 +155,7 @@ done
 fn_opt_usage(){
 	echo "Usage: $0 [option]"
 	echo -e ""
-	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "LinuxGSM - ${gamename} - Version ${version}"
 	echo "https://linuxgsm.com/${gameservername}"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
