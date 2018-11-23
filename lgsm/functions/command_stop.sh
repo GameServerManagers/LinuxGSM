@@ -212,9 +212,7 @@ fn_stop_ark(){
 
 	if [ "${#queryport}" -gt 0 ] ; then
 		for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
-			pid=$(netstat -nap 2>/dev/null | grep "^udp[[:space:]]" |\
-				grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' |\
-				rev | cut -d\/ -f1)
+			pid=$(netstat -nap 2>/dev/null | grep "^udp[[:space:]]" | grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' | rev | cut -d\/ -f1)
 			#
 			# check for a valid pid
 			pid=${pid//[!0-9]/}

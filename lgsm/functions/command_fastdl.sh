@@ -207,7 +207,7 @@ fn_fastdl_preview(){
 		sleep 0.5
 		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size
-		while read dufile; do
+		while read -r dufile; do
 			filesize=$(stat -c %s "${dufile}")
 			filesizetotal=$(( ${filesizetotal} + ${filesize} ))
 			exitcode=$?
@@ -387,7 +387,7 @@ fn_fastdl_gmod_dl_enforcer(){
 		echo -en "creating new download enforcer: ${luafastdlfile}..."
 		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path
-		while read line; do
+		while read -r line; do
 			echo "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
 		done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n')
 		exitcode=$?
