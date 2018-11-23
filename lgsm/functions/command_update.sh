@@ -13,7 +13,7 @@ sleep 0.2
 check.sh
 logs.sh
 
-if [ "${shortname}" == "tf3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
 	update_minecraft.sh
