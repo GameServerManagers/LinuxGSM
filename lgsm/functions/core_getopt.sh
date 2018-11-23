@@ -61,10 +61,10 @@ currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monit
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here
-if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${gamename}" != "San Andreas Multiplayer" ]; then
+if [ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${shortname}" != "bf1942" ]&&[ "${shortname}" != "samp" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA
-	if [ -n "${appid}" ]||[ "${gamename}" == "Multi Theft Auto" ]; then
+	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
@@ -78,7 +78,7 @@ fi
 currentopt+=( "${cmd_backup[@]}" )
 
 # Exclude games without a console
-if [ "${gamename}" != "TeamSpeak 3" ]; then
+if [ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
 
@@ -90,16 +90,16 @@ if [ "${engine}" == "source" ]; then
 fi
 
 # TeamSpeak exclusive
-if [ "${gamename}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_change_password[@]}" )
 fi
 
 # Unreal exclusive
-if [ "${gamename}" == "Rust" ]; then
+if [ "${shortname}" == "rust" ]; then
 	currentopt+=( "${cmd_wipe[@]}" "${cmd_wipeall[@]}" )
 fi
 if [ "${engine}" == "unreal2" ]; then
-	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	if [ "${shortname}" == "ut2k4" ]; then
 		currentopt+=( "${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}" )
 	else
 		currentopt+=( "${cmd_map_compressor_u2[@]}" )
@@ -110,22 +110,22 @@ if [ "${engine}" == "unreal" ]; then
 fi
 
 # DST exclusive
-if [ "${gamename}" == "Don't Starve Together" ]; then
+if [ "${shortname}" == "dst" ]; then
 	currentopt+=( "${cmd_install_dst_token[@]}" )
 fi
 
 # MTA exclusive
-if [ "${gamename}" == "Multi Theft Auto" ]; then
+if [ "${shortname}" == "mta" ]; then
 	currentopt+=( "${cmd_install_default_resources[@]}" )
 fi
 
 # Squad license exclusive
-if [ "${gamename}" == "Squad" ]; then
+if [ "${shortname}" == "squad" ]; then
 	currentopt+=( "${cmd_install_squad_license[@]}" )
 fi
 
 ## Mods commands
-if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "7 Days To Die" ]; then
+if [ "${engine}" == "source" ]||[ "${shortname}" == "rust" ]||[ "${shortname}" == "hq" ]||[ "${shortname}" == "sdtd" ]; then
 	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
 fi
 

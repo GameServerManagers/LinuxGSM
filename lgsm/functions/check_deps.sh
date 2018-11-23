@@ -474,7 +474,7 @@ fn_deps_build_redhat(){
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl.i686 )
-		if [ "${gamename}" == "Team Fortress 2" ]; then
+		if [ "${shortname}" == "tf2" ]; then
 			array_deps_required+=( gperftools-libs.i686 )
 		fi
 	# Battlefield: 1942

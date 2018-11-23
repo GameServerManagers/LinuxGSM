@@ -51,7 +51,7 @@ if [ -d "${fastdldir}" ]; then
 fi
 
 # Garry's Mod Specific
-if [ "${gamename}" == "Garry's Mod" ]; then
+if [ "${shortname}" == "gmod" ]; then
 	# Prompt for download enforcer, which is using a .lua addfile resource generator
 	if fn_prompt_yn "Force clients to download files?" Y; then
 		luaresource="on"
@@ -152,7 +152,7 @@ fn_fastdl_preview(){
 	echo -e "analysing required files"
 	fn_script_log_info "Analysing required files"
 	# Garry's Mod
-	if [ "${gamename}" == "Garry's Mod" ]; then
+	if [ "${shortname}" == "gmod" ]; then
 		cd "${systemdir}" || exit
 		allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
 		for allowed_extention in "${allowed_extentions_array[@]}"; do
@@ -358,7 +358,7 @@ fn_fastdl_build(){
 	# Copy all needed files for FastDL
 	echo -e "copying files to ${fastdldir}"
 	fn_script_log_info "Copying files to ${fastdldir}"
-	if [ "${gamename}" == "Garry's Mod" ]; then
+	if [ "${shortname}" == "gmod" ]; then
 		fn_fastdl_gmod
 		fn_fastdl_gmod_dl_enforcer
 	else
