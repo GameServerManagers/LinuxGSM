@@ -12,7 +12,7 @@ if [ "${shortname}" == "ts3" ]; then
 	# 1: Server is running
 	# 0: Server seems to have died
 	# 0: No server running (ts3server.pid is missing)
-	status=$("${executabledir}/ts3server_startscript.sh" status servercfgfullpathfile=${servercfgfullpath})
+	status=$("${executabledir}/ts3server_startscript.sh" status servercfgfullpathfile="${servercfgfullpath}")
 	if [ "${status}" == "Server is running" ]; then
 		status=1
 	else
