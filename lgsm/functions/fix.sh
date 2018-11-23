@@ -58,9 +58,11 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
 		fix_rw.sh
+	elif [ "${shortname}" == "sdtd" ]; then
+		fix_sdtd.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
-	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
