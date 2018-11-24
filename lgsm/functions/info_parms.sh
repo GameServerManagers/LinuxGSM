@@ -31,6 +31,7 @@ fn_info_parms_cod(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_dst(){
@@ -45,11 +46,20 @@ fn_info_parms_eco(){
 	queryport=${webadminport}
 }
 
-
 fn_info_parms_factorio(){
 	port=${port:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
+}
+
+fn_info_parms_inss(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	defaultmap=${defaultmap:-"NOT SET"}
+	defaultscenario=${defaultscenario:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
 }
 
 fn_info_parms_hurtworld(){
@@ -158,6 +168,8 @@ elif [ "${gamename}" == "Eco" ]; then
 # Factorio
 elif [ "${gamename}" == "Factorio" ]; then
 	fn_info_parms_factorio
+elif [ "${shortname}" == "inss" ]; then
+	fn_info_parms_inss
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
 # Project Zomboid

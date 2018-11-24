@@ -21,7 +21,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 	# IP is not set to specific IP
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		fn_print_dots "Check IP"
-		sleep 0.5
+		sleep 0.2
 		# Multiple interfaces
 		if [ "${getipwc}" -ge "2" ]; then
 			if [ "${function_selfname}" == "command_details.sh" ]; then
@@ -29,7 +29,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 			else
 			    fn_print_fail "Check IP: Multiple IP addresses found."
 			fi
-			sleep 0.5
+			sleep 0.2
 			echo -en "\n"
 			# IP is set within game config
 			if [ "${ipsetinconfig}" == "1" ]; then
@@ -85,7 +85,7 @@ if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travi
 		else
 			fn_print_info_nl "Check IP: ${getip}"
 			fn_script_log_info "IP automatically set as: ${getip}"
-			sleep 0.5
+			sleep 0.2
 			ip="${getip}"
 		fi
 	fi
