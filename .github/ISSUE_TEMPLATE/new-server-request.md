@@ -4,7 +4,7 @@ about: Suggest a new game server to be added
 
 ---
 
-**What game server Would you like adding?**
+**What game server would you like adding?**
 
 **Can you link to any tutorials or guides?**
 Any useful guides will help with development
