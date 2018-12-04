@@ -43,7 +43,7 @@ Steps to reproduce the behaviour:
 **Expected behaviour**
 A clear and concise description of what you expected to happen.
 
-** Minimum Information **
+**Minimum Information**
 The game server you are running (e.g. Rust/CS:GO).
 The link from `./gameserver postdetails` command.
 
