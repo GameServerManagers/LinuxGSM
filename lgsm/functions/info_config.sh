@@ -612,6 +612,21 @@ fn_info_config_seriousengine35(){
 	fi
 }
 
+#StickyBots
+fn_info_config_sbots(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+	else
+		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
+		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+	fi
+
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
+}
+
 fn_info_config_source(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1204,6 +1219,9 @@ elif [ "${shortname}" == "mumble" ]; then
 # San Andreas Multiplayer
 elif [ "${shortname}" == "samp" ]; then
 	fn_info_config_samp
+# StickyBots
+elif [ "${shortname}" == "pstbs" ]; then
+	fn_info_config_sbots
 # Teeworlds
 elif [ "${shortname}" == "tw" ]; then
 	fn_info_config_teeworlds
