@@ -56,7 +56,6 @@ if [ "${multiple_ip}" == "1" ]; then
 else
 	echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 fi
-echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 # External server ip
 if [ -n "${extip}" ]; then
 	if [ "${ip}" != "${extip}" ]; then

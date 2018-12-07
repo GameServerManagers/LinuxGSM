@@ -20,6 +20,12 @@ GitHub is **NOT** for:
 
 Any general support issues on GitHub will be closed.
 
+*Please use the template below*
+
+**Basic info**
+Game: 
+Distro: 
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

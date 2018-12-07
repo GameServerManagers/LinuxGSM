@@ -10,10 +10,8 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 fn_print_header
-if [ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "ARK: Survival Evolved" ]; then
+if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" == "ark" ]; then
 	fn_print_information_nl "${gamename} does not produce a verbose output to the console"
-fi
-if [ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "ARK: Survival Evolved" ]; then
 	fn_print_information_nl "${gamename} does not allow server commands to be entered in to the console"
 fi
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."

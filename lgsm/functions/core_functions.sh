@@ -51,6 +51,12 @@ fn_fetch_function
 
 # Commands
 
+
+command_backup.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_console.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -61,22 +67,22 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_postdetails.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_test_alert.sh(){
+command_donate.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_backup.sh(){
+command_postdetails.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_test_alert.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

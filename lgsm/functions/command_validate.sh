@@ -51,17 +51,9 @@ if [ "${status}" != "0" ]; then
 	exitbypass=1
 	command_stop.sh
 	fn_validation "${appid}"
-	# will also check for second appid
-	if [ "${gamename}" == "Classic Offensive" ]; then
-		fn_validation "${appid_co}"
-	fi
 	exitbypass=1
 	command_start.sh
 else
 	fn_validation
-	# will also check for second appid
-	if [ "${gamename}" == "Classic Offensive" ]; then
-		fn_validation "${appid_co}"
-	fi
 fi
 core_exit.sh
