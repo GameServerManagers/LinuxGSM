@@ -24,7 +24,10 @@ for queryattempt in {1..5}; do
 		if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 			fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 		fi
-		"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}" > /dev/null 2>&1
+		# When running in docker we need to bind to 0.0.0.0. But this test needs to choose an IP to test against
+		# This might not work for docker swarm (this is an old comment, it seems to work fine on docker swarm)
+		"${functionsdir}"/query_gsquery.py -a "$(hostname -i)" -p "${queryport}" -e "${engine}" > /dev/null 2>&1
+		# "${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}" > /dev/null 2>&1
 		querystatus="$?"
 	elif [ "${querymethod}" ==  "tcp" ]; then
 		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
