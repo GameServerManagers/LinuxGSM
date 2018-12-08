@@ -191,6 +191,10 @@ sleep 0.5
 }
 
 fn_print_dots "${servername}"
+
+## Need to reinstall the config so that the generated config has all the latest env vars set
+install_config.sh
+
 sleep 0.5
 check.sh
 # Is the server already started
