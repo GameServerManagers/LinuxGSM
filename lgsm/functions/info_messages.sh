@@ -231,7 +231,10 @@ fn_info_message_gameserver(){
 				echo -e "${blue}Current Scenario:\t${default}${gdgamemode}"
 			fi
 		else
-			echo -e "${blue}Current Game Mode:\t${default}${gdgamemode}"
+			# Current Scenario
+			if [ -n "${gdgamemode}" ]; then
+				echo -e "${blue}Current Game Mode:\t${default}${gdgamemode}"
+			fi
 		fi
 
 		# Default Map
@@ -746,7 +749,7 @@ fn_info_message_mumble(){
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
-fn_info_Message_pstbs(){
+fn_info_message_pstbs(){
 	echo -e "netstat -atunp | grep PostScriptum"
 	echo -e ""
 	{
@@ -885,6 +888,16 @@ fn_info_message_seriousengine35(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_sbots(){
+	echo -e "netstat -atunp | grep blank1"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
@@ -1182,7 +1195,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
 	elif [ "${shortname}" == "pstbs" ]; then
-		fn_info_Message_pstbs
+		fn_info_message_pstbs
 	elif [ "${gamename}" == "Project Cars" ]; then
 		fn_info_message_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then
@@ -1199,6 +1212,8 @@ fn_info_message_select_engine(){
 		fn_info_message_squad
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
+	elif [ "${shortname}" == "sbots" ]; then
+		fn_info_message_sbots	
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
