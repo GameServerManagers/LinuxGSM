@@ -114,6 +114,9 @@ elif [ "${gamename}" == "Squad" ]; then
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	glibcrequired="2.18"
 	glibcfix="no"
+elif [ "${shortname}" == "sbots" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"		
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
