@@ -90,7 +90,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -x "${sessionheight}" -y "${sessionwidth}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
 	# Create logfile
 	touch "${consolelog}"
