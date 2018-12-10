@@ -27,14 +27,16 @@ fn_fetch_default_config(){
 	mkdir -p "${lgsmdir}/config-default/config-game"
 
 	# When running inside Docker we want to use a local copy of these files.
-	# githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
+	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
 	cp -rp "/home/steam/linuxgsm-configs/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game/"
-        if [ -f "/home/steam/linuxgsm-configs/${gamedirname}/${config}.tmpl" ]; then
-		    cp -rp "/home/steam/linuxgsm-configs/${gamedirname}/${config}.tmpl" "${lgsmdir}/config-default/config-game/"
-        fi
-
-		# fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
+		if [ -f /.dockerenv ]; then
+			if [ -f "/home/steam/linuxgsm-configs/${gamedirname}/${config}.tmpl" ]; then
+				cp -rp "/home/steam/linuxgsm-configs/${gamedirname}/${config}.tmpl" "${lgsmdir}/config-default/config-game/"
+			fi
+		else
+			fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
+		fi
 	done
 }
 
@@ -48,10 +50,12 @@ fn_default_config_remote(){
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
 
-			# Allows gomplate templating 
-            if [ -f "${lgsmdir}/config-default/config-game/${config}.tmpl" ]; then
-		        cp -nv "${lgsmdir}/config-default/config-game/${config}.tmpl" "${servercfgfullpath}.tmpl"
-            fi
+			# Allows gomplate templating
+			if [ -f /.dockerenv ]; then
+				if [ -f "${lgsmdir}/config-default/config-game/${config}.tmpl" ]; then
+					cp -nv "${lgsmdir}/config-default/config-game/${config}.tmpl" "${servercfgfullpath}.tmpl"
+				fi
+			fi
 		elif [ "${gamename}" == "ARMA 3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
@@ -71,12 +75,14 @@ fn_default_config_remote(){
 fn_set_config_vars(){
 	if [ -f "${servercfgfullpath}" ]; then
 
-		# Generate the base config using gomplate
-        if [ -f "${servercfgfullpath}.tmpl" ]; then 
-            echo "Running gomplate"
-            gomplate -f ${servercfgfullpath}.tmpl -o ${servercfgfullpath}
-        fi
-        chmod u+x,g+x ${servercfgfullpath}
+		if [ -f /.dockerenv ]; then
+			# Generate the base config using gomplate
+			if [ -f "${servercfgfullpath}.tmpl" ]; then 
+				echo "Running gomplate"
+				gomplate -f ${servercfgfullpath}.tmpl -o ${servercfgfullpath}
+				chmod u+x,g+x ${servercfgfullpath}
+			fi
+		fi
 
 		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		servername="LinuxGSM"

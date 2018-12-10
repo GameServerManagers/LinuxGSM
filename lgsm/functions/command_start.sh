@@ -192,8 +192,10 @@ sleep 0.5
 
 fn_print_dots "${servername}"
 
-## Need to reinstall the config so that the generated config has all the latest env vars set
-install_config.sh
+if [ -f /.dockerenv ]; then
+	## Need to reinstall the config so that the generated config has all the latest env vars set
+	install_config.sh
+fi
 
 sleep 0.5
 check.sh
