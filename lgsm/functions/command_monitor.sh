@@ -26,7 +26,7 @@ for queryattempt in {1..5}; do
 		fi
 		"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}" > /dev/null 2>&1
 		querystatus="$?"
-	elif [ "${querymethod}" ==  "telnet" ]; then
+	elif [ "${querymethod}" ==  "tcp" ]; then
 		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 		querystatus="$?"
 	fi
@@ -131,7 +131,7 @@ fn_monitor_check_session(){
 fn_monitor_query(){
 	fn_script_log_info "Querying port: query enabled"
 	# engines that work with query
-	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 )
+	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 wurm )
 	for allowed_engine in "${allowed_engines_array[@]}"
 	do
 		if [ "${allowed_engine}" == "${engine}" ]; then
@@ -143,7 +143,11 @@ fn_monitor_query(){
 
 			# will first attempt to use gamedig then gsquery
 			totalseconds=0
-			local query_methods_array=( gamedig gsquery )
+			if [ "${shortname}" == "wurm" ]; then
+				local query_methods_array=( gsquery )
+			else
+				local query_methods_array=( gamedig gsquery )
+			fi
 			for query_method in "${query_methods_array[@]}"
 			do
 				if [ "${query_method}" == "gamedig" ]; then
@@ -165,8 +169,8 @@ fn_monitor_query(){
 	done
 }
 
-fn_monitor_query_telnet(){
-	querymethod="telnet"
+fn_monitor_query_tcp(){
+	querymethod="tcp"
 	fn_monitor_loop
 }
 
@@ -186,8 +190,8 @@ if [ "${gamename}" == "Starbound" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi
-elif [ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Eco" ]; then
-	fn_monitor_query_telnet
+elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
+	fn_monitor_query_tcp
 else
 	fn_monitor_query
 fi

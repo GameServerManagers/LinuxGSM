@@ -58,8 +58,11 @@ fn_start_teamspeak3(){
 }
 
 fn_start_tmux(){
-	fn_parms
-
+	if [ "${parmsbypass}" ]; then
+		parms=""
+	else
+		fn_parms
+	fi
 	# check for tmux size variables
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
 		sessionwidth="${servercfgtmuxwidth}"
@@ -198,7 +201,9 @@ if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is r
 		core_exit.sh
 	fi
 fi
-fix.sh
+if [ -z "${fixbypass}" ];then
+	fix.sh
+fi
 info_config.sh
 logs.sh
 

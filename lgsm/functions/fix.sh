@@ -37,7 +37,7 @@ fn_fix_msg_end(){
 }
 
 # Fixes that are run on start
-if [ "${function_selfname}" != "command_install.sh" ]; then
+if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; then
 	if [ -n "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
@@ -62,13 +62,15 @@ if [ "${function_selfname}" != "command_install.sh" ]; then
 		fix_ss3.sh
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fix_mta.sh
+	elif [ "${shortname}" == "wurm" ]; then
+		fix_wurm.sh
 	fi
 fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo ""
-		echo "Applying ${gamename} Server Fixes"
+		echo "Applying Post-Install Fixes"
 		echo "================================="
 		sleep 0.5
 		if [ "${gamename}" == "Killing Floor" ]; then
@@ -83,6 +85,8 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			fix_ut.sh
 		elif [ "${gamename}" == "Unreal Tournament 3" ]; then
 			fix_ut3.sh
+		elif [ "${gamename}" == "Team Fortress 2" ]; then
+			fix_tf2.sh
 		else
 			fn_print_information_nl "No fixes required."
 		fi

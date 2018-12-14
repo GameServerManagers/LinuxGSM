@@ -10,9 +10,9 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 clear
 echo "================================="
-echo "${gamename}"
-echo "Linux Game Server Manager"
+echo "LinuxGSM - ${gamename}"
 echo "by Daniel Gibbs"
-echo "Contributors: http://goo.gl/qLmitD"
-echo "https://linuxgsm.com"
+echo "Website: https://linuxgsm.com"
+echo "Contributors: https://linuxgsm.com/contrib"
+echo "Donate: https://linuxgsm.com/donate"
 echo "================================="

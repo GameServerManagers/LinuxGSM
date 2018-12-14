@@ -26,7 +26,7 @@ fn_update_steamcmd_dl(){
 	fi
 
 	cd "${steamcmddir}" || exit
-	if [ "${engine}" == "goldsource" ]; then
+	if [ "${appid}" == "90" ]; then
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
@@ -111,7 +111,7 @@ fn_update_request_log(){
 		fn_print_ok_nl "Checking for update: Server logs: Update requested"
 		fn_script_log_pass "Checking for update: Server logs: Update requested"
 		sleep 0.5
-		echo ""
+		echo -e ""
 		echo -en "Applying update.\r"
 		sleep 1
 		echo -en "Applying update..\r"
@@ -157,7 +157,7 @@ fn_update_steamcmd_check(){
 	fi
 
 	# Set branch for updateinfo
-	IFS=' ' read -ra branchsplits <<< ${branch}
+	IFS=' ' read -ra branchsplits <<< "${branch}"
 	if [ "${#branchsplits[@]}" -gt 1 ]; then
 		branchname="${branchsplits[1]}"
 	else
@@ -166,7 +166,7 @@ fn_update_steamcmd_check(){
 
 	# Gets availablebuild info
 	cd "${steamcmddir}" || exit
-	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +app_info_print "${appid}" +quit | sed -n '/branch/,$p' | grep -m 1 buildid | tr -cd '[:digit:]')
+	availablebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ -z "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: SteamCMD"
 		sleep 0.5

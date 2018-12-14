@@ -29,7 +29,7 @@ elif [ "${gamename}" == "Killing Floor 2" ]; then
 fi
 
 query_gamedig.sh
-echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --query_port \"${queryport}\"|jq"
+echo "${gamedigcmd}"
 echo""
 echo "${gamedigraw}" | jq
 echo""
