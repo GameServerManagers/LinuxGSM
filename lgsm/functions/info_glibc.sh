@@ -9,6 +9,9 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "Mordhau" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
