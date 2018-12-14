@@ -174,22 +174,22 @@ fn_stop_graceful_sdtd(){
 }
 
 fn_stop_graceful_select(){
-	if [ "${gamename}" == "7 Days To Die" ]; then
+	if [ "${shortname}" == "sdtd" ]; then
 		fn_stop_graceful_sdtd
 	elif [ "${engine}" == "Spark" ]; then
 		fn_stop_graceful_cmd "q" 30
-	elif [ "${gamename}" == "Terraria" ]; then
+	elif [ "${shortname}" == "terraria" ]; then
 		fn_stop_graceful_cmd "exit" 30
-	elif [ "${gamename}" == "Minecraft" ]; then
+	elif [ "${shortname}" == "mc" ]; then
 		fn_stop_graceful_cmd "stop" 30
-	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	elif [ "${shortname}" == "mta" ]; then
 		# we need a long wait time here as resources are stopped individually and process their own shutdowns
 		fn_stop_graceful_cmd "quit" 120
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${engine}" == "avalanche2.0" ]||[ "${engine}" == "avalanche3.0" ]||[ "${gamename}" == "Factorio" ]||[ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${gamename}" == "Mumble" ]||[ "${shortname}" == "wurm" ]; then
+	elif [ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "wurm" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "jc3" ]; then
 		fn_stop_graceful_ctrlc
-	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${engine}" == "Just Cause 2" ]||[ "${engine}" == "projectzomboid" ]||[ "${shortname}" == "rw" ]; then
+	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "pz" ]||[ "${shortname}" == "rw" ]; then
 		fn_stop_graceful_cmd "quit" 30
 	fi
 }
@@ -212,9 +212,7 @@ fn_stop_ark(){
 
 	if [ "${#queryport}" -gt 0 ] ; then
 		for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
-			pid=$(netstat -nap 2>/dev/null | grep "^udp[[:space:]]" |\
-				grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' |\
-				rev | cut -d\/ -f1)
+			pid=$(netstat -nap 2>/dev/null | grep "^udp[[:space:]]" | grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' | rev | cut -d\/ -f1)
 			#
 			# check for a valid pid
 			pid=${pid//[!0-9]/}
@@ -263,7 +261,7 @@ fn_stop_tmux(){
 	if [ "${status}" == "0" ]; then
 		# ARK doesn't clean up immediately after tmux is killed.
 		# Make certain the ports are cleared before continuing.
-		if [ "${gamename}" == "ARK: Survival Evolved" ]; then
+		if [ "${shortname}" == "ark" ]; then
 			fn_stop_ark
 		fi
 		fn_print_ok_nl "${servername}"
@@ -280,7 +278,7 @@ fn_stop_pre_check(){
 	if [ "${status}" == "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
 		fn_print_info_nl "${servername} is already stopped"
 		fn_script_log_error "${servername} is already stopped"
-	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	elif [ "${shortname}" == "ts3" ]; then
 		fn_stop_teamspeak3
 	else
 		fn_stop_graceful_select

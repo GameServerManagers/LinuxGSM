@@ -214,7 +214,7 @@ if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateon
 	command_update.sh
 fi
 
-if [ "${gamename}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	fn_start_teamspeak3
 else
 	fn_start_tmux
