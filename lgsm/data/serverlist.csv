@@ -1,7 +1,6 @@
 arma3,arma3server,ARMA 3
 sdtd,sdtdserver,7 Days to Die
 ark,arkserver,ARK: Survival Evolved
-mh,mordhauserver,Mordhau
 bo,boserver,Ballistic Overkill
 bf1942,bf1942server,Battlefield 1942
 bd,bdserver,Base Defense
@@ -45,6 +44,7 @@ kf2,kf2server,Killing Floor 2
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
+mh,mhserver,Mordhau
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
 nmrih,nmrihserver,No More Room in Hell
