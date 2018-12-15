@@ -226,7 +226,7 @@ fn_found_missing_deps(){
 		fi
 		if [ -n "${jqstatus}" ]; then
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
-			echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/jq"
+			echo "	* https://docs.linuxgsm.com/requirements/jq"
 		fi
 		sudo -v > /dev/null 2>&1
 		if [ $? -eq 0 ]; then

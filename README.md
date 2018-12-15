@@ -33,13 +33,13 @@ The Linux Game Server Managers are tested to work on the following Linux distros
 Other distros are likely to work but are not fully tested.
 <h3>Specific Requirements</h3>
 <ul>
-	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki/Glibc">GLIBC</a> >= 2.15 recommended [<a href="https://github.com/GameServerManagers/LinuxGSM/wiki/Glibc#server-requirements">specific requirements</a>].</li>
-	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki/Tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
+	<li><a href="https://docs.linuxgsm.com/requirements/glibc">GLIBC</a> >= 2.15 recommended [<a href="https://docs.linuxgsm.com/requirements/glibc#server-requirements">specific requirements</a>].</li>
+	<li><a href="https://docs.linuxgsm.com/requirements/tmux">Tmux</a> >= 1.6 recommended (Avoid Tmux 1.8).</li>
 </ul>
 <h2>FAQ</h2>
 All FAQ can be found here.
 
-<a href="https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ">https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ</a>
+<a href="https://docs.linuxgsm.com/support/faq">https://docs.linuxgsm.com/support/faq</a>
 <h2>Donate</h2>
 If you want to donate to the project you can via PayPal. I have had a may kind people show their support by sending me a donation. Any donations you send help cover my server costs and buy me a drink. Cheers!
 <ul>
@@ -48,7 +48,7 @@ If you want to donate to the project you can via PayPal. I have had a may kind p
 <h2>Useful Links</h2>
 <ul>
 	<li><a href="https://linuxgsm.com">Homepage</a></li>
-	<li><a href="https://github.com/GameServerManagers/LinuxGSM/wiki">Wiki</a></li>
+	<li><a href="https://docs.linuxgsm.com">Documentation</a></li>
 	<li><a href="https://github.com/GameServerManagers/LinuxGSM">GitHub Code</a></li>
 	<li><a href="https://github.com/GameServerManagers/LinuxGSM/issues">GitHub Issues</a></li>
 	<li><a href="https://waffle.io/GameServerManagers/LinuxGSM">Waffle (Github Dashboard)</a></li>
