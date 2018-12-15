@@ -322,12 +322,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-
 fix_kf.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

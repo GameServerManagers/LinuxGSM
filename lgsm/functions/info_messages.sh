@@ -40,7 +40,7 @@ fn_info_message_distro(){
 	# Kernel:    3.13.0-79-generic
 	# Hostname:  hostname
 	# tmux:      tmux 1.8
-	# GLIBC:     2.19
+	# glibc:     2.19
 
 	echo -e ""
 	echo -e "${lightyellow}Distro Details${default}"
@@ -51,7 +51,7 @@ fn_info_message_distro(){
 		echo -e "${blue}Kernel:\t${default}${kernel}"
 		echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
 		echo -e "${blue}tmux:\t${default}${tmuxv}"
-		echo -e "${blue}GLIBC:\t${default}${glibcversion}"
+		echo -e "${blue}glibc:\t${default}${glibcversion}"
 	} | column -s $'\t' -t
 }
 
@@ -362,20 +362,16 @@ fn_info_message_script(){
 		# User
 		echo -e "${blue}User:\t${default}$(whoami)"
 
-		# GLIBC required
+		# glibc required
 		if [ -n "${glibcrequired}" ]; then
 			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
 					:
 			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}GLIBC required:\t${red}${glibcrequired}"
+				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
 			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				if [ "${glibcfix}" == "yes" ]; then
-					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
-				else
-					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC version too old${default})"
-				fi
+				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}GLIBC required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
 			fi
 		fi
 
