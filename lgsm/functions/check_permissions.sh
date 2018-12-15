@@ -42,8 +42,8 @@ fn_check_ownership(){
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
 		echo ""
-		fn_print_information_nl "please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
-		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
+		fn_print_information_nl "please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
+		fn_script_log "For more information, please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
 		if [ "${monitorflag}" == 1 ]; then
 			alert="permissions"
 			alert.sh
