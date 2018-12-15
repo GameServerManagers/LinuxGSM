@@ -378,6 +378,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_ts3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ut2k4.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
