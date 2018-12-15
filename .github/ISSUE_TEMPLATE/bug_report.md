@@ -1,6 +1,7 @@
+
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Found a bug? Raise a report
 
 ---
 
@@ -8,17 +9,26 @@ Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you po
 For general support visit the **[steam group](https://linuxgsm.com/steam)**.
 
 GitHub is **ONLY** for:
+```
 * LinuxGSM bugs
 * feature suggestions
 * code contributions
+```
 
 GitHub is **NOT** for:
+```
 * General support
 * Specific game server issues (e.g CS:GO, TF2)
 * Dedicated server issues (e.g Ubuntu, CentOS)
 * Anything not directly related to LinuxGSM development
-
+```
 Any general support issues on GitHub will be closed.
+
+*Please use the template below*
+
+**Basic info**
+Game: 
+Distro: 
 
 **Describe the bug**
 A clear and concise description of what the bug is.
@@ -33,7 +43,7 @@ Steps to reproduce the behaviour:
 **Expected behaviour**
 A clear and concise description of what you expected to happen.
 
-** Minimum Information **
+**Minimum Information**
 The game server you are running (e.g. Rust/CS:GO).
 The link from `./gameserver postdetails` command.
 

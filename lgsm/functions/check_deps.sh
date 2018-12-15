@@ -430,7 +430,9 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements
 	## CentOS 6
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+	if [ "${distroversion}" == "7" ]; then
+		array_deps_required=( epel-release curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
 			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
@@ -474,7 +476,7 @@ fn_deps_build_redhat(){
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl.i686 )
-		if [ "${gamename}" == "Team Fortress 2" ]; then
+		if [ "${shortname}" == "tf2" ]; then
 			array_deps_required+=( gperftools-libs.i686 )
 		fi
 	# Battlefield: 1942

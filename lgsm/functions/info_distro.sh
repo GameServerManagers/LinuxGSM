@@ -206,10 +206,14 @@ fi
 
 # External IP address
 if [ -z "${extip}" ]; then
-	extip=$(${curlpath} -m 3 ifconfig.co > "${tmpdir}/extip.txt" 2>/dev/null)
-	if [ $? -ne 0 ]; then
+	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)
+	exitcode=$?
+	# Should ifconfig.co return an error will use last known IP
+	if [ ${exitcode} -eq 0 ]; then
+		echo "${extip}" > "${tmpdir}/extip.txt"
+	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
-			echo "${tmpdir}/extip.txt"
+			extip=$(cat ${tmpdir}/extip.txt)
 		else
 			echo "x.x.x.x"
 		fi

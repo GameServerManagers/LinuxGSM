@@ -72,7 +72,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
-				echo "Removing $(find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$')"
+				echo "Removing $(find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$')"
 				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then

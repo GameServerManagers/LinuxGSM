@@ -17,7 +17,7 @@ mailgunsend=$(${curlpath} -s --user "api:${mailguntoken}" \
 -F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
 -F o:tag='alert' \
 -F o:tag='LinuxGSM' \
--F text="$(cat "${alertlog}")" https://api.mailgun.net/v3/${mailgundomain}/messages)
+-F text="$(cat "${alertlog}")" "https://api.mailgun.net/v3/${mailgundomain}/messages")
 
 if [ -z "${mailgunsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"
