@@ -367,6 +367,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ss3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
