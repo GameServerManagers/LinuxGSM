@@ -118,7 +118,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 
 		# numbots
 		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
-		if [ "${gdbots}" == "null" ]; then
+		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi
 	fi
