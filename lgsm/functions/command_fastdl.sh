@@ -170,7 +170,7 @@ fn_fastdl_preview(){
 		done
 	# Source engine
 	else
-		fastdl_directories_array=( "maps" "materials" "models" "particles" "sounds" "resources" )
+		fastdl_directories_array=( "maps" "materials" "models" "particles" "sound" "resources" )
 		for directory in "${fastdl_directories_array[@]}"; do
 			if [ -d "${systemdir}/${directory}" ]; then
 				if [ "${directory}" == "maps" ]; then
@@ -181,7 +181,7 @@ fn_fastdl_preview(){
 					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 				elif [ "${directory}" == "particles" ]; then
 					local allowed_extentions_array=( "*.pcf" )
-				elif [ "${directory}" == "sounds" ]; then
+				elif [ "${directory}" == "sound" ]; then
 					local allowed_extentions_array=( "*.wav" "*.mp3" "*.ogg" )
 				fi
 				for allowed_extention in "${allowed_extentions_array[@]}"; do
@@ -320,7 +320,7 @@ fn_fastdl_source(){
 				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 			elif [ "${directory}" == "particles" ]; then
 				local allowed_extentions_array=( "*.pcf" )
-			elif [ "${directory}" == "sounds" ]; then
+			elif [ "${directory}" == "sound" ]; then
 				local allowed_extentions_array=( "*.wav" "*.mp3" "*.ogg" )
 			fi
 			for allowed_extention in "${allowed_extentions_array[@]}"

@@ -125,6 +125,15 @@ fn_info_parms_spark(){
 	mods=${mods:-"NOT SET"}
 }
 
+fn_info_parms_stickybots(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	defaultmap=${defaultmap:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
+}
+
 fn_info_config_towerunite(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
@@ -185,6 +194,9 @@ elif [ "${shortname}" == "rust" ]; then
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_risingworld
+# Sticky Bots
+elif [ "${shortname}" == "sbots" ]; then
+	fn_info_parms_stickybots
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
