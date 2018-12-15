@@ -53,6 +53,13 @@ fn_default_config_remote(){
 	sleep 0.5
 }
 
+# Copys local default config to server config location
+fn_default_config_local(){
+	echo "copying ${servercfgdefault} config file."	
+	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
+	sleep 0.5
+}
+
 # Changes some variables within the default configs
 # SERVERNAME to LinuxGSM
 # PASSWORD to random password
@@ -139,10 +146,7 @@ fn_set_dst_config_vars(){
 
 if [ "${gamename}" == "7 Days To Die" ]; then
 	gamedirname="7DaysToDie"
-	array_configs+=( serverconfig.xml )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
+	fn_default_config_local
 elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	gamedirname="ARKSurvivalEvolved"
 	fn_check_cfgdir

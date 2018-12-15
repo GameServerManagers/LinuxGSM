@@ -431,7 +431,7 @@ fn_deps_build_redhat(){
 	## CentOS 6
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
-	if [ "${distroversion}" == "7" ]; then
+	elif [ "${distroversion}" == "7" ]; then
 		array_deps_required=( epel-release curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
 			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
