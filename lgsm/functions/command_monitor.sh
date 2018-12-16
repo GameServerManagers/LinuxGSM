@@ -110,9 +110,9 @@ fn_monitor_check_session(){
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
 	else
-		if [ "${gamename}" == "TeamSpeak 3" ]; then
+		if [ "${shortname}" == "ts3" ]; then
 			fn_print_error "Checking session: ${ts3error}: "
-		elif [ "${gamename}" == "Mumble" ]; then
+		elif [ "${shortname}" == "mumble" ]; then
 			fn_print_error "Checking session: Not listening to port ${queryport}"
 		else
 			fn_print_error "Checking session: "
@@ -137,7 +137,7 @@ fn_monitor_query(){
 		if [ "${allowed_engine}" == "${engine}" ]; then
 			if [ "${engine}" == "idtech3_ql" ]; then
 				local engine="quakelive"
-			elif [ "${gamename}" == "Killing Floor 2" ]; then
+			elif [ "${shortname}" == "kf2" ]; then
 				local engine="unreal4"
 			fi
 
@@ -186,7 +186,7 @@ fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
 # Query has to be enabled in Starbound config
-if [ "${gamename}" == "Starbound" ]; then
+if [ "${shortname}" == "sb" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi

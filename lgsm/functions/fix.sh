@@ -42,25 +42,29 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_steamcmd.sh
 	fi
 
-	if  [ "${gamename}" == "ARMA 3" ]; then
+	if  [ "${shortname}" == "arma3" ]; then
 		fix_arma3.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
-	elif [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
+	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
-	elif [ "${gamename}" == "Don't Starve Together" ]; then
+	elif [ "${shortname}" == "dst" ]; then
 		fix_dst.sh
-	elif [ "${gamename}" == "GoldenEye: Source" ]; then
+	elif [ "${shortname}" == "ges" ]; then
 		fix_ges.sh
-	elif [ "${gamename}" == "Insurgency" ]; then
+	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
-	elif [ "${gamename}" == "Rust" ]; then
+	elif [ "${shortname}" == "rust" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
 		fix_rw.sh
+	elif [ "${shortname}" == "sdtd" ]; then
+		fix_sdtd.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
-	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	elif [ "${shortname}" == "ts3" ]; then
+		fix_ts3.sh		
+	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
@@ -73,19 +77,19 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo "Applying Post-Install Fixes"
 		echo "================================="
 		sleep 0.5
-		if [ "${gamename}" == "Killing Floor" ]; then
+		if [ "${shortname}" == "kf" ]; then
 			fix_kf.sh
-		elif [ "${gamename}" == "Killing Floor 2" ]; then
+		elif [ "${shortname}" == "kf2" ]; then
 			fix_kf2.sh
-		elif [ "${gamename}" == "Red Orchestra: Ostfront 41-45" ]; then
+		elif [ "${shortname}" == "ro" ]; then
 			fix_ro.sh
-		elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
+		elif [ "${shortname}" == "ut2k4" ]; then
 			fix_ut2k4.sh
-		elif [ "${gamename}" == "Unreal Tournament" ]; then
+		elif [ "${shortname}" == "ut" ]; then
 			fix_ut.sh
-		elif [ "${gamename}" == "Unreal Tournament 3" ]; then
+		elif [ "${shortname}" == "ut3" ]; then
 			fix_ut3.sh
-		elif [ "${gamename}" == "Team Fortress 2" ]; then
+		elif [ "${shortname}" == "tf2" ]; then
 			fix_tf2.sh
 		else
 			fn_print_information_nl "No fixes required."

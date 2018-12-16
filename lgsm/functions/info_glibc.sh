@@ -114,6 +114,9 @@ elif [ "${gamename}" == "Squad" ]; then
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	glibcrequired="2.18"
 	glibcfix="no"
+elif [ "${shortname}" == "sbots" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"		
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -209,7 +212,7 @@ else
 	glibcfix="no"
 fi
 
-# Sets the SteamCMD GLIBC requirement if the game server requirement is less or not required.
+# Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
 if [ -n "${appid}" ]; then
 	if [ "${glibcrequired}" = "NOT REQUIRED" ]||[ -z "${glibcrequired}" ]||[ "$(printf '%s\n'${glibcrequired}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibcrequired="2.14"
