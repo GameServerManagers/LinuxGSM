@@ -16,7 +16,7 @@ if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" ==
 fi
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
-echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Console"
+echo "	* https://docs.linuxgsm.com/commands/console"
 echo ""
 if ! fn_prompt_yn "Continue?" Y; then
 	echo Exiting; return
