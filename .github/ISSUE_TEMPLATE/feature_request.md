@@ -31,7 +31,7 @@ As a [user description], I want [desired action] so that [desired outcome]
 - Feature [Monitor]
 
 ## Further Information
-A clear description of what the feature is and any ideas on how to achive this.
+A clear description of what the feature is and any ideas on how to achieve this.
 
 ## Further Reading
 Provide any useful documentation or resources that might help.
