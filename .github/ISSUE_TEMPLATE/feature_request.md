@@ -3,7 +3,6 @@ name: Feature request
 about: Suggest an idea for this project
 
 ---
-
 Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you post the correct info.
 For general support visit the **[LinuxGSM-Support](https://github.com/GameServerManagers/LinuxGSM-Support)**.
 
@@ -18,7 +17,7 @@ Issues here are **NOT** for:
 * Dedicated server issues (e.g Ubuntu, CentOS)
 * Anything not directly related to LinuxGSM development
 
-Any general support issues on GitHub will be closed
+Any general support issues on GitHub will be closed.
 
 *Please use the template below*
 
