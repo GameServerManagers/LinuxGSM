@@ -8,7 +8,7 @@
 [LinuxGSM](https://linuxgsm.com) is the command line tool for quick, simple deployment and management of dedicated game servers. 
 
 ## Hassle-Free Dedicated Game Servers
-Traditionally Game servers  are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LinuxGSM is designed to be a simple as possible allowing admins to spend less time on management and more time gaming.
+Traditionally game servers are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LinuxGSM is designed to be as simple as possible allowing admins to spend less time on management and more time gaming.
 
 ## Main features
 80+ game servers supported
@@ -29,7 +29,7 @@ Linux Game Server Managers are tested to work on the following Linux distros.
 Other distros are likely to work but are not fully tested. 
 
 ## :wrench: Requirements
-While LinuxGSM's requirements are consistant. Each game server has its own specific requirements, but most require GLIBC and Tmux. Visit the specific game server installation page to see dependencies.
+Each game server has its own specific dependency requirements, but most require GLIBC and Tmux. Visit the specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to see dependencies.
 
  - [GLIBC](https://docs.linuxgsm.com/requirements/glibc) >= 2.15 recommended [[specific requirements]](https://docs.linuxgsm.com/requirements/glibc#server-requirements)
 - [Tmux](https://docs.linuxgsm.com/requirements/tmux) >= 1.6 recommended (Avoid Tmux 1.8)
