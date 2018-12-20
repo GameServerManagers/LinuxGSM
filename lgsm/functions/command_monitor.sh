@@ -13,6 +13,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_monitor_loop(){
 # Will query up to 5 times every 15 seconds.
 # Query will wait up to 60 seconds to confirm server is down giving server time if changing map.
+totalseconds=0
 for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
