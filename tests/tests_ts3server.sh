@@ -899,6 +899,25 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
+echo "8.3 - dev - query raw"
+echo "================================="
+echo "Description:"
+echo "detect glibc."
+echo "Command: ./jc2server detect-glibc"
+requiredstatus="ONLINE"
+fn_setstatus
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_query_raw.sh
+)
+fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+
+echo ""
 echo "================================="
 echo "Server Tests - Complete!"
 echo "Using: ${gamename}"
