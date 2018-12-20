@@ -31,7 +31,7 @@ As a [user description], I want [desired action] so that [desired outcome]
 - Feature [Monitor]
 
 ## Further Information
-A clear description of what the bug is and any ideas on how to resolve it. Plus any further context that might be relevent to the issue.
+A clear description of what the bug is and any ideas on how to resolve it. Plus any further context that might be relevant to the issue.
 
 ## To Reproduce
 Steps to reproduce the behaviour:
