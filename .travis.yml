@@ -1,5 +1,5 @@
 language: bash
-dist: trusty
+dist: xenial
 sudo: required
 
 before_script:
