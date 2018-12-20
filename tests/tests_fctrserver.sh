@@ -968,7 +968,7 @@ fn_setstatus
 	set -x
 	command_dev_query_raw.sh
 )
-fn_test_result_pass
+fn_test_result_na
 echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
