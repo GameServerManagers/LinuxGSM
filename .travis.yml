@@ -7,8 +7,6 @@ before_script:
 
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
     - mailutils
     - postfix
