@@ -87,26 +87,39 @@ fn_stop_graceful_goldsource(){
 
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
-	if [ -z "${telnetpass}" ]; then
-		telnetpass="NOTSET"
-	fi
-	sdtd_telnet_shutdown=$( expect -c '
-	proc abort {} {
-		puts "Timeout or EOF\n"
-		exit 1
-	}
-	spawn telnet '"${telnetip}"' '"${telnetport}"'
-	expect {
-		"password:"     { send "'"${telnetpass}"'\r" }
-		default         abort
-	}
-	expect {
-		"session."  { send "shutdown\r" }
-		default         abort
-	}
-	expect { eof }
-	puts "Completed.\n"
-	')
+	if [ -z "${telnetpass}" ]||[ "${telnetpass}" == "NOT SET" ]; then
+		sdtd_telnet_shutdown=$( expect -c '
+		proc abort {} {
+			puts "Timeout or EOF\n"
+			exit 1
+		}
+		spawn telnet '"${telnetip}"' '"${telnetport}"'
+		expect {
+			"session."  { send "shutdown\r" }
+			default         abort
+		}
+		expect { eof }
+		puts "Completed.\n"
+		')
+	else
+		sdtd_telnet_shutdown=$( expect -c '
+		proc abort {} {
+			puts "Timeout or EOF\n"
+			exit 1
+		}
+		spawn telnet '"${telnetip}"' '"${telnetport}"'
+		expect {
+			"password:"     { send "'"${telnetpass}"'\r" }
+			default         abort
+		}
+		expect {
+			"session."  { send "shutdown\r" }
+			default         abort
+		}
+		expect { eof }
+		puts "Completed.\n"
+		')
+	fi	
 }
 
 fn_stop_graceful_sdtd(){
