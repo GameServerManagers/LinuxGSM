@@ -87,26 +87,39 @@ fn_stop_graceful_goldsource(){
 
 # Attempts graceful of 7 Days To Die using telnet.
 fn_stop_telnet_sdtd(){
-	if [ -z "${telnetpass}" ]; then
-		telnetpass="NOTSET"
-	fi
-	sdtd_telnet_shutdown=$( expect -c '
-	proc abort {} {
-		puts "Timeout or EOF\n"
-		exit 1
-	}
-	spawn telnet '"${telnetip}"' '"${telnetport}"'
-	expect {
-		"password:"     { send "'"${telnetpass}"'\r" }
-		default         abort
-	}
-	expect {
-		"session."  { send "shutdown\r" }
-		default         abort
-	}
-	expect { eof }
-	puts "Completed.\n"
-	')
+	if [ -z "${telnetpass}" ]||[ "${telnetpass}" == "NOT SET" ]; then
+		sdtd_telnet_shutdown=$( expect -c '
+		proc abort {} {
+			puts "Timeout or EOF\n"
+			exit 1
+		}
+		spawn telnet '"${telnetip}"' '"${telnetport}"'
+		expect {
+			"session."  { send "shutdown\r" }
+			default         abort
+		}
+		expect { eof }
+		puts "Completed.\n"
+		')
+	else
+		sdtd_telnet_shutdown=$( expect -c '
+		proc abort {} {
+			puts "Timeout or EOF\n"
+			exit 1
+		}
+		spawn telnet '"${telnetip}"' '"${telnetport}"'
+		expect {
+			"password:"     { send "'"${telnetpass}"'\r" }
+			default         abort
+		}
+		expect {
+			"session."  { send "shutdown\r" }
+			default         abort
+		}
+		expect { eof }
+		puts "Completed.\n"
+		')
+	fi	
 }
 
 fn_stop_graceful_sdtd(){
@@ -118,16 +131,16 @@ fn_stop_graceful_sdtd(){
 	elif [ "$(command -v expect 2>/dev/null)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
-			fn_print_dots "Graceful: telnet: ${telnetip}"
-			fn_script_log_info "Graceful: telnet: ${telnetip}"
+			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
+			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
 			sleep 0.5
 			fn_stop_telnet_sdtd
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
 			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 			if [ -n "${refused}" ]; then
-				fn_print_error "Graceful: telnet: ${telnetip}: "
+				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
-				fn_script_log_error "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log_error "Graceful: telnet:  ${telnetip}:${telnetport} : FAIL"
 				sleep 1
 			elif [ -n "${completed}" ]; then
 				break
@@ -141,9 +154,9 @@ fn_stop_graceful_sdtd(){
 				fn_stop_telnet_sdtd
 				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 				if [ -n "${refused}" ]; then
-					fn_print_ok "Graceful: telnet: ${telnetip}: "
+					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport}: "
 					fn_print_ok_eol_nl
-					fn_script_log_pass "Graceful: telnet: ${telnetip}: ${seconds} seconds"
+					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport}: ${seconds} seconds"
 					break
 				fi
 				sleep 1
@@ -155,7 +168,7 @@ fn_stop_graceful_sdtd(){
 			if [ -n "${refused}" ]; then
 				fn_print_error "Graceful: telnet: "
 				fn_print_fail_eol_nl
-				fn_script_log_error "Graceful: telnet: ${telnetip}: FAIL"
+				fn_script_log_error "Graceful: telnet: ${telnetip}:${telnetport}: FAIL"
 			else
 				fn_print_error_nl "Graceful: telnet: Unknown error"
 				fn_script_log_error "Graceful: telnet: Unknown error"
