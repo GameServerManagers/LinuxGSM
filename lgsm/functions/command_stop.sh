@@ -154,9 +154,9 @@ fn_stop_graceful_sdtd(){
 				fn_stop_telnet_sdtd
 				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 				if [ -n "${refused}" ]; then
-					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport}: "
+					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
-					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport}: ${seconds} seconds"
+					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport} : ${seconds} seconds"
 					break
 				fi
 				sleep 1
@@ -168,7 +168,7 @@ fn_stop_graceful_sdtd(){
 			if [ -n "${refused}" ]; then
 				fn_print_error "Graceful: telnet: "
 				fn_print_fail_eol_nl
-				fn_script_log_error "Graceful: telnet: ${telnetip}:${telnetport}: FAIL"
+				fn_script_log_error "Graceful: telnet: ${telnetip}:${telnetport} : FAIL"
 			else
 				fn_print_error_nl "Graceful: telnet: Unknown error"
 				fn_script_log_error "Graceful: telnet: Unknown error"
