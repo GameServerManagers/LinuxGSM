@@ -21,16 +21,16 @@ Any general support issues on GitHub will be closed.
 
 *Please use the template below*
 
-## User Story
-As a [user description], I want [desired action] so that [desired outcome]
+# User Story
+As a [user description], I want \[desired action] so that \[desired outcome]
 
-## Basic info 
+# Basic info 
 - Distro [Ubuntu 18.04]
 - Game [Garry's Mod]
 - Feature [Monitor]
 
-## Further Information
+# Further Information
 A clear description of what the feature is and any ideas on how to achieve this.
 
-## Further Reading
+# Further Reading
 Provide any useful documentation or resources that might help.
