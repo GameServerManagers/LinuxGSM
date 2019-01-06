@@ -12,6 +12,7 @@ Issues here are **ONLY** for:
 * code contributions
 
 Issues here are **NOT** for:
+
 * General support
 * Specific game server issues (e.g CS:GO, TF2)
 * Dedicated server issues (e.g Ubuntu, CentOS)
@@ -21,16 +22,20 @@ Any general support issues on GitHub will be closed.
 
 *Please use the template below*
 
-# User Story
-As a [user description], I want \[desired action] so that \[desired outcome]
+## User Story
 
-# Basic info 
-- Distro [Ubuntu 18.04]
-- Game [Garry's Mod]
-- Feature [Monitor]
+As a \[user description], I want \[desired action] so that \[desired outcome]
 
-# Further Information
+## Basic info 
+
+* Distro \[Ubuntu 18.04]
+* Game \[Garry's Mod]
+* Feature \[Monitor]
+
+## Further Information
+
 A clear description of what the feature is and any ideas on how to achieve this.
 
-# Further Reading
+## Further Reading
+
 Provide any useful documentation or resources that might help.

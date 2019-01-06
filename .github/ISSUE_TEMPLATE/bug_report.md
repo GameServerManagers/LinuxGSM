@@ -21,21 +21,21 @@ Any general support issues on GitHub will be closed.
 
 *Please use the template below*
 
-# User Story
+## User Story
 
-As a [user description], I want \[desired action] so that \[desired outcome]
+As a \[user description], I want \[desired action] so that \[desired outcome]
 
-# Basic info
+## Basic info
 
-* Distro [Ubuntu 18.04]
-* Game [Garry's Mod]
-* Feature [Monitor]
+* Distro \[Ubuntu 18.04]
+* Game \[Garry's Mod]
+* Feature \[Monitor]
 
-# Further Information
+## Further Information
 
 A clear description of what the bug is and any ideas on how to resolve it. Plus any further context that might be relevant to the issue.
 
-# To Reproduce
+## To Reproduce
 
 Steps to reproduce the behaviour:
 1. Go to '...'
@@ -44,4 +44,5 @@ Steps to reproduce the behaviour:
 4. See error
 
 ## Expected behaviour
+
 A what you expected to happen.
