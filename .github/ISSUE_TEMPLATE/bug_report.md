@@ -1,4 +1,3 @@
-
 ---
 name: Bug report
 about: Found a bug? Raise a report
