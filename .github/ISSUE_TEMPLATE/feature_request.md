@@ -3,16 +3,15 @@ name: Feature request
 about: Suggest an idea for this project
 
 ---
-
 Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you post the correct info.
-For general support visit the **[steam group](https://linuxgsm.com/steam)**.
+For general support visit the **[LinuxGSM-Support](https://github.com/GameServerManagers/LinuxGSM-Support)**.
 
-GitHub is **ONLY** for:
+Issues here are **ONLY** for:
 * LinuxGSM bugs
 * feature suggestions
 * code contributions
 
-GitHub is **NOT** for:
+Issues here are **NOT** for:
 * General support
 * Specific game server issues (e.g CS:GO, TF2)
 * Dedicated server issues (e.g Ubuntu, CentOS)
@@ -22,18 +21,16 @@ Any general support issues on GitHub will be closed.
 
 *Please use the template below*
 
-**Basic info**
-Game: 
-Distro: 
+## User Story
+As a [user description], I want [desired action] so that [desired outcome]
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Basic info 
+- Distro [Ubuntu 18.04]
+- Game [Garry's Mod]
+- Feature [Monitor]
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## Further Information
+A clear description of what the feature is and any ideas on how to achieve this.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## Further Reading
+Provide any useful documentation or resources that might help.
