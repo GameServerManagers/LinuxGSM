@@ -28,6 +28,8 @@ queryport="57555"
 
 rconport="27030"
 
+ServerAdminPassword="CHANGETHIS"
+
 # Default Map: Ocean
 
 defaultmap="Ocean"
@@ -40,7 +42,7 @@ maxplayers="50"
 
 fn_parms(){
 
-parms="\"${defaultmap}?AltSaveDirectoryName=${defaultmap}?listen?MultiHome=${ip}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port} -automanagedmods\""
+parms="\"${defaultmap}?ServerX=0?ServerY=0?AltSaveDirectoryName=00?AltSaveDirectoryName=00?SeamlessIP=${ip}?MaxPlayers=${maxplayers}?QueryPort=${queryport}?RCONPort=${rconport}?Port=${port} -log -server -NoBattlEye\""
 
 }
 
