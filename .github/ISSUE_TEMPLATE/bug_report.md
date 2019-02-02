@@ -17,13 +17,13 @@ Issues here are **NOT** for:
 * Dedicated server issues (e.g Ubuntu, CentOS)
 * Anything not directly related to LinuxGSM development
 
-Any general support issues on GitHub will be closed.
+Any general support issues on GitHub will be migrated to [LinuxGSM-Support](https://github.com/GameServerManagers/LinuxGSM-Support).
 
 *Please use the template below*
 
 ## User Story
 
-As a \[user description], I want \[desired action] so that \[desired outcome]
+As a \[user description], I want \[desired action] so that \[desired outcome].
 
 ## Basic info
 
@@ -44,5 +44,3 @@ Steps to reproduce the behaviour:
 4. See error
 
 ## Expected behaviour
-
-A what you expected to happen.
