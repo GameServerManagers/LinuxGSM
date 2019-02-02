@@ -44,4 +44,3 @@ Steps to reproduce the behaviour:
 4. See error
 
 ## Expected behaviour
-A what you expected to happen.

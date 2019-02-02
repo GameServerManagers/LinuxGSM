@@ -37,7 +37,9 @@ Each game server has its own specific dependency requirements, but most require 
 
 * [GLIBC](https://docs.linuxgsm.com/requirements/glibc) >= 2.15 recommended [[specific requirements]](https://docs.linuxgsm.com/requirements/glibc#server-requirements)
 * [Tmux](https://docs.linuxgsm.com/requirements/tmux) >= 1.6 recommended (Avoid Tmux 1.8)
+
 ## :blue_book: Documentation
+
 Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgsm.com](https://docs.linuxgsm.com) 
 
 ## :question: Support

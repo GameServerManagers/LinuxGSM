@@ -27,6 +27,8 @@ As a \[user description], I want \[desired action] so that \[desired outcome].
 
 ## Basic info
 
+As a \[user description], I want \[desired action] so that \[desired outcome]
+
 * Distro \[Ubuntu 18.04]
 * Game \[Garry's Mod]
 * Feature \[Monitor]
