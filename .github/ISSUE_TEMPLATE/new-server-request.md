@@ -6,7 +6,7 @@ about: Suggest a new game server to be added
 
 ## What game server would you like adding?
 
-\[game server]
+[game server]
 
 ## Can you link to any tutorials or guides?
 
@@ -19,7 +19,7 @@ Provide any useful documentation or resources that might help.
 
 If yes Use SteamDB to get the appid. (https://steamdb.info).
 
-\[appid]
+[appid]
 
 ## Is the server supported on Linux?
 
