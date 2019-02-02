@@ -42,3 +42,17 @@ if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
 "${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"
+
+echo""
+echo "================================="
+echo "tcp Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
+bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "tcp query PASS"
+else
+	echo "tcp query FAIL"
+fi
