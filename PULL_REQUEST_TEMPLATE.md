@@ -15,6 +15,7 @@ Fixes #\[issue]
 
 * [ ] My code follows the style guidelines of this project
 * [ ] This pull request links to an issue
+* [ ] This pull request uses the `develop` branch as its base 
 * [ ] I have performed a self review of my own code
 * [ ] I have commented my code, particularly in hard to understand areas
 * [ ] I have made corresponding changes to the documentation
