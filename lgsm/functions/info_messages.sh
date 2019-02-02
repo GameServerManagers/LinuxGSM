@@ -711,17 +711,6 @@ fn_info_message_inss(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_iosoccer() {
-	echo -e "netstat -atunp | grep srcds_i486"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
-		echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
-		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_justcause2(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
 	echo -e ""
@@ -1201,8 +1190,6 @@ fn_info_message_select_engine(){
 		fn_info_message_hurtworld
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
-	elif [ "${gamename}" == "IOSoccer" ];then
-		fn_info_message_iosoccer
 	elif [ "${gamename}" == "Just Cause 2" ]; then
 		fn_info_message_justcause2
 	elif [ "${gamename}" == "Just Cause 3" ]; then
