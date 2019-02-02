@@ -18,5 +18,6 @@ Fixes #\[issue]
 * [ ] This pull request links to an issue
 * [ ] This pull request uses the `develop` branch as its base 
 * [ ] I have performed a self-review of my own code
+* [ ] I have squashed commits
 * [ ] I have commented my code, particularly in hard to understand areas
 * [ ] I have made corresponding changes to the documentation if required
