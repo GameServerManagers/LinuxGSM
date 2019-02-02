@@ -8,9 +8,11 @@
 [LinuxGSM](https://linuxgsm.com) is the command line tool for quick, simple deployment and management of dedicated game servers. 
 
 ## Hassle-Free Dedicated Game Servers
+
 Traditionally game servers are not easy to manage yourself. Admins often have to spend hours just messing around trying to get their server working. LinuxGSM is designed to be as simple as possible allowing admins to spend less time on management and more time gaming.
 
 ## Main features
+
 80+ game servers supported
  - :truck: Installer 
  - :mag: Monitor 
@@ -21,6 +23,7 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
  - :computer: Console
 
 ##  :penguin: Compatibility
+
 Linux Game Server Managers are tested to work on the following Linux distros.
 
  - Debian based (Ubuntu, Mint etc.)
@@ -29,6 +32,7 @@ Linux Game Server Managers are tested to work on the following Linux distros.
 Other distros are likely to work but are not fully tested. 
 
 ## :wrench: Requirements
+
 Each game server has its own specific dependency requirements, but most require GLIBC and Tmux. Visit the specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to see dependencies.
 
  - [GLIBC](https://docs.linuxgsm.com/requirements/glibc) >= 2.15 recommended [[specific requirements]](https://docs.linuxgsm.com/requirements/glibc#server-requirements)
@@ -37,7 +41,9 @@ Each game server has its own specific dependency requirements, but most require 
 Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgsm.com](https://docs.linuxgsm.com) 
 
 ## :question: Support
+
 There are a various ways to get support, check out the [support](https://linuxgsm.com/support/) page to the right support.
 
 ## :heart: Donate
+
 If you would like to [donate](https://linuxgsm.com/donate) to the project there are several ways you can, via [PayPal](https://www.paypal.me/dgibbs64), [Patreon](https://www.patreon.com/dgibbs) and [Flattr](https://flattr.com/@dgibbs). I would like to thank everyone who has previously sent a donation. LinuxGSM has been going since 2012 and I have spent 1000s of hours developing and improving the project and continue to regularly add support for new servers.
