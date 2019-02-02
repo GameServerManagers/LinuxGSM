@@ -11,7 +11,7 @@ Fixes #\[issue]
 * [ ] Refactor (non breaking change restructures existing code)
 * [ ] This change requires a documentation update
 
-# Checklist
+## Checklist
 
 * [ ] My code follows the style guidelines of this project
 * [ ] This pull request links to an issue
