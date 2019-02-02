@@ -22,15 +22,19 @@ Any general support issues on GitHub will be migrated to [LinuxGSM-Support](http
 *Please use the template below*
 
 ## User Story
+
 As a [user description], I want [desired action] so that [desired outcome].
 
-## Basic info 
-- Distro [Ubuntu 18.04]
-- Game [Garry's Mod]
-- Feature [Monitor]
+## Basic info
+
+- Distro \[Ubuntu 18.04]
+- Game \[Garry's Mod]
+- Feature \[Monitor]
 
 ## Further Information
+
 A clear description of what the feature is and any ideas on how to achieve this.
 
 ## Further Reading
+
 Provide any useful documentation or resources that might help.

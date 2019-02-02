@@ -23,12 +23,12 @@ Any general support issues on GitHub will be migrated to [LinuxGSM-Support](http
 *Please use the template below*
 
 ## User Story
-As a [user description], I want [desired action] so that [desired outcome].
+As a \[user description], I want \[desired action] so that \[desired outcome].
 
 ## Basic info 
-- Distro [Ubuntu 18.04]
-- Game [Garry's Mod]
-- Feature [Monitor]
+- Distro \[Ubuntu 18.04]
+- Game \[Garry's Mod]
+- Feature \[Monitor]
 
 ## Further Information
 A clear description of what the bug is and any ideas on how to resolve it. Plus any further context that might be relevant to the issue.
