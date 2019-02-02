@@ -10,7 +10,16 @@ about: Suggest a new game server to be added
 Provide any useful documentation or resources that might help.
 
 ## Is the server on Steam?
-If yes Use SteamDB to get the appid. (https://steamdb.info)
+
+- [ ] Yes
+- [ ] No
+
+If yes Use SteamDB to get the appid. (https://steamdb.info).
+
+[Appid]
 
 ## Is the server supported on Linux?
 We only support Linux servers and do not support Wine.
+
+- [ ] Yes
+- [ ] No
