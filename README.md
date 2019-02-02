@@ -14,13 +14,13 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
 ## Main features
 
 80+ game servers supported
- - :truck: Installer 
- - :mag: Monitor 
- - :phone: Alerts 
- - :cloud: Updater 
- - :blue_book: Server Details 
- - :floppy_disk: Backup 
- - :computer: Console
+ * :truck: Installer 
+ * :mag: Monitor 
+ * :phone: Alerts 
+ * :cloud: Updater 
+ * :blue_book: Server Details 
+ * :floppy_disk: Backup 
+ * :computer: Console
 
 ##  :penguin: Compatibility
 
@@ -35,8 +35,8 @@ Other distros are likely to work but are not fully tested.
 
 Each game server has its own specific dependency requirements, but most require GLIBC and Tmux. Visit the specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to see dependencies.
 
- - [GLIBC](https://docs.linuxgsm.com/requirements/glibc) >= 2.15 recommended [[specific requirements]](https://docs.linuxgsm.com/requirements/glibc#server-requirements)
-- [Tmux](https://docs.linuxgsm.com/requirements/tmux) >= 1.6 recommended (Avoid Tmux 1.8)
+* [GLIBC](https://docs.linuxgsm.com/requirements/glibc) >= 2.15 recommended [[specific requirements]](https://docs.linuxgsm.com/requirements/glibc#server-requirements)
+* [Tmux](https://docs.linuxgsm.com/requirements/tmux) >= 1.6 recommended (Avoid Tmux 1.8)
 ## :blue_book: Documentation
 Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgsm.com](https://docs.linuxgsm.com) 
 
