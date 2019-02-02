@@ -28,7 +28,7 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
 Linux Game Server Managers are tested to work on the following Linux distros.
 
 * Debian based (Ubuntu, Mint etc.)
-* Red Hat based (CentOS, Fedora etc.).
+* Red Hat based (CentOS, Fedora etc.)
 
 Other distros are likely to work but are not fully tested. 
 
