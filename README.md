@@ -14,20 +14,21 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
 ## Main features
 
 80+ game servers supported
- * :truck: Installer 
- * :mag: Monitor 
- * :phone: Alerts 
- * :cloud: Updater 
- * :blue_book: Server Details 
- * :floppy_disk: Backup 
- * :computer: Console
+
+* :truck: Installer 
+* :mag: Monitor 
+* :phone: Alerts 
+* :cloud: Updater 
+* :blue_book: Server Details 
+* :floppy_disk: Backup 
+* :computer: Console
 
 ##  :penguin: Compatibility
 
 Linux Game Server Managers are tested to work on the following Linux distros.
 
- - Debian based (Ubuntu, Mint etc.)
- - Red Hat based (CentOS, Fedora etc.).
+* Debian based (Ubuntu, Mint etc.)
+* Red Hat based (CentOS, Fedora etc.).
 
 Other distros are likely to work but are not fully tested. 
 
