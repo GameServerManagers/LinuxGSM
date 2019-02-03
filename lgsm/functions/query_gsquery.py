@@ -18,8 +18,8 @@ class gsquery:
         self.default_buffer_length = 1024
         #
         sourcequery=[ 'avalanche3.0','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4', 'wurm' ]
-        idtech3query=['idtech3','quake','iw3.0']
-        idtech2query=['idtech2','iw2.0']
+        idtech3query=['idtech3','iw3.0']
+        idtech2query=['idtech2','quake','iw2.0']
         minecraftquery=['minecraft','lwjgl2']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
