@@ -36,6 +36,8 @@ hldms,hldmsserver,Half-Life Deathmatch: Source
 hldm,hldmserver,Half-Life: Deathmatch
 hw,hwserver,Hurtworld
 ins,insserver,Insurgency
+inss,inssserver,Insurgency: Sandstorm
+ios,iosserver,IOSoccer
 jc2,jc2server,Just Cause 2
 jc3,jc3server,Just Cause 3
 kf,kfserver,Killing Floor
@@ -63,6 +65,7 @@ ricochet,ricochetserver,Ricochet
 rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
+sbots,sbotsserver, StickyBots
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
 st,stserver,Stationeers
@@ -79,5 +82,6 @@ ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
+wurm,wurmserver,Wurm Unlimited
 etl,etlserver,ET: Legacy
 zps,zpsserver,Zombie Panic! Source

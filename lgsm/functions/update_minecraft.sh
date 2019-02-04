@@ -102,7 +102,6 @@ fn_update_compare(){
 		echo -e "	Available build: ${green}${availablebuild}${default}"
 		echo -e ""
 		sleep 0.5
-		echo ""
 		echo -en "Applying update.\r"
 		sleep 1
 		echo -en "Applying update..\r"

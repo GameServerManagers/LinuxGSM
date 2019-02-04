@@ -51,15 +51,16 @@ fi
 if [ -n "${alertflag}" ]; then
 	postdetailslog="${alertlog}"
 else
+	# Run checks and gathers details to display.
+	check.sh
+	info_config.sh
+	info_parms.sh
+	info_distro.sh
+	info_glibc.sh
+	info_messages.sh
+	query_gamedig.sh
 	touch "${postdetailslog}" || fn_bad_postdetailslog
 	{
-		# Run checks and gathers details to display.
-		check.sh
-		info_config.sh
-		info_distro.sh
-		info_glibc.sh
-		info_parms.sh
-		info_messages.sh
 		fn_info_message_distro
 		fn_info_message_performance
 		fn_info_message_disk
@@ -67,7 +68,7 @@ else
 		fn_info_message_script
 		fn_info_message_backup
 		# Some game servers do not have parms.
-		if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${engine}" != "avalanche2.0" ]&&[ "${engine}" != "avalanche3.0" ]&&[ "${engine}" != "dontstarve" ]&&[ "${engine}" != "projectzomboid" ]&&[ "${engine}" != "renderware" ]; then
+		if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "jc2" ]&&[ "${shortname}" != "jc3" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
 			fn_parms
 			fn_info_message_commandlineparms
 		fi

@@ -72,7 +72,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
-				echo "Removing $(find ${serverfiles} -type d -print0 | grep -Ez '[^/]{30}$')"
+				echo "Removing $(find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$')"
 				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
@@ -87,7 +87,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -le "4" ]; then
-				if [ "${engine}" == "goldsource" ]; then
+				if [ "${appid}" == "90" ]; then
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				else
