@@ -173,6 +173,9 @@ fn_info_parms_kf2(){
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_parms_ark
+# ATLAS Dedicated Server
+if [ "${shortname}" == "atlas" ]; then
+	fn_info_parms_atlas
 # ARMA 3
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_parms_realvirtuality
