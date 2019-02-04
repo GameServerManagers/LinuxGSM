@@ -47,7 +47,7 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_arma3.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
-       elif [ "${shortname}" == "atlas" ]; then
+        elif [ "${shortname}" == "atlas" ]; then
                 fix_atlas.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
