@@ -1,6 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix.sh function
 # Author: Daniel Gibbs
+# Contributor: xtoor
 # Website: https://linuxgsm.com
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
@@ -46,6 +47,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_arma3.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
+   elif [ "${shortname}" == "atlas" ]; then
+     fix_atlas.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
 	elif [ "${shortname}" == "dst" ]; then
