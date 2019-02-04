@@ -23,7 +23,7 @@ fn_update_ts3_dl_legacy(){
 }
 
 fn_update_ts3_dl(){
-	latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors | to_entries[] | .value')
+	latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
 	fn_fetch_file "${latestts3releaselink}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
@@ -63,7 +63,7 @@ fn_update_ts3_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | grep -Ev '${rootdir}/.ts3version' | tail -1) | grep -Eo 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | sort -V | tail -1)
+	currentbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | grep -Ev "${rootdir}/.ts3version" | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V | tail -1)
 	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
 		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
@@ -74,7 +74,7 @@ fn_update_ts3_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat $(find ./* -name 'ts3server*_0.log' 2> /dev/null | sort | grep -Ev '${rootdir}/.ts3version' | tail -1) | grep -Eo 'TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		currentbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | grep -Ev "${rootdir}/.ts3version" | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: teamspeak.com: Current build version still not found"

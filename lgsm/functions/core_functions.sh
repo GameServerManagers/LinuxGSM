@@ -322,12 +322,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-
 fix_kf.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -373,7 +367,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ss3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ts3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
