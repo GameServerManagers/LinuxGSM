@@ -1,6 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
+# Contributor: xtoor
 # Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
@@ -16,6 +17,13 @@ unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
 
 fn_info_parms_ark(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	rconport=${rconport:-"0"}
+	maxplayers=${maxplayers:-"0"}
+}
+
+fn_info_parms_atlas(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	rconport=${rconport:-"0"}
