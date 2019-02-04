@@ -42,16 +42,16 @@ fn_script_log(){
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
-fn_script_log_pass(){
-	if [ -d "${lgsmlogdir}" ]; then
-		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
-		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: PASS: ${1}" >> "${lgsmlog}"
-		fi
-	fi
-	exitcode=0
-}
+#fn_script_log_pass(){
+#	if [ -d "${lgsmlogdir}" ]; then
+#		if [ -n "${commandname}" ]; then
+#			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
+#		else
+#			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: PASS: ${1}" >> "${lgsmlog}"
+#		fi
+#	fi
+#	exitcode=0
+#}
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
