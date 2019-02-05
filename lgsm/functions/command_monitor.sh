@@ -13,6 +13,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_monitor_loop(){
 # Will query up to 5 times every 15 seconds.
 # Query will wait up to 60 seconds to confirm server is down giving server time if changing map.
+totalseconds=0
 for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
@@ -26,7 +27,7 @@ for queryattempt in {1..5}; do
 		fi
 		"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}" > /dev/null 2>&1
 		querystatus="$?"
-	elif [ "${querymethod}" ==  "telnet" ]; then
+	elif [ "${querymethod}" ==  "tcp" ]; then
 		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 		querystatus="$?"
 	fi
@@ -110,9 +111,9 @@ fn_monitor_check_session(){
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
 	else
-		if [ "${gamename}" == "TeamSpeak 3" ]; then
+		if [ "${shortname}" == "ts3" ]; then
 			fn_print_error "Checking session: ${ts3error}: "
-		elif [ "${gamename}" == "Mumble" ]; then
+		elif [ "${shortname}" == "mumble" ]; then
 			fn_print_error "Checking session: Not listening to port ${queryport}"
 		else
 			fn_print_error "Checking session: "
@@ -131,19 +132,23 @@ fn_monitor_check_session(){
 fn_monitor_query(){
 	fn_script_log_info "Querying port: query enabled"
 	# engines that work with query
-	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 )
+	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 wurm )
 	for allowed_engine in "${allowed_engines_array[@]}"
 	do
 		if [ "${allowed_engine}" == "${engine}" ]; then
 			if [ "${engine}" == "idtech3_ql" ]; then
 				local engine="quakelive"
-			elif [ "${gamename}" == "Killing Floor 2" ]; then
+			elif [ "${shortname}" == "kf2" ]; then
 				local engine="unreal4"
 			fi
 
 			# will first attempt to use gamedig then gsquery
 			totalseconds=0
-			local query_methods_array=( gamedig gsquery )
+			if [ "${shortname}" == "wurm" ]; then
+				local query_methods_array=( gsquery )
+			else
+				local query_methods_array=( gamedig gsquery )
+			fi
 			for query_method in "${query_methods_array[@]}"
 			do
 				if [ "${query_method}" == "gamedig" ]; then
@@ -165,8 +170,8 @@ fn_monitor_query(){
 	done
 }
 
-fn_monitor_query_telnet(){
-	querymethod="telnet"
+fn_monitor_query_tcp(){
+	querymethod="tcp"
 	fn_monitor_loop
 }
 
@@ -182,12 +187,12 @@ fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
 # Query has to be enabled in Starbound config
-if [ "${gamename}" == "Starbound" ]; then
+if [ "${shortname}" == "sb" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi
-elif [ "${gamename}" == "TeamSpeak 3" ]||[ "${gamename}" == "Eco" ]; then
-	fn_monitor_query_telnet
+elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
+	fn_monitor_query_tcp
 else
 	fn_monitor_query
 fi

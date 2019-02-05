@@ -58,8 +58,11 @@ fn_start_teamspeak3(){
 }
 
 fn_start_tmux(){
-	fn_parms
-
+	if [ "${parmsbypass}" ]; then
+		parms=""
+	else
+		fn_parms
+	fi
 	# check for tmux size variables
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
 		sessionwidth="${servercfgtmuxwidth}"
@@ -87,7 +90,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
-	tmux new-session -d -x "${sessionheight}" -y "${sessionwidth}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
 	# Create logfile
 	touch "${consolelog}"
@@ -198,7 +201,9 @@ if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is r
 		core_exit.sh
 	fi
 fi
-fix.sh
+if [ -z "${fixbypass}" ];then
+	fix.sh
+fi
 info_config.sh
 logs.sh
 
@@ -209,7 +214,7 @@ if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateon
 	command_update.sh
 fi
 
-if [ "${gamename}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	fn_start_teamspeak3
 else
 	fn_start_tmux

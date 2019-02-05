@@ -42,8 +42,8 @@ fn_check_ownership(){
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
 		echo ""
-		fn_print_information_nl "please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
-		fn_script_log "For more information, please see https://github.com/GameServerManagers/LinuxGSM/wiki/FAQ#-fail--starting-game-server-ownership-issues-found"
+		fn_print_information_nl "please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
+		fn_script_log "For more information, please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
 		if [ "${monitorflag}" == 1 ]; then
 			alert="permissions"
 			alert.sh
@@ -181,7 +181,7 @@ fn_sys_perm_fix_manually_msg(){
 
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise
 fn_sys_perm_errors_fix(){
-	sudo -v > /dev/null 2>&1
+	sudo -n true > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		fn_print_dots "Automatically fixing /sys permissions"
 		sleep 0.5
@@ -230,8 +230,10 @@ fn_sys_perm_error_process(){
 # Run perm error detect & fix/alert functions on /sys directories
 
 ## Run checks
-fn_check_ownership
-fn_check_permissions
-if [ "${function_selfname}" == "command_start.sh" ]; then
-	fn_sys_perm_error_process
+if [ "$(whoami)" != "root" ]; then
+	fn_check_ownership
+	fn_check_permissions
+	if [ "${function_selfname}" == "command_start.sh" ]; then
+		fn_sys_perm_error_process
+	fi
 fi
