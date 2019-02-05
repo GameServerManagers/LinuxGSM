@@ -10,7 +10,11 @@ fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
 		fn_print_dots "Adding Mono repository"
 		sleep 0.5
-		sudo -v > /dev/null 2>&1
+		if [ "${autoinstall}" == "1" ]; then
+			sudo -n true > /dev/null 2>&1
+		else
+			sudo -v > /dev/null 2>&1
+		fi
 		if [ $? -eq 0 ]; then
 			fn_print_info_nl "Automatically adding Mono repository."
 			fn_script_log_info "Automatically adding Mono repository."
@@ -101,7 +105,11 @@ fn_install_universe_repo(){
 		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
 		fn_print_information_nl "Attempting to add Universe Repo"
 		sleep 0.5
-		sudo -v > /dev/null 2>&1
+		if [ "${autoinstall}" == "1" ]; then
+			sudo -n true > /dev/null 2>&1
+		else
+			sudo -v > /dev/null 2>&1
+		fi
 		if [ $? -eq 0 ]; then
 			echo -en ".\r"
 			sleep 1
@@ -228,7 +236,11 @@ fn_found_missing_deps(){
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
 			echo "	* https://docs.linuxgsm.com/requirements/jq"
 		fi
-		sudo -v > /dev/null 2>&1
+		if [ "${autoinstall}" == "1" ]; then
+			sudo -n true > /dev/null 2>&1
+		else
+			sudo -v > /dev/null 2>&1
+		fi
 		if [ $? -eq 0 ]; then
 			fn_print_information_nl "Automatically installing missing dependencies."
 			fn_script_log_info "Automatically installing missing dependencies."
