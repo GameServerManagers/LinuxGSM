@@ -181,7 +181,7 @@ fn_sys_perm_fix_manually_msg(){
 
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise
 fn_sys_perm_errors_fix(){
-	sudo -v > /dev/null 2>&1
+	sudo -n true > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		fn_print_dots "Automatically fixing /sys permissions"
 		sleep 0.5
