@@ -214,25 +214,14 @@ elif [ "${shortname}" == "ss3" ]; then
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_parms_source
 # Spark
-
 elif [ "${engine}" == "spark" ]; then
-
 	fn_info_parms_spark
-
 elif [ "${shortname}" == "tu" ]; then
-
 	fn_info_config_towerunite
-
 # Unreal/Unreal 2 engine
-
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-
 	fn_info_parms_unreal
-
 # Unreal 3 engine
-
 elif [ "${engine}" == "unreal3" ]; then
-
 	fn_info_parms_unreal3
-
 fi
