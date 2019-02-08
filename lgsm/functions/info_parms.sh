@@ -77,6 +77,7 @@ fn_info_parms_projectzomboid(){
 
 fn_info_parms_quakeworld(){
 	port=${port:-"0"}
+	queryport=${port}
 }
 
 fn_info_parms_quake2(){
