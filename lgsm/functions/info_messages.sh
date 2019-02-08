@@ -489,7 +489,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -858,6 +858,15 @@ fn_info_message_risingworld(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_rtcw(){
+	echo -e "netstat -atunp | grep iowolfded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_rust(){
 	echo -e "netstat -atunp | grep Rust"
 	echo -e ""
@@ -1209,7 +1218,7 @@ fn_info_message_select_engine(){
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
 	elif [ "${shortname}" == "sbots" ]; then
-		fn_info_message_sbots	
+		fn_info_message_sbots
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
@@ -1218,6 +1227,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_info_message_mumble
+	elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+		fn_info_message_rtcw
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
 	elif [ "${gamename}" == "Wurm Unlimited" ]; then

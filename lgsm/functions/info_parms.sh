@@ -92,6 +92,11 @@ fn_info_parms_risingworld(){
 
 }
 
+fn_info_parms_rtcw(){
+	port=${port:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
 fn_info_parms_rust(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
@@ -188,6 +193,8 @@ elif [ "${shortname}" == "qw" ]; then
 	fn_info_parms_quakeworld
 elif [ "${shortname}" == "q2" ]||[ "${shortname}" == "q3" ]; then
 	fn_info_parms_quake2
+elif [ "${shortname}" == "rtcw" ]; then
+	fn_info_parms_rtcw
 # Rust
 elif [ "${shortname}" == "rust" ]; then
 	fn_info_parms_rust
