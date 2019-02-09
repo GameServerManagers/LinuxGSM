@@ -1140,7 +1140,7 @@ fn_info_config_stationeers(){
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
-# ARK: Survival Evolved
+# ATLAS
 if [ "${shortname}" == "atlas" ]; then
 	fn_info_config_atlas
 # Ballistic Overkill
