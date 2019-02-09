@@ -81,6 +81,7 @@ fn_info_config_ark(){
 		servername="${unavailable}"
 	else
 		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
 		# Not Set
 		servername=${servername:-"NOT SET"}
 	fi
@@ -91,6 +92,7 @@ fn_info_config_atlas(){
 		servername="${unavailable}"
 	else
 		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
 		# Not Set
 		servername=${servername:-"NOT SET"}
 	fi
@@ -1138,6 +1140,9 @@ fn_info_config_stationeers(){
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
+# ARK: Survival Evolved
+if [ "${shortname}" == "atlas" ]; then
+	fn_info_config_atlas
 # Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill
