@@ -1141,7 +1141,7 @@ fn_info_config_stationeers(){
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
 # ATLAS
-if [ "${shortname}" == "atlas" ]; then
+elif [ "${shortname}" == "atlas" ]; then
 	fn_info_config_atlas
 # Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then
