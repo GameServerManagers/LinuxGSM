@@ -2,7 +2,7 @@
 # LinuxGSM fix_atlas.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with ATLAS Dedicated Server.
+# Description: Resolves various issues with ATLAS.
 
 # Symlinking the SteamCMD directory into the correct ATLAS directory so that the mods auto-management will work.
 if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
