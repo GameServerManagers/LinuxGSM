@@ -1,7 +1,6 @@
 #!/bin/bash
 # LinuxGSM fix.sh function
 # Author: Daniel Gibbs
-# Contributor: xtoor
 # Website: https://linuxgsm.com
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.

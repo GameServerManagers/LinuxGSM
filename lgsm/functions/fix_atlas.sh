@@ -1,7 +1,6 @@
 #!/bin/bash
 # LinuxGSM fix_atlas.sh function
 # Author: Daniel Gibbs
-# Modified by xtoor for Atlas
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with ATLAS Dedicated Server.
 

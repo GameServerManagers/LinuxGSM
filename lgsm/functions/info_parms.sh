@@ -1,7 +1,6 @@
 #!/bin/bash
 # LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
-# Contributor: xtoor
 # Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
