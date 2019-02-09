@@ -10,8 +10,8 @@ if [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
 elif [ "${gamename}" == "ATLAS Dedicated Server" ]; then
-        glibcrequired="2.15"
-        glibcfix="no"
+    glibcrequired="2.15"
+    glibcfix="no"
 elif [ "${gamename}" == "Ballistic Overkill" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
