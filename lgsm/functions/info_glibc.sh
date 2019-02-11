@@ -6,5 +6,4 @@
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-glibcrequired=$(grep "${shortname}" "${serverlist}" | awk -F "," '{ print $5 }')
-glibcfix=$(grep "${shortname}" "${serverlist}" | awk -F "," '{ print $6 }')
+glibcrequired=$(awk -F "," '{ print $1,$5 }' "${serverlist}" | grep "${shortname}" )
