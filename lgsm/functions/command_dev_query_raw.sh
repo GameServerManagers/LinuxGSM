@@ -1,7 +1,7 @@
 #!/bin/bash
 # command_dev_query_raw.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
 local commandname="QUERY-RAW"
@@ -24,12 +24,12 @@ info_config.sh
 info_parms.sh
 if [ "${engine}" == "idtech3_ql" ]; then
 	local engine="quakelive"
-elif [ "${gamename}" == "Killing Floor 2" ]; then
+elif [ "${shortname}" == "kf2" ]; then
 	local engine="unreal4"
 fi
 
 query_gamedig.sh
-echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${port}\"|jq"
+echo "${gamedigcmd}"
 echo""
 echo "${gamedigraw}" | jq
 echo""
@@ -37,8 +37,22 @@ echo "================================="
 echo "gsquery Raw Output"
 echo "================================="
 echo""
-echo "./query_gsquery.py -a \"${ip}\" -p \"${port}\" -e \"${engine}\""
+echo "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${engine}\""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
-"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${port}" -e "${engine}"
+"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"
+
+echo""
+echo "================================="
+echo "tcp Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
+bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "tcp query PASS"
+else
+	echo "tcp query FAIL"
+fi

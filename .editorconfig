@@ -1,0 +1,13 @@
+# EditorConfig helps developers define and maintain consistent coding styles between different editors and IDEs.
+# Atom: Please assure your Atom's config setting Tab Type is set to auto, otherwise Atom-EditorConfig may not work as expected. Also disable whitespace package.
+# http://editorconfig.org/
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+end_of_line = lf
+insert_final_newline = true

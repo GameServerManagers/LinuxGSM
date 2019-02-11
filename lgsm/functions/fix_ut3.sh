@@ -17,4 +17,5 @@ sleep 1
 exitbypass=1
 command_start.sh
 sleep 10
+exitbypass=1
 command_stop.sh

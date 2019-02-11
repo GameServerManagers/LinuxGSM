@@ -2,7 +2,9 @@
 
 # *Required* Comment to reply with
 requestInfoReplyComment: >
-  We require more information for this issue.
+  ![More Data required](https://i.imgur.com/yS9cecv.png)
+  More data is required to assist with this issue 
+  or issue template was not used correctly.
   https://linuxgsm.com/support/#guide
 
 # *OPTIONAL* default titles to check against for lack of descriptiveness
@@ -12,4 +14,4 @@ requestInfoReplyComment: >
 #  - updates
 
 # *OPTIONAL* Label to be added to Issues and Pull Requests with insufficient information given
-requestInfoLabelToAdd: Status: needs more info
+requestInfoLabelToAdd: "needs more info"

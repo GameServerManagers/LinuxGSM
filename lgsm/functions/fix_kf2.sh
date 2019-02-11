@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM fix_kf3.sh function
+# LinuxGSM fix_kf2.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor 2.
@@ -17,4 +17,5 @@ sleep 1
 exitbypass=1
 command_start.sh
 sleep 10
+exitbypass=1
 command_stop.sh

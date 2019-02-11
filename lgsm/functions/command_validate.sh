@@ -9,7 +9,6 @@ local commandaction="Validate"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
-	appid="${1}"
 	echo ""
 	echo -e "	* Validating may overwrite some customised files."
 	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
@@ -26,8 +25,8 @@ fn_validation(){
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
-	if [ "${engine}" == "goldsource" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
+	if [ "${appid}" == "90" ]; then
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
 	fi
@@ -52,17 +51,9 @@ if [ "${status}" != "0" ]; then
 	exitbypass=1
 	command_stop.sh
 	fn_validation "${appid}"
-	# will also check for second appid
-	if [ "${gamename}" == "Classic Offensive" ]; then
-		fn_validation "${appid_co}"
-	fi
 	exitbypass=1
 	command_start.sh
 else
 	fn_validation
-	# will also check for second appid
-	if [ "${gamename}" == "Classic Offensive" ]; then
-		fn_validation "${appid_co}"
-	fi
 fi
 core_exit.sh

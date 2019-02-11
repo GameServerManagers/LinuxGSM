@@ -1,14 +1,15 @@
 language: bash
-dist: trusty
+dist: xenial
 sudo: required
-
+language: node_js
+node_js:
+  - 10
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
-
+install:
+  npm install gamedig
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
     - mailutils
     - postfix
@@ -24,6 +25,7 @@ addons:
     - ca-certificates
     - binutils
     - bc
+    - jq
     - tmux
     - lib32gcc1
     - libstdc++6

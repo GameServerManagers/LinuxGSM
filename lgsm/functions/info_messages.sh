@@ -24,7 +24,11 @@ fn_info_message_head(){
 	echo -e "${HOSTNAME}"
 	echo -e ""
 	echo -e "Server IP"
-	echo -e "${ip}:${port}"
+	if [ "${multiple_ip}" == "1" ]; then
+	    echo -e "NOT SET"
+	else
+	    echo -e "${ip}:${port}"
+	fi
 }
 
 fn_info_message_distro(){
@@ -36,7 +40,7 @@ fn_info_message_distro(){
 	# Kernel:    3.13.0-79-generic
 	# Hostname:  hostname
 	# tmux:      tmux 1.8
-	# GLIBC:     2.19
+	# glibc:     2.19
 
 	echo -e ""
 	echo -e "${lightyellow}Distro Details${default}"
@@ -47,7 +51,7 @@ fn_info_message_distro(){
 		echo -e "${blue}Kernel:\t${default}${kernel}"
 		echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
 		echo -e "${blue}tmux:\t${default}${tmuxv}"
-		echo -e "${blue}GLIBC:\t${default}${glibcversion}"
+		echo -e "${blue}glibc:\t${default}${glibcversion}"
 	} | column -s $'\t' -t
 }
 
@@ -71,8 +75,14 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${blue}Mem:\t${blue}total\t used\t free\t cached${default}"
-		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}${default}"
+		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
+		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
+		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
+	} | column -s $'\t' -t	
+	echo -e ""
+	{
+		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
+		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 }
@@ -139,7 +149,11 @@ fn_info_message_gameserver(){
 		fi
 
 		# Server ip
-		echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		if [ "${multiple_ip}" == "1" ]; then
+			echo -e "${blue}Server IP:\t${default}NOT SET"
+		else
+			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+		fi
 
 		# External server ip
 		if [ -n "${extip}" ]; then
@@ -155,7 +169,7 @@ fn_info_message_gameserver(){
 
 		# Query enabled (Starbound)
 		if [ -n "${queryenabled}" ]; then
-			echo -e "${blue}Query enabled:\t${default}${rconpassword}"
+			echo -e "${blue}Query enabled:\t${default}${queryenabled}"
 		fi
 
 		# RCON enabled (Starbound)
@@ -217,9 +231,31 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Current Map:\t${default}${gdmap}"
 		fi
 
+		if [ -n "${defaultscenario}" ]; then
+			# Current Scenario
+			if [ -n "${gdgamemode}" ]; then
+				echo -e "${blue}Current Scenario:\t${default}${gdgamemode}"
+			fi
+		else
+			# Current Scenario
+			if [ -n "${gdgamemode}" ]; then
+				echo -e "${blue}Current Game Mode:\t${default}${gdgamemode}"
+			fi
+		fi
+
 		# Default Map
 		if [ -n "${defaultmap}" ]; then
 			echo -e "${blue}Default Map:\t${default}${defaultmap}"
+		fi
+
+		# Default Scenario
+		if [ -n "${defaultscenario}" ]; then
+			echo -e "${blue}Default Scenario:\t${default}${defaultscenario}"
+		fi
+
+		# Game type
+		if [ -n "${gametype}" ]; then
+			echo -e "${blue}Game type:\t${default}${gametype}"
 		fi
 
 		# Game mode
@@ -282,9 +318,18 @@ fn_info_message_gameserver(){
 			echo -e "${blue}ASE:\t${default}${saveinterval} s"
 		fi
 
-		# Random map rotation mode (Squad)
+		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
 			echo -e "${blue}Map rotation:\t${default}${randommap}"
+		fi
+
+		# Listed on Master Server
+		if [ "${masterserver}" ];then
+			if [ "${masterserver}" == "true" ];then
+				echo -e "${blue}Master Server:\t${green}${masterserver}${default}"
+			else
+				echo -e "${blue}Master Server:\t${red}${masterserver}${default}"
+			fi
 		fi
 
 		# Online status
@@ -323,20 +368,16 @@ fn_info_message_script(){
 		# User
 		echo -e "${blue}User:\t${default}$(whoami)"
 
-		# GLIBC required
+		# glibc required
 		if [ -n "${glibcrequired}" ]; then
 			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
 					:
 			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}GLIBC required:\t${red}${glibcrequired}"
+				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
 			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				if [ "${glibcfix}" == "yes" ]; then
-					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
-				else
-					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC version too old${default})"
-				fi
+				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}GLIBC required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
 			fi
 		fi
 
@@ -422,6 +463,10 @@ fn_info_message_commandlineparms(){
 	echo -e "${lightgreen}Command-line Parameters${default}"
 	fn_info_message_password_strip
 	fn_messages_separator
+	if [ "${serverpassword}" == "NOT SET" ]; then
+		unset serverpassword
+	fi
+	fn_parms
 	echo -e "${executable} ${parms}"
 }
 
@@ -438,7 +483,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" )
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -453,7 +498,7 @@ fn_info_message_ports(){
 	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
-		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
 		fi
 	done
@@ -616,6 +661,16 @@ fn_info_message_dontstarve(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_eco(){
+	echo -e "netstat -atunp | grep mono"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_factorio(){
 	echo -e "netstat -atunp | grep factorio"
 	echo -e ""
@@ -645,6 +700,17 @@ fn_info_message_hurtworld(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_inss(){
+	echo -e "netstat -atunp | grep Insurgency"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_justcause2(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
 	echo -e ""
@@ -671,6 +737,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -681,6 +749,16 @@ fn_info_message_mumble(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
+}
+fn_info_message_pstbs(){
+	echo -e "netstat -atunp | grep PostScriptum"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -740,7 +818,7 @@ fn_info_message_quakelive(){
 	fi
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
 		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
 	} | column -s $'\t' -t
@@ -812,6 +890,16 @@ fn_info_message_seriousengine35(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_sbots(){
+	echo -e "netstat -atunp | grep blank1"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
@@ -894,7 +982,7 @@ fn_info_message_starbound(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1049,6 +1137,16 @@ fn_info_message_etlegacy(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_wurmunlimited(){
+	echo -e "netstat -atunp | grep WurmServer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game/Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
@@ -1082,18 +1180,24 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 		fn_info_message_codwaw
+	elif [ "${gamename}" == "Eco" ]; then
+		fn_info_message_eco
 	elif [ "${gamename}" == "ET: Legacy" ]; then
 		fn_info_message_etlegacy
 	elif [ "${gamename}" == "Factorio" ]; then
 		fn_info_message_factorio
 	elif [ "${gamename}" == "Hurtworld" ]; then
 		fn_info_message_hurtworld
+	elif [ "${shortname}" == "inss" ]; then
+		fn_info_message_inss
 	elif [ "${gamename}" == "Just Cause 2" ]; then
 		fn_info_message_justcause2
 	elif [ "${gamename}" == "Just Cause 3" ]; then
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
+	elif [ "${shortname}" == "pstbs" ]; then
+		fn_info_message_pstbs
 	elif [ "${gamename}" == "Project Cars" ]; then
 		fn_info_message_projectcars
 	elif [ "${gamename}" == "QuakeWorld" ]; then
@@ -1110,6 +1214,8 @@ fn_info_message_select_engine(){
 		fn_info_message_squad
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
+	elif [ "${shortname}" == "sbots" ]; then
+		fn_info_message_sbots	
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
@@ -1120,6 +1226,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
+	elif [ "${gamename}" == "Wurm Unlimited" ]; then
+		fn_info_message_wurmunlimited
 	elif [ "${shortname}" == "rw" ]; then
 		fn_info_message_risingworld
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
@@ -1192,5 +1300,14 @@ fn_info_message_password_strip(){
 		if [ -n "${telnetpass}" ]; then
 			telnetpass="********"
 		fi
+
+		if [ -n "${wsapikey}" ]; then
+			wsapikey="********"
+		fi
+
+		if [ -n "${gslt}" ]; then
+			gslt="********"
+		fi
+
 	fi
 }

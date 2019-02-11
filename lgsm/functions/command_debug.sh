@@ -34,24 +34,24 @@ echo -e "${blue}tmux:\t${default}${tmuxv}"
 echo -e "${blue}Avg Load:\t${default}${load}"
 echo -e "${blue}Free Memory:\t${default}${physmemfree}"
 echo -e "${blue}Free Disk:\t${default}${availspace}"
-# GLIBC required
+# glibc required
 if [ -n "${glibcrequired}" ]; then
 	if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
 			:
 	elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-		echo -e "${blue}GLIBC required:\t${red}${glibcrequired}"
+		echo -e "${blue}glibc required:\t${red}${glibcrequired}"
 	elif [ "$(printf '%s\n'${glibcrequired}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-		if [ "${glibcfix}" == "yes" ]; then
-			echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
-		else
-			echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC version too old${default})"
-		fi
+		echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
 	else
-		echo -e "${blue}GLIBC required:\t${green}${glibcrequired}${default}"
+		echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
 	fi
 fi
 # Server ip
-echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+if [ "${multiple_ip}" == "1" ]; then
+	echo -e "${blue}Server IP:\t${default}NOT SET"
+else
+	echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+fi
 # External server ip
 if [ -n "${extip}" ]; then
 	if [ "${ip}" != "${extip}" ]; then
