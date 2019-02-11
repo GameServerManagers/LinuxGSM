@@ -275,9 +275,6 @@ fi
 
 # LinuxGSM installer mode
 if [ "${shortname}" == "core" ]; then
-	datadir="${tmpdir}/data"
-	serverlist="${datadir}/serverlist.csv"
-
 	# Download the latest serverlist. This is the complete list of all supported servers.
 	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
