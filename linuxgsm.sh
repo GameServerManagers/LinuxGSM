@@ -287,7 +287,7 @@ if [ "${shortname}" == "core" ]; then
 
 	if [ "${userinput}" == "list" ]; then
 		{
-			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
+			tail -n +2 "${serverlist}"|awk -F "," '{print $2 "\t" $3}' 
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
