@@ -154,8 +154,8 @@ elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "ATLAS Dedicated Server" ]; then
-	gamedirname="ATLASDedicatedServer"
+elif [ "${gamename}" == "ATLAS" ]; then
+	gamedirname="ATLAS"
 	fn_check_cfgdir
 	array_configs+=( GameUserSettings.ini )
 	fn_fetch_default_config
