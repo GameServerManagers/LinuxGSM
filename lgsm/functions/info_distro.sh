@@ -89,8 +89,10 @@ days=$(( uptime/60/60/24 ))
 ## Average server load
 load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 
-## Memory information
-
+## CPU information
+cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
+cpufreuency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 ## Memory information
 # Available RAM and swap.

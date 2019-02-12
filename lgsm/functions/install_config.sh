@@ -373,6 +373,12 @@ elif [ "${gamename}" == "Insurgency" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "IOSoccer" ]; then
+	gamedirname="IOSoccer"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	gamedirname="JustCause2"
 	array_configs+=( config.lua )
