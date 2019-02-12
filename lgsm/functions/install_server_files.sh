@@ -35,6 +35,8 @@ fn_install_server_files(){
 		remote_fileurl="http://files.linuxgsm.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="quake3-1.32c-x86-full-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
 	elif [ "${gamename}" == "QuakeWorld" ]; then
 		remote_fileurl="http://files.linuxgsm.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.083116.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
+	elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"
 	elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 		remote_fileurl="http://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${gamename}" == "Unreal Tournament 99" ]; then
