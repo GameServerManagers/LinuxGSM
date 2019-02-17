@@ -132,19 +132,19 @@ if [ -n "${appid}" ]; then
 	fn_install_server_files_steamcmd
 fi
 
-if [ "${shortname}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
-elif [ "${shortname}" == "Minecraft" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	install_minecraft_eula.sh
 	update_minecraft.sh
-elif [ "${shortname}" == "Mumble" ]; then
+elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
-elif [ "${shortname}" == "Multi Theft Auto" ]; then
+elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
-elif [ "${shortname}" == "Factorio" ]; then
+elif [ "${shortname}" == "fctr" ]; then
   update_factorio.sh
   install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${shortname}" == "GoldenEye: Source" ]||[ "${shortname}" == "Base Defense" ]||[ "${shortname}" == "BrainBread" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
+elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
 	if [ "${shortname}" == "Unreal Tournament" ]; then
 		install_unreal_tournament_eula.sh
 	fi
