@@ -77,7 +77,7 @@ elif [ "${shortname}" == "kf2" ]; then
 	glibcfix="no"
 elif [ "${shortname}" == "tu" ]; then
 	glibcrequired="2.15"
-	glibcfix="no"	
+	glibcfix="no"
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -102,6 +102,9 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
 elif [ "${shortname}" == "rw" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
@@ -112,11 +115,11 @@ elif [ "${gamename}" == "Squad" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
 elif [ "${gamename}" == "Sven Co-op" ]; then
-	glibcrequired="2.18"
+	glibcrequired="2.24"
 	glibcfix="no"
 elif [ "${shortname}" == "sbots" ]; then
 	glibcrequired="2.17"
-	glibcfix="no"		
+	glibcfix="no"
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
@@ -206,7 +209,7 @@ elif [ "${engine}" == "source" ]; then
 	glibcfix="no"
 elif [ "${engine}" == "goldsource" ]; then
 	glibcrequired="2.3.4"
-	glibcfix="no"	
+	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"

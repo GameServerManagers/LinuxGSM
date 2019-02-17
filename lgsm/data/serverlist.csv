@@ -37,6 +37,7 @@ hldm,hldmserver,Half-Life: Deathmatch
 hw,hwserver,Hurtworld
 ins,insserver,Insurgency
 inss,inssserver,Insurgency: Sandstorm
+ios,iosserver,IOSoccer
 jc2,jc2server,Just Cause 2
 jc3,jc3server,Just Cause 3
 kf,kfserver,Killing Floor
@@ -61,6 +62,7 @@ ql,qlserver,Quake Live
 qw,qwserver,Quake World
 ro,roserver,Red Orchestra: Ostfront 41-45
 ricochet,ricochetserver,Ricochet
+rtcw,rtcwserver,Return to Castle Wolfenstein
 rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer

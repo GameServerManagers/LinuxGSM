@@ -23,15 +23,13 @@ Any general support issues on GitHub will be migrated to [LinuxGSM-Support](http
 
 ## User Story
 
-As a \[user description], I want \[desired action] so that \[desired outcome].
+As a [user description], I want [desired action] so that [desired outcome].
 
 ## Basic info
 
-As a \[user description], I want \[desired action] so that \[desired outcome]
-
-* Distro \[Ubuntu 18.04]
-* Game \[Garry's Mod]
-* Feature \[Monitor]
+* Distro: [Ubuntu 18.04]
+* Game: [Garry's Mod]
+* Command: [Monitor]
 
 ## Further Information
 
