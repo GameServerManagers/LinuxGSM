@@ -124,7 +124,7 @@ fn_install_server_files_steamcmd(){
 }
 
 echo ""
-echo "Installing ${shortname} Server"
+echo "Installing ${gamename} Server"
 echo "================================="
 sleep 0.5
 
@@ -145,7 +145,7 @@ elif [ "${shortname}" == "fctr" ]; then
   update_factorio.sh
   install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
-	if [ "${shortname}" == "Unreal Tournament" ]; then
+	if [ "${shortname}" == "ut" ]; then
 		install_unreal_tournament_eula.sh
 	fi
 	fn_install_server_files
