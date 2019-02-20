@@ -6,6 +6,7 @@ Fixes #\[issue]
 
 ## Type of change
 
+* [ ] Small/tiny change (typo, spelling, comment, etc.)
 * [ ] Bug fix (change which fixes an issue)
 * [ ] New feature (change which adds functionality)
 * [ ] New Server (new server added)
