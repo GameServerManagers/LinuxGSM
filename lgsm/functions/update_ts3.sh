@@ -9,7 +9,12 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl(){
-	latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.${ts3arch}.mirrors."teamspeak.com"')
+	info_distro.sh
+	if [ "${ts3arch}" == "x86_64" ]; then
+		latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
+	elif [ "${ts3arch}" == "x86" ]; then
+		latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
+	fi
 	fn_fetch_file "${latestts3releaselink}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
@@ -26,7 +31,7 @@ fn_update_ts3_dl(){
 fn_update_ts3_currentbuild(){
 	# Gets current build info
 	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
-	if [ -v "$(find ./* -name 'ts3server*_0.log')" ]; then
+	if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
 		fn_print_error "Checking for update: teamspeak.com"
 		sleep 0.5
 		fn_print_error_nl "Checking for update: teamspeak.com: No logs with server version found"
@@ -41,7 +46,7 @@ fn_update_ts3_currentbuild(){
 		command_start.sh
 		sleep 0.5
 		# Check again and exit on failure.
-		if [ -v "$(find ./* -name 'ts3server*_0.log')" ]; then
+		if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log')" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Still No logs with server version found"
 			fn_script_log_fatal "Checking for update: teamspeak.com: Still No logs with server version found"
 			core_exit.sh
@@ -49,8 +54,8 @@ fn_update_ts3_currentbuild(){
 	fi
 
 	# Get current build from logs
-	currentbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | grep -Ev "${rootdir}/.ts3version" | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V | tail -1)
-	if [ -v "${currentbuild}" ]; then
+	currentbuild=$(cat $(find "${serverfiles}/logs/"* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V)
+	if [ -z "${currentbuild}" ]; then
 		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
 		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
 		sleep 0.5
@@ -60,8 +65,8 @@ fn_update_ts3_currentbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		currentbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | grep -Ev "${rootdir}/.ts3version" | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
-		if [ -v "${currentbuild}" ]; then
+		currentbuild=$(cat $(find "${serverfiles}/logs/"* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V)
+		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: teamspeak.com: Current build version still not found"
 			core_exit.sh
