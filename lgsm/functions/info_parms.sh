@@ -102,6 +102,7 @@ fn_info_parms_risingworld(){
 
 fn_info_parms_rtcw(){
 	port=${port:-"0"}
+	queryport="${port}"
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
