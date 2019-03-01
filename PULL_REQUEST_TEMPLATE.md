@@ -6,12 +6,11 @@ Fixes #\[issue]
 
 ## Type of change
 
-* [ ] Small/tiny change (typo, spelling, comment, etc.)
 * [ ] Bug fix (change which fixes an issue)
 * [ ] New feature (change which adds functionality)
 * [ ] New Server (new server added)
 * [ ] Refactor (restructures existing code)
-* [ ] This change requires a documentation update
+* [ ] Comment update (typo, spelling, etc)
 
 ## Checklist
 
