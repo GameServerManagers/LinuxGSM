@@ -81,10 +81,10 @@ fn_update_factorio_arch(){
 
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
-	if [ "${branch}" != "stable" ]; then
-		availablebuild=$(${curlpath} -s https://factorio.com/get-download/stable/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
+	if [ "${branch}" == "stable" ]; then
+		availablebuild=$(${curlpath} -s https://factorio.com/get-download/stable/headless/linux64 | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	else
-		availablebuild=$(${curlpath} -s https://factorio.com/get-download/latest/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
+		availablebuild=$(${curlpath} -s https://factorio.com/get-download/latest/headless/linux64 | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	fi
 	# Checks if availablebuild variable has been set
 	if [ -z "${availablebuild}" ]; then
