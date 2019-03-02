@@ -10,11 +10,6 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
-	if [ "${branch}" == "stable" ]; then
-		downloadbranch="stable"
-	elif [ "${branch}" == "experimental" ]; then
-		downloadbranch="latest"
-	fi
 	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
@@ -29,13 +24,23 @@ fn_update_factorio_dl(){
 }
 
 fn_update_factorio_currentbuild(){
-	# Gets current build info
-	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
-	if [ ! -f "${serverfiles}/factorio-current.log" ]; then
+	# Get current build info.
+	# If log file is missing, the server will restart to generate logs.
+
+	if [ -f "${serverfiles}/factorio-current.log" ]; then
+		currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null | awk '{print $5}' | tail -1)
+	fi
+
+	if [ -z "${currentbuild}" ]; then
 		fn_print_error "Checking for update: factorio.com"
 		sleep 0.5
-		fn_print_error_nl "Checking for update: factorio.com: No logs with server version found"
-		fn_script_log_error "Checking for update: factorio.com: No logs with server version found"
+		if [ ! -f "${serverfiles}/factorio-current.log" ]; then
+			fn_print_error_nl "Checking for update: factorio.com: No logs with server version found"
+			fn_script_log_error "Checking for update: factorio.com: No logs with server version found"
+		elif [ -z "${currentbuild}" ]; then	
+			fn_print_error_nl "Checking for update: factorio.com: Current build version not found"
+			fn_script_log_error "Checking for update: factorio.com: Current build version not found"
+		fi
 		sleep 0.5
 		fn_print_info_nl "Checking for update: factorio.com: Forcing server restart"
 		fn_script_log_info "Checking for update: factorio.com: Forcing server restart"
@@ -45,28 +50,17 @@ fn_update_factorio_currentbuild(){
 		exitbypass=1
 		command_start.sh
 		sleep 0.5
-		# Check again and exit on failure.
+
+		# Check again and exit if failure.
+		if [ -f "${serverfiles}/factorio-current.log" ]; then
+			currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null | awk '{print $5}' | tail -1)
+		fi	
+
 		if [ ! -f "${serverfiles}/factorio-current.log" ]; then
 			fn_print_fail_nl "Checking for update: factorio.com: Still No logs with server version found"
 			fn_script_log_fatal "Checking for update: factorio.com: Still No logs with server version found"
 			core_exit.sh
-		fi
-	fi
-
-	# Get current build from logs
-	currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null | awk '{print $5}' | tail -1)
-	if [ -z "${currentbuild}" ]; then
-		fn_print_error_nl "Checking for update: factorio.com: Current build version not found"
-		fn_script_log_error "Checking for update: factorio.com: Current build version not found"
-		sleep 0.5
-		fn_print_info_nl "Checking for update: factorio.com: Forcing server restart"
-		fn_script_log_info "Checking for update: factorio.com: Forcing server restart"
-		exitbypass=1
-		command_stop.sh
-		exitbypass=1
-		command_start.sh
-		currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null | awk '{print $5}' | tail -1)
-		if [ -z "${currentbuild}" ]; then
+		elif [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: factorio.com: Current build version still not found"
 			fn_script_log_fatal "Checking for update: factorio.com: Current build version still not found"
 			core_exit.sh
@@ -74,20 +68,12 @@ fn_update_factorio_currentbuild(){
 	fi
 }
 
-fn_update_factorio_arch(){
-	# Factorio is linux64 only for now
-	factorioarch="linux64"
-}
-
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
-	if [ "${branch}" != "stable" ]; then
-		availablebuild=$(${curlpath} -s https://factorio.com/get-download/stable/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
-	else
-		availablebuild=$(${curlpath} -s https://factorio.com/get-download/latest/headless/linux64 | grep -o '[0-9]\.[0-9]\{2\}\.[0-9]\{2\}' | head -1)
-	fi
-	# Checks if availablebuild variable has been set
-	if [ -z "${availablebuild}" ]; then
+		availablebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
+	
+	# Checks if availablebuild variable has been set.
+	if [ -v "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: factorio.com"
 		sleep 0.5
 		fn_print_fail "Checking for update: factorio.com: Not returning version info"
@@ -103,7 +89,7 @@ fn_update_factorio_availablebuild(){
 }
 
 fn_update_factorio_compare(){
-	# Removes dots so if can compare version numbers
+	# Removes dots so if statement can compare version numbers.
 	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
 	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
 
@@ -157,7 +143,15 @@ fn_update_factorio_compare(){
 	fi
 }
 
-fn_update_factorio_arch
+# Factorio is linux64 only for now.
+factorioarch="linux64"
+
+if [ "${branch}" == "stable" ]; then
+	downloadbranch="stable"
+elif [ "${branch}" == "experimental" ]; then
+	downloadbranch="latest"
+fi
+
 if [ "${installer}" == "1" ]; then
 	fn_update_factorio_availablebuild
 	fn_update_factorio_dl

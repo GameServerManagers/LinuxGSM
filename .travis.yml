@@ -1,7 +1,6 @@
-language: bash
+language: bash node_js
 dist: xenial
 sudo: required
-language: node_js
 node_js:
   - 10
 before_script:
