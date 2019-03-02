@@ -1,88 +1,89 @@
-arma3,arma3server,ARMA 3
-sdtd,sdtdserver,7 Days to Die
-ark,arkserver,ARK: Survival Evolved
-bo,boserver,Ballistic Overkill
-bf1942,bf1942server,Battlefield 1942
-bd,bdserver,Base Defense
-bmdm,bmdmserver,Black Mesa: Deathmatch
-bs,bsserver,Blade Symphony
-bb,bbserver,BrainBread
-bb2,bb2server,BrainBread 2
-bt1944,bt1944server,Battalion 1944
-cod,codserver,Call of Duty
-cod2,cod2server,Call of Duty 2
-cod4,cod4server,Call of Duty 4
-coduo,coduoserver,Call of Duty: United Offensive
-codwaw,codwawserver,Call of Duty: World at War
-cc,ccserver,Codename CURE
-cs,csserver,Counter-Strike 1.6
-cscz,csczserver,Counter-Strike: Condition Zero
-csgo,csgoserver,Counter-Strike: Global Offensive
-css,cssserver,Counter-Strike: Source
-dod,dodserver,Day of Defeat
-dods,dodsserver,Day of Defeat: Source
-doi,doiserver,Day of Infamy
-dmc,dmcserver,Deathmatch Classic
-dst,dstserver,Don't Starve Together
-dab,dabserver,Double Action: Boogaloo
-eco,ecoserver,Eco
-em,emserver,Empires Mod
-fctr,fctrserver,Factorio
-fof,fofserver,Fistful of Frags
-gmod,gmodserver,Garrys Mod
-ges,gesserver,GoldenEye: Source
-hl2dm,hl2dmserver,Half-Life 2: Deathmatch
-hldms,hldmsserver,Half-Life Deathmatch: Source
-hldm,hldmserver,Half-Life: Deathmatch
-hw,hwserver,Hurtworld
-ins,insserver,Insurgency
-inss,inssserver,Insurgency: Sandstorm
-ios,iosserver,IOSoccer
-jc2,jc2server,Just Cause 2
-jc3,jc3server,Just Cause 3
-kf,kfserver,Killing Floor
-kf2,kf2server,Killing Floor 2
-l4d,l4dserver,Left 4 Dead
-l4d2,l4d2server,Left 4 Dead 2
-mc,mcserver,Minecraft
-mta,mtaserver,Multi Theft Auto
-mumble,mumbleserver,Mumble
-nmrih,nmrihserver,No More Room in Hell
-ns,nsserver,Natural Selection
-ns2,ns2server,Natural Selection 2
-ns2c,ns2cserver,NS2: Combat
-opfor,opforserver,Opposing Force
-pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
-pvkii,pvkiiserver,Pirates Vikings & Knights II
-pc,pcserver,Project Cars
-pz,pzserver,Project Zomboid
-q2,q2server,Quake 2
-q3,q3server,Quake 3: Arena
-ql,qlserver,Quake Live
-qw,qwserver,Quake World
-ro,roserver,Red Orchestra: Ostfront 41-45
-ricochet,ricochetserver,Ricochet
-rtcw,rtcwserver,Return to Castle Wolfenstein
-rust,rustserver,Rust
-rw,rwserver, Rising World
-samp,sampserver,San Andreas Multiplayer
-sbots,sbotsserver, StickyBots
-ss3,ss3server,Serious Sam 3: BFE
-sb,sbserver,Starbound
-st,stserver,Stationeers
-squad,squadserver,Squad
-sven,svenserver,Sven Co-op
-tf2,tf2server,Team Fortress 2
-tfc,tfcserver,Team Fortress Classic
-ts3,ts3server,Teamspeak 3
-tw,twserver,Teeworlds
-terraria,terrariaserver,Terraria
-tu,tuserver,Tower Unite
-ut2k4,ut2k4server,Unreal Tournament 2004
-ut3,ut3server,Unreal Tournament 3
-ut99,ut99server,Unreal Tournament 99
-vs,vsserver,Vampire Slayer
-wet,wetserver,Wolfenstein: Enemy Territory
-wurm,wurmserver,Wurm Unlimited
-etl,etlserver,ET: Legacy
-zps,zpsserver,Zombie Panic! Source
+shortname,servername,gamename,engine,glibc,x86,x64,steamcmd,steamlogin,appid,appidmod,gslt,query
+ark,arkserver,ARK: Survival Evolved,unreal4,2.15,y,n,y,n,376030,null,n,n
+arma3,arma3server,ARMA 3,realvirtuality,2.13,y,n,y,y,233780,null,n,y
+bb2,bbserver,Brainbread,goldsource,2.3.2,y,n,y,n,90,cstrike,n,y
+bb2,bb2server,BrainBread 2,source,2.17,y,n,y,n,475370,null,y,y
+bd,bdserver,Base Defense,source,2.14,y,n,y,n,817300,null,n,y
+bf1942,bf1942server,Battlefield 1942,refractor,2,y,n,n,n,null,null,n,y
+bmdm,bmdmserver,Black Mesa: Deathmatch,source,2.15,y,n,y,n,346680,null,y,y
+bo,boserver,Ballistic Overkill,unity3d,2.15,y,n,y,n,416881,null,y,y
+bs,bsserver,Blade Symphony,source,2.15,y,n,y,y,228780,null,n,y
+bt1944,bt1944server,Battalion 1944,unreal4,2.17,y,n,y,n,805140,null,n,y
+cc,ccserver,Codename CURE,source,2.15,y,n,y,n,383410,null,n,y
+cod,codserver,Call of Duty,idtech3,2.1,y,n,n,n,null,null,n,y
+cod2,cod2server,Call of Duty 2,iw2.0,2.1.3,y,n,n,n,null,null,n,y
+cod4,cod4server,Call of Duty 4,iw3.0,2.3,y,n,n,n,null,null,n,y
+coduo,coduoserver,Call of Duty: United Offensive,idtech3,2.1,y,n,n,n,null,null,n,y
+codwaw,codwawserver,Call of Duty: World at War,iw3.0,2.3.2,y,n,n,n,null,null,n,y
+cs,csserver,Counter-Strike 1.6,goldsource,2.3.6,y,n,y,n,90,cstrike,n,y
+cscz,csczserver,Counter-Strike: Condition Zero,goldsource,2.3.6,y,n,y,n,90,czero,n,y
+csgo,csgoserver,Counter-Strike: Global Offensive,source,2.15,y,n,y,n,740,null,y,y
+css,cssserver,Counter-Strike: Source,source,2.3.6,y,n,y,n,232330,null,y,y
+dab,dabserver,Double Action: Boogaloo,source,2.15,y,n,y,n,317800,null,n,y
+dmc,dmcserver,Deathmatch Classic,goldsource,2.3.6,y,n,y,n,90,dmc,n,y
+dod,dodserver,Day of Defeat,goldsource,2.3.6,y,n,y,n,90,dod,n,y
+dods,dodsserver,Day of Defeat: Source,source,2.3.6,y,n,y,n,232290,null,n,y
+doi,doiserver,Day of Infamy,source,2.15,y,n,y,n,462310,null,n,y
+dst,dstserver,Don't Starve Together,null,2.15,y,n,y,n,343050,null,n,n
+eco,ecoserver,Eco,unity3d,null,y,n,y,y,739590,null,n,y
+em,emserver,Empires Mod,source,2.15,y,n,y,n,460040,null,y,y
+etl,etlserver,ET: Legacy,idtech3,2.7,y,n,n,n,null,null,n,y
+fctr,fctrserver,Factorio,null,2.15,n,y,n,n,null,null,n,n
+fof,fofserver,Fistful of Frags,source,2.15,y,n,y,n,295230,null,n,y
+ges,gesserver,GoldenEye: Source,source,2.15,y,n,n,n,310,null,n,y
+gmod,gmodserver,Garrys Mod,source,2.15,y,n,y,n,4020,null,y,y
+hl2dm,hl2dmserver,Half-Life 2: Deathmatch,source,2.3.6,y,n,y,n,232370,null,n,y
+hldm,hldmserver,Half-Life: Deathmatch,goldsource,2.3.6,y,n,y,n,90,null,n,y
+hldms,hldmsserver,Half-Life Deathmatch: Source,source,2.3.6,y,n,y,n,255470,null,n,y
+hw,hwserver,Hurtworld,unity3d,2.15,y,y,y,n,405100,null,n,y
+ins,insserver,Insurgency,source,2.15,y,n,y,n,237410,null,y,y
+inss,inssserver,Insurgency: Sandstorm,unreal4,2.17,y,n,y,n,581330,null,n,y
+io,iosserver,IOSoccer,source,2.15,y,n,y,n,673990,null,n,y
+jc2,jc2server,Just Cause 2,avalanche2.0,2.13,y,n,y,n,261140,null,n,y
+jc3,jc3server,Just Cause 3,avalanche3.0,2.17,y,n,y,n,619960,null,n,y
+kf,kfserver,Killing Floor,unreal2,2.4,y,n,y,y,215360,null,n,y
+kf2,kf2server,Killing Floor 2,unreal3,2.17,n,y,y,n,232130,null,n,n
+l4d,l4dserver,Left 4 Dead,source,2.3.6,y,n,y,n,222860,null,n,y
+l4d2,l4d2server,Left 4 Dead 2,source,2.3.6,y,n,y,n,222860,null,n,y
+mc,mcserver,Minecraft,null,null,y,n,n,n,null,null,n,n
+mta,mtaserver,Multi Theft Auto,renderware,2.7,y,y,n,n,null,null,n,n
+mumble,mumbleserver,Mumble,null,null,y,n,n,n,null,null,n,n
+nmrih,nmrihserver,No More Room in Hell,source,2.15,y,n,y,n,317670,null,y,y
+ns,nsserver,Natural Selection,goldsource,2.3.2,y,n,y,n,90,cstrike,n,y
+ns2,ns2server,Natural Selection 2,spark,2.17,n,y,y,y,313900,null,n,y
+ns2c,ns2cserver,NS2: Combat,spark,2.15,y,n,y,n,313900,null,n,y
+opfor,opforserver,Opposing Force,goldsource,2.3.6,y,n,y,n,90,gearbox,n,y
+pc,pcserver,Project Cars,madness,2.4,y,n,y,n,332670,null,n,y
+pstbs,pstbsserver ,Post Scriptum,unreal4,2.17,n,y,y,y,746200,null,n,y
+pvkii,pvkiiserver,Pirates Vikings & Knights II,source,2.3.6,y,n,y,n,17575,null,n,y
+pz,pzserver,Project Zomboid,null,2.15,y,n,y,n,380870,null,n,n
+q2,q2server,Quake 2,idtech2,null,y,n,n,n,null,null,n,n
+q3,q3server,Quake 3: Arena,idtech3,2.1,y,n,n,n,null,null,n,y
+ql,qlserver,Quake Live,idtech3_ql,2.15,y,y,y,n,349090,null,n,y
+qw,qwserver,Quake World,quake,2.14,y,n,n,n,null,null,n,n
+ricochet,ricochetserver,Ricochet,goldsource,2.3.6,y,n,y,n,90,ricochet,n,y
+ro,roserver,Red Orchestra: Ostfront 41-45,unreal2,2.4,y,n,y,n,223250,null,n,y
+rtcw,rtcwserver,Return to Castle Wolfenstein,ioquake3,2.1,y,n,n,n,null,null,n,y
+rust,rustserver,Rust,unity3d,2.15,y,n,y,n,258550,null,n,y
+rw,rwserver,Rising World,null,2.14,n,y,y,n,339010,null,n,y
+samp,sampserver,San Andreas Multiplayer,renderware,2.3,y,n,n,n,null,null,n,n
+sb,sbserver,Starbound,null,2.17,y,n,y,y,211820,null,n,y
+sbots,sbotsserver,StickyBots,unreal4,2.17,,,y,n,974130,null,n,y
+sdtd,sdtdserver,7 Days to Die,unity3d,2.15,y,n,y,y,294420,null,n,y
+squad,squadserver,Squad,unreal4,2.17,y,n,y,n,403240,null,n,n
+ss3,ss3server,Serious Sam 3: BFE,seriousengine35,2.13,y,n,y,n,41080,null,n,n
+st,stserver,Stationeers,unity3d,2.15,n,y,y,n,600760,null,n,y
+sven,svenserver,Sven Co-op,goldsource,2.18,y,n,y,n,276060,null,n,y
+terraria,terrariaserver,Terraria,null,2.7,y,n,y,y,105600,null,n,n
+tf2,tf2server,Team Fortress 2,source,2.15,y,n,y,n,232250,null,y,y
+tfc,tfcserver,Team Fortress Classic,goldsource,2.3.6,y,n,y,n,90,tfc,n,y
+ts3,ts3server,Teamspeak 3,null,null,y,n,n,n,null,null,n,n
+tu,tuserver,Tower Unite,unreal4,2.14,y,n,y,n,439660,null,y,n
+tw,twserver,Teeworlds,null,2.14,y,n,y,y,380840,null,n,n
+ut2k4,ut2k4server,Unreal Tournament 2004,unreal2,2.4,y,n,n,n,null,null,n,y
+ut3,ut3server,Unreal Tournament 3,unreal3,2.3.2,y,n,n,n,null,null,n,n
+ut99,ut99server,Unreal Tournament 99,unreal,2.1,y,n,n,n,null,null,n,y
+vs,vsserver,Vampire Slayer,goldsource,2.3.2,y,n,y,n,90,cstrike,n,y
+wet,wetserver,Wolfenstein: Enemy Territory,idtech3,2.2.4,y,n,n,n,null,null,n,y
+wurm,wurmserver,Wurm: Unlimited,null,2.14,y,n,y,n,402370,null,n,y
+zps,zpsserver,Zombie Panic! Source,source,2.15,y,n,y,n,17505,null,n,y
