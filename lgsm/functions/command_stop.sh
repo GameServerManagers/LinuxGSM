@@ -188,7 +188,7 @@ fn_stop_graceful_sdtd(){
 fn_stop_graceful_select(){
 	if [ "${shortname}" == "sdtd" ]; then
 		fn_stop_graceful_sdtd
-	elif [ "${engine}" == "Spark" ]; then
+	elif [ "${engine}" == "spark" ]; then
 		fn_stop_graceful_cmd "q" 30
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_stop_graceful_cmd "exit" 30
@@ -202,7 +202,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_goldsource
 	elif [ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "wurm" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "jc3" ]; then
 		fn_stop_graceful_ctrlc
-	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "pz" ]||[ "${shortname}" == "rw" ]; then
+	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${shortname}" == "pz" ]||[ "${shortname}" == "rw" ]; then
 		fn_stop_graceful_cmd "quit" 30
 	fi
 }
