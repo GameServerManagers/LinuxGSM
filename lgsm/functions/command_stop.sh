@@ -13,7 +13,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
-	# sends quit
+	# Sends quit.
 	tmux send-keys -t "${servicename}" C-c  > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
@@ -38,11 +38,11 @@ fn_stop_graceful_ctrlc(){
 
 # Attempts graceful shutdown by sending a specified command.
 # Usage: fn_stop_graceful_cmd "console_command" "timeout_in_seconds"
-#  e.g.: fn_stop_graceful_cmd "quit" "30"
+# e.g.: fn_stop_graceful_cmd "quit" "30"
 fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
-	# sends specific stop command
+	# Sends specific stop command.
 	tmux send -t "${servicename}" "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds=1; seconds<=${2}; seconds++)); do
@@ -236,7 +236,7 @@ fn_stop_ark(){
 				sleep 0.5
 			else
 				break
-			fi # end if for pid range check
+			fi
 		done
 		if [[ ${pidcheck} -eq ${maxpiditer} ]] ; then
 			# The process doesn't want to close after 20 seconds.
@@ -244,8 +244,8 @@ fn_stop_ark(){
 			fn_print_error "Terminating reluctant Ark process: ${pid}"
 			kill -9 ${pid}
 		fi
-	fi # end if for port check
-} # end of fn_stop_ark
+	fi
+}
 
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
@@ -293,7 +293,7 @@ fn_stop_pre_check(){
 	else
 		fn_stop_graceful_select
 	fi
-	# Check status again, a stop tmux session if needed
+	# Check status again, a stop tmux session if needed.
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		fn_stop_tmux
@@ -305,7 +305,7 @@ sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
-# Remove lockfile
+# Remove lockfile.
 if [ -f "${rootdir}/${lockselfname}" ]; then
 	rm -f "${rootdir}/${lockselfname}"
 fi
