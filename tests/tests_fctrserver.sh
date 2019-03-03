@@ -460,6 +460,14 @@ fn_test_result_fail(){
 	fi
 }
 
+# test result n/a
+fn_test_result_na(){
+	echo "================================="
+	echo "Expected result: N/A"
+	echo "Actual result: N/A"
+	fn_print_fail_nl "TEST N/A"
+}
+
 echo "================================="
 echo "Travis CI Tests"
 echo "Linux Game Server Manager"
@@ -578,7 +586,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "2.0 - Instalation"
+echo "2.0 - Installation"
 echo "=================================================================="
 
 echo ""
