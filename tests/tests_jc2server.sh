@@ -268,6 +268,13 @@ if [ "$(whoami)" == "root" ]; then
 	fi
 fi
 
+# Download the latest serverlist. This is the complete list of all supported servers.
+fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+if [ ! -f "${serverlist}" ]; then
+	echo "[ FAIL ] serverlist.csv could not be loaded."
+	exit 1
+fi
+
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
 	# Download the latest serverlist. This is the complete list of all supported servers.
