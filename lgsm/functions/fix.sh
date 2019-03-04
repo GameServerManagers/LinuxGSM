@@ -48,6 +48,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ark.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
+	elif [ "${shortname}" == "cfwf" ]; then
+		fix_cfwf.sh
 	elif [ "${shortname}" == "dst" ]; then
 		fix_dst.sh
 	elif [ "${shortname}" == "ges" ]; then
