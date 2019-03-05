@@ -9,6 +9,18 @@ local commandname="UPDATE"
 local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+fn_update_factorio_clear_tmp(){
+	echo -e "Clear tmpdir...\c"
+	fn_script_log "Directory ${tmpdir} cleared"
+	rm -r ${tmpdir}/factorio/ ${tmpdir}/factorio_*.xz
+	local exitcode=$?
+	if [ "${exitcode}" == "0" ]; then
+		fn_print_ok_eol_nl
+	else
+		fn_print_fail_eol_nl
+	fi
+}
+
 fn_update_factorio_dl(){
 	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
@@ -48,6 +60,7 @@ fn_update_factorio_currentbuild(){
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
+		sleep 0.5
 		command_start.sh
 		sleep 0.5
 
@@ -117,6 +130,8 @@ fn_update_factorio_compare(){
 
 		check_status.sh
 		if [ "${status}" == "0" ]; then
+			fn_update_factorio_clear_tmp
+			exitbypass=1
 			fn_update_factorio_dl
 			exitbypass=1
 			command_start.sh
@@ -125,6 +140,9 @@ fn_update_factorio_compare(){
 		else
 			exitbypass=1
 			command_stop.sh
+			exitbypass=1
+			fn_update_factorio_clear_tmp
+			exitbypass=1
 			fn_update_factorio_dl
 			exitbypass=1
 			command_start.sh
