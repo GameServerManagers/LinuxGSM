@@ -13,7 +13,7 @@ fn_update_factorio_clear_tmp(){
 	echo -e "Clear tmpdir...\c"
 	fn_script_log "Directory ${tmpdir} cleared"
 	rm -r ${tmpdir}/factorio/
-	rm -r ${tmpdir}/factorio*.xz
+	rm ${tmpdir}/factorio_headless*.xz
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
