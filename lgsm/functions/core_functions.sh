@@ -302,6 +302,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_cfwf.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_csgo.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

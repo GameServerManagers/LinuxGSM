@@ -39,6 +39,9 @@ elif [ "${gamename}" == "Call of Duty 4" ]; then
 elif [ "${gamename}" == "Call of Duty: World at War" ]; then
 	glibcrequired="2.3.2"
 	glibcfix="no"
+elif [ "${gamename}" == "Citadel: Forged With Fire" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Codename CURE" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
