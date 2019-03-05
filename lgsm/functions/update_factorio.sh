@@ -12,8 +12,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_factorio_clear_tmp(){
 	echo -e "Clear tmpdir...\c"
 	fn_script_log "Directory ${tmpdir} cleared"
-	rm -r ${tmpdir}/factorio/
-	rm ${tmpdir}/factorio_headless*.xz
+	rm -r ${tmpdir}/factorio*
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
