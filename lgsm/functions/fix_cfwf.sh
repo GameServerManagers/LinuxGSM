@@ -30,7 +30,7 @@ if [ ! -d "${serverfiles}/Citadel/Saved/Config/LinuxServer/" ]; then
 fi
 
 # Ensures engine.ini exists and contains data
-if [ ! -f ${serverfiles}/Citadel/Saved/Config/LinuxServer/Engine.ini ]; then
+if [ ! -f "${serverfiles}/Citadel/Saved/Config/LinuxServer/Engine.ini" ]; then
 	touch "${serverfiles}/Citadel/Saved/Config/LinuxServer/Engine.ini"
 	configure_engine_ini
 
