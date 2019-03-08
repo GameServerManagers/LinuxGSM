@@ -186,7 +186,7 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
-# Query has to be enabled in Starbound config
+# Query has to be enabled in Starbound config.
 if [ "${shortname}" == "sb" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
