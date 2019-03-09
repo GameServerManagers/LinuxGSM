@@ -126,11 +126,11 @@ fn_update_ts3_compare(){
 		echo -e "	Available build: ${green}${availablebuild} ${ts3arch}${default}"
 		echo -e ""
 		sleep 0.5
-		echo -en "Applying update.\r"
+		echo -en "applying update.\r"
 		sleep 1
-		echo -en "Applying update..\r"
+		echo -en "applying update..\r"
 		sleep 1
-		echo -en "Applying update...\r"
+		echo -en "applying update...\r"
 		sleep 1
 		echo -en "\n"
 		fn_script_log "Update available"

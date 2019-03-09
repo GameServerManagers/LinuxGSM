@@ -112,11 +112,11 @@ fn_update_request_log(){
 		fn_script_log_pass "Checking for update: Server logs: Update requested"
 		sleep 0.5
 		echo -e ""
-		echo -en "Applying update.\r"
+		echo -en "applying update.\r"
 		sleep 1
-		echo -en "Applying update..\r"
+		echo -en "applying update..\r"
 		sleep 1
-		echo -en "Applying update...\r"
+		echo -en "applying update...\r"
 		sleep 1
 		echo -en "\n"
 
@@ -190,11 +190,11 @@ fn_update_steamcmd_check(){
 		echo -e "	https://steamdb.info/app/${appid}/"
 		sleep 0.5
 		echo ""
-		echo -en "Applying update.\r"
+		echo -en "applying update.\r"
 		sleep 1
-		echo -en "Applying update..\r"
+		echo -en "applying update..\r"
 		sleep 1
-		echo -en "Applying update...\r"
+		echo -en "applying update...\r"
 		sleep 1
 		echo -en "\n"
 		fn_script_log_info "Update available"
