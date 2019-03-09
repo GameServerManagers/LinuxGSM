@@ -106,10 +106,10 @@ elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert
 	fn_script_log_warn "More Info alerts not enabled"
 elif [ -z "${posttarget}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "posttarget not set"
-	fn_script_error_warn "posttarget not set"
+	fn_script_error "posttarget not set"
 elif [ -z "${postdays}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "postdays not set"
-	fn_script_error_warn "postdays not set"
+	fn_script_error "postdays not set"
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
@@ -120,7 +120,7 @@ elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_al
 elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Discord token not set"
 	echo "	* https://docs.linuxgsm.com/alerts/discord"
-	fn_script_error_warn "Discord token not set"
+	fn_script_error "Discord token not set"
 fi
 
 if [ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
@@ -141,7 +141,7 @@ elif [ "${iftttalert}" != "on" ]&&[ "${function_selfname}" == "command_test_aler
 elif [ -z "${ifttttoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "IFTTT token not set"
 	echo "	* https://docs.linuxgsm.com/alerts/ifttt"
-	fn_script_error_warn "IFTTT token not set"
+	fn_script_error "IFTTT token not set"
 fi
 
 if [ "${mailgunalert}" == "on" ]&&[ -n "${mailgunalert}" ]; then
@@ -152,7 +152,7 @@ elif [ "${mailgunalert}" != "on" ]&&[ "${function_selfname}" == "command_test_al
 elif [ -z "${mailguntoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Mailgun token not set"
 	echo "	* https://docs.linuxgsm.com/alerts/mailgun"
-	fn_script_error_warn "Mailgun token not set"
+	fn_script_error "Mailgun token not set"
 fi
 
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
@@ -163,7 +163,7 @@ elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test
 elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Pushbullet token not set"
 	echo "	* https://docs.linuxgsm.com/alerts/pushbullet"
-	fn_script_error_warn "Pushbullet token not set"
+	fn_script_error "Pushbullet token not set"
 fi
 
 if [ "${pushoveralert}" == "on" ]&&[ -n "${pushoveralert}" ]; then
@@ -174,7 +174,7 @@ elif [ "${pushoveralert}" != "on" ]&&[ "${function_selfname}" == "command_test_a
 elif [ -z "${pushovertoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Pushover token not set"
 	echo "	* https://docs.linuxgsm.com/alerts/pushover"
-	fn_script_error_warn "Pushover token not set"
+	fn_script_error "Pushover token not set"
 fi
 
 if [ "${telegramalert}" == "on" ]&&[ -n "${telegramtoken}" ]; then
@@ -185,9 +185,9 @@ elif [ "${telegramalert}" != "on" ]&&[ "${function_selfname}" == "command_test_a
 elif [ -z "${telegramtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Telegram token not set."
 	echo "	* https://docs.linuxgsm.com/alerts/telegram"
-	fn_script_error_warn "Telegram token not set."
+	fn_script_error "Telegram token not set."
 elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Telegram chat id not set."
 	echo "	* https://docs.linuxgsm.com/alerts/telegram"
-	fn_script_error_warn "Telegram chat id not set."
+	fn_script_error "Telegram chat id not set."
 fi
