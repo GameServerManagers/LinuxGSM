@@ -38,7 +38,6 @@ for queryattempt in {1..5}; do
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
-		exitcode=0
 		monitorpass=1
 		core_exit.sh
 	else
