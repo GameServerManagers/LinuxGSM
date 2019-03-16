@@ -9,76 +9,32 @@ local commandname="UPDATE"
 local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_factorio_clear_tmp(){
-	echo -e "Clear tmpdir...\c"
-	fn_script_log "Directory ${tmpdir} cleared"
-	rm -r "${tmpdir}/factorio"*
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-	else
-		fn_print_fail_eol_nl
-	fi
-}
-
 fn_update_factorio_dl(){
 	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
-	fn_script_log "Copying to ${serverfiles}"
 	cp -R "${tmpdir}/factorio/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
+		fn_script_log_pass "Copying to ${serverfiles}"
+		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
+		fn_script_log_fatal "Copying to ${serverfiles}"
+		core_exit.sh
 	fi
 }
 
 fn_update_factorio_currentbuild(){
-	# Get current build info.
-	# If log file is missing, the server will restart to generate logs.
+	# Check executable available.
+	if [ -f "${executable}" ]; then
+		cd "${executabledir}" || exit
+		currentbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
+	else
+		fn_print_fail
+	fi	
 
-	if [ -f "${serverfiles}/factorio-current.log" ]; then
-		currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null | awk '{print $5}' | tail -1)
-	fi
-
-	if [ -z "${currentbuild}" ]; then
-		fn_print_error "Checking for update: factorio.com"
-		sleep 0.5
-		if [ ! -f "${serverfiles}/factorio-current.log" ]; then
-			fn_print_error_nl "Checking for update: factorio.com: No logs with server version found"
-			fn_script_log_error "Checking for update: factorio.com: No logs with server version found"
-		elif [ -z "${currentbuild}" ]; then	
-			fn_print_error_nl "Checking for update: factorio.com: Current build version not found"
-			fn_script_log_error "Checking for update: factorio.com: Current build version not found"
-		fi
-		sleep 0.5
-		fn_print_info_nl "Checking for update: factorio.com: Forcing server restart"
-		fn_script_log_info "Checking for update: factorio.com: Forcing server restart"
-		sleep 0.5
-		exitbypass=1
-		command_stop.sh
-		exitbypass=1
-		sleep 0.5
-		command_start.sh
-		sleep 0.5
-
-		# Check again and exit if failure.
-		if [ -f "${serverfiles}/factorio-current.log" ]; then
-			currentbuild=$(grep "Loading mod base" "${serverfiles}/factorio-current.log" 2> /dev/null | awk '{print $5}' | tail -1)
-		fi	
-
-		if [ ! -f "${serverfiles}/factorio-current.log" ]; then
-			fn_print_fail_nl "Checking for update: factorio.com: Still No logs with server version found"
-			fn_script_log_fatal "Checking for update: factorio.com: Still No logs with server version found"
-			core_exit.sh
-		elif [ -z "${currentbuild}" ]; then
-			fn_print_fail_nl "Checking for update: factorio.com: Current build version still not found"
-			fn_script_log_fatal "Checking for update: factorio.com: Current build version still not found"
-			core_exit.sh
-		fi
-	fi
 }
 
 fn_update_factorio_availablebuild(){
@@ -90,7 +46,7 @@ fn_update_factorio_availablebuild(){
 		fn_print_fail "Checking for update: factorio.com"
 		sleep 0.5
 		fn_print_fail "Checking for update: factorio.com: Not returning version info"
-		fn_script_log_fatal "Failure! Checking for update: factorio.com: Not returning version info"
+		fn_script_log_fatal "Checking for update: factorio.com: Not returning version info"
 		core_exit.sh
 	elif [ "${installer}" == "1" ]; then
 		:
@@ -114,11 +70,11 @@ fn_update_factorio_compare(){
 		echo -e "	Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
 		echo -e ""
 		sleep 0.5
-		echo -en "Applying update.\r"
+		echo -en "applying update.\r"
 		sleep 1
-		echo -en "Applying update..\r"
+		echo -en "applying update..\r"
 		sleep 1
-		echo -en "Applying update...\r"
+		echo -en "applying update...\r"
 		sleep 1
 		echo -en "\n"
 		fn_script_log "Update available"
@@ -127,10 +83,9 @@ fn_update_factorio_compare(){
 		fn_script_log "${currentbuild} > ${availablebuild}"
 
 		unset updateonstart
-
+		
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_update_factorio_clear_tmp
 			exitbypass=1
 			fn_update_factorio_dl
 			exitbypass=1
@@ -140,8 +95,6 @@ fn_update_factorio_compare(){
 		else
 			exitbypass=1
 			command_stop.sh
-			exitbypass=1
-			fn_update_factorio_clear_tmp
 			exitbypass=1
 			fn_update_factorio_dl
 			exitbypass=1
@@ -174,7 +127,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_factorio_availablebuild
 	fn_update_factorio_dl
 else
-	# Checks for server update from factorio.com
+	# Checks for server update from factorio.com.
 	fn_print_dots "Checking for update: factorio.com"
 	fn_script_log_info "Checking for update: factorio.com"
 	sleep 0.5
