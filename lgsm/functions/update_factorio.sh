@@ -28,8 +28,8 @@ fn_update_factorio_dl(){
 
 fn_update_factorio_currentbuild(){
 	# Check executable available.
+	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
-		cd "${executabledir}" || exit
 		currentbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
 	else
 		fn_print_fail
