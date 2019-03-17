@@ -50,12 +50,11 @@ fn_update_factorio_availablebuild(){
 	# Checks if availablebuild variable has been set.
 	if [ -v "${availablebuild}" ]; then
 		fn_print_fail "Checking for update: factorio.com: checking latest build"
-
-		fn_script_log_fatal "Checking for update: factorio.com: Not returning version info"
+		fn_script_log_fatal "Checking latest build"
 		core_exit.sh
 	else
 		fn_print_ok "Checking for update: factorio.com: checking latest build"
-		fn_script_log_pass "Checking for update: factorio.com: Checking latest build"
+		fn_script_log_pass "Checking latest build"
 	fi
 	sleep 0.5	
 }
@@ -73,10 +72,10 @@ fn_update_factorio_compare(){
 		echo -e "Update available"
 		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
 		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
-		fn_script_log "Update available"
-		fn_script_log "Current build: ${currentbuild} ${factorioarch} ${branch}"
-		fn_script_log "Available build: ${availablebuild} ${factorioarch} ${branch}"
-		fn_script_log "${currentbuild} > ${availablebuild}"		
+		fn_script_log_info "Update available"
+		fn_script_log_info "Current build: ${currentbuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Available build: ${availablebuild} ${factorioarch} ${branch}"
+		fn_script_log_info "${currentbuild} > ${availablebuild}"		
 		sleep 0.5
 		echo -en "\n"
 		echo -en "applying update.\r"
@@ -114,9 +113,9 @@ fn_update_factorio_compare(){
 		echo -e "No update available"
 		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
 		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
-		fn_script_log "No update available"
-		fn_script_log "Current build: ${currentbuild} ${factorioarch} ${branch}"
-		fn_script_log "Available build: ${availablebuild} ${factorioarch} ${branch}"
+		fn_script_log_info "No update available"
+		fn_script_log_info "Current build: ${currentbuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Available build: ${availablebuild} ${factorioarch} ${branch}"
 	fi
 }
 
