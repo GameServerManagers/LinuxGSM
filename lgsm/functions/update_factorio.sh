@@ -43,18 +43,18 @@ fn_update_factorio_localbuild(){
 }
 
 fn_update_factorio_remotebuild(){
-	# Gets latest build info.
-	fn_print_dots "Checking for update: factorio.com: checking latest build"
+	# Gets remote build info.
+	fn_print_dots "Checking for update: factorio.com: checking remote build"
 	remotebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	
 	# Checks if remotebuild variable has been set.
 	if [ -v "${remotebuild}" ]; then
-		fn_print_fail "Checking for update: factorio.com: checking latest build"
-		fn_script_log_fatal "Checking latest build"
+		fn_print_fail "Checking for update: factorio.com: checking remote build"
+		fn_script_log_fatal "Checking remote build"
 		core_exit.sh
 	else
-		fn_print_ok "Checking for update: factorio.com: checking latest build"
-		fn_script_log_pass "Checking latest build"
+		fn_print_ok "Checking for update: factorio.com: checking remote build"
+		fn_script_log_pass "Checking remote build"
 	fi
 	sleep 0.5	
 }
