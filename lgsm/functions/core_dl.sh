@@ -31,7 +31,7 @@ fn_clear_tmp(){
 			fn_script_log_pass "clearing LinuxGSM tmp directory"
 		else
 			fn_print_fail_eol_nl
-			fn_script_log_fail "clearing LinuxGSM tmp directory"
+			fn_script_log_fatal "clearing LinuxGSM tmp directory"
 		fi
 	fi	
 }
