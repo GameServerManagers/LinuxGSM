@@ -74,8 +74,8 @@ fn_update_factorio_compare(){
 		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
 		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
 		fn_script_log "Update available"
-		fn_script_log "Current build: ${currentbuild} ${factorioarch}${branch}"
-		fn_script_log "Available build: ${availablebuild} ${factorioarch}${branch}"
+		fn_script_log "Current build: ${currentbuild} ${factorioarch} ${branch}"
+		fn_script_log "Available build: ${availablebuild} ${factorioarch} ${branch}"
 		fn_script_log "${currentbuild} > ${availablebuild}"		
 		sleep 0.5
 		echo -en "\n"
@@ -115,8 +115,8 @@ fn_update_factorio_compare(){
 		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
 		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
 		fn_script_log "No update available"
-		fn_script_log "Current build: ${currentbuild} ${factorioarch}${branch}"
-		fn_script_log "Available build: ${availablebuild} ${factorioarch}${branch}"
+		fn_script_log "Current build: ${currentbuild} ${factorioarch} ${branch}"
+		fn_script_log "Available build: ${availablebuild} ${factorioarch} ${branch}"
 	fi
 }
 
