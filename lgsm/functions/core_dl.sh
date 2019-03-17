@@ -47,13 +47,13 @@ fn_dl_md5(){
 			fn_print_fail_eol_nl
 			echo "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			echo "expected MD5 checksum: ${md5}"
-			fn_script_log_fatal "Verifying ${local_filename} with MD5: FAIL"
+			fn_script_log_fatal "Verifying ${local_filename} with MD5"
 			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Verifying ${local_filename} with MD5: OK"
+			fn_script_log_pass "Verifying ${local_filename} with MD5"
 			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
 		fi
@@ -86,7 +86,7 @@ fn_dl_extract(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting download: FAIL"
+		fn_script_log_fatal "Extracting download"
 		if [ -f "${lgsmlog}" ]; then
 			echo "${extractcmd}" >> "${lgsmlog}"
 		fi
@@ -142,7 +142,7 @@ fn_fetch_file(){
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_fatal "Downloading ${local_filename}: FAIL"
+				fn_script_log_fatal "Downloading ${local_filename}"
 				echo -e "${remote_fileurl}" >> "${lgsmlog}"
 				echo "${curlcmd}" >> "${lgsmlog}"
 			fi
@@ -152,7 +152,7 @@ fn_fetch_file(){
 		else
 			fn_print_ok_eol_nl
 			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_pass "Downloading ${local_filename}: OK"
+				fn_script_log_pass "Downloading ${local_filename}"
 			fi
 		fi
 		# Remove trap
