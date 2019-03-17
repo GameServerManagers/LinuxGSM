@@ -27,49 +27,58 @@ fn_update_factorio_dl(){
 }
 
 fn_update_factorio_currentbuild(){
-	# Check executable available.
+	# Gets current build info.
+	fn_print_dots "Checking for update: factorio.com: checking current build"
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
 		currentbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
+		fn_print_ok "Checking for update: factorio.com: checking current build"
+		fn_script_log_pass "Checking current build"
 	else
-		fn_print_fail
+		currentbuild="0"
+		fn_print_fail "Checking for update: factorio.com: checking current build"
+		fn_script_log_fail "Checking current build"
 	fi	
-
+	sleep 0.5
 }
 
 fn_update_factorio_availablebuild(){
 	# Gets latest build info.
-		availablebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
+	fn_print_dots "Checking for update: factorio.com: checking latest build"
+	availablebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	
 	# Checks if availablebuild variable has been set.
 	if [ -v "${availablebuild}" ]; then
-		fn_print_fail "Checking for update: factorio.com"
-		sleep 0.5
-		fn_print_fail "Checking for update: factorio.com: Not returning version info"
+		fn_print_fail "Checking for update: factorio.com: checking latest build"
+
 		fn_script_log_fatal "Checking for update: factorio.com: Not returning version info"
 		core_exit.sh
-	elif [ "${installer}" == "1" ]; then
-		:
 	else
-		fn_print_ok "Checking for update: factorio.com"
-		fn_script_log_pass "Checking for update: factorio.com"
-		sleep 0.5
+		fn_print_ok "Checking for update: factorio.com: checking latest build"
+		fn_script_log_pass "Checking for update: factorio.com: Checking latest build"
 	fi
+	sleep 0.5	
 }
 
 fn_update_factorio_compare(){
 	# Removes dots so if statement can compare version numbers.
+	fn_print_dots "Checking for update: factorio.com"
 	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
 	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
-
+	sleep 0.5
 	if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
-		echo -e "\n"
-		echo -e "Update available:"
+		fn_print_ok_nl "Checking for update: factorio.com"
 		sleep 0.5
-		echo -e "	Current build: ${red}${currentbuild} ${factorioarch} ${branch} ${default}"
-		echo -e "	Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
-		echo -e ""
+		echo -en "\n"		
+		echo -e "Update available"
+		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
+		fn_script_log "Update available"
+		fn_script_log "Current build: ${currentbuild} ${factorioarch}${branch}"
+		fn_script_log "Available build: ${availablebuild} ${factorioarch}${branch}"
+		fn_script_log "${currentbuild} > ${availablebuild}"		
 		sleep 0.5
+		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1
 		echo -en "applying update..\r"
@@ -77,10 +86,6 @@ fn_update_factorio_compare(){
 		echo -en "applying update...\r"
 		sleep 1
 		echo -en "\n"
-		fn_script_log "Update available"
-		fn_script_log "Current build: ${currentbuild} ${factorioarch}${branch}"
-		fn_script_log "Available build: ${availablebuild} ${factorioarch}${branch}"
-		fn_script_log "${currentbuild} > ${availablebuild}"
 
 		unset updateonstart
 		
@@ -103,14 +108,15 @@ fn_update_factorio_compare(){
 		alert="update"
 		alert.sh
 	else
-		echo -e "\n"
-		echo -e "No update available:"
-		echo -e "	Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
-		echo -e "	Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
-		echo -e ""
-		fn_print_ok_nl "No update available"
-		fn_script_log_info "Current build: ${currentbuild} ${factorioarch} ${branch}"
-		fn_script_log_info "Available build: ${availablebuild} ${factorioarch} ${branch}"
+		fn_print_ok_nl "Checking for update: factorio.com"
+		sleep 0.5
+		echo -en "\n"
+		echo -e "No update available"
+		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
+		fn_script_log "No update available"
+		fn_script_log "Current build: ${currentbuild} ${factorioarch}${branch}"
+		fn_script_log "Available build: ${availablebuild} ${factorioarch}${branch}"
 	fi
 }
 
