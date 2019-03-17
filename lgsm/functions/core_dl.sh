@@ -94,7 +94,7 @@ fn_dl_extract(){
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting download: OK"
+		fn_script_log_pass "Extracting download"
 	fi
 }
 
