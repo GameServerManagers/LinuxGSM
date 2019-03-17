@@ -10,8 +10,8 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
-	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz"
-	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${availablebuild}.tar.xz" "${tmpdir}"
+	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz"
+	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/factorio/"* "${serverfiles}"
 	local exitcode=$?
@@ -26,29 +26,29 @@ fn_update_factorio_dl(){
 	fi
 }
 
-fn_update_factorio_currentbuild(){
-	# Gets current build info.
-	fn_print_dots "Checking for update: factorio.com: checking current build"
+fn_update_factorio_localbuild(){
+	# Gets local build info.
+	fn_print_dots "Checking for update: factorio.com: checking local build"
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
-		currentbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
-		fn_print_ok "Checking for update: factorio.com: checking current build"
-		fn_script_log_pass "Checking current build"
+		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
+		fn_print_ok "Checking for update: factorio.com: checking local build"
+		fn_script_log_pass "Checking local build"
 	else
-		currentbuild="0"
-		fn_print_fail "Checking for update: factorio.com: checking current build"
-		fn_script_log_fail "Checking current build"
+		localbuild="0"
+		fn_print_fail "Checking for update: factorio.com: checking local build"
+		fn_script_log_fail "Checking local build"
 	fi	
 	sleep 0.5
 }
 
-fn_update_factorio_availablebuild(){
+fn_update_factorio_remotebuild(){
 	# Gets latest build info.
 	fn_print_dots "Checking for update: factorio.com: checking latest build"
-	availablebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
+	remotebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	
-	# Checks if availablebuild variable has been set.
-	if [ -v "${availablebuild}" ]; then
+	# Checks if remotebuild variable has been set.
+	if [ -v "${remotebuild}" ]; then
 		fn_print_fail "Checking for update: factorio.com: checking latest build"
 		fn_script_log_fatal "Checking latest build"
 		core_exit.sh
@@ -62,20 +62,20 @@ fn_update_factorio_availablebuild(){
 fn_update_factorio_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: factorio.com"
-	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
-	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
+	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
+	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
 	sleep 0.5
-	if [ "${currentbuilddigit}" -ne "${availablebuilddigit}" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]; then
 		fn_print_ok_nl "Checking for update: factorio.com"
 		sleep 0.5
 		echo -en "\n"		
 		echo -e "Update available"
-		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
-		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Local build: ${green}${localbuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch} ${branch}${default}"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Current build: ${currentbuild} ${factorioarch} ${branch}"
-		fn_script_log_info "Available build: ${availablebuild} ${factorioarch} ${branch}"
-		fn_script_log_info "${currentbuild} > ${availablebuild}"		
+		fn_script_log_info "Local build: ${localbuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch} ${branch}"
+		fn_script_log_info "${localbuild} > ${remotebuild}"		
 		sleep 0.5
 		echo -en "\n"
 		echo -en "applying update.\r"
@@ -111,11 +111,11 @@ fn_update_factorio_compare(){
 		sleep 0.5
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Current build: ${green}${currentbuild} ${factorioarch} ${branch}${default}"
-		echo -e "* Available build: ${green}${availablebuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Local build: ${green}${localbuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch} ${branch}${default}"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Current build: ${currentbuild} ${factorioarch} ${branch}"
-		fn_script_log_info "Available build: ${availablebuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Local build: ${localbuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch} ${branch}"
 	fi
 }
 
@@ -129,14 +129,14 @@ elif [ "${branch}" == "experimental" ]; then
 fi
 
 if [ "${installer}" == "1" ]; then
-	fn_update_factorio_availablebuild
+	fn_update_factorio_remotebuild
 	fn_update_factorio_dl
 else
 	# Checks for server update from factorio.com.
 	fn_print_dots "Checking for update: factorio.com"
 	fn_script_log_info "Checking for update: factorio.com"
 	sleep 0.5
-	fn_update_factorio_currentbuild
-	fn_update_factorio_availablebuild
+	fn_update_factorio_localbuild
+	fn_update_factorio_remotebuild
 	fn_update_factorio_compare
 fi
