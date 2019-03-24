@@ -111,7 +111,7 @@ elif [ "${shortname}" == "rw" ]; then
 elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
 	glibcrequired="2.3"
 	glibcfix="no"
-elif [ "${gamename}" == "SCP: Secret Laboratory"]; then
+elif [ "${gamename}" == "SCP: Secret Laboratory" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
 elif [ "${gamename}" == "Squad" ]; then
