@@ -67,7 +67,7 @@ rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
-scpsl, scpslserver, SCP: Secret Laboratory
+scpsl,scpslserver,SCP: Secret Laboratory
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
 st,stserver,Stationeers
