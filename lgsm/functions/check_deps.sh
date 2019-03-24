@@ -431,7 +431,7 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
 	fi
-	elif [ "${shotname}" == "scpsl" ]; then
+	elif [ "${shortname}" == "scpsl" ]; then
 		array_deps_required+=( mono-complete )
 	fi 
 	fn_deps_email
