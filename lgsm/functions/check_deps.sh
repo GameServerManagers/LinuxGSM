@@ -430,7 +430,7 @@ fn_deps_build_debian(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
-	fi
+	#SCP: SL
 	elif [ "${shortname}" == "scpsl" ]; then
 		array_deps_required+=( mono-complete )
 	fi 
