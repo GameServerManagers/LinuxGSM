@@ -1,7 +1,6 @@
 #!/bin/bash
 # LinuxGSM update_factorio.sh function
 # Author: Daniel Gibbs
-# Contributor: Kristian Polso
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
@@ -37,7 +36,7 @@ fn_update_factorio_localbuild(){
 	else
 		localbuild="0"
 		fn_print_error "Checking for update: factorio.com: checking local build"
-		fn_script_log_error "Checking local build"
+		fn_script_log_error "Checking for update: factorio.com: checking local build"
 	fi	
 	sleep 0.5
 }
@@ -45,8 +44,7 @@ fn_update_factorio_localbuild(){
 fn_update_factorio_remotebuild(){
 	# Gets remote build info.
 	fn_print_dots "Checking for update: factorio.com: checking remote build"
-	remotebuild=$(${curlpath} -s https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch} | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
-	
+	remotebuild=$(${curlpath} -s "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	# Checks if remotebuild variable has been set.
 	if [ -v "${remotebuild}" ]; then
 		fn_print_fail "Checking for update: factorio.com: checking remote build"
