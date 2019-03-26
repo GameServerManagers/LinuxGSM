@@ -36,7 +36,7 @@ fn_update_factorio_localbuild(){
 	else
 		localbuild="0"
 		fn_print_error "Checking for update: factorio.com: checking local build"
-		fn_script_log_error "Checking for update: factorio.com: checking local build"
+		fn_script_log_error "Checking local build"
 	fi	
 	sleep 0.5
 }
