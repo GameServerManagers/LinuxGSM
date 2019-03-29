@@ -38,7 +38,7 @@ fn_update_ts3_currentbuild(){
 		fn_script_log_error "Checking for update: teamspeak.com: No logs with server version found"
 		sleep 0.5
 		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
-		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
+		fn_script_log_info "Forcing server restart"
 		sleep 0.5
 		exitbypass=1
 		command_stop.sh
@@ -48,7 +48,7 @@ fn_update_ts3_currentbuild(){
 		# Check again and exit on failure.
 		if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log')" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Still No logs with server version found"
-			fn_script_log_fatal "Checking for update: teamspeak.com: Still No logs with server version found"
+			fn_script_log_fatal "Still No logs with server version found"
 			core_exit.sh
 		fi
 	fi
@@ -60,7 +60,7 @@ fn_update_ts3_currentbuild(){
 		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
 		sleep 0.5
 		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
-		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
+		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
@@ -68,7 +68,7 @@ fn_update_ts3_currentbuild(){
 		currentbuild="$(cat "$(find "${serverfiles}/logs/"* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V)"
 		if [ -z "${currentbuild}" ]; then
 			fn_print_fail_nl "Checking for update: teamspeak.com: Current build version still not found"
-			fn_script_log_fatal "Checking for update: teamspeak.com: Current build version still not found"
+			fn_script_log_fatal "Current build version still not found"
 			core_exit.sh
 		fi
 	fi
@@ -102,7 +102,7 @@ fn_update_ts3_availablebuild(){
 		fn_print_fail "Checking for update: teamspeak.com"
 		sleep 0.5
 		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
-		fn_script_log_fatal "Checking for update: teamspeak.com: Not returning version info"
+		fn_script_log_fatal "Not returning version info"
 		core_exit.sh
 	elif [ "${installer}" == "1" ]; then
 		:
