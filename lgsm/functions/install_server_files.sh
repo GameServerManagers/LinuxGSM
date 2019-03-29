@@ -144,8 +144,8 @@ elif [ "${shortname}" == "mumble" ]; then
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "fctr" ]; then
-  update_factorio.sh
-  install_factorio_save.sh
+	update_factorio.sh
+	install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_unreal_tournament_eula.sh
