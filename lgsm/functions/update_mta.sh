@@ -74,7 +74,7 @@ fn_update_mta_localbuild(){
 	fi
 }
 
-fn_mta_get_remotebuild(){
+fn_update_mta_remotebuild(){
 	# Gets remote build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 	fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
@@ -102,7 +102,7 @@ fn_update_mta_compare(){
 		sleep 0.5
 		echo -en "\n"
 		echo -e "Update ${mta_update_string}:"
-		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
