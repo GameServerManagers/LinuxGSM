@@ -27,53 +27,53 @@ fn_update_factorio_dl(){
 
 fn_update_factorio_localbuild(){
 	# Gets local build info.
-	fn_print_dots "Checking for update: factorio.com: checking local build"
+	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
 		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
-		fn_print_ok "Checking for update: factorio.com: checking local build"
+		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
 		fn_script_log_pass "Checking local build"
 	else
 		localbuild="0"
-		fn_print_error "Checking for update: factorio.com: checking local build"
+		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		fn_script_log_error "Checking local build"
-	fi	
+	fi
 	sleep 0.5
 }
 
 fn_update_factorio_remotebuild(){
 	# Gets remote build info.
-	fn_print_dots "Checking for update: factorio.com: checking remote build"
+	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 	remotebuild=$(${curlpath} -s "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	# Checks if remotebuild variable has been set.
 	if [ -v "${remotebuild}" ]; then
-		fn_print_fail "Checking for update: factorio.com: checking remote build"
+		fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_fatal "Checking remote build"
 		core_exit.sh
 	else
-		fn_print_ok "Checking for update: factorio.com: checking remote build"
+		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_pass "Checking remote build"
 	fi
-	sleep 0.5	
+	sleep 0.5
 }
 
 fn_update_factorio_compare(){
 	# Removes dots so if statement can compare version numbers.
-	fn_print_dots "Checking for update: factorio.com"
+	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
 	sleep 0.5
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]; then
-		fn_print_ok_nl "Checking for update: factorio.com"
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
-		echo -en "\n"		
+		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${green}${localbuild} ${factorioarch} ${branch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch} ${branch}${default}"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch} ${branch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch} ${branch}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"		
+		fn_script_log_info "${localbuild} > ${remotebuild}"
 		sleep 0.5
 		echo -en "\n"
 		echo -en "applying update.\r"
@@ -85,7 +85,7 @@ fn_update_factorio_compare(){
 		echo -en "\n"
 
 		unset updateonstart
-		
+
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
@@ -105,7 +105,7 @@ fn_update_factorio_compare(){
 		alert="update"
 		alert.sh
 	else
-		fn_print_ok_nl "Checking for update: factorio.com"
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
 		echo -en "\n"
 		echo -e "No update available"
@@ -116,6 +116,9 @@ fn_update_factorio_compare(){
 		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch} ${branch}"
 	fi
 }
+
+# The location where the builds are checked and downloaded.
+remotelocation="mojang.com"
 
 # Factorio is linux64 only for now.
 factorioarch="linux64"
@@ -130,9 +133,8 @@ if [ "${installer}" == "1" ]; then
 	fn_update_factorio_remotebuild
 	fn_update_factorio_dl
 else
-	# Checks for server update from factorio.com.
-	fn_print_dots "Checking for update: factorio.com"
-	fn_script_log_info "Checking for update: factorio.com"
+	fn_print_dots "Checking for update: ${remotelocation}"
+	fn_script_log_info "Checking for update: ${remotelocation}"
 	sleep 0.5
 	fn_update_factorio_localbuild
 	fn_update_factorio_remotebuild
