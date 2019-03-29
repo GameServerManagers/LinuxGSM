@@ -35,7 +35,7 @@ fn_update_minecraft_localbuild(){
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		sleep 0.5
 		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no log files"
-		fn_script_log_error "Checking for update: ${remotelocation}: checking local build: no log files"
+		fn_script_log_error "No log file found"
 		sleep 0.5
 		fn_print_info_nl "Checking for update: ${remotelocation}: checking local build: forcing server restart"
 		fn_script_log_info "Forcing server restart"
@@ -47,18 +47,20 @@ fn_update_minecraft_localbuild(){
 		# Check again and exit on failure.
 		if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 			localbuild="0"
-			fn_print_error "Checking for update: ${remotelocation}: checking local build"
-			fn_script_log_error "Checking local build"
+			fn_print_fatal "Checking for update: ${remotelocation}: checking local build: no log files"
+			fn_script_log_fatal "No log file found"
+			core_exit.sh
 		fi
 		sleep 0.5
 	fi
 
 	if [ -f "${consolelogdir}/${servicename}-console.log" ]; then
 		# Get current build from logs
+
 		localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 		if [ -z "${localbuild}" ]; then
-			fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: not found"
-			fn_script_log_error "Local build info not found"
+			fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
+			fn_script_log_error "Local build not found"
 			sleep 0.5
 			fn_print_info_nl "Checking for update: ${remotelocation}: checking local build: forcing server restart"
 			fn_script_log_info "Forcing server restart"
@@ -68,11 +70,13 @@ fn_update_minecraft_localbuild(){
 			command_start.sh
 			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 			if [ -z "${localbuild}" ]; then
-				fn_print_fail_nl "Checking for update: ${remotelocation}: checking local build: not found"
-				fn_script_log_fatal "Local build version still not found"
+				fn_print_fail_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
+				fn_script_log_fatal "Local build not found"
 				core_exit.sh
 			fi
 		fi
+		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
+		sleep 0.5
 	fi
 }
 
@@ -103,7 +107,7 @@ fn_update_minecraft_compare(){
 		sleep 0.5
 		echo -en "\n"
 		echo -e "Update ${mta_update_string}:"
-		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
