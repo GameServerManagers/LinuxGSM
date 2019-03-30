@@ -31,8 +31,8 @@ fn_update_minecraft_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	sleep 0.5
-	# Checks if current build info is remote. If it fails, then a server restart will be forced to generate logs.
-	if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
+	# Uses log files to find local build.
+	if [ ! -f "${serverfiles}/logs/latest.log" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		sleep 0.5
 		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no log files"
@@ -45,20 +45,31 @@ fn_update_minecraft_localbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		sleep 60
-		# Check again and exit on failure.
-		if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
-			localbuild="0"
-			fn_print_fatal "Checking for update: ${remotelocation}: checking local build: no log files"
-			fn_script_log_fatal "No log file found"
-			core_exit.sh
-		fi
-		sleep 0.5
+		totalseconds=0
+		# Check again, allow time to generate logs.
+		while [ ! -f "${serverfiles}/logs/latest.log" ]; do
+			sleep 1
+			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for log file: ${totalseconds}"
+			if [ -v "${loopignore}" ]; then
+				loopignore=1
+				fn_script_log_info "Waiting for log file to generate"
+			fi
+
+			if [ "${totalseconds}" >= "120" ]; then
+				localbuild="0"
+				fn_print_error "Checking for update: ${remotelocation}: waiting for log file: missing log file"
+				fn_script_log_error "Missing log file"
+				fn_script_log_error "Set localbuild to 0"
+				sleep 0.5
+			fi
+			
+			totalseconds=$((totalseconds + 1))
+		done
+		sleep 5
 	fi
 
-	if [ -f "${consolelogdir}/${servicename}-console.log" ]; then
-		# Get current build from logs
-
+	if [ -f "${serverfiles}/logs/latest.log" ]; then
+		# Get local build from logs.
 		localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 		if [ -z "${localbuild}" ]; then
 			fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
@@ -70,12 +81,33 @@ fn_update_minecraft_localbuild(){
 			command_stop.sh
 			exitbypass=1
 			command_start.sh
-			sleep 60
+			# Check again, allow time to generate logs.
+			while [ ! -f "${serverfiles}/logs/latest.log" ]; do
+				sleep 1
+				fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for log file: ${totalseconds}"
+				if [ -v "${loopignore}" ]; then
+					loopignore=1
+					fn_script_log_info "Waiting for log file to generate"
+				fi
+
+				if [ "${totalseconds}" >= "120" ]; then
+					localbuild="0"
+					fn_print_error "Checking for update: ${remotelocation}: waiting for log file: missing log file"
+					fn_script_log_error "Missing log file"
+					fn_script_log_error "Set localbuild to 0"
+					sleep 0.5
+				fi
+				
+				totalseconds=$((totalseconds + 1))
+			done
+			sleep 5
 			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 			if [ -z "${localbuild}" ]; then
-				fn_print_fail_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
-				fn_script_log_fatal "Local build not found"
-				core_exit.sh
+				localbuild="0"
+				fn_print_error "Checking for update: ${remotelocation}: waiting for log file: local build not found"
+				fn_script_log_error "Missing log file"
+				fn_script_log_error "Set localbuild to 0"
+				sleep 0.5
 			fi
 		fi
 		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
@@ -89,10 +121,12 @@ fn_update_minecraft_remotebuild(){
 	sleep 0.5
 	remotebuild=$(${curlpath} -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
 	# Checks if remotebuild variable has been set.
-	if [ -v "${remotebuild}" ]; then
+	if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 		fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_fatal "Checking remote build"
 		core_exit.sh
+	elif [ "${installer}" == "1" ]; then
+		:
 	else
 		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_pass "Checking remote build"
@@ -110,7 +144,7 @@ fn_update_minecraft_compare(){
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
 		echo -en "\n"
-		echo -e "Update ${mta_update_string}:"
+		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
 		fn_script_log_info "Update available"
@@ -130,6 +164,7 @@ fn_update_minecraft_compare(){
 		unset updateonstart
 
 		check_status.sh
+		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_factorio_dl
@@ -137,6 +172,7 @@ fn_update_minecraft_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+		# If server started.
 		else
 			exitbypass=1
 			command_stop.sh
@@ -162,6 +198,7 @@ fn_update_minecraft_compare(){
 
 # The location where the builds are checked and downloaded.
 remotelocation="mojang.com"
+
 if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_dl
