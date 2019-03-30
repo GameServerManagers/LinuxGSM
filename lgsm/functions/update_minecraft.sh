@@ -30,6 +30,7 @@ fn_update_minecraft_dl(){
 fn_update_minecraft_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	sleep 0.5
 	# Checks if current build info is remote. If it fails, then a server restart will be forced to generate logs.
 	if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
@@ -44,6 +45,7 @@ fn_update_minecraft_localbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
+		sleep 10
 		# Check again and exit on failure.
 		if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 			localbuild="0"
@@ -68,6 +70,7 @@ fn_update_minecraft_localbuild(){
 			command_stop.sh
 			exitbypass=1
 			command_start.sh
+			sleep 10
 			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 			if [ -z "${localbuild}" ]; then
 				fn_print_fail_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
@@ -83,6 +86,7 @@ fn_update_minecraft_localbuild(){
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+	sleep 0.5
 	remotebuild=$(${curlpath} -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
 	# Checks if remotebuild variable has been set.
 	if [ -v "${remotebuild}" ]; then
