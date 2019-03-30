@@ -45,7 +45,7 @@ fn_update_minecraft_localbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		sleep 10
+		sleep 30
 		# Check again and exit on failure.
 		if [ ! -f "${consolelogdir}/${servicename}-console.log" ]; then
 			localbuild="0"
@@ -70,7 +70,7 @@ fn_update_minecraft_localbuild(){
 			command_stop.sh
 			exitbypass=1
 			command_start.sh
-			sleep 10
+			sleep 30
 			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 			if [ -z "${localbuild}" ]; then
 				fn_print_fail_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
