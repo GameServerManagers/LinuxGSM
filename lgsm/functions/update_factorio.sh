@@ -68,7 +68,7 @@ fn_update_factorio_compare(){
 		sleep 0.5
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${green}${localbuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Local build: ${red}${localbuild} ${factorioarch} ${branch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch} ${branch}${default}"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch} ${branch}"

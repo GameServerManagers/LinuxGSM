@@ -68,7 +68,7 @@ fn_update_mumble_compare(){
 		sleep 0.5
 		echo -en "\n"		
 		echo -e "Update available"
-		echo -e "* Local build: ${green}${localbuild} ${mumblearch}${default}"
+		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}${branch}"
