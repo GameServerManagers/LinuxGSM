@@ -224,7 +224,7 @@ fi
 
 # Steam Master Server - checks if detected by master server
 if [ ! "$(command -v jq 2>/dev/null)" ]; then
-	if [ "${ip}" ] && [ "${port}" ]; then
+	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
 			masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
 			if [ "${steammaster}" == "1" ]; then

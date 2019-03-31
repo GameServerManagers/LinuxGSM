@@ -318,6 +318,11 @@ fn_print_fail_eol_nl(){
 	echo -e "${red}FAIL${default}"
 }
 
+# ERROR
+fn_print_error_eol(){
+	echo -en "${red}ERROR${default}"
+}
+
 # WARN
 fn_print_warn_eol(){
 	echo -en "${red}WARN${default}"

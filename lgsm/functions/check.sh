@@ -26,7 +26,7 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ "${function_selfname}" 
 	check_system_dir.sh
 fi
 
-local allowed_commands_array=( command_start.sh )
+local allowed_commands_array=( command_start.sh command_debug.sh )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
