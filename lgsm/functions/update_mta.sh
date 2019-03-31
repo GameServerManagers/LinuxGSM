@@ -90,11 +90,11 @@ fn_update_mta_localbuild(){
 		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
-		sleep 0.5
 	else
 		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
-		sleep 0.5
+		fn_script_log_pass "Checking local build"
 	fi
+	sleep 0.5
 }
 
 fn_update_mta_remotebuild(){
@@ -117,6 +117,7 @@ fn_update_mta_remotebuild(){
 			sleep 0.5
 		fi
 	else
+		# Checks if remotebuild variable has been set.
 		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Checking remote build"

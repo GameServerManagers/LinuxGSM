@@ -45,21 +45,28 @@ fn_update_mumble_localbuild(){
 
 fn_update_mumble_remotebuild(){
 	# Gets remote build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
-	sleep 0.5
 	remotebuild=$(${curlpath} -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
-	# Checks if remotebuild variable has been set.
-	if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-		fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
-		fn_script_log_fatal "Checking remote build"
-		core_exit.sh
-	elif [ "${installer}" == "1" ]; then
-		:
+	if [ "${installer}" != "1" ]; then
+		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		sleep 0.5
+		# Checks if remotebuild variable has been set.
+		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		else
+			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_script_log_pass "Checking remote build"
+			sleep 0.5
+		fi
 	else
-		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
-		fn_script_log_pass "Checking remote build"
-	fi
-	sleep 0.5
+		# Checks if remotebuild variable has been set.
+		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Unable to get remote build"
+			core_exit.sh
+		fi
+	fi	
 }
 
 fn_update_mumble_compare(){

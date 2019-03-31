@@ -29,7 +29,7 @@ fn_update_factorio_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	sleep 0.5
-	# Uses executable find local build.
+	# Uses executable to find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
 		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
@@ -55,14 +55,15 @@ fn_update_factorio_remotebuild(){
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
 		else
-		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
-		fn_script_log_pass "Checking remote build"
-		sleep 0.5
+			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_script_log_pass "Checking remote build"
+			sleep 0.5
 		fi
 	else
+		# Checks if remotebuild variable has been set.
 		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
-			fn_script_log_fatal "Checking remote build"
+			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
 	fi	
