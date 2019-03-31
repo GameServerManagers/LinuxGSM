@@ -71,23 +71,29 @@ fn_update_ts3_localbuild(){
 		done
 	fi
 
-	# Gives time for var to generate.
-	end=$((SECONDS+120))
-	totalseconds=0
-	while [ "${SECONDS}" -lt "${end}" ]; do
-		fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
-		if [ -v "${loopignore}" ]; then
-			loopignore=1
-			fn_script_log_info "Waiting for local build to generate"
-		fi		
-	    localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
-	    if [ "${localbuild}" ]; then
-	    	break
-	    fi
-	    sleep 1
-	    totalseconds=$((totalseconds + 1))
-	done
+	if [ -v "${localbuild}" ]; then
+		localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | grep -Ev "${rootdir}/.ts3version" | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+	fi
 
+	if [ -v "${localbuild}" ]; then
+		# Gives time for var to generate.
+		end=$((SECONDS+120))
+		totalseconds=0
+		while [ "${SECONDS}" -lt "${end}" ]; do
+			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
+			if [ -v "${loopignore}" ]; then
+				loopignore=1
+				fn_script_log_info "Waiting for local build to generate"
+			fi		
+			localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | grep -Ev "${rootdir}/.ts3version" | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+			if [ "${localbuild}" ]; then
+				break
+			fi
+			sleep 1
+			totalseconds=$((totalseconds + 1))
+		done
+	fi
+	
 	if [ -v "${localbuild}" ]; then
 		localbuild="0"
 		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
