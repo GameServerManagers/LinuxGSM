@@ -28,6 +28,8 @@ fn_update_mumble_dl(){
 fn_update_mumble_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	sleep 0.5
+	# Uses executable to find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
 		localbuild=$(${executable} -version 2>&1 >/dev/null | awk '{print $5}')
@@ -44,12 +46,15 @@ fn_update_mumble_localbuild(){
 fn_update_mumble_remotebuild(){
 	# Gets remote build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+	sleep 0.5
 	remotebuild=$(${curlpath} -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	# Checks if remotebuild variable has been set.
-	if [ -v "${remotebuild}" ]; then
+	if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 		fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_fatal "Checking remote build"
 		core_exit.sh
+	elif [ "${installer}" == "1" ]; then
+		:
 	else
 		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_pass "Checking remote build"
@@ -63,10 +68,10 @@ fn_update_mumble_compare(){
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
 	sleep 0.5
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
-		echo -en "\n"		
+		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
@@ -87,6 +92,7 @@ fn_update_mumble_compare(){
 		unset updateonstart
 
 		check_status.sh
+		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_mumble_dl
@@ -94,6 +100,7 @@ fn_update_mumble_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+		# If server started.
 		else
 			exitbypass=1
 			command_stop.sh
@@ -120,8 +127,8 @@ fn_update_mumble_compare(){
 # The location where the builds are checked and downloaded.
 remotelocation="mumble.info"
 
-	# Mumble is x86 only for now.
-	mumblearch="x86"
+# Mumble is x86 only for now.
+mumblearch="x86"
 
 if [ "${installer}" == "1" ]; then
 	fn_update_mumble_remotebuild

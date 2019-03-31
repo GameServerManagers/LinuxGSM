@@ -9,7 +9,7 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
-	latestmcreleaselink=$(${curlpath} -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
+	latestmcreleaselink=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
 	latestmcbuildurl=$(${curlpath} -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
 	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${remotebuild}.jar"
 	echo -e "copying to ${serverfiles}...\c"
@@ -31,7 +31,8 @@ fn_update_minecraft_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	sleep 0.5
-	# Uses log files to find local build.
+	# Uses log file to gather info.
+	# Gives time for log file to generate.
 	if [ ! -f "${serverfiles}/logs/latest.log" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		sleep 0.5
@@ -55,7 +56,7 @@ fn_update_minecraft_localbuild(){
 				fn_script_log_info "Waiting for log file to generate"
 			fi
 
-			if [ "${totalseconds}" >= "120" ]; then
+			if [ "${totalseconds}" -gt "120" ]; then
 				localbuild="0"
 				fn_print_error "Checking for update: ${remotelocation}: waiting for log file: missing log file"
 				fn_script_log_error "Missing log file"
@@ -65,51 +66,32 @@ fn_update_minecraft_localbuild(){
 			
 			totalseconds=$((totalseconds + 1))
 		done
-		sleep 5
 	fi
 
-	if [ -f "${serverfiles}/logs/latest.log" ]; then
-		# Get local build from logs.
-		localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
-		if [ -z "${localbuild}" ]; then
-			fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: local build not found"
-			fn_script_log_error "Local build not found"
-			sleep 0.5
-			fn_print_info_nl "Checking for update: ${remotelocation}: checking local build: forcing server restart"
-			fn_script_log_info "Forcing server restart"
-			exitbypass=1
-			command_stop.sh
-			exitbypass=1
-			command_start.sh
-			# Check again, allow time to generate logs.
-			while [ ! -f "${serverfiles}/logs/latest.log" ]; do
-				sleep 1
-				fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for log file: ${totalseconds}"
-				if [ -v "${loopignore}" ]; then
-					loopignore=1
-					fn_script_log_info "Waiting for log file to generate"
-				fi
+	# Gives time for var to generate.
+	end=$((SECONDS+120))
+	totalseconds=0
+	while [ "${SECONDS}" -lt "${end}" ]; do
+		fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
+		if [ -v "${loopignore}" ]; then
+			loopignore=1
+			fn_script_log_info "Waiting for local build to generate"
+		fi		
+	    localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+	    if [ "${localbuild}" ]; then
+	    	break
+	    fi
+	    sleep 1
+	    totalseconds=$((totalseconds + 1))
+	done
 
-				if [ "${totalseconds}" >= "120" ]; then
-					localbuild="0"
-					fn_print_error "Checking for update: ${remotelocation}: waiting for log file: missing log file"
-					fn_script_log_error "Missing log file"
-					fn_script_log_error "Set localbuild to 0"
-					sleep 0.5
-				fi
-				
-				totalseconds=$((totalseconds + 1))
-			done
-			sleep 5
-			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
-			if [ -z "${localbuild}" ]; then
-				localbuild="0"
-				fn_print_error "Checking for update: ${remotelocation}: waiting for log file: local build not found"
-				fn_script_log_error "Missing log file"
-				fn_script_log_error "Set localbuild to 0"
-				sleep 0.5
-			fi
-		fi
+	if [ -v "${localbuild}" ]; then
+		localbuild="0"
+		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
+		sleep 0.5
+	else
 		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
 		sleep 0.5
 	fi
@@ -117,21 +99,27 @@ fn_update_minecraft_localbuild(){
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
-	sleep 0.5
 	remotebuild=$(${curlpath} -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
-	# Checks if remotebuild variable has been set.
-	if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-		fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
-		fn_script_log_fatal "Checking remote build"
-		core_exit.sh
-	elif [ "${installer}" == "1" ]; then
-		:
+	if [ "${installer}" != "1" ]; then
+		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		sleep 0.5
+		# Checks if remotebuild variable has been set.
+		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		else
+			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_script_log_pass "Checking remote build"
+			sleep 0.5
+		fi
 	else
-		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
-		fn_script_log_pass "Checking remote build"
-	fi
-	sleep 0.5
+		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		fi
+	fi	
 }
 
 fn_update_minecraft_compare(){
@@ -140,7 +128,7 @@ fn_update_minecraft_compare(){
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
 	sleep 0.5
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
 		echo -en "\n"
@@ -167,7 +155,7 @@ fn_update_minecraft_compare(){
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
-			fn_update_factorio_dl
+			fn_update_minecraft_dl
 			exitbypass=1
 			command_start.sh
 			exitbypass=1
@@ -177,7 +165,7 @@ fn_update_minecraft_compare(){
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
-			fn_update_factorio_dl
+			fn_update_minecraft_dl
 			exitbypass=1
 			command_start.sh
 		fi

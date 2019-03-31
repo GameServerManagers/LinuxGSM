@@ -28,6 +28,8 @@ fn_update_factorio_dl(){
 fn_update_factorio_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	sleep 0.5
+	# Uses executable find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
 		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
@@ -43,18 +45,27 @@ fn_update_factorio_localbuild(){
 
 fn_update_factorio_remotebuild(){
 	# Gets remote build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 	remotebuild=$(${curlpath} -s "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
-	# Checks if remotebuild variable has been set.
-	if [ -v "${remotebuild}" ]; then
-		fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
-		fn_script_log_fatal "Checking remote build"
-		core_exit.sh
-	else
+	if [ "${installer}" != "1" ]; then
+		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		sleep 0.5
+		# Checks if remotebuild variable has been set.
+		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		else
 		fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 		fn_script_log_pass "Checking remote build"
-	fi
-	sleep 0.5
+		sleep 0.5
+		fi
+	else
+		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		fi
+	fi	
 }
 
 fn_update_factorio_compare(){
@@ -63,7 +74,7 @@ fn_update_factorio_compare(){
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
 	sleep 0.5
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
 		echo -en "\n"
@@ -87,6 +98,7 @@ fn_update_factorio_compare(){
 		unset updateonstart
 
 		check_status.sh
+		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_factorio_dl
@@ -94,6 +106,7 @@ fn_update_factorio_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+		# If server started.
 		else
 			exitbypass=1
 			command_stop.sh
