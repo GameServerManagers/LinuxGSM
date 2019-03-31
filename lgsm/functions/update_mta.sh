@@ -33,7 +33,7 @@ fn_update_mta_localbuild(){
 	sleep 0.5
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
-	if [ ! -f "${gamelogdir}/server.log" ]; then
+	if [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		sleep 0.5
 		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no log files"
@@ -48,7 +48,7 @@ fn_update_mta_localbuild(){
 		command_start.sh
 		totalseconds=0
 		# Check again, allow time to generate logs.
-		while [ ! -f "${gamelogdir}/server.log" ]; do
+		while [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; do
 			sleep 1
 			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for log file: ${totalseconds}"
 			if [ -v "${loopignore}" ]; then
@@ -77,7 +77,7 @@ fn_update_mta_localbuild(){
 			loopignore=1
 			fn_script_log_info "Waiting for local build to generate"
 		fi		
-	    localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${gamelogdir}/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
+	    localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
 	    if [ "${localbuild}" ]; then
 	    	break
 	    fi
@@ -99,12 +99,10 @@ fn_update_mta_localbuild(){
 
 fn_update_mta_remotebuild(){
 	# Gets remote build info.
-	fn_fetch_file "https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h" "${tmpdir}" "version.h" # we need to find latest stable version here
-	local majorversion="$(grep "#define MTASA_VERSION_MAJOR" "${tmpdir}/version.h" | awk '{ print $3 }' | sed 's/\r//g')"
-	local minorversion="$(grep "#define MTASA_VERSION_MINOR" "${tmpdir}/version.h" | awk '{ print $3 }' | sed 's/\r//g')"
-	local maintenanceversion="$(grep "#define MTASA_VERSION_MAINTENANCE" "${tmpdir}/version.h" | awk '{ print $3 }' | sed 's/\r//g')"
+	local majorversion="$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
+	local minorversion="$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
+	local maintenanceversion="$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')"
 	remotebuild="${majorversion}.${minorversion}.${maintenanceversion}"
-	rm -f "${tmpdir}/version.h"
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		sleep 0.5
