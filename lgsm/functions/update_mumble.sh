@@ -2,17 +2,17 @@
 # LinuxGSM update_mumble.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Handles updating of mumble servers.
+# Description: Handles updating of Mumble servers.
 
 local commandname="UPDATE"
 local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
-	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${availablebuild}/murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2"
-	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${availablebuild}.tar.bz2" "${tmpdir}"
+	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2"
+	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/murmur-static_${mumblearch}-${availablebuild}/"* "${serverfiles}"
+	cp -R "${tmpdir}/murmur-static_${mumblearch}-${remotebuild}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -45,12 +45,12 @@ fn_update_mumble_localbuild(){
 
 fn_update_mumble_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(${curlpath} -s https://api.github.com/repos/mumble-voip/mumble/releases/latest | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
+	remotebuild=$(${curlpath} -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		sleep 0.5
 		# Checks if remotebuild variable has been set.
-		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -61,7 +61,7 @@ fn_update_mumble_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -83,8 +83,8 @@ fn_update_mumble_compare(){
 		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild} ${mumblearch}${branch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}${branch}"
+		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 		sleep 0.5
 		echo -en "\n"
@@ -134,7 +134,7 @@ fn_update_mumble_compare(){
 # The location where the builds are checked and downloaded.
 remotelocation="mumble.info"
 
-# Mumble is x86 only for now.
+# Game server architecture.
 mumblearch="x86"
 
 if [ "${installer}" == "1" ]; then

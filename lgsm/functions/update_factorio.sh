@@ -50,7 +50,7 @@ fn_update_factorio_remotebuild(){
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		sleep 0.5
 		# Checks if remotebuild variable has been set.
-		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -61,7 +61,7 @@ fn_update_factorio_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -134,7 +134,7 @@ fn_update_factorio_compare(){
 # The location where the builds are checked and downloaded.
 remotelocation="mojang.com"
 
-# Factorio is linux64 only for now.
+# Game server architecture.
 factorioarch="linux64"
 
 if [ "${branch}" == "stable" ]; then

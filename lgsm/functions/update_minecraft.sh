@@ -68,24 +68,30 @@ fn_update_minecraft_localbuild(){
 		done
 	fi
 
-	# Gives time for var to generate.
-	end=$((SECONDS+120))
-	totalseconds=0
-	while [ "${SECONDS}" -lt "${end}" ]; do
-		fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
-		if [ -v "${loopignore}" ]; then
-			loopignore=1
-			fn_script_log_info "Waiting for local build to generate"
-		fi		
-	    localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
-	    if [ "${localbuild}" ]; then
-	    	break
-	    fi
-	    sleep 1
-	    totalseconds=$((totalseconds + 1))
-	done
+	if [ -z "${localbuild}" ]; then
+		localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+	fi
 
-	if [ -v "${localbuild}" ]; then
+	if [ -z "${localbuild}" ]; then
+		# Gives time for var to generate.
+		end=$((SECONDS+120))
+		totalseconds=0
+		while [ "${SECONDS}" -lt "${end}" ]; do
+			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
+			if [ -z "${loopignore}" ]; then
+				loopignore=1
+				fn_script_log_info "Waiting for local build to generate"
+			fi		
+			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}') grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+			if [ "${localbuild}" ]; then
+				break
+			fi
+			sleep 1
+			totalseconds=$((totalseconds + 1))
+		done
+	fi
+	
+	if [ -z "${localbuild}" ]; then
 		localbuild="0"
 		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -104,7 +110,7 @@ fn_update_minecraft_remotebuild(){
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		sleep 0.5
 		# Checks if remotebuild variable has been set.
-		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -115,9 +121,9 @@ fn_update_minecraft_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -v "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
-			fn_script_log_fatal "Checking remote build"
+			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
 	fi	
