@@ -192,20 +192,17 @@ fn_update_ts3_compare(){
 	fi
 }
 
-fn_update_ts3_arch(){
-# Gets the teamspeak server architecture.
+# Game server architecture.
 info_distro.sh
 if [ "${arch}" == "x86_64" ]; then
 	ts3arch="amd64"
 elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
-	echo ""
 	fn_print_failure "Unknown or unsupported architecture: ${arch}"
 	fn_script_log_fatal "Unknown or unsupported architecture: ${arch}"
 	core_exit.sh
 fi
-}
 
 # The location where the builds are checked and downloaded.
 remotelocation="teamspeak.com"
