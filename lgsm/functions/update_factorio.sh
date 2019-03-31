@@ -70,21 +70,27 @@ fn_update_factorio_remotebuild(){
 }
 
 fn_update_factorio_compare(){
-	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
+	sleep 0.5
+	# Removes dots so if statement can compare version numbers.
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
-	sleep 0.5
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		sleep 0.5
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild} ${factorioarch} ${branch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Local build: ${red}${localbuild} ${factorioarch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
+		if [ -v "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild} ${factorioarch} ${branch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
+		if [ -v "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 		sleep 0.5
 		echo -en "\n"
@@ -123,11 +129,17 @@ fn_update_factorio_compare(){
 		sleep 0.5
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild} ${factorioarch} ${branch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch} ${branch}${default}"
+		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
+		if [ -v "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild} ${factorioarch} ${branch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch} ${branch}"
+		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
+		if [ -v "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
 	fi
 }
 
