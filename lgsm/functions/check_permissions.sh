@@ -78,7 +78,7 @@ fn_check_permissions(){
 		# Grab the first and second digit for user and group permission
 		userrootdirperm="${rootdirperm:0:1}"
 		grouprootdirperm="${rootdirperm:1:1}"
-		if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
+		if [ "${userrootdirperm}" != "7" ]&&[ "${grouprootdirperm}" != "7" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
 			fn_print_information_nl "The following directory does not have the correct permissions:"
