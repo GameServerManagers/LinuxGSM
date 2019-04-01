@@ -25,7 +25,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_clear_tmp(){
 	echo -en "clearing LinuxGSM tmp directory..."
 	if [ -d "${tmpdir}" ]; then
-		rm -rf "${tmpdir}/"*
+		rm -rf "${tmpdir:?}/"*
 		local exitcode=$?
 		if [ ${exitcode} -eq 0 ]; then
 			fn_print_ok_eol_nl
