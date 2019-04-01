@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://linuxgsm.com
-# Description: Monitors server by checking for running processes.
+# Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
 
 local commandname="MONITOR"
@@ -11,7 +11,7 @@ local commandaction="Monitor"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_monitor_loop(){
-# Will query up to 5 times every 15 seconds.
+# Monitor will query up to 5 times every 15 seconds.
 # Query will wait up to 60 seconds to confirm server is down giving server time if changing map.
 totalseconds=0
 for queryattempt in {1..5}; do
@@ -33,30 +33,29 @@ for queryattempt in {1..5}; do
 	fi
 
 	if [ "${querystatus}" == "0" ]; then
-		# Server query OK
+		# Server query OK.
 		sleep 0.5
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
-		exitcode=0
 		monitorpass=1
 		core_exit.sh
 	else
-		# Server query FAIL
+		# Server query FAIL.
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
 		fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_fail_eol
 		sleep 0.5
-		# monitor try gamedig first then gsquery before restarting
+		# Monitor try gamedig first then gsquery before restarting.
 		if [ "${querymethod}" ==  "gsquery" ]; then
 			if [ "${totalseconds}" -ge "59" ]; then
-				# Server query FAIL for over 59 seconds reboot server
+				# Server query FAIL for over 59 seconds reboot server.
 				fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
 				sleep 0.5
 
-				# Send alert if enabled
+				# Send alert if enabled.
 				alert="restartquery"
 				alert.sh
 				command_restart.sh
@@ -68,7 +67,7 @@ for queryattempt in {1..5}; do
 			fi
 		fi
 
-		# Seconds counter
+		# Seconds counter.
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: WAIT"
 			totalseconds=$((totalseconds + 1))
@@ -82,7 +81,7 @@ done
 }
 
 fn_monitor_check_lockfile(){
-	# Monitor does not run it lockfile is not found
+	# Monitor does not run it lockfile is not found.
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
 		fn_print_error_nl "Disabled: No lockfile found"
 		fn_script_log_error "Disabled: No lockfile found"
@@ -131,8 +130,8 @@ fn_monitor_check_session(){
 
 fn_monitor_query(){
 	fn_script_log_info "Querying port: query enabled"
-	# engines that work with query
-	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 wurm )
+	# Engines that work with query.
+	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql ioquake3 iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 wurm )
 	for allowed_engine in "${allowed_engines_array[@]}"
 	do
 		if [ "${allowed_engine}" == "${engine}" ]; then
@@ -142,7 +141,7 @@ fn_monitor_query(){
 				local engine="unreal4"
 			fi
 
-			# will first attempt to use gamedig then gsquery
+			# Will first attempt to use gamedig then gsquery.
 			totalseconds=0
 			if [ "${shortname}" == "wurm" ]; then
 				local query_methods_array=( gsquery )
@@ -152,7 +151,7 @@ fn_monitor_query(){
 			for query_method in "${query_methods_array[@]}"
 			do
 				if [ "${query_method}" == "gamedig" ]; then
-					# will bypass gamedig if not installed
+					# Will bypass gamedig if not installed.
 					if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 						if [ -z "${monitorpass}" ]; then
 							querymethod="${query_method}"
@@ -186,7 +185,7 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
-# Query has to be enabled in Starbound config
+# Query has to be enabled in Starbound config.
 if [ "${shortname}" == "sb" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
@@ -196,5 +195,4 @@ elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" 
 else
 	fn_monitor_query
 fi
-
 core_exit.sh

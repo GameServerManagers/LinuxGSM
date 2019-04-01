@@ -29,7 +29,6 @@ fn_fix_msg_end(){
 	if [ $? -ne 0 ]; then
 		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
 		fn_script_log_error "Applying ${fixname} fix: ${gamename}"
-		exitcode=2
 	else
 		fn_print_ok_nl "Applying ${fixname} fix: ${gamename}"
 		fn_script_log_pass "Applying ${fixname} fix: ${gamename}"

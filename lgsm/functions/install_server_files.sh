@@ -90,7 +90,7 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -le "4" ]; then
 				if [ "${appid}" == "90" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit
@@ -98,7 +98,7 @@ fn_install_server_files_steamcmd(){
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} validate +quit
 					local exitcode=$?
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit
@@ -119,14 +119,14 @@ fn_install_server_files_steamcmd(){
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} validate +quit
+			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod ${appidmod} +app_update "${appid}" ${branch} validate +quit
 			local exitcode=$?
 		done
 	fi
 }
 
 echo ""
-echo "Installing ${shortname} Server"
+echo "Installing ${gamename} Server"
 echo "================================="
 sleep 0.5
 
@@ -144,10 +144,10 @@ elif [ "${shortname}" == "mumble" ]; then
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "fctr" ]; then
-  update_factorio.sh
-  install_factorio_save.sh
+	update_factorio.sh
+	install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
-	if [ "${shortname}" == "Unreal Tournament" ]; then
+	if [ "${shortname}" == "ut" ]; then
 		install_unreal_tournament_eula.sh
 	fi
 	fn_install_server_files

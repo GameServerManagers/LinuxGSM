@@ -31,7 +31,7 @@ fi
 
 # Header
 fn_print_header
-echo "More info: https://git.io/vyk9a"
+echo "More info: https://docs.linuxgsm.com/commands/fastdl"
 echo ""
 
 # Prompts user for FastDL creation settings
