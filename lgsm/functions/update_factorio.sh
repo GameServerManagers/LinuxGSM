@@ -153,6 +153,8 @@ if [ "${branch}" == "stable" ]; then
 	downloadbranch="stable"
 elif [ "${branch}" == "experimental" ]; then
 	downloadbranch="latest"
+else
+	downloadbranch="${branch}"
 fi
 
 if [ "${installer}" == "1" ]; then
