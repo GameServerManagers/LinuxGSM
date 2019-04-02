@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if run from tmux or screen
 
-local commandname="check"
+local commandname="CHECK"
 
 fn_check_is_in_tmux(){
   if [ -n "${TMUX}" ]; then
@@ -17,6 +17,7 @@ fn_check_is_in_tmux(){
 		core_exit.sh
 	fi
 }
+
 fn_check_is_in_screen(){
 	if [ -n "${STY}" ]; then
 		fn_print_fail_nl "tmuxception error: Sorry Cobb you cannot start a tmux session inside of a screen session."

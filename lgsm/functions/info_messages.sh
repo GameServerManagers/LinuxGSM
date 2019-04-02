@@ -1059,7 +1059,7 @@ fn_info_message_unreal(){
 		if [ "${engine}" == "unreal" ]; then
 			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
-		if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
+		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
 			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
 		fi
 		if [ "${appid}" == "215360" ]; then
