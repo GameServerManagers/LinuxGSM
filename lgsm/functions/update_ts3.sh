@@ -10,9 +10,9 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl(){
 	if [ "${ts3arch}" == "amd64" ]; then
-		local remotebuildurl=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
+		remotebuildurl=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
 	elif [ "${ts3arch}" == "x86" ]; then
-		local remotebuildurl=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
+		remotebuildurl=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
 	fi
 	fn_fetch_file "${remotebuildurl}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
