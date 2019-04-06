@@ -25,7 +25,7 @@ fn_install_ts3db_mariadb(){
 	fi
 
 	echo ""
-	echo "Configuring ${gamename} Server for MariaDB/MySQL"
+	echo "Configuring ${gamename} Server for MariaDB"
 	echo "================================="
 	sleep 0.5
 	read -rp "Enter MariaDB hostname: " mariahostname
