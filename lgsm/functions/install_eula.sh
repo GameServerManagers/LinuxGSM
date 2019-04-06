@@ -20,13 +20,13 @@ echo "You are required to accept the EULA:"
 echo "${eulaurl}"
 echo ""
 if [ -z "${autoinstall}" ]; then
-echo "By continuing you are indicating your agreement to the EULA"
+echo "By continuing you are indicating your agreement to the EULA."
 echo ""
 	if ! fn_prompt_yn "Continue?" Y; then
 		core_exit.sh
 	fi
 else
-	echo "By using auto-install you are indicating your agreement to the EULA"
+	echo "By using auto-install you are indicating your agreement to the EULA."
 	echo ""
 	sleep 5
 fi
