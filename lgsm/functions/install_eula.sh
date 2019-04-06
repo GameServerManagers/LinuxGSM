@@ -26,18 +26,16 @@ echo ""
 		core_exit.sh
 	fi
 else
-echo "By using auto-install you are indicating your agreement to the EULA"
-echo ""
+	echo "By using auto-install you are indicating your agreement to the EULA"
+	echo ""
 	sleep 5
 fi
 
 if [ "${shortname}" == "ts3" ]; then
+	touch "${executabledir}/.ts3server_license_accepted"
+elif [ "${shortname}" == "mc" ]; then
 	touch "${serverfiles}/eula.txt"
 	sed -i "s/eula=false/eula=true/g" "${serverfiles}/eula.txt"
-elif [ "${shortname}" == "mc" ]; then
-	eulaurl="https://account.mojang.com/documents/minecraft_eula"
 elif [ "${shortname}" == "ut" ]; then
-	eulaurl="https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula"
+	:
 fi
-
-
