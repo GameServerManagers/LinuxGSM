@@ -18,7 +18,7 @@ fn_install_ts3db_mariadb(){
 	if ldd "${serverfiles}/libts3db_mariadb.so" | grep "libmariadb.so.2 => not found"; then
 		echo "libmariadb2 not installed."
 		echo "Trying to installing libmariadb2."
-		cp "${serverfiles}/redist/libmariadb.so.2 ${serverfiles}"
+		cp "${serverfiles}/redist/libmariadb.so.2" "${serverfiles}"
 		sleep 0.5
 		echo "Done installing libmariadb2."
 		echo "Retrying to continue."
