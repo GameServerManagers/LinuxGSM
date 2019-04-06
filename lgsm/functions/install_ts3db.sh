@@ -10,32 +10,20 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_ts3db_mariadb(){
-	echo ""
-	echo "checking if libmariadb2 is installed"
-	echo "================================="
-	sleep 0.5
-
-	if ldd "${serverfiles}/libts3db_mariadb.so" | grep "libmariadb.so.2 => not found"; then
-		echo "libmariadb2 not installed."
-		echo "Trying to installing libmariadb2."
-		cp "${serverfiles}/redist/libmariadb.so.2 ${serverfiles}"
-		sleep 0.5
-		echo "Done installing libmariadb2."
-		echo "Retrying to continue."
-		echo ""
-		echo "Checking if libmariadb2 is installed"
-		echo "================================="
-		sleep 0.5
-		if ldd "${serverfiles}/libts3db_mariadb.so" | grep "libmariadb.so.2 => not found"; then
-			echo "libmariadb2 not installed. Please install it first mannually first."
-			echo "exiting..."
-			exit
+	if [ ! -f "${serverfiles}/libts3db_mariadb.so" ]; then
+		echo -e "copying libmariadb.so.2...\c"
+		cp "${serverfiles}/redist/libmariadb.so.2" "${serverfiles}"
+		local exitcode=$?
+		if [ "${exitcode}" == "0" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "copying libmariadb.so.2"
 		else
-			echo "libmariadb2 installed."
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "copying libmariadb.so.2"
+			core_exit.sh
 		fi
-	else
-		echo "libmariadb2 installed."
 	fi
+
 	echo ""
 	echo "Configuring ${gamename} Server for MariaDB/MySQL"
 	echo "================================="
@@ -63,30 +51,27 @@ fn_install_ts3db_mariadb(){
 	sleep 0.5
 }
 
+echo "Select Database"
+echo "================================="
+echo ""
 if [ -z "${autoinstall}" ]; then
-	echo ""
-	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite? (DB must be pre-configured)" N; then
+	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (DB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
-fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
+fn_print_information_nl "./${selfname} auto-install is uses sqlite. For MariaDB use ./${selfname} install"
 fi
 
-## License
-fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
-fn_print_information_nl "Accepting TeamSpeak license:"
-echo " * ${executabledir}/LICENSE"
-sleep 0.5
-touch "${executabledir}/.ts3server_license_accepted"
+install_eula.sh
 
 ## Get privilege key
 echo ""
 echo "Getting privilege key"
 echo "================================="
 sleep 0.5
-echo "IMPORANT! Save these details for later."
+fn_print_information_nl "Save these details for later."
 sleep 0.5
 cd "${executabledir}" || exit
-./ts3server_startscript.sh start inifile=ts3-server.ini
+${executable} start inifile=ts3-server.ini
 sleep 5
-./ts3server_startscript.sh stop
+${executable} stop
