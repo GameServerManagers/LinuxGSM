@@ -33,7 +33,7 @@ fn_install_ts3db_mariadb(){
 	read -rp "Enter MariaDB username: " mariausername
 	read -rp "Enter MariaDB password: " mariapassword
 	read -rp "Enter MariaDB database name: " mariadbname
-	read -rp "Enter MariaDB socket path:" mariadbsocket
+	read -rp "Enter MariaDB socket path: " mariadbsocket
 
 	{
 	echo "[config]"
