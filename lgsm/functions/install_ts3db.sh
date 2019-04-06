@@ -25,7 +25,7 @@ fn_install_ts3db_mariadb(){
 	fi
 
 	echo ""
-	echo "Configuring ${gamename} Server for MariaDB"
+	echo "Configure ${gamename} Server for MariaDB"
 	echo "================================="
 	sleep 0.5
 	read -rp "Enter MariaDB hostname: " mariahostname
@@ -54,7 +54,7 @@ fn_install_ts3db_mariadb(){
 echo ""
 echo "Select Database"
 echo "================================="
-echo ""
+sleep 0.5
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (DB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
