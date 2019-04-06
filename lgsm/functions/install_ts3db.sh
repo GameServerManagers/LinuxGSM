@@ -34,7 +34,7 @@ fn_install_ts3db_mariadb(){
 	read -rp "Enter MariaDB password: " mariapassword
 	read -rp "Enter MariaDB database name: " mariadbname
 	read -rp "Enter MariaDB socket path:" mariadbsocket
-	echo "Updating config."
+
 	{
 	echo "[config]"
 	echo "host='${mariahostname}'"
@@ -47,10 +47,11 @@ fn_install_ts3db_mariadb(){
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
-	echo "================================="
+	echo "updating ts3db_mariadb.ini."
 	sleep 0.5
 }
 
+echo ""
 echo "Select Database"
 echo "================================="
 echo ""

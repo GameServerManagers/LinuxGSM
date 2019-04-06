@@ -17,7 +17,7 @@ echo "Accept ${gamename} EULA"
 echo "================================="
 sleep 0.5
 echo "You are required to accept the EULA:"
-echo "	${eulaurl}"
+echo "${eulaurl}"
 echo ""
 if [ -z "${autoinstall}" ]; then
 echo "By continuing you are indicating your agreement to the EULA"
