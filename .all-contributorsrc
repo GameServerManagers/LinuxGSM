@@ -1,0 +1,23 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Frisasky",
+      "name": "Frisasky",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26865851?v=4",
+      "profile": "https://github.com/Frisasky",
+      "contributions": [
+        "question"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "LinuxGSM",
+  "projectOwner": "GameServerManagers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
