@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "marvinlehmann",
+      "name": "Marvin Lehmann",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4151266?v=4",
+      "profile": "https://github.com/marvinlehmann",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "LinuxGSM",
+  "projectOwner": "GameServerManagers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
