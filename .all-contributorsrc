@@ -17,6 +17,19 @@
         "question",
         "review"
       ]
+    },  
+    {
+      "login": "cedarlug",
+      "name": "CedarLUG",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19336442?v=4",
+      "profile": "http://cedarlug.org",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "question",
+        "review"
+      ]
     },
     {      
       "login": "UltimateByte",
