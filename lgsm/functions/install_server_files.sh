@@ -137,7 +137,7 @@ fi
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
-	install_minecraft_eula.sh
+	install_eula.sh
 	update_minecraft.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
@@ -148,7 +148,7 @@ elif [ "${shortname}" == "fctr" ]; then
 	install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
 	if [ "${shortname}" == "ut" ]; then
-		install_unreal_tournament_eula.sh
+		install_eula.sh
 	fi
 	fn_install_server_files
 fi
