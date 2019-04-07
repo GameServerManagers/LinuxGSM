@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Bourne-ID",
+      "name": "Bourne-ID",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7073616?v=4",
+      "profile": "https://github.com/Bourne-ID",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "question",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "LinuxGSM",
+  "projectOwner": "GameServerManagers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
