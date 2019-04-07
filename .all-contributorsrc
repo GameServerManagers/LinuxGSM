@@ -6,6 +6,15 @@
   "commit": false,
   "contributors": [
     {
+      "login": "kennyLtv",
+      "name": "Kenny Lindelof",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6133325?v=4",
+      "profile": "https://kennyl.design",
+      "contributions": [
+        "question"
+      ]
+    },
+    {
       "login": "Scarsz",
       "name": "Austin Shapiro",
       "avatar_url": "https://avatars1.githubusercontent.com/u/7691988?v=4",
@@ -62,7 +71,6 @@
         "doc",
         "ideas",
         "review",
-        "question"
       ]
     }
   ],
