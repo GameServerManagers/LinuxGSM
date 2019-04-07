@@ -1,5 +1,4 @@
 <h1 align="center">
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
   <br>
   <a href="https://linuxgsm.com"><img src="https://github.com/GameServerManagers/LinuxGSM-Docs/raw/master/.gitbook/assets/linuxgsm_colour_logo_workmark_short_384.png" alt="LinuxGSM"></a>
   </h1>
