@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_logs.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks if log files exist.
 
 local commandname="CHECK"
@@ -16,7 +16,7 @@ fn_check_logs(){
 }
 
 # Create directories for the script and console logs
-if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${gamename}" != "TeamSpeak 3" ]; then
+if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${shortname}" != "ts3" ]; then
 	fn_check_logs
 fi
 

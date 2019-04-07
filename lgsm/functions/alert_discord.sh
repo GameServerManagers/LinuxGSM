@@ -1,49 +1,47 @@
 #!/bin/bash
 # LinuxGSM alert_discord.sh function
 # Author: Daniel Gibbs
-# Contributor: faflfama
-# Website: https://gameservermanagers.com
+# Contributor: faflfama, diamondburned
+# Website: https://linuxgsm.com
 # Description: Sends Discord alert.
+
+if ! command -v jq > /dev/null; then
+	fn_print_fail_nl "Sending Discord alert: jq is missing."
+	fn_script_log_fatal "Sending Discord alert: jq is missing."
+fi
+
+escaped_servername="$(echo -n "${servername}" | jq -sRr "@json")"
+escaped_alertbody="$(echo -n "${alertbody}" | jq -sRr "@json")"
 
 json=$(cat <<EOF
 {
-"username":"LinuxGSM",
-"avatar_url":"https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png",
-"file":"content",
-
-"embeds": [{
-	"color": "2067276",
-	"author": {"name": "${alertemoji} ${alertsubject} ${alertemoji}", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
-	"title": "",
-	"description": "",
-	"url": "",
-	"type": "content",
-	"thumbnail": {"url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
-	"footer": {"text": "LinuxGSM", "icon_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/images/logo/lgsm-dark-square-512.png"},
-	"fields": [
-			{
-				"name": "Alert Message",
-				"value": "${alertbody}"
-			},
+	"username":"LinuxGSM",
+	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png",
+	"file":"content",
+	"embeds": [{
+		"color": "2067276",
+		"author": {"name": "${alertemoji} ${alertsubject}", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
+		"title": "",
+		"description": ${escaped_alertbody},
+		"url": "",
+		"type": "content",
+		"thumbnail": {},
+		"footer": {"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}", "icon_url": ""},
+		"fields": [
 			{
 				"name": "Game",
-				"value": "${gamename}"
-			},
-			{
-				"name": "Server name",
-				"value": "${servername}"
-			},
-			{
-				"name": "Hostname",
-				"value": "${HOSTNAME}"
+				"value": "${gamename}",
+				"inline": true
 			},
 			{
 				"name": "Server IP",
-				"value": "[${ip}:${port}](https://www.gametracker.com/server_info/${ip}:${port})"
+				"value": "[${extip:-$ip}:${port}](https://www.gametracker.com/server_info/${extip:-$ip}:${port})",
+				"inline": true
 			},
 			{
-				"name": "More info",
-				"value": "${alerturl}"
+				"name": "Server Name",
+				"value": ${escaped_servername},
+				"inline": true
 			}
 		]
 	}]
@@ -52,8 +50,8 @@ EOF
 )
 
 fn_print_dots "Sending Discord alert"
-sleep 0.5
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${discordwebhook})
+
+discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

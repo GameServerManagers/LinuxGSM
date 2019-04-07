@@ -2,7 +2,7 @@
 # LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Checks RAM requirements
 
 local commandname="CHECK"
@@ -12,19 +12,22 @@ info_distro.sh
 
 # RAM requirements in megabytes for each game or engine.
 
-if [ "${gamename}" == "ARK: Survival Evolved" ]; then
+if [ "${shortname}" == "ark" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${gamename}" == "ARMA 3" ]; then
+elif [ "${shortname}" == "arma3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-elif [ "${gamename}" == "Rust" ]; then
+elif [ "${shortname}" == "rust" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${gamename}" == "Minecraft" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-elif [ "${gamename}" == "Natural Selection 2" ]||[ "${gamename}" == "NS2: Combat" ]; then
+elif [ "${shortname}" == "pstbs" ]; then
+	ramrequirementmb="2000"
+	ramrequirementgb="2"
+elif [ "${shortname}" == "ns2" ]||[ "${shortname}" == "ns2c" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "st" ]; then
@@ -39,8 +42,8 @@ if [ -n "${ramrequirementmb}" ]; then
 		sleep 0.5
 		# Warn the user
 		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
-		sleep 1
+		sleep 0.5
 		echo  "	* ${gamename} server may fail to run or experience poor performance."
-		sleep 1
+		sleep 0.5
 	fi
 fi

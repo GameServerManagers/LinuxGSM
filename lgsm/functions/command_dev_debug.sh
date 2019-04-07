@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_debug.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
 local commandname="DEV-DEBUG"

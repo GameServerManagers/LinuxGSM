@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_legacy.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
 if [ -z "${serverfiles}" ]; then
@@ -39,4 +39,27 @@ fi
 
 if [ -z "${alertlog}" ]; then
 	alertlog="${emaillog}"
+fi
+
+# Alternations to workshop variables
+if [ -z "${wsapikey}" ]; then
+	if [ "${workshopauth}" ]; then
+		wsapikey="${workshopauth}"
+	elif [ "${authkey}" ]; then
+		wsapikey="${authkey}"
+	fi
+fi
+
+if [ -z "${wscollectionid}" ]; then
+	if [ "${workshopauth}" ]; then
+		wscollectionid="${ws_collection_id}"
+	elif [ "${authkey}" ]; then
+		wscollectionid="${workshopcollectionid}"
+	fi
+fi
+
+if [ -z "${wsstartmap}" ]; then
+	if [ "${ws_start_map}" ]; then
+		wscollectionid="${ws_start_map}"
+	fi
 fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
 local commandname="ALERT"
@@ -45,12 +45,12 @@ fn_alert_restart(){
 }
 
 fn_alert_restart_query(){
-	fn_script_log_info "Sending alert: Restarted: ${gsquerycmd}"
+	fn_script_log_info "Sending alert: Restarted: ${servicename}"
 	alertsubject="Alert - ${servicename} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="gsquery.py failed to query: ${gsquerycmd}"
+	alertbody="Unable to query: ${servicename}"
 }
 
 fn_alert_update(){
@@ -106,10 +106,10 @@ elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert
 	fn_script_log_warn "More Info alerts not enabled"
 elif [ -z "${posttarget}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "posttarget not set"
-	fn_script_error_warn "posttarget not set"
+	fn_script_error "posttarget not set"
 elif [ -z "${postdays}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "postdays not set"
-	fn_script_error_warn "postdays not set"
+	fn_script_error "postdays not set"
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
@@ -119,8 +119,8 @@ elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_al
 	fn_script_log_warn "Discord alerts not enabled"
 elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Discord token not set"
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Discord"
-	fn_script_error_warn "Discord token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/discord"
+	fn_script_error "Discord token not set"
 fi
 
 if [ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
@@ -140,8 +140,8 @@ elif [ "${iftttalert}" != "on" ]&&[ "${function_selfname}" == "command_test_aler
 	fn_script_log_warn "IFTTT alerts not enabled"
 elif [ -z "${ifttttoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "IFTTT token not set"
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/IFTTT"
-	fn_script_error_warn "IFTTT token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/ifttt"
+	fn_script_error "IFTTT token not set"
 fi
 
 if [ "${mailgunalert}" == "on" ]&&[ -n "${mailgunalert}" ]; then
@@ -151,8 +151,8 @@ elif [ "${mailgunalert}" != "on" ]&&[ "${function_selfname}" == "command_test_al
 	fn_script_log_warn "Mailgun alerts not enabled"
 elif [ -z "${mailguntoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Mailgun token not set"
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Mailgun"
-	fn_script_error_warn "Mailgun token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/mailgun"
+	fn_script_error "Mailgun token not set"
 fi
 
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
@@ -162,8 +162,8 @@ elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test
 	fn_script_log_warn "Pushbullet alerts not enabled"
 elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Pushbullet token not set"
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Pushbullet"
-	fn_script_error_warn "Pushbullet token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/pushbullet"
+	fn_script_error "Pushbullet token not set"
 fi
 
 if [ "${pushoveralert}" == "on" ]&&[ -n "${pushoveralert}" ]; then
@@ -173,8 +173,8 @@ elif [ "${pushoveralert}" != "on" ]&&[ "${function_selfname}" == "command_test_a
 	fn_script_log_warn "Pushover alerts not enabled"
 elif [ -z "${pushovertoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Pushover token not set"
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Pushover"
-	fn_script_error_warn "Pushover token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/pushover"
+	fn_script_error "Pushover token not set"
 fi
 
 if [ "${telegramalert}" == "on" ]&&[ -n "${telegramtoken}" ]; then
@@ -184,10 +184,10 @@ elif [ "${telegramalert}" != "on" ]&&[ "${function_selfname}" == "command_test_a
 	fn_script_log_warn "Telegram Messages not enabled"
 elif [ -z "${telegramtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Telegram token not set."
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Telegram"
-	fn_script_error_warn "Telegram token not set."
+	echo "	* https://docs.linuxgsm.com/alerts/telegram"
+	fn_script_error "Telegram token not set."
 elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Telegram chat id not set."
-	echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/Telegram"
-	fn_script_error_warn "Telegram chat id not set."
+	echo "	* https://docs.linuxgsm.com/alerts/telegram"
+	fn_script_error "Telegram chat id not set."
 fi

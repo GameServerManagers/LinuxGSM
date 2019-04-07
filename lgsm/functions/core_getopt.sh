@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_getopt.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: getopt arguments.
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -20,6 +20,7 @@ cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the serve
 cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
+cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
 # Console servers only
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
@@ -35,7 +36,8 @@ cmd_mods_update=( "mu;mods-update" "command_mods_update.sh" "Update installed mo
 # Server specific
 cmd_change_password=( "pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password." )
 cmd_install_default_resources=( "ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources." )
-cmd_wipe=( "wi;wipe" "command_wipe.sh" "Wipe your server data." )
+cmd_wipe=( "wi;wipe" "command_wipe.sh" "Wipe your main game server data." )
+cmd_wipeall=( "wa;wipeall" "wipeall=1; command_wipe.sh" "Wipe your game server data and blueprints." )
 cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
@@ -47,6 +49,9 @@ cmd_dev_debug=( "dev;developer" "command_dev_debug.sh" "Enable developer Mode." 
 cmd_dev_detect_deps=( "dd;detect-deps" "command_dev_detect_deps.sh" "Detect required dependencies." )
 cmd_dev_detect_glibc=( "dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc." )
 cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies." )
+cmd_dev_query_raw=( "qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery." )
+cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" "Delete the contents of the functions dir." )
+
 
 ### Set specific opt here ###
 
@@ -56,10 +61,10 @@ currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monit
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here
-if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${gamename}" != "San Andreas Multiplayer" ]; then
+if [ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${shortname}" != "bf1942" ]&&[ "${shortname}" != "samp" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA
-	if [ -n "${appid}" ] || [ "${gamename}" == "Multi Theft Auto" ]; then
+	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
@@ -73,7 +78,7 @@ fi
 currentopt+=( "${cmd_backup[@]}" )
 
 # Exclude games without a console
-if [ "${gamename}" != "TeamSpeak 3" ]; then
+if [ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
 
@@ -85,16 +90,16 @@ if [ "${engine}" == "source" ]; then
 fi
 
 # TeamSpeak exclusive
-if [ "${gamename}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_change_password[@]}" )
 fi
 
 # Unreal exclusive
-if [ "${gamename}" == "Rust" ]; then
-	currentopt+=( "${cmd_wipe[@]}" )
+if [ "${shortname}" == "rust" ]; then
+	currentopt+=( "${cmd_wipe[@]}" "${cmd_wipeall[@]}" )
 fi
 if [ "${engine}" == "unreal2" ]; then
-	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	if [ "${shortname}" == "ut2k4" ]; then
 		currentopt+=( "${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}" )
 	else
 		currentopt+=( "${cmd_map_compressor_u2[@]}" )
@@ -105,22 +110,22 @@ if [ "${engine}" == "unreal" ]; then
 fi
 
 # DST exclusive
-if [ "${gamename}" == "Don't Starve Together" ]; then
+if [ "${shortname}" == "dst" ]; then
 	currentopt+=( "${cmd_install_dst_token[@]}" )
 fi
 
 # MTA exclusive
-if [ "${gamename}" == "Multi Theft Auto" ]; then
+if [ "${shortname}" == "mta" ]; then
 	currentopt+=( "${cmd_install_default_resources[@]}" )
 fi
 
 # Squad license exclusive
-if [ "${gamename}" == "Squad" ]; then
+if [ "${shortname}" == "squad" ]; then
 	currentopt+=( "${cmd_install_squad_license[@]}" )
 fi
 
 ## Mods commands
-if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "7 Days To Die" ]; then
+if [ "${engine}" == "source" ]||[ "${shortname}" == "rust" ]||[ "${shortname}" == "hq" ]||[ "${shortname}" == "sdtd" ]; then
 	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
 fi
 
@@ -130,16 +135,19 @@ currentopt+=( "${cmd_install[@]}" "${cmd_auto_install[@]}" )
 ## Developer commands
 currentopt+=( "${cmd_dev_debug[@]}" )
 if [ -f ".dev-debug" ]; then
-	currentopt+=(  "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" )
+	currentopt+=( "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_functions[@]}" )
 fi
+
+## Donate
+currentopt+=( "${cmd_donate[@]}" )
 
 ### Build list of available commands
 optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-	cmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+	cmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
 	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
-		optcommands+=( "$(echo "${currentopt[index]}"| awk -F ';' -v x=${cmdindex} '{ print $x }')" )
+		optcommands+=( "$(echo "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
 
@@ -147,8 +155,8 @@ done
 fn_opt_usage(){
 	echo "Usage: $0 [option]"
 	echo -e ""
-	echo "${gamename} - Linux Game Server Manager - Version ${version}"
-	echo "https://gameservermanagers.com/${gameservername}"
+	echo "LinuxGSM - ${gamename} - Version ${version}"
+	echo "https://linuxgsm.com/${gameservername}"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
 	# Display available commands
@@ -174,11 +182,11 @@ for i in "${optcommands[@]}"; do
 		# Seek and run command
 		index="0"
 		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-			currcmdamount="$(echo "${currentopt[index]}"| awk -F ';' '{ print NF }')"
+			currcmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
 			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
-				if [ "$(echo "${currentopt[index]}"| awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+				if [ "$(echo "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command
-					eval ${currentopt[index+1]}
+					eval "${currentopt[index+1]}"
 					core_exit.sh
 					break
 				fi

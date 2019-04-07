@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_pushbullet.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Sends Pushbullet Messenger alert.
 
 local commandname="ALERT"

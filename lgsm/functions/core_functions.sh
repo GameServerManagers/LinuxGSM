@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_functions.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
@@ -51,6 +51,12 @@ fn_fetch_function
 
 # Commands
 
+
+command_backup.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_console.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -61,22 +67,22 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_postdetails.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_test_alert.sh(){
+command_donate.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_backup.sh(){
+command_postdetails.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_test_alert.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -249,6 +255,11 @@ fn_fetch_function
 
 # Dev
 
+command_dev_clear_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -265,6 +276,11 @@ fn_fetch_function
 }
 
 command_dev_detect_ldd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_dev_query_raw.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -306,12 +322,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_steamcmd.sh(){
+fix_kf.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
+fix_kf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -321,12 +342,42 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_kf.sh(){
+fix_rust.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_kf2.sh(){
+fix_rw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ss3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ts3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -341,12 +392,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_rust.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fix_mta.sh(){
+fix_wurm.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -359,6 +405,11 @@ fn_fetch_function
 }
 
 info_distro.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+info_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -426,9 +477,9 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# Monitor
+# Query
 
-monitor_gsquery.sh(){
+query_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -514,6 +565,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -530,16 +586,6 @@ fn_fetch_function
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_minecraft_eula.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_unreal_tournament_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

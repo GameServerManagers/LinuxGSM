@@ -1,22 +1,22 @@
 #!/bin/bash
 # LinuxGSM command_update_linuxgsm.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
-local commandname="UPDATE LinuxGSM"
+local commandname="UPDATE LINUXGSM"
 local commandaction="Update LinuxGSM"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Updating LinuxGSM"
-sleep 1
+sleep 0.5
 check.sh
 fn_script_log_info "Updating LinuxGSM"
-echo -ne "\n"
+echo -en "\n"
 
-if [ -z "${legacymode}" ];then
+if [ -z "${legacymode}" ]; then
 	# Check and update _default.cfg
-	echo -ne "    checking config _default.cfg...\c"
+	echo -en "    checking config _default.cfg...\c"
 	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
@@ -30,7 +30,7 @@ if [ -z "${legacymode}" ];then
 		fn_script_log_info "checking config _default.cfg: OK"
 	fi
 
-	echo -ne "    checking linuxgsm.sh...\c"
+	echo -en "    checking linuxgsm.sh...\c"
 	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
 	if [ "${tmp_script_diff}" != "" ]; then
 		fn_print_update_eol_nl
@@ -42,11 +42,11 @@ if [ -z "${legacymode}" ];then
 		fn_script_log_info "checking linuxgsm.sh: OK"
 		fn_print_ok_eol_nl
 	fi
-	echo -ne "    checking ${selfname}...\c"
-	script_diff=$(diff <(sed '/shortname/d;/gameservername/d;/gamename/d' "${tmpdir}/linuxgsm.sh") <(sed '/shortname/d;/gameservername/d;/gamename/d' "${rootdir}/${selfname}"))
+	echo -en "    checking ${selfname}...\c"
+	script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
-		echo -ne "    backup ${selfname}...\c"
+		echo -en "    backup ${selfname}...\c"
 		mkdir -p "${backupdir}/script/"
 		cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		if [ $? -ne 0 ]; then
@@ -56,7 +56,7 @@ if [ -z "${legacymode}" ];then
 			fn_print_ok_eol_nl
 			echo -e "	Backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
-		echo -ne "    fetching ${selfname}...\c"
+		echo -en "    fetching ${selfname}...\c"
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
@@ -75,17 +75,17 @@ fi
 # Check and update functions
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
-		cd "${functionsdir}"
+		cd "${functionsdir}" || exit
 		for functionfile in *
 		do
-			echo -ne "    checking function ${functionfile}...\c"
+			echo -en "    checking function ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
 			get_function_file=$(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			exitcode=$?
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
-				echo -ne "    removing unknown function ${functionfile}...\c"
+				echo -en "    removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
 				rm -f "${functionfile}"
 				if [ $? -ne 0 ]; then
@@ -97,7 +97,7 @@ if [ -n "${functionsdir}" ]; then
 			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
 				fn_script_log_info "checking function ${functionfile}: UPDATE"
-				rm -rf "${functionsdir}/${functionfile}"
+				rm -rf "${functionsdir:?}/${functionfile}"
 				fn_update_function
 			else
 				fn_print_ok_eol_nl
@@ -113,5 +113,5 @@ else
 	fn_print_ok "Updating functions"
 	fn_script_log_pass "Updating functions"
 fi
-echo -ne "\n"
+echo -en "\n"
 core_exit.sh

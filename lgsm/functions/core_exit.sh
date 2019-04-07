@@ -1,15 +1,24 @@
 #!/bin/bash
 # LinuxGSM core_exit.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles exiting of LinuxGSM by running and reporting an exit code.
 
 fn_exit_dev_debug(){
 	if [ -f "${rootdir}/.dev-debug" ]; then
 		echo ""
 		echo "${function_selfname} exiting with code: ${exitcode}"
+		if [ -f "${rootdir}/dev-debug.log" ]; then
+			grep "functionfile=" "${rootdir}/dev-debug.log" | sed 's/functionfile=//g' > "${rootdir}/dev-debug-function-order.log"
+		fi
 	fi
 }
+
+# If running dependency check as root will remove any files that belong to root user.
+if [ "$(whoami)" == "root" ]; then
+	find "${lgsmdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
+	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
+fi
 
 if [ -n "${exitbypass}" ]; then
 	unset exitbypass
@@ -26,12 +35,11 @@ elif [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	fn_exit_dev_debug
 	# remove trap.
 	trap - INT
-	exit ${exitcode}
+	exit "${exitcode}"
 else
-	exitcode=0
 	fn_script_log_pass "${function_selfname} exiting with code: ${exitcode}"
 	fn_exit_dev_debug
 	# remove trap.
 	trap - INT
-	exit ${exitcode}
+	exit "${exitcode}"
 fi

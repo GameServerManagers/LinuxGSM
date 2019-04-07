@@ -2,7 +2,7 @@
 # LinuxGSM core_dl.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Deals with all downloads for LinuxGSM.
 
 # remote_fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
@@ -21,30 +21,46 @@ local commandname="DOWNLOAD"
 local commandaction="Download"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Emptys contents of the LinuxGSM tmpdir.
+fn_clear_tmp(){
+	echo -en "clearing LinuxGSM tmp directory..."
+	if [ -d "${tmpdir}" ]; then
+		rm -rf "${tmpdir:?}/"*
+		local exitcode=$?
+		if [ ${exitcode} -eq 0 ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "clearing LinuxGSM tmp directory"
+		else
+			fn_print_error_eol_nl
+			fn_script_log_error "clearing LinuxGSM tmp directory"
+		fi
+	fi	
+}
+
 fn_dl_md5(){
-	# Runs MD5 Check if available
+	# Runs MD5 Check if available.
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
-		echo -ne "verifying ${local_filename} with MD5..."
-		sleep 1
+		echo -en "verifying ${local_filename} with MD5..."
+		sleep 0.5
 		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
 			echo "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			echo "expected MD5 checksum: ${md5}"
-			fn_script_log_fatal "Verifying ${local_filename} with MD5: FAIL"
+			fn_script_log_fatal "Verifying ${local_filename} with MD5"
 			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Verifying ${local_filename} with MD5: OK"
+			fn_script_log_pass "Verifying ${local_filename} with MD5"
 			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
 		fi
 	fi
 }
 
-# Extracts bzip2, gzip or zip files
+# Extracts bzip2, gzip or zip files.
 # Extracts can be defined in code like so:
 # fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdir}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
@@ -52,8 +68,8 @@ fn_dl_extract(){
 	local_filedir="${1}"
 	local_filename="${2}"
 	extractdir="${3}"
-	# extracts archives
-	echo -ne "extracting ${local_filename}..."
+	# Extracts archives.
+	echo -en "extracting ${local_filename}..."
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ ! -d "${extractdir}" ]; then
 		mkdir "${extractdir}"
@@ -70,7 +86,7 @@ fn_dl_extract(){
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting download: FAIL"
+		fn_script_log_fatal "Extracting download"
 		if [ -f "${lgsmlog}" ]; then
 			echo "${extractcmd}" >> "${lgsmlog}"
 		fi
@@ -78,19 +94,19 @@ fn_dl_extract(){
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting download: OK"
+		fn_script_log_pass "Extracting download"
 	fi
 }
 
-# Trap to remove file download if canceled before completed
+# Trap to remove file download if canceled before completed.
 fn_fetch_trap(){
 	echo ""
-	echo -ne "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
-	sleep 1
+	sleep 0.5
 	rm -f "${local_filedir}/${local_filename}"
-	echo -ne "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
 	core_exit.sh
@@ -105,28 +121,29 @@ fn_fetch_file(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 
-	# Download file if missing or download forced
+	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
-		# Trap will remove part downloaded files if canceled
+		# Trap will remove part downloaded files if canceled.
 		trap fn_fetch_trap INT
-		# if larger file shows progress bar
-		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]; then
-			echo -ne "downloading ${local_filename}..."
+		# Larger files show a progress bar.
+		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]||[ "${local_filename##*.}" == "xz" ]; then
+			echo -en "downloading ${local_filename}..."
 			sleep 0.5
+			echo -en "\033[1K"
 			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
-			echo -ne "downloading ${local_filename}..."
+			echo -en "downloading ${local_filename}..."
 		else
-			echo -ne "    fetching ${local_filename}...\c"
+			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_fatal "Downloading ${local_filename}: FAIL"
+				fn_script_log_fatal "Downloading ${local_filename}"
 				echo -e "${remote_fileurl}" >> "${lgsmlog}"
 				echo "${curlcmd}" >> "${lgsmlog}"
 			fi
@@ -136,12 +153,12 @@ fn_fetch_file(){
 		else
 			fn_print_ok_eol_nl
 			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_pass "Downloading ${local_filename}: OK"
+				fn_script_log_pass "Downloading ${local_filename}"
 			fi
 		fi
-		# Remove trap
+		# Remove trap.
 		trap - INT
-		# Make file executable if chmodx is set
+		# Make file executable if chmodx is set.
 		if [ "${chmodx}" == "chmodx" ]; then
 			chmod +x "${local_filedir}/${local_filename}"
 		fi
@@ -149,15 +166,15 @@ fn_fetch_file(){
 
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		fn_dl_md5
-		# Execute file if run is set
+		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
 }
 
-# GitHub file download functions
-# Used to simplify downloading specific files from GitHub
+# GitHub file download functions.
+# Used to simplify downloading specific files from GitHub.
 
 # github_file_url_dir: the directory of the file in the GitHub: lgsm/functions
 # github_file_url_name: the filename of the file to download from GitHub: core_messages.sh
@@ -171,7 +188,7 @@ fn_fetch_file(){
 # forcedl: Optional, force re-download of file even if exists
 # md5: Optional, set an md5 sum and will compare it against the file.
 
-# Fetches any files from the GitHub repo
+# Fetches any files from the GitHub repo.
 fn_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
@@ -184,7 +201,7 @@ fn_fetch_file_github(){
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	# Passes vars to the file download function
+	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
@@ -200,11 +217,11 @@ fn_fetch_config(){
 	run="norun"
 	forcedl="noforce"
 	md5="nomd5"
-	# Passes vars to the file download function
+	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Fetches functions
+# Fetches functions.
 fn_fetch_function(){
 	github_file_url_dir="lgsm/functions"
 	github_file_url_name="${functionfile}"
@@ -217,7 +234,7 @@ fn_fetch_function(){
 	run="run"
 	forcedl="noforce"
 	md5="nomd5"
-	# Passes vars to the file download function
+	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
@@ -237,16 +254,10 @@ fn_update_function(){
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Defines curl path
-curl_paths_array=($(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)
-for curlpath in "${curl_paths_array}"
-do
-	if [ -x "${curlpath}" ]; then
-		break
-	fi
-done
+# Defines curl path.
+curlpath=$(command -v curl 2>/dev/null)
 
-if [ "$(basename ${curlpath})" != "curl" ]; then
+if [ "$(basename "${curlpath}")" != "curl" ]; then
 	echo "[ FAIL ] Curl is not installed"
 	exit 1
 fi

@@ -1,8 +1,15 @@
-Please select the "Preview" tab above to view this message correctly.
+Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you post the correct info.
+For general support visit the **[LinuxGSM-Support](https://github.com/GameServerManagers/LinuxGSM-Support)**.
 
-Please note that this is an issue tracker for **LinuxGSM** related bugs and feature requests and **not** for the games themselves.
+Issues here are **ONLY** for:
+* LinuxGSM bugs
+* feature suggestions
+* code contributions
 
-**Therefore personal server issues on GitHub will be closed without a kiss.**
+Issues here are **NOT** for:
+* General support
+* Specific game server issues (e.g CS:GO, TF2)
+* Dedicated server issues (e.g Ubuntu, CentOS)
+* Anything not directly related to LinuxGSM development
 
-Please follow **[this article](https://github.com/GameServerManagers/LinuxGSM/wiki/Support)** for optimal assistance
-and do not forget to remove this text before opening the issue.
+Any general support issues on GitHub will be closed.
