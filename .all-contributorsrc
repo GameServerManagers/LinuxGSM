@@ -6,6 +6,22 @@
   "commit": false,
   "contributors": [
     {
+      "login": "dgibbs64",
+      "name": "Daniel Gibbs",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4478206?v=4",
+      "profile": "https://danielgibbs.co.uk",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "question",
+        "review",
+        "content",
+        "doc",
+        "infra"
+      ]
+    },
+    {      
       "login": "Frisasky",
       "name": "Frisasky",
       "avatar_url": "https://avatars2.githubusercontent.com/u/26865851?v=4",
@@ -49,10 +65,10 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/7073616?v=4",
       "profile": "https://github.com/Bourne-ID",
       "contributions": [
-        "bug",
-        "code",
-        "ideas",
-        "question",
+        "review",
+        "content",
+        "doc",
+        "infra"
         "review"
       ]
     },  
