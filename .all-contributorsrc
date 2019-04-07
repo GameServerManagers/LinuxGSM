@@ -1,0 +1,30 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "dgibbs64",
+      "name": "Daniel Gibbs",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4478206?v=4",
+      "profile": "https://danielgibbs.co.uk",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "question",
+        "review",
+        "content",
+        "doc",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "LinuxGSM",
+  "projectOwner": "GameServerManagers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
