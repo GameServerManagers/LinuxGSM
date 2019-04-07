@@ -56,7 +56,7 @@ echo "Select Database"
 echo "================================="
 sleep 0.5
 if [ -z "${autoinstall}" ]; then
-	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (DB must be pre-configured)" N; then
+	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (MariaDB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
