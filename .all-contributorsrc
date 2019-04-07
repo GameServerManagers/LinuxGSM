@@ -6,6 +6,16 @@
   "commit": false,
   "contributors": [
     {
+      "login": "marvinlehmann",
+      "name": "Marvin Lehmann",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4151266?v=4",
+      "profile": "https://github.com/marvinlehmann",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },  
+    {
       "login": "Bourne-ID",
       "name": "Bourne-ID",
       "avatar_url": "https://avatars1.githubusercontent.com/u/7073616?v=4",
