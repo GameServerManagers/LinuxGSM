@@ -20,6 +20,83 @@
         "doc",
         "infra"
       ]
+    },
+    {      
+      "login": "Frisasky",
+      "name": "Frisasky",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26865851?v=4",
+      "profile": "https://github.com/Frisasky",
+      "contributions": [
+        "question"
+      ]
+    },
+    {
+      "login": "kennyLtv",
+      "name": "Kenny Lindelof",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6133325?v=4",
+      "profile": "https://kennyl.design",
+      "contributions": [
+        "question"
+      ]
+    },
+    {
+      "login": "Scarsz",
+      "name": "Austin Shapiro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7691988?v=4",
+      "profile": "https://scarsz.me",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "marvinlehmann",
+      "name": "Marvin Lehmann",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4151266?v=4",
+      "profile": "https://github.com/marvinlehmann",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },  
+    {
+      "login": "Bourne-ID",
+      "name": "Bourne-ID",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7073616?v=4",
+      "profile": "https://github.com/Bourne-ID",
+      "contributions": [
+        "review",
+        "content",
+        "doc",
+        "infra"
+        "review"
+      ]
+    },  
+    {
+      "login": "cedarlug",
+      "name": "CedarLUG",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19336442?v=4",
+      "profile": "http://cedarlug.org",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "question",
+        "review"
+      ]
+    },
+    {      
+      "login": "UltimateByte",
+      "name": "UltimateByte",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8805941?v=4",
+      "profile": "https://www.terageek.org | https://www.haisoft.fr",
+      "contributions": [
+        "bug",
+        "code",
+        "doc",
+        "ideas",
+        "review",
+      ]
     }
   ],
   "contributorsPerLine": 7,
