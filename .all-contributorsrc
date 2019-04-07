@@ -1,0 +1,28 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "UltimateByte",
+      "name": "UltimateByte",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8805941?v=4",
+      "profile": "https://www.terageek.org | https://www.haisoft.fr",
+      "contributions": [
+        "bug",
+        "code",
+        "doc",
+        "ideas",
+        "review",
+        "question"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "LinuxGSM",
+  "projectOwner": "GameServerManagers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
