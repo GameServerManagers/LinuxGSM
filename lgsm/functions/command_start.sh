@@ -32,11 +32,7 @@ fn_start_teamspeak3(){
 	date > "${rootdir}/${lockselfname}"
 	# Accept license
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
-		fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
-		fn_print_info_nl "Accepting TeamSpeak license:"
-		echo " * ${executabledir}/LICENSE"
-		sleep 3
-		touch "${executabledir}/.ts3server_license_accepted"
+		install_eula.sh
 	fi
 	cd "${executabledir}"
 	if [ "${ts3serverpass}" == "1" ]; then
