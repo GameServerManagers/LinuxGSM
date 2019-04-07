@@ -6,6 +6,16 @@
   "commit": false,
   "contributors": [
     {
+      "login": "Scarsz",
+      "name": "Austin Shapiro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7691988?v=4",
+      "profile": "https://scarsz.me",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
       "login": "marvinlehmann",
       "name": "Marvin Lehmann",
       "avatar_url": "https://avatars2.githubusercontent.com/u/4151266?v=4",
