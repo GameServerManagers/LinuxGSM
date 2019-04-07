@@ -1,4 +1,5 @@
 <h1 align="center">
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
   <br>
   <a href="https://linuxgsm.com"><img src="https://github.com/GameServerManagers/LinuxGSM-Docs/raw/master/.gitbook/assets/linuxgsm_colour_logo_workmark_short_384.png" alt="LinuxGSM"></a>
   </h1>
@@ -50,3 +51,15 @@ There are a various ways to get support, check out the [support](https://linuxgs
 ## :heart: Donate
 
 If you would like to [donate](https://linuxgsm.com/donate) to the project there are several ways you can, via [PayPal](https://www.paypal.me/dgibbs64), [Patreon](https://www.patreon.com/dgibbs) and [Flattr](https://flattr.com/@dgibbs). I would like to thank everyone who has previously sent a donation. LinuxGSM has been going since 2012 and I have spent 1000s of hours developing and improving the project and continue to regularly add support for new servers.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://github.com/Bourne-ID"><img src="https://avatars1.githubusercontent.com/u/7073616?v=4" width="100px;" alt="Bourne-ID"/><br /><sub><b>Bourne-ID</b></sub></a><br /><a href="https://github.com/GameServerManagers/LinuxGSM/issues?q=author%3ABourne-ID" title="Bug reports">🐛</a> <a href="https://github.com/GameServerManagers/LinuxGSM/commits?author=Bourne-ID" title="Code">💻</a> <a href="#ideas-Bourne-ID" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-Bourne-ID" title="Answering Questions">💬</a> <a href="#review-Bourne-ID" title="Reviewed Pull Requests">👀</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
