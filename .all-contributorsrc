@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "cedarlug",
+      "name": "CedarLUG",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19336442?v=4",
+      "profile": "http://cedarlug.org",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "question",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "LinuxGSM",
+  "projectOwner": "GameServerManagers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
