@@ -144,7 +144,7 @@ fn_update_factorio_compare(){
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="mojang.com"
+remotelocation="factorio.com"
 
 # Game server architecture.
 factorioarch="linux64"
