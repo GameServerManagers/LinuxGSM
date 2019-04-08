@@ -280,6 +280,20 @@ fn_info_config_eco(){
 	fi
 }
 
+fn_info_config_scp(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(grep "Description" "${servercfgdir}/config_gameplay.txt" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxConnections" "${servercfgdir}/config_gameplay.txt" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/MaxConnections//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers=:-"0"}
+	fi
+}
+
 fn_info_config_factorio(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="Factorio Server"
@@ -1176,6 +1190,9 @@ elif [ "${shortname}" == "dst" ]; then
 # Eco
 elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
+# scp
+elif [ "${shortname}" == "scp" ]; then
+	fn_info_config_scp
 # Factorio
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
