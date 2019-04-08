@@ -538,6 +538,9 @@ fn_deps_build_redhat(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
+	# SCP: Secret Laboratory
+	elif [ "${shortname}" == "scp" ]; then
+		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
