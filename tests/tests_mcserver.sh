@@ -6,7 +6,7 @@
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://docs.linuxgsm.com/
 # Website: https://linuxgsm.com
-
+ip -o -4 addr
 travistest="1"
 version="190401"
 shortname="mc"
@@ -773,6 +773,7 @@ echo "================================="
 echo "Description:"
 echo "Inserting Travis IP in to config."
 echo "Allows monitor to work"
+ip -o -4 addr
 travisip=$(ip -o -4 addr|grep eth0|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
 sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
 echo "IP: ${travisip}"
