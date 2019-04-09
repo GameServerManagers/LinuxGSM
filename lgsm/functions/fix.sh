@@ -75,24 +75,24 @@ fi
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
 		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
-		echo ""
-		echo "Applying Post-Install Fixes"
-		echo "================================="
-		sleep 0.5
-		if [ "${shortname}" == "kf" ]; then
-			fix_kf.sh
-		elif [ "${shortname}" == "kf2" ]; then
-			fix_kf2.sh
-		elif [ "${shortname}" == "ro" ]; then
-			fix_ro.sh
-		elif [ "${shortname}" == "ut2k4" ]; then
-			fix_ut2k4.sh
-		elif [ "${shortname}" == "ut" ]; then
-			fix_ut.sh
-		elif [ "${shortname}" == "ut3" ]; then
-			fix_ut3.sh
-		else
-			fn_print_information_nl "No fixes required."
+			echo ""
+			echo "Applying Post-Install Fixes"
+			echo "================================="
+			sleep 0.5
+			if [ "${shortname}" == "kf" ]; then
+				fix_kf.sh
+			elif [ "${shortname}" == "kf2" ]; then
+				fix_kf2.sh
+			elif [ "${shortname}" == "ro" ]; then
+				fix_ro.sh
+			elif [ "${shortname}" == "ut2k4" ]; then
+				fix_ut2k4.sh
+			elif [ "${shortname}" == "ut" ]; then
+				fix_ut.sh
+			elif [ "${shortname}" == "ut3" ]; then
+				fix_ut3.sh
+			else
+				fn_print_information_nl "No fixes required."
+			fi
 		fi
-
 fi
