@@ -658,7 +658,7 @@ echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 echo ""
-echo "3.4 - 30s Pause"
+echo "30s Pause"
 echo "================================="
 echo "Description:"
 echo "give time for server to fully start."
@@ -668,7 +668,7 @@ fn_setstatus
 sleep 30
 
 echo ""
-echo "3.5 - stop"
+echo "3.4 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
@@ -687,7 +687,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "3.6 - stop - offline"
+echo "3.5 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
@@ -706,7 +706,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "3.7 - restart"
+echo "3.6 - restart"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename}."
@@ -725,7 +725,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "3.8 - restart - offline"
+echo "3.7 - restart - offline"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename} while already stopped."
@@ -789,7 +789,7 @@ echo "Server IP - Port: ${ip}:${port}"
 echo "Server IP - Query Port: ${ip}:${queryport}"
 
 echo ""
-echo "5.1 - 30s Pause"
+echo "30s Pause"
 echo "================================="
 echo "Description:"
 echo "give time for server to fully start."
@@ -799,7 +799,7 @@ fn_setstatus
 sleep 60
 
 echo ""
-echo "5.2 - monitor - online"
+echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"
 echo "run monitor server while already running."
@@ -818,7 +818,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "5.3 - monitor - offline - with lockfile"
+echo "5.2 - monitor - offline - with lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with lockfile."
@@ -839,7 +839,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "5.4 - monitor - offline - no lockfile"
+echo "5.3 - monitor - offline - no lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with no lockfile."
@@ -858,7 +858,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "5.5 - test-alert"
+echo "5.4 - test-alert"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with no lockfile."
