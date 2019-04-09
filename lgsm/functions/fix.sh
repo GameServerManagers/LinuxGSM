@@ -61,8 +61,10 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_sdtd.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
+	elif [ "${shortname}" == "tf2" ]; then
+		fix_tf2.sh
 	elif [ "${shortname}" == "ts3" ]; then
-		fix_ts3.sh		
+		fix_ts3.sh
 	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "wurm" ]; then
@@ -72,6 +74,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]
 		echo ""
 		echo "Applying Post-Install Fixes"
 		echo "================================="
@@ -88,8 +91,6 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			fix_ut.sh
 		elif [ "${shortname}" == "ut3" ]; then
 			fix_ut3.sh
-		elif [ "${shortname}" == "tf2" ]; then
-			fix_tf2.sh
 		else
 			fn_print_information_nl "No fixes required."
 		fi
