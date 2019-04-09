@@ -74,7 +74,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
-		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]
+		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 		echo ""
 		echo "Applying Post-Install Fixes"
 		echo "================================="
