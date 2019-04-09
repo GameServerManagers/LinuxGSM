@@ -78,7 +78,7 @@ fn_info_message_performance(){
 		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
 		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
 		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
-	} | column -s $'\t' -t	
+	} | column -s $'\t' -t
 	echo -e ""
 	{
 		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
@@ -737,8 +737,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game\tINBOUND\t${queryport}\tudp"
-		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
