@@ -124,6 +124,7 @@ fn_monitor_check_session(){
 		fn_script_log_info "Monitor is starting ${servername}"
 		sleep 0.5
 		command_restart.sh
+		core_exit.sh
 	fi
 	sleep 0.5
 }
