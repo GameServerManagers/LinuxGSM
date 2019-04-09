@@ -1,4 +1,4 @@
-language: bash node_js
+language: node_js
 dist: xenial
 node_js:
   - 10
