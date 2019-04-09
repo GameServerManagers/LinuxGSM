@@ -39,7 +39,7 @@ if [ "${shortname}" == "ts3" ]; then
 	touch "${executabledir}/.ts3server_license_accepted"
 elif [ "${shortname}" == "mc" ]; then
 	touch "${serverfiles}/eula.txt"
-	sed -i "s/eula=false/eula=true/g" "${serverfiles}/eula.txt"
+	echo "eula=true" > "${serverfiles}/eula.txt"
 elif [ "${shortname}" == "ut" ]; then
 	:
 fi

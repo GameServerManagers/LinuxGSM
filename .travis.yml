@@ -1,4 +1,4 @@
-language: bash node_js
+language: node_js
 dist: xenial
 node_js:
   - 10
@@ -40,6 +40,8 @@ jobs:
     - # stage name not required
       script: bash tests/tests_fctrserver.sh
     - # stage name not required
-      script: bash tests/tests_ts3server.sh
+      script: bash tests/tests_mcserver.sh
     - # stage name not required
-      script: bash tests/tests_shellcheck.sh
+      script: bash tests/tests_ts3server.sh
+    - # retired as codacy does this check.
+      # script: bash tests/tests_shellcheck.sh

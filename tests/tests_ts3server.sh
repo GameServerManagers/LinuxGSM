@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2017 Daniel Gibbs
+# License: MIT License, Copyright (c) 2019 Daniel Gibbs
 # Purpose: Travis CI Tests: Teamspeak 3 | Linux Game Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://docs.linuxgsm.com/
@@ -452,6 +452,14 @@ fn_test_result_fail(){
 	fi
 }
 
+# test result n/a
+fn_test_result_na(){
+	echo "================================="
+	echo "Expected result: N/A"
+	echo "Actual result: N/A"
+	fn_print_fail_nl "TEST N/A"
+}
+
 echo "================================="
 echo "Travis CI Tests"
 echo "Linux Game Server Manager"
@@ -570,7 +578,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "2.0 - Instalation"
+echo "2.0 - Installation"
 echo "=================================================================="
 
 echo ""
