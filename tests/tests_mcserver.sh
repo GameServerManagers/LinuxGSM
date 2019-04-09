@@ -650,9 +650,16 @@ fn_test_result_pass
 echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+echo ""
+echo "3.4 - 30s Pause"
+echo "================================="
+echo "Description:"
+echo "give time for server to fully start."
+echo "Command: sleep 30"
+sleep 30
 
 echo ""
-echo "3.4 - stop"
+echo "3.5 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
@@ -671,7 +678,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "3.5 - stop - offline"
+echo "3.6 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
@@ -690,7 +697,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "3.6 - restart"
+echo "3.7 - restart"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename}."
@@ -709,7 +716,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "3.7 - restart - offline"
+echo "3.8 - restart - offline"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename} while already stopped."
