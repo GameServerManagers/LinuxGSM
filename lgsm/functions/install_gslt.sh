@@ -26,7 +26,7 @@ fn_script_log_info "Get more info and a token here:"
 fn_script_log_info "https://linuxgsm.com/gslt"
 echo ""
 if [ -z "${autoinstall}" ]; then
-	if [ "${gamename}" != "Tower Unite" ]; then
+	if [ "${shortname}" != "tu" ]; then
 		echo "Enter token below (Can be blank)."
 		echo -n "GSLT TOKEN: "
 		read -r token
@@ -38,7 +38,7 @@ if [ -z "${autoinstall}" ]; then
 	fi
 fi
 sleep 0.5
-if [ "${gamename}" == "Tower Unite" ]; then
+if [ "${shortname}" == "tu" ]; then
 	echo "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 else
