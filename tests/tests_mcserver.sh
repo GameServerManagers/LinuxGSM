@@ -768,14 +768,14 @@ echo "Server IP - Port: ${ip}:${port}"
 echo "Server IP - Query Port: ${ip}:${queryport}"
 
 echo ""
-echo "5.1 - 30s Pause"
+echo "5.1 - 60s Pause"
 echo "================================="
 echo "Description:"
 echo "give time for server to fully start."
-echo "Command: sleep 30"
+echo "Command: sleep 60"
 requiredstatus="ONLINE"
 fn_setstatus
-sleep 30
+sleep 60
 
 echo ""
 echo "5.2 - monitor - online"
