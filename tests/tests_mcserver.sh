@@ -775,7 +775,7 @@ echo "Allows monitor to work"
 if [ "$(ip -o -4 addr|grep eth0)" ]; then
 	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
 else
-	ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0
+	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
 fi
 sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
 echo "IP: ${travisip}"
