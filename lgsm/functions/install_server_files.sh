@@ -36,7 +36,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "qw" ]; then
 		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.083116.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
 	elif [ "${shortname}" == "rtcw" ]; then
-		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"	
+		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="https://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${shortname}" == "ut99" ]; then
@@ -50,7 +50,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "wet" ]; then
 		remote_fileurl="https://files.linuxgsm.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	elif [ "${shortname}" == "samp" ]; then
-		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
+		remote_fileurl="http://forum.sa-mp.com/files/03DL/samp03DLsvr_R1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
 	fi
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
