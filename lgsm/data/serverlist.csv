@@ -26,6 +26,7 @@ doi,doiserver,Day of Infamy
 dmc,dmcserver,Deathmatch Classic
 dst,dstserver,Don't Starve Together
 dab,dabserver,Double Action: Boogaloo
+dys,dysserver,Dystopia
 eco,ecoserver,Eco
 em,emserver,Empires Mod
 fctr,fctrserver,Factorio
@@ -48,6 +49,7 @@ l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
+nd,ndserver,Nuclear Dawn
 nmrih,nmrihserver,No More Room in Hell
 ns,nsserver,Natural Selection
 ns2,ns2server,Natural Selection 2

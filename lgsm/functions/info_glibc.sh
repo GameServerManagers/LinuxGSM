@@ -54,6 +54,9 @@ elif [ "${gamename}" == "Day of Infamy" ]; then
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Dystopia" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
 elif [ "${gamename}" == "Eco" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"

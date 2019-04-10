@@ -144,7 +144,7 @@ fn_update_factorio_compare(){
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="mojang.com"
+remotelocation="factorio.com"
 
 # Game server architecture.
 factorioarch="linux64"
@@ -153,6 +153,8 @@ if [ "${branch}" == "stable" ]; then
 	downloadbranch="stable"
 elif [ "${branch}" == "experimental" ]; then
 	downloadbranch="latest"
+else
+	downloadbranch="${branch}"
 fi
 
 if [ "${installer}" == "1" ]; then
