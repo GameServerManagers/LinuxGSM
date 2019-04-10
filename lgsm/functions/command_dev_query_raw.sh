@@ -5,7 +5,7 @@
 # Description: Raw gamedig output of the server.
 
 local commandname="QUERY-RAW"
-local commandaction="QUERY-RAW"
+local commandaction="Query Raw"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="
@@ -55,4 +55,18 @@ if [ "${querystatus}" == "0" ]; then
 	echo "tcp query PASS"
 else
 	echo "tcp query FAIL"
+fi
+
+echo""
+echo "================================="
+echo "udp Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''"
+bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "udp query PASS"
+else
+	echo "udp query FAIL"
 fi

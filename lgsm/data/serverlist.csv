@@ -26,6 +26,7 @@ doi,doiserver,Day of Infamy
 dmc,dmcserver,Deathmatch Classic
 dst,dstserver,Don't Starve Together
 dab,dabserver,Double Action: Boogaloo
+dys,dysserver,Dystopia
 eco,ecoserver,Eco
 em,emserver,Empires Mod
 fctr,fctrserver,Factorio
@@ -38,6 +39,7 @@ hldm,hldmserver,Half-Life: Deathmatch
 hw,hwserver,Hurtworld
 ins,insserver,Insurgency
 inss,inssserver,Insurgency: Sandstorm
+ios,iosserver,IOSoccer
 jc2,jc2server,Just Cause 2
 jc3,jc3server,Just Cause 3
 kf,kfserver,Killing Floor
@@ -47,6 +49,7 @@ l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
+nd,ndserver,Nuclear Dawn
 nmrih,nmrihserver,No More Room in Hell
 ns,nsserver,Natural Selection
 ns2,ns2server,Natural Selection 2
@@ -62,6 +65,7 @@ ql,qlserver,Quake Live
 qw,qwserver,Quake World
 ro,roserver,Red Orchestra: Ostfront 41-45
 ricochet,ricochetserver,Ricochet
+rtcw,rtcwserver,Return to Castle Wolfenstein
 rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer

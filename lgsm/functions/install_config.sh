@@ -55,7 +55,7 @@ fn_default_config_remote(){
 
 # Copys local default config to server config location
 fn_default_config_local(){
-	echo "copying ${servercfgdefault} config file."	
+	echo "copying ${servercfgdefault} config file."
 	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
 	sleep 0.5
 }
@@ -313,6 +313,12 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Dystopia" ]; then
+	gamedirname="Dystopia"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=( server.cfg )
@@ -373,6 +379,12 @@ elif [ "${gamename}" == "Insurgency" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "IOSoccer" ]; then
+	gamedirname="IOSoccer"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	gamedirname="JustCause2"
 	array_configs+=( config.lua )
@@ -423,6 +435,12 @@ elif [ "${gamename}" == "Natural Selection" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	gamedirname="NoMoreRoominHell"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Nuclear Dawn" ]; then
+	gamedirname="NuclearDawn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -483,6 +501,12 @@ elif [ "${gamename}" == "QuakeWorld" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Ricochet" ]; then
 	gamedirname="Ricochet"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+	gamedirname="ReturnToCastleWolfenstein"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote

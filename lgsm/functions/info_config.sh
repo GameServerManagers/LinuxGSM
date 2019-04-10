@@ -318,8 +318,9 @@ fn_info_config_inss(){
 		rconenabled=${rconenabled:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"0"}
-	fi	
+	fi
 }
+
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -329,7 +330,6 @@ fn_info_config_minecraft(){
 		port="${zero}"
 		queryport="${zero}"
 		queryenabled="${unavailable}"
-		rconport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
@@ -338,9 +338,8 @@ fn_info_config_minecraft(){
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport=$(grep "query.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryport="${port}"
 		queryenabled=$(grep "enable-query" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/enable-query//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -354,9 +353,10 @@ fn_info_config_minecraft(){
 		rconport=${rconport:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
+		queryport="${queryport:-"NOT SET"}"
+		queryenabled="${queryenabled:-"NOT SET"}"
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
-
 	fi
 }
 
@@ -586,6 +586,26 @@ fn_info_config_risingworld(){
 		port=${port:-"NOT SET"}
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
+	fi
+}
+
+fn_info_config_rtcw(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 	fi
 }
 
@@ -1198,6 +1218,9 @@ elif [ "${shortname}" == "pz" ]; then
 # ARMA 3
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_config_realvirtuality
+# Return to Castle Wolfenstein
+elif [ "${shortname}" == "rtcw" ]; then
+  fn_info_config_rtcw
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_config_risingworld

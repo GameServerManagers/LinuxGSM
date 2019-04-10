@@ -75,6 +75,12 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
+		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
+		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
+		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
+	} | column -s $'\t' -t
+	echo -e ""
+	{
 		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
@@ -489,7 +495,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -731,8 +737,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game\tINBOUND\t${queryport}\tudp"
-		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -855,6 +861,15 @@ fn_info_message_risingworld(){
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
 		echo -e "> http query\tINBOUND\t${httpqueryport}\ttcp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_rtcw(){
+	echo -e "netstat -atunp | grep iowolfded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1044,7 +1059,7 @@ fn_info_message_unreal(){
 		if [ "${engine}" == "unreal" ]; then
 			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
-		if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
+		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
 			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
 		fi
 		if [ "${appid}" == "215360" ]; then
@@ -1209,7 +1224,7 @@ fn_info_message_select_engine(){
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
 	elif [ "${shortname}" == "sbots" ]; then
-		fn_info_message_sbots	
+		fn_info_message_sbots
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
@@ -1218,6 +1233,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_info_message_mumble
+	elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+		fn_info_message_rtcw
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
 	elif [ "${gamename}" == "Wurm Unlimited" ]; then
