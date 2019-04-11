@@ -495,7 +495,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -1107,6 +1107,15 @@ fn_info_message_unreal3(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_untserver(){
+	echo -e "netstat -atunp | grep Unturned"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp/udp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_kf2(){
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
@@ -1271,6 +1280,8 @@ fn_info_message_select_engine(){
 		fn_info_message_unreal
 	elif [ "${engine}" == "unreal3" ]; then
 		fn_info_message_unreal3
+	elif [ "${gamename}" == "Unturned" ]; then
+		fn_info_message_untserver
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi

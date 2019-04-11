@@ -67,6 +67,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ts3.sh
 	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
+	elif [ "${shortname}" == "unt" ]; then
+		fix_unt.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
 	fi
