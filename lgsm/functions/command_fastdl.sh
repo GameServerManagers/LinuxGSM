@@ -154,7 +154,7 @@ fn_fastdl_preview(){
 	# Garry's Mod
 	if [ "${shortname}" == "gmod" ]; then
 		cd "${systemdir}" || exit
-		allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
+		allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
 		for allowed_extention in "${allowed_extentions_array[@]}"; do
 			fileswc=0
 			tput sc
