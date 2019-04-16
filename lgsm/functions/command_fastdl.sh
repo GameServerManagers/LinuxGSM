@@ -176,7 +176,7 @@ fn_fastdl_preview(){
 				if [ "${directory}" == "maps" ]; then
 					local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
 				elif [ "${directory}" == "materials" ]; then
-					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
 				elif [ "${directory}" == "models" ]; then
 					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 				elif [ "${directory}" == "particles" ]; then
@@ -315,7 +315,7 @@ fn_fastdl_source(){
 			if [ "${directory}" == "maps" ]; then
 				local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
 			elif [ "${directory}" == "materials" ]; then
-				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
 			elif [ "${directory}" == "models" ]; then
 				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 			elif [ "${directory}" == "particles" ]; then
