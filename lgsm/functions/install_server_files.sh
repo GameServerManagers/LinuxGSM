@@ -36,7 +36,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "qw" ]; then
 		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.083116.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
 	elif [ "${shortname}" == "rtcw" ]; then
-		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"	
+		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="https://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${shortname}" == "ut99" ]; then
@@ -137,7 +137,7 @@ fi
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
-	install_minecraft_eula.sh
+	install_eula.sh
 	update_minecraft.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
@@ -148,7 +148,7 @@ elif [ "${shortname}" == "fctr" ]; then
 	install_factorio_save.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
 	if [ "${shortname}" == "ut" ]; then
-		install_unreal_tournament_eula.sh
+		install_eula.sh
 	fi
 	fn_install_server_files
 fi

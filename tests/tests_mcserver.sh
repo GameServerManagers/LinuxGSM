@@ -6,11 +6,10 @@
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://docs.linuxgsm.com/
 # Website: https://linuxgsm.com
-
 travistest="1"
-version="180409"
-shortname="fctr"
-gameservername="fctrserver"
+version="190401"
+shortname="mc"
+gameservername="mcserver"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 servicename="${gameservername}"
@@ -658,6 +657,15 @@ fn_test_result_pass
 echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+echo ""
+echo "30s Pause"
+echo "================================="
+echo "Description:"
+echo "give time for server to fully start."
+echo "Command: sleep 30"
+requiredstatus="ONLINE"
+fn_setstatus
+sleep 30
 
 echo ""
 echo "3.4 - stop"
@@ -759,12 +767,36 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
+echo "Inserting IP address"
+echo "================================="
+echo "Description:"
+echo "Inserting Travis IP in to config."
+echo "Allows monitor to work"
+if [ "$(ip -o -4 addr|grep eth0)" ]; then
+	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+else
+	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+fi
+sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
+echo "IP: ${travisip}"
+
+echo ""
 echo "5.0 - Monitor Tests"
 echo "=================================================================="
-
+info_config.sh
 echo ""
 echo "Server IP - Port: ${ip}:${port}"
 echo "Server IP - Query Port: ${ip}:${queryport}"
+
+echo ""
+echo "30s Pause"
+echo "================================="
+echo "Description:"
+echo "give time for server to fully start."
+echo "Command: sleep 30"
+requiredstatus="ONLINE"
+fn_setstatus
+sleep 60
 
 echo ""
 echo "5.1 - monitor - online"
@@ -965,6 +997,20 @@ fn_test_result_pass
 echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+
+echo ""
+echo "Inserting IP address"
+echo "================================="
+echo "Description:"
+echo "Inserting Travis IP in to config."
+echo "Allows monitor to work"
+if [ "$(ip -o -4 addr|grep eth0)" ]; then
+	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+else
+	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+fi
+sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
+echo "IP: ${travisip}"
 
 echo ""
 echo "8.4 - dev - query-raw"

@@ -357,6 +357,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_tf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ut3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -565,6 +570,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -581,16 +591,6 @@ fn_fetch_function
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_minecraft_eula.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_unreal_tournament_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
