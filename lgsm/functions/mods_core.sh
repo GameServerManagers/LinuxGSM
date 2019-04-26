@@ -6,7 +6,7 @@
 # Description: Core functions for mods list/install/update/remove
 
 local commandname="MODS"
-local commandaction="addons/mods"
+local commandaction="Mods"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories
@@ -37,23 +37,23 @@ fn_mod_install_files(){
 fn_mod_lowercase(){
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
 
-		echo -ne "converting ${modprettyname} files to lowercase..."
+		echo -en "converting ${modprettyname} files to lowercase..."
 		sleep 0.5
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
 		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
-			dst=$(dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]')
+			dst=$(dirname "${src}"$(/)basename "${src}" | tr 'A-Z' 'a-z')
 			if [ "${src}" != "${dst}" ]
 			then
 				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo "${src} was not renamed"
 				local exitcode=$?
 				((renamedwc++))
 			fi
-			echo -ne "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..." $'\r'
+			echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..." $'\r'
 			((totalfileswc++))
 		done < <(find "${extractdir}" -depth)
-		echo -ne "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
+		echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
 
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -67,7 +67,7 @@ fn_mod_lowercase(){
 
 # Create ${modcommand}-files.txt containing the full extracted file/directory list
 fn_mod_create_filelist(){
-	echo -ne "building ${modcommand}-files.txt..."
+	echo -en "building ${modcommand}-files.txt..."
 	sleep 0.5
 	# ${modsdir}/${modcommand}-files.txt
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
@@ -89,7 +89,7 @@ fn_mod_create_filelist(){
 
 # Copy the mod into serverfiles
 fn_mod_copy_destination(){
-	echo -ne "copying ${modprettyname} to ${modinstalldir}..."
+	echo -en "copying ${modprettyname} to ${modinstalldir}..."
 	sleep 0.5
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	local exitcode=$?
@@ -115,7 +115,7 @@ fn_mod_tidy_files_list(){
 	# Check file list validity
 	fn_check_mod_files_list
 	# Output to the user
-	echo -ne "tidy up ${modcommand}-files.txt..."
+	echo -en "tidy up ${modcommand}-files.txt..."
 	sleep 0.5
 	fn_script_log_info "Tidy up ${modcommand}-files.txt"
 	# Lines/files to remove from file list (end with ";" separator)
@@ -179,7 +179,6 @@ fn_mod_get_info(){
 	if [ "${modinfocommand}" == "0" ]; then
 		fn_script_log_error "Could not find information for ${currentmod}"
 		fn_print_error_nl "Could not find information for ${currentmod}"
-		exitcode="1"
 		core_exit.sh
 	fi
 }
@@ -385,7 +384,7 @@ fn_mods_create_tmp_dir(){
 	if [ ! -d "${modstmpdir}" ]; then
 		mkdir -p "${modstmpdir}"
 		exitcode=$?
-		echo -ne "creating mod download directory ${modstmpdir}..."
+		echo -en "creating mod download directory ${modstmpdir}..."
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod download directory ${modstmpdir}"
@@ -400,7 +399,7 @@ fn_mods_create_tmp_dir(){
 # Remove the tmp mod download directory when finished
 fn_mods_clear_tmp_dir(){
 	if [ -d "${modstmpdir}" ]; then
-		echo -ne "clearing mod download directory ${modstmpdir}..."
+		echo -en "clearing mod download directory ${modstmpdir}..."
 		rm -r "${modstmpdir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then

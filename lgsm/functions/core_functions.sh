@@ -51,6 +51,12 @@ fn_fetch_function
 
 # Commands
 
+
+command_backup.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_console.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -61,22 +67,22 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_postdetails.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_test_alert.sh(){
+command_donate.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_backup.sh(){
+command_postdetails.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_test_alert.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -316,12 +322,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-
 fix_kf.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -357,6 +357,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_tf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ut3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -367,12 +372,32 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ss3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ts3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ut2k4.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
 fix_ut.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_wurm.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -545,6 +570,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -561,16 +591,6 @@ fn_fetch_function
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_minecraft_eula.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_unreal_tournament_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

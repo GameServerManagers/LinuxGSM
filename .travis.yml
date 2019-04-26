@@ -1,14 +1,14 @@
-language: bash
-dist: trusty
-sudo: required
+language: node_js
+dist: xenial
+node_js:
+  - 10
 
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
-
+install:
+  npm install gamedig
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
     - mailutils
     - postfix
@@ -40,6 +40,8 @@ jobs:
     - # stage name not required
       script: bash tests/tests_fctrserver.sh
     - # stage name not required
-      script: bash tests/tests_ts3server.sh
+      script: bash tests/tests_mcserver.sh
     - # stage name not required
-      script: bash tests/tests_shellcheck.sh
+      script: bash tests/tests_ts3server.sh
+    - # retired as codacy does this check.
+      # script: bash tests/tests_shellcheck.sh

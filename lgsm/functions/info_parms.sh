@@ -31,6 +31,7 @@ fn_info_parms_cod(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_dst(){
@@ -45,11 +46,20 @@ fn_info_parms_eco(){
 	queryport=${webadminport}
 }
 
-
 fn_info_parms_factorio(){
 	port=${port:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
+}
+
+fn_info_parms_inss(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	defaultmap=${defaultmap:-"NOT SET"}
+	defaultscenario=${defaultscenario:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
 }
 
 fn_info_parms_hurtworld(){
@@ -67,6 +77,7 @@ fn_info_parms_projectzomboid(){
 
 fn_info_parms_quakeworld(){
 	port=${port:-"0"}
+	queryport=${port}
 }
 
 fn_info_parms_quake2(){
@@ -80,6 +91,12 @@ fn_info_parms_risingworld(){
 	queryport=${port}
 	httpqueryport=$((port - 1))
 
+}
+
+fn_info_parms_rtcw(){
+	port=${port:-"0"}
+	queryport="${port}"
+	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 fn_info_parms_rust(){
@@ -115,6 +132,15 @@ fn_info_parms_spark(){
 	mods=${mods:-"NOT SET"}
 }
 
+fn_info_parms_stickybots(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	defaultmap=${defaultmap:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
+}
+
 fn_info_config_towerunite(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
@@ -144,44 +170,51 @@ fn_info_parms_kf2(){
 }
 
 # ARK: Survival Evolved
-if [ "${gamename}" == "ARK: Survival Evolved" ]; then
+if [ "${shortname}" == "ark" ]; then
 	fn_info_parms_ark
 # ARMA 3
-elif [ "${engine}" == "realvirtuality" ]; then
+elif [ "${shortname}" == "arma3" ]; then
 	fn_info_parms_realvirtuality
 # Call of Duty
-elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
+elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
 # Eco
-elif [ "${gamename}" == "Eco" ]; then
+elif [ "${shortname}" == "eco" ]; then
 	fn_info_parms_eco
 # Factorio
-elif [ "${gamename}" == "Factorio" ]; then
+elif [ "${shortname}" == "fctr" ]; then
 	fn_info_parms_factorio
+elif [ "${shortname}" == "inss" ]; then
+	fn_info_parms_inss
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
 # Project Zomboid
-elif [ "${engine}" == "projectzomboid" ]; then
+elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid
-elif [ "${gamename}" == "QuakeWorld" ]; then
+elif [ "${shortname}" == "qw" ]; then
 	fn_info_parms_quakeworld
-elif [ "${gamename}" == "Quake 2" ]||[ "${gamename}" == "Quake 3: Arena" ]; then
+elif [ "${shortname}" == "q2" ]||[ "${shortname}" == "q3" ]; then
 	fn_info_parms_quake2
+elif [ "${shortname}" == "rtcw" ]; then
+	fn_info_parms_rtcw
 # Rust
-elif [ "${gamename}" == "Rust" ]; then
+elif [ "${shortname}" == "rust" ]; then
 	fn_info_parms_rust
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_risingworld
+# Sticky Bots
+elif [ "${shortname}" == "sbots" ]; then
+	fn_info_parms_stickybots
 # Serious Sam
-elif [ "${engine}" == "seriousengine35" ]; then
+elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_parms_source
 # Spark
 elif [ "${engine}" == "spark" ]; then
 	fn_info_parms_spark
-elif [ "${gamename}" == "Tower Unite" ]; then
+elif [ "${shortname}" == "tu" ]; then
 	fn_info_config_towerunite
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then

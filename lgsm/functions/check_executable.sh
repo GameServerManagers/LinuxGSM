@@ -2,18 +2,18 @@
 # LinuxGSM check_executable.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Checks if executable exists.
+# Description: Checks if server executable exists.
 
 local commandname="CHECK"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists
 if [ ! -f "${executabledir}/${execname}" ]; then
-	fn_script_log_warn "Executable was not found: ${executabledir}/${execname}"
+	fn_print_fail_nl "executable was not found"
+	echo "* ${executabledir}/${execname}"
 	if [ -d "${lgsmlogdir}" ]; then
-		fn_print_fail_nl "Executable was not found:"
-		echo " * ${executabledir}/${execname}"
+		fn_script_log_fatal "Executable was not found: ${executabledir}/${execname}"
 	fi
-	exitcode="1"
+	unset exitbypass
 	core_exit.sh
 fi

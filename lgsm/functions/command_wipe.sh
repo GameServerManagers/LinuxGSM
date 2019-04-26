@@ -6,7 +6,7 @@
 # Description: Wipes server data, useful after updates for some games like Rust
 
 local commandname="WIPE"
-local commandaction="data wipe"
+local commandaction="Wipe"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
@@ -43,7 +43,7 @@ fn_wipe_exit_code(){
 # Removes files to wipe server
 fn_wipe_server_remove_files(){
 	# Rust Wipe
-	if [ "${gamename}" == "Rust" ]; then
+	if [ "${shortname}" == "rust" ]; then
 		# Wipe pocedural map
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
 			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.map"
@@ -188,7 +188,7 @@ fn_wipe_server_remove_files(){
 
 # Check if there is something to wipe, prompt the user, and call appropriate functions
 # Rust Wipe
-if [ "${gamename}" == "Rust" ]; then
+if [ "${shortname}" == "rust" ]; then
 	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
 		if ! fn_prompt_yn "Continue?" Y; then

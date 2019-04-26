@@ -20,6 +20,7 @@ cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the serve
 cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
+cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
 # Console servers only
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
@@ -51,6 +52,7 @@ cmd_dev_detect_ldd=( "dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect require
 cmd_dev_query_raw=( "qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery." )
 cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" "Delete the contents of the functions dir." )
 
+
 ### Set specific opt here ###
 
 currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
@@ -59,10 +61,10 @@ currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monit
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here
-if [ "${gamename}" != "Battlefield: 1942" ]&&[ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${gamename}" != "San Andreas Multiplayer" ]; then
+if [ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${shortname}" != "bf1942" ]&&[ "${shortname}" != "samp" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA
-	if [ -n "${appid}" ]||[ "${gamename}" == "Multi Theft Auto" ]; then
+	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
@@ -76,7 +78,7 @@ fi
 currentopt+=( "${cmd_backup[@]}" )
 
 # Exclude games without a console
-if [ "${gamename}" != "TeamSpeak 3" ]; then
+if [ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 fi
 
@@ -88,16 +90,16 @@ if [ "${engine}" == "source" ]; then
 fi
 
 # TeamSpeak exclusive
-if [ "${gamename}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	currentopt+=( "${cmd_change_password[@]}" )
 fi
 
 # Unreal exclusive
-if [ "${gamename}" == "Rust" ]; then
+if [ "${shortname}" == "rust" ]; then
 	currentopt+=( "${cmd_wipe[@]}" "${cmd_wipeall[@]}" )
 fi
 if [ "${engine}" == "unreal2" ]; then
-	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	if [ "${shortname}" == "ut2k4" ]; then
 		currentopt+=( "${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}" )
 	else
 		currentopt+=( "${cmd_map_compressor_u2[@]}" )
@@ -108,22 +110,22 @@ if [ "${engine}" == "unreal" ]; then
 fi
 
 # DST exclusive
-if [ "${gamename}" == "Don't Starve Together" ]; then
+if [ "${shortname}" == "dst" ]; then
 	currentopt+=( "${cmd_install_dst_token[@]}" )
 fi
 
 # MTA exclusive
-if [ "${gamename}" == "Multi Theft Auto" ]; then
+if [ "${shortname}" == "mta" ]; then
 	currentopt+=( "${cmd_install_default_resources[@]}" )
 fi
 
 # Squad license exclusive
-if [ "${gamename}" == "Squad" ]; then
+if [ "${shortname}" == "squad" ]; then
 	currentopt+=( "${cmd_install_squad_license[@]}" )
 fi
 
 ## Mods commands
-if [ "${engine}" == "source" ]||[ "${gamename}" == "Rust" ]||[ "${gamename}" == "Hurtworld" ]||[ "${gamename}" == "7 Days To Die" ]; then
+if [ "${engine}" == "source" ]||[ "${shortname}" == "rust" ]||[ "${shortname}" == "hq" ]||[ "${shortname}" == "sdtd" ]; then
 	currentopt+=( "${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}" )
 fi
 
@@ -135,6 +137,9 @@ currentopt+=( "${cmd_dev_debug[@]}" )
 if [ -f ".dev-debug" ]; then
 	currentopt+=( "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_functions[@]}" )
 fi
+
+## Donate
+currentopt+=( "${cmd_donate[@]}" )
 
 ### Build list of available commands
 optcommands=()
@@ -150,7 +155,7 @@ done
 fn_opt_usage(){
 	echo "Usage: $0 [option]"
 	echo -e ""
-	echo "${gamename} - Linux Game Server Manager - Version ${version}"
+	echo "LinuxGSM - ${gamename} - Version ${version}"
 	echo "https://linuxgsm.com/${gameservername}"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"

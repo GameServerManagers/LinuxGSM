@@ -10,7 +10,11 @@ fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
 		fn_print_dots "Adding Mono repository"
 		sleep 0.5
-		sudo -v > /dev/null 2>&1
+		if [ "${autoinstall}" == "1" ]; then
+			sudo -n true > /dev/null 2>&1
+		else
+			sudo -v > /dev/null 2>&1
+		fi
 		if [ $? -eq 0 ]; then
 			fn_print_info_nl "Automatically adding Mono repository."
 			fn_script_log_info "Automatically adding Mono repository."
@@ -95,6 +99,43 @@ fn_install_mono_repo(){
 	fi
 }
 
+fn_install_universe_repo(){
+	# Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu
+   if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
+		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
+		fn_print_information_nl "Attempting to add Universe Repo"
+		sleep 0.5
+		if [ "${autoinstall}" == "1" ]; then
+			sudo -n true > /dev/null 2>&1
+		else
+			sudo -v > /dev/null 2>&1
+		fi
+		if [ $? -eq 0 ]; then
+			echo -en ".\r"
+			sleep 1
+			echo -en "..\r"
+			sleep 1
+			echo -en "...\r"
+			sleep 1
+			echo -en "   \r"
+			cmd="sudo apt-add-repository universe"
+			eval ${cmd}
+			if [ $? -eq 0 ]; then
+				fn_print_complete_nl "Installing universe repository completed."
+				fn_script_log_pass "Installing universe repository completed."
+			else
+				fn_print_failure_nl "Unable to install universe repository."
+				fn_script_log_fatal "Unable to install universe repository."
+			fi
+		else
+			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Universe repository."
+			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Universe repository."
+			echo "	Please run the following command as a user with sudo access, and re-run the installation"
+			echo "	sudo apt-add-repository universe"
+		fi
+	fi
+}
+
 fn_deps_detector(){
 	# Checks if dependency is missing
 	if [ "${tmuxcheck}" == "1" ]; then
@@ -109,6 +150,11 @@ fn_deps_detector(){
 		unset javacheck
 	elif [ "${deptocheck}" == "jq" ]&&[ "${distroversion}" == "6" ]; then
 		jqstatus=1
+	elif [ "${deptocheck}" == "jq" ]&&[ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]&& ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
+		#1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
+		#If the universe repo does not exist, mark as dependency missing and universe missing
+		depstatus=1
+		jquniversemissing=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
 		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed
@@ -179,19 +225,22 @@ fn_deps_email(){
 
 fn_found_missing_deps(){
 	if [ "${#array_deps_missing[@]}" != "0" ]; then
-		fn_print_dots "Checking dependencies"
-		sleep 0.5
-		fn_print_error_nl "Checking dependencies: missing: ${red}${array_deps_missing[@]}${default}"
-		fn_script_log_error "Checking dependencies: missing: ${array_deps_missing[@]}"
+
+		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[@]}${default}"
+		fn_script_log_warn "Missing dependencies: ${array_deps_missing[@]}"
 		sleep 0.5
 		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
 		fi
 		if [ -n "${jqstatus}" ]; then
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
-			echo "	* https://github.com/GameServerManagers/LinuxGSM/wiki/jq"
+			echo "	* https://docs.linuxgsm.com/requirements/jq"
 		fi
-		sudo -v > /dev/null 2>&1
+		if [ "${autoinstall}" == "1" ]; then
+			sudo -n true > /dev/null 2>&1
+		else
+			sudo -v > /dev/null 2>&1
+		fi
 		if [ $? -eq 0 ]; then
 			fn_print_information_nl "Automatically installing missing dependencies."
 			fn_script_log_info "Automatically installing missing dependencies."
@@ -256,6 +305,11 @@ fn_found_missing_deps(){
 		fi
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			sleep 5
+		fi
+	else
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			fn_print_information_nl "Required dependencies already installed"
+			fn_script_log_info "Required dependencies already installed"
 		fi
 	fi
 }
@@ -355,6 +409,9 @@ fn_deps_build_debian(){
 	# Serious Sam 3: BFE
 	elif [ "${shortname}" == "ss3" ]; then
 		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
+	# Sven Co-op
+	elif [ "${shortname}" == "sven" ]; then
+		array_deps_required+=( libssl1.0.0:i386 zlib1g:i386 )
 	# Unreal Engine
 	elif [ "${executable}" == "./ucc-bin" ]; then
 		#UT2K4
@@ -370,6 +427,9 @@ fn_deps_build_debian(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
+	# Wurm: Unlimited
+	elif [ "${shortname}" == "wurm" ]; then
+		array_deps_required+=( xvfb )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -382,7 +442,9 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements
 	## CentOS 6
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+	elif [ "${distroversion}" == "7" ]; then
+		array_deps_required=( epel-release curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
 			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
@@ -426,7 +488,7 @@ fn_deps_build_redhat(){
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl.i686 )
-		if [ "${gamename}" == "Team Fortress 2" ]; then
+		if [ "${shortname}" == "tf2" ]; then
 			array_deps_required+=( gperftools-libs.i686 )
 		fi
 	# Battlefield: 1942
@@ -482,9 +544,18 @@ fn_deps_build_redhat(){
 }
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
-	echo ""
-	echo "Checking Dependencies"
-	echo "================================="
+	if [ "$(whoami)" == "root" ]; then
+		echo ""
+		echo "Checking Dependencies as root"
+		echo "================================="
+		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
+		fn_print_information_nl "This will NOT install a ${gamename} server."
+		sleep 2
+	else
+		echo ""
+		echo "Checking Dependencies"
+		echo "================================="
+	fi
 fi
 
 # Filter checking in to Debian or Red Hat Based
