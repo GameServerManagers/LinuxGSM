@@ -8,7 +8,7 @@ local commandname="CHECK"
 
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
-		fn_print_dots "Adding Mono repository"
+		fn_print_dots "Installing Mono repository"
 		sleep 0.5
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
@@ -16,8 +16,8 @@ fn_install_mono_repo(){
 			sudo -v > /dev/null 2>&1
 		fi
 		if [ $? -eq 0 ]; then
-			fn_print_info_nl "Automatically adding Mono repository."
-			fn_script_log_info "Automatically adding Mono repository."
+			fn_print_info_nl "Installing Mono repository"
+			fn_script_log_info "Automatically installing Mono repository."
 			echo -en ".\r"
 			sleep 1
 			echo -en "..\r"
@@ -37,6 +37,9 @@ fn_install_mono_repo(){
 					eval ${cmd}
 				else
 					fn_print_warn_nl "Installing Mono repository"
+					fn_script_log_info "Mono auto install not available for ${distroname}."
+					fn_script_log_info "Follow instructions on mono site to install the latest version of Mono."
+					fn_script_log_info "https://www.mono-project.com/download/stable/#download-lin"
 					echo "Mono auto install not available for ${distroname}"
 					echo "	Follow instructions on mono site to install the latest version of Mono."
 					echo "	https://www.mono-project.com/download/stable/#download-lin"
@@ -50,6 +53,10 @@ fn_install_mono_repo(){
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval ${cmd}
 				else
+					fn_print_warn_nl "Installing Mono repository"
+					fn_script_log_info "Mono auto install not available for ${distroname}."
+					fn_script_log_info "Follow instructions on mono site to install the latest version of Mono."
+					fn_script_log_info "https://www.mono-project.com/download/stable/#download-lin"
 					echo "Mono auto install not available for ${distroname}"
 					echo "	Follow instructions on mono site to install the latest version of Mono."
 					echo "	https://www.mono-project.com/download/stable/#download-lin"
@@ -63,6 +70,10 @@ fn_install_mono_repo(){
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos6-stable.repo | tee /etc/yum.repos.d/mono-centos6-stable.repo'"
 					eval ${cmd}
 				else
+					fn_print_warn_nl "Installing Mono repository"
+					fn_script_log_info "Mono auto install not available for ${distroname}."
+					fn_script_log_info "Follow instructions on mono site to install the latest version of Mono."
+					fn_script_log_info "https://www.mono-project.com/download/stable/#download-lin"
 					echo "Mono auto install not available for ${distroname}"
 					echo "	Follow instructions on mono site to install the latest version of Mono."
 					echo "	https://www.mono-project.com/download/stable/#download-lin"
@@ -72,6 +83,10 @@ fn_install_mono_repo(){
 				cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
 				eval ${cmd}
 			else
+				fn_print_warn_nl "Installing Mono repository"
+				fn_script_log_info "Mono auto install not available for ${distroname}."
+				fn_script_log_info "Follow instructions on mono site to install the latest version of Mono."
+				fn_script_log_info "https://www.mono-project.com/download/stable/#download-lin"
 				echo "Mono auto install not available for ${distroname}"
 				echo "	Follow instructions on mono site to install the latest version of Mono."
 				echo "	https://www.mono-project.com/download/stable/#download-lin"
@@ -79,19 +94,19 @@ fn_install_mono_repo(){
 			fi
 			if [ "${monoautoinstall}" != "1" ];then
 				if [ $? != 0 ]; then
-					fn_print_failure_nl "Unable to install Mono repository."
-					fn_script_log_fatal "Unable to installMono repository."
+					fn_print_error_nl "Unable to install Mono repository"
+					fn_script_log_error "Unable to installMono repository."
 					monoautoinstall=1
 				else
-					fn_print_complete_nl "Installing Mono repository completed."
+					fn_print_pass_nl "Installing Mono repository completed"
 					fn_script_log_pass "Installing Mono repository completed."
 					monoautoinstall=0
 				fi
 			fi
 		else
-			fn_print_information_nl "Installing Mono repository"
+			fn_print_warn_nl "Installing Mono repository"
 			echo ""
-			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install Mono repository."
+			echo "$(whoami) does not have sudo access. Manually install Mono repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install Mono repository."
 			echo "	Follow instructions on mono site to install the latest version of Mono."
 			echo "	https://www.mono-project.com/download/stable/#download-lin"
