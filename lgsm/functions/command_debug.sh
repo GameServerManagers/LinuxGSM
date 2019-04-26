@@ -104,6 +104,8 @@ elif [ "${engine}" == "realvirtuality" ]; then
 	# be escaped for regular (tmux) loading, but need to be
 	# stripped when loading straight from the console.
 	${executable} ${parms//\\;/;}
+elif [ "${engine}" == "quake" ]; then
+    ${executable} ${parms} -condebug
 else
 	${executable} ${parms}
 fi

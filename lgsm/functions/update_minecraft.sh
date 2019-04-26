@@ -63,7 +63,7 @@ fn_update_minecraft_localbuild(){
 				fn_script_log_error "Set localbuild to 0"
 				sleep 0.5
 			fi
-			
+
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
@@ -74,23 +74,22 @@ fn_update_minecraft_localbuild(){
 
 	if [ -z "${localbuild}" ]; then
 		# Gives time for var to generate.
-		end=$((SECONDS+120))
 		totalseconds=0
-		while [ "${SECONDS}" -lt "${end}" ]; do
+		for seconds in {1..120}; do
 			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
 			if [ -z "${loopignore}" ]; then
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
-			fi		
-			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}') grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
-			if [ "${localbuild}" ]; then
+			fi
+			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
 				break
 			fi
 			sleep 1
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
-	
+
 	if [ -z "${localbuild}" ]; then
 		localbuild="0"
 		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
@@ -126,7 +125,7 @@ fn_update_minecraft_remotebuild(){
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
-	fi	
+	fi
 }
 
 fn_update_minecraft_compare(){

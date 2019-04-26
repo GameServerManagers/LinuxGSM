@@ -313,6 +313,12 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Dystopia" ]; then
+	gamedirname="Dystopia"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=( server.cfg )
@@ -429,6 +435,12 @@ elif [ "${gamename}" == "Natural Selection" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	gamedirname="NoMoreRoominHell"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Nuclear Dawn" ]; then
+	gamedirname="NuclearDawn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote

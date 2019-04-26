@@ -90,7 +90,7 @@ if [ "${engine}" == "source" ]; then
 fi
 
 # TeamSpeak exclusive
-if [ "${shortname}" != "ts3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	currentopt+=( "${cmd_change_password[@]}" )
 fi
 
