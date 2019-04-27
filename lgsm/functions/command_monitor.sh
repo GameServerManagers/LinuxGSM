@@ -19,7 +19,12 @@ for queryattempt in {1..5}; do
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	sleep 0.5
-	if [ "${querymethod}" ==  "gamedig" ]; then
+	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "1 mins ago")" ]]; then
+		fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
+		fn_print_bypass_eol
+		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : BYPASS"
+		sleep 0.5
+	elif [ "${querymethod}" ==  "gamedig" ]; then
 		query_gamedig.sh
 	elif [ "${querymethod}" ==  "gsquery" ]; then
 		if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
@@ -194,14 +199,21 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
-# Query has to be enabled in Starbound config.
-if [ "${shortname}" == "sb" ]; then
-	if [ "${queryenabled}" == "true" ]; then
+
+# Fix if lockfile is not unix time or contains letters
+if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
+    date '+%s' > "${rootdir}/${lockselfname}"
+fi
+
+	# Query has to be enabled in Starbound config.
+	if [ "${shortname}" == "sb" ]; then
+		if [ "${queryenabled}" == "true" ]; then
+			fn_monitor_query
+		fi
+	elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
+		fn_monitor_query_tcp
+	else
 		fn_monitor_query
 	fi
-elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
-	fn_monitor_query_tcp
-else
-	fn_monitor_query
-fi
+
 core_exit.sh

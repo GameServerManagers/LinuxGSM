@@ -359,6 +359,15 @@ fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
 }
 
+# BYPASS
+fn_print_bypass_eol(){
+	echo -en "${green}BYPASS${default}"
+}
+
+fn_print_bypass_eol_nl(){
+	echo -e "${green}BYPASS${default}"
+}
+
 # CANCELED
 fn_print_canceled_eol(){
 	echo -en "${yellow}CANCELED${default}"
