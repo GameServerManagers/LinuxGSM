@@ -20,10 +20,13 @@ for queryattempt in {1..5}; do
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	sleep 0.5
 	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "1 mins ago")" ]]; then
-		fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
+		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_bypass_eol
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : BYPASS"
+		fn_script_log_info "${gameservername} started less than 1 minute ago"
 		sleep 0.5
+		monitorpass=1
+		core_exit.sh
 	elif [ "${querymethod}" ==  "gamedig" ]; then
 		query_gamedig.sh
 	elif [ "${querymethod}" ==  "gsquery" ]; then
