@@ -19,11 +19,11 @@ for queryattempt in {1..5}; do
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	sleep 0.5
-	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "1 mins ago")" ]]; then
+	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "${querybypass} mins ago")" ]]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_bypass_eol
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : BYPASS"
-		fn_script_log_info "${gameservername} started less than 1 minute ago"
+		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querybypass} minute ago"
 		sleep 0.5
 		monitorpass=1
 		core_exit.sh
@@ -206,6 +206,11 @@ fn_monitor_check_session
 # Fix if lockfile is not unix time or contains letters
 if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
     date '+%s' > "${rootdir}/${lockselfname}"
+fi
+
+# Add a query bypass if missing
+if [ -z "${querybypass}" ]; then
+	querybypass="1"
 fi
 
 	# Query has to be enabled in Starbound config.
