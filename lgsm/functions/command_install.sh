@@ -32,7 +32,7 @@ else
 
 	# Configuration
 	install_config.sh
-	if [ ! -v "${gslt}" ]; then
+	if [ -v "${gslt}" ]; then
 		install_gslt.sh
 	elif [ "${shortname}" == "dst" ]; then
 		install_dst_token.sh
