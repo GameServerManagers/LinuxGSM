@@ -359,13 +359,13 @@ fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
 }
 
-# BYPASS
-fn_print_bypass_eol(){
-	echo -en "${green}BYPASS${default}"
+# DELAY
+fn_print_delay_eol(){
+	echo -en "${green}DELAY${default}"
 }
 
-fn_print_bypass_eol_nl(){
-	echo -e "${green}BYPASS${default}"
+fn_print_delay_eol_nl(){
+	echo -e "${green}DELAY${default}"
 }
 
 # CANCELED

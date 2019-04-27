@@ -19,11 +19,11 @@ for queryattempt in {1..5}; do
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	sleep 0.5
-	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "${querybypass} mins ago")" ]]; then
+	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "${querydelay} mins ago")" ]]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_bypass_eol
-		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : BYPASS"
-		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querybypass} minute ago"
+		fn_print_delay_eol
+		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
+		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minute ago"
 		sleep 0.5
 		monitorpass=1
 		core_exit.sh
@@ -209,8 +209,8 @@ if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
 fi
 
 # Add a query bypass if missing
-if [ -z "${querybypass}" ]; then
-	querybypass="1"
+if [ -z "${querydelay}" ]; then
+	querydelay="1"
 fi
 
 	# Query has to be enabled in Starbound config.
