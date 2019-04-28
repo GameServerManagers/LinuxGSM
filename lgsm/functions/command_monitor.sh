@@ -30,6 +30,9 @@ for queryattempt in {1..5}; do
 	elif [ "${querymethod}" ==  "tcp" ]; then
 		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 		querystatus="$?"
+	elif [ "${querymethod}" ==  "udp" ]; then
+		bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
+		querystatus="$?"
 	fi
 
 	if [ "${querystatus}" == "0" ]; then
@@ -172,6 +175,11 @@ fn_monitor_query(){
 
 fn_monitor_query_tcp(){
 	querymethod="tcp"
+	fn_monitor_loop
+}
+
+fn_monitor_query_upd(){
+	querymethod="upd"
 	fn_monitor_loop
 }
 
