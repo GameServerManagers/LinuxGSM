@@ -99,6 +99,16 @@
         "ideas",
         "review"
       ]
+    },
+    {
+      "login": "borzaka",
+      "name": "Attila",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1230402?v=4",
+      "profile": "https://github.com/borzaka",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
