@@ -1112,7 +1112,8 @@ fn_info_message_unturned(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
