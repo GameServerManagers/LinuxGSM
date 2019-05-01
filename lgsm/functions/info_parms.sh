@@ -167,7 +167,7 @@ fn_info_parms_unreal3(){
 fn_info_parms_unturned(){
 	servername=${servicename:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${queryport}
+	queryport=${port}
 }
 fn_info_parms_kf2(){
 	queryport=${queryport:-"0"}
