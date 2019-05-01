@@ -20,8 +20,8 @@ fn_update_steamcmd_dl(){
 	cd "${steamcmddir}" || exit
 	if [ "${appid}" == "90" ]; then
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
-	elif [ "${gamename}" == "Unturned" ]; then
-		${unbuffer} ./steamcmd.sh ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
+	elif [ "${shortname}" == "unt" ]; then
+		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
 	fi
@@ -75,7 +75,7 @@ fn_update_steamcmd_remotebuild(){
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
-	fi	
+	fi
 }
 
 fn_update_steamcmd_compare(){
@@ -136,7 +136,7 @@ fn_update_steamcmd_compare(){
 		if [ -v "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
-		echo -e "https://steamdb.info/app/${appid}/"	
+		echo -e "https://steamdb.info/app/${appid}/"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"

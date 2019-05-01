@@ -1107,7 +1107,7 @@ fn_info_message_unreal3(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_untserver(){
+fn_info_message_unturned(){
 	echo -e "netstat -atunp | grep Unturned"
 	echo -e ""
 	{
@@ -1238,6 +1238,8 @@ fn_info_message_select_engine(){
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
 		fn_info_message_towerunite
+	elif [ "${shortname}" == "unt" ]; then
+		fn_info_message_unturned
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
@@ -1280,8 +1282,6 @@ fn_info_message_select_engine(){
 		fn_info_message_unreal
 	elif [ "${engine}" == "unreal3" ]; then
 		fn_info_message_unreal3
-	elif [ "${gamename}" == "Unturned" ]; then
-		fn_info_message_untserver
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi

@@ -227,6 +227,6 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 # Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
-elif [ "${shortname}" == "untserver" ]; then
+elif [ "${shortname}" == "unt" ]; then
 	fn_info_parms_untserver
 fi
