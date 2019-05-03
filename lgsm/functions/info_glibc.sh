@@ -166,7 +166,7 @@ elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"
 	glibcfix="no"
 elif [ "${gamename}" == "Unturned" ]; then
-	glibcrequired="NOT REQUIRED"
+	glibcrequired="2.15"
 	glibcfix="no"
 elif [ "${gamename}" == "Zombie Panic! Source" ]; then
 	glibcrequired="2.15"
