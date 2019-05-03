@@ -495,7 +495,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -1107,6 +1107,16 @@ fn_info_message_unreal3(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_unturned(){
+	echo -e "netstat -atunp | grep Unturned"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_kf2(){
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
@@ -1229,6 +1239,8 @@ fn_info_message_select_engine(){
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
 		fn_info_message_towerunite
+	elif [ "${shortname}" == "unt" ]; then
+		fn_info_message_unturned
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
