@@ -146,6 +146,11 @@ fn_info_config_towerunite(){
 	queryport=${queryport:-"0"}
 }
 
+fn_info_config_mordhau(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+}
+
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	queryport=$((port + 1))
@@ -216,6 +221,8 @@ elif [ "${engine}" == "spark" ]; then
 	fn_info_parms_spark
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_config_towerunite
+elif [ "${shortname}" == "mh" ]; then
+	fn_info_config_mordhau
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
