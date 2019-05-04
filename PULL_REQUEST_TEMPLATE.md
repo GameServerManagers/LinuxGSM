@@ -10,7 +10,7 @@ Fixes #[issue]
 * [ ] New feature (change which adds functionality).
 * [ ] New Server (new server added).
 * [ ] Refactor (restructures existing code).
-* [ ] Comment update (typo, spelling, etc).
+* [ ] Comment update (typo, spelling, explanation, examples, etc).
 * [ ] This change requires a documentation update.
 
 ## Checklist

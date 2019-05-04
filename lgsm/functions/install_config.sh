@@ -614,6 +614,12 @@ elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${shortname}" == "unt" ]; then
+	gamedirname="Unturned"
+	array_configs+=( Config.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Vampire Slayer" ]; then
 	gamedirname="VampireSlayer"
 	array_configs+=( server.cfg )

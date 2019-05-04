@@ -169,6 +169,11 @@ fn_info_parms_unreal3(){
 	adminpassword=${adminpassword:-"NOT SET"}
 }
 
+fn_info_parms_unturned(){
+	servername=${servicename:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=$((port + 1))
+}
 fn_info_parms_kf2(){
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
@@ -229,4 +234,6 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 # Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
+elif [ "${shortname}" == "unt" ]; then
+	fn_info_parms_unturned
 fi
