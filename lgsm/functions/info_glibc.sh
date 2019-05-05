@@ -51,6 +51,9 @@ elif [ "${gamename}" == "Day of Infamy" ]; then
 elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	glibcrequired="2.15"
 	glibcfix="yes"
+elif [ "${gamename}" == "Dystopia" ]; then
+	glibcrequired="2.15"
+	glibcfix="no"
 elif [ "${gamename}" == "Eco" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -77,7 +80,7 @@ elif [ "${shortname}" == "kf2" ]; then
 	glibcfix="no"
 elif [ "${shortname}" == "tu" ]; then
 	glibcrequired="2.15"
-	glibcfix="no"	
+	glibcfix="no"
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -102,6 +105,9 @@ elif [ "${gamename}" == "Quake 3: Arena" ]; then
 elif [ "${gamename}" == "Quake Live" ]; then
 	glibcrequired="2.15"
 	glibcfix="no"
+elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+	glibcrequired="2.1"
+	glibcfix="no"
 elif [ "${shortname}" == "rw" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
@@ -112,7 +118,10 @@ elif [ "${gamename}" == "Squad" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
 elif [ "${gamename}" == "Sven Co-op" ]; then
-	glibcrequired="2.18"
+	glibcrequired="2.24"
+	glibcfix="no"
+elif [ "${shortname}" == "sbots" ]; then
+	glibcrequired="2.17"
 	glibcfix="no"
 elif [ "${gamename}" == "Team Fortress 2" ]; then
 	glibcrequired="2.15"
@@ -155,6 +164,9 @@ elif [ "${gamename}" == "Wurm Unlimited" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"
+	glibcfix="no"
+elif [ "${gamename}" == "Unturned" ]; then
+	glibcrequired="2.15"
 	glibcfix="no"
 elif [ "${gamename}" == "Zombie Panic! Source" ]; then
 	glibcrequired="2.15"
@@ -203,13 +215,13 @@ elif [ "${engine}" == "source" ]; then
 	glibcfix="no"
 elif [ "${engine}" == "goldsource" ]; then
 	glibcrequired="2.3.4"
-	glibcfix="no"	
+	glibcfix="no"
 else
 	glibcrequired="UNKNOWN"
 	glibcfix="no"
 fi
 
-# Sets the SteamCMD GLIBC requirement if the game server requirement is less or not required.
+# Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
 if [ -n "${appid}" ]; then
 	if [ "${glibcrequired}" = "NOT REQUIRED" ]||[ -z "${glibcrequired}" ]||[ "$(printf '%s\n'${glibcrequired}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibcrequired="2.14"

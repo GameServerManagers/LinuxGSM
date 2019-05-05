@@ -27,6 +27,8 @@ fn_validation(){
 
 	if [ "${appid}" == "90" ]; then
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
+	elif [ "${gamename}" == "Unturned" ]; then
+		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
 	fi
@@ -51,17 +53,9 @@ if [ "${status}" != "0" ]; then
 	exitbypass=1
 	command_stop.sh
 	fn_validation "${appid}"
-	# will also check for second appid
-	if [ "${gamename}" == "Classic Offensive" ]; then
-		fn_validation "${appid_co}"
-	fi
 	exitbypass=1
 	command_start.sh
 else
 	fn_validation
-	# will also check for second appid
-	if [ "${gamename}" == "Classic Offensive" ]; then
-		fn_validation "${appid_co}"
-	fi
 fi
 core_exit.sh

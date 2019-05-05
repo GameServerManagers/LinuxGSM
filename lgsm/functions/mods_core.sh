@@ -6,7 +6,7 @@
 # Description: Core functions for mods list/install/update/remove
 
 local commandname="MODS"
-local commandaction="addons/mods"
+local commandaction="Mods"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories
@@ -43,7 +43,7 @@ fn_mod_lowercase(){
 		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
-			dst=$(dirname "${src}"`/`basename "${src}" | tr '[A-Z]' '[a-z]')
+			dst=$(dirname "${src}"$(/)basename "${src}" | tr 'A-Z' 'a-z')
 			if [ "${src}" != "${dst}" ]
 			then
 				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo "${src} was not renamed"
@@ -179,7 +179,6 @@ fn_mod_get_info(){
 	if [ "${modinfocommand}" == "0" ]; then
 		fn_script_log_error "Could not find information for ${currentmod}"
 		fn_print_error_nl "Could not find information for ${currentmod}"
-		exitcode="1"
 		core_exit.sh
 	fi
 }

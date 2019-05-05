@@ -30,6 +30,14 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
+		local engine_query_array=( quake )
+		for engine_query in "${engine_query_array[@]}"
+		do
+			if [ "${engine_query}" == "${engine}" ]; then
+				gamedigengine="protocol-quake1"
+			fi
+		done
+
 		local engine_query_array=( idtech2 iw2.0 )
 		for engine_query in "${engine_query_array[@]}"
 		do
@@ -38,7 +46,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-		local engine_query_array=( idtech3 quake iw3.0 )
+		local engine_query_array=( idtech3 iw3.0 ioquake3 )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
@@ -89,37 +97,37 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		# server name
 		gdname=$(echo "${gamedigraw}" | jq -re '.name')
 		if [ "${gdname}" == "null" ]; then
-			gdname=
+			unset gdname
 		fi
 
 		# numplayers
 		gdplayers=$(echo "${gamedigraw}" | jq -re '.players|length')
 		if [ "${gdplayers}" == "null" ]; then
-			gdplayers=
+			unset gdplayers
 		fi
 
 		# maxplayers
 		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers|length')
 		if [ "${gdmaxplayers}" == "null" ]; then
-			maxplayers=
+			unset maxplayers
 		fi
 
 		# current map
 		gdmap=$(echo "${gamedigraw}" | jq -re '.map')
 		if [ "${gdmap}" == "null" ]; then
-			gdmap=
+			unset gdmap
 		fi
 
 		# current gamemode
 		gdgamemode=$(echo "${gamedigraw}" | jq -re '.raw.rules.GameMode_s')
 		if [ "${gdgamemode}" == "null" ]; then
-			gdgamemode=
+			unset gdgamemode
 		fi
 
 		# numbots
 		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
-		if [ "${gdbots}" == "null" ]; then
-			gdbots=
+		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
+			unset gdbots
 		fi
 	fi
 fi

@@ -318,8 +318,9 @@ fn_info_config_inss(){
 		rconenabled=${rconenabled:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"0"}
-	fi	
+	fi
 }
+
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -329,7 +330,6 @@ fn_info_config_minecraft(){
 		port="${zero}"
 		queryport="${zero}"
 		queryenabled="${unavailable}"
-		rconport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
@@ -338,9 +338,8 @@ fn_info_config_minecraft(){
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport=$(grep "query.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryport="${port}"
 		queryenabled=$(grep "enable-query" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/enable-query//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -354,9 +353,10 @@ fn_info_config_minecraft(){
 		rconport=${rconport:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
+		queryport="${queryport:-"NOT SET"}"
+		queryenabled="${queryenabled:-"NOT SET"}"
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
-
 	fi
 }
 
@@ -589,6 +589,26 @@ fn_info_config_risingworld(){
 	fi
 }
 
+fn_info_config_rtcw(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 fn_info_config_seriousengine35(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -610,6 +630,21 @@ fn_info_config_seriousengine35(){
 		maxplayers=${maxplayers:-"0"}
 		port=${port:-"0"}
 	fi
+}
+
+#StickyBots
+fn_info_config_sbots(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+	else
+		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
+		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+	fi
+
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
 }
 
 fn_info_config_source(){
@@ -906,7 +941,7 @@ fn_info_config_sdtd(){
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$((port + 1))
+		queryport=${port:-"0"}
 
 		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -1112,106 +1147,112 @@ fn_info_config_stationeers(){
 }
 
 # ARK: Survival Evolved
-if [ "${gamename}" == "ARK: Survivial Evolved" ]; then
+if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
 # Ballistic Overkill
-elif [ "${gamename}" == "Ballistic Overkill" ]; then
+elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill
 # Battalion 1944
-elif [ "${gamename}" == "Battalion 1944" ]; then
+elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_config_battalion1944
 # Battlefield: 1942
-elif [ "${gamename}" == "Battlefield: 1942" ]; then
+elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
 # Call of Duty
-elif [ "${gamename}" == "Call of Duty" ]||[ "${gamename}" == "Call of Duty: United Offensive" ]; then
+elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]; then
 	fn_info_config_cod
 # Call of Duty 2
-elif [ "${gamename}" == "Call of Duty 2" ]; then
+elif [ "${shortname}" == "cod2" ]; then
 	fn_info_config_cod2
 # Call of Duty 4
-elif [ "${gamename}" == "Call of Duty 4" ]; then
+elif [ "${shortname}" == "cod4" ]; then
 	fn_info_config_cod4
 # Call of Duty: World at War
-elif [ "${gamename}" == "Call of Duty: World at War" ]; then
+elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_config_codwaw
 # Dont Starve Together
-elif [ "${engine}" == "dontstarve" ]; then
+elif [ "${shortname}" == "dst" ]; then
 	fn_info_config_dontstarve
 # Eco
 elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
 # Factorio
-elif [ "${gamename}" == "Factorio" ]; then
+elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
 # Insurgency: Sandstorm
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_config_inss
 # Just Cause 2
-elif [ "${gamename}" == "Just Cause 2" ]; then
+elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_justcause2
 # Just Cause 3
-elif [ "${gamename}" == "Just Cause 3" ]; then
+elif [ "${shortname}" == "jc3" ]; then
 	fn_info_config_justcause3
 # Killing Floor 2
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
 # QuakeWorld
-elif [ "${gamename}" == "QuakeWorld" ]; then
+elif [ "${shortname}" == "qw" ]; then
 	fn_info_config_quakeworld
 # Quake 2
-elif [ "${gamename}" == "Quake 2" ]; then
+elif [ "${shortname}" == "q2" ]; then
 	fn_info_config_quake2
 # Quake 3
-elif [ "${gamename}" == "Quake 3: Arena" ]; then
+elif [ "${shortname}" == "q3" ]; then
 	fn_info_config_quake3
 # Quake Live
-elif [ "${gamename}" == "Quake Live" ]; then
+elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_quakelive
 # Minecraft
-elif [ "${engine}" == "lwjgl2" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	fn_info_config_minecraft
 # Post Scriptum: The Bloody Seventh
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_config_pstbs
 # Project Cars
-elif [ "${gamename}" == "Project Cars" ]; then
+elif [ "${shortname}" == "pc" ]; then
 	fn_info_config_projectcars
 # Project Zomboid
-elif [ "${engine}" == "projectzomboid" ]; then
+elif [ "${shortname}" == "pz" ]; then
 	fn_info_config_projectzomboid
 # ARMA 3
-elif [ "${engine}" == "realvirtuality" ]; then
+elif [ "${shortname}" == "arma3" ]; then
 	fn_info_config_realvirtuality
+# Return to Castle Wolfenstein
+elif [ "${shortname}" == "rtcw" ]; then
+  fn_info_config_rtcw
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_config_risingworld
 # Serious Sam
-elif [ "${engine}" == "seriousengine35" ]; then
+elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
 # Starbound
-elif [ "${engine}" == "starbound" ]; then
+elif [ "${shortname}" == "sb" ]; then
 	fn_info_config_starbound
 # TeamSpeak 3
-elif [ "${gamename}" == "TeamSpeak 3" ]; then
+elif [ "${shortname}" == "ts3" ]; then
 	fn_info_config_teamspeak3
 # Mumble
-elif [ "${gamename}" == "Mumble" ]; then
+elif [ "${shortname}" == "mumble" ]; then
 	fn_info_config_mumble
 # San Andreas Multiplayer
-elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+elif [ "${shortname}" == "samp" ]; then
 	fn_info_config_samp
+# StickyBots
+elif [ "${shortname}" == "pstbs" ]; then
+	fn_info_config_sbots
 # Teeworlds
-elif [ "${engine}" == "teeworlds" ]; then
+elif [ "${shortname}" == "tw" ]; then
 	fn_info_config_teeworlds
 # Terraria
-elif [ "${engine}" == "terraria" ]; then
+elif [ "${shortname}" == "terraria" ]; then
 	fn_info_config_terraria
 # Tower Unite
-elif [ "${gamename}" == "Tower Unite" ]; then
+elif [ "${shortname}" == "tu" ]; then
 	fn_info_config_towerunite
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
@@ -1220,19 +1261,19 @@ elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 # 7 Day To Die (unity3d)
-elif [ "${gamename}" == "7 Days To Die" ]; then
+elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
-elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
+elif [ "${shortname}" == "wet" ]; then
 	fn_info_config_wolfensteinenemyterritory
-elif [ "${gamename}" == "ET: Legacy" ]; then
+elif [ "${shortname}" == "etl" ]; then
 	fn_info_config_etlegacy
-elif [ "${gamename}" == "Wurm Unlimited" ]; then
+elif [ "${shortname}" == "wurm" ]; then
 	fn_info_config_wurmunlimited
-elif [ "${gamename}" == "Multi Theft Auto" ]; then
+elif [ "${shortname}" == "mta" ]; then
 	fn_info_config_mta
-elif [ "${gamename}" == "Squad" ]; then
+elif [ "${shortname}" == "squad" ]; then
 	fn_info_config_squad
 # Stationeers
-elif [ "${gamename}" == "Stationeers" ]; then
+elif [ "${shortname}" == "st" ]; then
 	fn_info_config_stationeers
 fi

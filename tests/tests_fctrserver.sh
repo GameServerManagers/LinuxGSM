@@ -1,10 +1,10 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2017 Daniel Gibbs
+# License: MIT License, Copyright (c) 2019 Daniel Gibbs
 # Purpose: Travis CI Tests: Factorio | Linux Game Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
-# Documentation: https://github.com/GameServerManagers/LinuxGSM/wiki
+# Documentation: https://docs.linuxgsm.com/
 # Website: https://linuxgsm.com
 
 travistest="1"
@@ -13,7 +13,7 @@ shortname="fctr"
 gameservername="fctrserver"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${selfname}"
+servicename="${gameservername}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
@@ -146,7 +146,7 @@ fn_install_menu_bash() {
 	done <  ${options}
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
+		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -452,6 +452,14 @@ fn_test_result_fail(){
 	fi
 }
 
+# test result n/a
+fn_test_result_na(){
+	echo "================================="
+	echo "Expected result: N/A"
+	echo "Actual result: N/A"
+	fn_print_fail_nl "TEST N/A"
+}
+
 echo "================================="
 echo "Travis CI Tests"
 echo "Linux Game Server Manager"
@@ -467,10 +475,15 @@ echo "Testing Branch: $TRAVIS_BRANCH"
 echo "================================="
 
 echo ""
-echo "0.1 - Create log dir's"
-echo "================================="
+echo "0.0 - Pre-test Tasks"
+echo "=================================================================="
 echo "Description:"
 echo "Create log dir's"
+echo ""
+
+echo ""
+echo "0.1 - Create log dir's"
+echo "================================="
 echo ""
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -500,11 +513,15 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "1.0 - start - no files"
+echo "1.0 - Pre-install tests"
+echo "=================================================================="
+echo ""
+
+echo "1.1 - start - no files"
 echo "================================="
 echo "Description:"
 echo "test script reaction to missing server files."
-echo "Command: ./fctrserver start"
+echo "Command: ./${gameservername} start"
 echo ""
 # Allows for testing not on Travis CI
 if [ ! -v TRAVIS ]; then
@@ -524,11 +541,11 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "1.1 - getopt"
+echo "1.2 - getopt"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo "Command: ./fctrserver"
+echo "Command: ./${gameservername}"
 echo ""
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -542,11 +559,11 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "1.2 - getopt with incorrect args"
+echo "1.3 - getopt with incorrect args"
 echo "================================="
 echo "Description:"
 echo "displaying options messages."
-echo "Command: ./fctrserver abc123"
+echo "Command: ./${gameservername} abc123"
 echo ""
 getopt="abc123"
 (
@@ -561,11 +578,15 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
+echo "2.0 - Installation"
+echo "=================================================================="
+
+echo ""
 echo "2.0 - install"
 echo "================================="
 echo "Description:"
 echo "install ${gamename} server."
-echo "Command: ./fctrserver auto-install"
+echo "Command: ./${gameservername} auto-install"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -578,11 +599,15 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
+echo "3.0 - Start/Stop/Restart Tests"
+echo "=================================================================="
+
+echo ""
 echo "3.1 - start"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server."
-echo "Command: ./fctrserver start"
+echo "Command: ./${gameservername} start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -601,7 +626,7 @@ echo "3.2 - start - online"
 echo "================================="
 echo "Description:"
 echo "start ${gamename} server while already running."
-echo "Command: ./fctrserver start"
+echo "Command: ./${gameservername} start"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -620,7 +645,7 @@ echo "3.3 - start - updateonstart"
 echo "================================="
 echo "Description:"
 echo "will update server on start."
-echo "Command: ./fctrserver start"
+echo "Command: ./${gameservername} start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -639,7 +664,7 @@ echo "3.4 - stop"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server."
-echo "Command: ./fctrserver stop"
+echo "Command: ./${gameservername} stop"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -658,7 +683,7 @@ echo "3.5 - stop - offline"
 echo "================================="
 echo "Description:"
 echo "stop ${gamename} server while already stopped."
-echo "Command: ./fctrserver stop"
+echo "Command: ./${gameservername} stop"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -677,7 +702,7 @@ echo "3.6 - restart"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename}."
-echo "Command: ./fctrserver restart"
+echo "Command: ./${gameservername} restart"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -696,7 +721,7 @@ echo "3.7 - restart - offline"
 echo "================================="
 echo "Description:"
 echo "restart ${gamename} while already stopped."
-echo "Command: ./fctrserver restart"
+echo "Command: ./${gameservername} restart"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -711,11 +736,15 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
+echo "4.0 - Update Tests"
+echo "=================================================================="
+
+echo ""
 echo "4.1 - update"
 echo "================================="
 echo "Description:"
 echo "check for updates."
-echo "Command: ./fctrserver update"
+echo "Command: ./${gameservername} update"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -730,11 +759,19 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
+echo "5.0 - Monitor Tests"
+echo "=================================================================="
+
+echo ""
+echo "Server IP - Port: ${ip}:${port}"
+echo "Server IP - Query Port: ${ip}:${queryport}"
+
+echo ""
 echo "5.1 - monitor - online"
 echo "================================="
 echo "Description:"
 echo "run monitor server while already running."
-echo "Command: ./fctrserver monitor"
+echo "Command: ./${gameservername} monitor"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -753,7 +790,7 @@ echo "5.2 - monitor - offline - with lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with lockfile."
-echo "Command: ./fctrserver monitor"
+echo "Command: ./${gameservername} monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
@@ -774,7 +811,7 @@ echo "5.3 - monitor - offline - no lockfile"
 echo "================================="
 echo "Description:"
 echo "run monitor while server is offline with no lockfile."
-echo "Command: ./fctrserver monitor"
+echo "Command: ./${gameservername} monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -789,11 +826,34 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "6.0 - details"
+echo "5.4 - test-alert"
+echo "================================="
+echo "Description:"
+echo "run monitor while server is offline with no lockfile."
+echo "Command: ./${gameservername} test-alert"
+requiredstatus="OFFLINE"
+fn_setstatus
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_test_alert.sh
+)
+fn_test_result_fail
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+
+echo ""
+echo "6.0 - Details Tests"
+echo "=================================================================="
+
+echo ""
+echo "6.1 - details"
 echo "================================="
 echo "Description:"
 echo "display details."
-echo "Command: ./fctrserver details"
+echo "Command: ./${gameservername} details"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -808,11 +868,11 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "6.1 - post details"
+echo "6.2 - postdetails"
 echo "================================="
 echo "Description:"
 echo "post details."
-echo "Command: ./fctrserver postdetails"
+echo "Command: ./${gameservername} postdetails"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -827,11 +887,15 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "7.0 - backup"
+echo "7.0 - Backup Tests"
+echo "=================================================================="
+
+echo ""
+echo "7.1 - backup"
 echo "================================="
 echo "Description:"
 echo "run a backup."
-echo "Command: ./fctrserver backup"
+echo "Command: ./${gameservername} backup"
 requiredstatus="ONLINE"
 fn_setstatus
 echo "test de-activated until issue #1839 fixed"
@@ -842,11 +906,15 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "8.0 - dev - detect glibc"
+echo "8.0 - Development Tools Tests"
+echo "=================================================================="
+
+echo ""
+echo "8.1 - dev - detect glibc"
 echo "================================="
 echo "Description:"
 echo "detect glibc."
-echo "Command: ./fctrserver detect-glibc"
+echo "Command: ./${gameservername} detect-glibc"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -861,11 +929,11 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "8.1 - dev - detect ldd"
+echo "8.2 - dev - detect ldd"
 echo "================================="
 echo "Description:"
 echo "detect ldd."
-echo "Command: ./fctrserver detect-ldd"
+echo "Command: ./${gameservername} detect-ldd"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -880,11 +948,11 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "8.2 - dev - detect deps"
+echo "8.3 - dev - detect deps"
 echo "================================="
 echo "Description:"
 echo "detect dependencies."
-echo "Command: ./fctrserver detect-deps"
+echo "Command: ./${gameservername} detect-deps"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -894,6 +962,25 @@ fn_setstatus
 	command_dev_detect_deps.sh
 )
 fn_test_result_pass
+echo "run order"
+echo "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+
+echo ""
+echo "8.4 - dev - query-raw"
+echo "================================="
+echo "Description:"
+echo "raw query output."
+echo "Command: ./${gameservername} query-raw"
+requiredstatus="ONLINE"
+fn_setstatus
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_dev_query_raw.sh
+)
+fn_test_result_na
 echo "run order"
 echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'

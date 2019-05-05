@@ -19,7 +19,7 @@ else
 	check_deps.sh
 	installflag=1
 	# Download and install
-	if [ "${gamename}" == "Unreal Tournament 2004" ]; then
+	if [ "${shortname}" == "ut2k4" ]; then
 		install_server_files.sh
 		install_ut2k4_key.sh
 	elif [ -z "${appid}" ]; then
@@ -32,15 +32,15 @@ else
 
 	# Configuration
 	install_config.sh
-	if [ "${gamename}" == "BrainBread 2" ]||[ "${gamename}" == "Black Mesa: Deathmatch" ]||[ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Empires Mod" ]||[ "${gamename}" == "Garry’s Mod" ]||[ "${gamename}" == "No more Room in Hell" ]||[ "${gamename}" == "Team Fortress 2" ]||[ "${gamename}" == "Tower Unite" ]; then
+	if [ -v "${gslt}" ]; then
 		install_gslt.sh
-	elif [ "${gamename}" == "Don't Starve Together" ]; then
+	elif [ "${shortname}" == "dst" ]; then
 		install_dst_token.sh
-	elif [ "${gamename}" == "Squad" ]; then
+	elif [ "${shortname}" == "squad" ]; then
 		install_squad_license.sh
-	elif [ "${gamename}" == "TeamSpeak 3" ]; then
+	elif [ "${shortname}" == "ts3" ]; then
 		install_ts3db.sh
-	elif [ "${gamename}" == "Multi Theft Auto" ]; then
+	elif [ "${shortname}" == "mta" ]; then
 		command_install_resources_mta.sh
 	fi
 

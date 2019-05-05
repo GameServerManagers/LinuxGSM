@@ -10,7 +10,7 @@ local commandname="CHECK"
 if [ -f /.dockerenv ]; then
 	ip=0.0.0.0
 else
-	if [ "${gamename}" != "TeamSpeak 3" ]&&[ "${gamename}" != "Mumble" ]&&[ "${travistest}" != "1" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
 		if [ ! -f "/bin/ip" ]; then
 			ipcommand="/sbin/ip"
 		else

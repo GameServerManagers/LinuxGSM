@@ -5,7 +5,7 @@
 # Description: Raw gamedig output of the server.
 
 local commandname="QUERY-RAW"
-local commandaction="QUERY-RAW"
+local commandaction="Query Raw"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo "================================="
@@ -24,7 +24,7 @@ info_config.sh
 info_parms.sh
 if [ "${engine}" == "idtech3_ql" ]; then
 	local engine="quakelive"
-elif [ "${gamename}" == "Killing Floor 2" ]; then
+elif [ "${shortname}" == "kf2" ]; then
 	local engine="unreal4"
 fi
 
@@ -42,3 +42,31 @@ if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
 "${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"
+
+echo""
+echo "================================="
+echo "tcp Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
+bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "tcp query PASS"
+else
+	echo "tcp query FAIL"
+fi
+
+echo""
+echo "================================="
+echo "udp Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''"
+bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "udp query PASS"
+else
+	echo "udp query FAIL"
+fi
