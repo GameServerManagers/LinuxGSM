@@ -33,8 +33,13 @@ for queryattempt in {1..5}; do
 		fi
 		querystatus="$?"
 	elif [ "${querymethod}" ==  "tcp" ]; then
-		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
-		querystatus="$?"
+		if [ -f /.dockerenv ]; then
+			bash -c 'exec 3<> /dev/tcp/'$(hostname -i)'/'${queryport}''
+			querystatus="$?"
+		else
+			bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
+			querystatus="$?"
+		fi
 	fi
 
 	if [ "${querystatus}" == "0" ]; then
