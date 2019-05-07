@@ -579,17 +579,16 @@ fn_info_message_ark(){
 }
 
 fn_info_message_mordhau(){
-	echo -e "netstat -atunp | grep Mordhau"
+	echo -e "netstat -atunp | grep Mord"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> RAW\tINBOUND\t$((port+1))\tudp"
+			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
 		fi
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
