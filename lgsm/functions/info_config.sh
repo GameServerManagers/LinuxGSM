@@ -90,10 +90,20 @@ fn_info_config_ark(){
 fn_info_config_mordhau(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
+		maxplayers="${unavailable}"
 	else
-		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		rconpassword=$(grep "AdminPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		maxplayers=$(grep "MaxSlots" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 	fi
 }
 
@@ -1149,26 +1159,6 @@ fn_info_config_stationeers(){
 		maxplayers=$(grep "MAXPLAYER" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/MAXPLAYER//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not Set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-	fi
-}
-
-fn_info_config_mordhau() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		rconpassword="${unavailable}"
-		maxplayers="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		rconpassword=$(grep "AdminPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		maxplayers=$(grep "MaxSlots" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-
-		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
