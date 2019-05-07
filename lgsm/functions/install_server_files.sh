@@ -36,7 +36,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "qw" ]; then
 		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.190506.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.190506.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="74405ec030463c5e1175e776ab572d32"
 	elif [ "${shortname}" == "rtcw" ]; then
-		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51c-x86_64-server-linux-20190507.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"
+		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51c-x86_64-server-linux-20190507.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="6a3be9700372b228d1187422464e4212"
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="https://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${shortname}" == "ut99" ]; then
