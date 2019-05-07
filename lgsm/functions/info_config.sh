@@ -87,26 +87,6 @@ fn_info_config_ark(){
 	fi
 }
 
-fn_info_config_mordhau() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		rconpassword="${unavailable}"
-		maxplayers="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		rconpassword=$(grep "AdminPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		maxplayers=$(grep "MaxSlots" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-
-		# Not Set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-	fi
-}
-
 fn_info_config_ballistic_overkill(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"

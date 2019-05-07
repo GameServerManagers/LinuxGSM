@@ -22,11 +22,6 @@ fn_info_parms_ark(){
 	maxplayers=${maxplayers:-"0"}
 }
 
-fn_info_config_mordhau(){
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
-}
-
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
 	queryport=$((port + 1))
