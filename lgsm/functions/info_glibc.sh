@@ -147,7 +147,7 @@ elif [ "${gamename}" == "NS2: Combat" ]; then
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
-elif [ "${gamename}" == "Mordhau" ]; then
+elif [ "${gamename}" == "MORDHAU" ]; then
 	glibcrequired="2.17"
 	glibcfix="no"
 elif [ "${gamename}" == "Mumble" ]; then
