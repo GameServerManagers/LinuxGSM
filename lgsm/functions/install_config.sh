@@ -154,6 +154,13 @@ elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Mordhau" ]; then
+	gamedirname="mordhau"
+	fn_check_cfgdir
+	array_configs+=( DefaultEngine.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ARMA 3" ]; then
 	gamedirname="Arma3"
 	fn_check_cfgdir
@@ -427,7 +434,7 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "Mordhau" ]; then
+elif [ "${gamename}" == "MORDHAU" ]; then
 	gamedirname="Mordhau"
 	fn_check_cfgdir
 	array_configs+=( Game.ini )

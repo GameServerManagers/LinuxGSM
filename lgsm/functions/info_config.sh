@@ -87,6 +87,16 @@ fn_info_config_ark(){
 	fi
 }
 
+fn_info_config_mordhau(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+	else
+		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		# Not Set
+		servername=${servername:-"NOT SET"}
+	fi
+}
+
 fn_info_config_ballistic_overkill(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
