@@ -34,7 +34,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "q3" ]; then
 		remote_fileurl="https://files.linuxgsm.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="quake3-1.32c-x86-full-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
 	elif [ "${shortname}" == "qw" ]; then
-		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.083116.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
+		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.190506.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.190506.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="74405ec030463c5e1175e776ab572d32"
 	elif [ "${shortname}" == "rtcw" ]; then
 		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"
 	elif [ "${shortname}" == "ut2k4" ]; then
