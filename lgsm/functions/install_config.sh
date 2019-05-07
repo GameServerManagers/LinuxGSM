@@ -53,6 +53,13 @@ fn_default_config_remote(){
 	sleep 0.5
 }
 
+# Copys local default config to server config location
+fn_default_config_local(){
+	echo "copying ${servercfgdefault} config file."
+	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
+	sleep 0.5
+}
+
 # Changes some variables within the default configs
 # SERVERNAME to LinuxGSM
 # PASSWORD to random password
@@ -139,10 +146,7 @@ fn_set_dst_config_vars(){
 
 if [ "${gamename}" == "7 Days To Die" ]; then
 	gamedirname="7DaysToDie"
-	array_configs+=( serverconfig.xml )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
+	fn_default_config_local
 elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	gamedirname="ARKSurvivalEvolved"
 	fn_check_cfgdir
@@ -316,6 +320,12 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Dystopia" ]; then
+	gamedirname="Dystopia"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=( server.cfg )
@@ -376,6 +386,12 @@ elif [ "${gamename}" == "Insurgency" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "IOSoccer" ]; then
+	gamedirname="IOSoccer"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Just Cause 2" ]; then
 	gamedirname="JustCause2"
 	array_configs+=( config.lua )
@@ -418,6 +434,13 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Mordhau" ]; then
+	gamedirname="Mordhau"
+	fn_check_cfgdir
+	array_configs+=( Game.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Natural Selection" ]; then
 	gamedirname="NaturalSelection"
 	array_configs+=( server.cfg )
@@ -426,6 +449,12 @@ elif [ "${gamename}" == "Natural Selection" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	gamedirname="NoMoreRoominHell"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Nuclear Dawn" ]; then
+	gamedirname="NuclearDawn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -486,6 +515,12 @@ elif [ "${gamename}" == "QuakeWorld" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Ricochet" ]; then
 	gamedirname="Ricochet"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+	gamedirname="ReturnToCastleWolfenstein"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -583,6 +618,12 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	gamedirname="UnrealTournament99"
 	array_configs+=( Default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${shortname}" == "unt" ]; then
+	gamedirname="Unturned"
+	array_configs+=( Config.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

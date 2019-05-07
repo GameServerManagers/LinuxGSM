@@ -30,6 +30,14 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
+		local engine_query_array=( quake )
+		for engine_query in "${engine_query_array[@]}"
+		do
+			if [ "${engine_query}" == "${engine}" ]; then
+				gamedigengine="protocol-quake1"
+			fi
+		done
+
 		local engine_query_array=( idtech2 iw2.0 )
 		for engine_query in "${engine_query_array[@]}"
 		do
@@ -38,7 +46,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-		local engine_query_array=( idtech3 quake iw3.0 )
+		local engine_query_array=( idtech3 iw3.0 ioquake3 )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
@@ -118,7 +126,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 
 		# numbots
 		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
-		if [ "${gdbots}" == "null" ]; then
+		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi
 	fi

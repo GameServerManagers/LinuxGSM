@@ -1,6 +1,6 @@
 # Label name and color to set, when potential duplicates are detected
-issueLabel: "Type: potential duplicate"
-labelColor: D2DAE1
+issueLabel: "duplicate"
+labelColor: 579e01
 
 # If similarity is higher than this threshold, issue will be marked as duplicate
 threshold: 0.60

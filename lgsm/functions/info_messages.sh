@@ -40,7 +40,7 @@ fn_info_message_distro(){
 	# Kernel:    3.13.0-79-generic
 	# Hostname:  hostname
 	# tmux:      tmux 1.8
-	# GLIBC:     2.19
+	# glibc:     2.19
 
 	echo -e ""
 	echo -e "${lightyellow}Distro Details${default}"
@@ -51,7 +51,7 @@ fn_info_message_distro(){
 		echo -e "${blue}Kernel:\t${default}${kernel}"
 		echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
 		echo -e "${blue}tmux:\t${default}${tmuxv}"
-		echo -e "${blue}GLIBC:\t${default}${glibcversion}"
+		echo -e "${blue}glibc:\t${default}${glibcversion}"
 	} | column -s $'\t' -t
 }
 
@@ -72,6 +72,12 @@ fn_info_message_performance(){
 	{
 		echo -e "${blue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
 		echo -e "${blue}Avg Load:\t${default}${load}"
+	} | column -s $'\t' -t
+	echo -e ""
+	{
+		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
+		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
+		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
 	} | column -s $'\t' -t
 	echo -e ""
 	{
@@ -362,20 +368,16 @@ fn_info_message_script(){
 		# User
 		echo -e "${blue}User:\t${default}$(whoami)"
 
-		# GLIBC required
+		# glibc required
 		if [ -n "${glibcrequired}" ]; then
 			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
 					:
 			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}GLIBC required:\t${red}${glibcrequired}"
+				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
 			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				if [ "${glibcfix}" == "yes" ]; then
-					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${green}Using GLIBC fix${default})"
-				else
-					echo -e "${blue}GLIBC required:\t${red}${glibcrequired} ${default}(${red}GLIBC version too old${default})"
-				fi
+				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}GLIBC required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
 			fi
 		fi
 
@@ -493,7 +495,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -750,8 +752,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game\tINBOUND\t${queryport}\tudp"
-		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -874,6 +876,15 @@ fn_info_message_risingworld(){
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
 		echo -e "> http query\tINBOUND\t${httpqueryport}\ttcp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_rtcw(){
+	echo -e "netstat -atunp | grep iowolfded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1063,7 +1074,7 @@ fn_info_message_unreal(){
 		if [ "${engine}" == "unreal" ]; then
 			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
-		if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
+		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
 			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
 		fi
 		if [ "${appid}" == "215360" ]; then
@@ -1108,6 +1119,16 @@ fn_info_message_unreal3(){
 		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
 		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_unturned(){
+	echo -e "netstat -atunp | grep Unturned"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1173,6 +1194,20 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mordhau(){
+	echo -e "netstat -atunp | grep Mord"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		# Don't do arithmetics if ever the port wasn't a numeric value
+		if [ "${port}" -eq "${port}" ]; then
+			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
+		fi
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1228,15 +1263,21 @@ fn_info_message_select_engine(){
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
 	elif [ "${shortname}" == "sbots" ]; then
-		fn_info_message_sbots	
+		fn_info_message_sbots
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
 		fn_info_message_towerunite
+	elif [ "${shortname}" == "unt" ]; then
+		fn_info_message_unturned
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_info_message_mumble
+	elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+		fn_info_message_rtcw
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
 	elif [ "${gamename}" == "Wurm Unlimited" ]; then
