@@ -87,7 +87,7 @@ fn_info_config_ark(){
 	fi
 }
 
-fn_info_config_mordhau(){
+fn_info_config_mordhau() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"

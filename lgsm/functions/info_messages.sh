@@ -583,7 +583,7 @@ fn_info_message_mordhau(){
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
 			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
