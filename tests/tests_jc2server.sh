@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2017 Daniel Gibbs
+# License: MIT License, Copyright (c) 2019 Daniel Gibbs
 # Purpose: Travis CI Tests: Just Cause 2 | Linux Game Server Management Script
 # Contributors: https://github.com/GameServerManagers/LinuxGSM/graphs/contributors
 # Documentation: https://docs.linuxgsm.com/
@@ -146,7 +146,7 @@ fn_install_menu_bash() {
 	done <  ${options}
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
+		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -578,7 +578,7 @@ echo "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo ""
-echo "2.0 - Instalation"
+echo "2.0 - Installation"
 echo "=================================================================="
 
 echo ""
@@ -904,14 +904,18 @@ echo "================================="
 echo "Description:"
 echo "Inserting Travis IP in to config."
 echo "Allows monitor to work"
-travisip=$(ip -o -4 addr|grep eth0|awk '{print $4}'|grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|grep -v 127.0.0)
+if [ "$(ip -o -4 addr|grep eth0)" ]; then
+	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+else
+	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+fi
 sed -i "/BindIP/c\BindIP                      = \"${travisip}\"," "${serverfiles}/config.lua"
 echo "IP: ${travisip}"
 
 echo ""
 echo "5.0 - Monitor Tests"
 echo "=================================================================="
-
+info_config.sh
 echo ""
 echo "Server IP - Port: ${ip}:${port}"
 echo "Server IP - Query Port: ${ip}:${queryport}"

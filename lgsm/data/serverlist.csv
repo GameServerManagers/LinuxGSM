@@ -26,6 +26,7 @@ doi,doiserver,Day of Infamy
 dmc,dmcserver,Deathmatch Classic
 dst,dstserver,Don't Starve Together
 dab,dabserver,Double Action: Boogaloo
+dys,dysserver,Dystopia
 eco,ecoserver,Eco
 em,emserver,Empires Mod
 fctr,fctrserver,Factorio
@@ -46,8 +47,10 @@ kf2,kf2server,Killing Floor 2
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
+mh,mhserver,MORDHAU
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
+nd,ndserver,Nuclear Dawn
 nmrih,nmrihserver,No More Room in Hell
 ns,nsserver,Natural Selection
 ns2,ns2server,Natural Selection 2
@@ -82,6 +85,7 @@ tu,tuserver,Tower Unite
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
+unt,untserver,Unturned
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wurm,wurmserver,Wurm Unlimited

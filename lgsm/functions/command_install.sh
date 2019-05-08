@@ -32,7 +32,7 @@ else
 
 	# Configuration
 	install_config.sh
-	if [ "${shortname}" == "bb2" ]||[ "${shortname}" == "bmdm" ]||[ "${shortname}" == "csgo" ]||[ "${shortname}" == "em" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "tf2" ]||[ "${shortname}" == "tu" ]; then
+	if [ -v "${gslt}" ]; then
 		install_gslt.sh
 	elif [ "${shortname}" == "dst" ]; then
 		install_dst_token.sh

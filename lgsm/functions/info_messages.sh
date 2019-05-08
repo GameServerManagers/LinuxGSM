@@ -78,7 +78,7 @@ fn_info_message_performance(){
 		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
 		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
 		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
-	} | column -s $'\t' -t	
+	} | column -s $'\t' -t
 	echo -e ""
 	{
 		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
@@ -495,7 +495,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -737,8 +737,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game\tINBOUND\t${queryport}\tudp"
-		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1059,7 +1059,7 @@ fn_info_message_unreal(){
 		if [ "${engine}" == "unreal" ]; then
 			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
-		if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
+		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
 			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
 		fi
 		if [ "${appid}" == "215360" ]; then
@@ -1104,6 +1104,16 @@ fn_info_message_unreal3(){
 		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
 		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_unturned(){
+	echo -e "netstat -atunp | grep Unturned"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1169,6 +1179,16 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mordhau(){
+	echo -e "netstat -atunp | grep Mord"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1229,6 +1249,10 @@ fn_info_message_select_engine(){
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
 		fn_info_message_towerunite
+	elif [ "${shortname}" == "unt" ]; then
+		fn_info_message_unturned
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then

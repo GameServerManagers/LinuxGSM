@@ -30,6 +30,9 @@ for queryattempt in {1..5}; do
 	elif [ "${querymethod}" ==  "tcp" ]; then
 		bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 		querystatus="$?"
+	elif [ "${querymethod}" ==  "udp" ]; then
+		bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
+		querystatus="$?"
 	fi
 
 	if [ "${querystatus}" == "0" ]; then
@@ -38,7 +41,6 @@ for queryattempt in {1..5}; do
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
-		exitcode=0
 		monitorpass=1
 		core_exit.sh
 	else
@@ -125,6 +127,7 @@ fn_monitor_check_session(){
 		fn_script_log_info "Monitor is starting ${servername}"
 		sleep 0.5
 		command_restart.sh
+		core_exit.sh
 	fi
 	sleep 0.5
 }
@@ -175,6 +178,11 @@ fn_monitor_query_tcp(){
 	fn_monitor_loop
 }
 
+fn_monitor_query_upd(){
+	querymethod="upd"
+	fn_monitor_loop
+}
+
 monitorflag=1
 fn_print_dots "${servername}"
 sleep 0.5
@@ -186,7 +194,7 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
-# Query has to be enabled in Starbound config
+# Query has to be enabled in Starbound config.
 if [ "${shortname}" == "sb" ]; then
 	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query

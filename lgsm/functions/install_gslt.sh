@@ -12,7 +12,7 @@ echo ""
 echo "Game Server Login Token"
 echo "================================="
 sleep 0.5
-if [ "${gamename}" == "Counter-Strike: Global Offensive" ]||[ "${gamename}" == "Counter-Strike: Source" ]||[ "${gamename}" == "No More Room in Hell" ]; then
+if [ "${shortname}" == "csgo" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "bs" ]; then
 	echo "GSLT is required to run a public ${gamename} server"
 	fn_script_log_info "GSLT is required to run a public ${gamename} server"
 else
@@ -26,7 +26,7 @@ fn_script_log_info "Get more info and a token here:"
 fn_script_log_info "https://linuxgsm.com/gslt"
 echo ""
 if [ -z "${autoinstall}" ]; then
-	if [ "${gamename}" != "Tower Unite" ]; then
+	if [ "${shortname}" != "tu" ]; then
 		echo "Enter token below (Can be blank)."
 		echo -n "GSLT TOKEN: "
 		read -r token
@@ -38,7 +38,7 @@ if [ -z "${autoinstall}" ]; then
 	fi
 fi
 sleep 0.5
-if [ "${gamename}" == "Tower Unite" ]; then
+if [ "${shortname}" == "tu" ]; then
 	echo "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 else

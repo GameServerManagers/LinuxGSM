@@ -331,6 +331,7 @@ fn_info_config_inss(){
 		rconport=${rconport:-"0"}
 	fi
 }
+
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -340,7 +341,6 @@ fn_info_config_minecraft(){
 		port="${zero}"
 		queryport="${zero}"
 		queryenabled="${unavailable}"
-		rconport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
@@ -349,9 +349,8 @@ fn_info_config_minecraft(){
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport=$(grep "query.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryport="${port}"
 		queryenabled=$(grep "enable-query" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/enable-query//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -365,9 +364,10 @@ fn_info_config_minecraft(){
 		rconport=${rconport:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
+		queryport="${queryport:-"NOT SET"}"
+		queryenabled="${queryenabled:-"NOT SET"}"
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
-
 	fi
 }
 
@@ -1157,6 +1157,26 @@ fn_info_config_stationeers(){
 	fi
 }
 
+fn_info_config_mordhau(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
+		maxplayers="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		rconpassword=$(grep "AdminPassword" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		maxplayers=$(grep "MaxSlots" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
@@ -1290,4 +1310,6 @@ elif [ "${shortname}" == "squad" ]; then
 # Stationeers
 elif [ "${shortname}" == "st" ]; then
 	fn_info_config_stationeers
+elif [ "${shortname}" == "mh" ]; then
+	fn_info_config_mordhau
 fi

@@ -31,7 +31,7 @@ fi
 
 # Header
 fn_print_header
-echo "More info: https://git.io/vyk9a"
+echo "More info: https://docs.linuxgsm.com/commands/fastdl"
 echo ""
 
 # Prompts user for FastDL creation settings
@@ -154,7 +154,7 @@ fn_fastdl_preview(){
 	# Garry's Mod
 	if [ "${shortname}" == "gmod" ]; then
 		cd "${systemdir}" || exit
-		allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
+		allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
 		for allowed_extention in "${allowed_extentions_array[@]}"; do
 			fileswc=0
 			tput sc
@@ -176,7 +176,7 @@ fn_fastdl_preview(){
 				if [ "${directory}" == "maps" ]; then
 					local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
 				elif [ "${directory}" == "materials" ]; then
-					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
 				elif [ "${directory}" == "models" ]; then
 					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 				elif [ "${directory}" == "particles" ]; then
@@ -315,7 +315,7 @@ fn_fastdl_source(){
 			if [ "${directory}" == "maps" ]; then
 				local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
 			elif [ "${directory}" == "materials" ]; then
-				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" )
+				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
 			elif [ "${directory}" == "models" ]; then
 				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 			elif [ "${directory}" == "particles" ]; then

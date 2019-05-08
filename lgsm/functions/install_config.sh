@@ -320,6 +320,12 @@ elif [ "${gamename}" == "Double Action: Boogaloo" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Dystopia" ]; then
+	gamedirname="Dystopia"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=( server.cfg )
@@ -428,6 +434,13 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "MORDHAU" ]; then
+	gamedirname="Mordhau"
+	fn_check_cfgdir
+	array_configs+=( Game.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Natural Selection" ]; then
 	gamedirname="NaturalSelection"
 	array_configs+=( server.cfg )
@@ -436,6 +449,12 @@ elif [ "${gamename}" == "Natural Selection" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "No More Room in Hell" ]; then
 	gamedirname="NoMoreRoominHell"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Nuclear Dawn" ]; then
+	gamedirname="NuclearDawn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -599,6 +618,12 @@ elif [ "${gamename}" == "Unreal Tournament 2004" ]; then
 elif [ "${gamename}" == "Unreal Tournament 99" ]; then
 	gamedirname="UnrealTournament99"
 	array_configs+=( Default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${shortname}" == "unt" ]; then
+	gamedirname="Unturned"
+	array_configs+=( Config.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
