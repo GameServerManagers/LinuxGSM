@@ -149,6 +149,7 @@ fn_info_parms_towerunite(){
 fn_info_parms_mordhau(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
+	beaconport=${beaconport:-"0"}
 }
 
 fn_info_parms_unreal(){
