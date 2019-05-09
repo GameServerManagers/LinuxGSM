@@ -1179,6 +1179,17 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mordhau(){
+	echo -e "netstat -atunp | grep Mord"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1241,6 +1252,8 @@ fn_info_message_select_engine(){
 		fn_info_message_towerunite
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then

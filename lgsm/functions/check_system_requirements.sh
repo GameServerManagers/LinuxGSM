@@ -15,6 +15,9 @@ info_distro.sh
 if [ "${shortname}" == "ark" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
+elif [ "${shortname}" == "mh" ]; then
+	ramrequirementmb="4000"
+	ramrequirementgb="4"
 elif [ "${shortname}" == "arma3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
