@@ -157,6 +157,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_send.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Checks
 
 check.sh(){
