@@ -403,7 +403,7 @@ fn_print_update_eol_nl(){
 }
 
 fn_sleep_time(){}
-	if [ $"{sleeptime}" == "0" ]; then
+	if [ "${sleeptime}" == "0" ]; then
 		sleep "${sleeptime}"
 	fi
 }
