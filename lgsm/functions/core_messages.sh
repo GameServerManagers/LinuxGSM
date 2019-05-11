@@ -28,6 +28,12 @@ fn_ansi_loader(){
 	creeol="\r\033[K"
 }
 
+fn_sleep_time(){
+	if [ "${sleeptime}" == "0" ]; then
+		sleep "${sleeptime}"
+	fi
+}
+
 # Log display
 ########################
 ## Feb 28 14:56:58 ut99-server: Monitor:
@@ -400,10 +406,4 @@ fn_print_update_eol(){
 
 fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
-}
-
-fn_sleep_time(){
-	if [ "${sleeptime}" == "0" ]; then
-		sleep "${sleeptime}"
-	fi
 }
