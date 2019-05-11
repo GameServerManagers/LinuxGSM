@@ -141,9 +141,15 @@ fn_info_parms_stickybots(){
 	maxplayers=${maxplayers:-"0"}
 }
 
-fn_info_config_towerunite(){
+fn_info_parms_towerunite(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
+}
+
+fn_info_parms_mordhau(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	beaconport=${beaconport:-"0"}
 }
 
 fn_info_parms_unreal(){
@@ -164,6 +170,11 @@ fn_info_parms_unreal3(){
 	adminpassword=${adminpassword:-"NOT SET"}
 }
 
+fn_info_parms_unturned(){
+	servername=${servicename:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=$((port + 1))
+}
 fn_info_parms_kf2(){
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
@@ -208,18 +219,22 @@ elif [ "${shortname}" == "sbots" ]; then
 	fn_info_parms_stickybots
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
-	fn_info_config_seriousengine35
+	fn_info_parms_seriousengine35
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_parms_source
 # Spark
 elif [ "${engine}" == "spark" ]; then
 	fn_info_parms_spark
 elif [ "${shortname}" == "tu" ]; then
-	fn_info_config_towerunite
+	fn_info_parms_towerunite
+elif [ "${shortname}" == "mh" ]; then
+	fn_info_parms_mordhau
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
 # Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
+elif [ "${shortname}" == "unt" ]; then
+	fn_info_parms_unturned
 fi

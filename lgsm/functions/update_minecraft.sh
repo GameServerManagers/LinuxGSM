@@ -81,7 +81,7 @@ fn_update_minecraft_localbuild(){
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
 			fi
-			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}' | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
 				break
 			fi

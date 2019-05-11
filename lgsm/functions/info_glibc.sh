@@ -147,6 +147,9 @@ elif [ "${gamename}" == "NS2: Combat" ]; then
 elif [ "${gamename}" == "TeamSpeak 3" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
+elif [ "${gamename}" == "MORDHAU" ]; then
+	glibcrequired="2.17"
+	glibcfix="no"
 elif [ "${gamename}" == "Mumble" ]; then
 	glibcrequired="NOT REQUIRED"
 	glibcfix="no"
@@ -164,6 +167,9 @@ elif [ "${gamename}" == "Wurm Unlimited" ]; then
 	glibcfix="no"
 elif [ "${gamename}" == "Multi Theft Auto" ]; then
 	glibcrequired="2.7"
+	glibcfix="no"
+elif [ "${gamename}" == "Unturned" ]; then
+	glibcrequired="2.15"
 	glibcfix="no"
 elif [ "${gamename}" == "Zombie Panic! Source" ]; then
 	glibcrequired="2.15"
