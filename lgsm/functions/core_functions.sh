@@ -526,6 +526,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_papermc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_mumble.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -596,6 +601,11 @@ fn_fetch_function
 }
 
 install_header.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_papermc.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

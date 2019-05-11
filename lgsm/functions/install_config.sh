@@ -421,7 +421,7 @@ elif [ "${gamename}" == "Left 4 Dead 2" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "Minecraft" ]; then
+elif [ "${gamename}" == "Minecraft" ]||[ "${gamename}" == "PaperMC" ]; then
 	gamedirname="Minecraft"
 	array_configs+=( server.properties )
 	fn_fetch_default_config

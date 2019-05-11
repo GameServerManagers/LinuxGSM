@@ -6,7 +6,7 @@
 
 if [ "${shortname}" == "ts3" ]; then
 	eulaurl="https://www.teamspeak.com/en/privacy-and-terms"
-elif [ "${shortname}" == "mc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	eulaurl="https://account.mojang.com/documents/minecraft_eula"
 elif [ "${shortname}" == "ut" ]; then
 	eulaurl="https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula"
@@ -37,7 +37,7 @@ fi
 
 if [ "${shortname}" == "ts3" ]; then
 	touch "${executabledir}/.ts3server_license_accepted"
-elif [ "${shortname}" == "mc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	touch "${serverfiles}/eula.txt"
 	echo "eula=true" > "${serverfiles}/eula.txt"
 elif [ "${shortname}" == "ut" ]; then

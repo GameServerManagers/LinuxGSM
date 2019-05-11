@@ -346,7 +346,7 @@ fn_deps_build_debian(){
 	fi
 
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${shortname}" != "pmc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
 		else
@@ -391,7 +391,7 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
 	# Minecraft
-	elif [ "${shortname}" == "mc" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.
@@ -466,7 +466,7 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${shortname}" != "pmc" ]&&[ "${engine}" != "renderware" ]; then
 		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
 			array_deps_required+=( glibc.i686 libstdc++64.i686 )
 		else
@@ -506,7 +506,7 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
 	# Minecraft
-	elif [ "${shortname}" == "mc" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			javacheck=1 # Added for users using Oracle JRE to bypass the check.

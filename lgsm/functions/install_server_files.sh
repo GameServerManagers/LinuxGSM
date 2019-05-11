@@ -142,6 +142,10 @@ if [ "${shortname}" == "ts3" ]; then
 elif [ "${shortname}" == "mc" ]; then
 	install_eula.sh
 	update_minecraft.sh
+elif [ "${shortname}" == "pmc" ]; then
+	install_papermc.sh
+	install_eula.sh
+	update_papermc.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
 elif [ "${shortname}" == "mta" ]; then

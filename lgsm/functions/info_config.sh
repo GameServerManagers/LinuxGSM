@@ -1224,7 +1224,7 @@ elif [ "${shortname}" == "q3" ]; then
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_quakelive
 # Minecraft
-elif [ "${shortname}" == "mc" ]; then
+elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 	fn_info_config_minecraft
 # Post Scriptum: The Bloody Seventh
 elif [ "${shortname}" == "pstbs" ]; then

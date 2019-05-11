@@ -119,7 +119,7 @@ fn_stop_telnet_sdtd(){
 		expect { eof }
 		puts "Completed.\n"
 		')
-	fi	
+	fi
 }
 
 fn_stop_graceful_sdtd(){
@@ -193,7 +193,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_cmd "q" 30
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_stop_graceful_cmd "exit" 30
-	elif [ "${shortname}" == "mc" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 		fn_stop_graceful_cmd "stop" 30
 	elif [ "${shortname}" == "mta" ]; then
 		# we need a long wait time here as resources are stopped individually and process their own shutdowns

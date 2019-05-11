@@ -17,6 +17,8 @@ if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
 	update_minecraft.sh
+elif [ "${shortname}" == "pmc" ]; then
+	update_papermc.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
 elif [ "${shortname}" == "fctr" ]; then
