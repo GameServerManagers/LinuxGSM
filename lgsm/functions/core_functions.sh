@@ -644,6 +644,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+update_papermc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_mumble.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
