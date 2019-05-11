@@ -110,6 +110,7 @@ fn_print_dots(){
 	else
 		echo -en "${creeol}[ .... ] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_dots_nl(){
@@ -118,7 +119,7 @@ fn_print_dots_nl(){
 	else
 		echo -e "${creeol}[ .... ] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -129,6 +130,7 @@ fn_print_ok(){
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_ok_nl(){
@@ -137,7 +139,7 @@ fn_print_ok_nl(){
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -148,6 +150,7 @@ fn_print_fail(){
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_fail_nl(){
@@ -156,7 +159,7 @@ fn_print_fail_nl(){
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -167,6 +170,7 @@ fn_print_error(){
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_error_nl(){
@@ -175,7 +179,7 @@ fn_print_error_nl(){
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -186,6 +190,7 @@ fn_print_warn(){
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_warn_nl(){
@@ -194,7 +199,7 @@ fn_print_warn_nl(){
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -205,6 +210,7 @@ fn_print_info(){
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_info_nl(){
@@ -213,7 +219,7 @@ fn_print_info_nl(){
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -232,46 +238,56 @@ fn_print_header(){
 # Complete!
 fn_print_complete(){
 	echo -en "${green}Complete!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_complete_nl(){
 	echo -e "${green}Complete!${default} $@"
+	fn_sleep_time
 }
 
 # Failure!
 fn_print_failure(){
 	echo -en "${red}Failure!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_failure_nl(){
 	echo -e "${red}Failure!${default} $@"
+	fn_sleep_time
 }
 
 # Error!
 fn_print_error2(){
 	echo -en "${red}Error!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_error2_nl(){
 	echo -e "${red}Error!${default} $@"
+	fn_sleep_time
 }
 
 # Warning!
 fn_print_warning(){
 	echo -en "${yellow}Warning!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_warning_nl(){
 	echo -e "${yellow}Warning!${default} $@"
+	fn_sleep_time
 }
 
 # Information!
 fn_print_information(){
 	echo -en "${cyan}Information!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_information_nl(){
 	echo -e "${cyan}Information!${default} $@"
+	fn_sleep_time
 }
 
 # Y/N Prompt
@@ -384,4 +400,10 @@ fn_print_update_eol(){
 
 fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
+}
+
+fn_sleep_time(){}
+	if [ $"{sleeptime}" == "0" ]; then
+		sleep "${sleeptime}"
+	fi
 }
