@@ -402,7 +402,7 @@ fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
 }
 
-fn_sleep_time(){}
+fn_sleep_time(){
 	if [ "${sleeptime}" == "0" ]; then
 		sleep "${sleeptime}"
 	fi
