@@ -29,7 +29,7 @@ fn_ansi_loader(){
 }
 
 fn_sleep_time(){
-	if [ "${sleeptime}" == "0" ]; then
+	if [ "${sleeptime}" != "0" ]; then
 		sleep "${sleeptime}"
 	fi
 }
