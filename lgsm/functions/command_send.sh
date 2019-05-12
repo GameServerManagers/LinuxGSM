@@ -22,10 +22,9 @@ if [ "${status}" != "0" ]; then
 		echo ""
 		command_to_send=$( fn_prompt_message "send: " )
 	fi
-	fn_print_information_nl "Sending \"${command_to_send}\"."
-	fn_print_dots "Sending command to console"
+	fn_print_dots "Sending command to console: \"${command_to_send}\""
 	tmux send-keys -t "${servicename}" "${command_to_send}" ENTER
-	fn_print_ok_nl "Command sent to console."
+	fn_print_ok_nl "Sending command to console: \"${command_to_send}\""
 	fn_script_log_pass "Command \"${command_to_send}\" sent to console"
 else
 	fn_print_error_nl "Server not running"
