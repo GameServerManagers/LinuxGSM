@@ -9,13 +9,9 @@ local commandaction="Send"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
-if [ -n "${userinput2}" ]; then
+if [ -z "${userinput2}" ]; then
 	fn_print_header
 	fn_print_information_nl "Send allows a command to be sent to the console."
-fi
-if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" == "ark" ]||[ "${shortname}" == "ts3" ]; then
-	fn_print_information_nl "${gamename} does not allow server commands to be entered into the console."
-	core_exit.sh
 fi
 
 check_status.sh
