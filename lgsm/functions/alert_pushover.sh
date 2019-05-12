@@ -9,7 +9,6 @@ local commandaction="Alert"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Pushover alert"
-sleep 0.5
 
 # Different alerts are given different priorities and notification sounds
 if [ "${alertsound}" == "1" ]; then
