@@ -9,9 +9,10 @@ local commandaction="Validate"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
+	fn_print_info "Validating files: SteamCMD"
 	echo ""
 	echo -e "* Validating may overwrite some customised files."
-	echo -e "* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
+	echo -e "* https://docs.linuxgsm.com/commands/validate"
 	fn_script_log_info "Validating files: SteamCMD"
 	sleep 3
 	cd "${steamcmddir}" || exit
