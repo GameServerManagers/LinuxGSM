@@ -135,7 +135,6 @@ sleep 0.5
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
-		sleep 0.5
 		if [ -s "${lgsmlogdir}/.${servicename}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
@@ -187,7 +186,6 @@ sleep 0.5
 }
 
 fn_print_dots "${servername}"
-sleep 0.5
 check.sh
 # Is the server already started
 if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command

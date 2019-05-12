@@ -44,9 +44,7 @@ fn_validation(){
 }
 
 fn_print_dots "Validating files:"
-sleep 0.5
 fn_print_dots "Validating files: SteamCMD"
-sleep 0.5
 check.sh
 check_status.sh
 if [ "${status}" != "0" ]; then

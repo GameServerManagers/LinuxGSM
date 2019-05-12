@@ -56,7 +56,6 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No procedural map file to remove"
 			fn_script_log_info "No procedural map file to remove."
-			sleep 0.5
 		fi
 		# Wipe procedural map save
 		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
@@ -70,7 +69,6 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No procedural map save to remove"
 			fn_script_log_info "No procedural map save to remove."
-			sleep 0.5
 		fi
 		# Wipe Barren map
 		if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
@@ -84,7 +82,6 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No barren map file to remove"
 			fn_script_log_info "No barren map file to remove."
-			sleep 0.5
 		fi
 		# Wipe barren map save
 		if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
@@ -98,7 +95,6 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No barren map save to remove"
 			fn_script_log_info "No barren map save to remove."
-			sleep 0.5
 		fi
 		# Wipe user dir, might be a legacy thing, maybe to be removed
 		if [ -d "${serveridentitydir}/user" ]; then
@@ -145,7 +141,6 @@ fn_wipe_server_remove_files(){
 		else
 			fn_print_information_nl "No player death to remove"
 			fn_script_log_info "No player death to remove."
-			sleep 0.5
 		fi
 		# Wipe blueprints only if wipeall command was used
 		if [ "${wipeall}" == "1" ]; then
@@ -160,16 +155,14 @@ fn_wipe_server_remove_files(){
 			else
 				fn_print_information_nl "No blueprint file to remove"
 				fn_script_log_info "No blueprint file to remove."
-				sleep 0.5
 			fi
 		elif [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 				fn_print_information_nl "Keeping blueprints"
 				fn_script_log_info "Keeping blueprints."
-				sleep 0.5
 		else
 				fn_print_information_nl "No blueprints found"
 				fn_script_log_info "No blueprints found."
-				sleep 0.5				
+				sleep 0.5
 		fi
 		# Wipe some logs that might be there
 		if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
@@ -200,7 +193,6 @@ if [ "${shortname}" == "rust" ]; then
 	else
 		fn_print_information_nl "No data to wipe was found"
 		fn_script_log_info "No data to wipe was found."
-		sleep 0.5
 		core_exit.sh
 	fi
 # You can add an "elif" here to add another game or engine
@@ -208,7 +200,6 @@ else
 	# Game not listed
 	fn_print_information_nl "Wipe is not available for this game"
 	fn_script_log_info "Wipe is not available for this game."
-	sleep 0.5
 	core_exit.sh
 fi
 

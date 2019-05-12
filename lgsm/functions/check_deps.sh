@@ -9,7 +9,6 @@ local commandname="CHECK"
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
 		fn_print_dots "Adding Mono repository"
-		sleep 0.5
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
 		else
@@ -107,7 +106,6 @@ fn_install_universe_repo(){
    if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
 		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
 		fn_print_information_nl "Attempting to add Universe Repo"
-		sleep 0.5
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
 		else

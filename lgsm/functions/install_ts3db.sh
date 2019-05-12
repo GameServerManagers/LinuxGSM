@@ -71,7 +71,6 @@ echo "Getting privilege key"
 echo "================================="
 sleep 0.5
 fn_print_information_nl "Save these details for later."
-sleep 0.5
 cd "${executabledir}" || exit
 ${executable} start inifile=ts3-server.ini
 sleep 5

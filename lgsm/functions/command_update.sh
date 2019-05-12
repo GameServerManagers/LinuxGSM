@@ -9,7 +9,6 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots ""
-sleep 0.2
 check.sh
 logs.sh
 

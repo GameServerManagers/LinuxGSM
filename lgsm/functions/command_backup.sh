@@ -17,7 +17,6 @@ fn_backup_trap(){
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
-	sleep 0.5
 	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
@@ -44,10 +43,7 @@ fn_backup_init(){
 	info_distro.sh
 	fn_print_dots "Backup starting"
 	fn_script_log_info "Backup starting"
-	sleep 0.5
-	fn_print_ok "Backup starting"
-	sleep 0.5
-	echo -en "\n"
+	fn_print_ok_nl "Backup starting"
 	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 		fn_print_info_nl "There are no previous backups"
 	else
@@ -59,7 +55,6 @@ fn_backup_init(){
 			daysago="${lastbackupdaysago} days ago"
 		fi
 		echo "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
-		sleep 0.5
 	fi
 }
 
@@ -80,7 +75,6 @@ fn_backup_stop_server(){
 	else
 		fn_print_warn_nl "${servicename} will be stopped during the backup"
 		fn_script_log_warn "${servicename} will be stopped during the backup"
-		sleep 5
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh
@@ -109,7 +103,6 @@ fn_backup_compression(){
 	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
-	sleep 2
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
         excludedir=$(fn_backup_relpath)
@@ -131,7 +124,6 @@ fn_backup_compression(){
 		fn_script_log_fatal "Starting backup"
 	else
 		fn_print_ok_eol
-		sleep 0.5
 		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
@@ -153,9 +145,7 @@ fn_backup_prune(){
 		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
 			fn_script_log_info "Backup pruning activated"
-			sleep 0.5
 			fn_print_ok_nl "Pruning"
-			sleep 0.5
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared
@@ -164,7 +154,6 @@ fn_backup_prune(){
 				sleep 0.5
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
-				sleep 0.5
 				# Clear backups over quota
 				find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
 				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
@@ -177,13 +166,11 @@ fn_backup_prune(){
 				sleep 0.5
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
-				sleep 0.5
 				# Clear backups over quota
 				find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
 				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			fi
-			sleep 0.5
 		fi
 	fi
 }

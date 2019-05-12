@@ -80,12 +80,10 @@ fi
 
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
-sleep 0.5
 exitbypass=1
 command_stop.sh
 fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
-sleep 0.5
 fn_print_ok_nl "Starting debug"
 
 # Create lockfile
@@ -111,7 +109,6 @@ else
 fi
 
 fn_print_dots "Stopping debug"
-sleep 1
 fn_print_ok_nl "Stopping debug"
 # remove trap.
 trap - INT

@@ -39,7 +39,6 @@ fn_remove_cfg_files(){
 }
 
 fn_print_dots "Update addons/mods"
-sleep 0.5
 fn_mods_check_installed
 fn_print_info_nl "Update addons/mods: ${installedmodscount} addons/mods will be updated"
 fn_script_log_info "${installedmodscount} mods or addons will be updated"
@@ -66,7 +65,6 @@ for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 		echo -e "	* ${yellow}${modprettyname}${default} (retain common custom files)"
 	fi
 done
-sleep 0.5
 
 ## Update
 # List all installed mods and apply update

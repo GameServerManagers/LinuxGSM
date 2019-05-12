@@ -30,18 +30,14 @@ fn_update_mta_dl(){
 fn_update_mta_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	sleep 0.5
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
 	if [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
-		sleep 0.5
 		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no log files"
 		fn_script_log_error "No log file found"
-		sleep 0.5
 		fn_print_info_nl "Checking for update: ${remotelocation}: checking local build: forcing server restart"
 		fn_script_log_info "Forcing server restart"
-		sleep 0.5
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
@@ -61,9 +57,8 @@ fn_update_mta_localbuild(){
 				fn_print_error "Checking for update: ${remotelocation}: waiting for log file: missing log file"
 				fn_script_log_error "Missing log file"
 				fn_script_log_error "Set localbuild to 0"
-				sleep 0.5
 			fi
-			
+
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
@@ -81,7 +76,7 @@ fn_update_mta_localbuild(){
 			if [ -z "${loopignore}" ]; then
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
-			fi		
+			fi
 			localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
 			if [ "${localbuild}" ]; then
 				break
@@ -90,7 +85,7 @@ fn_update_mta_localbuild(){
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
-	
+
 	if [ -z "${localbuild}" ]; then
 		localbuild="0"
 		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
@@ -100,7 +95,6 @@ fn_update_mta_localbuild(){
 		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
 		fn_script_log_pass "Checking local build"
 	fi
-	sleep 0.5
 }
 
 fn_update_mta_remotebuild(){
@@ -111,7 +105,6 @@ fn_update_mta_remotebuild(){
 	remotebuild="${majorversion}.${minorversion}.${maintenanceversion}"
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
-		sleep 0.5
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
@@ -120,7 +113,6 @@ fn_update_mta_remotebuild(){
 		else
 			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 			fn_script_log_pass "Checking remote build"
-			sleep 0.5
 		fi
 	else
 		# Checks if remotebuild variable has been set.
@@ -129,13 +121,12 @@ fn_update_mta_remotebuild(){
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
-	fi	
+	fi
 }
 
 fn_update_mta_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	sleep 0.5
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
@@ -146,7 +137,6 @@ fn_update_mta_compare(){
 		else
 			mtaupdatestatus="available"
 		fi
-		sleep 0.5
 		echo -en "\n"
 		echo -e "Update ${mtaupdatestatus}:"
 		echo -e "* Local build: ${red}${localbuild}${default}"
@@ -189,7 +179,6 @@ fn_update_mta_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		sleep 0.5
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
@@ -209,7 +198,6 @@ if [ "${installer}" == "1" ]; then
 else
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	sleep 0.5
 	fn_update_mta_localbuild
 	fn_update_mta_remotebuild
 	fn_update_mta_compare
