@@ -15,7 +15,7 @@ fi
 echo ""
 echo "Accept ${gamename} EULA"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 echo "You are required to accept the EULA:"
 echo "${eulaurl}"
 echo ""

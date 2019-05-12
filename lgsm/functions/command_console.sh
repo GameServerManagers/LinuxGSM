@@ -22,19 +22,16 @@ if ! fn_prompt_yn "Continue?" Y; then
 	echo Exiting; return
 fi
 fn_print_dots "Accessing console"
-sleep 0.5
 check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Accessing console"
 	fn_script_log_pass "Console accessed"
-	sleep 0.5
 	tmux attach-session -t "${servicename}"
 	fn_print_ok_nl "Closing console"
 	fn_script_log_pass "Console closed"
 else
 	fn_print_error_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"
-	sleep 0.5
 	if fn_prompt_yn "Do you want to start the server?" Y; then
 		exitbypass=1
 		command_start.sh

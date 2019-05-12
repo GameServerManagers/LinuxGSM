@@ -41,7 +41,7 @@ fn_dl_md5(){
 	# Runs MD5 Check if available.
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
 		echo -en "verifying ${local_filename} with MD5..."
-		sleep 0.5
+		fn_sleep_time
 		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
@@ -104,7 +104,7 @@ fn_fetch_trap(){
 	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
-	sleep 0.5
+	fn_sleep_time
 	rm -f "${local_filedir}/${local_filename}"
 	echo -en "downloading ${local_filename}..."
 	fn_print_removed_eol_nl
@@ -131,7 +131,7 @@ fn_fetch_file(){
 		# Larger files show a progress bar.
 		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]||[ "${local_filename##*.}" == "xz" ]; then
 			echo -en "downloading ${local_filename}..."
-			sleep 0.5
+			fn_sleep_time
 			echo -en "\033[1K"
 			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 			echo -en "downloading ${local_filename}..."
