@@ -11,7 +11,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Standard commands
 cmd_install=( "i;install" "command_install.sh" "Install the server." )
 cmd_auto_install=( "ai;auto-install" "fn_autoinstall" "Install the server without prompts." )
-cmd_send=( "sd;send" "command_send.sh" "Send a command to the server console." )
+
 cmd_start=( "st;start" "command_start.sh" "Start the server." )
 cmd_stop=( "sp;stop" "command_stop.sh" "Stop the server." )
 cmd_restart=( "r;restart" "command_restart.sh" "Restart the server." )
@@ -22,6 +22,7 @@ cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linux
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
 cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
+cmd_send=( "sd;send" "command_send.sh" "Send command to server console." )
 # Console servers only
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
@@ -56,7 +57,7 @@ cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" 
 
 ### Set specific opt here ###
 
-currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_send[@]}")
+currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}")
 
 # Update LGSM
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
@@ -78,9 +79,14 @@ fi
 #Backup
 currentopt+=( "${cmd_backup[@]}" )
 
-# Exclude games without a console
+# Exclude game servers without a console
 if [ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
+fi
+
+# Exclude game servers that dont support send
+if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" == "ark" ]||[ "${shortname}" == "ts3" ]; then
+	currentopt+=( "${cmd_send[@]}" )
 fi
 
 ## Game server exclusive commands
