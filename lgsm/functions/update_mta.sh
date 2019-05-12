@@ -18,7 +18,7 @@ fn_update_mta_dl(){
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
-		chmod u+x "${serverfiles}/minecraft_server.jar"
+		chmod u+x "${serverfiles}/mta-server64"
 		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
