@@ -111,6 +111,9 @@ elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
 elif [ "${shortname}" == "rw" ]; then
 	glibcrequired="2.14"
 	glibcfix="no"
+elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
+  glibcrequired="2.1"
+  glibcfix="no"
 elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
 	glibcrequired="2.3"
 	glibcfix="no"

@@ -111,6 +111,11 @@ fn_info_parms_rust(){
 	tickrate=${tickrate:-"0"}
 }
 
+fn_info_parms_sof2(){
+	port=${port:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
 fn_info_parms_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
@@ -214,6 +219,9 @@ elif [ "${shortname}" == "rust" ]; then
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_risingworld
+# Soldier Of Fortune 2: Gold Edition
+elif [ "${shortname}" == "sof2" ]; then
+	fn_info_parms_sof2
 # Sticky Bots
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_parms_stickybots
