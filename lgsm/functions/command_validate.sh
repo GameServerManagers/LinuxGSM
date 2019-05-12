@@ -10,14 +10,10 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
 	echo ""
-	echo -e "	* Validating may overwrite some customised files."
-	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
-	sleep 3
-	echo -en "\n"
-
+	echo -e "* Validating may overwrite some customised files."
+	echo -e "* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
 	fn_script_log_info "Validating files: SteamCMD"
-	sleep 0.5
-
+	sleep 3
 	cd "${steamcmddir}" || exit
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
