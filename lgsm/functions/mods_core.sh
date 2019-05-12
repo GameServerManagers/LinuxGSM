@@ -38,7 +38,7 @@ fn_mod_lowercase(){
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
 
 		echo -en "converting ${modprettyname} files to lowercase..."
-		sleep 0.5
+		fn_sleep_time
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
 		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
@@ -61,14 +61,14 @@ fn_mod_lowercase(){
 		else
 			fn_print_ok_eol_nl
 		fi
-		sleep 0.5
+		fn_sleep_time
 	fi
 }
 
 # Create ${modcommand}-files.txt containing the full extracted file/directory list
 fn_mod_create_filelist(){
 	echo -en "building ${modcommand}-files.txt..."
-	sleep 0.5
+	fn_sleep_time
 	# ${modsdir}/${modcommand}-files.txt
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 	local exitcode=$?
@@ -84,13 +84,13 @@ fn_mod_create_filelist(){
 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
 		cat "${modsdir}/.removedfiles.tmp" >> "${modsdir}/${modcommand}-files.txt"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 # Copy the mod into serverfiles
 fn_mod_copy_destination(){
 	echo -en "copying ${modprettyname} to ${modinstalldir}..."
-	sleep 0.5
+	fn_sleep_time
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
@@ -116,7 +116,7 @@ fn_mod_tidy_files_list(){
 	fn_check_mod_files_list
 	# Output to the user
 	echo -en "tidy up ${modcommand}-files.txt..."
-	sleep 0.5
+	fn_sleep_time
 	fn_script_log_info "Tidy up ${modcommand}-files.txt"
 	# Lines/files to remove from file list (end with ";" separator)
 	removefromlist="cfg;addons;RustDedicated_Data;RustDedicated_Data\/Managed;RustDedicated_Data\/Managed\/x86;RustDedicated_Data\/Managed\/x64;"
@@ -354,7 +354,7 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod download dir ${modsdir}"
 		fi
-		sleep 0.5
+		fn_sleep_time
 	fi
 	# Create mod install directory
 	if [ ! -d "${modinstalldir}" ]; then
@@ -369,7 +369,7 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod install directory ${modinstalldir}"
 		fi
-		sleep 0.5
+		fn_sleep_time
 	fi
 
 	# Create lgsm/data/${modsinstalledlist}
