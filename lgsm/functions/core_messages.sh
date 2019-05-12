@@ -135,16 +135,12 @@ fn_print_dots_nl(){
 
 # [  OK  ]
 fn_print_ok(){
-	if [ "${travistest}" == "1" ];then
-		fn_print_dots_nl
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
 	else
-		if [ -n "${commandaction}" ]; then
-			echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${servicename}: $@"
-		else
-			echo -en "${creeol}[${green}  OK  ${default}] $@"
-		fi
-		fn_sleep_time
+		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_ok_nl(){
@@ -159,16 +155,12 @@ fn_print_ok_nl(){
 
 # [ FAIL ]
 fn_print_fail(){
-	if [ "${travistest}" == "1" ];then
-		fn_print_dots_nl
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
 	else
-		if [ -n "${commandaction}" ]; then
-			echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${servicename}: $@"
-		else
-			echo -en "${creeol}[${red} FAIL ${default}] $@"
-		fi
-		fn_sleep_time
+		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_fail_nl(){
@@ -183,16 +175,12 @@ fn_print_fail_nl(){
 
 # [ ERROR ]
 fn_print_error(){
-	if [ "${travistest}" == "1" ];then
-		fn_print_dots_nl
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
 	else
-		if [ -n "${commandaction}" ]; then
-			echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${servicename}: $@"
-		else
-			echo -en "${creeol}[${red}ERROR ${default}] $@"
-		fi
-		fn_sleep_time
+		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_error_nl(){
@@ -207,16 +195,12 @@ fn_print_error_nl(){
 
 # [ WARN ]
 fn_print_warn(){
-	if [ "${travistest}" == "1" ];then
-		fn_print_dots_nl
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		if [ -n "${commandaction}" ]; then
-			echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
-		else
-			echo -en "${creeol}[${yellow} WARN ${default}] $@"
-		fi
-		fn_sleep_time
+		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_warn_nl(){
@@ -231,16 +215,12 @@ fn_print_warn_nl(){
 
 # [ INFO ]
 fn_print_info(){
-	if [ "${travistest}" == "1" ];then
-		fn_print_dots_nl
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
 	else
-		if [ -n "${commandaction}" ]; then
-			echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${servicename}: $@"
-		else
-			echo -en "${creeol}[${cyan} INFO ${default}] $@"
-		fi
-		fn_sleep_time
+		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_info_nl(){
