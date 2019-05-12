@@ -411,7 +411,7 @@ fn_setstatus(){
 	echo -e "\n"
 	echo "Test starting:"
 	echo ""
-	sleep 0.5
+	fn_sleep_time
 }
 
 # End of every test will expect the result to either pass or fail

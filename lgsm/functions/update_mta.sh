@@ -145,7 +145,7 @@ fn_update_mta_compare(){
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		sleep 0.5
+		fn_sleep_time
 		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1

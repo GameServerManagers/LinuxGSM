@@ -22,7 +22,7 @@ if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"
 		echo -en "\n"
-		sleep 0.5
+		fn_sleep_time
 		mv "${systemdir}"/gamelog*.log "${gamelogdir}"
 	fi
 fi
@@ -40,7 +40,7 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; th
 	legacyserverlogdir="${logdir}/server"
 	# Setting up counting variables
 	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
-	sleep 0.5
+	fn_sleep_time
 	fn_print_ok_nl "Starting"
 	fn_print_info_nl "Removing logs older than ${logdays} days"
 	fn_script_log_info "Removing logs older than ${logdays} days"

@@ -151,7 +151,7 @@ fn_backup_prune(){
 				# Display how many backups will be cleared
 				echo "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
-				sleep 0.5
+				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota
@@ -163,7 +163,7 @@ fn_backup_prune(){
 				# Display how many backups will be cleared
 				echo "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
-				sleep 0.5
+				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota

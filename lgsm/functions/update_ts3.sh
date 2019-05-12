@@ -33,7 +33,7 @@ fn_update_ts3_dl(){
 fn_update_ts3_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	sleep 0.5
+	fn_sleep_time
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
 	if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
@@ -144,7 +144,7 @@ fn_update_ts3_compare(){
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		sleep 0.5
+		fn_sleep_time
 		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1

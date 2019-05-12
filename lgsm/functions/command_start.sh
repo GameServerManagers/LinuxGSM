@@ -24,7 +24,7 @@ fn_start_teamspeak3(){
 		sleep 5
 		touch "${servercfgfullpath}"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	if [ -f "${lgsmlog}" ]; then
 		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
@@ -40,7 +40,7 @@ fn_start_teamspeak3(){
 	else
 		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
 	fi
-	sleep 0.5
+	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
@@ -128,7 +128,7 @@ if [ "${consolelogging}" == "off" ]; then
 	echo "Console logging disabled by user" >> "${consolelog}"
 	fn_script_log_info "Console logging disabled by user"
 fi
-sleep 0.5
+fn_sleep_time
 
 	# If the server fails to start
 	check_status.sh

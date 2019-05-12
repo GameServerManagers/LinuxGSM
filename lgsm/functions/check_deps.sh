@@ -185,7 +185,7 @@ fn_deps_detector(){
 		missingdep=1
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${red}${deptocheck}${default}"
-			sleep 0.2
+			fn_sleep_time
 		fi
 		# Define required dependencies for SteamCMD
 		if [ -n "${appid}" ]; then
@@ -229,7 +229,7 @@ fn_found_missing_deps(){
 
 		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[@]}${default}"
 		fn_script_log_warn "Missing dependencies: ${array_deps_missing[@]}"
-		sleep 0.5
+		fn_sleep_time
 		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
 		fi

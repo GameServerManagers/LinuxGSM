@@ -171,7 +171,7 @@ fn_sys_perm_fix_manually_msg(){
 	fn_script_log_info "To fix this issue, run the following command as root:"
 	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
-	sleep 0.5
+	fn_sleep_time
 	if [ "${monitorflag}" == 1 ]; then
 		alert="permissions"
 		alert.sh
@@ -199,7 +199,7 @@ fn_sys_perm_errors_fix(){
 		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 			fn_print_error "Could not fix /sys permissions"
 			fn_script_log_error "Could not fix /sys permissions."
-			sleep 0.5
+			fn_sleep_time
 			# Show the user how to fix
 			fn_sys_perm_fix_manually_msg
 		else

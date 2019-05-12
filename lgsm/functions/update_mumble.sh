@@ -80,7 +80,7 @@ fn_update_mumble_compare(){
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		sleep 0.5
+		fn_sleep_time
 		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1

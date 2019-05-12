@@ -47,7 +47,7 @@ fn_update_steamcmd_localbuild(){
 	else
 		branchname="public"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 fn_update_steamcmd_remotebuild(){
@@ -94,7 +94,7 @@ fn_update_steamcmd_compare(){
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		sleep 0.5
+		fn_sleep_time
 		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1
@@ -150,7 +150,7 @@ fn_appmanifest_check(){
 	# Multiple or no matching appmanifest files may sometimes be present.
 	# This error is corrected if required.
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
-		sleep 0.5
+		fn_sleep_time
 		fn_print_error "Multiple appmanifest_${appid}.acf files found"
 		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
 		fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"

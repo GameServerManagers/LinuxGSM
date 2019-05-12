@@ -78,7 +78,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo ""
 			echo "Applying Post-Install Fixes"
 			echo "================================="
-			sleep 0.5
+			fn_sleep_time
 			if [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then

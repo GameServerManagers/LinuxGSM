@@ -33,7 +33,7 @@ fn_stop_graceful_ctrlc(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: CTRL+c: FAIL"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 # Attempts graceful shutdown by sending a specified command.
@@ -62,7 +62,7 @@ fn_stop_graceful_cmd(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 # Attempts graceful of goldsource using rcon 'quit' command.
@@ -179,7 +179,7 @@ fn_stop_graceful_sdtd(){
 		fn_print_fail_eol_nl
 		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 fn_stop_graceful_select(){
@@ -262,7 +262,7 @@ fn_stop_tmux(){
 	fn_script_log_info "tmux kill-session: ${servername}"
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
-	sleep 0.5
+	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# ARK doesn't clean up immediately after tmux is killed.
