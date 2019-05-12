@@ -33,7 +33,7 @@ fn_stop_graceful_ctrlc(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: CTRL+c: FAIL"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 # Attempts graceful shutdown by sending a specified command.
@@ -62,7 +62,7 @@ fn_stop_graceful_cmd(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 # Attempts graceful of goldsource using rcon 'quit' command.
@@ -82,7 +82,6 @@ fn_stop_graceful_goldsource(){
 	fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
-	sleep 0.5
 }
 
 # Attempts graceful of 7 Days To Die using telnet.
@@ -125,7 +124,6 @@ fn_stop_telnet_sdtd(){
 fn_stop_graceful_sdtd(){
 	fn_print_dots "Graceful: telnet"
 	fn_script_log_info "Graceful: telnet"
-	sleep 0.5
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
 	elif [ "$(command -v expect 2>/dev/null)" ]; then
@@ -133,7 +131,6 @@ fn_stop_graceful_sdtd(){
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
-			sleep 0.5
 			fn_stop_telnet_sdtd
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
 			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
@@ -141,7 +138,6 @@ fn_stop_graceful_sdtd(){
 				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Graceful: telnet:  ${telnetip}:${telnetport} : FAIL"
-				sleep 1
 			elif [ -n "${completed}" ]; then
 				break
 			fi
@@ -183,7 +179,7 @@ fn_stop_graceful_sdtd(){
 		fn_print_fail_eol_nl
 		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 fn_stop_graceful_select(){
@@ -235,7 +231,6 @@ fn_stop_ark(){
 			# and a valid numeric pid remains unchanged.
 			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le "$(cat "/proc/sys/kernel/pid_max")" ]; then
 			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
-				sleep 0.5
 			else
 				break # Our job is done here
 			fi # end if for pid range check
@@ -251,7 +246,6 @@ fn_stop_ark(){
 
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
-	sleep 0.5
 	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
@@ -268,10 +262,9 @@ fn_stop_teamspeak3(){
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${servername}"
-	sleep 0.5
 	# Kill tmux session
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
-	sleep 0.5
+	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		# ARK doesn't clean up immediately after tmux is killed.
@@ -306,7 +299,6 @@ fn_stop_pre_check(){
 }
 
 fn_print_dots "${servername}"
-sleep 0.5
 check.sh
 info_config.sh
 fn_stop_pre_check
