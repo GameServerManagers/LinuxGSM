@@ -18,7 +18,7 @@ fn_update_mta_dl(){
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
-		chmod u+x "${serverfiles}/minecraft_server.jar"
+		chmod u+x "${serverfiles}/mta-server64"
 		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
@@ -63,7 +63,7 @@ fn_update_mta_localbuild(){
 				fn_script_log_error "Set localbuild to 0"
 				sleep 0.5
 			fi
-			
+
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
@@ -81,7 +81,7 @@ fn_update_mta_localbuild(){
 			if [ -z "${loopignore}" ]; then
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
-			fi		
+			fi
 			localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
 			if [ "${localbuild}" ]; then
 				break
@@ -90,7 +90,7 @@ fn_update_mta_localbuild(){
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
-	
+
 	if [ -z "${localbuild}" ]; then
 		localbuild="0"
 		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
@@ -129,7 +129,7 @@ fn_update_mta_remotebuild(){
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
-	fi	
+	fi
 }
 
 fn_update_mta_compare(){
