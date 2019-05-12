@@ -111,16 +111,12 @@ fn_script_log_info(){
 
 # [ .... ]
 fn_print_dots(){
-	if [ "${travistest}" == "1" ];then
-		fn_print_dots_nl
+	if [ -n "${commandaction}" ]; then
+		echo -en "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
 	else
-		if [ -n "${commandaction}" ]; then
-			echo -en "${creeol}[ .... ] ${commandaction} ${servicename}: $@"
-		else
-			echo -en "${creeol}[ .... ] $@"
-		fi
-		fn_sleep_time
+		echo -en "${creeol}[ .... ] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_dots_nl(){
