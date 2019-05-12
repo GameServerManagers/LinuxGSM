@@ -142,6 +142,9 @@ if [ "${shortname}" == "ts3" ]; then
 elif [ "${shortname}" == "mc" ]; then
 	install_eula.sh
 	update_minecraft.sh
+elif [ "${shortname}" == "wf" ]; then
+	install_waterfall.sh
+	update_waterfall.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
 elif [ "${shortname}" == "mta" ]; then

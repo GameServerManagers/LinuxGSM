@@ -742,6 +742,16 @@ fn_info_message_minecraft(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_waterfall(){
+	echo -e "netstat -atunp | grep java"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
@@ -1266,6 +1276,8 @@ fn_info_message_select_engine(){
 		fn_info_message_wurmunlimited
 	elif [ "${shortname}" == "rw" ]; then
 		fn_info_message_risingworld
+	elif [ "${shortname}" == "wf" ]; then
+		fn_info_message_waterfall
 	elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 		fn_info_message_wolfensteinenemyterritory
 	elif [ "${engine}" == "refractor" ]; then

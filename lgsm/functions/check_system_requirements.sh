@@ -24,7 +24,7 @@ elif [ "${shortname}" == "arma3" ]; then
 elif [ "${shortname}" == "rust" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${shortname}" == "mc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "wf" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pstbs" ]; then

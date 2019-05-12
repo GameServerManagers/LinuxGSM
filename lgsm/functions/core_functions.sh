@@ -546,6 +546,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_waterfall.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fn_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -645,6 +650,11 @@ fn_fetch_function
 }
 
 install_ut2k4_key.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_waterfall.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

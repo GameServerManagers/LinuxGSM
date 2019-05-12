@@ -1008,6 +1008,33 @@ fn_info_config_mta(){
 	fi
 }
 
+fn_info_config_waterfall(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		queryenabled="${unavailable}"
+	else
+		servername=$(grep "motd" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/motd//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | tail -1)
+		maxplayers=$(grep "max_players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		port=$(grep " host:" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/host://g' | cut -d':' -f2 | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | tr -cd '[:digit:]')
+		queryport=$(grep "query_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryenabled=$(grep "query_enabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/query_enabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		ip=$(grep " host:" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/host://g' | cut -d':' -f1 | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="host"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"NOT SET"}
+		port=${port:-"NOT SET"}
+		queryport="${queryport:-"NOT SET"}"
+		queryenabled="${queryenabled:-"NOT SET"}"
+	fi
+}
+
 fn_info_config_wolfensteinenemyterritory(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
@@ -1298,4 +1325,6 @@ elif [ "${shortname}" == "st" ]; then
 	fn_info_config_stationeers
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
+elif [ "${shortname}" == "wf" ]; then
+	fn_info_config_waterfall
 fi

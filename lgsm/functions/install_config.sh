@@ -626,6 +626,12 @@ elif [ "${gamename}" == "Vampire Slayer" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Waterfall" ]; then
+	gamedirname="Waterfall"
+	array_configs+=( config.yml )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	gamedirname="WolfensteinEnemyTerritory"
 	array_configs+=( server.cfg )
