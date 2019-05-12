@@ -85,7 +85,7 @@ if [ "${shortname}" != "ts3" ]; then
 fi
 
 # Exclude game servers that dont support send
-if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" == "ark" ]||[ "${shortname}" == "ts3" ]; then
+if [ "${shortname}" != "rust" ]||[ "${shortname}" != "hw" ]||[ "${shortname}" != "ark" ]||[ "${shortname}" != "ts3" ]; then
 	currentopt+=( "${cmd_send[@]}" )
 fi
 
