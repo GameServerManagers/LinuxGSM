@@ -144,7 +144,7 @@ remotelocation="papermc.io"
 # The version of PaperMC the user want
 paper_version=$(head -n 1 "${configdirserver}/paper_version.cfg")
 
-if [ -n "${paper_version}" ]; then
+if [ -z "${paper_version}" ]; then
 	fn_print_error "No PaperMc version found"
 	fn_script_log_error "No PaperMc version found"
 	core_exit.sh
