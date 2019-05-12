@@ -15,19 +15,19 @@ if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" ==
 	fn_print_information_nl "${gamename} does not allow server commands to be entered into the console."
 	core_exit.sh
 fi
-echo ""
 
 check_status.sh
 if [ "${status}" != "0" ]; then
 	if [ -n "${userinput2}" ]; then
 		command_to_send="${userinput2}"
 	else
-			command_to_send=$( fn_prompt_message "send: " )
+		echo ""
+		command_to_send=$( fn_prompt_message "send: " )
 	fi
 	fn_print_information_nl "Sending \"${command_to_send}\"."
 	fn_print_dots "Sending command to console"
 	tmux send-keys -t "${servicename}" "${command_to_send}" ENTER
-	fn_print_complete_nl "Command sent to console."
+	fn_print_ok_nl "Command sent to console."
 	fn_script_log_pass "Command \"${command_to_send}\" sent to console"
 else
 	fn_print_error_nl "Server not running"
