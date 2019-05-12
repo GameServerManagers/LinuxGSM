@@ -178,7 +178,7 @@ fn_deps_detector(){
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${green}${deptocheck}${default}"
-			sleep 0.2
+			fn_sleep_time
 		fi
 	else
 		# if dependency is not found
@@ -551,7 +551,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo "================================="
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
-		sleep 2
+		fn_sleep_time
 	else
 		echo ""
 		echo "Checking Dependencies"

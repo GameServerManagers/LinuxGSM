@@ -15,10 +15,10 @@ fn_start_teamspeak3(){
 		fn_script_log_warn "${servercfgfullpath} is missing"
 		echo  "	* Creating blank ${servercfg}"
 		fn_script_log_info "Creating blank ${servercfg}"
-		sleep 1
+		fn_sleep_time
 		echo  "	* ${servercfg} can remain blank by default."
 		fn_script_log_info "${servercfgfullpath} can remain blank by default."
-		sleep 1
+		fn_sleep_time
 		echo  "	* ${servercfg} is located in ${servercfgfullpath}."
 		fn_script_log_info "${servercfg} is located in ${servercfgfullpath}."
 		sleep 5

@@ -797,7 +797,7 @@ echo "give time for server to fully start."
 echo "Command: sleep 30"
 requiredstatus="ONLINE"
 fn_setstatus
-sleep 60
+sleep 30
 
 echo ""
 echo "5.1 - monitor - online"
