@@ -9,7 +9,6 @@ local commandaction="Update LinuxGSM"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Updating LinuxGSM"
-sleep 0.5
 check.sh
 fn_script_log_info "Updating LinuxGSM"
 echo -en "\n"

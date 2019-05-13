@@ -133,7 +133,7 @@ fn_install_server_files_steamcmd(){
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 
 if [ -n "${appid}" ]; then
 	fn_install_server_files_steamcmd

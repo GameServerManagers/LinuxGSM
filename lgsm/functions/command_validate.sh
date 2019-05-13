@@ -9,15 +9,12 @@ local commandaction="Validate"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
+	fn_print_info "Validating files: SteamCMD"
 	echo ""
-	echo -e "	* Validating may overwrite some customised files."
-	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
-	sleep 3
-	echo -en "\n"
-
+	echo -e "* Validating may overwrite some customised files."
+	echo -e "* https://docs.linuxgsm.com/commands/validate"
 	fn_script_log_info "Validating files: SteamCMD"
-	sleep 0.5
-
+	sleep 3
 	cd "${steamcmddir}" || exit
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
@@ -44,9 +41,7 @@ fn_validation(){
 }
 
 fn_print_dots "Validating files:"
-sleep 0.5
 fn_print_dots "Validating files: SteamCMD"
-sleep 0.5
 check.sh
 check_status.sh
 if [ "${status}" != "0" ]; then
