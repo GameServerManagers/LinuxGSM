@@ -427,7 +427,7 @@ fn_menu_bash_string() {
 			var=${line:1:-1}
 			menu_options+=( "${var}" )
 		fi
-	done <<<  ${options}
+	done <<<  "${options}"
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
 		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
