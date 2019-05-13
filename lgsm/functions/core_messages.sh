@@ -424,8 +424,7 @@ fn_menu_bash_string() {
 	menu_options=()
 	while read -r line; do
 		if [ -n "${line}" ];then
-			var=${line:1:-1}
-			menu_options+=( "${var}" )
+			menu_options+=( "${line}" )
 		fi
 	done <<<  "${options}"
 	menu_options+=( "Cancel" )
@@ -451,8 +450,7 @@ fn_menu_whiptail_string() {
 	menu_options=()
 	while read -r line; do
 		if [ -n "${line}" ];then
-			var=${line:1:-1}
-			menu_options+=( ${var//\"} "${prefix}${var//\"}" )
+			menu_options+=( ${line//\"} "${prefix}${line//\"}" )
 		fi
 	done <<< "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
@@ -470,7 +468,7 @@ fn_menu_string() {
 	title=$2
 	caption=$3
 	options=$4
-	prefix=${5:""}
+	prefix=${5}
 	# Get menu command
 	for menucmd in whiptail dialog bash; do
 		if [ -x "$(command -v "${menucmd}")" ]; then
