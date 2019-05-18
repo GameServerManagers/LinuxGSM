@@ -532,7 +532,7 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Squad" ]; then
 	gamedirname="Squad"
-	array_configs+=( Server.cfg Rcon.cfg )
+	array_configs+=( Admins.cfg Bans.cfg License.cfg Server.cfg Rcon.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
