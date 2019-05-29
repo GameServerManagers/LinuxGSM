@@ -19,7 +19,6 @@ EOF
 )
 
 fn_print_dots "Sending Pushbullet alert"
-sleep 0.5
 pushbulletsend=$(${curlpath} -sSL -u """${pushbullettoken}"":" -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
 
 if [ -n "${pushbulletsend}" ]; then

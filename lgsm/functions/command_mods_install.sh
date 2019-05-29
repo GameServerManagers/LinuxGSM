@@ -85,7 +85,6 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 	if [ -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		fn_print_warning_nl "${modprettyname} is already installed"
 		fn_script_log_warn "${modprettyname} is already installed"
-		sleep 0.5
 		echo " * Any configs may be overwritten."
 		if ! fn_prompt_yn "Continue?" Y; then
 			echo Exiting; core_exit.sh
