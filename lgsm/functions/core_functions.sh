@@ -382,6 +382,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sof2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ss3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

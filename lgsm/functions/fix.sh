@@ -55,6 +55,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rw.sh
 	elif [ "${shortname}" == "sdtd" ]; then
 		fix_sdtd.sh
+	elif [ "${shortname}" == "sof2" ]; then
+		fix_ss3.sh		
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
 	elif [ "${shortname}" == "tf2" ]; then
