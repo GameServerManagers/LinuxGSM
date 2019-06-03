@@ -942,6 +942,15 @@ fn_info_message_sdtd(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_sof2(){
+	echo -e "netstat -atunp | grep sof2ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source(){
 	echo -e "netstat -atunp | grep srcds_linux"
 	echo -e ""
@@ -1284,6 +1293,8 @@ fn_info_message_select_engine(){
 		fn_info_message_seriousengine35
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
+	elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
+	  fn_info_message_sof2
 	elif [ "${engine}" == "spark" ]; then
 		fn_info_message_spark
 	elif [ "${engine}" == "starbound" ]; then
