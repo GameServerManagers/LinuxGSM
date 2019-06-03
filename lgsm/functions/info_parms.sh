@@ -146,6 +146,12 @@ fn_info_parms_stickybots(){
 	maxplayers=${maxplayers:-"0"}
 }
 
+fn_info_parms_sof2(){
+	port=${port:-"0"}
+	queryport=${port}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
 fn_info_parms_towerunite(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
