@@ -7,5 +7,5 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Fixes: [Raknet] Server Shutting Down (Shutting Down)
+# Fixes: error while loading shared libraries: libcxa.so.1
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
