@@ -8,13 +8,18 @@
 local commandname="CHECK"
 
 if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
-	if [ ! -f "/bin/ip" ]; then
-		ipcommand="/sbin/ip"
+	if [ "$(uname -s)" = "FreeBSD" ]; then
+		getip=$(ifconfig | grep 'inet ' | awk '{print $2}' | sort -u | grep -v 127.0.0)
+		getipwc=$(ifconfig | grep 'inet ' | awk '{print $2}' | sort -u | grep -vc 127.0.0)
 	else
-		ipcommand="ip"
+		if [ ! -f "/bin/ip" ]; then
+			ipcommand="/sbin/ip"
+		else
+			ipcommand="ip"
+		fi
+		getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -v 127.0.0)
+		getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
 	fi
-	getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -v 127.0.0)
-	getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
 	info_config.sh
 	info_parms.sh
 
