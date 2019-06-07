@@ -13,6 +13,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Returns architecture, kernel and distro/os.
 arch=$(uname -m)
 kernel=$(uname -r)
+os=$(uname -s)
 
 # Distro Name - Ubuntu 16.04 LTS
 # Distro Version - 16.04
@@ -20,50 +21,60 @@ kernel=$(uname -r)
 # Distro Codename - xenial
 
 # Gathers distro info from various sources filling in missing gaps.
-distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
-for distro_info in "${distro_info_array[@]}"
-do
-	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
-		distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
-		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
-		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
-		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
-	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
-		if [ -z "${distroname}" ];then
-			distroname="$(lsb_release -sd)"
-		elif [ -z "${distroversion}" ];then
-			distroversion="$(lsb_release -sr)"
-		elif [ -z "${distroid}" ];then
-			distroid=$(lsb_release -si)
-		elif [ -z "${distrocodename}" ];then
-			distrocodename=$(lsb_release -sc)
+if [ "${os}" = "FreeBSD" ]; then
+	distroname="FreeBSD"
+	distroversion="$(uname -r)"
+	distroid="freebsd"
+else
+	distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
+	for distro_info in "${distro_info_array[@]}"
+	do
+		if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
+			distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
+			distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
+			distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
+			distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
+		elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
+			if [ -z "${distroname}" ];then
+				distroname="$(lsb_release -sd)"
+			elif [ -z "${distroversion}" ];then
+				distroversion="$(lsb_release -sr)"
+			elif [ -z "${distroid}" ];then
+				distroid=$(lsb_release -si)
+			elif [ -z "${distrocodename}" ];then
+				distrocodename=$(lsb_release -sc)
+			fi
+		elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
+			if [ -z "${distroname}" ];then
+				distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
+			fi
+		elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
+			if [ -z "${distroname}" ];then
+				distroname="Debian $(cat /etc/debian_version)"
+			elif [ -z "${distroversion}" ];then
+				distroversion="$(cat /etc/debian_version)"
+			elif [ -z "${distroid}" ];then
+				distroid="debian"
+			fi
+		elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
+			if [ -z "${distroname}" ];then
+				distroname=$(cat /etc/redhat-release)
+			elif [ -z "${distroversion}" ];then
+				distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
+			elif [ -z "${distroid}" ];then
+				distroid="$(awk '{print $1}' /etc/redhat-release)"
+			fi
 		fi
-	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
-		if [ -z "${distroname}" ];then
-			distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
-		fi
-	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
-		if [ -z "${distroname}" ];then
-			distroname="Debian $(cat /etc/debian_version)"
-		elif [ -z "${distroversion}" ];then
-			distroversion="$(cat /etc/debian_version)"
-		elif [ -z "${distroid}" ];then
-			distroid="debian"
-		fi
-	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
-		if [ -z "${distroname}" ];then
-			distroname=$(cat /etc/redhat-release)
-		elif [ -z "${distroversion}" ];then
-			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
-		elif [ -z "${distroid}" ];then
-			distroid="$(awk '{print $1}' /etc/redhat-release)"
-		fi
-	fi
-done
+	done
+fi
 
 ## Glibc version
 # e.g: 1.17
-glibcversion="$(ldd --version | sed -n '1s/.* //p')"
+if [ "${os}" = "FreeBSD" ]; then
+	glibcversion="0.0"
+else
+	glibcversion="$(ldd --version | sed -n '1s/.* //p')"
+fi
 
 ## tmux version
 # e.g: tmux 1.6
@@ -78,27 +89,61 @@ else
 fi
 
 ## Uptime
-uptime=$(</proc/uptime)
-uptime=${uptime/[. ]*/}
-minutes=$(( uptime/60%60 ))
-hours=$(( uptime/60/60%24 ))
-days=$(( uptime/60/60/24 ))
+if [ "${os}" = "FreeBSD" ]; then
+	boottime=$(sysctl -n kern.boottime | sed -E 's/^.* sec = ([0-9]+).*$/\1/')
+	uptime=$(($(date +%s)-boottime))
+	minutes=$(( uptime/60%60 ))
+	hours=$(( uptime/60/60%24 ))
+	days=$(( uptime/60/60/24 ))
+else
+	uptime=$(</proc/uptime)
+	uptime=${uptime/[. ]*/}
+	minutes=$(( uptime/60%60 ))
+	hours=$(( uptime/60/60%24 ))
+	days=$(( uptime/60/60/24 ))
+fi
 
 ### Performance information
 
 ## Average server load
-load=$(uptime|awk -F 'load average: ' '{ print $2 }')
+if [ "${os}" = "FreeBSD" ]; then
+	load=$(uptime|awk -F 'load averages: ' '{ print $2 }')
+else
+	load=$(uptime|awk -F 'load average: ' '{ print $2 }')
+fi
 
 ## CPU information
-cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
-cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
-cpufreuency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+if [ "${os}" = "FreeBSD" ]; then
+	cpumodel=$(sysctl -n hw.model)
+	cpucores=$(sysctl -n hw.ncpu)
+	cpufreuency=$(sysctl -i -n dev.cpu.0.freq)
+	if [ -z "${cpufreuency}" ]; then # Workaround for FreeBSD bug #162043
+		cpufreuency="Unknown"
+	fi
+else
+	cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+	cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
+	cpufreuency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+fi
 
 ## Memory information
 # Available RAM and swap.
 
+if [ "${os}" = "FreeBSD" ]; then
+	physmemtotalkb=$(($(sysctl -n hw.physmem)/1024))
+	physmemfreekb=$(($(vmstat -H | awk 'END {print $5}')/1024))
+	physmemtotalmb=$((physmemtotalkb/1024))
+	physmemtotal=$((physmemtotalkb*1048576))
+	physmemfree=$((physmemfreekb*1048576))
+	physmemused=$((physmemtotal-physmemfree))
+	physmemavailable=$((physmemfreekb*1048576))
+	physmemcached=0
+
+	swaptotal=$(swapinfo | awk 'END {print $2}')
+	swapfree=$(swapinfo | awk 'END {print $4}')
+	swapused=$(swapinfo | awk 'END {print $3}')
+elif [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -156,10 +201,15 @@ fi
 ### Disk information
 
 ## Available disk space on the partition.
-filesystem=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')
-totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
-usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
-availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
+if [ "${os}" = "FreeBSD" ]; then
+	dfflag=-h
+else
+	dfflag=-hP
+fi
+filesystem=$(df "${dfflag}" "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')
+totalspace=$(df "${dfflag}" "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
+usedspace=$(df "${dfflag}" "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
+availspace=$(df "${dfflag}" "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
 
 ## LinuxGSM used space total.
 rootdirdu=$(du -sh "${rootdir}" 2> /dev/null | awk '{print $1}')
