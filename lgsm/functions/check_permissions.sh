@@ -53,15 +53,22 @@ fn_check_ownership(){
 }
 
 fn_check_permissions(){
+	os="$(uname -s)"
+
 	if [ -d "${functionsdir}" ]; then
-		if [ "$(find "${functionsdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
+		if [ "${os}" = "FreeBSD" ]; then
+			permflag="-perm +444"
+		else
+			permflag="-executable"
+		fi
+		if [ "$(find "${functionsdir}" -type f -not ${permflag} | wc -l)" -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
 			fn_script_log_info "The following files are not executable:"
 			{
 				echo -e "File\n"
-				find "${functionsdir}" -type f -not -executable -printf "%p\n"
+				find "${functionsdir}" -type f -not ${permflag} -printf "%p\n"
 			} | column -s $'\t' -t | tee -a "${lgsmlog}"
 			if [ "${monitorflag}" == 1 ]; then
 				alert="permissions"
@@ -73,11 +80,19 @@ fn_check_permissions(){
 
 	# Check rootdir permissions.
 	if [ -n "${rootdir}" ]; then
-		# Get permission numbers on directory under the form 775.
-		rootdirperm="$(stat -c %a "${rootdir}")"
-		# Grab the first and second digit for user and group permission.
-		userrootdirperm="${rootdirperm:0:1}"
-		grouprootdirperm="${rootdirperm:1:1}"
+		if [ "${os}" = "FreeBSD" ]; then
+			# Get permission numbers on directory under the form 100775.
+			rootdirperm="$(stat -f %06p "${rootdir}")"
+			# Grab the fourth and fifth digit for user and group permission.
+			userrootdirperm="${rootdirperm:3:1}"
+			grouprootdirperm="${rootdirperm:4:1}"
+		else
+			# Get permission numbers on directory under the form 775.
+			rootdirperm="$(stat -c %a "${rootdir}")"
+			# Grab the first and second digit for user and group permission.
+			userrootdirperm="${rootdirperm:0:1}"
+			grouprootdirperm="${rootdirperm:1:1}"
+		fi
 		if [ "${userrootdirperm}" != "7" ]&&[ "${grouprootdirperm}" != "7" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
@@ -96,11 +111,19 @@ fn_check_permissions(){
 	# First get executable name.
 	execname="$(basename "${executable}")"
 	if [ -f "${executabledir}/${execname}" ]; then
-		# Get permission numbers on file under the form 775.
-		execperm="$(stat -c %a "${executabledir}/${execname}")"
-		# Grab the first and second digit for user and group permission.
-		userexecperm="${execperm:0:1}"
-		groupexecperm="${execperm:1:1}"
+		if [ "${os}" = "FreeBSD" ]; then
+			# Get permission numbers on file under the form 100775.
+			execperm="$(stat -f %06p "${executabledir}/${execname}")"
+			# Grab the fourth and fifth digit for user and group permission.
+			userexecperm="${execperm:3:1}"
+			groupexecperm="${execperm:4:1}"
+		else
+			# Get permission numbers on file under the form 775.
+			execperm="$(stat -c %a "${executabledir}/${execname}")"
+			# Grab the first and second digit for user and group permission.
+			userexecperm="${execperm:0:1}"
+			groupexecperm="${execperm:1:1}"
+		fi
 		# Check for invalid user permission.
 		if [ "${userexecperm}" == "0" ]||[ "${userexecperm}" == "2" ]||[ "${userexecperm}" == "4" ]||[ "${userexecperm}" == "6" ]; then
 			# If user permission is invalid, then check for invalid group permissions.
@@ -117,11 +140,19 @@ fn_check_permissions(){
 				# Make the executable executable.
 				chmod u+x,g+x "${executabledir}/${execname}"
 				# Second check to see if it's been successfully applied.
-				# Get permission numbers on file under the form 775.
-				execperm="$(stat -c %a "${executabledir}/${execname}")"
-				# Grab the first and second digit for user and group permission.
-				userexecperm="${execperm:0:1}"
-				groupexecperm="${execperm:1:1}"
+				if [ "${os}" = "FreeBSD" ]; then
+					# Get permission numbers on file under the form 100775.
+					execperm="$(stat -f %06p "${executabledir}/${execname}")"
+					# Grab the fourth and fifth digit for user and group permission.
+					userexecperm="${execperm:3:1}"
+					groupexecperm="${execperm:4:1}"
+				else
+					# Get permission numbers on file under the form 775.
+					execperm="$(stat -c %a "${executabledir}/${execname}")"
+					# Grab the first and second digit for user and group permission.
+					userexecperm="${execperm:0:1}"
+					groupexecperm="${execperm:1:1}"
+				fi
 				if [ "${userexecperm}" == "0" ]||[ "${userexecperm}" == "2" ]||[ "${userexecperm}" == "4" ]||[ "${userexecperm}" == "6" ]; then
 					if [ "${groupexecperm}" == "0" ]||[ "${groupexecperm}" == "2" ]||[ "${groupexecperm}" == "4" ]||[ "${groupexecperm}" == "6" ]; then
 					# If errors are still found.
@@ -149,16 +180,19 @@ fn_sys_perm_errors_detect(){
 	sysdirpermerror="0"
 	classdirpermerror="0"
 	netdirpermerror="0"
-	# Check permissions.
-	# /sys, /sys/class and /sys/class/net should be readable & executable.
-	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
-		sysdirpermerror="1"
-	fi
-	if [ ! -r "/sys/class" ]||[ ! -x "/sys/class" ]; then
-		classdirpermerror="1"
-	fi
-	if [ ! -r "/sys/class/net" ]||[ ! -x "/sys/class/net" ]; then
-		netdirpermerror="1"
+	os="$(uname -s)"
+	if [ "${os}" != "FreeBSD" ]; then
+		# Check permissions.
+		# /sys, /sys/class and /sys/class/net should be readable & executable.
+		if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
+			sysdirpermerror="1"
+		fi
+		if [ ! -r "/sys/class" ]||[ ! -x "/sys/class" ]; then
+			classdirpermerror="1"
+		fi
+		if [ ! -r "/sys/class/net" ]||[ ! -x "/sys/class/net" ]; then
+			netdirpermerror="1"
+		fi
 	fi
 }
 
