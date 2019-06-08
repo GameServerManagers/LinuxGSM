@@ -371,11 +371,12 @@ fn_info_message_script(){
 		# glibc required
 		if [ -n "${glibc}" ]; then
 			if [ "${glibc}" == "null" ]; then
-					:
-			elif [ "${glibc}" == "UNKNOWN" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibc}"
+				# Glibc is not required.
+				:
+			elif [ -z "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
 			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 			else
 				echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 			fi
