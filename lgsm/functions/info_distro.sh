@@ -235,3 +235,10 @@ if [ ! "$(command -v jq 2>/dev/null)" ]; then
 		fi
 	fi
 fi
+
+# Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
+if [ -n "${appid}" ]; then
+	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
+		glibc="2.14"
+	fi
+fi

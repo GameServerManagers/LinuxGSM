@@ -369,15 +369,15 @@ fn_info_message_script(){
 		echo -e "${blue}User:\t${default}$(whoami)"
 
 		# glibc required
-		if [ -n "${glibcrequired}" ]; then
-			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
+		if [ -n "${glibc}" ]; then
+			if [ "${glibc}" == "null" ]; then
 					:
-			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
-			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+			elif [ "${glibc}" == "UNKNOWN" ]; then
+				echo -e "${blue}glibc required:\t${red}${glibc}"
+			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 			fi
 		fi
 
