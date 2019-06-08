@@ -34,18 +34,21 @@ echo -e "${blue}tmux:\t${default}${tmuxv}"
 echo -e "${blue}Avg Load:\t${default}${load}"
 echo -e "${blue}Free Memory:\t${default}${physmemfree}"
 echo -e "${blue}Free Disk:\t${default}${availspace}"
+
 # glibc required
 if [ -n "${glibc}" ]; then
 	if [ "${glibc}" == "null" ]; then
-			:
-	elif [ "${glibc}" == "UNKNOWN" ]; then
-		echo -e "${blue}glibc required:\t${red}${glibc}"
-	elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
-		echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+		# Glibc is not required.
+		:
+	elif [ -z "${glibc}" ]; then
+		echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
+	elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+		echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 	else
 		echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 	fi
 fi
+
 # Server ip
 if [ "${multiple_ip}" == "1" ]; then
 	echo -e "${blue}Server IP:\t${default}NOT SET"
