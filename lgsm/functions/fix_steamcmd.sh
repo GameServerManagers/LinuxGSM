@@ -84,6 +84,8 @@ elif [ "${shortname}" == "ins" ]; then
 elif [ "${shortname}" == "pz" ]; then
 	fn_fix_steamclient_so "32" "${serverfiles}/linux32"
 	fn_fix_steamclient_so "64" "${serverfiles}/linux64"
+elif [ "${shortname}" == "pvr" ]; then
+	fn_fix_steamclient_so "64" "${executabledir}"
 elif [ "${shortname}" == "ss3" ]; then
 	fn_fix_steamclient_so "32" "${serverfiles}/Bin"
 elif [ "${shortname}" == "tu" ];then

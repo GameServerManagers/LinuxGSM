@@ -1435,6 +1435,16 @@ fn_info_message_warfork(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_pavlovvr(){
+	echo "netstat -atunp | grep Pavlov"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t$((port+400))\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1547,6 +1557,8 @@ fn_info_message_select_engine(){
 		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
+	elif [ "${shortname}" == "pvr" ]; then
+		fn_info_message_pavlovvr
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
 	elif [ "${shortname}" == "wf" ]; then
