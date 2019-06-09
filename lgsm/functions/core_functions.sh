@@ -51,7 +51,6 @@ fn_fetch_function
 
 # Commands
 
-
 command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -434,15 +433,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-info_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 info_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

@@ -10,7 +10,6 @@ local commandaction="Alert"
 fn_alert_log(){
 	info_distro.sh
 	info_config.sh
-	info_glibc.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm "${alertlog}"
