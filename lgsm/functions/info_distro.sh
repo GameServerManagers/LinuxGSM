@@ -230,7 +230,7 @@ if [ "$(command -v jq 2>/dev/null)" ]; then
 			if [ "${masterserver}" == "0" ]; then
 				masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
 			fi
-			if [ "${steammaster}" == "1" ]; then
+			if [ "${masterserver}" == "1" ]; then
 				masterserver="true"
 			else
 				masterserver="false"
