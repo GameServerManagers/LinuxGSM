@@ -71,6 +71,7 @@ rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
+sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
 st,stserver,Stationeers

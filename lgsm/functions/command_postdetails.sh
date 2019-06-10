@@ -56,7 +56,6 @@ else
 	info_config.sh
 	info_parms.sh
 	info_distro.sh
-	info_glibc.sh
 	info_messages.sh
 	query_gamedig.sh
 	touch "${postdetailslog}" || fn_bad_postdetailslog
