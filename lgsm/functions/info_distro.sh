@@ -236,7 +236,6 @@ if [ "$(command -v jq 2>/dev/null)" ]; then
 				masterserver="false"
 			fi
 		fi
-		fi
 	fi
 fi
 
