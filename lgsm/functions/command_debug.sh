@@ -34,18 +34,21 @@ echo -e "${blue}tmux:\t${default}${tmuxv}"
 echo -e "${blue}Avg Load:\t${default}${load}"
 echo -e "${blue}Free Memory:\t${default}${physmemfree}"
 echo -e "${blue}Free Disk:\t${default}${availspace}"
+
 # glibc required
-if [ -n "${glibcrequired}" ]; then
-	if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
-			:
-	elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-		echo -e "${blue}glibc required:\t${red}${glibcrequired}"
-	elif [ "$(printf '%s\n'${glibcrequired}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-		echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+if [ -n "${glibc}" ]; then
+	if [ "${glibc}" == "null" ]; then
+		# Glibc is not required.
+		:
+	elif [ -z "${glibc}" ]; then
+		echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
+	elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+		echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 	else
-		echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
+		echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 	fi
 fi
+
 # Server ip
 if [ "${multiple_ip}" == "1" ]; then
 	echo -e "${blue}Server IP:\t${default}NOT SET"
@@ -80,12 +83,10 @@ fi
 
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
-sleep 0.5
 exitbypass=1
 command_stop.sh
 fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
-sleep 0.5
 fn_print_ok_nl "Starting debug"
 
 # Create lockfile
@@ -111,7 +112,6 @@ else
 fi
 
 fn_print_dots "Stopping debug"
-sleep 1
 fn_print_ok_nl "Stopping debug"
 # remove trap.
 trap - INT

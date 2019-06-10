@@ -20,6 +20,8 @@ fn_update_steamcmd_dl(){
 	cd "${steamcmddir}" || exit
 	if [ "${appid}" == "90" ]; then
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
+	elif [ "${shortname}" == "unt" ]; then
+		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
 	else
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
 	fi
@@ -29,7 +31,6 @@ fn_update_steamcmd_dl(){
 fn_update_steamcmd_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	sleep 0.5
 	fn_appmanifest_check
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
@@ -46,7 +47,7 @@ fn_update_steamcmd_localbuild(){
 	else
 		branchname="public"
 	fi
-	sleep 0.5
+	fn_sleep_time
 }
 
 fn_update_steamcmd_remotebuild(){
@@ -55,7 +56,6 @@ fn_update_steamcmd_remotebuild(){
 	remotebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
-		sleep 0.5
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
@@ -64,7 +64,6 @@ fn_update_steamcmd_remotebuild(){
 		else
 			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 			fn_script_log_pass "Checking remote build"
-			sleep 0.5
 		fi
 	else
 		# Checks if remotebuild variable has been set.
@@ -73,15 +72,13 @@ fn_update_steamcmd_remotebuild(){
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
-	fi	
+	fi
 }
 
 fn_update_steamcmd_compare(){
 	fn_print_dots "Checking for update: ${remotelocation}"
-	sleep 0.5
 	if [ "${localbuild}" != "${remotebuild}" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		sleep 0.5
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
@@ -97,7 +94,7 @@ fn_update_steamcmd_compare(){
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		sleep 0.5
+		fn_sleep_time
 		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1
@@ -126,7 +123,6 @@ fn_update_steamcmd_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		sleep 0.5
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
@@ -134,7 +130,7 @@ fn_update_steamcmd_compare(){
 		if [ -v "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
-		echo -e "https://steamdb.info/app/${appid}/"	
+		echo -e "https://steamdb.info/app/${appid}/"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -154,22 +150,18 @@ fn_appmanifest_check(){
 	# Multiple or no matching appmanifest files may sometimes be present.
 	# This error is corrected if required.
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
-		sleep 0.5
+		fn_sleep_time
 		fn_print_error "Multiple appmanifest_${appid}.acf files found"
 		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
-		sleep 2
 		fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
-		sleep 0.5
 		for appfile in ${appmanifestfile}; do
 			rm "${appfile}"
 		done
-		sleep 0.5
 		appmanifestfilewc1="${appmanifestfilewc}"
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			fn_script_log_fatal "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			sleep 0.5
 			echo "	* Check user permissions"
 			for appfile in ${appmanifestfile}; do
 				echo "	${appfile}"
@@ -178,19 +170,15 @@ fn_appmanifest_check(){
 		else
 			fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
-			sleep 0.5
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
-			sleep 0.5
 			fn_update_steamcmd_dl
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
 		fn_print_error_nl "No appmanifest_${appid}.acf found"
 		fn_script_log_error "No appmanifest_${appid}.acf found"
-		sleep 0.5
 		fn_print_info_nl "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"
-		sleep 0.5
 		fn_update_steamcmd_dl
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -eq "0" ]; then

@@ -34,9 +34,11 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "q3" ]; then
 		remote_fileurl="https://files.linuxgsm.com/Quake3/quake3-1.32c-x86-full-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="quake3-1.32c-x86-full-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="fd7258d827474f67663dda297bff4306"
 	elif [ "${shortname}" == "qw" ]; then
-		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.083116.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.083116.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="75a409cf08d808f075e4dacdc7b21b78"
+		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.190506.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.190506.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="74405ec030463c5e1175e776ab572d32"
 	elif [ "${shortname}" == "rtcw" ]; then
-		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51b-x86_64-server-linux-20190208.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7e555481a3b98e168dfb5e6ddc2fb879"
+		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51c-x86_64-server-linux-20190507.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51c-x86_64-server-linux-20190507.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="6a3be9700372b228d1187422464e4212"
+	elif [ "${shortname}" == "sof2" ]; then
+			remote_fileurl="https://files.linuxgsm.com/SoldierOfFortune2/sof2gold-1.03.tar.bz2"; local_filedir="${tmpdir}"; local_filename="sof2gold-1.03.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="871b1dc0dafeeace65b198119e8fa200"
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="https://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${shortname}" == "ut99" ]; then
@@ -92,6 +94,9 @@ fn_install_server_files_steamcmd(){
 				if [ "${appid}" == "90" ]; then
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
+				elif [ "${shortname}" == "unt" ]; then
+					${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit
+					local exitcode=$?
 				else
 					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit
 					local exitcode=$?
@@ -128,7 +133,7 @@ fn_install_server_files_steamcmd(){
 echo ""
 echo "Installing ${gamename} Server"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 
 if [ -n "${appid}" ]; then
 	fn_install_server_files_steamcmd

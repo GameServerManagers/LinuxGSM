@@ -15,6 +15,9 @@ info_distro.sh
 if [ "${shortname}" == "ark" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
+elif [ "${shortname}" == "mh" ]; then
+	ramrequirementmb="4000"
+	ramrequirementgb="4"
 elif [ "${shortname}" == "arma3" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
@@ -39,11 +42,9 @@ fi
 if [ -n "${ramrequirementmb}" ]; then
 	if [ "${physmemtotalmb}" -lt "${ramrequirementmb}" ]; then
 		fn_print_dots "Check RAM"
-		sleep 0.5
 		# Warn the user
 		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
-		sleep 0.5
 		echo  "	* ${gamename} server may fail to run or experience poor performance."
-		sleep 0.5
+		fn_sleep_time
 	fi
 fi
