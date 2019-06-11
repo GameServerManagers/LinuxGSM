@@ -155,11 +155,16 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 		fi
 
-		# External server ip
+		# Internet ip
 		if [ -n "${extip}" ]; then
 			if [ "${ip}" != "${extip}" ]; then
 				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
 			fi
+		fi
+
+		# Display ip
+		if [ -n "${displayip}" ]; then
+			echo -e "${blue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
 		# Server password
@@ -369,15 +374,16 @@ fn_info_message_script(){
 		echo -e "${blue}User:\t${default}$(whoami)"
 
 		# glibc required
-		if [ -n "${glibcrequired}" ]; then
-			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
-					:
-			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
-			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+		if [ -n "${glibc}" ]; then
+			if [ "${glibc}" == "null" ]; then
+				# Glibc is not required.
+				:
+			elif [ -z "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
+			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 			fi
 		fi
 
@@ -942,6 +948,15 @@ fn_info_message_sdtd(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_sof2(){
+	echo -e "netstat -atunp | grep sof2ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source(){
 	echo -e "netstat -atunp | grep srcds_linux"
 	echo -e ""
@@ -1284,6 +1299,8 @@ fn_info_message_select_engine(){
 		fn_info_message_seriousengine35
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
+	elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
+	  fn_info_message_sof2
 	elif [ "${engine}" == "spark" ]; then
 		fn_info_message_spark
 	elif [ "${engine}" == "starbound" ]; then

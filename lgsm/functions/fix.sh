@@ -11,18 +11,14 @@ local commandaction="Fix"
 # Messages that are displayed for some fixes
 fn_fix_msg_start(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 }
 
 fn_fix_msg_start_nl(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 }
 
 fn_fix_msg_end(){
@@ -59,6 +55,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rw.sh
 	elif [ "${shortname}" == "sdtd" ]; then
 		fix_sdtd.sh
+	elif [ "${shortname}" == "sof2" ]; then
+		fix_sof2.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
 	elif [ "${shortname}" == "tf2" ]; then
@@ -80,7 +78,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo ""
 			echo "Applying Post-Install Fixes"
 			echo "================================="
-			sleep 0.5
+			fn_sleep_time
 			if [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then

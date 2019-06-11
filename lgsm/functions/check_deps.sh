@@ -9,7 +9,6 @@ local commandname="CHECK"
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
 		fn_print_dots "Adding Mono repository"
-		sleep 0.5
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
 		else
@@ -104,7 +103,6 @@ fn_install_universe_repo(){
    if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
 		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
 		fn_print_information_nl "Attempting to add Universe Repo"
-		sleep 0.5
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
 		else
@@ -177,14 +175,14 @@ fn_deps_detector(){
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${green}${deptocheck}${default}"
-			sleep 0.2
+			fn_sleep_time
 		fi
 	else
 		# if dependency is not found
 		missingdep=1
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${red}${deptocheck}${default}"
-			sleep 0.2
+			fn_sleep_time
 		fi
 		# Define required dependencies for SteamCMD
 		if [ -n "${appid}" ]; then
@@ -228,7 +226,7 @@ fn_found_missing_deps(){
 
 		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[@]}${default}"
 		fn_script_log_warn "Missing dependencies: ${array_deps_missing[@]}"
-		sleep 0.5
+		fn_sleep_time
 		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
 		fi
@@ -550,7 +548,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 		echo "================================="
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
-		sleep 2
+		fn_sleep_time
 	else
 		echo ""
 		echo "Checking Dependencies"
