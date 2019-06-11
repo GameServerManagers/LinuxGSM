@@ -46,6 +46,7 @@ kf2,kf2server,Killing Floor 2
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
+mh,mhserver,MORDHAU
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
 nd,ndserver,Nuclear Dawn
@@ -69,6 +70,7 @@ rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
+sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
 st,stserver,Stationeers

@@ -21,7 +21,6 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 	# IP is not set to specific IP
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		fn_print_dots "Check IP"
-		sleep 0.2
 		# Multiple interfaces
 		if [ "${getipwc}" -ge "2" ]; then
 			if [ "${function_selfname}" == "command_details.sh" ]; then
@@ -29,7 +28,6 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 			else
 			    fn_print_fail "Check IP: Multiple IP addresses found."
 			fi
-			sleep 0.2
 			echo -en "\n"
 			# IP is set within game config
 			if [ "${ipsetinconfig}" == "1" ]; then
@@ -66,7 +64,6 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 		# Single interface
 		elif [ "${ipsetinconfig}" == "1" ]; then
 			fn_print_fail "Check IP: IP address not set in game config."
-			sleep 0.5
 			echo -en "\n"
 			fn_print_information "Specify the IP you want to bind within ${servercfg}.\n"
 			echo -en "	* location: ${servercfgfullpath}\n"
@@ -85,7 +82,6 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 		else
 			fn_print_info_nl "Check IP: ${getip}"
 			fn_script_log_info "IP automatically set as: ${getip}"
-			sleep 0.2
 			ip="${getip}"
 		fi
 	fi

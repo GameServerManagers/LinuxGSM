@@ -9,7 +9,6 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_check_logs(){
 	fn_print_dots "Checking for log files"
-	sleep 0.5
 	fn_print_info_nl "Checking for log files: Creating log files"
 	checklogs=1
 	install_logs.sh

@@ -77,7 +77,7 @@ fn_clear_old_fastdl(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"
 		fi
-		sleep 0.5
+		fn_sleep_time
 	fi
 }
 
@@ -95,7 +95,7 @@ fn_fastdl_dirs(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating web directory ${webdir}"
 		fi
-		sleep 0.5
+		fn_sleep_time
 	fi
 	if [ ! -d "${fastdldir}" ]; then
 		echo -en "creating fastdl directory ${fastdldir}..."
@@ -109,7 +109,7 @@ fn_fastdl_dirs(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating fastdl directory ${fastdldir}"
 		fi
-		sleep 0.5
+		fn_sleep_time
 	fi
 }
 
@@ -204,7 +204,7 @@ fn_fastdl_preview(){
 	fi
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
 		echo "calculating total file size..."
-		sleep 0.5
+		fn_sleep_time
 		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size
 		while read -r dufile; do
@@ -271,7 +271,7 @@ fn_fastdl_gmod(){
 		fi
 		# Clear addons directory in fastdl
 		echo -en "clearing addons dir from fastdl dir..."
-		sleep 0.5
+		fn_sleep_time
 		rm -R "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -286,7 +286,7 @@ fn_fastdl_gmod(){
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons
 	if [ -d "${fastdldir}/lua" ]; then
 		echo -en "correcting DarkRP files..."
-		sleep 1
+		fn_sleep_time
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -331,7 +331,7 @@ fn_fastdl_source(){
 					((fileswc++))
 					tput rc; tput el
 					printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
-					sleep 0.01
+					fn_sleep_time
 					if [ ! -d "${fastdldir}/${directory}" ]; then
 						mkdir "${fastdldir}/${directory}"
 					fi

@@ -13,7 +13,7 @@ if [ "${checklogs}" != "1" ]; then
 	echo "Creating log directories"
 	echo "================================="
 fi
-sleep 0.5
+fn_sleep_time
 # Create LinuxGSM logs
 echo -en "installing log dir: ${logdir}..."
 mkdir -p "${logdir}"
@@ -102,5 +102,5 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 		fi
 	fi
 fi
-sleep 0.5
+fn_sleep_time
 fn_script_log_info "Logs installed"

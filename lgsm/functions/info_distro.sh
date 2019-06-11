@@ -222,16 +222,35 @@ if [ -z "${extip}" ]; then
 	fi
 fi
 
+# Alert IP address
+if [ "${displayip}" ]; then
+	alertip="${displayip}"
+elif [ "${extip}" ]; then
+	alertip="${extip}"
+else
+	alertip="${ip}"
+fi
+
 # Steam Master Server - checks if detected by master server
-if [ ! "$(command -v jq 2>/dev/null)" ]; then
+if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
-		if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
-			masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
-			if [ "${steammaster}" == "1" ]; then
-				masterserver="true"
-			else
+		if [ "${steammaster}" == "true" ]; then
+			masterserver=$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			if [ "${masterserver}" == "0" ]; then
+				masterserver=$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			fi
+			if [ "${masterserver}" == "0" ]; then
 				masterserver="false"
+			else
+				masterserver="true"
 			fi
 		fi
+	fi
+fi
+
+# Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
+if [ -n "${appid}" ]; then
+	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
+		glibc="2.14"
 	fi
 fi

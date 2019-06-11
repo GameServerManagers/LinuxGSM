@@ -56,7 +56,6 @@ else
 	info_config.sh
 	info_parms.sh
 	info_distro.sh
-	info_glibc.sh
 	info_messages.sh
 	query_gamedig.sh
 	touch "${postdetailslog}" || fn_bad_postdetailslog
@@ -80,7 +79,6 @@ fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
-	sleep 0.5
 	# grab the return from 'value' from an initial visit to pastebin.
 	csrftoken=$(${curlpath} -s "${posttarget}" |
 					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
@@ -100,7 +98,6 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	echo "  Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	fn_print_dots "Posting details to hastebin.com"
-	sleep 0.5
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
