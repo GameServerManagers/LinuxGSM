@@ -155,11 +155,16 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 		fi
 
-		# External server ip
+		# Internet ip
 		if [ -n "${extip}" ]; then
 			if [ "${ip}" != "${extip}" ]; then
 				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
 			fi
+		fi
+
+		# Display ip
+		if [ -n "${displayip}" ]; then
+			echo -e "${blue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
 		# Server password
