@@ -222,6 +222,15 @@ if [ -z "${extip}" ]; then
 	fi
 fi
 
+# Alert IP address
+if [ "${displayip}" ]; then
+	alertip="${displayip}"
+elif [ "${extip}" ]; then
+	alertip="${extip}"
+else
+	alertip="${ip}"
+fi
+
 # Steam Master Server - checks if detected by master server
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then

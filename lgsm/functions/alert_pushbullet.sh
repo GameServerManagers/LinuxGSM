@@ -13,7 +13,7 @@ json=$(cat <<EOF
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alertemoji} ${alertsubject} ${alertemoji}",
-	"body": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${ip}:${port}\n\nMore info\n${alerturl}"
+	"body": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${alertip}:${port}\n\nMore info\n${alerturl}"
 }
 EOF
 )
