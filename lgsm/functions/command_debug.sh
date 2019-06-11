@@ -61,6 +61,14 @@ if [ -n "${extip}" ]; then
 		echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
 	fi
 fi
+# Listed on Master Server
+if [ "${masterserver}" ];then
+	if [ "${masterserver}" == "true" ];then
+		echo -e "${blue}Master Server:\t${green}${masterserver}${default}"
+	else
+		echo -e "${blue}Master Server:\t${red}${masterserver}${default}"
+	fi
+fi
 # Server password
 if [ -n "${serverpassword}" ]; then
 	echo -e "${blue}Server password:\t${default}${serverpassword}"
