@@ -30,6 +30,9 @@ fn_ansi_loader(){
 
 fn_sleep_time(){
 	if [ "${sleeptime}" != "0" ]||[ "${travistest}" != "1" ]; then
+		if [ -z "${sleeptime}" ]; then
+			sleeptime=0.5
+		fi
 		sleep "${sleeptime}"
 	fi
 }
