@@ -64,11 +64,11 @@ fn_install_server_files_steamcmd(){
 		counter=$((counter+1))
 		cd "${steamcmddir}"
 		if [ "${counter}" -le "10" ]; then
-			# Attempt 1-4: Standard attempt
-			# Attempt 5-6: Validate attempt
-			# Attempt 7-8: Validate, delete long name dir
-			# Attempt 9-10: Validate, delete long name dir, re-download SteamCMD
-			# Attempt 11: Failure
+			# Attempt 1-4: Standard attempt.
+			# Attempt 5-6: Validate attempt.
+			# Attempt 7-8: Validate, delete long name dir.
+			# Attempt 9-10: Validate, delete long name dir, re-download SteamCMD.
+			# Attempt 11: Failure.
 
 			if [ "${counter}" -ge "2" ]; then
 				fn_print_warning_nl "SteamCMD did not complete the download, retrying: Attempt ${counter}"

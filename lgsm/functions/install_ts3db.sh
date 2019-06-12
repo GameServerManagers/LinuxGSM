@@ -65,7 +65,6 @@ fi
 
 install_eula.sh
 
-## Get privilege key
 echo ""
 echo "Getting privilege key"
 echo "================================="

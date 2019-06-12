@@ -7,6 +7,5 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Force glibc fix
+# Force glibc fix.
 fix_glibc.sh
-
