@@ -156,7 +156,7 @@ fn_install_menu_bash() {
 	done <  ${options}
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ] && [ "${option}" != "Cancel" ]; then
+		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -178,7 +178,7 @@ fn_install_menu_whiptail() {
 	while read -r line; do
 		key=$(echo "${line}" | awk -F "," '{print $3}')
 		val=$(echo "${line}" | awk -F "," '{print $2}')
-		menu_options+=( ${val//\"} "${key//\"}" )
+		menu_options+=( "${val//\"}" "${key//\"}" )
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
@@ -274,25 +274,23 @@ if [ "$(whoami)" == "root" ]; then
 	fi
 fi
 
-# LinuxGSM installer mode
+# Download the latest serverlist. This is the complete list of all supported servers.
+fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+if [ ! -f "${serverlist}" ]; then
+	echo "[ FAIL ] serverlist.csv could not be loaded."
+	exit 1
+fi
+
+# LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
-	datadir="${tmpdir}/data"
-	serverlist="${datadir}/serverlist.csv"
-
-	# Download the latest serverlist. This is the complete list of all supported servers.
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
-	if [ ! -f "${serverlist}" ]; then
-		echo "[ FAIL ] serverlist.csv could not be loaded."
-		exit 1
-	fi
-
-	if [ "${userinput}" == "list" ]; then
+	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
 		{
-			awk -F "," '{print $2 "\t" $3}' "${serverlist}"
+			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
-		fn_install_menu result "LinuxGSM" "Select game to install" "${serverlist}"
+		tail -n +2 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
+		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
 		fn_server_info
 		if [ "${result}" == "${gameservername}" ]; then
