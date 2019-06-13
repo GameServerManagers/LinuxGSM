@@ -71,11 +71,11 @@ fn_check_permissions(){
 		fi
 	fi
 
-	# Check rootdir permissions
+	# Check rootdir permissions.
 	if [ -n "${rootdir}" ]; then
-		# Get permission numbers on directory under the form 775
+		# Get permission numbers on directory under the form 775.
 		rootdirperm="$(stat -c %a "${rootdir}")"
-		# Grab the first and second digit for user and group permission
+		# Grab the first and second digit for user and group permission.
 		userrootdirperm="${rootdirperm:0:1}"
 		grouprootdirperm="${rootdirperm:1:1}"
 		if [ "${userrootdirperm}" != "7" ]&&[ "${grouprootdirperm}" != "7" ]; then
@@ -92,20 +92,20 @@ fn_check_permissions(){
 			core_exit.sh
 		fi
 	fi
-	# Check if executable is executable and attempt to fix it
-	# First get executable name
+	# Check if executable is executable and attempt to fix it.
+	# First get executable name.
 	execname="$(basename "${executable}")"
 	if [ -f "${executabledir}/${execname}" ]; then
-		# Get permission numbers on file under the form 775
+		# Get permission numbers on file under the form 775.
 		execperm="$(stat -c %a "${executabledir}/${execname}")"
-		# Grab the first and second digit for user and group permission
+		# Grab the first and second digit for user and group permission.
 		userexecperm="${execperm:0:1}"
 		groupexecperm="${execperm:1:1}"
-		# Check for invalid user permission
+		# Check for invalid user permission.
 		if [ "${userexecperm}" == "0" ]||[ "${userexecperm}" == "2" ]||[ "${userexecperm}" == "4" ]||[ "${userexecperm}" == "6" ]; then
-			# If user permission is invalid, then check for invalid group permissions
+			# If user permission is invalid, then check for invalid group permissions.
 			if [ "${groupexecperm}" == "0" ]||[ "${groupexecperm}" == "2" ]||[ "${groupexecperm}" == "4" ]||[ "${groupexecperm}" == "6" ]; then
-				# If permission issues are found
+				# If permission issues are found.
 				fn_print_warn_nl "Permissions issue found"
 				fn_script_log_warn "Permissions issue found"
 				fn_print_information_nl "The following file is not executable:"
@@ -114,17 +114,17 @@ fn_check_permissions(){
 				fn_script_log_info "${executabledir}/${execname}"
 				fn_print_information_nl "Applying chmod u+x,g+x ${executabledir}/${execname}"
 				fn_script_log_info "Applying chmod u+x,g+x ${execperm}"
-				# Make the executable executable
+				# Make the executable executable.
 				chmod u+x,g+x "${executabledir}/${execname}"
-				# Second check to see if it's been successfully applied
-				# Get permission numbers on file under the form 775
+				# Second check to see if it's been successfully applied.
+				# Get permission numbers on file under the form 775.
 				execperm="$(stat -c %a "${executabledir}/${execname}")"
-				# Grab the first and second digit for user and group permission
+				# Grab the first and second digit for user and group permission.
 				userexecperm="${execperm:0:1}"
 				groupexecperm="${execperm:1:1}"
 				if [ "${userexecperm}" == "0" ]||[ "${userexecperm}" == "2" ]||[ "${userexecperm}" == "4" ]||[ "${userexecperm}" == "6" ]; then
 					if [ "${groupexecperm}" == "0" ]||[ "${groupexecperm}" == "2" ]||[ "${groupexecperm}" == "4" ]||[ "${groupexecperm}" == "6" ]; then
-					# If errors are still found
+					# If errors are still found.
 					fn_print_fail_nl "The following file could not be set executable:"
 					ls -l "${executabledir}/${execname}"
 					fn_script_log_warn "The following file could not be set executable:"
@@ -141,16 +141,16 @@ fn_check_permissions(){
 	fi
 }
 
-## The following fn_sys_perm_* functions checks for permission errors in /sys directory
+## The following fn_sys_perm_* functions checks for permission errors in /sys directory.
 
-# Checks for permission errors in /sys directory
+# Checks for permission errors in /sys directory.
 fn_sys_perm_errors_detect(){
-	# Reset test variables
+	# Reset test variables.
 	sysdirpermerror="0"
 	classdirpermerror="0"
 	netdirpermerror="0"
-	# Check permissions
-	# /sys, /sys/class and /sys/class/net should be readable & executable
+	# Check permissions/
+	# /sys, /sys/class and /sys/class/net should be readable & executable.
 	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
 		sysdirpermerror="1"
 	fi
@@ -162,7 +162,7 @@ fn_sys_perm_errors_detect(){
 	fi
 }
 
-# Display a message on how to fix the issue manually
+# Display a message on how to fix the issue manually.
 fn_sys_perm_fix_manually_msg(){
 	echo ""
 	fn_print_information_nl "This error causes servers to fail starting properly"
@@ -179,7 +179,7 @@ fn_sys_perm_fix_manually_msg(){
 	core_exit.sh
 }
 
-# Attempt to fix /sys related permission errors if sudo is available, exits otherwise
+# Attempt to fix /sys related permission errors if sudo is available, exits otherwise.
 fn_sys_perm_errors_fix(){
 	sudo -n true > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
@@ -194,28 +194,28 @@ fn_sys_perm_errors_fix(){
 		if [ "${netdirpermerror}" == "1" ]; then
 			sudo chmod a+rx "/sys/class/net"
 		fi
-		# Run check again to see if it's fixed
+		# Run check again to see if it's fixed.
 		fn_sys_perm_errors_detect
 		if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 			fn_print_error "Could not fix /sys permissions"
 			fn_script_log_error "Could not fix /sys permissions."
 			fn_sleep_time
-			# Show the user how to fix
+			# Show the user how to fix.
 			fn_sys_perm_fix_manually_msg
 		else
 			fn_print_ok_nl "Automatically fixing /sys permissions"
 			fn_script_log_pass "Permissions in /sys fixed"
 		fi
 	else
-	# Show the user how to fix
+	# Show the user how to fix.
 	fn_sys_perm_fix_manually_msg
 	fi
 }
 
-# Processes to the /sys related permission errors check & fix/info
+# Processes to the /sys related permission errors check & fix/info.
 fn_sys_perm_error_process(){
 	fn_sys_perm_errors_detect
-	# If any error was found
+	# If any error was found.
 	if [ "${sysdirpermerror}" == "1" ]||[ "${classdirpermerror}" == "1" ]||[ "${netdirpermerror}" == "1" ]; then
 		fn_print_error_nl "Permission error(s) found in /sys"
 		fn_script_log_error "Permission error(s) found in /sys"
@@ -224,9 +224,9 @@ fn_sys_perm_error_process(){
 	fi
 }
 
-# Run perm error detect & fix/alert functions on /sys directories
+# Run perm error detect & fix/alert functions on /sys directories.
 
-## Run checks
+## Run checks.
 if [ "$(whoami)" != "root" ]; then
 	fn_check_ownership
 	fn_check_permissions

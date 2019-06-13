@@ -18,10 +18,10 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 	info_config.sh
 	info_parms.sh
 
-	# IP is not set to specific IP
+	# IP is not set to specific IP.
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
 		fn_print_dots "Check IP"
-		# Multiple interfaces
+		# Multiple interfaces.
 		if [ "${getipwc}" -ge "2" ]; then
 			if [ "${function_selfname}" == "command_details.sh" ]; then
 			    fn_print_warn "Check IP: Multiple IP addresses found."
@@ -29,7 +29,7 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 			    fn_print_fail "Check IP: Multiple IP addresses found."
 			fi
 			echo -en "\n"
-			# IP is set within game config
+			# IP is set within game config.
 			if [ "${ipsetinconfig}" == "1" ]; then
 				fn_print_information "Specify the IP you want to bind within ${servercfg}.\n"
 				echo -en "	* location: ${servercfgfullpath}\n"
@@ -37,7 +37,7 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 				echo -en "Set ${ipinconfigvar} to one of the following:\n"
 				fn_script_log_fatal "Multiple IP addresses found."
 				fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
-			# IP is set within LinuxGSM config
+			# IP is set within LinuxGSM config.
 			else
 				fn_print_information_nl "Specify the IP you want to bind within a LinuxGSM config file.\n"
 				echo -en "	* location: ${configdirserver}\n"
@@ -54,14 +54,14 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 			echo -en "\n"
 			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
-			# Do not exit for details and postdetails commands
+			# Do not exit for details and postdetails commands.
 			if [ "${function_selfname}" != "command_details.sh" ]||[ "${function_selfname}" != "command_postdetails.sh" ]; then
 				fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 				core_exit.sh
 			else
 				ip="NOT SET"
 			fi
-		# Single interface
+		# Single interface.
 		elif [ "${ipsetinconfig}" == "1" ]; then
 			fn_print_fail "Check IP: IP address not set in game config."
 			echo -en "\n"

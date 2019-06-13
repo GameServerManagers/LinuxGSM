@@ -28,9 +28,9 @@ fn_start_teamspeak3(){
 	if [ -f "${lgsmlog}" ]; then
 		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
-	# Create lockfile
+	# Create lockfile.
 	date > "${rootdir}/${lockselfname}"
-	# Accept license
+	# Accept license.
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		install_eula.sh
 	fi
@@ -59,7 +59,7 @@ fn_start_tmux(){
 	else
 		fn_parms
 	fi
-	# check for tmux size variables
+	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
 		sessionwidth="${servercfgtmuxwidth}"
 	else
@@ -71,7 +71,7 @@ fn_start_tmux(){
 		sessionheight="23"
 	fi
 
-	# Log rotation
+	# Log rotation.
 	fn_script_log_info "Rotating log files"
 	if [ "${engine}" == "unreal2" ]&&[ -f "${gamelog}" ]; then
 		mv "${gamelog}" "${gamelogdate}"
@@ -83,17 +83,17 @@ fn_start_tmux(){
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
-	# Create lockfile
+	# Create lockfile.
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
-	# Create logfile
+	# Create logfile.
 	touch "${consolelog}"
 
-	# Get tmux version
+	# Get tmux version.
 	tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p')"
-	# Tmux compiled from source will return "master", therefore ignore it
+	# Tmux compiled from source will return "master", therefore ignore it.
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p')" == "master" ]; then
 		fn_script_log "Tmux version: master (user compiled)"
 		echo "Tmux version: master (user compiled)" >> "${consolelog}"
@@ -101,20 +101,20 @@ fn_start_tmux(){
 			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ -n "${tmuxversion}" ]; then
-		# Get the digit version of tmux
+		# Get the digit version of tmux.
 		tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
-		# tmux pipe-pane not supported in tmux versions < 1.6
+		# tmux pipe-pane not supported in tmux versions < 1.6.
 		if [ "${tmuxversion}" -lt "16" ]; then
 			echo "Console logging disabled: Tmux => 1.6 required
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 
-		# Console logging disabled: Bug in tmux 1.8 breaks logging
+		# Console logging disabled: Bug in tmux 1.8 breaks logging.
 		elif [ "${tmuxversion}" -eq "18" ]; then
 			echo "Console logging disabled: Bug in tmux 1.8 breaks logging
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
-		# Console logging enable or not set
+		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
 		fi
@@ -123,14 +123,14 @@ fn_start_tmux(){
 		fn_script_log_warn "Unable to detect tmux version"
 	fi
 
-# Console logging disabled
+# Console logging disabled.
 if [ "${consolelogging}" == "off" ]; then
 	echo "Console logging disabled by user" >> "${consolelog}"
 	fn_script_log_info "Console logging disabled by user"
 fi
 fn_sleep_time
 
-	# If the server fails to start
+	# If the server fails to start.
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
@@ -187,8 +187,9 @@ fn_sleep_time
 
 fn_print_dots "${servername}"
 check.sh
-# Is the server already started
-if [ "${status}" != "0" ]; then # $status comes from check_status.sh, which is run by check.sh for this command
+# Is the server already started.
+# $status comes from check_status.sh, which is run by check.sh for this command
+if [ "${status}" != "0" ]; then
 	fn_print_info_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
@@ -201,7 +202,7 @@ fi
 info_config.sh
 logs.sh
 
-# Will check for updates is updateonstart is yes
+# Will check for updates is updateonstart is yes.
 if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
 	exitbypass=1
 	unset updateonstart

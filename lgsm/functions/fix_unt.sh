@@ -7,5 +7,5 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Fixes: [Raknet] Server Shutting Down (Shutting Down)
+# Fixes: [Raknet] Server Shutting Down (Shutting Down).
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${systemdir}/lib"
