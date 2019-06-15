@@ -42,7 +42,7 @@ fi
 if [ -n "${ramrequirementmb}" ]; then
 	if [ "${physmemtotalmb}" -lt "${ramrequirementmb}" ]; then
 		fn_print_dots "Check RAM"
-		# Warn the user
+		# Warn the user.
 		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
 		echo  "	* ${gamename} server may fail to run or experience poor performance."
 		fn_sleep_time

@@ -10,12 +10,12 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Pushover alert"
 
-# Different alerts are given different priorities and notification sounds
+# Different alerts are given different priorities and notification sounds.
 if [ "${alertsound}" == "1" ]; then
 	alertsound=""
 	alertpriority="0"
 elif [ "${alertsound}" == "2" ]; then
-	# restarted
+	# restarted.
 	alertsound="siren"
 	alertpriority="1"
 else

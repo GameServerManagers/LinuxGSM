@@ -8,7 +8,7 @@ local commandname="INSTALL"
 local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Checks if server cfg dir exists, creates it if it doesn't
+# Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir(){
 	if [ ! -d "${servercfgdir}" ]; then
 		echo "creating ${servercfgdir} config directory."
@@ -17,7 +17,7 @@ fn_check_cfgdir(){
 	fi
 }
 
-# Downloads default configs from Game-Server-Configs repo to lgsm/config-default
+# Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 fn_fetch_default_config(){
 	echo ""
 	echo "Downloading ${gamename} Configs"
@@ -31,7 +31,7 @@ fn_fetch_default_config(){
 	done
 }
 
-# Copys default configs from Game-Server-Configs repo to server config location
+# Copys default configs from Game-Server-Configs repo to server config location.
 fn_default_config_remote(){
 	for config in "${array_configs[@]}"; do
 		# every config is copied
@@ -53,14 +53,14 @@ fn_default_config_remote(){
 	fn_sleep_time
 }
 
-# Copys local default config to server config location
+# Copys local default config to server config location.
 fn_default_config_local(){
 	echo "copying ${servercfgdefault} config file."
 	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
 	fn_sleep_time
 }
 
-# Changes some variables within the default configs
+# Changes some variables within the default configs.
 # SERVERNAME to LinuxGSM
 # PASSWORD to random password
 fn_set_config_vars(){
@@ -71,7 +71,7 @@ fn_set_config_vars(){
 		echo "changing hostname."
 		fn_script_log_info "changing hostname."
 		fn_sleep_time
-		# prevents var from being overwritten with the servername
+		# prevents var from being overwritten with the servername.
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2>/dev/null; then
 			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
 		elif grep -q "SERVERNAME=\"SERVERNAME\"" "${lgsmdir}/config-default/config-game/${config}" 2>/dev/null; then
@@ -94,7 +94,7 @@ fn_set_config_vars(){
 	fi
 }
 
-# Changes some variables within the default Don't Starve Together configs
+# Changes some variables within the default Don't Starve Together configs.
 fn_set_dst_config_vars(){
 	## cluster.ini
 	if grep -Fq "SERVERNAME" "${clustercfgfullpath}"; then
@@ -117,7 +117,7 @@ fn_set_dst_config_vars(){
 	fi
 
 	## server.ini
-	# removing unnecessary options (dependent on sharding & shard type)
+	# removing unnecessary options (dependent on sharding & shard type).
 	if [ "${sharding}" == "false" ]; then
 		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
 		sed -i "/SHARDNAME/d" "${servercfgfullpath}"

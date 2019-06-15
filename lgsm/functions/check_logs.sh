@@ -14,13 +14,13 @@ fn_check_logs(){
 	install_logs.sh
 }
 
-# Create directories for the script and console logs
+# Create directories for the script and console logs.
 if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${shortname}" != "ts3" ]; then
 	fn_check_logs
 fi
 
-# Create gamelogdir
-# If variable exists gamelogdir exists and log/server does not
+# Create gamelogdir.
+# If variable exists gamelogdir exists and log/server does not.
 if [ -n "${gamelogdir}" ]&&[ -d "${gamelogdir}" ]&&[ ! -d "${logdir}/server" ]; then
 	fn_check_logs
 fi
