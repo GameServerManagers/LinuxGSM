@@ -61,6 +61,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ss3.sh
 	elif [ "${shortname}" == "tf2" ]; then
 		fix_tf2.sh
+	elif [ "${shortname}" == "terraria" ]; then
+		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
 	elif [ "${shortname}" == "mta" ]; then

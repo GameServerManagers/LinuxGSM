@@ -356,6 +356,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_terraria.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_tf2.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
