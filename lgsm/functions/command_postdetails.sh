@@ -31,10 +31,10 @@ posttarget=${posttarget="https://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
-# This, too, may be overridden from the command line at the top-level
+# This, too, may be overridden from the command line at the top-level.
 postexpire="${postexpire="30D"}"
 
-# source all of the functions defined in the details command
+# source all of the functions defined in the details command.
 info_messages.sh
 
 fn_bad_postdetailslog() {
@@ -42,12 +42,12 @@ fn_bad_postdetailslog() {
 	core_exit.sh
 }
 
-# Remove any existing postdetails.log file
+# Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
 	rm -f "${postdetailslog}"
 fi
 
-# Rather than a one-pass sed parser, default to using a temporary directory
+# Rather than a one-pass sed parser, default to using a temporary directory.
 if [ -n "${alertflag}" ]; then
 	postdetailslog="${alertlog}"
 else

@@ -7,7 +7,7 @@
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-## Examples of filtering to get info from config files
+## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo
 # tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected characters =\";
