@@ -18,7 +18,7 @@ for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
-	if [[ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "${querydelay} mins ago")" ]]; then
+	if [ "$(cat "${rootdir}/${lockselfname}")" > "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_delay_eol
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
