@@ -29,8 +29,9 @@ fn_start_teamspeak3(){
 		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
 	# Create lockfile.
-	# Accept license.
+
 	date '+%s' > "${rootdir}/${lockselfname}"
+	# Accept license.
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		install_eula.sh
 	fi
