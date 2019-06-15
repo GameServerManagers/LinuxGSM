@@ -202,15 +202,15 @@ if [ -z "${querydelay}" ]; then
 	querydelay="1"
 fi
 
-	# Query has to be enabled in Starbound config.
-	if [ "${shortname}" == "sb" ]; then
-		if [ "${queryenabled}" == "true" ]; then
-			fn_monitor_query
-		fi
-	elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
-		fn_monitor_query_tcp
-	else
+# Query has to be enabled in Starbound config.
+if [ "${shortname}" == "sb" ]; then
+	if [ "${queryenabled}" == "true" ]; then
 		fn_monitor_query
 	fi
+elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
+	fn_monitor_query_tcp
+else
+	fn_monitor_query
+fi
 
 core_exit.sh
