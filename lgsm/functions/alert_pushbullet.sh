@@ -1,21 +1,29 @@
 #!/bin/bash
-# LGSM alert_pushbullet.sh function
+# LinuxGSM alert_pushbullet.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
-# Description: Sends Pushbullet alert including the server status.
+# Website: https://linuxgsm.com
+# Description: Sends Pushbullet Messenger alert.
 
 local commandname="ALERT"
 local commandaction="Alert"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
+json=$(cat <<EOF
+{
+	"channel_tag": "${channeltag}",
+	"type": "note",
+	"title": "${alertemoji} ${alertsubject} ${alertemoji}",
+	"body": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${alertip}:${port}\n\nMore info\n${alerturl}"
+}
+EOF
+)
 
 fn_print_dots "Sending Pushbullet alert"
-sleep 1
+pushbulletsend=$(${curlpath} -sSL -u """${pushbullettoken}"":" -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
 
-pushbulletsend=$(curl --silent -u """${pushbullettoken}"":" -d channel_tag="${channeltag}" -d type="note" -d body="${alertbody}" -d title="${alertsubject}" 'https://api.pushbullet.com/v2/pushes'|grep -o invalid_access_token|uniq)
-
-if [ "${pushbulletsend}" == "invalid_access_token" ]; then
-	fn_print_fail_nl "Sending Pushbullet alert: invalid_access_token"
-	fn_script_log_fatal "Sending Pushbullet alert: invalid_access_token"
+if [ -n "${pushbulletsend}" ]; then
+	fn_print_fail_nl "Sending Pushbullet alert: ${pushbulletsend}"
+	fn_script_log_fatal "Sending Pushbullet alert: ${pushbulletsend}"
 else
 	fn_print_ok_nl "Sending Pushbullet alert"
 	fn_script_log_pass "Sent Pushbullet alert"

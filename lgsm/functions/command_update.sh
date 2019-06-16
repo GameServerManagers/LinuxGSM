@@ -1,24 +1,27 @@
 #!/bin/bash
-# LGSM command_update.sh function
+# LinuxGSM command_update.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Handles updating of servers.
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots ""
-sleep 0.5
 check.sh
+logs.sh
 
-
-if [ "${gamename}" == "TeamSpeak 3" ]; then
+if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
-elif [ "${engine}" == "lwjgl2" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	update_minecraft.sh
-elif [ "${gamename}" == "Mumble" ]; then
+elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
+elif [ "${shortname}" == "fctr" ]; then
+	update_factorio.sh
+elif [ "${shortname}" == "mta" ]; then
+	update_mta.sh
 else
 	update_steamcmd.sh
 fi

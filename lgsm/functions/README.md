@@ -1,11 +1,11 @@
-<h1>Linux Game Server Manager - Functions</h1>
+# Linux Game Server Manager - Functions
 
 These functions are universal functions that work in all scripts.
 
-<h2>Function Names</h2>
+## Function Names
 Functions have been named to give an idea of what the function does.
 
-* core: Essential functions that are will always run first.
+* core: Essential functions that will always run first.
 * command: Primary command function.
 * check: Runs checks that will either halt on or fix an issue.
 * dev: development functions.

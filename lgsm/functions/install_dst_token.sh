@@ -1,39 +1,36 @@
 #!/bin/bash
-# LGSM install_dst_token.sh function
+# LinuxGSM install_dst_token.sh function
 # Author: Daniel Gibbs & Marvin Lehmann (marvinl97)
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Configures Don't Starve Together cluster with given token.
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename $(readlink -f "${BASH_SOURCE[0]}"))"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""
 echo "Enter ${gamename} Cluster Token"
 echo "================================="
-sleep 1
+fn_sleep_time
 echo "A cluster token is required to run this server!"
 echo "Follow the instructions in this link to obtain this key:"
-echo "https://gameservermanagers.com/dst-auth-token"
+echo "https://linuxgsm.com/dst-auth-token"
 echo ""
 if [ -z "${autoinstall}" ]; then
 	overwritetoken="true"
 	if [ -s "${clustercfgdir}/cluster_token.txt" ]; then
 		echo "The cluster token is already set. Do you want to overwrite it?"
 		fn_script_log_info "Don't Starve Together cluster token is already set"
-		while true; do
-			read -e -i "n" -p "Continue? [Y/n]" yn
-			case $yn in
-			[Yy]* ) overwritetoken="true"; break;;
-			[Nn]* ) overwritetoken="false"; break;;
-			* ) echo "Please answer yes or no.";;
-			esac
-		done
-	fi	
+		if fn_prompt_yn "Continue?" N; then
+			overwritetoken="true"
+		else
+			overwritetoken="false"
+		fi
+	fi
 	if [ "${overwritetoken}" == "true" ]; then
 		echo "Once you have the cluster token, enter it below"
 		echo -n "Cluster Token: "
-		read token
+		read -r token
 		mkdir -pv "${clustercfgdir}"
 		echo "${token}" > "${clustercfgdir}/cluster_token.txt"
 		if [ -f "${clustercfgdir}/cluster_token.txt" ]; then

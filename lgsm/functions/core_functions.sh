@@ -1,122 +1,60 @@
 #!/bin/bash
-# LGSM core_functions.sh function
+# LinuxGSM core_functions.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Website: https://linuxgsm.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
-
-# Fixes for legacy code
-if [ "${gamename}" == "Teamspeak 3" ]; then
-	gamename="TeamSpeak 3"
-elif [ "${gamename}" == "Counter Strike: Global Offensive" ]; then
-	gamename="Counter-Strike: Global Offensive"
-elif [ "${gamename}" == "Counter Strike: Source" ]; then
-	gamename="Counter-Strike: Source"
-elif [ "${gamename}" == "Quake Live" ]; then
-	engine="idtech3_ql"
-fi
-
-if [ "${emailnotification}" == "on" ]; then
-    emailalert="on"
-fi
-
-## Code/functions for legacy servers
-fn_functions(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-fn_getopt(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-## In case older versions are missing these vars
-if [ -z "${lgsmdir}" ]||[ -z "${functionsdir}" ]||[ -z "${libdir}" ]||[ -z "${tmpdir}" ]; then
-	lgsmdir="${rootdir}/lgsm"
-	functionsdir="${lgsmdir}/functions"
-	libdir="${lgsmdir}/lib"
-	tmpdir="${lgsmdir}/tmp"
-fi
-
-## fn_fetch_core_dl placed here to allow legacy servers to still download core functions
-fn_fetch_core_dl(){
-github_file_url_dir="lgsm/functions"
-github_file_url_name="${functionfile}"
-filedir="${functionsdir}"
-filename="${github_file_url_name}"
-githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-# If the file is missing, then download
-if [ ! -f "${filedir}/${filename}" ]; then
-	if [ ! -d "${filedir}" ]; then
-		mkdir -p "${filedir}"
-	fi
-	echo -e "    fetching ${filename}...\c"
-	# Check curl exists and use available path
-	curlpaths="$(command -v curl 2>/dev/null) $(which curl >/dev/null 2>&1) /usr/bin/curl /bin/curl /usr/sbin/curl /sbin/curl)"
-	for curlcmd in ${curlpaths}
-	do
-		if [ -x "${curlcmd}" ]; then
-			break
-		fi
-	done
-	# If curl exists download file
-	if [ "$(basename ${curlcmd})" == "curl" ]; then
-		curlfetch=$(${curlcmd} -s --fail -o "${filedir}/${filename}" "${githuburl}" 2>&1)
-		if [ $? -ne 0 ]; then
-			echo -e "${red}FAIL${default}\n"
-			echo "${curlfetch}"
-			echo -e "${githuburl}\n"
-			exit 1
-		else
-			echo -e "${green}OK${default}"
-		fi
-	else
-		echo -e "${red}FAIL${default}\n"
-		echo "Curl is not installed!"
-		echo -e ""
-		exit 1
-	fi
-	chmod +x "${filedir}/${filename}"
-fi
-source "${filedir}/${filename}"
-}
-
-# Creates tmp dir if missing
-if [ ! -d "${tmpdir}" ]; then
-	mkdir -p "${tmpdir}"
-fi
 
 # Core
 
 core_dl.sh(){
-# Functions are defined in core_functions.sh.
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
-}
-
-core_exit.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_core_dl
-}
-
-core_getopt.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_core_dl
-}
-
-core_trap.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
+	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+else
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+fi
 }
 
 core_messages.sh(){
 functionfile="${FUNCNAME}"
-fn_fetch_core_dl
+if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
+	fn_fetch_core_dl "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+else
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+fi
 }
 
+core_legacy.sh(){
+functionfile="${FUNCNAME}"
+if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
+	fn_fetch_core_dl "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+else
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+fi
+}
+
+core_exit.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+core_getopt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+core_trap.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Commands
+
+command_backup.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 command_console.sh(){
 functionfile="${FUNCNAME}"
@@ -128,29 +66,22 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_postdetails.sh(){
-    functionfile="${FUNCNAME}"
-    tempffname="${functionfile}"
-    # First, grab the command_postdetails.sh file
-    fn_fetch_function
-    # But then next, command_details.sh needs to also be pulled
-    # because command_postdetails.sh sources its functions -CedarLUG
-    functionfile="command_details.sh"
-    fn_fetch_function
-    functionfile="${tempffname}"
-}
-
 command_details.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_test_alert.sh(){
+command_donate.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-command_backup.sh(){
+command_postdetails.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_test_alert.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -180,6 +111,31 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_install_resources_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_squad_license.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_install.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_update.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_mods_remove.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 command_fastdl.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -195,6 +151,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_wipe.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Checks
 
@@ -209,6 +169,11 @@ fn_fetch_function
 }
 
 check_deps.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+check_executable.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -263,7 +228,6 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Compress
 
 compress_unreal2_maps.sh(){
@@ -276,8 +240,24 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Mods
+
+mods_list.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+mods_core.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Dev
+
+command_dev_clear_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 command_dev_debug.sh(){
 functionfile="${FUNCNAME}"
@@ -299,10 +279,19 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+command_dev_query_raw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 # Fix
 
 fix.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ark.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -332,12 +321,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_steamcmd.sh(){
+fix_kf.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_glibc.sh(){
+fix_kf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -353,7 +347,57 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_kf.sh(){
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rw.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_terraria.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_tf2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ut3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_sof2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ss3.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_ts3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -368,7 +412,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-fix_rust.sh(){
+fix_unt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_wurm.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -385,7 +434,12 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-info_glibc.sh(){
+info_gamedig.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+info_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -395,10 +449,14 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Alert
 
 alert.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_discord.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -408,7 +466,27 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_ifttt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_mailgun.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 alert_pushbullet.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_pushover.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+alert_telegram.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -420,18 +498,21 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+# Query
 
-# Monitor
-
-monitor_gsquery.sh(){
+query_gamedig.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-
 # Update
 
 command_update_functions.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+command_update_linuxgsm.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -456,6 +537,16 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+update_mta.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+update_factorio.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 update_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -465,7 +556,6 @@ fn_update_functions.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
-
 
 #
 ## Installer functions
@@ -486,7 +576,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_factorio_save.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_dst_token.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -507,11 +607,6 @@ fn_fetch_function
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_minecraft_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -560,11 +655,19 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-# Calls the global Ctrl-C trap
-core_trap.sh
+# Calls code required for legacy servers
+core_legacy.sh
 
-# Calls on-screen messages
+# Creates tmp dir if missing
+if [ ! -d "${tmpdir}" ]; then
+	mkdir -p "${tmpdir}"
+fi
+
+# Calls on-screen messages (bootstrap)
 core_messages.sh
 
-#Calls file downloader
+#Calls file downloader (bootstrap)
 core_dl.sh
+
+# Calls the global Ctrl-C trap
+core_trap.sh

@@ -1,47 +1,62 @@
 #!/bin/bash
-# LGSM core_messages.sh function
+# LinuxGSM core_messages.sh function
 # Author: Daniel Gibbs
-# Website: https://gameservermanagers.com
+# Contributor: s-eam
+# Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
-# nl: new line: message is following by a new line
-# eol: end of line: message is placed at the end of the current line
-
-if [ "${ansi}" != "off" ]; then
-	# echo colors
-	default="\e[0m"
-	red="\e[31m"
-	green="\e[32m"
-	yellow="\e[33m"
-	lightyellow="\e[93m"
-	blue="\e[34m"
-	lightblue="\e[94m"
-	magenta="\e[35m"
-	cyan="\e[36m"
-	# carriage return & erase to end of line
+# nl: new line: message is following by a new line.
+# eol: end of line: message is placed at the end of the current line.
+fn_ansi_loader(){
+	if [ "${ansi}" != "off" ]; then
+		# echo colors
+		default="\e[0m"
+		red="\e[31m"
+		lightred="\e[91m"
+		green="\e[32m"
+		lightgreen="\e[92m"
+		yellow="\e[33m"
+		lightyellow="\e[93m"
+		blue="\e[34m"
+		lightblue="\e[94m"
+		magenta="\e[35m"
+		lightmagenta="\e[95m"
+		cyan="\e[36m"
+		lightcyan="\e[96m"
+	fi
+	# carriage return & erase to end of line.
 	creeol="\r\033[K"
-fi
+}
+
+fn_sleep_time(){
+	if [ "${sleeptime}" != "0" ]||[ "${travistest}" != "1" ]; then
+		if [ -z "${sleeptime}" ]; then
+			sleeptime=0.5
+		fi
+		sleep "${sleeptime}"
+	fi
+}
 
 # Log display
 ########################
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
 fn_script_log_pass(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: PASS: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: PASS: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: PASS: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=0
@@ -49,11 +64,11 @@ fn_script_log_pass(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: FATAL: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: FATAL: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: FATAL: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=1
@@ -61,11 +76,11 @@ fn_script_log_fatal(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: ERROR: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ERROR: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ERROR: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=2
@@ -73,11 +88,11 @@ fn_script_log_error(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: WARN: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: WARN: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: WARN: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=3
@@ -85,11 +100,11 @@ fn_script_log_warn(){
 
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
-	if [ -d "${scriptlogdir}" ]; then
+	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: ${commandname}: INFO: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S') ${servicename}: INFO: ${1}" >> "${scriptlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: INFO: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }
@@ -104,6 +119,7 @@ fn_print_dots(){
 	else
 		echo -en "${creeol}[ .... ] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_dots_nl(){
@@ -112,7 +128,7 @@ fn_print_dots_nl(){
 	else
 		echo -e "${creeol}[ .... ] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -123,6 +139,7 @@ fn_print_ok(){
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_ok_nl(){
@@ -131,7 +148,7 @@ fn_print_ok_nl(){
 	else
 		echo -en "${creeol}[${green}  OK  ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -142,6 +159,7 @@ fn_print_fail(){
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_fail_nl(){
@@ -150,7 +168,7 @@ fn_print_fail_nl(){
 	else
 		echo -en "${creeol}[${red} FAIL ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -161,6 +179,7 @@ fn_print_error(){
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_error_nl(){
@@ -169,7 +188,7 @@ fn_print_error_nl(){
 	else
 		echo -en "${creeol}[${red}ERROR ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -180,6 +199,7 @@ fn_print_warn(){
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_warn_nl(){
@@ -188,7 +208,7 @@ fn_print_warn_nl(){
 	else
 		echo -en "${creeol}[${yellow} WARN ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -199,6 +219,7 @@ fn_print_info(){
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
+	fn_sleep_time
 }
 
 fn_print_info_nl(){
@@ -207,7 +228,7 @@ fn_print_info_nl(){
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $@"
 	fi
-	sleep 0.5
+	fn_sleep_time
 	echo -en "\n"
 }
 
@@ -226,46 +247,79 @@ fn_print_header(){
 # Complete!
 fn_print_complete(){
 	echo -en "${green}Complete!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_complete_nl(){
 	echo -e "${green}Complete!${default} $@"
+	fn_sleep_time
 }
 
 # Failure!
 fn_print_failure(){
 	echo -en "${red}Failure!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_failure_nl(){
 	echo -e "${red}Failure!${default} $@"
+	fn_sleep_time
 }
 
 # Error!
 fn_print_error2(){
 	echo -en "${red}Error!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_error2_nl(){
 	echo -e "${red}Error!${default} $@"
+	fn_sleep_time
 }
 
 # Warning!
 fn_print_warning(){
 	echo -en "${yellow}Warning!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_warning_nl(){
 	echo -e "${yellow}Warning!${default} $@"
+	fn_sleep_time
 }
 
 # Information!
 fn_print_information(){
 	echo -en "${cyan}Information!${default} $@"
+	fn_sleep_time
 }
 
 fn_print_information_nl(){
 	echo -e "${cyan}Information!${default} $@"
+	fn_sleep_time
+}
+
+# Y/N Prompt
+fn_prompt_yn(){
+	local prompt="$1"
+	local initial="$2"
+
+	if [ "${initial}" == "Y" ]; then
+		prompt+=" [Y/n] "
+	elif [ "${initial}" == "N" ]; then
+		prompt+=" [y/N] "
+	else
+		prompt+=" [y/n] "
+	fi
+
+	while true; do
+		read -e -i "${initial}" -p  "${prompt}" -r yn
+		case "${yn}" in
+			[Yy]|[Yy][Ee][Ss]) return 0 ;;
+			[Nn]|[Nn][Oo]) return 1 ;;
+		*) echo "Please answer yes or no." ;;
+		esac
+	done
 }
 
 # On-Screen End of Line
@@ -289,22 +343,27 @@ fn_print_fail_eol_nl(){
 	echo -e "${red}FAIL${default}"
 }
 
+# ERROR
+fn_print_error_eol(){
+	echo -en "${red}ERROR${default}"
+}
+
 # WARN
 fn_print_warn_eol(){
-	echo -en "${red}FAIL${default}"
+	echo -en "${red}WARN${default}"
 }
 
 fn_print_warn_eol_nl(){
-	echo -e "${red}FAIL${default}"
+	echo -e "${red}WARN${default}"
 }
 
 # INFO
 fn_print_info_eol(){
-	echo -en "${red}FAIL${default}"
+	echo -en "${red}INFO${default}"
 }
 
 fn_print_info_eol_nl(){
-	echo -e "${red}FAIL${default}"
+	echo -e "${red}INFO${default}"
 }
 
 # QUERYING
@@ -323,6 +382,15 @@ fn_print_checking_eol(){
 
 fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
+}
+
+# DELAY
+fn_print_delay_eol(){
+	echo -en "${green}DELAY${default}"
+}
+
+fn_print_delay_eol_nl(){
+	echo -e "${green}DELAY${default}"
 }
 
 # CANCELED
