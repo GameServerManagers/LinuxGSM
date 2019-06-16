@@ -17,7 +17,15 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fn_fix_msg_end
 fi
 
-if [ "${shortname}" == "ss3" ]; then
+if [ "${shortname}" == "bt" ]; then
+	# Fixes: [S_API FAIL] SteamAPI_Init() failed; SteamAPI_IsSteamRunning() failed.
+	if [ ! -L "${executabledir}/lib64/steamclient.so" ]; then
+		fixname="steamclient.so x86_64"
+		fn_fix_msg_start
+		cp -s -v "${steamcmddir}/linux64/steamclient.so" "${executabledir}/lib64/steamclient.so" >> "${lgsmlog}"
+		fn_fix_msg_end
+	fi
+elif [ "${shortname}" == "ss3" ]; then
 	# Fixes: .steam/bin32/libsteam.so: cannot open shared object file: No such file or directory
 	if [ ! -f "${HOME}/.steam/bin32/libsteam.so" ]; then
 		fixname="libsteam.so"
