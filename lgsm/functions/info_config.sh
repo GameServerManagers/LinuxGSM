@@ -1,7 +1,6 @@
 #!/bin/bash
 # LinuxGSM info_config.sh function
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
@@ -82,6 +81,18 @@ fn_info_config_ark(){
 		servername="${unavailable}"
 	else
 		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
+		# Not Set
+		servername=${servername:-"NOT SET"}
+	fi
+}
+
+fn_info_config_atlas(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+	else
+		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
 		# Not Set
 		servername=${servername:-"NOT SET"}
 	fi
@@ -1192,6 +1203,9 @@ fn_info_config_mordhau(){
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
+# ATLAS
+elif [ "${shortname}" == "atlas" ]; then
+	fn_info_config_atlas
 # Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill

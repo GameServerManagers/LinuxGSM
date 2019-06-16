@@ -22,6 +22,13 @@ fn_info_parms_ark(){
 	maxplayers=${maxplayers:-"0"}
 }
 
+fn_info_parms_atlas(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	rconport=${rconport:-"0"}
+	maxplayers=${maxplayers:-"0"}
+}
+
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
 	queryport=$((port + 1))
@@ -194,6 +201,9 @@ fn_info_parms_kf2(){
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_parms_ark
+# ATLAS Dedicated Server
+elif [ "${shortname}" == "atlas" ]; then
+	fn_info_parms_atlas
 # ARMA 3
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_parms_realvirtuality
