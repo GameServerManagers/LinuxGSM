@@ -118,11 +118,11 @@ fn_info_config_barotrauma(){
 		queryport="${zero}"
 		maxplayers="${unavailable}"
 	else
-		servername=$(grep "name" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		serverpassword=$(grep "password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		port=$(grep "port" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		queryport=$(grep "queryport" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		servername=$(grep -Po 'name="\K.*(?=")' "${servercfgfullpath}") # Assuming GNU grep is used
+		serverpassword=$(grep -Po 'password="\K.*(?=")' "${servercfgfullpath}") # Assuming GNU grep is used
+		port=$(grep " port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$(grep "queryport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		maxplayers=$(grep "maxplayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 
 		# Not set
 		servername=${servername:-"NOT SET"}
