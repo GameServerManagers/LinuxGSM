@@ -19,7 +19,7 @@ kernel=$(uname -r)
 # Distro ID - ubuntu
 # Distro Codename - xenial
 
-# Gathers distro info from various sources filling in missing gaps
+# Gathers distro info from various sources filling in missing gaps.
 distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
 for distro_info in "${distro_info_array[@]}"
 do
@@ -97,18 +97,18 @@ cpufreuency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuin
 ## Memory information
 # Available RAM and swap.
 
-# Newer distros can use numfmt to give more accurate results
+# Newer distros can use numfmt to give more accurate results.
 if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
-	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated
+	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
-	# get the raw KB values of these fields
+	# get the raw KB values of these fields.
 	physmemtotalkb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
 	physmemfreekb=$(grep ^MemFree /proc/meminfo | awk '{print $2}')
 	physmembufferskb=$(grep ^Buffers /proc/meminfo | awk '{print $2}')
 	physmemcachedkb=$(grep ^Cached /proc/meminfo | awk '{print $2}')
 	physmemreclaimablekb=$(grep ^SReclaimable /proc/meminfo | awk '{print $2}')
 
-	# check if MemAvailable Exists
+	# check if MemAvailable Exists.
 	if grep -q ^MemAvailable /proc/meminfo; then
 	    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
 	else
@@ -183,12 +183,12 @@ fi
 if [ -d "${backupdir}" ]; then
 	# Used space in backups dir.
 	backupdirdu=$(du -sh "${backupdir}" | awk '{print $1}')
-	# If no backup dir, size is 0M
+	# If no backup dir, size is 0M.
 	if [ -z "${backupdirdu}" ]; then
 		backupdirdu="0M"
 	fi
 
-	# number of backups set to 0 by default
+	# number of backups set to 0 by default.
 	backupcount=0
 
 	# If there are backups in backup dir.
@@ -210,7 +210,7 @@ fi
 if [ -z "${extip}" ]; then
 	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)
 	exitcode=$?
-	# Should ifconfig.co return an error will use last known IP
+	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
 		echo "${extip}" > "${tmpdir}/extip.txt"
 	else
@@ -222,16 +222,35 @@ if [ -z "${extip}" ]; then
 	fi
 fi
 
-# Steam Master Server - checks if detected by master server
-if [ ! "$(command -v jq 2>/dev/null)" ]; then
+# Alert IP address
+if [ "${displayip}" ]; then
+	alertip="${displayip}"
+elif [ "${extip}" ]; then
+	alertip="${extip}"
+else
+	alertip="${ip}"
+fi
+
+# Steam Master Server - checks if detected by master server.
+if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
-		if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
-			masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
-			if [ "${steammaster}" == "1" ]; then
-				masterserver="true"
-			else
+		if [ "${steammaster}" == "true" ]; then
+			masterserver=$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			if [ "${masterserver}" == "0" ]; then
+				masterserver=$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			fi
+			if [ "${masterserver}" == "0" ]; then
 				masterserver="false"
+			else
+				masterserver="true"
 			fi
 		fi
+	fi
+fi
+
+# Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
+if [ -n "${appid}" ]; then
+	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
+		glibc="2.14"
 	fi
 fi
