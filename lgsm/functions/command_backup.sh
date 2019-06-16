@@ -91,7 +91,7 @@ fn_backup_dir(){
 
 fn_backup_create_lockfile(){
 	# Create lockfile.
-	date > "${tmpdir}/.backup.lock"
+	date '+%s' > "${tmpdir}/.backup.lock"
 	fn_script_log_info "Lockfile generated"
 	fn_script_log_info "${tmpdir}/.backup.lock"
 	# trap to remove lockfile on quit.

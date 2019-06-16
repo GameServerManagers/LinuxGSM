@@ -384,6 +384,15 @@ fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
 }
 
+# DELAY
+fn_print_delay_eol(){
+	echo -en "${green}DELAY${default}"
+}
+
+fn_print_delay_eol_nl(){
+	echo -e "${green}DELAY${default}"
+}
+
 # CANCELED
 fn_print_canceled_eol(){
 	echo -en "${yellow}CANCELED${default}"

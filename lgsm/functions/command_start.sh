@@ -29,7 +29,8 @@ fn_start_teamspeak3(){
 		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
 	# Create lockfile.
-	date > "${rootdir}/${lockselfname}"
+
+	date '+%s' > "${rootdir}/${lockselfname}"
 	# Accept license.
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		install_eula.sh
@@ -83,7 +84,7 @@ fn_start_tmux(){
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
-	# Create lockfile.
+	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}"
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
