@@ -427,6 +427,12 @@ elif [ "${gamename}" == "Minecraft" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Medal of Honor: Allied Assault" ]; then
+	gamedirname="MedalOfHonorAlliedAssault"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "MORDHAU" ]; then
 	gamedirname="Mordhau"
 	fn_check_cfgdir
