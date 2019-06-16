@@ -71,6 +71,11 @@ fn_info_parms_hurtworld(){
 	creativemode=${creativemode:-"NOT SET"}
 }
 
+fn_info_parms_mohaa(){
+	port=${port:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
 fn_info_parms_projectzomboid(){
 	adminpassword=${adminpassword:-"NOT SET"}
 }
@@ -210,6 +215,8 @@ elif [ "${shortname}" == "inss" ]; then
 	fn_info_parms_inss
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
+elif [ "${shortname}" == "mohaa" ]; then
+	fn_info_parms_mohaa
 # Project Zomboid
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid
