@@ -22,6 +22,11 @@ fn_info_parms_ark(){
 	maxplayers=${maxplayers:-"0"}
 }
 
+fn_info_parms_barotrauma(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+}
+
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
 	queryport=$((port + 1))
@@ -186,6 +191,9 @@ if [ "${shortname}" == "ark" ]; then
 # ARMA 3
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_parms_realvirtuality
+# Barotrauma
+elif [ "${shortname}" == "bt" ]; then
+	fn_info_parms_barotrauma
 # Call of Duty
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
