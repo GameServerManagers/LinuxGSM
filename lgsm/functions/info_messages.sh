@@ -748,6 +748,15 @@ fn_info_message_minecraft(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mohaa(){
+	echo -e "netstat -atunp | grep mohaa_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
@@ -1267,6 +1276,8 @@ fn_info_message_select_engine(){
 		fn_info_message_towerunite
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
+	elif [ "${gamename}" == "Medal of Honor: Allied Assault" ]; then
+		fn_info_message_mohaa
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
