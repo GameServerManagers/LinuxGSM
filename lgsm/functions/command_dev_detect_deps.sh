@@ -61,7 +61,7 @@ while read -r lib; do
 	local libs_array=( libtier0.so libtier0_srv.so libvstdlib_srv.so Core.so libvstdlib.so libtier0_s.so Editor.so Engine.so liblua.so libsteam_api.so ld-linux-x86-64.so.2 libPhysX3_x86.so libPhysX3Common_x86.so libPhysX3Cooking_x86.so)
 	for lib_file in "${libs_array[@]}"
 	do
-		# Known shared libs what dont requires dependencies
+		# Known shared libs what dont requires dependencies.
 		if [ "${lib}" == "${lib_file}" ]; then
 			libdetected=1
 		fi

@@ -27,7 +27,7 @@ fn_install_ts3db_mariadb(){
 	echo ""
 	echo "Configure ${gamename} Server for MariaDB"
 	echo "================================="
-	sleep 0.5
+	fn_sleep_time
 	read -rp "Enter MariaDB hostname: " mariahostname
 	read -rp "Enter MariaDB port: " mariaport
 	read -rp "Enter MariaDB username: " mariausername
@@ -48,13 +48,13 @@ fn_install_ts3db_mariadb(){
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
 	echo "updating ts3db_mariadb.ini."
-	sleep 0.5
+	fn_sleep_time
 }
 
 echo ""
 echo "Select Database"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (MariaDB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
@@ -65,13 +65,11 @@ fi
 
 install_eula.sh
 
-## Get privilege key
 echo ""
 echo "Getting privilege key"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 fn_print_information_nl "Save these details for later."
-sleep 0.5
 cd "${executabledir}" || exit
 ${executable} start inifile=ts3-server.ini
 sleep 5

@@ -14,7 +14,6 @@ check.sh
 info_config.sh
 info_parms.sh
 info_distro.sh
-info_glibc.sh
 info_messages.sh
 query_gamedig.sh
 fn_info_message_distro
@@ -32,4 +31,3 @@ fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
 core_exit.sh
-

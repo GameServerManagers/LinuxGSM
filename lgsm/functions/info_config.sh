@@ -7,7 +7,7 @@
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-## Examples of filtering to get info from config files
+## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo
 # tr -cd '[:digit:]' leave only digits
 # tr -d '=\"; ' remove selected characters =\";
@@ -361,7 +361,10 @@ fn_info_config_minecraft(){
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport="${port}"
+		queryport=$(grep "query.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		if [ -z "${queryport}" ]; then
+			queryport=${port}
+		fi
 		queryenabled=$(grep "enable-query" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/enable-query//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -376,7 +379,7 @@ fn_info_config_minecraft(){
 		rconport=${rconport:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
-		queryport="${queryport:-"NOT SET"}"
+		queryport=${queryport:-"NOT SET"}
 		queryenabled="${queryenabled:-"NOT SET"}"
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
@@ -668,6 +671,26 @@ fn_info_config_sbots(){
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
+}
+
+fn_info_config_sof2(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
 }
 
 fn_info_config_source(){
@@ -1273,6 +1296,9 @@ elif [ "${shortname}" == "rw" ]; then
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
+# Soldier Of Fortune 2: Gold Edition
+elif [ "${shortname}" == "sof2" ]; then
+  fn_info_config_sof2
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
