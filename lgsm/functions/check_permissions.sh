@@ -149,7 +149,7 @@ fn_sys_perm_errors_detect(){
 	sysdirpermerror="0"
 	classdirpermerror="0"
 	netdirpermerror="0"
-	# Check permissions/
+	# Check permissions.
 	# /sys, /sys/class and /sys/class/net should be readable & executable.
 	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
 		sysdirpermerror="1"
