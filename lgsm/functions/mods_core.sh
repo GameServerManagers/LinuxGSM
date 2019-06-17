@@ -177,14 +177,14 @@ fn_mod_tidy_files_list(){
 	# Remove paths of specific mods from deletion list
 	if [ "${modcommand}" == "gokz" ]; then
 		sed -i "/^addons\/sourcemod\/scripting\/include\/smjansson.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/GlobalAPI-Core.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/sourcebanspp.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/autoexecconfig.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/colorvariables.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/movementapi.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/movement.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/dhooks.inc$/d" "${modsdir}/${modcommand}-files.txt"
-                sed -i "/^addons\/sourcemod\/scripting\/include\/updater.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/GlobalAPI-Core.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/sourcebanspp.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/autoexecconfig.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/colorvariables.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/movementapi.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/movement.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/dhooks.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/updater.inc$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 }
 
