@@ -26,6 +26,16 @@ sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/source
 sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
 sourcemodurl="${sourcemoddownloadurl}"
+# Steamworks
+steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
+steamworkslatestfile="$(curl -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)"
+steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
+steamworksurl="${steamworksdownloadurl}"
+# CS:GO Mods
+get5scrapepath="$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/xml | grep -oP "<relativePath>\K(.+)(?=</relativePath>)")"
+get5latestfile="$(echo "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo "basename "@""")"
+get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
+get5url="${get5downloadurl}"
 # Oxide
 oxiderustlatestlink="$(curl -sL https://api.github.com/repos/theumod/umod.rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 oxidehurtworldlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
@@ -59,10 +69,12 @@ modseparator="MOD"
 # Source mods
 mod_info_metamod=( MOD "metamod" "MetaMod" "${metamodurl}" "${metamodlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source;" "GAMES" "NOTGAMES" "https://www.sourcemm.net" "Plugins Framework" )
 mod_info_sourcemod=( MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "GAMES" "NOTGAMES" "http://www.sourcemod.net" "Admin Features (requires MetaMod)" )
+mod_info_steamworks=( MOD "steamworks" "SteamWorks" "${steamworksurl}" "${steamworkslatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KyleSanderson/SteamWorks" "Exposing SteamWorks functions to SourcePawn" )
 
 # CS:GO Mods
-mod_info_gokz=( MOD "gokz" "GOKZ" "https://bitbucket.org/kztimerglobalteam/gokz/downloads/GOKZ-latest.zip" "gokz-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter Strike: Global Offensive" "NOTGAMES" "https://bitbucket.org/kztimerglobalteam/gokz/src/master/" "Implements the KZ game mode (requires SourceMod and MetaMod)")
-mod_info_ttt=( MOD "ttt" "Trouble in Terrorist Town" "https://csgottt.com/downloads/ttt-latest-dev-${sourcemodmversion}.zip" "ttt-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter Strike: Global Offensive" "NOTGAMES" "https://github.com/Bara/TroubleinTerroristTown" "Implements the TTT game mode (requires SourceMod and MetaMod)")
+mod_info_gokz=( MOD "gokz" "GOKZ" "https://bitbucket.org/kztimerglobalteam/gokz/downloads/GOKZ-latest.zip" "gokz-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://bitbucket.org/kztimerglobalteam/gokz/src/master/" "Implements the KZ game mode (requires SourceMod and MetaMod)" )
+mod_info_ttt=( MOD "ttt" "Trouble in Terrorist Town" "https://csgottt.com/downloads/ttt-latest-dev-${sourcemodmversion}.zip" "ttt-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/Bara/TroubleinTerroristTown" "Implements the TTT game mode (requires SourceMod and MetaMod)" )
+mod_info_get5=( MOD "get5" "Get 5" "${get5url}" "${get5latestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/get5" "Plugin for competitive matches/scrims (requires SourceMod and MetaMod)" )
 
 # Garry's Mod Addons
 mod_info_ulib=( MOD "ulib" "ULib" "https://codeload.github.com/TeamUlysses/ulib/zip/master" "ulib-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Complete Framework" )
@@ -85,4 +97,4 @@ mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestli
 mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
+mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}"  "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
