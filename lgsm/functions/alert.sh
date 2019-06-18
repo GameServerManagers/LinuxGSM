@@ -10,7 +10,6 @@ local commandaction="Alert"
 fn_alert_log(){
 	info_distro.sh
 	info_config.sh
-	info_glibc.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm "${alertlog}"
@@ -94,10 +93,10 @@ elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 fi
 
-# Generate alert log
+# Generate alert log.
 fn_alert_log
 
-# Generates the more info link
+# Generates the more info link.
 if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 	alertflag=1
 	command_postdetails.sh

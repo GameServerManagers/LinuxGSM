@@ -18,8 +18,14 @@ for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
-	sleep 0.5
-	if [ "${querymethod}" ==  "gamedig" ]; then
+	if [ "$(cat "${rootdir}/${lockselfname}")" -lt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
+		fn_print_delay_eol
+		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
+		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minute ago"
+		monitorpass=1
+		core_exit.sh
+	elif [ "${querymethod}" ==  "gamedig" ]; then
 		query_gamedig.sh
 	elif [ "${querymethod}" ==  "gsquery" ]; then
 		if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
@@ -37,7 +43,6 @@ for queryattempt in {1..5}; do
 
 	if [ "${querystatus}" == "0" ]; then
 		# Server query OK.
-		sleep 0.5
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
@@ -48,7 +53,6 @@ for queryattempt in {1..5}; do
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
 		fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_fail_eol
-		sleep 0.5
 		# Monitor try gamedig first then gsquery before restarting.
 		if [ "${querymethod}" ==  "gsquery" ]; then
 			if [ "${totalseconds}" -ge "59" ]; then
@@ -56,7 +60,6 @@ for queryattempt in {1..5}; do
 				fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
-				sleep 0.5
 
 				# Send alert if enabled.
 				alert="restartquery"
@@ -74,7 +77,6 @@ for queryattempt in {1..5}; do
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: WAIT"
 			totalseconds=$((totalseconds + 1))
-			sleep 1
 			if [ "${seconds}" == "15" ]; then
 				break
 			fi
@@ -98,7 +100,6 @@ fn_monitor_check_update(){
 	if [ "$(ps -ef | grep "${selfname} update" | grep -v grep | wc -l)" != "0" ]; then
 		fn_print_error_nl "SteamCMD is currently checking for updates"
 		fn_script_log_error "SteamCMD is currently checking for updates"
-		sleep 0.5
 		core_exit.sh
 	fi
 }
@@ -107,7 +108,6 @@ fn_monitor_check_session(){
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
-	sleep 0.5
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
@@ -125,17 +125,15 @@ fn_monitor_check_session(){
 		alert="restart"
 		alert.sh
 		fn_script_log_info "Monitor is starting ${servername}"
-		sleep 0.5
 		command_restart.sh
 		core_exit.sh
 	fi
-	sleep 0.5
 }
 
 fn_monitor_query(){
 	fn_script_log_info "Querying port: query enabled"
 	# Engines that work with query.
-	local allowed_engines_array=( avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 idtech3_ql ioquake3 iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 wurm )
+	local allowed_engines_array=( avalanche2.0 avalanche3.0 barotrauma goldsource idtech2 idtech3 idtech3_ql ioquake3 iw2.0 iw3.0 lwjgl2 madness quake refractor realvirtuality source spark starbound unity3d unreal unreal2 unreal4 wurm )
 	for allowed_engine in "${allowed_engines_array[@]}"
 	do
 		if [ "${allowed_engine}" == "${engine}" ]; then
@@ -185,7 +183,6 @@ fn_monitor_query_upd(){
 
 monitorflag=1
 fn_print_dots "${servername}"
-sleep 0.5
 check.sh
 logs.sh
 info_config.sh
@@ -194,6 +191,17 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
+
+# Fix if lockfile is not unix time or contains letters
+if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
+    date '+%s' > "${rootdir}/${lockselfname}"
+fi
+
+# Add a query bypass if missing
+if [ -z "${querydelay}" ]; then
+	querydelay="1"
+fi
+
 # Query has to be enabled in Starbound config.
 if [ "${shortname}" == "sb" ]; then
 	if [ "${queryenabled}" == "true" ]; then
@@ -204,4 +212,5 @@ elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" 
 else
 	fn_monitor_query
 fi
+
 core_exit.sh

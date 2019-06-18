@@ -5,7 +5,7 @@
 # Description: Querys a gameserver using node-gamedig.
 # https://github.com/sonicsnes/node-gamedig
 
-#Check if gamedig and jq are installed
+# Check if gamedig and jq are installed.
 if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 
 		if [ "${engine}" == "idtech3_ql" ]; then
@@ -14,7 +14,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			local engine="unreal4"
 		fi
 
-		local engine_query_array=( avalanche3.0 madness quakelive realvirtuality refractor source goldsource spark starbound unity3d unreal4 wurm )
+		local engine_query_array=( avalanche3.0 barotrauma madness quakelive realvirtuality refractor source goldsource spark starbound unity3d unreal4 wurm )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
@@ -78,53 +78,53 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-	# will bypass query if server offline
+	# will bypass query if server offline.
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		# checks if query is working null = pass
+		# checks if query is working null = pass.
 		gamedigcmd=$(echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --query_port \"${queryport}\"|jq")
 		gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --query_port "${queryport}")
 		querystatus=$(echo "${gamedigraw}" | jq '.error|length')
-		
+
 		if [ "${querystatus}" != "null" ]; then
 			gamedigcmd=$(echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${queryport}\"|jq")
 			gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --port "${queryport}")
 			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
-			
-		fi	
-		
 
-		# server name
+		fi
+
+
+		# server name.
 		gdname=$(echo "${gamedigraw}" | jq -re '.name')
 		if [ "${gdname}" == "null" ]; then
 			unset gdname
 		fi
 
-		# numplayers
+		# numplayers.
 		gdplayers=$(echo "${gamedigraw}" | jq -re '.players|length')
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
 		fi
 
-		# maxplayers
+		# maxplayers.
 		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers|length')
 		if [ "${gdmaxplayers}" == "null" ]; then
 			unset maxplayers
 		fi
 
-		# current map
+		# current map.
 		gdmap=$(echo "${gamedigraw}" | jq -re '.map')
 		if [ "${gdmap}" == "null" ]; then
 			unset gdmap
 		fi
 
-		# current gamemode
+		# current gamemode.
 		gdgamemode=$(echo "${gamedigraw}" | jq -re '.raw.rules.GameMode_s')
 		if [ "${gdgamemode}" == "null" ]; then
 			unset gdgamemode
 		fi
 
-		# numbots
+		# numbots.
 		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots

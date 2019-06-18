@@ -11,4 +11,4 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 #Set Binary Executable
 echo "chmod +x ${executabledir}/${executable}"
 chmod +x "${executabledir}/${executable}"
-sleep 0.5
+fn_sleep_time

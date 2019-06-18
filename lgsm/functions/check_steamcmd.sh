@@ -33,7 +33,7 @@ fn_check_steamcmd_user(){
 		fi
 		core_exit.sh
 	fi
-	# Anonymous user is set if steamuser is missing
+	# Anonymous user is set if steamuser is missing.
 	if [ -z "${steamuser}" ]; then
 		if [ -d "${lgsmlogdir}" ]; then
 			fn_script_log_info "Using anonymous Steam login"
@@ -52,7 +52,6 @@ fn_check_steamcmd_sh(){
 		else
 			fn_print_error_nl "SteamCMD is missing"
 			fn_script_log_error "SteamCMD is missing"
-			sleep 0.5
 			fn_install_steamcmd
 		fi
 	elif [ "${function_selfname}" == "command_install.sh" ]; then

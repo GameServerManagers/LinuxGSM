@@ -11,7 +11,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo ""
 echo "Server Directory"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 if [ -d "${serverfiles}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi
