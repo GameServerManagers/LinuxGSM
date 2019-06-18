@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM command_install.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

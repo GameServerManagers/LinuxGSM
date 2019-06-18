@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

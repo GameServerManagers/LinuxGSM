@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM fix_kf.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

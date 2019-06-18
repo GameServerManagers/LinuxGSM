@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM info_config.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

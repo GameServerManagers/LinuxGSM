@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM install_mta_resources.sh function
 # Author: Daniel Gibbs
 # Contributor: ChaosMTA

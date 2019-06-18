@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM alert_pushover.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

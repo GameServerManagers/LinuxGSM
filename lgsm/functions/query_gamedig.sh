@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # query_gamedig.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

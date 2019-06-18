@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM update_factorio.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

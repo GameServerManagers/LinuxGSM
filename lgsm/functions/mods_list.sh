@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM mods_list.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

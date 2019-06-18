@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM command_ts3.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

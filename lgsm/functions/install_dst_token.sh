@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM install_dst_token.sh function
 # Author: Daniel Gibbs & Marvin Lehmann (marvinl97)
 # Website: https://linuxgsm.com

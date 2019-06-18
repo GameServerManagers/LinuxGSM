@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM alert_mailgun.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

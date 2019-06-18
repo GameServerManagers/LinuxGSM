@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM fix_mta.sh function
 # Author: Daniel Gibbs
 # Contributor: ChaosMTA

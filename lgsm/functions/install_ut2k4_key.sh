@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM install_ut2k4_key.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
 # Contributor: UltimateByte

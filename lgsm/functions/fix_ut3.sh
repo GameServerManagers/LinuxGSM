@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM fix_ut2.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

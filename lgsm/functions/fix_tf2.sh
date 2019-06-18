@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM fix_tf2.sh function
 # Author: Vector Sigma
 # Website: https://github.com/vectorsigma

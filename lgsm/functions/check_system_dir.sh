@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM check_system_dir.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

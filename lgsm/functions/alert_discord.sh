@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM alert_discord.sh function
 # Author: Daniel Gibbs
 # Contributor: faflfama, diamondburned

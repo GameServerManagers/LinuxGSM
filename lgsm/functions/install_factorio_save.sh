@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM install_factorio_save.sh function
 # Author: Kristian Polso
 # Website: https://linuxgsm.com

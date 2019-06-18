@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM compress_unreal2_maps.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

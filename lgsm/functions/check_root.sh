@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM check_root.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

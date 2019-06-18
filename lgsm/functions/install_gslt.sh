@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM install_gslt.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

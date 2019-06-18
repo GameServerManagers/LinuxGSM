@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # command_dev_query_raw.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

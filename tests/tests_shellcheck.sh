@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2019 Daniel Gibbs

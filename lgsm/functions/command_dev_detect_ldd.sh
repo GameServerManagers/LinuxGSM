@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # command_dev_detect_ldd.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com

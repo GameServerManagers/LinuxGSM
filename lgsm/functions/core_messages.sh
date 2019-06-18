@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM core_messages.sh function
 # Author: Daniel Gibbs
 # Contributor: s-eam

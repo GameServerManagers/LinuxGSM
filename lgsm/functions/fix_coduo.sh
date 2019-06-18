@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # LinuxGSM fix_coduo.sh function
 # Author: Alexander Hurd
 # Website: https://linuxgsm.com
