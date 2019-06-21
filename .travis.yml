@@ -48,4 +48,4 @@ jobs:
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
 after_success:
-	- sh .travis-push.sh
+  - sh .travis/push.sh
