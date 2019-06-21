@@ -47,3 +47,5 @@ jobs:
 	  script: bash utils/check_defaults.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
+after_success:
+	- sh .travis-push.sh
