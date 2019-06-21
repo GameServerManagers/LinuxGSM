@@ -171,6 +171,9 @@ fn_deps_detector(){
 	elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
 		depstatus=$?
+	elif [ -n "$(command -v pkg 2>/dev/null)" ]; then
+		pkg info "${deptocheck}" > /dev/null 2>&1
+		depstatus=$?
 	fi
 
 	if [ "${depstatus}" == "0" ]; then
@@ -261,6 +264,9 @@ fn_found_missing_deps(){
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
+			elif [ -n "$(command -v pkg 2>/dev/null)" ]; then
+				cmd="sudo pkg -y install ${array_deps_missing[@]}"
+				eval "${cmd}"
 			fi
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install dependencies"
@@ -274,6 +280,8 @@ fn_found_missing_deps(){
 					echo "	sudo dnf install ${array_deps_missing[@]}"
 				elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 					echo "	sudo yum install ${array_deps_missing[@]}"
+				elif [ -n "$(command -v pkg 2>/dev/null)" ]; then
+					echo "  sudo pkg install ${array_deps_missing[@]}"
 				fi
 				if [ "${steamcmdfail}" ]; then
 					echo ""
@@ -295,6 +303,8 @@ fn_found_missing_deps(){
 				echo "	sudo dnf install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
 				echo "	sudo yum install ${array_deps_missing[@]}"
+			elif [ -n "$(command -v pkg 2>/dev/null)" ]; then
+				echo "  sudo pkg install ${array_deps_missing[@]}"
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo ""
@@ -549,6 +559,21 @@ fn_deps_build_redhat(){
 	fn_check_loop
 }
 
+fn_deps_build_freebsd(){
+	# Generate array of missing deps.
+	array_deps_missing=()
+
+	# LinuxGSM requirements.
+	array_deps_required=( wget curl python jq tmux )
+
+	# Game specific requirements.
+	if [ "${shortname}" == "mcserver" ]; then
+		array_deps_required+=( openjdk8-jre )
+	fi
+	fn_deps_email
+	fn_check_loop
+}
+
 if [ "${function_selfname}" == "command_install.sh" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo ""
@@ -564,12 +589,14 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 	fi
 fi
 
-# Filter checking in to Debian or Red Hat Based.
+# Filter checking in to Debian, Red Hat, or FreeBSD Based.
 info_distro.sh
 if [ -f "/etc/debian_version" ]; then
 	fn_deps_build_debian
 elif [ -f "/etc/redhat-release" ]; then
 	fn_deps_build_redhat
+elif [ "$(uname -s)" = "FreeBSD" ]; then
+	fn_deps_build_freebsd
 else
 	fn_print_warning_nl "${distroname} dependency checking unavailable"
 fi
