@@ -1205,6 +1205,17 @@ fn_info_message_mordhau(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_barotrauma(){
+	echo "netstat -atunp | grep /./DedicatedSer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t$((port+1))\tudp"
+	} | column -s $'\t' -t
+}
+
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1213,6 +1224,8 @@ fn_info_message_select_engine(){
 		fn_info_message_ark
 	elif [ "${gamename}" == "Ballistic Overkill" ]; then
 		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Barotrauma" ]; then
+		fn_info_message_barotrauma
 	elif [ "${gamename}" == "Battalion 1944" ]; then
 		fn_info_message_battalion1944
 	elif [ "${gamename}" == "Call of Duty" ]; then
