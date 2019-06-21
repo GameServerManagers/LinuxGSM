@@ -67,7 +67,7 @@ for x in "${!gameservers[@]}"; do
     # FUNCTIONS
     declare -n funcsnameref="${funcsname}"
     if [[ ${#funcsnameref[@]} -gt 0 ]]; then
-        for f in "${!funcsname[@]}"; do printf "%s,%s,%s\n" "${gameservers[$x]}" "Function" "${!funcsname[$f]}" >> ${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv ; done
+        for f in "${!funcsname[@]}"; do printf "%s,%s,%s,\n" "${gameservers[$x]}" "Function" "${!funcsname[$f]}" >> ${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv ; done
     fi
     #VARIABLES
     tmp="${varsname}"
