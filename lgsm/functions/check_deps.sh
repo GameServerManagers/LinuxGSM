@@ -398,7 +398,7 @@ fn_deps_build_debian(){
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
 	# Medal of Honor: Allied Assault 
-	if [ "${shortname}" == "mohaa" ]; then
+	elif [ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
