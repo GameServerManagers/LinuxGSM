@@ -1,5 +1,5 @@
 gameserver,type,key,value
-arkserver,Function,fn_parms
+arkserver,Function,fn_parms,
 arkserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 arkserver,Parameter,ansi,"on"
 arkserver,Parameter,appid,"376030"
@@ -66,7 +66,7 @@ arkserver,Parameter,telegramalert,"off"
 arkserver,Parameter,telegramchatid,""
 arkserver,Parameter,telegramtoken,"accesstoken"
 arkserver,Parameter,updateonstart,"off"
-arma3server,Function,fn_parms
+arma3server,Function,fn_parms,
 arma3server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 arma3server,Parameter,ansi,"on"
 arma3server,Parameter,appid,"233780"
@@ -136,7 +136,7 @@ arma3server,Parameter,telegramalert,"off"
 arma3server,Parameter,telegramchatid,""
 arma3server,Parameter,telegramtoken,"accesstoken"
 arma3server,Parameter,updateonstart,"off"
-bb2server,Function,fn_parms
+bb2server,Function,fn_parms,
 bb2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bb2server,Parameter,ansi,"on"
 bb2server,Parameter,appid,"475370"
@@ -204,7 +204,7 @@ bb2server,Parameter,telegramalert,"off"
 bb2server,Parameter,telegramchatid,""
 bb2server,Parameter,telegramtoken,"accesstoken"
 bb2server,Parameter,updateonstart,"off"
-bbserver,Function,fn_parms
+bbserver,Function,fn_parms,
 bbserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bbserver,Parameter,ansi,"on"
 bbserver,Parameter,appid,"90"
@@ -271,7 +271,7 @@ bbserver,Parameter,telegramalert,"off"
 bbserver,Parameter,telegramchatid,""
 bbserver,Parameter,telegramtoken,"accesstoken"
 bbserver,Parameter,updateonstart,"off"
-bdserver,Function,fn_parms
+bdserver,Function,fn_parms,
 bdserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bdserver,Parameter,ansi,"on"
 bdserver,Parameter,appid,"817300"
@@ -337,7 +337,7 @@ bdserver,Parameter,telegramalert,"off"
 bdserver,Parameter,telegramchatid,""
 bdserver,Parameter,telegramtoken,"accesstoken"
 bdserver,Parameter,updateonstart,"off"
-bf1942server,Function,fn_parms
+bf1942server,Function,fn_parms,
 bf1942server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bf1942server,Parameter,ansi,"on"
 bf1942server,Parameter,backupdir,"${rootdir}/backups"
@@ -395,7 +395,7 @@ bf1942server,Parameter,telegramalert,"off"
 bf1942server,Parameter,telegramchatid,""
 bf1942server,Parameter,telegramtoken,"accesstoken"
 bf1942server,Parameter,updateonstart,"off"
-bmdmserver,Function,fn_parms
+bmdmserver,Function,fn_parms,
 bmdmserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bmdmserver,Parameter,ansi,"on"
 bmdmserver,Parameter,appid,"346680"
@@ -463,7 +463,7 @@ bmdmserver,Parameter,telegramalert,"off"
 bmdmserver,Parameter,telegramchatid,""
 bmdmserver,Parameter,telegramtoken,"accesstoken"
 bmdmserver,Parameter,updateonstart,"off"
-boserver,Function,fn_parms
+boserver,Function,fn_parms,
 boserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 boserver,Parameter,ansi,"on"
 boserver,Parameter,appid,"416880"
@@ -526,7 +526,7 @@ boserver,Parameter,telegramalert,"off"
 boserver,Parameter,telegramchatid,""
 boserver,Parameter,telegramtoken,"accesstoken"
 boserver,Parameter,updateonstart,"off"
-bsserver,Function,fn_parms
+bsserver,Function,fn_parms,
 bsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bsserver,Parameter,ansi,"on"
 bsserver,Parameter,appid,"228780"
@@ -596,7 +596,7 @@ bsserver,Parameter,telegramalert,"off"
 bsserver,Parameter,telegramchatid,""
 bsserver,Parameter,telegramtoken,"accesstoken"
 bsserver,Parameter,updateonstart,"off"
-bt1944server,Function,fn_parms
+bt1944server,Function,fn_parms,
 bt1944server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 bt1944server,Parameter,ansi,"on"
 bt1944server,Parameter,appid,"805140"
@@ -660,7 +660,7 @@ bt1944server,Parameter,telegramalert,"off"
 bt1944server,Parameter,telegramchatid,""
 bt1944server,Parameter,telegramtoken,"accesstoken"
 bt1944server,Parameter,updateonstart,"off"
-btserver,Function,fn_parms
+btserver,Function,fn_parms,
 btserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 btserver,Parameter,ansi,"on"
 btserver,Parameter,appid,"1026340"
@@ -721,7 +721,7 @@ btserver,Parameter,telegramalert,"off"
 btserver,Parameter,telegramchatid,""
 btserver,Parameter,telegramtoken,"accesstoken"
 btserver,Parameter,updateonstart,"off"
-ccserver,Function,fn_parms
+ccserver,Function,fn_parms,
 ccserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ccserver,Parameter,ansi,"on"
 ccserver,Parameter,appid,"383410"
@@ -788,7 +788,7 @@ ccserver,Parameter,telegramalert,"off"
 ccserver,Parameter,telegramchatid,""
 ccserver,Parameter,telegramtoken,"accesstoken"
 ccserver,Parameter,updateonstart,"off"
-cod2server,Function,fn_parms
+cod2server,Function,fn_parms,
 cod2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 cod2server,Parameter,ansi,"on"
 cod2server,Parameter,backupdir,"${rootdir}/backups"
@@ -849,7 +849,7 @@ cod2server,Parameter,systemdir,"${serverfiles}"
 cod2server,Parameter,telegramalert,"off"
 cod2server,Parameter,telegramchatid,""
 cod2server,Parameter,telegramtoken,"accesstoken"
-cod4server,Function,fn_parms
+cod4server,Function,fn_parms,
 cod4server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 cod4server,Parameter,ansi,"on"
 cod4server,Parameter,backupdir,"${rootdir}/backups"
@@ -910,7 +910,7 @@ cod4server,Parameter,systemdir,"${serverfiles}"
 cod4server,Parameter,telegramalert,"off"
 cod4server,Parameter,telegramchatid,""
 cod4server,Parameter,telegramtoken,"accesstoken"
-codserver,Function,fn_parms
+codserver,Function,fn_parms,
 codserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 codserver,Parameter,ansi,"on"
 codserver,Parameter,backupdir,"${rootdir}/backups"
@@ -971,7 +971,7 @@ codserver,Parameter,systemdir,"${serverfiles}"
 codserver,Parameter,telegramalert,"off"
 codserver,Parameter,telegramchatid,""
 codserver,Parameter,telegramtoken,"accesstoken"
-coduoserver,Function,fn_parms
+coduoserver,Function,fn_parms,
 coduoserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 coduoserver,Parameter,ansi,"on"
 coduoserver,Parameter,backupdir,"${rootdir}/backups"
@@ -1032,7 +1032,7 @@ coduoserver,Parameter,systemdir,"${serverfiles}"
 coduoserver,Parameter,telegramalert,"off"
 coduoserver,Parameter,telegramchatid,""
 coduoserver,Parameter,telegramtoken,"accesstoken"
-codwawserver,Function,fn_parms
+codwawserver,Function,fn_parms,
 codwawserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 codwawserver,Parameter,ansi,"on"
 codwawserver,Parameter,backupdir,"${rootdir}/backups"
@@ -1093,7 +1093,7 @@ codwawserver,Parameter,systemdir,"${serverfiles}"
 codwawserver,Parameter,telegramalert,"off"
 codwawserver,Parameter,telegramchatid,""
 codwawserver,Parameter,telegramtoken,"accesstoken"
-csczserver,Function,fn_parms
+csczserver,Function,fn_parms,
 csczserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 csczserver,Parameter,ansi,"on"
 csczserver,Parameter,appid,"90"
@@ -1160,7 +1160,7 @@ csczserver,Parameter,telegramalert,"off"
 csczserver,Parameter,telegramchatid,""
 csczserver,Parameter,telegramtoken,"accesstoken"
 csczserver,Parameter,updateonstart,"off"
-csgoserver,Function,fn_parms
+csgoserver,Function,fn_parms,
 csgoserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 csgoserver,Parameter,ansi,"on"
 csgoserver,Parameter,appid,"740"
@@ -1235,7 +1235,7 @@ csgoserver,Parameter,updateonstart,"off"
 csgoserver,Parameter,wsapikey,""
 csgoserver,Parameter,wscollectionid,""
 csgoserver,Parameter,wsstartmap,""
-csserver,Function,fn_parms
+csserver,Function,fn_parms,
 csserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 csserver,Parameter,ansi,"on"
 csserver,Parameter,appid,"90"
@@ -1302,7 +1302,7 @@ csserver,Parameter,telegramalert,"off"
 csserver,Parameter,telegramchatid,""
 csserver,Parameter,telegramtoken,"accesstoken"
 csserver,Parameter,updateonstart,"off"
-cssserver,Function,fn_parms
+cssserver,Function,fn_parms,
 cssserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 cssserver,Parameter,ansi,"on"
 cssserver,Parameter,appid,"232330"
@@ -1370,7 +1370,7 @@ cssserver,Parameter,telegramalert,"off"
 cssserver,Parameter,telegramchatid,""
 cssserver,Parameter,telegramtoken,"accesstoken"
 cssserver,Parameter,updateonstart,"off"
-dabserver,Function,fn_parms
+dabserver,Function,fn_parms,
 dabserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 dabserver,Parameter,ansi,"on"
 dabserver,Parameter,appid,"317800"
@@ -1437,7 +1437,7 @@ dabserver,Parameter,telegramalert,"off"
 dabserver,Parameter,telegramchatid,""
 dabserver,Parameter,telegramtoken,"accesstoken"
 dabserver,Parameter,updateonstart,"off"
-dmcserver,Function,fn_parms
+dmcserver,Function,fn_parms,
 dmcserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 dmcserver,Parameter,ansi,"on"
 dmcserver,Parameter,appid,"90"
@@ -1504,7 +1504,7 @@ dmcserver,Parameter,telegramalert,"off"
 dmcserver,Parameter,telegramchatid,""
 dmcserver,Parameter,telegramtoken,"accesstoken"
 dmcserver,Parameter,updateonstart,"off"
-dodserver,Function,fn_parms
+dodserver,Function,fn_parms,
 dodserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 dodserver,Parameter,ansi,"on"
 dodserver,Parameter,appid,"90"
@@ -1571,7 +1571,7 @@ dodserver,Parameter,telegramalert,"off"
 dodserver,Parameter,telegramchatid,""
 dodserver,Parameter,telegramtoken,"accesstoken"
 dodserver,Parameter,updateonstart,"off"
-dodsserver,Function,fn_parms
+dodsserver,Function,fn_parms,
 dodsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 dodsserver,Parameter,ansi,"on"
 dodsserver,Parameter,appid,"232290"
@@ -1638,7 +1638,7 @@ dodsserver,Parameter,telegramalert,"off"
 dodsserver,Parameter,telegramchatid,""
 dodsserver,Parameter,telegramtoken,"accesstoken"
 dodsserver,Parameter,updateonstart,"off"
-doiserver,Function,fn_parms
+doiserver,Function,fn_parms,
 doiserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 doiserver,Parameter,ansi,"on"
 doiserver,Parameter,appid,"462310"
@@ -1706,7 +1706,7 @@ doiserver,Parameter,telegramtoken,"accesstoken"
 doiserver,Parameter,tickrate,"64"
 doiserver,Parameter,updateonstart,"off"
 doiserver,Parameter,workshop,"0"
-dstserver,Function,fn_parms
+dstserver,Function,fn_parms,
 dstserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 dstserver,Parameter,ansi,"on"
 dstserver,Parameter,appid,"343050"
@@ -1779,7 +1779,7 @@ dstserver,Parameter,telegramalert,"off"
 dstserver,Parameter,telegramchatid,""
 dstserver,Parameter,telegramtoken,"accesstoken"
 dstserver,Parameter,updateonstart,"off"
-dysserver,Function,fn_parms
+dysserver,Function,fn_parms,
 dysserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 dysserver,Parameter,ansi,"on"
 dysserver,Parameter,appid,"17585"
@@ -1847,7 +1847,7 @@ dysserver,Parameter,telegramalert,"off"
 dysserver,Parameter,telegramchatid,""
 dysserver,Parameter,telegramtoken,"accesstoken"
 dysserver,Parameter,updateonstart,"off"
-ecoserver,Function,fn_parms
+ecoserver,Function,fn_parms,
 ecoserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ecoserver,Parameter,ansi,"on"
 ecoserver,Parameter,appid,"739590"
@@ -1908,7 +1908,7 @@ ecoserver,Parameter,telegramalert,"off"
 ecoserver,Parameter,telegramchatid,""
 ecoserver,Parameter,telegramtoken,"accesstoken"
 ecoserver,Parameter,updateonstart,"off"
-emserver,Function,fn_parms
+emserver,Function,fn_parms,
 emserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 emserver,Parameter,ansi,"on"
 emserver,Parameter,appid,"460040"
@@ -1976,7 +1976,7 @@ emserver,Parameter,telegramalert,"off"
 emserver,Parameter,telegramchatid,""
 emserver,Parameter,telegramtoken,"accesstoken"
 emserver,Parameter,updateonstart,"off"
-etlserver,Function,fn_parms
+etlserver,Function,fn_parms,
 etlserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 etlserver,Parameter,ansi,"on"
 etlserver,Parameter,backupdir,"${rootdir}/backups"
@@ -2033,7 +2033,7 @@ etlserver,Parameter,systemdir,"${serverfiles}"
 etlserver,Parameter,telegramalert,"off"
 etlserver,Parameter,telegramchatid,""
 etlserver,Parameter,telegramtoken,"accesstoken"
-fctrserver,Function,fn_parms
+fctrserver,Function,fn_parms,
 fctrserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 fctrserver,Parameter,ansi,"on"
 fctrserver,Parameter,backupdir,"${rootdir}/backups"
@@ -2095,7 +2095,7 @@ fctrserver,Parameter,telegramalert,"off"
 fctrserver,Parameter,telegramchatid,""
 fctrserver,Parameter,telegramtoken,"accesstoken"
 fctrserver,Parameter,updateonstart,"off"
-fofserver,Function,fn_parms
+fofserver,Function,fn_parms,
 fofserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 fofserver,Parameter,ansi,"on"
 fofserver,Parameter,appid,"295230"
@@ -2162,7 +2162,7 @@ fofserver,Parameter,telegramalert,"off"
 fofserver,Parameter,telegramchatid,""
 fofserver,Parameter,telegramtoken,"accesstoken"
 fofserver,Parameter,updateonstart,"off"
-gesserver,Function,fn_parms
+gesserver,Function,fn_parms,
 gesserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 gesserver,Parameter,ansi,"on"
 gesserver,Parameter,appid,"310" 
@@ -2229,7 +2229,7 @@ gesserver,Parameter,telegramalert,"off"
 gesserver,Parameter,telegramchatid,""
 gesserver,Parameter,telegramtoken,"accesstoken"
 gesserver,Parameter,updateonstart,"off"
-gmodserver,Function,fn_parms
+gmodserver,Function,fn_parms,
 gmodserver,Parameter,addonsdir,"${systemdir}/addons"
 gmodserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 gmodserver,Parameter,ansi,"on"
@@ -2303,7 +2303,7 @@ gmodserver,Parameter,tickrate,"66"
 gmodserver,Parameter,updateonstart,"off"
 gmodserver,Parameter,wsapikey,""
 gmodserver,Parameter,wscollectionid,""
-hl2dmserver,Function,fn_parms
+hl2dmserver,Function,fn_parms,
 hl2dmserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 hl2dmserver,Parameter,ansi,"on"
 hl2dmserver,Parameter,appid,"232370"
@@ -2370,7 +2370,7 @@ hl2dmserver,Parameter,telegramalert,"off"
 hl2dmserver,Parameter,telegramchatid,""
 hl2dmserver,Parameter,telegramtoken,"accesstoken"
 hl2dmserver,Parameter,updateonstart,"off"
-hldmserver,Function,fn_parms
+hldmserver,Function,fn_parms,
 hldmserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 hldmserver,Parameter,ansi,"on"
 hldmserver,Parameter,appid,"90"
@@ -2436,7 +2436,7 @@ hldmserver,Parameter,telegramalert,"off"
 hldmserver,Parameter,telegramchatid,""
 hldmserver,Parameter,telegramtoken,"accesstoken"
 hldmserver,Parameter,updateonstart,"off"
-hldmsserver,Function,fn_parms
+hldmsserver,Function,fn_parms,
 hldmsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 hldmsserver,Parameter,ansi,"on"
 hldmsserver,Parameter,appid,"255470"
@@ -2503,7 +2503,7 @@ hldmsserver,Parameter,telegramalert,"off"
 hldmsserver,Parameter,telegramchatid,""
 hldmsserver,Parameter,telegramtoken,"accesstoken"
 hldmsserver,Parameter,updateonstart,"off"
-hwserver,Function,fn_parms
+hwserver,Function,fn_parms,
 hwserver,Parameter,admins,""
 hwserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 hwserver,Parameter,ansi,"on"
@@ -2571,7 +2571,7 @@ hwserver,Parameter,telegramalert,"off"
 hwserver,Parameter,telegramchatid,""
 hwserver,Parameter,telegramtoken,"accesstoken"
 hwserver,Parameter,updateonstart,"off"
-insserver,Function,fn_parms
+insserver,Function,fn_parms,
 insserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 insserver,Parameter,ansi,"on"
 insserver,Parameter,appid,"237410"
@@ -2641,7 +2641,7 @@ insserver,Parameter,telegramtoken,"accesstoken"
 insserver,Parameter,tickrate,"64"
 insserver,Parameter,updateonstart,"off"
 insserver,Parameter,workshop,"0"
-inssserver,Function,fn_parms
+inssserver,Function,fn_parms,
 inssserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 inssserver,Parameter,ansi,"on"
 inssserver,Parameter,appid,"581330"
@@ -2711,7 +2711,7 @@ inssserver,Parameter,telegramalert,"off"
 inssserver,Parameter,telegramchatid,""
 inssserver,Parameter,telegramtoken,"accesstoken"
 inssserver,Parameter,updateonstart,"off"
-iosserver,Function,fn_parms
+iosserver,Function,fn_parms,
 iosserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 iosserver,Parameter,ansi,"on"
 iosserver,Parameter,appid,"673990"
@@ -2778,7 +2778,7 @@ iosserver,Parameter,telegramalert,"off"
 iosserver,Parameter,telegramchatid,""
 iosserver,Parameter,telegramtoken,"accesstoken"
 iosserver,Parameter,updateonstart,"off"
-jc2server,Function,fn_parms
+jc2server,Function,fn_parms,
 jc2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 jc2server,Parameter,ansi,"on"
 jc2server,Parameter,appid,"261140"
@@ -2838,7 +2838,7 @@ jc2server,Parameter,telegramalert,"off"
 jc2server,Parameter,telegramchatid,""
 jc2server,Parameter,telegramtoken,"accesstoken"
 jc2server,Parameter,updateonstart,"off"
-jc3server,Function,fn_parms
+jc3server,Function,fn_parms,
 jc3server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 jc3server,Parameter,ansi,"on"
 jc3server,Parameter,appid,"619960"
@@ -2898,7 +2898,7 @@ jc3server,Parameter,telegramalert,"off"
 jc3server,Parameter,telegramchatid,""
 jc3server,Parameter,telegramtoken,"accesstoken"
 jc3server,Parameter,updateonstart,"off"
-kf2server,Function,fn_parms
+kf2server,Function,fn_parms,
 kf2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 kf2server,Parameter,ansi,"on"
 kf2server,Parameter,appid,"232130"
@@ -2963,7 +2963,7 @@ kf2server,Parameter,telegramalert,"off"
 kf2server,Parameter,telegramchatid,""
 kf2server,Parameter,telegramtoken,"accesstoken"
 kf2server,Parameter,updateonstart,"off"
-kfserver,Function,fn_parms
+kfserver,Function,fn_parms,
 kfserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 kfserver,Parameter,ansi,"on"
 kfserver,Parameter,appid,"215360"
@@ -3032,7 +3032,7 @@ kfserver,Parameter,telegramalert,"off"
 kfserver,Parameter,telegramchatid,""
 kfserver,Parameter,telegramtoken,"accesstoken"
 kfserver,Parameter,updateonstart,"off"
-l4d2server,Function,fn_parms
+l4d2server,Function,fn_parms,
 l4d2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 l4d2server,Parameter,ansi,"on"
 l4d2server,Parameter,appid,"222860"
@@ -3098,7 +3098,7 @@ l4d2server,Parameter,telegramalert,"off"
 l4d2server,Parameter,telegramchatid,""
 l4d2server,Parameter,telegramtoken,"accesstoken"
 l4d2server,Parameter,updateonstart,"off"
-l4dserver,Function,fn_parms
+l4dserver,Function,fn_parms,
 l4dserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 l4dserver,Parameter,ansi,"on"
 l4dserver,Parameter,appid,"222840"
@@ -3164,7 +3164,7 @@ l4dserver,Parameter,telegramalert,"off"
 l4dserver,Parameter,telegramchatid,""
 l4dserver,Parameter,telegramtoken,"accesstoken"
 l4dserver,Parameter,updateonstart,"off"
-mcserver,Function,fn_parms
+mcserver,Function,fn_parms,
 mcserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 mcserver,Parameter,ansi,"on"
 mcserver,Parameter,backupdir,"${rootdir}/backups"
@@ -3223,7 +3223,7 @@ mcserver,Parameter,telegramalert,"off"
 mcserver,Parameter,telegramchatid,""
 mcserver,Parameter,telegramtoken,"accesstoken"
 mcserver,Parameter,updateonstart,"off"
-mhserver,Function,fn_parms
+mhserver,Function,fn_parms,
 mhserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 mhserver,Parameter,ansi,"on"
 mhserver,Parameter,appid,"629800"
@@ -3288,7 +3288,7 @@ mhserver,Parameter,telegramalert,"off"
 mhserver,Parameter,telegramchatid,""
 mhserver,Parameter,telegramtoken,"accesstoken"
 mhserver,Parameter,updateonstart,"off"
-mtaserver,Function,fn_parms
+mtaserver,Function,fn_parms,
 mtaserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 mtaserver,Parameter,ansi,"on"
 mtaserver,Parameter,backupdir,"${rootdir}/backups"
@@ -3345,7 +3345,7 @@ mtaserver,Parameter,systemdir,"${serverfiles}"
 mtaserver,Parameter,telegramalert,"off"
 mtaserver,Parameter,telegramchatid,""
 mtaserver,Parameter,telegramtoken,"accesstoken"
-mumbleserver,Function,fn_parms
+mumbleserver,Function,fn_parms,
 mumbleserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 mumbleserver,Parameter,ansi,"on"
 mumbleserver,Parameter,backupdir,"${rootdir}/backups"
@@ -3402,7 +3402,7 @@ mumbleserver,Parameter,telegramalert,"off"
 mumbleserver,Parameter,telegramchatid,""
 mumbleserver,Parameter,telegramtoken,"accesstoken"
 mumbleserver,Parameter,updateonstart,"off"
-ndserver,Function,fn_parms
+ndserver,Function,fn_parms,
 ndserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ndserver,Parameter,ansi,"on"
 ndserver,Parameter,appid,"111710"
@@ -3469,7 +3469,7 @@ ndserver,Parameter,telegramalert,"off"
 ndserver,Parameter,telegramchatid,""
 ndserver,Parameter,telegramtoken,"accesstoken"
 ndserver,Parameter,updateonstart,"off"
-nmrihserver,Function,fn_parms
+nmrihserver,Function,fn_parms,
 nmrihserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 nmrihserver,Parameter,ansi,"on"
 nmrihserver,Parameter,appid,"317670"
@@ -3537,7 +3537,7 @@ nmrihserver,Parameter,telegramalert,"off"
 nmrihserver,Parameter,telegramchatid,""
 nmrihserver,Parameter,telegramtoken,"accesstoken"
 nmrihserver,Parameter,updateonstart,"off"
-ns2cserver,Function,fn_parms
+ns2cserver,Function,fn_parms,
 ns2cserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ns2cserver,Parameter,ansi,"on"
 ns2cserver,Parameter,appid,"313900"
@@ -3607,7 +3607,7 @@ ns2cserver,Parameter,updateonstart,"off"
 ns2cserver,Parameter,webadminpass,"admin"
 ns2cserver,Parameter,webadminport,"8080"
 ns2cserver,Parameter,webadminuser,"admin"
-ns2server,Function,fn_parms
+ns2server,Function,fn_parms,
 ns2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ns2server,Parameter,ansi,"on"
 ns2server,Parameter,appid,"4940"
@@ -3679,7 +3679,7 @@ ns2server,Parameter,updateonstart,"off"
 ns2server,Parameter,webadminpass,"admin"
 ns2server,Parameter,webadminport,"8080"
 ns2server,Parameter,webadminuser,"admin"
-nsserver,Function,fn_parms
+nsserver,Function,fn_parms,
 nsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 nsserver,Parameter,ansi,"on"
 nsserver,Parameter,appid,"90"
@@ -3746,7 +3746,7 @@ nsserver,Parameter,telegramalert,"off"
 nsserver,Parameter,telegramchatid,""
 nsserver,Parameter,telegramtoken,"accesstoken"
 nsserver,Parameter,updateonstart,"off"
-opforserver,Function,fn_parms
+opforserver,Function,fn_parms,
 opforserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 opforserver,Parameter,ansi,"on"
 opforserver,Parameter,appid,"90"
@@ -3813,7 +3813,7 @@ opforserver,Parameter,telegramalert,"off"
 opforserver,Parameter,telegramchatid,""
 opforserver,Parameter,telegramtoken,"accesstoken"
 opforserver,Parameter,updateonstart,"off"
-pcserver,Function,fn_parms
+pcserver,Function,fn_parms,
 pcserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 pcserver,Parameter,ansi,"on"
 pcserver,Parameter,appid,"332670"
@@ -3874,7 +3874,7 @@ pcserver,Parameter,telegramalert,"off"
 pcserver,Parameter,telegramchatid,""
 pcserver,Parameter,telegramtoken,"accesstoken"
 pcserver,Parameter,updateonstart,"off"
-pstbsserver,Function,fn_parms
+pstbsserver,Function,fn_parms,
 pstbsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 pstbsserver,Parameter,ansi,"on"
 pstbsserver,Parameter,appid,"746200"
@@ -3942,7 +3942,7 @@ pstbsserver,Parameter,telegramalert,"off"
 pstbsserver,Parameter,telegramchatid,""
 pstbsserver,Parameter,telegramtoken,"accesstoken"
 pstbsserver,Parameter,updateonstart,"off"
-pvkiiserver,Function,fn_parms
+pvkiiserver,Function,fn_parms,
 pvkiiserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 pvkiiserver,Parameter,ansi,"on"
 pvkiiserver,Parameter,appid,"17575"
@@ -4009,7 +4009,7 @@ pvkiiserver,Parameter,telegramalert,"off"
 pvkiiserver,Parameter,telegramchatid,""
 pvkiiserver,Parameter,telegramtoken,"accesstoken"
 pvkiiserver,Parameter,updateonstart,"off"
-pzserver,Function,fn_parms
+pzserver,Function,fn_parms,
 pzserver,Parameter,adminpassword,"CHANGE_ME"
 pzserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 pzserver,Parameter,ansi,"on"
@@ -4072,7 +4072,7 @@ pzserver,Parameter,telegramalert,"off"
 pzserver,Parameter,telegramchatid,""
 pzserver,Parameter,telegramtoken,"accesstoken"
 pzserver,Parameter,updateonstart,"off"
-q2server,Function,fn_parms
+q2server,Function,fn_parms,
 q2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 q2server,Parameter,ansi,"on"
 q2server,Parameter,backupdir,"${rootdir}/backups"
@@ -4132,7 +4132,7 @@ q2server,Parameter,systemdir,"${serverfiles}/baseq2"
 q2server,Parameter,telegramalert,"off"
 q2server,Parameter,telegramchatid,""
 q2server,Parameter,telegramtoken,"accesstoken"
-q3server,Function,fn_parms
+q3server,Function,fn_parms,
 q3server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 q3server,Parameter,ansi,"on"
 q3server,Parameter,backupdir,"${rootdir}/backups"
@@ -4192,7 +4192,7 @@ q3server,Parameter,systemdir,"${serverfiles}/baseq3"
 q3server,Parameter,telegramalert,"off"
 q3server,Parameter,telegramchatid,""
 q3server,Parameter,telegramtoken,"accesstoken"
-qlserver,Function,fn_parms
+qlserver,Function,fn_parms,
 qlserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 qlserver,Parameter,ansi,"on"
 qlserver,Parameter,appid,"349090"
@@ -4254,7 +4254,7 @@ qlserver,Parameter,telegramalert,"off"
 qlserver,Parameter,telegramchatid,""
 qlserver,Parameter,telegramtoken,"accesstoken"
 qlserver,Parameter,updateonstart,"off"
-qwserver,Function,fn_parms
+qwserver,Function,fn_parms,
 qwserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 qwserver,Parameter,ansi,"on"
 qwserver,Parameter,backupdir,"${rootdir}/backups"
@@ -4313,7 +4313,7 @@ qwserver,Parameter,systemdir,"${serverfiles}/ktx"
 qwserver,Parameter,telegramalert,"off"
 qwserver,Parameter,telegramchatid,""
 qwserver,Parameter,telegramtoken,"accesstoken"
-ricochetserver,Function,fn_parms
+ricochetserver,Function,fn_parms,
 ricochetserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ricochetserver,Parameter,ansi,"on"
 ricochetserver,Parameter,appid,"90"
@@ -4380,7 +4380,7 @@ ricochetserver,Parameter,telegramalert,"off"
 ricochetserver,Parameter,telegramchatid,""
 ricochetserver,Parameter,telegramtoken,"accesstoken"
 ricochetserver,Parameter,updateonstart,"off"
-roserver,Function,fn_parms
+roserver,Function,fn_parms,
 roserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 roserver,Parameter,ansi,"on"
 roserver,Parameter,appid,"223250"
@@ -4449,7 +4449,7 @@ roserver,Parameter,telegramalert,"off"
 roserver,Parameter,telegramchatid,""
 roserver,Parameter,telegramtoken,"accesstoken"
 roserver,Parameter,updateonstart,"off"
-rtcwserver,Function,fn_parms
+rtcwserver,Function,fn_parms,
 rtcwserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 rtcwserver,Parameter,ansi,"on"
 rtcwserver,Parameter,backupdir,"${rootdir}/backups"
@@ -4509,7 +4509,7 @@ rtcwserver,Parameter,systemdir,"${serverfiles}/main"
 rtcwserver,Parameter,telegramalert,"off"
 rtcwserver,Parameter,telegramchatid,""
 rtcwserver,Parameter,telegramtoken,"accesstoken"
-rustserver,Function,fn_parms
+rustserver,Function,fn_parms,
 rustserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 rustserver,Parameter,ansi,"on"
 rustserver,Parameter,appid,"258550"
@@ -4586,7 +4586,7 @@ rustserver,Parameter,telegramtoken,"accesstoken"
 rustserver,Parameter,tickrate,"30" 
 rustserver,Parameter,updateonstart,"off"
 rustserver,Parameter,worldsize,"3000" 
-rwserver,Function,fn_parms
+rwserver,Function,fn_parms,
 rwserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 rwserver,Parameter,ansi,"on"
 rwserver,Parameter,appid,"339010"
@@ -4648,7 +4648,7 @@ rwserver,Parameter,telegramalert,"off"
 rwserver,Parameter,telegramchatid,""
 rwserver,Parameter,telegramtoken,"accesstoken"
 rwserver,Parameter,updateonstart,"off"
-sampserver,Function,fn_parms
+sampserver,Function,fn_parms,
 sampserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 sampserver,Parameter,ansi,"on"
 sampserver,Parameter,backupdir,"${rootdir}/backups"
@@ -4706,7 +4706,7 @@ sampserver,Parameter,systemdir,"${serverfiles}"
 sampserver,Parameter,telegramalert,"off"
 sampserver,Parameter,telegramchatid,""
 sampserver,Parameter,telegramtoken,"accesstoken"
-sbotsserver,Function,fn_parms
+sbotsserver,Function,fn_parms,
 sbotsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 sbotsserver,Parameter,ansi,"on"
 sbotsserver,Parameter,appid,"974130"
@@ -4772,7 +4772,7 @@ sbotsserver,Parameter,systemdir,"${serverfiles}"
 sbotsserver,Parameter,telegramalert,"off"
 sbotsserver,Parameter,telegramchatid,""
 sbotsserver,Parameter,telegramtoken,"accesstoken"
-sbserver,Function,fn_parms
+sbserver,Function,fn_parms,
 sbserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 sbserver,Parameter,ansi,"on"
 sbserver,Parameter,appid,"211820"
@@ -4836,7 +4836,7 @@ sbserver,Parameter,telegramalert,"off"
 sbserver,Parameter,telegramchatid,""
 sbserver,Parameter,telegramtoken,"accesstoken"
 sbserver,Parameter,updateonstart,"off"
-sdtdserver,Function,fn_parms
+sdtdserver,Function,fn_parms,
 sdtdserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 sdtdserver,Parameter,ansi,"on"
 sdtdserver,Parameter,appid,"294420"
@@ -4901,7 +4901,7 @@ sdtdserver,Parameter,telegramalert,"off"
 sdtdserver,Parameter,telegramchatid,""
 sdtdserver,Parameter,telegramtoken,"accesstoken"
 sdtdserver,Parameter,updateonstart,"off"
-sof2server,Function,fn_parms
+sof2server,Function,fn_parms,
 sof2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 sof2server,Parameter,ansi,"on"
 sof2server,Parameter,backupdir,"${rootdir}/backups"
@@ -4961,7 +4961,7 @@ sof2server,Parameter,systemdir,"${serverfiles}/main"
 sof2server,Parameter,telegramalert,"off"
 sof2server,Parameter,telegramchatid,""
 sof2server,Parameter,telegramtoken,"accesstoken"
-squadserver,Function,fn_parms
+squadserver,Function,fn_parms,
 squadserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 squadserver,Parameter,ansi,"on"
 squadserver,Parameter,appid,"403240"
@@ -5026,7 +5026,7 @@ squadserver,Parameter,telegramalert,"off"
 squadserver,Parameter,telegramchatid,""
 squadserver,Parameter,telegramtoken,"accesstoken"
 squadserver,Parameter,updateonstart,"off"
-ss3server,Function,fn_parms
+ss3server,Function,fn_parms,
 ss3server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ss3server,Parameter,ansi,"on"
 ss3server,Parameter,appid,"41080"
@@ -5090,7 +5090,7 @@ ss3server,Parameter,telegramalert,"off"
 ss3server,Parameter,telegramchatid,""
 ss3server,Parameter,telegramtoken,"accesstoken"
 ss3server,Parameter,updateonstart,"off"
-stserver,Function,fn_parms
+stserver,Function,fn_parms,
 stserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 stserver,Parameter,ansi,"on"
 stserver,Parameter,appid,"600760"
@@ -5158,7 +5158,7 @@ stserver,Parameter,telegramtoken,"accesstoken"
 stserver,Parameter,updateonstart,"off"
 stserver,Parameter,worldname,"moon_save"
 stserver,Parameter,worldtype,"Moon"
-svenserver,Function,fn_parms
+svenserver,Function,fn_parms,
 svenserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 svenserver,Parameter,ansi,"on"
 svenserver,Parameter,appid,"276060"
@@ -5224,7 +5224,7 @@ svenserver,Parameter,telegramalert,"off"
 svenserver,Parameter,telegramchatid,""
 svenserver,Parameter,telegramtoken,"accesstoken"
 svenserver,Parameter,updateonstart,"off"
-terrariaserver,Function,fn_parms
+terrariaserver,Function,fn_parms,
 terrariaserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 terrariaserver,Parameter,ansi,"on"
 terrariaserver,Parameter,appid,"105600"
@@ -5287,7 +5287,7 @@ terrariaserver,Parameter,telegramalert,"off"
 terrariaserver,Parameter,telegramchatid,""
 terrariaserver,Parameter,telegramtoken,"accesstoken"
 terrariaserver,Parameter,updateonstart,"off"
-tf2server,Function,fn_parms
+tf2server,Function,fn_parms,
 tf2server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 tf2server,Parameter,ansi,"on"
 tf2server,Parameter,appid,"232250"
@@ -5355,7 +5355,7 @@ tf2server,Parameter,telegramalert,"off"
 tf2server,Parameter,telegramchatid,""
 tf2server,Parameter,telegramtoken,"accesstoken"
 tf2server,Parameter,updateonstart,"off"
-tfcserver,Function,fn_parms
+tfcserver,Function,fn_parms,
 tfcserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 tfcserver,Parameter,ansi,"on"
 tfcserver,Parameter,appid,"90"
@@ -5476,7 +5476,7 @@ ts3server,Parameter,telegramalert,"off"
 ts3server,Parameter,telegramchatid,""
 ts3server,Parameter,telegramtoken,"accesstoken"
 ts3server,Parameter,updateonstart,"off"
-tuserver,Function,fn_parms
+tuserver,Function,fn_parms,
 tuserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 tuserver,Parameter,ansi,"on"
 tuserver,Parameter,appid,"439660"
@@ -5541,7 +5541,7 @@ tuserver,Parameter,telegramalert,"off"
 tuserver,Parameter,telegramchatid,""
 tuserver,Parameter,telegramtoken,"accesstoken"
 tuserver,Parameter,updateonstart,"off"
-twserver,Function,fn_parms
+twserver,Function,fn_parms,
 twserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 twserver,Parameter,ansi,"on"
 twserver,Parameter,appid,"380840"
@@ -5606,7 +5606,7 @@ twserver,Parameter,telegramalert,"off"
 twserver,Parameter,telegramchatid,""
 twserver,Parameter,telegramtoken,"accesstoken"
 twserver,Parameter,updateonstart,"off"
-untserver,Function,fn_parms
+untserver,Function,fn_parms,
 untserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 untserver,Parameter,ansi,"on"
 untserver,Parameter,appid,"304930"
@@ -5672,7 +5672,7 @@ untserver,Parameter,telegramalert,"off"
 untserver,Parameter,telegramchatid,""
 untserver,Parameter,telegramtoken,"accesstoken"
 untserver,Parameter,updateonstart,"off"
-ut2k4server,Function,fn_parms
+ut2k4server,Function,fn_parms,
 ut2k4server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ut2k4server,Parameter,ansi,"on"
 ut2k4server,Parameter,backupdir,"${rootdir}/backups"
@@ -5734,7 +5734,7 @@ ut2k4server,Parameter,systemdir,"${serverfiles}/System"
 ut2k4server,Parameter,telegramalert,"off"
 ut2k4server,Parameter,telegramchatid,""
 ut2k4server,Parameter,telegramtoken,"accesstoken"
-ut3server,Function,fn_parms
+ut3server,Function,fn_parms,
 ut3server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ut3server,Parameter,allowjoininprogress,"true"
 ut3server,Parameter,ansi,"on"
@@ -5805,7 +5805,7 @@ ut3server,Parameter,telegramalert,"off"
 ut3server,Parameter,telegramchatid,""
 ut3server,Parameter,telegramtoken,"accesstoken"
 ut3server,Parameter,usesstats,"false"
-ut99server,Function,fn_parms
+ut99server,Function,fn_parms,
 ut99server,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 ut99server,Parameter,ansi,"on"
 ut99server,Parameter,backupdir,"${rootdir}/backups"
@@ -5865,7 +5865,7 @@ ut99server,Parameter,systemdir,"${serverfiles}/System"
 ut99server,Parameter,telegramalert,"off"
 ut99server,Parameter,telegramchatid,""
 ut99server,Parameter,telegramtoken,"accesstoken"
-utserver,Function,fn_parms
+utserver,Function,fn_parms,
 utserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 utserver,Parameter,ansi,"on"
 utserver,Parameter,backupdir,"${rootdir}/backups"
@@ -5926,7 +5926,7 @@ utserver,Parameter,telegramalert,"off"
 utserver,Parameter,telegramchatid,""
 utserver,Parameter,telegramtoken,"accesstoken"
 utserver,Parameter,timelimit,"10"
-vsserver,Function,fn_parms
+vsserver,Function,fn_parms,
 vsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 vsserver,Parameter,ansi,"on"
 vsserver,Parameter,appid,"90"
@@ -5993,7 +5993,7 @@ vsserver,Parameter,telegramalert,"off"
 vsserver,Parameter,telegramchatid,""
 vsserver,Parameter,telegramtoken,"accesstoken"
 vsserver,Parameter,updateonstart,"off"
-wetserver,Function,fn_parms
+wetserver,Function,fn_parms,
 wetserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 wetserver,Parameter,ansi,"on"
 wetserver,Parameter,backupdir,"${rootdir}/backups"
@@ -6050,7 +6050,7 @@ wetserver,Parameter,systemdir,"${serverfiles}"
 wetserver,Parameter,telegramalert,"off"
 wetserver,Parameter,telegramchatid,""
 wetserver,Parameter,telegramtoken,"accesstoken"
-wurmserver,Function,fn_parms
+wurmserver,Function,fn_parms,
 wurmserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 wurmserver,Parameter,ansi,"on"
 wurmserver,Parameter,appid,"402370"
@@ -6110,7 +6110,7 @@ wurmserver,Parameter,systemdir,"${serverfiles}"
 wurmserver,Parameter,telegramalert,"off"
 wurmserver,Parameter,telegramchatid,""
 wurmserver,Parameter,telegramtoken,"accesstoken"
-zpsserver,Function,fn_parms
+zpsserver,Function,fn_parms,
 zpsserver,Parameter,alertlog,"${lgsmlogdir}/${servicename}-alert.log"
 zpsserver,Parameter,ansi,"on"
 zpsserver,Parameter,appid,"17505"
