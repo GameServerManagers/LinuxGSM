@@ -74,7 +74,7 @@ for x in "${!gameservers[@]}"; do
     declare -nl pointer="$tmp"
     for i in "${!pointer[@]}"
     do
-        printf "%s,%s,%s,%s\n" "${gameservers[$x]}" "Parameter" "$i" "${pointer[$i]}" >> "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
+        printf "%s,%s,%s,%s\n" "${gameservers[$x]}" "Parameter" "$i" "${pointer[$i]//"/""}" >> "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
     done
 done
 
