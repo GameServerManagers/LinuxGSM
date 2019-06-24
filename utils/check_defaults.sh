@@ -74,7 +74,16 @@ for x in "${!gameservers[@]}"; do
     declare -nl pointer="$tmp"
     for i in "${!pointer[@]}"
     do
-        printf "%s,%s,%s,%s\n" "${gameservers[$x]}" "Parameter" "$i" "${pointer[$i]}" >> "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
+        value="${pointer[$i]}"
+        # CSV needs to have quotes escaped with ""
+        if [[ ${value:0:1} == "\"" && ${value: -1} == "\"" ]]; then
+			substr=$(echo "${value}" | sed -r 's/"(.*)"/\1/g')
+		else
+			substr="${value}"
+		fi
+		escaped=$(echo "${substr}" | sed -r 's/"/""/g')
+		value="\"${escaped}\""
+        printf "%s,%s,%s,%s\n" "${gameservers[$x]}" "Parameter" "$i" "${value}" >> "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
     done
 done
 
