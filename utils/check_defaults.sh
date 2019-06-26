@@ -74,6 +74,8 @@ for x in "${!gameservers[@]}"; do
     tmp="${varsname}"
     namefound=false
     gamename=""
+    requiressteamaccount=false
+
     declare -nl pointer="$tmp"
     for i in "${!pointer[@]}"
     do
@@ -92,12 +94,15 @@ for x in "${!gameservers[@]}"; do
         	namefound=true
         	gamename="${substr}"
         fi
+        if [[ $i == "steamuser" ]]; then
+        	requiressteamaccount=true
+        fi
     done
 	if [[ ${namefound} == false ]]; then
 		gamename="NOT SET"
 	fi
 	# shortname,servername,gamename
-	printf "%s,%s,%s\n" "${gameservers[$x]%server}" "${gameservers[$x]}" "${gamename//,}" >> "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
+	printf "%s,%s,%s,%s\n" "${gameservers[$x]%server}" "${gameservers[$x]}" "${gamename//,}" "${requiressteamaccount}">> "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
 done
 
 # sort output
