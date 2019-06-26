@@ -1,15 +1,15 @@
-arma3,arma3server,ARMA 3
-sdtd,sdtdserver,7 Days to Die
+sdtd,sdtdserver,7 Days To Die
 ark,arkserver,ARK: Survival Evolved
+arma3,arma3server,ARMA 3
 bo,boserver,Ballistic Overkill
-bf1942,bf1942server,Battlefield 1942
+bt,btserver,Barotrauma
 bd,bdserver,Base Defense
+bt1944,bt1944server,Battalion 1944
+bf1942,bf1942server,Battlefield: 1942
 bmdm,bmdmserver,Black Mesa: Deathmatch
 bs,bsserver,Blade Symphony
 bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
-bt,btserver,Barotrauma
-bt1944,bt1944server,Battalion 1944
 cod,codserver,Call of Duty
 cod2,cod2server,Call of Duty 2
 cod4,cod4server,Call of Duty 4
@@ -29,13 +29,15 @@ dab,dabserver,Double Action: Boogaloo
 dys,dysserver,Dystopia
 eco,ecoserver,Eco
 em,emserver,Empires Mod
+etl,etlserver,ET: Legacy
 fctr,fctrserver,Factorio
 fof,fofserver,Fistful of Frags
-gmod,gmodserver,Garrys Mod
+gmod,gmodserver,Garry's Mod
 ges,gesserver,GoldenEye: Source
-hl2dm,hl2dmserver,Half-Life 2: Deathmatch
+hl2dm,hl2dmserver,Half Life 2: Deathmatch
+hldm,hldmserver,Half Life: Deathmatch
 hldms,hldmsserver,Half-Life Deathmatch: Source
-hldm,hldmserver,Half-Life: Deathmatch
+opfor,opforserver,Half-Life: Opposing Force
 hw,hwserver,Hurtworld
 ins,insserver,Insurgency
 inss,inssserver,Insurgency: Sandstorm
@@ -50,39 +52,39 @@ mc,mcserver,Minecraft
 mh,mhserver,MORDHAU
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
-nd,ndserver,Nuclear Dawn
-nmrih,nmrihserver,No More Room in Hell
 ns,nsserver,Natural Selection
 ns2,ns2server,Natural Selection 2
+nmrih,nmrihserver,No More Room in Hell
 ns2c,ns2cserver,NS2: Combat
-opfor,opforserver,Opposing Force
-pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
-pvkii,pvkiiserver,Pirates Vikings & Knights II
+nd,ndserver,Nuclear Dawn
+pvkii,pvkiiserver,Pirates, Vikings, and Knights II
 pc,pcserver,Project Cars
 pz,pzserver,Project Zomboid
+pstbs,pstbsserver,pstbsserver
 q2,q2server,Quake 2
 q3,q3server,Quake 3: Arena
 ql,qlserver,Quake Live
-qw,qwserver,Quake World
+qw,qwserver,QuakeWorld
 ro,roserver,Red Orchestra: Ostfront 41-45
-ricochet,ricochetserver,Ricochet
 rtcw,rtcwserver,Return to Castle Wolfenstein
+ricochet,ricochetserver,Ricochet
+rw,rwserver,Rising World
 rust,rustserver,Rust
-rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
-sbots,sbotsserver, StickyBots
-sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 ss3,ss3server,Serious Sam 3: BFE
+sof2,sof2server,Soldier Of Fortune 2: Gold Edition
+squad,squadserver,Squad
 sb,sbserver,Starbound
 st,stserver,Stationeers
-squad,squadserver,Squad
+sbots,sbotsserver,StickyBots
 sven,svenserver,Sven Co-op
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
-ts3,ts3server,Teamspeak 3
+ts3,ts3server,TeamSpeak 3
 tw,twserver,Teeworlds
 terraria,terrariaserver,Terraria
 tu,tuserver,Tower Unite
+ut,utserver,Unreal Tournament
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
@@ -90,5 +92,4 @@ unt,untserver,Unturned
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wurm,wurmserver,Wurm Unlimited
-etl,etlserver,ET: Legacy
 zps,zpsserver,Zombie Panic! Source
