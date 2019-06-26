@@ -1,95 +1,95 @@
-sdtd,sdtdserver,7 Days To Die
-ark,arkserver,ARK: Survival Evolved
-arma3,arma3server,ARMA 3
-bo,boserver,Ballistic Overkill
-bt,btserver,Barotrauma
-bd,bdserver,Base Defense
-bt1944,bt1944server,Battalion 1944
-bf1942,bf1942server,Battlefield: 1942
-bmdm,bmdmserver,Black Mesa: Deathmatch
-bs,bsserver,Blade Symphony
-bb,bbserver,BrainBread
-bb2,bb2server,BrainBread 2
-cod,codserver,Call of Duty
-cod2,cod2server,Call of Duty 2
-cod4,cod4server,Call of Duty 4
-coduo,coduoserver,Call of Duty: United Offensive
-codwaw,codwawserver,Call of Duty: World at War
-cc,ccserver,Codename CURE
-cs,csserver,Counter-Strike 1.6
-cscz,csczserver,Counter-Strike: Condition Zero
-csgo,csgoserver,Counter-Strike: Global Offensive
-css,cssserver,Counter-Strike: Source
-dod,dodserver,Day of Defeat
-dods,dodsserver,Day of Defeat: Source
-doi,doiserver,Day of Infamy
-dmc,dmcserver,Deathmatch Classic
-dst,dstserver,Don't Starve Together
-dab,dabserver,Double Action: Boogaloo
-dys,dysserver,Dystopia
-eco,ecoserver,Eco
-em,emserver,Empires Mod
-etl,etlserver,ET: Legacy
-fctr,fctrserver,Factorio
-fof,fofserver,Fistful of Frags
-gmod,gmodserver,Garry's Mod
-ges,gesserver,GoldenEye: Source
-hl2dm,hl2dmserver,Half Life 2: Deathmatch
-hldm,hldmserver,Half Life: Deathmatch
-hldms,hldmsserver,Half-Life Deathmatch: Source
-opfor,opforserver,Half-Life: Opposing Force
-hw,hwserver,Hurtworld
-ins,insserver,Insurgency
-inss,inssserver,Insurgency: Sandstorm
-ios,iosserver,IOSoccer
-jc2,jc2server,Just Cause 2
-jc3,jc3server,Just Cause 3
-kf,kfserver,Killing Floor
-kf2,kf2server,Killing Floor 2
-l4d,l4dserver,Left 4 Dead
-l4d2,l4d2server,Left 4 Dead 2
-mc,mcserver,Minecraft
-mh,mhserver,MORDHAU
-mta,mtaserver,Multi Theft Auto
-mumble,mumbleserver,Mumble
-ns,nsserver,Natural Selection
-ns2,ns2server,Natural Selection 2
-nmrih,nmrihserver,No More Room in Hell
-ns2c,ns2cserver,NS2: Combat
-nd,ndserver,Nuclear Dawn
-pvkii,pvkiiserver,Pirates Vikings and Knights II
-pc,pcserver,Project Cars
-pz,pzserver,Project Zomboid
-pstbs,pstbsserver,pstbsserver
-q2,q2server,Quake 2
-q3,q3server,Quake 3: Arena
-ql,qlserver,Quake Live
-qw,qwserver,QuakeWorld
-ro,roserver,Red Orchestra: Ostfront 41-45
-rtcw,rtcwserver,Return to Castle Wolfenstein
-ricochet,ricochetserver,Ricochet
-rw,rwserver,Rising World
-rust,rustserver,Rust
-samp,sampserver,San Andreas Multiplayer
-ss3,ss3server,Serious Sam 3: BFE
-sof2,sof2server,Soldier Of Fortune 2: Gold Edition
-squad,squadserver,Squad
-sb,sbserver,Starbound
-st,stserver,Stationeers
-sbots,sbotsserver,StickyBots
-sven,svenserver,Sven Co-op
-tf2,tf2server,Team Fortress 2
-tfc,tfcserver,Team Fortress Classic
-ts3,ts3server,TeamSpeak 3
-tw,twserver,Teeworlds
-terraria,terrariaserver,Terraria
-tu,tuserver,Tower Unite
-ut,utserver,Unreal Tournament
-ut2k4,ut2k4server,Unreal Tournament 2004
-ut3,ut3server,Unreal Tournament 3
-ut99,ut99server,Unreal Tournament 99
-unt,untserver,Unturned
-vs,vsserver,Vampire Slayer
-wet,wetserver,Wolfenstein: Enemy Territory
-wurm,wurmserver,Wurm Unlimited
-zps,zpsserver,Zombie Panic! Source
+sdtd,sdtdserver,7 Days To Die,false
+ark,arkserver,ARK: Survival Evolved,false
+arma3,arma3server,ARMA 3,true
+bo,boserver,Ballistic Overkill,false
+bt,btserver,Barotrauma,false
+bd,bdserver,Base Defense,false
+bt1944,bt1944server,Battalion 1944,false
+bf1942,bf1942server,Battlefield: 1942,false
+bmdm,bmdmserver,Black Mesa: Deathmatch,false
+bs,bsserver,Blade Symphony,true
+bb2,bb2server,BrainBread 2,false
+bb,bbserver,BrainBread,false
+cod2,cod2server,Call of Duty 2,false
+cod4,cod4server,Call of Duty 4,false
+cod,codserver,Call of Duty,false
+coduo,coduoserver,Call of Duty: United Offensive,false
+codwaw,codwawserver,Call of Duty: World at War,false
+cc,ccserver,Codename CURE,false
+cs,csserver,Counter-Strike 1.6,false
+cscz,csczserver,Counter-Strike: Condition Zero,false
+csgo,csgoserver,Counter-Strike: Global Offensive,false
+css,cssserver,Counter-Strike: Source,false
+dod,dodserver,Day of Defeat,false
+dods,dodsserver,Day of Defeat: Source,false
+doi,doiserver,Day of Infamy,false
+dmc,dmcserver,Deathmatch Classic,false
+dst,dstserver,Don't Starve Together,false
+dab,dabserver,Double Action: Boogaloo,false
+dys,dysserver,Dystopia,false
+eco,ecoserver,Eco,false
+em,emserver,Empires Mod,false
+etl,etlserver,ET: Legacy,false
+fctr,fctrserver,Factorio,false
+fof,fofserver,Fistful of Frags,false
+gmod,gmodserver,Garry's Mod,false
+ges,gesserver,GoldenEye: Source,false
+hl2dm,hl2dmserver,Half Life 2: Deathmatch,false
+hldm,hldmserver,Half Life: Deathmatch,false
+hldms,hldmsserver,Half-Life Deathmatch: Source,false
+opfor,opforserver,Half-Life: Opposing Force,false
+hw,hwserver,Hurtworld,false
+ins,insserver,Insurgency,false
+inss,inssserver,Insurgency: Sandstorm,false
+ios,iosserver,IOSoccer,false
+jc2,jc2server,Just Cause 2,false
+jc3,jc3server,Just Cause 3,false
+kf2,kf2server,Killing Floor 2,false
+kf,kfserver,Killing Floor,true
+l4d2,l4d2server,Left 4 Dead 2,false
+l4d,l4dserver,Left 4 Dead,false
+mc,mcserver,Minecraft,false
+mh,mhserver,MORDHAU,false
+mta,mtaserver,Multi Theft Auto,false
+mumble,mumbleserver,Mumble,false
+ns2,ns2server,Natural Selection 2,true
+ns,nsserver,Natural Selection,false
+nmrih,nmrihserver,No More Room in Hell,false
+ns2c,ns2cserver,NS2: Combat,false
+nd,ndserver,Nuclear Dawn,false
+pvkii,pvkiiserver,Pirates Vikings and Knights II,false
+pc,pcserver,Project Cars,false
+pz,pzserver,Project Zomboid,false
+pstbs,pstbsserver,pstbsserver,false
+q2,q2server,Quake 2,false
+q3,q3server,Quake 3: Arena,false
+ql,qlserver,Quake Live,false
+qw,qwserver,QuakeWorld,false
+ro,roserver,Red Orchestra: Ostfront 41-45,true
+rtcw,rtcwserver,Return to Castle Wolfenstein,false
+ricochet,ricochetserver,Ricochet,false
+rw,rwserver,Rising World,false
+rust,rustserver,Rust,false
+samp,sampserver,San Andreas Multiplayer,false
+ss3,ss3server,Serious Sam 3: BFE,false
+sof2,sof2server,Soldier Of Fortune 2: Gold Edition,false
+squad,squadserver,Squad,false
+sb,sbserver,Starbound,true
+st,stserver,Stationeers,false
+sbots,sbotsserver,StickyBots,false
+sven,svenserver,Sven Co-op,false
+tf2,tf2server,Team Fortress 2,false
+tfc,tfcserver,Team Fortress Classic,false
+ts3,ts3server,TeamSpeak 3,false
+tw,twserver,Teeworlds,true
+terraria,terrariaserver,Terraria,true
+tu,tuserver,Tower Unite,false
+ut2k4,ut2k4server,Unreal Tournament 2004,false
+ut3,ut3server,Unreal Tournament 3,false
+ut99,ut99server,Unreal Tournament 99,false
+ut,utserver,Unreal Tournament,false
+unt,untserver,Unturned,true
+vs,vsserver,Vampire Slayer,false
+wet,wetserver,Wolfenstein: Enemy Territory,false
+wurm,wurmserver,Wurm Unlimited,false
+zps,zpsserver,Zombie Panic! Source,false
