@@ -97,7 +97,7 @@ for x in "${!gameservers[@]}"; do
 		gamename="NOT SET"
 	fi
 	# shortname,servername,gamename
-	printf "%s,%s,%s\n" "${gameservers[$x]%server}" "${gameservers[$x]}" "${gamename}" >> "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
+	printf "%s,%s,%s\n" "${gameservers[$x]%server}" "${gameservers[$x]}" "${gamename//,}" >> "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
 done
 
 # sort output
