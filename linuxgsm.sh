@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.8.1"
+version="v19.8.3"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -258,6 +258,15 @@ fn_install_file(){
 	exit
 }
 
+fn_dl_serverlist(){
+	# Download the latest serverlist. This is the complete list of all supported servers.
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+	if [ ! -f "${serverlist}" ]; then
+		echo "[ FAIL ] serverlist.csv could not be loaded."
+		exit 1
+	fi
+}
+
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
 if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
@@ -274,21 +283,16 @@ if [ "$(whoami)" == "root" ]; then
 	fi
 fi
 
-# Download the latest serverlist. This is the complete list of all supported servers.
-fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
-if [ ! -f "${serverlist}" ]; then
-	echo "[ FAIL ] serverlist.csv could not be loaded."
-	exit 1
-fi
-
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
 	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
+		fn_dl_serverlist
 		{
 			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
+		fn_dl_serverlist
 		tail -n +2 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
 		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
