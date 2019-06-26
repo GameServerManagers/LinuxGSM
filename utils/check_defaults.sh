@@ -60,6 +60,7 @@ echo "Finished Analysing, Processing Output..."
 
 # OUTPUT RESULTS - for now STDOUT CSV, later to file
 echo "gameserver,type,key,value" > "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
+rm "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
 for x in "${!gameservers[@]}"; do
     funcsname="${gameservers[$x]}funcs"
     varsname="${gameservers[$x]}vars"
@@ -71,6 +72,8 @@ for x in "${!gameservers[@]}"; do
     fi
     #VARIABLES
     tmp="${varsname}"
+    namefound=false
+    gamename=""
     declare -nl pointer="$tmp"
     for i in "${!pointer[@]}"
     do
@@ -84,10 +87,21 @@ for x in "${!gameservers[@]}"; do
 		escaped=$(echo "${substr}" | sed -r 's/"/""/g')
 		value="\"${escaped}\""
         printf "%s,%s,%s,%s\n" "${gameservers[$x]}" "Parameter" "$i" "${value}" >> "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
+
+        if [[ $i == "gamename" ]]; then
+        	namefound=true
+        	gamename="${substr}"
+        fi
     done
+	if [[ ${namefound} == false ]]; then
+		gamename="NOT SET"
+	fi
+	# shortname,servername,gamename
+	printf "%s,%s,%s\n" "${gameservers[$x]%server}" "${gameservers[$x]}" "${gamename}" >> "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
 done
 
 # sort output
 (head -n1 "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv" && tail -n+2 "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv" | sort -k1,1 -k2,2 -k3,3) > "${BASH_SOURCE%/*}/../lgsm/data/default_parameters_tmp.csv"
 mv "${BASH_SOURCE%/*}/../lgsm/data/default_parameters_tmp.csv" "${BASH_SOURCE%/*}/../lgsm/data/default_parameters.csv"
-# sort -k1,1 -k2,2 -k3,3 ../lgsm/data/default_parameters.csv -o ../lgsm/data/default_parameters.csv
+
+sort --field-separator=',' -k3 "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv" -o "${BASH_SOURCE%/*}/../lgsm/data/serverlist.csv"
