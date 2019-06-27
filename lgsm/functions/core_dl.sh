@@ -77,7 +77,7 @@ fn_dl_extract(){
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
 		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then
-		tarcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		tarcmd=$(pv "${local_filedir}/${local_filename}" | tar -jxf - -C "${extractdir}")
 	elif [ "${mime}" == "application/x-xz" ]; then
 		tarcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/zip" ]; then
