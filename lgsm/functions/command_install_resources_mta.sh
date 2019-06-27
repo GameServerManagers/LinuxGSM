@@ -20,6 +20,10 @@ fn_install_resources(){
 fn_print_header
 
 fn_print_warning_nl "Installing the default resources with existing resources may cause issues."
-if fn_prompt_yn "Do you want to install MTA default resources?" Y; then
-	fn_install_resources
+if [[ -z ${autoinstall} ]]; then
+	if fn_prompt_yn "Do you want to install MTA default resources?" Y; then
+		fn_install_resources
+	fi
+else
+	echo "Installing MTA default resources..."
 fi
