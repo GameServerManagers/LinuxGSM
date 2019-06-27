@@ -25,6 +25,5 @@ if [[ -z ${autoinstall} ]]; then
 		fn_install_resources
 	fi
 else
-	echo "Installing MTA default resources..."
-	fn_install_resources
+	echo "Not installing MTA default resources due to AutoInstall run."
 fi
