@@ -20,8 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-travistest="1"
-version="v19.6.0"
+version="v19.8.4"
 shortname="fctr"
 gameservername="fctrserver"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -48,6 +47,8 @@ userinput="${1}"
 if [ ! -v TRAVIS ]; then
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
+else
+	servicename="travis"
 fi
 
 ## GitHub Branch Select
@@ -381,7 +382,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-	if [ "${travistest}" != "1" ]; then
+	if [ -v TRAVIS ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
