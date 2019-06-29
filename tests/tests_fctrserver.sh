@@ -382,7 +382,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-	if [ -v TRAVIS ]; then
+		if [ ! -v TRAVIS ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
