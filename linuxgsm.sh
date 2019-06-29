@@ -20,12 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.8.1"
+version="v19.8.4"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${gameservername}"
+servicename="${selfname}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
