@@ -49,6 +49,7 @@ if [ ! -v TRAVIS ]; then
 	TRAVIS_BUILD_DIR="${rootdir}"
 else
 	servicename="travis"
+	travistest="1"
 fi
 
 ## GitHub Branch Select
@@ -380,7 +381,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-	if [ ! -v TRAVIS ]; then
+	if [ -z "${travistest}" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
