@@ -61,9 +61,9 @@ currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monit
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here.
-if [ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${shortname}" != "bf1942" ]&&[ "${shortname}" != "samp" ]; then
+if [ -n "${appid}" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mc" ]||[ "${shortname}" == "mta" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "ts3" ]; then
 	currentopt+=( "${cmd_update[@]}" )
-	# force update for SteamCMD only or MTA.
+	# force update for SteamCMD only of MTA.
 	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
