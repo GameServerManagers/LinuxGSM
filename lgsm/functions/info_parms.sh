@@ -67,6 +67,11 @@ fn_info_parms_inss(){
 	maxplayers=${maxplayers:-"0"}
 }
 
+fn_info_parms_jk2(){
+	queryport=${port}
+}
+
+
 fn_info_parms_hurtworld(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
@@ -216,6 +221,8 @@ elif [ "${shortname}" == "fctr" ]; then
 	fn_info_parms_factorio
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_parms_inss
+elif [ "${shortname}" == "jk2" ]; then
+	fn_info_parms_jk2	
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
 # Project Zomboid
