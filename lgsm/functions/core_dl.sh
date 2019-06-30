@@ -75,11 +75,11 @@ fn_dl_extract(){
 		mkdir "${extractdir}"
 	fi
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
-		tar -zxf "${local_tfiledir}/${local_filename}" -C "${extractdir}"
+		tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}"
 	elif [ "${mime}" == "application/x-bzip2" ]; then
-		tar -jxf "${local_tfiledir}/${local_filename}" -C "${extractdir}"
+		tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}"
 	elif [ "${mime}" == "application/x-xz" ]; then
-		tar -xf "${local_tfiledir}/${local_filename}" -C "${extractdir}"
+		tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}"
 	elif [ "${mime}" == "application/zip" ]; then
 		unzip -d "${extractdir}" "${local_filedir}/${local_filename}"
 	fi
