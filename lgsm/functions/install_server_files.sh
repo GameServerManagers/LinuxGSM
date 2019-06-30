@@ -154,6 +154,8 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 	install_factorio_save.sh
+elif [ "${shortname}" == "jk2" ]; then
+	update_jediknight2.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
