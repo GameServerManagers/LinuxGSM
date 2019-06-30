@@ -328,6 +328,12 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Map rotation:\t${default}${randommap}"
 		fi
 
+		# Server Version (Jedi Knight 2)
+		if [ -n "${serverversion}" ]; then
+			echo -e "${blue}Server Version:\t${default}${serverversion}"
+		fi
+			serverversion
+
 		# Listed on Master Server
 		if [ "${masterserver}" ];then
 			if [ "${masterserver}" == "true" ];then
