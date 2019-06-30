@@ -508,7 +508,7 @@ elif [ "${gamename}" == "Quake Live" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
-	gamedirname="JediKnight2"
+	gamedirname="JediKnightIIJediOutcast"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
