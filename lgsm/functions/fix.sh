@@ -47,8 +47,6 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_dst.sh
 	elif [ "${shortname}" == "ges" ]; then
 		fix_ges.sh
-	elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
-		fix_jk2.sh
 	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
 	elif [ "${shortname}" == "rust" ]; then
