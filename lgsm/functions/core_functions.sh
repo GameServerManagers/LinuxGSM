@@ -547,7 +547,7 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-update_kediknight2.sh(){
+update_jediknight2.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
