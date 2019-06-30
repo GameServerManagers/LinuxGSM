@@ -332,7 +332,6 @@ fn_info_message_gameserver(){
 		if [ -n "${serverversion}" ]; then
 			echo -e "${blue}Server Version:\t${default}${serverversion}"
 		fi
-			serverversion
 
 		# Listed on Master Server
 		if [ "${masterserver}" ];then
