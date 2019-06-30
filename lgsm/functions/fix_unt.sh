@@ -7,5 +7,5 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Fixes: [Raknet] Server Shutting Down (Shutting Down).
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${systemdir}/lib"
+# steamclient.so: cannot open shared object file: No such file or directory
+export LD_LIBRARY_PATH="${serverfiles}/linux64:${serverfiles}:$LD_LIBRARY_PATH"
