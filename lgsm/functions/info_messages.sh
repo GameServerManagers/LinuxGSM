@@ -723,6 +723,15 @@ fn_info_message_inss(){
 	} | column -s $'\t' -t
 }
 
+	fn_info_message_jk2(){
+		echo -e "netstat -atunp | grep jk2mvded"
+		echo -e ""
+		{
+			echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+			echo -e "> Game\tINBOUND\t${port}\tudp"
+		} | column -s $'\t' -t
+	}
+
 fn_info_message_justcause2(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
 	echo -e ""
@@ -1254,6 +1263,8 @@ fn_info_message_select_engine(){
 		fn_info_message_hurtworld
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
+	elif [ "${shortname}" == "jk2" ]; then
+		fn_info_message_jk2
 	elif [ "${gamename}" == "Just Cause 2" ]; then
 		fn_info_message_justcause2
 	elif [ "${gamename}" == "Just Cause 3" ]; then
