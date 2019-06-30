@@ -24,8 +24,6 @@ fn_validation(){
 
 	if [ "${appid}" == "90" ]; then
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
-	elif [ "${gamename}" == "Unturned" ]; then
-		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
 	elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ];
 		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit| tee -a "${scriptlog}"
 	else
