@@ -1,18 +1,18 @@
 #!/bin/bash
-# LinuxGSM update_mumble.sh function
+# LinuxGSM update_jk2.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Handles updating of Mumble servers.
+# Description: Handles updating of jk2 servers.
 
 local commandname="UPDATE"
 local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_mumble_dl(){
+fn_update_jk2_dl(){
 	fn_fetch_file "https://github.com/mvdevs/jk2mv/releases/download/${remotebuild}/jk2mv-${remotebuild}-dedicated.zip" "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip"
 	fn_dl_extract "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/murmur-static_${mumblearch}-${remotebuild}/"* "${serverfiles}"
+	cp -R "${tmpdir}/murmur-static_${jk2arch}-${remotebuild}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -25,7 +25,7 @@ fn_update_mumble_dl(){
 	fi
 }
 
-fn_update_mumble_localbuild(){
+fn_update_jk2_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	# Uses executable to find local build.
@@ -41,7 +41,7 @@ fn_update_mumble_localbuild(){
 	fi
 }
 
-fn_update_mumble_remotebuild(){
+fn_update_jk2_remotebuild(){
 	# Gets remote build info.
 	remotebuild=$(${curlpath}-s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest"| grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
@@ -65,7 +65,7 @@ fn_update_mumble_remotebuild(){
 	fi
 }
 
-fn_update_mumble_compare(){
+fn_update_jk2_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
@@ -74,11 +74,11 @@ fn_update_mumble_compare(){
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -e "* Local build: ${red}${localbuild} ${jk2arch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
+		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 		fn_sleep_time
 		echo -en "\n"
@@ -96,7 +96,7 @@ fn_update_mumble_compare(){
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
-			fn_update_mumble_dl
+			fn_update_jk2_dl
 			exitbypass=1
 			command_start.sh
 			exitbypass=1
@@ -106,7 +106,7 @@ fn_update_mumble_compare(){
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
-			fn_update_mumble_dl
+			fn_update_jk2_dl
 			exitbypass=1
 			command_start.sh
 		fi
@@ -116,11 +116,11 @@ fn_update_mumble_compare(){
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild} ${mumblearch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -e "* Local build: ${green}${localbuild} ${jk2arch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
+		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
 	fi
 }
 
@@ -128,15 +128,15 @@ fn_update_mumble_compare(){
 remotelocation="jk2mv.org"
 
 # Game server architecture.
-mumblearch="x86"
+jk2arch="x86"
 
 if [ "${installer}" == "1" ]; then
-	fn_update_mumble_remotebuild
-	fn_update_mumble_dl
+	fn_update_jk2_remotebuild
+	fn_update_jk2_dl
 else
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_mumble_localbuild
-	fn_update_mumble_remotebuild
-	fn_update_mumble_compare
+	fn_update_jk2_localbuild
+	fn_update_jk2_remotebuild
+	fn_update_jk2_compare
 fi
