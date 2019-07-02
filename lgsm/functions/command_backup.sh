@@ -89,6 +89,15 @@ fn_backup_dir(){
 	fi
 }
 
+# Migrate Backups from old dir before refactor
+fn_backup_migrate_olddir(){
+	# Check if old backup dir is there before the refactor and move the backups
+	if [ -d "" ]; then
+		mv "${lgsmdir}/backups/*" "${backupdir}"
+		rmdir "${lgsmdir}/backups/"
+	fi
+}
+
 fn_backup_create_lockfile(){
 	# Create lockfile.
 	date '+%s' > "${tmpdir}/.backup.lock"
@@ -238,6 +247,7 @@ fn_backup_create_lockfile
 fn_backup_init
 fn_backup_stop_server
 fn_backup_dir
+fn_backup_migrate_olddir
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
