@@ -41,6 +41,8 @@ fn_install_server_files(){
 		remote_fileurl="https://files.linuxgsm.com/SourceFortsClassic/SFClassic-1.0-RC7-fix.tar.bz2"; local_filedir="${tmpdir}"; local_filename="SFClassic-1.0-RC7-fix.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e0d4cfd298a8a356053f92b1fa7d1002"
     elif [ "${shortname}" == "sof2" ]; then
 			remote_fileurl="https://files.linuxgsm.com/SoldierOfFortune2/sof2gold-1.03.tar.bz2"; local_filedir="${tmpdir}"; local_filename="sof2gold-1.03.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="871b1dc0dafeeace65b198119e8fa200"
+    elif [ "${shortname}" == "ts" ]; then
+			remote_fileurl="https://files.linuxgsm.com/TheSpecialists/ts-3-linux-final.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ts-3-linux-final.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="38e8a8325339f85a7745117802f940b7"
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="https://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${shortname}" == "ut99" ]; then
@@ -153,7 +155,7 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 	install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "vs" ]; then
+elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi
