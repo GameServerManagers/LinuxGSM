@@ -155,11 +155,16 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 		fi
 
-		# External server ip
+		# Internet ip
 		if [ -n "${extip}" ]; then
 			if [ "${ip}" != "${extip}" ]; then
 				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
 			fi
+		fi
+
+		# Display ip
+		if [ -n "${displayip}" ]; then
+			echo -e "${blue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
 		# Server password
@@ -369,15 +374,16 @@ fn_info_message_script(){
 		echo -e "${blue}User:\t${default}$(whoami)"
 
 		# glibc required
-		if [ -n "${glibcrequired}" ]; then
-			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
-					:
-			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
-			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+		if [ -n "${glibc}" ]; then
+			if [ "${glibc}" == "null" ]; then
+				# Glibc is not required.
+				:
+			elif [ -z "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
+			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 			fi
 		fi
 
@@ -495,7 +501,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -942,6 +948,15 @@ fn_info_message_sdtd(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_sof2(){
+	echo -e "netstat -atunp | grep sof2ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source(){
 	echo -e "netstat -atunp | grep srcds_linux"
 	echo -e ""
@@ -1107,6 +1122,16 @@ fn_info_message_unreal3(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_unturned(){
+	echo -e "netstat -atunp | grep Unturned"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_kf2(){
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
@@ -1169,6 +1194,28 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mordhau(){
+	echo -e "netstat -atunp | grep Mord"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_barotrauma(){
+	echo "netstat -atunp | grep /./DedicatedSer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t$((port+1))\tudp"
+	} | column -s $'\t' -t
+}
+
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1177,6 +1224,8 @@ fn_info_message_select_engine(){
 		fn_info_message_ark
 	elif [ "${gamename}" == "Ballistic Overkill" ]; then
 		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Barotrauma" ]; then
+		fn_info_message_barotrauma
 	elif [ "${gamename}" == "Battalion 1944" ]; then
 		fn_info_message_battalion1944
 	elif [ "${gamename}" == "Call of Duty" ]; then
@@ -1229,6 +1278,10 @@ fn_info_message_select_engine(){
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
 		fn_info_message_towerunite
+	elif [ "${shortname}" == "unt" ]; then
+		fn_info_message_unturned
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
@@ -1259,6 +1312,8 @@ fn_info_message_select_engine(){
 		fn_info_message_seriousengine35
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
+	elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
+	  fn_info_message_sof2
 	elif [ "${engine}" == "spark" ]; then
 		fn_info_message_spark
 	elif [ "${engine}" == "starbound" ]; then

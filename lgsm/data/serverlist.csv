@@ -8,6 +8,7 @@ bmdm,bmdmserver,Black Mesa: Deathmatch
 bs,bsserver,Blade Symphony
 bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
+bt,btserver,Barotrauma
 bt1944,bt1944server,Battalion 1944
 cod,codserver,Call of Duty
 cod2,cod2server,Call of Duty 2
@@ -47,6 +48,7 @@ kf2,kf2server,Killing Floor 2
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
+mh,mhserver,MORDHAU
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
 nd,ndserver,Nuclear Dawn
@@ -70,6 +72,8 @@ rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
+sfc,sfcserver,SourceForts Classic
+sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
 st,stserver,Stationeers
@@ -77,6 +81,7 @@ squad,squadserver,Squad
 sven,svenserver,Sven Co-op
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
+ts,tsserver,The Specialists
 ts3,ts3server,Teamspeak 3
 tw,twserver,Teeworlds
 terraria,terrariaserver,Terraria
@@ -84,6 +89,7 @@ tu,tuserver,Tower Unite
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
+unt,untserver,Unturned
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wurm,wurmserver,Wurm Unlimited

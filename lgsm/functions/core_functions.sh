@@ -51,7 +51,6 @@ fn_fetch_function
 
 # Commands
 
-
 command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -357,7 +356,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sfc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_terraria.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -382,6 +391,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sof2.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_ss3.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -398,6 +412,11 @@ fn_fetch_function
 }
 
 fix_ut.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_unt.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -424,15 +443,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-info_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 info_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

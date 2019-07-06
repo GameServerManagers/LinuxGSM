@@ -10,5 +10,5 @@ local commandaction="Install"
 echo ""
 echo "Installing SteamCMD"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 check_steamcmd.sh
