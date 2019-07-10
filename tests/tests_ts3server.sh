@@ -782,7 +782,6 @@ grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g
 echo ""
 echo "5.0 - Monitor Tests"
 echo "=================================================================="
-
 echo ""
 echo "Server IP - Port: ${ip}:${port}"
 echo "Server IP - Query Port: ${ip}:${queryport}"
