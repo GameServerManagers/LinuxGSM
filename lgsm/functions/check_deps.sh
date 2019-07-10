@@ -544,6 +544,9 @@ fn_deps_build_redhat(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
+	# Unturned
+	elif [ "${shortname}" == "unt" ]; then
+		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
