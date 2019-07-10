@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.8.4"
+version="v19.9.0"
 shortname="mc"
 gameservername="mcserver"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
