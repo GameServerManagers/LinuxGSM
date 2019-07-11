@@ -32,14 +32,3 @@ if [ -f "${servercfgdir}/valve.rc" ] && grep -E '^\s*exec\s*(default|joystick)\.
 	sed -i 's/^\s*exec\s*joystick.cfg/\/\/exec joystick.cfg/g' "${servercfgdir}/valve.rc" > /dev/null 2>&1
 	fn_fix_msg_end
 fi
-
-# Fixes: workshop map issue.
-# http://forums.steampowered.com/forums/showthread.php?t=3170366.
-if [ -f "${systemdir}/subscribed_collection_ids.txt" ]||[ -f "${systemdir}/subscribed_file_ids.txt" ]||[ -f "${systemdir}/ugc_collection_cache.txt" ]; then
-	fixname="workshop map"
-	fn_fix_msg_start
-	rm -f "${systemdir}/subscribed_collection_ids.txt"
-	rm -f "${systemdir}/subscribed_file_ids.txt"
-	rm -f "${systemdir}/ugc_collection_cache.txt"
-	fn_fix_msg_end
-fi

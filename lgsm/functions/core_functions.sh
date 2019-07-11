@@ -51,7 +51,6 @@ fn_fetch_function
 
 # Commands
 
-
 command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -352,7 +351,22 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sfc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_terraria.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_tf2.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -363,6 +377,16 @@ fn_fetch_function
 }
 
 fix_rust.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_sof2.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -383,6 +407,11 @@ fn_fetch_function
 }
 
 fix_ut.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_unt.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -409,15 +438,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-info_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 info_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -560,6 +585,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+install_eula.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 install_gsquery.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -576,16 +606,6 @@ fn_fetch_function
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_minecraft_eula.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
-install_unreal_tournament_eula.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-local commandname="postdetails"
+local commandname="POSTDETAILS"
 local commandaction="Postdetails"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -31,10 +31,10 @@ posttarget=${posttarget="https://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
-# This, too, may be overridden from the command line at the top-level
+# This, too, may be overridden from the command line at the top-level.
 postexpire="${postexpire="30D"}"
 
-# source all of the functions defined in the details command
+# source all of the functions defined in the details command.
 info_messages.sh
 
 fn_bad_postdetailslog() {
@@ -42,12 +42,12 @@ fn_bad_postdetailslog() {
 	core_exit.sh
 }
 
-# Remove any existing postdetails.log file
+# Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
 	rm -f "${postdetailslog}"
 fi
 
-# Rather than a one-pass sed parser, default to using a temporary directory
+# Rather than a one-pass sed parser, default to using a temporary directory.
 if [ -n "${alertflag}" ]; then
 	postdetailslog="${alertlog}"
 else
@@ -56,7 +56,6 @@ else
 	info_config.sh
 	info_parms.sh
 	info_distro.sh
-	info_glibc.sh
 	info_messages.sh
 	query_gamedig.sh
 	touch "${postdetailslog}" || fn_bad_postdetailslog
@@ -80,7 +79,6 @@ fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
-	sleep 0.5
 	# grab the return from 'value' from an initial visit to pastebin.
 	csrftoken=$(${curlpath} -s "${posttarget}" |
 					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
@@ -100,7 +98,6 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	echo "  Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	fn_print_dots "Posting details to hastebin.com"
-	sleep 0.5
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG

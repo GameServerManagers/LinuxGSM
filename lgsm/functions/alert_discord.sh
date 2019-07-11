@@ -16,7 +16,7 @@ escaped_alertbody="$(echo -n "${alertbody}" | jq -sRr "@json")"
 json=$(cat <<EOF
 {
 	"username":"LinuxGSM",
-	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/data/alert_discord_logo.png",
+	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png",
 	"file":"content",
 	"embeds": [{
 		"color": "2067276",
@@ -35,7 +35,7 @@ json=$(cat <<EOF
 			},
 			{
 				"name": "Server IP",
-				"value": "[${extip:-$ip}:${port}](https://www.gametracker.com/server_info/${extip:-$ip}:${port})",
+				"value": "[${alertip}:${port}](https://www.gametracker.com/server_info/${alertip}:${port})",
 				"inline": true
 			},
 			{

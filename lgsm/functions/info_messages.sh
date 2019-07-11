@@ -75,6 +75,12 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
+		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
+		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
+		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
+	} | column -s $'\t' -t
+	echo -e ""
+	{
 		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
@@ -149,11 +155,16 @@ fn_info_message_gameserver(){
 			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
 		fi
 
-		# External server ip
+		# Internet ip
 		if [ -n "${extip}" ]; then
 			if [ "${ip}" != "${extip}" ]; then
 				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
 			fi
+		fi
+
+		# Display ip
+		if [ -n "${displayip}" ]; then
+			echo -e "${blue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
 		# Server password
@@ -363,15 +374,16 @@ fn_info_message_script(){
 		echo -e "${blue}User:\t${default}$(whoami)"
 
 		# glibc required
-		if [ -n "${glibcrequired}" ]; then
-			if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
-					:
-			elif [ "${glibcrequired}" == "UNKNOWN" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired}"
-			elif [ "$(printf '%s\n'${glibcrequired}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibcrequired}" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibcrequired} ${default}(${red}glibc distro version ${glibcversion} too old${default})"
+		if [ -n "${glibc}" ]; then
+			if [ "${glibc}" == "null" ]; then
+				# Glibc is not required.
+				:
+			elif [ -z "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
+			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}glibc required:\t${green}${glibcrequired}${default}"
+				echo -e "${blue}glibc required:\t${green}${glibc}${default}"
 			fi
 		fi
 
@@ -489,7 +501,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -731,8 +743,8 @@ fn_info_message_minecraft(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game\tINBOUND\t${queryport}\tudp"
-		echo -e "> Game\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -858,6 +870,15 @@ fn_info_message_risingworld(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_rtcw(){
+	echo -e "netstat -atunp | grep iowolfded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_rust(){
 	echo -e "netstat -atunp | grep Rust"
 	echo -e ""
@@ -924,6 +945,15 @@ fn_info_message_sdtd(){
 		echo -e "${blue}Telnet enabled:\t${default}${telnetenabled}"
 		echo -e "${blue}Telnet address:\t${default}${ip} ${telnetport}"
 		echo -e "${blue}Telnet password:\t${default}${telnetpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_sof2(){
+	echo -e "netstat -atunp | grep sof2ded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1044,7 +1074,7 @@ fn_info_message_unreal(){
 		if [ "${engine}" == "unreal" ]; then
 			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
-		if [ "${engine}" != "unreal" ] && [ "${appid}" != "223250" ]; then
+		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
 			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
 		fi
 		if [ "${appid}" == "215360" ]; then
@@ -1089,6 +1119,16 @@ fn_info_message_unreal3(){
 		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
 		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_unturned(){
+	echo -e "netstat -atunp | grep Unturned"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1154,6 +1194,28 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mordhau(){
+	echo -e "netstat -atunp | grep Mord"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_barotrauma(){
+	echo "netstat -atunp | grep /./DedicatedSer"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t$((port+1))\tudp"
+	} | column -s $'\t' -t
+}
+
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1162,6 +1224,8 @@ fn_info_message_select_engine(){
 		fn_info_message_ark
 	elif [ "${gamename}" == "Ballistic Overkill" ]; then
 		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Barotrauma" ]; then
+		fn_info_message_barotrauma
 	elif [ "${gamename}" == "Battalion 1944" ]; then
 		fn_info_message_battalion1944
 	elif [ "${gamename}" == "Call of Duty" ]; then
@@ -1209,15 +1273,21 @@ fn_info_message_select_engine(){
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
 	elif [ "${shortname}" == "sbots" ]; then
-		fn_info_message_sbots	
+		fn_info_message_sbots
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${gamename}" == "Tower Unite" ]; then
 		fn_info_message_towerunite
+	elif [ "${shortname}" == "unt" ]; then
+		fn_info_message_unturned
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
 	elif [ "${gamename}" == "Multi Theft Auto" ]; then
 		fn_info_message_mta
 	elif [ "${gamename}" == "Mumble" ]; then
 		fn_info_message_mumble
+	elif [ "${gamename}" == "Return to Castle Wolfenstein" ]; then
+		fn_info_message_rtcw
 	elif [ "${gamename}" == "Rust" ]; then
 		fn_info_message_rust
 	elif [ "${gamename}" == "Wurm Unlimited" ]; then
@@ -1242,6 +1312,8 @@ fn_info_message_select_engine(){
 		fn_info_message_seriousengine35
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
+	elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
+	  fn_info_message_sof2
 	elif [ "${engine}" == "spark" ]; then
 		fn_info_message_spark
 	elif [ "${engine}" == "starbound" ]; then

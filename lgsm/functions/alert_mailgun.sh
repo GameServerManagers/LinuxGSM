@@ -9,7 +9,6 @@ local commandaction="Alert"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
-sleep 0.5
 
 mailgunsend=$(${curlpath} -s --user "api:${mailguntoken}" \
 -F from="LinuxGSM <${mailgunemailfrom}>" \

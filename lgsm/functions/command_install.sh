@@ -18,7 +18,7 @@ else
 	install_logs.sh
 	check_deps.sh
 	installflag=1
-	# Download and install
+	# Download and install.
 	if [ "${shortname}" == "ut2k4" ]; then
 		install_server_files.sh
 		install_ut2k4_key.sh
@@ -30,9 +30,9 @@ else
 		install_server_files.sh
 	fi
 
-	# Configuration
+	# Configuration.
 	install_config.sh
-	if [ "${shortname}" == "bb2" ]||[ "${shortname}" == "bmdm" ]||[ "${shortname}" == "csgo" ]||[ "${shortname}" == "em" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "tf2" ]||[ "${shortname}" == "tu" ]; then
+	if [ -v gslt ]; then
 		install_gslt.sh
 	elif [ "${shortname}" == "dst" ]; then
 		install_dst_token.sh

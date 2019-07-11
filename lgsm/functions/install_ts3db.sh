@@ -10,68 +10,67 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_ts3db_mariadb(){
-	echo ""
-	echo "checking if libmariadb2 is installed"
-	echo "================================="
-	sleep 0.5
-
-	if ldd "${serverfiles}/libts3db_mariadb.so" | grep "libmariadb.so.2 => not found"; then
-		echo "libmariadb2 not installed. Please install it first."
-		echo "exiting..."
-		exit
-	else
-		echo "libmariadb2 installed."
+	if [ ! -f "${serverfiles}/libts3db_mariadb.so" ]; then
+		echo -e "copying libmariadb.so.2...\c"
+		cp "${serverfiles}/redist/libmariadb.so.2" "${serverfiles}"
+		local exitcode=$?
+		if [ "${exitcode}" == "0" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "copying libmariadb.so.2"
+		else
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "copying libmariadb.so.2"
+			core_exit.sh
+		fi
 	fi
+
 	echo ""
-	echo "Configuring ${gamename} Server for MariaDB/MySQL"
+	echo "Configure ${gamename} Server for MariaDB"
 	echo "================================="
-	sleep 0.5
+	fn_sleep_time
 	read -rp "Enter MariaDB hostname: " mariahostname
 	read -rp "Enter MariaDB port: " mariaport
 	read -rp "Enter MariaDB username: " mariausername
 	read -rp "Enter MariaDB password: " mariapassword
 	read -rp "Enter MariaDB database name: " mariadbname
+	read -rp "Enter MariaDB socket path: " mariadbsocket
+
 	{
-	echo "updating config."
 	echo "[config]"
 	echo "host='${mariahostname}'"
 	echo "port='${mariaport}'"
 	echo "username='${mariausername}'"
 	echo "password='${mariapassword}'"
 	echo "database='${mariadbname}'"
-	echo "socket="
+	echo "socket='${mariadbsocket}'"
 	} >> "${servercfgdir}/ts3db_mariadb.ini"
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
-	echo "================================="
-	sleep 0.5
+	echo "updating ts3db_mariadb.ini."
+	fn_sleep_time
 }
 
+echo ""
+echo "Select Database"
+echo "================================="
+fn_sleep_time
 if [ -z "${autoinstall}" ]; then
-	echo ""
-	if fn_prompt_yn "Do you want to use MariaDB/MySQL instead of sqlite? (DB must be pre-configured)" N; then
+	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (MariaDB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
 	fi
 else
-fn_print_warning_nl "./${selfname} auto-install is uses sqlite. For MariaDB/MySQL use ./${selfname} install"
+fn_print_information_nl "./${selfname} auto-install is uses sqlite. For MariaDB use ./${selfname} install"
 fi
 
-## License
-fn_script_log "Accepting ts3server license:  ${executabledir}/LICENSE"
-fn_print_information_nl "Accepting TeamSpeak license:"
-echo " * ${executabledir}/LICENSE"
-sleep 0.5
-touch "${executabledir}/.ts3server_license_accepted"
+install_eula.sh
 
-## Get privilege key
 echo ""
 echo "Getting privilege key"
 echo "================================="
-sleep 0.5
-echo "IMPORANT! Save these details for later."
-sleep 0.5
+fn_sleep_time
+fn_print_information_nl "Save these details for later."
 cd "${executabledir}" || exit
-./ts3server_startscript.sh start inifile=ts3-server.ini
+${executable} start inifile=ts3-server.ini
 sleep 5
-./ts3server_startscript.sh stop
+${executable} stop
