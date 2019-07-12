@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
-# nl: new line: message is following by a new line
-# eol: end of line: message is placed at the end of the current line
+# nl: new line: message is following by a new line.
+# eol: end of line: message is placed at the end of the current line.
 fn_ansi_loader(){
 	if [ "${ansi}" != "off" ]; then
 		# echo colors
@@ -24,12 +24,15 @@ fn_ansi_loader(){
 		cyan="\e[36m"
 		lightcyan="\e[96m"
 	fi
-	# carriage return & erase to end of line
+	# carriage return & erase to end of line.
 	creeol="\r\033[K"
 }
 
 fn_sleep_time(){
 	if [ "${sleeptime}" != "0" ]||[ "${travistest}" != "1" ]; then
+		if [ -z "${sleeptime}" ]; then
+			sleeptime=0.5
+		fi
 		sleep "${sleeptime}"
 	fi
 }
@@ -379,6 +382,15 @@ fn_print_checking_eol(){
 
 fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
+}
+
+# DELAY
+fn_print_delay_eol(){
+	echo -en "${green}DELAY${default}"
+}
+
+fn_print_delay_eol_nl(){
+	echo -e "${green}DELAY${default}"
 }
 
 # CANCELED

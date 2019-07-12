@@ -8,7 +8,7 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Messages that are displayed for some fixes
+# Messages that are displayed for some fixes.
 fn_fix_msg_start(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
@@ -31,7 +31,7 @@ fn_fix_msg_end(){
 	fi
 }
 
-# Fixes that are run on start
+# Fixes that are run on start.
 if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; then
 	if [ -n "${appid}" ]; then
 		fix_steamcmd.sh
@@ -55,6 +55,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rw.sh
 	elif [ "${shortname}" == "sdtd" ]; then
 		fix_sdtd.sh
+	elif [ "${shortname}" == "sfc" ]; then
+		fix_sfc.sh
 	elif [ "${shortname}" == "sof2" ]; then
 		fix_sof2.sh
 	elif [ "${shortname}" == "ss3" ]; then
