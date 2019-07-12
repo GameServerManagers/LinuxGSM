@@ -102,7 +102,7 @@ fn_install_mono_repo(){
 }
 
 fn_install_universe_repo(){
-	# Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu
+	# Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu.
    if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
 		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
 		fn_print_information_nl "Attempting to add Universe Repo"
@@ -138,7 +138,7 @@ fn_install_universe_repo(){
 }
 
 fn_deps_detector(){
-	# Checks if dependency is missing
+	# Checks if dependency is missing.
 	if [ "${tmuxcheck}" == "1" ]; then
 		# Added for users compiling tmux from source to bypass check.
 		depstatus=0
@@ -152,16 +152,16 @@ fn_deps_detector(){
 	elif [ "${deptocheck}" == "jq" ]&&[ "${distroversion}" == "6" ]; then
 		jqstatus=1
 	elif [ "${deptocheck}" == "jq" ]&&[ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]&& ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
-		#1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
-		#If the universe repo does not exist, mark as dependency missing and universe missing
+		# #1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
+		# If the universe repo does not exist, mark as dependency missing and universe missing.
 		depstatus=1
 		jquniversemissing=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
 		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
-			# Mono >= 5.0.0 already installed
+			# Mono >= 5.0.0 already installed.
 			depstatus=0
 		else
-			# Mono not installed or installed Mono < 5.0.0
+			# Mono not installed or installed Mono < 5.0.0.
 			depstatus=1
 			monostatus=1
 		fi
@@ -174,20 +174,20 @@ fn_deps_detector(){
 	fi
 
 	if [ "${depstatus}" == "0" ]; then
-		# if dependency is found
+		# If dependency is found.
 		missingdep=0
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${green}${deptocheck}${default}"
 			fn_sleep_time
 		fi
 	else
-		# if dependency is not found
+		# If dependency is not found.
 		missingdep=1
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "${red}${deptocheck}${default}"
 			fn_sleep_time
 		fi
-		# Define required dependencies for SteamCMD
+		# Define required dependencies for SteamCMD.
 		if [ -n "${appid}" ]; then
 			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
 				steamcmdfail=1
@@ -195,14 +195,14 @@ fn_deps_detector(){
 		fi
 	fi
 
-	# Missing dependencies are added to array_deps_missing
+	# Missing dependencies are added to array_deps_missing.
 	if [ "${missingdep}" == "1" ]; then
 		array_deps_missing+=("${deptocheck}")
 	fi
 }
 
 fn_deps_email(){
-	# Adds postfix to required dependencies if email alert is enabled
+	# Adds postfix to required dependencies if email alert is enabled.
 	if [ "${emailalert}" == "on" ]; then
 		if [ -f /usr/bin/mailx ]; then
 			if [ -d /etc/exim4 ]; then
@@ -316,25 +316,25 @@ fn_found_missing_deps(){
 }
 
 fn_check_loop(){
-	# Loop though required depenencies
+	# Loop though required depenencies.
 	for deptocheck in "${array_deps_required[@]}"
 	do
 		fn_deps_detector
 	done
 
-	# user to be informed of any missing dependencies
+	# user to be informed of any missing dependencies.
 	fn_found_missing_deps
 }
 
-# Generate require dependencies for debian based systems
+# Generate require dependencies for debian based systems.
 fn_deps_build_debian(){
-	# Generate array of missing deps
+	# Generate array of missing deps.
 	array_deps_missing=()
 
-	## LinuxGSM requirements
+	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc jq )
 
-	# All servers except ts3 require tmux
+	# All servers except ts3 require tmux.
 	if [ "${shortname}" != "ts3" ]; then
 		if [ "$(command -v tmux 2>/dev/null)" ]; then
 			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
@@ -343,7 +343,7 @@ fn_deps_build_debian(){
 		fi
 	fi
 
-	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1
+	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${shortname}" != "wf" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
@@ -352,9 +352,9 @@ fn_deps_build_debian(){
 		fi
 	fi
 
-	## Game Specific requirements
+	# Game Specific requirements.
 
-	# Natural Selection 2 - x64 only
+	# Natural Selection 2 - x64 only.
 	if [ "${shortname}" == "ns2" ]; then
 		array_deps_required+=( speex libtbb2 )
 	# NS2: Combat
@@ -392,14 +392,16 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "wf" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
-			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			# Added for users using Oracle JRE to bypass the check.
+			javacheck=1
 		else
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		if [ -n "$(java -version 2>&1 | grep "version")" ]; then
-			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			# Added for users using Oracle JRE to bypass the check.
+			javacheck=1
 			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( default-jre rng-tools )
@@ -415,10 +417,10 @@ fn_deps_build_debian(){
 		array_deps_required+=( libssl1.0.0:i386 zlib1g:i386 )
 	# Unreal Engine
 	elif [ "${executable}" == "./ucc-bin" ]; then
-		#UT2K4
+		# UT2K4
 		if [ -f "${executabledir}/ut2004-bin" ]; then
 			array_deps_required+=( libsdl1.2debian libstdc++5:i386 )
-		#UT99
+		# UT99
 		else
 			array_deps_required+=( libsdl1.2debian )
 		fi
@@ -437,11 +439,11 @@ fn_deps_build_debian(){
 }
 
 fn_deps_build_redhat(){
-	# Generate array of missing deps
+	# Generate array of missing deps.
 	array_deps_missing=()
 
-	# LinuxGSM requirements
-	## CentOS 6
+	# LinuxGSM requirements.
+	# CentOS 6
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "7" ]; then
@@ -454,16 +456,17 @@ fn_deps_build_redhat(){
 		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
 	fi
 
-	# All servers except ts3 require tmux
+	# All servers except ts3 require tmux.
 	if [ "${shortname}" != "ts3" ]; then
 		if [ "$(command -v tmux 2>/dev/null)" ]; then
-			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
+			# Added for users compiling tmux from source to bypass check.
+			tmuxcheck=1
 		else
 			array_deps_required+=( tmux )
 		fi
 	fi
 
-	# All servers except ts3,mumble,multitheftauto and minecraft servers require glibc.i686 and libstdc++.i686
+	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${shortname}" != "wf" ]&&[ "${engine}" != "renderware" ]; then
 		if [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
 			array_deps_required+=( glibc.i686 libstdc++64.i686 )
@@ -472,7 +475,7 @@ fn_deps_build_redhat(){
 		fi
 	fi
 
-	# Game Specific requirements
+	# Game Specific requirements.
 
 	# Natural Selection 2 (x64 only)
 	if [ "${shortname}" == "ns2" ]; then
@@ -507,7 +510,8 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "wf" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
-			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			# Added for users using Oracle JRE to bypass the check.
+			javacheck=1
 			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
@@ -516,7 +520,8 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
-			javacheck=1 # Added for users using Oracle JRE to bypass the check.
+			# Added for users using Oracle JRE to bypass the check.
+			javacheck=1
 			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
@@ -539,6 +544,9 @@ fn_deps_build_redhat(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
+	# Unturned
+	elif [ "${shortname}" == "unt" ]; then
+		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -559,7 +567,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 	fi
 fi
 
-# Filter checking in to Debian or Red Hat Based
+# Filter checking in to Debian or Red Hat Based.
 info_distro.sh
 if [ -f "/etc/debian_version" ]; then
 	fn_deps_build_debian
