@@ -11,7 +11,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo ""
 echo "Enter ${gamename} Cluster Token"
 echo "================================="
-sleep 0.5
+fn_sleep_time
 echo "A cluster token is required to run this server!"
 echo "Follow the instructions in this link to obtain this key:"
 echo "https://linuxgsm.com/dst-auth-token"

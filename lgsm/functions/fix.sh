@@ -8,21 +8,17 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-# Messages that are displayed for some fixes
+# Messages that are displayed for some fixes.
 fn_fix_msg_start(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 }
 
 fn_fix_msg_start_nl(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
-	sleep 0.5
 }
 
 fn_fix_msg_end(){
@@ -35,7 +31,7 @@ fn_fix_msg_end(){
 	fi
 }
 
-# Fixes that are run on start
+# Fixes that are run on start.
 if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; then
 	if [ -n "${appid}" ]; then
 		fix_steamcmd.sh
@@ -59,14 +55,22 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rw.sh
 	elif [ "${shortname}" == "sdtd" ]; then
 		fix_sdtd.sh
+	elif [ "${shortname}" == "sfc" ]; then
+		fix_sfc.sh
+	elif [ "${shortname}" == "sof2" ]; then
+		fix_sof2.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
 	elif [ "${shortname}" == "tf2" ]; then
 		fix_tf2.sh
+	elif [ "${shortname}" == "terraria" ]; then
+		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
 	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
+	elif [ "${shortname}" == "unt" ]; then
+		fix_unt.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
 	fi
@@ -78,7 +82,7 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo ""
 			echo "Applying Post-Install Fixes"
 			echo "================================="
-			sleep 0.5
+			fn_sleep_time
 			if [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then

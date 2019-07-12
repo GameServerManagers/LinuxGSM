@@ -7,8 +7,10 @@
 local commandname="QUERY-RAW"
 local commandaction="Query Raw"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-
-echo "================================="
+echo ""
+echo "Query Port"
+echo "=================================================================="
+echo ""
 echo "Gamedig Raw Output"
 echo "================================="
 echo""
@@ -33,7 +35,6 @@ echo "${gamedigcmd}"
 echo""
 echo "${gamedigraw}" | jq
 echo""
-echo "================================="
 echo "gsquery Raw Output"
 echo "================================="
 echo""
@@ -44,29 +45,56 @@ fi
 "${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"
 
 echo""
-echo "================================="
-echo "tcp Raw Output"
+echo "TCP Raw Output"
 echo "================================="
 echo""
 echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
-	echo "tcp query PASS"
+	echo "TCP query PASS"
 else
-	echo "tcp query FAIL"
+	echo "TCP query FAIL"
 fi
 
 echo""
-echo "================================="
-echo "udp Raw Output"
+echo "UDP Raw Output"
 echo "================================="
 echo""
 echo "bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''"
 bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
-	echo "udp query PASS"
+	echo "UPD query PASS"
 else
-	echo "udp query FAIL"
+	echo "UPD query FAIL"
+fi
+echo ""
+echo "Game Port"
+echo "=================================================================="
+echo ""
+echo""
+echo "TCP Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
+bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "TCP query PASS"
+else
+	echo "TCP query FAIL"
+fi
+
+echo""
+echo "UDP Raw Output"
+echo "================================="
+echo""
+echo "bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''"
+bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''
+querystatus="$?"
+if [ "${querystatus}" == "0" ]; then
+	echo "UDP query PASS"
+else
+	echo "UDP query FAIL"
 fi

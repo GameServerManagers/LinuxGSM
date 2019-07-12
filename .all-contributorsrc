@@ -21,13 +21,15 @@
         "infra"
       ]
     },
-    {      
+    {
       "login": "Frisasky",
       "name": "Frisasky",
       "avatar_url": "https://avatars2.githubusercontent.com/u/26865851?v=4",
       "profile": "https://github.com/Frisasky",
       "contributions": [
-        "question"
+        "question",
+        "bug",
+        "code"
       ]
     },
     {
@@ -58,7 +60,7 @@
         "bug",
         "code"
       ]
-    },  
+    },
     {
       "login": "Bourne-ID",
       "name": "Bourne-ID",
@@ -68,10 +70,10 @@
         "review",
         "content",
         "doc",
-        "infra"
+        "infra",
         "review"
       ]
-    },  
+    },
     {
       "login": "cedarlug",
       "name": "CedarLUG",
@@ -85,7 +87,7 @@
         "review"
       ]
     },
-    {      
+    {
       "login": "UltimateByte",
       "name": "UltimateByte",
       "avatar_url": "https://avatars3.githubusercontent.com/u/8805941?v=4",
@@ -95,7 +97,17 @@
         "code",
         "doc",
         "ideas",
-        "review",
+        "review"
+      ]
+    },
+    {
+      "login": "borzaka",
+      "name": "Attila",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1230402?v=4",
+      "profile": "https://github.com/borzaka",
+      "contributions": [
+        "code",
+        "bug"
       ]
     }
   ],
