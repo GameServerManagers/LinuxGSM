@@ -326,6 +326,12 @@ elif [ "${gamename}" == "Dystopia" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Eco" ]; then
+	gamedirname="Eco"
+	array_configs+=( Network.eco )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ET: Legacy" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=( server.cfg )
@@ -537,6 +543,12 @@ elif [ "${gamename}" == "Rust" ]; then
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
+elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
+	gamedirname="SanAndreasMultiplayer"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	gamedirname="SeriousSam3BFE"
 	array_configs+=( server.ini )
@@ -546,6 +558,12 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
 	gamedirname="SoldierOfFortune2Gold"
 	array_configs+=( server.cfg mapcycle.txt)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "SourceForts Classic" ]; then
+	gamedirname="SourceFortsClassic"
+	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -567,12 +585,6 @@ elif [ "${gamename}" == "Stationeers" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${gamename}" == "San Andreas Multiplayer" ]; then
-	gamedirname="SanAndreasMultiplayer"
-	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${gamename}" == "Sven Co-op" ]; then
 	gamedirname="SvenCoop"
 	array_configs+=( server.cfg )
@@ -587,6 +599,12 @@ elif [ "${gamename}" == "Team Fortress 2" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Team Fortress Classic" ]; then
 	gamedirname="TeamFortressClassic"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "The Specialists" ]; then
+	gamedirname="TheSpecialists"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote

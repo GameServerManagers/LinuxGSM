@@ -72,6 +72,7 @@ rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
+sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
@@ -80,6 +81,7 @@ squad,squadserver,Squad
 sven,svenserver,Sven Co-op
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
+ts,tsserver,The Specialists
 ts3,ts3server,Teamspeak 3
 tw,twserver,Teeworlds
 terraria,terrariaserver,Terraria
