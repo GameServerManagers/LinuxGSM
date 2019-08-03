@@ -73,6 +73,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_unt.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
+	elif [ "${shortname}" == "zmr" ]; then
+		fix_zmr.sh
 	fi
 fi
 
