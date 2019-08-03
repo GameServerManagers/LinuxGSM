@@ -24,6 +24,11 @@ fn_update_steamcmd_dl(){
 		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
 	fi
 	fix.sh
+	
+	### update mods on game update
+	exitbypass=1
+	command_mods_update.sh
+	### end mod update	
 }
 
 fn_update_steamcmd_localbuild(){
