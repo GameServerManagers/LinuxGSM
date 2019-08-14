@@ -788,6 +788,15 @@ fn_info_message_projectzomboid(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_warfork(){
+        echo -e "netstat -atunp | grep wf_server"
+        echo -e ""
+        {
+                echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+                echo -e "> Game\tINBOUND\t${port}\tudp"
+        } | column -s $'\t' -t
+}
+
 fn_info_message_quake(){
 	echo -e "netstat -atunp | grep mvdsv"
 	echo -e ""
@@ -1306,6 +1315,8 @@ fn_info_message_select_engine(){
 		fn_info_message_minecraft
 	elif [ "${engine}" == "projectzomboid" ]; then
 		fn_info_message_projectzomboid
+	elif [ "${gamename}" == "warfork" ]; then
+		fn_info_message_warfork
 	elif [ "${engine}" == "realvirtuality" ]; then
 		fn_info_message_realvirtuality
 	elif [ "${engine}" == "seriousengine35" ]; then
