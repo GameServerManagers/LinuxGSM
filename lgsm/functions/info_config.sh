@@ -1212,9 +1212,29 @@ fn_info_config_mordhau(){
 	fi
 }
 
+fn_info_config_avorion() {
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		rconpassword="${unavailable}"
+	else
+		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
+		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
+		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+	fi
+}
+
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
+# Avorion
+elif [ "${shortname}" == "av" ]; then
+	fn_info_config_avorion
 # Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill

@@ -501,7 +501,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" "Avorion")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -1215,6 +1215,20 @@ fn_info_message_barotrauma(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_avorion() {
+	echo "netstat -atunp | grep Avorion"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\tINBOUND\t27003\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Steam Query\tINBOUND\t${steamqueryport}\tudp"
+		echo -e "> Steam Master\tINBOUND\t${steammasterport}\tudp"
+	} | column -s $'\t' -t
+}
+
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
@@ -1222,6 +1236,8 @@ fn_info_message_select_engine(){
 		fn_info_message_sdtd
 	elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 		fn_info_message_ark
+	elif [ "${gamename}" == "Avorion" ]; then
+		fn_info_message_avorion
 	elif [ "${gamename}" == "Ballistic Overkill" ]; then
 		fn_info_message_ballisticoverkill
 	elif [ "${gamename}" == "Barotrauma" ]; then
