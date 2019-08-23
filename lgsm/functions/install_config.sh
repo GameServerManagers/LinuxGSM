@@ -669,6 +669,12 @@ elif [ "${gamename}" == "Wurm Unlimited" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Zombie Master: Reborn" ]; then
+	gamedirname="ZombieMasterReborn"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Zombie Panic! Source" ]; then
 	gamedirname="ZombiePanicSource"
 	array_configs+=( server.cfg )
