@@ -1206,7 +1206,7 @@ fn_info_message_mordhau(){
 }
 
 fn_info_message_barotrauma(){
-	echo "netstat -atunp | grep /./DedicatedSer"
+	echo "netstat -atunp | grep /./Server.bin"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"

@@ -166,6 +166,8 @@ fn_fastdl_preview(){
 			done < <(find . -type f -iname ${allowed_extention})
 			if [ ${fileswc} != 0 ]; then
 				fn_print_ok_eol_nl
+			else
+				fn_print_info_eol_nl
 			fi
 		done
 	# Source engine
@@ -197,6 +199,8 @@ fn_fastdl_preview(){
 					printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 					if [ ${fileswc} != 0 ]; then
 						fn_print_ok_eol_nl
+					else
+						fn_print_info_eol_nl
 					fi
 				done
 			fi
