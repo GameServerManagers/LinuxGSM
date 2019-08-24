@@ -159,6 +159,7 @@ fn_info_parms_sof2(){
 
 fn_info_parms_soldat(){
 	port=${port:-"0"}
+	queryport=${port}
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	adminpassword=${adminpassword:-"NOT SET"}
