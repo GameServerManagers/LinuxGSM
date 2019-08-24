@@ -1,3 +1,4 @@
+ahl,ahlserver,Action half-life
 arma3,arma3server,ARMA 3
 sdtd,sdtdserver,7 Days to Die
 ark,arkserver,ARK: Survival Evolved
@@ -71,6 +72,7 @@ rust,rustserver,Rust
 rw,rwserver, Rising World
 samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
+sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
@@ -79,6 +81,7 @@ squad,squadserver,Squad
 sven,svenserver,Sven Co-op
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
+ts,tsserver,The Specialists
 ts3,ts3server,Teamspeak 3
 tw,twserver,Teeworlds
 terraria,terrariaserver,Terraria
@@ -91,4 +94,5 @@ vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wurm,wurmserver,Wurm Unlimited
 etl,etlserver,ET: Legacy
+zmr,zmrserver,Zombie Master: Reborn
 zps,zpsserver,Zombie Panic! Source
