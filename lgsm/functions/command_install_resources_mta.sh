@@ -19,11 +19,12 @@ fn_install_resources(){
 
 fn_print_header
 
-fn_print_warning_nl "Installing the default resources with existing resources may cause issues."
-if [[ -z ${autoinstall} ]]; then
+if [ -z "${autoinstall}" ]; then
+	fn_print_warning_nl "Installing the default resources with existing resources may cause issues."
 	if fn_prompt_yn "Do you want to install MTA default resources?" Y; then
 		fn_install_resources
 	fi
 else
-	echo "Not installing MTA default resources due to AutoInstall run."
+	fn_print_warning_nl "Default resources are not installed when using ./${selfname} auto-install."
+	fn_print_information_nl "To install default resources use ./${selfname} install"
 fi
