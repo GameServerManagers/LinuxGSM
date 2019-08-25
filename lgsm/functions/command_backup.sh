@@ -92,9 +92,20 @@ fn_backup_dir(){
 # Migrate Backups from old dir before refactor
 fn_backup_migrate_olddir(){
 	# Check if old backup dir is there before the refactor and move the backups
-	if [ -d "" ]; then
+	if [ -d "${lgsmdir}/backups/" ]; then
+		fn_print_dots "Backup directory is being migrated"
+		fn_script_log_info "Backup directory is being migrated"
 		mv "${lgsmdir}/backups/*" "${backupdir}"
-		rmdir "${lgsmdir}/backups/"
+		exitcode=$?
+		if [ "${exitcode}" -eq 0 ]; then
+			rmdir "${lgsmdir}/backups/"
+			exitcode=$?
+		fi
+		if [ "${exitcode}" -eq 0 ]; then
+			fn_print_pass_nl "Backup directory is being migrated"
+		else
+			fn_print_fail_nl "Backup directory is being migrated"
+		fi
 	fi
 }
 
