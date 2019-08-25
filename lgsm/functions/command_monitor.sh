@@ -147,7 +147,7 @@ fn_monitor_query(){
 			totalseconds=0
 			if [ "${shortname}" == "wurm" ]; then
 				local query_methods_array=( gsquery )
-			elif [ "${shortname}" == "soldat" ]; then
+			elif [ "${shortname}" == "sol" ]; then
 				local query_methods_array=( gamedig udp )
 			else
 				local query_methods_array=( gamedig gsquery )
