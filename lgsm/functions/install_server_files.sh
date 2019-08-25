@@ -9,7 +9,9 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
-	if [ "${shortname}" == "bf1942" ]; then
+    if [ "${shortname}" == "ahl" ]; then
+		remote_fileurl="https://files.linuxgsm.com/ActionHalfLife/action_halflife-1.0.tar.bz2"; local_filedir="${tmpdir}"; local_filename="action_halflife-1.0.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="31430e670692b2eeaa0d1217db4dcb73"
+	elif [ "${shortname}" == "bf1942" ]; then
 		remote_fileurl="https://files.linuxgsm.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
 	elif [ "${shortname}" == "bb" ]; then
 		remote_fileurl="https://files.linuxgsm.com/BrainBread/brainbread-v1.2-linuxserver.tar.bz2"; local_filedir="${tmpdir}"; local_filename="brainbread-v1.2-linuxserver.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="5c729a7e9eecfa81b71a6a1f7267f0fd"
@@ -159,7 +161,7 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 	install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "soldat" ]; then
+elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "soldat" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi
