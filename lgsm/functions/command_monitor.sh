@@ -216,7 +216,7 @@ if [ "${shortname}" == "sb" ]; then
 elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
 	fn_monitor_query_tcp
 elif [ "${shortname}" == "sol" ]; then
-	fn_monitor_query_tcp
+	fn_monitor_query_udp
 else
 	fn_monitor_query
 fi
