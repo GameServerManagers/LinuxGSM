@@ -182,7 +182,7 @@ fn_monitor_query_tcp(){
 	fn_monitor_loop
 }
 
-fn_monitor_query_upd(){
+fn_monitor_query_udp(){
 	querymethod="upd"
 	fn_monitor_loop
 }
