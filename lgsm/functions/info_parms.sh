@@ -248,7 +248,7 @@ elif [ "${shortname}" == "sof2" ]; then
 # Sticky Bots
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_parms_stickybots
-elif [ "${shortname}" == "soldat" ]; then
+elif [ "${shortname}" == "sol" ]; then
 	fn_info_parms_soldat
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then

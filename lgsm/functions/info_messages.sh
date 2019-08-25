@@ -1282,7 +1282,7 @@ fn_info_message_select_engine(){
 		fn_info_message_squad
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
-	elif [ "${gamename}" == "Soldat" ]; then
+	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots

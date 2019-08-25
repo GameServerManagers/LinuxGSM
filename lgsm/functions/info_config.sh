@@ -1309,7 +1309,7 @@ elif [ "${shortname}" == "rw" ]; then
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
 # Soldat
-elif [ "${shortname}" == "soldat" ]; then
+elif [ "${shortname}" == "sol" ]; then
 	fn_info_config_soldat
 # Soldier Of Fortune 2: Gold Edition
 elif [ "${shortname}" == "sof2" ]; then
