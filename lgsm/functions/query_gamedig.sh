@@ -14,7 +14,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			local engine="unreal4"
 		fi
 
-		local engine_query_array=( avalanche3.0 barotrauma madness quakelive realvirtuality refractor source goldsource spark starbound unity3d unreal4 wurm )
+		local engine_query_array=( avalanche3.0 barotrauma goldsource madness quakelive realvirtuality refractor source soldat spark starbound unity3d unreal4 wurm )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
