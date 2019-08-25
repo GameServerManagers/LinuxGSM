@@ -63,9 +63,9 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		done
 
 		local shortname_query_array=( sol )
-		for engine_query in "${engine_query_array[@]}"
+		for shortname_query in "${shortname_query_array[@]}"
 		do
-			if [ "${engine_query}" == "${engine}" ]; then
+			if [ "${shortname_query}" == "${shortname}" ]; then
 				gamedigengine="soldat"
 			fi
 		done
