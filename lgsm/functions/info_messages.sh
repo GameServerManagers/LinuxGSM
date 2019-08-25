@@ -489,7 +489,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm" "qfusion")
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -501,7 +501,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" "qfusion")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -794,6 +794,7 @@ fn_info_message_warfork(){
         {
                 echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
                 echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Http\tINBOUND\t${httpport}\ttcp"
         } | column -s $'\t' -t
 }
 
