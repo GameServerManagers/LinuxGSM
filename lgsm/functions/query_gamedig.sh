@@ -62,7 +62,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-		local shortname_query_arra=( soldat )
+		local shortname_query_array=( soldat )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
