@@ -143,12 +143,10 @@ fn_monitor_query(){
 				local engine="unreal4"
 			fi
 
-			# Will loop though supported query methods until one passes.
+			# Will first attempt to use gamedig then gsquery.
 			totalseconds=0
 			if [ "${shortname}" == "wurm" ]; then
 				local query_methods_array=( gsquery )
-			elif [ "${shortname}" == "sol" ]; then
-				local query_methods_array=( gamedig udp )
 			else
 				local query_methods_array=( gamedig gsquery )
 			fi
@@ -162,10 +160,6 @@ fn_monitor_query(){
 							fn_monitor_loop
 						fi
 					fi
-				elif [ "${query_method}" == "udp" ]; then
-					fn_monitor_query_udp
-				elif [ "${query_method}" == "tcp" ]; then
-					fn_monitor_query_tcp
 				else
 					if [ -z "${monitorpass}" ]; then
 						querymethod="${query_method}"
