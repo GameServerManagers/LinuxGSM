@@ -95,7 +95,7 @@ fn_backup_migrate_olddir(){
 	if [ -d "${rootdir}/backups" ]; then
 		fn_print_dots "Backup directory is being migrated"
 		fn_script_log_info "Backup directory is being migrated"
-		mv "${rootdir}/backups/*" "${backupdir}"
+		mv "${rootdir}/backups/"* "${backupdir}"
 		exitcode=$?
 		if [ "${exitcode}" -eq 0 ]; then
 			rmdir "${rootdir}/backups"
