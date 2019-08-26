@@ -1,3 +1,4 @@
+ahl,ahlserver,Action half-life
 arma3,arma3server,ARMA 3
 sdtd,sdtdserver,7 Days to Die
 ark,arkserver,ARK: Survival Evolved
@@ -73,6 +74,7 @@ samp,sampserver,San Andreas Multiplayer
 sbots,sbotsserver, StickyBots
 sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
+sol,solserver,Soldat
 ss3,ss3server,Serious Sam 3: BFE
 sb,sbserver,Starbound
 st,stserver,Stationeers
@@ -94,4 +96,5 @@ wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
 wurm,wurmserver,Wurm Unlimited
 etl,etlserver,ET: Legacy
+zmr,zmrserver,Zombie Master: Reborn
 zps,zpsserver,Zombie Panic! Source
