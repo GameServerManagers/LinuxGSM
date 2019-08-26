@@ -46,7 +46,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-		local engine_query_array=( idtech3 iw3.0 ioquake3 )
+		local engine_query_array=( idtech3 iw3.0 ioquake3 qfusion )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
