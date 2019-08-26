@@ -9,7 +9,9 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
-	if [ "${shortname}" == "bf1942" ]; then
+    if [ "${shortname}" == "ahl" ]; then
+		remote_fileurl="https://files.linuxgsm.com/ActionHalfLife/action_halflife-1.0.tar.bz2"; local_filedir="${tmpdir}"; local_filename="action_halflife-1.0.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="31430e670692b2eeaa0d1217db4dcb73"
+	elif [ "${shortname}" == "bf1942" ]; then
 		remote_fileurl="https://files.linuxgsm.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
 	elif [ "${shortname}" == "bb" ]; then
 		remote_fileurl="https://files.linuxgsm.com/BrainBread/brainbread-v1.2-linuxserver.tar.bz2"; local_filedir="${tmpdir}"; local_filename="brainbread-v1.2-linuxserver.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="5c729a7e9eecfa81b71a6a1f7267f0fd"
@@ -57,6 +59,10 @@ fn_install_server_files(){
 		remote_fileurl="https://files.linuxgsm.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	elif [ "${shortname}" == "samp" ]; then
 		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
+	elif [ "${shortname}" == "sol" ]; then
+		remote_fileurl="https://static.soldat.pl/downloads/soldatserver2.8.1_1.7.1.zip"; local_filedir="${tmpdir}"; local_filename="soldatserver2.8.1_1.7.1.zip"; chmodx="nochmodx" run="norun"; force="noforce"; md5="994409c28520425965dec5c71ccb55e1"
+	elif [ "${shortname}" == "zmr" ]; then
+		remote_fileurl="https://files.linuxgsm.com/ZombieMasterReborn/zombie_master_reborn_b4_fix5.1.tar.bz2"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b4_fix5.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="73472bd84dfa6d203f3b5f48f760773e"
 	fi
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
@@ -160,7 +166,7 @@ elif [ "${shortname}" == "fctr" ]; then
 	install_factorio_save.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
-elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]; then
+elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "sol" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi

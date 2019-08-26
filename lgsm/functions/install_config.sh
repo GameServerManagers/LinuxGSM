@@ -147,6 +147,12 @@ fn_set_dst_config_vars(){
 if [ "${gamename}" == "7 Days To Die" ]; then
 	gamedirname="7DaysToDie"
 	fn_default_config_local
+elif [ "${gamename}" == "Action half-life" ]; then
+	gamedirname="ActionHalfLife"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "ARK: Survival Evolved" ]; then
 	gamedirname="ARKSurvivalEvolved"
 	fn_check_cfgdir
@@ -555,6 +561,12 @@ elif [ "${gamename}" == "Serious Sam 3: BFE" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${gamename}" == "Soldat" ]; then
+	gamedirname="Soldat"
+	array_configs+=( soldat.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${gamename}" == "Soldier Of Fortune 2: Gold Edition" ]; then
 	gamedirname="SoldierOfFortune2Gold"
 	array_configs+=( server.cfg mapcycle.txt)
@@ -671,6 +683,12 @@ elif [ "${gamename}" == "Wolfenstein: Enemy Territory" ]; then
 	fn_set_config_vars
 elif [ "${gamename}" == "Wurm Unlimited" ]; then
 	gamedirname="WurmUnlimited"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${gamename}" == "Zombie Master: Reborn" ]; then
+	gamedirname="ZombieMasterReborn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
