@@ -105,6 +105,13 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
 	echo "  Please share the following url for support: ${pdurl}"
+elif [ "${posttarget}" == "https://termbin.com" ] ; then
+	fn_print_dots "Posting details to termbin.com"
+	link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
+	fn_print_ok_nl "Posting details to termbin.com"
+	pdurl="${link}"
+	echo "  Please share the following url for support: ${pdurl}"
+
 else
 	 fn_print_warn_nl "Review output in: ${postdetailslog}"
 	 core_exit.sh
