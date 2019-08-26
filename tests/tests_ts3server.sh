@@ -20,13 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-travistest="1"
-version="v19.6.0"
+version="v19.9.0"
 shortname="ts3"
 gameservername="ts3server"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${gameservername}"
+servicename="${selfname}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
@@ -48,6 +47,9 @@ userinput="${1}"
 if [ ! -v TRAVIS ]; then
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
+else
+	servicename="travis"
+	travistest="1"
 fi
 
 ## GitHub Branch Select
@@ -65,8 +67,6 @@ core_functions.sh(){
 
 # Bootstrap
 # Fetches the core functions required before passed off to core_dl.sh.
-
-# Fetches core functions.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
 	local_filedir="${2}"
@@ -281,15 +281,15 @@ if [ "$(whoami)" == "root" ]; then
 	fi
 fi
 
-# Download the latest serverlist. This is the complete list of all supported servers.
-fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
-if [ ! -f "${serverlist}" ]; then
-	echo "[ FAIL ] serverlist.csv could not be loaded."
-	exit 1
-fi
-
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
+	# Download the latest serverlist. This is the complete list of all supported servers.
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+	if [ ! -f "${serverlist}" ]; then
+		echo "[ FAIL ] serverlist.csv could not be loaded."
+		exit 1
+	fi
+
 	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
 		{
 			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
@@ -381,7 +381,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-	if [ "${travistest}" != "1" ]; then
+	if [ -z "${travistest}" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi

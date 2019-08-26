@@ -501,7 +501,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned")
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -1214,6 +1214,27 @@ fn_info_message_mordhau(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_barotrauma(){
+	echo "netstat -atunp | grep /./Server.bin"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t$((port+1))\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_soldat() {
+	echo "netstat -atunp | grep soldat"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> RCON\tINBOUND\t${port}\ttcp"
+		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${gamename}" == "7 Days To Die" ]; then
@@ -1222,6 +1243,8 @@ fn_info_message_select_engine(){
 		fn_info_message_ark
 	elif [ "${gamename}" == "Ballistic Overkill" ]; then
 		fn_info_message_ballisticoverkill
+	elif [ "${gamename}" == "Barotrauma" ]; then
+		fn_info_message_barotrauma
 	elif [ "${gamename}" == "Battalion 1944" ]; then
 		fn_info_message_battalion1944
 	elif [ "${gamename}" == "Call of Duty" ]; then
@@ -1268,6 +1291,8 @@ fn_info_message_select_engine(){
 		fn_info_message_squad
 	elif [ "${gamename}" == "Stationeers" ]; then
 		fn_info_message_stationeers
+	elif [ "${shortname}" == "sol" ]; then
+		fn_info_message_soldat
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
 	elif [ "${gamename}" == "TeamSpeak 3" ]; then

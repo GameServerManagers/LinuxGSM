@@ -351,6 +351,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sfc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -412,6 +417,11 @@ fn_fetch_function
 }
 
 fix_wurm.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_zmr.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

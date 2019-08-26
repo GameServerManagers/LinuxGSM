@@ -110,6 +110,29 @@ fn_info_config_ballistic_overkill(){
 	fi
 }
 
+fn_info_config_barotrauma(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		maxplayers="${unavailable}"
+	else
+		servername=$(grep -Po 'name="\K.*(?=")' "${servercfgfullpath}") # Assuming GNU grep is used
+		serverpassword=$(grep -Po 'password="\K.*(?=")' "${servercfgfullpath}") # Assuming GNU grep is used
+		port=$(grep " port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$(grep "queryport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		maxplayers=$(grep "maxplayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 fn_info_config_battalion1944(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1209,12 +1232,27 @@ fn_info_config_mordhau(){
 	fi
 }
 
+fn_info_config_soldat(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		adminpassword="${unavailable}"
+	else
+		servername=$(grep "Server_Name" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "Game_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		adminpassword=$(grep "Admin_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+	fi
+}
+
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
 # Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill
+# Barotrauma
+elif [ "${shortname}" == "bt" ]; then
+	fn_info_config_barotrauma
 # Battalion 1944
 elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_config_battalion1944
@@ -1293,6 +1331,9 @@ elif [ "${shortname}" == "rw" ]; then
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
+# Soldat
+elif [ "${shortname}" == "sol" ]; then
+	fn_info_config_soldat
 # Soldier Of Fortune 2: Gold Edition
 elif [ "${shortname}" == "sof2" ]; then
   fn_info_config_sof2

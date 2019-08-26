@@ -28,8 +28,8 @@ fn_start_teamspeak3(){
 	if [ -f "${lgsmlog}" ]; then
 		mv "${lgsmlog}" "${lgsmlogdate}"
 	fi
-	# Create lockfile.
 
+	# Create lockfile.
 	date '+%s' > "${rootdir}/${lockselfname}"
 	# Accept license.
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
