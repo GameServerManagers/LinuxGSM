@@ -111,7 +111,6 @@ elif [ "${posttarget}" == "https://termbin.com" ] ; then
 	fn_print_ok_nl "Posting details to termbin.com"
 	pdurl="${link}"
 	echo "  Please share the following url for support: ${pdurl}"
-
 else
 	 fn_print_warn_nl "Review output in: ${postdetailslog}"
 	 core_exit.sh
