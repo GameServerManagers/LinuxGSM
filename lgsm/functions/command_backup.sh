@@ -106,8 +106,8 @@ fn_backup_migrate_olddir(){
 			fn_print_ok_nl "Backup directory is being migrated"
 			fn_script_log_pass "Backup directory is being migrated"
 		else
-			fn_print_fail_nl "Backup directory is being migrated"
-			fn_script_log_fail "Backup directory is being migrated"
+			fn_print_error_nl "Backup directory is being migrated"
+			fn_script_log_error "Backup directory is being migrated"
 		fi
 	fi
 }
