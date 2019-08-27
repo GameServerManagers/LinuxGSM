@@ -95,6 +95,7 @@ fn_backup_migrate_olddir(){
 	if [ -d "${rootdir}/backups" ]; then
 		fn_print_dots "Backup directory is being migrated"
 		fn_script_log_info "Backup directory is being migrated"
+		fn_script_log_info "${rootdir}/backups > ${backupdir}"
 		mv "${rootdir}/backups/"* "${backupdir}"
 		exitcode=$?
 		if [ "${exitcode}" -eq 0 ]; then
@@ -102,9 +103,11 @@ fn_backup_migrate_olddir(){
 			exitcode=$?
 		fi
 		if [ "${exitcode}" -eq 0 ]; then
-			fn_print_pass_nl "Backup directory is being migrated"
+			fn_print_ok_nl "Backup directory is being migrated"
+			fn_script_log_pass "Backup directory is being migrated"
 		else
 			fn_print_fail_nl "Backup directory is being migrated"
+			fn_script_log_fail "Backup directory is being migrated"
 		fi
 	fi
 }
@@ -125,7 +128,7 @@ fn_backup_compression(){
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
 	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
-        excludedir=$(fn_backup_relpath)
+	excludedir=$(fn_backup_relpath)
 
 	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ] ; then
@@ -196,10 +199,10 @@ fn_backup_prune(){
 }
 
 fn_backup_relpath() {
-  	# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
+		# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
 
 	# Populate an array of tokens initialized from the rootdir components.
-  	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+		declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
 
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
@@ -208,7 +211,7 @@ fn_backup_relpath() {
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components.
-  	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+		declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
 		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
@@ -217,31 +220,31 @@ fn_backup_relpath() {
 
 	# Compare the leading entries of each array.  These common elements will be clipped off.
 	# for the relative path output.
-  	for ((base=0; base<${#rdirtoks[@]}; base++))
-  	do
-      		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
-  	done
+		for ((base=0; base<${#rdirtoks[@]}; base++))
+		do
+			[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
+		done
 
 	# Next, climb out of the remaining rootdir location with updir references.
-  	for ((x=base;x<${#rdirtoks[@]};x++))
-  	do
-      		echo -n "../"
-  	done
+		for ((x=base;x<${#rdirtoks[@]};x++))
+		do
+			echo -n "../"
+		done
 
 	# Climb down the remaining components of the backupdir location.
-  	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
-  	do
-      		echo -n "${bdirtoks[$x]}/"
-  	done
+		for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
+		do
+					echo -n "${bdirtoks[$x]}/"
+		done
 
 	# In the event there were no directories left in the backupdir above to
 	# traverse down, just add a newline. Otherwise at this point, there is
 	# one remaining directory component in the backupdir to navigate.
-  	if (( "$base" < "${#bdirtoks[@]}" )) ; then
-      		echo "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
-  	else
-      		echo
-  	fi
+		if (( "$base" < "${#bdirtoks[@]}" )) ; then
+			echo "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
+		else
+			echo
+		fi
 }
 
 # Restart the server if it was stopped for the backup.
