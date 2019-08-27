@@ -81,7 +81,7 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; th
 			find "${sourcemodlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		fi
 		# Garry's Mod logfiles.
-		if [ "${gamename}" == "Garry's Mod" ]; then
+		if [ "${shortname}" == "gmod" ]; then
 			# ULX logfiles.
 			if [ -d "${ulxlogdir}" ]; then
 				find "${ulxlogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
