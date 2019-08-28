@@ -32,7 +32,7 @@ Fill out below info or tick box below:
 Co-authored-by: John Doe <name@example.com>
 ```
 
-- [ ] I do not wish to provide an email. I am aware this will hide me as the author of this commit.
+* [ ] I do not wish to provide an email. I am aware this will hide me as the author of this commit.
 
 All pull requests will now be squashed to create a tidy commit history and simplify changelog creation. You can provide either your own email or a GitHub-provided no-reply email.
 
