@@ -490,6 +490,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_mqtt.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Logs
 
 logs.sh(){

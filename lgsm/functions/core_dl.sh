@@ -261,3 +261,9 @@ if [ "$(basename "${curlpath}")" != "curl" ]; then
 	echo "[ FAIL ] Curl is not installed"
 	exit 1
 fi
+
+#Defines mqttpubpath path.
+mqttpubpath=$(command -v mosquitto_pub2>/dev/null)
+if [ "$(basename "${mqttpubpath}")" != "mosquitto_pub" ]; then
+	echo "[ INFO ] mosquitto_pub is not installed. MQTT alerts not available"
+fi

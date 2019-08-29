@@ -190,3 +190,25 @@ elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert
 	echo "	* https://docs.linuxgsm.com/alerts/telegram"
 	fn_script_error "Telegram chat id not set."
 fi
+
+if [ "${mqttalert}" == "on" ]&&[ -n "${mqtthost}" ]; then
+	alert_mqtt.sh
+elif [ "${mqttalert}" != "on" ]&&[ -n "${function_selfname}" == "command_test_alert.sh"]; then
+	fn_print_warn_nl "MQTT Messages not enabled"
+	fn_script_log_warn "MQTT Messages not enabled"
+elif [ -z "${mqtthost}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "MQTT host not set"
+	fn_script_error "MQTT host not set"
+elif [ -z "${mqttport}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "MQTT port not set"
+	fn_script_error "MQTT port not set"
+elif [ -z "${mqttuser}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "MQTT User not set"
+	fn_script_error "MQTT User not set"
+elif [ -z "${mqttpassword}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "MQTT Password not set"
+	fn_script_error "MQTT Password not set"
+elif [ -z "${mqtttopic}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "MQTT Topic not set"
+	fn_script_error "MQTT Topic not set"
+fi
