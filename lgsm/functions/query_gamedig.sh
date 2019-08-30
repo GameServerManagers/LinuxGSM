@@ -10,7 +10,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 
 		if [ "${engine}" == "idtech3_ql" ]; then
 			local engine="quakelive"
-		elif [ "${gamename}" == "Killing Floor 2" ]; then
+		elif [ "${shortname}" == "kf2" ]; then
 			local engine="unreal4"
 		fi
 
