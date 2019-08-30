@@ -1239,6 +1239,18 @@ fn_info_config_mordhau(){
 	fi
 }
 
+fn_info_config_soldat(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		adminpassword="${unavailable}"
+	else
+		servername=$(grep "Server_Name" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "Game_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		adminpassword=$(grep "Admin_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+	fi
+}
+
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
@@ -1323,6 +1335,9 @@ elif [ "${shortname}" == "rw" ]; then
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
+# Soldat
+elif [ "${shortname}" == "sol" ]; then
+	fn_info_config_soldat
 # Soldier Of Fortune 2: Gold Edition
 elif [ "${shortname}" == "sof2" ]; then
   fn_info_config_sof2

@@ -62,11 +62,11 @@ if [ -n "${extip}" ]; then
 	fi
 fi
 # Listed on Master Server.
-if [ "${masterserver}" ];then
-	if [ "${masterserver}" == "true" ];then
-		echo -e "${blue}Master Server:\t${green}${masterserver}${default}"
+if [ "${displaymasterserver}" ];then
+	if [ "${displaymasterserver}" == "true" ];then
+		echo -e "${blue}Master Server:\t${green}${displaymasterserver}${default}"
 	else
-		echo -e "${blue}Master Server:\t${red}${masterserver}${default}"
+		echo -e "${blue}Master Server:\t${red}${displaymasterserver}${default}"
 	fi
 fi
 # Server password.
