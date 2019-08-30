@@ -195,7 +195,7 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_cmd "quit" 120
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "wurm" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "jc3" ]||[ "${shortname}" == "av" ]; then
+	elif [ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "wurm" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "jc3" ]||[ "${shortname}" == "sol" ]||[ "${shortname}" == "av" ]; then
 		fn_stop_graceful_ctrlc
 	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${shortname}" == "pz" ]||[ "${shortname}" == "rw" ]; then
 		fn_stop_graceful_cmd "quit" 30

@@ -196,7 +196,7 @@ fn_fastdl_preview(){
 						echo "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 					done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
 					tput rc; tput el
-					printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+					echo "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 					if [ ${fileswc} != 0 ]; then
 						fn_print_ok_eol_nl
 					else
@@ -245,7 +245,7 @@ fn_fastdl_gmod(){
 		while read -r fastdlfile; do
 			((fileswc++))
 			tput rc; tput el
-			printf "copying ${allowed_extention} : ${fileswc}..."
+			echo "copying ${allowed_extention} : ${fileswc}..."
 			cp --parents "${fastdlfile}" "${fastdldir}"
 			exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
@@ -255,7 +255,7 @@ fn_fastdl_gmod(){
 			else
 				fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}"
 			fi
-		done < <(find . -type f -iname ${allowed_extention})
+		done < <(find . -type f -iname "${allowed_extention}")
 		if [ ${fileswc} != 0 ]; then
 			fn_print_ok_eol_nl
 		fi
@@ -336,17 +336,21 @@ fn_fastdl_source(){
 					tput rc; tput el
 					printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
 					fn_sleep_time
-					if [ ! -d "${fastdldir}/${directory}" ]; then
-						mkdir "${fastdldir}/${directory}"
+					# get relative path of file in the dir
+					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
+					copytodir="${tmprelfilepath%/*}"
+					# create relative path for fastdl
+					if [ ! -d "${fastdldir}/${copytodir}" ]; then
+						mkdir -p "${fastdldir}/${copytodir}"
 					fi
-					cp "${fastdlfile}" "${fastdldir}/${directory}"
+					cp "${fastdlfile}" "${fastdldir}/${copytodir}"
 					exitcode=$?
 					if [ ${exitcode} -ne 0 ]; then
 						fn_print_fail_eol_nl
-						fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}/${directory}"
+						fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
 						core_exit.sh
 					else
-						fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}/${directory}"
+						fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
 					fi
 				done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
 				if [ ${fileswc} != 0 ]; then

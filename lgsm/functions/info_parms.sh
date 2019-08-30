@@ -157,6 +157,15 @@ fn_info_parms_sof2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_parms_soldat(){
+	port=${port:-"0"}
+	queryport=${port}
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	adminpassword=${adminpassword:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
+}
+
 fn_info_parms_towerunite(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
@@ -239,6 +248,8 @@ elif [ "${shortname}" == "sof2" ]; then
 # Sticky Bots
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_parms_stickybots
+elif [ "${shortname}" == "sol" ]; then
+	fn_info_parms_soldat
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_parms_seriousengine35
