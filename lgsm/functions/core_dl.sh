@@ -34,7 +34,7 @@ fn_clear_tmp(){
 			fn_print_error_eol_nl
 			fn_script_log_error "clearing LinuxGSM tmp directory"
 		fi
-	fi	
+	fi
 }
 
 fn_dl_md5(){
