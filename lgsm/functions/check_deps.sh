@@ -120,7 +120,7 @@ fn_install_universe_repo(){
 			sleep 1
 			echo -en "   \r"
 			cmd="sudo apt-add-repository universe"
-			eval ${cmd}
+			eval "${cmd}"
 			if [ $? -eq 0 ]; then
 				fn_print_complete_nl "Installing universe repository completed."
 				fn_script_log_pass "Installing universe repository completed."

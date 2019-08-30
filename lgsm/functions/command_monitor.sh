@@ -96,8 +96,8 @@ fn_monitor_check_lockfile(){
 }
 
 fn_monitor_check_update(){
-	# Monitor will not check if update is running.
-	if [ "$(ps -ef | grep "${selfname} update" | grep -v grep | wc -l)" != "0" ]; then
+	# Monitor will check if update is already running.
+	if [ "$(pgrep "${selfname} update" | wc -l)" != "0" ]; then
 		fn_print_error_nl "SteamCMD is currently checking for updates"
 		fn_script_log_error "SteamCMD is currently checking for updates"
 		core_exit.sh

@@ -74,7 +74,7 @@ fn_install_server_files_steamcmd(){
 	counter="0"
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
-		cd "${steamcmddir}"
+		cd "${steamcmddir}" || exit
 		if [ "${counter}" -le "10" ]; then
 			# Attempt 1-4: Standard attempt.
 			# Attempt 5-6: Validate attempt.

@@ -20,4 +20,3 @@ if [ ! -d "${checkdir}" ]; then
 	fi
 	core_exit.sh
 fi
-
