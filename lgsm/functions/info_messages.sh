@@ -1303,7 +1303,7 @@ fn_info_message_select_engine(){
 		fn_info_message_towerunite
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
-	elif [ "${gamename}" == "Medal of Honor: Allied Assault" ]; then
+	elif [ "${shortname}" == "mohaa" ]; then
 		fn_info_message_mohaa
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
