@@ -35,7 +35,7 @@ fn_start_teamspeak3(){
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		install_eula.sh
 	fi
-	cd "${executabledir}"
+	cd "${executabledir}" || exit
 	if [ "${ts3serverpass}" == "1" ]; then
 		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
 	else
@@ -86,7 +86,7 @@ fn_start_tmux(){
 
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
-	cd "${executabledir}"
+	cd "${executabledir}" || exit
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
 	# Create logfile.
@@ -154,7 +154,7 @@ fn_sleep_time
 			echo ""
 			echo "Fix"
 			echo "================================="
-				if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ]; then
+				if [ ! "$(grep "tty:" /etc/group|grep "$(whoami)")" ]; then
 					echo "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
 					group=$(grep tty /etc/group)

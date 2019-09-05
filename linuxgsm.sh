@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.9.0"
+version="v19.10.0"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -151,7 +151,7 @@ fn_install_menu_bash() {
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
-	done <  ${options}
+	done < "${options}"
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
 		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
