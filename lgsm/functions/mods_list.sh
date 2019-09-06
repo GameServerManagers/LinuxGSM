@@ -37,7 +37,8 @@ get5latestfile="$(echo "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo "basena
 get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
 get5url="${get5downloadurl}"
 # Oxide
-oxiderustlatestlink="$(curl -sL https://api.github.com/repos/theumod/umod.rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+#oxiderustlatestlink="$(curl -sL https://api.github.com/repos/theumod/umod.rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+oxiderustlatestlink="https://umod.org/games/rust/download/develop" # fix for linux build 06.09.2019
 oxidehurtworldlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
 oxidesdtdlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 
