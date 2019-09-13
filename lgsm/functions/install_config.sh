@@ -186,7 +186,7 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${shortname}" == "Battalion 1944" ]; then
+elif [ "${shortname}" == "bt1944" ]; then
 	gamedirname="Battalion1944"
 	fn_check_cfgdir
 	array_configs+=( DefaultGame.ini )
