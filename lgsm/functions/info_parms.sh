@@ -232,7 +232,7 @@ elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid
 elif [ "${shortname}" == "qw" ]; then
 	fn_info_parms_quakeworld
-elif [ "${shortname}" == "q2" ]||[ "${shortname}" == "q3" ]; then
+elif [ "${shortname}" == "q2" ]||[ "${shortname}" == "q3" ]||[ "${shortname}" == "wf" ]; then
 	fn_info_parms_quake2
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_parms_rtcw
