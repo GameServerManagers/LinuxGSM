@@ -181,24 +181,18 @@ fn_stop_graceful_sdtd(){
 }
 
 fn_stop_graceful_select(){
-	if [ "${shortname}" == "sdtd" ]; then
-		fn_stop_graceful_sdtd
-	elif [ "${engine}" == "spark" ]; then
-		fn_stop_graceful_cmd "q" 30
-	elif [ "${shortname}" == "terraria" ]; then
-		fn_stop_graceful_cmd "exit" 30
-	elif [ "${shortname}" == "mc" ]; then
-		fn_stop_graceful_cmd "stop" 30
-	elif [ "${shortname}" == "mta" ]; then
-		# Long wait time required for mta
-		# as resources shutdown individually.
-		fn_stop_graceful_cmd "quit" 120
-	elif [ "${engine}" == "goldsource" ]; then
-		fn_stop_graceful_goldsource
-	elif [ "${engine}" == "unity3d" ]||[ "${engine}" == "unreal4" ]||[ "${engine}" == "unreal3" ]||[ "${engine}" == "unreal2" ]||[ "${engine}" == "unreal" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "wurm" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "jc3" ]||[ "${shortname}" == "sol" ]; then
+	if [ "${stopmode}" == "1" ]; then
+		fn_stop_tmux
+	elif [ "${stopmode}" == "2" ]; then
 		fn_stop_graceful_ctrlc
-	elif  [ "${engine}" == "source" ]||[ "${engine}" == "quake" ]||[ "${engine}" == "idtech2" ]||[ "${engine}" == "idtech3" ]||[ "${engine}" == "idtech3_ql" ]||[ "${shortname}" == "pz" ]||[ "${shortname}" == "rw" ]; then
+	elif [ "${stopmode}" == "3" ]; then
 		fn_stop_graceful_cmd "quit" 30
+	elif [ "${stopmode}" == "4" ]; then
+		fn_stop_graceful_cmd "quit" 120
+	elif [ "${stopmode}" == "5" ]; then
+		fn_stop_graceful_cmd "stop" 30
+	elif [ "${stopmode}" == "6" ]; then
+		fn_stop_graceful_cmd "q" 30
 	fi
 }
 
@@ -232,7 +226,7 @@ fn_stop_ark(){
 				break
 			fi
 		done
-		if [[ ${pidcheck} -eq ${maxpiditer} ]] ; then
+		if [ "${pidcheck}" -eq "${maxpiditer}" ] ; then
 			# The process doesn't want to close after 20 seconds.
 			# kill it hard.
 			fn_print_error "Terminating reluctant Ark process: ${pid}"
