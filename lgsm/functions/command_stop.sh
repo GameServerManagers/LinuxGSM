@@ -83,7 +83,8 @@ fn_stop_graceful_goldsource(){
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
 }
 
-fn_stop_telnet_sdtd(){
+# telnet command for sdtd graceful shutdown.
+fn_stop_graceful_sdtd_telnet(){
 	if [ -z "${telnetpass}" ]||[ "${telnetpass}" == "NOT SET" ]; then
 		sdtd_telnet_shutdown=$( expect -c '
 		proc abort {} {
@@ -130,7 +131,7 @@ fn_stop_graceful_sdtd(){
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
-			fn_stop_telnet_sdtd
+			fn_stop_graceful_sdtd_telnet
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
 			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 			if [ -n "${refused}" ]; then
@@ -146,7 +147,7 @@ fn_stop_graceful_sdtd(){
 		# the connection has closed, confirming that the tmux session can now be killed.
 		if [ -n "${completed}" ]; then
 			for seconds in {1..30}; do
-				fn_stop_telnet_sdtd
+				fn_stop_graceful_sdtd_telnet
 				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
 				if [ -n "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
@@ -193,6 +194,10 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_cmd "stop" 30
 	elif [ "${stopmode}" == "6" ]; then
 		fn_stop_graceful_cmd "q" 30
+	elif [ "${stopmode}" == "7" ]; then
+		fn_stop_graceful_goldsource
+	elif [ "${stopmode}" == "8" ]; then
+		fn_stop_graceful_sdtd
 	fi
 }
 
@@ -213,7 +218,7 @@ fn_stop_teamspeak3(){
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${servername}"
-	# Kill tmux session
+	# Kill tmux session.
 	tmux kill-session -t "${servicename}" > /dev/null 2>&1
 	fn_sleep_time
 	check_status.sh
@@ -234,9 +239,10 @@ fn_stop_pre_check(){
 	elif [ "${shortname}" == "ts3" ]; then
 		fn_stop_teamspeak3
 	else
+		# Select graceful shutdown.
 		fn_stop_graceful_select
 	fi
-	# Check status again, a stop tmux session if needed.
+	# Check status again, a kill tmux session if graceful shutdown failed.
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		fn_stop_tmux
