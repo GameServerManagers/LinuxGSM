@@ -196,45 +196,6 @@ fn_stop_graceful_select(){
 	fi
 }
 
-fn_stop_ark(){
-	# The maximum number of times to check if the ark pid has closed gracefully.
-	maxpiditer=15
-	info_config.sh
-	if [ -z "${queryport}" ]; then
-		fn_print_warn "No queryport found using info_config.sh"
-		fn_script_log_warn "No queryport found using info_config.sh"
-		userconfigfile="${serverfiles}"
-		userconfigfile+="/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini"
-		queryport=$(grep ^QueryPort= ${userconfigfile} | cut -d= -f2 | sed "s/[^[:digit:].*].*//g")
-	fi
-	if [ -z "${queryport}" ]; then
-		fn_print_warn "No queryport found in the GameUsersettings.ini file"
-		fn_script_log_warn "No queryport found in the GameUsersettings.ini file"
-		return
-	fi
-
-	if [ "${#queryport}" -gt 0 ] ; then
-		for (( pidcheck=0 ; pidcheck < ${maxpiditer} ; pidcheck++ )) ; do
-			pid=$(netstat -nap 2>/dev/null | grep "^udp[[:space:]]" | grep ":${queryport}[[:space:]]" | rev | awk '{print $1}' | rev | cut -d\/ -f1)
-			# Check for a valid pid.
-			pid=${pid//[!0-9]/}
-			let pid+=0 # turns an empty string into a valid number, '0',
-			# and a valid numeric pid remains unchanged.
-			if [ "${pid}" -gt 1 ]&&[ "${pid}" -le "$(cat "/proc/sys/kernel/pid_max")" ]; then
-			fn_print_dots "Process still bound. Awaiting graceful exit: ${pidcheck}"
-			else
-				break
-			fi
-		done
-		if [ "${pidcheck}" -eq "${maxpiditer}" ] ; then
-			# The process doesn't want to close after 20 seconds.
-			# kill it hard.
-			fn_print_error "Terminating reluctant Ark process: ${pid}"
-			kill -9 ${pid}
-		fi
-	fi
-}
-
 fn_stop_teamspeak3(){
 	fn_print_dots "${servername}"
 	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
@@ -257,11 +218,6 @@ fn_stop_tmux(){
 	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		# ARK does not clean up immediately after tmux is killed.
-		# Make certain the ports are cleared before continuing.
-		if [ "${shortname}" == "ark" ]; then
-			fn_stop_ark
-		fi
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else
