@@ -374,6 +374,10 @@ else
 	# Prevents running of core_exit.sh for Travis-CI.
 	if [ "${travistest}" != "1" ]; then
 		getopt=$1
+		if [ "$getopt" == "backup" ]||[ "$getopt" == "b" ]; then
+			# user can provide a name for the backup archive
+			backupname=$2
+		fi
 		core_getopt.sh
 	fi
 fi
