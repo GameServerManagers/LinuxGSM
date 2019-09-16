@@ -186,7 +186,11 @@ for i in "${optcommands[@]}"; do
 			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
 				if [ "$(echo "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command.
-					eval "${currentopt[index+1]}"
+					if [ "${currentopt[index+1]}" == "backup" ]||[ "${currentopt[index+1]}" == "b" ]; then
+						eval "${currentopt[index+1]} $backupname"
+					else
+						eval "${currentopt[index+1]}"
+					fi
 					core_exit.sh
 					break
 				fi

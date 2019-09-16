@@ -37,8 +37,12 @@ fn_backup_check_lockfile(){
 
 # Initialisation.
 fn_backup_init(){
-	# Backup file name with servicename and current date.
-	backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
+	# if the user didn't provide a name for the archive, create a name
+	# using the servicename and the date
+	if [ -z $backupname ]; then
+		# Backup file name with servicename and current date.
+		backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
+	fi
 
 	info_distro.sh
 	fn_print_dots "Backup starting"
