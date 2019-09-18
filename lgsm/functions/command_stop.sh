@@ -198,6 +198,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_goldsource
 	elif [ "${stopmode}" == "8" ]; then
 		fn_stop_graceful_sdtd
+	elif [ "${stopmode}" == "9" ]; then
+	fn_stop_graceful_cmd "exit" 30
 	fi
 }
 
