@@ -195,11 +195,13 @@ fn_stop_graceful_select(){
 	elif [ "${stopmode}" == "6" ]; then
 		fn_stop_graceful_cmd "q" 30
 	elif [ "${stopmode}" == "7" ]; then
-		fn_stop_graceful_goldsource
+		fn_stop_graceful_cmd "exit" 30
 	elif [ "${stopmode}" == "8" ]; then
 		fn_stop_graceful_sdtd
 	elif [ "${stopmode}" == "9" ]; then
-	fn_stop_graceful_cmd "exit" 30
+		fn_stop_graceful_goldsource
+	elif [ "${stopmode}" == "10" ]; then
+		fn_stop_teamspeak3
 	fi
 }
 
