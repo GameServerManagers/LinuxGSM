@@ -77,19 +77,21 @@ fn_info_message_performance(){
 	{
 		echo -e "${lightblue}CPU Model:\t${default}${cpumodel}"
 		echo -e "${lightblue}CPU Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}CPU Frequency:\t${default}${cpufreuency}"
+		echo -e "${lightblue}CPU Frequency:\t${default}${cpufreqency}"
 	} | column -s $'\t' -t
 	echo -e ""
-	{
-		echo -e "${lightblue}Game Server Memory Usage:\t${default}${procuse}${default}"
-	} | column -s $'\t' -t
 	{
 		echo -e "${lightblue}Mem:\t${lightblue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${lightblue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${lightblue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 }
-
+echo -e ""
+echo -e "${lightyellow}Game Server Usage${default}"
+{
+	echo -e "${lightblue}CPU Used:\t${default}${cpuused}${default}"
+	echo -e "${lightblue}Mem Used:\t${default}${memused}${default}"
+} | column -s $'\t' -t
 fn_info_message_disk(){
 	#
 	# Storage
