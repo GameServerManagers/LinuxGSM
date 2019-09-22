@@ -68,7 +68,6 @@ fn_info_message_performance(){
 
 	echo -e ""
 	echo -e "${lightyellow}Performance${default}"
-
 	{
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
@@ -85,13 +84,13 @@ fn_info_message_performance(){
 		echo -e "${lightblue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${lightblue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightyellow}Game Server Usage${default}"
+	{
+		echo -e "${lightblue}CPU Used:\t${default}${cpuused}${default}"
+		echo -e "${lightblue}Mem Used:\t${default}${memused}${default}"
+	} | column -s $'\t' -t
 }
-echo -e ""
-echo -e "${lightyellow}Game Server Usage${default}"
-{
-	echo -e "${lightblue}CPU Used:\t${default}${cpuused}${default}"
-	echo -e "${lightblue}Mem Used:\t${default}${memused}${default}"
-} | column -s $'\t' -t
 fn_info_message_disk(){
 	#
 	# Storage
