@@ -81,6 +81,8 @@ fn_info_message_performance(){
 	} | column -s $'\t' -t
 	echo -e ""
 	{
+		echo -e "${blue}Game Server Memory Usage:\t${default}${procuse}${default}"
+		echo -e ""
 		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
