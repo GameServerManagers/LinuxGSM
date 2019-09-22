@@ -87,7 +87,7 @@ fn_info_message_performance(){
 	echo -e ""
 	echo -e "${lightyellow}Game Server Usage${default}"
 	{
-		echo -e "${lightblue}CPU Used:\t${default}${cpuused}${default}"
+		echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
 		echo -e "${lightblue}Mem Used:\t${default}${memused}${default}"
 	} | column -s $'\t' -t
 }
