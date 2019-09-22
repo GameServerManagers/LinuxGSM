@@ -99,7 +99,7 @@ cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
-cpuused=$(ps --forest -o pcpu -g $(ps -o sid= -p ${gameserverpid})|awk '{s+=$1} END {print s}')
+cpuused=$(ps --forest -o pcpu -g $(ps -o sid=-p ${gameserverpid})|awk '{s+=$1} END {print s}')
 
 
 ## Memory information
@@ -135,7 +135,7 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
 	swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
 	# RAM usage of the game server pid
-	memused=$(ps --forest -o rss -g $(ps -o sid= -p ${gameserverpid})|awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+	memused=$(ps --forest -o rss -g $(ps -o sid=-p ${gameserverpid})|awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
 else
 # Older distros will need to use free.
 	# Older versions of free do not support -h option.
