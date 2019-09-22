@@ -9,7 +9,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${shortname}" != "ts3" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep  "^${servicename}")
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep  "^${servicename}"|awk '{print $1}')
 fi
 
 ### Distro information
