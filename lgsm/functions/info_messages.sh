@@ -111,6 +111,10 @@ fn_info_message_disk(){
 		echo -e "${lightblue}Total:\t${default}${totalspace}"
 		echo -e "${lightblue}Used:\t${default}${usedspace}"
 		echo -e "${lightblue}Available:\t${default}${availspace}"
+	}
+	echo -e ""
+	echo -e "${lightyellow}Game Server Usage${default}"	
+	{
 		echo -e "${lightblue}LinuxGSM Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
