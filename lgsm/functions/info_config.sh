@@ -1320,7 +1320,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 # Starbound
 elif [ "${shortname}" == "sb" ]; then
 	fn_info_config_starbound
-# TeamSpeak 3
+# 10: Teamspeak 3
 elif [ "${shortname}" == "ts3" ]; then
 	fn_info_config_teamspeak3
 # Mumble

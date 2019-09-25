@@ -37,7 +37,7 @@ get5latestfile="$(echo "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo "basena
 get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
 get5url="${get5downloadurl}"
 # Oxide
-oxiderustlatestlink="$(curl -sL https://api.github.com/repos/theumod/umod.rust/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+oxiderustlatestlink="https://umod.org/games/rust/download/develop" # fix for linux build 06.09.2019
 oxidehurtworldlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
 oxidesdtdlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
 
@@ -92,7 +92,7 @@ mod_info_darkrpmodification=( MOD "darkrpmodification" "DarkRP Modification" "ht
 
 
 # Oxidemod
-mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "Oxide.Rust.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-rust.1659/" "Allows for the use of plugins" )
+mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "Oxide.Rust-linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-rust.1659/" "Allows for the use of plugins" )
 mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlink}" "Oxide.Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-hurtworld.1332/" "Allows for the use of plugins" )
 mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "http://oxidemod.org/downloads/oxide-for-7-days-to-die.813/" "Allows for the use of plugins" )
 
