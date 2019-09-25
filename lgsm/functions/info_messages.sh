@@ -87,8 +87,13 @@ fn_info_message_performance(){
 	echo -e ""
 	echo -e "${lightyellow}Game Server Usage${default}"
 	{
-		echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
-		echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}${default}"
+		if [ "${status}" == "1" ]; then
+			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}${default}"
+		else
+			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"			
+		fi
 	} | column -s $'\t' -t
 }
 fn_info_message_disk(){
@@ -113,7 +118,7 @@ fn_info_message_disk(){
 		echo -e "${lightblue}Available:\t${default}${availspace}"
 	}
 	echo -e ""
-	echo -e "${lightyellow}Game Server Usage${default}"	
+	echo -e "${lightyellow}Game Server Usage${default}"
 	{
 		echo -e "${lightblue}LinuxGSM Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
