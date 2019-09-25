@@ -196,7 +196,7 @@ fn_fastdl_preview(){
 						echo "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 					done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
 					tput rc; tput el
-					printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+					echo "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 					if [ ${fileswc} != 0 ]; then
 						fn_print_ok_eol_nl
 					else
@@ -245,7 +245,7 @@ fn_fastdl_gmod(){
 		while read -r fastdlfile; do
 			((fileswc++))
 			tput rc; tput el
-			printf "copying ${allowed_extention} : ${fileswc}..."
+			echo "copying ${allowed_extention} : ${fileswc}..."
 			cp --parents "${fastdlfile}" "${fastdldir}"
 			exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
@@ -255,7 +255,7 @@ fn_fastdl_gmod(){
 			else
 				fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}"
 			fi
-		done < <(find . -type f -iname ${allowed_extention})
+		done < <(find . -type f -iname "${allowed_extention}")
 		if [ ${fileswc} != 0 ]; then
 			fn_print_ok_eol_nl
 		fi
