@@ -117,7 +117,9 @@ fn_info_message_gameserver_resource(){
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
 		fi
+	} | column -s $'\t' -t
 		echo -e ""
+	{
 		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
