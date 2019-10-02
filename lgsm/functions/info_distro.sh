@@ -225,6 +225,7 @@ fi
 
 # Network Interface name
 netint=$(ip -o addr | grep ${ip} | awk '{print $2}')
+netlink=$(ethtool ${netint} | grep Speed | awk '{print $2}')
 
 # External IP address
 if [ -z "${extip}" ]; then

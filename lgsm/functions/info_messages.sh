@@ -108,6 +108,9 @@ fn_info_message_server_resource(){
 		if [ "${netint}" ]; then
 			echo -e "${lightblue}Interface:\t${default}${netint}"
 		fi
+		if [ "${netlink}" ]; then
+			echo -e "${lightblue}Link Speed:\t${default}${netlink}"
+		fi
 		echo -e "${lightblue}IP:\t${default}${ip}"
 		if [ "${ip}" != "${extip}" ]; then
 			echo -e "${lightblue}Internet IP:\t${default}${extip}"
