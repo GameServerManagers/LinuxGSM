@@ -67,6 +67,8 @@ fn_info_message_server_resource(){
 	# Physical:  741M    656M   85M   256M
 	# Swap:      0B      0B     0B
 	echo -e ""
+	echo -e "${lightyellow}Server Resource${default}"
+	fn_messages_separator
 	{
 		echo -e "${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
