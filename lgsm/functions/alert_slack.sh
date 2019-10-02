@@ -29,7 +29,7 @@ json=$(cat <<EOF
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "*Unable to query: ${servicename}* \n Sending alert: Restarted: ${servicename}"
+                        "text": "*${alertemoji} ${alertsubject}* \n Sending alert: ${escaped_alertbody}"
                     }
                 },
                 {
@@ -44,7 +44,7 @@ json=$(cat <<EOF
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "*Server IP:*\n https://linuxgsm.com/"
+                            "text": "*Server IP:*\n https://www.gametracker.com/server_info/${alertip}:${port}"
                         },
                         {
                             "type": "mrkdwn",
