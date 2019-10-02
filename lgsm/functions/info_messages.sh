@@ -50,12 +50,13 @@ fn_info_message_distro(){
 		echo -e "${lightblue}Arch:\t${default}${arch}"
 		echo -e "${lightblue}Kernel:\t${default}${kernel}"
 		echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
+		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
 		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_performance(){
+fn_info_message_server_resource(){
 	#
 	# Performance
 	# =====================================
@@ -65,38 +66,32 @@ fn_info_message_performance(){
 	# Mem:       total   used   free  cached
 	# Physical:  741M    656M   85M   256M
 	# Swap:      0B      0B     0B
-
 	echo -e ""
-	echo -e "${lightyellow}Performance${default}"
 	{
-		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
+		echo -e "${lightyellow}CPU\t${default}"
+		echo -e "${lightblue}Model:\t${default}${cpumodel}"
+		echo -e "${lightblue}Cores:\t${default}${cpucores}"
+		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${lightblue}CPU Model:\t${default}${cpumodel}"
-		echo -e "${lightblue}CPU Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}CPU Frequency:\t${default}${cpufreqency}"
-	} | column -s $'\t' -t
-	echo -e ""
-	{
+		echo -e "${lightyellow}Memory\t${default}"
 		echo -e "${lightblue}Mem:\t${lightblue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${lightblue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${lightblue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightyellow}Game Server Usage${default}"
 	{
-		if [ "${status}" == "1" ]; then
-			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
-			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}${default}"
-		else
-			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
-			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"			
-		fi
-	} | column -s $'\t' -t
+		echo -e "${lightyellow}Storage${default}"
+		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
+		echo -e "${lightblue}Total:\t${default}${totalspace}"
+		echo -e "${lightblue}Used:\t${default}${usedspace}"
+		echo -e "${lightblue}Available:\t${default}${availspace}"
+	}
 }
-fn_info_message_disk(){
+
+fn_info_message_game_server_resource(){
 	#
 	# Storage
 	# =====================================
@@ -109,18 +104,19 @@ fn_info_message_disk(){
 	# Backups:  	2G
 
 	echo -e ""
-	echo -e "${lightyellow}Storage${default}"
+	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
+
 	{
-		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
-		echo -e "${lightblue}Total:\t${default}${totalspace}"
-		echo -e "${lightblue}Used:\t${default}${usedspace}"
-		echo -e "${lightblue}Available:\t${default}${availspace}"
-	}
-	echo -e ""
-	echo -e "${lightyellow}Game Server Usage${default}"
-	{
-		echo -e "${lightblue}LinuxGSM Total:\t${default}${rootdirdu}"
+		if [ "${status}" == "1" ]; then
+			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}${default}"
+		else
+			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
+		fi
+		echo -e "${lightyellow}Storage${default}"
+		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
 			echo -e "${lightblue}Backups:\t${default}${backupdirdu}"
