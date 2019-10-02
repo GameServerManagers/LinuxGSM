@@ -102,7 +102,7 @@ fn_info_message_server_resource(){
 		echo -e "${lightblue}Used:\t\t${default}${usedspace}"
 		echo -e "${lightblue}Available:\t${default}${availspace}"
 	} | column -s $'\t' -t
-
+	echo -e ""
 	{
 		echo -e "${lightyellow}Network${default}"
 		if [ "${netint}" ]; then
