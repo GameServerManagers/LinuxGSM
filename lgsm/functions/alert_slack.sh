@@ -67,10 +67,10 @@ fn_print_dots "Sending Slack alert"
 
 slacksend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${slackwebhook}")
 
-if [ -n "${slacksend}" ]; then
-	fn_print_fail_nl "Sending Slack alert: ${slacksend}"
-	fn_script_log_fatal "Sending Slack alert: ${slacksend}"
-else
+if [ "${slacksend}" == "ok"]; then
 	fn_print_ok_nl "Sending Slack alert"
 	fn_script_log_pass "Sending Slack alert"
+else
+    fn_print_fail_nl "Sending Slack alert: ${slacksend}"
+	fn_script_log_fatal "Sending Slack alert: ${slacksend}"
 fi
