@@ -40,7 +40,7 @@ json=$(cat <<EOF
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": "*Game*\n {gamename}"
+                            "text": "*Game*\n ${gamename}"
                         },
                         {
                             "type": "mrkdwn",
@@ -56,7 +56,7 @@ json=$(cat <<EOF
                     "type": "section",
                     "text": {
                             "type": "mrkdwn",
-                            "text": "*Hostname:* {gamename} / *More info*: ${alerturl}"
+                            "text": "*Hostname:* ${gamename} / *More info*: ${alerturl}"
                     }
                 }
             ]
