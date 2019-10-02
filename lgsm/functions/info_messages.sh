@@ -58,14 +58,25 @@ fn_info_message_distro(){
 
 fn_info_message_server_resource(){
 	#
-	# Performance
-	# =====================================
-	# Uptime:    55d, 3h, 38m
-	# Avg Load:  1.00, 1.01, 0.78
+	# Server Resource
+	# ==========================================================================================================================================================================================================================================
+	# CPU
+	# Model:      Intel(R) Xeon(R) CPU E5-2680 v3 @ 2.50GHz
+	# Cores:      4
+	# Frequency:  2499.994 MHz
+	# Avg Load:   0.20, 0.08, 0.01
 	#
-	# Mem:       total   used   free  cached
-	# Physical:  741M    656M   85M   256M
-	# Swap:      0B      0B     0B
+	# Memory
+	# Mem:       total  used   free   cached  available
+	# Physical:  7.8GB  598MB  7.0GB  4.0GB   7.0GB
+	# Swap:      512MB  0B     512MB
+	#
+	# Storage
+	# Filesystem:	/dev/sda
+	# Total:			157G
+	# Used:				138G
+	# Available:	12G
+
 	echo -e ""
 	echo -e "${lightyellow}Server Resource${default}"
 	fn_messages_separator
@@ -94,21 +105,19 @@ fn_info_message_server_resource(){
 }
 
 fn_info_message_gameserver_resource(){
+	# Game Server Resource Usage
+	# ==========================================================================================================================================================================================================================================
+	# CPU Used:  2.5%
+	# Mem Used:  2.1%  171MB
 	#
 	# Storage
-	# =====================================
-	# Filesystem:   /dev/disk/by-uuid/320c8edd-a2ce-4a23-8c9d-e00a7af2d6ff
-	# Total:        15G
-	# Used:         8.4G
-	# Available:    5.7G
-	# LinuxGSM Total:	1G
-	# Serverfiles:  961M
-	# Backups:  	2G
+	# Total:        21G
+	# Serverfiles:  20G
+	# Backups:      20K
 
 	echo -e ""
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
-
 	{
 		if [ "${status}" == "1" ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
@@ -130,15 +139,20 @@ fn_info_message_gameserver_resource(){
 }
 
 fn_info_message_gameserver(){
-	#
-	# Quake Live Server Details
-	# =====================================
-	# Server name:      ql-server
-	# Server IP:        1.2.3.4:27960
-	# RCON password:    CHANGE_ME
+	# Counter-Strike: Global Offensive Server Details
+	# ==========================================================================================================================================================================================================================================
+	# Server name:      LinuxGSM
+	# Server IP:        80.70.189.230:27015
 	# Server password:  NOT SET
-	# Maxplayers:		16
-	# Status:           OFFLINE
+	# RCON password:    adminF54CC0VR
+	# Players:          0/16
+	# Current Map:      de_mirage
+	# Default Map:      de_mirage
+	# Game type:        0
+	# Game mode:        0
+	# Tick rate:        64
+	# Master Server:    true
+	# Status:           ONLINE
 
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Server Details${default}"
@@ -363,29 +377,34 @@ fn_info_message_gameserver(){
 
 fn_info_message_script(){
 	#
-	# qlserver Script Details
-	# =====================================
-	# Service name:        ql-server
-	# qlserver version:    150316
-	# User:                lgsm
-	# Email alert:         off
-	# Update on start:     off
-	# Location:            /home/lgsm/qlserver
-	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
+	# csgoserver Script Details
+	#==========================================================================================================================================================================================================================================
+	# Script name:           csgoserver
+	# LinuxGSM version:     v19.9.0
+	# glibc required:         2.15
+	# Discord alert:          off
+	# Email alert:            off
+	# Pushbullet alert:       off
+	# IFTTT alert:            off
+	# Mailgun (email) alert:  off
+	# Pushover alert:         off
+	# Telegram alert:         off
+	# Update on start:        off
+	# User:                   lgsm
+	# Location:               /home/lgsm/csgoserver
+	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
+
 
 	echo -e "${lightgreen}${selfname} Script Details${default}"
 	fn_messages_separator
 	{
-		# Service name
-		echo -e "${lightblue}Service name:\t${default}${servicename}"
+		# Script name
+		echo -e "${lightblue}Script name:\t${default}${servicename}"
 
-		# Script version
+		# LinuxGSM version
 		if [ -n "${version}" ]; then
-			echo -e "${lightblue}${selfname} version:\t${default}${version}"
+			echo -e "${lightblue}LinuxGSM version:\t${default}${version}"
 		fi
-
-		# User
-		echo -e "${lightblue}User:\t${default}$(whoami)"
 
 		# glibc required
 		if [ -n "${glibc}" ]; then
@@ -419,6 +438,9 @@ fn_info_message_script(){
 		if [ -n "${updateonstart}" ]; then
 			echo -e "${lightblue}Update on start:\t${default}${updateonstart}"
 		fi
+
+		# User
+		echo -e "${lightblue}User:\t${default}$(whoami)"
 
 		# Script location
 		echo -e "${lightblue}Location:\t${default}${rootdir}"
