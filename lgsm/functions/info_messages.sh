@@ -85,8 +85,8 @@ fn_info_message_server_resource(){
 	{
 		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
-		echo -e "${lightblue}Total:\t${default}${totalspace}"
-		echo -e "${lightblue}Used:\t${default}${usedspace}"
+		echo -e "${lightblue}Total:\t\t${default}${totalspace}"
+		echo -e "${lightblue}Used:\t\t${default}${usedspace}"
 		echo -e "${lightblue}Available:\t${default}${availspace}"
 	}
 }
@@ -115,6 +115,7 @@ fn_info_message_gameserver_resource(){
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
 		fi
+		echo -e ""
 		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
