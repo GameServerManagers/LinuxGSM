@@ -223,6 +223,9 @@ if [ -d "${backupdir}" ]; then
 	fi
 fi
 
+# Network Interface name
+netint=$(ip -o addr | grep ${ip} | awk '{print $2}')
+
 # External IP address
 if [ -z "${extip}" ]; then
 	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)

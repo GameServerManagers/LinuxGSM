@@ -101,7 +101,18 @@ fn_info_message_server_resource(){
 		echo -e "${lightblue}Total:\t\t${default}${totalspace}"
 		echo -e "${lightblue}Used:\t\t${default}${usedspace}"
 		echo -e "${lightblue}Available:\t${default}${availspace}"
-	}
+	} | column -s $'\t' -t
+
+	{
+		echo -e "${lightyellow}Network${default}"
+		if [ "${netint}" ]; then
+			echo -e "${lightblue}Interface:\t${default}${netint}"
+		fi
+		echo -e "${lightblue}IP:\t${default}${ip}"
+		if [ "${ip}" != "${extip}" ]; then
+			echo -e "${lightblue}Internet IP:\t${default}${extip}"
+		fi
+	} | column -s $'\t' -t
 }
 
 fn_info_message_gameserver_resource(){
