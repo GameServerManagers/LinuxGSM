@@ -190,3 +190,14 @@ elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert
 	echo "	* https://docs.linuxgsm.com/alerts/telegram"
 	fn_script_error "Telegram chat id not set."
 fi
+
+if [ "${slackalert}" == "on" ]&&[ -n "${slackalert}" ]; then
+	alert_discord.sh
+elif [ "${slackalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "Slack alerts not enabled"
+	fn_script_log_warn "Slack alerts not enabled"
+elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Slack token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/discord"
+	fn_script_error "Slack token not set"
+fi
