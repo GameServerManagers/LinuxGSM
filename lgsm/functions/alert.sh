@@ -18,8 +18,8 @@ fn_alert_log(){
 	{
 		fn_info_message_head
 		fn_info_message_distro
-		fn_info_message_performance
-		fn_info_message_disk
+		fn_info_message_server_resource
+		fn_info_message_gameserver_resource
 		fn_info_message_gameserver
 		fn_info_logs
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${alertlog}" > /dev/null 2>&1

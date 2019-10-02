@@ -91,7 +91,7 @@ fn_info_message_server_resource(){
 	}
 }
 
-fn_info_message_game_server_resource(){
+fn_info_message_gameserver_resource(){
 	#
 	# Storage
 	# =====================================
