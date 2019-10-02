@@ -29,7 +29,7 @@ json=$(cat <<EOF
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "*${alertemoji} ${alertsubject}*\\n ${escaped_alertbody}"
+                        "text": "*${alertemoji} ${alertsubject}*\n ${escaped_alertbody}"
                     }
                 },
                 {
@@ -40,15 +40,15 @@ json=$(cat <<EOF
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": "*Game*\\n ${gamename}"
+                            "text": "*Game*\n ${gamename}"
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "*Server IP:*\\n https://www.gametracker.com/server_info/${alertip}:${port}"
+                            "text": "*Server IP:*\n https://www.gametracker.com/server_info/${alertip}:${port}"
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "*Server Name:*\\n ${escaped_servername}"
+                            "text": "*Server Name:*\n ${escaped_servername}"
                         }
                     ]
                 },
@@ -56,7 +56,7 @@ json=$(cat <<EOF
                     "type": "section",
                     "text": {
                             "type": "mrkdwn",
-                            "text": "*Hostname:* ${gamename} / *More info*: ${alerturl}"
+                            "text": "*Hostname:* ${HOSTNAME} / *More info*: ${alerturl}"
                     }
                 }
             ]
