@@ -196,7 +196,7 @@ if [ "${slackalert}" == "on" ]&&[ -n "${slackalert}" ]; then
 elif [ "${slackalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "Slack alerts not enabled"
 	fn_script_log_warn "Slack alerts not enabled"
-elif [ -z "${tokentoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${slacktoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error_nl "Slack token not set"
 	echo "	* https://docs.linuxgsm.com/alerts/discord"
 	fn_script_error "Slack token not set"
