@@ -9,9 +9,6 @@ if ! command -v jq > /dev/null; then
 	fn_script_log_fatal "Sending Slack alert: jq is missing."
 fi
 
-escaped_servername="$(echo -n "${servername}" | jq -sRr "@json")"
-escaped_alertbody="$(echo -n "${alertbody}" | jq -sRr "@json")"
-
 json=$(cat <<EOF
 {
     "attachments": [
@@ -29,7 +26,7 @@ json=$(cat <<EOF
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "*${alertemoji} ${alertsubject}*\n ${escaped_alertbody}"
+                        "text": "*${alertemoji} ${alertsubject}* \n ${alertbody}"
                     }
                 },
                 {
@@ -40,15 +37,15 @@ json=$(cat <<EOF
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": "*Game*\n ${gamename}"
+                            "text": "*Game:* \n ${gamename}"
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "*Server IP:*\n https://www.gametracker.com/server_info/${alertip}:${port}"
+                            "text": "*Server IP:* \n ${alertip}:${port}"
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "*Server Name:*\n ${escaped_servername}"
+                            "text": "*Server Name:* \n ${servername}"
                         }
                     ]
                 },
@@ -56,7 +53,7 @@ json=$(cat <<EOF
                     "type": "section",
                     "text": {
                             "type": "mrkdwn",
-                            "text": "*Hostname:* ${HOSTNAME} / *More info*: ${alerturl}"
+                            "text": "Hostname: ${HOSTNAME} / More info: ${alerturl}"
                     }
                 }
             ]
