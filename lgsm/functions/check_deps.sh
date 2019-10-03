@@ -42,7 +42,10 @@ fn_install_mono_repo(){
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "debian" ]; then
-				if [ "${distroversion}" == "9" ]; then
+				if [ "${distroversion}" == "10" ]; then
+					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				elif [ "${distroversion}" == "9" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval ${cmd}
 				elif [ "${distroversion}" == "8" ]; then
@@ -443,11 +446,13 @@ fn_deps_build_redhat(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	# CentOS 6
+	# CentOS
 	if [ "${distroversion}" == "6" ]; then
 		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "7" ]; then
 		array_deps_required=( epel-release curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
+	elif [ "${distroversion}" == "8" ]; then
+		array_deps_required=( epel-release curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
 			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
