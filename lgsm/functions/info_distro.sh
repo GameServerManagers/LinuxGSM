@@ -101,7 +101,7 @@ cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
 if [ "${status}" == "1" ]; then
-	cpuused=$(ps --forest -o pcpu -g $(ps -o sid= -p ${gameserverpid})|awk '{s+=$1} END {print s}')
+	cpuused=$(ps --forest -o pcpu -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}')
 fi
 
 ## Memory information
@@ -139,9 +139,9 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	# RAM usage of the game server pid
 	# MB
 	if [ "${status}" == "1" ]; then
-		memused=$(ps --forest -o rss -g $(ps -o sid= -p ${gameserverpid})|awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+		memused=$(ps --forest -o rss -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
 	# %
-		pmemused=$(ps --forest -o %mem -g $(ps -o sid= -p 2766)|awk '{s+=$1} END {print s}')
+		pmemused=$(ps --forest -o %mem -g "$(ps -o sid= -p 2766)"|awk '{s+=$1} END {print s}')
 	fi
 else
 # Older distros will need to use free.
@@ -224,7 +224,7 @@ if [ -d "${backupdir}" ]; then
 fi
 
 # Network Interface name
-netint=$(ip -o addr | grep ${ip} | awk '{print $2}')
+netint=$(ip -o addr | grep "${ip}" | awk '{print $2}')
 netlink=$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
 
 # External IP address
