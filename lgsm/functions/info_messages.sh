@@ -46,85 +46,127 @@ fn_info_message_distro(){
 	echo -e "${lightyellow}Distro Details${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}Distro:\t${default}${distroname}"
-		echo -e "${blue}Arch:\t${default}${arch}"
-		echo -e "${blue}Kernel:\t${default}${kernel}"
-		echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
-		echo -e "${blue}tmux:\t${default}${tmuxv}"
-		echo -e "${blue}glibc:\t${default}${glibcversion}"
+		echo -e "${lightblue}Distro:\t${default}${distroname}"
+		echo -e "${lightblue}Arch:\t${default}${arch}"
+		echo -e "${lightblue}Kernel:\t${default}${kernel}"
+		echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
+		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
+		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
+		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_performance(){
+fn_info_message_server_resource(){
 	#
-	# Performance
-	# =====================================
-	# Uptime:    55d, 3h, 38m
-	# Avg Load:  1.00, 1.01, 0.78
+	# Server Resource
+	# ==========================================================================================================================================================================================================================================
+	# CPU
+	# Model:      Intel(R) Xeon(R) CPU E5-2680 v3 @ 2.50GHz
+	# Cores:      4
+	# Frequency:  2499.994 MHz
+	# Avg Load:   0.20, 0.08, 0.01
 	#
-	# Mem:       total   used   free  cached
-	# Physical:  741M    656M   85M   256M
-	# Swap:      0B      0B     0B
-
-	echo -e ""
-	echo -e "${lightyellow}Performance${default}"
-
-	{
-		echo -e "${blue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
-		echo -e "${blue}Avg Load:\t${default}${load}"
-	} | column -s $'\t' -t
-	echo -e ""
-	{
-		echo -e "${blue}CPU Model:\t${default}${cpumodel}"
-		echo -e "${blue}CPU Cores:\t${default}${cpucores}"
-		echo -e "${blue}CPU Frequency:\t${default}${cpufreuency}"
-	} | column -s $'\t' -t
-	echo -e ""
-	{
-		echo -e "${blue}Mem:\t${blue}total\tused\tfree\tcached\tavailable${default}"
-		echo -e "${blue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
-		echo -e "${blue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
-	} | column -s $'\t' -t
-}
-
-fn_info_message_disk(){
+	# Memory
+	# Mem:       total  used   free   cached  available
+	# Physical:  7.8GB  598MB  7.0GB  4.0GB   7.0GB
+	# Swap:      512MB  0B     512MB
 	#
 	# Storage
-	# =====================================
-	# Filesystem:   /dev/disk/by-uuid/320c8edd-a2ce-4a23-8c9d-e00a7af2d6ff
-	# Total:        15G
-	# Used:         8.4G
-	# Available:    5.7G
-	# LinuxGSM Total:	1G
-	# Serverfiles:  961M
-	# Backups:  	2G
+	# Filesystem:	/dev/sda
+	# Total:			157G
+	# Used:				138G
+	# Available:	12G
 
 	echo -e ""
-	echo -e "${lightyellow}Storage${default}"
+	echo -e "${lightyellow}Server Resource${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}Filesystem:\t${default}${filesystem}"
-		echo -e "${blue}Total:\t${default}${totalspace}"
-		echo -e "${blue}Used:\t${default}${usedspace}"
-		echo -e "${blue}Available:\t${default}${availspace}"
-		echo -e "${blue}LinuxGSM Total:\t${default}${rootdirdu}"
-		echo -e "${blue}Serverfiles:\t${default}${serverfilesdu}"
+		echo -e "${lightyellow}CPU\t${default}"
+		echo -e "${lightblue}Model:\t${default}${cpumodel}"
+		echo -e "${lightblue}Cores:\t${default}${cpucores}"
+		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}"
+		echo -e "${lightblue}Avg Load:\t${default}${load}"
+	} | column -s $'\t' -t
+	echo -e ""
+	{
+		echo -e "${lightyellow}Memory\t${default}"
+		echo -e "${lightblue}Mem:\t${lightblue}total\tused\tfree\tcached\tavailable${default}"
+		echo -e "${lightblue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
+		echo -e "${lightblue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
+	} | column -s $'\t' -t
+	echo -e ""
+	{
+		echo -e "${lightyellow}Storage${default}"
+		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
+		echo -e "${lightblue}Total:\t\t${default}${totalspace}"
+		echo -e "${lightblue}Used:\t\t${default}${usedspace}"
+		echo -e "${lightblue}Available:\t${default}${availspace}"
+	} | column -s $'\t' -t
+	echo -e ""
+	{
+		echo -e "${lightyellow}Network${default}"
+		if [ "${netint}" ]; then
+			echo -e "${lightblue}Interface:\t${default}${netint}"
+		fi
+		if [ "${netlink}" ]; then
+			echo -e "${lightblue}Link Speed:\t${default}${netlink}"
+		fi
+		echo -e "${lightblue}IP:\t${default}${ip}"
+		if [ "${ip}" != "${extip}" ]; then
+			echo -e "${lightblue}Internet IP:\t${default}${extip}"
+		fi
+	} | column -s $'\t' -t
+}
+
+fn_info_message_gameserver_resource(){
+	# Game Server Resource Usage
+	# ==========================================================================================================================================================================================================================================
+	# CPU Used:  2.5%
+	# Mem Used:  2.1%  171MB
+	#
+	# Storage
+	# Total:        21G
+	# Serverfiles:  20G
+	# Backups:      20K
+
+	echo -e ""
+	echo -e "${lightyellow}Game Server Resource Usage${default}"
+	fn_messages_separator
+	{
+		if [ "${status}" == "1" ]; then
+			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}${default}"
+		else
+			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
+		fi
+	} | column -s $'\t' -t
+		echo -e ""
+	{
+		echo -e "${lightyellow}Storage${default}"
+		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
+		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
-			echo -e "${blue}Backups:\t${default}${backupdirdu}"
+			echo -e "${lightblue}Backups:\t${default}${backupdirdu}"
 		fi
 	} | column -s $'\t' -t
 }
 
 fn_info_message_gameserver(){
-	#
-	# Quake Live Server Details
-	# =====================================
-	# Server name:      ql-server
-	# Server IP:        1.2.3.4:27960
-	# RCON password:    CHANGE_ME
+	# Counter-Strike: Global Offensive Server Details
+	# ==========================================================================================================================================================================================================================================
+	# Server name:      LinuxGSM
+	# Server IP:        80.70.189.230:27015
 	# Server password:  NOT SET
-	# Maxplayers:		16
-	# Status:           OFFLINE
+	# RCON password:    adminF54CC0VR
+	# Players:          0/16
+	# Current Map:      de_mirage
+	# Default Map:      de_mirage
+	# Game type:        0
+	# Game mode:        0
+	# Tick rate:        64
+	# Master Server:    true
+	# Status:           ONLINE
 
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Server Details${default}"
@@ -133,215 +175,215 @@ fn_info_message_gameserver(){
 	{
 		# Server name
 		if [ -n "${gdname}" ]; then
-			echo -e "${blue}Server name:\t${default}${gdname}"
+			echo -e "${lightblue}Server name:\t${default}${gdname}"
 		elif [ -n "${servername}" ]; then
-			echo -e "${blue}Server name:\t${default}${servername}"
+			echo -e "${lightblue}Server name:\t${default}${servername}"
 		fi
 
 		# Server description
 		if [ -n "${serverdescription}" ]; then
-			echo -e "${blue}Server Description:\t${default}${serverdescription}"
+			echo -e "${lightblue}Server Description:\t${default}${serverdescription}"
 		fi
 
 		# Branch
 		if [ -n "${branch}" ]; then
-			echo -e "${blue}Branch:\t${default}${branch}"
+			echo -e "${lightblue}Branch:\t${default}${branch}"
 		fi
 
 		# Server ip
 		if [ "${multiple_ip}" == "1" ]; then
-			echo -e "${blue}Server IP:\t${default}NOT SET"
+			echo -e "${lightblue}Server IP:\t${default}NOT SET"
 		else
-			echo -e "${blue}Server IP:\t${default}${ip}:${port}"
+			echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 		fi
 
 		# Internet ip
 		if [ -n "${extip}" ]; then
 			if [ "${ip}" != "${extip}" ]; then
-				echo -e "${blue}Internet IP:\t${default}${extip}:${port}"
+				echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
 			fi
 		fi
 
 		# Display ip
 		if [ -n "${displayip}" ]; then
-			echo -e "${blue}Display IP:\t${default}${displayip}:${port}"
+			echo -e "${lightblue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
 		# Server password
 		if [ -n "${serverpassword}" ]; then
-			echo -e "${blue}Server password:\t${default}${serverpassword}"
+			echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 		fi
 
 		# Query enabled (Starbound)
 		if [ -n "${queryenabled}" ]; then
-			echo -e "${blue}Query enabled:\t${default}${queryenabled}"
+			echo -e "${lightblue}Query enabled:\t${default}${queryenabled}"
 		fi
 
 		# RCON enabled (Starbound)
 		if [ -n "${rconenabled}" ]; then
-			echo -e "${blue}RCON enabled:\t${default}${rconpassword}"
+			echo -e "${lightblue}RCON enabled:\t${default}${rconpassword}"
 		fi
 
 		# RCON password
 		if [ -n "${rconpassword}" ]; then
-			echo -e "${blue}RCON password:\t${default}${rconpassword}"
+			echo -e "${lightblue}RCON password:\t${default}${rconpassword}"
 		fi
 
 		# RCON web (Rust)
 		if [ -n "${rconweb}" ]; then
-			echo -e "${blue}RCON web:\t${default}${rconweb}"
+			echo -e "${lightblue}RCON web:\t${default}${rconweb}"
 		fi
 
 		# Admin password
 		if [ -n "${adminpassword}" ]; then
-			echo -e "${blue}Admin password:\t${default}${adminpassword}"
+			echo -e "${lightblue}Admin password:\t${default}${adminpassword}"
 		fi
 
 		# Stats password (Quake Live)
 		if [ -n "${statspassword}" ]; then
-			echo -e "${blue}Stats password:\t${default}${statspassword}"
+			echo -e "${lightblue}Stats password:\t${default}${statspassword}"
 		fi
 
 		# Players
 
 		if [ "${querystatus}" != "0" ]; then
 			if [ -n "${maxplayers}" ]; then
-				echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+				echo -e "${lightblue}Maxplayers:\t${default}${maxplayers}"
 			fi
 		else
 			if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
-				echo -e "${blue}Players:\t${default}${gdplayers}/${gdmaxplayers}"
+				echo -e "${lightblue}Players:\t${default}${gdplayers}/${gdmaxplayers}"
 
 			elif [ -n "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
-				echo -e "${blue}Players:\t${default}${gdplayers}/${maxplayers}"
+				echo -e "${lightblue}Players:\t${default}${gdplayers}/${maxplayers}"
 
 			elif [ -z "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
-				echo -e "${blue}Players:\t${default}0/${gdmaxplayers}"
+				echo -e "${lightblue}Players:\t${default}0/${gdmaxplayers}"
 
 			elif [ -n "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
-				echo -e "${blue}Players:\t${default}${gdplayers}|∞"
+				echo -e "${lightblue}Players:\t${default}${gdplayers}|∞"
 
 			elif [ -z "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]&&[ -n "${maxplayers}" ]; then
-				echo -e "${blue}Maxplayers:\t${default}${maxplayers}"
+				echo -e "${lightblue}Maxplayers:\t${default}${maxplayers}"
 			fi
 		fi
 
 		# Bots
 		if [ -n "${gdbots}" ]; then
-			echo -e "${blue}Bots:\t${default}${gdbots}"
+			echo -e "${lightblue}Bots:\t${default}${gdbots}"
 		fi
 
 		# Current Map
 		if [ -n "${gdmap}" ]; then
-			echo -e "${blue}Current Map:\t${default}${gdmap}"
+			echo -e "${lightblue}Current Map:\t${default}${gdmap}"
 		fi
 
 		if [ -n "${defaultscenario}" ]; then
 			# Current Scenario
 			if [ -n "${gdgamemode}" ]; then
-				echo -e "${blue}Current Scenario:\t${default}${gdgamemode}"
+				echo -e "${lightblue}Current Scenario:\t${default}${gdgamemode}"
 			fi
 		else
 			# Current Scenario
 			if [ -n "${gdgamemode}" ]; then
-				echo -e "${blue}Current Game Mode:\t${default}${gdgamemode}"
+				echo -e "${lightblue}Current Game Mode:\t${default}${gdgamemode}"
 			fi
 		fi
 
 		# Default Map
 		if [ -n "${defaultmap}" ]; then
-			echo -e "${blue}Default Map:\t${default}${defaultmap}"
+			echo -e "${lightblue}Default Map:\t${default}${defaultmap}"
 		fi
 
 		# Default Scenario
 		if [ -n "${defaultscenario}" ]; then
-			echo -e "${blue}Default Scenario:\t${default}${defaultscenario}"
+			echo -e "${lightblue}Default Scenario:\t${default}${defaultscenario}"
 		fi
 
 		# Game type
 		if [ -n "${gametype}" ]; then
-			echo -e "${blue}Game type:\t${default}${gametype}"
+			echo -e "${lightblue}Game type:\t${default}${gametype}"
 		fi
 
 		# Game mode
 		if [ -n "${gamemode}" ]; then
-			echo -e "${blue}Game mode:\t${default}${gamemode}"
+			echo -e "${lightblue}Game mode:\t${default}${gamemode}"
 		fi
 
 		# Game world
 		if [ -n "${gameworld}" ]; then
-			echo -e "${blue}Game world:\t${default}${gameworld}"
+			echo -e "${lightblue}Game world:\t${default}${gameworld}"
 		fi
 
 		# Tick rate
 		if [ -n "${tickrate}" ]; then
-			echo -e "${blue}Tick rate:\t${default}${tickrate}"
+			echo -e "${lightblue}Tick rate:\t${default}${tickrate}"
 		fi
 
 		# Sharding (Don't Starve Together)
 		if [ -n "${sharding}" ]; then
-			echo -e "${blue}Sharding:\t${default}${sharding}"
+			echo -e "${lightblue}Sharding:\t${default}${sharding}"
 		fi
 
 		# Master (Don't Starve Together)
 		if [ -n "${master}" ]; then
-			echo -e "${blue}Master:\t${default}${master}"
+			echo -e "${lightblue}Master:\t${default}${master}"
 		fi
 
 		# Shard (Don't Starve Together)
 		if [ -n "${shard}" ]; then
-			echo -e "${blue}Shard:\t${default}${shard}"
+			echo -e "${lightblue}Shard:\t${default}${shard}"
 		fi
 
 		# Cluster (Don't Starve Together)
 		if [ -n "${cluster}" ]; then
-			echo -e "${blue}Cluster:\t${default}${cluster}"
+			echo -e "${lightblue}Cluster:\t${default}${cluster}"
 		fi
 
 		# Cave (Don't Starve Together)
 		if [ -n "${cave}" ]; then
-			echo -e "${blue}Cave:\t${default}${cave}"
+			echo -e "${lightblue}Cave:\t${default}${cave}"
 		fi
 
 		# Creativemode (Hurtworld)
 		if [ -n "${creativemode}" ]; then
-			echo -e "${blue}Creativemode:\t${default}${creativemode}"
+			echo -e "${lightblue}Creativemode:\t${default}${creativemode}"
 		fi
 
 		# TeamSpeak dbplugin
 		if [ -n "${dbplugin}" ]; then
-			echo -e "${blue}dbplugin:\t${default}${dbplugin}"
+			echo -e "${lightblue}dbplugin:\t${default}${dbplugin}"
 		fi
 
 		# ASE (Multi Theft Auto)
 		if [ -n "${ase}" ]; then
-			echo -e "${blue}ASE:\t${default}${ase}"
+			echo -e "${lightblue}ASE:\t${default}${ase}"
 		fi
 
 		# Save interval (Rust)
 		if [ -n "${saveinterval}" ]; then
-			echo -e "${blue}ASE:\t${default}${saveinterval} s"
+			echo -e "${lightblue}ASE:\t${default}${saveinterval} s"
 		fi
 
 		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
-			echo -e "${blue}Map rotation:\t${default}${randommap}"
+			echo -e "${lightblue}Map rotation:\t${default}${randommap}"
 		fi
 
 		# Listed on Master Server
 		if [ "${displaymasterserver}" ];then
 			if [ "${displaymasterserver}" == "true" ];then
-				echo -e "${blue}Master Server:\t${green}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master Server:\t${green}${displaymasterserver}${default}"
 			else
-				echo -e "${blue}Master Server:\t${red}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master Server:\t${red}${displaymasterserver}${default}"
 			fi
 		fi
 
 		# Online status
 		if [ "${status}" == "0" ]; then
-			echo -e "${blue}Status:\t${red}OFFLINE${default}"
+			echo -e "${lightblue}Status:\t${red}OFFLINE${default}"
 		else
-			echo -e "${blue}Status:\t${green}ONLINE${default}"
+			echo -e "${lightblue}Status:\t${green}ONLINE${default}"
 		fi
 	} | column -s $'\t' -t
 	echo -e ""
@@ -349,29 +391,34 @@ fn_info_message_gameserver(){
 
 fn_info_message_script(){
 	#
-	# qlserver Script Details
-	# =====================================
-	# Service name:        ql-server
-	# qlserver version:    150316
-	# User:                lgsm
-	# Email alert:         off
-	# Update on start:     off
-	# Location:            /home/lgsm/qlserver
-	# Config file:         /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
+	# csgoserver Script Details
+	#==========================================================================================================================================================================================================================================
+	# Script name:           csgoserver
+	# LinuxGSM version:     v19.9.0
+	# glibc required:         2.15
+	# Discord alert:          off
+	# Email alert:            off
+	# Pushbullet alert:       off
+	# IFTTT alert:            off
+	# Mailgun (email) alert:  off
+	# Pushover alert:         off
+	# Telegram alert:         off
+	# Update on start:        off
+	# User:                   lgsm
+	# Location:               /home/lgsm/csgoserver
+	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
+
 
 	echo -e "${lightgreen}${selfname} Script Details${default}"
 	fn_messages_separator
 	{
-		# Service name
-		echo -e "${blue}Service name:\t${default}${servicename}"
+		# Script name
+		echo -e "${lightblue}Script name:\t${default}${servicename}"
 
-		# Script version
+		# LinuxGSM version
 		if [ -n "${version}" ]; then
-			echo -e "${blue}${selfname} version:\t${default}${version}"
+			echo -e "${lightblue}LinuxGSM version:\t${default}${version}"
 		fi
-
-		# User
-		echo -e "${blue}User:\t${default}$(whoami)"
 
 		# glibc required
 		if [ -n "${glibc}" ]; then
@@ -379,50 +426,53 @@ fn_info_message_script(){
 				# Glibc is not required.
 				:
 			elif [ -z "${glibc}" ]; then
-				echo -e "${blue}glibc required:\t${red}UNKNOWN${default}"
+				echo -e "${lightblue}glibc required:\t${red}UNKNOWN${default}"
 			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
-				echo -e "${blue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
+				echo -e "${lightblue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 			else
-				echo -e "${blue}glibc required:\t${green}${glibc}${default}"
+				echo -e "${lightblue}glibc required:\t${green}${glibc}${default}"
 			fi
 		fi
 
 		# Discord alert
-		echo -e "${blue}Discord alert:\t${default}${discordalert}"
+		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
 		# Email alert
-		echo -e "${blue}Email alert:\t${default}${emailalert}"
+		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
 		# Pushbullet alert
-		echo -e "${blue}Pushbullet alert:\t${default}${pushbulletalert}"
+		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
 		# IFTTT alert
-		echo -e "${blue}IFTTT alert:\t${default}${iftttalert}"
+		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		# Mailgun alert
-		echo -e "${blue}Mailgun (email) alert:\t${default}${mailgunalert}"
+		echo -e "${lightblue}Mailgun (email) alert:\t${default}${mailgunalert}"
 		# Pushover alert
-		echo -e "${blue}Pushover alert:\t${default}${pushoveralert}"
+		echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
 		# Telegram alert
-		echo -e "${blue}Telegram alert:\t${default}${telegramalert}"
+		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
 		# Update on start
 		if [ -n "${updateonstart}" ]; then
-			echo -e "${blue}Update on start:\t${default}${updateonstart}"
+			echo -e "${lightblue}Update on start:\t${default}${updateonstart}"
 		fi
 
+		# User
+		echo -e "${lightblue}User:\t${default}$(whoami)"
+
 		# Script location
-		echo -e "${blue}Location:\t${default}${rootdir}"
+		echo -e "${lightblue}Location:\t${default}${rootdir}"
 
 		# Config file location
 		if [ -n "${servercfgfullpath}" ]; then
 			if [ -f "${servercfgfullpath}" ]; then
-				echo -e "${blue}Config file:\t${default}${servercfgfullpath}"
+				echo -e "${lightblue}Config file:\t${default}${servercfgfullpath}"
 			elif [ -d "${servercfgfullpath}" ]; then
-				echo -e "${blue}Config dir:\t${default}${servercfgfullpath}"
+				echo -e "${lightblue}Config dir:\t${default}${servercfgfullpath}"
 			else
-				echo -e "${blue}Config file:\t${default}${red}${servercfgfullpath}${default} (${red}FILE MISSING${default})"
+				echo -e "${lightblue}Config file:\t${default}${red}${servercfgfullpath}${default} (${red}FILE MISSING${default})"
 			fi
 		fi
 
 		# Network config file location (ARMA 3)
 		if [ -n "${networkcfgfullpath}" ]; then
-			echo -e "${blue}Network config file:\t${default}${networkcfgfullpath}"
+			echo -e "${lightblue}Network config file:\t${default}${networkcfgfullpath}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -444,17 +494,17 @@ fn_info_message_backup(){
 		echo -e "No Backups created"
 	else
 		{
-			echo -e "${blue}No. of backups:\t${default}${backupcount}"
-			echo -e "${blue}Latest backup:${default}"
+			echo -e "${lightblue}No. of backups:\t${default}${backupcount}"
+			echo -e "${lightblue}Latest backup:${default}"
 			if [ "${lastbackupdaysago}" == "0" ]; then
-				echo -e "${blue}    date:\t${default}${lastbackupdate} (less than 1 day ago)"
+				echo -e "${lightblue}    date:\t${default}${lastbackupdate} (less than 1 day ago)"
 			elif [ "${lastbackupdaysago}" == "1" ]; then
-				echo -e "${blue}    date:\t${default}${lastbackupdate} (1 day ago)"
+				echo -e "${lightblue}    date:\t${default}${lastbackupdate} (1 day ago)"
 			else
-				echo -e "${blue}    date:\t${default}${lastbackupdate} (${lastbackupdaysago} days ago)"
+				echo -e "${lightblue}    date:\t${default}${lastbackupdate} (${lastbackupdaysago} days ago)"
 			fi
-			echo -e "${blue}    file:\t${default}${lastbackup}"
-			echo -e "${blue}    size:\t${default}${lastbackupsize}"
+			echo -e "${lightblue}    file:\t${default}${lastbackup}"
+			echo -e "${lightblue}    size:\t${default}${lastbackupsize}"
 		} | column -s $'\t' -t
 	fi
 }
@@ -516,9 +566,9 @@ fn_info_message_ports(){
 fn_info_message_statusbottom(){
 	echo -e ""
 	if [ "${status}" == "0" ]; then
-		echo -e "${blue}Status:\t${red}OFFLINE${default}"
+		echo -e "${lightblue}Status:\t${red}OFFLINE${default}"
 	else
-		echo -e "${blue}Status:\t${green}ONLINE${default}"
+		echo -e "${lightblue}Status:\t${green}ONLINE${default}"
 	fi
 	echo -e ""
 }
@@ -934,17 +984,17 @@ fn_info_message_sdtd(){
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Telnet${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}Telnet enabled:\t${default}${telnetenabled}"
-		echo -e "${blue}Telnet address:\t${default}${ip} ${telnetport}"
-		echo -e "${blue}Telnet password:\t${default}${telnetpass}"
+		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
+		echo -e "${lightblue}Telnet address:\t${default}${ip} ${telnetport}"
+		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
 	} | column -s $'\t' -t
 }
 
@@ -982,9 +1032,9 @@ fn_info_message_spark(){
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
-		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
+		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1095,10 +1145,10 @@ fn_info_message_unreal(){
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1115,10 +1165,10 @@ fn_info_message_unreal3(){
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1146,10 +1196,10 @@ fn_info_message_kf2(){
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	fn_messages_separator
 	{
-		echo -e "${blue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${blue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${blue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${blue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
