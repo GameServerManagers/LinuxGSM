@@ -51,7 +51,7 @@ fn_update_steamcmd_localbuild(){
 fn_update_steamcmd_remotebuild(){
 	# Gets remote build info.
 	cd "${steamcmddir}" || exit
-	remotebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	remotebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branch}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
