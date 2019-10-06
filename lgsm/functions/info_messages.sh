@@ -727,6 +727,16 @@ fn_info_message_eco(){
 	} | column -s $'\t' -t
 }
 
+
+fn_info_message_etlegacy(){
+	echo -e "netstat -atunp | grep etlded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_factorio(){
 	echo -e "netstat -atunp | grep factorio"
 	echo -e ""
@@ -836,16 +846,6 @@ fn_info_message_projectzomboid(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
-}
-
-fn_info_message_warfork(){
-        echo -e "netstat -atunp | grep wf_server"
-        echo -e ""
-        {
-                echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-                echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Http\tINBOUND\t${httpport}\ttcp"
-        } | column -s $'\t' -t
 }
 
 fn_info_message_quake(){
@@ -1163,6 +1163,7 @@ fn_info_message_unreal(){
 }
 
 fn_info_message_unreal3(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep ut3-bin"
 	echo -e ""
 	{
@@ -1192,18 +1193,10 @@ fn_info_message_unturned(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_warfork(){
-	echo -e "netstat -atunp | grep wf_server"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
-	} | column -s $'\t' -t
-}
 
 
 fn_info_message_kf2(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
 	{
@@ -1233,14 +1226,6 @@ fn_info_message_wolfensteinenemyterritory(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_etlegacy(){
-	echo -e "netstat -atunp | grep etlded"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t
-}
 
 fn_info_message_wurmunlimited(){
 	echo -e "netstat -atunp | grep WurmServer"
@@ -1294,6 +1279,16 @@ fn_info_message_soldat() {
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${port}\ttcp"
 		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_warfork(){
+	echo -e "netstat -atunp | grep wf_server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
 	} | column -s $'\t' -t
 }
 
