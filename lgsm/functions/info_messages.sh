@@ -1192,6 +1192,17 @@ fn_info_message_unturned(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_warfork(){
+	echo -e "netstat -atunp | grep wf_server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+
 fn_info_message_kf2(){
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
@@ -1364,6 +1375,8 @@ fn_info_message_select_engine(){
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
+	elif [ "${shortname}" == "wf" ]; then
+		fn_info_message_warfork
 	elif [ "${shortname}" == "wurm" ]; then
 		fn_info_message_wurmunlimited
 	elif [ "${shortname}" == "rw" ]; then
