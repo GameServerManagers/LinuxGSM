@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # query_gsquery.py
 # Author: Anonymous & Daniel Gibbs
@@ -82,7 +82,7 @@ class gsquery:
 
 if __name__ == '__main__':
     parser = optparse.OptionParser(
-        usage='usage: python %prog [options]',
+        usage='usage: python3 %prog [options]',
         version='%prog 0.0.1'
     )
     parser.add_option(
