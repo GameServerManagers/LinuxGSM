@@ -940,7 +940,6 @@ fn_info_config_warfork(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
-		serverpassword="${unavailable}"
 		maxplayers="${zero}"
 	else
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
