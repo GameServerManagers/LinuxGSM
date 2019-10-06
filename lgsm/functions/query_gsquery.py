@@ -82,7 +82,7 @@ class gsquery:
 
 if __name__ == '__main__':
     parser = optparse.OptionParser(
-        usage='usage: python %prog [options]',
+        usage='usage: python3 %prog [options]',
         version='%prog 0.0.1'
     )
     parser.add_option(
