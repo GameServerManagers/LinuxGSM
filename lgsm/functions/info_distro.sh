@@ -101,7 +101,7 @@ cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
 if [ "${status}" == "1" ]; then
-	cpuused=$(ps --forest -o pcpu -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}')
+	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
 fi
 
 ## Memory information
