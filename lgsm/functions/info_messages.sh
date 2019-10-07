@@ -1388,8 +1388,6 @@ fn_info_message_select_engine(){
 		fn_info_message_minecraft
 	elif [ "${engine}" == "projectzomboid" ]; then
 		fn_info_message_projectzomboid
-	elif [ "${gamename}" == "Warfork" ]; then
-		fn_info_message_warfork
 	elif [ "${engine}" == "realvirtuality" ]; then
 		fn_info_message_realvirtuality
 	elif [ "${engine}" == "seriousengine35" ]; then
