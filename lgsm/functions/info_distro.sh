@@ -141,7 +141,7 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	if [ "${status}" == "1" ]; then
 		memused=$(ps --forest -o rss -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
 	# %
-		pmemused=$(ps --forest -o %mem -g "$(ps -o sid= -p 2766)"|awk '{s+=$1} END {print s}')
+		pmemused=$(ps --forest -o %mem -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}')
 	fi
 else
 # Older distros will need to use free.

@@ -539,7 +539,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm" )
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${shortname}" == "ut3" ]; then
@@ -551,7 +551,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -724,6 +724,16 @@ fn_info_message_eco(){
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+
+fn_info_message_etlegacy(){
+	echo -e "netstat -atunp | grep etlded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1153,6 +1163,7 @@ fn_info_message_unreal(){
 }
 
 fn_info_message_unreal3(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep ut3-bin"
 	echo -e ""
 	{
@@ -1182,7 +1193,10 @@ fn_info_message_unturned(){
 	} | column -s $'\t' -t
 }
 
+
+
 fn_info_message_kf2(){
+	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
 	{
@@ -1212,14 +1226,6 @@ fn_info_message_wolfensteinenemyterritory(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_etlegacy(){
-	echo -e "netstat -atunp | grep etlded"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t
-}
 
 fn_info_message_wurmunlimited(){
 	echo -e "netstat -atunp | grep WurmServer"
@@ -1273,6 +1279,16 @@ fn_info_message_soldat() {
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${port}\ttcp"
 		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_warfork(){
+	echo -e "netstat -atunp | grep wf_server"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1354,6 +1370,8 @@ fn_info_message_select_engine(){
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
+	elif [ "${shortname}" == "wf" ]; then
+		fn_info_message_warfork
 	elif [ "${shortname}" == "wurm" ]; then
 		fn_info_message_wurmunlimited
 	elif [ "${shortname}" == "rw" ]; then
