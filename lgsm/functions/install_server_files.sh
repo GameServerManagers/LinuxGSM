@@ -29,6 +29,8 @@ fn_install_server_files(){
 		remote_fileurl="https://files.linuxgsm.com/WolfensteinEnemyTerritory/etlegacy-v2.75-i386-et-260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="92d7d4c26e0a295daed78cef623eeabb"
 	elif [ "${shortname}" == "ges" ]; then
 		remote_fileurl="https://files.linuxgsm.com/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.bz2"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="c45c16293096706e8b5e2cd64a6f2931"
+	elif [ "${shortname}" == "mohaa" ]; then
+		remote_fileurl="https://files.linuxgsm.com/MedalofHonorAlliedAssault/MOH_REVIVAL_V2.tar.bz2"; local_filedir="${tmpdir}"; local_filename="MOH_REVIVAL_V2.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="0ed3b7a5a917447df07a8ea662381aed"
 	elif [ "${shortname}" == "ns" ]; then
 		remote_fileurl="https://files.linuxgsm.com/NaturalSelection/ns_dedicated_server_v32.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ns_dedicated_server_v32.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="499cf63324b76925ada6baf5f2eacd67"
 	elif [ "${shortname}" == "q2" ]; then
