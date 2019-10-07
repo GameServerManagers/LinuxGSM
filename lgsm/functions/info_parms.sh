@@ -99,6 +99,7 @@ fn_info_parms_quakeworld(){
 
 fn_info_parms_quake2(){
 	port=${port:-"0"}
+	queryport=${port}
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
