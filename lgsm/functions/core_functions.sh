@@ -500,6 +500,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_slack.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 # Logs
 
 logs.sh(){

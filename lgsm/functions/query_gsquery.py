@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # query_gsquery.py
 # Author: Anonymous & Daniel Gibbs
@@ -18,7 +18,7 @@ class gsquery:
         self.default_buffer_length = 1024
         #
         sourcequery=[ 'avalanche3.0','barotrauma''madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4', 'wurm' ]
-        idtech3query=['idtech3','iw3.0','ioquake3']
+        idtech3query=['idtech3','iw3.0','ioquake3','qfusion']
         idtech2query=['idtech2','quake','iw2.0']
         minecraftquery=['minecraft','lwjgl2']
         if self.option.engine in sourcequery:
@@ -82,7 +82,7 @@ class gsquery:
 
 if __name__ == '__main__':
     parser = optparse.OptionParser(
-        usage='usage: python %prog [options]',
+        usage='usage: python3 %prog [options]',
         version='%prog 0.0.1'
     )
     parser.add_option(

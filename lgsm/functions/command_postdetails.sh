@@ -61,8 +61,8 @@ else
 	touch "${postdetailslog}" || fn_bad_postdetailslog
 	{
 		fn_info_message_distro
-		fn_info_message_performance
-		fn_info_message_disk
+		fn_info_message_server_resource
+		fn_info_message_gameserver_resource
 		fn_info_message_gameserver
 		fn_info_message_script
 		fn_info_message_backup
