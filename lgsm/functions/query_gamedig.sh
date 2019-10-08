@@ -46,7 +46,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			fi
 		done
 
-		local engine_query_array=( idtech3 iw3.0 ioquake3 )
+		local engine_query_array=( idtech3 iw3.0 ioquake3 qfusion )
 		for engine_query in "${engine_query_array[@]}"
 		do
 			if [ "${engine_query}" == "${engine}" ]; then
@@ -101,15 +101,19 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# numplayers.
-		gdplayers=$(echo "${gamedigraw}" | jq -re '.players|length')
+		gdplayers=$(echo "${gamedigraw}" | jq -re '.players')
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
+		elif [ "${gdplayers}" == "[]" ]; then
+			gdplayers=0
 		fi
 
 		# maxplayers.
-		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers|length')
+		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers')
 		if [ "${gdmaxplayers}" == "null" ]; then
 			unset maxplayers
+		elif [ "${gdmaxplayers}" == "[]" ]; then
+			gdmaxplayers=0
 		fi
 
 		# current map.

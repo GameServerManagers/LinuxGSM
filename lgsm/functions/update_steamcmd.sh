@@ -19,9 +19,9 @@ fn_update_steamcmd_dl(){
 
 	cd "${steamcmddir}" || exit
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta ${branch} +quit | tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta ${branch} +quit | tee -a "${lgsmlog}"
 	fi
 	fix.sh
 }

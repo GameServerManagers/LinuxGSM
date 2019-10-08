@@ -18,8 +18,8 @@ fn_alert_log(){
 	{
 		fn_info_message_head
 		fn_info_message_distro
-		fn_info_message_performance
-		fn_info_message_disk
+		fn_info_message_server_resource
+		fn_info_message_gameserver_resource
 		fn_info_message_gameserver
 		fn_info_logs
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${alertlog}" > /dev/null 2>&1
@@ -189,4 +189,15 @@ elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert
 	fn_print_error_nl "Telegram chat id not set."
 	echo "	* https://docs.linuxgsm.com/alerts/telegram"
 	fn_script_error "Telegram chat id not set."
+fi
+
+if [ "${slackalert}" == "on" ]&&[ -n "${slackalert}" ]; then
+	alert_slack.sh
+elif [ "${slackalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_warn_nl "Slack alerts not enabled"
+	fn_script_log_warn "Slack alerts not enabled"
+elif [ -z "${slacktoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+	fn_print_error_nl "Slack token not set"
+	echo "	* https://docs.linuxgsm.com/alerts/slack"
+	fn_script_error "Slack token not set"
 fi
