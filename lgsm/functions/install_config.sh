@@ -199,7 +199,7 @@ elif [ "${shortname}" == "bt1944" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-elif [ "${shortname}" == "bt1942" ]; then
+elif [ "${shortname}" == "bf1942" ]; then
 	gamedirname="Battlefield1942"
 	array_configs+=( serversettings.con )
 	fn_fetch_default_config
