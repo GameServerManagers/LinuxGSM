@@ -448,7 +448,7 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements.
 	# CentOS
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( epel-release curl wget util-linux-ng python3 file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "7" ]; then
 		array_deps_required=( epel-release curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "8" ]; then
