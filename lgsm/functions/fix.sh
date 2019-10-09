@@ -57,6 +57,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rw.sh
 	elif [ "${shortname}" == "sdtd" ]; then
 		fix_sdtd.sh
+	elif [ "${shortname}" == "sfc" ]; then
+		fix_sfc.sh
 	elif [ "${shortname}" == "sof2" ]; then
 		fix_sof2.sh
 	elif [ "${shortname}" == "ss3" ]; then
@@ -73,6 +75,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_unt.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
+	elif [ "${shortname}" == "zmr" ]; then
+		fix_zmr.sh
 	fi
 fi
 

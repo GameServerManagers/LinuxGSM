@@ -18,6 +18,9 @@ if [ "${shortname}" == "ark" ]; then
 elif [ "${shortname}" == "atlas" ]; then
 	ramrequirementmb="16000"
 	ramrequirementgb="16"
+elif [ "${shortname}" == "bt" ]; then
+	ramrequirementmb="1000"
+	ramrequirementgb="1"
 elif [ "${shortname}" == "mh" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"

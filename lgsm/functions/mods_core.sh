@@ -43,7 +43,7 @@ fn_mod_lowercase(){
 		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
-			dst=$(dirname "${src}"$(/)basename "${src}" | tr 'A-Z' 'a-z')
+			dst="$(dirname "${src}$(/)basename" "${src}" | tr 'A-Z' 'a-z')"
 			if [ "${src}" != "${dst}" ]
 			then
 				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo "${src} was not renamed"
@@ -145,6 +145,46 @@ fn_mod_tidy_files_list(){
 		# Remove addons/metamod & addons/metamod/sourcemod.vdf from ${modcommand}-files.txt.
 		sed -i "/^addons\/metamod$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+
+	# Remove common paths from deletion list (Add your sourcemod mod here)
+	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ]; then
+		sed -i "/^addons\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/configs$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/extensions$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/logs$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/plugins\/disabled$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/translations$/d" "${modsdir}/${modcommand}-files.txt"
+		# Don't delete directories of translations like 'fr', 'sv', 'de', etc
+		sed -i "/^addons\/sourcemod\/translations\/[A-Za-z0-9_]*$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^cfg\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^maps$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^materialss$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^materials\/models$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^materials\/models\/weapons$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^materials\/darkness$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^materials\/decals$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^materials\/overlays$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^models$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^models\/weapons$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^sound$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^sound\/weapons$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+
+	# Remove paths of specific mods from deletion list
+	if [ "${modcommand}" == "gokz" ]; then
+		sed -i "/^addons\/sourcemod\/scripting\/include\/smjansson.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/GlobalAPI-Core.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/sourcebanspp.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/autoexecconfig.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/colorvariables.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/movementapi.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/movement.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/dhooks.inc$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/sourcemod\/scripting\/include\/updater.inc$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 }
 

@@ -9,17 +9,17 @@ local commandname="CHECK"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
-		if [ "$(find "${rootdir}/${selfname}" -not -user $(whoami) | wc -l)" -ne "0" ]; then
+		if [ "$(find "${rootdir}/${selfname}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			selfownissue=1
 		fi
 	fi
 	if [ -d "${functionsdir}" ]; then
-		if [ "$(find "${functionsdir}" -not -user $(whoami) | wc -l)" -ne "0" ]; then
+		if [ "$(find "${functionsdir}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			funcownissue=1
 		fi
 	fi
 	if [ -d "${serverfiles}" ]; then
-		if [ "$(find "${serverfiles}" -not -user $(whoami) | wc -l)" -ne "0" ]; then
+		if [ "$(find "${serverfiles}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			filesownissue=1
 		fi
 	fi
@@ -149,7 +149,7 @@ fn_sys_perm_errors_detect(){
 	sysdirpermerror="0"
 	classdirpermerror="0"
 	netdirpermerror="0"
-	# Check permissions/
+	# Check permissions.
 	# /sys, /sys/class and /sys/class/net should be readable & executable.
 	if [ ! -r "/sys" ]||[ ! -x "/sys" ]; then
 		sysdirpermerror="1"

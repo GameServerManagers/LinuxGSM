@@ -20,13 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-travistest="1"
-version="v19.6.0"
+version="v19.9.0"
 shortname="fctr"
 gameservername="fctrserver"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${gameservername}"
+servicename="${selfname}"
 lockselfname=".${servicename}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
@@ -48,6 +47,9 @@ userinput="${1}"
 if [ ! -v TRAVIS ]; then
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
+else
+	servicename="travis"
+	travistest="1"
 fi
 
 ## GitHub Branch Select
@@ -160,7 +162,7 @@ fn_install_menu_bash() {
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
-	done <  ${options}
+	done < "${options}"
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
 		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
@@ -381,7 +383,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-	if [ "${travistest}" != "1" ]; then
+		if [ -z "${travistest}" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
@@ -782,7 +784,6 @@ grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g
 echo ""
 echo "5.0 - Monitor Tests"
 echo "=================================================================="
-
 echo ""
 echo "Server IP - Port: ${ip}:${port}"
 echo "Server IP - Query Port: ${ip}:${queryport}"

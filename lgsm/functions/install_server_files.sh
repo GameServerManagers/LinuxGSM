@@ -9,7 +9,9 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
-	if [ "${shortname}" == "bf1942" ]; then
+    if [ "${shortname}" == "ahl" ]; then
+		remote_fileurl="https://files.linuxgsm.com/ActionHalfLife/action_halflife-1.0.tar.bz2"; local_filedir="${tmpdir}"; local_filename="action_halflife-1.0.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="31430e670692b2eeaa0d1217db4dcb73"
+	elif [ "${shortname}" == "bf1942" ]; then
 		remote_fileurl="https://files.linuxgsm.com/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
 	elif [ "${shortname}" == "bb" ]; then
 		remote_fileurl="https://files.linuxgsm.com/BrainBread/brainbread-v1.2-linuxserver.tar.bz2"; local_filedir="${tmpdir}"; local_filename="brainbread-v1.2-linuxserver.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="5c729a7e9eecfa81b71a6a1f7267f0fd"
@@ -37,8 +39,12 @@ fn_install_server_files(){
 		remote_fileurl="https://files.linuxgsm.com/QuakeWorld/nquake.server.linux.190506.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="nquake.server.linux.190506.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="74405ec030463c5e1175e776ab572d32"
 	elif [ "${shortname}" == "rtcw" ]; then
 		remote_fileurl="https://files.linuxgsm.com/ReturnToCastleWolfenstein/iortcw-1.51c-x86_64-server-linux-20190507.tar.bz2"; local_filedir="${tmpdir}"; local_filename="iortcw-1.51c-x86_64-server-linux-20190507.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="6a3be9700372b228d1187422464e4212"
+	elif [ "${shortname}" == "sfc" ]; then
+		remote_fileurl="https://files.linuxgsm.com/SourceFortsClassic/SFClassic-1.0-RC7-fix.tar.bz2"; local_filedir="${tmpdir}"; local_filename="SFClassic-1.0-RC7-fix.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e0d4cfd298a8a356053f92b1fa7d1002"
 	elif [ "${shortname}" == "sof2" ]; then
-			remote_fileurl="https://files.linuxgsm.com/SoldierOfFortune2/sof2gold-1.03.tar.bz2"; local_filedir="${tmpdir}"; local_filename="sof2gold-1.03.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="871b1dc0dafeeace65b198119e8fa200"
+		remote_fileurl="https://files.linuxgsm.com/SoldierOfFortune2/sof2gold-1.03.tar.bz2"; local_filedir="${tmpdir}"; local_filename="sof2gold-1.03.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="871b1dc0dafeeace65b198119e8fa200"
+	elif [ "${shortname}" == "ts" ]; then
+		remote_fileurl="https://files.linuxgsm.com/TheSpecialists/ts-3-linux-final.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ts-3-linux-final.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="38e8a8325339f85a7745117802f940b7"
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="https://files.linuxgsm.com/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="67c5e2cd9c2a4b04f163962ee41eff54"
 	elif [ "${shortname}" == "ut99" ]; then
@@ -53,6 +59,10 @@ fn_install_server_files(){
 		remote_fileurl="https://files.linuxgsm.com/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	elif [ "${shortname}" == "samp" ]; then
 		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
+	elif [ "${shortname}" == "sol" ]; then
+		remote_fileurl="https://static.soldat.pl/downloads/soldatserver2.8.1_1.7.1.zip"; local_filedir="${tmpdir}"; local_filename="soldatserver2.8.1_1.7.1.zip"; chmodx="nochmodx" run="norun"; force="noforce"; md5="994409c28520425965dec5c71ccb55e1"
+	elif [ "${shortname}" == "zmr" ]; then
+		remote_fileurl="https://files.linuxgsm.com/ZombieMasterReborn/zombie_master_reborn_b4_fix5.1.tar.bz2"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b4_fix5.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="73472bd84dfa6d203f3b5f48f760773e"
 	fi
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
@@ -62,7 +72,7 @@ fn_install_server_files_steamcmd(){
 	counter="0"
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
-		cd "${steamcmddir}"
+		cd "${steamcmddir}" || exit
 		if [ "${counter}" -le "10" ]; then
 			# Attempt 1-4: Standard attempt.
 			# Attempt 5-6: Validate attempt.
@@ -92,21 +102,18 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -le "4" ]; then
 				if [ "${appid}" == "90" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit
-					local exitcode=$?
-				elif [ "${shortname}" == "unt" ]; then
-					${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta ${branch} +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta ${branch} +quit
 					local exitcode=$?
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta ${branch} validate +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit
+					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta ${branch} validate +quit
 					local exitcode=$?
 				fi
 			fi
@@ -151,7 +158,7 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 	install_factorio_save.sh
-elif [ -z "${appid}" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "vs" ]; then
+elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "sol" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi

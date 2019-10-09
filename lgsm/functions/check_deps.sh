@@ -42,7 +42,10 @@ fn_install_mono_repo(){
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "debian" ]; then
-				if [ "${distroversion}" == "9" ]; then
+				if [ "${distroversion}" == "10" ]; then
+					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				elif [ "${distroversion}" == "9" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval ${cmd}
 				elif [ "${distroversion}" == "8" ]; then
@@ -120,7 +123,7 @@ fn_install_universe_repo(){
 			sleep 1
 			echo -en "   \r"
 			cmd="sudo apt-add-repository universe"
-			eval ${cmd}
+			eval "${cmd}"
 			if [ $? -eq 0 ]; then
 				fn_print_complete_nl "Installing universe repository completed."
 				fn_script_log_pass "Installing universe repository completed."
@@ -332,7 +335,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc jq )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 bzip2 gzip unzip binutils bc jq )
 
 	# All servers except ts3 require tmux.
 	if [ "${shortname}" != "ts3" ]; then
@@ -414,7 +417,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
-		array_deps_required+=( libssl1.0.0:i386 zlib1g:i386 )
+		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
 	# Unreal Engine
 	elif [ "${executable}" == "./ucc-bin" ]; then
 		# UT2K4
@@ -443,17 +446,19 @@ fn_deps_build_redhat(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	# CentOS 6
+	# CentOS
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux-ng python3 file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
+	elif [ "${distroversion}" == "8" ]; then
+		array_deps_required=( epel-release curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
 	else
-		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
 	fi
 
 	# All servers except ts3 require tmux.
@@ -543,6 +548,9 @@ fn_deps_build_redhat(){
 		array_deps_required+=( unzip )
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
+		array_deps_required+=( mono-complete )
+	# Unturned
+	elif [ "${shortname}" == "unt" ]; then
 		array_deps_required+=( mono-complete )
 	fi
 	fn_deps_email
