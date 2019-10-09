@@ -16,8 +16,8 @@ if [ "${shortname}" == "ark" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
 elif [ "${shortname}" == "atlas" ]; then
-	ramrequirementmb="16000"
-	ramrequirementgb="16"
+	ramrequirementmb="4000"
+	ramrequirementgb="4"
 elif [ "${shortname}" == "bt" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
