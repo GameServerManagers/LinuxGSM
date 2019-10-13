@@ -136,9 +136,7 @@ fn_fetch_file(){
 			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 			echo -en "downloading ${local_filename}..."
 		else
-			if [ -f ".dev-debug" ]; then
-				echo -en "    fetching ${local_filename}...\c"
-			fi
+			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 		fi
 		local exitcode=$?
