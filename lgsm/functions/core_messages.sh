@@ -431,7 +431,7 @@ fn_print_ascii_logo(){
 	echo -e "                              mMMMMMMMMMMMMm"
 	echo -e "                             mMMMMMMMMMMMMMMm"
 	echo -e "                             hMMMV^VMMV^VMMMh"
-	echo -e "                             MMMMMMMMMMMMMMMM"
+	echo -e "                             MMMMM  MM  MMMMM"
 	echo -e "                             hMMs   vv   sMMh"
 	echo -e "                            hMMM:        :MMMh"
 	echo -e "                          .hMMMh          hMMMh."
