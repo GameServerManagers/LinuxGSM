@@ -90,7 +90,7 @@ fn_monitor_check_lockfile(){
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
 		fn_print_error_nl "Disabled: No lockfile found"
 		fn_script_log_error "Disabled: No lockfile found"
-		echo "	* To enable monitor run ./${selfname} start"
+		echo -e "	* To enable monitor run ./${selfname} start"
 		core_exit.sh
 	fi
 }

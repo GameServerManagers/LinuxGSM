@@ -41,7 +41,7 @@ fn_check_ownership(){
 			fi
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
-		echo ""
+		echo -e ""
 		fn_print_information_nl "please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
 		fn_script_log "For more information, please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
 		if [ "${monitorflag}" == 1 ]; then
@@ -164,12 +164,12 @@ fn_sys_perm_errors_detect(){
 
 # Display a message on how to fix the issue manually.
 fn_sys_perm_fix_manually_msg(){
-	echo ""
+	echo -e ""
 	fn_print_information_nl "This error causes servers to fail starting properly"
 	fn_script_log_info "This error causes servers to fail starting properly."
-	echo "	* To fix this issue, run the following command as root:"
+	echo -e "	* To fix this issue, run the following command as root:"
 	fn_script_log_info "To fix this issue, run the following command as root:"
-	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
+	echo -e "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
 	fn_sleep_time
 	if [ "${monitorflag}" == 1 ]; then

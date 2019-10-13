@@ -160,9 +160,9 @@ fn_appmanifest_check(){
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			fn_script_log_fatal "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			echo "	* Check user permissions"
+			echo -e "	* Check user permissions"
 			for appfile in ${appmanifestfile}; do
-				echo "	${appfile}"
+				echo -e "	${appfile}"
 			done
 			core_exit.sh
 		else
