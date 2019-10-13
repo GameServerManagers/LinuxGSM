@@ -239,7 +239,7 @@ fn_print_info_nl(){
 # =================================
 fn_print_header(){
 	echo -e ""
-	echo -e "${gamename} ${commandaction}"
+	echo -e "${lightyellow}${gamename} ${commandaction}${default}"
 	echo -e "=================================${default}"
 	echo -e ""
 }
