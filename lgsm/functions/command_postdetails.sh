@@ -104,13 +104,14 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
-	echo -e "  Please share the following url for support: ${pdurl}"
+	echo -e "Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://termbin.com" ] ; then
 	fn_print_dots "Posting details to termbin.com"
 	link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
 	fn_print_ok_nl "Posting details to termbin.com"
 	pdurl="${link}"
-	echo -e "  Please share the following url for support: ${pdurl}"
+	echo -e "Please share the following url for support: "
+	echo -e "${pdurl}"
 else
 	 fn_print_warn_nl "Review output in: ${postdetailslog}"
 	 core_exit.sh
