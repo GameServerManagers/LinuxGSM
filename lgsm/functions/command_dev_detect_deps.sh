@@ -123,6 +123,11 @@ while read -r lib; do
 		echo "libopenal1" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo "libopenal1" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
+	elif [ "${lib}" == "libgconf-2.so.4" ]; then
+		echo "GConf2" >> "${tmpdir}/.depdetect_centos_list"
+		echo "libgconf2-4" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo "libgconf2-4" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
 	fi
 
 	if [ "${libdetected}" != "1" ]; then
