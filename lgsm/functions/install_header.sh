@@ -9,6 +9,7 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 clear
+fn_print_ascii_logo
 echo -e "================================="
 echo -e "${lightyellow}Linux${default}GSM_"
 echo -e "by Daniel Gibbs"
