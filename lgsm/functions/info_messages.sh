@@ -397,7 +397,7 @@ fn_info_message_script(){
 	# LinuxGSM version:     v19.9.0
 	# glibc required:         2.15
 	# Discord alert:          off
-	# Slack alert:			  off
+	# Slack alert:            off
 	# Email alert:            off
 	# Pushbullet alert:       off
 	# IFTTT alert:            off
@@ -808,6 +808,15 @@ fn_info_message_minecraft(){
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_mohaa(){
+	echo -e "netstat -atunp | grep mohaa_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1363,6 +1372,8 @@ fn_info_message_select_engine(){
 		fn_info_message_towerunite
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
+	elif [ "${shortname}" == "mohaa" ]; then
+		fn_info_message_mohaa
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
 	elif [ "${shortname}" == "mta" ]; then

@@ -209,6 +209,9 @@ if [ "${shortname}" == "sb" ]; then
 	fi
 elif [ "${shortname}" == "ts3" ]||[ "${shortname}" == "eco" ]||[ "${shortname}" == "mumble" ]; then
 	fn_monitor_query_tcp
+elif [ "${shortname}" == "mohaa" ]; then
+	# prevent game from using query. Only used if specific game server cant query but engine can
+	:
 else
 	fn_monitor_query
 fi
