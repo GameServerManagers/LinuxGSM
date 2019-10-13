@@ -456,6 +456,6 @@ fn_print_ascii_logo(){
 	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}88b${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8bd8P${default}  888  88888      Y88b. 888 Y888P 888"
 	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}   ${lightyellow}X88K${default}   888    888        888 888  Y8P  888"
 	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default} ${lightyellow}Y88b${default} ${lightyellow}88Y${default} ${lightyellow}.d8pq8b.${default} Y88b  d88P Y88b  d88P 888   *   888"
-	echo -e "${lightyellow}88888888${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y8888P88   Y8888P   888       888"
+	echo -e "${lightyellow}LinuxGSM${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y2012P88   Y8888P   888       888"
 	echo -e ""
 }
