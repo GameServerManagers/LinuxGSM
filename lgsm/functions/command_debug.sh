@@ -75,7 +75,7 @@ if [ -n "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 fi
 echo -e ""
-echo -e "Start parameters:"
+echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	echo -e "${executable} ${parms} -debug"
 else
