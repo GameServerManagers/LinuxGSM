@@ -199,18 +199,18 @@ fn_print_error_nl(){
 # [ WARN ]
 fn_print_warn(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "${creeol}[${yellow} WARN ${default}] $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] $@"
 	fi
 	fn_sleep_time
 }
 
 fn_print_warn_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "${creeol}[${yellow} WARN ${default}] $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] $@"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -245,7 +245,6 @@ fn_print_header(){
 	echo -e ""
 	echo -e "${lightyellow}${gamename} ${commandaction}${default}"
 	echo -e "=================================${default}"
-	echo -e ""
 }
 
 # Complete!
@@ -283,12 +282,12 @@ fn_print_error2_nl(){
 
 # Warning!
 fn_print_warning(){
-	echo -en "${yellow}Warning!${default} $@"
+	echo -en "${lightyellow}Warning!${default} $@"
 	fn_sleep_time
 }
 
 fn_print_warning_nl(){
-	echo -e "${yellow}Warning!${default} $@"
+	echo -e "${lightyellow}Warning!${default} $@"
 	fn_sleep_time
 }
 
@@ -354,11 +353,11 @@ fn_print_error_eol(){
 
 # WARN
 fn_print_warn_eol(){
-	echo -en "${red}WARN${default}"
+	echo -en "${lightyellow}WARN${default}"
 }
 
 fn_print_warn_eol_nl(){
-	echo -e "${red}WARN${default}"
+	echo -e "${lightyellow}WARN${default}"
 }
 
 # INFO
