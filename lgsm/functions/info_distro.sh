@@ -7,6 +7,12 @@
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+### Game Server pid
+if [ "${status}" == "1" ]; then
+	if [ "${shortname}" != "ts3" ]; then
+		gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${servicename}"|awk '{print $2}')
+	fi
+fi
 ### Distro information
 
 ## Distro
@@ -19,7 +25,7 @@ kernel=$(uname -r)
 # Distro ID - ubuntu
 # Distro Codename - xenial
 
-# Gathers distro info from various sources filling in missing gaps
+# Gathers distro info from various sources filling in missing gaps.
 distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
 for distro_info in "${distro_info_array[@]}"
 do
@@ -92,23 +98,27 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 ## CPU information
 cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
-cpufreuency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+# CPU usage of the game server pid
+if [ "${status}" == "1" ]; then
+	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
+fi
 
 ## Memory information
 # Available RAM and swap.
 
-# Newer distros can use numfmt to give more accurate results
+# Newer distros can use numfmt to give more accurate results.
 if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
-	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated
+	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
-	# get the raw KB values of these fields
+	# get the raw KB values of these fields.
 	physmemtotalkb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
 	physmemfreekb=$(grep ^MemFree /proc/meminfo | awk '{print $2}')
 	physmembufferskb=$(grep ^Buffers /proc/meminfo | awk '{print $2}')
 	physmemcachedkb=$(grep ^Cached /proc/meminfo | awk '{print $2}')
 	physmemreclaimablekb=$(grep ^SReclaimable /proc/meminfo | awk '{print $2}')
 
-	# check if MemAvailable Exists
+	# check if MemAvailable Exists.
 	if grep -q ^MemAvailable /proc/meminfo; then
 	    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
 	else
@@ -126,6 +136,13 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
 	swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
 	swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
+	# RAM usage of the game server pid
+	# MB
+	if [ "${status}" == "1" ]; then
+		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+	# %
+		pmemused=$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')
+	fi
 else
 # Older distros will need to use free.
 	# Older versions of free do not support -h option.
@@ -183,12 +200,12 @@ fi
 if [ -d "${backupdir}" ]; then
 	# Used space in backups dir.
 	backupdirdu=$(du -sh "${backupdir}" | awk '{print $1}')
-	# If no backup dir, size is 0M
+	# If no backup dir, size is 0M.
 	if [ -z "${backupdirdu}" ]; then
 		backupdirdu="0M"
 	fi
 
-	# number of backups set to 0 by default
+	# number of backups set to 0 by default.
 	backupcount=0
 
 	# If there are backups in backup dir.
@@ -206,31 +223,47 @@ if [ -d "${backupdir}" ]; then
 	fi
 fi
 
+# Network Interface name
+netint=$(ip -o addr | grep "${ip}" | awk '{print $2}')
+netlink=$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
+
 # External IP address
 if [ -z "${extip}" ]; then
 	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)
 	exitcode=$?
-	# Should ifconfig.co return an error will use last known IP
+	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
+		echo -e "${extip}" > "${tmpdir}/extip.txt"
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat ${tmpdir}/extip.txt)
 		else
-			echo "x.x.x.x"
+			echo -e "x.x.x.x"
 		fi
 	fi
 fi
 
-# Steam Master Server - checks if detected by master server
-if [ ! "$(command -v jq 2>/dev/null)" ]; then
+# Alert IP address
+if [ "${displayip}" ]; then
+	alertip="${displayip}"
+elif [ "${extip}" ]; then
+	alertip="${extip}"
+else
+	alertip="${ip}"
+fi
+
+# Steam Master Server - checks if detected by master server.
+if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
-		if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]||[ "${shortname}" == "jc2" ]||[ "${shortname}" == "ql" ]; then
-			masterserver=$(${curlpath} -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
-			if [ "${steammaster}" == "1" ]; then
-				masterserver="true"
+		if [ "${steammaster}" == "true" ]; then
+			masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+			if [ "${masterserver}" == "0" ]; then
+				masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+			fi
+			if [ "${masterserver}" == "0" ]; then
+				displaymasterserver="false"
 			else
-				masterserver="false"
+				displaymasterserver="true"
 			fi
 		fi
 	fi

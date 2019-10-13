@@ -9,12 +9,12 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
-	echo ""
-	echo "Creating log directories"
-	echo "================================="
+	echo -e ""
+	echo -e "${lightyellow}Creating log directories${default}"
+	echo -e "================================="
 fi
 fn_sleep_time
-# Create LinuxGSM logs
+# Create LinuxGSM logs.
 echo -en "installing log dir: ${logdir}..."
 mkdir -p "${logdir}"
 if [ $? -ne 0 ]; then
@@ -40,7 +40,7 @@ if [ $? -ne 0 ]; then
 else
 	fn_print_ok_eol_nl
 fi
-# Create Console logs
+# Create Console logs.
 if [ -n "${consolelogdir}" ]; then
 	echo -en "installing console log dir: ${consolelogdir}..."
 	mkdir -p "${consolelogdir}"
@@ -60,7 +60,7 @@ if [ -n "${consolelogdir}" ]; then
 	fi
 fi
 
-# Create Game logs
+# Create Game logs.
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	echo -en "installing game log dir: ${gamelogdir}..."
 	mkdir -p "${gamelogdir}"
@@ -73,7 +73,7 @@ if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 fi
 
 # Symlink to gamelogdir
-# unless gamelogdir is within logdir
+# unless gamelogdir is within logdir.
 # e.g serverfiles/log is not within log/: symlink created
 # log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ]; then
@@ -89,7 +89,7 @@ if [ -n "${gamelogdir}" ]; then
 	fi
 fi
 
-# If server uses SteamCMD create a symbolic link to the Steam logs
+# If server uses SteamCMD create a symbolic link to the Steam logs.
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
 		echo -en "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."

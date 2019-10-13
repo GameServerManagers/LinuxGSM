@@ -34,7 +34,7 @@ fn_clear_tmp(){
 			fn_print_error_eol_nl
 			fn_script_log_error "clearing LinuxGSM tmp directory"
 		fi
-	fi	
+	fi
 }
 
 fn_dl_md5(){
@@ -45,8 +45,8 @@ fn_dl_md5(){
 		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
-			echo "${local_filename} returned MD5 checksum: ${md5sumcmd}"
-			echo "expected MD5 checksum: ${md5}"
+			echo -e "${local_filename} returned MD5 checksum: ${md5sumcmd}"
+			echo -e "expected MD5 checksum: ${md5}"
 			fn_script_log_fatal "Verifying ${local_filename} with MD5"
 			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
@@ -88,9 +88,9 @@ fn_dl_extract(){
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting download"
 		if [ -f "${lgsmlog}" ]; then
-			echo "${extractcmd}" >> "${lgsmlog}"
+			echo -e "${extractcmd}" >> "${lgsmlog}"
 		fi
-		echo "${extractcmd}"
+		echo -e "${extractcmd}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -100,7 +100,7 @@ fn_dl_extract(){
 
 # Trap to remove file download if canceled before completed.
 fn_fetch_trap(){
-	echo ""
+	echo -e ""
 	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
@@ -145,10 +145,10 @@ fn_fetch_file(){
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_fatal "Downloading ${local_filename}"
 				echo -e "${remote_fileurl}" >> "${lgsmlog}"
-				echo "${curlcmd}" >> "${lgsmlog}"
+				echo -e "${curlcmd}" >> "${lgsmlog}"
 			fi
 			echo -e "${remote_fileurl}"
-			echo "${curlcmd}"
+			echo -e "${curlcmd}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -258,6 +258,6 @@ fn_update_function(){
 curlpath=$(command -v curl 2>/dev/null)
 
 if [ "$(basename "${curlpath}")" != "curl" ]; then
-	echo "[ FAIL ] Curl is not installed"
+	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi
