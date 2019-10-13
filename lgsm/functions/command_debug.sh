@@ -26,15 +26,16 @@ info_config.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
 fn_parms
 fn_print_header
-echo -e "${blue}Distro:\t${default}${distroname}"
-echo -e "${blue}Arch:\t${default}${arch}"
-echo -e "${blue}Kernel:\t${default}${kernel}"
-echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
-echo -e "${blue}tmux:\t${default}${tmuxv}"
-echo -e "${blue}Avg Load:\t${default}${load}"
-echo -e "${blue}Free Memory:\t${default}${physmemfree}"
-echo -e "${blue}Free Disk:\t${default}${availspace}"
-
+{
+	echo -e "${blue}Distro:\t${default}${distroname}"
+	echo -e "${blue}Arch:\t${default}${arch}"
+	echo -e "${blue}Kernel:\t${default}${kernel}"
+	echo -e "${blue}Hostname:\t${default}${HOSTNAME}"
+	echo -e "${blue}tmux:\t${default}${tmuxv}"
+	echo -e "${blue}Avg Load:\t${default}${load}"
+	echo -e "${blue}Free Memory:\t${default}${physmemfree}"
+	echo -e "${blue}Free Disk:\t${default}${availspace}"
+} | column -s $'\t' -t
 # glibc required.
 if [ -n "${glibc}" ]; then
 	if [ "${glibc}" == "null" ]; then
