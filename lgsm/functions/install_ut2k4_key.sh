@@ -9,7 +9,7 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""
-echo "Enter ${gamename} CD Key"
+echo "${lightyellow}Enter ${gamename} CD Key${default}"
 echo "================================="
 fn_sleep_time
 echo "To get your server listed on the Master Server list"

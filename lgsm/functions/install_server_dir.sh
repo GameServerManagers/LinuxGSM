@@ -9,7 +9,7 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""
-echo "Server Directory"
+echo "${lightyellow}Server Directory${default}"
 echo "================================="
 fn_sleep_time
 if [ -d "${serverfiles}" ]; then

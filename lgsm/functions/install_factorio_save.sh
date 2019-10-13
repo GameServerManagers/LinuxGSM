@@ -8,7 +8,7 @@ local commandname="INSTALL"
 local commandaction="Install"
 
 echo ""
-echo "Creating initial Factorio savefile"
+echo "${lightyellow}Creating initial Factorio savefile${default}"
 echo "================================="
 fn_sleep_time
 check_glibc.sh

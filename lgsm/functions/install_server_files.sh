@@ -138,7 +138,7 @@ fn_install_server_files_steamcmd(){
 }
 
 echo ""
-echo "Installing ${gamename} Server"
+echo "${lightyellow}Installing ${gamename} Server${default}"
 echo "================================="
 fn_sleep_time
 

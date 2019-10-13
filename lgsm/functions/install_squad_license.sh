@@ -9,7 +9,7 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""
-echo "Squad Server License"
+echo "${lightyellow}Squad Server License${default}"
 echo "================================="
 fn_sleep_time
 echo "Server license is an optional feature for ${gamename} server"

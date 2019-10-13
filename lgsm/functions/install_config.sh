@@ -20,7 +20,7 @@ fn_check_cfgdir(){
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 fn_fetch_default_config(){
 	echo ""
-	echo "Downloading ${gamename} Configs"
+	echo "${lightyellow}Downloading ${gamename} Configs"
 	echo "================================="
 	echo "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
 	fn_sleep_time

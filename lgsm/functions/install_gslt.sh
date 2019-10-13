@@ -9,7 +9,7 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo ""
-echo "Game Server Login Token"
+echo "${lightyellow}Game Server Login Token${default}"
 echo "================================="
 fn_sleep_time
 if [ "${shortname}" == "csgo" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "bs" ]; then

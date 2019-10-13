@@ -25,7 +25,7 @@ fn_install_ts3db_mariadb(){
 	fi
 
 	echo ""
-	echo "Configure ${gamename} Server for MariaDB"
+	echo "${lightyellow}Configure ${gamename} Server for MariaDB${default}"
 	echo "================================="
 	fn_sleep_time
 	read -rp "Enter MariaDB hostname: " mariahostname
@@ -52,7 +52,7 @@ fn_install_ts3db_mariadb(){
 }
 
 echo ""
-echo "Select Database"
+echo "${lightyellow}Select Database${default}"
 echo "================================="
 fn_sleep_time
 if [ -z "${autoinstall}" ]; then
@@ -66,7 +66,7 @@ fi
 install_eula.sh
 
 echo ""
-echo "Getting privilege key"
+echo "${lightyellow}Getting privilege key${default}"
 echo "================================="
 fn_sleep_time
 fn_print_information_nl "Save these details for later."

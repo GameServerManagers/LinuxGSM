@@ -10,7 +10,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo ""
-	echo "Creating log directories"
+	echo "${lightyellow}Creating log directories${default}"
 	echo "================================="
 fi
 fn_sleep_time
