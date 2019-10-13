@@ -27,14 +27,14 @@ info_config.sh
 fn_parms
 fn_print_header
 {
-	echo -e "${lightblue}Distro:\t${default}${distroname}"
-	echo -e "${lightblue}Arch:\t${default}${arch}"
-	echo -e "${lightblue}Kernel:\t${default}${kernel}"
-	echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
-	echo -e "${lightblue}tmux:\t${default}${tmuxv}"
-	echo -e "${lightblue}Avg Load:\t${default}${load}"
-	echo -e "${lightblue}Free Memory:\t${default}${physmemfree}"
-	echo -e "${lightblue}Free Disk:\t${default}${availspace}"
+	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
+	echo -e "${lightblue}Arch:\t\t${default}${arch}"
+	echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
+	echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
+	echo -e "${lightblue}tmux:\t\t${default}${tmuxv}"
+	echo -e "${lightblue}Avg Load:\t\t${default}${load}"
+	echo -e "${lightblue}Free Memory:\t\t${default}${physmemfree}"
+	echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"
 } | column -s $'\t' -t
 # glibc required.
 if [ -n "${glibc}" ]; then
