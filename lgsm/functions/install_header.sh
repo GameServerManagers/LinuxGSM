@@ -13,7 +13,6 @@ fn_print_ascii_logo
 echo -e "================================="
 echo -e "${lightyellow}Linux${default}GSM_"
 echo -e "by Daniel Gibbs"
-echo -e "================================="
 echo -e "${lightblue}Game:${default}${gamename}"
 echo -e "${lightblue}Website:${default} https://linuxgsm.com"
 echo -e "${lightblue}Contributors:${default} https://linuxgsm.com/contrib"
