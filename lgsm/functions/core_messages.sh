@@ -11,6 +11,7 @@ fn_ansi_loader(){
 	if [ "${ansi}" != "off" ]; then
 		# echo colors
 		default="\e[0m"
+		black="\e[30m"
 		red="\e[31m"
 		lightred="\e[91m"
 		green="\e[32m"
@@ -23,6 +24,9 @@ fn_ansi_loader(){
 		lightmagenta="\e[95m"
 		cyan="\e[36m"
 		lightcyan="\e[96m"
+		darkgrey="\e[90m"
+		lightgrey="\e[37m"
+		white="\e[97m"
 	fi
 	# carriage return & erase to end of line.
 	creeol="\r\033[K"
