@@ -7,8 +7,8 @@
 local commandname="INSTALL"
 local commandaction="Install"
 
-echo ""
-echo "${lightyellow}Installing SteamCMD${default}"
-echo "================================="
+echo -e ""
+echo -e "${lightyellow}Installing SteamCMD${default}"
+echo -e "================================="
 fn_sleep_time
 check_steamcmd.sh

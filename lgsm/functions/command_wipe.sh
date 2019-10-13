@@ -25,7 +25,7 @@ fn_wipe_server_process(){
 	else
 		fn_wipe_server_remove_files
 	fi
-	echo "server data wiped"
+	echo -e "server data wiped"
 	fn_script_log "server data wiped."
 }
 

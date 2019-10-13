@@ -86,7 +86,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
-				echo "Removing $(find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$')"
+				echo -e "Removing $(find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$')"
 				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
@@ -137,9 +137,9 @@ fn_install_server_files_steamcmd(){
 	fi
 }
 
-echo ""
-echo "${lightyellow}Installing ${gamename} Server${default}"
-echo "================================="
+echo -e ""
+echo -e "${lightyellow}Installing ${gamename} Server${default}"
+echo -e "================================="
 fn_sleep_time
 
 if [ -n "${appid}" ]; then
@@ -166,8 +166,8 @@ elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]|
 fi
 
 if [ -z "${autoinstall}" ]; then
-	echo ""
-	echo "================================="
+	echo -e ""
+	echo -e "================================="
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi

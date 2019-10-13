@@ -321,7 +321,7 @@ fn_prompt_yn(){
 		case "${yn}" in
 			[Yy]|[Yy][Ee][Ss]) return 0 ;;
 			[Nn]|[Nn][Oo]) return 1 ;;
-		*) echo "Please answer yes or no." ;;
+		*) echo -e "Please answer yes or no." ;;
 		esac
 	done
 }

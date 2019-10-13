@@ -33,7 +33,7 @@ steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # CS:GO Mods
 get5scrapepath="$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/xml | grep -oP "<relativePath>\K(.+)(?=</relativePath>)")"
-get5latestfile="$(echo "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo "basename "@""")"
+get5latestfile="$(echo -e "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo -e "basename "@""")"
 get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
 get5url="${get5downloadurl}"
 # Oxide

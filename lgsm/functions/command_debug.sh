@@ -74,18 +74,18 @@ fi
 if [ -n "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 fi
-echo ""
-echo "Start parameters:"
+echo -e ""
+echo -e "Start parameters:"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
-	echo "${executable} ${parms} -debug"
+	echo -e "${executable} ${parms} -debug"
 else
-	echo "${executable} ${parms}"
+	echo -e "${executable} ${parms}"
 fi
-echo ""
+echo -e ""
 echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${servicename} is already running it will be stopped."
-echo ""
+echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
 	echo Exiting; return
 fi

@@ -233,12 +233,12 @@ if [ -z "${extip}" ]; then
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
+		echo -e "${extip}" > "${tmpdir}/extip.txt"
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat ${tmpdir}/extip.txt)
 		else
-			echo "x.x.x.x"
+			echo -e "x.x.x.x"
 		fi
 	fi
 fi

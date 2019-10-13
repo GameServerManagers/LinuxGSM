@@ -584,39 +584,39 @@ fn_info_logs(){
 	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
 		if [ ! "$(ls -A "${lgsmlogdir}")" ]; then
-			echo "${lgsmlogdir} (NO LOG FILES)"
+			echo -e "${lgsmlogdir} (NO LOG FILES)"
 		elif [ ! -s "${lgsmlog}" ]; then
-			echo "${lgsmlog} (LOG FILE IS EMPTY)"
+			echo -e "${lgsmlog} (LOG FILE IS EMPTY)"
 		else
-			echo "${lgsmlog}"
+			echo -e "${lgsmlog}"
 			tail -25 "${lgsmlog}"
 		fi
-		echo ""
+		echo -e ""
 	fi
 
 	if [ -n "${consolelog}" ]; then
 		echo -e "\nConsole log\n===================="
 		if [ ! "$(ls -A "${consolelogdir}")" ]; then
-			echo "${consolelogdir} (NO LOG FILES)"
+			echo -e "${consolelogdir} (NO LOG FILES)"
 		elif [ ! -s "${consolelog}" ]; then
-			echo "${consolelog} (LOG FILE IS EMPTY)"
+			echo -e "${consolelog} (LOG FILE IS EMPTY)"
 		else
-			echo "${consolelog}"
+			echo -e "${consolelog}"
 			tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }'
 		fi
-		echo ""
+		echo -e ""
 	fi
 
 	if [ -n "${gamelogdir}" ]; then
 		echo -e "\nServer log\n==================="
 		if [ ! "$(ls -A "${gamelogdir}")" ]; then
-			echo "${gamelogdir} (NO LOG FILES)"
+			echo -e "${gamelogdir} (NO LOG FILES)"
 		else
-			echo "${gamelogdir}"
+			echo -e "${gamelogdir}"
 			# dos2unix sed 's/\r//'
 			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
-		echo ""
+		echo -e ""
 	fi
 }
 
@@ -1265,7 +1265,7 @@ fn_info_message_mordhau(){
 }
 
 fn_info_message_barotrauma(){
-	echo "netstat -atunp | grep /./Server.bin"
+	echo -e "netstat -atunp | grep /./Server.bin"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
@@ -1275,7 +1275,7 @@ fn_info_message_barotrauma(){
 }
 
 fn_info_message_soldat() {
-	echo "netstat -atunp | grep soldat"
+	echo -e "netstat -atunp | grep soldat"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
