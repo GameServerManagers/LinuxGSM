@@ -397,7 +397,7 @@ fn_info_message_script(){
 	# LinuxGSM version:     v19.9.0
 	# glibc required:         2.15
 	# Discord alert:          off
-	# Slack alert:			  off
+	# Slack alert:            off
 	# Email alert:            off
 	# Pushbullet alert:       off
 	# IFTTT alert:            off
