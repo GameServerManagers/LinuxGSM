@@ -335,7 +335,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 bzip2 gzip unzip binutils bc jq )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
 
 	# All servers except ts3 require tmux.
 	if [ "${shortname}" != "ts3" ]; then
@@ -439,6 +439,8 @@ fn_deps_build_debian(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( libgconf-2-4 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -451,17 +453,17 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements.
 	# CentOS
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux-ng python file tar gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "8" ]; then
-		array_deps_required=( epel-release curl wget util-linux python36 file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	else
-		array_deps_required=( curl wget util-linux python3 file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	fi
 
 	# All servers except ts3 require tmux.
@@ -524,7 +526,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Project Zomboid & Minecraft
+	# Minecraft
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
@@ -555,6 +557,10 @@ fn_deps_build_redhat(){
 	# Unturned
 	elif [ "${shortname}" == "unt" ]; then
 		array_deps_required+=( mono-complete )
+	elif [ "${shortname}" == "wurm" ]; then
+		array_deps_required+=( xorg-x11-server-Xvfb )
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( GConf2 )
 	fi
 	fn_deps_email
 	fn_check_loop
