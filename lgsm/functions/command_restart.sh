@@ -18,8 +18,3 @@ fi
 
 command_stop.sh
 command_start.sh
-
-if [ "${alertonrestart}" == "on" ]&&[ "${monitor}" != "yes" ]; then
-    alert="commandrestartcomplete"
-    alert.sh
-fi

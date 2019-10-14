@@ -88,15 +88,6 @@ fn_alert_command_restart(){
 	alertbody="${servicename} restarted by administrator."
 }
 
-fn_alert_command_restart_complete() {
-	fn_script_log_info "Sending alert: Restarted: ${servicename}"
-	alert_slack="Alert - ${servicename} - Restart By Admin"
-	alertemoji="↩️"
-	alertsound="2"
-	alerturl="not enabled"
-	alertbody="${servicename} restart is complete, it should be back online soon."
-}
-
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
 elif [ "${alert}" == "restart" ]; then
@@ -111,8 +102,6 @@ elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 elif [ "${alert}" == "commandrestart" ]; then
 	fn_alert_command_restart
-elif [ "${alert}" == "commandrestartcomplete" ]; then
-	fn_alert_command_restart_complete
 fi
 
 # Generate alert log.
