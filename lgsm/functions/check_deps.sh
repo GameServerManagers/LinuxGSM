@@ -436,6 +436,8 @@ fn_deps_build_debian(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( libgconf-2-4 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -521,7 +523,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Project Zomboid & Minecraft
+	# Minecraft
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
@@ -552,6 +554,10 @@ fn_deps_build_redhat(){
 	# Unturned
 	elif [ "${shortname}" == "unt" ]; then
 		array_deps_required+=( mono-complete )
+	elif [ "${shortname}" == "wurm" ]; then
+		array_deps_required+=( xorg-x11-server-Xvfb )
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( GConf2 )
 	fi
 	fn_deps_email
 	fn_check_loop
