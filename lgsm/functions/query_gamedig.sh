@@ -82,26 +82,26 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		# checks if query is working null = pass.
-		gamedigcmd=$(echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --query_port \"${queryport}\"|jq")
+		gamedigcmd=$(echo -e "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --query_port \"${queryport}\"|jq")
 		gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --query_port "${queryport}")
-		querystatus=$(echo "${gamedigraw}" | jq '.error|length')
+		querystatus=$(echo -e "${gamedigraw}" | jq '.error|length')
 
 		if [ "${querystatus}" != "null" ]; then
-			gamedigcmd=$(echo "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${queryport}\"|jq")
+			gamedigcmd=$(echo -e "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${queryport}\"|jq")
 			gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --port "${queryport}")
-			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
+			querystatus=$(echo -e "${gamedigraw}" | jq '.error|length')
 
 		fi
 
 
 		# server name.
-		gdname=$(echo "${gamedigraw}" | jq -re '.name')
+		gdname=$(echo -e "${gamedigraw}" | jq -re '.name')
 		if [ "${gdname}" == "null" ]; then
 			unset gdname
 		fi
 
 		# numplayers.
-		gdplayers=$(echo "${gamedigraw}" | jq -re '.players')
+		gdplayers=$(echo -e "${gamedigraw}" | jq -re '.players')
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
 		elif [ "${gdplayers}" == "[]" ]; then
@@ -109,7 +109,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# maxplayers.
-		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers')
+		gdmaxplayers=$(echo -e "${gamedigraw}" | jq -re '.maxplayers')
 		if [ "${gdmaxplayers}" == "null" ]; then
 			unset maxplayers
 		elif [ "${gdmaxplayers}" == "[]" ]; then
@@ -117,19 +117,19 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# current map.
-		gdmap=$(echo "${gamedigraw}" | jq -re '.map')
+		gdmap=$(echo -e "${gamedigraw}" | jq -re '.map')
 		if [ "${gdmap}" == "null" ]; then
 			unset gdmap
 		fi
 
 		# current gamemode.
-		gdgamemode=$(echo "${gamedigraw}" | jq -re '.raw.rules.GameMode_s')
+		gdgamemode=$(echo -e "${gamedigraw}" | jq -re '.raw.rules.GameMode_s')
 		if [ "${gdgamemode}" == "null" ]; then
 			unset gdgamemode
 		fi
 
 		# numbots.
-		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
+		gdbots=$(echo -e "${gamedigraw}" | jq -re '.raw.numbots')
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi

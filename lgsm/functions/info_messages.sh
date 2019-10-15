@@ -397,7 +397,7 @@ fn_info_message_script(){
 	# LinuxGSM version:     v19.9.0
 	# glibc required:         2.15
 	# Discord alert:          off
-	# Slack alert:			  off
+	# Slack alert:            off
 	# Email alert:            off
 	# Pushbullet alert:       off
 	# IFTTT alert:            off
@@ -538,7 +538,7 @@ fn_info_message_ports(){
 	echo -e ""
 	echo -e "${lightgreen}Ports${default}"
 	fn_messages_separator
-	echo -e "Change ports by editing the parameters in:"
+	echo -e "${lightblue}Change ports by editing the parameters in:${default}"
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file
@@ -563,7 +563,7 @@ fn_info_message_ports(){
 	done
 	echo -e "${parmslocation}"
 	echo -e ""
-	echo -e "Useful port diagnostic command:"
+	echo -e "${lightblue}Useful port diagnostic command:${default}"
 }
 
 fn_info_message_statusbottom(){
@@ -584,39 +584,39 @@ fn_info_logs(){
 	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
 		if [ ! "$(ls -A "${lgsmlogdir}")" ]; then
-			echo "${lgsmlogdir} (NO LOG FILES)"
+			echo -e "${lgsmlogdir} (NO LOG FILES)"
 		elif [ ! -s "${lgsmlog}" ]; then
-			echo "${lgsmlog} (LOG FILE IS EMPTY)"
+			echo -e "${lgsmlog} (LOG FILE IS EMPTY)"
 		else
-			echo "${lgsmlog}"
+			echo -e "${lgsmlog}"
 			tail -25 "${lgsmlog}"
 		fi
-		echo ""
+		echo -e ""
 	fi
 
 	if [ -n "${consolelog}" ]; then
 		echo -e "\nConsole log\n===================="
 		if [ ! "$(ls -A "${consolelogdir}")" ]; then
-			echo "${consolelogdir} (NO LOG FILES)"
+			echo -e "${consolelogdir} (NO LOG FILES)"
 		elif [ ! -s "${consolelog}" ]; then
-			echo "${consolelog} (LOG FILE IS EMPTY)"
+			echo -e "${consolelog} (LOG FILE IS EMPTY)"
 		else
-			echo "${consolelog}"
+			echo -e "${consolelog}"
 			tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }'
 		fi
-		echo ""
+		echo -e ""
 	fi
 
 	if [ -n "${gamelogdir}" ]; then
 		echo -e "\nServer log\n==================="
 		if [ ! "$(ls -A "${gamelogdir}")" ]; then
-			echo "${gamelogdir} (NO LOG FILES)"
+			echo -e "${gamelogdir} (NO LOG FILES)"
 		else
-			echo "${gamelogdir}"
+			echo -e "${gamelogdir}"
 			# dos2unix sed 's/\r//'
 			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
-		echo ""
+		echo -e ""
 	fi
 }
 
@@ -626,7 +626,7 @@ fn_info_message_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
@@ -641,7 +641,7 @@ fn_info_message_ballisticoverkill(){
 	echo -e "netstat -atunp | grep BODS.x86"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -651,7 +651,7 @@ fn_info_message_battalion1944(){
 	echo -e "netstat -atunp | grep BattalionServ"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		# unconfirmed - http://wiki.battaliongame.com/Community_Servers#Firewalls_.2F_Port_Forwarding
@@ -667,7 +667,7 @@ fn_info_message_cod(){
 	echo -e "netstat -atunp | grep cod_lnxded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -676,7 +676,7 @@ fn_info_message_coduo(){
 	echo -e "netstat -atunp | grep coduo_lnxded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -685,7 +685,7 @@ fn_info_message_cod2(){
 	echo -e "netstat -atunp | grep cod2_lnxded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -694,7 +694,7 @@ fn_info_message_cod4(){
 	echo -e "netstat -atunp"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -703,7 +703,7 @@ fn_info_message_codwaw(){
 	echo -e "netstat -atunp | grep codwaw_lnxded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -712,7 +712,7 @@ fn_info_message_dontstarve(){
 	echo -e "netstat -atunp | grep dontstarve"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game: Server\tINBOUND\t${port}\tudp"
 		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
 		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
@@ -724,7 +724,7 @@ fn_info_message_eco(){
 	echo -e "netstat -atunp | grep mono"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
@@ -735,7 +735,7 @@ fn_info_message_etlegacy(){
 	echo -e "netstat -atunp | grep etlded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -744,7 +744,7 @@ fn_info_message_factorio(){
 	echo -e "netstat -atunp | grep factorio"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
@@ -753,7 +753,7 @@ fn_info_message_goldsource(){
 	echo -e "netstat -atunp | grep hlds_linux"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
 		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
 	} | column -s $'\t' -t
@@ -763,7 +763,7 @@ fn_info_message_hurtworld(){
 	echo -e "netstat -atunp | grep Hurtworld"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -773,7 +773,7 @@ fn_info_message_inss(){
 	echo -e "netstat -atunp | grep Insurgency"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
@@ -784,7 +784,7 @@ fn_info_message_justcause2(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -793,7 +793,7 @@ fn_info_message_justcause3(){
 	echo -e "netstat -atunp | grep Server"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
@@ -804,10 +804,19 @@ fn_info_message_minecraft(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_mohaa(){
+	echo -e "netstat -atunp | grep mohaa_lnxded"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -815,7 +824,7 @@ fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
 		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
@@ -824,7 +833,7 @@ fn_info_message_pstbs(){
 	echo -e "netstat -atunp | grep PostScriptum"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
@@ -835,7 +844,7 @@ fn_info_message_projectcars(){
 	echo -e "netstat -atunp | grep DedicatedS"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
@@ -846,7 +855,7 @@ fn_info_message_projectzomboid(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -855,7 +864,7 @@ fn_info_message_quake(){
 	echo -e "netstat -atunp | grep mvdsv"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -864,7 +873,7 @@ fn_info_message_quake2(){
 	echo -e "netstat -atunp | grep quake2"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -873,7 +882,7 @@ fn_info_message_quake3(){
 	echo -e "netstat -atunp | grep q3ded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -886,7 +895,7 @@ fn_info_message_quakelive(){
 		echo -e ""
 	fi
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
 		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
@@ -901,7 +910,7 @@ fn_info_message_realvirtuality(){
 		port="2302"
 	fi
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
@@ -916,7 +925,7 @@ fn_info_message_refractor(){
 	echo -e "netstat -atunp | grep bf1942_lnxd"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -926,7 +935,7 @@ fn_info_message_risingworld(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
 		echo -e "> http query\tINBOUND\t${httpqueryport}\ttcp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
@@ -937,7 +946,7 @@ fn_info_message_rtcw(){
 	echo -e "netstat -atunp | grep iowolfded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -946,7 +955,7 @@ fn_info_message_rust(){
 	echo -e "netstat -atunp | grep Rust"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
@@ -956,7 +965,7 @@ fn_info_message_samp(){
 	echo -e "netstat -atunp | grep samp03svr"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
 	} | column -s $'\t' -t
 }
@@ -966,7 +975,7 @@ fn_info_message_seriousengine35(){
 	echo -e "netstat -atunp | grep Sam3_Dedicate"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -976,7 +985,7 @@ fn_info_message_sbots(){
 	echo -e "netstat -atunp | grep blank1"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -987,7 +996,7 @@ fn_info_message_sdtd(){
 	echo -e "netstat -atunp | grep 7DaysToDie"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
@@ -1015,7 +1024,7 @@ fn_info_message_sof2(){
 	echo -e "netstat -atunp | grep sof2ded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -1024,7 +1033,7 @@ fn_info_message_source(){
 	echo -e "netstat -atunp | grep srcds_linux"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
 		echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
 		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
@@ -1036,7 +1045,7 @@ fn_info_message_spark(){
 	echo -e "netstat -atunp | grep server_linux"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
@@ -1055,7 +1064,7 @@ fn_info_message_squad(){
 	echo -e "netstat -atunp | grep SquadServer"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
@@ -1066,7 +1075,7 @@ fn_info_message_starbound(){
 	echo -e "netstat -atunp | grep starbound"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
@@ -1077,7 +1086,7 @@ fn_info_message_stationeers(){
 	echo -e "netstat -atunp | grep rocketstation"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
 	} | column -s $'\t' -t
@@ -1087,7 +1096,7 @@ fn_info_message_teamspeak3(){
 	echo -e "netstat -atunp | grep ts3server"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
 		echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp"
 		echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
@@ -1098,7 +1107,7 @@ fn_info_message_teeworlds(){
 	echo -e "netstat -atunp | grep teeworlds_srv"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
@@ -1107,7 +1116,7 @@ fn_info_message_terraria(){
 	echo -e "netstat -atunp | grep TerrariaServer"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
@@ -1116,7 +1125,7 @@ fn_info_message_towerunite(){
 	echo -e "netstat -atunp | grep TowerServer"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
@@ -1170,7 +1179,7 @@ fn_info_message_unreal3(){
 	echo -e "netstat -atunp | grep ut3-bin"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
@@ -1190,7 +1199,7 @@ fn_info_message_unturned(){
 	echo -e "netstat -atunp | grep Unturned"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -1203,7 +1212,7 @@ fn_info_message_kf2(){
 	echo -e "netstat -atunp | grep KFGame"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t20560\tudp"
@@ -1224,7 +1233,7 @@ fn_info_message_wolfensteinenemyterritory(){
 	echo -e "netstat -atunp | grep etded"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
@@ -1234,7 +1243,7 @@ fn_info_message_wurmunlimited(){
 	echo -e "netstat -atunp | grep WurmServer"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
 		echo -e "> Game/Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
@@ -1244,7 +1253,7 @@ fn_info_message_mta(){
 	echo -e "netstat -atunp | grep mta-server64"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tOUTBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
@@ -1257,7 +1266,7 @@ fn_info_message_mordhau(){
 	echo -e "netstat -atunp | grep Mord"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
@@ -1265,20 +1274,20 @@ fn_info_message_mordhau(){
 }
 
 fn_info_message_barotrauma(){
-	echo "netstat -atunp | grep /./Server.bin"
+	echo -e "netstat -atunp | grep /./Server.bin"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t$((port+1))\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_soldat() {
-	echo "netstat -atunp | grep soldat"
+	echo -e "netstat -atunp | grep soldat"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${port}\ttcp"
 		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
@@ -1289,7 +1298,7 @@ fn_info_message_warfork(){
 	echo -e "netstat -atunp | grep wf_server"
 	echo -e ""
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
 	} | column -s $'\t' -t
@@ -1363,6 +1372,8 @@ fn_info_message_select_engine(){
 		fn_info_message_towerunite
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
+	elif [ "${shortname}" == "mohaa" ]; then
+		fn_info_message_mohaa
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
 	elif [ "${shortname}" == "mta" ]; then

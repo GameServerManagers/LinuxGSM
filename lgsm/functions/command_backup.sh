@@ -13,7 +13,7 @@ check.sh
 
 # Trap to remove lockfile on quit.
 fn_backup_trap(){
-	echo ""
+	echo -e ""
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
@@ -54,7 +54,7 @@ fn_backup_init(){
 		else
 			daysago="${lastbackupdaysago} days ago"
 		fi
-		echo "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
+		echo -e "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
 
@@ -68,7 +68,7 @@ fn_backup_stop_server(){
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
 		fn_print_warn_nl "${servicename} is currently running"
-		echo "	* Although unlikely; creating a backup while ${servicename} is running might corrupt the backup."
+		echo -e "	* Although unlikely; creating a backup while ${servicename} is running might corrupt the backup."
 		fn_script_log_warn "${servicename} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${servicename} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
@@ -144,7 +144,7 @@ fn_backup_compression(){
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
-		echo "${tarcmd}" | tee -a "${lgsmlog}"
+		echo -e "${tarcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
@@ -174,7 +174,7 @@ fn_backup_prune(){
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays.
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				echo -e "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
@@ -186,7 +186,7 @@ fn_backup_prune(){
 			# If maxbackupdays is used over maxbackups.
 			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
+				echo -e "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
@@ -243,7 +243,7 @@ fn_backup_relpath() {
 	# traverse down, just add a newline. Otherwise at this point, there is
 	# one remaining directory component in the backupdir to navigate.
 		if (( "$base" < "${#bdirtoks[@]}" )) ; then
-			echo "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
+			echo -e "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
 		else
 			echo
 		fi
