@@ -39,7 +39,7 @@ Each game server has its own specific dependency requirements. Visit a specific 
 
 ## :blue_book: Documentation
 
-Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgsm.com](https://docs.linuxgsm.com)
+Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgsm.com](https://docs.linuxgsm.com).
 
 ## :question: Support
 
