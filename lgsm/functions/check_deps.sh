@@ -400,7 +400,7 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
-	# Medal of Honor: Allied Assault 
+	# Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
@@ -526,7 +526,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Minecraft
+	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
