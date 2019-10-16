@@ -11,6 +11,7 @@ fn_ansi_loader(){
 	if [ "${ansi}" != "off" ]; then
 		# echo colors
 		default="\e[0m"
+		black="\e[30m"
 		red="\e[31m"
 		lightred="\e[91m"
 		green="\e[32m"
@@ -23,6 +24,9 @@ fn_ansi_loader(){
 		lightmagenta="\e[95m"
 		cyan="\e[36m"
 		lightcyan="\e[96m"
+		darkgrey="\e[90m"
+		lightgrey="\e[37m"
+		white="\e[97m"
 	fi
 	# carriage return & erase to end of line.
 	creeol="\r\033[K"
@@ -195,18 +199,18 @@ fn_print_error_nl(){
 # [ WARN ]
 fn_print_warn(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "${creeol}[${yellow} WARN ${default}] $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] $@"
 	fi
 	fn_sleep_time
 }
 
 fn_print_warn_nl(){
 	if [ -n "${commandaction}" ]; then
-		echo -en "${creeol}[${yellow} WARN ${default}] ${commandaction} ${servicename}: $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] ${commandaction} ${servicename}: $@"
 	else
-		echo -en "${creeol}[${yellow} WARN ${default}] $@"
+		echo -en "${creeol}[${lightyellow} WARN ${default}] $@"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -239,9 +243,8 @@ fn_print_info_nl(){
 # =================================
 fn_print_header(){
 	echo -e ""
-	echo -e "${gamename} ${commandaction}"
+	echo -e "${lightyellow}${gamename} ${commandaction}${default}"
 	echo -e "=================================${default}"
-	echo -e ""
 }
 
 # Complete!
@@ -279,12 +282,12 @@ fn_print_error2_nl(){
 
 # Warning!
 fn_print_warning(){
-	echo -en "${yellow}Warning!${default} $@"
+	echo -en "${lightyellow}Warning!${default} $@"
 	fn_sleep_time
 }
 
 fn_print_warning_nl(){
-	echo -e "${yellow}Warning!${default} $@"
+	echo -e "${lightyellow}Warning!${default} $@"
 	fn_sleep_time
 }
 
@@ -317,7 +320,7 @@ fn_prompt_yn(){
 		case "${yn}" in
 			[Yy]|[Yy][Ee][Ss]) return 0 ;;
 			[Nn]|[Nn][Oo]) return 1 ;;
-		*) echo "Please answer yes or no." ;;
+		*) echo -e "Please answer yes or no." ;;
 		esac
 	done
 }
@@ -350,11 +353,11 @@ fn_print_error_eol(){
 
 # WARN
 fn_print_warn_eol(){
-	echo -en "${red}WARN${default}"
+	echo -en "${lightyellow}WARN${default}"
 }
 
 fn_print_warn_eol_nl(){
-	echo -e "${red}WARN${default}"
+	echo -e "${lightyellow}WARN${default}"
 }
 
 # INFO
@@ -418,4 +421,40 @@ fn_print_update_eol(){
 
 fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
+}
+
+fn_print_ascii_logo(){
+	echo -e ""
+	echo -e "                                mdMMMMbm"
+	echo -e "                              mMMMMMMMMMMm"
+	echo -e "                              mMMMMMMMMMMMMm"
+	echo -e "                             mMMMMMMMMMMMMMMm"
+	echo -e "                             hMMMV^VMMV^VMMMh"
+	echo -e "                             MMMMM  MM  MMMMM"
+	echo -e "                             hMMs   vv   sMMh"
+	echo -e "                            hMMM:        :MMMh"
+	echo -e "                          .hMMMh          hMMMh."
+	echo -e "                         -dMMMh     ${lightgrey}__${default}     hMMMd-"
+	echo -e "                        :mMMMs      ${lightgrey}||${default}      sMMMm:"
+	echo -e "                       :MMMM+       ${lightgrey}||${default} ${red}_${default}     +NMMN:"
+	echo -e "                      .mMMM+     ${lightgrey}========${default}     +MMMm."
+	echo -e "                      yMMMy   ${darkgrey}##############${default}   yMMMy"
+	echo -e "                      mMMM:   ${darkgrey}##############${default}   :MMMm"
+	echo -e "                      mMM   ${lightyellow}nn${default}   ${lightyellow}nn${default}    ${lightyellow}nn${default}   ${lightyellow}nn${default}   MMm"
+	echo -e "                      o   ${lightyellow}nNNNNNNNn${default}    ${lightyellow}nNNNNNNNn${default}   o"
+	echo -e "                         ${lightyellow}nNNNNNNNNNn${default}  ${lightyellow}nNNNNNNNNNn${default}"
+	echo -e "                        ${lightyellow}nNNNNNNNNNNN${default}  ${lightyellow}NNNNNNNNNNNn${default}"
+	echo -e "                         ${lightyellow}+NNNNNNNNN:${default}  ${lightyellow}:NNNNNNNNN+${default}"
+	echo -e "                           ${lightyellow}nNNNNNNN${default} /\ ${lightyellow}NNNNNNNn${default}"
+	echo -e "                             ${lightyellow}nnnnn${default}  db  ${lightyellow}nnnnn${default}"
+	echo -e ""
+	echo -e "${lightyellow}888${default}      ${lightyellow}d8b${default}                             ${default}.d8888b.   .d8888b.  888b     d888"
+	echo -e "${lightyellow}888      Y8P                            ${default}d88P  Y88b d88P  Y88b 8888b   d8888"
+	echo -e "${lightyellow}888${default}                                     ${default}888${default}    888 Y88b.      88888b.d88888"
+	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}88888b.${default}  ${lightyellow}888${default}  ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default} 888          Y888b.   888Y88888P888"
+	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}88b${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8bd8P${default}  888  88888      Y88b. 888 Y888P 888"
+	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}   ${lightyellow}X88K${default}   888    888        888 888  Y8P  888"
+	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default} ${lightyellow}Y88b${default} ${lightyellow}88Y${default} ${lightyellow}.d8pq8b.${default} Y88b  d88P Y88b  d88P 888   *   888"
+	echo -e "${lightyellow}LinuxGSM${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y2012P88   Y8888P   888       888"
+	echo -e ""
 }

@@ -17,8 +17,8 @@ fn_print_header
 # Displays a list of installed mods.
 fn_mods_installed_list
 if [ "${installedmodscount}" -gt "0" ]; then
-	echo "Installed addons/mods"
-	echo "================================="
+	echo -e "Installed addons/mods"
+	echo -e "================================="
 	# Go through all available commands, get details and display them to the user.
 	for ((llindex=0; llindex < ${#installedmodslist[@]}; llindex++)); do
 		# Current mod is the "llindex" value of the array we're going through.
@@ -27,11 +27,11 @@ if [ "${installedmodscount}" -gt "0" ]; then
 		# Display mod info to the user.
 		echo -e " * ${green}${modcommand}${default}${default}"
 	done
-	echo ""
+	echo -e ""
 fi
 
-echo "Available addons/mods"
-echo "================================="
+echo -e "Available addons/mods"
+echo -e "================================="
 # Display available mods from mods_list.sh.
 # Set and reset vars
 compatiblemodslistindex=0
@@ -59,7 +59,7 @@ fi
 fn_script_log_info "${totalmodsavailable} addons/mods are available for install"
 
 ## User selects a mod.
-echo ""
+echo -e ""
 while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
 	read -r usermodselect
@@ -75,9 +75,9 @@ done
 currentmod="${usermodselect}"
 fn_mod_get_info
 
-echo ""
-echo "Installing ${modprettyname}"
-echo "================================="
+echo -e ""
+echo -e "Installing ${modprettyname}"
+echo -e "================================="
 fn_script_log_info "${modprettyname} selected for install"
 
 # Check if the mod is already installed and warn the user.
@@ -85,7 +85,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 	if [ -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		fn_print_warning_nl "${modprettyname} is already installed"
 		fn_script_log_warn "${modprettyname} is already installed"
-		echo " * Any configs may be overwritten."
+		echo -e " * Any configs may be overwritten."
 		if ! fn_prompt_yn "Continue?" Y; then
 			echo Exiting; core_exit.sh
 		fi
@@ -105,7 +105,7 @@ fn_mod_copy_destination
 fn_mod_add_list
 fn_mod_tidy_files_list
 fn_mods_clear_tmp_dir
-echo "${modprettyname} installed"
+echo -e "${modprettyname} installed"
 fn_script_log_pass "${modprettyname} installed."
 
 core_exit.sh

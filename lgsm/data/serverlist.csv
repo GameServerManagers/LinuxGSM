@@ -1,4 +1,5 @@
 ahl,ahlserver,Action half-life
+ahl2,ahl2server,Action: Source
 arma3,arma3server,ARMA 3
 sdtd,sdtdserver,7 Days to Die
 ark,arkserver,ARK: Survival Evolved
@@ -49,6 +50,7 @@ l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
 mh,mhserver,MORDHAU
+mohaa,mohaaserver,Medal of Honor: Allied Assault
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
 nd,ndserver,Nuclear Dawn
@@ -93,6 +95,7 @@ ut99,ut99server,Unreal Tournament 99
 unt,untserver,Unturned
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
+wf,wfserver,Warfork
 wurm,wurmserver,Wurm Unlimited
 etl,etlserver,ET: Legacy
 zmr,zmrserver,Zombie Master: Reborn

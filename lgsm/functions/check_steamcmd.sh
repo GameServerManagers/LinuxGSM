@@ -23,7 +23,7 @@ fn_check_steamcmd_user(){
 		else
 			fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
 		fi
-		echo "	* Change steamuser=\"username\" to a valid steam login."
+		echo -e "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${lgsmlogdir}" ]; then
 			if [ "${legacymode}" == "1" ]; then
 				fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}"
