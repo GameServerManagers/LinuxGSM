@@ -13,7 +13,7 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
 
 ## Main features
 
-80+ game servers supported
+100+ game servers supported
 
 * :truck: Installer
 * :mag: Monitor
@@ -25,7 +25,7 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
 
 ## :penguin: Compatibility
 
-sdtdserver will run on popular distros as long as the minimum requirements are met.
+LinuxGSM will run on popular distros as long as the minimum requirements are met.
 
 * Ubuntu
 * Debian
