@@ -35,10 +35,7 @@ Other distros are likely to work but are not fully tested.
 
 ## :wrench: Requirements
 
-Each game server has its own specific dependency requirements, with most requiring GLIBC and Tmux. Visit the specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to check dependency requirements.
-
-* [GLIBC](https://docs.linuxgsm.com/requirements/glibc) >= 2.15 recommended [[specific requirements]](https://docs.linuxgsm.com/requirements/glibc#server-requirements)
-* [Tmux](https://docs.linuxgsm.com/requirements/tmux) >= 1.6 recommended (Avoid Tmux 1.8)
+Each game server has its own specific dependency requirements. Visit a specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to check dependency requirements for the game server you want to install.
 
 ## :blue_book: Documentation
 
