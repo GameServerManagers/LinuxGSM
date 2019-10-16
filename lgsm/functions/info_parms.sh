@@ -27,11 +27,6 @@ fn_info_parms_barotrauma(){
 	queryport=${queryport:-"0"}
 }
 
-fn_info_parms_realvirtuality(){
-	port=${port:-"0"}
-	queryport=$((port + 1))
-}
-
 fn_info_parms_cod(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
@@ -57,6 +52,15 @@ fn_info_parms_factorio(){
 	rconpassword=${rconpassword:-"NOT SET"}
 }
 
+fn_info_parms_hurtworld(){
+	servername=${servername:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	maxplayers=${maxplayers:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+	creativemode=${creativemode:-"NOT SET"}
+}
+
 fn_info_parms_inss(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
@@ -67,13 +71,22 @@ fn_info_parms_inss(){
 	maxplayers=${maxplayers:-"0"}
 }
 
-fn_info_parms_hurtworld(){
-	servername=${servername:-"NOT SET"}
+fn_info_parms_kf2(){
+	queryport=${queryport:-"0"}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
+
+fn_info_parms_mordhau(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
-	maxplayers=${maxplayers:-"0"}
+	beaconport=${beaconport:-"0"}
+}
+
+fn_info_parms_mohaa(){
+	port=${port:-"0"}
+	queryport=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	creativemode=${creativemode:-"NOT SET"}
 }
 
 fn_info_parms_projectzomboid(){
@@ -87,7 +100,13 @@ fn_info_parms_quakeworld(){
 
 fn_info_parms_quake2(){
 	port=${port:-"0"}
+	queryport=${port}
 	defaultmap=${defaultmap:-"NOT SET"}
+}
+
+fn_info_parms_realvirtuality(){
+	port=${port:-"0"}
+	queryport=$((port + 1))
 }
 
 fn_info_parms_risingworld(){
@@ -95,7 +114,6 @@ fn_info_parms_risingworld(){
 	port=${port:-"0"}
 	queryport=${port}
 	httpqueryport=$((port - 1))
-
 }
 
 fn_info_parms_rtcw(){
@@ -171,12 +189,6 @@ fn_info_parms_towerunite(){
 	queryport=${queryport:-"0"}
 }
 
-fn_info_parms_mordhau(){
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
-	beaconport=${beaconport:-"0"}
-}
-
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	queryport=$((port + 1))
@@ -200,9 +212,11 @@ fn_info_parms_unturned(){
 	port=${port:-"0"}
 	queryport=$((port + 1))
 }
-fn_info_parms_kf2(){
-	queryport=${queryport:-"0"}
-	defaultmap=${defaultmap:-"NOT SET"}
+
+fn_info_parms_wf(){
+	port=${port:-"0"}
+	queryport="${port}"
+	webadminport=${webadminport:-"0"}
 }
 
 # ARK: Survival Evolved
@@ -227,6 +241,8 @@ elif [ "${shortname}" == "inss" ]; then
 	fn_info_parms_inss
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
+elif [ "${shortname}" == "mohaa" ]; then
+	fn_info_parms_mohaa
 # Project Zomboid
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid
@@ -270,4 +286,7 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
 elif [ "${shortname}" == "unt" ]; then
 	fn_info_parms_unturned
+# Warfork
+elif [ "${shortname}" == "wf" ]; then
+	fn_info_parms_wf
 fi

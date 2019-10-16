@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.10.2"
+version="v19.11.0"
 shortname="core"
 gameservername="core"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -84,14 +84,14 @@ fn_bootstrap_fetch_file(){
 				echo -e "FAIL"
 				if [ -f "${lgsmlog}" ]; then
 					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
-					echo "${curlcmd}" | tee -a "${lgsmlog}"
+					echo -e "${curlcmd}" | tee -a "${lgsmlog}"
 				fi
 				exit 1
 			else
 				echo -e "OK"
 			fi
 		else
-			echo "[ FAIL ] Curl is not installed"
+			echo -e "[ FAIL ] Curl is not installed"
 			exit 1
 		fi
 		# Make file chmodx if chmodx is set.
@@ -149,7 +149,7 @@ fn_install_menu_bash() {
 	fn_print_horizontal
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
-		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
+		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
 	done < "${options}"
 	menu_options+=( "Cancel" )
@@ -174,8 +174,8 @@ fn_install_menu_whiptail() {
 	IFS=","
 	menu_options=()
 	while read -r line; do
-		key=$(echo "${line}" | awk -F "," '{print $3}')
-		val=$(echo "${line}" | awk -F "," '{print $2}')
+		key=$(echo -e "${line}" | awk -F "," '{print $3}')
+		val=$(echo -e "${line}" | awk -F "," '{print $2}')
 		menu_options+=( "${val//\"}" "${key//\"}" )
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
@@ -220,10 +220,10 @@ fn_server_info(){
 
 fn_install_getopt(){
 	userinput="empty"
-	echo "Usage: $0 [option]"
+	echo -e "Usage: $0 [option]"
 	echo -e ""
-	echo "Installer - Linux Game Server Managers - Version ${version}"
-	echo "https://linuxgsm.com"
+	echo -e "Installer - Linux Game Server Managers - Version ${version}"
+	echo -e "https://linuxgsm.com"
 	echo -e ""
 	echo -e "Commands"
 	echo -e "install\t\t| Select server to install."
@@ -244,15 +244,15 @@ fn_install_file(){
 	cp -R "${selfname}" "${local_filename}"
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
 	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
-	echo "Installed ${gamename} server as ${local_filename}"
-	echo ""
+	echo -e "Installed ${gamename} server as ${local_filename}"
+	echo -e ""
 	if [ ! -d "${serverfiles}" ]; then
-		echo "./${local_filename} install"
+		echo -e "./${local_filename} install"
 	else
-		echo "Remember to check server ports"
-		echo "./${local_filename} details"
+		echo -e "Remember to check server ports"
+		echo -e "./${local_filename} details"
 	fi
-	echo ""
+	echo -e ""
 	exit
 }
 
@@ -260,11 +260,11 @@ fn_install_file(){
 if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
-			echo "[ FAIL ] Do NOT run this script as root!"
+			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
 	elif [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
+		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else
 		core_functions.sh
@@ -277,7 +277,7 @@ if [ "${shortname}" == "core" ]; then
 	# Download the latest serverlist. This is the complete list of all supported servers.
 	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
-		echo "[ FAIL ] serverlist.csv could not be loaded."
+		echo -e "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
 	fi
 
@@ -294,18 +294,18 @@ if [ "${shortname}" == "core" ]; then
 		if [ "${result}" == "${gameservername}" ]; then
 			fn_install_file
 		elif [ "${result}" == "" ]; then
-			echo "Install canceled"
+			echo -e "Install canceled"
 		else
-			echo "[ FAIL ] menu result does not match gameservername"
-			echo "result: ${result}"
-			echo "gameservername: ${gameservername}"
+			echo -e "[ FAIL ] menu result does not match gameservername"
+			echo -e "result: ${result}"
+			echo -e "gameservername: ${gameservername}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
 		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
-			echo "[ FAIL ] unknown game server"
+			echo -e "[ FAIL ] unknown game server"
 		fi
 	else
 		fn_install_getopt

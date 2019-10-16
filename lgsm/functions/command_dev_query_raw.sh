@@ -7,12 +7,12 @@
 local commandname="QUERY-RAW"
 local commandaction="Query Raw"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-echo ""
-echo "Query Port"
-echo "=================================================================="
-echo ""
-echo "Gamedig Raw Output"
-echo "================================="
+echo -e ""
+echo -e "Query Port"
+echo -e "=================================================================="
+echo -e ""
+echo -e "Gamedig Raw Output"
+echo -e "================================="
 echo""
 if [ ! "$(command -v gamedig 2>/dev/null)" ]; then
 	fn_print_failure_nl "gamedig not installed"
@@ -31,70 +31,70 @@ elif [ "${shortname}" == "kf2" ]; then
 fi
 
 query_gamedig.sh
-echo "${gamedigcmd}"
+echo -e "${gamedigcmd}"
 echo""
-echo "${gamedigraw}" | jq
+echo -e "${gamedigraw}" | jq
 echo""
-echo "gsquery Raw Output"
-echo "================================="
+echo -e "gsquery Raw Output"
+echo -e "================================="
 echo""
-echo "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${engine}\""
+echo -e "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${engine}\""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
 "${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"
 
 echo""
-echo "TCP Raw Output"
-echo "================================="
+echo -e "TCP Raw Output"
+echo -e "================================="
 echo""
-echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
+echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
-	echo "TCP query PASS"
+	echo -e "TCP query PASS"
 else
-	echo "TCP query FAIL"
+	echo -e "TCP query FAIL"
 fi
 
 echo""
-echo "UDP Raw Output"
-echo "================================="
+echo -e "UDP Raw Output"
+echo -e "================================="
 echo""
-echo "bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''"
+echo -e "bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''"
 bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
-	echo "UPD query PASS"
+	echo -e "UPD query PASS"
 else
-	echo "UPD query FAIL"
+	echo -e "UPD query FAIL"
 fi
-echo ""
-echo "Game Port"
-echo "=================================================================="
-echo ""
+echo -e ""
+echo -e "Game Port"
+echo -e "=================================================================="
+echo -e ""
 echo""
-echo "TCP Raw Output"
-echo "================================="
+echo -e "TCP Raw Output"
+echo -e "================================="
 echo""
-echo "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
+echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
-	echo "TCP query PASS"
+	echo -e "TCP query PASS"
 else
-	echo "TCP query FAIL"
+	echo -e "TCP query FAIL"
 fi
 
 echo""
-echo "UDP Raw Output"
-echo "================================="
+echo -e "UDP Raw Output"
+echo -e "================================="
 echo""
-echo "bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''"
+echo -e "bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''"
 bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
-	echo "UDP query PASS"
+	echo -e "UDP query PASS"
 else
-	echo "UDP query FAIL"
+	echo -e "UDP query FAIL"
 fi
