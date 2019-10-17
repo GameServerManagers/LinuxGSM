@@ -1,4 +1,6 @@
 sdtd,sdtdserver,7 Days To Die,false
+ahl,ahlserver,Action half-life,false
+ahl2,ahl2server,Action: Source,true
 ark,arkserver,ARK: Survival Evolved,false
 arma3,arma3server,ARMA 3,true
 bo,boserver,Ballistic Overkill,false
@@ -48,6 +50,7 @@ kf2,kf2server,Killing Floor 2,false
 kf,kfserver,Killing Floor,true
 l4d2,l4d2server,Left 4 Dead 2,false
 l4d,l4dserver,Left 4 Dead,false
+mohaa,mohaaserver,Medal of Honor: Allied Assault,false
 mc,mcserver,Minecraft,false
 mh,mhserver,MORDHAU,false
 mta,mtaserver,Multi Theft Auto,false
@@ -72,7 +75,9 @@ rw,rwserver,Rising World,false
 rust,rustserver,Rust,false
 samp,sampserver,San Andreas Multiplayer,false
 ss3,ss3server,Serious Sam 3: BFE,false
+sol,solserver,Soldat,false
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,false
+sfc,sfcserver,SourceForts Classic,false
 squad,squadserver,Squad,false
 sb,sbserver,Starbound,true
 st,stserver,Stationeers,false
@@ -83,13 +88,16 @@ tfc,tfcserver,Team Fortress Classic,false
 ts3,ts3server,TeamSpeak 3,false
 tw,twserver,Teeworlds,true
 terraria,terrariaserver,Terraria,true
+ts,tsserver,The Specialists,false
 tu,tuserver,Tower Unite,false
 ut2k4,ut2k4server,Unreal Tournament 2004,false
 ut3,ut3server,Unreal Tournament 3,false
 ut99,ut99server,Unreal Tournament 99,false
 ut,utserver,Unreal Tournament,false
-unt,untserver,Unturned,true
+unt,untserver,Unturned,false
 vs,vsserver,Vampire Slayer,false
+wf,wfserver,Warfork,false
 wet,wetserver,Wolfenstein: Enemy Territory,false
 wurm,wurmserver,Wurm Unlimited,false
+zmr,zmrserver,Zombie Master: Reborn,false
 zps,zpsserver,Zombie Panic! Source,false
