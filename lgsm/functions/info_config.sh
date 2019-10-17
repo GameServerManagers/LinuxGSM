@@ -386,16 +386,36 @@ fn_info_config_minecraft(){
 	fi
 }
 
+fn_info_config_mohaa(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 #Post Scriptum: The bloody Seventh
 fn_info_config_pstbs(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${unavailable}"
-		numreservedslots="${unavailable}"
+		reservedslots="${unavailable}"
 	else
 		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
 		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
-		numreservedslots="$(grep "NumReservedSlots=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+		reservedslots="$(grep "NumReservedSlots=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
 	fi
 
 	if [ ! -f "${servercfgdir}/Rcon.cfg" ]; then
@@ -935,6 +955,24 @@ fn_info_config_unreal3(){
 	fi
 }
 
+
+fn_info_config_warfork(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	else
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 fn_info_config_kf2(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1212,6 +1250,18 @@ fn_info_config_mordhau(){
 	fi
 }
 
+fn_info_config_soldat(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		adminpassword="${unavailable}"
+	else
+		servername=$(grep "Server_Name" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "Game_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		adminpassword=$(grep "Admin_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+	fi
+}
+
 # ARK: Survival Evolved
 if [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
@@ -1260,6 +1310,9 @@ elif [ "${shortname}" == "jc3" ]; then
 # Killing Floor 2
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
+# Medal of Honor: Allied Assault
+elif [ "${shortname}" == "mohaa" ]; then
+  fn_info_config_mohaa
 # QuakeWorld
 elif [ "${shortname}" == "qw" ]; then
 	fn_info_config_quakeworld
@@ -1296,6 +1349,9 @@ elif [ "${shortname}" == "rw" ]; then
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_config_seriousengine35
+# Soldat
+elif [ "${shortname}" == "sol" ]; then
+	fn_info_config_soldat
 # Soldier Of Fortune 2: Gold Edition
 elif [ "${shortname}" == "sof2" ]; then
   fn_info_config_sof2
@@ -1305,7 +1361,7 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 # Starbound
 elif [ "${shortname}" == "sb" ]; then
 	fn_info_config_starbound
-# TeamSpeak 3
+# Teamspeak 3
 elif [ "${shortname}" == "ts3" ]; then
 	fn_info_config_teamspeak3
 # Mumble
@@ -1337,6 +1393,8 @@ elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then
 	fn_info_config_wolfensteinenemyterritory
+elif [ "${shortname}" == "wf" ]; then
+	fn_info_config_warfork
 elif [ "${shortname}" == "etl" ]; then
 	fn_info_config_etlegacy
 elif [ "${shortname}" == "wurm" ]; then

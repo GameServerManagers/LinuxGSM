@@ -11,7 +11,7 @@ if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${shortname}" != "hw" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then
 		fn_print_dots ""
 		fn_print_warn_nl "Configuration file missing!"
-		echo "${servercfgfullpath}"
+		echo -e "${servercfgfullpath}"
 		fn_script_log_warn "Configuration file missing!"
 		fn_script_log_warn "${servercfgfullpath}"
 		install_config.sh
@@ -22,14 +22,14 @@ if [ "${shortname}" == "rust" ]; then
 	if  [ -z "${rconpassword}" ]; then
 		fn_print_dots ""
 		fn_print_fail_nl "RCON password is not set!"
-		echo "  * Not setting an RCON password causes issues with ${gamename}"
+		echo -e "  * Not setting an RCON password causes issues with ${gamename}"
 		fn_script_log_fatal "RCON password is not set"
 		fn_script_log_fatal "Not setting an RCON password causes issues with ${gamename}"
 		core_exit.sh
 	elif [ "${rconpassword}" == "CHANGE_ME" ]; then
 		fn_print_dots ""
 		fn_print_warn_nl "Default RCON Password detected!"
-		echo " * Having ${rconpassword} as a password is not very safe."
+		echo -e " * Having ${rconpassword} as a password is not very safe."
 		fn_script_log_warn "Default RCON Password detected"
 	fi
 fi

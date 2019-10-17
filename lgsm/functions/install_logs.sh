@@ -9,9 +9,9 @@ local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
-	echo ""
-	echo "Creating log directories"
-	echo "================================="
+	echo -e ""
+	echo -e "${lightyellow}Creating log directories${default}"
+	echo -e "================================="
 fi
 fn_sleep_time
 # Create LinuxGSM logs.

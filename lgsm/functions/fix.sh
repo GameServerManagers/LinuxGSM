@@ -55,6 +55,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_rw.sh
 	elif [ "${shortname}" == "sdtd" ]; then
 		fix_sdtd.sh
+	elif [ "${shortname}" == "sfc" ]; then
+		fix_sfc.sh
 	elif [ "${shortname}" == "sof2" ]; then
 		fix_sof2.sh
 	elif [ "${shortname}" == "ss3" ]; then
@@ -71,15 +73,17 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_unt.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
+	elif [ "${shortname}" == "zmr" ]; then
+		fix_zmr.sh
 	fi
 fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
 		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
-			echo ""
-			echo "Applying Post-Install Fixes"
-			echo "================================="
+			echo -e ""
+			echo -e "Applying Post-Install Fixes"
+			echo -e "================================="
 			fn_sleep_time
 			if [ "${shortname}" == "kf" ]; then
 				fix_kf.sh

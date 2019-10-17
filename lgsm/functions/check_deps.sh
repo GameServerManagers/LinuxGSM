@@ -36,22 +36,25 @@ fn_install_mono_repo(){
 					eval ${cmd}
 				else
 					fn_print_warn_nl "Installing Mono repository"
-					echo "Mono auto install not available for ${distroname}"
-					echo "	Follow instructions on mono site to install the latest version of Mono."
-					echo "	https://www.mono-project.com/download/stable/#download-lin"
+					echo -e "Mono auto install not available for ${distroname}"
+					echo -e "	Follow instructions on mono site to install the latest version of Mono."
+					echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "debian" ]; then
-				if [ "${distroversion}" == "9" ]; then
+				if [ "${distroversion}" == "10" ]; then
+					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					eval ${cmd}
+				elif [ "${distroversion}" == "9" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval ${cmd}
 				elif [ "${distroversion}" == "8" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval ${cmd}
 				else
-					echo "Mono auto install not available for ${distroname}"
-					echo "	Follow instructions on mono site to install the latest version of Mono."
-					echo "	https://www.mono-project.com/download/stable/#download-lin"
+					echo -e "Mono auto install not available for ${distroname}"
+					echo -e "	Follow instructions on mono site to install the latest version of Mono."
+					echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "centos" ]; then
@@ -65,18 +68,18 @@ fn_install_mono_repo(){
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos6-stable.repo | tee /etc/yum.repos.d/mono-centos6-stable.repo'"
 					eval ${cmd}
 				else
-					echo "Mono auto install not available for ${distroname}"
-					echo "	Follow instructions on mono site to install the latest version of Mono."
-					echo "	https://www.mono-project.com/download/stable/#download-lin"
+					echo -e "Mono auto install not available for ${distroname}"
+					echo -e "	Follow instructions on mono site to install the latest version of Mono."
+					echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 					monoautoinstall="1"
 				fi
 			elif [ "${distroid}" == "fedora" ]; then
 				cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
 				eval ${cmd}
 			else
-				echo "Mono auto install not available for ${distroname}"
-				echo "	Follow instructions on mono site to install the latest version of Mono."
-				echo "	https://www.mono-project.com/download/stable/#download-lin"
+				echo -e "Mono auto install not available for ${distroname}"
+				echo -e "	Follow instructions on mono site to install the latest version of Mono."
+				echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 				monoautoinstall="1"
 			fi
 			if [ "${monoautoinstall}" != "1" ];then
@@ -92,11 +95,11 @@ fn_install_mono_repo(){
 			fi
 		else
 			fn_print_information_nl "Installing Mono repository"
-			echo ""
+			echo -e ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install Mono repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install Mono repository."
-			echo "	Follow instructions on mono site to install the latest version of Mono."
-			echo "	https://www.mono-project.com/download/stable/#download-lin"
+			echo -e "	Follow instructions on mono site to install the latest version of Mono."
+			echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 		fi
 	fi
 }
@@ -120,7 +123,7 @@ fn_install_universe_repo(){
 			sleep 1
 			echo -en "   \r"
 			cmd="sudo apt-add-repository universe"
-			eval ${cmd}
+			eval "${cmd}"
 			if [ $? -eq 0 ]; then
 				fn_print_complete_nl "Installing universe repository completed."
 				fn_script_log_pass "Installing universe repository completed."
@@ -131,8 +134,8 @@ fn_install_universe_repo(){
 		else
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Universe repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Universe repository."
-			echo "	Please run the following command as a user with sudo access, and re-run the installation"
-			echo "	sudo apt-add-repository universe"
+			echo -e "	Please run the following command as a user with sudo access, and re-run the installation"
+			echo -e "	sudo apt-add-repository universe"
 		fi
 	fi
 }
@@ -235,7 +238,7 @@ fn_found_missing_deps(){
 		fi
 		if [ -n "${jqstatus}" ]; then
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
-			echo "	* https://docs.linuxgsm.com/requirements/jq"
+			echo -e "	* https://docs.linuxgsm.com/requirements/jq"
 		fi
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
@@ -265,18 +268,18 @@ fn_found_missing_deps(){
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install dependencies"
 				fn_script_log_fatal "Unable to install dependencies"
-				echo ""
+				echo -e ""
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
 				if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-					echo "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
 				elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
-					echo "	sudo dnf install ${array_deps_missing[@]}"
+					echo -e "	sudo dnf install ${array_deps_missing[@]}"
 				elif [ -n "$(command -v yum 2>/dev/null)" ]; then
-					echo "	sudo yum install ${array_deps_missing[@]}"
+					echo -e "	sudo yum install ${array_deps_missing[@]}"
 				fi
 				if [ "${steamcmdfail}" ]; then
-					echo ""
+					echo -e ""
 					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
 					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
 					core_exit.sh
@@ -286,23 +289,23 @@ fn_found_missing_deps(){
 				fn_script_log_pass "Install dependencies completed"
 			fi
 		else
-			echo ""
+			echo -e ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+				echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
-				echo "	sudo dnf install ${array_deps_missing[@]}"
+				echo -e "	sudo dnf install ${array_deps_missing[@]}"
 			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
-				echo "	sudo yum install ${array_deps_missing[@]}"
+				echo -e "	sudo yum install ${array_deps_missing[@]}"
 			fi
 			if [ "${steamcmdfail}" ]; then
-				echo ""
+				echo -e ""
 				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
 				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
 				core_exit.sh
 			fi
-			echo ""
+			echo -e ""
 		fi
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			sleep 5
@@ -332,7 +335,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python bzip2 gzip unzip binutils bc jq )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
 
 	# All servers except ts3 require tmux.
 	if [ "${shortname}" != "ts3" ]; then
@@ -397,6 +400,9 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
+	# Medal of Honor: Allied Assault
+	elif [ "${shortname}" == "mohaa" ]; then
+		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		if [ -n "$(java -version 2>&1 | grep "version")" ]; then
@@ -414,7 +420,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
-		array_deps_required+=( libssl1.0.0:i386 zlib1g:i386 )
+		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
 	# Unreal Engine
 	elif [ "${executable}" == "./ucc-bin" ]; then
 		# UT2K4
@@ -433,6 +439,8 @@ fn_deps_build_debian(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( libgconf-2-4 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -443,17 +451,19 @@ fn_deps_build_redhat(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	# CentOS 6
+	# CentOS
 	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( epel-release curl wget util-linux-ng python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux-ng python file tar gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
+	elif [ "${distroversion}" == "8" ]; then
+		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python2 file gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python27 file gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	else
-		array_deps_required=( curl wget util-linux python file gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
 	fi
 
 	# All servers except ts3 require tmux.
@@ -516,7 +526,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Project Zomboid & Minecraft
+	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
@@ -544,6 +554,13 @@ fn_deps_build_redhat(){
 	# Eco
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( mono-complete )
+	# Unturned
+	elif [ "${shortname}" == "unt" ]; then
+		array_deps_required+=( mono-complete )
+	elif [ "${shortname}" == "wurm" ]; then
+		array_deps_required+=( xorg-x11-server-Xvfb )
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( GConf2 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -551,16 +568,16 @@ fn_deps_build_redhat(){
 
 if [ "${function_selfname}" == "command_install.sh" ]; then
 	if [ "$(whoami)" == "root" ]; then
-		echo ""
-		echo "Checking Dependencies as root"
-		echo "================================="
+		echo -e ""
+		echo -e "${lightyellow}Checking Dependencies as root${default}"
+		echo -e "================================="
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
 		fn_sleep_time
 	else
-		echo ""
-		echo "Checking Dependencies"
-		echo "================================="
+		echo -e ""
+		echo -e "${lightyellow}Checking Dependencies${default}"
+		echo -e "================================="
 	fi
 fi
 

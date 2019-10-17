@@ -28,7 +28,7 @@ if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -
 fi
 
 # Log manager will start the cleanup if it finds logs older than "${logdays}".
-if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; then
+if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; then
 	fn_print_dots "Starting"
 	# Set common logs directories
 	commonlogs="${systemdir}/logs"
@@ -81,7 +81,7 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; th
 			find "${sourcemodlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		fi
 		# Garry's Mod logfiles.
-		if [ "${gamename}" == "Garry's Mod" ]; then
+		if [ "${shortname}" == "gmod" ]; then
 			# ULX logfiles.
 			if [ -d "${ulxlogdir}" ]; then
 				find "${ulxlogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
