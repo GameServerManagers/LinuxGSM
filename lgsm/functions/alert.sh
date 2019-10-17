@@ -85,7 +85,7 @@ fn_alert_command_restart(){
 	alertemoji="↪️"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="${servicename} restarted by administrator."
+	alertbody="${alertonrestartmessage}"
 }
 
 if [ "${alert}" == "permissions" ]; then
