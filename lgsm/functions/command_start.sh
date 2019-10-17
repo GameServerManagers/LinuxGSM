@@ -35,7 +35,7 @@ fn_start_teamspeak3(){
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		install_eula.sh
 	fi
-	cd "${executabledir}"
+	cd "${executabledir}" || exit
 	if [ "${ts3serverpass}" == "1" ]; then
 		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
 	else
@@ -86,7 +86,7 @@ fn_start_tmux(){
 
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
-	cd "${executabledir}"
+	cd "${executabledir}" || exit
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 
 	# Create logfile.
@@ -97,7 +97,7 @@ fn_start_tmux(){
 	# Tmux compiled from source will return "master", therefore ignore it.
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p')" == "master" ]; then
 		fn_script_log "Tmux version: master (user compiled)"
-		echo "Tmux version: master (user compiled)" >> "${consolelog}"
+		echo -e "Tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
 		fi
@@ -106,13 +106,13 @@ fn_start_tmux(){
 		tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
 		# tmux pipe-pane not supported in tmux versions < 1.6.
 		if [ "${tmuxversion}" -lt "16" ]; then
-			echo "Console logging disabled: Tmux => 1.6 required
+			echo -e "Console logging disabled: Tmux => 1.6 required
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 
 		# Console logging disabled: Bug in tmux 1.8 breaks logging.
 		elif [ "${tmuxversion}" -eq "18" ]; then
-			echo "Console logging disabled: Bug in tmux 1.8 breaks logging
+			echo -e "Console logging disabled: Bug in tmux 1.8 breaks logging
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
@@ -120,13 +120,13 @@ fn_start_tmux(){
 			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
 		fi
 	else
-		echo "Unable to detect tmux version" >> "${consolelog}"
+		echo -e "Unable to detect tmux version" >> "${consolelog}"
 		fn_script_log_warn "Unable to detect tmux version"
 	fi
 
 # Console logging disabled.
 if [ "${consolelogging}" == "off" ]; then
-	echo "Console logging disabled by user" >> "${consolelog}"
+	echo -e "Console logging disabled by user" >> "${consolelog}"
 	fn_script_log_info "Console logging disabled by user"
 fi
 fn_sleep_time
@@ -139,39 +139,39 @@ fn_sleep_time
 		if [ -s "${lgsmlogdir}/.${servicename}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
-			echo ""
-			echo "Command"
-			echo "================================="
-			echo "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
-			echo ""
-			echo "Error"
-			echo "================================="
+			echo -e ""
+			echo -e "Command"
+			echo -e "================================="
+			echo -e "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e ""
+			echo -e "Error"
+			echo -e "================================="
 			cat "${lgsmlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${lgsmlog}"
 
 			# Detected error https://linuxgsm.com/support
 			if grep -c "Operation not permitted" "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
 			then
-			echo ""
-			echo "Fix"
-			echo "================================="
-				if [ ! $(grep "tty:" /etc/group|grep "$(whoami)") ]; then
-					echo "$(whoami) is not part of the tty group."
+			echo -e ""
+			echo -e "Fix"
+			echo -e "================================="
+				if [ ! "$(grep "tty:" /etc/group|grep "$(whoami)")" ]; then
+					echo -e "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
 					group=$(grep tty /etc/group)
-					echo ""
-					echo "	${group}"
+					echo -e ""
+					echo -e "	${group}"
 					fn_script_log_info "${group}"
-					echo ""
-					echo "Run the following command with root privileges."
-					echo ""
-					echo "	usermod -G tty $(whoami)"
-					echo ""
-					echo "https://linuxgsm.com/tmux-op-perm"
+					echo -e ""
+					echo -e "Run the following command with root privileges."
+					echo -e ""
+					echo -e "	usermod -G tty $(whoami)"
+					echo -e ""
+					echo -e "https://linuxgsm.com/tmux-op-perm"
 					fn_script_log_info "https://linuxgsm.com/tmux-op-perm"
 				else
-					echo "No known fix currently. Please log an issue."
+					echo -e "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo "https://linuxgsm.com/support"
+					echo -e "https://linuxgsm.com/support"
 					fn_script_log_info "https://linuxgsm.com/support"
 				fi
 			fi

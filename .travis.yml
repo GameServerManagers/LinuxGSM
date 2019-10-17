@@ -19,7 +19,7 @@ addons:
     - gzip
     - unzip
     - bsdmainutils
-    - python
+    - python3
     - util-linux
     - ca-certificates
     - binutils
