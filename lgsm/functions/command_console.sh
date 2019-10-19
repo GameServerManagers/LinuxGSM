@@ -19,7 +19,7 @@ fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo -e "	* https://docs.linuxgsm.com/commands/console"
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	echo Exiting; return
+	return
 fi
 fn_print_dots "Accessing console"
 check_status.sh

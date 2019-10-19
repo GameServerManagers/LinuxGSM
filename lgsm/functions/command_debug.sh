@@ -86,7 +86,7 @@ echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${servicename} is already running it will be stopped."
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	echo Exiting; return
+	return
 fi
 
 fn_print_info_nl "Stopping any running servers"

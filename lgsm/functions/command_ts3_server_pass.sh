@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Changes TS3 serveradmin password.
 
-local commandname="TS3-CHANGE-PASS"
-local commandaction="ServerAdmin Password Change"
+local commandname="PASSWORD-CHANGE"
+local commandaction="Password Change"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_serveradmin_password_prompt(){
@@ -22,7 +22,7 @@ fn_serveradmin_password_prompt(){
 }
 
 fn_serveradmin_password_set(){
-	fn_print_info_nl "Starting server with new password"
+	fn_print_info_nl "Starting "
 	fn_script_log_info "Starting server with new password"
 	# Start server in "new password mode".
 	ts3serverpass="1"
@@ -41,7 +41,7 @@ if [ "${status}" != "0" ]; then
 	exitbypass="1"
 	command_stop.sh
 	fn_serveradmin_password_set
-	parms="inifile=${servercfgfullpath} pid_file=ts3server.pid"
+	parms="serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1"
 	ts3serverpass="0"
 	fn_print_info_nl "Restarting server normally"
 	fn_script_log_info "Restarting server normally"
