@@ -36,11 +36,7 @@ fn_start_teamspeak3(){
 		install_eula.sh
 	fi
 	cd "${executabledir}" || exit
-	if [ "${ts3serverpass}" == "1" ]; then
-		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
-	else
-		fn_start_tmux
-	fi
+	fn_start_tmux
 	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
