@@ -210,9 +210,5 @@ if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateon
 	command_update.sh
 fi
 
-if [ "${shortname}" == "ts3" ]; then
-	fn_start_teamspeak3
-else
-	fn_start_tmux
-fi
+fn_start_tmux
 core_exit.sh
