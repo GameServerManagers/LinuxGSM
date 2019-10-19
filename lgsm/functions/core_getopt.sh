@@ -74,9 +74,10 @@ if [ -n "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
 
-#Backup.
+# Backup.
 currentopt+=( "${cmd_backup[@]}" )
 
+# Console & Debug
 currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 
 ## Game server exclusive commands.
