@@ -29,7 +29,7 @@ fn_serveradmin_password_set(){
 	ts3serverpass="1"
 	exitbypass="1"
 	command_start.sh
-	fn_print_ok_nl "Password applied"
+	fn_print_ok_nl "New password applied"
 	fn_script_log_pass "New ServerAdmin password applied"
 }
 
