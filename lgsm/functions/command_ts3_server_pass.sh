@@ -11,7 +11,6 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_serveradmin_password_prompt(){
 	fn_print_header
-	echo -e "Press \"CTRL+b d\" to exit console."
 	fn_print_information_nl "You are about to change the ${gamename} ServerAdmin password."
 	fn_print_warning_nl "${gamename} will restart during this process."
 	echo -e ""
@@ -19,7 +18,7 @@ fn_serveradmin_password_prompt(){
 		echo Exiting; exit
 	fi
 	fn_script_log_info "Initiating ${gamename} ServerAdmin password change"
-	read -rp "Enter new password : " newpassword
+	read -rp "Enter new password: " newpassword
 }
 
 fn_serveradmin_password_set(){
