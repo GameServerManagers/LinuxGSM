@@ -215,5 +215,8 @@ elif [ "${shortname}" == "mohaa" ]; then
 else
 	fn_monitor_query
 fi
-
+analytics=1
+if [ ${analytics} == "1" ]; then
+	info_analytics.sh
+fi
 core_exit.sh

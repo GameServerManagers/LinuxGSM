@@ -428,6 +428,11 @@ fn_fetch_function
 
 # Info
 
+info_analytics.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 info_config.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
