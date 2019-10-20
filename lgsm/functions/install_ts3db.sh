@@ -71,6 +71,6 @@ echo -e "================================="
 fn_sleep_time
 fn_print_information_nl "Save these details for later."
 cd "${executabledir}" || exit
-${executable} start inifile=ts3-server.ini
+./ts3server_startscript.sh start inifile=ts3-server.ini | tee "${serverfiles}/privilege_key.txt"
 sleep 5
-${executable} stop
+./ts3server_startscript.sh stop
