@@ -9,9 +9,9 @@
 info_distro.sh
 if [ ! -f "${datadir}/uuid.txt" ];then
 	if [ $(command -v uuidgen 2>/dev/null) ]; then
-		uuidgen > "${datadir}/uuid.txt" > /dev/null 2>&1
+		uuidgen > "${datadir}/uuid.txt"
 	else
-		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt" > /dev/null 2>&1
+		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt"
   fi
 fi
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
