@@ -7,7 +7,7 @@
 # Data collected: Game Server, Distro
 
 info_distro.sh
-if [ !-f "${datadir}/uuid.txt" ];then
+if [ ! -f "${datadir}/uuid.txt" ];then
 	if [ $(command -v uuidgen 2>/dev/null) ]; then
 		uuidgen > "${datadir}/uuid.txt" > /dev/null 2>&1
 	else
