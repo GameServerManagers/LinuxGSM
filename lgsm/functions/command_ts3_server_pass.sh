@@ -40,7 +40,7 @@ if [ "${status}" != "0" ]; then
 	exitbypass="1"
 	command_stop.sh
 	fn_serveradmin_password_set
-	parms="serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1"
+	parms="serveradmin_password=\"${newpassword}\" inifile=\"${servercfgfullpath}\" > /dev/null 2>&1"
 	ts3serverpass="0"
 	command_restart.sh
 else
