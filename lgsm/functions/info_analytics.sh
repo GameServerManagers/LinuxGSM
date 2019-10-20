@@ -19,5 +19,16 @@ fi
 uuid=$(cat "${datadir}/uuid.txt")
 
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
+# Level 1 Analytics
+## Distro
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
+## Game Server Name
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=game" -d "ea=${shortname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+
+# Level 2
+## CPU usage of a game server
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuused}" -d "v=1" > /dev/null 2>&1
+## Ram usage of a game server
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=ramused" -d "ea=${shortname}" -d "el=${memused}" -d "v=1" > /dev/null 2>&1
+## Disk usage of a game server
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=diskused" -d "ea=${shortname}" -d "el=${serverfilesdu=}" -d "v=1" > /dev/null 2>&1
