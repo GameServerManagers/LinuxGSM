@@ -192,6 +192,11 @@ fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
 
+analytics=1
+if [ ${analytics} == "1" ]; then
+	info_analytics.sh
+fi
+
 # Fix if lockfile is not unix time or contains letters
 if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
     date '+%s' > "${rootdir}/${lockselfname}"
@@ -215,8 +220,5 @@ elif [ "${shortname}" == "mohaa" ]; then
 else
 	fn_monitor_query
 fi
-analytics=1
-if [ ${analytics} == "1" ]; then
-	info_analytics.sh
-fi
+
 core_exit.sh
