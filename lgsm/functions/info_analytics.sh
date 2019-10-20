@@ -7,4 +7,5 @@
 # Data collected: Game Server, Distro
 
 info_distro.sh
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "t=event" -d "ec=Distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" -d "cid=12345678"
+# https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "t=event" -d "ec=distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
