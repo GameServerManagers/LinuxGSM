@@ -100,6 +100,7 @@ cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed
 # CPU usage of the game server pid
 if [ "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
+	cpuusedmhz=$(( ${cpufreqency} * ${cpuused} / 100 ))
 fi
 
 ## Memory information

@@ -28,7 +28,6 @@ curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -
 # Level 2 Analytics
 ## CPU usage of a game server
 if [ "${cpuused}" ]; then
-  cpuusedmhz=$(( ${cpumhz} * ${cpuused} / 100 ))
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedmhz}%" -d "v=1" > /dev/null 2>&1
 fi
 ## Ram usage of a game server
