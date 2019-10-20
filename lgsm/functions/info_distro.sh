@@ -96,7 +96,7 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 ## CPU information
 cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
-cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
 if [ "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
