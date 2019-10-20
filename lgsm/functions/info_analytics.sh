@@ -7,5 +7,13 @@
 # Data collected: Game Server, Distro
 
 info_distro.sh
+if [ !-f "${datadir}/uuid.txt" ];then
+	if [ $(command -v uuidgen 2>/dev/null) ]; then
+		uuidgen > "${datadir}/uuid.txt" > /dev/null 2>&1
+	else
+		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt" > /dev/null 2>&1
+  fi
+fi
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "t=event" -d "ec=distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=game" -d "ea=${shortname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
