@@ -24,34 +24,11 @@ fn_start_teamspeak3(){
 		sleep 5
 		touch "${servercfgfullpath}"
 	fi
-	fn_sleep_time
-	if [ -f "${lgsmlog}" ]; then
-		mv "${lgsmlog}" "${lgsmlogdate}"
-	fi
-
-	# Create lockfile.
-	date '+%s' > "${rootdir}/${lockselfname}"
 	# Accept license.
 	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
 		install_eula.sh
 	fi
-	cd "${executabledir}" || exit
-	if [ "${ts3serverpass}" == "1" ]; then
-		./ts3server_startscript.sh start serveradmin_password="${newpassword}" inifile="${servercfgfullpath}" > /dev/null 2>&1
-	else
-		./ts3server_startscript.sh start inifile="${servercfgfullpath}" > /dev/null 2>&1
-	fi
-	fn_sleep_time
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		fn_print_fail_nl "Unable to start ${servername}"
-		fn_script_log_fatal "Unable to start ${servername}"
-		echo -e "	Check log files: ${logdir}"
-		core_exit.sh
-	else
-		fn_print_ok_nl "${servername}"
-		fn_script_log_pass "Started ${servername}"
-	fi
+	fn_start_tmux
 }
 
 fn_start_tmux(){

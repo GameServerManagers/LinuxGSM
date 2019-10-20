@@ -15,7 +15,7 @@ fn_check_logs(){
 }
 
 # Create directories for the script and console logs.
-if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${shortname}" != "ts3" ]; then
+if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]; then
 	fn_check_logs
 fi
 

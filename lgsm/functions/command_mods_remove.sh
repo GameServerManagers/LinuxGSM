@@ -46,7 +46,7 @@ done
 fn_print_warning_nl "You are about to remove ${cyan}${usermodselect}${default}."
 echo -e " * Any custom files/configuration will be removed."
 if ! fn_prompt_yn "Continue?" Y; then
-	echo Exiting; exit
+	core_exit.sh
 fi
 
 currentmod="${usermodselect}"

@@ -74,13 +74,11 @@ if [ -n "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
 
-#Backup.
+# Backup.
 currentopt+=( "${cmd_backup[@]}" )
 
-# Exclude games without a console.
-if [ "${shortname}" != "ts3" ]; then
-	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
-fi
+# Console & Debug
+currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 
 ## Game server exclusive commands.
 
