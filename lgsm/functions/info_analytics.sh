@@ -34,12 +34,12 @@ curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -
 
 # Level 2 Analytics
 ## CPU usage of a game server
-if [ "${cpuusedmhz}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedmhz}MHz" -d "v=1" > /dev/null 2>&1
+if [ "${cpuusedmhzroundup}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedmhzroundup}MHz" -d "v=1" > /dev/null 2>&1
 fi
 ## Ram usage of a game server
-if [ "${memused}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=ramused" -d "ea=${shortname}" -d "el=${memused}" -d "v=1" > /dev/null 2>&1
+if [ "${memusedroundup}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=ramused" -d "ea=${shortname}" -d "el=${memusedroundup}" -d "v=1" > /dev/null 2>&1
 fi
 ## Disk usage of a game server
 if [ "${serverfilesdu}" ]; then
