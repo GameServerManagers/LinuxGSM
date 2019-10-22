@@ -138,7 +138,7 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	# RAM usage of the game server pid
 	# MB
 	if [ "${gameserverpid}" ]; then
-		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0f\t",$1}{print $2}')
 	# %
 		pmemused=$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')
 	fi
