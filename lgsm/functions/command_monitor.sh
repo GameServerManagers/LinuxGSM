@@ -181,17 +181,17 @@ fn_monitor_query_udp(){
 	fn_monitor_loop
 }
 
-analytics=1
-if [ ${analytics} == "1" ]; then
-	info_analytics.sh
-fi
-
 monitorflag=1
 fn_print_dots "${servername}"
 check.sh
 logs.sh
 info_config.sh
 info_parms.sh
+
+analytics=1
+if [ ${analytics} == "1" ]; then
+	info_analytics.sh
+fi
 
 fn_monitor_check_lockfile
 fn_monitor_check_update
