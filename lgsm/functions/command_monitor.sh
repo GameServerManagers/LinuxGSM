@@ -181,6 +181,11 @@ fn_monitor_query_udp(){
 	fn_monitor_loop
 }
 
+analytics=1
+if [ ${analytics} == "1" ]; then
+	info_analytics.sh
+fi
+
 monitorflag=1
 fn_print_dots "${servername}"
 check.sh
@@ -192,10 +197,6 @@ fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
 
-analytics=1
-if [ ${analytics} == "1" ]; then
-	info_analytics.sh
-fi
 
 # Fix if lockfile is not unix time or contains letters
 if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
