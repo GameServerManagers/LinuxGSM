@@ -9,7 +9,7 @@
 info_distro.sh
 # generate uuid
 if [ ! -f "${datadir}/uuid.txt" ];then
-	if [ $(command -v uuidgen 2>/dev/null) ]; then
+	if [ "$(command -v uuidgen 2>/dev/null)" ]; then
 		uuidgen > "${datadir}/uuid.txt"
 	else
 		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt"
@@ -17,6 +17,13 @@ if [ ! -f "${datadir}/uuid.txt" ];then
 fi
 
 uuid=$(cat "${datadir}/uuid.txt")
+# results are rounded up to reduce number of different results in analytics
+# nearest 100Mhz
+cpuusedmhzroundup=$(((${cpuusedmhz} + 99) / 100 * 100))
+# nearest 100MB
+memusedroundup=$(((${memused} + 99) / 100 * 100))
+# nearest GB
+serverfilesduroundup=$(((${serverfilesdu} + 9) / 10 * 10))
 
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 # Level 1 Analytics
