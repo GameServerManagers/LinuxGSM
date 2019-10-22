@@ -84,7 +84,7 @@ fn_info_message_server_resource(){
 		echo -e "${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
 		echo -e "${lightblue}Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}Frequency:\t${default}${cpufreqencymhz} MHz"
+		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""
