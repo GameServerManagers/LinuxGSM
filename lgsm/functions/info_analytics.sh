@@ -19,7 +19,7 @@ fi
 uuid=$(cat "${datadir}/uuid.txt")
 # results are rounded up to reduce number of different results in analytics
 # nearest 100Mhz
-cpuusedroundup=$(((${cpuused} + 99) / 100 * 100))
+cpuusedmhzroundup=$(((${cpuusedmhz} + 99) / 100 * 100))
 # nearest 100MB
 memusedroundup=$(((${memused} + 99) / 100 * 100))
 
@@ -32,8 +32,8 @@ curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -
 
 # Level 2 Analytics
 ## CPU usage of a game server
-if [ "${cpuusedroundup}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedroundup}MHz" -d "v=1" > /dev/null 2>&1
+if [ "${cpuusedmhzroundup}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedmhzroundup}MHz" -d "v=1" > /dev/null 2>&1
 fi
 ## Ram usage of a game server
 if [ "${memusedroundup}" ]; then
