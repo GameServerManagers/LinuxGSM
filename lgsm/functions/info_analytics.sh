@@ -52,7 +52,7 @@ fi
 
 ## Server RAM
 if [ "${physmemtotalmb}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverram" -d "ea=${shortname}" -d "el=${physmemtotalmb}" -d "v=1" > /dev/null 2>&1
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverram" -d "ea=${shortname}" -d "el=${physmemtotal}" -d "v=1" > /dev/null 2>&1
 fi
 
 ## Server Disk
