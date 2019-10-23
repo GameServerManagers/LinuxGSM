@@ -17,7 +17,7 @@
 # fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
-local commandname="DOWNLOAD"
+local modulename="DOWNLOAD"
 local commandaction="Download"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

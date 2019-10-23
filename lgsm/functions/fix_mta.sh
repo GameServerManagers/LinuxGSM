@@ -4,7 +4,7 @@
 # Contributor: ChaosMTA
 # Website: https://linuxgsm.com
 # Description: Installs the libmysqlclient for database functions on the server
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

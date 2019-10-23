@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs server files.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

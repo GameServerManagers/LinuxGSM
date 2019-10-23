@@ -6,7 +6,7 @@
 # Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
 
-local commandname="MONITOR"
+local modulename="MONITOR"
 local commandaction="Monitor"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

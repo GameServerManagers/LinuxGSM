@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
-local commandname="ALERT"
+local modulename="ALERT"
 local commandaction="Alert"
 
 fn_alert_log(){

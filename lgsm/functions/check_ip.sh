@@ -5,7 +5,7 @@
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then
