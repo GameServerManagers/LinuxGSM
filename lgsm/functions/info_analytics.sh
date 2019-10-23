@@ -51,7 +51,7 @@ if [ "${cpumodel}" ]; then
 fi
 
 ## Server RAM
-if [ "${physmemtotalmb}" ]; then
+if [ "${physmemtotal}" ]; then
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverram" -d "ea=${shortname}" -d "el=${physmemtotal}" -d "v=1" > /dev/null 2>&1
 fi
 

@@ -107,7 +107,7 @@ fi
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
