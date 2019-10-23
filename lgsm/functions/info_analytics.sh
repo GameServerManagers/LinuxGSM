@@ -43,3 +43,19 @@ fi
 if [ "${serverfilesdu}" ]; then
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=diskused" -d "ea=${shortname}" -d "el=${serverfilesdu}" -d "v=1" > /dev/null 2>&1
 fi
+
+# Level 3 Analytics
+## CPU Model
+if [ "${cpumodel}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=servercpu" -d "ea=${shortname}" -d "el=${cpumodel} cores:${cpucores}" -d "v=1" > /dev/null 2>&1
+fi
+
+## Server RAM
+if [ "${physmemtotalmb}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverram" -d "ea=${shortname}" -d "el=${physmemtotalmb}" -d "v=1" > /dev/null 2>&1
+fi
+
+## Server Disk
+if [ "${totalspace}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverdisk" -d "ea=${shortname}" -d "el=${totalspace}" -d "v=1" > /dev/null 2>&1
+fi
