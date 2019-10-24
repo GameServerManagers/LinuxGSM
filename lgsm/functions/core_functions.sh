@@ -331,6 +331,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_mcb.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_mta.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function

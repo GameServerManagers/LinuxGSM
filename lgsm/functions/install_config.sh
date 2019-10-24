@@ -25,7 +25,7 @@ fn_fetch_default_config(){
 	echo -e "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
 	fn_sleep_time
 	mkdir -p "${lgsmdir}/config-default/config-game"
-	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
+	githuburl="https://raw.githubusercontent.com/marvinlehmann/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
 		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
 	done
@@ -436,6 +436,12 @@ elif [ "${shortname}" == "l4d2" ]; then
 	fn_set_config_vars
 elif [ "${shortname}" == "mc" ]; then
 	gamedirname="Minecraft"
+	array_configs+=( server.properties )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${shortname}" == "mcb" ]; then
+	gamedirname="MinecraftBedrock"
 	array_configs+=( server.properties )
 	fn_fetch_default_config
 	fn_default_config_remote
