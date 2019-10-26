@@ -47,14 +47,12 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 				fn_print_information_nl "Specify the IP you want to bind within a LinuxGSM config file.\n"
 				echo -en "	* location: ${configdirserver}\n"
 				echo -en "\n"
-				echo -en "https://linuxgsm.com/network-interfaces\n"
-				echo -en ""
-				# Do not exit for details and postdetails commands
-				if [ "${function_selfname}" != "command_details.sh" ]||[ "${function_selfname}" != "command_postdetails.sh" ]; then
-					fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-					core_exit.sh
+				echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
+				fn_script_log_fatal "Multiple IP addresses found."
+				if [ "${legacymode}" == "1" ]; then
+					fn_script_log_fatal "Specify the IP you want to bind within the ${selfname} script."
 				else
-					ip="NOT SET"
+					fn_script_log_fatal "Specify the IP you want to bind within: ${configdirserver}."
 				fi
 			fi
 			echo -en "${getip}\n"
@@ -64,14 +62,9 @@ if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}
 			# Do not exit for details and postdetails commands.
 			if [ "${function_selfname}" != "command_details.sh" ]||[ "${function_selfname}" != "command_postdetails.sh" ]; then
 				fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-				if [ "${function_selfname}" != "command_details.sh" ];then
-					core_exit.sh
-				fi
+				core_exit.sh
 			else
-				fn_print_info_nl "Check IP: ${getip}"
-				fn_script_log_info "IP automatically set as: ${getip}"
-				sleep 0.2
-				ip="${getip}"
+				ip="NOT SET"
 			fi
 		# Single interface.
 		elif [ "${ipsetinconfig}" == "1" ]; then
