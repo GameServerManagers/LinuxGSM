@@ -10,17 +10,18 @@ local commandname="CHECK"
 # This doesn't need to be an if/else
 if [ -f /.dockerenv ]; then
 	ip=0.0.0.0
-else
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
-		if [ ! -f "/bin/ip" ]; then
-			ipcommand="/sbin/ip"
-		else
-			ipcommand="ip"
-		fi
-		getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -v 127.0.0)
-		getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
-		info_config.sh
-		info_parms.sh
+fi
+
+if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
+	if [ ! -f "/bin/ip" ]; then
+		ipcommand="/sbin/ip"
+	else
+		ipcommand="ip"
+	fi
+	getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -v 127.0.0)
+	getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
+	info_config.sh
+	info_parms.sh
 
 	# IP is not set to specific IP.
 	if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]; then
