@@ -10,6 +10,7 @@ local commandname="CHECK"
 # This doesn't need to be an if/else
 if [ -f /.dockerenv ]; then
 	ip=0.0.0.0
+	return
 fi
 
 if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
