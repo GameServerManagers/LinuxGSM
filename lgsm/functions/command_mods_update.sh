@@ -19,11 +19,11 @@ fn_remove_cfg_files(){
 		echo -e "the following files/directories will be preserved:"
 		fn_sleep_time
 		# Count how many files there are to remove.
-		filestopreserve="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		filestopreserve="$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')"
 		# Test all subvalues of "modkeepfiles" using the ";" separator.
 		for ((preservefilesindex=1; preservefilesindex < ${filestopreserve}; preservefilesindex++)); do
 			# Put the current file we are looking for into a variable.
-			filetopreserve="$(echo "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )"
+			filetopreserve="$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )"
 			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file.
 			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
@@ -32,7 +32,7 @@ fn_remove_cfg_files(){
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"
 				fi
-					echo "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
+					echo -e "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
 			fi
 		done
 	fi
@@ -79,8 +79,8 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 			fn_print_info "${modprettyname} will not be updated to preserve custom files"
 			fn_script_log_info "${modprettyname} will not be updated to preserve custom files"
 		else
-			echo ""
-			echo "==> Updating ${modprettyname}"
+			echo -e ""
+			echo -e "==> Updating ${modprettyname}"
 			fn_create_mods_dir
 			fn_mods_clear_tmp_dir
 			fn_mods_create_tmp_dir
@@ -101,7 +101,7 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 		core_exit.sh
 	fi
 done
-echo ""
+echo -e ""
 fn_print_ok_nl "Mods update complete"
 fn_script_log_info "Mods update complete"
 

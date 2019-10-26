@@ -200,22 +200,6 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_sdtd
 	elif [ "${stopmode}" == "9" ]; then
 		fn_stop_graceful_goldsource
-	elif [ "${stopmode}" == "10" ]; then
-		fn_stop_teamspeak3
-	fi
-}
-
-fn_stop_teamspeak3(){
-	fn_print_dots "${servername}"
-	"${serverfiles}"/ts3server_startscript.sh stop > /dev/null 2>&1
-	check_status.sh
-	if [ "${status}" == "0" ]; then
-		rm -f "${rootdir}/${lockselfname}"
-		fn_print_ok_nl "${servername}"
-		fn_script_log_pass "Stopped ${servername}"
-	else
-		fn_print_fail_nl "Unable to stop ${servername}"
-		fn_script_log_error "Unable to stop ${servername}"
 	fi
 }
 
@@ -240,8 +224,6 @@ fn_stop_pre_check(){
 	if [ "${status}" == "0" ]; then
 		fn_print_info_nl "${servername} is already stopped"
 		fn_script_log_error "${servername} is already stopped"
-	elif [ "${shortname}" == "ts3" ]; then
-		fn_stop_teamspeak3
 	else
 		# Select graceful shutdown.
 		fn_stop_graceful_select

@@ -9,9 +9,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	if [ "${shortname}" != "ts3" ]; then
-		gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${servicename}"|awk '{print $2}')
-	fi
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${servicename}"|awk '{print $2}')
 fi
 ### Distro information
 
@@ -100,8 +98,8 @@ cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
-if [ "${status}" == "1" ]; then
-	cpuused=$(ps --forest -o pcpu -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}')
+if [ "${gameserverpid}" ]; then
+	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
 fi
 
 ## Memory information
@@ -138,10 +136,10 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
 	# RAM usage of the game server pid
 	# MB
-	if [ "${status}" == "1" ]; then
-		memused=$(ps --forest -o rss -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+	if [ "${gameserverpid}" ]; then
+		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
 	# %
-		pmemused=$(ps --forest -o %mem -g "$(ps -o sid= -p "${gameserverpid}")"|awk '{s+=$1} END {print s}')
+		pmemused=$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')
 	fi
 else
 # Older distros will need to use free.
@@ -233,12 +231,12 @@ if [ -z "${extip}" ]; then
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
+		echo -e "${extip}" > "${tmpdir}/extip.txt"
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat ${tmpdir}/extip.txt)
 		else
-			echo "x.x.x.x"
+			echo -e "x.x.x.x"
 		fi
 	fi
 fi

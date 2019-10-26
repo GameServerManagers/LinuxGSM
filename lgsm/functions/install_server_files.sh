@@ -29,6 +29,8 @@ fn_install_server_files(){
 		remote_fileurl="https://files.linuxgsm.com/WolfensteinEnemyTerritory/etlegacy-v2.75-i386-et-260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="92d7d4c26e0a295daed78cef623eeabb"
 	elif [ "${shortname}" == "ges" ]; then
 		remote_fileurl="https://files.linuxgsm.com/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.bz2"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="c45c16293096706e8b5e2cd64a6f2931"
+	elif [ "${shortname}" == "mohaa" ]; then
+		remote_fileurl="https://files.linuxgsm.com/MedalofHonorAlliedAssault/moh_revival_v1.12_RC3.5.1.tar.bz2"; local_filedir="${tmpdir}"; local_filename="moh_revival_v1.12_RC3.5.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="9d5924486a0cf5e46dd063216aad05c1"
 	elif [ "${shortname}" == "ns" ]; then
 		remote_fileurl="https://files.linuxgsm.com/NaturalSelection/ns_dedicated_server_v32.tar.bz2"; local_filedir="${tmpdir}"; local_filename="ns_dedicated_server_v32.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="499cf63324b76925ada6baf5f2eacd67"
 	elif [ "${shortname}" == "q2" ]; then
@@ -86,7 +88,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -ge "7" ]; then
-				echo "Removing $(find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$')"
+				echo -e "Removing $(find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$')"
 				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
@@ -137,9 +139,9 @@ fn_install_server_files_steamcmd(){
 	fi
 }
 
-echo ""
-echo "Installing ${gamename} Server"
-echo "================================="
+echo -e ""
+echo -e "${lightyellow}Installing ${gamename} Server${default}"
+echo -e "================================="
 fn_sleep_time
 
 if [ -n "${appid}" ]; then
@@ -166,8 +168,8 @@ elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]|
 fi
 
 if [ -z "${autoinstall}" ]; then
-	echo ""
-	echo "================================="
+	echo -e ""
+	echo -e "================================="
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi
