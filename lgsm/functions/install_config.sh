@@ -29,10 +29,10 @@ fn_fetch_default_config(){
 	# When running inside Docker we want to use a local copy of these files.
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-	cp -rp "/home/steam/linuxgsm-configs/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game/"
+	cp -rp "/home/linuxgsm/linuxgsm-configs/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game/"
 		if [ -f /.dockerenv ]; then
-			if [ -f "/home/steam/linuxgsm-configs/${gamedirname}/${config}.tmpl" ]; then
-				cp -rp "/home/steam/linuxgsm-configs/${gamedirname}/${config}.tmpl" "${lgsmdir}/config-default/config-game/"
+			if [ -f "/home/linuxgsm/linuxgsm-configs/${gamedirname}/${config}.tmpl" ]; then
+				cp -rp "/home/linuxgsm/linuxgsm-configs/${gamedirname}/${config}.tmpl" "${lgsmdir}/config-default/config-game/"
 			fi
 		else
 			fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
