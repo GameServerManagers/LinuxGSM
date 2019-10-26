@@ -15,8 +15,7 @@ fn_parms(){
 
 fn_print_information "starting ${gamename} server to generate configs."
 fn_sleep_time
-exitbypass=1
-command_start.sh
-sleep 10
-exitbypass=1
-command_stop.sh
+# go to the executeable dir and start the init of the server
+cd "${executabledir}" || return 2
+fn_parms
+"${executable}" ${parms} >/dev/null
