@@ -9,15 +9,12 @@ local commandaction="Validate"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
-	echo ""
-	echo -e "	* Validating may overwrite some customised files."
-	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
-	sleep 3
-	echo -en "\n"
-
+	fn_print_info "Validating files: SteamCMD"
+	echo -e ""
+	echo -e "* Validating may overwrite some customised files."
+	echo -e "* https://docs.linuxgsm.com/commands/validate"
 	fn_script_log_info "Validating files: SteamCMD"
-	sleep 0.5
-
+	sleep 3
 	cd "${steamcmddir}" || exit
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
@@ -26,11 +23,9 @@ fn_validation(){
 	fi
 
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
-	elif [ "${gamename}" == "Unturned" ]; then
-		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" -beta ${branch} validate +quit | tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta ${branch} validate +quit | tee -a "${lgsmlog}"
 	fi
 	if [ $? != 0 ]; then
 		fn_print_fail_nl "Validating files: SteamCMD"
@@ -44,9 +39,7 @@ fn_validation(){
 }
 
 fn_print_dots "Validating files:"
-sleep 0.5
 fn_print_dots "Validating files: SteamCMD"
-sleep 0.5
 check.sh
 check_status.sh
 if [ "${status}" != "0" ]; then

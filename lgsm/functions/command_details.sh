@@ -14,12 +14,11 @@ check.sh
 info_config.sh
 info_parms.sh
 info_distro.sh
-info_glibc.sh
 info_messages.sh
 query_gamedig.sh
 fn_info_message_distro
-fn_info_message_performance
-fn_info_message_disk
+fn_info_message_server_resource
+fn_info_message_gameserver_resource
 fn_info_message_gameserver
 fn_info_message_script
 fn_info_message_backup
@@ -32,4 +31,3 @@ fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
 core_exit.sh
-

@@ -14,43 +14,43 @@ mods_core.sh
 
 fn_print_header
 
-# Displays a list of installed mods
+# Displays a list of installed mods.
 fn_mods_installed_list
 if [ "${installedmodscount}" -gt "0" ]; then
-	echo "Installed addons/mods"
-	echo "================================="
-	# Go through all available commands, get details and display them to the user
+	echo -e "Installed addons/mods"
+	echo -e "================================="
+	# Go through all available commands, get details and display them to the user.
 	for ((llindex=0; llindex < ${#installedmodslist[@]}; llindex++)); do
-		# Current mod is the "llindex" value of the array we're going through
+		# Current mod is the "llindex" value of the array we're going through.
 		currentmod="${installedmodslist[llindex]}"
 		fn_mod_get_info
-		# Display mod info to the user
+		# Display mod info to the user.
 		echo -e " * ${green}${modcommand}${default}${default}"
 	done
-	echo ""
+	echo -e ""
 fi
 
-echo "Available addons/mods"
-echo "================================="
-# Display available mods from mods_list.sh
+echo -e "Available addons/mods"
+echo -e "================================="
+# Display available mods from mods_list.sh.
 # Set and reset vars
 compatiblemodslistindex=0
-# As long as we're within index values
+# As long as we're within index values.
 while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
-	# Set values for convenience
+	# Set values for convenience.
 	displayedmodname="${compatiblemodslist[compatiblemodslistindex]}"
 	displayedmodcommand="${compatiblemodslist[compatiblemodslistindex+1]}"
 	displayedmodsite="${compatiblemodslist[compatiblemodslistindex+2]}"
 	displayedmoddescription="${compatiblemodslist[compatiblemodslistindex+3]}"
-	# Output mods to the user
+	# Output mods to the user.
 	echo -e "${displayedmodname} - ${displayedmoddescription} - ${displayedmodsite}"
 	echo -e " * ${cyan}${displayedmodcommand}${default}"
-	# Increment index from the amount of values we just displayed
+	# Increment index from the amount of values we just displayed.
 	let "compatiblemodslistindex+=4"
 	((totalmodsavailable++))
 done
 
-# If no mods are available for a specific game
+# If no mods are available for a specific game.
 if [ -z "${compatiblemodslist}" ]; then
 	fn_print_fail_nl "No mods are currently available for ${gamename}."
 	fn_script_log_info "No mods are currently available for ${gamename}."
@@ -58,35 +58,34 @@ if [ -z "${compatiblemodslist}" ]; then
 fi
 fn_script_log_info "${totalmodsavailable} addons/mods are available for install"
 
-## User selects a mod
-echo ""
+## User selects a mod.
+echo -e ""
 while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
 	read -r usermodselect
-	# Exit if user says exit or abort
+	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
 			core_exit.sh
-	# Supplementary output upon invalid user input
+	# Supplementary output upon invalid user input.
 	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
 		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 	fi
 done
-# Get mod info
+# Get mod info.
 currentmod="${usermodselect}"
 fn_mod_get_info
 
-echo ""
-echo "Installing ${modprettyname}"
-echo "================================="
+echo -e ""
+echo -e "Installing ${modprettyname}"
+echo -e "================================="
 fn_script_log_info "${modprettyname} selected for install"
 
-# Check if the mod is already installed and warn the user
+# Check if the mod is already installed and warn the user.
 if [ -f "${modsinstalledlistfullpath}" ]; then
 	if [ -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		fn_print_warning_nl "${modprettyname} is already installed"
 		fn_script_log_warn "${modprettyname} is already installed"
-		sleep 0.5
-		echo " * Any configs may be overwritten."
+		echo -e " * Any configs may be overwritten."
 		if ! fn_prompt_yn "Continue?" Y; then
 			echo Exiting; core_exit.sh
 		fi
@@ -94,7 +93,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 	fi
 fi
 
-## Installation
+## Installation.
 
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
@@ -106,7 +105,7 @@ fn_mod_copy_destination
 fn_mod_add_list
 fn_mod_tidy_files_list
 fn_mods_clear_tmp_dir
-echo "${modprettyname} installed"
+echo -e "${modprettyname} installed"
 fn_script_log_pass "${modprettyname} installed."
 
 core_exit.sh

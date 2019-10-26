@@ -8,19 +8,19 @@ local commandname="FIX"
 local commandaction="Fix"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-echo "Applying WebAdmin ROOst.css fix."
-echo "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
+echo -e "Applying WebAdmin ROOst.css fix."
+echo -e "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
 sed -i 's/none}/none;/g' "${serverfiles}/Web/ServerAdmin/ROOst.css"
 sed -i 's/underline}/underline;/g' "${serverfiles}/Web/ServerAdmin/ROOst.css"
-sleep 0.5
-echo "Applying WebAdmin CharSet fix."
-echo "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
+fn_sleep_time
+echo -e "Applying WebAdmin CharSet fix."
+echo -e "http://forums.tripwireinteractive.com/showpost.php?p=442340&postcount=1"
 sed -i 's/CharSet="iso-8859-1"/CharSet="utf-8"/g' "${systemdir}/UWeb.int"
-sleep 0.5
-echo "applying server name fix."
-sleep 0.5
-echo "forcing server restart..."
-sleep 0.5
+fn_sleep_time
+echo -e "applying server name fix."
+fn_sleep_time
+echo -e "forcing server restart..."
+fn_sleep_time
 exitbypass=1
 command_start.sh
 sleep 5

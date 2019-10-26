@@ -51,7 +51,6 @@ fn_fetch_function
 
 # Commands
 
-
 command_backup.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -352,6 +351,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_sfc.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -378,6 +382,11 @@ fn_fetch_function
 }
 
 fix_sdtd.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+fix_sof2.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
@@ -412,6 +421,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_zmr.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Info
 
 info_config.sh(){
@@ -429,15 +443,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
-info_glibc.sh(){
-functionfile="${FUNCNAME}"
-fn_fetch_function
-}
-
 info_messages.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }
+
 info_parms.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
@@ -485,6 +495,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_slack.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 # Logs
 
 logs.sh(){

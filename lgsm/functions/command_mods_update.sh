@@ -12,77 +12,75 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 check.sh
 mods_core.sh
 
-# Prevents specific files being overwritten upon update (set by ${modkeepfiles})
-# For that matter, remove cfg files after extraction before copying them to destination
+# Prevents specific files being overwritten upon update (set by ${modkeepfiles}).
+# For that matter, remove cfg files after extraction before copying them to destination.
 fn_remove_cfg_files(){
 	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
 		echo -e "the following files/directories will be preserved:"
-		sleep 0.5
-		# Count how many files there are to remove
-		filestopreserve="$(echo "${modkeepfiles}" | awk -F ';' '{ print NF }')"
-		# Test all subvalues of "modkeepfiles" using the ";" separator
+		fn_sleep_time
+		# Count how many files there are to remove.
+		filestopreserve="$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		# Test all subvalues of "modkeepfiles" using the ";" separator.
 		for ((preservefilesindex=1; preservefilesindex < ${filestopreserve}; preservefilesindex++)); do
-			# Put the current file we are looking for into a variable
-			filetopreserve="$(echo "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )"
+			# Put the current file we are looking for into a variable.
+			filetopreserve="$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )"
 			echo -e "	* serverfiles/${filetopreserve}"
-			# If it matches an existing file that have been extracted delete the file
+			# If it matches an existing file that have been extracted delete the file.
 			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
 				rm -r "${extractdir:?}/${filetopreserve}"
-				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update
+				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update.
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"
 				fi
-					echo "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
+					echo -e "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
 			fi
 		done
 	fi
 }
 
 fn_print_dots "Update addons/mods"
-sleep 0.5
 fn_mods_check_installed
 fn_print_info_nl "Update addons/mods: ${installedmodscount} addons/mods will be updated"
 fn_script_log_info "${installedmodscount} mods or addons will be updated"
 fn_mods_installed_list
-# Go through all available commands, get details and display them to the user
+# Go through all available commands, get details and display them to the user.
 for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
-	# Current mod is the "ulindex" value of the array we're going through
+	# Current mod is the "ulindex" value of the array we're going through.
 	currentmod="${installedmodslist[ulindex]}"
 	fn_mod_get_info
-	# Display installed mods and the update policy
+	# Display installed mods and the update policy.
 	if [ -z "${modkeepfiles}" ]; then
-		# If modkeepfiles is not set for some reason, that's a problem
+		# If modkeepfiles is not set for some reason, that's a problem.
 		fn_script_log_error "Could not find update policy for ${modprettyname}"
 		fn_print_error_nl "Could not find update policy for ${modprettyname}"
 		exitcode="1"
 		core_exit.sh
-	# If the mod won't get updated
+	# If the mod won't get updated.
 	elif [ "${modkeepfiles}" == "NOUPDATE" ]; then
 		echo -e "	* ${red}{modprettyname}${default} (won't be updated)"
-	# If the mode is just overwritten
+	# If the mode is just overwritten.
 	elif [ "${modkeepfiles}" == "OVERWRITE" ]; then
 		echo -e "	* ${modprettyname} (overwrite)"
 	else
 		echo -e "	* ${yellow}${modprettyname}${default} (retain common custom files)"
 	fi
 done
-sleep 0.5
 
 ## Update
-# List all installed mods and apply update
-# Reset line value
+# List all installed mods and apply update.
+# Reset line value.
 installedmodsline="1"
 while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 	currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
 	if [ -n "${currentmod}" ]; then
 		fn_mod_get_info
-		# Don not update mod if the policy is set to "NOUPDATE"
+		# Don not update mod if the policy is set to "NOUPDATE".
 		if [ "${modkeepfiles}" == "NOUPDATE" ]; then
 			fn_print_info "${modprettyname} will not be updated to preserve custom files"
 			fn_script_log_info "${modprettyname} will not be updated to preserve custom files"
 		else
-			echo ""
-			echo "==> Updating ${modprettyname}"
+			echo -e ""
+			echo -e "==> Updating ${modprettyname}"
 			fn_create_mods_dir
 			fn_mods_clear_tmp_dir
 			fn_mods_create_tmp_dir
@@ -103,7 +101,7 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 		core_exit.sh
 	fi
 done
-echo ""
+echo -e ""
 fn_print_ok_nl "Mods update complete"
 fn_script_log_info "Mods update complete"
 

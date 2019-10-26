@@ -28,7 +28,6 @@ fn_update_mumble_dl(){
 fn_update_mumble_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	sleep 0.5
 	# Uses executable to find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
@@ -40,7 +39,6 @@ fn_update_mumble_localbuild(){
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		fn_script_log_error "Checking local build"
 	fi
-	sleep 0.5
 }
 
 fn_update_mumble_remotebuild(){
@@ -48,7 +46,6 @@ fn_update_mumble_remotebuild(){
 	remotebuild=$(${curlpath} -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
-		sleep 0.5
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
@@ -57,7 +54,6 @@ fn_update_mumble_remotebuild(){
 		else
 			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
 			fn_script_log_pass "Checking remote build"
-			sleep 0.5
 		fi
 	else
 		# Checks if remotebuild variable has been set.
@@ -66,18 +62,16 @@ fn_update_mumble_remotebuild(){
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
-	fi	
+	fi
 }
 
 fn_update_mumble_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	sleep 0.5
-	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
+	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
+	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		sleep 0.5
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
@@ -86,7 +80,7 @@ fn_update_mumble_compare(){
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		sleep 0.5
+		fn_sleep_time
 		echo -en "\n"
 		echo -en "applying update.\r"
 		sleep 1
@@ -120,7 +114,6 @@ fn_update_mumble_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		sleep 0.5
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${mumblearch}${default}"
@@ -143,7 +136,6 @@ if [ "${installer}" == "1" ]; then
 else
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	sleep 0.5
 	fn_update_mumble_localbuild
 	fn_update_mumble_remotebuild
 	fn_update_mumble_compare

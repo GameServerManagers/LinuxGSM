@@ -24,10 +24,10 @@ fn_install_ts3db_mariadb(){
 		fi
 	fi
 
-	echo ""
-	echo "Configure ${gamename} Server for MariaDB"
-	echo "================================="
-	sleep 0.5
+	echo -e ""
+	echo -e "${lightyellow}Configure ${gamename} Server for MariaDB${default}"
+	echo -e "================================="
+	fn_sleep_time
 	read -rp "Enter MariaDB hostname: " mariahostname
 	read -rp "Enter MariaDB port: " mariaport
 	read -rp "Enter MariaDB username: " mariausername
@@ -36,25 +36,25 @@ fn_install_ts3db_mariadb(){
 	read -rp "Enter MariaDB socket path: " mariadbsocket
 
 	{
-	echo "[config]"
-	echo "host='${mariahostname}'"
-	echo "port='${mariaport}'"
-	echo "username='${mariausername}'"
-	echo "password='${mariapassword}'"
-	echo "database='${mariadbname}'"
-	echo "socket='${mariadbsocket}'"
+	echo -e "[config]"
+	echo -e "host='${mariahostname}'"
+	echo -e "port='${mariaport}'"
+	echo -e "username='${mariausername}'"
+	echo -e "password='${mariapassword}'"
+	echo -e "database='${mariadbname}'"
+	echo -e "socket='${mariadbsocket}'"
 	} >> "${servercfgdir}/ts3db_mariadb.ini"
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
-	echo "updating ts3db_mariadb.ini."
-	sleep 0.5
+	echo -e "updating ts3db_mariadb.ini."
+	fn_sleep_time
 }
 
-echo ""
-echo "Select Database"
-echo "================================="
-sleep 0.5
+echo -e ""
+echo -e "${lightyellow}Select Database${default}"
+echo -e "================================="
+fn_sleep_time
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (MariaDB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
@@ -65,13 +65,11 @@ fi
 
 install_eula.sh
 
-## Get privilege key
-echo ""
-echo "Getting privilege key"
-echo "================================="
-sleep 0.5
+echo -e ""
+echo -e "${lightyellow}Getting privilege key${default}"
+echo -e "================================="
+fn_sleep_time
 fn_print_information_nl "Save these details for later."
-sleep 0.5
 cd "${executabledir}" || exit
 ${executable} start inifile=ts3-server.ini
 sleep 5
