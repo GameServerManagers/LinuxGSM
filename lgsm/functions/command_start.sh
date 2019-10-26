@@ -188,10 +188,10 @@ fn_sleep_time
 
 fn_print_dots "${servername}"
 
-if [ -f /.dockerenv ]; then
-	## Need to reinstall the config so that the generated config has all the latest env vars set
-	install_config.sh
-fi
+# if [ -f /.dockerenv ]; then
+# 	## Need to reinstall the config so that the generated config has all the latest env vars set
+# 	install_config.sh
+# fi
 
 check.sh
 # Is the server already started.
