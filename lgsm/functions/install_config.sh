@@ -29,14 +29,7 @@ fn_fetch_default_config(){
 	# When running inside Docker we want to use a local copy of these files.
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-	cp -rp "/home/linuxgsm/linuxgsm-configs/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game/"
-		if [ -f /.dockerenv ]; then
-			if [ -f "/home/linuxgsm/linuxgsm-configs/${gamedirname}/${config}.tmpl" ]; then
-				cp -rp "/home/linuxgsm/linuxgsm-configs/${gamedirname}/${config}.tmpl" "${lgsmdir}/config-default/config-game/"
-			fi
-		else
-			fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
-		fi
+		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game/${gamedirname}" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
 	done
 }
 
@@ -44,25 +37,24 @@ fn_fetch_default_config(){
 fn_default_config_remote(){
 	for config in "${array_configs[@]}"; do
 		# every config is copied
-		echo -e "copying ${config} config file."
-		fn_script_log_info "copying ${servercfg} config file."
+		echo -e "copying ${config} config file 1."
+		fn_script_log_info "copying ${servercfg} config file 1."
+		if [ -f /.dockerenv ]; then
+			# In Docker we regenerate this config everytime at startup.
+			# we always want to overwrite the existing file.
+			rm ${servercfgfullpath}
+		fi
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
-			# Allows gomplate templating
-			if [ -f /.dockerenv ]; then
-				if [ -f "${lgsmdir}/config-default/config-game/${config}.tmpl" ]; then
-					cp -nv "${lgsmdir}/config-default/config-game/${config}.tmpl" "${servercfgfullpath}.tmpl"
-				fi
-			fi
+			cp -nv "${lgsmdir}/config-default/config-game/${gamedirname}/${config}" "${servercfgfullpath}"
 		elif [ "${shortname}" == "arma3" ]&&[ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${gamedirname}/${config}" "${networkcfgfullpath}"
 		elif [ "${shortname}" == "dst" ]&&[ "${config}" == "${clustercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${gamedirname}/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/config-default/config-game/${gamedirname}/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	fn_sleep_time
@@ -80,16 +72,6 @@ fn_default_config_local(){
 # PASSWORD to random password
 fn_set_config_vars(){
 	if [ -f "${servercfgfullpath}" ]; then
-
-		if [ -f /.dockerenv ]; then
-			# Generate the base config using gomplate
-			if [ -f "${servercfgfullpath}.tmpl" ]; then 
-				echo "Running gomplate"
-				gomplate -f ${servercfgfullpath}.tmpl -o ${servercfgfullpath}
-				chmod u+x,g+x ${servercfgfullpath}
-			fi
-		fi
-
 		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${random}"

@@ -118,7 +118,12 @@ fn_fetch_file(){
 	local_filename="${3}"
 	chmodx="${4:-0}"
 	run="${5:-0}"
-	forcedl="${6:-0}"
+	if [ -f /.dockerenv ]; then
+		forcedl="0"
+	else
+		forcedl="${6:-0}"
+	fi
+	
 	md5="${7:-0}"
 
 	# Download file if missing or download forced.
