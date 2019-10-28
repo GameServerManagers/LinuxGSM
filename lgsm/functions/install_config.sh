@@ -37,8 +37,8 @@ fn_fetch_default_config(){
 fn_default_config_remote(){
 	for config in "${array_configs[@]}"; do
 		# every config is copied
-		echo -e "copying ${config} config file 1."
-		fn_script_log_info "copying ${servercfg} config file 1."
+		echo -e "copying ${config} config file."
+		fn_script_log_info "copying ${servercfg} config file."
 		if [ -f /.dockerenv ]; then
 			# In Docker we regenerate this config everytime at startup.
 			# we always want to overwrite the existing file.
@@ -63,6 +63,12 @@ fn_default_config_remote(){
 # Copys local default config to server config location.
 fn_default_config_local(){
 	echo -e "copying ${servercfgdefault} config file."
+
+	if [ -f /.dockerenv ]; then
+		# In Docker we regenerate this config everytime at startup.
+		# we always want to overwrite the existing file.
+		rm ${servercfgfullpath}
+	fi
 	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
 	fn_sleep_time
 }

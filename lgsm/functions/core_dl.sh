@@ -119,6 +119,7 @@ fn_fetch_file(){
 	chmodx="${4:-0}"
 	run="${5:-0}"
 	if [ -f /.dockerenv ]; then
+		# All required files should already exist locally
 		forcedl="0"
 	else
 		forcedl="${6:-0}"
