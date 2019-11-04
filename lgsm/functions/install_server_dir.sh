@@ -8,15 +8,15 @@ local commandname="INSTALL"
 local commandaction="Install"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-echo ""
-echo "Server Directory"
-echo "================================="
+echo -e ""
+echo -e "${lightyellow}Server Directory${default}"
+echo -e "================================="
 fn_sleep_time
 if [ -d "${serverfiles}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi
 pwd
-echo ""
+echo -e ""
 if [ -z "${autoinstall}" ]; then
 	if ! fn_prompt_yn "Continue?" Y; then
 		exit

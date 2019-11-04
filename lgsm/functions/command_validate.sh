@@ -10,7 +10,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validation(){
 	fn_print_info "Validating files: SteamCMD"
-	echo ""
+	echo -e ""
 	echo -e "* Validating may overwrite some customised files."
 	echo -e "* https://docs.linuxgsm.com/commands/validate"
 	fn_script_log_info "Validating files: SteamCMD"
@@ -23,11 +23,9 @@ fn_validation(){
 	fi
 
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
-	elif [ "${gamename}" == "Unturned" ]; then
-		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" -beta ${branch} validate +quit | tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta ${branch} validate +quit | tee -a "${lgsmlog}"
 	fi
 	if [ $? != 0 ]; then
 		fn_print_fail_nl "Validating files: SteamCMD"
