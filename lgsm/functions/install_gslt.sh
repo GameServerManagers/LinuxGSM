@@ -21,9 +21,9 @@ else
 fi
 
 echo -e "Get more info and a token here:"
-echo -e "https://linuxgsm.com/gslt"
+echo -e "https://docs.linuxgsm.com/steamcmd/gslt"
 fn_script_log_info "Get more info and a token here:"
-fn_script_log_info "https://linuxgsm.com/gslt"
+fn_script_log_info "https://docs.linuxgsm.com/steamcmd/gslt"
 echo -e ""
 if [ -z "${autoinstall}" ]; then
 	if [ "${shortname}" != "tu" ]; then
