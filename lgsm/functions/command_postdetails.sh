@@ -31,10 +31,10 @@ posttarget=${posttarget="https://hastebin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
-# This, too, may be overridden from the command line at the top-level
+# This, too, may be overridden from the command line at the top-level.
 postexpire="${postexpire="30D"}"
 
-# source all of the functions defined in the details command
+# source all of the functions defined in the details command.
 info_messages.sh
 
 fn_bad_postdetailslog() {
@@ -42,12 +42,12 @@ fn_bad_postdetailslog() {
 	core_exit.sh
 }
 
-# Remove any existing postdetails.log file
+# Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
 	rm -f "${postdetailslog}"
 fi
 
-# Rather than a one-pass sed parser, default to using a temporary directory
+# Rather than a one-pass sed parser, default to using a temporary directory.
 if [ -n "${alertflag}" ]; then
 	postdetailslog="${alertlog}"
 else
@@ -61,13 +61,13 @@ else
 	touch "${postdetailslog}" || fn_bad_postdetailslog
 	{
 		fn_info_message_distro
-		fn_info_message_performance
-		fn_info_message_disk
+		fn_info_message_server_resource
+		fn_info_message_gameserver_resource
 		fn_info_message_gameserver
 		fn_info_message_script
 		fn_info_message_backup
 		# Some game servers do not have parms.
-		if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "jc2" ]&&[ "${shortname}" != "jc3" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
+		if [ "${shortname}" != "jc2" ]&&[ "${shortname}" != "jc3" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
 			fn_parms
 			fn_info_message_commandlineparms
 		fi
@@ -95,7 +95,7 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	 # Output the resulting link.
 	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
 	pdurl="${posttarget}${link}"
-	echo "  Please share the following url for support: ${pdurl}"
+	echo -e "  Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	fn_print_dots "Posting details to hastebin.com"
 	# hastebin is a bit simpler.  If successful, the returned result
@@ -104,7 +104,14 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
-	echo "  Please share the following url for support: ${pdurl}"
+	echo -e "Please share the following url for support: ${pdurl}"
+elif [ "${posttarget}" == "https://termbin.com" ] ; then
+	fn_print_dots "Posting details to termbin.com"
+	link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
+	fn_print_ok_nl "Posting details to termbin.com"
+	pdurl="${link}"
+	echo -e "Please share the following url for support: "
+	echo -e "${pdurl}"
 else
 	 fn_print_warn_nl "Review output in: ${postdetailslog}"
 	 core_exit.sh

@@ -8,14 +8,14 @@
 local commandname="LOGS"
 local commandaction="Log-Manager"
 
-# Check if logfile variable and file exist, create logfile if it doesn't exist
+# Check if logfile variable and file exist, create logfile if it doesn't exist.
 if [ -n "${consolelog}" ]; then
 	if [ ! -e "${consolelog}" ]; then
 		touch "${consolelog}"
 	fi
 fi
 
-# For games not displaying a console, and having logs into their game directory
+# For games not displaying a console, and having logs into their game directory.
 check_status.sh
 if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -n "${gamelogfile}" ]; then
 	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
@@ -27,8 +27,8 @@ if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -
 	fi
 fi
 
-# Log manager will start the cleanup if it finds logs older than "${logdays}"
-if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; then
+# Log manager will start the cleanup if it finds logs older than "${logdays}".
+if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; then
 	fn_print_dots "Starting"
 	# Set common logs directories
 	commonlogs="${systemdir}/logs"
@@ -44,24 +44,24 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; th
 	fn_print_ok_nl "Starting"
 	fn_print_info_nl "Removing logs older than ${logdays} days"
 	fn_script_log_info "Removing logs older than ${logdays} days"
-	# Logging logfiles to be removed according to "${logdays}", counting and removing them
-	# Script logfiles
+	# Logging logfiles to be removed according to "${logdays}", counting and removing them.
+	# Script logfiles.
 	find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 	scriptcount=$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 	find "${lgsmlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
-	# SRCDS and unreal logfiles
+	# SRCDS and unreal logfiles.
 	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
 		find "${gamelogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		gamecount=$(find "${gamelogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
-	# Console logfiles
+	# Console logfiles.
 	if [ -n "${consolelog}" ]; then
 		find "${consolelogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 		find "${consolelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
-	# Common logfiles
+	# Common logfiles.
 	if [ -d "${commonlogs}" ]; then
 		find "${commonlogs}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		smcount=$(find "${commonlogs}"/ -type f -mtime +"${logdays}" | wc -l)
@@ -72,23 +72,23 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; th
 		smcount=$(find "${commonsourcelogs}"/* -type f -mtime +"${logdays}" | wc -l)
 		find "${commonsourcelogs}"/* -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
-	# Source addons logfiles
+	# Source addons logfiles.
 	if [ "${engine}" == "source" ]; then
-		# SourceMod logfiles
+		# SourceMod logfiles.
 		if [ -d "${sourcemodlogdir}" ]; then
 			find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 			smcount=$(find "${sourcemodlogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 			find "${sourcemodlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 		fi
-		# Garry's Mod logfiles
-		if [ "${gamename}" == "Garry's Mod" ]; then
-			# ULX logfiles
+		# Garry's Mod logfiles.
+		if [ "${shortname}" == "gmod" ]; then
+			# ULX logfiles.
 			if [ -d "${ulxlogdir}" ]; then
 				find "${ulxlogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 				ulxcount=$(find "${ulxlogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 				find "${ulxlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 			fi
-			# DarkRP logfiles
+			# DarkRP logfiles.
 			if [ -d "${darkrplogdir}" ]; then
 				find "${darkrplogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 				darkrpcount=$(find "${darkrplogdir}"/ -type f -mtime +"${logdays}" | wc -l)
@@ -97,9 +97,9 @@ if [ $(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l) -ne "0" ]; th
 		fi
 	fi
 
-	# Count total amount of files removed
+	# Count total amount of files removed.
 	countlogs=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount}))
-	# Job done
+	# Job done.
 	fn_print_ok_nl "Removed ${countlogs} log files"
 	fn_script_log "Removed ${countlogs} log files"
 fi

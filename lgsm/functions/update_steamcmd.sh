@@ -19,11 +19,9 @@ fn_update_steamcmd_dl(){
 
 	cd "${steamcmddir}" || exit
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
-	elif [ "${shortname}" == "unt" ]; then
-		${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformBitness 32 +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" ${branch} validate +quit
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta ${branch} +quit | tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} +quit | tee -a "${lgsmlog}"
+		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta ${branch} +quit | tee -a "${lgsmlog}"
 	fi
 	fix.sh
 }
@@ -162,9 +160,9 @@ fn_appmanifest_check(){
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			fn_script_log_fatal "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			echo "	* Check user permissions"
+			echo -e "	* Check user permissions"
 			for appfile in ${appmanifestfile}; do
-				echo "	${appfile}"
+				echo -e "	${appfile}"
 			done
 			core_exit.sh
 		else
