@@ -48,7 +48,7 @@ echo -e ""
 find lgsm/config-default/config-lgsm/ ! -name '*template.cfg' -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
         grep "#" ${line}  > defaultcfgtemp.txt
-        diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_0.txt  defaultcfgtemp.txt | grep '^<')
+        diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_1.txt  defaultcfgtemp.txt | grep '^<')
         if [ "${diffoutput}" ]; then
                 echo "File with errors:"
                 echo "${line}"
