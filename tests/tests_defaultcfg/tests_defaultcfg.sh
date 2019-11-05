@@ -7,8 +7,8 @@ echo -e "test checks that vars present in ALL _default.cfg files are correct."
 echo -e ""
 find lgsm/config-default/config-lgsm/ -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	grep = ${line} > defaultcfgtemp.txt
-	diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_0.txt  defaultcfgtemp.txt | grep '^<')
+	grep = ${line}  | cut -f1 -d"=" > defaultcfgtemp.txt
+	diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_0.txt  defaultcfgtemp.txt)
 	if [ "${diffoutput}" ]; then
 		echo "File with errors:"
 	       	echo "${line}"
