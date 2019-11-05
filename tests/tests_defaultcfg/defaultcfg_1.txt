@@ -1,11 +1,11 @@
 ##################################
 ######## Default Settings ########
 ##################################
-# DO NOT EDIT WILL BE OVERWRITTEN!
-# Copy settings from here and use them in either
-# common.cfg - applies settings to every instance
-# [instance].cfg - applies settings to a specific instance
-#### Server Settings ####
+# DO NOT EDIT ANY CHANGES WILL BE OVERWRITTEN!
+# Copy settings from here and use them in either:
+# common.cfg - applies settings to every instance.
+# [instance].cfg - applies settings to a specific instance.
+#### Game Server Settings ####
 ## Server Start Command | https://docs.linuxgsm.com/configuration/start-parameters#additional-parameters
 #### LinuxGSM Settings ####
 ## Notification Alerts
@@ -27,10 +27,10 @@
 ## Logging | https://docs.linuxgsm.com/features/logging
 ## Monitor | https://docs.linuxgsm.com/commands/monitor
 # Query delay time
-#### LinuxGSM Advanced Settings ####
-# ANSI Colors
-# Message Display Time
-# Stop Mode | https://docs.linuxgsm.com/steamcmd/stopmode
+## ANSI Colors | https://docs.linuxgsm.com/features/ansi-colors
+#### Advanced Settings ####
+## Message Display Time | https://docs.linuxgsm.com/features/message-display-time
+## Stop Mode | https://docs.linuxgsm.com/features/stop-mode
 # 1: tmux kill
 # 2: CTRL+c
 # 3: quit
@@ -41,11 +41,11 @@
 # 8: 7 Days to Die
 # 9: Gold Source
 # 10: Teamspeak 3
-## LinuxGSM Server Details
+## Game Server Details
 # Do not edit
 #### Directories ####
 # Edit with care
-## Server Specific Directories
+## Game Server Directories
 ## Backup Directory
 ## Logging Directories
 ## Logs Naming
