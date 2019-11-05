@@ -12,7 +12,7 @@ ls -al .
 find lgsm/config-default/config-lgsm/ -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	grep = ${line}  | cut -f1 -d"=" > defaultcfgtemp.txt
-	diffoutput=$(diff defaultcfg_0.txt  defaultcfgtemp.txt | grep '^<')
+	diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_0.txt  defaultcfgtemp.txt | grep '^<')
 	if [ "${diffoutput}" ]; then
 		echo "File with errors:"
 	       	echo "${line}"
