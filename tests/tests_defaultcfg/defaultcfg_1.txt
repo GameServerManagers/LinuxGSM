@@ -24,7 +24,6 @@
 # You can add a custom cURL string eg proxy (useful in Russia) or else in "curlcustomstring".
 # like a "--socks5 ipaddr:port" for socks5 proxy see more in "curl --help", if you not need
 # any custom string in curl - simple ignore this parameter.
-## Updating | https://docs.linuxgsm.com/commands/update
 ## Backup | https://docs.linuxgsm.com/commands/backup
 ## Logging | https://docs.linuxgsm.com/features/logging
 ## Monitor | https://docs.linuxgsm.com/commands/monitor
@@ -32,10 +31,6 @@
 #### LinuxGSM Advanced Settings ####
 # ANSI Colors
 # Message Display Time
-## SteamCMD Settings
-# Server appid
-# SteamCMD Branch | https://docs.linuxgsm.com/steamcmd/branch
-# Master Server | https://docs.linuxgsm.com/steamcmd/steam-master-server
 # Stop Mode | https://docs.linuxgsm.com/steamcmd/stopmode
 # 1: tmux kill
 # 2: CTRL+c
