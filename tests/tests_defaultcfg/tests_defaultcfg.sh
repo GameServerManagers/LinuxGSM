@@ -6,6 +6,7 @@ echo -e "=================================================================="
 echo -e "Description:"
 echo -e "test checks that vars present in ALL _default.cfg files are correct."
 echo -e ""
+ls -al ../../
 find ../../lgsm/config-default/config-lgsm/ -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	grep = ${line}  | cut -f1 -d"=" > defaultcfgtemp.txt
