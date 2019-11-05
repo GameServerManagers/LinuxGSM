@@ -9,7 +9,7 @@ echo -e ""
 ls -al ../../
 ls -al ../
 ls -al .
-find ../../lgsm/config-default/config-lgsm/ -name "*.cfg" -type f -print0 |
+find lgsm/config-default/config-lgsm/ -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	grep = ${line}  | cut -f1 -d"=" > defaultcfgtemp.txt
 	diffoutput=$(diff defaultcfg_0.txt  defaultcfgtemp.txt | grep '^<')
