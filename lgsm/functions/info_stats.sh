@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM info_analytics.sh function
+# LinuxGSM info_stats.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
 # Description: Optional Analytics to send to LinuxGSM Developer

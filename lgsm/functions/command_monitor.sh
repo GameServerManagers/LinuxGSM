@@ -190,7 +190,7 @@ info_parms.sh
 
 analytics=1
 if [ ${analytics} == "1" ]; then
-	info_analytics.sh
+	info_stats.sh
 fi
 
 fn_monitor_check_lockfile
