@@ -24,38 +24,45 @@ cpuusedmhzroundup=$(((${cpuusedmhz} + 99) / 100 * 100))
 memusedroundup=$(((${memused} + 99) / 100 * 100))
 
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
-# Level 1 Analytics
-## Distro
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
-## Game Server Name
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=game" -d "ea=${shortname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 
-# Level 2 Analytics
-## CPU usage of a game server
-if [ "${cpuusedmhzroundup}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedmhzroundup}MHz" -d "v=1" > /dev/null 2>&1
-fi
-## Ram usage of a game server
-if [ "${memusedroundup}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=ramused" -d "ea=${shortname}" -d "el=${memusedroundup}MB" -d "v=1" > /dev/null 2>&1
-fi
-## Disk usage of a game server
-if [ "${serverfilesdu}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=diskused" -d "ea=${shortname}" -d "el=${serverfilesdu}" -d "v=1" > /dev/null 2>&1
+if [ "${analytics}" == "1" ]||[ "${analytics}" == "2" ]||[ "${analytics}" == "3" ]; then
+	# Level 1 Analytics
+	## Distro
+	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=distro" -d "ea=${distroid}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
+	## Game Server Name
+	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=game" -d "ea=${shortname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 
-# Level 3 Analytics
-## CPU Model
-if [ "${cpumodel}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=servercpu" -d "ea=${shortname}" -d "el=${cpumodel} cores:${cpucores}" -d "v=1" > /dev/null 2>&1
+if [ "${analytics}" == "2" ]||[ "${analytics}" == "3" ]; then
+	# Level 2 Analytics
+	## CPU usage of a game server
+	if [ "${cpuusedmhzroundup}" ]; then
+	  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${shortname}" -d "el=${cpuusedmhzroundup}MHz" -d "v=1" > /dev/null 2>&1
+	fi
+	## Ram usage of a game server
+	if [ "${memusedroundup}" ]; then
+	  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=ramused" -d "ea=${shortname}" -d "el=${memusedroundup}MB" -d "v=1" > /dev/null 2>&1
+	fi
+	## Disk usage of a game server
+	if [ "${serverfilesdu}" ]; then
+	  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=diskused" -d "ea=${shortname}" -d "el=${serverfilesdu}" -d "v=1" > /dev/null 2>&1
+	fi
 fi
 
-## Server RAM
-if [ "${physmemtotal}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverram" -d "ea=${shortname}" -d "el=${physmemtotal}" -d "v=1" > /dev/null 2>&1
-fi
+if [ "${analytics}" == "3" ]; then
+	# Level 3 Analytics
+	## CPU Model
+	if [ "${cpumodel}" ]; then
+	  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=servercpu" -d "ea=${shortname}" -d "el=${cpumodel} cores:${cpucores}" -d "v=1" > /dev/null 2>&1
+	fi
 
-## Server Disk
-if [ "${totalspace}" ]; then
-  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverdisk" -d "ea=${shortname}" -d "el=${totalspace}" -d "v=1" > /dev/null 2>&1
+	## Server RAM
+	if [ "${physmemtotal}" ]; then
+	  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverram" -d "ea=${shortname}" -d "el=${physmemtotal}" -d "v=1" > /dev/null 2>&1
+	fi
+
+	## Server Disk
+	if [ "${totalspace}" ]; then
+	  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverdisk" -d "ea=${shortname}" -d "el=${totalspace}" -d "v=1" > /dev/null 2>&1
+	fi
 fi
