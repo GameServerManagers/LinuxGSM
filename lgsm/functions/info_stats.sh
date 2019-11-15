@@ -4,7 +4,6 @@
 # Website: https://linuxgsm.com
 # Description: Optional Stats to send to LinuxGSM Developer
 # Uses Google analytics
-# Data collected: Game Server, Distro
 
 info_distro.sh
 # generate uuid
