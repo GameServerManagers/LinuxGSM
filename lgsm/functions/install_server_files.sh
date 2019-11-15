@@ -64,7 +64,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "sol" ]; then
 		remote_fileurl="https://static.soldat.pl/downloads/soldatserver2.8.1_1.7.1.zip"; local_filedir="${tmpdir}"; local_filename="soldatserver2.8.1_1.7.1.zip"; chmodx="nochmodx" run="norun"; force="noforce"; md5="994409c28520425965dec5c71ccb55e1"
 	elif [ "${shortname}" == "zmr" ]; then
-		remote_fileurl="https://files.linuxgsm.com/ZombieMasterReborn/zombie_master_reborn_b4_fix5.1.tar.bz2"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b4_fix5.1.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="73472bd84dfa6d203f3b5f48f760773e"
+		remote_fileurl="https://files.linuxgsm.com/ZombieMasterReborn/zombie_master_reborn_b5_2.tar.bz2"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b5_2.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="d52ef2db376f5d21e3a4ceca85ec8761"
 	fi
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
