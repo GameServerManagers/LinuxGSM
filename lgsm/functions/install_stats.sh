@@ -24,4 +24,6 @@ if [ -z "${autoinstall}" ]; then
 		echo "stats=\"y\"" >> "${configdirserver}/common.cfg"
 		fn_print_information_nl "Stats setting is now enabled in common.cfg."
 	fi
+else
+	fn_print_information_nl "auto-install leaves stats off by default. Stats can be enabled in common.cfg"
 fi
