@@ -521,7 +521,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Minecraft
+	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
