@@ -22,6 +22,6 @@ echo -e "* server hardware info"
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Allow anonymous usage statistics?" Y; then
 		echo "stats=\"y\"" >> "${configdirserver}/common.cfg"
-		fn_print_information_nl -e "Stats setting is now enabled in common.cfg."
+		fn_print_information_nl "Stats setting is now enabled in common.cfg."
 	fi
 fi
