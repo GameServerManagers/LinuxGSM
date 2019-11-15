@@ -188,8 +188,7 @@ logs.sh
 info_config.sh
 info_parms.sh
 
-analytics=1
-if [ ${analytics} == "1" ]; then
+if [ "${stats}" == "on" ]; then
 	info_stats.sh
 fi
 
