@@ -196,7 +196,6 @@ fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
 
-
 # Fix if lockfile is not unix time or contains letters
 if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
     date '+%s' > "${rootdir}/${lockselfname}"
