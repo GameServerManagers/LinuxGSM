@@ -62,3 +62,14 @@ fi
 if [ "${totalspace}" ]; then
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=serverdisk" -d "ea=${gamename}" -d "el=${totalspace}" -d "v=1" > /dev/null 2>&1
 fi
+
+fn_script_log_info "Send LinuxGSM stats"
+fn_script_log_info "* UUID: ${uuid}"
+fn_script_log_info "* Game Name: ${gamename}"
+fn_script_log_info "* Distro Name: ${distroname}"
+fn_script_log_info "* Game Server CPU Used: ${cpuusedmhzroundup}MHz"
+fn_script_log_info "* Game Server RAM Used: ${memusedroundup}MB"
+fn_script_log_info "* Game Server Disk Used: ${serverfilesdu}"
+fn_script_log_info "* Server CPU Model: ${cpumodel}"
+fn_script_log_info "* Server RAM: ${physmemtotal}"
+fn_script_log_info "* Server Disk: ${totalspace}"
