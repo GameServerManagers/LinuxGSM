@@ -24,25 +24,21 @@ fi
 check.sh
 info_config.sh
 info_parms.sh
-if [ "${engine}" == "idtech3_ql" ]; then
-	local engine="quakelive"
-elif [ "${shortname}" == "kf2" ]; then
-	local engine="unreal4"
-fi
 
 query_gamedig.sh
 echo -e "${gamedigcmd}"
 echo""
 echo -e "${gamedigraw}" | jq
+
 echo""
 echo -e "gsquery Raw Output"
 echo -e "================================="
 echo""
-echo -e "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${engine}\""
+echo -e "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${querytype}\""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
-"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${engine}"
+"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${querytype}"
 
 echo""
 echo -e "TCP Raw Output"
@@ -57,18 +53,6 @@ else
 	echo -e "TCP query FAIL"
 fi
 
-echo""
-echo -e "UDP Raw Output"
-echo -e "================================="
-echo""
-echo -e "bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''"
-bash -c 'exec 3<> /dev/udp/'${ip}'/'${queryport}''
-querystatus="$?"
-if [ "${querystatus}" == "0" ]; then
-	echo -e "UPD query PASS"
-else
-	echo -e "UPD query FAIL"
-fi
 echo -e ""
 echo -e "Game Port"
 echo -e "=================================================================="
