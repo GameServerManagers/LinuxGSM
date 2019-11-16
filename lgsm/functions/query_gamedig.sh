@@ -10,12 +10,12 @@ check_status.sh
 if [ "${status}" != "0" ]; then
 	# checks if query is working null = pass.
 	gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --query_port \"${queryport}\"|jq")
-	gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --query_port "${queryport}")
+	gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --query_port "${queryport}")
 	querystatus=$(echo -e "${gamedigraw}" | jq '.error|length')
 
 	if [ "${querystatus}" != "null" ]; then
-		gamedigcmd=$(echo -e "gamedig --type \"${gamedigengine}\" --host \"${ip}\" --port \"${queryport}\"|jq")
-		gamedigraw=$(gamedig --type "${gamedigengine}" --host "${ip}" --port "${queryport}")
+		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --port \"${queryport}\"|jq")
+		gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --port "${queryport}")
 		querystatus=$(echo -e "${gamedigraw}" | jq '.error|length')
 
 	fi
