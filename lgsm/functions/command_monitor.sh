@@ -177,7 +177,6 @@ fn_monitor_loop(){
 }
 
 monitorflag=1
-fn_print_dots "${servername}"
 check.sh
 logs.sh
 info_config.sh
