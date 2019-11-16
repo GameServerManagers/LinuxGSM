@@ -35,6 +35,7 @@ echo -e "gsquery Raw Output"
 echo -e "================================="
 echo -e ""
 echo -e "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${querytype}\""
+echo -e ""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
@@ -45,6 +46,7 @@ echo -e "TCP Raw Output"
 echo -e "================================="
 echo -e ""
 echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
+echo -e ""
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
@@ -61,6 +63,7 @@ echo -e "TCP Raw Output"
 echo -e "================================="
 echo -e ""
 echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
+echo -e ""
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
@@ -74,6 +77,7 @@ echo -e "UDP Raw Output"
 echo -e "================================="
 echo -e ""
 echo -e "bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''"
+echo -e ""
 bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''
 querystatus="$?"
 if [ "${querystatus}" == "0" ]; then
