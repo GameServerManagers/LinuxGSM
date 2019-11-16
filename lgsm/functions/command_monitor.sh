@@ -107,6 +107,10 @@ for queryattempt in {1..5}; do
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
 		monitorpass=1
+    # send LinuxGSM stats if monitor is OK.
+    if [ "${stats}" == "on" ]; then
+    	info_stats.sh
+    fi
 		core_exit.sh
 	else
 		# Server query FAIL.
