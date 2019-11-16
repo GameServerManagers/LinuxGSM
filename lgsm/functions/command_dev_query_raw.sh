@@ -71,17 +71,3 @@ if [ "${querystatus}" == "0" ]; then
 else
 	echo -e "TCP query FAIL"
 fi
-
-echo -e ""
-echo -e "UDP Raw Output"
-echo -e "================================="
-echo -e ""
-echo -e "bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''"
-echo -e ""
-bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''
-querystatus="$?"
-if [ "${querystatus}" == "0" ]; then
-	echo -e "UDP query PASS"
-else
-	echo -e "UDP query FAIL"
-fi
