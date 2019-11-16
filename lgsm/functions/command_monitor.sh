@@ -7,11 +7,6 @@
 # then passes to gamedig and gsquery.
 
 fn_monitor_check_lockfile(){
-	# Fix if lockfile is not unix time or contains letters
-  if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
-      date '+%s' > "${rootdir}/${lockselfname}"
-  fi
-
 	# Monitor does not run it lockfile is not found.
 	if [ ! -f "${rootdir}/${lockselfname}" ]; then
 		fn_print_error_nl "Disabled: No lockfile found"
@@ -19,6 +14,11 @@ fn_monitor_check_lockfile(){
 		echo -e "	* To enable monitor run ./${selfname} start"
 		core_exit.sh
 	fi
+
+  # Fix if lockfile is not unix time or contains letters
+  if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
+      date '+%s' > "${rootdir}/${lockselfname}"
+  fi
 }
 
 fn_monitor_check_update(){
