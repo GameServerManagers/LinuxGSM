@@ -13,7 +13,7 @@ echo -e "=================================================================="
 echo -e ""
 echo -e "Gamedig Raw Output"
 echo -e "================================="
-echo""
+echo -e ""
 if [ ! "$(command -v gamedig 2>/dev/null)" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
@@ -30,20 +30,20 @@ echo -e "${gamedigcmd}"
 echo""
 echo -e "${gamedigraw}" | jq
 
-echo""
+echo -e ""
 echo -e "gsquery Raw Output"
 echo -e "================================="
-echo""
+echo -e ""
 echo -e "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${querytype}\""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
 "${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${querytype}"
 
-echo""
+echo -e ""
 echo -e "TCP Raw Output"
 echo -e "================================="
-echo""
+echo -e ""
 echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 querystatus="$?"
@@ -57,10 +57,9 @@ echo -e ""
 echo -e "Game Port"
 echo -e "=================================================================="
 echo -e ""
-echo""
 echo -e "TCP Raw Output"
 echo -e "================================="
-echo""
+echo -e ""
 echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''
 querystatus="$?"
@@ -70,10 +69,10 @@ else
 	echo -e "TCP query FAIL"
 fi
 
-echo""
+echo -e ""
 echo -e "UDP Raw Output"
 echo -e "================================="
-echo""
+echo -e ""
 echo -e "bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''"
 bash -c 'exec 3<> /dev/udp/'${ip}'/'${port}''
 querystatus="$?"
