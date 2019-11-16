@@ -66,7 +66,7 @@ fn_query_gsquery(){
 }
 
 fn_query_tcp(){
-	bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
+	bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}'' > /dev/null 2>&1
 	querystatus="$?"
 }
 
