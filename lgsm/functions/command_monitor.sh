@@ -40,6 +40,7 @@ fn_monitor_check_session(){
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
+    fn_sleep_time
 	else
 		if [ "${shortname}" == "ts3" ]; then
 			fn_print_error "Checking session: ${ts3error}: "
@@ -50,6 +51,7 @@ fn_monitor_check_session(){
 		fi
 		fn_print_fail_eol_nl
 		fn_script_log_error "Checking session: FAIL"
+    fn_sleep_time
 		alert="restart"
 		alert.sh
 		fn_script_log_info "Monitor is starting ${servername}"
