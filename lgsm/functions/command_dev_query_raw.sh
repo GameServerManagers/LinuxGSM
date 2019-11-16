@@ -49,6 +49,7 @@ echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
 echo -e ""
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
 querystatus="$?"
+echo -e ""
 if [ "${querystatus}" == "0" ]; then
 	echo -e "TCP query PASS"
 else
@@ -66,6 +67,7 @@ echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
 echo -e ""
 bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''
 querystatus="$?"
+echo -e ""
 if [ "${querystatus}" == "0" ]; then
 	echo -e "TCP query PASS"
 else
