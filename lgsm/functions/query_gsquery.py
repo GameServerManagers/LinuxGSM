@@ -31,7 +31,7 @@ class gsquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
         elif self.option.engine == 'avalanche2.0':
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
-        elif self.option.engine == 'mumble':
+        elif self.option.engine == 'mumbleping':
             self.query_prompt_string = b'\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08'
         elif self.option.engine == 'unreal':
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
@@ -106,7 +106,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 ioquake3 iw2.0 iw3.0 madness mumble quake quakelive realvirtuality refracto source spark starbound unity3d unreal unreal2 unreal4 wurm.'
+        help='Engine type: avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 ioquake3 iw2.0 iw3.0 madness mumbleping quake quakelive realvirtuality refracto source spark starbound unity3d unreal unreal2 unreal4 wurm.'
     )
     parser.add_option(
         '-v', '--verbose',
