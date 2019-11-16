@@ -160,8 +160,8 @@ fn_info_message_gameserver(){
 	# Server password:  NOT SET
 	# RCON password:    adminF54CC0VR
 	# Players:          0/16
-	# Current Map:      de_mirage
-	# Default Map:      de_mirage
+	# Current map:      de_mirage
+	# Default map:      de_mirage
 	# Game type:        0
 	# Game mode:        0
 	# Tick rate:        64
@@ -245,7 +245,6 @@ fn_info_message_gameserver(){
 		fi
 
 		# Players
-
 		if [ "${querystatus}" != "0" ]; then
 			if [ -n "${maxplayers}" ]; then
 				echo -e "${lightblue}Maxplayers:\t${default}${maxplayers}"
@@ -273,31 +272,31 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Bots:\t${default}${gdbots}"
 		fi
 
-		# Current Map
+		# Current map
 		if [ -n "${gdmap}" ]; then
-			echo -e "${lightblue}Current Map:\t${default}${gdmap}"
+			echo -e "${lightblue}Current map:\t${default}${gdmap}"
+		fi
+
+		# Default map
+		if [ -n "${defaultmap}" ]; then
+			echo -e "${lightblue}Default map:\t${default}${defaultmap}"
 		fi
 
 		if [ -n "${defaultscenario}" ]; then
-			# Current Scenario
+			# Current scenario
 			if [ -n "${gdgamemode}" ]; then
-				echo -e "${lightblue}Current Scenario:\t${default}${gdgamemode}"
+				echo -e "${lightblue}Current scenario:\t${default}${gdgamemode}"
 			fi
 		else
-			# Current Scenario
+			# Current game mode
 			if [ -n "${gdgamemode}" ]; then
-				echo -e "${lightblue}Current Game Mode:\t${default}${gdgamemode}"
+				echo -e "${lightblue}Current game mode:\t${default}${gdgamemode}"
 			fi
 		fi
 
-		# Default Map
-		if [ -n "${defaultmap}" ]; then
-			echo -e "${lightblue}Default Map:\t${default}${defaultmap}"
-		fi
-
-		# Default Scenario
+		# Default scenario
 		if [ -n "${defaultscenario}" ]; then
-			echo -e "${lightblue}Default Scenario:\t${default}${defaultscenario}"
+			echo -e "${lightblue}Default scenario:\t${default}${defaultscenario}"
 		fi
 
 		# Game type
@@ -370,12 +369,12 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Map rotation:\t${default}${randommap}"
 		fi
 
-		# Listed on Master Server
+		# Listed on Master server
 		if [ "${displaymasterserver}" ];then
 			if [ "${displaymasterserver}" == "true" ];then
-				echo -e "${lightblue}Master Server:\t${green}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master server:\t${green}${displaymasterserver}${default}"
 			else
-				echo -e "${lightblue}Master Server:\t${red}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master server:\t${red}${displaymasterserver}${default}"
 			fi
 		fi
 
