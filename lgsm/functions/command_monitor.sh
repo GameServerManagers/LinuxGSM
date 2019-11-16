@@ -81,12 +81,14 @@ for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
+  fn_sleep_time
 	# querydelay
 	if [ "$(cat "${rootdir}/${lockselfname}")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_delay_eol_nl
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minute ago"
+    fn_sleep_time
 		monitorpass=1
 		core_exit.sh
 	# will use query method selected in fn_monitor_loop
