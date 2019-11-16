@@ -17,7 +17,7 @@ class gsquery:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=[ 'avalanche3.0','barotrauma''madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4', 'wurm' ]
+        sourcequery=[ 'protocol-valve','avalanche3.0','barotrauma''madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4', 'wurm' ]
         idtech3query=['idtech3','iw3.0','ioquake3','qfusion']
         idtech2query=['idtech2','quake','iw2.0']
         minecraftquery=['minecraft','lwjgl2']
@@ -106,7 +106,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 ioquake3 iw2.0 iw3.0 madness mumbleping quake quakelive realvirtuality refracto source spark starbound unity3d unreal unreal2 unreal4 wurm.'
+        help='Engine type: protocol-valve avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 ioquake3 iw2.0 iw3.0 madness mumbleping quake quakelive realvirtuality refracto source spark starbound unity3d unreal unreal2 unreal4 wurm.'
     )
     parser.add_option(
         '-v', '--verbose',
