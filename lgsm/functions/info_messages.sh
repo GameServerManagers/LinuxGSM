@@ -956,7 +956,7 @@ fn_info_message_rust(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
