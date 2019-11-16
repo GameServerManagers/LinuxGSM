@@ -8,7 +8,7 @@ local commandname="QUERY-RAW"
 local commandaction="Query Raw"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo -e ""
-echo -e "Query Port"
+echo -e "Query Port - Raw Output"
 echo -e "=================================================================="
 echo -e ""
 echo -e "Gamedig Raw Output"
@@ -56,7 +56,7 @@ else
 fi
 
 echo -e ""
-echo -e "Game Port"
+echo -e "Game Port - Raw Output"
 echo -e "=================================================================="
 echo -e ""
 echo -e "TCP Raw Output"
