@@ -13,13 +13,6 @@ if [ "${status}" != "0" ]; then
 	gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --query_port "${queryport}")
 	querystatus=$(echo -e "${gamedigraw}" | jq '.error|length')
 
-	if [ "${querystatus}" != "null" ]; then
-		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --port \"${queryport}\"|jq")
-		gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --port "${queryport}")
-		querystatus=$(echo -e "${gamedigraw}" | jq '.error|length')
-
-	fi
-
 	# server name.
 	gdname=$(echo -e "${gamedigraw}" | jq -re '.name')
 	if [ "${gdname}" == "null" ]; then
