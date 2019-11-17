@@ -48,7 +48,7 @@ fn_info_parms_eco(){
 
 fn_info_parms_factorio(){
 	port=${port:-"0"}
-  queryport=${rconport:-"0"}
+	queryport=${rconport:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 }
@@ -90,6 +90,10 @@ fn_info_parms_mohaa(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_parms_mta(){
+	queryport=$((port - 123))
+}
+
 fn_info_parms_projectzomboid(){
 	adminpassword=${adminpassword:-"NOT SET"}
 }
@@ -101,7 +105,7 @@ fn_info_parms_quakeworld(){
 
 fn_info_parms_quake2(){
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
@@ -113,20 +117,20 @@ fn_info_parms_realvirtuality(){
 fn_info_parms_risingworld(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 	httpqueryport=$((port - 1))
 }
 
 fn_info_parms_rtcw(){
 	port=${port:-"0"}
-	queryport="${port}"
+	queryport="${port:-"0"}"
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 fn_info_parms_rust(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	rconweb=${rconweb:-"NOT SET"}
@@ -144,7 +148,7 @@ fn_info_parms_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 	clientport=${clientport:-"0"}
 }
 
@@ -172,13 +176,13 @@ fn_info_parms_stickybots(){
 
 fn_info_parms_sof2(){
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 fn_info_parms_soldat(){
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	adminpassword=${adminpassword:-"NOT SET"}
@@ -216,7 +220,7 @@ fn_info_parms_unturned(){
 
 fn_info_parms_wf(){
 	port=${port:-"0"}
-	queryport="${port}"
+	queryport="${port:-"0"}"
 	webadminport=${webadminport:-"0"}
 }
 

@@ -1250,7 +1250,7 @@ fn_info_message_wurmunlimited(){
 }
 
 fn_info_message_mta(){
-	echo -e "netstat -atunp | grep mta-server64"
+	echo -e "netstat -atunp | grep mta-server"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
