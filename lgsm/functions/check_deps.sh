@@ -389,7 +389,7 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
 	# Minecraft
-	elif [ "${shortname}" == "mc" ]; then
+elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -511,18 +511,8 @@ fn_deps_build_redhat(){
 		array_deps_required+=( xz )
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
-	# Minecraft
-	elif [ "${shortname}" == "mc" ]; then
-		javaversion=$(java -version 2>&1 | grep "version")
-		if [ "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass the check.
-			javacheck=1
-			array_deps_required+=( rng-tools )
-		else
-			array_deps_required+=( java-1.8.0-openjdk rng-tools )
-		fi
-	# Project Zomboid
-	elif [ "${shortname}" == "pz" ]; then
+	# Minecraft, Project Zomboid, Rising World
+elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
