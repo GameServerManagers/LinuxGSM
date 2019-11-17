@@ -744,7 +744,8 @@ fn_info_message_factorio(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+    echo -e "> Game\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
