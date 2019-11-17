@@ -856,7 +856,7 @@ fn_info_message_projectzomboid(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
