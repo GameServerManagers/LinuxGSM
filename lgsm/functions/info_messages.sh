@@ -852,7 +852,7 @@ fn_info_message_projectcars(){
 }
 
 fn_info_message_projectzomboid(){
-	echo -e "netstat -atunp | grep java"
+	echo -e "netstat -atunp | grep ProjectZomb"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
