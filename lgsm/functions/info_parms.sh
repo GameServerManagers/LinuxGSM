@@ -91,7 +91,7 @@ fn_info_parms_mohaa(){
 }
 
 fn_info_parms_mta(){
-	queryport=$((port - 123))
+	queryport=$((${port} + 123))
 }
 
 fn_info_parms_projectzomboid(){
@@ -284,7 +284,7 @@ elif [ "${shortname}" == "tu" ]; then
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_parms_mordhau
 elif [ "${shortname}" == "mta" ]; then
-	fn_info_parms_mordhau
+	fn_info_parms_mta
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
