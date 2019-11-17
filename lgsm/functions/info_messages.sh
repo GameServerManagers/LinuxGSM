@@ -1257,7 +1257,7 @@ fn_info_message_mta(){
 		echo -e "> Game\tOUTBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
-			echo -e "> ASE Game_Monitor\tOUTBOUND\t$((${port} + 123))\tudp"
+			echo -e "> Query Port\tOUTBOUND\t$((${port} + 123))\tudp"
 		fi
 	} | column -s $'\t' -t
 }
