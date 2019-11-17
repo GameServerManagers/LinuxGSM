@@ -3,6 +3,7 @@
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
 # Description: Shows ways to donate
+
 fn_print_ascii_logo
 echo -e "${lightyellow}Support LinuxGSM${default}"
 echo -e "================================="
