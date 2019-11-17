@@ -283,6 +283,8 @@ elif [ "${shortname}" == "tu" ]; then
 	fn_info_parms_towerunite
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_parms_mordhau
+elif [ "${shortname}" == "mta" ]; then
+	fn_info_parms_mordhau
 # Unreal/Unreal 2 engine
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
