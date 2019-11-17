@@ -96,6 +96,7 @@ fn_info_parms_mta(){
 
 fn_info_parms_projectzomboid(){
 	adminpassword=${adminpassword:-"NOT SET"}
+  queryport=${port:-"0"}
 }
 
 fn_info_parms_quakeworld(){
