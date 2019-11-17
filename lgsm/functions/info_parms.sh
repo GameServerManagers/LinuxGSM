@@ -43,11 +43,12 @@ fn_info_parms_dst(){
 }
 
 fn_info_parms_eco(){
-	queryport=${webadminport}
+	queryport=${webadminport:-"0"}
 }
 
 fn_info_parms_factorio(){
 	port=${port:-"0"}
+  queryport=${rconport:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 }
@@ -95,7 +96,7 @@ fn_info_parms_projectzomboid(){
 
 fn_info_parms_quakeworld(){
 	port=${port:-"0"}
-	queryport=${port}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_quake2(){
