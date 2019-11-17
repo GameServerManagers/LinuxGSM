@@ -60,6 +60,15 @@ fn_monitor_check_session(){
 	fi
 }
 
+fn_monitor_check_queryport(){
+	# Monitor will check if update is already running.
+	if [ -z "${queryport}" ]||[ "${queryport}" == "0" ]; then
+    fn_print_error "Checking port: Unable to query as queryport is not set: "
+    fn_print_error_eol_nl
+		core_exit.sh
+	fi
+}
+
 fn_query_gsquery(){
 	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
