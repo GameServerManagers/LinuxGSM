@@ -15,3 +15,5 @@ echo -e "* ${lightblue}PayPal:${default} https://linuxgsm.com/paypal"
 echo -e "* ${lightblue}Ko-Fi:${default} https://linuxgsm.com/ko-fi"
 echo -e ""
 echo -e "LinuxGSM est. 2012"
+
+core_exit.sh

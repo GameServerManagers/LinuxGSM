@@ -7,6 +7,7 @@
 local commandname="QUERY-RAW"
 local commandaction="Query Raw"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 echo -e ""
 echo -e "Query Port - Raw Output"
 echo -e "=================================================================="
@@ -73,3 +74,5 @@ if [ "${querystatus}" == "0" ]; then
 else
 	echo -e "TCP query FAIL"
 fi
+
+core_exit.sh

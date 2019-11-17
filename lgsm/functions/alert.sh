@@ -98,7 +98,7 @@ fn_alert_log
 
 # Generates the more info link.
 if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
-	alertflag=1
+	exitbypass=1
 	command_postdetails.sh
 elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "More Info not enabled"

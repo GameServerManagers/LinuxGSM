@@ -17,4 +17,5 @@ else
 	fn_print_ok_nl "Enabled dev-debug"
 	fn_script_log_info "Enabled dev-debug"
 fi
+
 core_exit.sh

@@ -246,3 +246,5 @@ if [ -z "${querydelay}" ]; then
 fi
 
 fn_monitor_loop
+
+core_exit.sh

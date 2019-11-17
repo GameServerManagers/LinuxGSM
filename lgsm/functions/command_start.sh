@@ -192,4 +192,5 @@ if [ "${shortname}" == "ts3" ]; then
 else
 	fn_start_tmux
 fi
+
 core_exit.sh

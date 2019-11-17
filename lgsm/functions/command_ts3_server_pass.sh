@@ -47,4 +47,5 @@ else
 	fn_serveradmin_password_set
 	command_stop.sh
 fi
+
 core_exit.sh
