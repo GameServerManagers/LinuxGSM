@@ -1067,20 +1067,18 @@ fn_info_config_mta(){
 	else
 		port=$(grep -m 1 "serverport" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<serverport>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
 		httpport=$(grep -m 1 "httpport" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<httpport>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
-		ase=$(grep -m 1 "ase" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<ase>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
 		servername=$(grep -m 1 "servername" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<servername>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<")
 		serverpassword=$(grep -m 1 "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<password>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<")
 		maxplayers=$(grep -m 1 "maxplayers" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<maxplayers>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
-
+		ase=$(grep -m 1 "ase" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<ase>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
 		if [ "${ase}" == "1" ]; then
 			ase="Enabled"
 		else
 			ase="Disabled"
 		fi
-
-		ip=$(grep -m 1 "serverip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<serverip>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<")
-		ipsetinconfig=1
-		ipinconfigvar="serverip"
+		# ip=$(grep -m 1 "serverip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<serverip>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<")
+		# ipsetinconfig=1
+		# ipinconfigvar="serverip"
 
 		# Not Set
 		port=${port:-"22003"}
@@ -1312,7 +1310,7 @@ elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
 # Medal of Honor: Allied Assault
 elif [ "${shortname}" == "mohaa" ]; then
-  fn_info_config_mohaa
+	fn_info_config_mohaa
 # QuakeWorld
 elif [ "${shortname}" == "qw" ]; then
 	fn_info_config_quakeworld
@@ -1342,7 +1340,7 @@ elif [ "${shortname}" == "arma3" ]; then
 	fn_info_config_realvirtuality
 # Return to Castle Wolfenstein
 elif [ "${shortname}" == "rtcw" ]; then
-  fn_info_config_rtcw
+	fn_info_config_rtcw
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_config_risingworld
@@ -1354,7 +1352,7 @@ elif [ "${shortname}" == "sol" ]; then
 	fn_info_config_soldat
 # Soldier Of Fortune 2: Gold Edition
 elif [ "${shortname}" == "sof2" ]; then
-  fn_info_config_sof2
+	fn_info_config_sof2
 # Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_config_source
