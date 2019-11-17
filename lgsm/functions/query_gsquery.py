@@ -23,6 +23,7 @@ class gsquery:
         minecraftquery=['minecraft','lwjgl2']
         jc2mpquery=['jc2mp']
         mumblequery=['mumbleping']
+        twquery=['teeworlds']
         unrealquery=['protocol-unreal','unreal']
         unreal2query=['protocol-unreal2','unreal2']
         if self.option.engine in sourcequery:
@@ -41,6 +42,8 @@ class gsquery:
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.option.engine in unreal2query:
             self.query_prompt_string = b'\x79\x00\x00\x00\x00'
+        elif self.option.engine in twquery:
+            self.query_prompt_string = b"\x04\x00\x00\xff\xff\xff\xff\x05" + bytearray(511)
 
         self.connected = False
         self.response = None
