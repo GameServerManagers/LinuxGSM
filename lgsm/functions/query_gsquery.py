@@ -17,14 +17,14 @@ class gsquery:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=[ 'protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d','unreal4','wurm' ]
+        sourcequery=['protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d','unreal4','wurm']
         idtech2query=['protocol-quake3','idtech2','quake','iw2.0']
         idtech3query=['protocol-quake3','iw3.0','ioquake3','qfusion']
         minecraftquery=['minecraft','lwjgl2']
         jc2mpquery=['jc2mp']
         mumblequery=['mumbleping']
-        unrealquery=['unreal']
-        unreal2query=['unreal2']
+        unrealquery=['protocol-unreal','unreal']
+        unreal2query=['protocol-unreal2','unreal2']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:
