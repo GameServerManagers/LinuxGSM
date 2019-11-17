@@ -61,7 +61,7 @@ fn_monitor_check_session(){
 }
 
 fn_monitor_check_queryport(){
-	# Monitor will check if update is already running.
+	# Monitor will check queryport is set before continuing.
 	if [ -z "${queryport}" ]||[ "${queryport}" == "0" ]; then
     fn_print_error "Checking port: Unable to query as queryport is not set: "
     fn_print_error_eol_nl
@@ -220,6 +220,7 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
+fn_monitor_check_queryport
 
 # Add a querydelay of 1 min if var missing.
 if [ -z "${querydelay}" ]; then
