@@ -140,6 +140,10 @@ fn_info_parms_rust(){
 	tickrate=${tickrate:-"0"}
 }
 
+fn_info_parms_samp(){
+	queryport=${port:-"0"}
+}
+
 fn_info_parms_sof2(){
 	port=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
@@ -261,6 +265,8 @@ elif [ "${shortname}" == "rtcw" ]; then
 # Rust
 elif [ "${shortname}" == "rust" ]; then
 	fn_info_parms_rust
+elif [ "${shortname}" == "samp" ]; then
+  fn_info_parms_samp
 # Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_risingworld
