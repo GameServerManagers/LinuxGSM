@@ -414,7 +414,7 @@ fn_info_message_script(){
 	fn_messages_separator
 	{
 		# Script name
-		echo -e "${lightblue}Script name:\t${default}${servicename}"
+		echo -e "${lightblue}Script name:\t${default}${selfname}"
 
 		# LinuxGSM version
 		if [ -n "${version}" ]; then
@@ -578,7 +578,7 @@ fn_info_message_statusbottom(){
 
 fn_info_logs(){
 	echo -e ""
-	echo -e "${servicename} Logs"
+	echo -e "${selfname} Logs"
 	echo -e "================================="
 
 	if [ -n "${lgsmlog}" ]; then
