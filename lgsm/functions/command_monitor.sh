@@ -116,21 +116,6 @@ for queryattempt in {1..5}; do
 	# gamedig
 	elif [ "${querymethod}" ==  "gamedig" ]; then
 		query_gamedig.sh
-		if [ "${querystatus}" == "0" ]; then
-			# Add query data to log.
-			if [ -n "${gdname}" ]; then
-				fn_script_log_info "Server name: ${gdname}"
-			fi
-			if [ -n "${gdplayers}" ]; then
-				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
-			fi
-			if [ -n "${gdmap}" ]; then
-				fn_script_log_info "Map: ${gdmap}"
-			fi
-			if [ -n "${gdgamemode}" ]; then
-				fn_script_log_info "Game Mode: ${gdgamemode}"
-			fi
-		fi
 	# gsquery
 	elif [ "${querymethod}" ==  "gsquery" ]; then
 		fn_query_gsquery
@@ -150,6 +135,21 @@ for queryattempt in {1..5}; do
 		if [ "${stats}" == "on" ]; then
 			info_stats.sh
 		fi
+    if [ "${querystatus}" == "0" ]; then
+			# Add query data to log.
+			if [ -n "${gdname}" ]; then
+				fn_script_log_info "Server name: ${gdname}"
+			fi
+			if [ -n "${gdplayers}" ]; then
+				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
+			fi
+			if [ -n "${gdmap}" ]; then
+				fn_script_log_info "Map: ${gdmap}"
+			fi
+			if [ -n "${gdgamemode}" ]; then
+				fn_script_log_info "Game Mode: ${gdgamemode}"
+			fi
+		fi    
 		core_exit.sh
 	else
 		# Server query FAIL.
