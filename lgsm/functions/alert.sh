@@ -76,7 +76,7 @@ fn_alert_config(){
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} has recieved a new _default.cfg. Check file for changes."
+	alertbody="${servicename} has received a new _default.cfg. Check file for changes."
 }
 
 if [ "${alert}" == "permissions" ]; then
