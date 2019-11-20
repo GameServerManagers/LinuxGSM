@@ -47,7 +47,7 @@ Please follow these steps to have your contribution considered by the maintainer
 
 While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
 #### Pull Request naming convention
-When naming a pull request ensure that it is following [Conventional Commits](https://www.conventionalcommits.org/) standards; as this is what is used for generating the [changelog](https://github.com/GameServerManagers/LinuxGSM/releases) for the next release.
+When naming a pull request ensure that it is following [Conventional Commits](https://www.conventionalcommits.org/) standards; as your pull request commits will be squashed, with the PR subject becoming the commit that is used for generating the [changelog](https://github.com/GameServerManagers/LinuxGSM/releases) for the next release.
 
 The pull request subject line should always be able to complete the following sentence:
 
@@ -69,11 +69,12 @@ Notice how this doesn’t work for the other non-imperative forms:
 -   If applied, this commit will  _sweet new API methods_
 
 Below is an example of the subject line for a pull request.
-
+```
 feat(alerts): add slack support to alerts
-
+```
+```
 fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround 
-
+```
 Once the Pull Request is created it is now time to wait. The Pull Request will need to be reviewed by LinuxGSM developers who regularly work on the project. They will accept, reject or recommend changes to the Pull Request. This can take time or your pull request will be held until a time that is appropriate to merge into the project so please be patient. One of the developers may leave a review to make changes or make changes themselves to make the commit ready. Once this review process is completed congratulations your commit will be merged ready for the next release.
 
 Once merged in to the develop branch where it will be tested with other new features and code. When the code is at a point to release it will be merged in to the master branch which will make it live.
