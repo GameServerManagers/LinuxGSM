@@ -1,4 +1,5 @@
 
+
 # Contributing to LinuxGSM
 
 👍🎉 Thank you for taking the time to contribute! 🎉👍
@@ -14,7 +15,7 @@ This project and everyone participating in it is governed by the [LinuxGSM Code 
 ## Bug/Enhancement Contibutions
 ###  🐛Reporting Bugs
 
-This section guides you through submitting a bug report for LinuxGSM. Following these guidelines helps maintainers and the community understand your report  📝, reproduce the behavior  💻  💻, and find related reports  🔎.
+This section guides you through submitting a bug report for LinuxGSM. Following these guidelines helps maintainers and the community understand your report 📝, reproduce the behavior 💻, and find related report 🔎.
 
 ### 🎉Suggesting Enhancements
 
@@ -28,7 +29,6 @@ If there is an issue with a specific game server or mod the best action may be t
 A [list](https://docs.linuxgsm.com/support/game-server) of game developer forums is available on the [LinuxGSM docs](https://docs.linuxgsm.com/support/game-server).
 
 ## Code Contributions
-### Testing
 ### Pull Requests
 
 The process described here has several goals:
@@ -75,17 +75,9 @@ feat(alerts): add slack support to alerts
 ```
 fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround 
 ```
-Once the Pull Request is created it is now time to wait. The Pull Request will need to be reviewed by LinuxGSM developers who regularly work on the project. They will accept, reject or recommend changes to the Pull Request. This can take time or your pull request will be held until a time that is appropriate to merge into the project so please be patient. One of the developers may leave a review to make changes or make changes themselves to make the commit ready. Once this review process is completed congratulations your commit will be merged ready for the next release.
 
-Once merged in to the develop branch where it will be tested with other new features and code. When the code is at a point to release it will be merged in to the master branch which will make it live.
-
-Pull Requests (PR) let others review changes a developer has been making in a branch. Once a PR is opened, a branch can be reviewed with other developers giving feedback and also add follow-up commits (LinuxGSM core devs only) before changes are merged into the base branch.
-
-LinuxGSM uses Pull Requests to allow developers to submit code that is ready or nearly ready to be merged into the `develop` branch. To make the process easier a checklist template has been created to guide the submission.
-
-Various unit tests are carried out to check that the PR does not break LinuxGSM and follows standards. Feedback is given by the tests once they are completed.
-
-If the PR is not quite ready for merge but is ready for review and feedback ensure the subject of the PR conains `[WIP]`(Work in Progress).
+ `[WIP]`(Work in Progress).
+ ### Testing
 ### Styleguides
 #### Git Commit Messages
 #### BASH Styleguide
