@@ -337,13 +337,10 @@ fn_deps_build_debian(){
 	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
 
-	# All servers except ts3 require tmux.
-	if [ "${shortname}" != "ts3" ]; then
-		if [ "$(command -v tmux 2>/dev/null)" ]; then
-			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
-		else
-			array_deps_required+=( tmux )
-		fi
+	if [ "$(command -v tmux 2>/dev/null)" ]; then
+		tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
+	else
+		array_deps_required+=( tmux )
 	fi
 
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
@@ -400,7 +397,7 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
-	# Medal of Honor: Allied Assault 
+	# Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
@@ -467,13 +464,11 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3 require tmux.
-	if [ "${shortname}" != "ts3" ]; then
-		if [ "$(command -v tmux 2>/dev/null)" ]; then
-			# Added for users compiling tmux from source to bypass check.
-			tmuxcheck=1
-		else
-			array_deps_required+=( tmux )
-		fi
+	if [ "$(command -v tmux 2>/dev/null)" ]; then
+		# Added for users compiling tmux from source to bypass check.
+		tmuxcheck=1
+	else
+		array_deps_required+=( tmux )
 	fi
 
 	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.
@@ -526,7 +521,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
-	# Minecraft
+	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then

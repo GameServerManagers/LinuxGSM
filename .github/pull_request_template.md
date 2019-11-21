@@ -1,6 +1,6 @@
 # Description
 
-Please include a summary of the change and which issues is fixed
+Please include a summary of the change and which issues are fixed.
 
 Fixes #[issue]
 

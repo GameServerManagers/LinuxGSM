@@ -84,7 +84,7 @@ fn_info_message_server_resource(){
 		echo -e "${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
 		echo -e "${lightblue}Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}"
+		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""
@@ -135,7 +135,7 @@ fn_info_message_gameserver_resource(){
 	{
 		if [ "${status}" == "1" ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
-			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}${default}"
+			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
