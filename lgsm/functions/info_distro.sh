@@ -7,6 +7,10 @@
 
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+### Game Server pid
+if [ "${status}" == "1" ]; then
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${servicename}"|awk '{print $2}')
+fi
 ### Distro information
 
 ## Distro
@@ -92,13 +96,18 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 ## CPU information
 cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
-cpufreuency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+# CPU usage of the game server pid
+if [ "${gameserverpid}" ]; then
+	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
+	cpuusedmhz=$(echo "${cpufreqency} * ${cpuused} / 100" | bc )
+fi
 
 ## Memory information
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -126,6 +135,13 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
 	swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
 	swapused=$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")
+	# RAM usage of the game server pid
+	# MB
+	if [ "${gameserverpid}" ]; then
+		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0f",$1}{print $2}')
+	# %
+		pmemused=$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')
+	fi
 else
 # Older distros will need to use free.
 	# Older versions of free do not support -h option.
@@ -206,18 +222,22 @@ if [ -d "${backupdir}" ]; then
 	fi
 fi
 
+# Network Interface name
+netint=$(ip -o addr | grep "${ip}" | awk '{print $2}')
+netlink=$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
+
 # External IP address
 if [ -z "${extip}" ]; then
 	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
+		echo -e "${extip}" > "${tmpdir}/extip.txt"
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat ${tmpdir}/extip.txt)
 		else
-			echo "x.x.x.x"
+			echo -e "x.x.x.x"
 		fi
 	fi
 fi
@@ -235,14 +255,14 @@ fi
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver=$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
 			if [ "${masterserver}" == "0" ]; then
-				masterserver=$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+				masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
 			fi
 			if [ "${masterserver}" == "0" ]; then
-				masterserver="false"
+				displaymasterserver="false"
 			else
-				masterserver="true"
+				displaymasterserver="true"
 			fi
 		fi
 	fi

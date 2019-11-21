@@ -421,7 +421,17 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+fix_zmr.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
 # Info
+
+info_stats.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 
 info_config.sh(){
 functionfile="${FUNCNAME}"
@@ -490,6 +500,10 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 
+alert_slack.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
 # Logs
 
 logs.sh(){
@@ -620,6 +634,11 @@ functionfile="${FUNCNAME}"
 fn_fetch_function
 }
 install_server_files.sh(){
+functionfile="${FUNCNAME}"
+fn_fetch_function
+}
+
+install_stats.sh(){
 functionfile="${FUNCNAME}"
 fn_fetch_function
 }

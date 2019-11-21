@@ -1,5 +1,5 @@
 language: node_js
-dist: xenial
+dist: bionic
 node_js:
   - 10
 
@@ -19,7 +19,7 @@ addons:
     - gzip
     - unzip
     - bsdmainutils
-    - python
+    - python3
     - util-linux
     - ca-certificates
     - binutils
@@ -43,5 +43,7 @@ jobs:
       script: bash tests/tests_mcserver.sh
     - # stage name not required
       script: bash tests/tests_ts3server.sh
+    - # stage name not required
+      script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh

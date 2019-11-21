@@ -25,7 +25,7 @@ fn_wipe_server_process(){
 	else
 		fn_wipe_server_remove_files
 	fi
-	echo "server data wiped"
+	echo -e "server data wiped"
 	fn_script_log "server data wiped."
 }
 
@@ -185,7 +185,7 @@ if [ "${shortname}" == "rust" ]; then
 	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
 		if ! fn_prompt_yn "Continue?" Y; then
-				echo Exiting; core_exit.sh
+				core_exit.sh
 		fi
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
 		fn_sleep_time

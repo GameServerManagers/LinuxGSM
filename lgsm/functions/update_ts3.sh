@@ -68,7 +68,7 @@ fn_update_ts3_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+		localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -81,7 +81,7 @@ fn_update_ts3_localbuild(){
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
 			fi
-			localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+			localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
 			if [ "${localbuild}" ]; then
 				break
 			fi
@@ -132,8 +132,8 @@ fn_update_ts3_remotebuild(){
 fn_update_ts3_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
+	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
+	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
