@@ -14,7 +14,7 @@ Issues raised here are **NOT** for:
 * Dedicated server issues (e.g Ubuntu, CentOS).
 * Anything not directly related to LinuxGSM development.
 
-For general support visit the **[LinuxGSM-Support](https://linuxgsm.com/support)**.
+For general support visit the **[LinuxGSM Support](https://linuxgsm.com/support)** page.
 
 ***Please use the template below, deleting the above text***
 
