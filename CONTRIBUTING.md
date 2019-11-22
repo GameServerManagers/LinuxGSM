@@ -165,7 +165,7 @@ LinuxGSM uses [ShellCheck](https://www.shellcheck.net/) to follow BASH best prac
 
 LinuxGSM also has some of its style standards that should be followed. These are available in the [dev docs](https://dev-docs.linuxgsm.com/)
   
-## Document Contributions
+## :blue_book: Document Contributions
 
 As well as code contributions it is possible to contribute by writing and improving documentation. Documents contributions can be submitted similarly by submitting a Pull Request.
 
