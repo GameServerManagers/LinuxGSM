@@ -193,7 +193,7 @@ LinuxGSM also has some of its style standards that should be followed. These are
 
 As well as code contributions it is possible to contribute by writing and improving documentation. Documents contributions can be submitted similarly by submitting a Pull Request.
 
-#### Documentation Styleguide
+### Documentation Styleguide
 
 LinuxGSM has various documentation available to assist users and developers. LinuxGSM primarily uses [GitBook](http://gitbook.com/) which uses the [Markdown](https://www.markdownguide.org/) document standard. LinuxGSM uses [Codacy](https://app.codacy.com/manual/GameServerManagers/LinuxGSM/dashboard) to analyse any Pull Requests to give you feedback on markup standards.
 
@@ -218,7 +218,7 @@ variants:
 **outcome** Labels
 Labels that identify why an issue was closed.
 
- **status** Labels
+**status** Labels
 Labels to update people on the status of the issue.
 
 **type** Labels
