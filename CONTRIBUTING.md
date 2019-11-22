@@ -1,32 +1,31 @@
-
 # Contributing to LinuxGSM
 
 👍🎉 Thank you for taking the time to contribute! 🎉👍
 
 The following is a set of guidelines for contributing to LinuxGSM, which are hosted in the [GameServerManagers Organization](https://github.com/gameservermanagers) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
-#### Table of Contents
+## Table of Contents
 * [Contributing to LinuxGSM](#contributing-to-linuxgsm)
       *  [Table of Contents](#table-of-contents)
   * [Code of Conduct](#code-of-conduct)
   * [Bug/Enhancement Contributions](#---bug-enhancement-contributions---)
-    + [Reporting Bugs](#--reporting-bugs)
+    * [Reporting Bugs](#--reporting-bugs)
       * [Before Submitting A Bug Report](#before-submitting-a-bug-report)
       * [How Do I Submit A (Good) Bug Report?](#how-do-i-submit-a--good--bug-report-)
-    + [Suggesting Features](#--suggesting-features)
+    * [Suggesting Features](#--suggesting-features)
       * [Before Submitting An Feature Suggestion](#before-submitting-an-feature-suggestion)
       * [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion-)
-    + [Game Server Requests](#---game-server-requests)
+    * [Game Server Requests](#---game-server-requests)
       * [Before Submitting a Game Server Request](#before-submitting-a-game-server-request)
       * [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion--1)
-    + [Game Server Specific Issues](#---game-server-specific-issues)
+    * [Game Server Specific Issues](#---game-server-specific-issues)
   * [Code Contributions](#---code-contributions)
-    + [Pull Requests](#pull-requests)
+    * [Pull Requests](#pull-requests)
       * [Pull Request naming convention](#pull-request-naming-convention)
-    + [Testing](#testing)
+    * [Testing](#testing)
       * [Pull Request Status Checks](#pull-request-status-checks)
       * [Test Environment](#test-environment)
-    + [Styleguides](#-wine-glass--styleguides)
+    * [Styleguides](#-wine-glass--styleguides)
       * [Git Commit Messages](#git-commit-messages)
       * [BASH Styleguide](#bash-styleguide)
   * [Document Contributions](#-blue-book--document-contributions)
