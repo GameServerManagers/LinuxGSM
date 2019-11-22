@@ -26,7 +26,7 @@ The following is a set of guidelines for contributing to LinuxGSM, which are hos
     + [Testing](#testing)
       - [Pull Request Status Checks](#pull-request-status-checks)
       - [Test Environment](#test-environment)
-    + [:wine_glass: Styleguides](#-wine-glass--styleguides)
+    + [Styleguides](#-wine-glass--styleguides)
       - [Git Commit Messages](#git-commit-messages)
       - [BASH Styleguide](#bash-styleguide)
   * [Document Contributions](#-blue-book--document-contributions)
