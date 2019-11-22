@@ -159,7 +159,6 @@ feat(alerts): add slack support to alerts
 
 fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround
 
-[WIP](Work in Progress).
 
 ### Testing
 
