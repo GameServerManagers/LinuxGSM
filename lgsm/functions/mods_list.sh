@@ -21,7 +21,7 @@ metamodlatestfile="$(wget "${metamodscrapeurl}" -q -O -)"
 metamoddownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodmversion}"
 metamodurl="${metamoddownloadurl}"
 # Sourcemod
-sourcemodmversion="1.9"
+sourcemodmversion="1.10"
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
 sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
