@@ -17,7 +17,7 @@ The following is a set of guidelines for contributing to LinuxGSM, which are hos
       * [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion-)
     * [Game Server Requests](#---game-server-requests)
       * [Before Submitting a Game Server Request](#before-submitting-a-game-server-request)
-      * [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion--1)
+      * [How Do I Submit A (Good) Game Server Suggestion?](#how-do-i-submit-a--good--feature-suggestion--1)
     * [Game Server Specific Issues](#---game-server-specific-issues)
   * [Code Contributions](#---code-contributions)
     * [Pull Requests](#pull-requests)
@@ -89,16 +89,6 @@ This section guides you through submitting a game server request for LinuxGSM, F
 
 * **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs up instead of opening a new one.
 
-#### How Do I Submit A (Good) Feature Suggestion?
-
-Features are tracked as [GitHub issues](https://guides.github.com/features/issues/). Create an issue and provide the following information by filling in [the issues form](https://github.com/GameServerManagers/LinuxGSM/issues/new/choose).
-
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Complete the user story** to give a summary of the issue.
-* **Provide basic info** to help us understand the context of the enhancement.
-* **Provide further info** to give specifics and more detail.
-* **Provide any further reading** materials that might assist in developing the enhancement.
-
 ### 🎮 Game Server Specific Issues
 
 LinuxGSM is a management script that acts as a wrapper around game servers. These game servers are developed by different game developers such as Valve, Epic and Facepunch to name a few.
@@ -159,7 +149,6 @@ feat(alerts): add slack support to alerts
 
 fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround
 
-
 ### Testing
 
 #### Pull Request Status Checks
@@ -167,7 +156,7 @@ When a Pull Request is submitted, a series of status check tests are conducted. 
 
 #### Test Environment
 It is recommended that you have a testing environment available to test your code during development. To test your own cod you must change some variables within the `linuxgsm.sh` file. This will force the use of your own code branch.
-```
+```bash
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
