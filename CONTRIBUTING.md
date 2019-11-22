@@ -99,7 +99,7 @@ The process described here has several goals:
 Please follow these steps to have your contribution considered by the maintainers:
 
 1.  Follow all instructions in [the template](https://stackedit.io/PULL_REQUEST_TEMPLATE.md)
-2.  Follow the [style guides](https://stackedit.io/app#styleguides)
+2.  Follow the [style guides](#styleguides)
 3.  After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing
 
 What if the status checks are failing? If a status check is failing, and you believe that the failure is unrelated to your change, please leave a comment on the pull request explaining why you believe the failure is unrelated. A maintainer will re-run the status check for you. If we conclude that the failure was a false positive, then we will open an issue to track that problem with our status check suite.
@@ -139,7 +139,21 @@ fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround
 
 ### Testing
 
-### Styleguides
+#### Pull Request Status Checks
+When a Pull Request is submitted, a series of status check tests are conducted.  These tests will asses the code quality, complete CI tests etc. To get your PR merged these status checks must pass. 
+
+#### Test Environment
+It is recommended that you have a testing environment available to test your code during development. To test your own cod you must change some variables within the `linuxgsm.sh` file. This will force the use of your own code branch.
+```
+## GitHub Branch Select
+# Allows for the use of different function files
+# from a different repo and/or branch.
+githubuser="GameServerManagers"
+githubrepo="LinuxGSM"
+githubbranch="master"
+```
+
+### :wine_glass: Styleguides
 
 #### Git Commit Messages
 
@@ -158,7 +172,6 @@ As well as code contributions it is possible to contribute by writing and improv
 #### Documentation Styleguide
 
 LinuxGSM has various documentation available to assist users and developers. LinuxGSM primarily uses [GitBook](http://gitbook.com/) which uses the [Markdown](https://www.markdownguide.org/) document standard. LinuxGSM uses [Codacy](https://app.codacy.com/manual/GameServerManagers/LinuxGSM/dashboard) to analyse any Pull Requests to give you feedback on markup standards.
- 
 
 ### Issue and Pull Request Labels
 
