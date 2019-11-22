@@ -21,7 +21,7 @@ Before creating bug reports, please check [this list](https://github.com/GameSer
 
 #### Before Submitting A Bug Report
 
--   **Check the** [**documentation**](https://stackedit.io/%5Bhttps://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/))**.** You might be able to find the cause of the problem and fix things yourself.
+-   **Check the** [**documentation**](https://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/))**.** You might be able to find the cause of the problem and fix things yourself.
 -   **Check that the problem is not related to** [**support page**](https://linuxgsm/com/support) for links to other support options.
 -   **Check the** [**support page**](https://linuxgsm/com/support) for links to other support options.
 -   **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
@@ -43,7 +43,7 @@ This section guides you through submitting a feature suggestion for LinuxGSM, in
 
 #### Before Submitting An Feature Suggestion
 
--   **Check the** [**documentation**](https://stackedit.io/%5Bhttps://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/)) to confirm that the enhancement doesn’t already exist.
+-   **Check the** [**documentation**](https://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/)) to confirm that the enhancement doesn’t already exist.
 -   **Check your** [**LinuxGSM version**](https://docs.linuxgsm.com/commands/update-lgsm)**.** A newer version of LinuxGSM may already have your enhancement.
 -   **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the enhancement has already been suggested. If it has **and the enhancement is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
 
