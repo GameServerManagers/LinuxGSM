@@ -23,7 +23,8 @@ uuid=$(cat "${datadir}/uuid.txt")
 cpuusedmhzroundup=$(((${cpuusedmhz} + 99) / 100 * 100))
 # nearest 100MB
 memusedroundup=$(((${memused} + 99) / 100 * 100))
-
+# nearest 100MB
+serverfilesduroundup=$(((${serverfilesdu} + 99) / 100 * 100))
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
 # Level 1 Stats
@@ -31,6 +32,8 @@ memusedroundup=$(((${memused} + 99) / 100 * 100))
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=distro" -d "ea=${gamename}" -d "el=${distroname}" -d "v=1" > /dev/null 2>&1
 ## Game Server Name
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+## Game Server Name
+curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${version}" -d "v=1" > /dev/null 2>&1
 
 # Level 2 Stats
 ## CPU usage of a game server
