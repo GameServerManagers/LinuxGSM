@@ -173,7 +173,7 @@ As well as code contributions it is possible to contribute by writing and improv
 
 LinuxGSM has various documentation available to assist users and developers. LinuxGSM primarily uses [GitBook](http://gitbook.com/) which uses the [Markdown](https://www.markdownguide.org/) document standard. LinuxGSM uses [Codacy](https://app.codacy.com/manual/GameServerManagers/LinuxGSM/dashboard) to analyse any Pull Requests to give you feedback on markup standards.
 
-### Issue and Pull Request Labels
+## Issue and Pull Request Labels
 
 This section lists the labels we use to help us track and manage issues and pull requests.
 
