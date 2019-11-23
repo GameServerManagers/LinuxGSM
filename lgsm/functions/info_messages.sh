@@ -972,7 +972,7 @@ fn_info_message_samp(){
 
 
 fn_info_message_seriousengine35(){
-	echo -e "netstat -atunp | grep Sam3_Dedicate"
+	echo -e "netstat -atunp | grep Sam3_Ded"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"

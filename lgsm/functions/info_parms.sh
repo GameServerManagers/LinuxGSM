@@ -194,6 +194,11 @@ fn_info_parms_soldat(){
 	maxplayers=${maxplayers:-"0"}
 }
 
+fn_info_parms_ss3{
+	port=${port:-"0"}
+	queryport=$((port + 1))
+}
+
 fn_info_parms_towerunite(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
@@ -280,7 +285,7 @@ elif [ "${shortname}" == "sol" ]; then
 	fn_info_parms_soldat
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
-	fn_info_parms_seriousengine35
+	fn_info_parms_ss3
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
 	fn_info_parms_source
 # Spark
