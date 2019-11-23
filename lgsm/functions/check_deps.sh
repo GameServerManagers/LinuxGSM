@@ -430,9 +430,6 @@ fn_deps_build_debian(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
-	# Eco
-	elif [ "${shortname}" == "eco" ]; then
-		array_deps_required+=( mono-complete )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
@@ -546,9 +543,6 @@ fn_deps_build_redhat(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
-	# Eco
-	elif [ "${shortname}" == "eco" ]; then
-		array_deps_required+=( mono-complete )
 	# Unturned
 	elif [ "${shortname}" == "unt" ]; then
 		array_deps_required+=( mono-complete )

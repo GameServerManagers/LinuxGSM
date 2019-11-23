@@ -188,6 +188,10 @@ logs.sh
 info_config.sh
 info_parms.sh
 
+if [ "${stats}" == "on" ]; then
+	info_stats.sh
+fi
+
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session

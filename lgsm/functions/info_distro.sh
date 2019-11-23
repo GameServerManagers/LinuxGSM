@@ -96,17 +96,18 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 ## CPU information
 cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
-cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
 if [ "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
+	cpuusedmhz=$(echo "${cpufreqency} * ${cpuused} / 100" | bc )
 fi
 
 ## Memory information
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -137,7 +138,7 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	# RAM usage of the game server pid
 	# MB
 	if [ "${gameserverpid}" ]; then
-		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0f",$1}{print $2}')
 	# %
 		pmemused=$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')
 	fi
