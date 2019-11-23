@@ -25,9 +25,9 @@ fn_info_message_head(){
 	echo -e ""
 	echo -e "Server IP"
 	if [ "${multiple_ip}" == "1" ]; then
-	    echo -e "NOT SET"
+			echo -e "NOT SET"
 	else
-	    echo -e "${ip}:${port}"
+			echo -e "${ip}:${port}"
 	fi
 }
 
@@ -745,7 +745,7 @@ fn_info_message_factorio(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-    echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1147,7 +1147,7 @@ fn_info_message_unreal(){
 			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
 		fi
 		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
-			echo -e "> GameSpy query\tINBOUND\t${gsqueryport}\tudp\tOldQueryPortNumber=${gsqueryport}"
+			echo -e "> Query (GameSpy)\tINBOUND\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
 		fi
 		if [ "${appid}" == "215360" ]; then
 			echo -e "< Master server\tOUTBOUND\t28852\ttcp/udp"
@@ -1160,6 +1160,30 @@ fn_info_message_unreal(){
 			else
 				echo -e "< Steam\tINBOUND\t20660\tudp"
 			fi
+		fi
+		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_unreal2(){
+	fn_info_message_password_strip
+	echo -e "netstat -atunp | grep ucc-bin"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
+		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		if [ "${appid}" != "223250" ]; then
+			echo -e "> Query (GameSpy)\tINBOUND\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
 		fi
 		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
@@ -1361,7 +1385,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "st" ]; then
 		fn_info_message_stationeers
 	elif [ "${shortname}" == "sof2" ]; then
-	  fn_info_message_sof2
+		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
 	elif [ "${shortname}" == "sbots" ]; then
@@ -1416,8 +1440,10 @@ fn_info_message_select_engine(){
 		fn_info_message_teeworlds
 	elif [ "${engine}" == "terraria" ]; then
 		fn_info_message_terraria
-	elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
+	elif [ "${engine}" == "unreal2" ]; then
+		fn_info_message_unreal2
 	elif [ "${engine}" == "unreal3" ]; then
 		fn_info_message_unreal3
 	else
