@@ -1113,7 +1113,7 @@ fn_info_message_teeworlds(){
 }
 
 fn_info_message_terraria(){
-	echo -e "netstat -atunp | grep TerrariaServer"
+	echo -e "netstat -atunp | grep Terraria"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
