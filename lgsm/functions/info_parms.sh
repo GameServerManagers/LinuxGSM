@@ -194,7 +194,7 @@ fn_info_parms_soldat(){
 	maxplayers=${maxplayers:-"0"}
 }
 
-fn_info_parms_ss3{
+fn_info_parms_ss3(){
 	port=${port:-"0"}
 	queryport=$((port + 1))
 }
