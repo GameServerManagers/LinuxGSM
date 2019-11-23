@@ -24,7 +24,7 @@ class gsquery:
         jc2mpquery=['jc2mp']
         mumblequery=['mumbleping']
         twquery=['teeworlds']
-        unrealquery=['protocol-unreal','unreal']
+        unrealquery=['protocol-gamespy1','unreal']
         unreal2query=['protocol-unreal2','unreal2']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
