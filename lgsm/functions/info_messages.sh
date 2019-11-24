@@ -1104,7 +1104,7 @@ fn_info_message_teamspeak3(){
 }
 
 fn_info_message_teeworlds(){
-	echo -e "netstat -atunp | grep teeworlds_srv"
+	echo -e "netstat -atunp | grep teeworlds"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
@@ -1394,6 +1394,8 @@ fn_info_message_select_engine(){
 		fn_info_message_teamspeak3
 	elif [ "${shortname}" == "tu" ]; then
 		fn_info_message_towerunite
+  elif [ "${shortname}" == "tw" ]; then
+		fn_info_message_teeworlds    
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
 	elif [ "${shortname}" == "mohaa" ]; then
@@ -1436,8 +1438,6 @@ fn_info_message_select_engine(){
 		fn_info_message_spark
 	elif [ "${engine}" == "starbound" ]; then
 		fn_info_message_starbound
-	elif [ "${engine}" == "teeworlds" ]; then
-		fn_info_message_teeworlds
 	elif [ "${engine}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${engine}" == "unreal" ]; then
