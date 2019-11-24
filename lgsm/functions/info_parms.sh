@@ -204,6 +204,10 @@ fn_info_parms_towerunite(){
 	queryport=${queryport:-"0"}
 }
 
+fn_info_parms_teeworlds(){
+  queryport=${port:-"0"}
+}
+
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	queryport=$((port + 1))
@@ -293,6 +297,8 @@ elif [ "${engine}" == "spark" ]; then
 	fn_info_parms_spark
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_parms_towerunite
+elif [ "${shortname}" == "tw" ]; then
+	fn_info_parms_teeworlds
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_parms_mordhau
 elif [ "${shortname}" == "mta" ]; then
