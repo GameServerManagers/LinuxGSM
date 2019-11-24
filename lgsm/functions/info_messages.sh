@@ -707,7 +707,7 @@ fn_info_message_codwaw(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_dontstarve(){
+fn_info_message_dst(){
 	echo -e "netstat -atunp | grep dontstarve"
 	echo -e ""
 	{
@@ -902,7 +902,7 @@ fn_info_message_quakelive(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_realvirtuality(){
+fn_info_message_arma3(){
 	echo -e "netstat -atunp | grep arma3server"
 	echo -e ""
 	# Default port
@@ -914,20 +914,20 @@ fn_info_message_realvirtuality(){
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> Steam: Query\tINBOUND\t$((port+1))\tudp"
+			echo -e "> Query Steam\tINBOUND\t$((port+1))\tudp"
 			echo -e "> Steam: Master traffic\tINBOUND\t$((port+2))\tudp"
 			echo -e "> Undocumented Port\tINBOUND\t$((port+3))\tudp"
 		fi
 	} | column -s $'\t' -t
 }
 
-fn_info_message_refractor(){
+fn_info_message_bf1942(){
 	echo -e "netstat -atunp | grep bf1942_lnxd"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-		echo -e "> Steam: Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -971,7 +971,7 @@ fn_info_message_samp(){
 }
 
 
-fn_info_message_seriousengine35(){
+fn_info_message_ss3(){
 	echo -e "netstat -atunp | grep Sam3_Ded"
 	echo -e ""
 	{
@@ -1108,7 +1108,7 @@ fn_info_message_teeworlds(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\Query\tINBOUND\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1278,7 +1278,7 @@ fn_info_message_mta(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tOUTBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tOUTBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
 			echo -e "> Query Port\tOUTBOUND\t${queryport}\tudp"
@@ -1330,10 +1330,10 @@ fn_info_message_warfork(){
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
-	if [ "${shortname}" == "sdtd" ]; then
-		fn_info_message_sdtd
-	elif [ "${shortname}" == "ark" ]; then
+	if [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
+  elif [ "${shortname}" == "arma3" ]; then
+		fn_info_message_arma3
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_message_ballisticoverkill
 	elif [ "${shortname}" == "bt" ]; then
@@ -1350,6 +1350,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${shortname}" == "codwaw" ]; then
 		fn_info_message_codwaw
+  elif [ "${shortname}" == "dst" ]; then
+		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
 		fn_info_message_eco
 	elif [ "${shortname}" == "etl" ]; then
@@ -1366,6 +1368,8 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
+  elif [ "${shortname}" == "pz" ]; then
+		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
 		fn_info_message_pstbs
 	elif [ "${shortname}" == "pc" ]; then
@@ -1380,6 +1384,8 @@ fn_info_message_select_engine(){
 		fn_info_message_quakelive
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
+    if [ "${shortname}" == "sdtd" ]; then
+  		fn_info_message_sdtd
 	elif [ "${shortname}" == "squad" ]; then
 		fn_info_message_squad
 	elif [ "${shortname}" == "st" ]; then
@@ -1388,8 +1394,14 @@ fn_info_message_select_engine(){
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
+  elif [ "${shortname}" == "st" ]; then
+		fn_info_message_starbound
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
+  elif [ "${shortname}" == "ss3" ]; then
+		fn_info_message_ss3
+  elif [ "${shortname}" == "terraria" ]; then
+		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${shortname}" == "tu" ]; then
@@ -1398,14 +1410,18 @@ fn_info_message_select_engine(){
 		fn_info_message_teeworlds
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
-	elif [ "${shortname}" == "mohaa" ]; then
-		fn_info_message_mohaa
+  elif [ "${shortname}" == "mc" ]; then
+		fn_info_message_minecraft
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
+  elif [ "${shortname}" == "mohaa" ]; then
+		fn_info_message_mohaa
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
+  elif [ "${engine}" == "bf1942" ]; then
+		fn_info_message_bf1942
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
@@ -1418,28 +1434,12 @@ fn_info_message_select_engine(){
 		fn_info_message_risingworld
 	elif [ "${shortname}" == "wet" ]; then
 		fn_info_message_wolfensteinenemyterritory
-	elif [ "${engine}" == "refractor" ]; then
-		fn_info_message_refractor
-	elif [ "${engine}" == "dontstarve" ]; then
-		fn_info_message_dontstarve
 	elif [ "${engine}" == "goldsource" ]; then
 		fn_info_message_goldsource
-	elif [ "${engine}" == "lwjgl2" ]; then
-		fn_info_message_minecraft
-	elif [ "${engine}" == "projectzomboid" ]; then
-		fn_info_message_projectzomboid
-	elif [ "${engine}" == "realvirtuality" ]; then
-		fn_info_message_realvirtuality
-	elif [ "${engine}" == "seriousengine35" ]; then
-		fn_info_message_seriousengine35
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
 	elif [ "${engine}" == "spark" ]; then
 		fn_info_message_spark
-	elif [ "${engine}" == "starbound" ]; then
-		fn_info_message_starbound
-	elif [ "${engine}" == "terraria" ]; then
-		fn_info_message_terraria
 	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
 	elif [ "${engine}" == "unreal2" ]; then
