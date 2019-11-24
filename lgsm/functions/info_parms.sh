@@ -91,7 +91,7 @@ fn_info_parms_mohaa(){
 }
 
 fn_info_parms_mta(){
-	queryport=$((${port} + 123))
+	queryport=$((port + 123))
 }
 
 fn_info_parms_projectzomboid(){

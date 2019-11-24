@@ -113,7 +113,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 ioquake3 iw2.0 iw3.0 madness mumbleping quake quakelive realvirtuality refracto source spark starbound unity3d unreal unreal2 unreal4 wurm.'
+        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft jc2mp mumbleping teeworlds'
     )
     parser.add_option(
         '-v', '--verbose',

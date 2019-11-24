@@ -1281,7 +1281,7 @@ fn_info_message_mta(){
 		echo -e "> Game\tOUTBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
-			echo -e "> Query Port\tOUTBOUND\t$((${port} + 123))\tudp"
+			echo -e "> Query Port\tOUTBOUND\t${queryport}\tudp"
 		fi
 	} | column -s $'\t' -t
 }
@@ -1395,7 +1395,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "tu" ]; then
 		fn_info_message_towerunite
   elif [ "${shortname}" == "tw" ]; then
-		fn_info_message_teeworlds    
+		fn_info_message_teeworlds
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
 	elif [ "${shortname}" == "mohaa" ]; then
