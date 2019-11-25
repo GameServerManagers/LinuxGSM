@@ -20,11 +20,11 @@ fi
 uuid=$(cat "${datadir}/uuid.txt")
 # results are rounded up to reduce number of different results in analytics
 # nearest 100Mhz
-cpuusedmhzroundup=$(((${cpuusedmhz} + 99) / 100 * 100))
+cpuusedmhzroundup=$(((cpuusedmhz + 99) / 100 * 100))
 # nearest 100MB
-memusedroundup=$(((${memused} + 99) / 100 * 100))
+memusedroundup=$(((memused + 99) / 100 * 100))
 # nearest 100MB
-serverfilesduroundup=$(((${serverfilesdu} + 99) / 100 * 100))
+serverfilesduroundup=$(((serverfilesdu + 99) / 100 * 100))
 # https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
 # Level 1 Stats
