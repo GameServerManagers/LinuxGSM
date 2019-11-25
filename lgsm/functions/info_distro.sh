@@ -128,7 +128,7 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	physmemtotalmb=$((physmemtotalkb/1024))
 	physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")
 	physmemfree=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
-	physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemtotalkb}-${physmemfreekb}-${physmembufferskb}-${physmemcachedkb}-${physmemreclaimablekb}))K")
+	physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((physmemtotalkb-physmemfreekb-physmembufferskb-physmemcachedkb-physmemreclaimablekb))K")
 	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
 	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((physmemcachedkb+physmemreclaimablekb))K")
 
