@@ -18,7 +18,7 @@ fn_validation(){
 	cd "${steamcmddir}" || exit
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
-	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
+	if [ -n "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 

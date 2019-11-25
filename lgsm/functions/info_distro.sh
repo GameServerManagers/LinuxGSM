@@ -107,7 +107,7 @@ fi
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ "$(command -v numfmt 2>/dev/null)" ]; then
+if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -252,7 +252,7 @@ else
 fi
 
 # Steam Master Server - checks if detected by master server.
-if [ "$(command -v jq 2>/dev/null)" ]; then
+if [ -n "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
 			masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
