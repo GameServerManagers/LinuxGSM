@@ -163,8 +163,10 @@ fn_sleep_time
 	echo -en "\n"
 }
 
-fn_print_dots "${servername}"
+
 check.sh
+
+fn_print_dots "${servername}"
 # Is the server already started.
 # $status comes from check_status.sh, which is run by check.sh for this command
 if [ "${status}" != "0" ]; then
@@ -192,4 +194,5 @@ if [ "${shortname}" == "ts3" ]; then
 else
 	fn_start_tmux
 fi
+
 core_exit.sh

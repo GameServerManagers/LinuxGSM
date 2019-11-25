@@ -235,14 +235,16 @@ fn_stop_pre_check(){
 	fi
 }
 
-fn_print_dots "${servername}"
 check.sh
+fn_print_dots "${servername}"
+
 info_config.sh
 fn_stop_pre_check
 # Remove lockfile.
 if [ -f "${rootdir}/${lockselfname}" ]; then
 	rm -f "${rootdir}/${lockselfname}"
 fi
+
 if [ -z "${exitbypass}" ]; then
 	core_exit.sh
 fi

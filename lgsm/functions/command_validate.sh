@@ -51,4 +51,5 @@ if [ "${status}" != "0" ]; then
 else
 	fn_validation
 fi
+
 core_exit.sh

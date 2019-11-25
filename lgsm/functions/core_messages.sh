@@ -351,6 +351,10 @@ fn_print_error_eol(){
 	echo -en "${red}ERROR${default}"
 }
 
+fn_print_error_eol_nl(){
+	echo -en "${red}ERROR${default}"
+}
+
 # WARN
 fn_print_warn_eol(){
 	echo -en "${lightyellow}WARN${default}"

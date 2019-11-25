@@ -112,5 +112,5 @@ else
 	fn_print_ok "Updating functions"
 	fn_script_log_pass "Updating functions"
 fi
-echo -en "\n"
+
 core_exit.sh

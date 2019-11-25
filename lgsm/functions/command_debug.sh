@@ -123,4 +123,5 @@ fn_print_dots "Stopping debug"
 fn_print_ok_nl "Stopping debug"
 # remove trap.
 trap - INT
+
 core_exit.sh

@@ -48,7 +48,7 @@ if [ -f "${postdetailslog}" ]; then
 fi
 
 # Rather than a one-pass sed parser, default to using a temporary directory.
-if [ -n "${alertflag}" ]; then
+if [ -n "${exitbypass}" ]; then
 	postdetailslog="${alertlog}"
 else
 	# Run checks and gathers details to display.
@@ -117,7 +117,7 @@ else
 	 core_exit.sh
 fi
 
-if [ -z "${alertflag}" ]; then
+if [ -z "${exitbypass}" ]; then
 	core_exit.sh
 else
 	alerturl="${pdurl}"

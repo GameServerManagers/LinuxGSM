@@ -438,4 +438,5 @@ echo -e "FastDL files are located in:"
 echo -e "${fastdldir}"
 echo -e "FastDL completed"
 fn_script_log_info "FastDL completed"
+
 core_exit.sh

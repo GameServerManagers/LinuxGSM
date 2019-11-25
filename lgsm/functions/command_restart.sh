@@ -12,3 +12,5 @@ info_config.sh
 exitbypass=1
 command_stop.sh
 command_start.sh
+
+core_exit.sh
