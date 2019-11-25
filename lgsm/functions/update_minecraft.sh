@@ -9,8 +9,8 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
-	latestmcreleaselink=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
-	latestmcbuildurl=$(${curlpath} -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
+	latestmcreleaselink=$(curl -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
+	latestmcbuildurl=$(curl -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
 	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${remotebuild}.jar"
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"

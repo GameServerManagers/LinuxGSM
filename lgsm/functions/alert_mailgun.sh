@@ -10,7 +10,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
 
-mailgunsend=$(${curlpath} -s --user "api:${mailguntoken}" \
+mailgunsend=$(curl -s --user "api:${mailguntoken}" \
 -F from="LinuxGSM <${mailgunemailfrom}>" \
 -F to="LinuxGSM Admin <${mailgunemail}>" \
 -F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
