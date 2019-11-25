@@ -21,7 +21,7 @@ fn_remove_cfg_files(){
 		# Count how many files there are to remove.
 		filestopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')
 		# Test all subvalues of "modkeepfiles" using the ";" separator.
-		for ((preservefilesindex=1; preservefilesindex < ${filestopreserve}; preservefilesindex++)); do
+		for ((preservefilesindex=1; preservefilesindex < filestopreserve; preservefilesindex++)); do
 			# Put the current file we are looking for into a variable.
 			filetopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )
 			echo -e "	* serverfiles/${filetopreserve}"

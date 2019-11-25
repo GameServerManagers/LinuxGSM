@@ -43,7 +43,7 @@ fn_mod_lowercase(){
 		fileswc=$(find "${extractdir}" -depth | wc -l)
 		echo -en "\r"
 		while read -r src; do
-			dst=$(dirname "${src}$(/)basename" "${src}" | tr 'A-Z' 'a-z')
+			dst=$(dirname "${src}$(/)basename" "${src}" | tr '[:upper:]' '[:lower:]')
 			if [ "${src}" != "${dst}" ]
 			then
 				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo -e "${src} was not renamed"

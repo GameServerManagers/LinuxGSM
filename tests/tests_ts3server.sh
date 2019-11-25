@@ -243,7 +243,7 @@ fn_install_file(){
 	if [ -e "${local_filename}" ]; then
 		i=2
 	while [ -e "${local_filename}-${i}" ] ; do
-		let i++
+		(( i++ ))
 	done
 		local_filename="${local_filename}-${i}"
 	fi

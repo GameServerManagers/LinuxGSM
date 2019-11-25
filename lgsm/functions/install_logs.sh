@@ -51,8 +51,7 @@ if [ -n "${consolelogdir}" ]; then
 		fn_print_ok_eol_nl
 	fi
 	echo -en "creating console log: ${consolelog}..."
-	touch "${consolelog}"
-	if [ $? -ne 0 ]; then
+	if ! touch "${consolelog}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
