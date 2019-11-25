@@ -86,8 +86,7 @@ if [ -n "${functionsdir}" ]; then
 				fn_print_fail_eol_nl
 				echo -en "    removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
-				rm -f "${functionfile}"
-				if [ $? -ne 0 ]; then
+				if ! rm -f "${functionfile}"; then
 					fn_print_fail_eol_nl
 					core_exit.sh
 				else
