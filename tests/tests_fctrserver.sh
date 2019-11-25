@@ -139,7 +139,7 @@ fn_bootstrap_fetch_file_github(){
 
 fn_print_center() {
 	columns="$(tput cols)"
-	line="$@"
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 
