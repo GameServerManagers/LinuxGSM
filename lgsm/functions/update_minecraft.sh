@@ -98,7 +98,7 @@ fn_update_minecraft_localbuild(){
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(${curlpath} -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
+	remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
