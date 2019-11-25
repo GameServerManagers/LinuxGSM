@@ -144,7 +144,7 @@ optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 	cmdamount="$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')"
-	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
+	for ((cmdindex=1; cmdindex <= cmdamount; cmdindex++)); do
 		optcommands+=( "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
@@ -181,7 +181,7 @@ for i in "${optcommands[@]}"; do
 		index="0"
 		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 			currcmdamount="$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')"
-			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
+			for ((currcmdindex=1; currcmdindex <= currcmdamount; currcmdindex++)); do
 				if [ "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command.
 					eval "${currentopt[index+1]}"
