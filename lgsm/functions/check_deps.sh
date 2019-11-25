@@ -402,7 +402,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
-		if java -version 2>&1 | grep "version"
+		if java -version 2>&1 | grep "version"; then
 			# Added for users using Oracle JRE to bypass the check.
 			javacheck=1
 			array_deps_required+=( rng-tools )
