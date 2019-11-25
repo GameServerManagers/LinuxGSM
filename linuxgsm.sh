@@ -131,8 +131,7 @@ fn_print_center() {
 }
 
 fn_print_horizontal(){
-	char="${1:-=}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
 # Bash menu.
