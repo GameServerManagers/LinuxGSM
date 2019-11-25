@@ -81,10 +81,10 @@ fn_bootstrap_fetch_file(){
 		fi
 
 		# If curl exists download file.
-		if [ "$(command -v curl 2>/dev/null)" ]; then
+		if [ -n "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "FAIL"
