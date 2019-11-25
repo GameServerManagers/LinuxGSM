@@ -1384,7 +1384,7 @@ fn_info_message_select_engine(){
 		fn_info_message_quakelive
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
-    if [ "${shortname}" == "sdtd" ]; then
+  elif [ "${shortname}" == "sdtd" ]; then
   		fn_info_message_sdtd
 	elif [ "${shortname}" == "squad" ]; then
 		fn_info_message_squad
