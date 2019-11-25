@@ -27,13 +27,13 @@ fn_install_mono_repo(){
 			if [ "${distroid}" == "ubuntu" ]; then
 				if [ "${distroversion}" == "18.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "16.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "14.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				else
 					fn_print_warn_nl "Installing Mono repository"
 					echo -e "Mono auto install not available for ${distroname}"
@@ -44,13 +44,13 @@ fn_install_mono_repo(){
 			elif [ "${distroid}" == "debian" ]; then
 				if [ "${distroversion}" == "10" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "9" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "8" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
@@ -60,13 +60,13 @@ fn_install_mono_repo(){
 			elif [ "${distroid}" == "centos" ]; then
 				if [ "${distroversion}" == "8" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo'"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "7" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "6" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos6-stable.repo | tee /etc/yum.repos.d/mono-centos6-stable.repo'"
-					eval ${cmd}
+					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
@@ -75,7 +75,7 @@ fn_install_mono_repo(){
 				fi
 			elif [ "${distroid}" == "fedora" ]; then
 				cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
-				eval ${cmd}
+				eval "${cmd}"
 			else
 				echo -e "Mono auto install not available for ${distroname}"
 				echo -e "	Follow instructions on mono site to install the latest version of Mono."

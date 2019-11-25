@@ -235,7 +235,7 @@ if [ -z "${extip}" ]; then
 		echo -e "${extip}" > "${tmpdir}/extip.txt"
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
-			extip=$(cat ${tmpdir}/extip.txt)
+			extip=$(cat "${tmpdir}/extip.txt")
 		else
 			echo -e "x.x.x.x"
 		fi

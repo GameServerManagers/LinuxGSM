@@ -111,6 +111,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null      
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -136,7 +137,7 @@ fn_bootstrap_fetch_file_github(){
 
 fn_print_center() {
 	columns="$(tput cols)"
-	line="$@"
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 

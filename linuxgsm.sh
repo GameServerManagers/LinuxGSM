@@ -102,6 +102,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -127,7 +128,7 @@ fn_bootstrap_fetch_file_github(){
 
 fn_print_center() {
 	columns="$(tput cols)"
-	line="$@"
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 
@@ -347,20 +348,25 @@ else
 				fi
 			fi
 		fi
+		# shellcheck source=/dev/null
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			source "${configdirserver}/${selfname}.cfg"
+		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/${servicename}.cfg"
 		else
-			source "${configdirserver}/${selfname}.cfg"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/${servicename}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
