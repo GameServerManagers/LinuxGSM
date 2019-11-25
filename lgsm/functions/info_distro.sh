@@ -121,16 +121,16 @@ if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	if grep -q ^MemAvailable /proc/meminfo; then
 	    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
 	else
-	    physmemactualfreekb=$((${physmemfreekb}+${physmembufferskb}+${physmemcachedkb}))
+	    physmemactualfreekb=$((physmemfreekb+physmembufferskb+physmemcachedkb))
 	fi
 
 	# Available RAM and swap.
-	physmemtotalmb=$((${physmemtotalkb}/1024))
+	physmemtotalmb=$((physmemtotalkb/1024))
 	physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")
 	physmemfree=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
 	physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemtotalkb}-${physmemfreekb}-${physmembufferskb}-${physmemcachedkb}-${physmemreclaimablekb}))K")
 	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
-	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemcachedkb}+${physmemreclaimablekb}))K")
+	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((physmemcachedkb+physmemreclaimablekb))K")
 
 	swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
 	swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
@@ -228,7 +228,7 @@ netlink=$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
 
 # External IP address
 if [ -z "${extip}" ]; then
-	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)
+	extip=$(curl -4 -m 3 ifconfig.co 2>/dev/null)
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
@@ -255,9 +255,9 @@ fi
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+			masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
 			if [ "${masterserver}" == "0" ]; then
-				masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+				masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
 			fi
 			if [ "${masterserver}" == "0" ]; then
 				displaymasterserver="false"
