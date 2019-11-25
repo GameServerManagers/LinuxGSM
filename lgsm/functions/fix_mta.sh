@@ -6,7 +6,7 @@
 # Description: Installs the libmysqlclient for database functions on the server
 local commandname="FIX"
 local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 if [ ! -f "${lgsmdir}/lib/libmysqlclient.so.16" ]; then
 	fixname="libmysqlclient16"

@@ -160,7 +160,7 @@ fn_deps_detector(){
 		depstatus=1
 		jquniversemissing=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		if [ -n "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed.
 			depstatus=0
 		else
@@ -337,7 +337,7 @@ fn_deps_build_debian(){
 	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
 
-	if [ "$(command -v tmux 2>/dev/null)" ]; then
+	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
 		tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 	else
 		array_deps_required+=( tmux )
@@ -402,7 +402,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
-		if [ -n "$(java -version 2>&1 | grep "version")" ]; then
+		if java -version 2>&1 | grep "version"; then
 			# Added for users using Oracle JRE to bypass the check.
 			javacheck=1
 			array_deps_required+=( rng-tools )
@@ -461,7 +461,7 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3 require tmux.
-	if [ "$(command -v tmux 2>/dev/null)" ]; then
+	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
 		# Added for users compiling tmux from source to bypass check.
 		tmuxcheck=1
 	else

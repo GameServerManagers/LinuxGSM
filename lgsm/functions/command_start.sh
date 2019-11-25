@@ -7,7 +7,7 @@
 
 local commandname="START"
 local commandaction="Starting"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_start_teamspeak3(){
 	if [ ! -e "${servercfgfullpath}" ]; then
@@ -70,7 +70,7 @@ fn_start_tmux(){
 	touch "${consolelog}"
 
 	# Get tmux version.
-	tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p')"
+	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
 	# Tmux compiled from source will return "master", therefore ignore it.
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p')" == "master" ]; then
 		fn_script_log "Tmux version: master (user compiled)"
@@ -80,7 +80,7 @@ fn_start_tmux(){
 		fi
 	elif [ -n "${tmuxversion}" ]; then
 		# Get the digit version of tmux.
-		tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
+		tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')
 		# tmux pipe-pane not supported in tmux versions < 1.6.
 		if [ "${tmuxversion}" -lt "16" ]; then
 			echo -e "Console logging disabled: Tmux => 1.6 required
@@ -131,7 +131,7 @@ fn_sleep_time
 			echo -e ""
 			echo -e "Fix"
 			echo -e "================================="
-				if [ ! "$(grep "tty:" /etc/group|grep "$(whoami)")" ]; then
+				if ! grep "tty:" /etc/group | grep "$(whoami)"; then
 					echo -e "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
 					group=$(grep tty /etc/group)

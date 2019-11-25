@@ -7,7 +7,7 @@
 
 local commandname="STOP"
 local commandaction="Stopping"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
@@ -126,7 +126,7 @@ fn_stop_graceful_sdtd(){
 	fn_script_log_info "Graceful: telnet"
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ "$(command -v expect 2>/dev/null)" ]; then
+	elif [ -n "$(command -v expect 2>/dev/null)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"

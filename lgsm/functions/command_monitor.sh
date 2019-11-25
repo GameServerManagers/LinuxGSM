@@ -8,7 +8,7 @@
 
 local commandname="MONITOR"
 local commandaction="Monitor"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
@@ -211,7 +211,7 @@ fn_monitor_loop(){
 	do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
-			if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
+			if [ -n "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 				if [ -z "${monitorpass}" ]; then
 					fn_monitor_query
 				fi

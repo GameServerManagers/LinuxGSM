@@ -7,7 +7,7 @@
 
 local commandname="DETECT-GLIBC"
 local commandaction="Detect-Glibc"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 echo -e "================================="
 echo -e "glibc Requirements Checker"
@@ -20,7 +20,7 @@ if [ -z "$(command -v objdump)" ]; then
 fi
 
 if [ -z "${serverfiles}" ]; then
-	dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 fi
 
 if [ -d "${serverfiles}" ]; then
