@@ -25,8 +25,7 @@ shortname="core"
 gameservername="core"
 rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${selfname}"
-lockselfname=".${servicename}.lock"
+lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -357,11 +356,11 @@ else
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			source "${configdirserver}/${servicename}.cfg"
+		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			source "${configdirserver}/${selfname}.cfg"
 		else
-			source "${configdirserver}/${servicename}.cfg"
+			source "${configdirserver}/${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.

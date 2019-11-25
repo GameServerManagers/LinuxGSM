@@ -64,7 +64,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date > "${rootdir}/${lockselfname}"
 	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${servicename}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${selfname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -76,7 +76,7 @@ fn_start_tmux(){
 		fn_script_log "Tmux version: master (user compiled)"
 		echo -e "Tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ -n "${tmuxversion}" ]; then
 		# Get the digit version of tmux.
@@ -94,7 +94,7 @@ fn_start_tmux(){
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${servicename}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo -e "Unable to detect tmux version" >> "${consolelog}"
@@ -113,20 +113,20 @@ fn_sleep_time
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
-		if [ -s "${lgsmlogdir}/.${servicename}-tmux-error.tmp" ]; then
+		if [ -s "${lgsmlogdir}/.${selfname}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
 			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${servicename}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${selfname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
-			cat "${lgsmlogdir}/.${servicename}-tmux-error.tmp" | tee -a "${lgsmlog}"
+			cat "${lgsmlogdir}/.${selfname}-tmux-error.tmp" | tee -a "${lgsmlog}"
 
 			# Detected error https://linuxgsm.com/support
-			if grep -c "Operation not permitted" "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
+			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 			then
 			echo -e ""
 			echo -e "Fix"
@@ -159,7 +159,7 @@ fn_sleep_time
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${lgsmlogdir}/.${servicename}-tmux-error.tmp"
+	rm "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 	echo -en "\n"
 }
 
