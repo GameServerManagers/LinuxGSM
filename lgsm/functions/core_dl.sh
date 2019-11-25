@@ -255,10 +255,8 @@ fn_update_function(){
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Defines curl path.
-curlpath=$(command -v curl 2>/dev/null)
-
-if [ "$(basename "${curlpath}")" != "curl" ]; then
+# Check that curl is installed
+if [ "$(command -v curl 2>/dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi
