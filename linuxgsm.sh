@@ -103,6 +103,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -348,19 +349,24 @@ else
 				fi
 			fi
 		fi
+		# shellcheck source=/dev/null
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/${servicename}.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/${servicename}.cfg"
 		fi
 

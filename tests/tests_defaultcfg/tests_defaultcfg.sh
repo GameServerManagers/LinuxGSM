@@ -11,7 +11,7 @@ while IFS= read -r -d $'\0' line; do
 	diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_0.txt  defaultcfgtemp.txt)
 	if [ "${diffoutput}" ]; then
 		echo "File with errors:"
-	       	echo "${line}"
+					 echo "${line}"
 		echo -e "================================="
 		echo "${diffoutput}"
 		echo ""
@@ -27,11 +27,11 @@ echo -e "test checks that vars present in ALL _default.cfg files are correct."
 echo -e ""
 find lgsm/config-default/config-lgsm/ ! -name '*template.cfg' -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-	grep = ${line}  | cut -f1 -d"=" > defaultcfgtemp.txt
+	grep "=" ${line} | cut -f1 -d"=" > defaultcfgtemp.txt
 	diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_0.txt  defaultcfgtemp.txt | grep '^<')
 	if [ "${diffoutput}" ]; then
 		echo "File with errors:"
-	       	echo "${line}"
+		echo "${line}"
 		echo -e "================================="
 		echo "${diffoutput}"
 		echo ""
@@ -47,14 +47,14 @@ echo -e "test checks that comments in ALL _default.cfg files are correct."
 echo -e ""
 find lgsm/config-default/config-lgsm/ ! -name '*template.cfg' -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
-        grep "#" "${line}"  > defaultcfgtemp.txt
-        diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_1.txt  defaultcfgtemp.txt | grep '^<')
-        if [ "${diffoutput}" ]; then
-                echo "File with errors:"
-                echo "${line}"
-                echo -e "================================="
-                echo "${diffoutput}"
-                echo ""
-        fi
-        rm defaultcfgtemp.txt
+				grep "#" "${line}"  > defaultcfgtemp.txt
+				diffoutput=$(diff tests/tests_defaultcfg/defaultcfg_1.txt  defaultcfgtemp.txt | grep '^<')
+				if [ "${diffoutput}" ]; then
+								echo "File with errors:"
+								echo "${line}"
+								echo -e "================================="
+								echo "${diffoutput}"
+								echo ""
+				fi
+				rm defaultcfgtemp.txt
 done
