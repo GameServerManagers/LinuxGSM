@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 ## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo
@@ -413,9 +413,9 @@ fn_info_config_pstbs(){
 		maxplayers="${unavailable}"
 		reservedslots="${unavailable}"
 	else
-		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
-		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
-		reservedslots="$(grep "NumReservedSlots=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+		servername=$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		reservedslots=$(grep "NumReservedSlots=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 
 	if [ ! -f "${servercfgdir}/Rcon.cfg" ]; then
@@ -684,8 +684,8 @@ fn_info_config_sbots(){
 		servername="${unavailable}"
 		maxplayers="${unavailable}"
 	else
-		servername="$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')"
-		maxplayers="$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')"
+		servername=$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 	fi
 
 	servername=${servername:-"NOT SET"}

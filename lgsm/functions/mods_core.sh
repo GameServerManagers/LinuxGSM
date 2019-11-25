@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="Mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Files and Directories.
 modsdir="${lgsmdir}/mods"
@@ -306,11 +306,11 @@ fn_compatible_mod_games(){
 	# If value is set to GAMES (ignore).
 	if [ "${modgames}" != "GAMES" ]; then
 		# How many games we need to test.
-		gamesamount="$(echo -e "${modgames}" | awk -F ';' '{ print NF }')"
+		gamesamount=$(echo -e "${modgames}" | awk -F ';' '{ print NF }')
 		# Test all subvalue of "modgames" using the ";" separator.
 		for ((gamevarindex=1; gamevarindex < gamesamount; gamevarindex++)); do
 			# Put current game name into modtest variable.
-			gamemodtest="$( echo -e "${modgames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )"
+			gamemodtest=$( echo -e "${modgames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )
 			# If game name matches.
 			if [ "${gamemodtest}" == "${gamename}" ]; then
 				# Mod is compatible.

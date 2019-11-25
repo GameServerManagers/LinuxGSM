@@ -7,7 +7,7 @@
 
 local commandname="START"
 local commandaction="Starting"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_start_teamspeak3(){
 	if [ ! -e "${servercfgfullpath}" ]; then
@@ -70,7 +70,7 @@ fn_start_tmux(){
 	touch "${consolelog}"
 
 	# Get tmux version.
-	tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p')"
+	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
 	# Tmux compiled from source will return "master", therefore ignore it.
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p')" == "master" ]; then
 		fn_script_log "Tmux version: master (user compiled)"

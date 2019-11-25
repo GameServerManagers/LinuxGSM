@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_minecraft_dl(){
 	latestmcreleaselink=$(curl -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')

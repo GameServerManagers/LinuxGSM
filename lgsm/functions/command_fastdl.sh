@@ -7,7 +7,7 @@
 
 local commandname="FASTDL"
 local commandaction="FastDL"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 
@@ -135,7 +135,7 @@ fn_human_readable_file_size(){
 			local factor="${item%:*}"
 			local abbrev="${item#*:}"
 			if [[ "${bytes}" -ge "${factor}" ]]; then
-				local size="$(bc -l <<< "${bytes} / ${factor}")"
+				local size=$(bc -l <<< "${bytes} / ${factor}")
 				printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
 				break
 			fi

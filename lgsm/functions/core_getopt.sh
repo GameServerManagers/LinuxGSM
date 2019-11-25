@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 ### Define all commands here.
 ## User commands | Trigger commands | Description
@@ -143,7 +143,7 @@ currentopt+=( "${cmd_donate[@]}" )
 optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-	cmdamount="$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')"
+	cmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
 	for ((cmdindex=1; cmdindex <= cmdamount; cmdindex++)); do
 		optcommands+=( "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done

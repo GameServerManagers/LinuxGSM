@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_ts3_dl(){
 	if [ "${ts3arch}" == "amd64" ]; then

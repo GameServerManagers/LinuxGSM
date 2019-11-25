@@ -6,7 +6,7 @@
 
 local commandname="FIX"
 local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 echo -e "applying WebAdmin ut2003.css fix."
 echo -e "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
