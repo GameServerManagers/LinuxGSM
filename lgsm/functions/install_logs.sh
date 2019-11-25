@@ -79,8 +79,7 @@ fi
 if [ -n "${gamelogdir}" ]; then
 	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
 		echo -en "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
-		ln -nfs "${gamelogdir}" "${logdir}/server"
-		if [ $? -ne 0 ]; then
+		if ! ln -nfs "${gamelogdir}" "${logdir}/server"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
