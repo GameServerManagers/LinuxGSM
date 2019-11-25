@@ -131,7 +131,7 @@ fn_sleep_time
 			echo -e ""
 			echo -e "Fix"
 			echo -e "================================="
-				if [ ! "$(grep "tty:" /etc/group|grep "$(whoami)")" ]; then
+				if ! grep "tty:" /etc/group | grep "$(whoami)"; then
 					echo -e "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
 					group=$(grep tty /etc/group)
