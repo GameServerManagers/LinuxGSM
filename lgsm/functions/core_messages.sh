@@ -47,9 +47,9 @@ fn_sleep_time(){
 fn_script_log(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }
@@ -58,9 +58,9 @@ fn_script_log(){
 fn_script_log_pass(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: PASS: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: PASS: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=0
@@ -70,9 +70,9 @@ fn_script_log_pass(){
 fn_script_log_fatal(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: FATAL: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FATAL: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=1
@@ -82,9 +82,9 @@ fn_script_log_fatal(){
 fn_script_log_error(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ERROR: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ERROR: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=2
@@ -94,9 +94,9 @@ fn_script_log_error(){
 fn_script_log_warn(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: WARN: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: WARN: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=3
@@ -106,9 +106,9 @@ fn_script_log_warn(){
 fn_script_log_info(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${servicename}: INFO: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: INFO: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }
@@ -348,6 +348,10 @@ fn_print_fail_eol_nl(){
 
 # ERROR
 fn_print_error_eol(){
+	echo -en "${red}ERROR${default}"
+}
+
+fn_print_error_eol_nl(){
 	echo -en "${red}ERROR${default}"
 }
 

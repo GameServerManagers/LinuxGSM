@@ -28,3 +28,5 @@ else
 	fn_print_warning_nl "Default resources are not installed when using ./${selfname} auto-install."
 	fn_print_information_nl "To install default resources use ./${selfname} install"
 fi
+
+core_exit.sh

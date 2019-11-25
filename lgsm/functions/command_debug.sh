@@ -83,7 +83,7 @@ fi
 echo -e ""
 echo -e "Use for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
-fn_print_warning_nl "If ${servicename} is already running it will be stopped."
+fn_print_warning_nl "If ${selfname} is already running it will be stopped."
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
 	return
@@ -123,4 +123,5 @@ fn_print_dots "Stopping debug"
 fn_print_ok_nl "Stopping debug"
 # remove trap.
 trap - INT
+
 core_exit.sh

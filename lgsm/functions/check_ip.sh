@@ -7,7 +7,7 @@
 
 local commandname="CHECK"
 
-if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${travistest}" != "1" ]; then
+if [ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then
 		ipcommand="/sbin/ip"
 	else

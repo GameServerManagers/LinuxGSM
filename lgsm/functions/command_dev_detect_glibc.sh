@@ -88,4 +88,5 @@ if [ -f "${tmpdir}/detect_glibc_highest.tmp" ]; then
 else
 	fn_print_information_nl "glibc is not required"
 fi
+
 core_exit.sh
