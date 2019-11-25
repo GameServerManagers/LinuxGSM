@@ -1419,7 +1419,7 @@ elif [ "${shortname}" == "terraria" ]; then
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_config_towerunite
 # Unreal engine
-elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+elif [ "${engine}" == "unreal" ]; then
 	fn_info_config_unreal
 # Unreal 2 engine
 elif [ "${engine}" == "unreal2" ]; then

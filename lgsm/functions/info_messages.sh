@@ -25,9 +25,9 @@ fn_info_message_head(){
 	echo -e ""
 	echo -e "Server IP"
 	if [ "${multiple_ip}" == "1" ]; then
-			echo -e "NOT SET"
+		echo -e "NOT SET"
 	else
-			echo -e "${ip}:${port}"
+		echo -e "${ip}:${port}"
 	fi
 }
 
@@ -1332,7 +1332,7 @@ fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
-  elif [ "${shortname}" == "arma3" ]; then
+	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_message_ballisticoverkill
@@ -1350,7 +1350,7 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${shortname}" == "codwaw" ]; then
 		fn_info_message_codwaw
-  elif [ "${shortname}" == "dst" ]; then
+	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
 		fn_info_message_eco
@@ -1368,7 +1368,7 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
-  elif [ "${shortname}" == "pz" ]; then
+	elif [ "${shortname}" == "pz" ]; then
 		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
 		fn_info_message_pstbs
@@ -1384,8 +1384,8 @@ fn_info_message_select_engine(){
 		fn_info_message_quakelive
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
-  elif [ "${shortname}" == "sdtd" ]; then
-  		fn_info_message_sdtd
+	elif [ "${shortname}" == "sdtd" ]; then
+		fn_info_message_sdtd
 	elif [ "${shortname}" == "squad" ]; then
 		fn_info_message_squad
 	elif [ "${shortname}" == "st" ]; then
@@ -1394,33 +1394,33 @@ fn_info_message_select_engine(){
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
-  elif [ "${shortname}" == "st" ]; then
+	elif [ "${shortname}" == "st" ]; then
 		fn_info_message_starbound
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
-  elif [ "${shortname}" == "ss3" ]; then
+	elif [ "${shortname}" == "ss3" ]; then
 		fn_info_message_ss3
-  elif [ "${shortname}" == "terraria" ]; then
+	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then
 		fn_info_message_teamspeak3
 	elif [ "${shortname}" == "tu" ]; then
 		fn_info_message_towerunite
-  elif [ "${shortname}" == "tw" ]; then
+	elif [ "${shortname}" == "tw" ]; then
 		fn_info_message_teeworlds
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
-  elif [ "${shortname}" == "mc" ]; then
+	elif [ "${shortname}" == "mc" ]; then
 		fn_info_message_minecraft
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
-  elif [ "${shortname}" == "mohaa" ]; then
+	elif [ "${shortname}" == "mohaa" ]; then
 		fn_info_message_mohaa
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-  elif [ "${engine}" == "bf1942" ]; then
+	elif [ "${engine}" == "bf1942" ]; then
 		fn_info_message_bf1942
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
