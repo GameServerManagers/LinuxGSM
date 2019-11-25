@@ -168,7 +168,7 @@ fn_fetch_file(){
 		fn_dl_md5
 		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
-      # shellcheck source=/dev/null
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
