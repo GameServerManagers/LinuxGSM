@@ -93,8 +93,7 @@ fi
 if [ -d "${rootdir}/Steam/logs" ]; then
 	if [ ! -L "${logdir}/steamcmd" ]; then
 		echo -en "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."
-		ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
-		if [ $? -ne 0 ]; then
+		if ! ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
