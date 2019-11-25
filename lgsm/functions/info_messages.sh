@@ -937,7 +937,7 @@ fn_info_message_risingworld(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
-		echo -e "> http query\tINBOUND\t${httpqueryport}\ttcp"
+		echo -e "> Query HTTP\tINBOUND\t${httpqueryport}\ttcp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
@@ -1269,7 +1269,7 @@ fn_info_message_wurmunlimited(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Game/Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
