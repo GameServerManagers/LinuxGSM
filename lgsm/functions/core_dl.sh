@@ -133,11 +133,11 @@ fn_fetch_file(){
 			echo -en "downloading ${local_filename}..."
 			fn_sleep_time
 			echo -en "\033[1K"
-			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
+			curlcmd=$(curl --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 			echo -en "downloading ${local_filename}..."
 		else
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
