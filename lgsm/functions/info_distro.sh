@@ -34,9 +34,9 @@ do
 		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
 	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ];then
-			distroname="$(lsb_release -sd)"
+			distroname=$(lsb_release -sd)
 		elif [ -z "${distroversion}" ];then
-			distroversion="$(lsb_release -sr)"
+			distroversion=$(lsb_release -sr)
 		elif [ -z "${distroid}" ];then
 			distroid=$(lsb_release -si)
 		elif [ -z "${distrocodename}" ];then
@@ -44,7 +44,7 @@ do
 		fi
 	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
 		if [ -z "${distroname}" ];then
-			distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
+			distroname=$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')
 		fi
 	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
 		if [ -z "${distroname}" ];then
@@ -60,14 +60,14 @@ do
 		elif [ -z "${distroversion}" ];then
 			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
 		elif [ -z "${distroid}" ];then
-			distroid="$(awk '{print $1}' /etc/redhat-release)"
+			distroid=$(awk '{print $1}' /etc/redhat-release)
 		fi
 	fi
 done
 
 ## Glibc version
 # e.g: 1.17
-glibcversion="$(ldd --version | sed -n '1s/.* //p')"
+glibcversion=$(ldd --version | sed -n '1s/.* //p')
 
 ## tmux version
 # e.g: tmux 1.6
@@ -75,7 +75,7 @@ if [ -z "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
 else
 	if [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then
-		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
+		tmuxv=$(tmux -V) (>= 1.6 required for console log)
 	else
 		tmuxv=$(tmux -V)
 	fi
@@ -255,9 +255,9 @@ fi
 if [ -n "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
 			if [ "${masterserver}" == "0" ]; then
-				masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+				masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
 			fi
 			if [ "${masterserver}" == "0" ]; then
 				displaymasterserver="false"

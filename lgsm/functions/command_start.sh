@@ -80,7 +80,7 @@ fn_start_tmux(){
 		fi
 	elif [ -n "${tmuxversion}" ]; then
 		# Get the digit version of tmux.
-		tmuxversion="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
+		tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')
 		# tmux pipe-pane not supported in tmux versions < 1.6.
 		if [ "${tmuxversion}" -lt "16" ]; then
 			echo -e "Console logging disabled: Tmux => 1.6 required

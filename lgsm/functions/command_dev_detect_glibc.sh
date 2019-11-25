@@ -20,7 +20,7 @@ if [ -z "$(command -v objdump)" ]; then
 fi
 
 if [ -z "${serverfiles}" ]; then
-	dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 fi
 
 if [ -d "${serverfiles}" ]; then

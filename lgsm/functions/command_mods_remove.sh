@@ -64,7 +64,7 @@ modfileline="1"
 tput sc
 while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove.
-	currentfileremove="$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")"
+	currentfileremove=$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")
 	# If file or directory exists, then remove it.
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
