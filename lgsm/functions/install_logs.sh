@@ -63,8 +63,7 @@ fi
 # Create Game logs.
 if [ -n "${gamelogdir}" ]&&[ ! -d "${gamelogdir}" ]; then
 	echo -en "installing game log dir: ${gamelogdir}..."
-	mkdir -p "${gamelogdir}"
-	if [ $? -ne 0 ]; then
+	if ! mkdir -p "${gamelogdir}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
