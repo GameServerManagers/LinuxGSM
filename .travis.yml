@@ -7,6 +7,7 @@ node_js:
 env:
   global:
     - CODECOV_TOKEN="033d5acd-5a03-4694-a26b-c45f8f974a6b"
+    - CODACY_PROJECT_TOKEN=24f3a5d1bb3240ed8a9c7455fc88ad89
 
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
@@ -67,5 +68,6 @@ jobs:
       # script: bash tests/tests_shellcheck.sh
   
 after_success:
-    - bash <(curl -s https://codecov.io/bash)	  
+    - bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -Ls https://coverage.codacy.com/get.sh)
 
