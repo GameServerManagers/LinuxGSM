@@ -47,8 +47,7 @@ addons:
     - libcurl4-openssl-dev
     - libelf-dev
     - libdw-dev
-    - cmake	
-	
+    - cmake
 jobs:
   include:
     - stage: jobs
@@ -61,6 +60,6 @@ jobs:
       script: kcov tests tests_ts3server.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
-	  
+  
 after_success:
     - bash <(curl -s https://codecov.io/bash)	  
