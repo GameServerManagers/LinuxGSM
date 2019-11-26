@@ -561,7 +561,7 @@ fn_fetch_function
 }
 
 update_jediknight2.sh(){
-functionfile="${FUNCNAME}"
+functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
