@@ -7,7 +7,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_install_ts3db_mariadb(){
 	if [ ! -f "${serverfiles}/libts3db_mariadb.so" ]; then
@@ -70,7 +70,9 @@ echo -e "${lightyellow}Getting privilege key${default}"
 echo -e "================================="
 fn_sleep_time
 fn_print_information_nl "Save these details for later."
+fn_print_information_nl "Key also saved in:"
+echo -e "${serverfiles}/privilege_key.txt"
 cd "${executabledir}" || exit
-${executable} start inifile=ts3-server.ini
+./ts3server_startscript.sh start inifile=ts3-server.ini 2>&1 | tee "${serverfiles}/privilege_key.txt"
 sleep 5
-${executable} stop
+./ts3server_startscript.sh stop

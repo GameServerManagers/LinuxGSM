@@ -6,7 +6,7 @@
 
 local commandname="FIX"
 local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 if [ ! -f "${serverfiles}/bin/datacache.so" ]; then
 	ln -s "${serverfiles}/bin/datacache_srv.so" "${serverfiles}/bin/datacache.so"

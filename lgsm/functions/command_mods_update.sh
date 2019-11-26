@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="Mods Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 mods_core.sh
@@ -19,11 +19,11 @@ fn_remove_cfg_files(){
 		echo -e "the following files/directories will be preserved:"
 		fn_sleep_time
 		# Count how many files there are to remove.
-		filestopreserve="$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')"
+		filestopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')
 		# Test all subvalues of "modkeepfiles" using the ";" separator.
-		for ((preservefilesindex=1; preservefilesindex < ${filestopreserve}; preservefilesindex++)); do
+		for ((preservefilesindex=1; preservefilesindex < filestopreserve; preservefilesindex++)); do
 			# Put the current file we are looking for into a variable.
-			filetopreserve="$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )"
+			filetopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )
 			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file.
 			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
@@ -71,7 +71,7 @@ done
 # Reset line value.
 installedmodsline="1"
 while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
-	currentmod="$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")"
+	currentmod=$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")
 	if [ -n "${currentmod}" ]; then
 		fn_mod_get_info
 		# Don not update mod if the policy is set to "NOUPDATE".

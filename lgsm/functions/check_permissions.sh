@@ -74,7 +74,7 @@ fn_check_permissions(){
 	# Check rootdir permissions.
 	if [ -n "${rootdir}" ]; then
 		# Get permission numbers on directory under the form 775.
-		rootdirperm="$(stat -c %a "${rootdir}")"
+		rootdirperm=$(stat -c %a "${rootdir}")
 		# Grab the first and second digit for user and group permission.
 		userrootdirperm="${rootdirperm:0:1}"
 		grouprootdirperm="${rootdirperm:1:1}"
@@ -94,10 +94,10 @@ fn_check_permissions(){
 	fi
 	# Check if executable is executable and attempt to fix it.
 	# First get executable name.
-	execname="$(basename "${executable}")"
+	execname=$(basename "${executable}")
 	if [ -f "${executabledir}/${execname}" ]; then
 		# Get permission numbers on file under the form 775.
-		execperm="$(stat -c %a "${executabledir}/${execname}")"
+		execperm=$(stat -c %a "${executabledir}/${execname}")
 		# Grab the first and second digit for user and group permission.
 		userexecperm="${execperm:0:1}"
 		groupexecperm="${execperm:1:1}"
@@ -118,7 +118,7 @@ fn_check_permissions(){
 				chmod u+x,g+x "${executabledir}/${execname}"
 				# Second check to see if it's been successfully applied.
 				# Get permission numbers on file under the form 775.
-				execperm="$(stat -c %a "${executabledir}/${execname}")"
+				execperm=$(stat -c %a "${executabledir}/${execname}")
 				# Grab the first and second digit for user and group permission.
 				userexecperm="${execperm:0:1}"
 				groupexecperm="${execperm:1:1}"
@@ -181,8 +181,7 @@ fn_sys_perm_fix_manually_msg(){
 
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise.
 fn_sys_perm_errors_fix(){
-	sudo -n true > /dev/null 2>&1
-	if [ $? -eq 0 ]; then
+	if sudo -n true > /dev/null 2>&1; then
 		fn_print_dots "Automatically fixing /sys permissions"
 		fn_script_log_info "Automatically fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then

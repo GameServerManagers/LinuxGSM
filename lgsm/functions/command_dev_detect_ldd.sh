@@ -7,14 +7,14 @@
 
 local commandname="DETECT-LDD"
 local commandaction="Detect-LDD"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 echo -e "================================="
 echo -e "Shared Object dependencies Checker"
 echo -e "================================="
 
 if [ -z "${serverfiles}" ]; then
-	dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 fi
 
 if [ -d "${serverfiles}" ]; then
