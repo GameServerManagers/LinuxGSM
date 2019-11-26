@@ -5,7 +5,7 @@
 # Description: Handles CTRL-C trap to give an exit code.
 
 fn_exit_trap(){
-	echo ""
+	echo -e ""
 	core_exit.sh
 }
 

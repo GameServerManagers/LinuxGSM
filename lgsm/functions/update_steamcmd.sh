@@ -6,14 +6,14 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_steamcmd_dl(){
 	info_config.sh
 
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
-	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
+	if [ -n "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
@@ -162,9 +162,9 @@ fn_appmanifest_check(){
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			fn_script_log_fatal "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			echo "	* Check user permissions"
+			echo -e "	* Check user permissions"
 			for appfile in ${appmanifestfile}; do
-				echo "	${appfile}"
+				echo -e "	${appfile}"
 			done
 			core_exit.sh
 		else

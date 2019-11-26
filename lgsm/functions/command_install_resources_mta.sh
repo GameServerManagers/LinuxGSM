@@ -6,15 +6,15 @@
 
 local commandname="DEFAULT_RESOURCES"
 local commandaction="Default Resources"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_install_resources(){
-	echo ""
-	echo "Installing Default Resources"
-	echo "================================="
+	echo -e ""
+	echo -e "Installing Default Resources"
+	echo -e "================================="
 	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "mtasa-resources-latest.zip" "${resourcesdir}"
-	echo "Default Resources Installed."
+	echo -e "Default Resources Installed."
 }
 
 fn_print_header
@@ -28,3 +28,5 @@ else
 	fn_print_warning_nl "Default resources are not installed when using ./${selfname} auto-install."
 	fn_print_information_nl "To install default resources use ./${selfname} install"
 fi
+
+core_exit.sh

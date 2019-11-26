@@ -20,13 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.10.2"
+version="v19.11.0"
 shortname="core"
 gameservername="core"
-rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${selfname}"
-lockselfname=".${servicename}.lock"
+rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -52,7 +51,7 @@ githubbranch="master"
 
 # Core function that is required first.
 core_functions.sh(){
-	functionfile="${FUNCNAME}"
+	functionfile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
@@ -71,27 +70,25 @@ fn_bootstrap_fetch_file(){
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
-		# Defines curl path.
-		curlpath=$(command -v curl 2>/dev/null)
 
 		# If curl exists download file.
-		if [ "$(basename "${curlpath}")" == "curl" ]; then
+		if [ -n "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "FAIL"
 				if [ -f "${lgsmlog}" ]; then
 					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
-					echo "${curlcmd}" | tee -a "${lgsmlog}"
+					echo -e "${curlcmd}" | tee -a "${lgsmlog}"
 				fi
 				exit 1
 			else
 				echo -e "OK"
 			fi
 		else
-			echo "[ FAIL ] Curl is not installed"
+			echo -e "[ FAIL ] Curl is not installed"
 			exit 1
 		fi
 		# Make file chmodx if chmodx is set.
@@ -103,6 +100,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -127,14 +125,13 @@ fn_bootstrap_fetch_file_github(){
 # Installer menu.
 
 fn_print_center() {
-	columns="$(tput cols)"
-	line="$@"
+	columns=$(tput cols)
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 
 fn_print_horizontal(){
-	char="${1:-=}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
 # Bash menu.
@@ -149,7 +146,7 @@ fn_install_menu_bash() {
 	fn_print_horizontal
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
-		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
+		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
 	done < "${options}"
 	menu_options+=( "Cancel" )
@@ -174,8 +171,8 @@ fn_install_menu_whiptail() {
 	IFS=","
 	menu_options=()
 	while read -r line; do
-		key=$(echo "${line}" | awk -F "," '{print $3}')
-		val=$(echo "${line}" | awk -F "," '{print $2}')
+		key=$(echo -e "${line}" | awk -F "," '{print $3}')
+		val=$(echo -e "${line}" | awk -F "," '{print $2}')
 		menu_options+=( "${val//\"}" "${key//\"}" )
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
@@ -220,10 +217,10 @@ fn_server_info(){
 
 fn_install_getopt(){
 	userinput="empty"
-	echo "Usage: $0 [option]"
+	echo -e "Usage: $0 [option]"
 	echo -e ""
-	echo "Installer - Linux Game Server Managers - Version ${version}"
-	echo "https://linuxgsm.com"
+	echo -e "Installer - Linux Game Server Managers - Version ${version}"
+	echo -e "https://linuxgsm.com"
 	echo -e ""
 	echo -e "Commands"
 	echo -e "install\t\t| Select server to install."
@@ -237,22 +234,22 @@ fn_install_file(){
 	if [ -e "${local_filename}" ]; then
 		i=2
 	while [ -e "${local_filename}-${i}" ] ; do
-		let i++
+		(( i++ ))
 	done
 		local_filename="${local_filename}-${i}"
 	fi
 	cp -R "${selfname}" "${local_filename}"
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
 	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
-	echo "Installed ${gamename} server as ${local_filename}"
-	echo ""
+	echo -e "Installed ${gamename} server as ${local_filename}"
+	echo -e ""
 	if [ ! -d "${serverfiles}" ]; then
-		echo "./${local_filename} install"
+		echo -e "./${local_filename} install"
 	else
-		echo "Remember to check server ports"
-		echo "./${local_filename} details"
+		echo -e "Remember to check server ports"
+		echo -e "./${local_filename} details"
 	fi
-	echo ""
+	echo -e ""
 	exit
 }
 
@@ -260,11 +257,11 @@ fn_install_file(){
 if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
-			echo "[ FAIL ] Do NOT run this script as root!"
+			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
 	elif [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
+		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else
 		core_functions.sh
@@ -277,7 +274,7 @@ if [ "${shortname}" == "core" ]; then
 	# Download the latest serverlist. This is the complete list of all supported servers.
 	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
-		echo "[ FAIL ] serverlist.csv could not be loaded."
+		echo -e "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
 	fi
 
@@ -294,18 +291,18 @@ if [ "${shortname}" == "core" ]; then
 		if [ "${result}" == "${gameservername}" ]; then
 			fn_install_file
 		elif [ "${result}" == "" ]; then
-			echo "Install canceled"
+			echo -e "Install canceled"
 		else
-			echo "[ FAIL ] menu result does not match gameservername"
-			echo "result: ${result}"
-			echo "gameservername: ${gameservername}"
+			echo -e "[ FAIL ] menu result does not match gameservername"
+			echo -e "result: ${result}"
+			echo -e "gameservername: ${gameservername}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
 		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
-			echo "[ FAIL ] unknown game server"
+			echo -e "[ FAIL ] unknown game server"
 		fi
 	else
 		fn_install_getopt
@@ -348,19 +345,24 @@ else
 				fi
 			fi
 		fi
+		# shellcheck source=/dev/null
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/${servicename}.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/${servicename}.cfg"
 		fi
 

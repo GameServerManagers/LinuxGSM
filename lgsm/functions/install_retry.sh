@@ -6,10 +6,10 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 if fn_prompt_yn "Retry install?" Y; then
-	command_install.sh; exit
+	command_install.sh; core_exit.sh
 else
-	echo Exiting; exit
+	core_exit.sh
 fi
