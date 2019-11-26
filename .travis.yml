@@ -4,6 +4,10 @@ sudo: required
 node_js:
   - 10
 
+env:
+  global:
+    - CODECOV_TOKEN="033d5acd-5a03-4694-a26b-c45f8f974a6b"
+
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
     - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
@@ -64,3 +68,4 @@ jobs:
   
 after_success:
     - bash <(curl -s https://codecov.io/bash)	  
+
