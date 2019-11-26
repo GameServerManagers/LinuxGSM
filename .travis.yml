@@ -49,7 +49,7 @@ jobs:
       script: bash tests/tests_ts3server.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
-	  
+
 after_success: |
   wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
   tar xzf master.tar.gz &&
