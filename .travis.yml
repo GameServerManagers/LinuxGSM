@@ -4,6 +4,7 @@ node_js:
 - 10
 env:
   global:
+  - CODACY_PROJECT_TOKEN=24f3a5d1bb3240ed8a9c7455fc88ad89  
   - secure: YZbTjwCCin6KMPm2VmSSPJFMFEzDsz3o3riHKIdVpnWWEUeVG4jEXCHoctqWw2fKS6A3wYMsSJdgf730JTam2HNJjGznm12TIatWc5wTvgQTfda50FSeBvkAjyJKgyvsI8yCFF5Z3ewJhXCjVDS3BkmxoiYbKRO4PeuVI97yFZg=
 before_script:
 - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
