@@ -6,13 +6,13 @@ node_js:
 
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
-	- wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
-	- tar xzf master.tar.gz
-	- cd kcov-master
-	- mkdir build
-	- cd build
-	- cmake ..
-	- make
+    - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+    - tar xzf master.tar.gz
+    - cd kcov-master
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
     - sudo make install
     - cd ../.. &&
     - rm -rf kcov-master
@@ -48,8 +48,6 @@ addons:
     - libelf-dev
     - libdw-dev
     - cmake	
-
-
 	
 jobs:
   include:
@@ -65,4 +63,4 @@ jobs:
       # script: bash tests/tests_shellcheck.sh
 	  
 after_success:
-	- bash <(curl -s https://codecov.io/bash)	  
+    - bash <(curl -s https://codecov.io/bash)	  
