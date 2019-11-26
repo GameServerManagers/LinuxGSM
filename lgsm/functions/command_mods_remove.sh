@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="Mods Remove"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 mods_core.sh
@@ -64,7 +64,7 @@ modfileline="1"
 tput sc
 while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove.
-	currentfileremove="$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")"
+	currentfileremove=$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")
 	# If file or directory exists, then remove it.
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
