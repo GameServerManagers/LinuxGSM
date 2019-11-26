@@ -51,11 +51,11 @@ addons:
 jobs:
   include:
   - stage: jobs
-    script: kcov --bash-method=DEBUG coverage tests/tests_jc2server.sh
-  - script: kcov --bash-method=DEBUG coverage tests/tests_fctrserver.sh
-  - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
-  - script: kcov --bash-method=DEBUG coverage tests/tests_ts3server.sh
+  - script: bash tests/tests_jc2server.sh
+  - script: bash tests/tests_fctrserver.sh
+  - script: bash tests/tests_mcserver.sh
+  - script: bash tests/tests_ts3server.sh
   - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
-  -
+  - script: kcov coverage tests/tests_mcserver.sh
 after_success:
 - bash <(curl -Ls https://coverage.codacy.com/get.sh)
