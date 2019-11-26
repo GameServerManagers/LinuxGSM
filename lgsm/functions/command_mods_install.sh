@@ -7,7 +7,7 @@
 
 local commandname="MODS"
 local commandaction="addons/mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 mods_core.sh
@@ -87,7 +87,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 		fn_script_log_warn "${modprettyname} is already installed"
 		echo -e " * Any configs may be overwritten."
 		if ! fn_prompt_yn "Continue?" Y; then
-			echo Exiting; core_exit.sh
+			core_exit.sh
 		fi
 		fn_script_log_info "User selected to continue"
 	fi

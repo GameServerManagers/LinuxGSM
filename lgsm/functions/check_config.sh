@@ -5,7 +5,7 @@
 # Description: Checks if the server config is missing and warns the user if needed.
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 if [ ! -e "${servercfgfullpath}" ]; then
 	if [ "${shortname}" != "hw" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then

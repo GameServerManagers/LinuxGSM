@@ -7,7 +7,7 @@
 
 local commandname="WIPE"
 local commandaction="Wipe"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 fn_print_header
@@ -185,7 +185,7 @@ if [ "${shortname}" == "rust" ]; then
 	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
 		if ! fn_prompt_yn "Continue?" Y; then
-				echo Exiting; core_exit.sh
+				core_exit.sh
 		fi
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
 		fn_sleep_time

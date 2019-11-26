@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_mta_dl(){
 	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "${tmpdir}" "multitheftauto_linux_x64.tar.gz"
@@ -99,9 +99,9 @@ fn_update_mta_localbuild(){
 
 fn_update_mta_remotebuild(){
 	# Gets remote build info.
-	majorversion="$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')"
-	minorversion="$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')"
-	maintenanceversion="$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')"
+	majorversion=$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MAJOR" | awk '{ print $3 }' | sed 's/\r//g')
+	minorversion=$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MINOR" | awk '{ print $3 }' | sed 's/\r//g')
+	maintenanceversion=$(curl -s https://raw.githubusercontent.com/multitheftauto/mtasa-blue/master/Server/version.h | grep "#define MTASA_VERSION_MAINTENANCE" | awk '{ print $3 }' | sed 's/\r//g')
 	remotebuild="${majorversion}.${minorversion}.${maintenanceversion}"
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"

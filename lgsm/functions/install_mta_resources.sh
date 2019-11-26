@@ -7,7 +7,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_print_information_nl "${gamename} will not function without resources!"
 echo -e "	* install default resources using ./${selfname} install-default-resources"

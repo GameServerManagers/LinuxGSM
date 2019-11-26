@@ -6,7 +6,7 @@
 
 local commandname="DEV-DEBUG"
 local commandaction="Dev-Debug"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 if [ -f "${rootdir}/.dev-debug" ]; then
 	rm "${rootdir}/.dev-debug"
@@ -17,4 +17,5 @@ else
 	fn_print_ok_nl "Enabled dev-debug"
 	fn_script_log_info "Enabled dev-debug"
 fi
+
 core_exit.sh
