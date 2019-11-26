@@ -1,29 +1,24 @@
 language: node_js
 dist: bionic
 node_js:
-  - 10
-
+- 10
 env:
   global:
-    - CODECOV_TOKEN="033d5acd-5a03-4694-a26b-c45f8f974a6b"
-    - CODACY_PROJECT_TOKEN=24f3a5d1bb3240ed8a9c7455fc88ad89
-
+  - secure: YZbTjwCCin6KMPm2VmSSPJFMFEzDsz3o3riHKIdVpnWWEUeVG4jEXCHoctqWw2fKS6A3wYMsSJdgf730JTam2HNJjGznm12TIatWc5wTvgQTfda50FSeBvkAjyJKgyvsI8yCFF5Z3ewJhXCjVDS3BkmxoiYbKRO4PeuVI97yFZg=
 before_script:
-    - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
-    - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
-    - tar xzf master.tar.gz
-    - cd kcov-master
-    - mkdir build
-    - cd build
-    - cmake ..
-    - make
-    - sudo make install
-    - cd ../..
-    - rm -rf kcov-master
-    - mkdir -p coverage
-
-install:
-  npm install gamedig
+- curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
+- wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
+- tar xzf master.tar.gz
+- cd kcov-master
+- mkdir build
+- cd build
+- cmake ..
+- make
+- sudo make install
+- cd ../..
+- rm -rf kcov-master
+- mkdir -p coverage
+install: npm install gamedig
 addons:
   apt:
     packages:
@@ -55,20 +50,12 @@ addons:
     - cmake
 jobs:
   include:
-    - stage: jobs
-      script: kcov --bash-method=DEBUG coverage tests/tests_jc2server.sh
-    - # stage name not required
-      script: kcov --bash-method=DEBUG coverage tests/tests_fctrserver.sh
-    - # stage name not required
-      script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
-    - # stage name not required
-      script: kcov --bash-method=DEBUG coverage tests/tests_ts3server.sh
-    - # stage name not required
-      script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
-    - # retired as codacy does this check.
-      # script: bash tests/tests_shellcheck.sh
-  
+  - stage: jobs
+    script: kcov --bash-method=DEBUG coverage tests/tests_jc2server.sh
+  - script: kcov --bash-method=DEBUG coverage tests/tests_fctrserver.sh
+  - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
+  - script: kcov --bash-method=DEBUG coverage tests/tests_ts3server.sh
+  - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
+  -
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
-    - bash <(curl -Ls https://coverage.codacy.com/get.sh)
-
+- bash <(curl -s https://codecov.io/bash)
