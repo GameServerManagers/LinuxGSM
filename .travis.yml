@@ -49,7 +49,6 @@ after_success: |
   cd ../.. &&
   rm -rf kcov-master
 
-
 jobs:
   include:
     - stage: jobs
