@@ -1,21 +1,21 @@
 language: node_js
 dist: xenial
+sudo: required
 node_js:
   - 10
 
 before_script:
     - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
-    
- - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
- - tar xzf master.tar.gz 
- - cd kcov-master 
- - mkdir build 
- - cd build 
- - cmake .. 
- - make 
- - sudo make install 
- - cd ../.. 
- - rm -rf kcov-master
+	- wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+	- tar xzf master.tar.gz
+	- cd kcov-master
+	- mkdir build
+	- cd build
+	- cmake ..
+	- make
+    - sudo make install
+    - cd ../.. &&
+    - rm -rf kcov-master
 
 install:
   npm install gamedig
@@ -49,18 +49,20 @@ addons:
     - libdw-dev
     - cmake	
 
+
+	
 jobs:
   include:
     - stage: jobs
-      script: kcov tests/tests_jc2server.sh
+      script: kcov tests tests_jc2server.sh
     - # stage name not required
-      script: kcov tests/tests_fctrserver.sh
+      script: kcov tests tests_fctrserver.sh
     - # stage name not required
-      script: kcov tests/tests_mcserver.sh
+      script: kcov tests tests_mcserver.sh
     - # stage name not required
-      script: kcov tests/tests_ts3server.sh
+      script: kcov tests tests_ts3server.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
-
-
-  bash <(curl -s https://codecov.io/bash)	  
+	  
+after_success:
+	- bash <(curl -s https://codecov.io/bash)	  
