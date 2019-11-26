@@ -57,5 +57,6 @@ jobs:
   - script: bash tests/tests_ts3server.sh
   - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
   - script: kcov coverage tests/tests_mcserver.sh
+  
 after_success:
 - bash <(curl -Ls https://coverage.codacy.com/get.sh)
