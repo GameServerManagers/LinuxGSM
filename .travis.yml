@@ -1,7 +1,7 @@
 language: node_js
 dist: bionic
 node_js:
-  - 10
+  - "stable"
 env:
   global:
     secure: VsS98cwJ5X/Ev3HEm7KEOPftYay+7jNTHepTS7d+gQNHcDR1UYKTmqlQNSIoUC52Ejs1cHq43jOfle4330zDPOYI0v5BMri6/iZKpmMxAw6KWNiUgSkziTP2kHC4NRLwEoU2WQTI3JZQjrBEfsPmD81+yR/eWXV3rph+YcSOxao=
