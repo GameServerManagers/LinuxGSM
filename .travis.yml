@@ -62,7 +62,7 @@ jobs:
       name: "Factorio"
     - script: bash tests/tests_mcserver.sh
       name: "Minecraft"
-    - script: bash tests/tests_ts3erver.sh
+    - script: bash tests/tests_ts3server.sh
       name: "Teamspeak 3"
     - script: bash tests/tests_defaultcfg.sh
       name: "_default.cfg Checks"
