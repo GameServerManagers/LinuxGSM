@@ -8,17 +8,6 @@ env:
 
 before_script:
   - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
-  - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
-  - tar xzf master.tar.gz
-  - cd kcov-master
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
-  - sudo make install
-  - cd ../..
-  - rm -rf kcov-master
-  - mkdir -p coverage
 
 install:
   - npm install gamedig
@@ -57,8 +46,7 @@ jobs:
   include:
     - stage: "Jobs"
       name: "code coverage"
-      script: bash tests/tests_kcov.sh
-      script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
+      script: bash tests/tests_kcov.sh; kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
     - script: bash tests/tests_mcserver.sh
       name: "Minecraft"      
     - script: bash tests/tests_fctrserver.sh
