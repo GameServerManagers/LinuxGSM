@@ -56,6 +56,7 @@ addons:
 jobs:
   include:
     - stage: jobs
+    - name: "Just Cause 2"
     - script: bash tests/tests_jc2server.sh
     - script: bash tests/tests_fctrserver.sh
     - script: bash tests/tests_mcserver.sh
