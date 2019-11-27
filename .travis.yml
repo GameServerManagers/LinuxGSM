@@ -60,10 +60,8 @@ jobs:
       script: bash tests/tests_jc2server.sh 
     - script: bash tests/tests_fctrserver.sh
       name: "Factorio"
-     - script: bash tests/tests/tests_mcserver.sh
+    - script: bash tests/tests/tests_mcserver.sh
       name: "Minecraft"
-      - script: bash bash tests/tests_ts3server.sh
-      name: "Teamspeak 3"
     - stage: deploy
       name: "Deploy to GCP"
       script: ./deploy
