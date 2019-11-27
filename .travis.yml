@@ -66,7 +66,7 @@ jobs:
     - # stage name not required
       script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
     - # stage name not required
-      script: travis_wait kcov coverage tests/tests_ts3server.sh
+      script: kcov coverage tests/tests_ts3server.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
 
