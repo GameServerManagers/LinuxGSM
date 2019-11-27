@@ -7,7 +7,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 if [ "$(whoami)" = "root" ]; then
@@ -47,5 +47,5 @@ else
 	fix.sh
 	install_stats.sh
 	install_complete.sh
-	core_exit.sh
 fi
+core_exit.sh

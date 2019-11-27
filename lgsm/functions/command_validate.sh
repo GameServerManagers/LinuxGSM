@@ -6,7 +6,7 @@
 
 local commandname="VALIDATE"
 local commandaction="Validate"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_validation(){
 	fn_print_info "Validating files: SteamCMD"
@@ -18,7 +18,7 @@ fn_validation(){
 	cd "${steamcmddir}" || exit
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
-	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
+	if [ -n "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
@@ -51,4 +51,5 @@ if [ "${status}" != "0" ]; then
 else
 	fn_validation
 fi
+
 core_exit.sh

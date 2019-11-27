@@ -6,7 +6,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_install_server_files(){
     if [ "${shortname}" == "ahl" ]; then
@@ -98,7 +98,7 @@ fn_install_server_files_steamcmd(){
 
 			# Detects if unbuffer command is available for 32 bit distributions only.
 			info_distro.sh
-			if [ "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
+			if [ -n "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
