@@ -32,10 +32,10 @@ jobs:
       script: bash tests/tests_kcov.sh; kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
     - script: bash tests/tests_mcserver.sh
       name: "Minecraft"      
-    - script: bash tests/tests_fctrserver.sh
-      name: "Factorio" 
     - script: bash tests/tests_jc2server.sh      
       name: "Just Cause 2"
+    - script: bash tests/tests_fctrserver.sh
+      name: "Factorio" 
     - script: bash tests/tests_ts3server.sh
       name: "Teamspeak 3"     
     - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
