@@ -56,7 +56,7 @@ addons:
 jobs:
   include:
     - stage: "Jobs"
-    - name: "code coverage"   
+      name: "code coverage"   
       script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
     - script: bash tests/tests_mcserver.sh
       name: "Minecraft"      
