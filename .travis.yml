@@ -65,7 +65,7 @@ jobs:
     - script: bash tests/tests_ts3server.sh
       name: "Teamspeak 3"
     - script: bash tests/tests_defaultcfg.sh
-      name: "_default.cfg Checks"
+      name: "_default.cfg checks"
     - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
       name: "code coverage" 
 
