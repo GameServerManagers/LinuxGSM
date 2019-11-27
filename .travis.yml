@@ -55,11 +55,11 @@ addons:
 
 jobs:
   include:
-    - stage: "Tests"                # naming the Tests stage
-      name: "Unit Tests"            # names the first Tests stage job
-      script: ./unit-tests
-    - script: ./integration-tests
-      name: "Integration Tests"     # names the second Tests stage job
+    - stage: "Jobs"                 # naming the Tests stage
+      name: "Just Cause 2"            # names the first Tests stage job
+      script: bash tests/tests_jc2server.sh 
+    - script: bash tests/tests_fctrserver.sh
+      name: "Factorio"     # names the second Tests stage job
     - stage: deploy
       name: "Deploy to GCP"
       script: ./deploy
