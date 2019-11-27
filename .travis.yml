@@ -58,14 +58,12 @@ jobs:
     - stage: jobs
     - name: "Just Cause 2"
     - script: bash tests/tests_jc2server.sh
+    - name: "Factorio"    
     - script: bash tests/tests_fctrserver.sh
     - script: bash tests/tests_mcserver.sh
     - script: bash tests/tests_ts3server.sh
     - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
-    - script: kcov --bash-method=DEBUG coverage tests/tests_jc2server.sh
-    - script: kcov --bash-method=DEBUG coverage tests/tests_fctrserver.sh
     - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
-    - script: kcov --bash-method=DEBUG coverage tests/tests_ts3server.sh
     - # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
 
