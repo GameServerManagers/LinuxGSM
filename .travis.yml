@@ -17,9 +17,6 @@ addons:
     packages:
     - mailutils
     - postfix
-    - curl
-    - file
-    - util-linux
     - jq
     - lib32gcc1
     - libstdc++6:i386
