@@ -478,6 +478,8 @@ fn_test_result_na(){
 	fn_print_fail_nl "TEST N/A"
 }
 
+sleeptime="0"
+
 echo -e "================================="
 echo -e "Travis CI Tests"
 echo -e "Linux Game Server Manager"
