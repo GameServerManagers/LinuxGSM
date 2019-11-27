@@ -63,7 +63,11 @@ jobs:
     - script: bash tests/tests/tests_mcserver.sh
       name: "Minecraft"
     - script: bash tests/tests/tests_ts3erver.sh
-      name: "Teamspeak 3"      
+      name: "Teamspeak 3"
+     - script: bash tests/tests/tests_defaultcfg.sh
+      name: "_default.cfg Checks"
+     - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
+      name: "code coverage" 
     - stage: deploy
       name: "Deploy to GCP"
       script: ./deploy
