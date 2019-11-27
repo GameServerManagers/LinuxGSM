@@ -56,15 +56,19 @@ addons:
 jobs:
   include:
     - stage: jobs
-    - name: "Just Cause 2"
-    - script: bash tests/tests_jc2server.sh
-    - name: "Factorio"    
-    - script: bash tests/tests_fctrserver.sh
-    - script: bash tests/tests_mcserver.sh
-    - script: bash tests/tests_ts3server.sh
-    - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
-    - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
-    - # retired as codacy does this check.
+      - script: bash tests/tests_jc2server.sh
+      name: "Just Cause 2"   
+      - script: bash tests/tests_fctrserver.sh
+      name: "Factorio" 
+      - script: bash tests/tests_mcserver.sh
+      name: "Minecraft" 
+      - script: bash tests/tests_ts3server.sh
+      name: "Teamspeak 3"
+      - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
+      name: "Config Checks"
+      - script: kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
+      name: "Codacy Coverage"
+      # retired as codacy does this check.
       # script: bash tests/tests_shellcheck.sh
 
 after_success:
