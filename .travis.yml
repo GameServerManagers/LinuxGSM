@@ -62,6 +62,8 @@ jobs:
       name: "Factorio"
     - script: bash tests/tests/tests_mcserver.sh
       name: "Minecraft"
+    - script: bash tests/tests/tests_ts3erver.sh
+      name: "Teamspeak 3"      
     - stage: deploy
       name: "Deploy to GCP"
       script: ./deploy
