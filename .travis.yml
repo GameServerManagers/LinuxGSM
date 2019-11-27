@@ -21,7 +21,8 @@ before_script:
   - mkdir -p coverage
 
 install:
-  npm install gamedig
+  - npm install gamedig
+  - travis_wait mvn install
 
 addons:
   apt:
