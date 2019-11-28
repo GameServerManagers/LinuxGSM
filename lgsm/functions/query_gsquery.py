@@ -21,6 +21,7 @@ class gsquery:
         idtech2query=['protocol-quake3','idtech2','quake','iw2.0']
         idtech3query=['protocol-quake3','iw3.0','ioquake3','qfusion']
         minecraftquery=['minecraft','lwjgl2']
+        minecraftbequery=['minecraftbe']
         jc2mpquery=['jc2mp']
         mumblequery=['mumbleping']
         twquery=['teeworlds']
@@ -32,10 +33,12 @@ class gsquery:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine in idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.option.engine in minecraftquery:
-            self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
         elif self.option.engine in jc2mpquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
+        elif self.option.engine in minecraftquery:
+            self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
+        elif self.option.engine in minecraftbequery:
+            self.query_prompt_string = b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78\x00\x00\x00\x00\x00\x00\x00\x00'
         elif self.option.engine in mumblequery:
             self.query_prompt_string = b'\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08'
         elif self.option.engine in unrealquery:
@@ -113,7 +116,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft jc2mp mumbleping teeworlds'
+        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft minecraftbe jc2mp mumbleping teeworlds'
     )
     parser.add_option(
         '-v', '--verbose',
