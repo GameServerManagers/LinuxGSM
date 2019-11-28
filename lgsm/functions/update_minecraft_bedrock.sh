@@ -9,7 +9,7 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
-	latestmcbuildurl=$(${curlpath} -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
+	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
 	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
 	echo -e "Extracting to ${serverfiles}...\c"
 	if [ "${installer}" == "1" ]; then
@@ -36,7 +36,7 @@ fn_update_minecraft_localbuild(){
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
 
-	localbuild=$(grep Version $(ls -t "${consolelogdir}/*" 2>/dev/null) | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep Version $(ls -tr "${consolelogdir}"/* 2>/dev/null) | tail -1 | sed 's/.*Version //')
 
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
@@ -59,7 +59,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version $(ls -t "${consolelogdir}/*" 2>/dev/null) | tail -1 | sed 's/.*Version //')
+		localbuild=$(grep Version $(ls -tr "${consolelogdir}"/* 2>/dev/null) | tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
