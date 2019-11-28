@@ -56,7 +56,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version "${consolelog}" | grep -Eo '[\.0-9]+$')
+		localbuild=$(grep Version "${consolelog}" | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
