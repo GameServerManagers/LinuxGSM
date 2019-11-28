@@ -35,7 +35,7 @@ fn_update_minecraft_localbuild(){
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
-	if [ ! -s "${consolelog}" ]; then
+	if [ -z $(ls -t ${consolelog}/*) ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
 		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no or empty log file"
 		fn_script_log_error "No log found or log is empty"
@@ -56,7 +56,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version $(ls -t log/console/mcbserver-console*)|tail -1 | sed 's/.*Version //')
+		localbuild=$(grep Version $(ls -t "${consolelog}/*") | tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
