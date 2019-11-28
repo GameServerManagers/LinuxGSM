@@ -56,7 +56,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version $(ls -t ${consolelogdir}/mcbserver-console*))
+		localbuild=$(grep Version $(ls -t log/console/mcbserver-console*)|tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
