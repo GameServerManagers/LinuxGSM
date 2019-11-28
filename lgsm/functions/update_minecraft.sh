@@ -64,7 +64,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 	fi
 
 	if [ -z "${localbuild}" ]; then
