@@ -154,11 +154,6 @@ fn_update_minecraft_compare(){
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
 
-		# Start the server again if it was running before the update check.
-		if [ "${initialstatus}" != "0" ]; then
-			exitbypass=1
-			command_start.sh
-		fi
 	fi
 }
 
@@ -170,7 +165,6 @@ if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_dl
 else
 	check_status.sh
-	initialstatus="${status}"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_minecraft_localbuild
