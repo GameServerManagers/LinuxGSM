@@ -56,16 +56,14 @@ class gsquery:
             self.query_prompt_string = b"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78\x00\x00\x00\x00\x00\x00\x00\x00"
         elif self.option.engine in mumblequery:
             self.query_prompt_string = (
-                b"\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08"
-            )
+                b"\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08")
         elif self.option.engine in unrealquery:
             self.query_prompt_string = b"\x5C\x69\x6E\x66\x6F\x5C"
         elif self.option.engine in unreal2query:
             self.query_prompt_string = b"\x79\x00\x00\x00\x00"
         elif self.option.engine in twquery:
             self.query_prompt_string = b"\x04\x00\x00\xff\xff\xff\xff\x05" + bytearray(
-                511
-            )
+                511)
 
         self.connected = False
         self.response = None
@@ -85,8 +83,7 @@ class gsquery:
         connection.settimeout(self.server_response_timeout)
         try:
             self.connected = connection.connect(
-                (self.option.address, int(self.option.port))
-            )
+                (self.option.address, int(self.option.port)))
         except socket.timeout:
             self.fatal_error("Request timed out", 1)
         except:
@@ -115,9 +112,8 @@ class gsquery:
 
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser(
-        usage="usage: python3 %prog [options]", version="%prog 0.0.1"
-    )
+    parser = optparse.OptionParser(usage="usage: python3 %prog [options]",
+                                   version="%prog 0.0.1")
     parser.add_option(
         "-a",
         "--address",
@@ -140,7 +136,8 @@ if __name__ == "__main__":
         action="store",
         dest="engine",
         default=False,
-        help="Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft minecraftbe jc2mp mumbleping teeworlds",
+        help=
+        "Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft minecraftbe jc2mp mumbleping teeworlds",
     )
     parser.add_option(
         "-v",
