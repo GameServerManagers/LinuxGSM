@@ -10,27 +10,27 @@
 core_dl.sh(){
 functionfile="${FUNCNAME[0]}"
 if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
-	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "$functionsdir" "chmodx" "run" "noforcedl" "nomd5"
 else
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "$functionsdir" "chmodx" "run" "noforcedl" "nomd5"
 fi
 }
 
 core_messages.sh(){
 functionfile="${FUNCNAME[0]}"
 if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
-	fn_fetch_core_dl "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_fetch_core_dl "lgsm/functions" "core_messages.sh" "$functionsdir" "chmodx" "run" "noforcedl" "nomd5"
 else
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "$functionsdir" "chmodx" "run" "noforcedl" "nomd5"
 fi
 }
 
 core_legacy.sh(){
 functionfile="${FUNCNAME[0]}"
 if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
-	fn_fetch_core_dl "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_fetch_core_dl "lgsm/functions" "core_legacy.sh" "$functionsdir" "chmodx" "run" "noforcedl" "nomd5"
 else
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "$functionsdir" "chmodx" "run" "noforcedl" "nomd5"
 fi
 }
 
@@ -687,8 +687,8 @@ fn_fetch_function
 core_legacy.sh
 
 # Creates tmp dir if missing
-if [ ! -d "${tmpdir}" ]; then
-	mkdir -p "${tmpdir}"
+if [ ! -d "$tmpdir" ]; then
+	mkdir -p "$tmpdir"
 fi
 
 # Calls on-screen messages (bootstrap)
