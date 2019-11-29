@@ -153,7 +153,6 @@ fn_update_minecraft_compare(){
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
-
 	fi
 }
 

@@ -332,7 +332,7 @@ fn_fetch_function
 }
 
 fix_mcb.sh(){
-functionfile="${FUNCNAME}"
+functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
@@ -551,7 +551,7 @@ fn_fetch_function
 }
 
 update_minecraft_bedrock.sh(){
-functionfile="${FUNCNAME}"
+functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
