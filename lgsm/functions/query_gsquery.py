@@ -4,7 +4,6 @@
 # Author: Anonymous & Daniel Gibbs
 # Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
-
 import optparse
 import socket
 import sys
