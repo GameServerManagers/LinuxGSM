@@ -13,19 +13,19 @@ check.sh
 logs.sh
 
 if [ "$shortname" == "ts3" ]; then
-	update_ts3.sh
+  update_ts3.sh
 elif [ "$shortname" == "mc" ]; then
-	update_minecraft.sh
+  update_minecraft.sh
 elif [ "$shortname" == "mcb" ]; then
-	update_minecraft_bedrock.sh
+  update_minecraft_bedrock.sh
 elif [ "$shortname" == "mumble" ]; then
-	update_mumble.sh
+  update_mumble.sh
 elif [ "$shortname" == "fctr" ]; then
-	update_factorio.sh
+  update_factorio.sh
 elif [ "$shortname" == "mta" ]; then
-	update_mta.sh
+  update_mta.sh
 else
-	update_steamcmd.sh
+  update_steamcmd.sh
 fi
 
 core_exit.sh
