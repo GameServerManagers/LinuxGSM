@@ -8,4 +8,4 @@ local commandname="FIX"
 local commandaction="Fix"
 
 # official docs state that the server should be started with: LD_LIBRARY_PATH=. ./bedrock_server
-export LD_LIBRARY_PATH="${serverfiles}:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$serverfiles:$LD_LIBRARY_PATH"
