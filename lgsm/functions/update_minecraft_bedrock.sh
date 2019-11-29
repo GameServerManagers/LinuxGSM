@@ -9,13 +9,13 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
-	latestmcbuildurl=$(${curlpath} -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
+	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
 	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
 	echo -e "Extracting to ${serverfiles}...\c"
 	if [ "${installer}" == "1" ]; then
-		unzip "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "server.properties" -d "${serverfiles}"
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "server.properties" -d "${serverfiles}"
 	else
-		unzip -o "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "whitelist.json" -d "${serverfiles}"
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "whitelist.json" -d "${serverfiles}"
 	fi
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
@@ -35,11 +35,13 @@ fn_update_minecraft_localbuild(){
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
-	local serverlog="${gamelogdir}/Dedicated_Server.txt"
-	if [ ! -s "${serverlog}" ]; then
+
+	localbuild=$(grep Version $(ls -tr "${consolelogdir}"/* 2>/dev/null) | tail -1 | sed 's/.*Version //')
+
+	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
-		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no or empty log file"
-		fn_script_log_error "No log found or log is empty"
+		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no log files containing version info"
+		fn_script_log_error "No log files containing version info"
 		fn_print_info_nl "Checking for update: ${remotelocation}: checking local build: forcing server restart"
 		fn_script_log_info "Forcing server restart"
 
@@ -57,7 +59,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(cat "${serverlog}" 2> /dev/null | grep Version | grep -Eo '[\.0-9]+$')
+		localbuild=$(grep Version $(ls -tr "${consolelogdir}"/* 2>/dev/null) | tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -73,7 +75,7 @@ fn_update_minecraft_localbuild(){
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(${curlpath} -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+	remotebuild=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
@@ -151,12 +153,6 @@ fn_update_minecraft_compare(){
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
-
-		# Start the server again if it was running before the update check.
-		if [ "${initialstatus}" != "0" ]; then
-			exitbypass=1
-			command_start.sh
-		fi
 	fi
 }
 
@@ -168,7 +164,6 @@ if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_dl
 else
 	check_status.sh
-	initialstatus="${status}"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_minecraft_localbuild
