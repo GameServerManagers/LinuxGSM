@@ -23,9 +23,6 @@ uuid=$(cat "${datadir}/uuid.txt")
 cpuusedmhzroundup=$(((cpuusedmhz + 99) / 100 * 100))
 # nearest 100MB
 memusedroundup=$(((memused + 99) / 100 * 100))
-# nearest 100MB
-serverfilesduroundup=$(((serverfilesdu + 99) / 100 * 100))
-# https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
 # Level 1 Stats
 ## Distro
