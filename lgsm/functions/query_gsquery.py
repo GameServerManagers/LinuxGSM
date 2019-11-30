@@ -17,24 +17,36 @@ class gsquery:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=[ 'avalanche3.0','barotrauma''madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d', 'unreal4', 'wurm' ]
-        idtech3query=['idtech3','iw3.0','ioquake3','qfusion']
-        idtech2query=['idtech2','quake','iw2.0']
+        sourcequery=['protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d','unreal4','wurm']
+        idtech2query=['protocol-quake3','idtech2','quake','iw2.0']
+        idtech3query=['protocol-quake3','iw3.0','ioquake3','qfusion']
         minecraftquery=['minecraft','lwjgl2']
+        minecraftbequery=['minecraftbe']
+        jc2mpquery=['jc2mp']
+        mumblequery=['mumbleping']
+        twquery=['teeworlds']
+        unrealquery=['protocol-gamespy1','unreal']
+        unreal2query=['protocol-unreal2','unreal2']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.option.engine in idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
+        elif self.option.engine in jc2mpquery:
+            self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.option.engine in minecraftquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
-        elif self.option.engine == 'avalanche2.0':
-            self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
-        elif self.option.engine == 'unreal':
+        elif self.option.engine in minecraftbequery:
+            self.query_prompt_string = b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78\x00\x00\x00\x00\x00\x00\x00\x00'
+        elif self.option.engine in mumblequery:
+            self.query_prompt_string = b'\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08'
+        elif self.option.engine in unrealquery:
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
-        elif self.option.engine == 'unreal2':
+        elif self.option.engine in unreal2query:
             self.query_prompt_string = b'\x79\x00\x00\x00\x00'
+        elif self.option.engine in twquery:
+            self.query_prompt_string = b"\x04\x00\x00\xff\xff\xff\xff\x05" + bytearray(511)
 
         self.connected = False
         self.response = None
@@ -104,7 +116,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: avalanche2.0 avalanche3.0 goldsource idtech2 idtech3 ioquake3 iw2.0 iw3.0 madness quake quakelive realvirtuality refracto source spark starbound unity3d unreal unreal2 unreal4 wurm.'
+        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft minecraftbe jc2mp mumbleping teeworlds'
     )
     parser.add_option(
         '-v', '--verbose',

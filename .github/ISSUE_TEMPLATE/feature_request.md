@@ -3,23 +3,21 @@ name: Feature request
 about: Suggest an idea for this project
 
 ---
-Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you post the correct info.
-For general support visit the **[LinuxGSM-Support](https://github.com/GameServerManagers/LinuxGSM-Support)**.
 
-Issues here are **ONLY** for:
-* LinuxGSM bugs
-* feature suggestions
-* code contributions
+Issues raised here are **ONLY** for:
+* LinuxGSM bugs.
+* Feature suggestions.
+* Code contributions.
 
-Issues here are **NOT** for:
-* General support
-* Specific game server issues (e.g CS:GO, TF2)
-* Dedicated server issues (e.g Ubuntu, CentOS)
-* Anything not directly related to LinuxGSM development
+Issues raised here are **NOT** for:
+* General support.
+* Specific game server issues (e.g CS:GO, TF2).
+* Dedicated server issues (e.g Ubuntu, CentOS).
+* Anything not directly related to LinuxGSM development.
 
-Any general support issues on GitHub will be migrated to [LinuxGSM-Support](https://github.com/GameServerManagers/LinuxGSM-Support).
+For general support visit the **[LinuxGSM Support](https://linuxgsm.com/support)** page.
 
-*Please use the template below*
+***Please use the template below, deleting the above text***
 
 ## User Story
 
@@ -27,9 +25,10 @@ As a [user description], I want [desired action] so that [desired outcome].
 
 ## Basic info
 
-* Distro: [Ubuntu 18.04]
-* Game: [Garry's Mod]
-* Command: [Monitor]
+* **Distro:** [Ubuntu 18.04]
+* **Game:** [Garry's Mod]
+* **Command:** [Monitor]
+* **LinuxGSM version:** [v12.34.56]
 
 ## Further Information
 

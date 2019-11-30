@@ -6,13 +6,13 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_ts3_dl(){
 	if [ "${ts3arch}" == "amd64" ]; then
-		remotebuildurl=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
+		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
 	elif [ "${ts3arch}" == "x86" ]; then
-		remotebuildurl=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
+		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
 	fi
 	fn_fetch_file "${remotebuildurl}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
@@ -68,7 +68,7 @@ fn_update_ts3_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+		localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -81,7 +81,7 @@ fn_update_ts3_localbuild(){
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
 			fi
-			localbuild=$(cat $(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1) | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}")
+			localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
 			if [ "${localbuild}" ]; then
 				break
 			fi
@@ -104,9 +104,9 @@ fn_update_ts3_localbuild(){
 fn_update_ts3_remotebuild(){
 	# Gets remote build info.
 	if [ "${arch}" == "x86_64" ]; then
-		remotebuild="$(${curlpath} -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')"
+		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
 	elif [ "${arch}" == "x86" ]; then
-		remotebuild="$(${curlpath} -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')"
+		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
 	fi
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"

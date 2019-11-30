@@ -1,47 +1,44 @@
 language: node_js
-dist: xenial
+dist: bionic
 node_js:
-  - 10
+  - "stable"
+env:
+  global:
+    secure: VsS98cwJ5X/Ev3HEm7KEOPftYay+7jNTHepTS7d+gQNHcDR1UYKTmqlQNSIoUC52Ejs1cHq43jOfle4330zDPOYI0v5BMri6/iZKpmMxAw6KWNiUgSkziTP2kHC4NRLwEoU2WQTI3JZQjrBEfsPmD81+yR/eWXV3rph+YcSOxao=
 
 before_script:
-    - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
+  - curl -L "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-2.1.6.tgz" | tar zx
+
 install:
-  npm install gamedig
+  - npm install gamedig
+
 addons:
   apt:
     packages:
     - mailutils
     - postfix
-    - curl
-    - wget
-    - file
-    - bzip2
-    - gzip
-    - unzip
-    - bsdmainutils
-    - python3
-    - util-linux
-    - ca-certificates
-    - binutils
-    - bc
     - jq
-    - tmux
     - lib32gcc1
-    - libstdc++6
     - libstdc++6:i386
-    - net-tools
-    - iproute2
     - shellcheck
+    - libcurl4-openssl-dev
+    - libdw-dev
+    - cmake
 
 jobs:
   include:
-    - stage: jobs
-      script: bash tests/tests_jc2server.sh
-    - # stage name not required
-      script: bash tests/tests_fctrserver.sh
-    - # stage name not required
-      script: bash tests/tests_mcserver.sh
-    - # stage name not required
-      script: bash tests/tests_ts3server.sh
-    - # retired as codacy does this check.
-      # script: bash tests/tests_shellcheck.sh
+    - stage: "Jobs"
+      name: "code coverage"
+      script: bash tests/tests_kcov.sh; kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
+    - script: bash tests/tests_mcserver.sh
+      name: "Minecraft"      
+    - script: bash tests/tests_jc2server.sh      
+      name: "Just Cause 2"
+    - script: bash tests/tests_fctrserver.sh
+      name: "Factorio" 
+    - script: bash tests/tests_ts3server.sh
+      name: "Teamspeak 3"     
+    - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
+      name: "_default.cfg checks"
+after_success:
+- bash <(curl -Ls https://coverage.codacy.com/get.sh)

@@ -1,43 +1,43 @@
 ahl,ahlserver,Action half-life
 ahl2,ahl2server,Action: Source
-arma3,arma3server,ARMA 3
-sdtd,sdtdserver,7 Days to Die
 ark,arkserver,ARK: Survival Evolved
-bo,boserver,Ballistic Overkill
-bf1942,bf1942server,Battlefield 1942
-bd,bdserver,Base Defense
-bmdm,bmdmserver,Black Mesa: Deathmatch
-bs,bsserver,Blade Symphony
+arma3,arma3server,ARMA 3
 bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
+bd,bdserver,Base Defense
+bf1942,bf1942server,Battlefield 1942
+bmdm,bmdmserver,Black Mesa: Deathmatch
+bo,boserver,Ballistic Overkill
+bs,bsserver,Blade Symphony
 bt,btserver,Barotrauma
 bt1944,bt1944server,Battalion 1944
+cc,ccserver,Codename CURE
 cod,codserver,Call of Duty
 cod2,cod2server,Call of Duty 2
 cod4,cod4server,Call of Duty 4
 coduo,coduoserver,Call of Duty: United Offensive
 codwaw,codwawserver,Call of Duty: World at War
-cc,ccserver,Codename CURE
 cs,csserver,Counter-Strike 1.6
 cscz,csczserver,Counter-Strike: Condition Zero
 csgo,csgoserver,Counter-Strike: Global Offensive
 css,cssserver,Counter-Strike: Source
+dab,dabserver,Double Action: Boogaloo
+dmc,dmcserver,Deathmatch Classic
 dod,dodserver,Day of Defeat
 dods,dodsserver,Day of Defeat: Source
 doi,doiserver,Day of Infamy
-dmc,dmcserver,Deathmatch Classic
 dst,dstserver,Don't Starve Together
-dab,dabserver,Double Action: Boogaloo
 dys,dysserver,Dystopia
 eco,ecoserver,Eco
 em,emserver,Empires Mod
+etl,etlserver,ET: Legacy
 fctr,fctrserver,Factorio
 fof,fofserver,Fistful of Frags
-gmod,gmodserver,Garrys Mod
 ges,gesserver,GoldenEye: Source
+gmod,gmodserver,Garrys Mod
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch
-hldms,hldmsserver,Half-Life Deathmatch: Source
 hldm,hldmserver,Half-Life: Deathmatch
+hldms,hldmsserver,Half-Life Deathmatch: Source
 hw,hwserver,Hurtworld
 ins,insserver,Insurgency
 inss,inssserver,Insurgency: Sandstorm
@@ -49,6 +49,7 @@ kf2,kf2server,Killing Floor 2
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
+mcb,mcbserver,Minecraft Bedrock
 mh,mhserver,MORDHAU
 mohaa,mohaaserver,Medal of Honor: Allied Assault
 mta,mtaserver,Multi Theft Auto
@@ -59,44 +60,44 @@ ns,nsserver,Natural Selection
 ns2,ns2server,Natural Selection 2
 ns2c,ns2cserver,NS2: Combat
 opfor,opforserver,Opposing Force
+pc,pcserver,Project Cars
 pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
 pvkii,pvkiiserver,Pirates Vikings & Knights II
-pc,pcserver,Project Cars
 pz,pzserver,Project Zomboid
 q2,q2server,Quake 2
 q3,q3server,Quake 3: Arena
 ql,qlserver,Quake Live
 qw,qwserver,Quake World
-ro,roserver,Red Orchestra: Ostfront 41-45
 ricochet,ricochetserver,Ricochet
+ro,roserver,Red Orchestra: Ostfront 41-45
 rtcw,rtcwserver,Return to Castle Wolfenstein
 rust,rustserver,Rust
-rw,rwserver, Rising World
+rw,rwserver,Rising World
 samp,sampserver,San Andreas Multiplayer
-sbots,sbotsserver, StickyBots
+sb,sbserver,Starbound
+sbots,sbotsserver,StickyBots
+sdtd,sdtdserver,7 Days to Die
 sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 sol,solserver,Soldat
-ss3,ss3server,Serious Sam 3: BFE
-sb,sbserver,Starbound
-st,stserver,Stationeers
 squad,squadserver,Squad
+ss3,ss3server,Serious Sam 3: BFE
+st,stserver,Stationeers
 sven,svenserver,Sven Co-op
+terraria,terrariaserver,Terraria
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
 ts,tsserver,The Specialists
 ts3,ts3server,Teamspeak 3
-tw,twserver,Teeworlds
-terraria,terrariaserver,Terraria
 tu,tuserver,Tower Unite
+tw,twserver,Teeworlds
+unt,untserver,Unturned
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
-unt,untserver,Unturned
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
 wurm,wurmserver,Wurm Unlimited
-etl,etlserver,ET: Legacy
 zmr,zmrserver,Zombie Master: Reborn
 zps,zpsserver,Zombie Panic! Source

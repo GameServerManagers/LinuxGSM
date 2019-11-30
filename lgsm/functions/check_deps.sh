@@ -27,13 +27,13 @@ fn_install_mono_repo(){
 			if [ "${distroid}" == "ubuntu" ]; then
 				if [ "${distroversion}" == "18.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "16.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "14.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				else
 					fn_print_warn_nl "Installing Mono repository"
 					echo -e "Mono auto install not available for ${distroname}"
@@ -44,13 +44,13 @@ fn_install_mono_repo(){
 			elif [ "${distroid}" == "debian" ]; then
 				if [ "${distroversion}" == "10" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "9" ]; then
 					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "8" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-					eval ${cmd}
+					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
@@ -60,13 +60,13 @@ fn_install_mono_repo(){
 			elif [ "${distroid}" == "centos" ]; then
 				if [ "${distroversion}" == "8" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo'"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "7" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
-					eval ${cmd}
+					eval "${cmd}"
 				elif [ "${distroversion}" == "6" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos6-stable.repo | tee /etc/yum.repos.d/mono-centos6-stable.repo'"
-					eval ${cmd}
+					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
@@ -75,7 +75,7 @@ fn_install_mono_repo(){
 				fi
 			elif [ "${distroid}" == "fedora" ]; then
 				cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'; su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'; dnf update"
-				eval ${cmd}
+				eval "${cmd}"
 			else
 				echo -e "Mono auto install not available for ${distroname}"
 				echo -e "	Follow instructions on mono site to install the latest version of Mono."
@@ -160,7 +160,7 @@ fn_deps_detector(){
 		depstatus=1
 		jquniversemissing=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		if [ -n "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed.
 			depstatus=0
 		else
@@ -337,13 +337,10 @@ fn_deps_build_debian(){
 	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
 
-	# All servers except ts3 require tmux.
-	if [ "${shortname}" != "ts3" ]; then
-		if [ "$(command -v tmux 2>/dev/null)" ]; then
-			tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
-		else
-			array_deps_required+=( tmux )
-		fi
+	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
+		tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
+	else
+		array_deps_required+=( tmux )
 	fi
 
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
@@ -392,7 +389,7 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
 	# Minecraft
-	elif [ "${shortname}" == "mc" ]; then
+  elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -405,7 +402,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( libstdc++5:i386 )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
-		if [ -n "$(java -version 2>&1 | grep "version")" ]; then
+		if java -version 2>&1 | grep "version"; then
 			# Added for users using Oracle JRE to bypass the check.
 			javacheck=1
 			array_deps_required+=( rng-tools )
@@ -433,9 +430,6 @@ fn_deps_build_debian(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
-	# Eco
-	elif [ "${shortname}" == "eco" ]; then
-		array_deps_required+=( mono-complete )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
@@ -467,13 +461,11 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3 require tmux.
-	if [ "${shortname}" != "ts3" ]; then
-		if [ "$(command -v tmux 2>/dev/null)" ]; then
-			# Added for users compiling tmux from source to bypass check.
-			tmuxcheck=1
-		else
-			array_deps_required+=( tmux )
-		fi
+	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
+		# Added for users compiling tmux from source to bypass check.
+		tmuxcheck=1
+	else
+		array_deps_required+=( tmux )
 	fi
 
 	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.
@@ -516,18 +508,8 @@ fn_deps_build_redhat(){
 		array_deps_required+=( xz )
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
-	# Minecraft
-	elif [ "${shortname}" == "mc" ]; then
-		javaversion=$(java -version 2>&1 | grep "version")
-		if [ "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass the check.
-			javacheck=1
-			array_deps_required+=( rng-tools )
-		else
-			array_deps_required+=( java-1.8.0-openjdk rng-tools )
-		fi
-	# Project Zomboid
-	elif [ "${shortname}" == "pz" ]; then
+	# Minecraft, Project Zomboid, Rising World
+  elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "pz" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -551,9 +533,6 @@ fn_deps_build_redhat(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
-	# Eco
-	elif [ "${shortname}" == "eco" ]; then
-		array_deps_required+=( mono-complete )
 	# Unturned
 	elif [ "${shortname}" == "unt" ]; then
 		array_deps_required+=( mono-complete )

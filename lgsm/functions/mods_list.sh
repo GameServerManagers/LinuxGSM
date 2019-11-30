@@ -10,36 +10,36 @@
 
 local commandname="MODS"
 local commandaction="List Mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_script_log_info "Retrieving latest mods URLs"
 # Metamod
 metamodmversion="1.10"
 metamodscrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodmversion}/mmsource-latest-linux"
-metamodlatestfile="$(wget "${metamodscrapeurl}" -q -O -)"
+metamodlatestfile=$(wget "${metamodscrapeurl}" -q -O -)
 metamoddownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodmversion}"
 metamodurl="${metamoddownloadurl}"
 # Sourcemod
-sourcemodmversion="1.9"
+sourcemodmversion="1.10"
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodmversion}/sourcemod-latest-linux"
-sourcemodlatestfile="$(wget "${sourcemodscrapeurl}" -q -O -)"
+sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodmversion}"
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile="$(curl -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)"
+steamworkslatestfile=$(curl -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # CS:GO Mods
-get5scrapepath="$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/xml | grep -oP "<relativePath>\K(.+)(?=</relativePath>)")"
-get5latestfile="$(echo -e "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo -e "basename "@""")"
+get5scrapepath=$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/xml | grep -oP "<relativePath>\K(.+)(?=</relativePath>)")
+get5latestfile=$(echo -e "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo -e "basename "@""")
 get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
 get5url="${get5downloadurl}"
 # Oxide
 oxiderustlatestlink="https://umod.org/games/rust/download/develop" # fix for linux build 06.09.2019
-oxidehurtworldlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")"
-oxidesdtdlatestlink="$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)"
+oxidehurtworldlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")
+oxidesdtdlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)
 
 # Define mods information (required)
 

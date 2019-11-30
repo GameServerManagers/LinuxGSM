@@ -6,11 +6,11 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_minecraft_dl(){
-	latestmcreleaselink=$(${curlpath} -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
-	latestmcbuildurl=$(${curlpath} -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
+	latestmcreleaselink=$(curl -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
+	latestmcbuildurl=$(curl -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
 	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${remotebuild}.jar"
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
@@ -64,7 +64,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -98,7 +98,7 @@ fn_update_minecraft_localbuild(){
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(${curlpath} -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
+	remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.

@@ -6,7 +6,7 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir(){
@@ -436,6 +436,12 @@ elif [ "${shortname}" == "l4d2" ]; then
 	fn_set_config_vars
 elif [ "${shortname}" == "mc" ]; then
 	gamedirname="Minecraft"
+	array_configs+=( server.properties )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+elif [ "${shortname}" == "mcb" ]; then
+	gamedirname="MinecraftBedrock"
 	array_configs+=( server.properties )
 	fn_fetch_default_config
 	fn_default_config_remote

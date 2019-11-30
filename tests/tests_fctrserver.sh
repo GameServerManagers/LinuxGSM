@@ -23,10 +23,9 @@ fi
 version="v19.9.0"
 shortname="fctr"
 gameservername="fctrserver"
-rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${selfname}"
-lockselfname=".${servicename}.lock"
+rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -48,7 +47,7 @@ if [ ! -v TRAVIS ]; then
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
 else
-	servicename="travis"
+	selfname="travis"
 	travistest="1"
 fi
 
@@ -61,14 +60,12 @@ githubbranch="${TRAVIS_BRANCH}"
 
 # Core function that is required first.
 core_functions.sh(){
-	functionfile="${FUNCNAME}"
+	functionfile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 # Bootstrap
 # Fetches the core functions required before passed off to core_dl.sh.
-
-# Fetches core functions.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
 	local_filedir="${2}"
@@ -82,14 +79,12 @@ fn_bootstrap_fetch_file(){
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
-		# Defines curl path.
-		curlpath=$(command -v curl 2>/dev/null)
 
 		# If curl exists download file.
-		if [ "$(basename "${curlpath}")" == "curl" ]; then
+		if [ -n "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "FAIL"
@@ -114,6 +109,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -138,14 +134,13 @@ fn_bootstrap_fetch_file_github(){
 # Installer menu.
 
 fn_print_center() {
-	columns="$(tput cols)"
-	line="$@"
+	columns=$(tput cols)
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 
 fn_print_horizontal(){
-	char="${1:-=}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
 # Bash menu.
@@ -248,7 +243,7 @@ fn_install_file(){
 	if [ -e "${local_filename}" ]; then
 		i=2
 	while [ -e "${local_filename}-${i}" ] ; do
-		let i++
+		(( i++ ))
 	done
 		local_filename="${local_filename}-${i}"
 	fi
@@ -283,15 +278,15 @@ if [ "$(whoami)" == "root" ]; then
 	fi
 fi
 
-# Download the latest serverlist. This is the complete list of all supported servers.
-fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
-if [ ! -f "${serverlist}" ]; then
-	echo -e "[ FAIL ] serverlist.csv could not be loaded."
-	exit 1
-fi
-
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
+	# Download the latest serverlist. This is the complete list of all supported servers.
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+	if [ ! -f "${serverlist}" ]; then
+		echo -e "[ FAIL ] serverlist.csv could not be loaded."
+		exit 1
+	fi
+
 	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
 		{
 			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
@@ -368,11 +363,11 @@ else
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			source "${configdirserver}/${servicename}.cfg"
+		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			source "${configdirserver}/${selfname}.cfg"
 		else
-			source "${configdirserver}/${servicename}.cfg"
+			source "${configdirserver}/${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
@@ -383,7 +378,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-		if [ -z "${travistest}" ]; then
+	if [ -z "${travistest}" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
@@ -482,6 +477,8 @@ fn_test_result_na(){
 	echo -e "Actual result: N/A"
 	fn_print_fail_nl "TEST N/A"
 }
+
+sleeptime="0"
 
 echo -e "================================="
 echo -e "Travis CI Tests"
@@ -1014,6 +1011,8 @@ echo -e "Using: ${gamename}"
 echo -e "================================="
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_print_info "Tidying up directories."
-rm -rfv "${serverfiles}"
+if [ ! -v TRAVIS ]; then
+	fn_print_info "Tidying up directories."
+	rm -rfv "${serverfiles}"
+fi
 core_exit.sh
