@@ -440,6 +440,12 @@ elif [ "${shortname}" == "mc" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${shortname}" == "mcb" ]; then
+	gamedirname="MinecraftBedrock"
+	array_configs+=( server.properties )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${shortname}" == "mohaa" ]; then
 	gamedirname="MedalOfHonorAlliedAssault"
 	array_configs+=( server.cfg )
