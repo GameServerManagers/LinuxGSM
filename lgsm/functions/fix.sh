@@ -67,6 +67,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
+	elif [ "${shortname}" == "mcb" ]; then
+		fix_mcb.sh
 	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "unt" ]; then
@@ -81,9 +83,9 @@ fi
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
 		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
-			echo ""
-			echo "Applying Post-Install Fixes"
-			echo "================================="
+			echo -e ""
+			echo -e "Applying Post-Install Fixes"
+			echo -e "================================="
 			fn_sleep_time
 			if [ "${shortname}" == "kf" ]; then
 				fix_kf.sh

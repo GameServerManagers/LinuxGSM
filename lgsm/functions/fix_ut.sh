@@ -6,9 +6,9 @@
 
 local commandname="FIX"
 local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 #Set Binary Executable
-echo "chmod +x ${executabledir}/${executable}"
+echo -e "chmod +x ${executabledir}/${executable}"
 chmod +x "${executabledir}/${executable}"
 fn_sleep_time

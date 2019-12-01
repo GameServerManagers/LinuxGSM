@@ -6,11 +6,11 @@
 
 local commandname="ALERT"
 local commandaction="Alert"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 json=$(cat <<EOF
 {
-	"value1": "${servicename}",
+	"value1": "${selfname}",
 	"value2": "${alertsubject}",
 	"value3": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${alertip}:${port}\n\nMore info\n${alerturl}"
 }
@@ -18,7 +18,7 @@ EOF
 )
 
 fn_print_dots "Sending IFTTT alert"
-iftttsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/${iftttevent}/with/key/${ifttttoken}" | grep "Bad Request")
+iftttsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/${iftttevent}/with/key/${ifttttoken}" | grep "Bad Request")
 
 if [ -n "${iftttsend}" ]; then
 	fn_print_fail_nl "Sending IFTTT alert: ${pushbulletsend}"

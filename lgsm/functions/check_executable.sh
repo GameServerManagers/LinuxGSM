@@ -5,12 +5,12 @@
 # Description: Checks if server executable exists.
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Check if executable exists
 if [ ! -f "${executabledir}/${execname}" ]; then
 	fn_print_fail_nl "executable was not found"
-	echo "* ${executabledir}/${execname}"
+	echo -e "* ${executabledir}/${execname}"
 	if [ -d "${lgsmlogdir}" ]; then
 		fn_script_log_fatal "Executable was not found: ${executabledir}/${execname}"
 	fi

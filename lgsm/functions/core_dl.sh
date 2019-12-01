@@ -19,7 +19,7 @@
 
 local commandname="DOWNLOAD"
 local commandaction="Download"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Emptys contents of the LinuxGSM tmpdir.
 fn_clear_tmp(){
@@ -45,8 +45,8 @@ fn_dl_md5(){
 		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
-			echo "${local_filename} returned MD5 checksum: ${md5sumcmd}"
-			echo "expected MD5 checksum: ${md5}"
+			echo -e "${local_filename} returned MD5 checksum: ${md5sumcmd}"
+			echo -e "expected MD5 checksum: ${md5}"
 			fn_script_log_fatal "Verifying ${local_filename} with MD5"
 			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
 			fn_script_log_info "Expected MD5 checksum: ${md5}"
@@ -81,16 +81,16 @@ fn_dl_extract(){
 	elif [ "${mime}" == "application/x-xz" ]; then
 		tarcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/zip" ]; then
-		extractcmd=$(unzip -d "${extractdir}" "${local_filedir}/${local_filename}")
+		extractcmd=$(unzip -dq "${extractdir}" "${local_filedir}/${local_filename}")
 	fi
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting download"
 		if [ -f "${lgsmlog}" ]; then
-			echo "${extractcmd}" >> "${lgsmlog}"
+			echo -e "${extractcmd}" >> "${lgsmlog}"
 		fi
-		echo "${extractcmd}"
+		echo -e "${extractcmd}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -100,7 +100,7 @@ fn_dl_extract(){
 
 # Trap to remove file download if canceled before completed.
 fn_fetch_trap(){
-	echo ""
+	echo -e ""
 	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
@@ -133,11 +133,11 @@ fn_fetch_file(){
 			echo -en "downloading ${local_filename}..."
 			fn_sleep_time
 			echo -en "\033[1K"
-			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
+			curlcmd=$(curl --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 			echo -en "downloading ${local_filename}..."
 		else
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -145,10 +145,10 @@ fn_fetch_file(){
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_fatal "Downloading ${local_filename}"
 				echo -e "${remote_fileurl}" >> "${lgsmlog}"
-				echo "${curlcmd}" >> "${lgsmlog}"
+				echo -e "${curlcmd}" >> "${lgsmlog}"
 			fi
 			echo -e "${remote_fileurl}"
-			echo "${curlcmd}"
+			echo -e "${curlcmd}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -168,6 +168,7 @@ fn_fetch_file(){
 		fn_dl_md5
 		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -254,10 +255,8 @@ fn_update_function(){
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Defines curl path.
-curlpath=$(command -v curl 2>/dev/null)
-
-if [ "$(basename "${curlpath}")" != "curl" ]; then
-	echo "[ FAIL ] Curl is not installed"
+# Check that curl is installed
+if [ -z "$(command -v curl 2>/dev/null)" ]; then
+	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi

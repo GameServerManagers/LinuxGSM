@@ -7,15 +7,15 @@
 
 local commandname="MODS"
 local commandaction="Mods Remove"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 mods_core.sh
 fn_mods_check_installed
 
 fn_print_header
-echo "Remove addons/mods"
-echo "================================="
+echo -e "Remove addons/mods"
+echo -e "================================="
 
 # Displays list of installed mods.
 # Generates list to display to user.
@@ -29,7 +29,7 @@ for ((mlindex=0; mlindex < ${#installedmodslist[@]}; mlindex++)); do
 	echo -e "${red}${modcommand}${default} - ${modprettyname} - ${moddescription}"
 done
 
-echo ""
+echo -e ""
 # Keep prompting as long as the user input doesn't correspond to an available mod.
 while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${red}remove${default} (or exit to abort): "
@@ -44,9 +44,9 @@ while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
 done
 
 fn_print_warning_nl "You are about to remove ${cyan}${usermodselect}${default}."
-echo " * Any custom files/configuration will be removed."
+echo -e " * Any custom files/configuration will be removed."
 if ! fn_prompt_yn "Continue?" Y; then
-	echo Exiting; exit
+	core_exit.sh
 fi
 
 currentmod="${usermodselect}"
@@ -64,7 +64,7 @@ modfileline="1"
 tput sc
 while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove.
-	currentfileremove="$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")"
+	currentfileremove=$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")
 	# If file or directory exists, then remove it.
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
@@ -78,7 +78,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 		fi
 	fi
 	tput rc; tput el
-	echo "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
+	echo -e "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
 if [ ${exitcode} -ne 0 ]; then
@@ -126,7 +126,7 @@ if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
 	command_validate.sh
 	unset exitbypass
 fi
-echo "${modprettyname} removed"
+echo -e "${modprettyname} removed"
 fn_script_log "${modprettyname} removed"
 
 core_exit.sh

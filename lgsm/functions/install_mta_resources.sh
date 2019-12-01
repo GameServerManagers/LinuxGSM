@@ -7,8 +7,8 @@
 
 local commandname="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_print_information_nl "${gamename} will not function without resources!"
-echo "	* install default resources using ./${selfname} install-default-resources"
-echo "	* download resources from https://community.multitheftauto.com"
+echo -e "	* install default resources using ./${selfname} install-default-resources"
+echo -e "	* download resources from https://community.multitheftauto.com"

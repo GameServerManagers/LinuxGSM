@@ -6,7 +6,7 @@
 # Description: Checks RAM requirements
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 info_distro.sh
 

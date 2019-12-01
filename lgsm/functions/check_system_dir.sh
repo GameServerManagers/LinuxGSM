@@ -5,7 +5,7 @@
 # Description: Checks if systemdir/serverfiles is accessible.
 
 local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 if [ "${function_selfname}" != "command_validate.sh" ]; then
 	checkdir="${serverfiles}"

@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 ### Define all commands here.
 ## User commands | Trigger commands | Description
@@ -74,13 +74,11 @@ if [ -n "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
 
-#Backup.
+# Backup.
 currentopt+=( "${cmd_backup[@]}" )
 
-# Exclude games without a console.
-if [ "${shortname}" != "ts3" ]; then
-	currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
-fi
+# Console & Debug
+currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 
 ## Game server exclusive commands.
 
@@ -145,18 +143,18 @@ currentopt+=( "${cmd_donate[@]}" )
 optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-	cmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
-	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
-		optcommands+=( "$(echo "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
+	cmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
+	for ((cmdindex=1; cmdindex <= cmdamount; cmdindex++)); do
+		optcommands+=( "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
 
 # Shows LinuxGSM usage.
 fn_opt_usage(){
-	echo "Usage: $0 [option]"
+	echo -e "Usage: $0 [option]"
 	echo -e ""
-	echo "LinuxGSM - ${gamename} - Version ${version}"
-	echo "https://linuxgsm.com/${gameservername}"
+	echo -e "LinuxGSM - ${gamename} - Version ${version}"
+	echo -e "https://linuxgsm.com/${gameservername}"
 	echo -e ""
 	echo -e "${lightyellow}Commands${default}"
 	# Display available commands.
@@ -165,7 +163,7 @@ fn_opt_usage(){
 	for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
 		# Hide developer commands.
 		if [ "${currentopt[index+2]}" != "DEVCOMMAND" ]; then
-			echo -e "${cyan}$(echo "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index+2]}"
+			echo -e "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index+2]}"
 		fi
 	done
 	} | column -s $'\t' -t
@@ -182,9 +180,9 @@ for i in "${optcommands[@]}"; do
 		# Seek and run command.
 		index="0"
 		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-			currcmdamount="$(echo "${currentopt[index]}" | awk -F ';' '{ print NF }')"
-			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
-				if [ "$(echo "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+			currcmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
+			for ((currcmdindex=1; currcmdindex <= currcmdamount; currcmdindex++)); do
+				if [ "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command.
 					if [ "${currentopt[index+1]}" == "backup" ]||[ "${currentopt[index+1]}" == "b" ]; then
 						eval "${currentopt[index+1]} $backupname"

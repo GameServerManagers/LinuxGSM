@@ -6,19 +6,19 @@
 
 local commandname="DETECT-DEPS"
 local commandaction="Detect-Deps"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
-echo "================================="
-echo "Dependencies Checker"
-echo "================================="
-echo "Checking directory: "
-echo "${serverfiles}"
-if [ "$(command -v eu-readelf 2>/dev/null)" ]; then
+echo -e "================================="
+echo -e "Dependencies Checker"
+echo -e "================================="
+echo -e "Checking directory: "
+echo -e "${serverfiles}"
+if [ -n "$(command -v eu-readelf 2>/dev/null)" ]; then
 	readelf=eu-readelf
-elif [ "$(command -v readelf 2>/dev/null)" ]; then
+elif [ -n "$(command -v readelf 2>/dev/null)" ]; then
 	readelf=readelf
 else
-	echo "readelf/eu-readelf not installed"
+	echo -e "readelf/eu-readelf not installed"
 fi
 files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
@@ -35,14 +35,14 @@ done
 sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
 
 while read -r lib; do
-	echo "${lib}"
+	echo -e "${lib}"
 	local libs_array=( libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2 )
 	for lib_file in "${libs_array[@]}"
 	do
 		if [ "${lib}" == "${lib_file}" ]; then
-			echo "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
-			echo "lib32gcc1" >> "${tmpdir}/.depdetect_ubuntu_list"
-			echo "lib32gcc1" >> "${tmpdir}/.depdetect_debian_list"
+			echo -e "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
+			echo -e "lib32gcc1" >> "${tmpdir}/.depdetect_ubuntu_list"
+			echo -e "lib32gcc1" >> "${tmpdir}/.depdetect_debian_list"
 			libdetected=1
 		fi
 	done
@@ -51,9 +51,9 @@ while read -r lib; do
 	for lib_file in "${libs_array[@]}"
 	do
 		if [ "${lib}" == "${lib_file}" ]; then
-			echo "java-1.8.0-openjdk" >> "${tmpdir}/.depdetect_centos_list"
-			echo "default-jre" >> "${tmpdir}/.depdetect_ubuntu_list"
-			echo "default-jre" >> "${tmpdir}/.depdetect_debian_list"
+			echo -e "java-1.8.0-openjdk" >> "${tmpdir}/.depdetect_centos_list"
+			echo -e "default-jre" >> "${tmpdir}/.depdetect_ubuntu_list"
+			echo -e "default-jre" >> "${tmpdir}/.depdetect_debian_list"
 			libdetected=1
 		fi
 	done
@@ -68,66 +68,71 @@ while read -r lib; do
 	done
 
 	if [ "${lib}" == "libstdc++.so.6" ]; then
-		echo "libstdc++.i686" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libstdc++6:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libstdc++6:i386" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "libstdc++.i686" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libstdc++6:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libstdc++6:i386" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libstdc++.so.5" ]; then
-		echo "compat-libstdc++-33.i686" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libstdc++5:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libstdc++5:i386" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "compat-libstdc++-33.i686" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libstdc++5:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libstdc++5:i386" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libcurl-gnutls.so.4" ]; then
-		echo "libcurl.i686" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libcurl4-gnutls-dev:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libcurl4-gnutls-dev:i386" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "libcurl.i686" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libcurl4-gnutls-dev:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libcurl4-gnutls-dev:i386" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libspeex.so.1" ]||[ "${lib}" == "libspeexdsp.so.1" ]; then
-		echo "speex.i686" >> "${tmpdir}/.depdetect_centos_list"
-		echo "speex:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "speex:i386" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "speex.i686" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "speex:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "speex:i386" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "./libSDL-1.2.so.0" ]||[ "${lib}" == "libSDL-1.2.so.0" ]; then
-		echo "SDL.i686" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libsdl1.2debian" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libsdl1.2debian" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "SDL.i686" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libsdl1.2debian" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libsdl1.2debian" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libtbb.so.2" ]; then
-		echo "tbb.i686" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libtbb2" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libtbb2" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "tbb.i686" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libtbb2" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libtbb2" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 
 	elif [ "${lib}" == "libXrandr.so.2" ]; then
-		echo "libXrandr" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libxrandr2" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libxrandr2" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "libXrandr" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libxrandr2" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libxrandr2" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libXext.so.6" ]; then
-		echo "libXext" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libxext6" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libxext6" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "libXext" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libxext6" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libxext6" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libXtst.so.6" ]; then
-		echo "libXtst" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libxtst6" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libxtst6" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "libXtst" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libxtst6" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libxtst6" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libpulse.so.0" ]; then
-		echo "pulseaudio-libs" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libpulse0" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libpulse0" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "pulseaudio-libs" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libpulse0" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libpulse0" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	elif [ "${lib}" == "libopenal.so.1" ]; then
-		echo "" >> "${tmpdir}/.depdetect_centos_list"
-		echo "libopenal1" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo "libopenal1" >> "${tmpdir}/.depdetect_debian_list"
+		echo -e "" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libopenal1" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libopenal1" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libgconf-2.so.4" ]; then
+		echo -e "GConf2" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	fi
 
 	if [ "${libdetected}" != "1" ]; then
 		unknownlib=1
-		echo "${lib}" >> "${tmpdir}/.depdetect_unknown"
+		echo -e "${lib}" >> "${tmpdir}/.depdetect_unknown"
 	fi
 	unset libdetected
 done < "${tmpdir}/.depdetect_readelf_uniq"
@@ -142,35 +147,35 @@ fi
 awk -vORS='' '{ print $1,$2 }' "${tmpdir}/.depdetect_centos_list_uniq" > "${tmpdir}/.depdetect_centos_line"
 awk -vORS='' '{ print $1,$2 }' "${tmpdir}/.depdetect_ubuntu_list_uniq" > "${tmpdir}/.depdetect_ubuntu_line"
 awk -vORS='' '{ print $1,$2 }' "${tmpdir}/.depdetect_debian_list_uniq" > "${tmpdir}/.depdetect_debian_line"
-echo ""
-echo ""
-echo "Required Dependencies"
-echo "================================="
-echo "${executable}"
-echo ""
-echo "CentOS"
-echo "================================="
+echo -e ""
+echo -e ""
+echo -e "Required Dependencies"
+echo -e "================================="
+echo -e "${executable}"
+echo -e ""
+echo -e "CentOS"
+echo -e "================================="
 cat "${tmpdir}/.depdetect_centos_line"
-echo ""
-echo ""
-echo "Ubuntu"
-echo "================================="
+echo -e ""
+echo -e ""
+echo -e "Ubuntu"
+echo -e "================================="
 cat "${tmpdir}/.depdetect_ubuntu_line"
-echo ""
-echo ""
-echo "Debian"
-echo "================================="
+echo -e ""
+echo -e ""
+echo -e "Debian"
+echo -e "================================="
 cat "${tmpdir}/.depdetect_debian_line"
-echo ""
+echo -e ""
 if [ "${unknownlib}" == "1" ]; then
-	echo ""
-	echo "Unknown shared Library"
-	echo "================================="
+	echo -e ""
+	echo -e "Unknown shared Library"
+	echo -e "================================="
 	cat "${tmpdir}/.depdetect_unknown"
 fi
-echo ""
-echo "Required Librarys"
-echo "================================="
+echo -e ""
+echo -e "Required Librarys"
+echo -e "================================="
 sort "${tmpdir}/.depdetect_readelf" | uniq
 echo -en "\n"
 rm -f "${tmpdir}/.depdetect_centos_line"

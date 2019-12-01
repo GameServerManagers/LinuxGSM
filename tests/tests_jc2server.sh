@@ -23,10 +23,9 @@ fi
 version="v19.9.0"
 shortname="jc2"
 gameservername="jc2server"
-rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${selfname}"
-lockselfname=".${servicename}.lock"
+rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -48,7 +47,7 @@ if [ ! -v TRAVIS ]; then
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
 else
-	servicename="travis"
+	selfname="travis"
 	travistest="1"
 fi
 
@@ -61,7 +60,7 @@ githubbranch="${TRAVIS_BRANCH}"
 
 # Core function that is required first.
 core_functions.sh(){
-	functionfile="${FUNCNAME}"
+	functionfile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
@@ -80,27 +79,25 @@ fn_bootstrap_fetch_file(){
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
-		# Defines curl path.
-		curlpath=$(command -v curl 2>/dev/null)
 
 		# If curl exists download file.
-		if [ "$(basename "${curlpath}")" == "curl" ]; then
+		if [ "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "FAIL"
 				if [ -f "${lgsmlog}" ]; then
 					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
-					echo "${curlcmd}" | tee -a "${lgsmlog}"
+					echo -e "${curlcmd}" | tee -a "${lgsmlog}"
 				fi
 				exit 1
 			else
 				echo -e "OK"
 			fi
 		else
-			echo "[ FAIL ] Curl is not installed"
+			echo -e "[ FAIL ] Curl is not installed"
 			exit 1
 		fi
 		# Make file chmodx if chmodx is set.
@@ -112,6 +109,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -136,14 +134,13 @@ fn_bootstrap_fetch_file_github(){
 # Installer menu.
 
 fn_print_center() {
-	columns="$(tput cols)"
-	line="$@"
+	columns=$(tput cols)
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 
 fn_print_horizontal(){
-	char="${1:-=}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
 # Bash menu.
@@ -158,7 +155,7 @@ fn_install_menu_bash() {
 	fn_print_horizontal
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
-		var=$(echo "${line}" | awk -F "," '{print $2 " - " $3}')
+		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=( "${var}" )
 	done < "${options}"
 	menu_options+=( "Cancel" )
@@ -183,8 +180,8 @@ fn_install_menu_whiptail() {
 	IFS=","
 	menu_options=()
 	while read -r line; do
-		key=$(echo "${line}" | awk -F "," '{print $3}')
-		val=$(echo "${line}" | awk -F "," '{print $2}')
+		key=$(echo -e "${line}" | awk -F "," '{print $3}')
+		val=$(echo -e "${line}" | awk -F "," '{print $2}')
 		menu_options+=( "${val//\"}" "${key//\"}" )
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
@@ -229,10 +226,10 @@ fn_server_info(){
 
 fn_install_getopt(){
 	userinput="empty"
-	echo "Usage: $0 [option]"
+	echo -e "Usage: $0 [option]"
 	echo -e ""
-	echo "Installer - Linux Game Server Managers - Version ${version}"
-	echo "https://linuxgsm.com"
+	echo -e "Installer - Linux Game Server Managers - Version ${version}"
+	echo -e "https://linuxgsm.com"
 	echo -e ""
 	echo -e "Commands"
 	echo -e "install\t\t| Select server to install."
@@ -253,15 +250,15 @@ fn_install_file(){
 	cp -R "${selfname}" "${local_filename}"
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
 	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
-	echo "Installed ${gamename} server as ${local_filename}"
-	echo ""
+	echo -e "Installed ${gamename} server as ${local_filename}"
+	echo -e ""
 	if [ ! -d "${serverfiles}" ]; then
-		echo "./${local_filename} install"
+		echo -e "./${local_filename} install"
 	else
-		echo "Remember to check server ports"
-		echo "./${local_filename} details"
+		echo -e "Remember to check server ports"
+		echo -e "./${local_filename} details"
 	fi
-	echo ""
+	echo -e ""
 	exit
 }
 
@@ -269,11 +266,11 @@ fn_install_file(){
 if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
-			echo "[ FAIL ] Do NOT run this script as root!"
+			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
 	elif [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
-		echo "[ FAIL ] Do NOT run this script as root!"
+		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else
 		core_functions.sh
@@ -286,7 +283,7 @@ if [ "${shortname}" == "core" ]; then
 	# Download the latest serverlist. This is the complete list of all supported servers.
 	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
-		echo "[ FAIL ] serverlist.csv could not be loaded."
+		echo -e "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
 	fi
 
@@ -303,18 +300,18 @@ if [ "${shortname}" == "core" ]; then
 		if [ "${result}" == "${gameservername}" ]; then
 			fn_install_file
 		elif [ "${result}" == "" ]; then
-			echo "Install canceled"
+			echo -e "Install canceled"
 		else
-			echo "[ FAIL ] menu result does not match gameservername"
-			echo "result: ${result}"
-			echo "gameservername: ${gameservername}"
+			echo -e "[ FAIL ] menu result does not match gameservername"
+			echo -e "result: ${result}"
+			echo -e "gameservername: ${gameservername}"
 		fi
 	elif [ -n "${userinput}" ]; then
 		fn_server_info
 		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
-			echo "[ FAIL ] unknown game server"
+			echo -e "[ FAIL ] unknown game server"
 		fi
 	else
 		fn_install_getopt
@@ -366,11 +363,11 @@ else
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			source "${configdirserver}/${servicename}.cfg"
+		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			source "${configdirserver}/${selfname}.cfg"
 		else
-			source "${configdirserver}/${servicename}.cfg"
+			source "${configdirserver}/${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
@@ -408,9 +405,9 @@ fn_currentstatus_ts3(){
 fn_setstatus(){
 	fn_currentstatus_tmux
 	echo""
-	echo "Required status: ${requiredstatus}"
+	echo -e "Required status: ${requiredstatus}"
 	counter=0
-	echo "Current status:  ${currentstatus}"
+	echo -e "Current status:  ${currentstatus}"
 	while [  "${requiredstatus}" != "${currentstatus}" ]; do
 		counter=$((counter+1))
 		fn_currentstatus_tmux
@@ -423,16 +420,16 @@ fn_setstatus(){
 		fi
 		if [ "${counter}" -gt "5" ]; then
 			currentstatus="FAIL"
-			echo "Current status:  ${currentstatus}"
-			echo ""
-			echo "Unable to start or stop server."
+			echo -e "Current status:  ${currentstatus}"
+			echo -e ""
+			echo -e "Unable to start or stop server."
 			exit 1
 		fi
 	done
 	echo -en "New status:  ${currentstatus}\\r"
 	echo -e "\n"
-	echo "Test starting:"
-	echo ""
+	echo -e "Test starting:"
+	echo -e ""
 }
 
 # End of every test will expect the result to either pass or fail
@@ -440,88 +437,90 @@ fn_setstatus(){
 # if expecting a pass
 fn_test_result_pass(){
 	if [ $? != 0 ]; then
-		echo "================================="
-		echo "Expected result: PASS"
-		echo "Actual result: FAIL"
+		echo -e "================================="
+		echo -e "Expected result: PASS"
+		echo -e "Actual result: FAIL"
 		fn_print_fail_nl "TEST FAILED"
 		exitcode=1
 		core_exit.sh
 	else
-		echo "================================="
-		echo "Expected result: PASS"
-		echo "Actual result: PASS"
+		echo -e "================================="
+		echo -e "Expected result: PASS"
+		echo -e "Actual result: PASS"
 		fn_print_ok_nl "TEST PASSED"
-		echo ""
+		echo -e ""
 	fi
 }
 
 # if expecting a fail
 fn_test_result_fail(){
 	if [ $? == 0 ]; then
-		echo "================================="
-		echo "Expected result: FAIL"
-		echo "Actual result: PASS"
+		echo -e "================================="
+		echo -e "Expected result: FAIL"
+		echo -e "Actual result: PASS"
 		fn_print_fail_nl "TEST FAILED"
 		exitcode=1
 		core_exit.sh
 	else
-		echo "================================="
-		echo "Expected result: FAIL"
-		echo "Actual result: FAIL"
+		echo -e "================================="
+		echo -e "Expected result: FAIL"
+		echo -e "Actual result: FAIL"
 		fn_print_ok_nl "TEST PASSED"
-		echo ""
+		echo -e ""
 	fi
 }
 
 # test result n/a
 fn_test_result_na(){
-	echo "================================="
-	echo "Expected result: N/A"
-	echo "Actual result: N/A"
+	echo -e "================================="
+	echo -e "Expected result: N/A"
+	echo -e "Actual result: N/A"
 	fn_print_fail_nl "TEST N/A"
 }
 
-echo "================================="
-echo "Travis CI Tests"
-echo "Linux Game Server Manager"
-echo "by Daniel Gibbs"
-echo "Contributors: http://goo.gl/qLmitD"
-echo "https://linuxgsm.com"
-echo "================================="
-echo ""
-echo "================================="
-echo "Server Tests"
-echo "Using: ${gamename}"
-echo "Testing Branch: $TRAVIS_BRANCH"
-echo "================================="
+sleeptime="0"
 
-echo ""
-echo "0.0 - Pre-test Tasks"
-echo "=================================================================="
-echo "Description:"
-echo "Create log dir's"
-echo ""
+echo -e "================================="
+echo -e "Travis CI Tests"
+echo -e "Linux Game Server Manager"
+echo -e "by Daniel Gibbs"
+echo -e "Contributors: http://goo.gl/qLmitD"
+echo -e "https://linuxgsm.com"
+echo -e "================================="
+echo -e ""
+echo -e "================================="
+echo -e "Server Tests"
+echo -e "Using: ${gamename}"
+echo -e "Testing Branch: $TRAVIS_BRANCH"
+echo -e "================================="
 
-echo ""
-echo "0.1 - Create log dir's"
-echo "================================="
-echo ""
+echo -e ""
+echo -e "0.0 - Pre-test Tasks"
+echo -e "=================================================================="
+echo -e "Description:"
+echo -e "Create log dir's"
+echo -e ""
+
+echo -e ""
+echo -e "0.1 - Create log dir's"
+echo -e "================================="
+echo -e ""
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	install_logs.sh
 )
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "0.2 - Enable dev-debug"
-echo "================================="
-echo "Description:"
-echo "Enable dev-debug"
-echo ""
+echo -e ""
+echo -e "0.2 - Enable dev-debug"
+echo -e "================================="
+echo -e "Description:"
+echo -e "Enable dev-debug"
+echo -e ""
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -529,21 +528,21 @@ echo ""
 	command_dev_debug.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "1.0 - Pre-install tests"
-echo "=================================================================="
-echo ""
+echo -e ""
+echo -e "1.0 - Pre-install tests"
+echo -e "=================================================================="
+echo -e ""
 
-echo "1.1 - start - no files"
-echo "================================="
-echo "Description:"
-echo "test script reaction to missing server files."
-echo "Command: ./${gameservername} start"
-echo ""
+echo -e "1.1 - start - no files"
+echo -e "================================="
+echo -e "Description:"
+echo -e "test script reaction to missing server files."
+echo -e "Command: ./${gameservername} start"
+echo -e ""
 # Allows for testing not on Travis CI
 if [ ! -v TRAVIS ]; then
 (
@@ -554,20 +553,20 @@ if [ ! -v TRAVIS ]; then
 )
 fn_test_result_fail
 else
-	echo "Test bypassed"
+	echo -e "Test bypassed"
 fi
 
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "1.2 - getopt"
-echo "================================="
-echo "Description:"
-echo "displaying options messages."
-echo "Command: ./${gameservername}"
-echo ""
+echo -e ""
+echo -e "1.2 - getopt"
+echo -e "================================="
+echo -e "Description:"
+echo -e "displaying options messages."
+echo -e "Command: ./${gameservername}"
+echo -e ""
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -575,17 +574,17 @@ echo ""
 	core_getopt.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "1.3 - getopt with incorrect args"
-echo "================================="
-echo "Description:"
-echo "displaying options messages."
-echo "Command: ./${gameservername} abc123"
-echo ""
+echo -e ""
+echo -e "1.3 - getopt with incorrect args"
+echo -e "================================="
+echo -e "Description:"
+echo -e "displaying options messages."
+echo -e "Command: ./${gameservername} abc123"
+echo -e ""
 getopt="abc123"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -594,20 +593,20 @@ getopt="abc123"
 	core_getopt.sh
 )
 fn_test_result_fail
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "2.0 - Installation"
-echo "=================================================================="
+echo -e ""
+echo -e "2.0 - Installation"
+echo -e "=================================================================="
 
-echo ""
-echo "2.0 - install"
-echo "================================="
-echo "Description:"
-echo "install ${gamename} server."
-echo "Command: ./${gameservername} auto-install"
+echo -e ""
+echo -e "2.0 - install"
+echo -e "================================="
+echo -e "Description:"
+echo -e "install ${gamename} server."
+echo -e "Command: ./${gameservername} auto-install"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -615,20 +614,20 @@ echo "Command: ./${gameservername} auto-install"
 	fn_autoinstall
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.0 - Start/Stop/Restart Tests"
-echo "=================================================================="
+echo -e ""
+echo -e "3.0 - Start/Stop/Restart Tests"
+echo -e "=================================================================="
 
-echo ""
-echo "3.1 - start"
-echo "================================="
-echo "Description:"
-echo "start ${gamename} server."
-echo "Command: ./${gameservername} start"
+echo -e ""
+echo -e "3.1 - start"
+echo -e "================================="
+echo -e "Description:"
+echo -e "start ${gamename} server."
+echo -e "Command: ./${gameservername} start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -638,16 +637,16 @@ fn_setstatus
 	command_start.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.2 - start - online"
-echo "================================="
-echo "Description:"
-echo "start ${gamename} server while already running."
-echo "Command: ./${gameservername} start"
+echo -e ""
+echo -e "3.2 - start - online"
+echo -e "================================="
+echo -e "Description:"
+echo -e "start ${gamename} server while already running."
+echo -e "Command: ./${gameservername} start"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -657,16 +656,16 @@ fn_setstatus
 	command_start.sh
 )
 fn_test_result_fail
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.3 - start - updateonstart"
-echo "================================="
-echo "Description:"
-echo "will update server on start."
-echo "Command: ./${gameservername} start"
+echo -e ""
+echo -e "3.3 - start - updateonstart"
+echo -e "================================="
+echo -e "Description:"
+echo -e "will update server on start."
+echo -e "Command: ./${gameservername} start"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -676,16 +675,16 @@ fn_setstatus
 	updateonstart="on";command_start.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.4 - stop"
-echo "================================="
-echo "Description:"
-echo "stop ${gamename} server."
-echo "Command: ./${gameservername} stop"
+echo -e ""
+echo -e "3.4 - stop"
+echo -e "================================="
+echo -e "Description:"
+echo -e "stop ${gamename} server."
+echo -e "Command: ./${gameservername} stop"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -695,16 +694,16 @@ fn_setstatus
 	command_stop.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.5 - stop - offline"
-echo "================================="
-echo "Description:"
-echo "stop ${gamename} server while already stopped."
-echo "Command: ./${gameservername} stop"
+echo -e ""
+echo -e "3.5 - stop - offline"
+echo -e "================================="
+echo -e "Description:"
+echo -e "stop ${gamename} server while already stopped."
+echo -e "Command: ./${gameservername} stop"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -714,16 +713,16 @@ fn_setstatus
 	command_stop.sh
 )
 fn_test_result_fail
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.6 - restart"
-echo "================================="
-echo "Description:"
-echo "restart ${gamename}."
-echo "Command: ./${gameservername} restart"
+echo -e ""
+echo -e "3.6 - restart"
+echo -e "================================="
+echo -e "Description:"
+echo -e "restart ${gamename}."
+echo -e "Command: ./${gameservername} restart"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -733,16 +732,16 @@ fn_setstatus
 	command_restart.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "3.7 - restart - offline"
-echo "================================="
-echo "Description:"
-echo "restart ${gamename} while already stopped."
-echo "Command: ./${gameservername} restart"
+echo -e ""
+echo -e "3.7 - restart - offline"
+echo -e "================================="
+echo -e "Description:"
+echo -e "restart ${gamename} while already stopped."
+echo -e "Command: ./${gameservername} restart"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -752,20 +751,20 @@ fn_setstatus
 	command_restart.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.0 - Update Tests"
-echo "=================================================================="
+echo -e ""
+echo -e "4.0 - Update Tests"
+echo -e "=================================================================="
 
-echo ""
-echo "4.1 - update"
-echo "================================="
-echo "Description:"
-echo "check for updates."
-echo "Command: ./${gameservername} update"
+echo -e ""
+echo -e "4.1 - update"
+echo -e "================================="
+echo -e "Description:"
+echo -e "check for updates."
+echo -e "Command: ./${gameservername} update"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -775,16 +774,16 @@ fn_setstatus
 	command_update.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.2 - update  - change buildid"
-echo "================================="
-echo "Description:"
-echo "change the buildid tricking SteamCMD to update."
-echo "Command: ./jc2server update"
+echo -e ""
+echo -e "4.2 - update  - change buildid"
+echo -e "================================="
+echo -e "Description:"
+echo -e "change the buildid tricking SteamCMD to update."
+echo -e "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
@@ -796,16 +795,16 @@ sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 	command_update.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.3 - update  - change buildid - online"
-echo "================================="
-echo "Description:"
-echo "change the buildid tricking SteamCMD to update server while already running."
-echo "Command: ./jc2server update"
+echo -e ""
+echo -e "4.3 - update  - change buildid - online"
+echo -e "================================="
+echo -e "Description:"
+echo -e "change the buildid tricking SteamCMD to update server while already running."
+echo -e "Command: ./jc2server update"
 requiredstatus="ONLINE"
 fn_setstatus
 fn_print_info_nl "changed buildid to 0."
@@ -817,16 +816,16 @@ sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 	command_update.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.4 - update  - remove appmanifest file"
-echo "================================="
-echo "Description:"
-echo "removing appmanifest file will cause script to repair."
-echo "Command: ./jc2server update"
+echo -e ""
+echo -e "4.4 - update  - remove appmanifest file"
+echo -e "================================="
+echo -e "Description:"
+echo -e "removing appmanifest file will cause script to repair."
+echo -e "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "removed appmanifest_${appid}.acf."
@@ -838,16 +837,16 @@ rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 	command_update.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.5 - force-update"
-echo "================================="
-echo "Description:"
-echo "force-update bypassing update check."
-echo "Command: ./jc2server force-update"
+echo -e ""
+echo -e "4.5 - force-update"
+echo -e "================================="
+echo -e "Description:"
+echo -e "force-update bypassing update check."
+echo -e "Command: ./jc2server force-update"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -857,16 +856,16 @@ fn_setstatus
 	forceupdate=1;command_update.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.6 - force-update - online"
-echo "================================="
-echo "Description:"
-echo "force-update bypassing update check server while already running."
-echo "Command: ./jc2server force-update"
+echo -e ""
+echo -e "4.6 - force-update - online"
+echo -e "================================="
+echo -e "Description:"
+echo -e "force-update bypassing update check server while already running."
+echo -e "Command: ./jc2server force-update"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -876,16 +875,16 @@ fn_setstatus
 	forceupdate=1;command_update.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.7 - validate"
-echo "================================="
-echo "Description:"
-echo "validate server files."
-echo "Command: ./jc2server validate"
+echo -e ""
+echo -e "4.7 - validate"
+echo -e "================================="
+echo -e "Description:"
+echo -e "validate server files."
+echo -e "Command: ./jc2server validate"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -895,17 +894,17 @@ fn_setstatus
 	command_validate.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "4.8 - validate - online"
-echo "================================="
-echo "Description:"
-echo "validate server files while server already running."
-echo ""
-echo "Command: ./jc2server validate"
+echo -e ""
+echo -e "4.8 - validate - online"
+echo -e "================================="
+echo -e "Description:"
+echo -e "validate server files while server already running."
+echo -e ""
+echo -e "Command: ./jc2server validate"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -915,37 +914,37 @@ fn_setstatus
 	command_validate.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "Inserting IP address"
-echo "================================="
-echo "Description:"
-echo "Inserting Travis IP in to config."
-echo "Allows monitor to work"
+echo -e ""
+echo -e "Inserting IP address"
+echo -e "================================="
+echo -e "Description:"
+echo -e "Inserting Travis IP in to config."
+echo -e "Allows monitor to work"
 if [ "$(ip -o -4 addr|grep eth0)" ]; then
 	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
 else
 	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
 fi
 sed -i "/BindIP/c\BindIP                      = \"${travisip}\"," "${serverfiles}/config.lua"
-echo "IP: ${travisip}"
+echo -e "IP: ${travisip}"
 
-echo ""
-echo "5.0 - Monitor Tests"
-echo "=================================================================="
-echo ""
-echo "Server IP - Port: ${ip}:${port}"
-echo "Server IP - Query Port: ${ip}:${queryport}"
+echo -e ""
+echo -e "5.0 - Monitor Tests"
+echo -e "=================================================================="
+echo -e ""
+echo -e "Server IP - Port: ${ip}:${port}"
+echo -e "Server IP - Query Port: ${ip}:${queryport}"
 
-echo ""
-echo "5.1 - monitor - online"
-echo "================================="
-echo "Description:"
-echo "run monitor server while already running."
-echo "Command: ./${gameservername} monitor"
+echo -e ""
+echo -e "5.1 - monitor - online"
+echo -e "================================="
+echo -e "Description:"
+echo -e "run monitor server while already running."
+echo -e "Command: ./${gameservername} monitor"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -955,16 +954,16 @@ fn_setstatus
 	command_monitor.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "5.2 - monitor - offline - with lockfile"
-echo "================================="
-echo "Description:"
-echo "run monitor while server is offline with lockfile."
-echo "Command: ./${gameservername} monitor"
+echo -e ""
+echo -e "5.2 - monitor - offline - with lockfile"
+echo -e "================================="
+echo -e "Description:"
+echo -e "run monitor while server is offline with lockfile."
+echo -e "Command: ./${gameservername} monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
@@ -976,16 +975,16 @@ date '+%s' > "${rootdir}/${lockselfname}"
 	command_monitor.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "5.3 - monitor - offline - no lockfile"
-echo "================================="
-echo "Description:"
-echo "run monitor while server is offline with no lockfile."
-echo "Command: ./${gameservername} monitor"
+echo -e ""
+echo -e "5.3 - monitor - offline - no lockfile"
+echo -e "================================="
+echo -e "Description:"
+echo -e "run monitor while server is offline with no lockfile."
+echo -e "Command: ./${gameservername} monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 (
@@ -995,16 +994,16 @@ fn_setstatus
 	command_monitor.sh
 )
 fn_test_result_fail
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "5.4 - test-alert"
-echo "================================="
-echo "Description:"
-echo "run monitor while server is offline with no lockfile."
-echo "Command: ./${gameservername} test-alert"
+echo -e ""
+echo -e "5.4 - test-alert"
+echo -e "================================="
+echo -e "Description:"
+echo -e "run monitor while server is offline with no lockfile."
+echo -e "Command: ./${gameservername} test-alert"
 requiredstatus="OFFLINE"
 fn_setstatus
 cp "${servercfgfullpath}" "config.lua"
@@ -1016,25 +1015,25 @@ sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 	command_test_alert.sh
 )
 fn_test_result_fail
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
+echo -e ""
 fn_print_info_nl "Re-generating ${servercfg}."
 cp -v "config.lua" "${servercfgfullpath}"
-echo "================================="
+echo -e "================================="
 
-echo ""
-echo "6.0 - Details Tests"
-echo "=================================================================="
+echo -e ""
+echo -e "6.0 - Details Tests"
+echo -e "=================================================================="
 
-echo ""
-echo "6.1 - details"
-echo "================================="
-echo "Description:"
-echo "display details."
-echo "Command: ./${gameservername} details"
+echo -e ""
+echo -e "6.1 - details"
+echo -e "================================="
+echo -e "Description:"
+echo -e "display details."
+echo -e "Command: ./${gameservername} details"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1044,16 +1043,16 @@ fn_setstatus
 	command_details.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "6.2 - postdetails"
-echo "================================="
-echo "Description:"
-echo "post details."
-echo "Command: ./${gameservername} postdetails"
+echo -e ""
+echo -e "6.2 - postdetails"
+echo -e "================================="
+echo -e "Description:"
+echo -e "post details."
+echo -e "Command: ./${gameservername} postdetails"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1063,39 +1062,39 @@ fn_setstatus
 	command_postdetails.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "7.0 - Backup Tests"
-echo "=================================================================="
+echo -e ""
+echo -e "7.0 - Backup Tests"
+echo -e "=================================================================="
 
-echo ""
-echo "7.1 - backup"
-echo "================================="
-echo "Description:"
-echo "run a backup."
-echo "Command: ./${gameservername} backup"
+echo -e ""
+echo -e "7.1 - backup"
+echo -e "================================="
+echo -e "Description:"
+echo -e "run a backup."
+echo -e "Command: ./${gameservername} backup"
 requiredstatus="ONLINE"
 fn_setstatus
-echo "test de-activated until issue #1839 fixed"
+echo -e "test de-activated until issue #1839 fixed"
 #(command_backup.sh)
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "8.0 - Development Tools Tests"
-echo "=================================================================="
+echo -e ""
+echo -e "8.0 - Development Tools Tests"
+echo -e "=================================================================="
 
-echo ""
-echo "8.1 - dev - detect glibc"
-echo "================================="
-echo "Description:"
-echo "detect glibc."
-echo "Command: ./${gameservername} detect-glibc"
+echo -e ""
+echo -e "8.1 - dev - detect glibc"
+echo -e "================================="
+echo -e "Description:"
+echo -e "detect glibc."
+echo -e "Command: ./${gameservername} detect-glibc"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1105,16 +1104,16 @@ fn_setstatus
 	command_dev_detect_glibc.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "8.2 - dev - detect ldd"
-echo "================================="
-echo "Description:"
-echo "detect ldd."
-echo "Command: ./${gameservername} detect-ldd"
+echo -e ""
+echo -e "8.2 - dev - detect ldd"
+echo -e "================================="
+echo -e "Description:"
+echo -e "detect ldd."
+echo -e "Command: ./${gameservername} detect-ldd"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1124,16 +1123,16 @@ fn_setstatus
 	command_dev_detect_ldd.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "8.3 - dev - detect deps"
-echo "================================="
-echo "Description:"
-echo "detect dependencies."
-echo "Command: ./${gameservername} detect-deps"
+echo -e ""
+echo -e "8.3 - dev - detect deps"
+echo -e "================================="
+echo -e "Description:"
+echo -e "detect dependencies."
+echo -e "Command: ./${gameservername} detect-deps"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1143,16 +1142,16 @@ fn_setstatus
 	command_dev_detect_deps.sh
 )
 fn_test_result_pass
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "8.4 - dev - query-raw"
-echo "================================="
-echo "Description:"
-echo "raw query output."
-echo "Command: ./${gameservername} query-raw"
+echo -e ""
+echo -e "8.4 - dev - query-raw"
+echo -e "================================="
+echo -e "Description:"
+echo -e "raw query output."
+echo -e "Command: ./${gameservername} query-raw"
 requiredstatus="ONLINE"
 fn_setstatus
 (
@@ -1162,17 +1161,19 @@ fn_setstatus
 	command_dev_query_raw.sh
 )
 fn_test_result_na
-echo "run order"
-echo "================="
+echo -e "run order"
+echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
-echo ""
-echo "================================="
-echo "Server Tests - Complete!"
-echo "Using: ${gamename}"
-echo "================================="
+echo -e ""
+echo -e "================================="
+echo -e "Server Tests - Complete!"
+echo -e "Using: ${gamename}"
+echo -e "================================="
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_print_info "Tidying up directories."
-rm -rfv "${serverfiles}"
+if [ ! -v TRAVIS ]; then
+	fn_print_info "Tidying up directories."
+	rm -rfv "${serverfiles}"
+fi
 core_exit.sh

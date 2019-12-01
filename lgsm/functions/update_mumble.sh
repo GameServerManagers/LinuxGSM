@@ -6,7 +6,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_mumble_dl(){
 	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2"
@@ -43,7 +43,7 @@ fn_update_mumble_localbuild(){
 
 fn_update_mumble_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(${curlpath} -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
+	remotebuild=$(curl -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
@@ -68,8 +68,8 @@ fn_update_mumble_remotebuild(){
 fn_update_mumble_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
+	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
+	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"

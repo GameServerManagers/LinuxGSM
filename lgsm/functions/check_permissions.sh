@@ -41,7 +41,7 @@ fn_check_ownership(){
 			fi
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
-		echo ""
+		echo -e ""
 		fn_print_information_nl "please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
 		fn_script_log "For more information, please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
 		if [ "${monitorflag}" == 1 ]; then
@@ -74,7 +74,7 @@ fn_check_permissions(){
 	# Check rootdir permissions.
 	if [ -n "${rootdir}" ]; then
 		# Get permission numbers on directory under the form 775.
-		rootdirperm="$(stat -c %a "${rootdir}")"
+		rootdirperm=$(stat -c %a "${rootdir}")
 		# Grab the first and second digit for user and group permission.
 		userrootdirperm="${rootdirperm:0:1}"
 		grouprootdirperm="${rootdirperm:1:1}"
@@ -94,10 +94,10 @@ fn_check_permissions(){
 	fi
 	# Check if executable is executable and attempt to fix it.
 	# First get executable name.
-	execname="$(basename "${executable}")"
+	execname=$(basename "${executable}")
 	if [ -f "${executabledir}/${execname}" ]; then
 		# Get permission numbers on file under the form 775.
-		execperm="$(stat -c %a "${executabledir}/${execname}")"
+		execperm=$(stat -c %a "${executabledir}/${execname}")
 		# Grab the first and second digit for user and group permission.
 		userexecperm="${execperm:0:1}"
 		groupexecperm="${execperm:1:1}"
@@ -118,7 +118,7 @@ fn_check_permissions(){
 				chmod u+x,g+x "${executabledir}/${execname}"
 				# Second check to see if it's been successfully applied.
 				# Get permission numbers on file under the form 775.
-				execperm="$(stat -c %a "${executabledir}/${execname}")"
+				execperm=$(stat -c %a "${executabledir}/${execname}")
 				# Grab the first and second digit for user and group permission.
 				userexecperm="${execperm:0:1}"
 				groupexecperm="${execperm:1:1}"
@@ -164,12 +164,12 @@ fn_sys_perm_errors_detect(){
 
 # Display a message on how to fix the issue manually.
 fn_sys_perm_fix_manually_msg(){
-	echo ""
+	echo -e ""
 	fn_print_information_nl "This error causes servers to fail starting properly"
 	fn_script_log_info "This error causes servers to fail starting properly."
-	echo "	* To fix this issue, run the following command as root:"
+	echo -e "	* To fix this issue, run the following command as root:"
 	fn_script_log_info "To fix this issue, run the following command as root:"
-	echo "	  chmod a+rx /sys /sys/class /sys/class/net"
+	echo -e "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
 	fn_sleep_time
 	if [ "${monitorflag}" == 1 ]; then
@@ -181,8 +181,7 @@ fn_sys_perm_fix_manually_msg(){
 
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise.
 fn_sys_perm_errors_fix(){
-	sudo -n true > /dev/null 2>&1
-	if [ $? -eq 0 ]; then
+	if sudo -n true > /dev/null 2>&1; then
 		fn_print_dots "Automatically fixing /sys permissions"
 		fn_script_log_info "Automatically fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
