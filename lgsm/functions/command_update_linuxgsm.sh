@@ -56,12 +56,11 @@ if [ -z "${legacymode}" ]; then
 			echo -e "	Backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
 		echo -en "    fetching ${selfname}...\c"
-		exitcode=$?
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
-
+		exitcode=$?
 		if [ "${exitcode}" == "0" ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
