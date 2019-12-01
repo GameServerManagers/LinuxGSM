@@ -341,6 +341,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_mcb.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_mta.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -551,6 +556,11 @@ fn_fetch_function
 }
 
 update_minecraft.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_minecraft_bedrock.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

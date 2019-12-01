@@ -194,7 +194,7 @@ fn_fastdl_preview(){
 						tput rc; tput el
 						echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-					done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
+					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
 					tput rc; tput el
 					echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 					if [ ${fileswc} != 0 ]; then
@@ -213,7 +213,7 @@ fn_fastdl_preview(){
 		# Calculates total file size.
 		while read -r dufile; do
 			filesize=$(stat -c %s "${dufile}")
-			filesizetotal=$(( ${filesizetotal} + ${filesize} ))
+			filesizetotal=$(( filesizetotal+filesize ))
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl

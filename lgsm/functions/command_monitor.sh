@@ -17,7 +17,7 @@ fn_monitor_check_lockfile(){
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
 		fn_sleep_time
-		fn_print_error_nl "Checking lockfile: No lockfile found: "
+		fn_print_error "Checking lockfile: No lockfile found: "
 		fn_print_error_eol
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		fn_sleep_time
