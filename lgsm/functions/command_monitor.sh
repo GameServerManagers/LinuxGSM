@@ -136,7 +136,7 @@ for queryattempt in {1..5}; do
 		fn_sleep_time
 		monitorpass=1
 		# send LinuxGSM stats if monitor is OK.
-		if [ "${stats}" == "on" ]; then
+		if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
 			info_stats.sh
 		fi
     if [ "${querystatus}" == "0" ]; then
