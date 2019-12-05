@@ -24,7 +24,6 @@ cpuusedmhzroundup=$(((cpuusedmhz + 99) / 100 * 100))
 # nearest 100MB
 memusedroundup=$(((memused + 99) / 100 * 100))
 
-# Level 1 Stats
 ## Distro
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 ## Game Server Name
@@ -32,7 +31,6 @@ curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -
 ## Game Server Name
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 
-# Level 2 Stats
 ## CPU usage of a game server
 if [ "${cpuusedmhzroundup}" ]; then
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
@@ -46,10 +44,14 @@ if [ "${serverfilesdu}" ]; then
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 
-# Level 3 Stats
 ## CPU Model
 if [ "${cpumodel}" ]; then
   curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} Cores: ${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+fi
+
+## CPU Frequency
+if [ "${cpufreqency}" ]; then
+  curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 
 ## Server RAM
