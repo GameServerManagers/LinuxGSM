@@ -27,7 +27,7 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 # to post to pastebin, or
 #  rustserver@gamerig:~$ posttarget= ./rustserver pd
 # to leave the output on the filesystem.
-posttarget=${posttarget="https://hastebin.com"}
+posttarget=${posttarget="https://termbin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
