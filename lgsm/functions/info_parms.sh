@@ -232,6 +232,11 @@ fn_info_parms_unturned(){
 	queryport=$((port + 1))
 }
 
+fn_info_parms_ut(){
+	port=${port:-"0"}
+	queryport="${port:-"0"}"
+}
+
 fn_info_parms_wf(){
 	port=${port:-"0"}
 	queryport="${port:-"0"}"
@@ -311,6 +316,8 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_parms_unreal3
 elif [ "${shortname}" == "unt" ]; then
 	fn_info_parms_unturned
+elif [ "${shortname}" == "ut" ]; then
+	fn_info_parms_ut
 # Warfork
 elif [ "${shortname}" == "wf" ]; then
 	fn_info_parms_wf
