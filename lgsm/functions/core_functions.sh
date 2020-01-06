@@ -683,6 +683,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+install_nmrih_symlinks.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Calls code required for legacy servers
 core_legacy.sh
 
