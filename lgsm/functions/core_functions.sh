@@ -341,6 +341,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_nmrih.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_ro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -679,11 +684,6 @@ fn_fetch_function
 }
 
 install_ut2k4_key.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-install_nmrih_symlinks.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
