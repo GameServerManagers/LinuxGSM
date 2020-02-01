@@ -18,7 +18,7 @@ fn_monitor_check_lockfile(){
 		fn_script_log_info "Checking lockfile: CHECKING"
 		fn_sleep_time
 		fn_print_error "Checking lockfile: No lockfile found: "
-		fn_print_error_eol
+		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		fn_sleep_time
 		echo -e "	* Start ${selfname} to run monitor."
@@ -136,7 +136,7 @@ for queryattempt in {1..5}; do
 		fn_sleep_time
 		monitorpass=1
 		# send LinuxGSM stats if monitor is OK.
-		if [ "${stats}" == "on" ]; then
+		if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
 			info_stats.sh
 		fi
     if [ "${querystatus}" == "0" ]; then

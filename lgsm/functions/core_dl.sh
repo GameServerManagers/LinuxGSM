@@ -81,7 +81,7 @@ fn_dl_extract(){
 	elif [ "${mime}" == "application/x-xz" ]; then
 		tarcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/zip" ]; then
-		extractcmd=$(unzip -dq "${extractdir}" "${local_filedir}/${local_filename}")
+		extractcmd=$(unzip -qo -d "${extractdir}" "${local_filedir}/${local_filename}")
 	fi
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
