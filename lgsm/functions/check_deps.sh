@@ -523,7 +523,7 @@ fn_deps_build_redhat(){
 		fi
 		# Onset
 	elif [ "${shortname}" == "onset" ]; then
-		array_deps_required+=( mysql-libs )
+		array_deps_required+=( mariadb-connector-c )
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib.i686 openldap.i686 )
