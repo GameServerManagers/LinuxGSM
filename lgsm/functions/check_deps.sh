@@ -400,6 +400,9 @@ fn_deps_build_debian(){
 	# Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
+	# Onset
+	elif [ "${shortname}" == "onset" ]; then
+		array_deps_required+=( libmariadbclient-dev )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		if java -version 2>&1 | grep "version"; then
