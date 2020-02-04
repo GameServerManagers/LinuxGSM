@@ -521,6 +521,9 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
+		# Onset
+	elif [ "${shortname}" == "onset" ]; then
+		array_deps_required+=( mysql-libs )
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib.i686 openldap.i686 )
