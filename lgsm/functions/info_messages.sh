@@ -821,7 +821,7 @@ fn_info_message_minecraft_bedrock(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_minecraft_onset(){
+fn_info_message_onset(){
 	echo -e "netstat -atunp | grep OnsetServer"
 	echo -e ""
 	{
