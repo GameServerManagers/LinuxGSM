@@ -71,8 +71,6 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_mcb.sh
 	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
-	elif [ "${shortname}" == "onset" ]; then
-		fix_onset.sh
 	elif [ "${shortname}" == "unt" ]; then
 		fix_unt.sh
 	elif [ "${shortname}" == "wurm" ]; then
@@ -101,6 +99,8 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 				fix_ut.sh
 			elif [ "${shortname}" == "ut3" ]; then
 				fix_ut3.sh
+			elif [ "${shortname}" == "onset" ]; then
+				fix_onset.sh
 			else
 				fn_print_information_nl "No fixes required."
 			fi
