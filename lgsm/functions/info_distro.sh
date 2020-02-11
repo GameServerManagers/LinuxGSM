@@ -172,10 +172,10 @@ fi
 ### Disk information
 
 ## Available disk space on the partition.
-filesystem=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')
-totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
-usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
-availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
+filesystem=$(df -hP "${rootdir}" | tail -n 1 | awk '{print $1}')
+totalspace=$(df -hP "${rootdir}" | tail -n 1 | awk '{print $2}')
+usedspace=$(df -hP "${rootdir}" | tail -n 1 | awk '{print $3}')
+availspace=$(df -hP "${rootdir}" | tail -n 1 | awk '{print $4}')
 
 ## LinuxGSM used space total.
 rootdirdu=$(du -sh "${rootdir}" 2> /dev/null | awk '{print $1}')
