@@ -34,6 +34,10 @@ done
 
 sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
 
+touch "${tmpdir}/.depdetect_centos_list"
+touch "${tmpdir}/.depdetect_ubuntu_list"
+touch "${tmpdir}/.depdetect_debian_list"
+
 while read -r lib; do
 	echo -e "${lib}"
 	local libs_array=( libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2 )
@@ -127,6 +131,31 @@ while read -r lib; do
 		echo -e "GConf2" >> "${tmpdir}/.depdetect_centos_list"
 		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libz.so.1" ]; then
+		echo -e "zlib" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "zlib1g" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "zlib1g" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libatk-1.0.so.0" ]; then
+		echo -e "atk" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libatk1.0-0" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libatk1.0-0" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libcairo.so.2" ]; then
+		echo -e "cairo" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libcairo2" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libcairo2" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libfontconfig.so.1" ]; then
+		echo -e "fontconfig" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libfontconfig1" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libfontconfig1" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libfreetype.so.6" ]; then
+		echo -e "freetype" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	fi
 

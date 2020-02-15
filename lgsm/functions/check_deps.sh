@@ -368,14 +368,14 @@ fn_deps_build_debian(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell, Counter-Strike: Source and Garry's Mod
+	# No More Room in Hell, Counter-Strike: Source, Garry's Mod and Zombie Panic: Source
 	elif [ "${shortname}" == "cc" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( libtinfo5:i386 )
 		else
 			array_deps_required+=( libtinfo5 )
 		fi
-	# Brainbread 2 ,Don't Starve Together & Team Fortress 2
+	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( libcurl4-gnutls-dev:i386 )
@@ -388,7 +388,6 @@ fn_deps_build_debian(){
 			else
 				array_deps_required+=( libtcmalloc-minimal4 )
 			fi
-
 		fi
 	# Battlefield: 1942
 	elif [ "${shortname}" == "bf1942" ]; then
@@ -398,7 +397,7 @@ fn_deps_build_debian(){
 			array_deps_required+=( libncurses5 )
 		fi
 	# Call of Duty, Medal of Honor: Allied Assault
-elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
+	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( libstdc++5:i386 )
 		else
@@ -407,17 +406,27 @@ elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}
 	# Factorio
 	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz-utils )
+	# GoldenEye: Source
+	elif [ "${shortname}" == "ges" ]; then
+		if [ "${arch}" == "x86_64" ]; then
+			array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
+		else
+			array_deps_required+=( zlib1g libldap-2.4-2 )
+		fi
 	# Hurtword/Rust
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
-	# Minecraft
-  elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
+	# Minecraft, Rising World
+  	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
 		if java -version 2>&1 | grep "version"; then
 			# Added for users using Oracle JRE to bypass the check.
 			javacheck=1
 		else
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
+	# Post Scriptum
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( libgconf-2-4 )
 	# Project Zomboid
 	elif [ "${shortname}" == "pz" ]; then
 		if java -version 2>&1 | grep "version"; then
@@ -426,13 +435,6 @@ elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}
 			array_deps_required+=( rng-tools )
 		else
 			array_deps_required+=( default-jre rng-tools )
-		fi
-	# GoldenEye: Source
-	elif [ "${shortname}" == "ges" ]; then
-		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
-		else
-			array_deps_required+=( zlib1g libldap-2.4-2 )
 		fi
 	# Serious Sam 3: BFE
 	elif [ "${shortname}" == "ss3" ]; then
@@ -460,9 +462,6 @@ elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
-	# Post Scriptum
-	elif [ "${shortname}" == "pstbs" ]; then
-		array_deps_required+=( libgconf-2-4 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -535,11 +534,10 @@ fn_deps_build_redhat(){
 		fi
 		if [ "${shortname}" == "tf2" ]; then
 			if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( gperftools-libs.i686 )
+				array_deps_required+=( gperftools-libs.i686 )
 			else
 				array_deps_required+=( gperftools-libs )
 			fi
-
 		fi
 	# Battlefield: 1942
 	elif [ "${shortname}" == "bf1942" ]; then
@@ -548,7 +546,7 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( ncurses-libs )
 		fi
-	# Call of Duty
+	# Call of Duty, Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( compat-libstdc++-33.i686 )
@@ -558,26 +556,6 @@ fn_deps_build_redhat(){
 	# Factorio
 	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz )
-	# Hurtword/Rust
-	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
-		array_deps_required+=( zlib-devel )
-	# Minecraft, Rising World
-  elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
-		if java -version 2>&1 | grep "version"; then
-			# Added for users using Oracle JRE to bypass the check.
-			javacheck=1
-		else
-			array_deps_required+=( java-1.8.0-openjdk )
-		fi
-		# Project Zomboid
-		elif [ "${shortname}" == "pz" ]; then
-			if java -version 2>&1 | grep "version"; then
-				# Added for users using Oracle JRE to bypass the check.
-				javacheck=1
-				array_deps_required+=( rng-tools )
-			else
-				array_deps_required+=( java-1.8.0-openjdk rng-tools )
-			fi
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		if [ "${arch}" == "x86_64" ]; then
@@ -585,6 +563,41 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( zlib openldap )
 		fi
+	# Hurtword/Rust
+	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
+		array_deps_required+=( zlib-devel )
+	# Minecraft, Rising World
+  	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
+		if java -version 2>&1 | grep "version"; then
+			# Added for users using Oracle JRE to bypass the check.
+			javacheck=1
+		else
+			array_deps_required+=( java-1.8.0-openjdk )
+		fi
+	# Post Scriptum
+	elif [ "${shortname}" == "pstbs" ]; then
+		array_deps_required+=( GConf2 )
+	# Project Zomboid
+	elif [ "${shortname}" == "pz" ]; then
+		if java -version 2>&1 | grep "version"; then
+			# Added for users using Oracle JRE to bypass the check.
+			javacheck=1
+			array_deps_required+=( rng-tools )
+		else
+			array_deps_required+=( java-1.8.0-openjdk rng-tools )
+		fi
+	# Serious Sam 3: BFE
+	elif [ "${shortname}" == "ss3" ]; then
+		# Not supported on CentOS
+		:
+
+	# Sven Co-op
+	elif [ "${shortname}" == "sven" ]; then
+		# Not supported on CentOS
+		:
+	# Stationeers
+	elif [ "${shortname}" == "st" ]; then
+		array_deps_required+=( zlib )
 	# Unreal Tournament 2004
 	elif [ "${shortname}" == "ut2k4" ]; then
 		if [ "${arch}" == "x86_64" ]; then
@@ -605,9 +618,6 @@ fn_deps_build_redhat(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xorg-x11-server-Xvfb )
-	# Post Scriptum
-	elif [ "${shortname}" == "pstbs" ]; then
-		array_deps_required+=( GConf2 )
 	fi
 	fn_deps_email
 	fn_check_loop
