@@ -698,6 +698,18 @@ fn_info_message_coduo(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_chivalry(){
+	fn_info_message_password_strip
+	echo -e "netstat -atunp | grep UDKGame"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t27960\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_cod2(){
 	echo -e "netstat -atunp | grep cod2_lnxded"
 	echo -e ""
@@ -1390,6 +1402,8 @@ fn_info_message_select_engine(){
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_battalion1944
+	elif [ "${shortname}" == "cmw" ]; then
+		fn_info_message_chivalry
 	elif [ "${shortname}" == "cod" ]; then
 		fn_info_message_cod
 	elif [ "${shortname}" == "coduo" ]; then

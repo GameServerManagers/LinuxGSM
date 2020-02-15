@@ -89,7 +89,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${commandname}" == "INSTALL" ]; then
-		if [ "${shortname}" == "av" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
+		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
@@ -97,6 +97,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 			postinstall=1
 			if [ "${shortname}" == "av" ]; then
 				fix_av.sh
+			elif [ "${shortname}" == "cmw" ]; then
+				fix_cmw.sh
 			elif [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then
