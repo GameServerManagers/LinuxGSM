@@ -335,7 +335,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq steamcmd )
 
 	if [ "$(command -v tmux 2>/dev/null)" ]; then
 		tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
