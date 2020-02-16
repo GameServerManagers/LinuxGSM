@@ -191,7 +191,7 @@ fn_deps_detector(){
 			fn_sleep_time
 		fi
 		# Define required dependencies for SteamCMD.
-		if [ -n "${appid}" ]; then
+		if [ "${appid}" ]; then
 			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
 				steamcmdfail=1
 			fi
@@ -233,10 +233,10 @@ fn_found_missing_deps(){
 		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[@]}${default}"
 		fn_script_log_warn "Missing dependencies: ${array_deps_missing[@]}"
 		fn_sleep_time
-		if [ -n "${monostatus}" ]; then
+		if [ "${monostatus}" ]; then
 			fn_install_mono_repo
 		fi
-		if [ -n "${jqstatus}" ]; then
+		if [ "${jqstatus}" ]; then
 			fn_print_warning_nl "jq is not available in the ${distroname} repository"
 			echo -e "	* https://docs.linuxgsm.com/requirements/jq"
 		fi

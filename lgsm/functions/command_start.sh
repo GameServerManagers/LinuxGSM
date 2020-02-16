@@ -78,7 +78,7 @@ fn_start_tmux(){
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
 		fi
-	elif [ -n "${tmuxversion}" ]; then
+	elif [ "${tmuxversion}" ]; then
 		# Get the digit version of tmux.
 		tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')
 		# tmux pipe-pane not supported in tmux versions < 1.6.

@@ -267,7 +267,7 @@ fn_mods_installed_list(){
 		# Increment line check.
 		((installedmodsline++))
 	done
-	if [ -n "${installedmodscount}" ]; then
+	if [ "${installedmodscount}" ]; then
 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }

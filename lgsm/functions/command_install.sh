@@ -25,7 +25,7 @@ else
 	elif [ -z "${appid}" ]; then
 		installer=1
 		install_server_files.sh
-	elif [ -n "${appid}" ]; then
+	elif [ "${appid}" ]; then
 		install_steamcmd.sh
 		install_server_files.sh
 	fi

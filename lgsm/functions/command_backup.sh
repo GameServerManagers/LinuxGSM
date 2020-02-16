@@ -159,7 +159,7 @@ fn_backup_compression(){
 # Clear old backups according to maxbackups and maxbackupdays variables.
 fn_backup_prune(){
 	# Clear if backup variables are set.
-	if [ -n "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
+	if [ "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
 		# How many backups there are.
 		info_distro.sh
 		# How many backups exceed maxbackups.

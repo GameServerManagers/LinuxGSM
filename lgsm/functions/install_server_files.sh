@@ -144,7 +144,7 @@ echo -e "${lightyellow}Installing ${gamename} Server${default}"
 echo -e "================================="
 fn_sleep_time
 
-if [ -n "${appid}" ]; then
+if [ "${appid}" ]; then
 	fn_install_server_files_steamcmd
 fi
 
