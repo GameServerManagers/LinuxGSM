@@ -370,8 +370,8 @@ fn_info_message_gameserver(){
 		fi
 
 		# Listed on Master server
-		if [ -n "${displaymasterserver}" ];then
-			if [ "${displaymasterserver}" == "true" ];then
+		if [ -n "${displaymasterserver}" ]; then
+			if [ "${displaymasterserver}" == "true" ]; then
 				echo -e "${lightblue}Master server:\t${green}${displaymasterserver}${default}"
 			else
 				echo -e "${lightblue}Master server:\t${red}${displaymasterserver}${default}"

@@ -176,7 +176,7 @@ if [ "${status}" != "0" ]; then
 		core_exit.sh
 	fi
 fi
-if [ -z "${fixbypass}" ];then
+if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
 info_config.sh

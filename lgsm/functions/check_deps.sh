@@ -82,7 +82,7 @@ fn_install_mono_repo(){
 				echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 				monoautoinstall="1"
 			fi
-			if [ "${monoautoinstall}" != "1" ];then
+			if [ "${monoautoinstall}" != "1" ]; then
 				if [ $? != 0 ]; then
 					fn_print_failure_nl "Unable to install Mono repository."
 					fn_script_log_fatal "Unable to installMono repository."

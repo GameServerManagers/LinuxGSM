@@ -33,33 +33,33 @@ do
 		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
 		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
 	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname=$(lsb_release -sd)
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(lsb_release -sr)
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroid}" ]; then
 			distroid=$(lsb_release -si)
-		elif [ -z "${distrocodename}" ];then
+		elif [ -z "${distrocodename}" ]; then
 			distrocodename=$(lsb_release -sc)
 		fi
 	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname=$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')
 		fi
 	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname="Debian $(cat /etc/debian_version)"
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(cat /etc/debian_version)
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroid}" ]; then
 			distroid="debian"
 		fi
 	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname=$(cat /etc/redhat-release)
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroid}" ]; then
 			distroid=$(awk '{print $1}' /etc/redhat-release)
 		fi
 	fi

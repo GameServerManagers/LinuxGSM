@@ -63,8 +63,8 @@ if [ -n "${extip}" ]; then
 	fi
 fi
 # Listed on Master Server.
-if [ "${displaymasterserver}" ];then
-	if [ "${displaymasterserver}" == "true" ];then
+if [ "${displaymasterserver}" ]; then
+	if [ "${displaymasterserver}" == "true" ]; then
 		echo -e "${lightblue}Master Server:\t${green}${displaymasterserver}${default}"
 	else
 		echo -e "${lightblue}Master Server:\t${red}${displaymasterserver}${default}"
