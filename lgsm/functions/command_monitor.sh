@@ -211,7 +211,7 @@ fn_monitor_loop(){
 	do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
-			if [ -n "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
+			if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 				if [ -z "${monitorpass}" ]; then
 					fn_monitor_query
 				fi
