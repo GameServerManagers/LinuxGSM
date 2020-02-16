@@ -32,8 +32,8 @@ do
 		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
 		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
 		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
-	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
-		if [ -z "${distroname}" ]; then
+	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
+		if [ -z "${distroname}" ];then
 			distroname=$(lsb_release -sd)
 		elif [ -z "${distroversion}" ]; then
 			distroversion=$(lsb_release -sr)
@@ -42,8 +42,8 @@ do
 		elif [ -z "${distrocodename}" ]; then
 			distrocodename=$(lsb_release -sc)
 		fi
-	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
-		if [ -z "${distroname}" ]; then
+	elif [ "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
+		if [ -z "${distroname}" ];then
 			distroname=$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')
 		fi
 	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
@@ -71,7 +71,7 @@ glibcversion=$(ldd --version | sed -n '1s/.* //p')
 
 ## tmux version
 # e.g: tmux 1.6
-if [ -z "$(command -V tmux 2>/dev/null)" ]; then
+if [ ! "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
 else
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
@@ -107,7 +107,7 @@ fi
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -252,7 +252,7 @@ else
 fi
 
 # Steam Master Server - checks if detected by master server.
-if [ -n "$(command -v jq 2>/dev/null)" ]; then
+if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
 			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)

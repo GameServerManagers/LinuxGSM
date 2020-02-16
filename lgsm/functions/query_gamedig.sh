@@ -6,7 +6,7 @@
 # https://github.com/sonicsnes/node-gamedig
 
 # Check if gamedig and jq are installed.
-if [ -n "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
+if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 
 	# will bypass query if server offline.
 	check_status.sh
