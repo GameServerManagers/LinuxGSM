@@ -7,7 +7,7 @@
 local commandname="CHECK"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
-if [ ! -e "${servercfgfullpath}" ]; then
+if [ ! -f "${servercfgfullpath}" ]; then
 	if [ "${shortname}" != "hw" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then
 		fn_print_dots ""
 		fn_print_warn_nl "Configuration file missing!"

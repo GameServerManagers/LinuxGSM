@@ -10,7 +10,7 @@ local commandaction="Log-Manager"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist.
 if [ "${consolelog}" ]; then
-	if [ ! -e "${consolelog}" ]; then
+	if [ ! -f "${consolelog}" ]; then
 		touch "${consolelog}"
 	fi
 fi

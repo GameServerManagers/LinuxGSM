@@ -10,7 +10,7 @@ local commandaction="Starting"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_start_teamspeak3(){
-	if [ ! -e "${servercfgfullpath}" ]; then
+	if [ ! -f "${servercfgfullpath}" ]; then
 		fn_print_warn_nl "${servercfgfullpath} is missing"
 		fn_script_log_warn "${servercfgfullpath} is missing"
 		echo  "	* Creating blank ${servercfg}"
