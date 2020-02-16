@@ -13,7 +13,6 @@ fn_install_steamcmd(){
 		fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
 		fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
 		chmod +x "${steamcmddir}/steamcmd.sh"
-	fi
 }
 
 fn_check_steamcmd_user(){
@@ -71,7 +70,8 @@ fn_check_steamcmd_check(){
 	if [ "$(command -v steamcmd 2>/dev/null)" ]; then
 		steamcmdcommand="steamcmd"
 	else
-		steamcmdcommand="${steamcmdcommand}"
+		steamcmdcommand="./steamcmd.sh"
+	fi
 }
 
 fn_check_steamcmd_user
