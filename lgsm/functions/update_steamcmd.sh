@@ -16,7 +16,7 @@ fn_update_steamcmd_dl(){
 	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
-	if [ "${steamcmddir}" ]; then
+	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
 	if [ "${appid}" == "90" ]; then
@@ -51,7 +51,7 @@ fn_update_steamcmd_localbuild(){
 
 fn_update_steamcmd_remotebuild(){
 	# Gets remote build info.
-	if [ "${steamcmddir}" ]; then
+	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
 	remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')

@@ -15,7 +15,7 @@ fn_validation(){
 	echo -e "* https://docs.linuxgsm.com/commands/validate"
 	fn_script_log_info "Validating files: SteamCMD"
 	sleep 3
-	if [ "${steamcmddir}" ]; then
+	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
 	# Detects if unbuffer command is available for 32 bit distributions only.

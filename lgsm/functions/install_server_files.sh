@@ -74,7 +74,7 @@ fn_install_server_files_steamcmd(){
 	counter="0"
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
-    if [ "${steamcmddir}" ]; then
+    if [ -d "${steamcmddir}" ]; then
   		cd "${steamcmddir}" || exit
   	fi
 		if [ "${counter}" -le "10" ]; then
