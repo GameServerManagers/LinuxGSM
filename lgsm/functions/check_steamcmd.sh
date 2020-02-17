@@ -48,7 +48,7 @@ fn_check_steamcmd_sh(){
 	# Installs if missing.
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]||[ ! "$(command -v steamcmd 2>/dev/null)" ]; then
 		# Debian and Ubuntu uses steamcmd package
-		if [ -f "/etc/debian_version" ]&&[ ! "$(command -v steamcmd 2>/dev/null)" ]; then
+		if [ -f "/etc/debian_version" ]&&[ "$(command -v steamcmd 2>/dev/null)" ]; then
 			# Install steamcmd with apt
 			:
 		else
