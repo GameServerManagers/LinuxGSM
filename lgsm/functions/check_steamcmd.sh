@@ -7,12 +7,12 @@
 local commandname="CHECK"
 
 fn_install_steamcmd(){
-		if [ ! -d "${steamcmddir}" ]; then
-			mkdir -pv "${steamcmddir}"
-		fi
-		fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
-		fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
-		chmod +x "${steamcmddir}/steamcmd.sh"
+	if [ ! -d "${steamcmddir}" ]; then
+		mkdir -pv "${steamcmddir}"
+	fi
+	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
+	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
+	chmod +x "${steamcmddir}/steamcmd.sh"
 }
 
 fn_check_steamcmd_user(){
@@ -43,30 +43,37 @@ fn_check_steamcmd_user(){
 	fi
 }
 
-fn_check_steamcmd_sh(){
+fn_check_steamcmd(){
 	# Checks if SteamCMD exists when starting or updating a server.
-	# Installs if missing.
-	if [ ! -f "${steamcmddir}/steamcmd.sh" ]||[ ! "$(command -v steamcmd 2>/dev/null)" ]; then
-		# Debian and Ubuntu uses steamcmd package
-		if [ -f "/etc/debian_version" ]&&[ "$(command -v steamcmd 2>/dev/null)" ]; then
-			# Install steamcmd with apt
-			:
+	# Only install if steamcmd package is missing or steamcmd dir is missing.
+	if [ ! -f "${steamcmddir}/steamcmd.sh" ]&&[ ! "$(command -v steamcmd 2>/dev/null)" ]; then
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			fn_install_steamcmd
 		else
-			if [ "${function_selfname}" == "command_install.sh" ]; then
-				fn_install_steamcmd
-			else
-				fn_print_error_nl "SteamCMD is missing"
-				fn_script_log_error "SteamCMD is missing"
-				fn_install_steamcmd
-			fi
+			fn_print_error_nl "SteamCMD is missing"
+			fn_script_log_error "SteamCMD is missing"
+			fn_install_steamcmd
 		fi
 	elif [ "${function_selfname}" == "command_install.sh" ]; then
-		fn_print_information "SteamCMD is already installed..."
+		fn_print_information "SteamCMD is already installed"
 		fn_print_ok_eol_nl
 	fi
 }
 
-fn_check_steamcmd_check(){
+fn_check_steamcmd_clear(){
+# Will remove steamcmd dir if steamcmd package is installed.
+if [ "$(command -v steamcmd 2>/dev/null)" ]&&[ -d "${steamcmddir}" ]; then
+	rm -rf "${steamcmddir:?}"
+	exitcode=$?
+	if [ ${exitcode} -ne 0 ]; then
+		fn_script_log_fatal "Removing ${steamcmddir}"
+	else
+		fn_script_log_pass "Removing ${steamcmddir}"
+	fi
+fi
+}
+
+fn_check_steamcmd_exec(){
 	if [ "$(command -v steamcmd 2>/dev/null)" ]; then
 		steamcmdcommand="steamcmd"
 	else
@@ -74,6 +81,7 @@ fn_check_steamcmd_check(){
 	fi
 }
 
+fn_check_steamcmd
+fn_check_steamcmd_clear
 fn_check_steamcmd_user
-fn_check_steamcmd_sh
-fn_check_steamcmd_check
+fn_check_steamcmd_exec
