@@ -53,7 +53,7 @@ echo -e "Not Found"
 echo -e "================================="
 cat "${tmpdir}/detect_ldd_not_found.tmp"
 
-rm "${tmpdir}/detect_ldd.tmp"
-rm "${tmpdir}/detect_ldd_not_found.tmp"
+rm -f "${tmpdir:?}/detect_ldd.tmp"
+rm -f "${tmpdir:?}/detect_ldd_not_found.tmp"
 
 core_exit.sh

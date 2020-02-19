@@ -153,7 +153,7 @@ fn_appmanifest_check(){
 		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
 		fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
 		for appfile in ${appmanifestfile}; do
-			rm "${appfile}"
+			rm -f "${appfile:?}"
 		done
 		appmanifestfilewc1="${appmanifestfilewc}"
 		fn_appmanifest_info

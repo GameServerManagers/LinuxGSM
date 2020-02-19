@@ -92,7 +92,7 @@ fn_install_server_files_steamcmd(){
 				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
-				rm -rf "${steamcmddir}"
+				rm -rf "${steamcmddir:?}"
 				check_steamcmd.sh
 			fi
 

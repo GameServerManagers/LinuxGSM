@@ -829,7 +829,7 @@ echo -e "Command: ./jc2server update"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "removed appmanifest_${appid}.acf."
-rm --verbose "${serverfiles}/steamapps/appmanifest_${appid}.acf"
+rm --verbose "${serverfiles:?}/steamapps/appmanifest_${appid}.acf"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -1174,6 +1174,6 @@ requiredstatus="OFFLINE"
 fn_setstatus
 if [ ! -v TRAVIS ]; then
 	fn_print_info "Tidying up directories."
-	rm -rfv "${serverfiles}"
+	rm -rfv "${serverfiles:?}"
 fi
 core_exit.sh

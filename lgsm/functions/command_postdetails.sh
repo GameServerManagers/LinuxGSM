@@ -44,7 +44,7 @@ fn_bad_postdetailslog() {
 
 # Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
-	rm -f "${postdetailslog}"
+	rm -f "${postdetailslog:?}"
 fi
 
 # Rather than a one-pass sed parser, default to using a temporary directory.

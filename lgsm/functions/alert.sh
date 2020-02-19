@@ -12,7 +12,7 @@ fn_alert_log(){
 	info_config.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
-		rm "${alertlog}"
+		rm -f "${alertlog:?}"
 	fi
 
 	{

@@ -46,13 +46,22 @@ fn_check_steamcmd_user(){
 fn_check_steamcmd_sh(){
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Installs if missing.
-	if [ ! -f "${steamcmddir}/steamcmd.sh" ]; then
-		if [ "${function_selfname}" == "command_install.sh" ]; then
-			fn_install_steamcmd
+	if [ ! -f "${steamcmddir}/steamcmd.sh" ]||[ ! "$(command -v steamcmd 2>/dev/null)" ]; then
+		# Debian and Ubuntu uses steamcmd package
+		if [ -f "/etc/debian_version" ]&&[ "$(command -v steamcmd 2>/dev/null)" ]; then
+			# Install steamcmd with apt
+			:
+			if [ -f "${steamcmddir}" ]; then
+				rm -rf "${steamcmddir:?}"
+			fi
 		else
-			fn_print_error_nl "SteamCMD is missing"
-			fn_script_log_error "SteamCMD is missing"
-			fn_install_steamcmd
+			if [ "${function_selfname}" == "command_install.sh" ]; then
+				fn_install_steamcmd
+			else
+				fn_print_error_nl "SteamCMD is missing"
+				fn_script_log_error "SteamCMD is missing"
+				fn_install_steamcmd
+			fi
 		fi
 	elif [ "${function_selfname}" == "command_install.sh" ]; then
 		fn_print_information "SteamCMD is already installed..."
@@ -60,5 +69,14 @@ fn_check_steamcmd_sh(){
 	fi
 }
 
+fn_check_steamcmd_check(){
+	if [ "$(command -v steamcmd 2>/dev/null)" ]; then
+		steamcmdcommand="steamcmd"
+	else
+		steamcmdcommand="./steamcmd.sh"
+	fi
+}
+
 fn_check_steamcmd_user
 fn_check_steamcmd_sh
+fn_check_steamcmd_check
