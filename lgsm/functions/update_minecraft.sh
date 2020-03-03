@@ -64,7 +64,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -76,7 +76,7 @@ fn_update_minecraft_localbuild(){
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
 			fi
-			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
 			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
 				break
 			fi
