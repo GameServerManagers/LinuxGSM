@@ -49,6 +49,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ges.sh
 	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
+	elif [ "${shortname}" == "onset" ]; then
+		fix_onset.sh
 	elif [ "${shortname}" == "rust" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
@@ -99,8 +101,6 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 				fix_ut.sh
 			elif [ "${shortname}" == "ut3" ]; then
 				fix_ut3.sh
-			elif [ "${shortname}" == "onset" ]; then
-				fix_onset.sh
 			else
 				fn_print_information_nl "No fixes required."
 			fi
