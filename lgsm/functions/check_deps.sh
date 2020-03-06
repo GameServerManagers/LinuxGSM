@@ -160,7 +160,7 @@ fn_deps_detector(){
 		depstatus=1
 		jquniversemissing=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ -n "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed.
 			depstatus=0
 		else
@@ -168,10 +168,10 @@ fn_deps_detector(){
 			depstatus=1
 			monostatus=1
 		fi
-	elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+	elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
-	elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+	elif [ "$(command -v rpm 2>/dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
 		depstatus=$?
 	fi
@@ -212,15 +212,15 @@ fn_deps_email(){
 				array_deps_required+=( exim4 )
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=( sendmail )
-			elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+			elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+			elif [ "$(command -v rpm 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		else
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+			elif [ "$(command -v rpm 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		fi
@@ -255,13 +255,13 @@ fn_found_missing_deps(){
 			echo -en "...\r"
 			sleep 1
 			echo -en "   \r"
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 				cmd="sudo dpkg --add-architecture i386; sudo apt update; sudo apt -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
-			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				cmd="sudo dnf -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+			elif [ "$(command -v yum 2>/dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
 			fi
@@ -271,11 +271,11 @@ fn_found_missing_deps(){
 				echo -e ""
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
-				if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+				if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
-				elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+				elif [ "$(command -v dnf 2>/dev/null)" ]; then
 					echo -e "	sudo dnf install ${array_deps_missing[@]}"
-				elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+				elif [ "$(command -v yum 2>/dev/null)" ]; then
 					echo -e "	sudo yum install ${array_deps_missing[@]}"
 				fi
 				if [ "${steamcmdfail}" ]; then
@@ -292,11 +292,11 @@ fn_found_missing_deps(){
 			echo -e ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 				echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
-			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				echo -e "	sudo dnf install ${array_deps_missing[@]}"
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+			elif [ "$(command -v yum 2>/dev/null)" ]; then
 				echo -e "	sudo yum install ${array_deps_missing[@]}"
 			fi
 			if [ "${steamcmdfail}" ]; then
@@ -335,9 +335,9 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq steamcmd )
 
-	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
+	if [ "$(command -v tmux 2>/dev/null)" ]; then
 		tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
 	else
 		array_deps_required+=( tmux )
@@ -464,7 +464,7 @@ fn_deps_build_redhat(){
 	fi
 
 	# All servers except ts3 require tmux.
-	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
+	if [ "$(command -v tmux 2>/dev/null)" ]; then
 		# Added for users compiling tmux from source to bypass check.
 		tmuxcheck=1
 	else

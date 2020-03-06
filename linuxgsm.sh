@@ -72,7 +72,7 @@ fn_bootstrap_fetch_file(){
 		fi
 
 		# If curl exists download file.
-		if [ -n "$(command -v curl 2>/dev/null)" ]; then
+		if [ "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
@@ -192,7 +192,7 @@ fn_install_menu() {
 	options=$4
 	# Get menu command.
 	for menucmd in whiptail dialog bash; do
-		if [ -x "$(command -v "${menucmd}")" ]; then
+		if [ "$(command -v "${menucmd}")" ]; then
 			menucmd=$(command -v "${menucmd}")
 			break
 		fi

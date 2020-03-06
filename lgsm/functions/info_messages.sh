@@ -1250,7 +1250,14 @@ fn_info_message_unturned(){
 	} | column -s $'\t' -t
 }
 
-
+fn_info_message_ut(){
+	echo -e "netstat -atunp | grep UE4Server"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
 
 fn_info_message_kf2(){
 	fn_info_message_password_strip
@@ -1435,6 +1442,8 @@ fn_info_message_select_engine(){
 		fn_info_message_teeworlds
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unturned
+	elif [ "${shortname}" == "ut" ]; then
+		fn_info_message_ut
 	elif [ "${shortname}" == "mc" ]; then
 		fn_info_message_minecraft
 	elif [ "${shortname}" == "mh" ]; then
