@@ -9,7 +9,7 @@ local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_install_server_files(){
-    if [ "${shortname}" == "ahl" ]; then
+	if [ "${shortname}" == "ahl" ]; then
 		remote_fileurl="http://linuxgsm.download/ActionHalfLife/action_halflife-1.0.tar.bz2"; local_filedir="${tmpdir}"; local_filename="action_halflife-1.0.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="31430e670692b2eeaa0d1217db4dcb73"
 	elif [ "${shortname}" == "bf1942" ]; then
 		remote_fileurl="http://linuxgsm.download/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="a86a5d3cd64ca59abcc9bb9f777c2e5d"
@@ -74,7 +74,9 @@ fn_install_server_files_steamcmd(){
 	counter="0"
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
-		cd "${steamcmddir}" || exit
+		if [ -d "${steamcmddir}" ]; then
+			cd "${steamcmddir}" || exit
+		fi
 		if [ "${counter}" -le "10" ]; then
 			# Attempt 1-4: Standard attempt.
 			# Attempt 5-6: Validate attempt.
@@ -98,24 +100,24 @@ fn_install_server_files_steamcmd(){
 
 			# Detects if unbuffer command is available for 32 bit distributions only.
 			info_distro.sh
-			if [ -n "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
+			if [ "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
 				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
 			if [ "${counter}" -le "4" ]; then
 				if [ "${appid}" == "90" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit
+					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit
+					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit
 					local exitcode=$?
 				fi
 			elif [ "${counter}" -ge "5" ]; then
 				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" validate +quit
+					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" validate +quit
 					local exitcode=$?
 				else
-					${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit
+					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit
 					local exitcode=$?
 				fi
 			fi
@@ -133,7 +135,7 @@ fn_install_server_files_steamcmd(){
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))
-			${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" validate +quit
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" validate +quit
 			local exitcode=$?
 		done
 	fi
