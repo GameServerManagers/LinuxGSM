@@ -821,6 +821,17 @@ fn_info_message_minecraft_bedrock(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_onset(){
+	echo -e "netstat -atunp | grep OnsetServer"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mohaa(){
 	echo -e "netstat -atunp | grep mohaa_lnxded"
 	echo -e ""
@@ -1387,6 +1398,8 @@ fn_info_message_select_engine(){
 		fn_info_message_kf2
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_message_minecraft_bedrock
+	elif [ "${shortname}" == "onset" ]; then
+		fn_info_message_onset
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
