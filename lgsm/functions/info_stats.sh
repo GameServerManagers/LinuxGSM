@@ -10,7 +10,7 @@ info_distro.sh
 if [ ! -f "${datadir}/uuid.txt" ];then
 	mkdir -p "${datadir}"
 	touch "${datadir}/uuid.txt"
-	if [ -n "$(command -v uuidgen 2>/dev/null)" ]; then
+	if [ "$(command -v uuidgen 2>/dev/null)" ]; then
 		uuidgen > "${datadir}/uuid.txt"
 	else
 		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt"
