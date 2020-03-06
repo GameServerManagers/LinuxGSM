@@ -234,7 +234,6 @@ fn_info_parms_unturned(){
 
 fn_info_parms_ut(){
 	port=${port:-"0"}
-	queryport="${port:-"0"}"
 }
 
 fn_info_parms_wf(){
