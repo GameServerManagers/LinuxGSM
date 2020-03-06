@@ -13,7 +13,7 @@ echo -e "================================="
 echo -e "glibc Requirements Checker"
 echo -e "================================="
 
-if [ ! "$(command -v objdump)" ]; then
+if [ -z "$(command -v objdump)" ]; then
 	fn_print_failure_nl "objdump is missing"
 	fn_script_log_fatal "objdump is missing"
 	core_exit.sh

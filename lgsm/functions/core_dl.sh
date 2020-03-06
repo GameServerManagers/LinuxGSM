@@ -256,7 +256,7 @@ fn_update_function(){
 }
 
 # Check that curl is installed
-if [ ! "$(command -v curl 2>/dev/null)" ]; then
+if [ -z "$(command -v curl 2>/dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi

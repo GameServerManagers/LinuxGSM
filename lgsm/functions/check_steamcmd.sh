@@ -46,7 +46,7 @@ fn_check_steamcmd_user(){
 fn_check_steamcmd(){
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Only install if steamcmd package is missing or steamcmd dir is missing.
-	if [ ! -f "${steamcmddir}/steamcmd.sh" ]&&[ ! "$(command -v steamcmd 2>/dev/null)" ]; then
+	if [ ! -f "${steamcmddir}/steamcmd.sh" ]&&[ -z "$(command -v steamcmd 2>/dev/null)" ]; then
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
 		else

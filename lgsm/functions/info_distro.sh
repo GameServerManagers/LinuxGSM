@@ -71,7 +71,7 @@ glibcversion=$(ldd --version | sed -n '1s/.* //p')
 
 ## tmux version
 # e.g: tmux 1.6
-if [ ! "$(command -V tmux 2>/dev/null)" ]; then
+if [ -z "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
 else
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
