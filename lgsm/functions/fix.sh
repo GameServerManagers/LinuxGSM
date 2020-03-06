@@ -49,6 +49,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ges.sh
 	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
+	elif [ "${shortname}" == "nmrih" ]; then
+		fix_nmrih.sh
 	elif [ "${shortname}" == "rust" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
