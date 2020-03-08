@@ -76,7 +76,7 @@ fn_alert_config(){
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${servicename} has received a new _default.cfg. Check file for changes."
+	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
 
 fn_alert_command_restart(){

@@ -10,7 +10,7 @@ info_distro.sh
 if [ ! -f "${datadir}/uuid.txt" ];then
 	mkdir -p "${datadir}"
 	touch "${datadir}/uuid.txt"
-	if [ -n "$(command -v uuidgen 2>/dev/null)" ]; then
+	if [ "$(command -v uuidgen 2>/dev/null)" ]; then
 		uuidgen > "${datadir}/uuid.txt"
 	else
 		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt"
@@ -23,9 +23,6 @@ uuid=$(cat "${datadir}/uuid.txt")
 cpuusedmhzroundup=$(((cpuusedmhz + 99) / 100 * 100))
 # nearest 100MB
 memusedroundup=$(((memused + 99) / 100 * 100))
-# nearest 100MB
-serverfilesduroundup=$(((serverfilesdu + 99) / 100 * 100))
-# https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
 # Level 1 Stats
 ## Distro

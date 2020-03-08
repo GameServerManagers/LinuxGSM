@@ -66,8 +66,6 @@ core_functions.sh(){
 
 # Bootstrap
 # Fetches the core functions required before passed off to core_dl.sh.
-
-# Fetches core functions.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
 	local_filedir="${2}"
@@ -83,7 +81,7 @@ fn_bootstrap_fetch_file(){
 		fi
 
 		# If curl exists download file.
-		if [ -n "$(command -v curl 2>/dev/null)" ]; then
+		if [ "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
@@ -203,7 +201,7 @@ fn_install_menu() {
 	options=$4
 	# Get menu command.
 	for menucmd in whiptail dialog bash; do
-		if [ -x "$(command -v "${menucmd}")" ]; then
+		if [ "$(command -v "${menucmd}")" ]; then
 			menucmd=$(command -v "${menucmd}")
 			break
 		fi
@@ -280,15 +278,15 @@ if [ "$(whoami)" == "root" ]; then
 	fi
 fi
 
-# Download the latest serverlist. This is the complete list of all supported servers.
-fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
-if [ ! -f "${serverlist}" ]; then
-	echo -e "[ FAIL ] serverlist.csv could not be loaded."
-	exit 1
-fi
-
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
+	# Download the latest serverlist. This is the complete list of all supported servers.
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+	if [ ! -f "${serverlist}" ]; then
+		echo -e "[ FAIL ] serverlist.csv could not be loaded."
+		exit 1
+	fi
+
 	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
 		{
 			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
@@ -380,7 +378,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-		if [ -z "${travistest}" ]; then
+	if [ -z "${travistest}" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
@@ -479,6 +477,8 @@ fn_test_result_na(){
 	echo -e "Actual result: N/A"
 	fn_print_fail_nl "TEST N/A"
 }
+
+sleeptime="0"
 
 echo -e "================================="
 echo -e "Travis CI Tests"
@@ -1011,6 +1011,8 @@ echo -e "Using: ${gamename}"
 echo -e "================================="
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_print_info "Tidying up directories."
-rm -rfv "${serverfiles}"
+if [ ! -v TRAVIS ]; then
+	fn_print_info "Tidying up directories."
+	rm -rfv "${serverfiles}"
+fi
 core_exit.sh

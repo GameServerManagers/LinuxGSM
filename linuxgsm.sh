@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.11.0"
+version="v19.12.5"
 shortname="core"
 gameservername="core"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
@@ -72,7 +72,7 @@ fn_bootstrap_fetch_file(){
 		fi
 
 		# If curl exists download file.
-		if [ -n "$(command -v curl 2>/dev/null)" ]; then
+		if [ "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
@@ -192,7 +192,7 @@ fn_install_menu() {
 	options=$4
 	# Get menu command.
 	for menucmd in whiptail dialog bash; do
-		if [ -x "$(command -v "${menucmd}")" ]; then
+		if [ "$(command -v "${menucmd}")" ]; then
 			menucmd=$(command -v "${menucmd}")
 			break
 		fi
@@ -357,13 +357,13 @@ else
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 			# shellcheck source=/dev/null
-			source "${configdirserver}/${servicename}.cfg"
+			source "${configdirserver}/${selfname}.cfg"
 		else
 			# shellcheck source=/dev/null
-			source "${configdirserver}/${servicename}.cfg"
+			source "${configdirserver}/${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.

@@ -17,8 +17,8 @@ fn_monitor_check_lockfile(){
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
 		fn_sleep_time
-		fn_print_error_nl "Checking lockfile: No lockfile found: "
-		fn_print_error_eol
+		fn_print_error "Checking lockfile: No lockfile found: "
+		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		fn_sleep_time
 		echo -e "	* Start ${selfname} to run monitor."
@@ -136,7 +136,7 @@ for queryattempt in {1..5}; do
 		fn_sleep_time
 		monitorpass=1
 		# send LinuxGSM stats if monitor is OK.
-		if [ "${stats}" == "on" ]; then
+		if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
 			info_stats.sh
 		fi
     if [ "${querystatus}" == "0" ]; then
@@ -212,7 +212,7 @@ fn_monitor_loop(){
 	do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
-			if [ -n "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
+			if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 				if [ -z "${monitorpass}" ]; then
 					fn_monitor_query
 				fi

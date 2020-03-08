@@ -201,7 +201,7 @@ fn_install_menu() {
 	options=$4
 	# Get menu command.
 	for menucmd in whiptail dialog bash; do
-		if [ -x "$(command -v "${menucmd}")" ]; then
+		if [ "$(command -v "${menucmd}")" ]; then
 			menucmd=$(command -v "${menucmd}")
 			break
 		fi
@@ -477,6 +477,8 @@ fn_test_result_na(){
 	echo -e "Actual result: N/A"
 	fn_print_fail_nl "TEST N/A"
 }
+
+sleeptime="0"
 
 echo -e "================================="
 echo -e "Travis CI Tests"
@@ -1170,6 +1172,8 @@ echo -e "Using: ${gamename}"
 echo -e "================================="
 requiredstatus="OFFLINE"
 fn_setstatus
-fn_print_info "Tidying up directories."
-rm -rfv "${serverfiles}"
+if [ ! -v TRAVIS ]; then
+	fn_print_info "Tidying up directories."
+	rm -rfv "${serverfiles}"
+fi
 core_exit.sh
