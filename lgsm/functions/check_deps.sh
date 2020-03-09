@@ -35,7 +35,7 @@ fn_install_mono_repo(){
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 					eval "${cmd}"
 				else
-					fn_print_warn_nl "Installing Mono repository"
+					fn_print_warn_nl "Installing Mono repository."
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
 					echo -e "	https://www.mono-project.com/download/stable/#download-lin"
@@ -91,11 +91,11 @@ fn_install_mono_repo(){
 				fi
 			fi
 		else
-			fn_print_information_nl "Installing Mono repository"
+			fn_print_information_nl "Installing Mono repository."
 			echo -e ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install Mono repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install Mono repository."
-			echo -e "	Follow instructions on mono site to install the latest version of Mono."
+			echo -e "* Follow instructions on mono site to install the latest version of Mono."
 			echo -e "	https://www.mono-project.com/download/stable/#download-lin"
 		fi
 	fi
@@ -105,7 +105,7 @@ fn_install_universe_repo(){
 	# Defensive coding - As this is an ubuntu only issue then check to make sure this fix is needed, and we are using ubuntu.
    if [ "${jquniversemissing}" != "0" ]&&[ "${distroid}" == "ubuntu" ]; then
 		fn_print_warning_nl "Ubuntu 18.04.1 contains a bug which means the sources.list file does not populate with the Ubuntu universe repository."
-		fn_print_information_nl "Attempting to add Universe Repo"
+		fn_print_information_nl "Attempting to add universe repository."
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
 		else
@@ -131,7 +131,8 @@ fn_install_universe_repo(){
 		else
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually add Universe repository."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually add Universe repository."
-			echo -e "	Please run the following command as a user with sudo access, and re-run the installation"
+			echo -e "* Please run the following command as a user with sudo access, and re-run the installation"
+			echo -e ""
 			echo -e "	sudo apt-add-repository universe"
 		fi
 	fi
@@ -228,7 +229,7 @@ fn_found_missing_deps(){
 			fn_install_mono_repo
 		fi
 		if [ -n "${jqstatus}" ]; then
-			fn_print_warning_nl "jq is not available in the ${distroname} repository"
+			fn_print_warning_nl "jq is not available in the ${distroname} repository."
 			echo -e "	* https://docs.linuxgsm.com/requirements/jq"
 		fi
 		if [ "${autoinstall}" == "1" ]; then
@@ -257,8 +258,8 @@ fn_found_missing_deps(){
 				eval "${cmd}"
 			fi
 			if [ $? != 0 ]; then
-				fn_print_failure_nl "Unable to install dependencies"
-				fn_script_log_fatal "Unable to install dependencies"
+				fn_print_failure_nl "Unable to install dependencies."
+				fn_script_log_fatal "Unable to install dependencies."
 				echo -e ""
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
@@ -276,19 +277,19 @@ fn_found_missing_deps(){
 					core_exit.sh
 				fi
 			else
-				fn_print_complete_nl "Install dependencies completed"
-				fn_script_log_pass "Install dependencies completed"
+				fn_print_complete_nl "Install dependencies completed."
+				fn_script_log_pass "Install dependencies completed."
 			fi
 		else
-			echo -e ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
+			echo -e ""
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+				echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
-				echo -e "	sudo dnf install ${array_deps_missing[@]}"
+				echo -e "sudo dnf install ${array_deps_missing[@]}"
 			elif [ "$(command -v yum 2>/dev/null)" ]; then
-				echo -e "	sudo yum install ${array_deps_missing[@]}"
+				echo -e "sudo yum install ${array_deps_missing[@]}"
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo -e ""
@@ -303,8 +304,8 @@ fn_found_missing_deps(){
 		fi
 	else
 		if [ "${function_selfname}" == "command_install.sh" ]; then
-			fn_print_information_nl "Required dependencies already installed"
-			fn_script_log_info "Required dependencies already installed"
+			fn_print_information_nl "Required dependencies already installed."
+			fn_script_log_info "Required dependencies already installed."
 		fi
 	fi
 }
@@ -563,5 +564,5 @@ if [ -f "/etc/debian_version" ]; then
 elif [ -f "/etc/redhat-release" ]; then
 	fn_deps_build_redhat
 else
-	fn_print_warning_nl "${distroname} dependency checking unavailable"
+	fn_print_warning_nl "${distroname} dependency checking unavailable."
 fi
