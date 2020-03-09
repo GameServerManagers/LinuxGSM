@@ -192,7 +192,7 @@ fn_deps_detector(){
 		fi
 		# Define required dependencies for SteamCMD.
 		if [ -n "${appid}" ]; then
-			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
+			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
 				steamcmdfail=1
 			fi
 		fi
@@ -346,9 +346,9 @@ fn_deps_build_debian(){
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
+			array_deps_required+=( lib32gcc1 lib32stdc++6 )
 		else
-			array_deps_required+=( libstdc++6:i386 )
+			array_deps_required+=( lib32stdc++6 )
 		fi
 	fi
 
