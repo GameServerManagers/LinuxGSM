@@ -256,7 +256,7 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
+				cmd="echo steamcmd steam/question select "I AGREE" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				cmd="sudo dnf -y install ${array_deps_missing[@]}"
