@@ -64,9 +64,6 @@ fn_install_mono_repo(){
 				elif [ "${distroversion}" == "7" ]; then
 					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos7-stable.repo | tee /etc/yum.repos.d/mono-centos7-stable.repo'"
 					eval "${cmd}"
-				elif [ "${distroversion}" == "6" ]; then
-					cmd="rpm --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos6-stable.repo | tee /etc/yum.repos.d/mono-centos6-stable.repo'"
-					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
@@ -142,18 +139,12 @@ fn_install_universe_repo(){
 
 fn_deps_detector(){
 	# Checks if dependency is missing.
-	if [ "${tmuxcheck}" == "1" ]; then
-		# Added for users compiling tmux from source to bypass check.
-		depstatus=0
-		deptocheck="tmux"
-		unset tmuxcheck
-	elif [ "${javacheck}" == "1" ]; then
+if [ "${javacheck}" == "1" ]; then
 		# Added for users using Oracle JRE to bypass check.
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
-	elif [ "${deptocheck}" == "jq" ]&&[ "${distroversion}" == "6" ]; then
-		jqstatus=1
+
 	elif [ "${deptocheck}" == "jq" ]&&[ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "18.04" ]&& ! grep -qE "^deb .*universe" /etc/apt/sources.list; then
 		# #1985 ubuntu 18.04.1 bug does not set sources.list correctly which means universe is not active by default
 		# If the universe repo does not exist, mark as dependency missing and universe missing.
@@ -192,7 +183,7 @@ fn_deps_detector(){
 		fi
 		# Define required dependencies for SteamCMD.
 		if [ -n "${appid}" ]; then
-			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "libstdc++6:i386" ]; then
+			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
 				steamcmdfail=1
 			fi
 		fi
@@ -335,20 +326,14 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq steamcmd )
-
-	if [ "$(command -v tmux 2>/dev/null)" ]; then
-		tmuxcheck=1 # Added for users compiling tmux from source to bypass check.
-	else
-		array_deps_required+=( tmux )
-	fi
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux steamcmd )
 
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32gcc1 libstdc++6:i386 )
+			array_deps_required+=( lib32gcc1 lib32stdc++6 )
 		else
-			array_deps_required+=( libstdc++6:i386 )
+			array_deps_required+=( lib32stdc++6 )
 		fi
 	fi
 
@@ -449,26 +434,16 @@ fn_deps_build_redhat(){
 
 	# LinuxGSM requirements.
 	# CentOS
-	if [ "${distroversion}" == "6" ]; then
-		array_deps_required=( epel-release curl wget util-linux-ng python file tar gzip bzip2 unzip binutils bc jq )
-	elif [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
+  if [ "${distroversion}" == "7" ]; then
+		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
 	elif [ "${distroversion}" == "8" ]; then
-		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq )
+		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
 	else
-		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq )
-	fi
-
-	# All servers except ts3 require tmux.
-	if [ "$(command -v tmux 2>/dev/null)" ]; then
-		# Added for users compiling tmux from source to bypass check.
-		tmuxcheck=1
-	else
-		array_deps_required+=( tmux )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
 	fi
 
 	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.
