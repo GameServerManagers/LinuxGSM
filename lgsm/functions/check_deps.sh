@@ -26,13 +26,13 @@ fn_install_mono_repo(){
 			echo -en "   \r"
 			if [ "${distroid}" == "ubuntu" ]; then
 				if [ "${distroversion}" == "18.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "16.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "14.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
 					fn_print_warn_nl "Installing Mono repository"
@@ -43,13 +43,13 @@ fn_install_mono_repo(){
 				fi
 			elif [ "${distroid}" == "debian" ]; then
 				if [ "${distroversion}" == "10" ]; then
-					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-get install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "9" ]; then
-					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-get install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "8" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
@@ -160,7 +160,7 @@ fn_deps_detector(){
 		depstatus=1
 		jquniversemissing=1
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ -n "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed.
 			depstatus=0
 		else
@@ -168,10 +168,10 @@ fn_deps_detector(){
 			depstatus=1
 			monostatus=1
 		fi
-	elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+	elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
-	elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+	elif [ "$(command -v rpm 2>/dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
 		depstatus=$?
 	fi
@@ -212,15 +212,15 @@ fn_deps_email(){
 				array_deps_required+=( exim4 )
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=( sendmail )
-			elif [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+			elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+			elif [ "$(command -v rpm 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		else
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 				array_deps_required+=( mailutils postfix )
-			elif [ -n "$(command -v rpm 2>/dev/null)" ]; then
+			elif [ "$(command -v rpm 2>/dev/null)" ]; then
 				array_deps_required+=( mailx postfix )
 			fi
 		fi
@@ -255,13 +255,13 @@ fn_found_missing_deps(){
 			echo -en "...\r"
 			sleep 1
 			echo -en "   \r"
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="sudo dpkg --add-architecture i386; sudo apt update; sudo apt -y install ${array_deps_missing[@]}"
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
-			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				cmd="sudo dnf -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+			elif [ "$(command -v yum 2>/dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
 			fi
@@ -271,11 +271,11 @@ fn_found_missing_deps(){
 				echo -e ""
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
-				if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
-				elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+				if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+					echo -e "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
+				elif [ "$(command -v dnf 2>/dev/null)" ]; then
 					echo -e "	sudo dnf install ${array_deps_missing[@]}"
-				elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+				elif [ "$(command -v yum 2>/dev/null)" ]; then
 					echo -e "	sudo yum install ${array_deps_missing[@]}"
 				fi
 				if [ "${steamcmdfail}" ]; then
@@ -292,11 +292,11 @@ fn_found_missing_deps(){
 			echo -e ""
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
-			if [ -n "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
-			elif [ -n "$(command -v dnf 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+				echo -e "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
+			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				echo -e "	sudo dnf install ${array_deps_missing[@]}"
-			elif [ -n "$(command -v yum 2>/dev/null)" ]; then
+			elif [ "$(command -v yum 2>/dev/null)" ]; then
 				echo -e "	sudo yum install ${array_deps_missing[@]}"
 			fi
 			if [ "${steamcmdfail}" ]; then
@@ -335,7 +335,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq steamcmd )
 
 	# Added for users compiling tmux from source to bypass check.
 	if [ -n "$(command -v tmux 2>/dev/null)" ]; then
@@ -424,6 +424,12 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( openjdk-8-jre-headless )
 		fi
+	# Medal of Honor: Allied Assault
+	elif [ "${shortname}" == "mohaa" ]; then
+		array_deps_required+=( libstdc++5:i386 )
+	# Onset
+	elif [ "${shortname}" == "onset" ]; then
+		array_deps_required+=( libmariadbclient-dev )
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( libgconf-2-4 )
@@ -586,6 +592,9 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-1.8.0-openjdk rng-tools )
 		fi
+	# Onset
+	elif [ "${shortname}" == "onset" ]; then
+		array_deps_required+=( mariadb-connector-c )
 	# Serious Sam 3: BFE
 	elif [ "${shortname}" == "ss3" ]; then
 		# Not supported on CentOS

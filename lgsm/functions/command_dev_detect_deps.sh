@@ -13,9 +13,9 @@ echo -e "Dependencies Checker"
 echo -e "================================="
 echo -e "Checking directory: "
 echo -e "${serverfiles}"
-if [ -n "$(command -v eu-readelf 2>/dev/null)" ]; then
+if [ "$(command -v eu-readelf 2>/dev/null)" ]; then
 	readelf=eu-readelf
-elif [ -n "$(command -v readelf 2>/dev/null)" ]; then
+elif [ "$(command -v readelf 2>/dev/null)" ]; then
 	readelf=readelf
 else
 	echo -e "readelf/eu-readelf not installed"
