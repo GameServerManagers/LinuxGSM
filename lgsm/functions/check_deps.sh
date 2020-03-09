@@ -26,13 +26,13 @@ fn_install_mono_repo(){
 			echo -en "   \r"
 			if [ "${distroid}" == "ubuntu" ]; then
 				if [ "${distroversion}" == "18.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "16.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "14.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
 					fn_print_warn_nl "Installing Mono repository"
@@ -43,13 +43,13 @@ fn_install_mono_repo(){
 				fi
 			elif [ "${distroid}" == "debian" ]; then
 				if [ "${distroversion}" == "10" ]; then
-					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-get install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "9" ]; then
-					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-get install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "8" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
@@ -256,7 +256,7 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="sudo dpkg --add-architecture i386; sudo apt update; sudo apt -y install ${array_deps_missing[@]}"
+				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[@]}"
 				eval "${cmd}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				cmd="sudo dnf -y install ${array_deps_missing[@]}"
@@ -272,7 +272,7 @@ fn_found_missing_deps(){
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
 				if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+					echo -e "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
 				elif [ "$(command -v dnf 2>/dev/null)" ]; then
 					echo -e "	sudo dnf install ${array_deps_missing[@]}"
 				elif [ "$(command -v yum 2>/dev/null)" ]; then
@@ -293,7 +293,7 @@ fn_found_missing_deps(){
 			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+				echo -e "	sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get install ${array_deps_missing[@]}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				echo -e "	sudo dnf install ${array_deps_missing[@]}"
 			elif [ "$(command -v yum 2>/dev/null)" ]; then
