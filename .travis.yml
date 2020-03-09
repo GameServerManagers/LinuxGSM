@@ -24,7 +24,6 @@ addons:
     - libcurl4-openssl-dev
     - libdw-dev
     - cmake
-    - steamcmd
 
 jobs:
   include:
