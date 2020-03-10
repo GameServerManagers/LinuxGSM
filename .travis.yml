@@ -19,7 +19,7 @@ addons:
     - postfix
     - jq
     - lib32gcc1
-    - libstdc++6:i386
+    - lib32stdc++6
     - shellcheck
     - libcurl4-openssl-dev
     - libdw-dev
