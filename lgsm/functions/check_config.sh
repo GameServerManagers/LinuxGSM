@@ -7,7 +7,6 @@
 local modulename="CHECK"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 if [ ! -f "${servercfgfullpath}" ]; then
