@@ -8,7 +8,7 @@ local modulename="FIX"
 local commandaction="Fix"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
-export LD_LIBRARY_PATH="${serverfiles}:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"
 
 # Fixes: Failed loading "mariadb": libmariadbclient.so.18: cannot open shared object file: No such file or directory
 # Issue only occures on CentOS as libmariadbclient.so.18 is called libmariadb.so.3 on CentOS.

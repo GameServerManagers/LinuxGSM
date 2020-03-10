@@ -8,4 +8,4 @@ local modulename="FIX"
 local commandaction="Fix"
 
 # Fixes: error while loading shared libraries: libcxa.so.1
-export LD_LIBRARY_PATH=":$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"

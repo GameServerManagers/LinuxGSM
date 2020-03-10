@@ -7,4 +7,4 @@
 local modulename="FIX"
 local commandaction="Fix"
 
-export LD_LIBRARY_PATH="${serverfiles}"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"
