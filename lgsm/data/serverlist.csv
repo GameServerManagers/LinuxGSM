@@ -59,6 +59,7 @@ nmrih,nmrihserver,No More Room in Hell
 ns,nsserver,Natural Selection
 ns2,ns2server,Natural Selection 2
 ns2c,ns2cserver,NS2: Combat
+onset,onsetserver,Onset
 opfor,opforserver,Opposing Force
 pc,pcserver,Project Cars
 pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
@@ -92,6 +93,7 @@ ts3,ts3server,Teamspeak 3
 tu,tuserver,Tower Unite
 tw,twserver,Teeworlds
 unt,untserver,Unturned
+ut,utserver,Unreal Tournament
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99

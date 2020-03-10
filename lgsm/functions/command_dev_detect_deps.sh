@@ -13,9 +13,9 @@ echo -e "Dependencies Checker"
 echo -e "================================="
 echo -e "Checking directory: "
 echo -e "${serverfiles}"
-if [ -n "$(command -v eu-readelf 2>/dev/null)" ]; then
+if [ "$(command -v eu-readelf 2>/dev/null)" ]; then
 	readelf=eu-readelf
-elif [ -n "$(command -v readelf 2>/dev/null)" ]; then
+elif [ "$(command -v readelf 2>/dev/null)" ]; then
 	readelf=readelf
 else
 	echo -e "readelf/eu-readelf not installed"
@@ -33,6 +33,10 @@ while IFS= read -r -d $'\0' line; do
 done
 
 sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
+
+touch "${tmpdir}/.depdetect_centos_list"
+touch "${tmpdir}/.depdetect_ubuntu_list"
+touch "${tmpdir}/.depdetect_debian_list"
 
 while read -r lib; do
 	echo -e "${lib}"
@@ -127,6 +131,31 @@ while read -r lib; do
 		echo -e "GConf2" >> "${tmpdir}/.depdetect_centos_list"
 		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libz.so.1" ]; then
+		echo -e "zlib" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "zlib1g" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "zlib1g" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libatk-1.0.so.0" ]; then
+		echo -e "atk" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libatk1.0-0" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libatk1.0-0" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libcairo.so.2" ]; then
+		echo -e "cairo" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libcairo2" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libcairo2" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libfontconfig.so.1" ]; then
+		echo -e "fontconfig" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libfontconfig1" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libfontconfig1" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libfreetype.so.6" ]; then
+		echo -e "freetype" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	fi
 

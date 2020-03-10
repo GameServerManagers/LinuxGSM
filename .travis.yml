@@ -19,7 +19,7 @@ addons:
     - postfix
     - jq
     - lib32gcc1
-    - libstdc++6:i386
+    - lib32stdc++6
     - shellcheck
     - libcurl4-openssl-dev
     - libdw-dev
@@ -31,13 +31,13 @@ jobs:
       name: "code coverage"
       script: bash tests/tests_kcov.sh; kcov --bash-method=DEBUG coverage tests/tests_mcserver.sh
     - script: bash tests/tests_mcserver.sh
-      name: "Minecraft"      
-    - script: bash tests/tests_jc2server.sh      
+      name: "Minecraft"
+    - script: bash tests/tests_jc2server.sh
       name: "Just Cause 2"
     - script: bash tests/tests_fctrserver.sh
-      name: "Factorio" 
+      name: "Factorio"
     - script: bash tests/tests_ts3server.sh
-      name: "Teamspeak 3"     
+      name: "Teamspeak 3"
     - script: bash tests/tests_defaultcfg/tests_defaultcfg.sh
       name: "_default.cfg checks"
 after_success:

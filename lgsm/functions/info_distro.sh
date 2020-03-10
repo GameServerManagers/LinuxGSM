@@ -32,7 +32,7 @@ do
 		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
 		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
 		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
-	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
+	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ];then
 			distroname=$(lsb_release -sd)
 		elif [ -z "${distroversion}" ];then
@@ -42,7 +42,7 @@ do
 		elif [ -z "${distrocodename}" ];then
 			distrocodename=$(lsb_release -sc)
 		fi
-	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
+	elif [ "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
 		if [ -z "${distroname}" ];then
 			distroname=$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')
 		fi
@@ -107,7 +107,7 @@ fi
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -172,10 +172,10 @@ fi
 ### Disk information
 
 ## Available disk space on the partition.
-filesystem=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')
-totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
-usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
-availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
+filesystem=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $1}')
+totalspace=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $2}')
+usedspace=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $3}')
+availspace=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $4}')
 
 ## LinuxGSM used space total.
 rootdirdu=$(du -sh "${rootdir}" 2> /dev/null | awk '{print $1}')
@@ -232,7 +232,15 @@ if [ -z "${extip}" ]; then
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
-		echo -e "${extip}" > "${tmpdir}/extip.txt"
+		if [[ "${extip}" != *"DOCTYPE"* ]]; then
+			echo -e "${extip}" > "${tmpdir}/extip.txt"
+		else
+			if [ -f "${tmpdir}/extip.txt" ]; then
+				extip=$(cat "${tmpdir}/extip.txt")
+			else
+				echo -e "x.x.x.x"
+			fi
+		fi
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat "${tmpdir}/extip.txt")
@@ -252,7 +260,7 @@ else
 fi
 
 # Steam Master Server - checks if detected by master server.
-if [ -n "$(command -v jq 2>/dev/null)" ]; then
+if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
 			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
