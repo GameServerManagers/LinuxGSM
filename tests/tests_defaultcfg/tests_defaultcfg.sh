@@ -16,7 +16,7 @@ while IFS= read -r -d $'\0' line; do
 		echo "${diffoutput}"
 		echo ""
 	fi
-	rm defaultcfgtemp.txt
+	rm -f defaultcfgtemp.txt
 done
 
 echo -e ""
@@ -36,7 +36,7 @@ while IFS= read -r -d $'\0' line; do
 		echo "${diffoutput}"
 		echo ""
 	fi
-	rm defaultcfgtemp.txt
+	rm -f defaultcfgtemp.txt
 done
 
 echo -e ""
@@ -56,5 +56,5 @@ while IFS= read -r -d $'\0' line; do
 		echo "${diffoutput}"
 		echo ""
 	fi
-	rm defaultcfgtemp.txt
+	rm -f defaultcfgtemp.txt
 done

@@ -21,7 +21,7 @@ if ! fn_prompt_yn "Start compression?" Y; then
 	return
 fi
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
-rm -rfv "${serverfiles}/Maps/"*.unr.uz
+rm -rfv "${serverfiles:?}/Maps/"*.unr.uz
 cd "${systemdir}" || exit
 for map in "${serverfiles}/Maps/"*; do
 	./ucc-bin compress "${map}" --nohomedir

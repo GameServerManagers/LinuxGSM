@@ -440,7 +440,7 @@ fn_mods_create_tmp_dir(){
 fn_mods_clear_tmp_dir(){
 	if [ -d "${modstmpdir}" ]; then
 		echo -en "clearing mod download directory ${modstmpdir}..."
-		rm -r "${modstmpdir}"
+		rm -fr "${modstmpdir:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -454,7 +454,7 @@ fn_mods_clear_tmp_dir(){
 	fi
 	# Clear temp file list as well.
 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
-		rm "${modsdir}/.removedfiles.tmp"
+		rm -f "${modsdir:?}/.removedfiles.tmp"
 	fi
 }
 

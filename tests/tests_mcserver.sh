@@ -1060,6 +1060,6 @@ requiredstatus="OFFLINE"
 fn_setstatus
 if [ ! -v TRAVIS ]; then
 	fn_print_info "Tidying up directories."
-	rm -rfv "${serverfiles}"
+	rm -rfv "${serverfiles:?}"
 fi
 core_exit.sh
