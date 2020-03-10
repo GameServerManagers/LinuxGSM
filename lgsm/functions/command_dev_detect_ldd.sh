@@ -25,6 +25,8 @@ elif [ -f "${serverfiles}" ]; then
 	echo -e "${serverfiles}"
 fi
 echo -e ""
+touch "${tmpdir}/detect_ldd.tmp"
+touch "${tmpdir}/detect_ldd_not_found.tmp"
 
 files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
