@@ -17,7 +17,7 @@
 # fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
-local commandname="DOWNLOAD"
+local modulename="DOWNLOAD"
 local commandaction="Download"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -105,7 +105,7 @@ fn_fetch_trap(){
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	fn_sleep_time
-	rm -f "${local_filedir}/${local_filename}"
+	rm -f "${local_filedir:?}/${local_filename}"
 	echo -en "downloading ${local_filename}..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
-local commandname="STOP"
+local modulename="STOP"
 local commandaction="Stopping"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -242,7 +242,7 @@ info_config.sh
 fn_stop_pre_check
 # Remove lockfile.
 if [ -f "${rootdir}/${lockselfname}" ]; then
-	rm -f "${rootdir}/${lockselfname}"
+	rm -f "${rootdir:?}/${lockselfname}"
 fi
 
 if [ -z "${exitbypass}" ]; then

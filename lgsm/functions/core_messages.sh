@@ -46,7 +46,7 @@ fn_sleep_time(){
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${commandname}" ]; then
+		if [ "${modulename}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${1}" >> "${lgsmlog}"
@@ -57,7 +57,8 @@ fn_script_log(){
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
 fn_script_log_pass(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${commandname}" ]; then
+
+		if [ "${modulename}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: PASS: ${1}" >> "${lgsmlog}"
@@ -69,7 +70,7 @@ fn_script_log_pass(){
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${commandname}" ]; then
+		if [ "${modulename}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FATAL: ${1}" >> "${lgsmlog}"
@@ -81,7 +82,7 @@ fn_script_log_fatal(){
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${commandname}" ]; then
+		if [ "${modulename}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ERROR: ${1}" >> "${lgsmlog}"
@@ -93,7 +94,7 @@ fn_script_log_error(){
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${commandname}" ]; then
+		if [ "${modulename}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: WARN: ${1}" >> "${lgsmlog}"
@@ -105,7 +106,7 @@ fn_script_log_warn(){
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${commandname}" ]; then
+		if [ "${modulename}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: INFO: ${1}" >> "${lgsmlog}"

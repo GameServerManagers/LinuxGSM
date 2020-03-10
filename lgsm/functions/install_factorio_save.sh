@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates the initial save file for Factorio
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 
 echo -e ""

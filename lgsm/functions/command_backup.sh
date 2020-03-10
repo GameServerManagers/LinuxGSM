@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-local commandname="BACKUP"
+local modulename="BACKUP"
 local commandaction="Backup"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -17,12 +17,12 @@ fn_backup_trap(){
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
-	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
+	rm -f "${backupdir:?}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file.
-	rm -f "${tmpdir}/.backup.lock"
+	rm -f "${tmpdir:?}/.backup.lock"
 	core_exit.sh
 }
 
@@ -153,7 +153,7 @@ fn_backup_compression(){
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
-	rm -f "${tmpdir}/.backup.lock"
+	rm -f "${tmpdir:?}/.backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.

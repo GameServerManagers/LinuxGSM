@@ -5,7 +5,7 @@
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 if [ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then

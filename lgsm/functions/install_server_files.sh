@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs server files.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -94,7 +94,7 @@ fn_install_server_files_steamcmd(){
 				find "${serverfiles}" -type d -print0 | grep -Ez '[^/]{30}$' | xargs -0 rm -rf
 			fi
 			if [ "${counter}" -ge "9" ]; then
-				rm -rf "${steamcmddir}"
+				rm -rf "${steamcmddir:?}"
 				check_steamcmd.sh
 			fi
 

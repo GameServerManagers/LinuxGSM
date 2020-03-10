@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves possible startup issue with Minecraft Bedrock
 
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
 
 # official docs state that the server should be started with: LD_LIBRARY_PATH=. ./bedrock_server

@@ -5,7 +5,7 @@
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 # Every command that requires checks just references check.sh.
 # check.sh selects which checks to run by using arrays.

@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
-local commandname="DETECT-DEPS"
+local modulename="DETECT-DEPS"
 local commandaction="Detect-Deps"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -207,21 +207,21 @@ echo -e "Required Librarys"
 echo -e "================================="
 sort "${tmpdir}/.depdetect_readelf" | uniq
 echo -en "\n"
-rm -f "${tmpdir}/.depdetect_centos_line"
-rm -f "${tmpdir}/.depdetect_centos_list"
-rm -f "${tmpdir}/.depdetect_centos_list_uniq"
+rm -f "${tmpdir:?}/.depdetect_centos_line"
+rm -f "${tmpdir:?}/.depdetect_centos_list"
+rm -f "${tmpdir:?}/.depdetect_centos_list_uniq"
 
-rm -f "${tmpdir}/.depdetect_debian_line"
-rm -f "${tmpdir}/.depdetect_debian_list"
-rm -f "${tmpdir}/.depdetect_debian_list_uniq"
+rm -f "${tmpdir:?}/.depdetect_debian_line"
+rm -f "${tmpdir:?}/.depdetect_debian_list"
+rm -f "${tmpdir:?}/.depdetect_debian_list_uniq"
 
-rm -f "${tmpdir}/.depdetect_ubuntu_line"
-rm -f "${tmpdir}/.depdetect_ubuntu_list"
-rm -f "${tmpdir}/.depdetect_ubuntu_list_uniq"
+rm -f "${tmpdir:?}/.depdetect_ubuntu_line"
+rm -f "${tmpdir:?}/.depdetect_ubuntu_list"
+rm -f "${tmpdir:?}/.depdetect_ubuntu_list_uniq"
 
-rm -f "${tmpdir}/.depdetect_readelf"
-rm -f "${tmpdir}/.depdetect_readelf_uniq"
-rm -f "${tmpdir}/.depdetect_unknown"
-rm -f "${tmpdir}/.depdetect_unknown_uniq"
+rm -f "${tmpdir:?}/.depdetect_readelf"
+rm -f "${tmpdir:?}/.depdetect_readelf_uniq"
+rm -f "${tmpdir:?}/.depdetect_unknown"
+rm -f "${tmpdir:?}/.depdetect_unknown_uniq"
 
 core_exit.sh

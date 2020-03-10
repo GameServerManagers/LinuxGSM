@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Shows ways to donate.
 
-local commandname="CONSOLE"
+local modulename="CONSOLE"
 local commandaction="Console"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

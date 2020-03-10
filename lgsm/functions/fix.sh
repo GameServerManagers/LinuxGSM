@@ -5,7 +5,7 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
 
 # Messages that are displayed for some fixes.

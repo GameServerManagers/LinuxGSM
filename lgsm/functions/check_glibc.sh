@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if the server has the correct Glibc version.
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 info_distro.sh
 

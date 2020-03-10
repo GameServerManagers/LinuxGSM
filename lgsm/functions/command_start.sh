@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local commandname="START"
+local modulename="START"
 local commandaction="Starting"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -159,7 +159,7 @@ fn_sleep_time
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp"
 	echo -en "\n"
 }
 

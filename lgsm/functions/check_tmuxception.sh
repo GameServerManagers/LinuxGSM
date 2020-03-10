@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if run from tmux or screen
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 fn_check_is_in_tmux(){
   if [ "${TMUX}" ]; then

@@ -5,7 +5,7 @@
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 
-local commandname="DETECT-LDD"
+local modulename="DETECT-LDD"
 local commandaction="Detect-LDD"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -55,7 +55,7 @@ echo -e "Not Found"
 echo -e "================================="
 cat "${tmpdir}/detect_ldd_not_found.tmp"
 
-rm "${tmpdir}/detect_ldd.tmp"
-rm "${tmpdir}/detect_ldd_not_found.tmp"
+rm -f "${tmpdir:?}/detect_ldd.tmp"
+rm -f "${tmpdir:?}/detect_ldd_not_found.tmp"
 
 core_exit.sh
