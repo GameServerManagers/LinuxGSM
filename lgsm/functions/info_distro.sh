@@ -5,11 +5,11 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${servicename}"|awk '{print $2}')
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${selfname}"|awk '{print $2}')
 fi
 ### Distro information
 
@@ -32,49 +32,49 @@ do
 		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
 		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
 		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
-	elif [ -n "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
+	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ];then
-			distroname="$(lsb_release -sd)"
-		elif [ -z "${distroversion}" ];then
-			distroversion="$(lsb_release -sr)"
-		elif [ -z "${distroid}" ];then
+			distroname=$(lsb_release -sd)
+		elif [ -z "${distroversion}" ]; then
+			distroversion=$(lsb_release -sr)
+		elif [ -z "${distroid}" ]; then
 			distroid=$(lsb_release -si)
-		elif [ -z "${distrocodename}" ];then
+		elif [ -z "${distrocodename}" ]; then
 			distrocodename=$(lsb_release -sc)
 		fi
-	elif [ -n "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
+	elif [ "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
 		if [ -z "${distroname}" ];then
-			distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
+			distroname=$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')
 		fi
 	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname="Debian $(cat /etc/debian_version)"
-		elif [ -z "${distroversion}" ];then
-			distroversion="$(cat /etc/debian_version)"
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroversion}" ]; then
+			distroversion=$(cat /etc/debian_version)
+		elif [ -z "${distroid}" ]; then
 			distroid="debian"
 		fi
 	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname=$(cat /etc/redhat-release)
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
-		elif [ -z "${distroid}" ];then
-			distroid="$(awk '{print $1}' /etc/redhat-release)"
+		elif [ -z "${distroid}" ]; then
+			distroid=$(awk '{print $1}' /etc/redhat-release)
 		fi
 	fi
 done
 
 ## Glibc version
 # e.g: 1.17
-glibcversion="$(ldd --version | sed -n '1s/.* //p')"
+glibcversion=$(ldd --version | sed -n '1s/.* //p')
 
 ## tmux version
 # e.g: tmux 1.6
-if [ -z "$(command -V tmux 2>/dev/null)" ]; then
+if [ ! "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
 else
-	if [ "$(tmux -V|sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ] 2>/dev/null; then
+	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
 		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 	else
 		tmuxv=$(tmux -V)
@@ -96,17 +96,18 @@ load=$(uptime|awk -F 'load average: ' '{ print $2 }')
 ## CPU information
 cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
-cpufreqency=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq " MHz"}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
+cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
 if [ "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
+	cpuusedmhz=$(echo "${cpufreqency} * ${cpuused} / 100" | bc )
 fi
 
 ## Memory information
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -120,16 +121,16 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	if grep -q ^MemAvailable /proc/meminfo; then
 	    physmemactualfreekb=$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')
 	else
-	    physmemactualfreekb=$((${physmemfreekb}+${physmembufferskb}+${physmemcachedkb}))
+	    physmemactualfreekb=$((physmemfreekb+physmembufferskb+physmemcachedkb))
 	fi
 
 	# Available RAM and swap.
-	physmemtotalmb=$((${physmemtotalkb}/1024))
+	physmemtotalmb=$((physmemtotalkb/1024))
 	physmemtotal=$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")
 	physmemfree=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
-	physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemtotalkb}-${physmemfreekb}-${physmembufferskb}-${physmemcachedkb}-${physmemreclaimablekb}))K")
+	physmemused=$(numfmt --to=iec --from=iec --suffix=B "$((physmemtotalkb-physmemfreekb-physmembufferskb-physmemcachedkb-physmemreclaimablekb))K")
 	physmemavailable=$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")
-	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((${physmemcachedkb}+${physmemreclaimablekb}))K")
+	physmemcached=$(numfmt --to=iec --from=iec --suffix=B "$((physmemcachedkb+physmemreclaimablekb))K")
 
 	swaptotal=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")
 	swapfree=$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")
@@ -137,7 +138,7 @@ if [ -n "$(command -v numfmt 2>/dev/null)" ]; then
 	# RAM usage of the game server pid
 	# MB
 	if [ "${gameserverpid}" ]; then
-		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}')
+		memused=$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0f",$1}{print $2}')
 	# %
 		pmemused=$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')
 	fi
@@ -155,7 +156,7 @@ else
 	physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
 
 	oldfree=$(free ${humanreadable} | awk '/cache:/')
-	if [ -n "${oldfree}" ]; then
+	if [ "${oldfree}" ]; then
 		physmemavailable="n/a"
 		physmemcached="n/a"
 	else
@@ -171,10 +172,10 @@ fi
 ### Disk information
 
 ## Available disk space on the partition.
-filesystem=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $1}')
-totalspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $2}')
-usedspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $3}')
-availspace=$(df -hP "${rootdir}" | grep -v "Filesystem" | awk '{print $4}')
+filesystem=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $1}')
+totalspace=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $2}')
+usedspace=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $3}')
+availspace=$(LC_ALL=C df -hP "${rootdir}" | tail -n 1 | awk '{print $4}')
 
 ## LinuxGSM used space total.
 rootdirdu=$(du -sh "${rootdir}" 2> /dev/null | awk '{print $1}')
@@ -227,14 +228,22 @@ netlink=$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
 
 # External IP address
 if [ -z "${extip}" ]; then
-	extip=$(${curlpath} -4 -m 3 ifconfig.co 2>/dev/null)
+	extip=$(curl -4 -m 3 ifconfig.co 2>/dev/null)
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
-		echo -e "${extip}" > "${tmpdir}/extip.txt"
+		if [[ "${extip}" != *"DOCTYPE"* ]]; then
+			echo -e "${extip}" > "${tmpdir}/extip.txt"
+		else
+			if [ -f "${tmpdir}/extip.txt" ]; then
+				extip=$(cat "${tmpdir}/extip.txt")
+			else
+				echo -e "x.x.x.x"
+			fi
+		fi
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
-			extip=$(cat ${tmpdir}/extip.txt)
+			extip=$(cat "${tmpdir}/extip.txt")
 		else
 			echo -e "x.x.x.x"
 		fi
@@ -254,9 +263,9 @@ fi
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
 			if [ "${masterserver}" == "0" ]; then
-				masterserver="$(${curlpath} -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)"
+				masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
 			fi
 			if [ "${masterserver}" == "0" ]; then
 				displaymasterserver="false"
@@ -268,7 +277,7 @@ if [ "$(command -v jq 2>/dev/null)" ]; then
 fi
 
 # Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
-if [ -n "${appid}" ]; then
+if [ "${appid}" ]; then
 	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibc="2.14"
 	fi

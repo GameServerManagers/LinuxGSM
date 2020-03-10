@@ -1,6 +1,6 @@
 # Description
 
-Please include a summary of the change and which issues is fixed
+Please include a summary of the change and which issues are fixed.
 
 Fixes #[issue]
 
@@ -18,6 +18,7 @@ PR will not be merged until all steps are complete.
 
 * [ ] This pull request links to an issue.
 * [ ] This pull request uses the `develop` branch as its base.
+* [ ] This pull request Subject follows the Conventional Commits standard.
 * [ ] This code follows the style guidelines of this project.
 * [ ] I have performed a self-review of my own code.
 * [ ] I have checked that this code is commented where required.

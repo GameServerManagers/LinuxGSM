@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
-local commandname="DETAILS"
+local modulename="DETAILS"
 local commandaction="Details"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Run checks and gathers details to display.
 check.sh
@@ -30,4 +30,5 @@ fi
 fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
+
 core_exit.sh

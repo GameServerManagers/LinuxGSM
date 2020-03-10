@@ -4,9 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Configures the Squad server's license.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 echo -e ""
 echo -e "${lightyellow}Squad Server License${default}"

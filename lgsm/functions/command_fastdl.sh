@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
-local commandname="FASTDL"
+local modulename="FASTDL"
 local commandaction="FastDL"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 
@@ -23,7 +23,7 @@ luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 # Check if bzip2 is installed.
-if [ -z "$(command -v bzip2 2>/dev/null)" ]; then
+if [ ! "$(command -v bzip2 2>/dev/null)" ]; then
 	fn_print_fail "bzip2 is not installed"
 	fn_script_log_fatal "bzip2 is not installed"
 	core_exit.sh
@@ -67,7 +67,7 @@ fn_clear_old_fastdl(){
 	# Clearing old FastDL.
 	if [ -d "${fastdldir}" ]; then
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
-		rm -R "${fastdldir:?}"
+		rm -fR "${fastdldir:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -135,7 +135,7 @@ fn_human_readable_file_size(){
 			local factor="${item%:*}"
 			local abbrev="${item#*:}"
 			if [[ "${bytes}" -ge "${factor}" ]]; then
-				local size="$(bc -l <<< "${bytes} / ${factor}")"
+				local size=$(bc -l <<< "${bytes} / ${factor}")
 				printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
 				break
 			fi
@@ -147,7 +147,7 @@ fn_human_readable_file_size(){
 fn_fastdl_preview(){
 	# Remove any file list.
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		rm -f "${tmpdir}/fastdl_files_to_compress.txt"
+		rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
 	fi
 	echo -e "analysing required files"
 	fn_script_log_info "Analysing required files"
@@ -161,9 +161,9 @@ fn_fastdl_preview(){
 			while read -r ext; do
 				((fileswc++))
 				tput rc; tput el
-				printf "gathering ${allowed_extention} : ${fileswc}..."
+				echo -e "gathering ${allowed_extention} : ${fileswc}..."
 				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-			done < <(find . -type f -iname ${allowed_extention})
+			done < <(find . -type f -iname "${allowed_extention}")
 			if [ ${fileswc} != 0 ]; then
 				fn_print_ok_eol_nl
 			else
@@ -192,9 +192,9 @@ fn_fastdl_preview(){
 					while read -r ext; do
 						((fileswc++))
 						tput rc; tput el
-						printf "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+						echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-					done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
+					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
 					tput rc; tput el
 					echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 					if [ ${fileswc} != 0 ]; then
@@ -213,7 +213,7 @@ fn_fastdl_preview(){
 		# Calculates total file size.
 		while read -r dufile; do
 			filesize=$(stat -c %s "${dufile}")
-			filesizetotal=$(( ${filesizetotal} + ${filesize} ))
+			filesizetotal=$(( filesizetotal+filesize ))
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl
@@ -228,7 +228,7 @@ fn_fastdl_preview(){
 	fi
 	echo -e "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
 	fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
-	rm "${tmpdir}/fastdl_files_to_compress.txt"
+	rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
 	if ! fn_prompt_yn "Continue?" Y; then
 		fn_script_log "User exited"
 		core_exit.sh
@@ -276,7 +276,7 @@ fn_fastdl_gmod(){
 		# Clear addons directory in fastdl.
 		echo -en "clearing addons dir from fastdl dir..."
 		fn_sleep_time
-		rm -R "${fastdldir:?}/addons"
+		rm -fR "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -305,9 +305,9 @@ fn_fastdl_gmod(){
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
 		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size.
-		while read dufile; do
+		while read -r dufile; do
 			filesize=$(du -b "${dufile}" | awk '{ print $1 }')
-			filesizetotal=$(( ${filesizetotal} + ${filesize} ))
+			filesizetotal=$((filesizetotal + filesize))
 		done <"${tmpdir}/fastdl_files_to_compress.txt"
 	fi
 }
@@ -334,7 +334,7 @@ fn_fastdl_source(){
 				while read -r fastdlfile; do
 					((fileswc++))
 					tput rc; tput el
-					printf "copying ${directory} ${allowed_extention} : ${fileswc}..."
+					echo -e "copying ${directory} ${allowed_extention} : ${fileswc}..."
 					fn_sleep_time
 					# get relative path of file in the dir
 					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
@@ -352,7 +352,7 @@ fn_fastdl_source(){
 					else
 						fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
 					fi
-				done < <(find "${systemdir}/${directory}" -type f -iname ${allowed_extention})
+				done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
 				if [ ${fileswc} != 0 ]; then
 					fn_print_ok_eol_nl
 				fi
@@ -379,7 +379,7 @@ fn_fastdl_gmod_dl_enforcer(){
 	# Clear old lua file.
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo -en "removing existing download enforcer: ${luafastdlfile}..."
-		rm "${luafastdlfullpath:?}"
+		rm -f "${luafastdlfullpath:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -438,4 +438,5 @@ echo -e "FastDL files are located in:"
 echo -e "${fastdldir}"
 echo -e "FastDL completed"
 fn_script_log_info "FastDL completed"
+
 core_exit.sh
