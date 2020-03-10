@@ -50,13 +50,9 @@ fn_check_steamcmd(){
 		if [ "${function_selfname}" == "command_install.sh" ]; then
 			fn_install_steamcmd
 		else
-			if [ "${function_selfname}" == "command_install.sh" ]; then
-				fn_install_steamcmd
-			else
-				fn_print_error_nl "SteamCMD is missing"
-				fn_script_log_error "SteamCMD is missing"
-				fn_install_steamcmd
-			fi
+			fn_print_error_nl "SteamCMD is missing"
+			fn_script_log_error "SteamCMD is missing"
+			fn_install_steamcmd
 		fi
 	elif [ "${function_selfname}" == "command_install.sh" ]; then
 		fn_print_information "SteamCMD is already installed"
