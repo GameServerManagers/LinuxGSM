@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
-local commandname="DEV-DEBUG"
+local modulename="DEV-DEBUG"
 local commandaction="Dev-Debug"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
