@@ -160,7 +160,7 @@ fn_install_menu_bash() {
 	done < "${options}"
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
+		if [ "${option}" ]&&[ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -306,7 +306,7 @@ if [ "${shortname}" == "core" ]; then
 			echo -e "result: ${result}"
 			echo -e "gameservername: ${gameservername}"
 		fi
-	elif [ -n "${userinput}" ]; then
+	elif [ "${userinput}" ]; then
 		fn_server_info
 		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file

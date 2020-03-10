@@ -72,7 +72,7 @@ fn_check_permissions(){
 	fi
 
 	# Check rootdir permissions.
-	if [ -n "${rootdir}" ]; then
+	if [ "${rootdir}" ]; then
 		# Get permission numbers on directory under the form 775.
 		rootdirperm=$(stat -c %a "${rootdir}")
 		# Grab the first and second digit for user and group permission.

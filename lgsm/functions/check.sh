@@ -82,7 +82,7 @@ local allowed_commands_array=( update_steamcmd.sh command_debug.sh command_start
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		if [ -n "${appid}" ]; then
+		if [ "${appid}" ]; then
 			check_steamcmd.sh
 		fi
 	fi

@@ -48,7 +48,7 @@ if [ -f "${postdetailslog}" ]; then
 fi
 
 # Rather than a one-pass sed parser, default to using a temporary directory.
-if [ -n "${exitbypass}" ]; then
+if [ "${exitbypass}" ]; then
 	postdetailslog="${alertlog}"
 else
 	# Run checks and gathers details to display.

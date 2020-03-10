@@ -72,7 +72,7 @@ done
 installedmodsline="1"
 while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 	currentmod=$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")
-	if [ -n "${currentmod}" ]; then
+	if [ "${currentmod}" ]; then
 		fn_mod_get_info
 		# Don not update mod if the policy is set to "NOUPDATE".
 		if [ "${modkeepfiles}" == "NOUPDATE" ]; then

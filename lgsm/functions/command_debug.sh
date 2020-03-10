@@ -37,7 +37,7 @@ fn_print_header
 	echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"
 } | column -s $'\t' -t
 # glibc required.
-if [ -n "${glibc}" ]; then
+if [ "${glibc}" ]; then
 	if [ "${glibc}" == "null" ]; then
 		# Glibc is not required.
 		:
@@ -57,21 +57,21 @@ else
 	echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 fi
 # External server IP.
-if [ -n "${extip}" ]; then
+if [ "${extip}" ]; then
 	if [ "${ip}" != "${extip}" ]; then
 		echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
 	fi
 fi
 # Listed on Master Server.
-if [ "${displaymasterserver}" ];then
-	if [ "${displaymasterserver}" == "true" ];then
+if [ "${displaymasterserver}" ]; then
+	if [ "${displaymasterserver}" == "true" ]; then
 		echo -e "${lightblue}Master Server:\t${green}${displaymasterserver}${default}"
 	else
 		echo -e "${lightblue}Master Server:\t${red}${displaymasterserver}${default}"
 	fi
 fi
 # Server password.
-if [ -n "${serverpassword}" ]; then
+if [ "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 fi
 echo -e "${lightblue}Start parameters:${default}"

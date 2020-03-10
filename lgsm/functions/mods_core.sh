@@ -104,7 +104,7 @@ fn_mod_copy_destination(){
 
 # Add the mod to the installed-mods.txt.
 fn_mod_add_list(){
-	if [ ! -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
+	if [ -z "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		echo -e "${modcommand}" >> "${modsinstalledlistfullpath}"
 		fn_script_log_info "${modcommand} added to ${modsinstalledlist}"
 	fi
@@ -267,7 +267,7 @@ fn_mods_installed_list(){
 		# Increment line check.
 		((installedmodsline++))
 	done
-	if [ -n "${installedmodscount}" ]; then
+	if [ "${installedmodscount}" ]; then
 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }

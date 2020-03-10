@@ -35,11 +35,11 @@ do
 	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ];then
 			distroname=$(lsb_release -sd)
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(lsb_release -sr)
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroid}" ]; then
 			distroid=$(lsb_release -si)
-		elif [ -z "${distrocodename}" ];then
+		elif [ -z "${distrocodename}" ]; then
 			distrocodename=$(lsb_release -sc)
 		fi
 	elif [ "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
@@ -47,19 +47,19 @@ do
 			distroname=$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')
 		fi
 	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname="Debian $(cat /etc/debian_version)"
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(cat /etc/debian_version)
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroid}" ]; then
 			distroid="debian"
 		fi
 	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
-		if [ -z "${distroname}" ];then
+		if [ -z "${distroname}" ]; then
 			distroname=$(cat /etc/redhat-release)
-		elif [ -z "${distroversion}" ];then
+		elif [ -z "${distroversion}" ]; then
 			distroversion=$(rpm -qa \*-release | grep -Ei "oracle|redhat|centos|fedora" | cut -d"-" -f3)
-		elif [ -z "${distroid}" ];then
+		elif [ -z "${distroid}" ]; then
 			distroid=$(awk '{print $1}' /etc/redhat-release)
 		fi
 	fi
@@ -71,7 +71,7 @@ glibcversion=$(ldd --version | sed -n '1s/.* //p')
 
 ## tmux version
 # e.g: tmux 1.6
-if [ -z "$(command -V tmux 2>/dev/null)" ]; then
+if [ ! "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
 else
 	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
@@ -156,7 +156,7 @@ else
 	physmemused=$(free ${humanreadable} | awk '/Mem:/ {print $3}')
 
 	oldfree=$(free ${humanreadable} | awk '/cache:/')
-	if [ -n "${oldfree}" ]; then
+	if [ "${oldfree}" ]; then
 		physmemavailable="n/a"
 		physmemcached="n/a"
 	else
@@ -277,7 +277,7 @@ if [ "$(command -v jq 2>/dev/null)" ]; then
 fi
 
 # Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
-if [ -n "${appid}" ]; then
+if [ "${appid}" ]; then
 	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibc="2.14"
 	fi

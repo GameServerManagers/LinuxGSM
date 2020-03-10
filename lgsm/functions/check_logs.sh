@@ -21,6 +21,6 @@ fi
 
 # Create gamelogdir.
 # If variable exists gamelogdir exists and log/server does not.
-if [ -n "${gamelogdir}" ]&&[ -d "${gamelogdir}" ]&&[ ! -d "${logdir}/server" ]; then
+if [ "${gamelogdir}" ]&&[ -d "${gamelogdir}" ]&&[ ! -d "${logdir}/server" ]; then
 	fn_check_logs
 fi

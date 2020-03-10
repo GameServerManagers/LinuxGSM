@@ -73,7 +73,7 @@ if [ -z "${legacymode}" ]; then
 fi
 
 # Check and update functions.
-if [ -n "${functionsdir}" ]; then
+if [ "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
 		for functionfile in *

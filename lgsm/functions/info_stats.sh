@@ -7,7 +7,7 @@
 
 info_distro.sh
 # generate uuid
-if [ ! -f "${datadir}/uuid.txt" ];then
+if [ ! -f "${datadir}/uuid.txt" ]; then
 	mkdir -p "${datadir}"
 	touch "${datadir}/uuid.txt"
 	if [ "$(command -v uuidgen 2>/dev/null)" ]; then

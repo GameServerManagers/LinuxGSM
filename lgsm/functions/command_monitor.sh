@@ -141,16 +141,16 @@ for queryattempt in {1..5}; do
 		fi
     if [ "${querystatus}" == "0" ]; then
 			# Add query data to log.
-			if [ -n "${gdname}" ]; then
+			if [ "${gdname}" ]; then
 				fn_script_log_info "Server name: ${gdname}"
 			fi
-			if [ -n "${gdplayers}" ]; then
+			if [ "${gdplayers}" ]; then
 				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
 			fi
-			if [ -n "${gdmap}" ]; then
+			if [ "${gdmap}" ]; then
 				fn_script_log_info "Map: ${gdmap}"
 			fi
-			if [ -n "${gdgamemode}" ]; then
+			if [ "${gdgamemode}" ]; then
 				fn_script_log_info "Game Mode: ${gdgamemode}"
 			fi
 		fi
