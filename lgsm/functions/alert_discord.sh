@@ -14,8 +14,8 @@ if ! command -v jq > /dev/null; then
 	fn_script_log_fatal "Sending Discord alert: jq is missing."
 fi
 
-escaped_servername="$(echo -n "${servername}" | jq -sRr "@json")"
-escaped_alertbody="$(echo -n "${alertbody}" | jq -sRr "@json")"
+escaped_servername=$(echo -n "${servername}" | jq -sRr "@json")
+escaped_alertbody=$(echo -n "${alertbody}" | jq -sRr "@json")
 
 json=$(cat <<EOF
 {
@@ -55,7 +55,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-discordsend=$(${curlpath} -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
+discordsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

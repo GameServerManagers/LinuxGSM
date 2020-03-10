@@ -6,7 +6,7 @@
 
 local modulename="UPDATE LINUXGSM"
 local commandaction="Update LinuxGSM"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_print_dots "Updating LinuxGSM"
 check.sh
@@ -16,7 +16,7 @@ echo -en "\n"
 if [ -z "${legacymode}" ]; then
 	# Check and update _default.cfg.
 	echo -en "    checking config _default.cfg...\c"
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking config _default.cfg: UPDATE"
@@ -30,7 +30,7 @@ if [ -z "${legacymode}" ]; then
 	fi
 
 	echo -en "    checking linuxgsm.sh...\c"
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(${curlpath} -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
 	if [ "${tmp_script_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking linuxgsm.sh: UPDATE"
@@ -60,7 +60,8 @@ if [ -z "${legacymode}" ]; then
 		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
-		if [ $? -ne 0 ]; then
+		exitcode=$?
+		if [ "${exitcode}" != "0" ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
@@ -79,15 +80,14 @@ if [ -n "${functionsdir}" ]; then
 		do
 			echo -en "    checking function ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
-			get_function_file=$(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
+			get_function_file=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			exitcode=$?
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(${curlpath} --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				echo -en "    removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
-				rm -f "${functionfile}"
-				if [ $? -ne 0 ]; then
+				if ! rm -f "${functionfile}"; then
 					fn_print_fail_eol_nl
 					core_exit.sh
 				else
@@ -112,5 +112,5 @@ else
 	fn_print_ok "Updating functions"
 	fn_script_log_pass "Updating functions"
 fi
-echo -en "\n"
+
 core_exit.sh

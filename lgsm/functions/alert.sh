@@ -27,7 +27,7 @@ fn_alert_log(){
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alertsubject="Alert - ${servicename} - Test"
+	alertsubject="Alert - ${selfname} - Test"
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"
@@ -36,25 +36,25 @@ fn_alert_test(){
 
 fn_alert_restart(){
 	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
-	alertsubject="Alert - ${servicename} - Restarted"
+	alertsubject="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="${servicename} ${executable} not running"
+	alertbody="${selfname} ${executable} not running"
 }
 
 fn_alert_restart_query(){
-	fn_script_log_info "Sending alert: Restarted: ${servicename}"
-	alertsubject="Alert - ${servicename} - Restarted"
+	fn_script_log_info "Sending alert: Restarted: ${selfname}"
+	alertsubject="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="Unable to query: ${servicename}"
+	alertbody="Unable to query: ${selfname}"
 }
 
 fn_alert_update(){
 	fn_script_log_info "Sending alert: Updated"
-	alertsubject="Alert - ${servicename} - Updated"
+	alertsubject="Alert - ${selfname} - Updated"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
@@ -63,20 +63,20 @@ fn_alert_update(){
 
 fn_alert_permissions(){
 	fn_script_log_info "Sending alert: Permissions error"
-	alertsubject="Alert - ${servicename}: Permissions error"
+	alertsubject="Alert - ${selfname}: Permissions error"
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="${servicename} has permissions issues"
+	alertbody="${selfname} has permissions issues"
 }
 
 fn_alert_config(){
 	fn_script_log_info "Sending alert: New _default.cfg"
-	alertsubject="Alert - ${servicename} - New _default.cfg"
+	alertsubject="Alert - ${selfname} - New _default.cfg"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${servicename} has recieved a new _default.cfg. Check file for changes."
+	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
 
 if [ "${alert}" == "permissions" ]; then
@@ -98,7 +98,7 @@ fn_alert_log
 
 # Generates the more info link.
 if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
-	alertflag=1
+	exitbypass=1
 	command_postdetails.sh
 elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_warn_nl "More Info not enabled"

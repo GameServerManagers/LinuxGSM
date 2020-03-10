@@ -98,7 +98,7 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 	fi
 
 	# Count total amount of files removed.
-	countlogs=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount}))
+	countlogs=$((scriptcount + consolecount + gamecount + srcdscount + smcount + ulxcount + darkrpcount))
 	# Job done.
 	fn_print_ok_nl "Removed ${countlogs} log files"
 	fn_script_log "Removed ${countlogs} log files"

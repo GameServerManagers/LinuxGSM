@@ -19,7 +19,7 @@
 
 local modulename="DOWNLOAD"
 local commandaction="Download"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Emptys contents of the LinuxGSM tmpdir.
 fn_clear_tmp(){
@@ -81,7 +81,7 @@ fn_dl_extract(){
 	elif [ "${mime}" == "application/x-xz" ]; then
 		tarcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/zip" ]; then
-		extractcmd=$(unzip -d "${extractdir}" "${local_filedir}/${local_filename}")
+		extractcmd=$(unzip -qo -d "${extractdir}" "${local_filedir}/${local_filename}")
 	fi
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
@@ -133,11 +133,11 @@ fn_fetch_file(){
 			echo -en "downloading ${local_filename}..."
 			fn_sleep_time
 			echo -en "\033[1K"
-			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
+			curlcmd=$(curl --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
 			echo -en "downloading ${local_filename}..."
 		else
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 		fi
 		local exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
@@ -168,6 +168,7 @@ fn_fetch_file(){
 		fn_dl_md5
 		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -254,10 +255,8 @@ fn_update_function(){
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Defines curl path.
-curlpath=$(command -v curl 2>/dev/null)
-
-if [ "$(basename "${curlpath}")" != "curl" ]; then
+# Check that curl is installed
+if [ -z "$(command -v curl 2>/dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi

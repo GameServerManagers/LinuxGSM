@@ -7,7 +7,7 @@
 
 local modulename="WIPE"
 local commandaction="Wipe"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 fn_print_header
@@ -124,7 +124,7 @@ fn_wipe_server_remove_files(){
 			echo -en "Removing server misc srv.files*.db file(s)..."
 			fn_sleep_time
 			fn_script_log "${currentaction}"
-			find "${serveridentitydir:?}" -type f -name "sv.files.*.d" -delete
+			find "${serveridentitydir:?}" -type f -name "sv.files.*.db" -delete
 			fn_wipe_exit_code
 			fn_sleep_time
 		# No further information if not found because it should I could not get this file showing up.

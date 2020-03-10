@@ -7,14 +7,14 @@
 
 local modulename="DETECT-LDD"
 local commandaction="Detect-LDD"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 echo -e "================================="
 echo -e "Shared Object dependencies Checker"
 echo -e "================================="
 
 if [ -z "${serverfiles}" ]; then
-	dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 fi
 
 if [ -d "${serverfiles}" ]; then
@@ -25,6 +25,8 @@ elif [ -f "${serverfiles}" ]; then
 	echo -e "${serverfiles}"
 fi
 echo -e ""
+touch "${tmpdir}/detect_ldd.tmp"
+touch "${tmpdir}/detect_ldd_not_found.tmp"
 
 files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
