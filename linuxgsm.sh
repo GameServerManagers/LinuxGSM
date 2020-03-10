@@ -20,13 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.11.0"
+version="v19.12.5"
 shortname="core"
 gameservername="core"
-rootdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-servicename="${selfname}"
-lockselfname=".${servicename}.lock"
+rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -52,7 +51,7 @@ githubbranch="master"
 
 # Core function that is required first.
 core_functions.sh(){
-	functionfile="${FUNCNAME}"
+	functionfile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
@@ -71,14 +70,12 @@ fn_bootstrap_fetch_file(){
 		if [ ! -d "${local_filedir}" ]; then
 			mkdir -p "${local_filedir}"
 		fi
-		# Defines curl path.
-		curlpath=$(command -v curl 2>/dev/null)
 
 		# If curl exists download file.
-		if [ "$(basename "${curlpath}")" == "curl" ]; then
+		if [ "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
 			local exitcode=$?
 			if [ ${exitcode} -ne 0 ]; then
 				echo -e "FAIL"
@@ -103,6 +100,7 @@ fn_bootstrap_fetch_file(){
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		# Run file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -127,14 +125,13 @@ fn_bootstrap_fetch_file_github(){
 # Installer menu.
 
 fn_print_center() {
-	columns="$(tput cols)"
-	line="$@"
+	columns=$(tput cols)
+	line="$*"
 	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
 }
 
 fn_print_horizontal(){
-	char="${1:-=}"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "${char}"
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
 # Bash menu.
@@ -154,7 +151,7 @@ fn_install_menu_bash() {
 	done < "${options}"
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
+		if [ "${option}" ]&&[ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -195,7 +192,7 @@ fn_install_menu() {
 	options=$4
 	# Get menu command.
 	for menucmd in whiptail dialog bash; do
-		if [ -x "$(command -v "${menucmd}")" ]; then
+		if [ "$(command -v "${menucmd}")" ]; then
 			menucmd=$(command -v "${menucmd}")
 			break
 		fi
@@ -237,7 +234,7 @@ fn_install_file(){
 	if [ -e "${local_filename}" ]; then
 		i=2
 	while [ -e "${local_filename}-${i}" ] ; do
-		let i++
+		(( i++ ))
 	done
 		local_filename="${local_filename}-${i}"
 	fi
@@ -300,7 +297,7 @@ if [ "${shortname}" == "core" ]; then
 			echo -e "result: ${result}"
 			echo -e "gameservername: ${gameservername}"
 		fi
-	elif [ -n "${userinput}" ]; then
+	elif [ "${userinput}" ]; then
 		fn_server_info
 		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
@@ -348,20 +345,25 @@ else
 				fi
 			fi
 		fi
+		# shellcheck source=/dev/null
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${servicename}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${servicename}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			source "${configdirserver}/${servicename}.cfg"
+		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/${selfname}.cfg"
 		else
-			source "${configdirserver}/${servicename}.cfg"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.

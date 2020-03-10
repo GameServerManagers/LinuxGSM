@@ -5,7 +5,7 @@
 # Description: Compresses unreal maps.
 
 local commandaction="Unreal Map Compressor"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 fn_print_header
@@ -21,10 +21,11 @@ if ! fn_prompt_yn "Start compression?" Y; then
 	return
 fi
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
-rm -rfv "${serverfiles}/Maps/"*.ut2.uz2
+rm -rfv "${serverfiles:?}/Maps/"*.ut2.uz2
 cd "${systemdir}" || exit
 for map in "${serverfiles}/Maps/"*; do
 	./ucc-bin compress "${map}" --nohomedir
 done
 mv -fv "${serverfiles}/Maps/"*.ut2.uz2 "${compressedmapsdir}"
+
 core_exit.sh

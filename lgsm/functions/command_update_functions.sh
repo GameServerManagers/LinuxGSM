@@ -6,7 +6,7 @@
 # Legacy Command
 
 command_update_linuxgsm.sh(){
-functionfile="${FUNCNAME}"
+functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 

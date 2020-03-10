@@ -5,7 +5,7 @@
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 # Every command that requires checks just references check.sh.
 # check.sh selects which checks to run by using arrays.
@@ -82,7 +82,7 @@ local allowed_commands_array=( update_steamcmd.sh command_debug.sh command_start
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${function_selfname}" ]; then
-		if [ -n "${appid}" ]; then
+		if [ "${appid}" ]; then
 			check_steamcmd.sh
 		fi
 	fi

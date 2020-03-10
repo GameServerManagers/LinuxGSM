@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-local commandname="POSTDETAILS"
+local modulename="POSTDETAILS"
 local commandaction="Postdetails"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Set posttarget to the appropriately-defined post destination.
 
@@ -27,7 +27,7 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # to post to pastebin, or
 #  rustserver@gamerig:~$ posttarget= ./rustserver pd
 # to leave the output on the filesystem.
-posttarget=${posttarget="https://hastebin.com"}
+posttarget=${posttarget="https://termbin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
@@ -44,11 +44,11 @@ fn_bad_postdetailslog() {
 
 # Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
-	rm -f "${postdetailslog}"
+	rm -f "${postdetailslog:?}"
 fi
 
 # Rather than a one-pass sed parser, default to using a temporary directory.
-if [ -n "${alertflag}" ]; then
+if [ "${exitbypass}" ]; then
 	postdetailslog="${alertlog}"
 else
 	# Run checks and gathers details to display.
@@ -80,12 +80,12 @@ fi
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
 	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
 	# grab the return from 'value' from an initial visit to pastebin.
-	csrftoken=$(${curlpath} -s "${posttarget}" |
+	csrftoken=$(curl -s "${posttarget}" |
 					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
 	#
 	# Use the csrftoken to then post the content.
 	#
-	link=$(${curlpath} -s "${posttarget}/post.php" -D - -F "submit_hidden=submit_hidden" \
+	link=$(curl -s "${posttarget}/post.php" -D - -F "submit_hidden=submit_hidden" \
 				-F "post_key=${csrftoken}" -F "paste_expire_date=${postexpire}" \
 				-F "paste_name=${gamename} Debug Info" \
 				-F "paste_format=8" -F "paste_private=0" \
@@ -101,7 +101,7 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
-	link=$(${curlpath} -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
+	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
 	echo -e "Please share the following url for support: ${pdurl}"
@@ -117,7 +117,7 @@ else
 	 core_exit.sh
 fi
 
-if [ -z "${alertflag}" ]; then
+if [ -z "${exitbypass}" ]; then
 	core_exit.sh
 else
 	alerturl="${pdurl}"

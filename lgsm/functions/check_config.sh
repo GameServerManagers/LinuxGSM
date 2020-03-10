@@ -4,13 +4,14 @@
 # Website: https://linuxgsm.com
 # Description: Checks if the server config is missing and warns the user if needed.
 
-local commandname="CHECK"
+local modulename="CHECK"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 
 servercfgfullpath="${servercfgdir}/${servercfg}"
 
 if [ ! -f "${servercfgfullpath}" ]; then
-	if [ "${engine}" != "unreal3" ]&&[ "${engine}" != "spark" ]&&[ "${shortname}" != "hw" ]; then
+	if [ "${shortname}" != "hw" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then
 		fn_print_dots ""
 		fn_print_warn_nl "Configuration file missing!"
 		echo -e "${servercfgfullpath}"

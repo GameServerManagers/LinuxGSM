@@ -5,16 +5,16 @@
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
-local commandname="STOP"
+local modulename="STOP"
 local commandaction="Stopping"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends quit.
-	tmux send-keys -t "${servicename}" C-c  > /dev/null 2>&1
+	tmux send-keys -t "${selfname}" C-c  > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -43,7 +43,7 @@ fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
-	tmux send -t "${servicename}" "${1}" ENTER > /dev/null 2>&1
+	tmux send -t "${selfname}" "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
@@ -72,7 +72,7 @@ fn_stop_graceful_goldsource(){
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
-	tmux send -t "${servicename}" quit ENTER > /dev/null 2>&1
+	tmux send -t "${selfname}" quit ENTER > /dev/null 2>&1
 	# Waits 3 seconds as goldsource servers restart with the quit command.
 	for seconds in {1..3}; do
 		sleep 1
@@ -134,22 +134,22 @@ fn_stop_graceful_sdtd(){
 			fn_stop_graceful_sdtd_telnet
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
 			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
-			if [ -n "${refused}" ]; then
+			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Graceful: telnet:  ${telnetip}:${telnetport} : FAIL"
-			elif [ -n "${completed}" ]; then
+			elif [ "${completed}" ]; then
 				break
 			fi
 		done
 
 		# If telnet shutdown was successful will use telnet again to check
 		# the connection has closed, confirming that the tmux session can now be killed.
-		if [ -n "${completed}" ]; then
+		if [ "${completed}" ]; then
 			for seconds in {1..30}; do
 				fn_stop_graceful_sdtd_telnet
 				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
-				if [ -n "${refused}" ]; then
+				if [ "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
 					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport} : ${seconds} seconds"
@@ -160,7 +160,7 @@ fn_stop_graceful_sdtd(){
 			done
 		# If telnet shutdown fails tmux shutdown will be used, this risks loss of world save.
 		else
-			if [ -n "${refused}" ]; then
+			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Graceful: telnet: ${telnetip}:${telnetport} : FAIL"
@@ -207,7 +207,7 @@ fn_stop_tmux(){
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${servername}"
 	# Kill tmux session.
-	tmux kill-session -t "${servicename}" > /dev/null 2>&1
+	tmux kill-session -t "${selfname}" > /dev/null 2>&1
 	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
@@ -235,14 +235,16 @@ fn_stop_pre_check(){
 	fi
 }
 
-fn_print_dots "${servername}"
 check.sh
+fn_print_dots "${servername}"
+
 info_config.sh
 fn_stop_pre_check
 # Remove lockfile.
 if [ -f "${rootdir}/${lockselfname}" ]; then
-	rm -f "${rootdir}/${lockselfname}"
+	rm -f "${rootdir:?}/${lockselfname}"
 fi
+
 if [ -z "${exitbypass}" ]; then
 	core_exit.sh
 fi
