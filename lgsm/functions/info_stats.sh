@@ -67,7 +67,6 @@ fi
 ## Summary Stats
 curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuid}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "v=1" > /dev/null 2>&1
 
-
 fn_script_log_info "Send LinuxGSM stats"
 fn_script_log_info "* UUID: ${uuid}"
 fn_script_log_info "* Game Name: ${gamename}"
