@@ -7,6 +7,8 @@
 local modulename="CHECK"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+servercfgfullpath="${servercfgdir}/${servercfg}"
+
 if [ ! -f "${servercfgfullpath}" ]; then
 	if [ "${shortname}" != "hw" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then
 		fn_print_dots ""
