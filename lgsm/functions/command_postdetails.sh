@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-local commandname="POSTDETAILS"
+local modulename="POSTDETAILS"
 local commandaction="Postdetails"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -44,11 +44,11 @@ fn_bad_postdetailslog() {
 
 # Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
-	rm -f "${postdetailslog}"
+	rm -f "${postdetailslog:?}"
 fi
 
 # Rather than a one-pass sed parser, default to using a temporary directory.
-if [ -n "${exitbypass}" ]; then
+if [ "${exitbypass}" ]; then
 	postdetailslog="${alertlog}"
 else
 	# Run checks and gathers details to display.

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -25,7 +25,7 @@ else
 	elif [ -z "${appid}" ]; then
 		installer=1
 		install_server_files.sh
-	elif [ -n "${appid}" ]; then
+	elif [ "${appid}" ]; then
 		install_steamcmd.sh
 		install_server_files.sh
 	fi

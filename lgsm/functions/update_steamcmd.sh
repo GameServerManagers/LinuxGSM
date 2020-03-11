@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating using SteamCMD.
 
-local commandname="UPDATE"
+local modulename="UPDATE"
 local commandaction="Update"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -13,15 +13,16 @@ fn_update_steamcmd_dl(){
 
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
-	if [ -n "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
+	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
-
-	cd "${steamcmddir}" || exit
+	if [ -d "${steamcmddir}" ]; then
+		cd "${steamcmddir}" || exit
+	fi
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
 	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
 	fi
 	fix.sh
 }
@@ -50,8 +51,10 @@ fn_update_steamcmd_localbuild(){
 
 fn_update_steamcmd_remotebuild(){
 	# Gets remote build info.
-	cd "${steamcmddir}" || exit
-	remotebuild=$(./steamcmd.sh +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	if [ -d "${steamcmddir}" ]; then
+		cd "${steamcmddir}" || exit
+	fi
+	remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
@@ -153,7 +156,7 @@ fn_appmanifest_check(){
 		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
 		fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
 		for appfile in ${appmanifestfile}; do
-			rm "${appfile}"
+			rm -f "${appfile:?}"
 		done
 		appmanifestfilewc1="${appmanifestfilewc}"
 		fn_appmanifest_info

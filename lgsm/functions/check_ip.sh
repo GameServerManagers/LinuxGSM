@@ -5,7 +5,7 @@
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 if [ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then
@@ -76,7 +76,7 @@ if [ "${travistest}" != "1" ]; then
 			fn_script_log_fatal "IP address not set in game config."
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-			if [ "${function_selfname}" != "command_details.sh" ];then
+			if [ "${function_selfname}" != "command_details.sh" ]; then
 			    core_exit.sh
 			fi
 		else

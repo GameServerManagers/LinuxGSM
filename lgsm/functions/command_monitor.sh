@@ -6,7 +6,7 @@
 # Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
 
-local commandname="MONITOR"
+local modulename="MONITOR"
 local commandaction="Monitor"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -141,16 +141,16 @@ for queryattempt in {1..5}; do
 		fi
     if [ "${querystatus}" == "0" ]; then
 			# Add query data to log.
-			if [ -n "${gdname}" ]; then
+			if [ "${gdname}" ]; then
 				fn_script_log_info "Server name: ${gdname}"
 			fi
-			if [ -n "${gdplayers}" ]; then
+			if [ "${gdplayers}" ]; then
 				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
 			fi
-			if [ -n "${gdmap}" ]; then
+			if [ "${gdmap}" ]; then
 				fn_script_log_info "Map: ${gdmap}"
 			fi
-			if [ -n "${gdgamemode}" ]; then
+			if [ "${gdgamemode}" ]; then
 				fn_script_log_info "Game Mode: ${gdgamemode}"
 			fi
 		fi
@@ -211,7 +211,7 @@ fn_monitor_loop(){
 	do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
-			if [ -n "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
+			if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 				if [ -z "${monitorpass}" ]; then
 					fn_monitor_query
 				fi

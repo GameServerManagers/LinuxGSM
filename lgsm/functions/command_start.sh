@@ -5,12 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local commandname="START"
+local modulename="START"
 local commandaction="Starting"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_start_teamspeak3(){
-	if [ ! -e "${servercfgfullpath}" ]; then
+	if [ ! -f "${servercfgfullpath}" ]; then
 		fn_print_warn_nl "${servercfgfullpath} is missing"
 		fn_script_log_warn "${servercfgfullpath} is missing"
 		echo  "	* Creating blank ${servercfg}"
@@ -78,7 +78,7 @@ fn_start_tmux(){
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
 		fi
-	elif [ -n "${tmuxversion}" ]; then
+	elif [ "${tmuxversion}" ]; then
 		# Get the digit version of tmux.
 		tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')
 		# tmux pipe-pane not supported in tmux versions < 1.6.
@@ -159,7 +159,7 @@ fn_sleep_time
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp"
 	echo -en "\n"
 }
 
@@ -176,7 +176,7 @@ if [ "${status}" != "0" ]; then
 		core_exit.sh
 	fi
 fi
-if [ -z "${fixbypass}" ];then
+if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
 info_config.sh

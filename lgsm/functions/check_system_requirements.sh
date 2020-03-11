@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks RAM requirements
 
-local commandname="CHECK"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local modulename="CHECK"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 
@@ -42,7 +42,7 @@ elif [ "${shortname}" == "st" ]; then
 fi
 
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM.
-if [ -n "${ramrequirementmb}" ]; then
+if [ "${ramrequirementmb}" ]; then
 	if [ "${physmemtotalmb}" -lt "${ramrequirementmb}" ]; then
 		fn_print_dots "Check RAM"
 		# Warn the user.

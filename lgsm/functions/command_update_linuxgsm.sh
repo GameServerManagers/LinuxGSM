@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
-local commandname="UPDATE LINUXGSM"
+local modulename="UPDATE LINUXGSM"
 local commandaction="Update LinuxGSM"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -20,7 +20,7 @@ if [ -z "${legacymode}" ]; then
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking config _default.cfg: UPDATE"
-		rm -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg"
+		rm -f "${configdirdefault:?}/config-lgsm/${gameservername}/_default.cfg"
 		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
 		alert="config"
 		alert.sh
@@ -34,7 +34,7 @@ if [ -z "${legacymode}" ]; then
 	if [ "${tmp_script_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking linuxgsm.sh: UPDATE"
-		rm -f "${tmpdir}/linuxgsm.sh"
+		rm -f "${tmpdir:?}/linuxgsm.sh"
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
 		# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
 	else
@@ -73,7 +73,7 @@ if [ -z "${legacymode}" ]; then
 fi
 
 # Check and update functions.
-if [ -n "${functionsdir}" ]; then
+if [ "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
 		for functionfile in *
@@ -87,7 +87,7 @@ if [ -n "${functionsdir}" ]; then
 				fn_print_fail_eol_nl
 				echo -en "    removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
-				if ! rm -f "${functionfile}"; then
+				if ! rm -f "${functionfile:?}"; then
 					fn_print_fail_eol_nl
 					core_exit.sh
 				else

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
-local commandname="CHECK"
+local modulename="CHECK"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
@@ -72,7 +72,7 @@ fn_check_permissions(){
 	fi
 
 	# Check rootdir permissions.
-	if [ -n "${rootdir}" ]; then
+	if [ "${rootdir}" ]; then
 		# Get permission numbers on directory under the form 775.
 		rootdirperm=$(stat -c %a "${rootdir}")
 		# Grab the first and second digit for user and group permission.

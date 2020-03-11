@@ -15,5 +15,3 @@ if [ ! -f "${lgsmdir}/lib/libmysqlclient.so.16" ]; then
 	fn_fetch_file "https://nightly.mtasa.com/files/modules/64/libmysqlclient.so.16" "${lgsmdir}/lib" "libmysqlclient.so.16" "chmodx" "norun" "noforce" "6c188e0f8fb5d7a29f4bc413b9fed6c2"
 	fn_fix_msg_end
 fi
-
-export LD_LIBRARY_PATH=:"${libdir}"
