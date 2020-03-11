@@ -18,4 +18,4 @@ fn_sleep_time
 # go to the executeable dir and start the init of the server
 cd "${systemdir}" || return 2
 fn_parms
-"${executabledir}/${executable}" ${parms} >/dev/null
+"${executabledir}/${executable}" ${parms}

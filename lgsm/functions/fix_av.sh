@@ -7,4 +7,11 @@
 local commandname="FIX"
 local commandaction="Fix"
 
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}/linux64"
+if [ ! -d "${serverfiles}/bin/data" ]; then
+	fixname="symlink data dir"
+	fn_fix_msg_start
+	ln -s "${serverfiles}/data" "${serverfiles}/bin/data"
+	fn_fix_msg_end
+fi
+
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/linux64"
