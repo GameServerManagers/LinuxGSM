@@ -48,7 +48,6 @@ fn_info_parms_eco(){
 
 fn_info_parms_factorio(){
 	port=${port:-"0"}
-	queryport=${rconport:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 }
