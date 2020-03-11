@@ -301,11 +301,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_av_postinstall.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_arma3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function

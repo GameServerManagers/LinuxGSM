@@ -93,8 +93,9 @@ if [ "${function_selfname}" == "command_install.sh" ]; then
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
 			fn_sleep_time
+			postinstall=1
 			if [ "${shortname}" == "av" ]; then
-				fix_av_postinstall.sh
+				fix_av.sh
 			elif [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then
