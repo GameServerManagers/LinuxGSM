@@ -42,10 +42,6 @@ fn_info_parms_dst(){
 	cave=${cave:-"NOT SET"}
 }
 
-fn_info_parms_eco(){
-	queryport=${webadminport:-"0"}
-}
-
 fn_info_parms_factorio(){
 	port=${port:-"0"}
 	rconport=${rconport:-"0"}
@@ -117,7 +113,6 @@ fn_info_parms_realvirtuality(){
 fn_info_parms_risingworld(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${port:-"0"}
 	httpqueryport=$((port - 1))
 }
 
@@ -228,7 +223,6 @@ fn_info_parms_unreal3(){
 fn_info_parms_unturned(){
 	servername=${selfname:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=$((port + 1))
 }
 
 fn_info_parms_ut(){
@@ -253,9 +247,6 @@ elif [ "${shortname}" == "bt" ]; then
 # Call of Duty
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
-# Eco
-elif [ "${shortname}" == "eco" ]; then
-	fn_info_parms_eco
 # Factorio
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_parms_factorio
