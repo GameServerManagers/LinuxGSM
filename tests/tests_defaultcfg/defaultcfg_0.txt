@@ -42,6 +42,10 @@ glibc
 systemdir
 executabledir
 executable
+servercfgdir
+servercfg
+servercfgdefault
+servercfgfullpath
 backupdir
 logdir
 lgsmlogdir
