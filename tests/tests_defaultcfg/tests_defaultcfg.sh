@@ -5,6 +5,7 @@ echo -e "=================================================================="
 echo -e "Description:"
 echo -e "test checks that vars present in ALL _default.cfg files are correct."
 echo -e ""
+echo -e "In master config < | > In game config"
 find "lgsm/config-default/config-lgsm/" ! -name '*template.cfg' -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	grep = ${line}  | cut -f1 -d"=" > defaultcfgtemp.txt
@@ -13,6 +14,7 @@ while IFS= read -r -d $'\0' line; do
 		echo "File with errors:"
 		echo "${line}"
 		echo -e "================================="
+		echo -e "In master config < | > In game config"
 		echo "${diffoutput}"
 		echo ""
 	fi
@@ -25,6 +27,7 @@ echo -e "=================================================================="
 echo -e "Description:"
 echo -e "test checks that vars present in ALL _default.cfg files are correct."
 echo -e ""
+echo -e "In master config < | > In game config"
 find lgsm/config-default/config-lgsm/ ! -name '*template.cfg' -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	grep "=" "${line}" | cut -f1 -d"=" > defaultcfgtemp.txt
@@ -33,6 +36,7 @@ while IFS= read -r -d $'\0' line; do
 		echo "File with errors:"
 		echo "${line}"
 		echo -e "================================="
+		echo -e "In master config < | > In game config" 
 		echo "${diffoutput}"
 		echo ""
 	fi
@@ -45,6 +49,8 @@ echo -e "=================================================================="
 echo -e "Description:"
 echo -e "test checks that comments in ALL _default.cfg files are correct."
 echo -e ""
+echo -e "> Not Present in GAME SERVER CONFIG."
+echo -e "< Not Present in MASTER CONFIG."
 find lgsm/config-default/config-lgsm/ ! -name '*template.cfg' -name "*.cfg" -type f -print0 |
 while IFS= read -r -d $'\0' line; do
 	grep "#" "${line}"  > defaultcfgtemp.txt
