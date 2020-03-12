@@ -36,6 +36,8 @@ querydelay
 ansi
 sleeptime
 stopmode
+querymode
+querytype
 gamename
 engine
 glibc
