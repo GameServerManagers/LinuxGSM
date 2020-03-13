@@ -415,6 +415,29 @@ fn_info_config_minecraft_bedrock(){
 	fi
 }
 
+fn_info_config_onset(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		httpport="${zero}"
+		queryport="${zero}"
+	else
+		servername=$(grep -v "servername_short" "${servercfgfullpath}" | grep "servername" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/servername//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
+		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		httpport=$((port-2))
+		queryport=$((port-1))
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"NOT SET"}
+		port=${port:-"NOT SET"}
+		httpport=${httpport:-"NOT SET"}
+    	queryport=${queryport:-"NOT SET"}
+	fi
+}
+
 fn_info_config_mohaa(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
@@ -1022,6 +1045,16 @@ fn_info_config_unreal3(){
 	fi
 }
 
+fn_info_config_ut(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+  fi
+}
 
 fn_info_config_warfork(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1396,6 +1429,9 @@ elif [ "${shortname}" == "mc" ]; then
 # Minecraft Bedrock
 elif [ "${shortname}" == "mcb" ]; then
 	fn_info_config_minecraft_bedrock
+# Onset
+elif [ "${shortname}" == "onset" ]; then
+	fn_info_config_onset
 # Post Scriptum: The Bloody Seventh
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_config_pstbs
@@ -1459,6 +1495,8 @@ elif [ "${engine}" == "unreal2" ]; then
 # Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
+elif [ "${shortname}" == "ut" ]; then
+	fn_info_config_ut
 # 7 Day To Die (unity3d)
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd

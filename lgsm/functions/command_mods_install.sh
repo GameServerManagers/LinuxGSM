@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
-local commandname="MODS"
+local modulename="MODS"
 local commandaction="addons/mods"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -82,7 +82,7 @@ fn_script_log_info "${modprettyname} selected for install"
 
 # Check if the mod is already installed and warn the user.
 if [ -f "${modsinstalledlistfullpath}" ]; then
-	if [ -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
+	if [ "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		fn_print_warning_nl "${modprettyname} is already installed"
 		fn_script_log_warn "${modprettyname} is already installed"
 		echo -e " * Any configs may be overwritten."

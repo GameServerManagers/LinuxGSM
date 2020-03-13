@@ -4,12 +4,17 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft servers.
 
-local commandname="UPDATE"
+local modulename="UPDATE"
 local commandaction="Update"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_minecraft_dl(){
-	latestmcreleaselink=$(curl -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
+	if [ "${branch}" == "release" ]; then
+		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
+	else
+		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].url')
+	fi
+
 	latestmcbuildurl=$(curl -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
 	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${remotebuild}.jar"
 	echo -e "copying to ${serverfiles}...\c"
@@ -64,7 +69,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -76,7 +81,7 @@ fn_update_minecraft_localbuild(){
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
 			fi
-			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}')
+			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
 			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
 				break
 			fi
@@ -98,7 +103,12 @@ fn_update_minecraft_localbuild(){
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
+	if [ "${branch}" == "release" ]; then
+		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
+	else
+		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].id')
+	fi
+
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
@@ -123,14 +133,15 @@ fn_update_minecraft_remotebuild(){
 fn_update_minecraft_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -173,9 +184,15 @@ fn_update_minecraft_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
 	fi
 }
 

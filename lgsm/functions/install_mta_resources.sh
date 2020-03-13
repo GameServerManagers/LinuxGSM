@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs the libmysqlclient for database functions on the server and optionally installs default resources required to run the server
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

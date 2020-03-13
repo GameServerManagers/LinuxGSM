@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
-local commandname="STOP"
+local modulename="STOP"
 local commandaction="Stopping"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -126,7 +126,7 @@ fn_stop_graceful_sdtd(){
 	fn_script_log_info "Graceful: telnet"
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ -n "$(command -v expect 2>/dev/null)" ]; then
+	elif [ "$(command -v expect 2>/dev/null)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
@@ -134,22 +134,22 @@ fn_stop_graceful_sdtd(){
 			fn_stop_graceful_sdtd_telnet
 			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
 			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
-			if [ -n "${refused}" ]; then
+			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Graceful: telnet:  ${telnetip}:${telnetport} : FAIL"
-			elif [ -n "${completed}" ]; then
+			elif [ "${completed}" ]; then
 				break
 			fi
 		done
 
 		# If telnet shutdown was successful will use telnet again to check
 		# the connection has closed, confirming that the tmux session can now be killed.
-		if [ -n "${completed}" ]; then
+		if [ "${completed}" ]; then
 			for seconds in {1..30}; do
 				fn_stop_graceful_sdtd_telnet
 				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
-				if [ -n "${refused}" ]; then
+				if [ "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
 					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport} : ${seconds} seconds"
@@ -160,7 +160,7 @@ fn_stop_graceful_sdtd(){
 			done
 		# If telnet shutdown fails tmux shutdown will be used, this risks loss of world save.
 		else
-			if [ -n "${refused}" ]; then
+			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: "
 				fn_print_fail_eol_nl
 				fn_script_log_error "Graceful: telnet: ${telnetip}:${telnetport} : FAIL"
@@ -242,7 +242,7 @@ info_config.sh
 fn_stop_pre_check
 # Remove lockfile.
 if [ -f "${rootdir}/${lockselfname}" ]; then
-	rm -f "${rootdir}/${lockselfname}"
+	rm -f "${rootdir:?}/${lockselfname}"
 fi
 
 if [ -z "${exitbypass}" ]; then

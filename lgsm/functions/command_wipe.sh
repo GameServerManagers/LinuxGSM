@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Wipes server data, useful after updates for some games like Rust
 
-local commandname="WIPE"
+local modulename="WIPE"
 local commandaction="Wipe"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -45,7 +45,7 @@ fn_wipe_server_remove_files(){
 	# Rust Wipe.
 	if [ "${shortname}" == "rust" ]; then
 		# Wipe pocedural map.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
 			currentaction="Removing map file(s): ${serveridentitydir}/proceduralmap.*.map"
 			echo -en "Removing procedural map proceduralmap.*.map file(s)..."
 			fn_sleep_time
@@ -58,7 +58,7 @@ fn_wipe_server_remove_files(){
 			fn_script_log_info "No procedural map file to remove."
 		fi
 		# Wipe procedural map save.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
 			currentaction="Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
 			echo -en "Removing map saves proceduralmap.*.sav file(s)..."
 			fn_sleep_time
@@ -71,7 +71,7 @@ fn_wipe_server_remove_files(){
 			fn_script_log_info "No procedural map save to remove."
 		fi
 		# Wipe Barren map.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
 			currentaction="Removing map file(s): ${serveridentitydir}/barren*.map"
 			echo -en "Removing barren map barren*.map file(s)..."
 			fn_sleep_time
@@ -84,7 +84,7 @@ fn_wipe_server_remove_files(){
 			fn_script_log_info "No barren map file to remove."
 		fi
 		# Wipe barren map save.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
 			currentaction="Removing barren map save(s): ${serveridentitydir}/barren*.sav"
 			echo -en "Removing barren map saves barren*.sav file(s)..."
 			fn_sleep_time
@@ -119,18 +119,18 @@ fn_wipe_server_remove_files(){
 		# We do not print additional information if there is nothing to remove since this might be obsolete.
 		fi
 		# Wipe sv.files.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 			currentaction="Removing server misc files: ${serveridentitydir}/sv.files.*.db"
 			echo -en "Removing server misc srv.files*.db file(s)..."
 			fn_sleep_time
 			fn_script_log "${currentaction}"
-			find "${serveridentitydir:?}" -type f -name "sv.files.*.d" -delete
+			find "${serveridentitydir:?}" -type f -name "sv.files.*.db" -delete
 			fn_wipe_exit_code
 			fn_sleep_time
 		# No further information if not found because it should I could not get this file showing up.
 		fi
 		# Wipe player death files.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]; then
 			currentaction="Removing player death files: ${serveridentitydir}/player.deaths.*.db"
 			echo -en "Removing player deaths player.deaths.*.db file(s)..."
 			fn_sleep_time
@@ -144,7 +144,7 @@ fn_wipe_server_remove_files(){
 		fi
 		# Wipe blueprints only if wipeall command was used.
 		if [ "${wipeall}" == "1" ]; then
-			if [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
+			if [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 				currentaction="Removing blueprint file(s): ${serveridentitydir}/player.blueprints.*.db"
 				echo -en "Removing blueprints player.blueprints.*.db file(s)..."
 				fn_sleep_time
@@ -156,7 +156,7 @@ fn_wipe_server_remove_files(){
 				fn_print_information_nl "No blueprint file to remove"
 				fn_script_log_info "No blueprint file to remove."
 			fi
-		elif [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
+		elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 				fn_print_information_nl "Keeping blueprints"
 				fn_script_log_info "Keeping blueprints."
 		else
@@ -165,7 +165,7 @@ fn_wipe_server_remove_files(){
 				fn_sleep_time
 		fi
 		# Wipe some logs that might be there.
-		if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
+		if [ "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 			currentaction="Removing log files: ${serveridentitydir}/Log.*.txt"
 			echo -en "Removing Log files..."
 			fn_sleep_time

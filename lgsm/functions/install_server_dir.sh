@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates the server directory.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

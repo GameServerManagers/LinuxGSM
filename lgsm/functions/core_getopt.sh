@@ -64,13 +64,13 @@ currentopt+=( "${cmd_update_linuxgsm[@]}" )
 if [ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${shortname}" != "bf1942" ]&&[ "${shortname}" != "samp" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA.
-	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
+	if [ "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
 
 # Validate command.
-if [ -n "${appid}" ]; then
+if [ "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
 

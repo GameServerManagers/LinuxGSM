@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Mailgun Email alert.
 
-local commandname="ALERT"
+local modulename="ALERT"
 local commandaction="Alert"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Core functions for mods list/install/update/remove
 
-local commandname="MODS"
+local modulename="MODS"
 local commandaction="Mods"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -104,7 +104,7 @@ fn_mod_copy_destination(){
 
 # Add the mod to the installed-mods.txt.
 fn_mod_add_list(){
-	if [ ! -n "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
+	if [ -z "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		echo -e "${modcommand}" >> "${modsinstalledlistfullpath}"
 		fn_script_log_info "${modcommand} added to ${modsinstalledlist}"
 	fi
@@ -267,7 +267,7 @@ fn_mods_installed_list(){
 		# Increment line check.
 		((installedmodsline++))
 	done
-	if [ -n "${installedmodscount}" ]; then
+	if [ "${installedmodscount}" ]; then
 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
 	fi
 }
@@ -440,7 +440,7 @@ fn_mods_create_tmp_dir(){
 fn_mods_clear_tmp_dir(){
 	if [ -d "${modstmpdir}" ]; then
 		echo -en "clearing mod download directory ${modstmpdir}..."
-		rm -r "${modstmpdir}"
+		rm -fr "${modstmpdir:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -454,7 +454,7 @@ fn_mods_clear_tmp_dir(){
 	fi
 	# Clear temp file list as well.
 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
-		rm "${modsdir}/.removedfiles.tmp"
+		rm -f "${modsdir:?}/.removedfiles.tmp"
 	fi
 }
 
