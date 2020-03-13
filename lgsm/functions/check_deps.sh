@@ -327,7 +327,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux steamcmd )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux )
 
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
@@ -335,6 +335,15 @@ fn_deps_build_debian(){
 			array_deps_required+=( lib32gcc1 lib32stdc++6 )
 		else
 			array_deps_required+=( lib32stdc++6 )
+		fi
+	fi
+	# If requires steamcmd.
+	if [ "${appid}" ]; then
+		# Will not use apt if non-free repo is missing
+		if [ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+			:
+		else
+			array_deps_required+=( steamcmd )
 		fi
 	fi
 
