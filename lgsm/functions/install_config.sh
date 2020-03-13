@@ -56,7 +56,7 @@ fn_default_config_remote(){
 # Copys local default config to server config location.
 fn_default_config_local(){
 	echo -e "copying ${servercfgdefault} config file."
-	cp -nv "${servercfgdirdefault}/${servercfgdefault}" "${servercfgfullpath}"
+	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	fn_sleep_time
 }
 

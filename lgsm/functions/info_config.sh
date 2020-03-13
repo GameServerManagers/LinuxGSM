@@ -421,14 +421,14 @@ fn_info_config_onset(){
 		maxplayers="${zero}"
 		port="${zero}"
 		httpport="${zero}"
-        queryport="${zero}"
+		queryport="${zero}"
 	else
 		servername=$(grep -v "servername_short" "${servercfgfullpath}" | grep "servername" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/servername//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
 		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		httpport=$((port-2))
-    	queryport=$((port-1))
-		
+		queryport=$((port-1))
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
