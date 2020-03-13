@@ -352,7 +352,7 @@ fn_deps_build_debian(){
 	# No More Room in Hell, Counter-Strike: Source, Garry's Mod and Zombie Panic: Source
 	elif [ "${shortname}" == "nmrih" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32tinfo5 )
+			array_deps_required+=( libtinfo5:i386 )
 		else
 			array_deps_required+=( libtinfo5 )
 		fi
