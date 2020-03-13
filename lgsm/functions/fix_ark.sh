@@ -10,5 +10,5 @@ if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
 fi
 
 if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
-	ln -s "${HOME}/Steam/SteamApps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
+	ln -s "${HOME}/Steam/steamapps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 fi
