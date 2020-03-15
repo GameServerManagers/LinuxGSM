@@ -274,7 +274,7 @@ fn_install_default_configs(){
 	# Download default config if missing.
 	if [ ! -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" ]; then
 		mkdir -p "${configdirdefault}/config-lgsm/${gameservername}"
-		fn_fetch_config "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 	fi
 	# .. copy to server directory and reset if changed.
 	if [ ! -f "${configdirnewserver}/_default.cfg" ]; then
