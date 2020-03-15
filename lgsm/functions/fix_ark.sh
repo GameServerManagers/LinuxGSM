@@ -6,19 +6,19 @@
 
 # removes the symlink if broken. fixes issue with older versions of LinuxGSM linking to /home/arkserver/steamcmd
 # rather than ${HOME}/.steam. This fix could be deprecated eventually.
-if [ ! -e "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ] ; then
+if [ ! -e "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]||[ ! -e "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
+	fixname="broken steamcmd symlink"
+	fn_fix_msg_start
 	rm -f "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
-fi
-
-if [ ! -e "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ] ; then
 	rm -f "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
+	fn_fix_msg_end
 fi
 
 # Symlinking the SteamCMD directory into the correct ARK directory so that the mods auto-management will work.
-if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
+if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]||[ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
+	fixname="steamcmd symlink"
+	fn_fix_msg_start
 	ln -s "${HOME}/.steam/steamcmd" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
-fi
-
-if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
 	ln -s "${HOME}/Steam/steamapps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
+	fn_fix_msg_end
 fi
