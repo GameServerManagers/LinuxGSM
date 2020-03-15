@@ -272,9 +272,14 @@ fn_found_missing_deps(){
 				fi
 				if [ "${steamcmdfail}" ]; then
 					echo -e ""
-					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
-					core_exit.sh
+					if [ "${function_selfname}" == "command_install.sh" ]; then
+						fn_print_failure_nl "Missing dependencies required to run SteamCMD."
+						fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+						core_exit.sh
+					else
+						fn_print_error_nl "Missing dependencies required to run SteamCMD."
+						fn_script_log_error "Missing dependencies required to run SteamCMD."
+					fi
 				fi
 			else
 				fn_print_complete_nl "Install dependencies completed."
@@ -293,9 +298,14 @@ fn_found_missing_deps(){
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo -e ""
-				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
-				core_exit.sh
+				if [ "${function_selfname}" == "command_install.sh" ]; then
+					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
+					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+					core_exit.sh
+				else
+					fn_print_error_nl "Missing dependencies required to run SteamCMD."
+					fn_script_log_error "Missing dependencies required to run SteamCMD."
+				fi
 			fi
 			echo -e ""
 		fi
