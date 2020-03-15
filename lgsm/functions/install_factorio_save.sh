@@ -4,12 +4,12 @@
 # Website: https://linuxgsm.com
 # Description: Creates the initial save file for Factorio
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 
-echo ""
-echo "Creating initial Factorio savefile"
-echo "================================="
-sleep 0.5
+echo -e ""
+echo -e "${lightyellow}Creating initial Factorio savefile${default}"
+echo -e "================================="
+fn_sleep_time
 check_glibc.sh
 "${executabledir}"/factorio --create "${serverfiles}/save1"

@@ -4,30 +4,36 @@ about: Suggest an idea for this project
 
 ---
 
-Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you post the correct info.
-For general support visit the **[steam group](https://linuxgsm.com/steam)**.
+Issues raised here are **ONLY** for:
+* LinuxGSM bugs.
+* Feature suggestions.
+* Code contributions.
 
-GitHub is **ONLY** for:
-* LinuxGSM bugs
-* feature suggestions
-* code contributions
+Issues raised here are **NOT** for:
+* General support.
+* Specific game server issues (e.g CS:GO, TF2).
+* Dedicated server issues (e.g Ubuntu, CentOS).
+* Anything not directly related to LinuxGSM development.
 
-GitHub is **NOT** for:
-* General support
-* Specific game server issues (e.g CS:GO, TF2)
-* Dedicated server issues (e.g Ubuntu, CentOS)
-* Anything not directly related to LinuxGSM development
+For general support visit the **[LinuxGSM Support](https://linuxgsm.com/support)** page.
 
-Any general support issues on GitHub will be closed.
+***Please use the template below, deleting the above text***
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## User Story
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+As a [user description], I want [desired action] so that [desired outcome].
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Basic info
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+* **Distro:** [Ubuntu 18.04]
+* **Game:** [Garry's Mod]
+* **Command:** [Monitor]
+* **LinuxGSM version:** [v12.34.56]
+
+## Further Information
+
+A clear description of what the feature is and any ideas on how to achieve this.
+
+## Further Reading
+
+Provide any useful documentation or resources that might help.

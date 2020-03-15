@@ -4,11 +4,11 @@
 # Website: https://linuxgsm.com
 # Description: Downloads SteamCMD on install.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 
-echo ""
-echo "Installing SteamCMD"
-echo "================================="
-sleep 0.5
+echo -e ""
+echo -e "${lightyellow}Installing SteamCMD${default}"
+echo -e "================================="
+fn_sleep_time
 check_steamcmd.sh

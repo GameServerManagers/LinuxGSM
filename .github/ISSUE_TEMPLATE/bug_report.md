@@ -1,41 +1,44 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Found a bug? Raise a report
 
 ---
+Issues raised here are **ONLY** for:
+* LinuxGSM bugs.
+* Feature suggestions.
+* Code contributions.
 
-Follow **[this guide](https://linuxgsm.com/support/#guide)** to make sure you post the correct info.
-For general support visit the **[steam group](https://linuxgsm.com/steam)**.
+Issues raised here are **NOT** for:
+* General support.
+* Specific game server issues (e.g CS:GO, TF2).
+* Dedicated server issues (e.g Ubuntu, CentOS).
+* Anything not directly related to LinuxGSM development.
 
-GitHub is **ONLY** for:
-* LinuxGSM bugs
-* feature suggestions
-* code contributions
+For general support visit the **[LinuxGSM-Support](https://linuxgsm.com/support)**.
 
-GitHub is **NOT** for:
-* General support
-* Specific game server issues (e.g CS:GO, TF2)
-* Dedicated server issues (e.g Ubuntu, CentOS)
-* Anything not directly related to LinuxGSM development
+***Please use the template below, deleting the above text***
 
-Any general support issues on GitHub will be closed.
+## User Story
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+As a [user description], I want [desired action] so that [desired outcome].
 
-**To Reproduce**
+## Basic info
+
+* **Distro:** [Ubuntu 18.04]
+* **Game:** [Garry's Mod]
+* **Command:** [Monitor]
+* **LinuxGSM version:** [v12.34.56]
+
+## Further Information
+
+A clear description of what the bug is and any ideas on how to resolve it. Plus any further context that might be relevant to the issue.
+
+## To Reproduce
+
 Steps to reproduce the behaviour:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behaviour**
-A clear and concise description of what you expected to happen.
-
-** Minimum Information **
-The game server you are running (e.g. Rust/CS:GO).
-The link from `./gameserver postdetails` command.
-
-**Additional context**
-Add any other context about the problem here.
+## Expected behaviour

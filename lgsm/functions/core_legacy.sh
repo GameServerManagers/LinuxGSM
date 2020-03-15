@@ -41,7 +41,11 @@ if [ -z "${alertlog}" ]; then
 	alertlog="${emaillog}"
 fi
 
-# Alternations to workshop variables
+if [ -z "${servicename}" ]; then
+	servicename="${selfname}"
+fi
+
+# Alternations to workshop variables.
 if [ -z "${wsapikey}" ]; then
 	if [ "${workshopauth}" ]; then
 		wsapikey="${workshopauth}"
