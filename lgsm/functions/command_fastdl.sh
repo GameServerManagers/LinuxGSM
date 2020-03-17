@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
-local commandname="FASTDL"
+local modulename="FASTDL"
 local commandaction="FastDL"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -23,7 +23,7 @@ luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 # Check if bzip2 is installed.
-if [ -z "$(command -v bzip2 2>/dev/null)" ]; then
+if [ ! "$(command -v bzip2 2>/dev/null)" ]; then
 	fn_print_fail "bzip2 is not installed"
 	fn_script_log_fatal "bzip2 is not installed"
 	core_exit.sh
@@ -67,7 +67,7 @@ fn_clear_old_fastdl(){
 	# Clearing old FastDL.
 	if [ -d "${fastdldir}" ]; then
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
-		rm -R "${fastdldir:?}"
+		rm -fR "${fastdldir:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -147,7 +147,7 @@ fn_human_readable_file_size(){
 fn_fastdl_preview(){
 	# Remove any file list.
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		rm -f "${tmpdir}/fastdl_files_to_compress.txt"
+		rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
 	fi
 	echo -e "analysing required files"
 	fn_script_log_info "Analysing required files"
@@ -228,7 +228,7 @@ fn_fastdl_preview(){
 	fi
 	echo -e "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
 	fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
-	rm "${tmpdir}/fastdl_files_to_compress.txt"
+	rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
 	if ! fn_prompt_yn "Continue?" Y; then
 		fn_script_log "User exited"
 		core_exit.sh
@@ -276,7 +276,7 @@ fn_fastdl_gmod(){
 		# Clear addons directory in fastdl.
 		echo -en "clearing addons dir from fastdl dir..."
 		fn_sleep_time
-		rm -R "${fastdldir:?}/addons"
+		rm -fR "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -379,7 +379,7 @@ fn_fastdl_gmod_dl_enforcer(){
 	# Clear old lua file.
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo -en "removing existing download enforcer: ${luafastdlfile}..."
-		rm "${luafastdlfullpath:?}"
+		rm -f "${luafastdlfullpath:?}"
 		exitcode=$?
 		if [ ${exitcode} -ne 0 ]; then
 			fn_print_fail_eol_nl

@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks if the user tried to run the script as root.
 
-local commandname="CHECK"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local modulename="CHECK"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "$(whoami)" = "root" ]; then
 	if [ "${function_selfname}" != "command_install.sh" ]; then

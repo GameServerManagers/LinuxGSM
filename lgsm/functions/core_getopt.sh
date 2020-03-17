@@ -63,14 +63,14 @@ currentopt+=( "${cmd_update_linuxgsm[@]}" )
 # Exclude noupdate games here.
 if [ -n "${appid}" ]||[ "${shortname}" == "fctr" ]||[ "${shortname}" == "mc" ]||[ "${shortname}" == "mta" ]||[ "${shortname}" == "mumble" ]||[ "${shortname}" == "ts3" ]; then
 	currentopt+=( "${cmd_update[@]}" )
-	# force update for SteamCMD only of MTA.
-	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
+	# force update for SteamCMD only or MTA.
+	if [ "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
 
 # Validate command.
-if [ -n "${appid}" ]; then
+if [ "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
 

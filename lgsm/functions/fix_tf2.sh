@@ -4,7 +4,7 @@
 # Website: https://github.com/vectorsigma
 # Description: Resolves various issues with Team Fortress 2.
 
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

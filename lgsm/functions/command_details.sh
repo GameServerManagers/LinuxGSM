@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
-local commandname="DETAILS"
+local modulename="DETAILS"
 local commandaction="Details"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

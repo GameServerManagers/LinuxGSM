@@ -341,6 +341,16 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_nmrih.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_onset.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_ro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function

@@ -32,7 +32,6 @@ lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${rootdir}/steamcmd"
 serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
-libdir="${lgsmdir}/lib"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 serverlist="${datadir}/serverlist.csv"
@@ -81,7 +80,7 @@ fn_bootstrap_fetch_file(){
 		fi
 
 		# If curl exists download file.
-		if [ -n "$(command -v curl 2>/dev/null)" ]; then
+		if [ "$(command -v curl 2>/dev/null)" ]; then
 			# Trap to remove part downloaded files.
 			echo -en "    fetching ${local_filename}...\c"
 			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
@@ -160,7 +159,7 @@ fn_install_menu_bash() {
 	done < "${options}"
 	menu_options+=( "Cancel" )
 	select option in "${menu_options[@]}"; do
-		if [ -n "${option}" ]&&[ "${option}" != "Cancel" ]; then
+		if [ "${option}" ]&&[ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -201,7 +200,7 @@ fn_install_menu() {
 	options=$4
 	# Get menu command.
 	for menucmd in whiptail dialog bash; do
-		if [ -x "$(command -v "${menucmd}")" ]; then
+		if [ "$(command -v "${menucmd}")" ]; then
 			menucmd=$(command -v "${menucmd}")
 			break
 		fi
@@ -306,7 +305,7 @@ if [ "${shortname}" == "core" ]; then
 			echo -e "result: ${result}"
 			echo -e "gameservername: ${gameservername}"
 		fi
-	elif [ -n "${userinput}" ]; then
+	elif [ "${userinput}" ]; then
 		fn_server_info
 		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
@@ -1060,6 +1059,6 @@ requiredstatus="OFFLINE"
 fn_setstatus
 if [ ! -v TRAVIS ]; then
 	fn_print_info "Tidying up directories."
-	rm -rfv "${serverfiles}"
+	rm -rfv "${serverfiles:?}"
 fi
 core_exit.sh

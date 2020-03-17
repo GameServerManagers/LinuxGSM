@@ -5,7 +5,7 @@
 # Description: Automatically detects the version of GLIBC that is required.
 # Can check a file or directory recursively.
 
-local commandname="DETECT-GLIBC"
+local modulename="DETECT-GLIBC"
 local commandaction="Detect-Glibc"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -13,7 +13,7 @@ echo -e "================================="
 echo -e "glibc Requirements Checker"
 echo -e "================================="
 
-if [ -z "$(command -v objdump)" ]; then
+if [ ! "$(command -v objdump)" ]; then
 	fn_print_failure_nl "objdump is missing"
 	fn_script_log_fatal "objdump is missing"
 	core_exit.sh
@@ -70,8 +70,8 @@ do
 			echo -e ""
 			echo -e "All required GLIBC versions"
 			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort
-			rm "${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
-			rm "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
+			rm -f "${tmpdir:?}/detect_glibc_${glibc_check_var}.tmp"
+			rm -f "${tmpdir:?}/detect_glibc_files_${glibc_check_var}.tmp"
 		else
 			fn_print_information_nl "glibc is not required"
 		fi
@@ -84,7 +84,7 @@ echo -e "Final glibc Requirement"
 echo -e "================================="
 if [ -f "${tmpdir}/detect_glibc_highest.tmp" ]; then
 	cat "${tmpdir}/detect_glibc_highest.tmp" | sort | uniq | sort -r --version-sort | head -1
-	rm "${tmpdir}/detect_glibc_highest.tmp"
+	rm -f "${tmpdir:?}/detect_glibc_highest.tmp"
 else
 	fn_print_information_nl "glibc is not required"
 fi

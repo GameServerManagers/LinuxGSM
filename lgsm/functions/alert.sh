@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
-local commandname="ALERT"
+local modulename="ALERT"
 local commandaction="Alert"
 
 fn_alert_log(){
@@ -12,7 +12,7 @@ fn_alert_log(){
 	info_config.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
-		rm "${alertlog}"
+		rm -f "${alertlog:?}"
 	fi
 
 	{

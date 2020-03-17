@@ -4,16 +4,22 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues related to SteamCMD.
 
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
 if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fixname="steamclient.so"
 	fn_fix_msg_start
 	mkdir -pv "${HOME}/.steam/sdk32" >> "${lgsmlog}"
-	cp -v "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
+		cp -v "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
+		cp -v "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+	else
+		$?=2
+	fi
 	fn_fix_msg_end
 fi
 
@@ -22,7 +28,13 @@ if [ "${shortname}" == "bt" ]; then
 	if [ ! -L "${executabledir}/lib64/steamclient.so" ]; then
 		fixname="steamclient.so x86_64"
 		fn_fix_msg_start
-		cp -s -v "${steamcmddir}/linux64/steamclient.so" "${executabledir}/lib64/steamclient.so" >> "${lgsmlog}"
+		if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
+			cp -v "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${executabledir}/lib64/steamclient.so" >> "${lgsmlog}"
+		elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
+			cp -v "${steamcmddir}/linux64/steamclient.so" "${executabledir}/lib64/steamclient.so" >> "${lgsmlog}"
+		else
+			$?=2
+		fi
 		fn_fix_msg_end
 	fi
 elif [ "${shortname}" == "ss3" ]; then
@@ -39,13 +51,25 @@ elif [ "${shortname}" == "hw" ]; then
 	if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
 		fixname="steamclient.so x86"
 		fn_fix_msg_start
-		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
+		if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
+			cp -v "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
+		elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
+			cp -v "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
+		else
+			:
+		fi
 		fn_fix_msg_end
 	fi
 	if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
 		fixname="steamclient.so x86_64"
 		fn_fix_msg_start
-		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${lgsmlog}"
+		if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
+			cp -v "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${lgsmlog}"
+		elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
+			cp -v "${steamcmddir}/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${lgsmlog}"
+		else
+			:
+		fi
 		fn_fix_msg_end
 	fi
 elif [ "${shortname}" == "tu" ]; then

@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Enabled LinuxGSM Stats.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -21,7 +21,7 @@ echo -e "* game server resource usage"
 echo -e "* server hardware info"
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Allow anonymous usage statistics?" Y; then
-		echo "stats=\"y\"" >> "${configdirserver}/common.cfg"
+		echo "stats=\"on\"" >> "${configdirserver}/common.cfg"
 		fn_print_information_nl "Stats setting is now enabled in common.cfg."
 	fi
 else

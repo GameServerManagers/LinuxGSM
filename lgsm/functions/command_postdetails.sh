@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-local commandname="POSTDETAILS"
+local modulename="POSTDETAILS"
 local commandaction="Postdetails"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -27,7 +27,7 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 # to post to pastebin, or
 #  rustserver@gamerig:~$ posttarget= ./rustserver pd
 # to leave the output on the filesystem.
-posttarget=${posttarget="https://hastebin.com"}
+posttarget=${posttarget="https://termbin.com"}
 
 # For pastebin, you can set the expiration period.
 # use 1 week as the default, other options are '24h' for a day, etc.
@@ -44,11 +44,11 @@ fn_bad_postdetailslog() {
 
 # Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
-	rm -f "${postdetailslog}"
+	rm -f "${postdetailslog:?}"
 fi
 
 # Rather than a one-pass sed parser, default to using a temporary directory.
-if [ -n "${exitbypass}" ]; then
+if [ "${exitbypass}" ]; then
 	postdetailslog="${alertlog}"
 else
 	# Run checks and gathers details to display.

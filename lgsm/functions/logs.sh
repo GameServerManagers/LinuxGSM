@@ -5,12 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
-local commandname="LOGS"
+local modulename="LOGS"
 local commandaction="Log-Manager"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist.
-if [ -n "${consolelog}" ]; then
-	if [ ! -e "${consolelog}" ]; then
+if [ "${consolelog}" ]; then
+	if [ ! -f "${consolelog}" ]; then
 		touch "${consolelog}"
 	fi
 fi
@@ -18,7 +18,7 @@ fi
 # For games not displaying a console, and having logs into their game directory.
 check_status.sh
 if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -n "${gamelogfile}" ]; then
-	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
+	if [ "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"
 		echo -en "\n"
@@ -56,7 +56,7 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
 	# Console logfiles.
-	if [ -n "${consolelog}" ]; then
+	if [ "${consolelog}" ]; then
 		find "${consolelogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 		find "${consolelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;

@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of servers.
 
-local commandname="UPDATE"
+local modulename="UPDATE"
 local commandaction="Update"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

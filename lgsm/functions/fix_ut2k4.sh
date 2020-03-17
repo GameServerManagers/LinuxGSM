@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament 2004.
 
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 

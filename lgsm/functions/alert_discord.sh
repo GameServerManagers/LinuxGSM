@@ -5,6 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Sends Discord alert.
 
+local modulename="ALERT"
+local commandaction="Alert"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 if ! command -v jq > /dev/null; then
 	fn_print_fail_nl "Sending Discord alert: jq is missing."
 	fn_script_log_fatal "Sending Discord alert: jq is missing."
@@ -53,7 +57,7 @@ fn_print_dots "Sending Discord alert"
 
 discordsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
 
-if [ -n "${discordsend}" ]; then
+if [ "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
 	fn_script_log_fatal "Sending Discord alert: ${discordsend}"
 else

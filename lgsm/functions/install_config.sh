@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
-local commandname="INSTALL"
+local modulename="INSTALL"
 local commandaction="Install"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
@@ -56,7 +56,7 @@ fn_default_config_remote(){
 # Copys local default config to server config location.
 fn_default_config_local(){
 	echo -e "copying ${servercfgdefault} config file."
-	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
+	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	fn_sleep_time
 }
 
