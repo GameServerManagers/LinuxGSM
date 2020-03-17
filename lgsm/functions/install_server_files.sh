@@ -117,7 +117,7 @@ fn_install_server_files_steamcmd(){
 					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" validate +quit
 					local exitcode=$?
 				elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
-					${unbuffer} ./steamcmd.sh +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -beta "${branch}" -validate +quit
+					${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${filesdir}" +app_update "${appid}" -beta "${branch}" -validate +quit
 					local exitcode=$?
 				else
 					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit
