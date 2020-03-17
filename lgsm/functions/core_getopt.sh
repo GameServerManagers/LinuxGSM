@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 ### Define all commands here.
 ## User commands | Trigger commands | Description
@@ -64,13 +64,13 @@ currentopt+=( "${cmd_update_linuxgsm[@]}" )
 if [ "${engine}" != "quake" ]&&[ "${engine}" != "idtech2" ]&&[ "${engine}" != "idtech3" ]&&[ "${engine}" != "iw2.0" ]&&[ "${engine}" != "iw3.0" ]&&[ "${shortname}" != "bf1942" ]&&[ "${shortname}" != "samp" ]; then
 	currentopt+=( "${cmd_update[@]}" )
 	# force update for SteamCMD only or MTA.
-	if [ -n "${appid}" ]||[ "${shortname}" == "mta" ]; then
+	if [ "${appid}" ]||[ "${shortname}" == "mta" ]; then
 		currentopt+=( "${cmd_force_update[@]}" )
 	fi
 fi
 
 # Validate command.
-if [ -n "${appid}" ]; then
+if [ "${appid}" ]; then
 	currentopt+=( "${cmd_validate[@]}" )
 fi
 
@@ -143,8 +143,8 @@ currentopt+=( "${cmd_donate[@]}" )
 optcommands=()
 index="0"
 for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-	cmdamount="$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')"
-	for ((cmdindex=1; cmdindex <= ${cmdamount}; cmdindex++)); do
+	cmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
+	for ((cmdindex=1; cmdindex <= cmdamount; cmdindex++)); do
 		optcommands+=( "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')" )
 	done
 done
@@ -180,8 +180,8 @@ for i in "${optcommands[@]}"; do
 		# Seek and run command.
 		index="0"
 		for ((index="0"; index < ${#currentopt[@]}; index+=3)); do
-			currcmdamount="$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')"
-			for ((currcmdindex=1; currcmdindex <= ${currcmdamount}; currcmdindex++)); do
+			currcmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
+			for ((currcmdindex=1; currcmdindex <= currcmdamount; currcmdindex++)); do
 				if [ "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command.
 					eval "${currentopt[index+1]}"

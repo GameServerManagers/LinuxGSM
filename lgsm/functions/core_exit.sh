@@ -20,9 +20,9 @@ if [ "$(whoami)" == "root" ]; then
 	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 fi
 
-if [ -n "${exitbypass}" ]; then
+if [ "${exitbypass}" ]; then
 	unset exitbypass
-elif [ -n "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
+elif [ "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	if [ "${exitcode}" == "1" ]; then
 		fn_script_log_fatal "${function_selfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then

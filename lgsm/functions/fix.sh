@@ -5,7 +5,7 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-local commandname="FIX"
+local modulename="FIX"
 local commandaction="Fix"
 
 # Messages that are displayed for some fixes.
@@ -33,7 +33,7 @@ fn_fix_msg_end(){
 
 # Fixes that are run on start.
 if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; then
-	if [ -n "${appid}" ]; then
+	if [ "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
 
@@ -49,6 +49,10 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ges.sh
 	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
+	elif [ "${shortname}" == "nmrih" ]; then
+		fix_nmrih.sh
+	elif [ "${shortname}" == "onset" ]; then
+		fix_onset.sh
 	elif [ "${shortname}" == "rust" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
@@ -67,6 +71,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
+	elif [ "${shortname}" == "mcb" ]; then
+		fix_mcb.sh
 	elif [ "${shortname}" == "mta" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "unt" ]; then

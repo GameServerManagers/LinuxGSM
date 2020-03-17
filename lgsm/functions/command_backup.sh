@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-local commandname="BACKUP"
+local modulename="BACKUP"
 local commandaction="Backup"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 check.sh
 
@@ -17,12 +17,12 @@ fn_backup_trap(){
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
-	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
+	rm -f "${backupdir:?}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file.
-	rm -f "${tmpdir}/.backup.lock"
+	rm -f "${tmpdir:?}/.backup.lock"
 	core_exit.sh
 }
 
@@ -37,8 +37,8 @@ fn_backup_check_lockfile(){
 
 # Initialisation.
 fn_backup_init(){
-	# Backup file name with servicename and current date.
-	backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
+	# Backup file name with selfname and current date.
+	backupname="${selfname}-$(date '+%Y-%m-%d-%H%M%S')"
 
 	info_distro.sh
 	fn_print_dots "Backup starting"
@@ -67,14 +67,14 @@ fn_backup_stop_server(){
 	# Server is running and stoponbackup=off.
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
-		fn_print_warn_nl "${servicename} is currently running"
-		echo -e "	* Although unlikely; creating a backup while ${servicename} is running might corrupt the backup."
-		fn_script_log_warn "${servicename} is currently running"
-		fn_script_log_warn "Although unlikely; creating a backup while ${servicename} is running might corrupt the backup"
+		fn_print_warn_nl "${selfname} is currently running"
+		echo -e "	* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+		fn_script_log_warn "${selfname} is currently running"
+		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_print_warn_nl "${servicename} will be stopped during the backup"
-		fn_script_log_warn "${servicename} will be stopped during the backup"
+		fn_print_warn_nl "${selfname} will be stopped during the backup"
+		fn_script_log_warn "${selfname} will be stopped during the backup"
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh
@@ -153,13 +153,13 @@ fn_backup_compression(){
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
-	rm -f "${tmpdir}/.backup.lock"
+	rm -f "${tmpdir:?}/.backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.
 fn_backup_prune(){
 	# Clear if backup variables are set.
-	if [ -n "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
+	if [ "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
 		# How many backups there are.
 		info_distro.sh
 		# How many backups exceed maxbackups.
@@ -267,4 +267,5 @@ fn_backup_migrate_olddir
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
+
 core_exit.sh
