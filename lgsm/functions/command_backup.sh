@@ -43,9 +43,9 @@ fn_backup_init(){
 	info_distro.sh
 	fn_print_dots "Backup starting"
 	fn_script_log_info "Backup starting"
-	fn_print_ok "Backup starting"
+	fn_print_ok_nl "Backup starting"
 	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
-		fn_print_info "There are no previous backups"
+		fn_print_info_nl "There are no previous backups"
 	else
 		if [ "${lastbackupdaysago}" == "0" ]; then
 			daysago="less than 1 day ago"
