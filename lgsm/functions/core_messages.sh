@@ -353,7 +353,7 @@ fn_print_error_eol(){
 }
 
 fn_print_error_eol_nl(){
-	echo -en "${red}ERROR${default}"
+	echo -e "${red}ERROR${default}"
 }
 
 # WARN
