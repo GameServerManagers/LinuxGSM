@@ -21,7 +21,7 @@ fn_monitor_check_lockfile(){
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		fn_sleep_time
-		echo -e "	* Start ${selfname} to run monitor."
+		echo -e "* Start ${selfname} to run monitor."
 		core_exit.sh
 	fi
 
