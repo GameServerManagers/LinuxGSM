@@ -102,10 +102,10 @@ fn_check_steamcmd_exec(){
 	fi
 }
 
+fn_check_steamcmd_clear
 fn_check_steamcmd
 if [ ${shortname} == "ark" ]; then
 	fn_check_steamcmd_ark
 fi
-fn_check_steamcmd_clear
 fn_check_steamcmd_user
 fn_check_steamcmd_exec
