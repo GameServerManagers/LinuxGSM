@@ -104,6 +104,7 @@ fn_update_minecraft_compare(){
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
@@ -145,6 +146,7 @@ fn_update_minecraft_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"

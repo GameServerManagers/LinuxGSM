@@ -80,6 +80,7 @@ fn_update_steamcmd_compare(){
 	fn_print_dots "Checking for update: ${remotelocation}"
 	if [ "${localbuild}" != "${remotebuild}" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
@@ -123,6 +124,7 @@ fn_update_steamcmd_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
@@ -169,19 +171,19 @@ fn_appmanifest_check(){
 		else
 			fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
-			fn_print_info "Forcing update to correct issue"
+			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			fn_update_steamcmd_dl
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
-		fn_print_error "No appmanifest_${appid}.acf found"
+		fn_print_error_nl "No appmanifest_${appid}.acf found"
 		fn_script_log_error "No appmanifest_${appid}.acf found"
-		fn_print_info "Forcing update to correct issue"
+		fn_print_info_nl "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"
 		fn_update_steamcmd_dl
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -eq "0" ]; then
-			fn_print_fail "Still no appmanifest_${appid}.acf found"
+			fn_print_fail_nl "Still no appmanifest_${appid}.acf found"
 			fn_script_log_fatal "Still no appmanifest_${appid}.acf found"
 			core_exit.sh
 		fi

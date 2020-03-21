@@ -30,10 +30,10 @@ fn_validation(){
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
 	fi
 	if [ $? != 0 ]; then
-		fn_print_fail "Validating files: SteamCMD"
+		fn_print_fail_nl "Validating files: SteamCMD"
 		fn_script_log_fatal "Validating files: SteamCMD: FAIL"
 	else
-		fn_print_ok "Validating files: SteamCMD"
+		fn_print_ok_nl "Validating files: SteamCMD"
 		fn_script_log_pass "Validating files: SteamCMD: OK"
 	fi
 	fix.sh
