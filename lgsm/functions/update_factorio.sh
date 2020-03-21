@@ -72,7 +72,6 @@ fn_update_factorio_compare(){
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${factorioarch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
@@ -120,7 +119,6 @@ fn_update_factorio_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"

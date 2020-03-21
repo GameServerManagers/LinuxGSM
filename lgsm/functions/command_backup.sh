@@ -54,7 +54,8 @@ fn_backup_init(){
 		else
 			daysago="${lastbackupdaysago} days ago"
 		fi
-		echo -e "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
+		echo -en "\n"
+		echo -e "* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
 
@@ -68,12 +69,12 @@ fn_backup_stop_server(){
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
 		fn_print_warn_nl "${selfname} is currently running"
-		echo -e "	* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
 		fn_script_log_warn "${selfname} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_print_warn_nl "${selfname} will be stopped during the backup"
+		fn_print_warn "${selfname} will be stopped during the backup"
 		fn_script_log_warn "${selfname} will be stopped during the backup"
 		serverstopped="yes"
 		exitbypass=1
@@ -134,7 +135,7 @@ fn_backup_compression(){
 
 	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ] ; then
-		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
+		fn_print_fail "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
 	fi
@@ -145,11 +146,11 @@ fn_backup_compression(){
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
 		echo -e "${tarcmd}" | tee -a "${lgsmlog}"
-		fn_print_fail_nl "Starting backup"
+		fn_print_fail "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
@@ -170,30 +171,30 @@ fn_backup_prune(){
 		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
 			fn_script_log_info "Backup pruning activated"
-			fn_print_ok_nl "Pruning"
+			fn_print_ok "Pruning"
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays.
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				echo -e "* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota.
 				find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
-				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_print_ok "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			# If maxbackupdays is used over maxbackups.
 			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
+				echo -e "* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota
 				find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
-				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_print_ok "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			fi
 		fi
