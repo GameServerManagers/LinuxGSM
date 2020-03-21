@@ -211,10 +211,10 @@ fn_stop_tmux(){
 	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		fn_print_ok_nl "${servername}"
+		fn_print_ok "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else
-		fn_print_fail_nl "Unable to stop ${servername}"
+		fn_print_fail "Unable to stop ${servername}"
 		fn_script_log_fatal "Unable to stop ${servername}"
 	fi
 }
