@@ -169,19 +169,19 @@ fn_appmanifest_check(){
 		else
 			fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
-			fn_print_info_nl "Forcing update to correct issue"
+			fn_print_info "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			fn_update_steamcmd_dl
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
-		fn_print_error_nl "No appmanifest_${appid}.acf found"
+		fn_print_error "No appmanifest_${appid}.acf found"
 		fn_script_log_error "No appmanifest_${appid}.acf found"
-		fn_print_info_nl "Forcing update to correct issue"
+		fn_print_info "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"
 		fn_update_steamcmd_dl
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -eq "0" ]; then
-			fn_print_fail_nl "Still no appmanifest_${appid}.acf found"
+			fn_print_fail "Still no appmanifest_${appid}.acf found"
 			fn_script_log_fatal "Still no appmanifest_${appid}.acf found"
 			core_exit.sh
 		fi

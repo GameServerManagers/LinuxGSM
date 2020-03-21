@@ -101,7 +101,7 @@ if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 	exitbypass=1
 	command_postdetails.sh
 elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "More Info not enabled"
+	fn_print_warn "More Info not enabled"
 	fn_script_log_warn "More Info alerts not enabled"
 elif [ -z "${posttarget}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "posttarget not set"
@@ -114,7 +114,7 @@ fi
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
 	alert_discord.sh
 elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Discord alerts not enabled"
+	fn_print_warn "Discord alerts not enabled"
 	fn_script_log_warn "Discord alerts not enabled"
 elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Discord token not set"
@@ -125,7 +125,7 @@ fi
 if [ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
 elif [ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Email alerts not enabled"
+	fn_print_warn "Email alerts not enabled"
 	fn_script_log_warn "Email alerts not enabled"
 elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Email not set"
@@ -135,7 +135,7 @@ fi
 if [ "${iftttalert}" == "on" ]&&[ -n "${iftttalert}" ]; then
 	alert_ifttt.sh
 elif [ "${iftttalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "IFTTT alerts not enabled"
+	fn_print_warn "IFTTT alerts not enabled"
 	fn_script_log_warn "IFTTT alerts not enabled"
 elif [ -z "${ifttttoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "IFTTT token not set"
@@ -146,7 +146,7 @@ fi
 if [ "${mailgunalert}" == "on" ]&&[ -n "${mailgunalert}" ]; then
 	alert_mailgun.sh
 elif [ "${mailgunalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Mailgun alerts not enabled"
+	fn_print_warn "Mailgun alerts not enabled"
 	fn_script_log_warn "Mailgun alerts not enabled"
 elif [ -z "${mailguntoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Mailgun token not set"
@@ -157,7 +157,7 @@ fi
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
 	alert_pushbullet.sh
 elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Pushbullet alerts not enabled"
+	fn_print_warn "Pushbullet alerts not enabled"
 	fn_script_log_warn "Pushbullet alerts not enabled"
 elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Pushbullet token not set"
@@ -168,7 +168,7 @@ fi
 if [ "${pushoveralert}" == "on" ]&&[ -n "${pushoveralert}" ]; then
 	alert_pushover.sh
 elif [ "${pushoveralert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Pushover alerts not enabled"
+	fn_print_warn "Pushover alerts not enabled"
 	fn_script_log_warn "Pushover alerts not enabled"
 elif [ -z "${pushovertoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Pushover token not set"
@@ -179,7 +179,7 @@ fi
 if [ "${telegramalert}" == "on" ]&&[ -n "${telegramtoken}" ]; then
 	alert_telegram.sh
 elif [ "${telegramalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Telegram Messages not enabled"
+	fn_print_warn "Telegram Messages not enabled"
 	fn_script_log_warn "Telegram Messages not enabled"
 elif [ -z "${telegramtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Telegram token not set."
@@ -194,7 +194,7 @@ fi
 if [ "${slackalert}" == "on" ]&&[ -n "${slackalert}" ]; then
 	alert_slack.sh
 elif [ "${slackalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
-	fn_print_warn_nl "Slack alerts not enabled"
+	fn_print_warn "Slack alerts not enabled"
 	fn_script_log_warn "Slack alerts not enabled"
 elif [ -z "${slacktoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
 	fn_print_error "Slack token not set"
