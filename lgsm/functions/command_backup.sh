@@ -55,7 +55,7 @@ fn_backup_init(){
 			daysago="${lastbackupdaysago} days ago"
 		fi
 		echo -en "\n"
-		echo -e "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
+		echo -e "* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
 
@@ -69,7 +69,7 @@ fn_backup_stop_server(){
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
 		fn_print_warn_nl "${selfname} is currently running"
-		echo -e "	* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
 		fn_script_log_warn "${selfname} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
@@ -182,7 +182,7 @@ fn_backup_prune(){
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota.
 				find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
-				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_print_ok "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			# If maxbackupdays is used over maxbackups.
 			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
@@ -194,7 +194,7 @@ fn_backup_prune(){
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota
 				find "${backupdir}"/ -type f -mtime +"${maxbackupdays}" -exec rm -f {} \;
-				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
+				fn_print_ok "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			fi
 		fi
