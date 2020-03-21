@@ -7,6 +7,9 @@
 local modulename="CHECK"
 
 fn_install_steamcmd(){
+	if [ ${shortname} == "ark" ]; then
+		steamcmddir="${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
+	fi
 	if [ ! -d "${steamcmddir}" ]; then
 		mkdir -pv "${steamcmddir}"
 	fi
@@ -60,6 +63,24 @@ fn_check_steamcmd(){
 	fi
 }
 
+fn_check_steamcmd_ark(){
+	# Checks if SteamCMD exists in
+	# Engine/Binaries/ThirdParty/SteamCMD/Linux
+	# to allow ark mods to work
+	if [ ! -f "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamcmd.sh" ]; then
+		if [ "${function_selfname}" == "command_install.sh" ]; then
+			fn_install_steamcmd
+		else
+			fn_print_error_nl "ARK mods SteamCMD is missing"
+			fn_script_log_error "ARK mods SteamCMD is missing"
+			fn_install_steamcmd
+		fi
+	elif [ "${function_selfname}" == "command_install.sh" ]; then
+		fn_print_information "ARK mods SteamCMD is already installed..."
+		fn_print_ok_eol_nl
+	fi
+}
+
 fn_check_steamcmd_clear(){
 # Will remove steamcmd dir if steamcmd package is installed.
 if [ "$(command -v steamcmd 2>/dev/null)" ]&&[ -d "${steamcmddir}" ]; then
@@ -82,6 +103,9 @@ fn_check_steamcmd_exec(){
 }
 
 fn_check_steamcmd
+if [ ${shortname} == "ark" ]; then
+	fn_check_steamcmd_ark
+fi
 fn_check_steamcmd_clear
 fn_check_steamcmd_user
 fn_check_steamcmd_exec
