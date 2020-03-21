@@ -11,6 +11,7 @@ if [ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
 	fn_fix_msg_start
 	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fn_fix_msg_end
+	check_steamcmd.sh
 fi
 
 # removed ARK steamcmd directory if steamcmd is missing.
@@ -19,6 +20,7 @@ if [ ! -f "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamcmd.sh"
 	fn_fix_msg_start
 	rm -rf "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fn_fix_msg_end
+	check_steamcmd.sh
 fi
 
 # if the steamapps symlink is incorrect unlink it.
