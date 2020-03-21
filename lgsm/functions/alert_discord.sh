@@ -58,9 +58,9 @@ fn_print_dots "Sending Discord alert"
 discordsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
 
 if [ "${discordsend}" ]; then
-	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
+	fn_print_fail "Sending Discord alert: ${discordsend}"
 	fn_script_log_fatal "Sending Discord alert: ${discordsend}"
 else
-	fn_print_ok_nl "Sending Discord alert"
+	fn_print_ok "Sending Discord alert"
 	fn_script_log_pass "Sending Discord alert"
 fi
