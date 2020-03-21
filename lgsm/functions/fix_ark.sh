@@ -25,7 +25,7 @@ fi
 if [ "$(readlink ${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps)" != "${HOME}/Steam/steamapps" ]; then
 	fixname="incorrect steamapps symlink"
 	fn_fix_msg_start
-	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
+	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 	fn_fix_msg_end
 fi
 
