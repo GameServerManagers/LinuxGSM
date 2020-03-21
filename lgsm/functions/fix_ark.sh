@@ -35,6 +35,6 @@ fi
 if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
 	fixname="steamcmd symlink"
 	fn_fix_msg_start
-	ln -s "${HOME}/Steam/SteamApps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
+	ln -s "${HOME}/Steam/steamapps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 	fn_fix_msg_end
 fi
