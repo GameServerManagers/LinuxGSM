@@ -13,5 +13,4 @@ check.sh
 info_config.sh
 alert="test"
 alert.sh
-
 core_exit.sh

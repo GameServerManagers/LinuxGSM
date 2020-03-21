@@ -170,7 +170,7 @@ fn_print_dots "${servername}"
 # Is the server already started.
 # $status comes from check_status.sh, which is run by check.sh for this command
 if [ "${status}" != "0" ]; then
-	fn_print_info_nl "${servername} is already running"
+	fn_print_info "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
 		core_exit.sh
