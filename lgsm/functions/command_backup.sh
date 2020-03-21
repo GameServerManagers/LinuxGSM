@@ -54,6 +54,7 @@ fn_backup_init(){
 		else
 			daysago="${lastbackupdaysago} days ago"
 		fi
+		echo -en "\n"
 		echo -e "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
@@ -170,11 +171,11 @@ fn_backup_prune(){
 		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
 			fn_script_log_info "Backup pruning activated"
-			fn_print_ok_nl "Pruning"
+			fn_print_ok "Pruning"
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays.
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				echo -e "* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
@@ -186,7 +187,7 @@ fn_backup_prune(){
 			# If maxbackupdays is used over maxbackups.
 			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
+				echo -e "* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
