@@ -73,7 +73,7 @@ fn_backup_stop_server(){
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_print_warn_nl "${selfname} will be stopped during the backup"
+		fn_print_warn "${selfname} will be stopped during the backup"
 		fn_script_log_warn "${selfname} will be stopped during the backup"
 		serverstopped="yes"
 		exitbypass=1
@@ -134,7 +134,7 @@ fn_backup_compression(){
 
 	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ] ; then
-		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
+		fn_print_fail "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
 	fi
@@ -145,11 +145,11 @@ fn_backup_compression(){
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
 		echo -e "${tarcmd}" | tee -a "${lgsmlog}"
-		fn_print_fail_nl "Starting backup"
+		fn_print_fail "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
