@@ -4,33 +4,37 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with ARK: Survival Evolved.
 
-# removes the symlink if broken. fixes issue with older versions of LinuxGSM linking to /home/arkserver/steamcmd
-# rather than ${HOME}/.steam. This fix could be deprecated eventually.
-if [ ! -e "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
-	fixname="broken steamcmd symlink"
+# removes the symlink if exists.
+# fixes issue with older versions of LinuxGSM linking to /home/arkserver/steamcmd
+if [ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
+	fixname="broken SteamCMD symlink"
 	fn_fix_msg_start
-	rm -f "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
+	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
+	fn_fix_msg_end
+	check_steamcmd.sh
+fi
+
+# removed ARK steamcmd directory if steamcmd is missing.
+if [ ! -f "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamcmd.sh" ]; then
+	fixname="remove invalid ARK SteamCMD directory"
+	fn_fix_msg_start
+	rm -rf "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
+	fn_fix_msg_end
+	check_steamcmd.sh
+fi
+
+# if the steamapps symlink is incorrect unlink it.
+if [ -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]&&[ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]&&[ "$(readlink ${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps)" != "${HOME}/Steam/steamapps" ]; then
+	fixname="incorrect steamapps symlink"
+	fn_fix_msg_start
+	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 	fn_fix_msg_end
 fi
 
-if [ ! -e "${HOME}/.steam/steamcmd/steamapps" ]; then
-	fixname="broken steamcmd symlink"
+# Put symlink to steamapps directory into the ARK SteamCMD directory to link the downloaded mods to the correct location.
+if [ ! -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
+	fixname="steamapps symlink"
 	fn_fix_msg_start
-	rm -f "${HOME}/.steam/steamcmd/steamapps"
-	fn_fix_msg_end
-fi
-
-# Symlinking the SteamCMD directory into the correct ARK directory so that the mods auto-management will work.
-if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]; then
-	fixname="steamcmd symlink"
-	fn_fix_msg_start
-	ln -s "${HOME}/.steam/steamcmd" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
-	fn_fix_msg_end
-fi
-
-if [ ! -d "${HOME}/.steam/steamcmd/steamapps" ]; then
-	fixname="steamcmd symlink"
-	fn_fix_msg_start
-	ln -s "${HOME}/Steam/steamapps" "${HOME}/.steam/steamcmd/steamapps"
+	ln -s "${HOME}/Steam/steamapps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 	fn_fix_msg_end
 fi
