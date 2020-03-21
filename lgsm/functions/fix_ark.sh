@@ -21,9 +21,17 @@ if [ ! -f "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamcmd.sh"
 	fn_fix_msg_end
 fi
 
+# if the steamapps symlink is incorrect unlink it.
+if [ "$(readlink ${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps)" != "${HOME}/Steam/steamapps" ]; then
+	fixname="incorrect steamapps symlink"
+	fn_fix_msg_start
+	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
+	fn_fix_msg_end
+fi
+
 # Put symlink to steamapps directory into the ARK SteamCMD directory to link the downloaded mods to the correct location.
 if [ ! -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
-	fixname="steamcmd symlink"
+	fixname="steamapps symlink"
 	fn_fix_msg_start
 	ln -s "${HOME}/Steam/steamapps" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 	fn_fix_msg_end
