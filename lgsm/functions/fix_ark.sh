@@ -10,6 +10,9 @@ if [ -d "${HOME}/.steam/SteamApps" ]; then
 	steamappsdir="${HOME}/.steam/SteamApps"
 elif [ -d "${HOME}/Steam/steamapps" ]; then
 	steamappsdir="${HOME}/Steam/steamapps"
+else
+	fn_print_fail "unable to select steamapps directory"
+	echo -en "* remove both the ~/.steam and ~/Steam directories"
 fi
 
 
