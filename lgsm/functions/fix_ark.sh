@@ -6,15 +6,10 @@
 
 # Steam mods directory selecter
 # This allows LinxuGSM to select either ~/.steam or ~/Steam. depending on what is being used
-if [ -d "${HOME}/.steam/SteamApps" ]; then
-	steamappsdir="${HOME}/.steam/SteamApps"
-elif [ -d "${HOME}/Steam/steamapps" ]; then
-	steamappsdir="${HOME}/Steam/steamapps"
-else
-	fn_print_fail "unable to select steamapps directory"
-	echo -en "* remove both the ~/.steam and ~/Steam directories"
-fi
 
+steamappsfile=$(find ${HOME} -name appworkshop_346110.acf)
+steamappsdir=$(dirname "${steamappsfile}")
+steamappspath=$(cd ${steamappsdir};cd ../;pwd)
 
 # removes the symlink if exists.
 # fixes issue with older versions of LinuxGSM linking to /home/arkserver/steamcmd
@@ -47,6 +42,6 @@ fi
 if [ ! -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]; then
 	fixname="steamapps symlink"
 	fn_fix_msg_start
-	ln -s "${steamappsdir}" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
+	ln -s "${steamappspath}" "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
 	fn_fix_msg_end
 fi
