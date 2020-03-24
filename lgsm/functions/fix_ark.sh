@@ -31,7 +31,7 @@ if [ ! -f "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamcmd.sh"
 fi
 
 # if the steamapps symlink is incorrect unlink it.
-if [ -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]&&[ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]&&[ "$(readlink ${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps)" != "${steamappsdir}" ]; then
+if [ -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]&&[ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]&&[ "$(readlink ${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps)" != "${steamappspath}" ]; then
 	fixname="incorrect steamapps symlink"
 	fn_fix_msg_start
 	unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
