@@ -7,6 +7,6 @@
 laststart=$(cat "${lockdir}/laststart.lock")
 lastupdate=$(cat "${lockdir}/lastupdate.lock")
 
-if [ "${laststart}" < "${lastupdate}"  ]; then
+if [ "${laststart}" -lt "${lastupdate}"  ]; then
   command_restart.sh
 fi
