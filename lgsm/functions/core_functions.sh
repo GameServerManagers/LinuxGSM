@@ -707,7 +707,7 @@ if [ ! -d "${tmpdir}" ]; then
 fi
 
 # Creates lock dir if missing
-if [ ! -d "${tmpdir}" ]; then
+if [ ! -d "${lockdir}" ]; then
 	mkdir -p "${lockdir}"
 fi
 
