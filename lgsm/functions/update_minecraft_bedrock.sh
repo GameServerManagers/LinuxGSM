@@ -36,7 +36,7 @@ fn_update_minecraft_localbuild(){
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
 
-	localbuild=$(grep Version $(ls -tr "${consolelogdir}"/* 2>/dev/null) | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
 
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking for update: ${remotelocation}: checking local build"
@@ -59,7 +59,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version $(ls -tr "${consolelogdir}"/* 2>/dev/null) | tail -1 | sed 's/.*Version //')
+		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
