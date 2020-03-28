@@ -706,6 +706,11 @@ if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
 fi
 
+# Creates lock dir if missing
+if [ ! -d "${tmpdir}" ]; then
+	mkdir -p "${lockdir}"
+fi
+
 # Calls on-screen messages (bootstrap)
 core_messages.sh
 
