@@ -12,6 +12,8 @@ fn_print_dots ""
 check.sh
 logs.sh
 
+check_lastupdate.sh
+
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
