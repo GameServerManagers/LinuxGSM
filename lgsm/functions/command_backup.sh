@@ -54,7 +54,6 @@ fn_backup_init(){
 		else
 			daysago="${lastbackupdaysago} days ago"
 		fi
-		echo -en "\n"
 		echo -e "* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
@@ -74,8 +73,17 @@ fn_backup_stop_server(){
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_print_warn_nl "${selfname} will be stopped during the backup"
-		fn_script_log_warn "${selfname} will be stopped during the backup"
+		fn_sleep_time
+		fn_print_warn_nl "${selfname} will be stopped during backup"
+		fn_script_log_warn "${selfname} will be stopped during backup"
+		echo -en "\n"
+		echo -en "3...\r"
+		sleep 1
+		echo -en "2..\r"
+		sleep 1
+		echo -en "1.\r"
+		sleep 1
+		echo -en "\n"
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh

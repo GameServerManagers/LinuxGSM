@@ -43,6 +43,17 @@ fn_validation(){
 fn_print_dots "Validating files:"
 fn_print_dots "Validating files: SteamCMD"
 check.sh
+fn_sleep_time
+fn_print_warn_nl "${selfname} will be stopped during validation"
+fn_script_log_warn "${selfname} will be stopped during validation"
+echo -en "\n"
+echo -en "3...\r"
+sleep 1
+echo -en "2..\r"
+sleep 1
+echo -en "1.\r"
+sleep 1
+echo -en "\n"
 check_status.sh
 if [ "${status}" != "0" ]; then
 	exitbypass=1

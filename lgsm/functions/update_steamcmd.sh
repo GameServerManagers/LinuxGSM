@@ -96,12 +96,14 @@ fn_update_steamcmd_compare(){
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 		fn_sleep_time
+		fn_print_warn_nl "${selfname} will be stopped during update"
+		fn_script_log_warn "${selfname} will be stopped during update"
 		echo -en "\n"
-		echo -en "applying update.\r"
+		echo -en "3...\r"
 		sleep 1
-		echo -en "applying update..\r"
+		echo -en "2..\r"
 		sleep 1
-		echo -en "applying update...\r"
+		echo -en "1.\r"
 		sleep 1
 		echo -en "\n"
 
