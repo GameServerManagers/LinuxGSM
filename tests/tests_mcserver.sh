@@ -20,12 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.9.0"
+version="v20.1.5"
 shortname="mc"
 gameservername="mcserver"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
-lockselfname=".${selfname}.lock"
+
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -34,6 +34,8 @@ serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
+lockdir="${lgsmdir}/lock"
+lockselfname="${lockdir}/${selfname}.lock"
 serverlist="${datadir}/serverlist.csv"
 serverlistmenu="${datadir}/serverlistmenu.csv"
 configdir="${lgsmdir}/config-lgsm"
