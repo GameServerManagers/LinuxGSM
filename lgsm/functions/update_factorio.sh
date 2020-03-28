@@ -120,7 +120,7 @@ fn_update_factorio_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
+
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"

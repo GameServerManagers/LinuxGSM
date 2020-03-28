@@ -54,7 +54,8 @@ fn_backup_init(){
 		else
 			daysago="${lastbackupdaysago} days ago"
 		fi
-		echo -e "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
+		echo -en "\n"
+		echo -e "* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
 
@@ -68,7 +69,7 @@ fn_backup_stop_server(){
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
 		fn_print_warn_nl "${selfname} is currently running"
-		echo -e "	* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
 		fn_script_log_warn "${selfname} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
@@ -174,7 +175,7 @@ fn_backup_prune(){
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays.
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				echo -e "* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
@@ -186,7 +187,7 @@ fn_backup_prune(){
 			# If maxbackupdays is used over maxbackups.
 			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
+				echo -e "* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
