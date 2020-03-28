@@ -7,8 +7,8 @@
 laststart=$(cat "${lockdir}/laststart.lock")
 lastupdate=$(cat "${lockdir}/lastupdate.lock")
 
-if [ "${laststart}" -lt "${lastupdate}"  ]; then
-  fn_print_info "${selfname} has not been restarted since last update"
-  fn_script_log_info "${selfname} has not been restarted since last update"
-  command_restart.sh
+if [ "${laststart}" -lt "${lastupdate}" ]; then
+	fn_print_info "${selfname} has not been restarted since last update"
+	fn_script_log_info "${selfname} has not been restarted since last update"
+	command_restart.sh
 fi
