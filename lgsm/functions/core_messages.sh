@@ -180,18 +180,18 @@ fn_print_fail_nl(){
 # [ ERROR ]
 fn_print_error(){
 	if [ "${commandaction}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${selfname}: $*"
+		echo -en "${creeol}[${red} ERROR ${default}] ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${creeol}[${red}ERROR ${default}] $*"
+		echo -en "${creeol}[${red} ERROR ${default}] $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_error_nl(){
 	if [ "${commandaction}" ]; then
-		echo -en "${creeol}[${red}ERROR ${default}] ${commandaction} ${selfname}: $*"
+		echo -en "${creeol}[${red} ERROR ${default}] ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${creeol}[${red}ERROR ${default}] $*"
+		echo -en "${creeol}[${red} ERROR ${default}] $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -232,6 +232,26 @@ fn_print_info_nl(){
 		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}: $*"
 	else
 		echo -en "${creeol}[${cyan} INFO ${default}] $*"
+	fi
+	fn_sleep_time
+	echo -en "\n"
+}
+
+# [ INFO ]
+fn_print_start(){
+	if [ "${commandaction}" ]; then
+		echo -en "${creeol}[${lightgreen} START ${default}] ${commandaction} ${selfname}: $*"
+	else
+		echo -en "${creeol}[${lightgreen} START ${default}] $*"
+	fi
+	fn_sleep_time
+}
+
+fn_print_start_nl(){
+	if [ "${commandaction}" ]; then
+		echo -en "${creeol}[${lightgreen} START ${default}] ${commandaction} ${selfname}: $*"
+	else
+		echo -en "${creeol}[${lightgreen} START ${default}] $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"

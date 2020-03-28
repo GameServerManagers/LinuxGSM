@@ -9,7 +9,7 @@ local commandaction="Validate"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_validation(){
-	fn_print_info "Validating files: SteamCMD"
+	fn_print_start "Validating files: SteamCMD"
 	echo -e ""
 	echo -e "* Validating may overwrite some customised files."
 	echo -e "* https://docs.linuxgsm.com/commands/validate"
@@ -44,16 +44,17 @@ fn_print_dots "Validating files:"
 fn_print_dots "Validating files: SteamCMD"
 check.sh
 fn_sleep_time
-fn_print_warn_nl "${selfname} will be stopped during validation"
-fn_script_log_warn "${selfname} will be stopped during validation"
-echo -en "\n"
-echo -en "3...\r"
-sleep 1
-echo -en "2..\r"
-sleep 1
-echo -en "1.\r"
-sleep 1
-echo -en "\n"
+fn_script_log_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation"
+totalseconds=3
+for seconds in {3..1}; do
+	fn_print_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation: ${totalseconds}"
+	totalseconds=$((totalseconds - 1))
+	sleep 1
+	if [ "${seconds}" == "0" ]; then
+		break
+	fi
+done
+
 check_status.sh
 if [ "${status}" != "0" ]; then
 	exitbypass=1
