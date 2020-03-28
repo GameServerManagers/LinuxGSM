@@ -69,9 +69,7 @@ fn_start_tmux(){
 	# Create logfile.
 	touch "${consolelog}"
 
-	if [ ! -d "${lockdir}" ]; then
-		mkdir -p "${lockdir}"
-	fi
+
 	date +%s > "${lockdir}/laststart.lock"
 
 	# Get tmux version.
