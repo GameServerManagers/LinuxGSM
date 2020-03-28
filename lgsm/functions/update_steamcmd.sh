@@ -129,6 +129,7 @@ fn_update_steamcmd_compare(){
 		fi
 		alert="update"
 		alert.sh
+		date +%s > "${lockdir}/lastupdate.lock"
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -e "No update available"

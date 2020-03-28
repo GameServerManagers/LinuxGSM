@@ -69,6 +69,11 @@ fn_start_tmux(){
 	# Create logfile.
 	touch "${consolelog}"
 
+	if [ ! -d "${lockdir}" ]; then
+		mkdir -p "${lockdir}"
+	fi
+	date +%s > "${lockdir}/laststart.lock"
+
 	# Get tmux version.
 	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
 	# Tmux compiled from source will return "master", therefore ignore it.

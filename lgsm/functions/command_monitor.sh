@@ -236,6 +236,7 @@ info_parms.sh
 
 # query pre-checks
 fn_monitor_check_lockfile
+check_lastupdate.sh
 fn_monitor_check_update
 fn_monitor_check_session
 # Monitor will not continue if session only check.

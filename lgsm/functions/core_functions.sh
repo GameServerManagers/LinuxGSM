@@ -188,6 +188,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+check_lastupdate.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 check_logs.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
