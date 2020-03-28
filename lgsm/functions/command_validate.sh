@@ -25,9 +25,15 @@ fn_validation(){
 	fi
 
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
-	else
+		if [ "${branch}" ]; then
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
+		else
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
+		fi
+	elif [ "${branch}" ]; then
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
+	else
+		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
 	fi
 	if [ $? != 0 ]; then
 		fn_print_fail "Validating files: SteamCMD"

@@ -106,18 +106,33 @@ fn_install_server_files_steamcmd(){
 
 			if [ "${counter}" -le "4" ]; then
 				if [ "${appid}" == "90" ]; then
-					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit
-					local exitcode=$?
+					if [ "${branch}" ]; then
+							${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit
+					else
+							${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit
+					fi
 				else
-					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit
-					local exitcode=$?
+					if [ "${branch}" ]; then
+						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update -beta "${branch}" +quit
+					else
+						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
+					fi
 				fi
+				local exitcode=$?
 			elif [ "${counter}" -ge "5" ]; then
-				if [ "${engine}" == "goldsource" ]; then
-					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" validate +quit
+				if [ "${appid}" == "90" ]; then
+					if [ "${branch}" ]; then
+						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" validate +quit
+					else
+						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" validate +quit
+					fi
 					local exitcode=$?
 				else
-					${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit
+					if [ "${branch}" ]; then
+						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit
+					else
+						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" validate +quit
+					fi
 					local exitcode=$?
 				fi
 			fi
