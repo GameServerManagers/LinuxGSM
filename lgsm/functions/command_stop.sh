@@ -241,8 +241,8 @@ fn_print_dots "${servername}"
 info_config.sh
 fn_stop_pre_check
 # Remove lockfile.
-if [ -f "${rootdir}/${lockselfname}" ]; then
-	rm -f "${rootdir:?}/${lockselfname}"
+if [ -f "${lockdir}/${selfname}.lock" ]; then
+	rm -f "${lockdir:?}/${selfname}.lock"
 fi
 
 if [ -z "${exitbypass}" ]; then

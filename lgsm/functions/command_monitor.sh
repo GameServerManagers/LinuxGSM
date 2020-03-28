@@ -12,7 +12,7 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
-	if [ ! -f "${rootdir}/${lockselfname}" ]; then
+	if [ ! -f "${lockdir}/${selfname}.lock" ]; then
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
@@ -26,8 +26,8 @@ fn_monitor_check_lockfile(){
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
-			date '+%s' > "${rootdir}/${lockselfname}"
+	if [[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
+			date '+%s' > "${lockdir}/${selfname}.lock"
 	fi
 }
 
@@ -108,7 +108,7 @@ for queryattempt in {1..5}; do
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	fn_sleep_time
 	# querydelay
-	if [ "$(cat "${rootdir}/${lockselfname}")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_delay_eol_nl
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
