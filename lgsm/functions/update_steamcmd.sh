@@ -106,9 +106,7 @@ fn_update_steamcmd_compare(){
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		unset updateonstart
-
 		check_status.sh
-
 		if [ "${status}" != "0" ]; then
 			fn_stop_warning
 			exitbypass=1

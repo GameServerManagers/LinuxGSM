@@ -36,7 +36,9 @@ fn_validate(){
 	else
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
 	fi
-	if [ $? != 0 ]; then
+	exitcode=$?
+	fn_print_dots "Validating server: SteamCMD"
+	if [ "${exitcode}" != "0" ]; then
 		fn_print_fail_nl "Validating server: SteamCMD"
 		fn_script_log_fatal "Validating server: SteamCMD: FAIL"
 	else
