@@ -9,12 +9,19 @@ local commandaction="Validate"
 local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_validation(){
-	fn_print_start "Validating files: SteamCMD"
-	echo -e ""
-	echo -e "* Validating may overwrite some customised files."
-	echo -e "* https://docs.linuxgsm.com/commands/validate"
+	fn_script_log_warn "Validating files: SteamCMD: Validate might overwrite some customised files"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Validating files: SteamCMD: Validate might overwrite some customised files: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Validating files: SteamCMD: Validate might overwrite some customised files"
+	fn_print_start_nl "Validating files: SteamCMD"
 	fn_script_log_info "Validating files: SteamCMD"
-	sleep 3
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
@@ -37,26 +44,25 @@ fn_validation(){
 		fn_script_log_pass "Validating files: SteamCMD: OK"
 	fi
 	fix.sh
-
 }
 
 fn_print_dots "Validating files:"
 fn_print_dots "Validating files: SteamCMD"
 check.sh
-fn_sleep_time
-fn_script_log_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation"
-totalseconds=3
-for seconds in {3..1}; do
-	fn_print_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation: ${totalseconds}"
-	totalseconds=$((totalseconds - 1))
-	sleep 1
-	if [ "${seconds}" == "0" ]; then
-		break
-	fi
-done
-
 check_status.sh
 if [ "${status}" != "0" ]; then
+	fn_print_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation"
+	fn_script_log_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Validating files: SteamCMD: ${selfname} will be stopped during validation: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Validating files: SteamCMD: ${selfname} will be stopped during validation"
 	exitbypass=1
 	command_stop.sh
 	fn_validation "${appid}"
