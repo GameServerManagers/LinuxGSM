@@ -10,7 +10,6 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 
 fn_update_steamcmd_dl(){
 	info_config.sh
-
 	# Detects if unbuffer command is available for 32 bit distributions only.
 	info_distro.sh
 	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
@@ -47,6 +46,16 @@ fn_update_steamcmd_localbuild(){
 		branchname="public"
 	fi
 	fn_sleep_time
+
+	# Checks if remotebuild variable has been set.
+	if [ -z "${localbuild}" ]||[ "${localbuild}" == "null" ]; then
+		fn_print_fail "Checking for update: ${remotelocation}: checking local build"
+		fn_script_log_fatal "Checking remote build"
+		core_exit.sh
+	else
+		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
+		fn_script_log_pass "checking local build"
+	fi
 }
 
 fn_update_steamcmd_remotebuild(){
