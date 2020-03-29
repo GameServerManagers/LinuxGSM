@@ -28,7 +28,7 @@ fn_update_steamcmd_dl(){
 
 fn_update_steamcmd_localbuild(){
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	fn_print_dots "Checking local build: ${remotelocation}"
 	fn_appmanifest_check
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
@@ -49,12 +49,12 @@ fn_update_steamcmd_localbuild(){
 
 	# Checks if remotebuild variable has been set.
 	if [ -z "${localbuild}" ]||[ "${localbuild}" == "null" ]; then
-		fn_print_fail "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_fatal "Checking remote build"
+		fn_print_fail "Checking local build: ${remotelocation}"
+		fn_script_log_fatal "Checking local build"
 		core_exit.sh
 	else
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_pass "checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
 	fi
 }
 
@@ -65,14 +65,14 @@ fn_update_steamcmd_remotebuild(){
 	fi
 	remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ "${installer}" != "1" ]; then
-		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
 		else
-			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_ok "Checking remote build: ${remotelocation}"
 			fn_script_log_pass "Checking remote build"
 		fi
 	else
