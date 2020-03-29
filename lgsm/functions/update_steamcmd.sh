@@ -104,32 +104,21 @@ fn_update_steamcmd_compare(){
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		fn_sleep_time
-		fn_print_warn_nl "${selfname} will be stopped during update"
-		fn_script_log_warn "${selfname} will be stopped during update"
-		echo -en "\n"
-		echo -en "3...\r"
-		sleep 1
-		echo -en "2..\r"
-		sleep 1
-		echo -en "1.\r"
-		sleep 1
-		echo -en "\n"
 
 		unset updateonstart
 
 		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			fn_update_steamcmd_dl
-		# If server started.
-		else
+
+		if [ "${status}" != "0" ]; then
+			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
 			fn_update_steamcmd_dl
 			exitbypass=1
 			command_start.sh
+		else
+			fn_update_steamcmd_dl
 		fi
 		alert="update"
 		alert.sh
@@ -201,15 +190,29 @@ fn_appmanifest_check(){
 	fi
 }
 
+fn_stop_warning(){
+	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during validation"
+	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during validation"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during validation: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during validation"
+}
+
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
-
 check.sh
-
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
 	check_status.sh
 	if [ "${status}" != "0" ]; then
+		fn_stop_warning
 		exitbypass=1
 		command_stop.sh
 		fn_update_steamcmd_dl
@@ -219,6 +222,8 @@ if [ "${forceupdate}" == "1" ]; then
 		fn_update_steamcmd_dl
 	fi
 else
+	fn_print_dots "Checking for update"
+	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_update_steamcmd_localbuild
 	fn_update_steamcmd_remotebuild
 	fn_update_steamcmd_compare
