@@ -169,7 +169,7 @@ fn_appmanifest_check(){
 		else
 			fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
-			fn_print_start_nl "Forcing update to correct issue"
+			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			fn_update_steamcmd_dl
 		fi
