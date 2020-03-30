@@ -73,17 +73,7 @@ fn_backup_stop_server(){
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_sleep_time
-		fn_print_warn_nl "${selfname} will be stopped during backup"
-		fn_script_log_warn "${selfname} will be stopped during backup"
-		echo -en "\n"
-		echo -en "3...\r"
-		sleep 1
-		echo -en "2..\r"
-		sleep 1
-		echo -en "1.\r"
-		sleep 1
-		echo -en "\n"
+		fn_stop_warning
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh
@@ -210,11 +200,10 @@ fn_backup_prune(){
 }
 
 fn_backup_relpath() {
-		# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
+	# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
 
 	# Populate an array of tokens initialized from the rootdir components.
-		declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
-
+	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
 		fn_script_log_fatal "Problem assessing rootdir during relative path assessment: ${rootdir}"
@@ -222,7 +211,7 @@ fn_backup_relpath() {
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components.
-		declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
 		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
@@ -256,6 +245,21 @@ fn_backup_relpath() {
 		else
 			echo
 		fi
+}
+
+fn_stop_warning(){
+	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
 }
 
 # Restart the server if it was stopped for the backup.
