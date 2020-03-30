@@ -149,7 +149,6 @@ fn_appmanifest_check(){
 	# Multiple or no matching appmanifest files may sometimes be present.
 	# This error is corrected if required.
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
-		fn_sleep_time
 		fn_print_error "Multiple appmanifest_${appid}.acf files found"
 		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
 		fn_print_dots "Removing x${appmanifestfilewc} appmanifest_${appid}.acf files"
@@ -158,10 +157,11 @@ fn_appmanifest_check(){
 		done
 		appmanifestfilewc1="${appmanifestfilewc}"
 		fn_appmanifest_info
+		# if error can not be resolved.
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			fn_script_log_fatal "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			echo -e "	* Check user permissions"
+			echo -e "* Check user permissions"
 			for appfile in ${appmanifestfile}; do
 				echo -e "	${appfile}"
 			done
@@ -169,7 +169,7 @@ fn_appmanifest_check(){
 		else
 			fn_print_ok "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
-			fn_print_info_nl "Forcing update to correct issue"
+			fn_print_start_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			fn_update_steamcmd_dl
 		fi
