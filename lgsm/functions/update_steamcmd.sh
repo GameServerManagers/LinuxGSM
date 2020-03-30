@@ -45,9 +45,8 @@ fn_update_steamcmd_localbuild(){
 	else
 		branchname="public"
 	fi
-	fn_sleep_time
 
-	# Checks if remotebuild variable has been set.
+	# Checks if localbuild variable has been set.
 	if [ -z "${localbuild}" ]||[ "${localbuild}" == "null" ]; then
 		fn_print_fail "Checking local build: ${remotelocation}"
 		fn_script_log_fatal "Checking local build"
@@ -107,7 +106,11 @@ fn_update_steamcmd_compare(){
 
 		unset updateonstart
 		check_status.sh
-		if [ "${status}" != "0" ]; then
+		# If server stopped.
+		if [ "${status}" == "0" ]; then
+			fn_update_steamcmd_dl
+		# If server started.
+		else
 			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
@@ -115,8 +118,6 @@ fn_update_steamcmd_compare(){
 			fn_update_steamcmd_dl
 			exitbypass=1
 			command_start.sh
-		else
-			fn_update_steamcmd_dl
 		fi
 		alert="update"
 		alert.sh
