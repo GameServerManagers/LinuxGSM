@@ -237,7 +237,7 @@ fn_print_info_nl(){
 	echo -en "\n"
 }
 
-# [ INFO ]
+# [ START ]
 fn_print_start(){
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${lightgreen} START ${default}] ${commandaction} ${selfname}: $*"
