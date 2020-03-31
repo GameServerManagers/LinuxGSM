@@ -27,7 +27,7 @@ fn_update_factorio_dl(){
 
 fn_update_factorio_localbuild(){
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
@@ -45,14 +45,14 @@ fn_update_factorio_remotebuild(){
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
 	if [ "${installer}" != "1" ]; then
-		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
 		else
-			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_ok "Checking remote build: ${remotelocation}"
 			fn_script_log_pass "Checking remote build"
 		fi
 	else
@@ -68,14 +68,16 @@ fn_update_factorio_remotebuild(){
 fn_update_factorio_compare(){
 	fn_print_dots "Checking for update: ${remotelocation}"
 	# Removes dots so if statement can compare version numbers.
+	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${factorioarch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
-		if [ -v "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
 		fn_script_log_info "Update available"
@@ -85,18 +87,8 @@ fn_update_factorio_compare(){
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		fn_sleep_time
-		echo -en "\n"
-		echo -en "applying update.\r"
-		sleep 1
-		echo -en "applying update..\r"
-		sleep 1
-		echo -en "applying update...\r"
-		sleep 1
-		echo -en "\n"
 
 		unset updateonstart
-
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
@@ -108,6 +100,7 @@ fn_update_factorio_compare(){
 			command_stop.sh
 		# If server started.
 		else
+			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
@@ -120,6 +113,7 @@ fn_update_factorio_compare(){
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
@@ -133,6 +127,21 @@ fn_update_factorio_compare(){
 			fn_script_log_info "Branch: ${branch}"
 		fi
 	fi
+}
+
+fn_stop_warning(){
+	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
 }
 
 # The location where the builds are checked and downloaded.

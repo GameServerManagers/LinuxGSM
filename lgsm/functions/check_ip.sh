@@ -80,7 +80,7 @@ if [ "${travistest}" != "1" ]; then
 			    core_exit.sh
 			fi
 		else
-			fn_print_info "Check IP: ${getip}"
+			fn_print_info_nl "Check IP: ${getip}"
 			fn_script_log_info "IP automatically set as: ${getip}"
 			ip="${getip}"
 		fi
