@@ -103,7 +103,7 @@ fn_update_steamcmd_compare(){
 		if [ -v "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
-		echo -e "https://steamdb.info/app/${appid}/"
+		echo -en "https://steamdb.info/app/${appid}/"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
