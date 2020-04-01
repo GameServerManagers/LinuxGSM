@@ -124,10 +124,11 @@ fn_update_steamcmd_compare(){
 			command_stop.sh
 			exitbypass=1
 			fn_update_steamcmd_dl
+			date +%s > "${lockdir}/lastupdate.lock"
 			exitbypass=1
 			command_start.sh
 		fi
-		date +%s > "${lockdir}/lastupdate.lock"
+
 		alert="update"
 		alert.sh
 	else
@@ -216,6 +217,7 @@ fn_stop_warning(){
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
 check.sh
+
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
 	check_status.sh
@@ -224,10 +226,12 @@ if [ "${forceupdate}" == "1" ]; then
 		exitbypass=1
 		command_stop.sh
 		fn_update_steamcmd_dl
+		date +%s > "${lockdir}/lastupdate.lock"
 		exitbypass=1
 		command_start.sh
 	else
 		fn_update_steamcmd_dl
+		date +%s > "${lockdir}/lastupdate.lock"
 	fi
 else
 	fn_print_dots "Checking for update"
