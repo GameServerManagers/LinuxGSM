@@ -70,7 +70,7 @@ fn_start_tmux(){
 	touch "${consolelog}"
 
 
-	date +%s > "${lockdir}/laststart.lock"
+	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
 	# Get tmux version.
 	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')

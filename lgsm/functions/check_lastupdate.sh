@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks lock file to see when last update happened.
 
-if [ -f "${lockdir}/laststart.lock" ]; then
-	laststart=$(cat "${lockdir}/laststart.lock")
+if [ -f "${lockdir}/${selfname}-laststart.lock" ]; then
+	laststart=$(cat "${lockdir}/${selfname}-laststart.lock")
 fi
 if [ -f "${lockdir}/lastupdate.lock" ]; then
 	lastupdate=$(cat "${lockdir}/lastupdate.lock")
