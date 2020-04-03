@@ -24,7 +24,7 @@ fn_validation(){
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
-	# If goldsrc servers. Goldsrc requires extra commands.
+	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 	if [ "${appid}" == "90" ]; then
 		# If using a specific branch.
 		if [ -n "${branch}" ]; then

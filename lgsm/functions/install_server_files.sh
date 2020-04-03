@@ -105,7 +105,7 @@ fn_install_server_files_steamcmd(){
 			fi
 
 			if [ "${counter}" -le "4" ]; then
-				# If goldsrc servers. Goldsrc requires extra commands.
+				# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 				if [ "${appid}" == "90" ]; then
 					# If using a specific branch.
 					if [ -n "${branch}" ]; then
@@ -123,7 +123,7 @@ fn_install_server_files_steamcmd(){
 				fi
 				local exitcode=$?
 			elif [ "${counter}" -ge "5" ]; then
-				# If goldsrc servers. Goldsrc requires extra commands.
+				# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 				if [ "${appid}" == "90" ]; then
 					# If using a specific branch.
 					if [ -n "${branch}" ]; then
@@ -149,7 +149,7 @@ fn_install_server_files_steamcmd(){
 		fi
 	done
 
-	# Goldsrc (appid 90) servers commonly fail to download all the server files required.
+	# GoldSrc (appid 90) servers commonly fail to download all the server files required.
 	# Validating a few of times may reduce the chance of this issue.
 	if [ "${appid}" == "90" ]; then
 		fn_print_information_nl "Goldsource servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."

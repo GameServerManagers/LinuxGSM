@@ -19,8 +19,8 @@ fn_update_steamcmd_dl(){
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
-	
-	# If goldsrc servers. Goldsrc requires extra commands.
+
+	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 	if [ "${appid}" == "90" ]; then
 		# If using a specific branch.
 		if [ -n "${branch}" ]; then
