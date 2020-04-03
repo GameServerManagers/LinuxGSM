@@ -18,9 +18,9 @@ else
 fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
-	fn_print_ok "Sending Email alert: ${email}"
+	fn_print_ok_nl "Sending Email alert: ${email}"
 	fn_script_log_pass "Sending Email alert: ${email}"
 else
-	fn_print_fail "Sending Email alert: ${email}"
+	fn_print_fail_nl "Sending Email alert: ${email}"
 	fn_script_log_fatal "Sending Email alert: ${email}"
 fi

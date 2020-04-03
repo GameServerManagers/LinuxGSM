@@ -62,20 +62,12 @@ if [ "${extip}" ]; then
 		echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
 	fi
 fi
-# Listed on Master Server.
-if [ "${displaymasterserver}" ]; then
-	if [ "${displaymasterserver}" == "true" ]; then
-		echo -e "${lightblue}Master Server:\t${green}${displaymasterserver}${default}"
-	else
-		echo -e "${lightblue}Master Server:\t${red}${displaymasterserver}${default}"
-	fi
-fi
 # Server password.
 if [ "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 fi
 echo -e "${lightblue}Start parameters:${default}"
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${parms} -debug"
 else
 	echo -e "${executable} ${parms}"
@@ -106,7 +98,7 @@ trap fn_lockfile_trap INT
 
 cd "${executabledir}" || exit
 # Note: do not add double quotes to ${executable} ${parms}.
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	${executable} ${parms} -debug
 elif [ "${engine}" == "realvirtuality" ]; then
 	# Arma3 requires semicolons in the module list, which need to
