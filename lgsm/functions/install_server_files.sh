@@ -149,9 +149,9 @@ fn_install_server_files_steamcmd(){
 		fi
 	done
 
-	# Goldsource servers commonly fail to download all the server files required.
+	# Goldsrc (appid 90) servers commonly fail to download all the server files required.
 	# Validating a few of times may reduce the chance of this issue.
-	if [ "${engine}" == "goldsource" ]; then
+	if [ "${appid}" == "90" ]; then
 		fn_print_information_nl "Goldsource servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
