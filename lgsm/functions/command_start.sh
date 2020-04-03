@@ -69,7 +69,7 @@ fn_start_tmux(){
 	# Create logfile.
 	touch "${consolelog}"
 
-
+	# Create last start lock file
 	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
 	# Get tmux version.

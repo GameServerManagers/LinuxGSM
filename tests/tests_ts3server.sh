@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2019 Daniel Gibbs
+# License: MIT License, Copyright (c) 2020 Daniel Gibbs
 # Purpose: Travis CI Tests: Teamspeak 3 | Linux Game Server Management Script
 # Contributors: https://linuxgsm.com/contrib
 # Documentation: https://docs.linuxgsm.com
@@ -25,7 +25,6 @@ shortname="ts3"
 gameservername="ts3server"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
-
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
