@@ -284,7 +284,7 @@ elif [ "${shortname}" == "sol" ]; then
 # Serious Sam
 elif [ "${shortname}" == "ss3" ]; then
 	fn_info_parms_ss3
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	fn_info_parms_source
 # Spark
 elif [ "${engine}" == "spark" ]; then

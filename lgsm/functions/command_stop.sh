@@ -65,15 +65,15 @@ fn_stop_graceful_cmd(){
 	fn_sleep_time
 }
 
-# Attempts graceful shutdown of goldsource using rcon 'quit' command.
+# Attempts graceful shutdown of goldsrc using rcon 'quit' command.
 # There is only a 3 second delay before a forced a tmux shutdown
-# as Goldsource servers 'quit' command does a restart rather than shutdown.
-fn_stop_graceful_goldsource(){
+# as GoldSrc servers 'quit' command does a restart rather than shutdown.
+fn_stop_graceful_goldsrc(){
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
 	tmux send -t "${selfname}" quit ENTER > /dev/null 2>&1
-	# Waits 3 seconds as goldsource servers restart with the quit command.
+	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
 		sleep 1
 		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
@@ -199,7 +199,7 @@ fn_stop_graceful_select(){
 	elif [ "${stopmode}" == "8" ]; then
 		fn_stop_graceful_sdtd
 	elif [ "${stopmode}" == "9" ]; then
-		fn_stop_graceful_goldsource
+		fn_stop_graceful_goldsrc
 	fi
 }
 

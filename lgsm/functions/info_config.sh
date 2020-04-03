@@ -1460,7 +1460,7 @@ elif [ "${shortname}" == "sol" ]; then
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_config_sof2
 # Source Engine Games
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	fn_info_config_source
 # Starbound
 elif [ "${shortname}" == "sb" ]; then
