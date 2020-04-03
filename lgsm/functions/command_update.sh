@@ -11,7 +11,7 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 fn_print_dots ""
 check.sh
 logs.sh
-check_lastupdate.sh
+check_last_update.sh
 
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh

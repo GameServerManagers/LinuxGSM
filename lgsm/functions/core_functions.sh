@@ -188,7 +188,7 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-check_lastupdate.sh(){
+check_last_update.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
