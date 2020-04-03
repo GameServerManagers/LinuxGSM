@@ -26,14 +26,14 @@ fn_validation(){
 
 	# If goldsrc servers. Goldsrc requires extra commands.
 	if [ "${appid}" == "90" ]; then
-		# If using a specific branch
-		if [ "${branch}" ]; then
+		# If using a specific branch.
+		if [ -n "${branch}" ]; then
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
 		else
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
 		fi
 	# All other servers.
-	elif [ "${branch}" ]; then
+	elif [ -n "${branch}" ]; then
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
 	else
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
