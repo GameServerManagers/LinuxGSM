@@ -186,7 +186,7 @@ fn_info_message_gameserver(){
 		fi
 
 		# Branch
-		if [ "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"
 		fi
 

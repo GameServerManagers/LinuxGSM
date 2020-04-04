@@ -25,23 +25,27 @@ fn_validate(){
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
-	# Detects if unbuffer command is available for 32 bit distributions only.
+	# Detects if unbuffer command is available, for 32 bit distributions only.
 	info_distro.sh
 	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
 		unbuffer="stdbuf -i0 -o0 -e0"
 	fi
 
+	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 	if [ "${appid}" == "90" ]; then
-		if [ "${branch}" ]; then
+		# If using a specific branch.
+		if [ -n "${branch}" ]; then
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
 		else
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
 		fi
-	elif [ "${branch}" ]; then
+	# All other servers.
+	elif [ -n "${branch}" ]; then
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
 	else
 		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
 	fi
+
 	exitcode=$?
 	fn_print_dots "Validating server: SteamCMD"
 	if [ "${exitcode}" != "0" ]; then
