@@ -18,10 +18,22 @@ fn_update_steamcmd_dl(){
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
+
+	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 	if [ "${appid}" == "90" ]; then
-		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+		# If using a specific branch.
+		if [ -n "${branch}" ]; then
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+		else
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
+		fi
+	# All other servers.
 	else
-		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+		if [ -n "${branch}" ]; then
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+		else
+			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
+		fi
 	fi
 	fix.sh
 }
