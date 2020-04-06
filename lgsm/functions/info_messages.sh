@@ -186,7 +186,7 @@ fn_info_message_gameserver(){
 		fi
 
 		# Branch
-		if [ "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"
 		fi
 
@@ -552,8 +552,8 @@ fn_info_message_ports(){
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines/games that require editing the parms
-	local ports_edit_array=( "goldsource" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	# engines/games that require editing the parms.
+	local ports_edit_array=( "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -763,7 +763,7 @@ fn_info_message_factorio(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_goldsource(){
+fn_info_message_goldsrc(){
 	echo -e "netstat -atunp | grep hlds_linux"
 	echo -e ""
 	{
@@ -1484,8 +1484,8 @@ fn_info_message_select_engine(){
 		fn_info_message_risingworld
 	elif [ "${shortname}" == "wet" ]; then
 		fn_info_message_wolfensteinenemyterritory
-	elif [ "${engine}" == "goldsource" ]; then
-		fn_info_message_goldsource
+	elif [ "${engine}" == "goldsrc" ]; then
+		fn_info_message_goldsrc
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
 	elif [ "${engine}" == "spark" ]; then

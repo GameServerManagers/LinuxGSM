@@ -272,9 +272,14 @@ fn_found_missing_deps(){
 				fi
 				if [ "${steamcmdfail}" ]; then
 					echo -e ""
-					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
-					core_exit.sh
+					if [ "${function_selfname}" == "command_install.sh" ]; then
+						fn_print_failure_nl "Missing dependencies required to run SteamCMD."
+						fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+						core_exit.sh
+					else
+						fn_print_error_nl "Missing dependencies required to run SteamCMD."
+						fn_script_log_error "Missing dependencies required to run SteamCMD."
+					fi
 				fi
 			else
 				fn_print_complete_nl "Install dependencies completed."
@@ -293,9 +298,14 @@ fn_found_missing_deps(){
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo -e ""
-				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
-				core_exit.sh
+				if [ "${function_selfname}" == "command_install.sh" ]; then
+					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
+					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+					core_exit.sh
+				else
+					fn_print_error_nl "Missing dependencies required to run SteamCMD."
+					fn_script_log_error "Missing dependencies required to run SteamCMD."
+				fi
 			fi
 			echo -e ""
 		fi
@@ -327,7 +337,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux steamcmd )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat )
 
 	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
@@ -335,6 +345,15 @@ fn_deps_build_debian(){
 			array_deps_required+=( lib32gcc1 lib32stdc++6 )
 		else
 			array_deps_required+=( lib32stdc++6 )
+		fi
+	fi
+	# If requires steamcmd.
+	if [ "${appid}" ]; then
+		# Will not use apt if non-free repo is missing
+		if [ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+			:
+		else
+			array_deps_required+=( steamcmd )
 		fi
 	fi
 
@@ -352,7 +371,7 @@ fn_deps_build_debian(){
 	# No More Room in Hell, Counter-Strike: Source, Garry's Mod and Zombie Panic: Source
 	elif [ "${shortname}" == "nmrih" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32tinfo5 )
+			array_deps_required+=( libtinfo5:i386 )
 		else
 			array_deps_required+=( libtinfo5 )
 		fi
@@ -436,15 +455,15 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements.
 	# CentOS
   if [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
+		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	elif [ "${distroversion}" == "8" ]; then
-		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux )
+		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	else
-		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	fi
 
 	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.

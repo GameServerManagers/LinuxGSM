@@ -34,14 +34,14 @@ fn_update_minecraft_dl(){
 
 fn_update_minecraft_localbuild(){
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
 	if [ ! -f "${serverfiles}/logs/latest.log" ]; then
-		fn_print_error "Checking for update: ${remotelocation}: checking local build"
-		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no log files"
-		fn_script_log_error "No log file found"
-		fn_print_info_nl "Checking for update: ${remotelocation}: checking local build: forcing server restart"
+		fn_print_error "Checking local build: ${remotelocation}"
+		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
+		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
+		fn_script_log_error "No log files containing version info"
 		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
@@ -51,7 +51,7 @@ fn_update_minecraft_localbuild(){
 		# Check again, allow time to generate logs.
 		while [ ! -f "${serverfiles}/logs/latest.log" ]; do
 			sleep 1
-			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for log file: ${totalseconds}"
+			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
 			if [ -v "${loopignore}" ]; then
 				loopignore=1
 				fn_script_log_info "Waiting for log file to generate"
@@ -59,7 +59,7 @@ fn_update_minecraft_localbuild(){
 
 			if [ "${totalseconds}" -gt "120" ]; then
 				localbuild="0"
-				fn_print_error "Checking for update: ${remotelocation}: waiting for log file: missing log file"
+				fn_print_error "Checking local build: ${remotelocation}: waiting for log file: missing log file"
 				fn_script_log_error "Missing log file"
 				fn_script_log_error "Set localbuild to 0"
 			fi
@@ -76,7 +76,7 @@ fn_update_minecraft_localbuild(){
 		# Gives time for var to generate.
 		totalseconds=0
 		for seconds in {1..120}; do
-			fn_print_info "Checking for update: ${remotelocation}: checking local build: waiting for local build: ${totalseconds}"
+			fn_print_info "Checking local build: ${remotelocation}: waiting for local build: ${totalseconds}"
 			if [ -z "${loopignore}" ]; then
 				loopignore=1
 				fn_script_log_info "Waiting for local build to generate"
@@ -92,11 +92,11 @@ fn_update_minecraft_localbuild(){
 
 	if [ -z "${localbuild}" ]; then
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
+		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
 	else
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
 }
@@ -110,14 +110,14 @@ fn_update_minecraft_remotebuild(){
 	fi
 
 	if [ "${installer}" != "1" ]; then
-		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
 		else
-			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_ok "Checking remote build: ${remotelocation}"
 			fn_script_log_pass "Checking remote build"
 		fi
 	else
@@ -146,18 +146,8 @@ fn_update_minecraft_compare(){
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		fn_sleep_time
-		echo -en "\n"
-		echo -en "applying update.\r"
-		sleep 1
-		echo -en "applying update..\r"
-		sleep 1
-		echo -en "applying update...\r"
-		sleep 1
-		echo -en "\n"
 
 		unset updateonstart
-
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
@@ -169,6 +159,7 @@ fn_update_minecraft_compare(){
 			command_stop.sh
 		# If server started.
 		else
+			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
@@ -194,6 +185,21 @@ fn_update_minecraft_compare(){
 			fn_script_log_info "Branch: ${branch}"
 		fi
 	fi
+}
+
+fn_stop_warning(){
+	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
 }
 
 # The location where the builds are checked and downloaded.

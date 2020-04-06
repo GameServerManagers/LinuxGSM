@@ -421,14 +421,14 @@ fn_info_config_onset(){
 		maxplayers="${zero}"
 		port="${zero}"
 		httpport="${zero}"
-        queryport="${zero}"
+		queryport="${zero}"
 	else
 		servername=$(grep -v "servername_short" "${servercfgfullpath}" | grep "servername" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/servername//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
 		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		httpport=$((port-2))
-    	queryport=$((port-1))
-		
+		queryport=$((port-1))
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
@@ -826,7 +826,7 @@ fn_info_config_teamspeak3(){
 		queryport=$(grep "query_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		fileport=$(grep "filetransfer_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
-		ip=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ip=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | sed 's/,.*//' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		ipsetinconfig=1
 		ipinconfigvar="voice_ip"
 
@@ -1481,7 +1481,7 @@ elif [ "${shortname}" == "sol" ]; then
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_config_sof2
 # Source Engine Games
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsource" ]; then
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	fn_info_config_source
 # Starbound
 elif [ "${shortname}" == "sb" ]; then

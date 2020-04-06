@@ -21,7 +21,7 @@ fn_monitor_check_lockfile(){
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		fn_sleep_time
-		echo -e "	* Start ${selfname} to run monitor."
+		echo -en "* Start ${selfname} to run monitor."
 		core_exit.sh
 	fi
 
@@ -238,13 +238,15 @@ info_parms.sh
 fn_monitor_check_lockfile
 fn_monitor_check_update
 fn_monitor_check_session
-fn_monitor_check_queryport
+# Monitor will not continue if session only check.
+if [ "${querymode}" != "1" ]; then
+	fn_monitor_check_queryport
 
-# Add a querydelay of 1 min if var missing.
-if [ -z "${querydelay}" ]; then
-	querydelay="1"
+	# Add a querydelay of 1 min if var missing.
+	if [ -z "${querydelay}" ]; then
+		querydelay="1"
+	fi
+
+	fn_monitor_loop
 fi
-
-fn_monitor_loop
-
 core_exit.sh

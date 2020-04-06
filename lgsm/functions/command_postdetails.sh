@@ -78,7 +78,7 @@ else
 fi
 
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
-	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
+	fn_print_dots "pastbin.com for ${postexpire}"
 	# grab the return from 'value' from an initial visit to pastebin.
 	csrftoken=$(curl -s "${posttarget}" |
 					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
@@ -93,23 +93,26 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 				awk '/^location: / { print $2 }' | sed "s/\n//g")
 
 	 # Output the resulting link.
-	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
+	fn_print_ok_nl "pastbin.com for ${postexpire}"
 	pdurl="${posttarget}${link}"
+	echo -e ""
 	echo -e "  Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
-	fn_print_dots "Posting details to hastebin.com"
+	fn_print_dots "hastebin.com"
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
 	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
-	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
+	fn_print_ok_nl "hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
+	echo -e ""
 	echo -e "Please share the following url for support: ${pdurl}"
 elif [ "${posttarget}" == "https://termbin.com" ] ; then
-	fn_print_dots "Posting details to termbin.com"
+	fn_print_dots "termbin.com"
 	link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
-	fn_print_ok_nl "Posting details to termbin.com"
+	fn_print_ok_nl "termbin.com"
 	pdurl="${link}"
+	echo -e ""
 	echo -e "Please share the following url for support: "
 	echo -e "${pdurl}"
 else
