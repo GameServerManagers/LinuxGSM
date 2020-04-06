@@ -62,12 +62,15 @@ fn_start_tmux(){
 	fi
 
 	# Create lockfile
-	date > "${rootdir}/${lockselfname}"
+	date > "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${selfname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
+
+	# Create last start lock file
+	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
 	# Get tmux version.
 	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
