@@ -483,6 +483,3 @@ fn_print_ascii_logo(){
 	echo -e "${lightyellow}LinuxGSM${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y2012P88   Y8888P   888       888"
 	echo -e ""
 }
-
-# List LinuxGSM version in logs
-fn_script_log_info "LinuxGSM version: ${version}"
