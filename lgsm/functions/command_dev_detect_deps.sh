@@ -5,7 +5,7 @@
 # Description: Detects dependencies the server binary requires.
 
 local modulename="DETECT-DEPS"
-local commandaction="Detect-Deps"
+local commandaction="Detect Deps"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="

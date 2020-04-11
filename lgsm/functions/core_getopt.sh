@@ -167,7 +167,7 @@ fn_opt_usage(){
 		fi
 	done
 	} | column -s $'\t' -t
-	fn_script_log_pass
+	fn_script_log_pass "Display commands"
 	core_exit.sh
 }
 

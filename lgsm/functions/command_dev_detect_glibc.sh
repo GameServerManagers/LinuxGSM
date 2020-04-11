@@ -6,7 +6,7 @@
 # Can check a file or directory recursively.
 
 local modulename="DETECT-GLIBC"
-local commandaction="Detect-Glibc"
+local commandaction="Detect Glibc"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="

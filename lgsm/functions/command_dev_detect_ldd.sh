@@ -6,7 +6,7 @@
 # Can check a file or directory recursively.
 
 local modulename="DETECT-LDD"
-local commandaction="Detect-LDD"
+local commandaction="Detect LDD"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
