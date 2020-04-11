@@ -61,8 +61,6 @@ fn_install_server_files(){
 		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
 	elif [ "${shortname}" == "samp" ]; then
 		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
-	elif [ "${shortname}" == "sol" ]; then
-		remote_fileurl="https://static.soldat.pl/downloads/soldatserver2.8.1_1.7.1.zip"; local_filedir="${tmpdir}"; local_filename="soldatserver2.8.1_1.7.1.zip"; chmodx="nochmodx" run="norun"; force="noforce"; md5="994409c28520425965dec5c71ccb55e1"
 	elif [ "${shortname}" == "zmr" ]; then
 		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b5_2.tar.bz2"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b5_2.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="d52ef2db376f5d21e3a4ceca85ec8761"
 	fi
