@@ -6,7 +6,7 @@
 
 local modulename="DEV-DEBUG"
 local commandaction="Dev-Debug"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ -f "${rootdir}/.dev-debug" ]; then
 	rm "${rootdir:?}/.dev-debug"

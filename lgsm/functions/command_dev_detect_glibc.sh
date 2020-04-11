@@ -7,7 +7,7 @@
 
 local modulename="DETECT-GLIBC"
 local commandaction="Detect-Glibc"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "glibc Requirements Checker"

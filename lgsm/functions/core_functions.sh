@@ -34,6 +34,8 @@ else
 fi
 }
 
+fn_script_log_info "LinuxGSM version: ${version}"
+
 core_exit.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
