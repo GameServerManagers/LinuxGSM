@@ -484,4 +484,5 @@ fn_print_ascii_logo(){
 	echo -e ""
 }
 
+# List LinuxGSM version in logs
 fn_script_log_info "LinuxGSM version: ${version}"

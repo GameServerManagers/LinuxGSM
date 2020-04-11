@@ -61,6 +61,9 @@ fn_start_tmux(){
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
+	# List LinuxGSM version in logs
+	fn_script_log_info "LinuxGSM version: ${version}"
+
 	# Create lockfile
 	date > "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
