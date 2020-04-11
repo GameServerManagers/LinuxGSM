@@ -20,6 +20,9 @@ if [ "$(whoami)" == "root" ]; then
 	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 fi
 
+# List LinuxGSM version in logs
+fn_script_log_info "LinuxGSM version: ${version}"
+
 if [ "${exitbypass}" ]; then
 	unset exitbypass
 elif [ "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
