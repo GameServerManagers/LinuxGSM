@@ -349,8 +349,8 @@ fn_deps_build_debian(){
 	fi
 	# If requires steamcmd.
 	if [ "${appid}" ]; then
-		# Will not use apt if non-free repo is missing
-		if [ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+		# Will not use apt if non-free repo is missing or Ubuntu 14.04
+		if [ "${distroversion}" == "14.04" ]||[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 			:
 		else
 			array_deps_required+=( steamcmd )
