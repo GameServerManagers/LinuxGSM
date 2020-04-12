@@ -134,6 +134,9 @@ fn_install_server_files_steamcmd(){
 						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" validate +quit
 					fi
 					local exitcode=$?
+				elif [ "${shortname}" == "ac" ]; then
+					${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
+					local exitcode=$?
 				# All other servers.
 				else
 					if [ -n "${branch}" ]; then
