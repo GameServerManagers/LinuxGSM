@@ -63,6 +63,32 @@ fn_check_steamcmd(){
 	fi
 }
 
+fn_check_steamcmd_dir(){
+	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard
+	# https://github.com/ValveSoftware/steam-for-linux/issues/6976#issuecomment-610446347
+	if [ ! -d "${HOME}/.local/share/Steam" ]; then
+		mkdir -pv "${HOME}/.local/share/Steam"
+	fi
+
+	if [ ! -d "${HOME}/.steam" ]; then
+		mkdir -pv "${HOME}/.steam"
+	fi
+
+	if [ ! -L "${HOME}/.steam/root" ]; then
+		if [ -d "${HOME}/.steam/root" ]; then
+			rm "${HOME}/.steam/root"
+		fi
+		ln -s "${HOME}/.local/share/Steam" "${HOME}/.steam/root"
+	fi
+
+	if [ ! -L "${HOME}/.steam/steam" ]; then
+		if [ -d "${HOME}/.steam/steam" ]; then
+			rm "${HOME}/.steam/steam"
+		fi
+		ln -s "${HOME}/.local/share/Steam" "${HOME}/.steam/steam"
+	fi
+}
+
 fn_check_steamcmd_ark(){
 	# Checks if SteamCMD exists in
 	# Engine/Binaries/ThirdParty/SteamCMD/Linux
@@ -108,5 +134,6 @@ fn_check_steamcmd
 if [ ${shortname} == "ark" ]; then
 	fn_check_steamcmd_ark
 fi
+fn_check_steamcmd_dir
 fn_check_steamcmd_user
 fn_check_steamcmd_exec
