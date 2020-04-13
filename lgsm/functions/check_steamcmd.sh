@@ -91,11 +91,11 @@ fn_check_steamcmd_dir(){
 
 fn_check_steamcmd_dir_legacy(){
 	# Removes old steamcmd directory id present.
-	if [ -d "${rootdir}/steamcmd" ]; then
+	if [ -d "${rootdir}/steamcmd" ]&&[ "${steamcmddir}" == "${HOME}/.steam/steamcmd" ]; then
 		rm -rf "${rootdir:?}/steamcmd"
 	fi
 
-	if [ -d "${HOME}/Steam" ]; then
+	if [ -d "${HOME}/Steam" ]&&[ "${steamcmddir}" == "${HOME}/.steam/steamcmd" ]; then
 		rm -rf "${HOME}/Steam"
 	fi
 }
