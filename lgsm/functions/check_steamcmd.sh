@@ -89,6 +89,13 @@ fn_check_steamcmd_dir(){
 	fi
 }
 
+fn_check_steamcmd_dir_legacy(){
+	# Removes old steamcmd directory id present.
+	if [ -d "${rootdir}/steamcmd" ]; then
+		rm -rf "${rootdir:?}/steamcmd"
+	fi
+}
+
 fn_check_steamcmd_ark(){
 	# Checks if SteamCMD exists in
 	# Engine/Binaries/ThirdParty/SteamCMD/Linux
@@ -135,5 +142,6 @@ if [ ${shortname} == "ark" ]; then
 	fn_check_steamcmd_ark
 fi
 fn_check_steamcmd_dir
+fn_check_steamcmd_dir_legacy
 fn_check_steamcmd_user
 fn_check_steamcmd_exec
