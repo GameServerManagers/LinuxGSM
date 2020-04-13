@@ -7,7 +7,7 @@
 
 local modulename="MODS"
 local commandaction="Mods"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories.
 modsdir="${lgsmdir}/mods"

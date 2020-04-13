@@ -6,7 +6,7 @@
 
 local modulename="INSTALL"
 local commandaction="Install"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo -e ""
