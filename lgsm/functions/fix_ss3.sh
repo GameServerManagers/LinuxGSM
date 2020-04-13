@@ -12,7 +12,6 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 if [ ! -f "${serverfiles}/Bin/steamclient.so" ]||[ "$(diff "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so" 2>/dev/null)" ]; then
 	fixname="steamclient.so"
 	fn_fix_msg_start
-
 	cp -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so"
 	fn_fix_msg_end
 fi
