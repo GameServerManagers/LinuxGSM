@@ -2,7 +2,7 @@
 # LinuxGSM fix_ut2.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with configs in Unreal Tournament 3.
+# Description: Resolves various issues with Unreal Tournament 3.
 
 local modulename="FIX"
 local commandaction="Fix"

@@ -2,7 +2,7 @@
 # LinuxGSM fix_onset.sh function
 # Author: Frédéric C.
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with Onset
+# Description: Resolves various issues with Onset.
 
 local modulename="FIX"
 local commandaction="Fix"
