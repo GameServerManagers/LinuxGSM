@@ -67,11 +67,11 @@ fn_check_steamcmd_dir(){
 	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard
 	# https://github.com/ValveSoftware/steam-for-linux/issues/6976#issuecomment-610446347
 	if [ ! -d "${HOME}/.local/share/Steam" ]; then
-		mkdir -pv "${HOME}/.local/share/Steam"
+		mkdir -p "${HOME}/.local/share/Steam"
 	fi
 
 	if [ ! -d "${HOME}/.steam" ]; then
-		mkdir -pv "${HOME}/.steam"
+		mkdir -p "${HOME}/.steam"
 	fi
 
 	if [ ! -L "${HOME}/.steam/root" ]; then
@@ -93,6 +93,10 @@ fn_check_steamcmd_dir_legacy(){
 	# Removes old steamcmd directory id present.
 	if [ -d "${rootdir}/steamcmd" ]; then
 		rm -rf "${rootdir:?}/steamcmd"
+	fi
+
+	if [ -d "${HOME}/Steam" ]; then
+		rm -rf "${HOME}/Steam"
 	fi
 }
 
