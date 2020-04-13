@@ -417,9 +417,6 @@ fn_deps_build_debian(){
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
-	# Serious Sam 3: BFE
-	elif [ "${shortname}" == "ss3" ]; then
-		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
@@ -531,9 +528,7 @@ fn_deps_build_redhat(){
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib.i686 openldap.i686 )
-	# Serious Sam 3: BFE
-	elif [ "${shortname}" == "ss3" ]; then
-		: # not compatible
+	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible
 	# Unreal Engine
