@@ -66,8 +66,8 @@ fn_check_steamcmd(){
 fn_check_steamcmd_dir(){
 	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard
 	# https://github.com/ValveSoftware/steam-for-linux/issues/6976#issuecomment-610446347
-	if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}" ]; then
-		mkdir -p "${XDG_DATA_HOME:="${HOME}/.local/share"}"
+	if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
+		mkdir -p "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam"
 	fi
 
 	if [ ! -d "${HOME}/.steam" ]; then
