@@ -7,7 +7,7 @@
 
 local modulename="BACKUP"
 local commandaction="Backup"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
