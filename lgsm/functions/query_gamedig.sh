@@ -30,7 +30,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# numplayers.
-		gdplayers=$(echo -e "${gamedigraw}" | jq -re '.players')
+		gdplayers=$(echo -e "${gamedigraw}" | jq -re '.raw.vanilla.raw.players.online')
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
 		elif [ "${gdplayers}" == "[]" ]; then
