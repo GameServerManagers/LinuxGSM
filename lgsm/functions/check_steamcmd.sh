@@ -64,16 +64,20 @@ fn_check_steamcmd(){
 }
 
 fn_check_steamcmd_dir(){
-	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard
+	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard.
 	# https://github.com/ValveSoftware/steam-for-linux/issues/6976#issuecomment-610446347
+
+	# Create Steam installation directory.
 	if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
 		mkdir -p "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam"
 	fi
 
+	# Create common Steam directory.
 	if [ ! -d "${HOME}/.steam" ]; then
 		mkdir -p "${HOME}/.steam"
 	fi
 
+	# Symbolic links to Steam installation directory.
 	if [ ! -L "${HOME}/.steam/root" ]; then
 		if [ -d "${HOME}/.steam/root" ]; then
 			rm "${HOME}/.steam/root"
@@ -83,19 +87,19 @@ fn_check_steamcmd_dir(){
 
 	if [ ! -L "${HOME}/.steam/steam" ]; then
 		if [ -d "${HOME}/.steam/steam" ]; then
-			rm "${HOME}/.steam/steam"
+			rm -rf "${HOME}/.steam/steam"
 		fi
 		ln -s "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" "${HOME}/.steam/steam"
 	fi
 }
 
 fn_check_steamcmd_dir_legacy(){
-	# Removes old steamcmd directory id present.
-	if [ -d "${rootdir}/steamcmd" ]&&[ "${steamcmddir}" == "${HOME}/.steam/steamcmd" ]; then
+	# Remove old Steam installation directories ~/Steam and ${rootdir}/steamcmd
+	if [ -d "${rootdir}/steamcmd" ]&&[ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
 		rm -rf "${rootdir:?}/steamcmd"
 	fi
 
-	if [ -d "${HOME}/Steam" ]&&[ "${steamcmddir}" == "${HOME}/.steam/steamcmd" ]; then
+	if [ -d "${HOME}/Steam" ]&&[ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
 		rm -rf "${HOME}/Steam"
 	fi
 }
