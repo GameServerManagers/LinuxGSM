@@ -935,6 +935,7 @@ echo -e ""
 echo -e "5.0 - Monitor Tests"
 echo -e "=================================================================="
 echo -e ""
+info_config.sh
 echo -e "Server IP - Port: ${ip}:${port}"
 echo -e "Server IP - Query Port: ${ip}:${queryport}"
 
