@@ -647,7 +647,7 @@ getopt="abc123"
 	set -x
 	core_getopt.sh
 )
-fn_test_result_fail
+fn_test_result_pass
 echo -e "run order"
 echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
