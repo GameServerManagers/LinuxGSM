@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2019 Daniel Gibbs
+# License: MIT License, Copyright (c) 2020 Daniel Gibbs
 # Purpose: Travis CI Tests: Minecraft | Linux Game Server Management Script
 # Contributors: https://linuxgsm.com/contrib
 # Documentation: https://docs.linuxgsm.com
@@ -20,12 +20,11 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v19.9.0"
+version="v20.1.5"
 shortname="mc"
 gameservername="mcserver"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
-lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -34,6 +33,7 @@ serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
+lockdir="${lgsmdir}/lock"
 serverlist="${datadir}/serverlist.csv"
 serverlistmenu="${datadir}/serverlistmenu.csv"
 configdir="${lgsmdir}/config-lgsm"
@@ -845,7 +845,7 @@ echo -e "Command: ./${gameservername} monitor"
 requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
-date '+%s' > "${rootdir}/${lockselfname}"
+date '+%s' > "${lockdir}/${selfname}.lock"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"

@@ -8,7 +8,7 @@
 
 local modulename="MONITOR"
 local commandaction="Monitor"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
@@ -21,7 +21,7 @@ fn_monitor_check_lockfile(){
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		fn_sleep_time
-		echo -en "* Start ${selfname} to run monitor."
+		echo -e "* Start ${selfname} to run monitor."
 		core_exit.sh
 	fi
 
@@ -147,6 +147,9 @@ for queryattempt in {1..5}; do
 			if [ "${gdplayers}" ]; then
 				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
 			fi
+			if [ "${gdbots}" ]; then
+                fn_script_log_info "Bots: ${gdbots}"
+            fi
 			if [ "${gdmap}" ]; then
 				fn_script_log_info "Map: ${gdmap}"
 			fi

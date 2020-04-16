@@ -6,12 +6,12 @@
 
 local modulename="DEBUG"
 local commandaction="Debug"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){
 	# Remove lockfile.
-	rm -f "${rootdir:?}/${lockselfname}"
+	rm -f "${lockdir:?}/${selfname}.lock"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
 	fn_print_ok_nl "Closing debug"
@@ -90,9 +90,9 @@ fn_script_log_info "Starting debug"
 fn_print_ok_nl "Starting debug"
 
 # Create lockfile.
-date '+%s' > "${rootdir}/${lockselfname}"
+date '+%s' > "${lockdir}/${selfname}.lock"
 fn_script_log_info "Lockfile generated"
-fn_script_log_info "${rootdir}/${lockselfname}"
+fn_script_log_info "${lockdir}/${selfname}.lock"
 # trap to remove lockfile on quit.
 trap fn_lockfile_trap INT
 

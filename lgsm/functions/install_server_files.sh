@@ -6,7 +6,7 @@
 
 local modulename="INSTALL"
 local commandaction="Install"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
 	if [ "${shortname}" == "ahl" ]; then
@@ -152,7 +152,7 @@ fn_install_server_files_steamcmd(){
 	# GoldSrc (appid 90) servers commonly fail to download all the server files required.
 	# Validating a few of times may reduce the chance of this issue.
 	if [ "${appid}" == "90" ]; then
-  fn_print_information_nl "GoldSrc servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."
+    fn_print_information_nl "GoldSrc servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))
