@@ -242,7 +242,7 @@ fn_install_file(){
 	if [ -e "${local_filename}" ]; then
 		i=2
 	while [ -e "${local_filename}-${i}" ] ; do
-		let i++
+		(( i++ ))
 	done
 		local_filename="${local_filename}-${i}"
 	fi
@@ -353,19 +353,24 @@ else
 				fi
 			fi
 		fi
+		# shellcheck source=/dev/null
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
 		else
+			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
 		fi
 
@@ -377,7 +382,7 @@ else
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
-	if [ -z "${travistest}" ]; then
+	if [ "${travistest}" != "1" ]; then
 		getopt=$1
 		core_getopt.sh
 	fi
