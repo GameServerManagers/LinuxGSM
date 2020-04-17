@@ -47,6 +47,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_dst.sh
 	elif [ "${shortname}" == "ges" ]; then
 		fix_ges.sh
+	elif [ "${shortname}" == "hw" ]; then
+		fix_hw.sh
 	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
 	elif [ "${shortname}" == "nmrih" ]; then
@@ -71,6 +73,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
+	elif [ "${shortname}" == "tu" ]; then
+		fix_tu.sh
 	elif [ "${shortname}" == "mcb" ]; then
 		fix_mcb.sh
 	elif [ "${shortname}" == "mta" ]; then
