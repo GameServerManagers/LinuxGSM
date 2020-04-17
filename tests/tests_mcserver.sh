@@ -847,7 +847,7 @@ fn_setstatus
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
-	command_update_lgsm.sh
+	command_update_linuxgsm.sh
 )
 fn_test_result_pass
 echo -e "run order"
