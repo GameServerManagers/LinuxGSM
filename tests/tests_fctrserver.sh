@@ -28,7 +28,7 @@ selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
-steamcmddir="${rootdir}/steamcmd"
+steamcmddir="${HOME}/.steam/steamcmd"
 serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
 tmpdir="${lgsmdir}/tmp"
@@ -591,7 +591,7 @@ getopt="abc123"
 	set -x
 	core_getopt.sh
 )
-fn_test_result_fail
+fn_test_result_pass
 echo -e "run order"
 echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'

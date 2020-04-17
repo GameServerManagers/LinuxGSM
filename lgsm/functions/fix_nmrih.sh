@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_nmrih.sh function
 # Author: Denperidge
-# Description: Create symlinks for renamed No More Room In Hell serverfiles
+# Description: Create symlinks for renamed No More Room In Hell serverfiles.
 # Solution from Steam Community post: https://steamcommunity.com/app/224260/discussions/2/1732089092441769414/
 
 local modulename="FIX"
