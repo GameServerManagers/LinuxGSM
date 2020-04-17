@@ -41,14 +41,17 @@ configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 userinput="${1}"
 
-# Allows for testing not on Travis CI
-if [ ! -v TRAVIS ]; then
+# Allows for testing not on Travis CI.
+# if using travis for tests
+if [ -n "${TRAVIS}" ]; then
+	selfname="travis"
+# if not using travis for tests
+else
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
-else
-	selfname="travis"
-	travistest="1"
+
 fi
+travistest="1"
 
 ## GitHub Branch Select
 # Allows for the use of different function files
@@ -389,15 +392,6 @@ else
 fi
 
 fn_currentstatus_tmux(){
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		currentstatus="ONLINE"
-	else
-		currentstatus="OFFLINE"
-	fi
-}
-
-fn_currentstatus_ts3(){
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		currentstatus="ONLINE"

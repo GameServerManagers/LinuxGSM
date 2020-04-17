@@ -41,14 +41,16 @@ configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 userinput="${1}"
 
-# Allows for testing not on Travis CI
-if [ ! -v TRAVIS ]; then
+# Allows for testing not on Travis CI.
+# if using travis for tests
+if [ -n "${TRAVIS}" ]; then
+	selfname="travis"
+# if not using travis for tests
+else
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
-else
-	selfname="travis"
-	travistest="1"
 fi
+travistest="1"
 
 ## GitHub Branch Select
 # Allows for the use of different function files
@@ -397,15 +399,6 @@ fn_currentstatus_tmux(){
 	fi
 }
 
-fn_currentstatus_ts3(){
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		currentstatus="ONLINE"
-	else
-		currentstatus="OFFLINE"
-	fi
-}
-
 fn_setstatus(){
 	fn_currentstatus_tmux
 	echo""
@@ -495,7 +488,7 @@ echo -e ""
 echo -e "================================="
 echo -e "Server Tests"
 echo -e "Using: ${gamename}"
-echo -e "Testing Branch: $TRAVIS_BRANCH"
+echo -e "Testing Branch: ${TRAVIS_BRANCH}"
 echo -e "================================="
 echo -e ""
 echo -e "Tests Summary"
@@ -604,7 +597,7 @@ echo -e "test script reaction to missing server files."
 echo -e "Command: ./${gameservername} start"
 echo -e ""
 # Allows for testing not on Travis CI
-if [ ! -v TRAVIS ]; then
+if [ -z "${TRAVIS}" ]; then
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
@@ -1256,8 +1249,4 @@ echo -e "Using: ${gamename}"
 echo -e "================================="
 requiredstatus="OFFLINE"
 fn_setstatus
-if [ ! -v TRAVIS ]; then
-	fn_print_info "Tidying up directories."
-	rm -rfv "${serverfiles:?}"
-fi
 core_exit.sh
