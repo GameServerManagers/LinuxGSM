@@ -10,10 +10,9 @@ if [ -f "${lockdir}/${selfname}-laststart.lock" ]; then
 fi
 if [ -f "${lockdir}/lastupdate.lock" ]; then
 	lastupdate=$(cat "${lockdir}/lastupdate.lock")
-fi
-
-if [ ! -f "${lockdir}/${selfname}-laststart.lock" ]||[ "${laststart}" -lt "${lastupdate}" ]; then
-	fn_print_info "${selfname} has not been restarted since last update"
-	fn_script_log_info "${selfname} has not been restarted since last update"
-	command_restart.sh
+	if [ ! -f "${lockdir}/${selfname}-laststart.lock" ]||[ "${laststart}" -lt "${lastupdate}" ]; then
+		fn_print_info "${selfname} has not been restarted since last update"
+		fn_script_log_info "${selfname} has not been restarted since last update"
+		command_restart.sh
+	fi
 fi
