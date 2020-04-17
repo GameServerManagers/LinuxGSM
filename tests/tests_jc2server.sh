@@ -539,11 +539,10 @@ echo -e "7.0 - Backup Tests"
 echo -e "7.1 - backup"
 echo -e ""
 echo -e "8.0 - Development Tools Tests"
-echo -e "8.0 - Development Tools Tests"
+echo -e "8.1 - dev - detect glibc"
 echo -e "8.2 - dev - detect ldd"
 echo -e "8.3 - dev - detect deps"
 echo -e "8.4 - dev - query-raw"
-echo -e "8.5 - dev - clear-functions"
 echo -e ""
 echo -e "9.0 - Donate"
 echo -e "9.1 - donate"
@@ -965,6 +964,26 @@ fn_setstatus
 	BASH_XTRACEFD="5"
 	set -x
 	command_validate.sh
+)
+fn_test_result_pass
+echo -e "run order"
+echo -e "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+
+echo -e ""
+echo -e "4.9 - update-lgsm"
+echo -e "================================="
+echo -e "Description:"
+echo -e "update LinuxGSM."
+echo -e ""
+echo -e "Command: ./jc2server update-lgam"
+requiredstatus="ONLINE"
+fn_setstatus
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_update_lgsm.sh
 )
 fn_test_result_pass
 echo -e "run order"

@@ -400,15 +400,6 @@ fn_currentstatus_tmux(){
 	fi
 }
 
-fn_currentstatus_ts3(){
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		currentstatus="ONLINE"
-	else
-		currentstatus="OFFLINE"
-	fi
-}
-
 fn_setstatus(){
 	fn_currentstatus_tmux
 	echo""
@@ -498,9 +489,58 @@ echo -e ""
 echo -e "================================="
 echo -e "Server Tests"
 echo -e "Using: ${gamename}"
-echo -e "Testing Branch: $TRAVIS_BRANCH"
+echo -e "Testing Branch: ${TRAVIS_BRANCH}"
 echo -e "================================="
 
+echo -e ""
+echo -e "Tests Summary"
+echo -e "================================="
+echo -e "0.0 - Pre-test Tasks"
+echo -e "0.1 - Create log dir's"
+echo -e "0.2 - Enable dev-debug"
+echo -e ""
+echo -e "1.0 - Pre-install tests"
+echo -e "1.1 - start - no files"
+echo -e "1.2 - getopt"
+echo -e "1.3 - getopt with incorrect args"
+echo -e ""
+echo -e "2.0 - Installation"
+echo -e "2.1 - install"
+echo -e ""
+echo -e "3.0 - Start/Stop/Restart Tests"
+echo -e "3.1 - start"
+echo -e "3.2 - start - online"
+echo -e "3.3 - start - updateonstart"
+echo -e "3.4 - stop"
+echo -e "3.5 - stop - offline"
+echo -e "3.6 - restart"
+echo -e "3.7 - restart - offline"
+echo -e ""
+echo -e "4.0 - Update Tests"
+echo -e "4.1 - update"
+echo -e "4.2 - update-lgsm"
+echo -e ""
+echo -e "5.0 - Monitor Tests"
+echo -e "5.1 - monitor - online"
+echo -e "5.2 - monitor - offline - with lockfile"
+echo -e "5.3 - monitor - offline - no lockfile"
+echo -e "5.4 - test-alert"
+echo -e ""
+echo -e "6.0 - Details Tests"
+echo -e "6.1 - details"
+echo -e "6.2 - postdetails"
+echo -e ""
+echo -e "7.0 - Backup Tests"
+echo -e "7.1 - backup"
+echo -e ""
+echo -e "8.0 - Development Tools Tests"
+echo -e "8.1 - dev - detect glibc"
+echo -e "8.2 - dev - detect ldd"
+echo -e "8.3 - dev - detect deps"
+echo -e "8.4 - dev - query-raw"
+echo -e ""
+echo -e "9.0 - Donate"
+echo -e "9.1 - donate"
 echo -e ""
 echo -e "0.0 - Pre-test Tasks"
 echo -e "=================================================================="
@@ -779,6 +819,26 @@ fn_setstatus
 	BASH_XTRACEFD="5"
 	set -x
 	command_update.sh
+)
+fn_test_result_pass
+echo -e "run order"
+echo -e "================="
+grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+
+echo -e ""
+echo -e "4.2 - update-lgsm"
+echo -e "================================="
+echo -e "Description:"
+echo -e "update LinuxGSM."
+echo -e ""
+echo -e "Command: ./jc2server update-lgam"
+requiredstatus="ONLINE"
+fn_setstatus
+(
+	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	BASH_XTRACEFD="5"
+	set -x
+	command_update_lgsm.sh
 )
 fn_test_result_pass
 echo -e "run order"
