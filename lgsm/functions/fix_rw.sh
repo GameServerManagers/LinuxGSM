@@ -2,7 +2,7 @@
 # LinuxGSM fix_rw.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Rising World
+# Description: Resolves various issues with Rising World.
 
 local modulename="FIX"
 local commandaction="Fix"

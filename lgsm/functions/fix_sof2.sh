@@ -2,7 +2,7 @@
 # LinuxGSM fix_rust.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Soldier of Fortune 2
+# Description: Resolves various issues with Soldier of Fortune 2.
 
 local modulename="FIX"
 local commandaction="Fix"

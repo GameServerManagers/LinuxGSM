@@ -11,7 +11,7 @@ fn_install_steamcmd(){
 		steamcmddir="${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fi
 	if [ ! -d "${steamcmddir}" ]; then
-		mkdir -pv "${steamcmddir}"
+		mkdir -p "${steamcmddir}"
 	fi
 	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
@@ -63,6 +63,47 @@ fn_check_steamcmd(){
 	fi
 }
 
+fn_check_steamcmd_dir(){
+	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard.
+	# https://github.com/ValveSoftware/steam-for-linux/issues/6976#issuecomment-610446347
+
+	# Create Steam installation directory.
+	if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
+		mkdir -p "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam"
+	fi
+
+	# Create common Steam directory.
+	if [ ! -d "${HOME}/.steam" ]; then
+		mkdir -p "${HOME}/.steam"
+	fi
+
+	# Symbolic links to Steam installation directory.
+	if [ ! -L "${HOME}/.steam/root" ]; then
+		if [ -d "${HOME}/.steam/root" ]; then
+			rm "${HOME}/.steam/root"
+		fi
+		ln -s "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" "${HOME}/.steam/root"
+	fi
+
+	if [ ! -L "${HOME}/.steam/steam" ]; then
+		if [ -d "${HOME}/.steam/steam" ]; then
+			rm -rf "${HOME}/.steam/steam"
+		fi
+		ln -s "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" "${HOME}/.steam/steam"
+	fi
+}
+
+fn_check_steamcmd_dir_legacy(){
+	# Remove old Steam installation directories ~/Steam and ${rootdir}/steamcmd
+	if [ -d "${rootdir}/steamcmd" ]&&[ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
+		rm -rf "${rootdir:?}/steamcmd"
+	fi
+
+	if [ -d "${HOME}/Steam" ]&&[ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
+		rm -rf "${HOME}/Steam"
+	fi
+}
+
 fn_check_steamcmd_ark(){
 	# Checks if SteamCMD exists in
 	# Engine/Binaries/ThirdParty/SteamCMD/Linux
@@ -108,5 +149,7 @@ fn_check_steamcmd
 if [ ${shortname} == "ark" ]; then
 	fn_check_steamcmd_ark
 fi
+fn_check_steamcmd_dir
+fn_check_steamcmd_dir_legacy
 fn_check_steamcmd_user
 fn_check_steamcmd_exec
