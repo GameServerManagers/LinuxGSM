@@ -6,7 +6,7 @@
 
 local modulename="VALIDATE"
 local commandaction="Validate"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validate(){
 	fn_script_log_warn "Validating server: SteamCMD: Validate might overwrite some customised files"
