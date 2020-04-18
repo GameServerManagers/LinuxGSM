@@ -1341,7 +1341,7 @@ fn_info_message_soldat() {
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> RCON\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
 	} | column -s $'\t' -t
 }

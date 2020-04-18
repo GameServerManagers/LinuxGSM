@@ -1350,13 +1350,27 @@ fn_info_config_mordhau(){
 
 fn_info_config_soldat(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		adminpassword="${unavailable}"
+		maxplayers="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
 	else
-		servername=$(grep "Server_Name" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		serverpassword=$(grep "Game_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		adminpassword=$(grep "Admin_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		adminpassword=$(grep "Admin_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		maxplayers=$(grep "Max_Players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "Port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport="${port}"
+		servername=$(grep "Server_Name=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "Game_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+
+		# Not set
+		adminpassword=${adminpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"23073"}
+		queryport=${queryport:-"23083"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 }
 
