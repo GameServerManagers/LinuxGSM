@@ -1368,7 +1368,9 @@ fn_info_message_warfork(){
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
-	if [ "${shortname}" == "ark" ]; then
+	if [ "${shortname}" == "ac" ]; then
+		fn_info_message_assettocorsa
+	elif [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
