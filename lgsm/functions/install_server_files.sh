@@ -111,6 +111,8 @@ fn_install_server_files_steamcmd(){
 					else
 							${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit
 					fi
+				elif [ "${shortname}" == "ac" ]; then
+					${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
 				# All other servers.
 				else
 					if [ -n "${branch}" ]; then
@@ -129,6 +131,9 @@ fn_install_server_files_steamcmd(){
 					else
 						${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" validate +quit
 					fi
+					local exitcode=$?
+				elif [ "${shortname}" == "ac" ]; then
+					${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
 					local exitcode=$?
 				# All other servers.
 				else
@@ -150,7 +155,7 @@ fn_install_server_files_steamcmd(){
 	# GoldSrc (appid 90) servers commonly fail to download all the server files required.
 	# Validating a few of times may reduce the chance of this issue.
 	if [ "${appid}" == "90" ]; then
-    fn_print_information_nl "GoldSrc servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."
+		fn_print_information_nl "GoldSrc servers commonly fail to download all the server files required. Validating a few of times may reduce the chance of this issue."
 		counter="0"
 		while [ "${counter}" -le "4" ]; do
 			counter=$((counter+1))

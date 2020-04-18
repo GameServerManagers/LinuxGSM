@@ -125,13 +125,13 @@ fn_check_steamcmd_ark(){
 
 fn_check_steamcmd_clear(){
 # Will remove steamcmd dir if steamcmd package is installed.
-if [ "$(command -v steamcmd 2>/dev/null)" ]&&[ -d "${steamcmddir}" ]; then
+if [ "$(command -v steamcmd 2>/dev/null)" ]&&[ -d "${rootdir}/steamcmd" ]; then
 	rm -rf "${steamcmddir:?}"
 	exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
-		fn_script_log_fatal "Removing ${steamcmddir}"
+		fn_script_log_fatal "Removing ${rootdir}/steamcmd"
 	else
-		fn_script_log_pass "Removing ${steamcmddir}"
+		fn_script_log_pass "Removing ${rootdir}/steamcmd"
 	fi
 fi
 }
