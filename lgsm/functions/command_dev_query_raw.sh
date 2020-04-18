@@ -32,8 +32,6 @@ if [ ! "$(command -v jq 2>/dev/null)" ]; then
 	fn_print_failure_nl "jq not installed"
 fi
 
-
-
 query_gamedig.sh
 echo -e "${gamedigcmd}"
 echo""
