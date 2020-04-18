@@ -14,6 +14,31 @@ local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # grep -v "foo" filter out lines that contain foo
 # cut -f1 -d "/" remove everything after /
 
+
+fn_info_config_assettocorsa(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		httpport="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+	else
+		httpport=$(grep "HTTP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "TCP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport="${port}"
+		servername=$(grep "NAME" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/NAME//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| head -n 1)
+		adminpassword=$(grep "ADMIN_PASSWORD" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMIN_PASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		httpport=${httpport:-"0"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+
+	fi
+}
+
 fn_info_config_justcause2(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1360,8 +1385,11 @@ fn_info_config_soldat(){
 	fi
 }
 
+# Assetto Corsa
+if [ "${shortname}" == "ac" ]; then
+	fn_info_config_assettocorsa
 # ARK: Survival Evolved
-if [ "${shortname}" == "ark" ]; then
+elif [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
 # Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then

@@ -621,6 +621,16 @@ fn_info_logs(){
 
 # Engine/Game Specific details
 
+fn_info_message_assettocorsa(){
+	echo -e "netstat -atunp| grep acServer"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> HTTP\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
