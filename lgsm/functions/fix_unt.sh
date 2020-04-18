@@ -2,7 +2,7 @@
 # LinuxGSM fix_rust.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Unturned
+# Description: Resolves startup issue with Unturned.
 
 local modulename="FIX"
 local commandaction="Fix"

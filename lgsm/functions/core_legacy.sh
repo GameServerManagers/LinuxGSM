@@ -26,7 +26,7 @@ if [ -z "${lgsmlogdate}" ]; then
 fi
 
 if [ -z "${steamcmddir}" ]; then
-	steamcmddir="${rootdir}/steamcmd"
+	steamcmddir="${HOME}/.steam/steamcmd"
 fi
 
 if [ -z "${lgsmdir}" ]; then

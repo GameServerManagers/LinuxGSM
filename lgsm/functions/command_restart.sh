@@ -6,7 +6,7 @@
 
 local modulename="RESTART"
 local commandaction="Restarting"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_config.sh
 exitbypass=1
