@@ -132,7 +132,7 @@ fn_backup_compression(){
 	excludedir=$(fn_backup_relpath)
 
 	# Check that excludedir is a valid path.
-	if [ ! -d "${excludedir}" ] ; then
+	if [ ! -d "${rootdir}/${excludedir}" ] ; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
