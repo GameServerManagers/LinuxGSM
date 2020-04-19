@@ -27,6 +27,8 @@ fn_update_steamcmd_dl(){
 		else
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
 		fi
+	elif [ "${shortname}" == "ac" ]; then
+		${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
 	# All other servers.
 	else
 		if [ -n "${branch}" ]; then

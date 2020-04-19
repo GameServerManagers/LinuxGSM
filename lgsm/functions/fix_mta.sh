@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributor: ChaosMTA
 # Website: https://linuxgsm.com
-# Description: Installs the libmysqlclient for database functions on the server
+# Description: Installs the libmysqlclient for database functions on the server.
 
 local modulename="FIX"
 local commandaction="Fix"

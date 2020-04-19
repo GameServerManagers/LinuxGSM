@@ -621,6 +621,16 @@ fn_info_logs(){
 
 # Engine/Game Specific details
 
+fn_info_message_assettocorsa(){
+	echo -e "netstat -atunp| grep acServer"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> HTTP\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_ark(){
 	echo -e "netstat -atunp | grep ShooterGame"
 	echo -e ""
@@ -1341,7 +1351,7 @@ fn_info_message_soldat() {
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> RCON\tINBOUND\t${port}\ttcp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
 	} | column -s $'\t' -t
 }
@@ -1358,7 +1368,9 @@ fn_info_message_warfork(){
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
-	if [ "${shortname}" == "ark" ]; then
+	if [ "${shortname}" == "ac" ]; then
+		fn_info_message_assettocorsa
+	elif [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
