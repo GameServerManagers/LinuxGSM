@@ -6,7 +6,9 @@
 
 fn_exit_trap(){
 	echo -e ""
-	exitcode=0
+	if [ -z "${exitcode}" ]; then
+		exitcode=0
+	fi
 	core_exit.sh
 }
 
