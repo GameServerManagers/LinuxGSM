@@ -12,7 +12,7 @@ check.sh
 fn_print_header
 
 # Verbose output
-if [ "${consoleoutput}" == "on" ]; then
+if [ "${consoleverbose}" == "on" ]; then
 	fn_print_information_nl "${gamename} produces a verbose output to the console."
 elif [ "${consoleverbose}" == "off" ]; then
 	fn_print_information_nl "${gamename} does NOT produce a verbose output to the console."
