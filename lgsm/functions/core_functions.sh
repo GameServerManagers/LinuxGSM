@@ -188,6 +188,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+check_last_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 check_logs.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -321,6 +326,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_hw.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_ins.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -387,6 +397,11 @@ fn_fetch_function
 }
 
 fix_tf2.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_tu.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -704,6 +719,11 @@ core_legacy.sh
 # Creates tmp dir if missing
 if [ ! -d "${tmpdir}" ]; then
 	mkdir -p "${tmpdir}"
+fi
+
+# Creates lock dir if missing
+if [ ! -d "${lockdir}" ]; then
+	mkdir -p "${lockdir}"
 fi
 
 # Calls on-screen messages (bootstrap)

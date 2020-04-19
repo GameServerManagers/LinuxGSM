@@ -2,7 +2,13 @@
 # LinuxGSM fix_wurm.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with ARK: Survival Evolved.
+# Description: Resolves various issues with Wurm Unlimited.
+
+local modulename="FIX"
+local commandaction="Fix"
+
+local modulename="FIX"
+local commandaction="Fix"
 
 # Copies steamclient.so to correct location.
 if [ ! -f "${serverfiles}/nativelibs" ]; then

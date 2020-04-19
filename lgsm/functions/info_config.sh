@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo
@@ -13,6 +13,31 @@ local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 # tr -d '=\"; ' remove selected characters =\";
 # grep -v "foo" filter out lines that contain foo
 # cut -f1 -d "/" remove everything after /
+
+
+fn_info_config_assettocorsa(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		httpport="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+	else
+		httpport=$(grep "HTTP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "TCP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport="${port}"
+		servername=$(grep "NAME" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/NAME//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| head -n 1)
+		adminpassword=$(grep "ADMIN_PASSWORD" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMIN_PASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		httpport=${httpport:-"0"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+
+	fi
+}
 
 fn_info_config_justcause2(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1368,18 +1393,35 @@ fn_info_config_avorion() {
 
 fn_info_config_soldat(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		adminpassword="${unavailable}"
+		maxplayers="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
 	else
-		servername=$(grep "Server_Name" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		serverpassword=$(grep "Game_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		adminpassword=$(grep "Admin_Password" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		adminpassword=$(grep "Admin_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		maxplayers=$(grep "Max_Players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "Port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport="${port}"
+		servername=$(grep "Server_Name=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		serverpassword=$(grep "Game_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+
+		# Not set
+		adminpassword=${adminpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"23073"}
+		queryport=${queryport:-"23083"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 }
 
+# Assetto Corsa
+if [ "${shortname}" == "ac" ]; then
+	fn_info_config_assettocorsa
 # ARK: Survival Evolved
-if [ "${shortname}" == "ark" ]; then
+elif [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
 # Avorion
 elif [ "${shortname}" == "av" ]; then

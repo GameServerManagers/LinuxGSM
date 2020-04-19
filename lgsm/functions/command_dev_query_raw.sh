@@ -6,11 +6,21 @@
 
 local modulename="QUERY-RAW"
 local commandaction="Query Raw"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
+check.sh
+info_config.sh
+info_parms.sh
 
 echo -e ""
 echo -e "Query Port - Raw Output"
 echo -e "=================================================================="
+echo -e ""
+echo -e "Ports"
+echo -e "================================="
+echo -e ""
+echo -e "PORT: ${port}"
+echo -e "QUERY PORT: ${queryport}"
 echo -e ""
 echo -e "Gamedig Raw Output"
 echo -e "================================="
@@ -21,10 +31,6 @@ fi
 if [ ! "$(command -v jq 2>/dev/null)" ]; then
 	fn_print_failure_nl "jq not installed"
 fi
-
-check.sh
-info_config.sh
-info_parms.sh
 
 query_gamedig.sh
 echo -e "${gamedigcmd}"

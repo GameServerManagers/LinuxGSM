@@ -6,7 +6,7 @@
 
 local modulename="UPDATE"
 local commandaction="Update"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_steamcmd_dl(){
 	info_config.sh
@@ -27,6 +27,8 @@ fn_update_steamcmd_dl(){
 		else
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
 		fi
+	elif [ "${shortname}" == "ac" ]; then
+		${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
 	# All other servers.
 	else
 		if [ -n "${branch}" ]; then
@@ -108,6 +110,7 @@ fn_update_steamcmd_compare(){
 			echo -e "* Branch: ${branch}"
 		fi
 		echo -e "https://steamdb.info/app/${appid}/"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -128,9 +131,11 @@ fn_update_steamcmd_compare(){
 			command_stop.sh
 			exitbypass=1
 			fn_update_steamcmd_dl
+			date +%s > "${lockdir}/lastupdate.lock"
 			exitbypass=1
 			command_start.sh
 		fi
+
 		alert="update"
 		alert.sh
 	else
@@ -143,6 +148,7 @@ fn_update_steamcmd_compare(){
 			echo -e "* Branch: ${branch}"
 		fi
 		echo -e "https://steamdb.info/app/${appid}/"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -219,6 +225,7 @@ fn_stop_warning(){
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
 check.sh
+
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
 	check_status.sh
@@ -227,10 +234,12 @@ if [ "${forceupdate}" == "1" ]; then
 		exitbypass=1
 		command_stop.sh
 		fn_update_steamcmd_dl
+		date +%s > "${lockdir}/lastupdate.lock"
 		exitbypass=1
 		command_start.sh
 	else
 		fn_update_steamcmd_dl
+		date +%s > "${lockdir}/lastupdate.lock"
 	fi
 else
 	fn_print_dots "Checking for update"

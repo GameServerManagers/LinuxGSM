@@ -6,7 +6,7 @@
 
 local modulename="UPDATE"
 local commandaction="Update"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mta_dl(){
 	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "${tmpdir}" "multitheftauto_linux_x64.tar.gz"
@@ -165,6 +165,7 @@ fn_update_mta_compare(){
 			exitbypass=1
 			command_start.sh
 		fi
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
