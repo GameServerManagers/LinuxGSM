@@ -186,10 +186,10 @@ fn_stop_graceful_avorion(){
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
-	tmux send-keys -t "${selfname}" /save > /dev/null 2>&1
+	tmux send-keys -t "${selfname}" /save ENTER > /dev/null 2>&1
 	sleep 5
 	# Sends /quit.
-	tmux send-keys -t "${selfname}" /stop > /dev/null 2>&1
+	tmux send-keys -t "${selfname}" /stop ENTER > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
