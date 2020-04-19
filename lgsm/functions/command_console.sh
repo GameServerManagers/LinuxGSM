@@ -13,16 +13,16 @@ fn_print_header
 
 # Verbose output
 if [ "${consoleoutput}" == "on" ]; then
-	fn_print_information_nl "${gamename} produces a verbose output to the console"
+	fn_print_information_nl "${gamename} produces a verbose output to the console."
 elif [ "${consoleverbose}" == "off" ]; then
-	fn_print_information_nl "${gamename} does NOT produce a verbose output to the console"
+	fn_print_information_nl "${gamename} does NOT produce a verbose output to the console."
 fi
 
 # Interactive console
 if [ "${consolinteract}" == "on" ]; then
-	fn_print_information_nl "${gamename} DOES allow server commands to be entered in to the console"
+	fn_print_information_nl "${gamename} DOES allow server commands to be entered in to the console."
 elif [ "${consoleinteract}" == "off" ]; then
-	fn_print_information_nl "${gamename} does NOT allow server commands to be entered in to the console"
+	fn_print_information_nl "${gamename} does NOT allow server commands to be entered in to the console."
 fi
 
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
