@@ -19,7 +19,7 @@ elif [ "${consoleverbose}" == "off" ]; then
 fi
 
 # Interactive console
-if [ "${consolinteract}" == "on" ]; then
+if [ "${consoleinteract}" == "on" ]; then
 	fn_print_information_nl "${gamename} DOES allow server commands to be entered in to the console."
 elif [ "${consoleinteract}" == "off" ]; then
 	fn_print_information_nl "${gamename} does NOT allow server commands to be entered in to the console."
