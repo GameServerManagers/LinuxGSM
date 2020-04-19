@@ -31,6 +31,8 @@ echo -e "* https://docs.linuxgsm.com/commands/console"
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
 	return
+else
+	core_exit.sh
 fi
 fn_print_dots "Accessing console"
 check_status.sh
