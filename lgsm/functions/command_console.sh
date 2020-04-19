@@ -12,7 +12,7 @@ check.sh
 fn_print_header
 
 # Verbose output
-if [ "${consoleverbose}" == "on" ]; then
+if [ "${consoleoutput}" == "on" ]; then
 	fn_print_information_nl "${gamename} produces a verbose output to the console."
 elif [ "${consoleverbose}" == "off" ]; then
 	fn_print_information_nl "${gamename} does NOT produce a verbose output to the console."
@@ -30,9 +30,8 @@ fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo -e "* https://docs.linuxgsm.com/commands/console"
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	core_exit.sh
+	return
 fi
-
 fn_print_dots "Accessing console"
 check_status.sh
 if [ "${status}" != "0" ]; then
