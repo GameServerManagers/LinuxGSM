@@ -42,8 +42,8 @@
 # 9: GoldSrc
 # 10: Teamspeak 3
 ## Console type
-consoleverbose="off"
-consoleinteract="off"
+consoleverbose=""
+consoleinteract=""
 
 ## Game Server Details
 # Do not edit
