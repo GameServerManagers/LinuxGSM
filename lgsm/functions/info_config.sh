@@ -1382,7 +1382,6 @@ fn_info_config_avorion() {
 		rconport="${unavailable}"
 		rconenabled="${unavailable}"
 		queryport="${unavailable}"
-
 	else
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
