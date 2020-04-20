@@ -221,7 +221,7 @@ fn_info_message_gameserver(){
 
 		# RCON enabled (Starbound)
 		if [ "${rconenabled}" ]; then
-			echo -e "${lightblue}RCON enabled:\t${default}${rconpassword}"
+			echo -e "${lightblue}RCON enabled:\t${default}${rconenabled}"
 		fi
 
 		# RCON password
