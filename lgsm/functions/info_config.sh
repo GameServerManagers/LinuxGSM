@@ -1383,7 +1383,7 @@ fn_info_config_avorion() {
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
 		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
-		rconport=$(grep "rconPort=" "${servercfgfullpath}" | sed 's/rconPassword=//')
+		rconport=$(grep "rconPort=" "${servercfgfullpath}" | sed 's/rconPort=//')
 
 		# Not set
 		servername=${servername:-"NOT SET"}
