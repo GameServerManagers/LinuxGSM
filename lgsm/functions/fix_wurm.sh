@@ -7,9 +7,6 @@
 local modulename="FIX"
 local commandaction="Fix"
 
-local modulename="FIX"
-local commandaction="Fix"
-
 # Copies steamclient.so to correct location.
 if [ ! -f "${serverfiles}/nativelibs" ]; then
 	cp -f "${serverfiles}/linux64/steamclient.so" "${serverfiles}/nativelibs"
