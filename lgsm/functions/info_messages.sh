@@ -540,7 +540,7 @@ fn_info_message_ports(){
 	echo -e "${lightblue}Change ports by editing the parameters in:${default}"
 
 	parmslocation="${red}UNKNOWN${default}"
-	# engines/games that require editing in the config file
+	# engines/games that require editing in the config file.
 	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
 	for port_edit in "${ports_edit_array[@]}"
 	do
@@ -553,7 +553,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms.
-	local ports_edit_array=( "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" "Avorion" )
+	local ports_edit_array=( "Avorion" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then

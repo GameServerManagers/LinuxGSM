@@ -1370,7 +1370,7 @@ fn_info_config_mordhau(){
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
-	fi
+	fi 
 }
 
 
