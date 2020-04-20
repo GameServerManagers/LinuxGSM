@@ -1370,7 +1370,7 @@ fn_info_config_mordhau(){
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
-	fi 
+	fi
 }
 
 
@@ -1383,11 +1383,13 @@ fn_info_config_avorion() {
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
 		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
+		rconport=$(grep "rconPort=" "${servercfgfullpath}" | sed 's/rconPassword=//')
 
 		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
+		rconport=${rconport:-"NOT SET"}
   fi
 }
 
