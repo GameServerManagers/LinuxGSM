@@ -653,8 +653,6 @@ fn_info_message_avorion() {
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
-		echo -e "> Steam Query\tINBOUND\t${steamqueryport}\tudp"
-		echo -e "> Steam Master\tINBOUND\t${steammasterport}\tudp"
 	} | column -s $'\t' -t
 }
 

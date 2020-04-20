@@ -1379,17 +1379,24 @@ fn_info_config_avorion() {
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
+		rconport="${unavailable}"
+		rconenabled="${unavailable}"
+
 	else
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
 		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
 		rconport=$(grep "rconPort=" "${servercfgfullpath}" | sed 's/rconPort=//')
+		if [ -n "${rconpassword}" ]; then
+			rconenabled="true"
+		fi
 
 		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
+		rconenabled=${rconenabled:-"NOT SET"}
   fi
 }
 
