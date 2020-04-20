@@ -84,8 +84,8 @@ class gsquery:
         # Response.
         if self.response is None:
             self.fatal_error('No response', 3)
-        if len(self.response) < 2:
-            sys.exit('Short response.', 5)
+        if len(self.response) < 5:
+            sys.exit('Short response.', 3)
         else:
             self.exit_success(str(self.response))
 
