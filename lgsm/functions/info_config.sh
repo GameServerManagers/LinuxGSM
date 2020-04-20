@@ -417,7 +417,7 @@ fn_info_config_minecraft_bedrock(){
 		maxplayers="${zero}"
 		port="${zero}"
 		port6="${zero}"
-    queryport="${zero}"
+		queryport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
@@ -425,7 +425,7 @@ fn_info_config_minecraft_bedrock(){
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port\b" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port6=$(grep "server-portv6\b" "${servercfgfullpath}" | sed 's/v6//g' | grep -v "#" | tr -cd '[:digit:]')
-    queryport=${port}
+		queryport=${port}
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/gamemode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -434,7 +434,7 @@ fn_info_config_minecraft_bedrock(){
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
 		port6=${port6:-"NOT SET"}
-    queryport=${queryport:-"NOT SET"}
+		queryport=${queryport:-"NOT SET"}
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
 	fi
@@ -459,7 +459,7 @@ fn_info_config_onset(){
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
 		httpport=${httpport:-"NOT SET"}
-    	queryport=${queryport:-"NOT SET"}
+		queryport=${queryport:-"NOT SET"}
 	fi
 }
 
@@ -1078,7 +1078,7 @@ fn_info_config_ut(){
 
 		# Not set
 		servername=${servername:-"NOT SET"}
-  fi
+	fi
 }
 
 fn_info_config_warfork(){
@@ -1376,6 +1376,7 @@ fn_info_config_mordhau(){
 
 fn_info_config_avorion() {
 	if [ ! -f "${servercfgfullpath}" ]; then
+		maxplayers="${unavailable}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
@@ -1383,6 +1384,7 @@ fn_info_config_avorion() {
 		rconenabled="${unavailable}"
 		queryport="${unavailable}"
 	else
+		maxplayers=$(grep "maxPlayers=" "${servercfgfullpath}" | sed 's/maxPlayers=//')
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
 		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
@@ -1393,13 +1395,14 @@ fn_info_config_avorion() {
 		fi
 
 		# Not set
+		maxplayers=${maxplayers:-"NOT SET"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
-		rconport=${rconport:-"NOT SET"}
+		rconport=${rconport:-"0"}
 		rconenabled=${rconenabled:-"false"}
-		queryport=${queryport:-"NOT SET"}
-  fi
+		queryport=${queryport:-"0"}
+	fi
 }
 
 fn_info_config_soldat(){
@@ -1565,7 +1568,7 @@ elif [ "${engine}" == "unreal" ]; then
 	fn_info_config_unreal
 # Unreal 2 engine
 elif [ "${engine}" == "unreal2" ]; then
-  fn_info_config_unreal2
+	fn_info_config_unreal2
 # Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
