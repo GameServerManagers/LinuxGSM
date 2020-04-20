@@ -1398,7 +1398,7 @@ fn_info_config_avorion() {
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
-		rconenabled=${rconenabled:-"NOT SET"}
+		rconenabled=${rconenabled:-"false"}
 		queryport=${queryport:-"NOT SET"}
   fi
 }
