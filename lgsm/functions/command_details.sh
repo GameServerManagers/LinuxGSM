@@ -15,7 +15,7 @@ info_config.sh
 info_parms.sh
 info_distro.sh
 info_messages.sh
-if [ "${querymode}" == "2" ]|| [ "${querymode}" == "3" ]; then
+if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
 	query_gamedig.sh
 fi
 fn_info_message_distro
