@@ -81,4 +81,5 @@ else
 	echo -e "TCP query FAIL"
 fi
 
+exitcode=0
 core_exit.sh

@@ -181,6 +181,36 @@ fn_stop_graceful_sdtd(){
 	fn_sleep_time
 }
 
+# Attempts graceful shutdown by sending /save /stop.
+fn_stop_graceful_avorion(){
+	fn_print_dots "Graceful: /save /stop"
+	fn_script_log_info "Graceful: /save /stop"
+	# Sends /save.
+	tmux send-keys -t "${selfname}" /save ENTER > /dev/null 2>&1
+	sleep 5
+	# Sends /quit.
+	tmux send-keys -t "${selfname}" /stop ENTER > /dev/null 2>&1
+	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
+	for seconds in {1..30}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: /save /stop: ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: /save /stop: OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: /save /stop: ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: /save /stop: "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: /save /stop: FAIL"
+	fi
+	fn_sleep_time
+}
+
 fn_stop_graceful_select(){
 	if [ "${stopmode}" == "1" ]; then
 		fn_stop_tmux
@@ -200,6 +230,8 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_sdtd
 	elif [ "${stopmode}" == "9" ]; then
 		fn_stop_graceful_goldsrc
+	elif [ "${stopmode}" == "10" ]; then
+		fn_stop_graceful_avorion
 	fi
 }
 

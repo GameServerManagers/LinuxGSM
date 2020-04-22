@@ -75,11 +75,17 @@ fn_monitor_check_queryport(){
 	if [ -z "${queryport}" ]||[ "${queryport}" == "0" ]; then
 		fn_print_dots "Checking port: "
 		fn_print_checking_eol
-		fn_script_log_info "Checking session: CHECKING"
+		fn_script_log_info "Checking port: CHECKING"
 		fn_sleep_time
-		fn_print_error "Checking port: Unable to query as queryport is not set: "
-		fn_print_error_eol_nl
-		fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
+		if [ -n "${rconenabled}" ]&&[ "${rconenabled}" != "true" ]&&[ ${shortname} == "av" ]; then
+			fn_print_warn "Checking port: Unable to query as rconport, rcon not enabled: "
+			fn_print_warn_eol_nl
+			fn_script_log_warn "Checking port: Unable to query rconport, rcon not enabled: WARN"
+		else
+			fn_print_error "Checking port: Unable to query queryport is not set: "
+			fn_print_error_eol_nl
+			fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
+		fi
 		fn_sleep_time
 		core_exit.sh
 	fi
