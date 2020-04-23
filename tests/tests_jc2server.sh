@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.1.5"
+version="v20.2.0"
 shortname="jc2"
 gameservername="jc2server"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
