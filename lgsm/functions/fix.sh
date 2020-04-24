@@ -17,7 +17,7 @@ fn_fix_msg_start(){
 
 fn_fix_msg_start_nl(){
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	fn_print_info_nl "Applying ${fixname} fix: ${gamename}"
+	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
 }
 
@@ -47,6 +47,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_dst.sh
 	elif [ "${shortname}" == "ges" ]; then
 		fix_ges.sh
+	elif [ "${shortname}" == "hw" ]; then
+		fix_hw.sh
 	elif [ "${shortname}" == "ins" ]; then
 		fix_ins.sh
 	elif [ "${shortname}" == "nmrih" ]; then
@@ -71,6 +73,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
+	elif [ "${shortname}" == "tu" ]; then
+		fix_tu.sh
 	elif [ "${shortname}" == "mcb" ]; then
 		fix_mcb.sh
 	elif [ "${shortname}" == "mta" ]; then
@@ -86,12 +90,15 @@ fi
 
 # Fixes that are run on install only.
 if [ "${function_selfname}" == "command_install.sh" ]; then
-		if [ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
+		if [ "${shortname}" == "av" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
 			fn_sleep_time
-			if [ "${shortname}" == "kf" ]; then
+			postinstall=1
+			if [ "${shortname}" == "av" ]; then
+				fix_av.sh
+			elif [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then
 				fix_kf2.sh

@@ -6,7 +6,7 @@
 
 local modulename="ALERT"
 local commandaction="Alert"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
 
@@ -19,9 +19,9 @@ mailgunsend=$(curl -s --user "api:${mailguntoken}" \
 -F text="$(cat "${alertlog}")" "https://api.mailgun.net/v3/${mailgundomain}/messages")
 
 if [ -z "${mailgunsend}" ]; then
-	fn_print_fail "Sending Email alert: Mailgun: ${email}"
+	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"
 	fn_script_log_fatal "Sending Email alert: Mailgun: ${email}"
 else
-	fn_print_ok "Sending Email alert: Mailgun: ${email}"
+	fn_print_ok_nl "Sending Email alert: Mailgun: ${email}"
 	fn_script_log_pass "Sending Email alert: Mailgun: ${email}"
 fi

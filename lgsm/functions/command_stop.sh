@@ -7,7 +7,7 @@
 
 local modulename="STOP"
 local commandaction="Stopping"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
@@ -65,15 +65,15 @@ fn_stop_graceful_cmd(){
 	fn_sleep_time
 }
 
-# Attempts graceful shutdown of goldsource using rcon 'quit' command.
+# Attempts graceful shutdown of goldsrc using rcon 'quit' command.
 # There is only a 3 second delay before a forced a tmux shutdown
-# as Goldsource servers 'quit' command does a restart rather than shutdown.
-fn_stop_graceful_goldsource(){
+# as GoldSrc servers 'quit' command does a restart rather than shutdown.
+fn_stop_graceful_goldsrc(){
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
 	tmux send -t "${selfname}" quit ENTER > /dev/null 2>&1
-	# Waits 3 seconds as goldsource servers restart with the quit command.
+	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
 		sleep 1
 		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
@@ -181,6 +181,36 @@ fn_stop_graceful_sdtd(){
 	fn_sleep_time
 }
 
+# Attempts graceful shutdown by sending /save /stop.
+fn_stop_graceful_avorion(){
+	fn_print_dots "Graceful: /save /stop"
+	fn_script_log_info "Graceful: /save /stop"
+	# Sends /save.
+	tmux send-keys -t "${selfname}" /save ENTER > /dev/null 2>&1
+	sleep 5
+	# Sends /quit.
+	tmux send-keys -t "${selfname}" /stop ENTER > /dev/null 2>&1
+	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
+	for seconds in {1..30}; do
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: /save /stop: ${seconds}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: /save /stop: OK: ${seconds} seconds"
+			break
+		fi
+		sleep 1
+		fn_print_dots "Graceful: /save /stop: ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: /save /stop: "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: /save /stop: FAIL"
+	fi
+	fn_sleep_time
+}
+
 fn_stop_graceful_select(){
 	if [ "${stopmode}" == "1" ]; then
 		fn_stop_tmux
@@ -199,7 +229,9 @@ fn_stop_graceful_select(){
 	elif [ "${stopmode}" == "8" ]; then
 		fn_stop_graceful_sdtd
 	elif [ "${stopmode}" == "9" ]; then
-		fn_stop_graceful_goldsource
+		fn_stop_graceful_goldsrc
+	elif [ "${stopmode}" == "10" ]; then
+		fn_stop_graceful_avorion
 	fi
 }
 
@@ -211,7 +243,7 @@ fn_stop_tmux(){
 	fn_sleep_time
 	check_status.sh
 	if [ "${status}" == "0" ]; then
-		fn_print_ok "${servername}"
+		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
 	else
 		fn_print_fail_nl "Unable to stop ${servername}"
@@ -241,8 +273,8 @@ fn_print_dots "${servername}"
 info_config.sh
 fn_stop_pre_check
 # Remove lockfile.
-if [ -f "${rootdir}/${lockselfname}" ]; then
-	rm -f "${rootdir:?}/${lockselfname}"
+if [ -f "${lockdir}/${selfname}.lock" ]; then
+	rm -f "${lockdir:?}/${selfname}.lock"
 fi
 
 if [ -z "${exitbypass}" ]; then

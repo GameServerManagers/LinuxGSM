@@ -7,7 +7,7 @@
 
 local modulename="START"
 local commandaction="Starting"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -62,12 +62,15 @@ fn_start_tmux(){
 	fi
 
 	# Create lockfile
-	date > "${rootdir}/${lockselfname}"
+	date > "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${selfname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
+
+	# Create last start lock file
+	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
 	# Get tmux version.
 	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
@@ -170,7 +173,7 @@ fn_print_dots "${servername}"
 # Is the server already started.
 # $status comes from check_status.sh, which is run by check.sh for this command
 if [ "${status}" != "0" ]; then
-	fn_print_info "${servername} is already running"
+	fn_print_info_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
 		core_exit.sh

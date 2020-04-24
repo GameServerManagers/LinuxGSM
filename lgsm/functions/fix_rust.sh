@@ -2,7 +2,7 @@
 # LinuxGSM fix_rust.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Rust
+# Description: Resolves startup issue with Rust.
 
 local modulename="FIX"
 local commandaction="Fix"

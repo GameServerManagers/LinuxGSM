@@ -8,11 +8,11 @@
 
 local modulename="MONITOR"
 local commandaction="Monitor"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
-	if [ ! -f "${rootdir}/${lockselfname}" ]; then
+	if [ ! -f "${lockdir}/${selfname}.lock" ]; then
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
@@ -26,8 +26,8 @@ fn_monitor_check_lockfile(){
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [[ "$(cat "${rootdir}/${lockselfname}")" =~ [A-Za-z] ]]; then
-			date '+%s' > "${rootdir}/${lockselfname}"
+	if [[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
+			date '+%s' > "${lockdir}/${selfname}.lock"
 	fi
 }
 
@@ -75,11 +75,17 @@ fn_monitor_check_queryport(){
 	if [ -z "${queryport}" ]||[ "${queryport}" == "0" ]; then
 		fn_print_dots "Checking port: "
 		fn_print_checking_eol
-		fn_script_log_info "Checking session: CHECKING"
+		fn_script_log_info "Checking port: CHECKING"
 		fn_sleep_time
-		fn_print_error "Checking port: Unable to query as queryport is not set: "
-		fn_print_error_eol_nl
-		fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
+		if [ -n "${rconenabled}" ]&&[ "${rconenabled}" != "true" ]&&[ ${shortname} == "av" ]; then
+			fn_print_warn "Checking port: Unable to query as rconport, rcon not enabled: "
+			fn_print_warn_eol_nl
+			fn_script_log_warn "Checking port: Unable to query rconport, rcon not enabled: WARN"
+		else
+			fn_print_error "Checking port: Unable to query queryport is not set: "
+			fn_print_error_eol_nl
+			fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
+		fi
 		fn_sleep_time
 		core_exit.sh
 	fi
@@ -108,7 +114,7 @@ for queryattempt in {1..5}; do
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	fn_sleep_time
 	# querydelay
-	if [ "$(cat "${rootdir}/${lockselfname}")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_delay_eol_nl
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
@@ -147,6 +153,9 @@ for queryattempt in {1..5}; do
 			if [ "${gdplayers}" ]; then
 				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
 			fi
+			if [ "${gdbots}" ]; then
+                fn_script_log_info "Bots: ${gdbots}"
+            fi
 			if [ "${gdmap}" ]; then
 				fn_script_log_info "Map: ${gdmap}"
 			fi

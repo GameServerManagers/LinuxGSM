@@ -6,7 +6,7 @@
 
 local modulename="ALERT"
 local commandaction="Alert"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF
 {
@@ -18,12 +18,12 @@ EOF
 )
 
 fn_print_dots "Sending Telegram alert"
-telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.telegram.org/bot${telegramtoken}/sendMessage" "${curlcustomstring}" | grep "error_code")
+telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${curlcustomstring} "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep "error_code")
 
 if [ "${telegramsend}" ]; then
-	fn_print_fail "Sending Telegram alert: ${telegramsend}"
+	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"
 	fn_script_log_fatal "Sending Telegram alert: ${telegramsend}"
 else
-	fn_print_ok "Sending Telegram alert"
+	fn_print_ok_nl "Sending Telegram alert"
 	fn_script_log_pass "Sent Telegram alert"
 fi

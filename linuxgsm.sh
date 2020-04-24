@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2019 Daniel Gibbs
+# License: MIT License, Copyright (c) 2020 Daniel Gibbs
 # Purpose: Linux Game Server Management Script
 # Contributors: https://linuxgsm.com/contrib
 # Documentation: https://docs.linuxgsm.com
@@ -20,20 +20,20 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.1.5"
+version="v20.2.0"
 shortname="core"
 gameservername="core"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
-lockselfname=".${selfname}.lock"
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
-steamcmddir="${rootdir}/steamcmd"
+steamcmddir="${HOME}/.steam/steamcmd"
 serverfiles="${rootdir}/serverfiles"
 functionsdir="${lgsmdir}/functions"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
+lockdir="${lgsmdir}/lock"
 serverlist="${datadir}/serverlist.csv"
 serverlistmenu="${datadir}/serverlistmenu.csv"
 configdir="${lgsmdir}/config-lgsm"
