@@ -48,8 +48,8 @@ fn_update_steamcmd_localbuild(){
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
 	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD.
-	if [ -f "${HOME}/Steam/appcache/appinfo.vdf" ]; then
-		rm -f "${HOME}/Steam/appcache/appinfo.vdf"
+	if [ -f "${HOME}/.steam/appcache/appinfo.vdf" ]; then
+		rm -f "${HOME}/.steam/appcache/appinfo.vdf"
 	fi
 
 	# Set branch for updateinfo.
