@@ -22,7 +22,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "cod2" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDuty2/cod2-lnxded-1.3-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod2-lnxded-1.3-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="b8c4c611f01627dd43348e78478a3d41"
 	elif [ "${shortname}" == "cod4" ]; then
-		remote_fileurl="http://linuxgsm.download/CallOfDuty4/cod4x18_1772_dedrun.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod4x18_1772_dedrun.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="de29f29d79f9cc24574b838daa501e46"
+		remote_fileurl="http://linuxgsm.download/CallOfDuty4/cod4x18_1772_dedrun.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod4x18_1772_dedrun.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="9e14f44be23a8068352e837c783db573"
 	elif [ "${shortname}" == "codwaw" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="codwaw-lnxded-1.7-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="2c6be1bb66ea631b9b2e7ae6216c6680"
 	elif [ "${shortname}" == "etl" ]; then
