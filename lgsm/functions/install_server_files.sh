@@ -20,7 +20,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "coduo" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDutyUnitedOffensive/coduo-lnxded-1.51b-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="coduo-lnxded-1.51b-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="35cabccd67adcda44aaebc59405915b9"
 	elif [ "${shortname}" == "cod2" ]; then
-		remote_fileurl="http://linuxgsm.download/CallOfDuty2/cod2-lnxded-1.3-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod2-lnxded-1.3-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="35cabccd67adcda44aaebc59405915b9"
+		remote_fileurl="http://linuxgsm.download/CallOfDuty2/cod2-lnxded-1.3-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod2-lnxded-1.3-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="b8c4c611f01627dd43348e78478a3d41"
 	elif [ "${shortname}" == "cod4" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDuty4/cod4x18_1772_dedrun.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod4x18_1772_dedrun.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="de29f29d79f9cc24574b838daa501e46"
 	elif [ "${shortname}" == "codwaw" ]; then
