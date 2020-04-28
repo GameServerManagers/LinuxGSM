@@ -22,11 +22,11 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "cod2" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDuty2/cod2-lnxded-1.3-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod2-lnxded-1.3-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="b8c4c611f01627dd43348e78478a3d41"
 	elif [ "${shortname}" == "cod4" ]; then
-		remote_fileurl="http://linuxgsm.download/CallOfDuty4/cod4x18_1772_dedrun.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod4x18_1772_dedrun.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="9e14f44be23a8068352e837c783db573"
+		remote_fileurl="http://linuxgsm.download/CallOfDuty4/cod4x18_1790_lnxded.tar.xz"; local_filedir="${tmpdir}"; local_filename="cod4x18_1790_lnxded.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="30609db2afde09d22498fbab3a427d11"
 	elif [ "${shortname}" == "codwaw" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="codwaw-lnxded-1.7-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="2c6be1bb66ea631b9b2e7ae6216c6680"
 	elif [ "${shortname}" == "etl" ]; then
-		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/etlegacy-v2.75-i386-et-260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="92d7d4c26e0a295daed78cef623eeabb"
+		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/etlegacy-v2.76-i386-et-260b.tar.xz"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="178a00233cec1e25b69d130107ce1a79"
 	elif [ "${shortname}" == "ges" ]; then
 		remote_fileurl="http://linuxgsm.download/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.xz"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e31481f280eed40c9145816bd4f6dc45"
 	elif [ "${shortname}" == "mohaa" ]; then
