@@ -52,7 +52,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "ut99" ]; then
 		remote_fileurl="http://linuxgsm.download/UnrealTournament99/ut99-server-451-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut99-server-451-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="42c6839f8cb95907eeef71a1838aa1f7"
 	elif [ "${shortname}" == "ut" ]; then
-		remote_fileurl="http://linuxgsm.download/UnrealTournament/UnrealTournament-Server-XAN-3525360-Linux.zip"; local_filedir="${tmpdir}"; local_filename="UnrealTournament-Server-XAN-3525360-Linux.zip";  chmodx="noexecute" run="norun"; force="noforce"; md5="cad730ad6793ba6261f9a341ad7396eb"
+		remote_fileurl="http://linuxgsm.download/UnrealTournament/UnrealTournament-Server-XAN-3525360-Linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="UnrealTournament-Server-XAN-3525360-Linux.zip";  chmodx="noexecute" run="norun"; force="noforce"; md5="41dd92015713a78211eaccf503b72393"
 	elif [ "${shortname}" == "ut3" ]; then
 		remote_fileurl="http://linuxgsm.download/UnrealTournament3/UT3-linux-server-2.1.tar.xz"; local_filedir="${tmpdir}"; local_filename="UT3-linux-server-2.1.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="6b92b083c7ab416399e2183a22fda1df"
 	elif [ "${shortname}" == "vs" ]; then
