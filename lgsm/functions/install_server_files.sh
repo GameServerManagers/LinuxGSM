@@ -58,7 +58,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "vs" ]; then
 		remote_fileurl="http://linuxgsm.download/VampireSlayer/vs_l-6.0_full.tar.xz"; local_filedir="${tmpdir}"; local_filename="vs_l-6.0_full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="b322f79e0abd31847493c52acf802667"
 	elif [ "${shortname}" == "wet" ]; then
-		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/enemy-territory.260b.tar.bz2"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="f833f514bfcdd46b42c111f83350c5a7"
+		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/enemy-territory.260b.tar.xz"; local_filedir="${tmpdir}"; local_filename="enemy-territory.260b.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="581a333cc7eacda2f56d5a00fe11eafa"
 	elif [ "${shortname}" == "samp" ]; then
 		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
 	elif [ "${shortname}" == "zmr" ]; then
