@@ -5,7 +5,7 @@
 # Description: Resolves various issues with ARK: Survival Evolved.
 
 # removes mulitple appworkshop_346110.acf if found.
-steamappsfilewc=$(find ${HOME} -name appworkshop_346110.acf | wc -c)
+steamappsfilewc=$(find ${HOME} -name appworkshop_346110.acf | wc -l)
 if [ "${steamappsfilewc}" -gt "1" ]; then
 	fixname="multiple appworkshop acf files"
 	fn_fix_msg_start
