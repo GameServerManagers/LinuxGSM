@@ -28,7 +28,7 @@ class gsquery:
         twquery=['teeworlds']
         unrealquery=['protocol-gamespy1','unreal']
         unreal2query=['protocol-unreal2','unreal2']
-        unreal2query=['ut3','unreal3']
+        unreal3query=['ut3','unreal3']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:
