@@ -143,7 +143,7 @@ fn_backup_compression(){
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
-		echo -e "${tarcmd}" | tee -a "${lgsmlog}"
+		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
