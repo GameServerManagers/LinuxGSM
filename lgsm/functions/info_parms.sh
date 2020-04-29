@@ -207,8 +207,6 @@ fn_info_parms_unreal3(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	adminpassword=${adminpassword:-"NOT SET"}
 }
 
 fn_info_parms_unturned(){
