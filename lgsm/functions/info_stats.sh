@@ -2,22 +2,30 @@
 # LinuxGSM info_stats.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Optional Stats to send to LinuxGSM Developer
-# Uses Google analytics
+# Description: Collect optional Stats sent to LinuxGSM project.
+# Uses Google analytics.
 
 info_distro.sh
-# generate uuid
-if [ ! -f "${datadir}/uuid.txt" ]; then
-	mkdir -p "${datadir}"
-	touch "${datadir}/uuid.txt"
-	if [ "$(command -v uuidgen 2>/dev/null)" ]; then
-		uuidgen > "${datadir}/uuid.txt"
-	else
-		cat /proc/sys/kernel/random/uuid > "${datadir}/uuid.txt"
-	fi
+
+# remove uuid that was used in v20.2.0 and below
+if [ -f "${datadir}/uuid.txt" ]; then
+		rm "${datadir:?}/uuid.txt"
 fi
 
-uuid=$(cat "${datadir}/uuid.txt")
+# generate docker style uuid name
+if [ ! -f "${datadir}/name-left.csv" ]; then
+	fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+fi
+if [ ! -f "${datadir}/name-right.csv" ]; then
+	fn_fetch_file_github "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+fi
+
+name-left="$(shuf -n 1 "${datadir}/name-left.csv")"
+name-right="$(shuf -n 1 "${datadir}/name-right.csv")"
+
+echo "${name-left}_${name-right}" "${datadir}/uuid-${selfname}.txt"
+
+uuid=$(cat "${datadir}/uuid-${selfname}.txt")
 # results are rounded up to reduce number of different results in analytics.
 # nearest 100Mhz.
 cpuusedmhzroundup=$(((cpuusedmhz + 99) / 100 * 100))
