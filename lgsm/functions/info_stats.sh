@@ -13,24 +13,27 @@ if [ -f "${datadir}/uuid.txt" ]; then
 fi
 
 # generate docker style uuid name
-if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
+if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.txt" ]; then
 	if [ ! -f "${datadir}/name-left.csv" ]; then
 		fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	fi
 	if [ ! -f "${datadir}/name-right.csv" ]; then
 		fn_fetch_file_github "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	fi
+fi
+
+if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
 	# instance uuid
 	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
 	echo "instance_${nameleft}_${nameright}" > "${datadir}/uuid-${selfname}.txt"
+fi
 
-
+if [ ! -f "${datadir}/uuid-install.txt" ]; then
 	# install uuid
 	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
 	echo "install_${nameleft}_${nameright}" > "${datadir}/uuid-install.txt"
-
 fi
 
 uuidinstance=$(cat "${datadir}/uuid-${selfname}.txt")
