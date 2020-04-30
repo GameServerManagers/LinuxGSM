@@ -34,7 +34,7 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
 fi
 
 uuidinstance=$(cat "${datadir}/uuid-${selfname}.txt")
-uuidinstall=$(cat "${datadir}/uuid-install.txt.txt")
+uuidinstall=$(cat "${datadir}/uuid-install.txt")
 
 # results are rounded up to reduce number of different results in analytics.
 # nearest 100Mhz.
