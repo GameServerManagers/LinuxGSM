@@ -19,13 +19,11 @@ fi
 if [ ! -f "${datadir}/name-right.csv" ]; then
 	fn_fetch_file_github "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 fi
-
-name-left="$(shuf -n 1 "${datadir}/name-left.csv")"
-name-right="$(shuf -n 1 "${datadir}/name-right.csv")"
-
-echo "${name-left}_${name-right}" "${datadir}/uuid-${selfname}.txt"
-
+nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
+nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
+echo "${nameleft}_${nameright}" > "${datadir}/uuid-${selfname}.txt"
 uuid=$(cat "${datadir}/uuid-${selfname}.txt")
+
 # results are rounded up to reduce number of different results in analytics.
 # nearest 100Mhz.
 cpuusedmhzroundup=$(((cpuusedmhz + 99) / 100 * 100))
