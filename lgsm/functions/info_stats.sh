@@ -24,14 +24,18 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
 	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
 	echo "instance_${nameleft}_${nameright}" > "${datadir}/uuid-${selfname}.txt"
-	uuidinstance=$(cat "${datadir}/uuid-${selfname}.txt")
+
 
 	# install uuid
 	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
 	echo "install_${nameleft}_${nameright}" > "${datadir}/uuid-install.txt"
-	uuidinstall=$(cat "${datadir}/uuid-install.txt.txt")
+
 fi
+
+uuidinstance=$(cat "${datadir}/uuid-${selfname}.txt")
+uuidinstall=$(cat "${datadir}/uuid-install.txt.txt")
+
 # results are rounded up to reduce number of different results in analytics.
 # nearest 100Mhz.
 cpuusedmhzroundup="$(((cpuusedmhz + 99) / 100 * 100))"
