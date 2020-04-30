@@ -13,14 +13,7 @@ if [ -f "${datadir}/uuid.txt" ]; then
 fi
 
 # generate docker style uuid name
-if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.txt" ]; then
-	# if either file exists remove it
-	if  [ -f "${datadir}/uuid-${selfname}.txt" ]; then
-		rm -f "${datadir:?}/uuid-${selfname}.txt"
-	fi
-	if [ -f "${datadir}/uuid-install.txt" ]; then
-		rm -f "${datadir}/uuid-install.txt"
-	fi
+if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
 
 	# download dictionary words
 	if [ ! -f "${datadir}/name-left.csv" ]; then
@@ -36,19 +29,13 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.t
 	else
 		uuid="$(cat /proc/sys/kernel/random/uuid)"
 	fi
-	# instance uuid
+
 	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
 	echo "instance_${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-${selfname}.txt"
-
-	# install uuid
-	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
-	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
-	echo "install_${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-install.txt"
 fi
 
 uuidinstance=$(cat "${datadir}/uuid-${selfname}.txt")
-uuidinstall=$(cat "${datadir}/uuid-install.txt")
 
 # results are rounded up to reduce number of different results in analytics.
 # nearest 100Mhz.
