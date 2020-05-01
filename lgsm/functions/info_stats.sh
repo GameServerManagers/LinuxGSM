@@ -17,7 +17,7 @@ fi
 # to allow human readable uuid's.
 # e.g angry_proskuriakova_38a9ef76-4ae3-46a6-a895-7af474831eba
 
-if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
+if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.txt" ]; then
 	# download dictionary words
 	if [ ! -f "${datadir}/name-left.csv" ]; then
 		fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
