@@ -38,7 +38,7 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
 	echo "instance_${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-${selfname}.txt"
 	# generate install uuid if missing
 	if [ ! -f "${datadir}/uuid-install.txt" ];then
-		echo "instance_${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-install.txt"
+		echo "${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-install.txt"
 	fi
 fi
 
