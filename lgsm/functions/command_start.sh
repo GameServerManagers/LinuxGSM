@@ -5,7 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local modulename="START"
+local commandname="START"
+local modulegroup="COMMAND"
 local commandaction="Starting"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

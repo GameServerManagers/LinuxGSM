@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if server executable exists.
 
-local modulename="CHECK"
+local modulegroup="CHECK"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists

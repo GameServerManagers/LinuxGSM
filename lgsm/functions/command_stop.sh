@@ -5,7 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
-local modulename="STOP"
+local commandname="STOP"
+local modulegroup="COMMAND"
 local commandaction="Stopping"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

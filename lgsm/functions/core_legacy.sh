@@ -4,6 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
+local modulegroup="CORE"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 if [ -z "${serverfiles}" ]; then
 	legacymode=1
 	serverfiles="${filesdir}"

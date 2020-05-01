@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if systemdir/serverfiles is accessible.
 
-local modulename="CHECK"
+local modulegroup="CHECK"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${function_selfname}" != "command_validate.sh" ]; then

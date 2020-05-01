@@ -5,8 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 
-local modulename="INSTALL"
-local commandaction="Install"
+local commandname="INSTALL"
+local modulegroup="COMMAND"
+local commandaction="Installing"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh

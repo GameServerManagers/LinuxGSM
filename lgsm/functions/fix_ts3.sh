@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Teamspeak 3.
 
-local modulename="FIX"
-local commandaction="Fix"
+local modulegroup="FIX"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: makes libmariadb2 available #1924.

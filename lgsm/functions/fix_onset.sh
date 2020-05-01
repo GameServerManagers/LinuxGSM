@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Onset.
 
-local modulename="FIX"
-local commandaction="Fix"
+local modulegroup="FIX"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"

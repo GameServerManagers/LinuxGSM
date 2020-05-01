@@ -4,7 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Restarts the server.
 
-local modulename="RESTART"
+local commandname="MODS-INSTALL"
+local modulegroup="COMMAND"
 local commandaction="Restarting"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

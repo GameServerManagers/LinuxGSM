@@ -4,6 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
+local modulegroup="INSTALL"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 if [ "${shortname}" == "ts3" ]; then
 	eulaurl="https://www.teamspeak.com/en/privacy-and-terms"
 elif [ "${shortname}" == "mc" ]; then

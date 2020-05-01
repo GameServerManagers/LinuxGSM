@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Prints installation completion message and hints.
 
-local modulename="INSTALL"
-local commandaction="Install"
+local modulegroup="INSTALL"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""

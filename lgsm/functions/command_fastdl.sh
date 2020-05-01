@@ -5,8 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
-local modulename="FASTDL"
-local commandaction="FastDL"
+local commandname="FASTDL"
+local modulegroup="COMMAND"
+local commandaction="Fastdl"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh

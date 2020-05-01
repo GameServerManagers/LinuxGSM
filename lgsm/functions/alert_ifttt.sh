@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends IFTTT alert.
 
-local modulename="ALERT"
-local commandaction="Alert"
+local modulegroup="ALERT"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF

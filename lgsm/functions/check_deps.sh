@@ -4,7 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks if required dependencies are installed for LinuxGSM.
 
-local modulename="CHECK"
+local modulegroup="CHECK"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then

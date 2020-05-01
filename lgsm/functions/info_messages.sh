@@ -4,6 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 
+local modulegroup="INFO"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # Standard Details
 # This applies to all engines
 

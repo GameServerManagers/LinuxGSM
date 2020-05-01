@@ -4,8 +4,7 @@
 # Website: https://github.com/vectorsigma
 # Description: Resolves various issues with Team Fortress 2.
 
-local modulename="FIX"
-local commandaction="Fix"
+local modulegroup="FIX"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: Team Fortress 2 Segmentation fault for Red-Hat Distros #2062.

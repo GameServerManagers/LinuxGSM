@@ -5,6 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
+local modulegroup="CORE"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # nl: new line: message is following by a new line.
 # eol: end of line: message is placed at the end of the current line.
 fn_ansi_loader(){
@@ -46,8 +49,8 @@ fn_sleep_time(){
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: ${1}" >> "${lgsmlog}"
+		if [ "${modulegroup}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${1}" >> "${lgsmlog}"
 		fi
@@ -58,8 +61,8 @@ fn_script_log(){
 fn_script_log_pass(){
 	if [ -d "${lgsmlogdir}" ]; then
 
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: PASS: ${1}" >> "${lgsmlog}"
+		if [ "${modulegroup}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: PASS: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: PASS: ${1}" >> "${lgsmlog}"
 		fi
@@ -70,8 +73,8 @@ fn_script_log_pass(){
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: FATAL: ${1}" >> "${lgsmlog}"
+		if [ "${modulegroup}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: FATAL: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FATAL: ${1}" >> "${lgsmlog}"
 		fi
@@ -82,8 +85,8 @@ fn_script_log_fatal(){
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: ERROR: ${1}" >> "${lgsmlog}"
+		if [ "${modulegroup}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: ERROR: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ERROR: ${1}" >> "${lgsmlog}"
 		fi
@@ -94,8 +97,8 @@ fn_script_log_error(){
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: WARN: ${1}" >> "${lgsmlog}"
+		if [ "${modulegroup}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: WARN: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: WARN: ${1}" >> "${lgsmlog}"
 		fi
@@ -106,8 +109,8 @@ fn_script_log_warn(){
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: INFO: ${1}" >> "${lgsmlog}"
+		if [ "${modulegroup}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: INFO: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: INFO: ${1}" >> "${lgsmlog}"
 		fi

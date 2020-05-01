@@ -5,8 +5,8 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-local modulename="FIX"
-local commandaction="Fix"
+local modulegroup="FIX"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Messages that are displayed for some fixes.
 fn_fix_msg_start(){

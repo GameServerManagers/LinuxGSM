@@ -5,6 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
+local modulegroup="INFO"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files.

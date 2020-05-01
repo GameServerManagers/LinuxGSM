@@ -5,7 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
-local modulename="CHECK"
+local modulegroup="CHECK"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then

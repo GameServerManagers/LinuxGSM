@@ -8,8 +8,7 @@
 # Usage: Then add this array to the mods_global_array.
 # Usage: If needed, you can scrape the download URL first.
 
-local modulename="MODS"
-local commandaction="List Mods"
+local modulegroup="MODS"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Get a proper URL for mods that don't provide a good one (optional)

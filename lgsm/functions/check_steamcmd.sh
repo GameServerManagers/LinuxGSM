@@ -4,7 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks if SteamCMD is installed correctly.
 
-local modulename="CHECK"
+local modulegroup="CHECK"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_steamcmd(){
 	if [ ${shortname} == "ark" ]&&[ "${installsteamcmd}" == "1" ]; then
