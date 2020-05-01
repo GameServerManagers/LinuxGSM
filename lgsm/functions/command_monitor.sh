@@ -141,11 +141,7 @@ for queryattempt in {1..5}; do
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
 		fn_sleep_time
 		monitorpass=1
-		# send LinuxGSM stats if monitor is OK.
-		if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
-			info_stats.sh
-		fi
-    if [ "${querystatus}" == "0" ]; then
+		if [ "${querystatus}" == "0" ]; then
 			# Add query data to log.
 			if [ "${gdname}" ]; then
 				fn_script_log_info "Server name: ${gdname}"
@@ -154,13 +150,18 @@ for queryattempt in {1..5}; do
 				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
 			fi
 			if [ "${gdbots}" ]; then
-                fn_script_log_info "Bots: ${gdbots}"
-            fi
+				fn_script_log_info "Bots: ${gdbots}"
+			fi
 			if [ "${gdmap}" ]; then
 				fn_script_log_info "Map: ${gdmap}"
 			fi
 			if [ "${gdgamemode}" ]; then
 				fn_script_log_info "Game Mode: ${gdgamemode}"
+			fi
+
+			# send LinuxGSM stats if monitor is OK.
+			if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
+				info_stats.sh
 			fi
 		fi
 		core_exit.sh
