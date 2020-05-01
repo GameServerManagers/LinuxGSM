@@ -32,7 +32,7 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]; then
 
 	nameleft="$(shuf -n 1 "${datadir}/name-left.csv")"
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
-	echo "instance_${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-${selfname}.txt"
+	echo "${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-${selfname}.txt"
 fi
 
 uuidinstance=$(cat "${datadir}/uuid-${selfname}.txt")
