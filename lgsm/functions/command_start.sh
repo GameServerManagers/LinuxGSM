@@ -5,10 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local commandname="START"
-local modulegroup="COMMAND"
-local commandaction="Starting"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="START"
+modulegroup="COMMAND"
+commandaction="Starting"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then

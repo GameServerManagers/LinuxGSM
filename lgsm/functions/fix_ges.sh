@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with GoldenEye: Source.
 
-local modulegroup="FIX"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="FIX"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: MALLOC_CHECK_ needing to be set to 0.
 export MALLOC_CHECK_=0

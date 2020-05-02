@@ -5,8 +5,8 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local modulegroup="INFO"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="INFO"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then

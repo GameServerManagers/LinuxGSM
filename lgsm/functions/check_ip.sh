@@ -5,8 +5,8 @@
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
-local modulegroup="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="CHECK"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then

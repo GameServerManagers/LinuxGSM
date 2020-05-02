@@ -5,10 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 
-local commandname="INSTALL"
-local modulegroup="COMMAND"
-local commandaction="Installing"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="INSTALL"
+modulegroup="COMMAND"
+commandaction="Installing"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 if [ "$(whoami)" = "root" ]; then

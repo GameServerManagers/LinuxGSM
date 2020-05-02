@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Configures Don't Starve Together cluster with given token.
 
-local modulegroup="INSTALL"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="INSTALL"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Enter ${gamename} Cluster Token${default}"

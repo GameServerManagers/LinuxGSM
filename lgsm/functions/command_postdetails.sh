@@ -5,10 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-local commandname="POST-DETAILS"
-local modulegroup="COMMAND"
-local commandaction="Posting details"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="POST-DETAILS"
+modulegroup="COMMAND"
+commandaction="Posting details"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Set posttarget to the appropriately-defined post destination.
 

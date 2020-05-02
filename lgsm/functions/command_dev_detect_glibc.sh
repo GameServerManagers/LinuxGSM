@@ -5,10 +5,10 @@
 # Description: Automatically detects the version of GLIBC that is required.
 # Can check a file or directory recursively.
 
-local commandname="DEV-DETECT-GLIBC"
-local modulegroup="COMMAND"
-local commandaction="Developer detect glibc"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEV-DETECT-GLIBC"
+modulegroup="COMMAND"
+commandaction="Developer detect glibc"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "glibc Requirements Checker"

@@ -5,10 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
-local commandname="MODS-INSTALL"
-local modulegroup="COMMAND"
-local commandaction="Installing mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="MODS-INSTALL"
+modulegroup="COMMAND"
+commandaction="Installing mods"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 mods_core.sh

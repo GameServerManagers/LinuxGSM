@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Handles exiting of LinuxGSM by running and reporting an exit code.
 
-local modulegroup="CORE"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="CORE"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_exit_dev_debug(){
 	if [ -f "${rootdir}/.dev-debug" ]; then

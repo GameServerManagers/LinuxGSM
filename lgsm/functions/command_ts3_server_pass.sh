@@ -5,10 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Changes TS3 serveradmin password.
 
-local commandname="CHANGE-PASSWORD"
-local modulegroup="COMMAND"
-local commandaction="Changing password"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="CHANGE-PASSWORD"
+modulegroup="COMMAND"
+commandaction="Changing password"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_serveradmin_password_prompt(){
 	fn_print_header

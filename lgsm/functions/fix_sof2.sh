@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Soldier of Fortune 2.
 
-local modulegroup="FIX"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="FIX"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Fixes: error while loading shared libraries: libcxa.so.1
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"

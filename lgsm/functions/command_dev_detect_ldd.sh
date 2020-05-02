@@ -5,10 +5,10 @@
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 
-local commandname="DEV-DETECT-LDD"
-local modulegroup="COMMAND"
-local commandaction="Developer detect ldd"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEV-DETECT-LDD"
+modulegroup="COMMAND"
+commandaction="Developer detect ldd"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "Shared Object dependencies Checker"

@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Handles CTRL-C trap to give an exit code.
 
-local modulegroup="CORE"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="CORE"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_exit_trap(){
 	echo -e ""

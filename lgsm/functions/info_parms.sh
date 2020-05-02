@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
-local modulegroup="INFO"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="INFO"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo

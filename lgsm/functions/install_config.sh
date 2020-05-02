@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
-local modulegroup="INSTALL"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="INSTALL"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir(){

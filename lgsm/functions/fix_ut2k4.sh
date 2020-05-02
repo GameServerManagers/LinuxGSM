@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament 2004.
 
-local modulegroup="FIX"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="FIX"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "applying WebAdmin ut2003.css fix."
 echo -e "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

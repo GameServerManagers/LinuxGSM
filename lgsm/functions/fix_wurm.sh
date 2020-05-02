@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Wurm Unlimited.
 
-local modulegroup="FIX"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="FIX"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Copies steamclient.so to correct location.
 if [ ! -f "${serverfiles}/nativelibs" ]; then

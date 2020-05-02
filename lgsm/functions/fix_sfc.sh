@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Source Forts Classic.
 
-local modulegroup="FIX"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="FIX"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ ! -f "${serverfiles}/bin/datacache.so" ]; then
 	ln -s "${serverfiles}/bin/datacache_srv.so" "${serverfiles}/bin/datacache.so"

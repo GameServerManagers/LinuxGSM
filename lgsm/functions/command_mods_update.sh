@@ -5,10 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
-local commandname="MODS-UPDATE"
-local modulegroup="COMMAND"
-local commandaction="Updating mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="MODS-UPDATE"
+modulegroup="COMMAND"
+commandaction="Updating mods"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 mods_core.sh

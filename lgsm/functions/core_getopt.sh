@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
-local modulegroup="CORE"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="CORE"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Define all commands here.
 ## User commands | Trigger commands | Description

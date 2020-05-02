@@ -4,8 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Checks if the server has the correct Glibc version.
 
-local modulegroup="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulegroup="CHECK"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 

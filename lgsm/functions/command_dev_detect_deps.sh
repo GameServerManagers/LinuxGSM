@@ -4,10 +4,10 @@
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
-local commandname="DEV-DETECT-DEPS"
-local modulegroup="COMMAND"
-local commandaction="Developer detect deps"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEV-DETECT-DEPS"
+modulegroup="COMMAND"
+commandaction="Developer detect deps"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "Dependencies Checker"
