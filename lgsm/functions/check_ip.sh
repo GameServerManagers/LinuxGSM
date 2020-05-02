@@ -25,9 +25,9 @@ if [ "${travistest}" != "1" ]; then
 		# Multiple interfaces.
 		if [ "${getipwc}" -ge "2" ]; then
 			if [ "${commandname}" == "details" ]; then
-					fn_print_warn "Check IP: Multiple IP addresses found."
+				fn_print_warn "Check IP: Multiple IP addresses found."
 			else
-					fn_print_fail "Check IP: Multiple IP addresses found."
+				fn_print_fail "Check IP: Multiple IP addresses found."
 			fi
 			echo -en "\n"
 			# IP is set within game config.
@@ -78,7 +78,7 @@ if [ "${travistest}" != "1" ]; then
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 			if [ "${commandname}" != "DETAILS" ]; then
-					core_exit.sh
+				core_exit.sh
 			fi
 		else
 			fn_print_info_nl "Check IP: ${getip}"
