@@ -104,12 +104,14 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	# we need in "key".  TODO - error handling. -CedarLUG
 	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
 	fn_print_ok_nl "hastebin.com for ${postexpire}"
+	fn_script_log_pass "hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
 # Termbin
 elif [ "${posttarget}" == "https://termbin.com" ] ; then
 	fn_print_dots "termbin.com"
 	link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
 	fn_print_ok_nl "termbin.com for 30D"
+	fn_script_log_pass "termbin.com for 30D"
 	pdurl="${link}"
 fi
 echo -e ""
