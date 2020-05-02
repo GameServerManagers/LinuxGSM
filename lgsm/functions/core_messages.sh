@@ -50,7 +50,7 @@ fn_sleep_time(){
 fn_script_log(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ "${modulegroup}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${modulegroup}: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${1}" >> "${lgsmlog}"
 		fi
@@ -62,7 +62,7 @@ fn_script_log_pass(){
 	if [ -d "${lgsmlogdir}" ]; then
 
 		if [ "${modulegroup}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: PASS: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${modulegroup}: PASS: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: PASS: ${1}" >> "${lgsmlog}"
 		fi
@@ -74,7 +74,7 @@ fn_script_log_pass(){
 fn_script_log_fatal(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ "${modulegroup}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: FATAL: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${modulegroup}: FATAL: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FATAL: ${1}" >> "${lgsmlog}"
 		fi
@@ -86,7 +86,7 @@ fn_script_log_fatal(){
 fn_script_log_error(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ "${modulegroup}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: ERROR: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${modulegroup}: ERROR: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ERROR: ${1}" >> "${lgsmlog}"
 		fi
@@ -98,7 +98,7 @@ fn_script_log_error(){
 fn_script_log_warn(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ "${modulegroup}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: WARN: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${modulegroup}: WARN: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: WARN: ${1}" >> "${lgsmlog}"
 		fi
@@ -110,7 +110,7 @@ fn_script_log_warn(){
 fn_script_log_info(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ "${modulegroup}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulegroup}: INFO: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${modulegroup}: INFO: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: INFO: ${1}" >> "${lgsmlog}"
 		fi
