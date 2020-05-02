@@ -13,7 +13,7 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/bin"
 
 # Fixes: issue #529 - gamemode not passed to debug or start.
 
-if [ "${function_selfname}" == "command_debug.sh" ]; then
+if [ "${commandname}" == "DEBUG" ]; then
 	defaultmap="\"${defaultmap}\""
 else
 	defaultmap="\\\"${defaultmap}\\\""

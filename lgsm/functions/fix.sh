@@ -32,7 +32,7 @@ fn_fix_msg_end(){
 }
 
 # Fixes that are run on start.
-if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; then
+if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 	if [ "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
@@ -89,7 +89,7 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 fi
 
 # Fixes that are run on install only.
-if [ "${function_selfname}" == "command_install.sh" ]; then
+if [ "${commandname}" == "INSTALL" ]; then
 		if [ "${shortname}" == "av" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"

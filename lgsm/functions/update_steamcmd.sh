@@ -223,7 +223,7 @@ fn_stop_warning(){
 
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
-check.sh
+check_steamcmd.sh
 
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.

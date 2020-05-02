@@ -1510,7 +1510,7 @@ fn_info_message_select_engine(){
 
 # Separator is different for details
 fn_messages_separator(){
-	if [ "${function_selfname}" == "command_details.sh" ]; then
+	if [ "${commandname}" == "details" ]; then
 		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	else
 		echo -e "================================="
@@ -1519,7 +1519,7 @@ fn_messages_separator(){
 
 # Removes the passwords form all but details
 fn_info_message_password_strip(){
-	if [ "${function_selfname}" != "command_details.sh" ]; then
+	if [ "${commandname}" != "DETAILS" ]; then
 		if [ "${serverpassword}" ]; then
 			serverpassword="********"
 		fi

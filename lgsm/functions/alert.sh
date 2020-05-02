@@ -100,23 +100,23 @@ fn_alert_log
 if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 	exitbypass=1
 	command_postdetails.sh
-elif [ "${postalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${postalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "More Info not enabled"
 	fn_script_log_warn "More Info alerts not enabled"
-elif [ -z "${posttarget}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${posttarget}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "posttarget not set"
 	fn_script_error "posttarget not set"
-elif [ -z "${postdays}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${postdays}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "postdays not set"
 	fn_script_error "postdays not set"
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then
 	alert_discord.sh
-elif [ "${discordalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${discordalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Discord alerts not enabled"
 	fn_script_log_warn "Discord alerts not enabled"
-elif [ -z "${discordtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${discordtoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Discord token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/discord"
 	fn_script_error "Discord token not set"
@@ -124,20 +124,20 @@ fi
 
 if [ "${emailalert}" == "on" ]&&[ -n "${email}" ]; then
 	alert_email.sh
-elif [ "${emailalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${emailalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Email alerts not enabled"
 	fn_script_log_warn "Email alerts not enabled"
-elif [ -z "${email}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${email}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Email not set"
 	fn_script_log_error "Email not set"
 fi
 
 if [ "${iftttalert}" == "on" ]&&[ -n "${iftttalert}" ]; then
 	alert_ifttt.sh
-elif [ "${iftttalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${iftttalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "IFTTT alerts not enabled"
 	fn_script_log_warn "IFTTT alerts not enabled"
-elif [ -z "${ifttttoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${ifttttoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "IFTTT token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/ifttt"
 	fn_script_error "IFTTT token not set"
@@ -145,10 +145,10 @@ fi
 
 if [ "${mailgunalert}" == "on" ]&&[ -n "${mailgunalert}" ]; then
 	alert_mailgun.sh
-elif [ "${mailgunalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${mailgunalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Mailgun alerts not enabled"
 	fn_script_log_warn "Mailgun alerts not enabled"
-elif [ -z "${mailguntoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${mailguntoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Mailgun token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/mailgun"
 	fn_script_error "Mailgun token not set"
@@ -156,10 +156,10 @@ fi
 
 if [ "${pushbulletalert}" == "on" ]&&[ -n "${pushbullettoken}" ]; then
 	alert_pushbullet.sh
-elif [ "${pushbulletalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${pushbulletalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Pushbullet alerts not enabled"
 	fn_script_log_warn "Pushbullet alerts not enabled"
-elif [ -z "${pushbullettoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${pushbullettoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Pushbullet token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/pushbullet"
 	fn_script_error "Pushbullet token not set"
@@ -167,10 +167,10 @@ fi
 
 if [ "${pushoveralert}" == "on" ]&&[ -n "${pushoveralert}" ]; then
 	alert_pushover.sh
-elif [ "${pushoveralert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${pushoveralert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Pushover alerts not enabled"
 	fn_script_log_warn "Pushover alerts not enabled"
-elif [ -z "${pushovertoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${pushovertoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Pushover token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/pushover"
 	fn_script_error "Pushover token not set"
@@ -178,14 +178,14 @@ fi
 
 if [ "${telegramalert}" == "on" ]&&[ -n "${telegramtoken}" ]; then
 	alert_telegram.sh
-elif [ "${telegramalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${telegramalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Telegram Messages not enabled"
 	fn_script_log_warn "Telegram Messages not enabled"
-elif [ -z "${telegramtoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${telegramtoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Telegram token not set."
 	echo -e "* https://docs.linuxgsm.com/alerts/telegram"
 	fn_script_error "Telegram token not set."
-elif [ -z "${telegramchatid}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${telegramchatid}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Telegram chat id not set."
 	echo -e "* https://docs.linuxgsm.com/alerts/telegram"
 	fn_script_error "Telegram chat id not set."
@@ -193,10 +193,10 @@ fi
 
 if [ "${slackalert}" == "on" ]&&[ -n "${slackalert}" ]; then
 	alert_slack.sh
-elif [ "${slackalert}" != "on" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ "${slackalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Slack alerts not enabled"
 	fn_script_log_warn "Slack alerts not enabled"
-elif [ -z "${slacktoken}" ]&&[ "${function_selfname}" == "command_test_alert.sh" ]; then
+elif [ -z "${slacktoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Slack token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/slack"
 	fn_script_error "Slack token not set"

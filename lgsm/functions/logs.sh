@@ -17,7 +17,7 @@ fi
 
 # For games not displaying a console, and having logs into their game directory.
 check_status.sh
-if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -n "${gamelogfile}" ]; then
+if [ "${status}" != "0" ]&&[ "${commandname}" == "START" ]&&[ -n "${gamelogfile}" ]; then
 	if [ "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"

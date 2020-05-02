@@ -28,7 +28,7 @@ if [ -z "${autoinstall}" ]; then
 	if ! fn_prompt_yn "Continue?" Y; then
 		core_exit.sh
 	fi
-elif [ "${function_selfname}" == "command_start.sh" ]; then
+elif [ "${commandname}" == "START" ]; then
 	fn_print_info "By continuing you are indicating your agreement to the EULA."
 	echo -e ""
 	sleep 5
