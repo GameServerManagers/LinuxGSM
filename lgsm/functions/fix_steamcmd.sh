@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues related to SteamCMD.
 
-local modulename="FIX"
-local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Helps fix: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
 if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then

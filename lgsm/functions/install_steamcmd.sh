@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Downloads SteamCMD on install.
 
-local modulename="INSTALL"
-local commandaction="Install"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Installing SteamCMD${default}"

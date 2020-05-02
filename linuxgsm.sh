@@ -23,6 +23,7 @@ fi
 version="v20.2.0"
 shortname="core"
 gameservername="core"
+commandname="CORE"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 lgsmdir="${rootdir}/lgsm"

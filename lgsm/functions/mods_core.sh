@@ -5,9 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Core functions for mods list/install/update/remove
 
-local modulename="MODS"
-local commandaction="Mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories.
 modsdir="${lgsmdir}/mods"

@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Enabled LinuxGSM Stats.
 
-local modulename="INSTALL"
-local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}LinuxGSM Stats${default}"

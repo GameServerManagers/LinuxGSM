@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if required dependencies are installed for LinuxGSM.
 
-local modulename="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
@@ -171,14 +171,14 @@ if [ "${javacheck}" == "1" ]; then
 	if [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${green}${deptocheck}${default}"
 			fn_sleep_time
 		fi
 	else
 		# If dependency is not found.
 		missingdep=1
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${red}${deptocheck}${default}"
 			fn_sleep_time
 		fi
@@ -272,7 +272,7 @@ fn_found_missing_deps(){
 				fi
 				if [ "${steamcmdfail}" ]; then
 					echo -e ""
-					if [ "${function_selfname}" == "command_install.sh" ]; then
+					if [ "${commandname}" == "INSTALL" ]; then
 						fn_print_failure_nl "Missing dependencies required to run SteamCMD."
 						fn_script_log_fatal "Missing dependencies required to run SteamCMD."
 						core_exit.sh
@@ -298,7 +298,7 @@ fn_found_missing_deps(){
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo -e ""
-				if [ "${function_selfname}" == "command_install.sh" ]; then
+				if [ "${commandname}" == "INSTALL" ]; then
 					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
 					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
 					core_exit.sh
@@ -309,11 +309,11 @@ fn_found_missing_deps(){
 			fi
 			echo -e ""
 		fi
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			sleep 5
 		fi
 	else
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			fn_print_information_nl "Required dependencies already installed."
 			fn_script_log_info "Required dependencies already installed."
 		fi
@@ -550,7 +550,7 @@ fn_deps_build_redhat(){
 	fn_check_loop
 }
 
-if [ "${function_selfname}" == "command_install.sh" ]; then
+if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies as root${default}"
