@@ -5,9 +5,8 @@
 # Description: Handles updating of servers.
 
 commandname="UPDATE"
-
 commandaction="Updating"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots ""
 check.sh

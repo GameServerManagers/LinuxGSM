@@ -6,9 +6,8 @@
 # Description: Starts the server.
 
 commandname="START"
-
 commandaction="Starting"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then

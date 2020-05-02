@@ -5,8 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo

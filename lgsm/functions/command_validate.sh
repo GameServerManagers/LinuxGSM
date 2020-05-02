@@ -5,9 +5,8 @@
 # Description: Runs a server validation.
 
 commandname="VALIDATE"
-
 commandaction="Validating"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validate(){
 	fn_script_log_warn "Validating server: SteamCMD: Validate might overwrite some customised files"

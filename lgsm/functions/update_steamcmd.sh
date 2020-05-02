@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating using SteamCMD.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_steamcmd_dl(){
 	info_config.sh

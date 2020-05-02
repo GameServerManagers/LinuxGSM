@@ -5,7 +5,6 @@
 # Website: https://linuxgsm.com
 # Description: Checks the process status of the server. Either online or offline.
 
-modulegroup="CHECK"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 status=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -Ecx "^${selfname}")

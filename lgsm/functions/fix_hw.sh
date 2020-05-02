@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Hurtworld.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "hw" ]; then
 	# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.

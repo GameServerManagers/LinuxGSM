@@ -5,9 +5,8 @@
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
 commandname="UPDATE-LGSM"
-
 commandaction="Updating LinuxGSM"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Updating LinuxGSM"
 check.sh

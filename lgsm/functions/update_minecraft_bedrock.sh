@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft Bedrock servers.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
 	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')

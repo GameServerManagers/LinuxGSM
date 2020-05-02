@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Insurgency.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: ./srcds_linux: error while loading shared libraries: libtier0.so: cannot open shared object file: No such file or directory.
 

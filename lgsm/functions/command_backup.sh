@@ -6,9 +6,8 @@
 # Description: Creates a .tar.gz file in the backup directory.
 
 commandname="BACKUP"
-modulegroup="COMMAND"
 commandaction="Backing up"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 

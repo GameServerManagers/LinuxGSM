@@ -6,9 +6,8 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-GLIBC"
-
 commandaction="Developer detect glibc"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "glibc Requirements Checker"

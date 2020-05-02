@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Prints installation header.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 clear
 fn_print_ascii_logo

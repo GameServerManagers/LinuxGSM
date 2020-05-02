@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
-modulegroup="ALERT"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_alert_log(){
 	info_distro.sh

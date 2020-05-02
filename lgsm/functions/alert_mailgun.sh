@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Mailgun Email alert.
 
-modulegroup="ALERT"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
 

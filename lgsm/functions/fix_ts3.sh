@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Teamspeak 3.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: makes libmariadb2 available #1924.
 if [ ! -f "${serverfiles}/libmariadb.so.2" ]; then

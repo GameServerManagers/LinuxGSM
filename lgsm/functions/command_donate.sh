@@ -5,9 +5,8 @@
 # Description: Shows ways to donate.
 
 commandname="DONATE"
-
 commandaction="Donate"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_ascii_logo
 echo -e "${lightyellow}Support LinuxGSM${default}"

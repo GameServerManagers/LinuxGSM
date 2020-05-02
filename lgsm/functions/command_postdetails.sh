@@ -6,9 +6,8 @@
 # Description: Strips sensitive information out of Details output
 
 commandname="POST-DETAILS"
-
 commandaction="Posting details"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Set posttarget to the appropriately-defined post destination.
 

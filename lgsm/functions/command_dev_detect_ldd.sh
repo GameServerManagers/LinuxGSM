@@ -6,9 +6,8 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-LDD"
-
 commandaction="Developer detect ldd"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "Shared Object dependencies Checker"

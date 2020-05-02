@@ -5,9 +5,8 @@
 # Description: Raw gamedig output of the server.
 
 commandname="DEV-QUERY-RAW"
-
 commandaction="Developer query raw"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 info_config.sh

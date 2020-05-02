@@ -7,9 +7,8 @@
 # then passes to gamedig and gsquery.
 
 commandname="MONITOR"
-
 commandaction="Monitoring"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.

@@ -6,9 +6,8 @@
 # Description: Overall function for the installer.
 
 commandname="INSTALL"
-
 commandaction="Installing"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 if [ "$(whoami)" = "root" ]; then

@@ -5,9 +5,8 @@
 # Description: Runs the server without tmux and directly from the terminal.
 
 commandname="DEBUG"
-modulegroup="COMMAND"
 commandaction="Debuging"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){

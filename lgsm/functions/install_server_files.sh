@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs server files.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){
 	if [ "${shortname}" == "ahl" ]; then

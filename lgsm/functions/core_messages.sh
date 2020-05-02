@@ -5,8 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # nl: new line: message is following by a new line.
 # eol: end of line: message is placed at the end of the current line.

@@ -6,9 +6,8 @@
 # Description: Displays server information.
 
 commandname="DETAILS"
-modulegroup="COMMAND"
 commandaction="Viewing details"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Run checks and gathers details to display.
 check.sh

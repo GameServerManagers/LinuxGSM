@@ -6,9 +6,8 @@
 # Description: Stops the server.
 
 commandname="STOP"
-
 commandaction="Stopping"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc(){

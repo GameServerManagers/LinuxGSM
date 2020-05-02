@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
-
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "ts3" ]; then
 	eulaurl="https://www.teamspeak.com/en/privacy-and-terms"

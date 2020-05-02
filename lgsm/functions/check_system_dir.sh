@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if systemdir/serverfiles is accessible.
 
-modulegroup="CHECK"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${commandname}" != "VALIDATE" ]; then
 	checkdir="${serverfiles}"
