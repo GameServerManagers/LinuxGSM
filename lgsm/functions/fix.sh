@@ -5,7 +5,7 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Messages that are displayed for some fixes.

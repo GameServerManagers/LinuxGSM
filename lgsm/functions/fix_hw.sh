@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Hurtworld.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "hw" ]; then

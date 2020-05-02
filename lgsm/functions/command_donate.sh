@@ -5,7 +5,7 @@
 # Description: Shows ways to donate.
 
 commandname="DONATE"
-modulegroup="COMMAND"
+
 commandaction="Donate"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

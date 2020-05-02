@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves startup issue with Unturned.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # steamclient.so: cannot open shared object file: No such file or directory

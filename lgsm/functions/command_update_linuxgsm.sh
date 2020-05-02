@@ -5,7 +5,7 @@
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 
 commandname="UPDATE-LGSM"
-modulegroup="COMMAND"
+
 commandaction="Updating LinuxGSM"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

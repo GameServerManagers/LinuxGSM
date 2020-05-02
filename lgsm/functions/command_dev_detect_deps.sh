@@ -5,7 +5,7 @@
 # Description: Detects dependencies the server binary requires.
 
 commandname="DEV-DETECT-DEPS"
-modulegroup="COMMAND"
+
 commandaction="Developer detect deps"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

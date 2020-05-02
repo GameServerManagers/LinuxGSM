@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs server files.
 
-modulegroup="INSTALL"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_server_files(){

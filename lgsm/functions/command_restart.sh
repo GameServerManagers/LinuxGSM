@@ -5,7 +5,7 @@
 # Description: Restarts the server.
 
 commandname="MODS-INSTALL"
-modulegroup="COMMAND"
+
 commandaction="Restarting"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

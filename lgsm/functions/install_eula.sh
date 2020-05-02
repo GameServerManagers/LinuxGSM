@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
-modulegroup="INSTALL"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "ts3" ]; then

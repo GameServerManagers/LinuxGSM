@@ -6,7 +6,7 @@
 # Description: Strips sensitive information out of Details output
 
 commandname="POST-DETAILS"
-modulegroup="COMMAND"
+
 commandaction="Posting details"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

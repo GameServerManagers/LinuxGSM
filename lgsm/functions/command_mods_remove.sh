@@ -6,7 +6,7 @@
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-REMOVE"
-modulegroup="COMMAND"
+
 commandaction="Removing mods"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

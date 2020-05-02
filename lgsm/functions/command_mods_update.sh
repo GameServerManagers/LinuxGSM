@@ -6,7 +6,7 @@
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-UPDATE"
-modulegroup="COMMAND"
+
 commandaction="Updating mods"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

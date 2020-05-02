@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Asks for installation retry after failure.
 
-modulegroup="INSTALL"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if fn_prompt_yn "Retry install?" Y; then

@@ -26,7 +26,7 @@ if [ "${commandname}" != "INSTALL" ]&&[ "${commandname}" != "UPDATE-LGSM" ]&&[ "
 	check_system_dir.sh
 fi
 
-local allowed_commands_array=( START DEBUG )
+allowed_commands_array=( START DEBUG )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -35,7 +35,7 @@ do
 done
 
 if [ "$(whoami)" != "root" ]; then
-	local allowed_commands_array=( DEBUG START INSTALL )
+	allowed_commands_array=( DEBUG START INSTALL )
 	for allowed_command in "${allowed_commands_array[@]}"
 	do
 		if [ "${allowed_command}" == "${commandname}" ]; then
@@ -44,7 +44,7 @@ if [ "$(whoami)" != "root" ]; then
 	done
 fi
 
-local allowed_commands_array=( BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPW )
+allowed_commands_array=( BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPW )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -52,7 +52,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( DEBUG START STOP )
+allowed_commands_array=( DEBUG START STOP )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -60,7 +60,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( CONSOLE DEBUG MONITOR START STOP )
+allowed_commands_array=( CONSOLE DEBUG MONITOR START STOP )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -68,7 +68,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( DEBUG DETAILS POST_DETAILS MONITOR START STOP DEV-QUERY-RAW )
+allowed_commands_array=( DEBUG DETAILS POST_DETAILS MONITOR START STOP DEV-QUERY-RAW )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -78,7 +78,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( DEBUG START VALIDATE )
+allowed_commands_array=( DEBUG START VALIDATE )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -88,7 +88,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( DETAILS MONITOR START STOP CHANGE-PASSWORD UPDATE VALIDATE )
+allowed_commands_array=( DETAILS MONITOR START STOP CHANGE-PASSWORD UPDATE VALIDATE )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then
@@ -96,7 +96,7 @@ do
 	fi
 done
 
-local allowed_commands_array=( DEBUG START INSTALL )
+allowed_commands_array=( DEBUG START INSTALL )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then

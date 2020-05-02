@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves startup issue with Rust.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: [Raknet] Server Shutting Down (Shutting Down).

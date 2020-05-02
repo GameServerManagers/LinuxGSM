@@ -5,7 +5,7 @@
 # Description: Runs a server validation.
 
 commandname="VALIDATE"
-modulegroup="COMMAND"
+
 commandaction="Validating"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

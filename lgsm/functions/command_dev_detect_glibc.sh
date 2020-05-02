@@ -6,7 +6,7 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-GLIBC"
-modulegroup="COMMAND"
+
 commandaction="Developer detect glibc"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -34,7 +34,7 @@ fi
 echo -e ""
 
 
-local glibc_check_dir_array=( steamcmddir serverfiles )
+glibc_check_dir_array=( steamcmddir serverfiles )
 for glibc_check_var in "${glibc_check_dir_array[@]}"
 do
 	if [ "${glibc_check_var}" == "serverfiles" ]; then

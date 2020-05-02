@@ -5,7 +5,7 @@
 # Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
 commandname="DEV-DEBUG"
-modulegroup="COMMAND"
+
 commandaction="Developer debug"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

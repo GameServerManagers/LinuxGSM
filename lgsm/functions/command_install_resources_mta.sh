@@ -5,7 +5,7 @@
 # Description: Installs the default resources for Multi Theft Auto.
 
 commandname="DEFAULT-RESOURCES"
-modulegroup="COMMAND"
+
 commandaction="Default Resources"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

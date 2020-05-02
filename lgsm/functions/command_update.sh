@@ -5,7 +5,7 @@
 # Description: Handles updating of servers.
 
 commandname="UPDATE"
-modulegroup="COMMAND"
+
 commandaction="Updating"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

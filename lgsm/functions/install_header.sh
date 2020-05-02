@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Prints installation header.
 
-modulegroup="INSTALL"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 clear

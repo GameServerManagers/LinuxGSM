@@ -6,7 +6,7 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-LDD"
-modulegroup="COMMAND"
+
 commandaction="Developer detect ldd"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

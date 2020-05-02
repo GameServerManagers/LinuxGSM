@@ -17,7 +17,7 @@
 # fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
-modulegroup="CORE"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Emptys contents of the LinuxGSM tmpdir.
@@ -41,7 +41,7 @@ fn_dl_md5(){
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
 		echo -en "verifying ${local_filename} with MD5..."
 		fn_sleep_time
-		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
+		md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
 			echo -e "${local_filename} returned MD5 checksum: ${md5sumcmd}"

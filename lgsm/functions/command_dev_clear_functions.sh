@@ -5,7 +5,7 @@
 # Description: Deletes the contents of the functions dir.
 
 commandname="DEV-CLEAR-MODULES"
-modulegroup="COMMAND"
+
 commandaction="Clearing modules"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

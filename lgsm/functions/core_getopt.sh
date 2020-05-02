@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
-modulegroup="CORE"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Define all commands here.

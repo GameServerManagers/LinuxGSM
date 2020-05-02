@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves an issue with Terraria.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 export TERM=xterm

@@ -6,7 +6,7 @@
 # Description: Changes TS3 serveradmin password.
 
 commandname="CHANGE-PASSWORD"
-modulegroup="COMMAND"
+
 commandaction="Changing password"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

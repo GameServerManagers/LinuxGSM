@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Multi Theft Auto servers.
 
-modulegroup="UPDATE"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mta_dl(){

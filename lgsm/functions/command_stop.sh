@@ -6,7 +6,7 @@
 # Description: Stops the server.
 
 commandname="STOP"
-modulegroup="COMMAND"
+
 commandaction="Stopping"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

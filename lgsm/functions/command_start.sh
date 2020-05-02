@@ -6,7 +6,7 @@
 # Description: Starts the server.
 
 commandname="START"
-modulegroup="COMMAND"
+
 commandaction="Starting"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves possible startup issue with Minecraft Bedrock.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # official docs state that the server should be started with: LD_LIBRARY_PATH=. ./bedrock_server

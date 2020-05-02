@@ -6,7 +6,7 @@
 # Description: Wipes server data, useful after updates for some games like Rust
 
 commandname="WIPE"
-modulegroup="COMMAND"
+
 commandaction="Wiping"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

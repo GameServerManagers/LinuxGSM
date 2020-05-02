@@ -6,7 +6,7 @@
 # Description: Overall function for the installer.
 
 commandname="INSTALL"
-modulegroup="COMMAND"
+
 commandaction="Installing"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

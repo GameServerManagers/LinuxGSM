@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs the libmysqlclient for database functions on the server.
 
-modulegroup="FIX"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ ! -f "${lgsmdir}/lib/libmysqlclient.so.16" ]; then

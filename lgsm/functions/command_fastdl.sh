@@ -6,7 +6,7 @@
 # Description: Creates a FastDL directory.
 
 commandname="FASTDL"
-modulegroup="COMMAND"
+
 commandaction="Fastdl"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -136,7 +136,7 @@ fn_human_readable_file_size(){
 			local factor="${item%:*}"
 			local abbrev="${item#*:}"
 			if [[ "${bytes}" -ge "${factor}" ]]; then
-				local size=$(bc -l <<< "${bytes} / ${factor}")
+				size=$(bc -l <<< "${bytes} / ${factor}")
 				printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
 				break
 			fi

@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Mumble servers.
 
-modulegroup="UPDATE"
+
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){

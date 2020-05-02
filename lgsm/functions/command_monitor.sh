@@ -7,7 +7,7 @@
 # then passes to gamedig and gsquery.
 
 commandname="MONITOR"
-modulegroup="COMMAND"
+
 commandaction="Monitoring"
 function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
