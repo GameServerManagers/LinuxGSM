@@ -544,7 +544,7 @@ fn_fetch_function
 }
 # Logs
 
-logs.sh(){
+core_logs.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

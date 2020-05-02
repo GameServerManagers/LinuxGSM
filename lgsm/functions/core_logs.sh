@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM logs.sh function
+# LinuxGSM core_logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://linuxgsm.com
