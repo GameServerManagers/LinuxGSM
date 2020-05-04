@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
-local modulename="FASTDL"
-local commandaction="FastDL"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="FASTDL"
+commandaction="Fastdl"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -135,7 +135,7 @@ fn_human_readable_file_size(){
 			local factor="${item%:*}"
 			local abbrev="${item#*:}"
 			if [[ "${bytes}" -ge "${factor}" ]]; then
-				local size=$(bc -l <<< "${bytes} / ${factor}")
+				size=$(bc -l <<< "${bytes} / ${factor}")
 				printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
 				break
 			fi

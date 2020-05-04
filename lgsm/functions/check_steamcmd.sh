@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if SteamCMD is installed correctly.
 
-local modulename="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_steamcmd(){
 	if [ ${shortname} == "ark" ]&&[ "${installsteamcmd}" == "1" ]; then
@@ -50,14 +50,14 @@ fn_check_steamcmd(){
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Only install if steamcmd package is missing or steamcmd dir is missing.
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ]&&[ -z "$(command -v steamcmd 2>/dev/null)" ]; then
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			fn_install_steamcmd
 		else
 			fn_print_warn_nl "SteamCMD is missing"
 			fn_script_log_warn "SteamCMD is missing"
 			fn_install_steamcmd
 		fi
-	elif [ "${function_selfname}" == "command_install.sh" ]; then
+	elif [ "${commandname}" == "INSTALL" ]; then
 		fn_print_information "SteamCMD is already installed..."
 		fn_print_ok_eol_nl
 	fi
@@ -110,14 +110,14 @@ fn_check_steamcmd_ark(){
 	# to allow ark mods to work
 	if [ ! -f "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamcmd.sh" ]; then
 		installsteamcmd=1
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			fn_install_steamcmd
 		else
 			fn_print_warn_nl "ARK mods SteamCMD is missing"
 			fn_script_log_warn "ARK mods SteamCMD is missing"
 			fn_install_steamcmd
 		fi
-	elif [ "${function_selfname}" == "command_install.sh" ]; then
+	elif [ "${commandname}" == "INSTALL" ]; then
 		fn_print_information "ARK mods SteamCMD is already installed..."
 		fn_print_ok_eol_nl
 	fi

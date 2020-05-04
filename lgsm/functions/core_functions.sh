@@ -5,6 +5,8 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # Core
 
 core_dl.sh(){
@@ -541,7 +543,7 @@ fn_fetch_function
 }
 # Logs
 
-logs.sh(){
+core_logs.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

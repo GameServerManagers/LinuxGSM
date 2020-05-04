@@ -5,6 +5,8 @@
 # Description: Querys a gameserver using node-gamedig.
 # https://github.com/sonicsnes/node-gamedig
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # Check if gamedig and jq are installed.
 if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
 

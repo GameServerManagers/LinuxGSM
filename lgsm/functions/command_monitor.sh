@@ -6,9 +6,9 @@
 # Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
 
-local modulename="MONITOR"
-local commandaction="Monitor"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="MONITOR"
+commandaction="Monitoring"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
@@ -240,7 +240,7 @@ fn_monitor_loop(){
 
 monitorflag=1
 check.sh
-logs.sh
+core_logs.sh
 info_config.sh
 info_parms.sh
 

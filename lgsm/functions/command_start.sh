@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local modulename="START"
-local commandaction="Starting"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="START"
+commandaction="Starting"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -183,7 +183,7 @@ if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
 info_config.sh
-logs.sh
+core_logs.sh
 
 # Will check for updates is updateonstart is yes.
 if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
