@@ -138,7 +138,14 @@ fn_backup_compression(){
 		core_exit.sh
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/.backup.lock" ./.
+    # Check that rootdir is equal home dir
+    if [ ! ${rootdir} == ~ ]; then
+        if [ -d ~/.local/share/${gamedirname} ]; then
+            savegamedir="`realpath ~/.local/share/${gamedirname}`"
+        fi
+    fi
+
+    tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" "${savegamedir}" --exclude "${excludedir}" --exclude "${lockdir}/.backup.lock" ./.
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
