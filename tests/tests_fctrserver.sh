@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.2.0"
+version="v20.2.1"
 shortname="fctr"
 gameservername="fctrserver"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")

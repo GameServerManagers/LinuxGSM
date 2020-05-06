@@ -47,11 +47,6 @@ fn_update_steamcmd_localbuild(){
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
-	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD.
-	if [ -f "${HOME}/.steam/appcache/appinfo.vdf" ]; then
-		rm -f "${HOME}/.steam/appcache/appinfo.vdf"
-	fi
-
 	# Set branch for updateinfo.
 	IFS=' ' read -ra branchsplits <<< "${branch}"
 	if [ "${#branchsplits[@]}" -gt 1 ]; then
@@ -76,6 +71,12 @@ fn_update_steamcmd_remotebuild(){
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
+
+	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD.
+	if [ "$(find "${HOME}" -type f -name "appinfo.vdf" | wc -l)" -ne "0" ]; then
+		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \;
+	fi
+
 	remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
