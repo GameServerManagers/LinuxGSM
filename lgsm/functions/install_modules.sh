@@ -13,3 +13,4 @@ fn_dl_extract "${tmpdir}" "master.tar.gz" "${tmpdir}"
 cp "${tmpdir}/LinuxGSM-master/lgsm/functions"/*.sh "${functionsdir}"
 cp "${tmpdir}/LinuxGSM-master/lgsm/functions"/*.py "${functionsdir}"
 chmod +x "${functionsdir}"/*
+command_update_linuxgsm.sh
