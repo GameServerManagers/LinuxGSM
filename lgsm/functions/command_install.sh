@@ -15,6 +15,7 @@ if [ "$(whoami)" = "root" ]; then
 else
 	install_header.sh
 	install_server_dir.sh
+	install_modules.sh
 	install_logs.sh
 	check_deps.sh
 	installflag=1
