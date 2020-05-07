@@ -1,6 +1,6 @@
 ---
 name: New server request
-about: Suggest a new game server to be added
+about: Suggest a new game server to be added.
 
 ---
 
