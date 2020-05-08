@@ -111,7 +111,7 @@ fn_fetch_trap(){
 }
 
 fn_fetch_file(){
-	remote_fileurl="${1}"
+	remote_fileurl="https://raw.githubusercontent.com/linuxgsm.sh"
 	local_filedir="${2}"
 	local_filename="${3}"
 	chmodx="${4:-0}"
@@ -119,10 +119,11 @@ fn_fetch_file(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 	remote_fileurl_backup="${8}"
+	remote_fileurl_name="${9}"
+	remote_fileurl_backup_name="${10}"
 
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
-
 		# If backup fileurl exists include it.
 		if [ -n "${remote_fileurl_backup}" ]; then
 			# counter set to 0 to allow second try
@@ -137,8 +138,10 @@ fn_fetch_file(){
 		do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
 				fileurl="${remote_fileurl}"
+				fileurl_name="${remote_fileurl_name}"
 			elif [ "${remote_fileurl_array}" == "remote_fileurl_backup" ]; then
 				fileurl="${remote_fileurl_backup}"
+				fileurl_name="${remote_fileurl_backup_name}"
 			fi
 			counter=$((counter+1))
 			if [ ! -d "${local_filedir}" ]; then
@@ -154,14 +157,14 @@ fn_fetch_file(){
 				curlcmd=$(curl --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
 				echo -en "downloading ${local_filename}..."
 			else
-				echo -en "fetching ${local_filename}...\c"
+				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
 				curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
 			fi
 			local exitcode=$?
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [[ $(cat ${local_filedir:?}/${local_filename:?}) == *"DOCTYPE"* ]]; then
+				if [ -n "$(grep -m5 "DOCTYPE" "${local_filedir}/${local_filename}")" ]; then
 					rm "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
@@ -175,7 +178,6 @@ fn_fetch_file(){
 						fn_script_log_fatal "Downloading ${local_filename}"
 						fn_script_log_fatal "${fileurl}"
 					fi
-					echo -e "${fileurl}"
 					core_exit.sh
 				else
 					fn_print_error_eol_nl
@@ -183,21 +185,24 @@ fn_fetch_file(){
 						fn_script_log_error "Downloading ${local_filename}"
 						fn_script_log_fatal "${fileurl}"
 					fi
-					echo -e "${fileurl}"
 				fi
 			else
 				fn_print_ok_eol_nl
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_pass "Downloading ${local_filename}"
 
-					# Remove trap.
-					trap - INT
-					# Make file executable if chmodx is set.
-					if [ "${chmodx}" == "chmodx" ]; then
-						chmod +x "${local_filedir}/${local_filename}"
-					fi
-					break
+
 				fi
+
+
+				# Make file executable if chmodx is set.
+				if [ "${chmodx}" == "chmodx" ]; then
+					chmod +x "${local_filedir}/${local_filename}"
+				fi
+
+				# Remove trap.
+				trap - INT
+				break
 			fi
 		done
 	fi
@@ -246,9 +251,10 @@ fn_fetch_file_github(){
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	remote_fileurl_backup="${8:-0}"
-	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}"
+	remote_fileurl_backup="${bitbucketurl}"
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
 }
 
 fn_fetch_config(){
@@ -270,8 +276,9 @@ fn_fetch_config(){
 	forcedl="noforce"
 	md5="nomd5"
 	remote_fileurl_backup="${bitbucketurl}"
-	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}"
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
 }
 
 # Fetches functions.
@@ -294,8 +301,10 @@ fn_fetch_function(){
 	forcedl="noforce"
 	md5="nomd5"
 	remote_fileurl_backup="${bitbucketurl}"
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}"
+	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
 }
 
 fn_update_function(){
@@ -318,7 +327,9 @@ fn_update_function(){
 	forcedl="noforce"
 	md5="nomd5"
 	remote_fileurl_backup="${bitbucketurl}"
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}"
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
 }
 
 # Check that curl is installed
