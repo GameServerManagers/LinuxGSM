@@ -109,12 +109,12 @@ fn_bootstrap_fetch_file(){
 fn_bootstrap_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
+	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]||[ "$1" != "update-lgsm" ]||[ "$1" != "ul" ]; then
 		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
 		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
-	
+
 	remote_fileurl="${githuburl}"
 	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
