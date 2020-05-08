@@ -191,7 +191,11 @@ fn_fetch_file(){
 fn_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
 
 	remote_fileurl="${githuburl}"
 	local_filedir="${3}"
@@ -207,7 +211,11 @@ fn_fetch_file_github(){
 fn_fetch_config(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
 
 	remote_fileurl="${githuburl}"
 	local_filedir="${3}"
@@ -224,7 +232,11 @@ fn_fetch_config(){
 fn_fetch_function(){
 	github_file_url_dir="lgsm/functions"
 	github_file_url_name="${functionfile}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
 
 	remote_fileurl="${githuburl}"
 	local_filedir="${functionsdir}"
@@ -234,22 +246,6 @@ fn_fetch_function(){
 	forcedl="noforce"
 	md5="nomd5"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
-}
-
-fn_update_function(){
-	exitbypass=1
-	github_file_url_dir="lgsm/functions"
-	github_file_url_name="${functionfile}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
-	local_filedir="${functionsdir}"
-	local_filename="${github_file_url_name}"
-	chmodx="chmodx"
-	run="norun"
-	forcedl="noforce"
-	md5="nomd5"
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
