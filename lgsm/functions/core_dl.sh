@@ -249,6 +249,25 @@ fn_fetch_function(){
 	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
+fn_update_function(){
+	exitbypass=1
+	github_file_url_dir="lgsm/functions"
+	github_file_url_name="${functionfile}"
+	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl="${githuburl}"
+	local_filedir="${functionsdir}"
+	local_filename="${github_file_url_name}"
+	chmodx="chmodx"
+	run="norun"
+	forcedl="noforce"
+	md5="nomd5"
+	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+}
+
 # Check that curl is installed
 if [ ! "$(command -v curl 2>/dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
