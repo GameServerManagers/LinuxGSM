@@ -95,7 +95,7 @@ if [ "${functionsdir}" ]; then
 				fi
 			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
-				fn_script_log_info "checking function ${functionfile}: UPDATE"
+				fn_script_log_info "Checking function ${functionfile}: UPDATE"
 				rm -rf "${functionsdir:?}/${functionfile}"
 				fn_update_function
 			else
