@@ -215,8 +215,6 @@ fn_fetch_file(){
 	fi
 }
 
-# File download definitions.
-# Requirments
 # GitHub file download functions.
 # Used to simplify downloading specific files from GitHub.
 
@@ -233,7 +231,9 @@ fn_fetch_file(){
 # md5: Optional, set an md5 sum and will compare it against the file.
 
 # Fetches files from the Git repo.
-fn_fetch_file_git(){
+fn_fetch_file_github(){
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
 	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -243,19 +243,20 @@ fn_fetch_file_git(){
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	local_filedir="${5}"
-	local_filename="${6}"
-	chmodx="${7:-0}"
-	run="${8:-0}"
-	forcedl="${9:-0}"
-	md5="${10:-0}"
-
+	local_filedir="${3}"
+	local_filename="${github_file_url_name}"
+	chmodx="${4:-0}"
+	run="${5:-0}"
+	forcedl="${6:-0}"
+	md5="${7:-0}"
 	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
 # Fetches config files from the Git repo.
 fn_fetch_config(){
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
 	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -265,19 +266,20 @@ fn_fetch_config(){
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	local_filedir="${5}"
-	local_filename="${6}"
+	local_filedir="${3}"
+	local_filename="${4}"
 	chmodx="nochmodx"
 	run="norun"
 	forcedl="noforce"
 	md5="nomd5"
-
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Fetches modules from the Git repo if missing and run it.
+# Fetches functions.
 fn_fetch_function(){
+	github_file_url_dir="lgsm/functions"
+	github_file_url_name="${functionfile}"
 	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -285,15 +287,13 @@ fn_fetch_function(){
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
-	remote_fileurl_name="GitHub"
-	remote_fileurl_backup_name="Bitbucket"
+	remote_fileurl="${githuburl}"
 	local_filedir="${functionsdir}"
-	local_filename="${functionfile}"
+	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="run"
 	forcedl="noforce"
 	md5="nomd5"
-
 	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
@@ -301,6 +301,8 @@ fn_fetch_function(){
 # Fetches modules from the Git repo during update-lgsm.
 fn_update_function(){
 	exitbypass=1
+	github_file_url_dir="lgsm/functions"
+	github_file_url_name="${functionfile}"
 	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -308,17 +310,16 @@ fn_update_function(){
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
-	remote_fileurl_name="GitHub"
-	remote_fileurl_backup_name="Bitbucket"
+	remote_fileurl="${githuburl}"
 	local_filedir="${functionsdir}"
-	local_filename="${functionfile}"
+	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="norun"
 	forcedl="noforce"
 	md5="nomd5"
-
 	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+
 }
 
 # Check that curl is installed
