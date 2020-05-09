@@ -15,7 +15,7 @@ echo -en "\n"
 
 if [ -z "${legacymode}" ]; then
 	# Check and update _default.cfg.
-	echo -en "    checking config _default.cfg...\c"
+	echo -en "checking config _default.cfg...\c"
 	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
@@ -41,7 +41,7 @@ if [ -z "${legacymode}" ]; then
 		fn_script_log_info "checking linuxgsm.sh: OK"
 		fn_print_ok_eol_nl
 	fi
-	echo -en "    checking ${selfname}...\c"
+	echo -en "checking ${selfname}...\c"
 	script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
@@ -78,7 +78,7 @@ if [ "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
 		for functionfile in *
 		do
-			echo -en "    checking function ${functionfile}...\c"
+			echo -en "checking function ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
 			get_function_file=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			exitcode=$?
