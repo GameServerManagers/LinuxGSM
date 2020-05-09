@@ -93,7 +93,7 @@ fn_monitor_check_queryport(){
 
 fn_query_gsquery(){
 	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
-		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
+		fn_fetch_file_git "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 	fi
 	"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
 	querystatus="$?"

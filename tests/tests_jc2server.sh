@@ -327,7 +327,7 @@ else
 		# Load the default config. If missing download it. If changed reload it.
 		if [ ! -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" ]; then
 			mkdir -p "${configdirdefault}/config-lgsm/${gameservername}"
-			fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_file_git "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 		fi
 		if [ ! -f "${configdirserver}/_default.cfg" ]; then
 			mkdir -p "${configdirserver}"
@@ -359,7 +359,7 @@ else
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_file_git "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
 			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
@@ -368,7 +368,7 @@ else
 		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_file_git "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
 			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
 		else
@@ -378,7 +378,7 @@ else
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
 		if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
-			fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_file_git "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 		fi
 	fi
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.

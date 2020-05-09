@@ -21,7 +21,7 @@ if [ -z "${legacymode}" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking config _default.cfg: UPDATE"
 		rm -f "${configdirdefault:?}/config-lgsm/${gameservername}/_default.cfg"
-		fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
+		fn_fetch_file_git "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
 		alert="config"
 		alert.sh
 	else
@@ -35,7 +35,7 @@ if [ -z "${legacymode}" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking linuxgsm.sh: UPDATE"
 		rm -f "${tmpdir:?}/linuxgsm.sh"
-		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+		fn_fetch_file_git "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
 		# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
 	else
 		fn_script_log_info "checking linuxgsm.sh: OK"
