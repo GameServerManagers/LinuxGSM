@@ -276,7 +276,7 @@ fn_fetch_config(){
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Fetches functions.
+# Fetches modules from the Git repo during first download.
 fn_fetch_function(){
 	github_file_url_dir="lgsm/functions"
 	github_file_url_name="${functionfile}"
