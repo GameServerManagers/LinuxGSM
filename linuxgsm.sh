@@ -158,9 +158,15 @@ fn_bootstrap_fetch_file(){
 fn_bootstrap_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
+	if [ "${githubbranch}" == "master" ]||[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
@@ -168,7 +174,7 @@ fn_bootstrap_fetch_file_github(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download function.
-	fn_bootstrap_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_bootstrap_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
 # Installer menu.
