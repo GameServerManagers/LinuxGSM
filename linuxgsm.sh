@@ -59,46 +59,95 @@ core_functions.sh(){
 # Fetches the core functions required before passed off to core_dl.sh.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
-	local_filedir="${2}"
-	local_filename="${3}"
-	chmodx="${4:-0}"
-	run="${5:-0}"
-	forcedl="${6:-0}"
-	md5="${7:-0}"
+	remote_fileurl_backup="${2}"
+	remote_fileurl_name="${3}"
+	remote_fileurl_backup_name="${4}"
+	local_filedir="${5}"
+	local_filename="${6}"
+	chmodx="${7:-0}"
+	run="${8:-0}"
+	forcedl="${9:-0}"
+	md5="${10:-0}"
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
-		if [ ! -d "${local_filedir}" ]; then
-			mkdir -p "${local_filedir}"
+		# If backup fileurl exists include it.
+		if [ -n "${remote_fileurl_backup}" ]; then
+			# counter set to 0 to allow second try
+			counter=0
+			remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+		else
+			# counter set to 1 to not allow second try
+			counter=1
+			remote_fileurls_array=( remote_fileurl )
 		fi
 
-		# If curl exists download file.
-		if [ "$(command -v curl 2>/dev/null)" ]; then
-			# Trap to remove part downloaded files.
-			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"
+		do
+			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
+				fileurl="${remote_fileurl}"
+				fileurl_name="${remote_fileurl_name}"
+			elif [ "${remote_fileurl_array}" == "remote_fileurl_backup" ]; then
+				fileurl="${remote_fileurl_backup}"
+				fileurl_name="${remote_fileurl_backup_name}"
+			fi
+			counter=$((counter+1))
+			if [ ! -d "${local_filedir}" ]; then
+				mkdir -p "${local_filedir}"
+			fi
+			# Trap will remove part downloaded files if canceled.
+			trap fn_fetch_trap INT
+			# Larger files show a progress bar.
+
+			echo -en "fetching ${fileurl_name} ${local_filename}...\c"
+			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+
 			local exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
-				echo -e "FAIL"
-				if [ -f "${lgsmlog}" ]; then
-					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
-					echo -e "${curlcmd}" | tee -a "${lgsmlog}"
+
+			# Download will fail if downloads a html file.
+			if [ -f "${local_filedir}/${local_filename}" ]; then
+				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE" )" ]; then
+					rm "${local_filedir:?}/${local_filename:?}"
+					local exitcode=2
 				fi
-				exit 1
+			fi
+
+			# On first try will error. On second try will fail.
+			if [ ${exitcode} -ne 0 ]; then
+				if [ ${counter} -ge 2 ]; then
+					echo -e "FAIL"
+					if [ -f "${lgsmlog}" ]; then
+						fn_script_log_fatal "Downloading ${local_filename}"
+						fn_script_log_fatal "${fileurl}"
+					fi
+					core_exit.sh
+				else
+					echo -e "ERROR"
+					if [ -f "${lgsmlog}" ]; then
+						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "${fileurl}"
+					fi
+				fi
 			else
 				echo -e "OK"
+				if [ -f "${lgsmlog}" ]; then
+					fn_script_log_pass "Downloading ${local_filename}"
+				fi
+
+				# Make file executable if chmodx is set.
+				if [ "${chmodx}" == "chmodx" ]; then
+					chmod +x "${local_filedir}/${local_filename}"
+				fi
+
+				# Remove trap.
+				trap - INT
+
+				break
 			fi
-		else
-			echo -e "[ FAIL ] Curl is not installed"
-			exit 1
-		fi
-		# Make file chmodx if chmodx is set.
-		if [ "${chmodx}" == "chmodx" ]; then
-			chmod +x "${local_filedir}/${local_filename}"
-		fi
+		done
 	fi
 
 	if [ -f "${local_filedir}/${local_filename}" ]; then
-		# Run file if run is set.
+		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
 			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
