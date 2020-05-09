@@ -59,15 +59,15 @@ core_functions.sh(){
 # Fetches the core functions required before passed off to core_dl.sh.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
-	local_filedir="${2}"
-	local_filename="${3}"
-	chmodx="${4:-0}"
-	run="${5:-0}"
-	forcedl="${6:-0}"
-	md5="${7:-0}"
-	remote_fileurl_backup="${8}"
-	remote_fileurl_name="${9}"
-	remote_fileurl_backup_name="${10}"
+	remote_fileurl_backup="${2}"
+	remote_fileurl_name="${3}"
+	remote_fileurl_backup_name="${4}"
+	local_filedir="${5}"
+	local_filename="${6}"
+	chmodx="${7:-0}"
+	run="${8:-0}"
+	forcedl="${9:-0}"
+	md5="${10:-0}"
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
 		# If backup fileurl exists include it.
@@ -151,7 +151,7 @@ fn_bootstrap_fetch_file(){
 	fi
 
 	if [ -f "${local_filedir}/${local_filename}" ]; then
-		# Execute file if run is set
+		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
 			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
