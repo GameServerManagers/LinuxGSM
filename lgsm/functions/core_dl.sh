@@ -287,8 +287,9 @@ fn_fetch_function(){
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
-	remote_fileurl="${githuburl}"
-	local_filedir="${functionsdir}"
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="run"
@@ -310,8 +311,9 @@ fn_update_function(){
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
-	remote_fileurl="${githuburl}"
-	local_filedir="${functionsdir}"
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="norun"
