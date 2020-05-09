@@ -29,7 +29,7 @@ if [ -z "${legacymode}" ]; then
 		fn_script_log_info "checking config _default.cfg: OK"
 	fi
 
-	echo -en "    checking linuxgsm.sh...\c"
+	echo -en "checking linuxgsm.sh...\c"
 	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
 	if [ "${tmp_script_diff}" != "" ]; then
 		fn_print_update_eol_nl
@@ -55,7 +55,7 @@ if [ -z "${legacymode}" ]; then
 			fn_print_ok_eol_nl
 			echo -e "	Backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
-		echo -en "    fetching ${selfname}...\c"
+		echo -en "fetching ${fileurl_name} ${selfname}...\c"
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
