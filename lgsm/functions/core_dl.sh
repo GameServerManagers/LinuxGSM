@@ -175,21 +175,21 @@ fn_fetch_file(){
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fatal "Downloading ${local_filename}"
+						fn_script_log_fatal "Downloading ${local_filename}\\r"
 						fn_script_log_fatal "${fileurl}"
 					fi
 					core_exit.sh
 				else
 					fn_print_error_eol
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "Downloading ${local_filename}\\r"
 						fn_script_log_error "${fileurl}"
 					fi
 				fi
 			else
 				fn_print_ok_eol
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_pass "Downloading ${local_filename}"
+					fn_script_log_pass "Downloading ${local_filename}\\r"
 				fi
 
 				# Make file executable if chmodx is set.
