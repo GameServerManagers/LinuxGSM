@@ -173,7 +173,7 @@ fn_fetch_file(){
 			# On first try will error. On second try will fail.
 			if [ ${exitcode} -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
-					fn_print_fail_eol_nl 
+					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then
 						fn_script_log_fatal "Downloading ${local_filename}"
 						fn_script_log_fatal "${fileurl}"
@@ -188,7 +188,7 @@ fn_fetch_file(){
 				fi
 			else
 				fn_print_ok_eol
-				echo -en "\033[2K"
+				echo -en "\033[2K\\r"
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_pass "Downloading ${local_filename}"
 				fi
