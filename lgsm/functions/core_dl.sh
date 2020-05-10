@@ -157,7 +157,7 @@ fn_fetch_file(){
 				curlcmd=$(curl --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
 				echo -en "downloading ${local_filename}..."
 			else
-				echo -e "fetching ${fileurl_name} ${local_filename}...\c"
+				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
 				curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
 			fi
 			local exitcode=$?
@@ -173,23 +173,24 @@ fn_fetch_file(){
 			# On first try will error. On second try will fail.
 			if [ ${exitcode} -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
-					fn_print_fail_eol
+					fn_print_fail_eol_nl 
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fatal "Downloading ${local_filename}\\r"
+						fn_script_log_fatal "Downloading ${local_filename}"
 						fn_script_log_fatal "${fileurl}"
 					fi
 					core_exit.sh
 				else
-					fn_print_error_eol
+					fn_print_error_eol_nl
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_error "Downloading ${local_filename}\\r"
+						fn_script_log_error "Downloading ${local_filename}"
 						fn_script_log_error "${fileurl}"
 					fi
 				fi
 			else
 				fn_print_ok_eol
+				echo -en "\033[2K"
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_pass "Downloading ${local_filename}\\r"
+					fn_script_log_pass "Downloading ${local_filename}"
 				fi
 
 				# Make file executable if chmodx is set.
