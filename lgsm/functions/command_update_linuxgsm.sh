@@ -8,8 +8,10 @@ commandname="UPDATE-LGSM"
 commandaction="Updating LinuxGSM"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_print_dots "Updating LinuxGSM"
+
 check.sh
+
+fn_print_dots "Updating LinuxGSM"
 fn_script_log_info "Updating LinuxGSM"
 echo -en "\n"
 
@@ -45,7 +47,7 @@ if [ -z "${legacymode}" ]; then
 	script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
-		echo -en "    backup ${selfname}...\c"
+		echo -en "backup ${selfname}...\c"
 		mkdir -p "${backupdir}/script/"
 		cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		if [ $? -ne 0 ]; then
@@ -53,7 +55,7 @@ if [ -z "${legacymode}" ]; then
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			echo -e "	Backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+			echo -e "backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
 		echo -en "fetching ${fileurl_name} ${selfname}...\c"
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
@@ -85,7 +87,7 @@ if [ "${functionsdir}" ]; then
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
-				echo -en "    removing unknown function ${functionfile}...\c"
+				echo -en "removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "removing unknown function ${functionfile}"
 				if ! rm -f "${functionfile:?}"; then
 					fn_print_fail_eol_nl
