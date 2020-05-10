@@ -37,7 +37,7 @@ if [ -z "${legacymode}" ]; then
 	if [ $? != "0" ]; then
 		tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
 	fi
-	if [ "${tmp_script_diff}" != "" ]; then
+	if [ "${tmp_script_diff}" == "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "checking linuxgsm.sh: UPDATE"
 		rm -f "${tmpdir:?}/linuxgsm.sh"
