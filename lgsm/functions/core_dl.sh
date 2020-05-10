@@ -188,6 +188,7 @@ fn_fetch_file(){
 				fi
 			else
 				fn_print_ok_eol
+				sleep 0.3
 				echo -en "\033[2K\\r"
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_pass "Downloading ${local_filename}"
