@@ -86,9 +86,11 @@ if [ -n "${functionsdir}" ]; then
 		do
 			echo -en "checking function ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
-			get_function_file=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			exitcode=$?
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			if [ $? != "0" ]; then
+				function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			fi
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				echo -en "removing unknown function ${functionfile}...\c"
