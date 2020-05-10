@@ -301,7 +301,6 @@ fn_fetch_function(){
 
 # Fetches modules from the Git repo during update-lgsm.
 fn_update_function(){
-	exitbypass=1
 	github_file_url_dir="lgsm/functions"
 	github_file_url_name="${functionfile}"
 	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
