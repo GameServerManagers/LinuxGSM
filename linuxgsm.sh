@@ -128,7 +128,7 @@ fn_bootstrap_fetch_file(){
 					fi
 				fi
 			else
-				echo -e "OK"
+				echo -en "OK"
 				sleep 0.3
 				echo -en "\033[2K\\r"
 				if [ -f "${lgsmlog}" ]; then
