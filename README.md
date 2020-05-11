@@ -52,4 +52,3 @@ If you would like to [donate](https://linuxgsm.com/donate) to the project there 
 ## Contributors
 
 A big thank you goes to all the wonderful people who contribute ideas, code, docs and support to this project.
-
