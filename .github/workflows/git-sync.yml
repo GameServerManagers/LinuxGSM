@@ -17,6 +17,6 @@ jobs:
       with:
         source_repo: "https://github.com/GameServerManagers/LinuxGSM"
         source_branch: "refs/heads/*"
-        destination_repo: "git@bitbucket.org:dgibbs64/linuxgsm.git"
+        destination_repo: "git@bitbucket.org:GameServerManagers/linuxgsm.git"
         destination_branch: "refs/heads/*"
         ssh_private_key: ${{ secrets.BITBUCKET_SECRET }}
