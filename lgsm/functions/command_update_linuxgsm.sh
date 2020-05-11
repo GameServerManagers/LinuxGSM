@@ -84,7 +84,7 @@ if [ -n "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
 		for functionfile in *
 		do
-			echo -en "checking function ${functionfile}...\c"
+			echo -en "checking module ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
 			exitcode=$?
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
@@ -103,7 +103,7 @@ if [ -n "${functionsdir}" ]; then
 				fi
 			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
-				fn_script_log_info "Checking function ${functionfile}: UPDATE"
+				fn_script_log_info "checking module ${functionfile}: UPDATE"
 				rm -rf "${functionsdir:?}/${functionfile}"
 				fn_update_function
 			else
