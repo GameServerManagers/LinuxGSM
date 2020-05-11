@@ -16,7 +16,7 @@ fn_script_log_info "Updating LinuxGSM"
 if [ -z "${legacymode}" ]; then
 	# Check and update _default.cfg.
 	echo -en "checking config _default.cfg...\c"
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/update-lgsm/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.revertthis.com/GameServerManagers/LinuxGSM/feature/update-lgsm/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ $? != "0" ]; then
 		config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	fi
@@ -33,7 +33,7 @@ if [ -z "${legacymode}" ]; then
 	fi
 
 	echo -en "checking linuxgsm.sh...\c"
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/update-lgsm/linuxgsm.sh"))
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.revertthis.com/GameServerManagers/LinuxGSM/feature/update-lgsm/linuxgsm.sh"))
 	if [ $? != "0" ]; then
 		tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
 	fi
@@ -87,7 +87,7 @@ if [ -n "${functionsdir}" ]; then
 			echo -en "checking module ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
 			exitcode=$?
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.revertthis.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ $? != "0" ]; then
 				function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			fi
