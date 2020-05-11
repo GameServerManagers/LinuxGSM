@@ -29,7 +29,7 @@ fn_backup_trap(){
 # Check if a backup is pending or has been aborted using .backup.lock.
 fn_backup_check_lockfile(){
 	if [ -f "${lockdir}/.backup.lock" ]; then
-		fn_print_info_nl "Lock file found: Backup is currently running"
+		fn_print_error_nl "Lock file found: Backup is currently running"
 		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/.backup.lock"
 		core_exit.sh
 	fi
