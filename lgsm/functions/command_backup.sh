@@ -270,12 +270,12 @@ fn_backup_start_server(){
 }
 
 # Run functions.
-fn_backup_check_lockfile
 fn_backup_create_lockfile
 fn_backup_init
 fn_backup_stop_server
 fn_backup_dir
 fn_backup_migrate_olddir
+fn_backup_check_lockfile
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
