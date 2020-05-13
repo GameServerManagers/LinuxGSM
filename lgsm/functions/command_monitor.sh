@@ -196,6 +196,7 @@ for queryattempt in {1..5}; do
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: WAIT"
+			fn_print_wait_eol_nl
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
 				break

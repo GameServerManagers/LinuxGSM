@@ -378,6 +378,15 @@ fn_print_error_eol_nl(){
 	echo -e "${red}ERROR${default}"
 }
 
+# WAIT
+fn_print_wait_eol(){
+	echo -en "${cyan}WAIT${default}"
+}
+
+fn_print_wait_eol_nl(){
+	echo -e "${cyan}WAIT${default}"
+}
+
 # WARN
 fn_print_warn_eol(){
 	echo -en "${lightyellow}WARN${default}"
@@ -389,11 +398,11 @@ fn_print_warn_eol_nl(){
 
 # INFO
 fn_print_info_eol(){
-	echo -en "${red}INFO${default}"
+	echo -en "${cyan}INFO${default}"
 }
 
 fn_print_info_eol_nl(){
-	echo -e "${red}INFO${default}"
+	echo -e "${cyan}INFO${default}"
 }
 
 # QUERYING
@@ -425,11 +434,11 @@ fn_print_delay_eol_nl(){
 
 # CANCELED
 fn_print_canceled_eol(){
-	echo -en "${yellow}CANCELED${default}"
+	echo -en "${lightyellow}CANCELED${default}"
 }
 
 fn_print_canceled_eol_nl(){
-	echo -e "${yellow}CANCELED${default}"
+	echo -e "${lightyellow}CANCELED${default}"
 }
 
 # REMOVED
