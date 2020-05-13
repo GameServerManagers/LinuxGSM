@@ -16,11 +16,9 @@ fn_monitor_check_lockfile(){
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
-		fn_sleep_time
 		fn_print_error "Checking lockfile: No lockfile found: "
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
-		fn_sleep_time
 		echo -e "* Start ${selfname} to run monitor."
 		core_exit.sh
 	fi
@@ -37,11 +35,9 @@ fn_monitor_check_update(){
 		fn_print_dots "Checking active updates: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking active updates: CHECKING"
-		fn_sleep_time
 		fn_print_error_nl "Checking active updates: SteamCMD is currently checking for updates: "
 		fn_print_error_eol
 		fn_script_log_error "Checking active updates: SteamCMD is currently checking for updates: ERROR"
-		fn_sleep_time
 		core_exit.sh
 	fi
 }
@@ -50,18 +46,15 @@ fn_monitor_check_session(){
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
-	fn_sleep_time
 	# uses status var from check_status.sh
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
-		fn_sleep_time
 	else
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Checking session: FAIL"
-		fn_sleep_time
 		alert="restart"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"
@@ -76,7 +69,6 @@ fn_monitor_check_queryport(){
 		fn_print_dots "Checking port: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking port: CHECKING"
-		fn_sleep_time
 		if [ -n "${rconenabled}" ]&&[ "${rconenabled}" != "true" ]&&[ ${shortname} == "av" ]; then
 			fn_print_warn "Checking port: Unable to query as rconport, rcon not enabled: "
 			fn_print_warn_eol_nl
@@ -86,7 +78,6 @@ fn_monitor_check_queryport(){
 			fn_print_error_eol_nl
 			fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
 		fi
-		fn_sleep_time
 		core_exit.sh
 	fi
 }
@@ -111,7 +102,6 @@ totalseconds=0
 for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
-	fn_sleep_time
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	# querydelay
 	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then

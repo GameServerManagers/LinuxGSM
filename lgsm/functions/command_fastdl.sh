@@ -77,7 +77,6 @@ fn_clear_old_fastdl(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"
 		fi
-		fn_sleep_time
 	fi
 }
 
@@ -95,7 +94,6 @@ fn_fastdl_dirs(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating web directory ${webdir}"
 		fi
-		fn_sleep_time
 	fi
 	if [ ! -d "${fastdldir}" ]; then
 		echo -en "creating fastdl directory ${fastdldir}..."
@@ -109,7 +107,6 @@ fn_fastdl_dirs(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating fastdl directory ${fastdldir}"
 		fi
-		fn_sleep_time
 	fi
 }
 

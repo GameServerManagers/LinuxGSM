@@ -87,7 +87,6 @@ if [ ${exitcode} -ne 0 ]; then
 else
 	fn_print_ok_eol_nl
 fi
-fn_sleep_time
 # Remove file list.
 echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time
