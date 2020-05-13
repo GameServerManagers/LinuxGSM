@@ -1,7 +1,11 @@
 name: Backup Repo
 # This action will sync the github repo with a backup bitbucket repo.
 # This will allow LinuxGSM to use Bitbucket as and alternative download if github fails.
-on: push
+on:
+  push:
+    branches:    
+      - master
+      - 'develop'
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
