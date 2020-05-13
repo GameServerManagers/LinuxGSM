@@ -354,100 +354,133 @@ fn_prompt_yn(){
 # OK
 fn_print_ok_eol(){
 	echo -en "${green}OK${default}"
+	fn_sleep_time
 }
 
 fn_print_ok_eol_nl(){
 	echo -e "${green}OK${default}"
+	fn_sleep_time
 }
 
 # FAIL
 fn_print_fail_eol(){
 	echo -en "${red}FAIL${default}"
+	fn_sleep_time
 }
 
 fn_print_fail_eol_nl(){
 	echo -e "${red}FAIL${default}"
+	fn_sleep_time
 }
 
 # ERROR
 fn_print_error_eol(){
 	echo -en "${red}ERROR${default}"
+	fn_sleep_time
 }
 
 fn_print_error_eol_nl(){
 	echo -e "${red}ERROR${default}"
+	fn_sleep_time
+}
+
+# WAIT
+fn_print_wait_eol(){
+	echo -en "${cyan}WAIT${default}"
+	fn_sleep_time
+}
+
+fn_print_wait_eol_nl(){
+	echo -e "${cyan}WAIT${default}"
+	fn_sleep_time
 }
 
 # WARN
 fn_print_warn_eol(){
 	echo -en "${lightyellow}WARN${default}"
+	fn_sleep_time
 }
 
 fn_print_warn_eol_nl(){
 	echo -e "${lightyellow}WARN${default}"
+	fn_sleep_time
 }
 
 # INFO
 fn_print_info_eol(){
-	echo -en "${red}INFO${default}"
+	echo -en "${cyan}INFO${default}"
+	fn_sleep_time
 }
 
 fn_print_info_eol_nl(){
-	echo -e "${red}INFO${default}"
+	echo -e "${cyan}INFO${default}"
+	fn_sleep_time
 }
 
 # QUERYING
 fn_print_querying_eol(){
 	echo -en "${cyan}QUERYING${default}"
+	fn_sleep_time
 }
 
 fn_print_querying_eol_nl(){
 	echo -e "${cyan}QUERYING${default}"
+	fn_sleep_time
 }
 
 # CHECKING
 fn_print_checking_eol(){
 	echo -en "${cyan}CHECKING${default}"
+	fn_sleep_time
 }
 
 fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
+	fn_sleep_time
 }
 
 # DELAY
 fn_print_delay_eol(){
 	echo -en "${green}DELAY${default}"
+	fn_sleep_time
 }
 
 fn_print_delay_eol_nl(){
 	echo -e "${green}DELAY${default}"
+	fn_sleep_time
 }
 
 # CANCELED
 fn_print_canceled_eol(){
-	echo -en "${yellow}CANCELED${default}"
+	echo -en "${lightyellow}CANCELED${default}"
+	fn_sleep_time
 }
 
 fn_print_canceled_eol_nl(){
-	echo -e "${yellow}CANCELED${default}"
+	echo -e "${lightyellow}CANCELED${default}"
+	fn_sleep_time
 }
 
 # REMOVED
 fn_print_removed_eol(){
 	echo -en "${red}REMOVED${default}"
+	fn_sleep_time
 }
 
 fn_print_removed_eol_nl(){
 	echo -e "${red}REMOVED${default}"
+	fn_sleep_time
 }
 
 # UPDATE
 fn_print_update_eol(){
 	echo -en "${cyan}UPDATE${default}"
+	fn_sleep_time
 }
 
 fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
+	fn_sleep_time
 }
 
 fn_print_ascii_logo(){

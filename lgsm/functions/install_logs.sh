@@ -96,5 +96,4 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 		fi
 	fi
 fi
-fn_sleep_time
 fn_script_log_info "Logs installed"
