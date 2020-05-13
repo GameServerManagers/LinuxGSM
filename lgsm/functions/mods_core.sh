@@ -59,7 +59,6 @@ fn_mod_lowercase(){
 		else
 			fn_print_ok_eol_nl
 		fi
-		fn_sleep_time
 	fi
 }
 
@@ -82,7 +81,6 @@ fn_mod_create_filelist(){
 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
 		cat "${modsdir}/.removedfiles.tmp" >> "${modsdir}/${modcommand}-files.txt"
 	fi
-	fn_sleep_time
 }
 
 # Copy the mod into serverfiles.
@@ -392,7 +390,6 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod download dir ${modsdir}"
 		fi
-		fn_sleep_time
 	fi
 	# Create mod install directory.
 	if [ ! -d "${modinstalldir}" ]; then
@@ -407,7 +404,6 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod install directory ${modinstalldir}"
 		fi
-		fn_sleep_time
 	fi
 
 	# Create lgsm/data/${modsinstalledlist}.
