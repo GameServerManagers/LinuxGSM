@@ -22,7 +22,9 @@ fn_backup_trap(){
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file.
-	rm -f "${lockdir:?}/.backup.lock"
+	rm -f "${lockdir:?}/backup.lock"
+	fn_backup_start_server
+	unset exitbypass
 	core_exit.sh
 }
 
