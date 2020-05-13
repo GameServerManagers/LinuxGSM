@@ -112,14 +112,14 @@ for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
-	fn_sleep_time
 	# querydelay
 	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_delay_eol_nl
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-		fn_sleep_time
+		fn_script_log_info "Server started: $(date -d @$(cat lgsm/lock/bmdmserver.lock))"
+		fn_script_log_info "Current time: $(date)"
 		monitorpass=1
 		core_exit.sh
 	# will use query method selected in fn_monitor_loop
@@ -139,7 +139,6 @@ for queryattempt in {1..5}; do
 		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
-		fn_sleep_time
 		monitorpass=1
 		if [ "${querystatus}" == "0" ]; then
 			# Add query data to log.
@@ -170,7 +169,6 @@ for queryattempt in {1..5}; do
 		fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_fail_eol
 		fn_script_log_warn "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
-		fn_sleep_time
 		# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
 		if [ "${querymethod}" ==  "gsquery" ]||[ "${querymethod}" ==  "tcp" ]; then
 			# gsquery will fail if longer than 60s
@@ -179,7 +177,6 @@ for queryattempt in {1..5}; do
 				fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_fail_eol_nl
 				fn_script_log_warn "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
-				fn_sleep_time
 				# Send alert if enabled.
 				alert="restartquery"
 				alert.sh
@@ -195,8 +192,9 @@ for queryattempt in {1..5}; do
 
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: WAIT"
+			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 			fn_print_wait_eol_nl
+			sleep 0.5
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
 				break
