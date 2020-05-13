@@ -26,7 +26,7 @@ fn_monitor_check_lockfile(){
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
+	if [ -f "${lockdir}/${selfname}.lock" ]&&[[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
 			date '+%s' > "${lockdir}/${selfname}.lock"
 	fi
 }
@@ -111,6 +111,7 @@ totalseconds=0
 for queryattempt in {1..5}; do
 	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 	fn_print_querying_eol
+	fn_sleep_time
 	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
 	# querydelay
 	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
