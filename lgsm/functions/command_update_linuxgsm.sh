@@ -19,7 +19,7 @@ if [ -z "${legacymode}" ]; then
 	remotereponame="GitHub"
 	echo -en "checking ${remotereponame} config _default.cfg...\c"
 	fn_script_log_info "Checking ${remotereponame} config _default.cfg"
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.revertthis.com/GameServerManagers/LinuxGSM/feature/update-lgsm/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ $? != "0" ]; then
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking ${remotereponame} config _default.cfg: ERROR"
@@ -65,12 +65,11 @@ if [ -z "${legacymode}" ]; then
 		fi
 	fi
 
-	if [ "${tmp_script_diff}" == "" ]; then
+	if [ "${tmp_script_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log_info "Checking linuxgsm.sh: UPDATE"
 		rm -f "${tmpdir:?}/linuxgsm.sh"
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
-
 	else
 		fn_print_ok_eol_nl
 		fn_script_log_pass "checking linuxgsm.sh: OK"
@@ -122,20 +121,18 @@ if [ -z "${legacymode}" ]; then
 	fi
 fi
 
-# Check and update functions.
+# Check and update modules.
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
 		for functionfile in *
 		do
-			echo -en "checking module ${functionfile}...\c"
-			github_file_url_dir="lgsm/functions"
-			exitcode=$?
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --fail -s "https://raw.revertthis.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			# check if file exists and remove if missing.
+			get_function_file=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			if [ $? != "0" ]; then
-				function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+				get_function_file=$(curl --fail -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}")
 			fi
-			if [ ${exitcode} -ne 0 ]; then
+			if [ $? -ne 0 ]; then
 				fn_print_fail_eol_nl
 				echo -en "removing unknown function ${functionfile}...\c"
 				fn_script_log_fatal "Removing unknown function ${functionfile}"
@@ -145,7 +142,23 @@ if [ -n "${functionsdir}" ]; then
 				else
 					fn_print_ok_eol_nl
 				fi
-			elif [ "${function_file_diff}" != "" ]; then
+			fi
+			# compare file
+			remotereponame="GitHub"
+			echo -en "checking ${remotereponame} module ${functionfile}...\c"
+			fn_script_log_info "Checking ${remotereponame} module ${functionfile}"
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://raw.revertthis.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			if [ $? != "0" ]; then
+				fn_print_error_eol_nl
+				fn_script_log_error "Checking ${remotereponame} module ${functionfile}: ERROR"
+				remotereponame="Bitbucket"
+				echo -en "checking ${remotereponame} module ${functionfile}...\c"
+				fn_script_log_info "Checking ${remotereponame} module ${functionfile}"
+				function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			fi
+
+			# results
+			if [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
 				fn_script_log_info "Checking module ${functionfile}: UPDATE"
 				rm -rf "${functionsdir:?}/${functionfile}"
@@ -157,12 +170,7 @@ if [ -n "${functionsdir}" ]; then
 	fi
 fi
 
-if [ "${exitcode}" != "0" ]&&[ -n "${exitcode}" ]; then
-	fn_print_fail "Updating functions"
-	fn_script_log_fatal "Updating functions"
-else
-	fn_print_ok "Updating functions"
-	fn_script_log_pass "Updating functions"
-fi
+fn_print_ok "Updating functions"
+fn_script_log_pass "Updating functions"
 
 core_exit.sh
