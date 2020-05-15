@@ -50,7 +50,7 @@ if [ -z "${legacymode}" ]; then
 	remotereponame="GitHub"
 	echo -en "checking ${remotereponame} linuxgsm.sh...\c"
 	fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.revertthis.com/GameServerManagers/LinuxGSM/feature/update-lgsm/linuxgsm.sh"))
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/update-lgsm/linuxgsm.sh"))
 	if [ $? != "0" ]; then
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking ${remotereponame} linuxgsm.sh: ERROR"
@@ -147,7 +147,7 @@ if [ -n "${functionsdir}" ]; then
 			remotereponame="GitHub"
 			echo -en "checking ${remotereponame} module ${functionfile}...\c"
 			fn_script_log_info "Checking ${remotereponame} module ${functionfile}"
-			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://raw.revertthis.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ $? != "0" ]; then
 				fn_print_error_eol_nl
 				fn_script_log_error "Checking ${remotereponame} module ${functionfile}: ERROR"
