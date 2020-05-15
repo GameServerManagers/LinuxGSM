@@ -380,8 +380,7 @@ else
 			mkdir -p "${configdirserver}"
 			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
+			if [ $? -ne 0 ]; then
 				echo -e "FAIL"
 				exit 1
 			else
@@ -390,11 +389,10 @@ else
 		else
 			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 			if [ "${function_file_diff}" != "" ]; then
-				fn_print_warn_nl "_default.cfg has been altered. reloading config."
+				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-				exitcode=$?
-				if [ ${exitcode} -ne 0 ]; then
+				if [ $? -ne 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else

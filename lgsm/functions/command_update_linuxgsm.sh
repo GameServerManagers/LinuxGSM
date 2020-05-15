@@ -11,70 +11,114 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 check.sh
 
 fn_print_dots "Updating LinuxGSM"
+fn_print_start_nl "Updating LinuxGSM"
 fn_script_log_info "Updating LinuxGSM"
 
 if [ -z "${legacymode}" ]; then
-	# Check and update _default.cfg.
-	echo -en "checking config _default.cfg...\c"
+	# Check _default.cfg.
+	remotereponame="GitHub"
+	echo -en "checking ${remotereponame} config _default.cfg...\c"
+	fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.revertthis.com/GameServerManagers/LinuxGSM/feature/update-lgsm/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ $? != "0" ]; then
+		fn_print_error_eol_nl
+		fn_script_log_error "Checking ${remotereponame} config _default.cfg: ERROR"
+		remotereponame="Bitbucket"
+		echo -en "checking ${remotereponame} config _default.cfg...\c"
+		fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 		config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+		if [ $? != "0" ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Checking ${remotereponame} config _default.cfg: FAIL"
+			core_exit.sh
+		fi
 	fi
+
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
-		fn_script_log_info "checking config _default.cfg: UPDATE"
-		rm -f "${configdirdefault:?}/config-lgsm/${gameservername}/_default.cfg"
-		fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforce" "nomd5"
+		fn_script_log_info "Checking ${remotereponame} config _default.cfg: UPDATE"
+		rm -f "${configdirdefault:?}/config-lgsm/${gameservername:?}/_default.cfg"
+		fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nomd5"
 		alert="config"
 		alert.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_info "checking config _default.cfg: OK"
+		fn_script_log_pass "Checking ${remotereponame} config _default.cfg: OK"
 	fi
 
-	echo -en "checking linuxgsm.sh...\c"
+	# Check linuxsm.sh
+	remotereponame="GitHub"
+	echo -en "checking ${remotereponame} linuxgsm.sh...\c"
+	fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
 	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.revertthis.com/GameServerManagers/LinuxGSM/feature/update-lgsm/linuxgsm.sh"))
 	if [ $? != "0" ]; then
+		fn_print_error_eol_nl
+		fn_script_log_error "Checking ${remotereponame} linuxgsm.sh: ERROR"
+		remotereponame="Bitbucket"
+		echo -en "checking ${remotereponame} linuxgsm.sh...\c"
+		fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
 		tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
+		if [ $? != "0" ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh: FAIL"
+			core_exit.sh
+		fi
 	fi
+
 	if [ "${tmp_script_diff}" == "" ]; then
 		fn_print_update_eol_nl
-		fn_script_log_info "checking linuxgsm.sh: UPDATE"
+		fn_script_log_info "Checking linuxgsm.sh: UPDATE"
 		rm -f "${tmpdir:?}/linuxgsm.sh"
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
-		# Compare selfname against linuxgsm.sh in the tmp dir. Ignoring server specific vars.
+
 	else
-		fn_script_log_info "checking linuxgsm.sh: OK"
 		fn_print_ok_eol_nl
+		fn_script_log_pass "checking linuxgsm.sh: OK"
 	fi
+
+	# Check gameserver.sh
+	# Compare gameserver.sh against linuxgsm.sh in the tmp dir.
+	# Ignoring server specific vars.
 	echo -en "checking ${selfname}...\c"
+	fn_script_log_info "Checking ${selfname}"
 	script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 	if [ "${script_diff}" != "" ]; then
 		fn_print_update_eol_nl
+		fn_script_log_info "Checking ${selfname}: UPDATE"
 		echo -en "backup ${selfname}...\c"
-		mkdir -p "${backupdir}/script/"
+		fn_script_log_info "Backup ${selfname}"
+		if [ ! -d "${backupdir}/script" ]; then
+			mkdir -p "${backupdir}/script"
+		fi
 		cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
+			fn_script_log_fatal "Backup ${selfname}: FAIL"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			echo -e "backup: ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+			fn_script_log_pass "Backup ${selfname}: OK"
+			echo -e "backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+			fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
-		echo -en "fetching ${fileurl_name} ${selfname}...\c"
+
+		echo -en "copying ${selfname}...\c"
+		fn_script_log_info "copying ${selfname}"
 		cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 		sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
 		sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
-		exitcode=$?
-		if [ "${exitcode}" != "0" ]; then
+		if [ $? != "0" ]; then
 			fn_print_fail_eol_nl
+			fn_script_log_fatal "copying ${selfname}: FAIL"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
+			fn_script_log_pass "copying ${selfname}: OK"
 		fi
 	else
 		fn_print_ok_eol_nl
+		fn_script_log_info "Checking ${selfname}: OK"
 	fi
 fi
 
@@ -94,7 +138,7 @@ if [ -n "${functionsdir}" ]; then
 			if [ ${exitcode} -ne 0 ]; then
 				fn_print_fail_eol_nl
 				echo -en "removing unknown function ${functionfile}...\c"
-				fn_script_log_fatal "removing unknown function ${functionfile}"
+				fn_script_log_fatal "Removing unknown function ${functionfile}"
 				if ! rm -f "${functionfile:?}"; then
 					fn_print_fail_eol_nl
 					core_exit.sh
@@ -103,7 +147,7 @@ if [ -n "${functionsdir}" ]; then
 				fi
 			elif [ "${function_file_diff}" != "" ]; then
 				fn_print_update_eol_nl
-				fn_script_log_info "checking module ${functionfile}: UPDATE"
+				fn_script_log_info "Checking module ${functionfile}: UPDATE"
 				rm -rf "${functionsdir:?}/${functionfile}"
 				fn_update_function
 			else
