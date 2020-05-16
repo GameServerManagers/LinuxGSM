@@ -55,7 +55,7 @@ fi
 
 if [ "${config_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_info "Checking ${remotereponame} config _default.cfg: UPDATE"
+	fn_script_log_update "Checking ${remotereponame} config _default.cfg"
 	rm -f "${configdirdefault:?}/config-lgsm/${gameservername:?}/_default.cfg"
 	fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nomd5"
 	alert="config"
@@ -67,7 +67,6 @@ fi
 
 # Check linuxsm.sh
 echo -en "checking ${remotereponame} linuxgsm.sh...\c"
-fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1>/dev/null
 else
@@ -88,12 +87,12 @@ fi
 
 if [ "${tmp_script_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_info "Checking linuxgsm.sh: UPDATE"
+	fn_script_log_update "Checking ${remotereponame} linuxgsm.sh"
 	rm -f "${tmpdir:?}/linuxgsm.sh"
 	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
 else
 	fn_print_ok_eol_nl
-	fn_script_log_pass "checking linuxgsm.sh"
+	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
 fi
 
 # Check gameserver.sh
@@ -104,7 +103,7 @@ fn_script_log_info "Checking ${selfname}"
 script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 if [ "${script_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_info "Checking ${selfname}: UPDATE"
+	fn_script_log_update "Checking ${selfname}"
 	echo -en "backup ${selfname}...\c"
 	fn_script_log_info "Backup ${selfname}"
 	if [ ! -d "${backupdir}/script" ]; then
@@ -160,12 +159,13 @@ if [ -n "${functionsdir}" ]; then
 				fn_print_error_eol_nl
 				fn_script_log_error "Checking ${remotereponame} module ${functionfile}"
 				echo -en "removing module ${functionfile}...\c"
-				fn_script_log_fatal "Removing module ${functionfile}"
 				if ! rm -f "${functionfile:?}"; then
 					fn_print_fail_eol_nl
+					fn_script_log_fatal "Removing module ${functionfile}"
 					core_exit.sh
 				else
 					fn_print_ok_eol_nl
+					fn_script_log_pass "Removing module ${functionfile}"
 				fi
 			else
 				# compare file
@@ -178,12 +178,12 @@ if [ -n "${functionsdir}" ]; then
 				# results
 				if [ "${function_file_diff}" != "" ]; then
 					fn_print_update_eol_nl
-					fn_script_log_info "Checking ${remotereponame} module ${functionfile}: UPDATE"
+					fn_script_log_update "Checking ${remotereponame} module ${functionfile}"
 					rm -rf "${functionsdir:?}/${functionfile}"
 					fn_update_function
 				else
 					fn_print_ok_eol_nl
-					fn_script_log_info "Checking ${remotereponame} module ${functionfile}: OK"
+					fn_script_log_PASS "Checking ${remotereponame} module ${functionfile}"
 				fi
 			fi
 		done
