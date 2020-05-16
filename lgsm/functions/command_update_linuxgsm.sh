@@ -169,7 +169,6 @@ if [ -n "${functionsdir}" ]; then
 				fi
 			else
 				# compare file
-				fn_script_log_info "Checking ${remotereponame} module ${functionfile}"
 				if [ "${remotereponame}" == "GitHub" ]; then
 					function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 				else
@@ -179,11 +178,12 @@ if [ -n "${functionsdir}" ]; then
 				# results
 				if [ "${function_file_diff}" != "" ]; then
 					fn_print_update_eol_nl
-					fn_script_log_info "Checking module ${functionfile}: UPDATE"
+					fn_script_log_info "Checking ${remotereponame} module ${functionfile}: UPDATE"
 					rm -rf "${functionsdir:?}/${functionfile}"
 					fn_update_function
 				else
 					fn_print_ok_eol_nl
+					fn_script_log_info "Checking ${remotereponame} module ${functionfile}: OK"
 				fi
 			fi
 		done
