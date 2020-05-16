@@ -16,9 +16,9 @@ fn_script_log_info "Updating LinuxGSM"
 fn_print_dots "Selecting repo"
 fn_script_log_info "Selecting repo"
 # Select remotereponame
-repocheck=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1>/dev/null)
+repocheck=$(curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1>/dev/null)
 if [ $? != "0" ]; then
-	repocheck=$(curl --fail -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1>/dev/null)
+	repocheck=$(curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1>/dev/null)
 	if [ $? != "0" ]; then
 		remotereponame="Bitbucket"
 		fn_print_ok_nl "Selecting repo: ${remotereponame}"
