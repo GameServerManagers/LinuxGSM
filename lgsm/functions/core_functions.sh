@@ -9,13 +9,6 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 modulesversion="v20.2.1"
 
-# Will run update linuxgsm if gameserver.sh and modules version does not match
-# this will allow gameserver.sh to update - useful for multi instance servers.
-if [ "${version}" != "${modulesversion}" ]; then
-	exitbypass=1
-	command_update_linuxgsm.sh
-fi
-
 # Core
 
 core_dl.sh(){
@@ -750,3 +743,10 @@ core_dl.sh
 
 # Calls the global Ctrl-C trap
 core_trap.sh
+
+# Will run update linuxgsm if gameserver.sh and modules version does not match
+# this will allow gameserver.sh to update - useful for multi instance servers.
+if [ "${version}" != "${modulesversion}" ]; then
+	exitbypass=1
+	command_update_linuxgsm.sh
+fi
