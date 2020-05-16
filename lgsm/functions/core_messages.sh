@@ -116,6 +116,17 @@ fn_script_log_info(){
 	fi
 }
 
+## Feb 28 14:56:58 ut99-server: Monitor: INFO:
+fn_script_log_update(){
+	if [ -d "${lgsmlogdir}" ]; then
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: UPDATE: ${1}" >> "${lgsmlog}"
+		else
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: UPDATE: ${1}" >> "${lgsmlog}"
+		fi
+	fi
+}
+
 # On-Screen - Automated functions
 ##################################
 
