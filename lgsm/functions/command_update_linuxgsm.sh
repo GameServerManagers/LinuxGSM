@@ -20,12 +20,12 @@ curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${gith
 if [ $? != "0" ]; then
 	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1>/dev/null
 	if [ $? != "0" ]; then
-		remotereponame="Bitbucket"
-		fn_print_ok_nl "Selecting repo: ${remotereponame}"
-	else
 		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		fn_script_log_fatal "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		core_exit.sh
+	else
+		remotereponame="Bitbucket"
+		fn_print_ok_nl "Selecting repo: ${remotereponame}"
 	fi
 else
 	remotereponame="GitHub"
