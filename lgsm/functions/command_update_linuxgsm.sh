@@ -127,6 +127,10 @@ if [ "${script_diff}" != "" ]; then
 	sed -i "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${rootdir}/${selfname}"
 	sed -i "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${rootdir}/${selfname}"
 	sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
+	sed -i "s/githubuser=\"GameServerManagers\"/githubuser=\"${githubuser}\"/g" "${rootdir}/${selfname}"
+	sed -i "s/githubrepo=\"LinuxGSM\"/githubrepo=\"${githubrepo}\"/g" "${rootdir}/${selfname}"
+	sed -i "s/githubbranch=\"master\"/githubbranch=\"${githubrepo}\"/g" "${rootdir}/${selfname}"
+
 	if [ $? != "0" ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "copying ${selfname}"
