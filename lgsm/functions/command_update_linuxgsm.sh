@@ -149,6 +149,7 @@ if [ -n "${functionsdir}" ]; then
 		do
 			# check if module exists in the repo and remove if missing.
 			# commonly used if module names change.
+			github_file_url_dir="lgsm/functions"
 			if [ "${remotereponame}" == "GitHub" ]; then
 				curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null
 			else
