@@ -14,6 +14,25 @@ fn_print_dots "Updating LinuxGSM"
 fn_print_start_nl "Updating LinuxGSM"
 fn_script_log_info "Updating LinuxGSM"
 
+fn_print_dots "Selecting repo"
+fn_script_log_info "Selecting repo"
+# Select remotereponame
+repocheck=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/linuxgsm.sh" 1>/dev/null)
+if [ $? != "0" ]; then
+	repocheck=$(curl --fail -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/linuxgsm.sh" 1>/dev/null)
+	if [ $? != "0" ]; then
+		remotereponame="Bitbucket"
+		fn_print_ok "Selecting repo: ${remotereponame}"
+	else
+		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
+		fn_script_log_fatal "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
+		core_exit.sh
+	fi
+else
+	remotereponame="GitHub"
+	fn_print_ok "Selecting repo: ${remotereponame}"
+fi
+
 if [ -z "${legacymode}" ]; then
 	# Check _default.cfg.
 	remotereponame="GitHub"
@@ -22,14 +41,14 @@ if [ -z "${legacymode}" ]; then
 	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 	if [ $? != "0" ]; then
 		fn_print_error_eol_nl
-		fn_script_log_error "Checking ${remotereponame} config _default.cfg: ERROR"
+		fn_script_log_error "Checking ${remotereponame} config _default.cfg"
 		remotereponame="Bitbucket"
 		echo -en "checking ${remotereponame} config _default.cfg...\c"
 		fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 		config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 		if [ $? != "0" ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Checking ${remotereponame} config _default.cfg: FAIL"
+			fn_script_log_fatal "Checking ${remotereponame} config _default.cfg"
 			core_exit.sh
 		fi
 	fi
@@ -43,24 +62,24 @@ if [ -z "${legacymode}" ]; then
 		alert.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Checking ${remotereponame} config _default.cfg: OK"
+		fn_script_log_pass "Checking ${remotereponame} config _default.cfg"
 	fi
 
 	# Check linuxsm.sh
 	remotereponame="GitHub"
 	echo -en "checking ${remotereponame} linuxgsm.sh...\c"
 	fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/update-lgsm/linuxgsm.sh"))
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
 	if [ $? != "0" ]; then
 		fn_print_error_eol_nl
-		fn_script_log_error "Checking ${remotereponame} linuxgsm.sh: ERROR"
+		fn_script_log_error "Checking ${remotereponame} linuxgsm.sh"
 		remotereponame="Bitbucket"
 		echo -en "checking ${remotereponame} linuxgsm.sh...\c"
 		fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
 		tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
 		if [ $? != "0" ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh: FAIL"
+			fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh"
 			core_exit.sh
 		fi
 	fi
@@ -72,7 +91,7 @@ if [ -z "${legacymode}" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "checking linuxgsm.sh: OK"
+		fn_script_log_pass "checking linuxgsm.sh"
 	fi
 
 	# Check gameserver.sh
@@ -92,11 +111,11 @@ if [ -z "${legacymode}" ]; then
 		cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		if [ $? -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Backup ${selfname}: FAIL"
+			fn_script_log_fatal "Backup ${selfname}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Backup ${selfname}: OK"
+			fn_script_log_pass "Backup ${selfname}"
 			echo -e "backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 			fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 		fi
@@ -109,15 +128,15 @@ if [ -z "${legacymode}" ]; then
 		sed -i "s/gamename=\"core\"/gamename=\"${gamename}\"/g" "${rootdir}/${selfname}"
 		if [ $? != "0" ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "copying ${selfname}: FAIL"
+			fn_script_log_fatal "copying ${selfname}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "copying ${selfname}: OK"
+			fn_script_log_pass "copying ${selfname}"
 		fi
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_info "Checking ${selfname}: OK"
+		fn_script_log_info "Checking ${selfname}"
 	fi
 fi
 
@@ -127,15 +146,16 @@ if [ -n "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
 		for functionfile in *
 		do
-			# check if file exists and remove if missing.
-			get_function_file=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}")
+			# check if module exists in the repo and remove if missing.
+			# commonly used if module names change.
+			get_function_file=$(curl --fail -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null)
 			if [ $? != "0" ]; then
-				get_function_file=$(curl --fail -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}")
+				get_function_file=$(curl --fail -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null)
 			fi
 			if [ $? -ne 0 ]; then
 				fn_print_fail_eol_nl
-				echo -en "removing unknown function ${functionfile}...\c"
-				fn_script_log_fatal "Removing unknown function ${functionfile}"
+				echo -en "removing module ${functionfile}...\c"
+				fn_script_log_fatal "Removing module ${functionfile}"
 				if ! rm -f "${functionfile:?}"; then
 					fn_print_fail_eol_nl
 					core_exit.sh
@@ -143,6 +163,7 @@ if [ -n "${functionsdir}" ]; then
 					fn_print_ok_eol_nl
 				fi
 			fi
+
 			# compare file
 			remotereponame="GitHub"
 			echo -en "checking ${remotereponame} module ${functionfile}...\c"
@@ -150,7 +171,7 @@ if [ -n "${functionsdir}" ]; then
 			function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
 			if [ $? != "0" ]; then
 				fn_print_error_eol_nl
-				fn_script_log_error "Checking ${remotereponame} module ${functionfile}: ERROR"
+				fn_script_log_error "Checking ${remotereponame} module ${functionfile}"
 				remotereponame="Bitbucket"
 				echo -en "checking ${remotereponame} module ${functionfile}...\c"
 				fn_script_log_info "Checking ${remotereponame} module ${functionfile}"
