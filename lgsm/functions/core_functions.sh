@@ -237,6 +237,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+check_version.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Compress
 
 compress_unreal2_maps.sh(){
@@ -743,10 +748,3 @@ core_dl.sh
 
 # Calls the global Ctrl-C trap
 core_trap.sh
-
-# Will run update linuxgsm if gameserver.sh and modules version does not match
-# this will allow gameserver.sh to update - useful for multi instance servers.
-if [ "${version}" != "${modulesversion}" ]; then
-	exitbypass=1
-	command_update_linuxgsm.sh
-fi

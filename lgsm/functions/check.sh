@@ -14,6 +14,8 @@ if [ "${commandname}" != "INSTALL" ]; then
 	check_root.sh
 fi
 
+check_version.sh
+
 check_tmuxception.sh
 
 if [ "$(whoami)" != "root" ]; then
