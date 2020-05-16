@@ -183,7 +183,7 @@ if [ -n "${functionsdir}" ]; then
 					fn_update_function
 				else
 					fn_print_ok_eol_nl
-					fn_script_log_PASS "Checking ${remotereponame} module ${functionfile}"
+					fn_script_log_pass "Checking ${remotereponame} module ${functionfile}"
 				fi
 			fi
 		done
