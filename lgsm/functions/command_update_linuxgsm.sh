@@ -152,7 +152,7 @@ if [ -n "${functionsdir}" ]; then
 			echo -en "checking ${remotereponame} module ${functionfile}...\c"
 			github_file_url_dir="lgsm/functions"
 			if [ "${remotereponame}" == "GitHub" ]; then
-				curl -IsfL "https://aw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null
+				curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null
 			else
 				curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null
 			fi
