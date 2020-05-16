@@ -169,7 +169,6 @@ if [ -n "${functionsdir}" ]; then
 				fi
 			else
 				# compare file
-				echo -en "checking ${remotereponame} module ${functionfile}...\c"
 				fn_script_log_info "Checking ${remotereponame} module ${functionfile}"
 				if [ "${remotereponame}" == "GitHub" ]; then
 					function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
