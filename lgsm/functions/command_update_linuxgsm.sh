@@ -10,8 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
-fn_print_dots "Updating LinuxGSM"
-fn_print_start_nl "Updating LinuxGSM"
+fn_print_dots ""
 fn_script_log_info "Updating LinuxGSM"
 
 fn_print_dots "Selecting repo"
