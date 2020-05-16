@@ -36,14 +36,21 @@ fi
 echo -en "checking ${remotereponame} config _default.cfg...\c"
 fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 if [ "${remotereponame}" == "GitHub" ]; then
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1>/dev/null
 else
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1>/dev/null
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
 	fn_script_log_fatal "Checking ${remotereponame} config _default.cfg"
+	fn_script_log_fatal "Curl returned error: $?"
 	core_exit.sh
+fi
+
+if [ "${remotereponame}" == "GitHub" ]; then
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+else
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 fi
 
 if [ "${config_file_diff}" != "" ]; then
@@ -62,14 +69,21 @@ fi
 echo -en "checking ${remotereponame} linuxgsm.sh...\c"
 fn_script_log_info "Checking ${remotereponame} linuxgsm.sh"
 if [ "${remotereponame}" == "GitHub" ]; then
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1>/dev/null
 else
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
+	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1>/dev/null
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
 	fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log_fatal "Curl returned error: $?"
 	core_exit.sh
+fi
+
+if [ "${remotereponame}" == "GitHub" ]; then
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+else
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
 fi
 
 if [ "${tmp_script_diff}" != "" ]; then
@@ -136,9 +150,9 @@ if [ -n "${functionsdir}" ]; then
 			# check if module exists in the repo and remove if missing.
 			# commonly used if module names change.
 			if [ "${remotereponame}" == "GitHub" ]; then
-				get_function_file=$(curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null)
+				curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null
 			else
-				get_function_file=$(curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null)
+				curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1>/dev/null
 			fi
 			if [ $? -ne 0 ]; then
 				fn_print_fail_eol_nl
