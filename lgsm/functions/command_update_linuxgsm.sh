@@ -22,7 +22,7 @@ if [ $? != "0" ]; then
 	repocheck=$(curl --fail -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/linuxgsm.sh" 1>/dev/null)
 	if [ $? != "0" ]; then
 		remotereponame="Bitbucket"
-		fn_print_ok "Selecting repo: ${remotereponame}"
+		fn_print_ok_nl "Selecting repo: ${remotereponame}"
 	else
 		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		fn_script_log_fatal "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
@@ -30,7 +30,7 @@ if [ $? != "0" ]; then
 	fi
 else
 	remotereponame="GitHub"
-	fn_print_ok "Selecting repo: ${remotereponame}"
+	fn_print_ok_nl "Selecting repo: ${remotereponame}"
 fi
 
 if [ -z "${legacymode}" ]; then
