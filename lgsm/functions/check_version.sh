@@ -7,6 +7,7 @@
 
 if [ -n "${modulesversion}" ]&&[ -n "${version}" ]&&[ "${version}" != "${modulesversion}" ]; then
 	exitbypass=1
+	echo -e ""
 	fn_print_error_nl "Version mismatch"
 	echo -e "${selfname}: ${version}"
 	echo -e "modules: ${modulesversion}"
