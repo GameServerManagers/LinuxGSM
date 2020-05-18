@@ -64,7 +64,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date '+%s' > "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${selfname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -79,7 +79,7 @@ fn_start_tmux(){
 		fn_script_log "Tmux version: master (user compiled)"
 		echo -e "Tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ "${tmuxversion}" ]; then
 		# Get the digit version of tmux.

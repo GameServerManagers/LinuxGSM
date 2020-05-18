@@ -26,6 +26,7 @@ gameservername="ts3server"
 commandname="CORE"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+sessionname=$(echo "${selfname}" | cut -f1 -d".")
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -44,10 +45,7 @@ userinput="${1}"
 
 # Allows for testing not on Travis CI.
 # if using travis for tests
-if [ -n "${TRAVIS}" ]; then
-	selfname="travis"
-# if not using travis for tests
-else
+if [ -z "${TRAVIS}" ]; then
 	TRAVIS_BRANCH="develop"
 	TRAVIS_BUILD_DIR="${rootdir}"
 fi
