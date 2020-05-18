@@ -8,11 +8,12 @@
 if [ -n "${modulesversion}" ]&&[ -n "${version}" ]&&[ "${version}" != "${modulesversion}" ]; then
 	exitbypass=1
 	echo -e ""
-	fn_print_error_nl "Version mismatch"
-	echo -e "${selfname}: ${version}"
-	echo -e "modules: ${modulesversion}"
+	fn_print_error_nl "LinuxGSM version mismatch"
+	echo -e ""
+	echo -e "* ${selfname}: ${version}"
+	echo -e "* modules: ${modulesversion}"
 	echo -e ""
 	fn_sleep_time
-	fn_script_log_error "Version mismatch: ${selfname}: ${version}: modules: ${modulesversion}"
+	fn_script_log_error "LinuxGSM Version mismatch: ${selfname}: ${version}: modules: ${modulesversion}"
 	command_update_linuxgsm.sh
 fi
