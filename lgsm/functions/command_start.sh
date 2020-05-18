@@ -97,19 +97,19 @@ fn_start_tmux(){
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo -e "Unable to detect tmux version" >> "${consolelog}"
 		fn_script_log_warn "Unable to detect tmux version"
 	fi
 
-# Console logging disabled.
-if [ "${consolelogging}" == "off" ]; then
-	echo -e "Console logging disabled by user" >> "${consolelog}"
-	fn_script_log_info "Console logging disabled by user"
-fi
-fn_sleep_time
+	# Console logging disabled.
+	if [ "${consolelogging}" == "off" ]; then
+		echo -e "Console logging disabled by user" >> "${consolelog}"
+		fn_script_log_info "Console logging disabled by user"
+	fi
+	fn_sleep_time
 
 	# If the server fails to start.
 	check_status.sh
@@ -122,7 +122,7 @@ fn_sleep_time
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${selfname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${sessionname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
@@ -156,7 +156,6 @@ fn_sleep_time
 				fi
 			fi
 		fi
-
 		core_exit.sh
 	else
 		fn_print_ok "${servername}"
