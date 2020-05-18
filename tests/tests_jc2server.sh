@@ -45,7 +45,8 @@ userinput="${1}"
 # Allows for testing not on Travis CI.
 # if using travis for tests
 if [ -n "${TRAVIS}" ]; then
-	selfname="travis"
+	#selfname="travis"
+	:
 # if not using travis for tests
 else
 	TRAVIS_BRANCH="develop"
