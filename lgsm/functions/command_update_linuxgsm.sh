@@ -100,7 +100,11 @@ fi
 # Ignoring server specific vars.
 echo -en "checking ${selfname}...\c"
 fn_script_log_info "Checking ${selfname}"
+echo "TMPDIR: ${tmpdir}"
+echo "ROOTDIR: ${rootdir}"
+echo "SELFNAME: ${selfname}"
 script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
+echo "=========================================="
 if [ "${script_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_update "Checking ${selfname}"
