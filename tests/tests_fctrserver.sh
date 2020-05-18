@@ -49,10 +49,9 @@ if [ -n "${TRAVIS}" ]; then
 # if not using travis for tests
 else
 	TRAVIS_BRANCH="develop"
+	TRAVIS_BUILD_DIR="${rootdir}"
 fi
-TRAVIS_BUILD_DIR="${rootdir}"
 travistest="1"
-
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.

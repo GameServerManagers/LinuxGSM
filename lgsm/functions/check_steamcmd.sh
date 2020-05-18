@@ -11,6 +11,7 @@ fn_install_steamcmd(){
 		steamcmddir="${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fi
 	if [ ! -d "${steamcmddir}" ]; then
+		echo "STEAMCMDDIR: ${steamcmddir}"
 		mkdir -p "${steamcmddir}"
 	fi
 	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
