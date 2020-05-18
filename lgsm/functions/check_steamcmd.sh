@@ -11,13 +11,19 @@ fn_install_steamcmd(){
 		steamcmddir="${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fi
 	if [ ! -d "${steamcmddir}" ]; then
-		echo "STEAMCMDDIR1: ${steamcmddir}"
 		mkdir -p "${steamcmddir}"
-		echo "STEAMCMDDIR2: ${steamcmddir}"
 	fi
-	echo "STEAMCMDDIR3: ${steamcmddir}"
-	echo "TMPDIR: ${tmpdir}"
-	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
+	remote_fileurl="${1}"
+	remote_fileurl_backup="${2}"
+	remote_fileurl_name="${3}"
+	remote_fileurl_backup_name="${4}"
+	local_filedir="${5}"
+	local_filename="${6}"
+	chmodx="${7:-0}"
+	run="${8:-0}"
+	forcedl="${9:-0}"
+	md5="${10:-0}"
+	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
