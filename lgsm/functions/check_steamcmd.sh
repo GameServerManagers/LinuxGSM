@@ -13,6 +13,7 @@ fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then
 		echo "STEAMCMDDIR: ${steamcmddir}"
 		mkdir -p "${steamcmddir}"
+		echo "STEAMCMDDIR: ${steamcmddir}"
 	fi
 	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "${tmpdir}" "steamcmd_linux.tar.gz"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
