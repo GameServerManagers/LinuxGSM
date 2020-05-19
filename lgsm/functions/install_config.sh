@@ -148,13 +148,13 @@ fn_list_config_locations(){
 	echo -e "${lightyellow}Config File Locations${default}"
 	echo -e "================================="
 	if [ -n "${servercfgfullpath}" ]; then
-			if [ -f "${servercfgfullpath}" ]; then
-				echo -e "Game Server Config File: ${servercfgfullpath}"
-			elif [ -d "${servercfgfullpath}" ]; then
-				echo -e "Game Server Config Dir: ${servercfgfullpath}"
-			else
-				echo -e "Config file: ${red}${servercfgfullpath} (${red}FILE MISSING${default})"
-			fi
+		if [ -f "${servercfgfullpath}" ]; then
+			echo -e "Game Server Config File: ${servercfgfullpath}"
+		elif [ -d "${servercfgfullpath}" ]; then
+			echo -e "Game Server Config Dir: ${servercfgfullpath}"
+		else
+			echo -e "Config file: ${red}${servercfgfullpath} (${red}FILE MISSING${default})"
+		fi
 	fi
 	echo -e "LinuxGSM Config: ${lgsmdir}/config-lgsm/${gameservername}"
 	echo -e "Documentation: https://docs.linuxgsm.com/configuration/game-server-config"
