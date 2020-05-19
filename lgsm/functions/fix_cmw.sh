@@ -23,3 +23,10 @@ if [ ! -f "${executabledir}/lib/steamclient.so" ]; then
 	fi
 	fn_fix_msg_end
 fi
+
+if [ ! -f "${servercfgfullpath}" ]; then
+	fn_fix_msg_start
+	fixname="copy config"
+	cp "${systemdir}/UDKGame/Config/"*.ini "${servercfgdir}"
+	fn_fix_msg_end
+fi
