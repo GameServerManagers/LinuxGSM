@@ -7,7 +7,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
-	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2"
+	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "" "" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/murmur-static_${mumblearch}-${remotebuild}/"* "${serverfiles}"

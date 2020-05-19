@@ -79,7 +79,6 @@ fn_stop_warning(){
 fn_print_dots "Validating server"
 fn_print_dots "Validating server: SteamCMD"
 check.sh
-check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_stop_warning
 	exitbypass=1

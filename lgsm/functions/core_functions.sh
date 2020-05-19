@@ -7,6 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+modulesversion="v20.2.1"
+
 # Core
 
 core_dl.sh(){
@@ -231,6 +233,11 @@ fn_fetch_function
 }
 
 check_tmuxception.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+check_version.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -662,6 +669,11 @@ fn_fetch_function
 }
 
 install_logs.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+install_modules.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

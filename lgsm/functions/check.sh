@@ -14,6 +14,10 @@ if [ "${commandname}" != "INSTALL" ]; then
 	check_root.sh
 fi
 
+if [ "${commandname}" != "UPDATE-LGSM" ]; then
+	check_version.sh
+fi
+
 check_tmuxception.sh
 
 if [ "$(whoami)" != "root" ]; then
