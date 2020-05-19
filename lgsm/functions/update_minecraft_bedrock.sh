@@ -33,7 +33,7 @@ fn_update_minecraft_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
-	localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
