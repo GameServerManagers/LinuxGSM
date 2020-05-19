@@ -12,7 +12,7 @@ if [ "${shortname}" == "hw" ]; then
 		fixname="steamclient.so x86"
 		fn_fix_msg_start
 		if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-			cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
+			cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
 		elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
 			cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
 		else
@@ -24,7 +24,7 @@ if [ "${shortname}" == "hw" ]; then
 		fixname="steamclient.so x86_64"
 		fn_fix_msg_start
 		if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-			cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${lgsmlog}"
+			cp "${steamcmddir}/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${lgsmlog}"
 		elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
 			cp "${steamcmddir}/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" >> "${lgsmlog}"
 		else

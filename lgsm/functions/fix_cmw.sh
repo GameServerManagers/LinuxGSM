@@ -17,7 +17,7 @@ if [ ! -f "${executabledir}/lib/steamclient.so" ]; then
 	fixname="steamclient.so"
 	fn_fix_msg_start
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${executabledir}/lib/steamclient.so"
+		cp "${steamcmddir}/linux32/steamclient.so" "${executabledir}/lib/steamclient.so"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
 		cp "${steamcmddir}/linux32/steamclient.so" "${executabledir}/lib/steamclient.so"
 	fi
