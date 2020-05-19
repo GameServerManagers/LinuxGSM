@@ -194,7 +194,7 @@ if [ -n "${functionsdir}" ]; then
 	fi
 fi
 
-fn_print_ok "Updating functions"
+fn_print_ok_nl "Updating functions"
 fn_script_log_pass "Updating functions"
 
 core_exit.sh
