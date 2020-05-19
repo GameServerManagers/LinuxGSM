@@ -12,9 +12,9 @@ if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
 	fn_fix_msg_start
 	mkdir -pv "${HOME}/.steam/sdk64" >> "${lgsmlog}"
 	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp -v "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
 	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp -v "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
 	else
 		$?=2
 	fi
@@ -27,9 +27,9 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fn_fix_msg_start
 	mkdir -pv "${HOME}/.steam/sdk32" >> "${lgsmlog}"
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp -v "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp -v "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
 	else
 		$?=2
 	fi
