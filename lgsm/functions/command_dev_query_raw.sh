@@ -35,7 +35,7 @@ fi
 query_gamedig.sh
 echo -e "${gamedigcmd}"
 echo""
-echo -e "${gamedigraw}" | jq
+echo "${gamedigraw}" | jq
 
 echo -e ""
 echo -e "gsquery Raw Output"
