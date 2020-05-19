@@ -15,8 +15,6 @@ if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
 		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
 	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
 		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
-	else
-		$?=2
 	fi
 	fn_fix_msg_end
 fi
@@ -30,8 +28,6 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
 		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
-	else
-		$?=2
 	fi
 	fn_fix_msg_end
 fi
