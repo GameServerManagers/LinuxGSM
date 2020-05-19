@@ -27,6 +27,7 @@ fi
 if [ ! -f "${servercfgfullpath}" ]; then
 	fn_fix_msg_start
 	fixname="copy config"
+	mkdir "${servercfgdir}"
 	cp "${systemdir}/UDKGame/Config/"*.ini "${servercfgdir}"
 	fn_fix_msg_end
 fi
