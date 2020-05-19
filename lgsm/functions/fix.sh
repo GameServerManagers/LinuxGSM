@@ -42,6 +42,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_ark.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
+	elif [ "${shortname}" == "cmw" ]; then
+		fix_cmw.sh
 	elif [ "${shortname}" == "dst" ]; then
 		fix_dst.sh
 	elif [ "${shortname}" == "ges" ]; then
@@ -97,8 +99,6 @@ if [ "${commandname}" == "INSTALL" ]; then
 			postinstall=1
 			if [ "${shortname}" == "av" ]; then
 				fix_av.sh
-			elif [ "${shortname}" == "cmw" ]; then
-				fix_cmw.sh
 			elif [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then
