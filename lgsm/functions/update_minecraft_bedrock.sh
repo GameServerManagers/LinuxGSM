@@ -178,4 +178,7 @@ else
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_compare
 fi
-core_exit.sh
+
+if [ "${commandname}" != "INSTALL" ]; then
+	core_exit.sh
+fi	

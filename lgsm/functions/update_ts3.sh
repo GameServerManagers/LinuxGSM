@@ -219,4 +219,7 @@ else
 	fn_update_ts3_remotebuild
 	fn_update_ts3_compare
 fi
-core_exit.sh
+
+if [ "${commandname}" != "INSTALL" ]; then
+	core_exit.sh
+fi	

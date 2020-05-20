@@ -246,4 +246,7 @@ else
 	fn_update_steamcmd_remotebuild
 	fn_update_steamcmd_compare
 fi
-core_exit.sh
+
+if [ "${commandname}" != "INSTALL" ]; then
+	core_exit.sh
+fi	
