@@ -1490,7 +1490,7 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-	elif [ "${engine}" == "bf1942" ]; then
+	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
