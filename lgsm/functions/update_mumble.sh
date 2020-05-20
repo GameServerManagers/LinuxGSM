@@ -147,3 +147,4 @@ else
 	fn_update_mumble_remotebuild
 	fn_update_mumble_compare
 fi
+core_exit.sh
