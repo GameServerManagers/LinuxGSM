@@ -7,15 +7,16 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
+	fn_update_factorio_clear_tmp
 	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/factorio/"* "${serverfiles}"
 	local exitcode=$?
+	fn_clear_tmp
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
@@ -78,6 +79,7 @@ fn_update_factorio_compare(){
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
@@ -118,6 +120,7 @@ fn_update_factorio_compare(){
 		if [ -v "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
@@ -160,6 +163,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_factorio_remotebuild
 	fn_update_factorio_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_factorio_localbuild

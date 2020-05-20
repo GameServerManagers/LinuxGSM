@@ -17,10 +17,10 @@ fn_update_ts3_dl(){
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
 	local exitcode=$?
+	fn_clear_tmp
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
@@ -161,6 +161,7 @@ fn_update_ts3_compare(){
 			exitbypass=1
 			command_start.sh
 		fi
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -169,6 +170,7 @@ fn_update_ts3_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -209,6 +211,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_ts3_remotebuild
 	fn_update_ts3_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_ts3_localbuild

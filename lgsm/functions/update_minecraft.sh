@@ -18,11 +18,11 @@ fn_update_minecraft_dl(){
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
+	fn_clear_tmp
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
 		chmod u+x "${serverfiles}/minecraft_server.jar"
-		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
@@ -137,6 +137,7 @@ fn_update_minecraft_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
@@ -177,6 +178,7 @@ fn_update_minecraft_compare(){
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -208,6 +210,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_minecraft_localbuild

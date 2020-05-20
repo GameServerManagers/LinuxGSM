@@ -16,11 +16,11 @@ fn_update_minecraft_dl(){
 		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "whitelist.json" -d "${serverfiles}"
 	fi
 	local exitcode=$?
+	fn_clear_tmp
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Extracting to ${serverfiles}"
 		chmod u+x "${serverfiles}/bedrock_server"
-		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting to ${serverfiles}"
@@ -66,7 +66,7 @@ fn_update_minecraft_localbuild(){
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
 	else
-		fn_print_ok "Checking local build: ${remotelocation}: checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
 }
@@ -106,6 +106,7 @@ fn_update_minecraft_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -140,6 +141,7 @@ fn_update_minecraft_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -168,6 +170,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_minecraft_localbuild

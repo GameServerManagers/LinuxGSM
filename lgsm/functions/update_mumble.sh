@@ -12,10 +12,10 @@ fn_update_mumble_dl(){
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/murmur-static_${mumblearch}-${remotebuild}/"* "${serverfiles}"
 	local exitcode=$?
+	fn_clear_tmp
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
@@ -74,6 +74,7 @@ fn_update_mumble_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
@@ -108,6 +109,7 @@ fn_update_mumble_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
