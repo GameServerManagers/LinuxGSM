@@ -199,6 +199,23 @@ fn_info_config_bf1942(){
 	fi
 }
 
+fn_info_config_chivalry(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		adminpassword="${unavailable}"
+        else
+		servername=$(egrep "^ServerName" "${servercfgfullpath}" | sed 's/^ServerName=//')
+		adminpassword=$(egrep "^AdminPassword" "${servercfgfullpath}" | sed 's/^AdminPassword=//')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		port=${port:-"0"}
+	fi
+}
+
 fn_info_config_cod(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1455,6 +1472,9 @@ elif [ "${shortname}" == "bt1944" ]; then
 # Battlefield: 1942
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
+# Chivalry: Medieval Warfare
+elif [ "${shortname}" == "cmw" ]; then
+	fn_info_config_chivalry
 # Call of Duty
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]; then
 	fn_info_config_cod

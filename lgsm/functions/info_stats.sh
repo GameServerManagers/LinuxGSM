@@ -23,10 +23,10 @@ fi
 if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.txt" ]; then
 	# download dictionary words
 	if [ ! -f "${datadir}/name-left.csv" ]; then
-		fn_fetch_file_git "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+		fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	fi
 	if [ ! -f "${datadir}/name-right.csv" ]; then
-		fn_fetch_file_git "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+		fn_fetch_file_github "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	fi
 
 	# generate instance uuid
