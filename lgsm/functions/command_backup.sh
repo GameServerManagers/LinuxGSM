@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-local modulename="BACKUP"
-local commandaction="Backup"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="BACKUP"
+commandaction="Backing up"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -22,15 +22,15 @@ fn_backup_trap(){
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file.
-	rm -f "${lockdir:?}/.backup.lock"
+	rm -f "${lockdir:?}/backup.lock"
 	core_exit.sh
 }
 
-# Check if a backup is pending or has been aborted using .backup.lock.
+# Check if a backup is pending or has been aborted using backup.lock.
 fn_backup_check_lockfile(){
-	if [ -f "${lockdir}/.backup.lock" ]; then
+	if [ -f "${lockdir}/backup.lock" ]; then
 		fn_print_info_nl "Lock file found: Backup is currently running"
-		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/.backup.lock"
+		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/backup.lock"
 		core_exit.sh
 	fi
 }
@@ -115,9 +115,9 @@ fn_backup_migrate_olddir(){
 
 fn_backup_create_lockfile(){
 	# Create lockfile.
-	date '+%s' > "${lockdir}/.backup.lock"
+	date '+%s' > "${lockdir}/backup.lock"
 	fn_script_log_info "Lockfile generated"
-	fn_script_log_info "${lockdir}/.backup.lock"
+	fn_script_log_info "${lockdir}/backup.lock"
 	# trap to remove lockfile on quit.
 	trap fn_backup_trap INT
 }
@@ -138,12 +138,12 @@ fn_backup_compression(){
 		core_exit.sh
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/.backup.lock" ./.
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/backup.lock" ./.
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
-		echo -e "${tarcmd}" | tee -a "${lgsmlog}"
+		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
@@ -152,7 +152,7 @@ fn_backup_compression(){
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
-	rm -f "${lockdir:?}/.backup.lock"
+	rm -f "${lockdir:?}/backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.

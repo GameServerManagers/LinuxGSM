@@ -4,6 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # Standard Details
 # This applies to all engines
 
@@ -693,6 +695,18 @@ fn_info_message_coduo(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_chivalry(){
+	fn_info_message_password_strip
+	echo -e "netstat -atunp | grep UDKGame"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t27960\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1388,6 +1402,8 @@ fn_info_message_select_engine(){
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_battalion1944
+	elif [ "${shortname}" == "cmw" ]; then
+		fn_info_message_chivalry
 	elif [ "${shortname}" == "cod" ]; then
 		fn_info_message_cod
 	elif [ "${shortname}" == "coduo" ]; then
@@ -1474,7 +1490,7 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-	elif [ "${engine}" == "bf1942" ]; then
+	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
@@ -1507,7 +1523,7 @@ fn_info_message_select_engine(){
 
 # Separator is different for details
 fn_messages_separator(){
-	if [ "${function_selfname}" == "command_details.sh" ]; then
+	if [ "${commandname}" == "details" ]; then
 		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	else
 		echo -e "================================="
@@ -1516,7 +1532,7 @@ fn_messages_separator(){
 
 # Removes the passwords form all but details
 fn_info_message_password_strip(){
-	if [ "${function_selfname}" != "command_details.sh" ]; then
+	if [ "${commandname}" != "DETAILS" ]; then
 		if [ "${serverpassword}" ]; then
 			serverpassword="********"
 		fi

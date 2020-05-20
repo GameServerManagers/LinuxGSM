@@ -5,8 +5,7 @@
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
 
-local modulename="FIX"
-local commandaction="Fix"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Messages that are displayed for some fixes.
 fn_fix_msg_start(){
@@ -32,7 +31,7 @@ fn_fix_msg_end(){
 }
 
 # Fixes that are run on start.
-if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; then
+if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 	if [ "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
@@ -43,6 +42,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 		fix_ark.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
+	elif [ "${shortname}" == "cmw" ]; then
+		fix_cmw.sh
 	elif [ "${shortname}" == "dst" ]; then
 		fix_dst.sh
 	elif [ "${shortname}" == "ges" ]; then
@@ -89,8 +90,8 @@ if [ "${function_selfname}" != "command_install.sh" ]&&[ -z "${fixbypass}" ]; th
 fi
 
 # Fixes that are run on install only.
-if [ "${function_selfname}" == "command_install.sh" ]; then
-		if [ "${shortname}" == "av" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
+if [ "${commandname}" == "INSTALL" ]; then
+		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="

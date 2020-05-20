@@ -5,6 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # nl: new line: message is following by a new line.
 # eol: end of line: message is placed at the end of the current line.
 fn_ansi_loader(){
@@ -46,8 +48,8 @@ fn_sleep_time(){
 ## Feb 28 14:56:58 ut99-server: Monitor:
 fn_script_log(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: ${1}" >> "${lgsmlog}"
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${1}" >> "${lgsmlog}"
 		fi
@@ -58,8 +60,8 @@ fn_script_log(){
 fn_script_log_pass(){
 	if [ -d "${lgsmlogdir}" ]; then
 
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: PASS: ${1}" >> "${lgsmlog}"
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: PASS: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: PASS: ${1}" >> "${lgsmlog}"
 		fi
@@ -70,8 +72,8 @@ fn_script_log_pass(){
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
 fn_script_log_fatal(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: FATAL: ${1}" >> "${lgsmlog}"
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FATAL: ${1}" >> "${lgsmlog}"
 		fi
@@ -82,8 +84,8 @@ fn_script_log_fatal(){
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
 fn_script_log_error(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: ERROR: ${1}" >> "${lgsmlog}"
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ERROR: ${1}" >> "${lgsmlog}"
 		fi
@@ -94,8 +96,8 @@ fn_script_log_error(){
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
 fn_script_log_warn(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: WARN: ${1}" >> "${lgsmlog}"
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: WARN: ${1}" >> "${lgsmlog}"
 		fi
@@ -106,10 +108,21 @@ fn_script_log_warn(){
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
 fn_script_log_info(){
 	if [ -d "${lgsmlogdir}" ]; then
-		if [ "${modulename}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${modulename}: INFO: ${1}" >> "${lgsmlog}"
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
 		else
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: INFO: ${1}" >> "${lgsmlog}"
+		fi
+	fi
+}
+
+## Feb 28 14:56:58 ut99-server: Monitor: INFO:
+fn_script_log_update(){
+	if [ -d "${lgsmlogdir}" ]; then
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: UPDATE: ${1}" >> "${lgsmlog}"
+		else
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: UPDATE: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 }
@@ -352,100 +365,133 @@ fn_prompt_yn(){
 # OK
 fn_print_ok_eol(){
 	echo -en "${green}OK${default}"
+	fn_sleep_time
 }
 
 fn_print_ok_eol_nl(){
 	echo -e "${green}OK${default}"
+	fn_sleep_time
 }
 
 # FAIL
 fn_print_fail_eol(){
 	echo -en "${red}FAIL${default}"
+	fn_sleep_time
 }
 
 fn_print_fail_eol_nl(){
 	echo -e "${red}FAIL${default}"
+	fn_sleep_time
 }
 
 # ERROR
 fn_print_error_eol(){
 	echo -en "${red}ERROR${default}"
+	fn_sleep_time
 }
 
 fn_print_error_eol_nl(){
 	echo -e "${red}ERROR${default}"
+	fn_sleep_time
+}
+
+# WAIT
+fn_print_wait_eol(){
+	echo -en "${cyan}WAIT${default}"
+	fn_sleep_time
+}
+
+fn_print_wait_eol_nl(){
+	echo -e "${cyan}WAIT${default}"
+	fn_sleep_time
 }
 
 # WARN
 fn_print_warn_eol(){
 	echo -en "${lightyellow}WARN${default}"
+	fn_sleep_time
 }
 
 fn_print_warn_eol_nl(){
 	echo -e "${lightyellow}WARN${default}"
+	fn_sleep_time
 }
 
 # INFO
 fn_print_info_eol(){
-	echo -en "${red}INFO${default}"
+	echo -en "${cyan}INFO${default}"
+	fn_sleep_time
 }
 
 fn_print_info_eol_nl(){
-	echo -e "${red}INFO${default}"
+	echo -e "${cyan}INFO${default}"
+	fn_sleep_time
 }
 
 # QUERYING
 fn_print_querying_eol(){
 	echo -en "${cyan}QUERYING${default}"
+	fn_sleep_time
 }
 
 fn_print_querying_eol_nl(){
 	echo -e "${cyan}QUERYING${default}"
+	fn_sleep_time
 }
 
 # CHECKING
 fn_print_checking_eol(){
 	echo -en "${cyan}CHECKING${default}"
+	fn_sleep_time
 }
 
 fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
+	fn_sleep_time
 }
 
 # DELAY
 fn_print_delay_eol(){
 	echo -en "${green}DELAY${default}"
+	fn_sleep_time
 }
 
 fn_print_delay_eol_nl(){
 	echo -e "${green}DELAY${default}"
+	fn_sleep_time
 }
 
 # CANCELED
 fn_print_canceled_eol(){
-	echo -en "${yellow}CANCELED${default}"
+	echo -en "${lightyellow}CANCELED${default}"
+	fn_sleep_time
 }
 
 fn_print_canceled_eol_nl(){
-	echo -e "${yellow}CANCELED${default}"
+	echo -e "${lightyellow}CANCELED${default}"
+	fn_sleep_time
 }
 
 # REMOVED
 fn_print_removed_eol(){
 	echo -en "${red}REMOVED${default}"
+	fn_sleep_time
 }
 
 fn_print_removed_eol_nl(){
 	echo -e "${red}REMOVED${default}"
+	fn_sleep_time
 }
 
 # UPDATE
 fn_print_update_eol(){
 	echo -en "${cyan}UPDATE${default}"
+	fn_sleep_time
 }
 
 fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
+	fn_sleep_time
 }
 
 fn_print_ascii_logo(){

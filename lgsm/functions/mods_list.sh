@@ -8,9 +8,7 @@
 # Usage: Then add this array to the mods_global_array.
 # Usage: If needed, you can scrape the download URL first.
 
-local modulename="MODS"
-local commandaction="List Mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_script_log_info "Retrieving latest mods URLs"
@@ -39,7 +37,7 @@ get5url="${get5downloadurl}"
 # Oxide
 oxiderustlatestlink="https://umod.org/games/rust/download/develop" # fix for linux build 06.09.2019
 oxidehurtworldlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "Oxide.Hurtworld.zip")
-oxidesdtdlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | grep browser_download_url | cut -d '"' -f 4)
+oxidesdtdlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url' )
 
 # Define mods information (required)
 

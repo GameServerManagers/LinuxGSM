@@ -5,11 +5,11 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${selfname}"|awk '{print $2}')
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${sessionname}"|awk '{print $2}')
 fi
 ### Distro information
 

@@ -4,9 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
-local modulename="QUERY-RAW"
-local commandaction="Query Raw"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEV-QUERY-RAW"
+commandaction="Developer query raw"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 info_config.sh
@@ -35,7 +35,7 @@ fi
 query_gamedig.sh
 echo -e "${gamedigcmd}"
 echo""
-echo -e "${gamedigraw}" | jq
+echo "${gamedigraw}" | jq
 
 echo -e ""
 echo -e "gsquery Raw Output"

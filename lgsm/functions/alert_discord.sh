@@ -5,9 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Discord alert.
 
-local modulename="ALERT"
-local commandaction="Alert"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if ! command -v jq > /dev/null; then
 	fn_print_fail_nl "Sending Discord alert: jq is missing."

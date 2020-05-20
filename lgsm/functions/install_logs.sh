@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates log directories.
 
-local modulename="INSTALL"
-local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo -e ""
@@ -98,5 +96,4 @@ if [ -d "${rootdir}/Steam/logs" ]; then
 		fi
 	fi
 fi
-fn_sleep_time
 fn_script_log_info "Logs installed"

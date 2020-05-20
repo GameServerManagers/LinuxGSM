@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft Bedrock servers.
 
-local modulename="UPDATE"
-local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
 	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
@@ -26,6 +24,7 @@ fn_update_minecraft_dl(){
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
@@ -35,7 +34,7 @@ fn_update_minecraft_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
-	localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -68,7 +67,7 @@ fn_update_minecraft_localbuild(){
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
 	else
-		fn_print_ok "Checking local build: ${remotelocation}: checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
 }
@@ -108,6 +107,7 @@ fn_update_minecraft_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -142,6 +142,7 @@ fn_update_minecraft_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -170,9 +171,14 @@ if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_minecraft_localbuild
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_compare
 fi
+
+if [ "${commandname}" != "INSTALL" ]; then
+	core_exit.sh
+fi	

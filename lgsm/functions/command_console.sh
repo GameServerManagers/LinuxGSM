@@ -4,9 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Gives access to the server tmux console.
 
-local modulename="CONSOLE"
-local commandaction="Console"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="CONSOLE"
+commandaction="Access console"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 fn_print_header
@@ -26,7 +26,7 @@ check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Accessing console"
 	fn_script_log_pass "Console accessed"
-	tmux attach-session -t "${selfname}"
+	tmux attach-session -t "${sessionname}"
 	fn_print_ok_nl "Closing console"
 	fn_script_log_pass "Console closed"
 else

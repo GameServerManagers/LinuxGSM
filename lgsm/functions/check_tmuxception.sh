@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if run from tmux or screen
 
-local modulename="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_check_is_in_tmux(){
   if [ "${TMUX}" ]; then

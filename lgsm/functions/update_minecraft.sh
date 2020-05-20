@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft servers.
 
-local modulename="UPDATE"
-local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
 	if [ "${branch}" == "release" ]; then
@@ -16,7 +14,7 @@ fn_update_minecraft_dl(){
 	fi
 
 	latestmcbuildurl=$(curl -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
-	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "minecraft_server.${remotebuild}.jar"
+	fn_fetch_file "${latestmcbuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nomd5"
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
@@ -28,6 +26,7 @@ fn_update_minecraft_dl(){
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
@@ -139,6 +138,7 @@ fn_update_minecraft_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
@@ -179,6 +179,7 @@ fn_update_minecraft_compare(){
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -210,9 +211,14 @@ if [ "${installer}" == "1" ]; then
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_minecraft_localbuild
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_compare
 fi
+
+if [ "${commandname}" != "INSTALL" ]; then
+	core_exit.sh
+fi	

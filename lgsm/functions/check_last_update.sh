@@ -5,6 +5,8 @@
 # Description: Checks lock file to see when last update happened.
 # Will reboot server if instance not rebooted since update.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 if [ -f "${lockdir}/${selfname}-laststart.lock" ]; then
 	laststart=$(cat "${lockdir}/${selfname}-laststart.lock")
 fi

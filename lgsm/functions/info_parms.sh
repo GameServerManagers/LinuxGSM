@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -207,8 +207,6 @@ fn_info_parms_unreal3(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	adminpassword=${adminpassword:-"NOT SET"}
 }
 
 fn_info_parms_unturned(){

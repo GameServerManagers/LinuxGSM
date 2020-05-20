@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues related to SteamCMD.
 
-local modulename="FIX"
-local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Helps fix: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
 if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
@@ -14,11 +12,9 @@ if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
 	fn_fix_msg_start
 	mkdir -pv "${HOME}/.steam/sdk64" >> "${lgsmlog}"
 	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp -v "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
 	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp -v "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
-	else
-		$?=2
+		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
 	fi
 	fn_fix_msg_end
 fi
@@ -29,11 +25,9 @@ if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fn_fix_msg_start
 	mkdir -pv "${HOME}/.steam/sdk32" >> "${lgsmlog}"
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp -v "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp -v "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
-	else
-		$?=2
+		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
 	fi
 	fn_fix_msg_end
 fi

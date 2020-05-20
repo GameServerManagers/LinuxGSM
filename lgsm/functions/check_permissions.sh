@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
-local modulename="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
@@ -229,7 +229,7 @@ fn_sys_perm_error_process(){
 if [ "$(whoami)" != "root" ]; then
 	fn_check_ownership
 	fn_check_permissions
-	if [ "${function_selfname}" == "command_start.sh" ]; then
+	if [ "${commandname}" == "START" ]; then
 		fn_sys_perm_error_process
 	fi
 fi

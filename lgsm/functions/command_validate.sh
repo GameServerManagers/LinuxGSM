@@ -4,9 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
-local modulename="VALIDATE"
-local commandaction="Validate"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="VALIDATE"
+commandaction="Validating"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validate(){
 	fn_script_log_warn "Validating server: SteamCMD: Validate might overwrite some customised files"
@@ -79,7 +79,6 @@ fn_stop_warning(){
 fn_print_dots "Validating server"
 fn_print_dots "Validating server: SteamCMD"
 check.sh
-check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_stop_warning
 	exitbypass=1
@@ -90,3 +89,5 @@ if [ "${status}" != "0" ]; then
 else
 	fn_validate
 fi
+
+core_exit.sh
