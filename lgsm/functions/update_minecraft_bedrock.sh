@@ -16,14 +16,15 @@ fn_update_minecraft_dl(){
 		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "whitelist.json" -d "${serverfiles}"
 	fi
 	local exitcode=$?
-	fn_clear_tmp
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Extracting to ${serverfiles}"
 		chmod u+x "${serverfiles}/bedrock_server"
+		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
