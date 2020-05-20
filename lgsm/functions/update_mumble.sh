@@ -19,6 +19,7 @@ fn_update_mumble_dl(){
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
@@ -74,6 +75,7 @@ fn_update_mumble_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
@@ -108,6 +110,7 @@ fn_update_mumble_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
@@ -145,3 +148,4 @@ else
 	fn_update_mumble_remotebuild
 	fn_update_mumble_compare
 fi
+core_exit.sh

@@ -24,6 +24,7 @@ fn_update_ts3_dl(){
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
@@ -161,6 +162,7 @@ fn_update_ts3_compare(){
 			exitbypass=1
 			command_start.sh
 		fi
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -169,6 +171,7 @@ fn_update_ts3_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -209,9 +212,11 @@ if [ "${installer}" == "1" ]; then
 	fn_update_ts3_remotebuild
 	fn_update_ts3_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_ts3_localbuild
 	fn_update_ts3_remotebuild
 	fn_update_ts3_compare
 fi
+core_exit.sh

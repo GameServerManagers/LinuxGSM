@@ -130,11 +130,10 @@ fn_update_steamcmd_compare(){
 			command_stop.sh
 			exitbypass=1
 			fn_update_steamcmd_dl
-			date +%s > "${lockdir}/lastupdate.lock"
 			exitbypass=1
 			command_start.sh
 		fi
-
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -247,3 +246,4 @@ else
 	fn_update_steamcmd_remotebuild
 	fn_update_steamcmd_compare
 fi
+core_exit.sh
