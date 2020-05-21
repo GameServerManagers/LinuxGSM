@@ -45,7 +45,6 @@ if [ "${travistest}" != "1" ]; then
 				echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 				fn_script_log_fatal "Multiple IP addresses found."
 				fn_script_log_fatal "Specify the IP you want to bind within: ${configdirserver}."
-				fi
 			fi
 			echo -en "${getip}\n"
 			echo -en "\n"
