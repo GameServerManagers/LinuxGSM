@@ -32,6 +32,36 @@ else
 	fn_print_ok_nl "Selecting repo: ${remotereponame}"
 fi
 
+# Check linuxsm.sh
+echo -en "checking ${remotereponame} linuxgsm.sh...\c"
+if [ "${remotereponame}" == "GitHub" ]; then
+	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1>/dev/null
+else
+	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1>/dev/null
+fi
+if [ $? != "0" ]; then
+	fn_print_fail_eol_nl
+	fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log_fatal "Curl returned error: $?"
+	core_exit.sh
+fi
+
+if [ "${remotereponame}" == "GitHub" ]; then
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+else
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
+fi
+
+if [ "${tmp_script_diff}" != "" ]; then
+	fn_print_update_eol_nl
+	fn_script_log_update "Checking ${remotereponame} linuxgsm.sh"
+	rm -f "${tmpdir:?}/linuxgsm.sh"
+	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+else
+	fn_print_ok_eol_nl
+	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
+fi
+
 # Check gameserver.sh
 # Compare gameserver.sh against linuxgsm.sh in the tmp dir.
 # Ignoring server specific vars.
@@ -112,36 +142,6 @@ if [ "${config_file_diff}" != "" ]; then
 else
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Checking ${remotereponame} config _default.cfg"
-fi
-
-# Check linuxsm.sh
-echo -en "checking ${remotereponame} linuxgsm.sh...\c"
-if [ "${remotereponame}" == "GitHub" ]; then
-	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1>/dev/null
-else
-	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1>/dev/null
-fi
-if [ $? != "0" ]; then
-	fn_print_fail_eol_nl
-	fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh"
-	fn_script_log_fatal "Curl returned error: $?"
-	core_exit.sh
-fi
-
-if [ "${remotereponame}" == "GitHub" ]; then
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
-else
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
-fi
-
-if [ "${tmp_script_diff}" != "" ]; then
-	fn_print_update_eol_nl
-	fn_script_log_update "Checking ${remotereponame} linuxgsm.sh"
-	rm -f "${tmpdir:?}/linuxgsm.sh"
-	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
-else
-	fn_print_ok_eol_nl
-	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
 fi
 
 # Check and update modules.
