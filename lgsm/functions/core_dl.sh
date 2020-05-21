@@ -236,7 +236,6 @@ fn_fetch_file(){
 fn_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-
 	if [ "${legacymode}" == "1" ]; then
 		# For legacy versions - code can be removed at a future date
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
