@@ -7,20 +7,15 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # This is to help the transition to v20.3.0 and above
-if [ ! -f "${functionsdir}/check_version.sh" ]; then
-	legacy_versions_array=( v20.2.1 v20.2.0 v20.1.5 v20.1.4 v20.1.3 v20.1.2 v20.1.1 v20.1.0 v19.12.5 v19.12.4 v19.12.3 v19.12.2 v19.12.1 v19.12.0 )
-	for legacy_version in "${legacy_versions_array[@]}"
-	do
-		if [ "${version}" == "${legacy_version}" ]; then
-			legacycheckversionfix=1
-			github_file_url_dir="lgsm/functions"
-			fn_fetch_file_github "${github_file_url_dir}" "check_version.sh" "${functionsdir}" "nochmodx" "norun" "noforce" "nomd5"
-		fi
-	done
-fi
+legacy_versions_array=( v20.2.1 v20.2.0 v20.1.5 v20.1.4 v20.1.3 v20.1.2 v20.1.1 v20.1.0 v19.12.5 v19.12.4 v19.12.3 v19.12.2 v19.12.1 v19.12.0 )
+for legacy_version in "${legacy_versions_array[@]}"
+do
+	if [ "${version}" == "${legacy_version}" ]; then
+		legacymode=1
+	fi
+done
 
 if [ -z "${serverfiles}" ]; then
-	legacymode=1
 	serverfiles="${filesdir}"
 fi
 
