@@ -170,7 +170,3 @@ else
 	fn_update_factorio_remotebuild
 	fn_update_factorio_compare
 fi
-
-if [ "${commandname}" != "INSTALL" ]; then
-	core_exit.sh
-fi	

@@ -209,7 +209,3 @@ else
 	fn_update_mta_remotebuild
 	fn_update_mta_compare
 fi
-
-if [ "${commandname}" != "INSTALL" ]; then
-	core_exit.sh
-fi
