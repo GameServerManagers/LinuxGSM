@@ -32,6 +32,55 @@ else
 	fn_print_ok_nl "Selecting repo: ${remotereponame}"
 fi
 
+# Check gameserver.sh
+# Compare gameserver.sh against linuxgsm.sh in the tmp dir.
+# Ignoring server specific vars.
+echo -en "checking ${selfname}...\c"
+fn_script_log_info "Checking ${selfname}"
+script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
+if [ "${script_diff}" != "" ]; then
+	fn_print_update_eol_nl
+	fn_script_log_update "Checking ${selfname}"
+	echo -en "backup ${selfname}...\c"
+	fn_script_log_info "Backup ${selfname}"
+	if [ ! -d "${backupdir}/script" ]; then
+		mkdir -p "${backupdir}/script"
+	fi
+	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+	if [ $? -ne 0 ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fatal "Backup ${selfname}"
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Backup ${selfname}"
+		echo -e "backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+	fi
+
+	echo -en "copying ${selfname}...\c"
+	fn_script_log_info "copying ${selfname}"
+	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
+	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+gamename=\"core\"+gamename=\"${gamename}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+githubuser=\"GameServerManagers\"+githubuser=\"${githubuser}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" "${rootdir}/${selfname}"
+
+	if [ $? != "0" ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fatal "copying ${selfname}"
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "copying ${selfname}"
+	fi
+else
+	fn_print_ok_eol_nl
+	fn_script_log_info "Checking ${selfname}"
+fi
+
 # Check _default.cfg.
 echo -en "checking ${remotereponame} config _default.cfg...\c"
 fn_script_log_info "Checking ${remotereponame} config _default.cfg"
@@ -93,55 +142,6 @@ if [ "${tmp_script_diff}" != "" ]; then
 else
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
-fi
-
-# Check gameserver.sh
-# Compare gameserver.sh against linuxgsm.sh in the tmp dir.
-# Ignoring server specific vars.
-echo -en "checking ${selfname}...\c"
-fn_script_log_info "Checking ${selfname}"
-script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
-if [ "${script_diff}" != "" ]; then
-	fn_print_update_eol_nl
-	fn_script_log_update "Checking ${selfname}"
-	echo -en "backup ${selfname}...\c"
-	fn_script_log_info "Backup ${selfname}"
-	if [ ! -d "${backupdir}/script" ]; then
-		mkdir -p "${backupdir}/script"
-	fi
-	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
-	if [ $? -ne 0 ]; then
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Backup ${selfname}"
-		core_exit.sh
-	else
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Backup ${selfname}"
-		echo -e "backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
-		fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
-	fi
-
-	echo -en "copying ${selfname}...\c"
-	fn_script_log_info "copying ${selfname}"
-	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
-	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+gamename=\"core\"+gamename=\"${gamename}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubuser=\"GameServerManagers\"+githubuser=\"${githubuser}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" "${rootdir}/${selfname}"
-
-	if [ $? != "0" ]; then
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "copying ${selfname}"
-		core_exit.sh
-	else
-		fn_print_ok_eol_nl
-		fn_script_log_pass "copying ${selfname}"
-	fi
-else
-	fn_print_ok_eol_nl
-	fn_script_log_info "Checking ${selfname}"
 fi
 
 # Check and update modules.
