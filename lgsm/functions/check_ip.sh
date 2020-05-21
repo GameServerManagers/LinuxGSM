@@ -44,11 +44,7 @@ if [ "${travistest}" != "1" ]; then
 				echo -en "\n"
 				echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 				fn_script_log_fatal "Multiple IP addresses found."
-				if [ "${legacymode}" == "1" ]; then
-					fn_script_log_fatal "Specify the IP you want to bind within the ${selfname} script."
-				else
-					fn_script_log_fatal "Specify the IP you want to bind within: ${configdirserver}."
-				fi
+				fn_script_log_fatal "Specify the IP you want to bind within: ${configdirserver}."
 			fi
 			echo -en "${getip}\n"
 			echo -en "\n"

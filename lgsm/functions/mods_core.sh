@@ -18,7 +18,7 @@ modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
 # Download management.
 fn_mod_install_files(){
-	fn_fetch_file "${modurl}" "${modstmpdir}" "${modfilename}"
+	fn_fetch_file "${modurl}" "" "" "" "${modstmpdir}" "${modfilename}"
 	# Check if variable is valid checking if file has been downloaded and exists.
 	if [ ! -f "${modstmpdir}/${modfilename}" ]; then
 		fn_print_failure "An issue occurred downloading ${modprettyname}"

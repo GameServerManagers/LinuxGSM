@@ -31,18 +31,10 @@ fn_install_steamcmd(){
 fn_check_steamcmd_user(){
 	# Checks if steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
-		if [ "${legacymode}" == "1" ]; then
-			fn_print_fail_nl "Steam login not set. Update steamuser in ${selfname}"
-		else
-			fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
-		fi
+		fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
 		echo -e "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${lgsmlogdir}" ]; then
-			if [ "${legacymode}" == "1" ]; then
-				fn_script_log_fatal "Steam login not set. Update steamuser in ${selfname}"
-			else
-				fn_script_log_fatal "Steam login not set. Update steamuser in ${configdirserver}"
-			fi
+			fn_script_log_fatal "Steam login not set. Update steamuser in ${configdirserver}"
 		fi
 		core_exit.sh
 	fi
