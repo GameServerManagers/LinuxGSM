@@ -9,7 +9,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${sessionname}"|awk '{print $2}')
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $2}')
 fi
 ### Distro information
 

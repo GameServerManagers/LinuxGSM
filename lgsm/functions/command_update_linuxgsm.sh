@@ -32,39 +32,6 @@ else
 	fn_print_ok_nl "Selecting repo: ${remotereponame}"
 fi
 
-# Check _default.cfg.
-echo -en "checking ${remotereponame} config _default.cfg...\c"
-fn_script_log_info "Checking ${remotereponame} config _default.cfg"
-if [ "${remotereponame}" == "GitHub" ]; then
-	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1>/dev/null
-else
-	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1>/dev/null
-fi
-if [ $? != "0" ]; then
-	fn_print_fail_eol_nl
-	fn_script_log_fatal "Checking ${remotereponame} config _default.cfg"
-	fn_script_log_fatal "Curl returned error: $?"
-	core_exit.sh
-fi
-
-if [ "${remotereponame}" == "GitHub" ]; then
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
-else
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
-fi
-
-if [ "${config_file_diff}" != "" ]; then
-	fn_print_update_eol_nl
-	fn_script_log_update "Checking ${remotereponame} config _default.cfg"
-	rm -f "${configdirdefault:?}/config-lgsm/${gameservername:?}/_default.cfg"
-	fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nomd5"
-	alert="config"
-	alert.sh
-else
-	fn_print_ok_eol_nl
-	fn_script_log_pass "Checking ${remotereponame} config _default.cfg"
-fi
-
 # Check linuxsm.sh
 echo -en "checking ${remotereponame} linuxgsm.sh...\c"
 if [ "${remotereponame}" == "GitHub" ]; then
@@ -142,6 +109,39 @@ if [ "${script_diff}" != "" ]; then
 else
 	fn_print_ok_eol_nl
 	fn_script_log_info "Checking ${selfname}"
+fi
+
+# Check _default.cfg.
+echo -en "checking ${remotereponame} config _default.cfg...\c"
+fn_script_log_info "Checking ${remotereponame} config _default.cfg"
+if [ "${remotereponame}" == "GitHub" ]; then
+	curl -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1>/dev/null
+else
+	curl -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1>/dev/null
+fi
+if [ $? != "0" ]; then
+	fn_print_fail_eol_nl
+	fn_script_log_fatal "Checking ${remotereponame} config _default.cfg"
+	fn_script_log_fatal "Curl returned error: $?"
+	core_exit.sh
+fi
+
+if [ "${remotereponame}" == "GitHub" ]; then
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+else
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+fi
+
+if [ "${config_file_diff}" != "" ]; then
+	fn_print_update_eol_nl
+	fn_script_log_update "Checking ${remotereponame} config _default.cfg"
+	rm -f "${configdirdefault:?}/config-lgsm/${gameservername:?}/_default.cfg"
+	fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nomd5"
+	alert="config"
+	alert.sh
+else
+	fn_print_ok_eol_nl
+	fn_script_log_pass "Checking ${remotereponame} config _default.cfg"
 fi
 
 # Check and update modules.

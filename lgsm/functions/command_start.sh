@@ -165,13 +165,12 @@ fn_start_tmux(){
 	echo -en "\n"
 }
 
-
 check.sh
 
-fn_print_dots "${servername}"
 # Is the server already started.
 # $status comes from check_status.sh, which is run by check.sh for this command
 if [ "${status}" != "0" ]; then
+	fn_print_dots "${servername}"
 	fn_print_info_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
@@ -189,7 +188,11 @@ if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateon
 	exitbypass=1
 	unset updateonstart
 	command_update.sh
+	commandname="START"
+	commandaction="Starting"
 fi
+
+fn_print_dots "${servername}"
 
 if [ "${shortname}" == "ts3" ]; then
 	fn_start_teamspeak3

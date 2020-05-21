@@ -6,7 +6,7 @@ on:
     branches:    
       - master
       - 'develop'
-      - 'feature/update-lgsm'
+
 jobs:
   repo-sync:
     runs-on: ubuntu-latest

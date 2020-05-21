@@ -148,7 +148,3 @@ else
 	fn_update_mumble_remotebuild
 	fn_update_mumble_compare
 fi
-
-if [ "${commandname}" != "INSTALL" ]; then
-	core_exit.sh
-fi	
