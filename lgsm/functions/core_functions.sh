@@ -678,11 +678,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-install_modules.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 install_retry.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
