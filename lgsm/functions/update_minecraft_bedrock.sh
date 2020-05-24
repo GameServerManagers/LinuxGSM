@@ -8,7 +8,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
 	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
-	fn_fetch_file "${latestmcbuildurl}" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
+	fn_fetch_file "${latestmcbuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
 	echo -e "Extracting to ${serverfiles}...\c"
 	if [ "${installer}" == "1" ]; then
 		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "server.properties" -d "${serverfiles}"
