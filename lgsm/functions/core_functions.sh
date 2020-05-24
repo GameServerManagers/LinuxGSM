@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.3.1"
+modulesversion="v20.3.2"
 
 # Core
 
@@ -674,11 +674,6 @@ fn_fetch_function
 }
 
 install_logs.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-install_modules.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
