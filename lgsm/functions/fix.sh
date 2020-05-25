@@ -111,8 +111,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 				fix_ut.sh
 			elif [ "${shortname}" == "ut3" ]; then
 				fix_ut3.sh
-			#elif [ "${shortname}" == "openttd" ]; then
-			#	fix_openttd.sh
+			elif [ "${shortname}" == "openttd" ]; then
+				fix_openttd.sh
 			else
 				fn_print_information_nl "No fixes required."
 			fi
