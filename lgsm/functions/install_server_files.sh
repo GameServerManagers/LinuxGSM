@@ -61,6 +61,9 @@ fn_install_server_files(){
 		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"; local_filedir="${tmpdir}"; local_filename="samp037svr_R2-1.tar.gz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="93705e165550c97484678236749198a4"
 	elif [ "${shortname}" == "zmr" ]; then
 		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b5_2.tar.xz"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b5_2.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="4b9b9832e863d03981a40c26065792a6"
+	#### Temp file hosting of compiled OpenTTD for Ubuntu 20.04 web site has builds for Ubuntu 16.04,18.04; Debian Stretch,Buster 
+	elif [ "${shortname}" == "openttd" ]; then
+		remote_fileurl="https://downloads.zed.rip/openttd-1.10.1-linux-ubuntu-focal-amd64.zip"; local_filedir="${tmpdir}"; local_filename="openttd-1.10.1-linux-ubuntu-focal-amd64.zip"; chmodx="nochmodx"; run="norun"; force="noforce"; md5="6893c2969d3b1da712622c4d89f71aa7"
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"

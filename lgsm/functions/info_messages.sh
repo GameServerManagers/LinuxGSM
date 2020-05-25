@@ -1386,6 +1386,16 @@ fn_info_message_warfork(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_openttd(){
+	echo -e "netstat -atunp | grep openttd"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1516,6 +1526,8 @@ fn_info_message_select_engine(){
 		fn_info_message_unreal2
 	elif [ "${engine}" == "unreal3" ]; then
 		fn_info_message_unreal3
+	elif [ "${shortname}" == "openttd" ]; then
+		fn_info_message_openttd
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi

@@ -1451,6 +1451,36 @@ fn_info_config_soldat(){
 	fi
 }
 
+fn_info_config_openttd(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		port="${zero}"
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		rconpassword="${unavailable}"
+		serverpassword="${unavailable}"
+		rconport="${zero}"
+		maxplayers="${zero}"
+	else
+		port=$(grep "server_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		servername=$(grep "server_name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/server_name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| head -n 1)
+		adminpassword=$(grep "admin_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/admin_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "server_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/server_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconport=$(grep "server_admin_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		maxplayers=$(grep "max_clients" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		# Not Set
+		port=${port:-"0"}
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		rconpassword=${rconpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		rconport=${rconport:-"0"}
+		maxplayers=${maxplayers:-"0"}
+
+	fi
+}
+
 # Assetto Corsa
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
@@ -1617,4 +1647,7 @@ elif [ "${shortname}" == "st" ]; then
 	fn_info_config_stationeers
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
+# Open Transport Tycoon Deluxe	
+elif [ "${shortname}" == "openttd" ]; then
+	fn_info_config_openttd
 fi
