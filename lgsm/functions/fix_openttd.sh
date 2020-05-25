@@ -8,4 +8,4 @@ local modulename="FIX"
 local commandaction="Fix"
 
 mkdir "${rootdir}/.openttd/baseset"
-cp "${serverfiles}/graphics_set/opengfx-0.6.0.tar" "${rootdir}/.openttd/baseset"
+cp "${serverfiles}/graphics_sets/opengfx-0.6.0.tar" "${rootdir}/.openttd/baseset"
