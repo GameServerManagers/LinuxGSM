@@ -3,6 +3,7 @@
 # Author: ttocszed00
 # Website: https://linuxgsm.com
 # Description: Compiles Open Transport Tycoon Delux server after downloading source files.
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 local modulename="FIX"
 local commandaction="Fix"
