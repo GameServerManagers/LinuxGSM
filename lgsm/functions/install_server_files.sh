@@ -65,7 +65,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "openttd" ]; then
 		remote_fileurl="https://downloads.zed.rip/openttd-1.10.1-linux-ubuntu-focal-amd64.zip"; local_filedir="${tmpdir}"; local_filename="openttd-1.10.1-linux-ubuntu-focal-amd64.zip"; chmodx="nochmodx"; run="norun"; force="noforce"; md5="6893c2969d3b1da712622c4d89f71aa7"
 	fi
-	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
 }
 
