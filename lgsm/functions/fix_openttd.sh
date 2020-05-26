@@ -7,4 +7,4 @@
 local modulename="FIX"
 local commandaction="Fix"
 
-cp -r "${serverfiles}/.openttd/*" "${rootdir}/.openttd"
+mv "${serverfiles}/.openttd/*" "${rootdir}/.openttd"
