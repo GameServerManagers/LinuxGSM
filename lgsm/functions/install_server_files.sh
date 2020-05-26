@@ -63,7 +63,7 @@ fn_install_server_files(){
 		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b5_2.tar.xz"; local_filedir="${tmpdir}"; local_filename="zombie_master_reborn_b5_2.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="4b9b9832e863d03981a40c26065792a6"
 	### Temp file hosting of compiled OpenTTD for Ubuntu 20.04 web site has builds for Ubuntu 16.04,18.04; Debian Stretch,Buster 
 	elif [ "${shortname}" == "openttd" ]; then
-		remote_fileurl="https://downloads.zed.rip/openttd-1.10.1.zip"; local_filedir="${tmpdir}"; local_filename="openttd-1.10.1.zip"; chmodx="nochmodx"; run="norun"; force="noforce"; md5="d9ffb50c19165dcb7c4e669ed5277ecb"
+		remote_fileurl="https://downloads.zed.rip/openttd-1.10.1.zip"; local_filedir="${tmpdir}"; local_filename="openttd-1.10.1.zip"; chmodx="nochmodx"; run="norun"; force="noforce"; md5="b1de39f1ac6fee8c9d34754453c0442a"
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
