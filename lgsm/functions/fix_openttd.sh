@@ -8,4 +8,4 @@ local modulename="FIX"
 local commandaction="Fix"
 
 mkdir "${rootdir}/.openttd/baseset"
-cp "${serverfiles}/.openttd" "${rootdir}"
+cp -r "${serverfiles}/.openttd/*" "${rootdir}/.openttd"
