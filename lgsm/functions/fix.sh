@@ -91,7 +91,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${commandname}" == "INSTALL" ]; then
-		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]||[ "${shortname}" == "openttd" ]; then
+		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
@@ -111,8 +111,6 @@ if [ "${commandname}" == "INSTALL" ]; then
 				fix_ut.sh
 			elif [ "${shortname}" == "ut3" ]; then
 				fix_ut3.sh
-			elif [ "${shortname}" == "openttd" ]; then
-				fix_openttd.sh
 			else
 				fn_print_information_nl "No fixes required."
 			fi
