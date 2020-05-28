@@ -983,7 +983,7 @@ fn_info_message_bf1942(){
 }
 
 fn_info_message_bfv(){
-	echo -e "netstat -atunp | grep bf1942_lnxd"
+	echo -e "netstat -atunp | grep bfv_linde"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
