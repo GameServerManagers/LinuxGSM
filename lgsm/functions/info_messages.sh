@@ -982,6 +982,16 @@ fn_info_message_bf1942(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_bfv(){
+	echo -e "netstat -atunp | grep bf1942_lnxd"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_risingworld(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
@@ -1492,6 +1502,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv	
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
