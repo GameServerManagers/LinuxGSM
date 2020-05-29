@@ -462,8 +462,8 @@ fn_info_config_mofm(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 	else
-		servername=$(grep "ServerName:" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/Name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "ServerPassword:" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "ServerName:" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName://g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "ServerPassword:" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		
 		# Not Set
 		servername=${servername:-"NOT SET"}
