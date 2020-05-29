@@ -871,6 +871,16 @@ fn_info_message_mohaa(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mofm(){
+	echo -e "netstat -atunp | grep MemoriesOfMars"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
