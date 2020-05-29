@@ -11,10 +11,8 @@ fn_install_server_files(){
 		remote_fileurl="http://linuxgsm.download/ActionHalfLife/action_halflife-1.0.tar.xz"; local_filedir="${tmpdir}"; local_filename="action_halflife-1.0.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="61d7b79fd714888b6d65944fdaafa94a"
 	elif [ "${shortname}" == "bf1942" ]; then
 		remote_fileurl="http://linuxgsm.download/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.xz"; local_filedir="${tmpdir}"; local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="4223bf4ed85f5162c24b2cba51249b9e"
-	## temp file hosting so im not hitting main server for download
-	## remote_fileurl="http://linuxgsm.download/BattlefieldVietnam/bfv_linded-v1.21-20041207_patch.tar.xz"
 	elif [ "${shortname}" == "bfv" ];then
-		remote_fileurl="https://downloads.zed.rip/bfv_linded-v1.21-20041207_patch.tar.xz"; local_filedir="${tmpdir}"; local_filename="bfv_linded-v1.21-20041207_patch.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e3b4962cdd9d41e23c6fed65101bccde"
+		remote_fileurl="http://linuxgsm.download/BattlefieldVietnam/bfv_linded-v1.21-20041207_patch.tar.xz"; local_filedir="${tmpdir}"; local_filename="bfv_linded-v1.21-20041207_patch.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e3b4962cdd9d41e23c6fed65101bccde"
 	elif [ "${shortname}" == "bb" ]; then
 		remote_fileurl="http://linuxgsm.download/BrainBread/brainbread-v1.2-linuxserver.tar.xz"; local_filedir="${tmpdir}"; local_filename="brainbread-v1.2-linuxserver.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="55f227183b736397806d5b6db6143f15"
 	elif [ "${shortname}" == "cod" ]; then
