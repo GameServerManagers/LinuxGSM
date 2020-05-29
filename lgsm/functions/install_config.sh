@@ -563,7 +563,7 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shotname}" == "mofm"];then
+elif [ "${shotname}" == "mofm" ];then
 	gamedirname="MemoriesofMars"
 	array_configs+=( DedicatedServerConfig.cfg)
 	fn_fetch_default_config
