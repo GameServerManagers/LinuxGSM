@@ -1446,6 +1446,8 @@ fn_info_message_select_engine(){
 		fn_info_message_minecraft_bedrock
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
+	elif [ "${shortname}" == "mofm" ]; then
+		fn_info_message_mofm
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
