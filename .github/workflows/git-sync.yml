@@ -3,7 +3,7 @@ name: Backup Repo
 # This will allow LinuxGSM to use Bitbucket as and alternative download if github fails.
 on:
   push:
-    branches:    
+    branches:
       - master
       - 'develop'
 
