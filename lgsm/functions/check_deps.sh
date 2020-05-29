@@ -484,7 +484,7 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
 	# Battlefield: Vietnam
-	elif [ "${shortname}" == "bfv" ];then
+	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )	
 		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
