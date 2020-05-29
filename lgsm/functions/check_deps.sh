@@ -370,7 +370,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( telnet expect )
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
-		array_deps_required+=( libncurses5 libstdc++5:i386 )	
+		array_deps_required+=( libncurses5:i386 libstdc++5:i386 )	
 		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
