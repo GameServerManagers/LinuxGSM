@@ -26,7 +26,7 @@ fn_wipe_server_process(){
 		fn_wipe_server_remove_files
 	fi
 	echo -e "server data wiped"
-	fn_script_log "server data wiped."
+	fn_script_log "server data wiped"
 }
 
 # Provides an exit code upon error.
@@ -55,7 +55,7 @@ fn_wipe_server_remove_files(){
 			fn_sleep_time
 		else
 			fn_print_information_nl "No procedural map file to remove"
-			fn_script_log_info "No procedural map file to remove."
+			fn_script_log_info "No procedural map file to remove"
 		fi
 		# Wipe procedural map save.
 		if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
@@ -68,7 +68,7 @@ fn_wipe_server_remove_files(){
 			fn_sleep_time
 		else
 			fn_print_information_nl "No procedural map save to remove"
-			fn_script_log_info "No procedural map save to remove."
+			fn_script_log_info "No procedural map save to remove"
 		fi
 		# Wipe Barren map.
 		if [ "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
@@ -81,7 +81,7 @@ fn_wipe_server_remove_files(){
 			fn_sleep_time
 		else
 			fn_print_information_nl "No barren map file to remove"
-			fn_script_log_info "No barren map file to remove."
+			fn_script_log_info "No barren map file to remove"
 		fi
 		# Wipe barren map save.
 		if [ "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
@@ -140,7 +140,7 @@ fn_wipe_server_remove_files(){
 			fn_sleep_time
 		else
 			fn_print_information_nl "No player death to remove"
-			fn_script_log_info "No player death to remove."
+			fn_script_log_info "No player death to remove"
 		fi
 		# Wipe blueprints only if wipeall command was used.
 		if [ "${wipeall}" == "1" ]; then
@@ -154,14 +154,14 @@ fn_wipe_server_remove_files(){
 				fn_sleep_time
 			else
 				fn_print_information_nl "No blueprint file to remove"
-				fn_script_log_info "No blueprint file to remove."
+				fn_script_log_info "No blueprint file to remove"
 			fi
 		elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 				fn_print_information_nl "Keeping blueprints"
 				fn_script_log_info "Keeping blueprints."
 		else
 				fn_print_information_nl "No blueprints found"
-				fn_script_log_info "No blueprints found."
+				fn_script_log_info "No blueprints found"
 				fn_sleep_time
 		fi
 		# Wipe some logs that might be there.
@@ -179,28 +179,33 @@ fn_wipe_server_remove_files(){
 	fi
 }
 
+fn_stop_warning(){
+	fn_print_warn "${selfname} will be stopped during wipe"
+	fn_script_log_warn "${selfname} will be stopped during wipe"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "${selfname} will be stopped during wipe: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "${selfname} will be stopped during wipe"
+}
+
 # Check if there is something to wipe, prompt the user, and call appropriate functions.
 # Rust Wipe.
-if [ "${shortname}" == "rust" ]; then
 	if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
-		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased."
-		if ! fn_prompt_yn "Continue?" Y; then
-				core_exit.sh
-		fi
+		fn_print_warning_nl "Any user, storage, log and map data from ${serveridentitydir} will be erased"
+		fn_wipe_warning
 		fn_script_log_info "User selects to erase any user, storage, log and map data from ${serveridentitydir}"
 		fn_sleep_time
 		fn_wipe_server_process
 	else
 		fn_print_information_nl "No data to wipe was found"
-		fn_script_log_info "No data to wipe was found."
+		fn_script_log_info "No data to wipe was found"
 		core_exit.sh
 	fi
-# You can add an "elif" here to add another game or engine.
-else
-	# Game not listed.
-	fn_print_information_nl "Wipe is not available for this game"
-	fn_script_log_info "Wipe is not available for this game."
-	core_exit.sh
-fi
 
 core_exit.sh
