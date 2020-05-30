@@ -82,12 +82,12 @@ fn_info_parms_mordhau(){
 fn_info_parms_mohaa(){
 	port=${port:-"0"}
 	beaconport=${port:-"0"}
-	
+	defaultmap=${defaultmap:-"NOT SET"}
 }
 
 fn_info_parms_mofm(){
 	port=${port:-"7777"}
-	BeaconPort=${queryport:-"15000"}
+	beaconport=${queryport:-"15000"}
 }
 
 fn_info_parms_mta(){
