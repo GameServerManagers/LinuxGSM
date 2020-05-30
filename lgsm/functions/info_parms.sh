@@ -85,6 +85,11 @@ fn_info_parms_mohaa(){
 	
 }
 
+fn_info_parms_mofm(){
+	port=${port:-"7777"}
+	beaconport=${queryport:-"15000"}
+}
+
 fn_info_parms_mta(){
 	queryport=$((port + 123))
 }
@@ -245,6 +250,9 @@ elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_parms_mohaa
+#Memories of Mars	
+elif [ "${shortname}" == "mofm" ]; then
+	fn_info_parms_mofm	
 # Project Zomboid
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid

@@ -877,7 +877,7 @@ fn_info_message_mofm(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> ServerQuery\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
