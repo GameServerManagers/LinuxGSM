@@ -81,8 +81,8 @@ fn_info_parms_mordhau(){
 
 fn_info_parms_mohaa(){
 	port=${port:-"0"}
-	queryport=${port:-"0"}
-	defaultmap=${defaultmap:-"NOT SET"}
+	beaconport=${port:-"0"}
+	
 }
 
 fn_info_parms_mta(){
