@@ -87,7 +87,7 @@ fn_info_parms_mohaa(){
 
 fn_info_parms_mofm(){
 	port=${port:-"7777"}
-	beaconport=${queryport:-"15000"}
+	BeaconPort=${queryport:-"15000"}
 }
 
 fn_info_parms_mta(){
