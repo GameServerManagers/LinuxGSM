@@ -54,7 +54,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "ut" ]; then
 		remote_fileurl="http://linuxgsm.download/UnrealTournament/UnrealTournament-Server-XAN-3525360-Linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="UnrealTournament-Server-XAN-3525360-Linux.tar.xz";  chmodx="noexecute" run="norun"; force="noforce"; md5="41dd92015713a78211eaccf503b72393"
 	elif [ "${shortname}" == "ut3" ]; then
-		remote_fileurl="http://linuxgsm.download/UnrealTournament3/UT3-linux-server-2.1.tar.xz"; local_filedir="${tmpdir}"; local_filename="UT3-linux-server-2.1.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="6b92b083c7ab416399e2183a22fda1df"
+		remote_fileurl="http://linuxgsm.download/UnrealTournament3/UT3-linux-server-2.1.tar.xz"; local_filedir="${tmpdir}"; local_filename="UT3-linux-server-2.1.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="8876cca61e3f83ea08db25208bde6ac6"
 	elif [ "${shortname}" == "vs" ]; then
 		remote_fileurl="http://linuxgsm.download/VampireSlayer/vs_l-6.0_full.tar.xz"; local_filedir="${tmpdir}"; local_filename="vs_l-6.0_full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="b322f79e0abd31847493c52acf802667"
 	elif [ "${shortname}" == "wet" ]; then
