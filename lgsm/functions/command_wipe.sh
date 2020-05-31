@@ -34,7 +34,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		echo -en "no procedural map file to remove"
+		echo -e "no procedural map file to remove"
+		fn_sleep_time
 		fn_script_log_pass "No procedural map file to remove"
 	fi
 	# Wipe procedural map save.
@@ -47,7 +48,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		echo -en "no procedural map save to remove"
+		echo -e "no procedural map save to remove"
+		fn_sleep_time
 		fn_script_log_pass "No procedural map save to remove"
 	fi
 	# Wipe Barren map.
@@ -60,7 +62,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		echo -en "no barren map file to remove"
+		echo -e "no barren map file to remove"
+		fn_sleep_time
 		fn_script_log_pass "No barren map file to remove"
 	fi
 	# Wipe barren map save.
@@ -73,7 +76,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		echo -en "no barren map save to remove"
+		echo -e "no barren map save to remove"
+		fn_sleep_time
 		fn_script_log_pass "No barren map save to remove."
 	fi
 	# Wipe user dir, might be a legacy thing, maybe to be removed.
@@ -119,7 +123,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		echo -en "no player death to remove"
+		echo -e "no player death to remove"
+		fn_sleep_time
 		fn_script_log_pass "No player death to remove"
 	fi
 	# Wipe blueprints only if wipeall command was used.
@@ -133,14 +138,17 @@ fn_wipe_server_files(){
 			fn_wipe_exit_code
 			fn_sleep_time
 		else
-			echo -en "no blueprint file to remove"
+			echo -e "no blueprint file to remove"
+			fn_sleep_time
 			fn_script_log_pass "No blueprint file to remove"
 		fi
 	elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
-			fn_print_information_nl "Keeping blueprints"
+			echo -e "Keeping blueprints"
+			fn_sleep_time
 			fn_script_log_info "Keeping blueprints."
 	else
-			echo -en "no blueprints found"
+			echo -e "no blueprints found"
+			fn_sleep_time
 			fn_script_log_pass "No blueprints found"
 			fn_sleep_time
 	fi
