@@ -247,18 +247,18 @@ fn_backup_relpath() {
 }
 
 fn_stop_warning(){
-	fn_print_warn "${selfname} will be stopped during backup"
-	fn_script_log_warn "${selfname} will be stopped during backup"
+	fn_print_warn "this game server will be stopped during backup"
+	fn_script_log_warn "this game server will be stopped during backup"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "${selfname} will be stopped during backup: ${totalseconds}"
+		fn_print_warn "this game server will be stopped during backup: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "${selfname} will be stopped during backup"
+	fn_print_warn_nl "this game server will be stopped during backup"
 }
 
 # Restart the server if it was stopped for the backup.

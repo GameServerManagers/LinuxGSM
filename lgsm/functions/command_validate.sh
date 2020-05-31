@@ -62,18 +62,18 @@ fn_validate(){
 }
 
 fn_stop_warning(){
-	fn_print_warn "${selfname} will be stopped during validate"
-	fn_script_log_warn "${selfname} will be stopped during validate"
+	fn_print_warn "this game server will be stopped during validate"
+	fn_script_log_warn "this game server will be stopped during validate"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "${selfname} will be stopped during validate: ${totalseconds}"
+		fn_print_warn "this game server will be stopped during validate: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "${selfname} will be stopped during validate"
+	fn_print_warn_nl "this game server will be stopped during validate"
 }
 
 fn_print_dots "Validating server"
