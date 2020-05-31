@@ -34,8 +34,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		fn_print_information_nl "No procedural map file to remove"
-		fn_script_log_info "No procedural map file to remove"
+		echo -en "no procedural map file to remove"
+		fn_script_log_pass "No procedural map file to remove"
 	fi
 	# Wipe procedural map save.
 	if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
@@ -47,8 +47,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		fn_print_information_nl "No procedural map save to remove"
-		fn_script_log_info "No procedural map save to remove"
+		echo -en "no procedural map save to remove"
+		fn_script_log_pass "No procedural map save to remove"
 	fi
 	# Wipe Barren map.
 	if [ "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
@@ -60,8 +60,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		fn_print_information_nl "No barren map file to remove"
-		fn_script_log_info "No barren map file to remove"
+		echo -en "no barren map file to remove"
+		fn_script_log_pass "No barren map file to remove"
 	fi
 	# Wipe barren map save.
 	if [ "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
@@ -73,8 +73,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		fn_print_information_nl "No barren map save to remove"
-		fn_script_log_info "No barren map save to remove."
+		echo -en "no barren map save to remove"
+		fn_script_log_pass "No barren map save to remove."
 	fi
 	# Wipe user dir, might be a legacy thing, maybe to be removed.
 	if [ -d "${serveridentitydir}/user" ]; then
@@ -119,8 +119,8 @@ fn_wipe_server_files(){
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
-		fn_print_information_nl "No player death to remove"
-		fn_script_log_info "No player death to remove"
+		echo -en "no player death to remove"
+		fn_script_log_pass "No player death to remove"
 	fi
 	# Wipe blueprints only if wipeall command was used.
 	if [ "${wipeall}" == "1" ]; then
@@ -133,15 +133,15 @@ fn_wipe_server_files(){
 			fn_wipe_exit_code
 			fn_sleep_time
 		else
-			fn_print_information_nl "No blueprint file to remove"
-			fn_script_log_info "No blueprint file to remove"
+			echo -en "no blueprint file to remove"
+			fn_script_log_pass "No blueprint file to remove"
 		fi
 	elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 			fn_print_information_nl "Keeping blueprints"
 			fn_script_log_info "Keeping blueprints."
 	else
-			fn_print_information_nl "No blueprints found"
-			fn_script_log_info "No blueprints found"
+			echo -en "no blueprints found"
+			fn_script_log_pass "No blueprints found"
 			fn_sleep_time
 	fi
 	# Wipe some logs that might be there.
@@ -206,6 +206,6 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	fi
 else
 	fn_print_info_nl "No data to wipe was found"
-	fn_script_log_info "No data to wipe was found"
+	fn_script_log_pass "No data to wipe was found"
 fi
 core_exit.sh
