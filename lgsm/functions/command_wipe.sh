@@ -26,7 +26,7 @@ fn_wipe_server_files(){
 	fn_script_log_info "Wiping server"
 	# Wipe procedural map.
 	if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
-		echo -e "removing procedural map proceduralmap.*.map file(s)..."
+		echo -en "removing procedural map proceduralmap.*.map file(s)..."
 		fn_sleep_time
 		fn_script_log "Removing procedural map file(s): ${serveridentitydir}/proceduralmap.*.map"
 		find "${serveridentitydir:?}" -type f -name "proceduralmap.*.map" -delete | tee -a "${lgsmlog}"
@@ -39,7 +39,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe procedural map save.
 	if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
-		echo -e "removing map saves proceduralmap.*.sav file(s)..."
+		echo -en "removing map saves proceduralmap.*.sav file(s)..."
 		fn_sleep_time
 		fn_script_log "Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
 		find "${serveridentitydir:?}" -type f -name "proceduralmap.*.sav" -delete | tee -a "${lgsmlog}"
@@ -52,7 +52,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe Barren map.
 	if [ "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
-		echo -e "removing barren map barren*.map file(s)..."
+		echo -en "removing barren map barren*.map file(s)..."
 		fn_sleep_time
 		fn_script_log "Removing map file(s): ${serveridentitydir}/barren*.map"
 		find "${serveridentitydir:?}" -type f -name "barren*.map" -delete | tee -a "${lgsmlog}"
@@ -65,7 +65,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe barren map save.
 	if [ "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
-		echo -e "removing barren map saves barren*.sav file(s)..."
+		echo -en "removing barren map saves barren*.sav file(s)..."
 		fn_sleep_time
 		fn_script_log "Removing barren map save(s): ${serveridentitydir}/barren*.sav"
 		find "${serveridentitydir:?}" -type f -name "barren*.sav" -delete | tee -a "${lgsmlog}"
@@ -100,7 +100,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe sv.files.
 	if [ "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
-		echo -e "removing server misc srv.files*.db file(s)..."
+		echo -en "removing server misc srv.files*.db file(s)..."
 		fn_sleep_time
 		fn_script_log "Removing server misc files: ${serveridentitydir}/sv.files.*.db"
 		find "${serveridentitydir:?}" -type f -name "sv.files.*.db" -delete | tee -a "${lgsmlog}"
@@ -110,7 +110,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe player death files.
 	if [ "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]; then
-		echo -e "removing player deaths player.deaths.*.db file(s)..."
+		echo -en "removing player deaths player.deaths.*.db file(s)..."
 		fn_sleep_time
 		fn_script_log "Removing player death files: ${serveridentitydir}/player.deaths.*.db"
 		find "${serveridentitydir:?}" -type f -name "player.deaths.*.db" -delete | tee -a "${lgsmlog}"
@@ -124,7 +124,7 @@ fn_wipe_server_files(){
 	# Wipe blueprints only if wipeall command was used.
 	if [ "${wipeall}" == "1" ]; then
 		if [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
-			echo -e "removing blueprints player.blueprints.*.db file(s)..."
+			echo -en "removing blueprints player.blueprints.*.db file(s)..."
 			fn_sleep_time
 			fn_script_log "Removing blueprint file(s): ${serveridentitydir}/player.blueprints.*.db"
 			find "${serveridentitydir:?}" -type f -name "player.blueprints.*.db" -delete | tee -a "${lgsmlog}"
@@ -146,7 +146,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe some logs that might be there.
 	if [ "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
-		echo -e "removing Log files..."
+		echo -en "removing Log files..."
 		fn_sleep_time
 		fn_script_log "Removing log files: ${serveridentitydir}/Log.*.txt"
 		find "${serveridentitydir:?}" -type f -name "Log.*.txt" -delete
