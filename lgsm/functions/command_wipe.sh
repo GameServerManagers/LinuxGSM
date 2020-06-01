@@ -197,9 +197,13 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 		fn_stop_warning
 		exitbypass=1
 		command_stop.sh
+		commandname="START"
+		commandaction="Starting"
 		fn_wipe_server_files
 		exitbypass=1
 		command_start.sh
+		commandname="START"
+		commandaction="Starting"
 	else
 		fn_wipe_server_files
 	fi
