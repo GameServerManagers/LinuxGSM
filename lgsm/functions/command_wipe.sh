@@ -205,8 +205,8 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	else
 		fn_wipe_server_files
 	fi
-else
-	fn_print_info_nl "No data to wipe was found"
-	fn_script_log_pass "No data to wipe was found"
+	fn_print_ok_nl ""
+	fn_script_log_pass "Wiping server"
 fi
+
 core_exit.sh

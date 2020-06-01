@@ -9,18 +9,18 @@ commandaction="Validating"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_validate(){
-	fn_script_log_warn "Validating server: SteamCMD: Validate might overwrite some customised files"
+	fn_script_log_warn "SteamCMD: Validate might overwrite some customised files"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Validating server: SteamCMD: Validate might overwrite some customised files: ${totalseconds}"
+		fn_print_warn "SteamCMD: Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "Validating server: SteamCMD: Validate might overwrite some customised files"
-	fn_print_start_nl "Validating server: SteamCMD"
+	fn_print_warn_nl "SteamCMD: Validate might overwrite some customised files"
+	fn_print_start_nl "SteamCMD"
 	fn_script_log_info "Validating server: SteamCMD"
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
@@ -49,12 +49,12 @@ fn_validate(){
 	fi
 
 	exitcode=$?
-	fn_print_dots "Validating server: SteamCMD"
+	fn_print_dots "SteamCMD"
 	if [ "${exitcode}" != "0" ]; then
-		fn_print_fail_nl "Validating server: SteamCMD"
+		fn_print_fail_nl "SteamCMD"
 		fn_script_log_fatal "Validating server: SteamCMD: FAIL"
 	else
-		fn_print_ok_nl "Validating server: SteamCMD"
+		fn_print_ok_nl "SteamCMD"
 		fn_script_log_pass "Validating server: SteamCMD: OK"
 	fi
 	core_exit.sh
@@ -75,8 +75,7 @@ fn_stop_warning(){
 	fn_print_warn_nl "this game server will be stopped during validate"
 }
 
-fn_print_dots "Validating server"
-fn_print_dots "Validating server: SteamCMD"
+fn_print_dots "SteamCMD"
 check.sh
 if [ "${status}" != "0" ]; then
 	fn_stop_warning
