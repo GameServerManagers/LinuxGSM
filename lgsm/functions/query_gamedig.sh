@@ -32,11 +32,15 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# numplayers.
-		gdplayers=$(echo "${gamedigraw}" | jq -re '.raw.vanilla.raw.players.online')
+		if [ "${querytype}" == "minecraft" ]; then
+				gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
+			else
+				gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')
+		fi
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
-		elif [ "${gdplayers}" == "[]" ]; then
-			gdplayers=0
+		elif [ "${gdplayers}" == "[]" ] || [ "${gdplayers}" == "-1" ]; then
+		 	gdplayers=0
 		fi
 
 		# maxplayers.
@@ -60,7 +64,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# numbots.
-		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
+		gdbots=$(echo "${gamedigraw}" | jq -re '.bots | length')
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi
