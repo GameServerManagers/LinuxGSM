@@ -89,17 +89,21 @@ fn_update_mumble_compare(){
 			fn_update_mumble_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 			exitbypass=1
 			fn_update_mumble_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
@@ -118,18 +122,18 @@ fn_update_mumble_compare(){
 }
 
 fn_stop_warning(){
-	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	fn_print_warn "this game server will be stopped during update"
+	fn_script_log_warn "this game server will be stopped during update"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
+		fn_print_warn "this game server will be stopped during update: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	fn_print_warn_nl "this game server will be stopped during update"
 }
 
 # The location where the builds are checked and downloaded.

@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 
+fn_commandname(){
 commandname="INSTALL"
 commandaction="Installing"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 check.sh
 if [ "$(whoami)" = "root" ]; then

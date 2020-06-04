@@ -42,8 +42,10 @@ fn_update_ts3_localbuild(){
 		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
+		fn_commandname
 		exitbypass=1
 		command_start.sh
+		fn_commandname
 		totalseconds=0
 		# Check again, allow time to generate logs.
 		while [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
@@ -150,17 +152,21 @@ fn_update_ts3_compare(){
 			fn_update_ts3_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 			exitbypass=1
 			fn_update_ts3_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"

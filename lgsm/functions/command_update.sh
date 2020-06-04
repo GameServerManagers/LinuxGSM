@@ -4,9 +4,12 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of servers.
 
-commandname="UPDATE"
-commandaction="Updating"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){}
+	commandname="UPDATE"
+	commandaction="Updating"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 fn_print_dots ""
 check.sh
