@@ -119,8 +119,8 @@ fn_wipe_server_files(){
 		fn_sleep_time
 		fn_script_log_pass "No player death to remove"
 	fi
-	# Wipe blueprints only if wipeall command was used.
-	if [ "${wipeall}" == "1" ]; then
+	# Wipe blueprints only if full-wipe command was used.
+	if [ "${fullwipe}" == "1" ]; then
 		if [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 			echo -en "removing blueprints player.blueprints.*.db file(s)..."
 			fn_sleep_time
