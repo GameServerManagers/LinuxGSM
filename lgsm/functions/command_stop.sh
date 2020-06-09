@@ -14,7 +14,7 @@ fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends quit.
-	tmux send-keys -t "${sessionname}" C-c  > /dev/null 2>&1
+	tmux send-keys -t "${sessionname} ${port}" C-c  > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -42,7 +42,7 @@ fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
-	tmux send -t "${sessionname}" "${1}" ENTER > /dev/null 2>&1
+	tmux send -t "${sessionname} ${port}" "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
@@ -70,7 +70,7 @@ fn_stop_graceful_goldsrc(){
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
-	tmux send -t "${sessionname}" quit ENTER > /dev/null 2>&1
+	tmux send -t "${sessionname} ${port}" quit ENTER > /dev/null 2>&1
 	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
 		sleep 1
@@ -183,10 +183,10 @@ fn_stop_graceful_avorion(){
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
-	tmux send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
+	tmux send-keys -t "${sessionname} ${port}" /save ENTER > /dev/null 2>&1
 	sleep 5
 	# Sends /quit.
-	tmux send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
+	tmux send-keys -t "${sessionname} ${port}" /stop ENTER > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -233,9 +233,9 @@ fn_stop_graceful_select(){
 
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
-	fn_script_log_info "tmux kill-session: ${sessionname}: ${servername}"
+	fn_script_log_info "tmux kill-session: ${sessionname} ${port}: ${servername}"
 	# Kill tmux session.
-	tmux kill-session -t "${sessionname}" > /dev/null 2>&1
+	tmux kill-session -t "${sessionname} ${port}" > /dev/null 2>&1
 	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
