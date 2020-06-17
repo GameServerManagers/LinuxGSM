@@ -22,7 +22,6 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --port \"${queryport}\"|jq")
 			gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --port "${queryport}")
 			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
-
 		fi
 
 		# server name.
