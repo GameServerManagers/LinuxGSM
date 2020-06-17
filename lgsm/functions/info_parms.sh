@@ -85,7 +85,7 @@ fn_info_parms_mohaa(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
-fn_info_parms_mofm(){
+fn_info_parms_mom(){
 	port=${port:-"7777"}
 	beaconport=${queryport:-"15000"}
 }
@@ -251,8 +251,8 @@ elif [ "${shortname}" == "kf2" ]; then
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_parms_mohaa
 #Memories of Mars
-elif [ "${shortname}" == "mofm" ]; then
-	fn_info_parms_mofm
+elif [ "${shortname}" == "mom" ]; then
+	fn_info_parms_mom
 # Project Zomboid
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid
