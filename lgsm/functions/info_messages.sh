@@ -872,7 +872,7 @@ fn_info_message_mohaa(){
 }
 
 fn_info_message_mofm(){
-	echo -e "netstat -atunp | grep MemoriesOfMars"
+	echo -e "netstat -atunp | grep MemoriesOfMar"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
