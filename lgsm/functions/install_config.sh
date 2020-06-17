@@ -239,6 +239,13 @@ elif [ "${shortname}" == "bf1942" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "bfv" ]; then
+	gamedirname="BattlefieldVietnam"
+	array_configs+=( serversettings.con )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bs" ]; then
 	gamedirname="BladeSymphony"
 	array_configs+=( server.cfg )
