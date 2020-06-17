@@ -33,14 +33,14 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 
 		# numplayers.
 		if [ "${querytype}" == "minecraft" ]; then
-				gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
-			else
-				gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')
+			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
+		else
+			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')
 		fi
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
 		elif [ "${gdplayers}" == "[]" ] || [ "${gdplayers}" == "-1" ]; then
-		 	gdplayers=0
+			gdplayers=0
 		fi
 
 		# maxplayers.
