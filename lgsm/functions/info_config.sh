@@ -484,6 +484,20 @@ fn_info_config_minecraft_bedrock(){
 	fi
 }
 
+fn_info_config_mofm(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
+}
+
 fn_info_config_onset(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1541,6 +1555,9 @@ elif [ "${shortname}" == "kf2" ]; then
 # Medal of Honor: Allied Assault
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_config_mohaa
+# Memories of Mars
+elif [ "${shortname}" == "mofm" ]; then
+	fn_info_config_mofm
 # QuakeWorld
 elif [ "${shortname}" == "qw" ]; then
 	fn_info_config_quakeworld
