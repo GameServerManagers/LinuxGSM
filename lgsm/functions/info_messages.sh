@@ -992,6 +992,16 @@ fn_info_message_bf1942(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_bfv(){
+	echo -e "netstat -atunp | grep bfv_linded"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_risingworld(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
@@ -1474,7 +1484,7 @@ fn_info_message_select_engine(){
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
-	elif [ "${shortname}" == "st" ]; then
+	elif [ "${shortname}" == "sb" ]; then
 		fn_info_message_starbound
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
@@ -1504,6 +1514,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv	
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
