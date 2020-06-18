@@ -570,6 +570,13 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
+elif [ "${shotname}" == "mom" ];then
+	gamedirname="MemoriesofMars"
+	array_configs+=( DedicatedServerConfig.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "mumble" ]; then
 	gamedirname="Mumble"
 	array_configs+=( murmur.ini )
