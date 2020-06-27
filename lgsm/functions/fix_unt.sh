@@ -2,10 +2,9 @@
 # LinuxGSM fix_rust.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Unturned
+# Description: Resolves startup issue with Unturned.
 
-local commandname="FIX"
-local commandaction="Fix"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # steamclient.so: cannot open shared object file: No such file or directory
-export LD_LIBRARY_PATH="${serverfiles}/linux64:${serverfiles}:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/linux64"

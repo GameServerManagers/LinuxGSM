@@ -4,9 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Gives access to the server tmux console.
 
-local commandname="CONSOLE"
-local commandaction="Console"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="CONSOLE"
+commandaction="Access console"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 fn_print_header
@@ -19,14 +19,14 @@ fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo -e "	* https://docs.linuxgsm.com/commands/console"
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	echo Exiting; return
+	return
 fi
 fn_print_dots "Accessing console"
 check_status.sh
 if [ "${status}" != "0" ]; then
 	fn_print_ok_nl "Accessing console"
 	fn_script_log_pass "Console accessed"
-	tmux attach-session -t "${servicename}"
+	tmux attach-session -t "${sessionname}"
 	fn_print_ok_nl "Closing console"
 	fn_script_log_pass "Console closed"
 else

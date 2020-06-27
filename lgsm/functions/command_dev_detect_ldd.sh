@@ -5,16 +5,16 @@
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 
-local commandname="DETECT-LDD"
-local commandaction="Detect-LDD"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEV-DETECT-LDD"
+commandaction="Developer detect ldd"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "Shared Object dependencies Checker"
 echo -e "================================="
 
 if [ -z "${serverfiles}" ]; then
-	dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 fi
 
 if [ -d "${serverfiles}" ]; then
@@ -25,6 +25,8 @@ elif [ -f "${serverfiles}" ]; then
 	echo -e "${serverfiles}"
 fi
 echo -e ""
+touch "${tmpdir}/detect_ldd.tmp"
+touch "${tmpdir}/detect_ldd_not_found.tmp"
 
 files=$(find "${serverfiles}" | wc -l)
 find "${serverfiles}" -type f -print0 |
@@ -53,7 +55,7 @@ echo -e "Not Found"
 echo -e "================================="
 cat "${tmpdir}/detect_ldd_not_found.tmp"
 
-rm "${tmpdir}/detect_ldd.tmp"
-rm "${tmpdir}/detect_ldd_not_found.tmp"
+rm -f "${tmpdir:?}/detect_ldd.tmp"
+rm -f "${tmpdir:?}/detect_ldd_not_found.tmp"
 
 core_exit.sh

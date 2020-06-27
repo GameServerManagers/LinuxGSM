@@ -4,12 +4,10 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Mumble servers.
 
-local commandname="UPDATE"
-local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
-	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2"
+	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "" "" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/murmur-static_${mumblearch}-${remotebuild}/"* "${serverfiles}"
@@ -21,38 +19,39 @@ fn_update_mumble_dl(){
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
 
 fn_update_mumble_localbuild(){
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
+	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
 		localbuild=$(${executable} -version 2>&1 >/dev/null | awk '{print $5}')
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	else
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: checking local build"
+		fn_print_error "Checking local build: ${remotelocation}"
 		fn_script_log_error "Checking local build"
 	fi
 }
 
 fn_update_mumble_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(${curlpath} -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
+	remotebuild=$(curl -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
-		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
 		else
-			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_ok "Checking remote build: ${remotelocation}"
 			fn_script_log_pass "Checking remote build"
 		fi
 	else
@@ -76,22 +75,13 @@ fn_update_mumble_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		fn_sleep_time
-		echo -en "\n"
-		echo -en "applying update.\r"
-		sleep 1
-		echo -en "applying update..\r"
-		sleep 1
-		echo -en "applying update...\r"
-		sleep 1
-		echo -en "\n"
 
 		unset updateonstart
-
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
@@ -103,6 +93,7 @@ fn_update_mumble_compare(){
 			command_stop.sh
 		# If server started.
 		else
+			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
@@ -110,6 +101,7 @@ fn_update_mumble_compare(){
 			exitbypass=1
 			command_start.sh
 		fi
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -118,10 +110,26 @@ fn_update_mumble_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${mumblearch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${mumblearch}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild} ${mumblearch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${mumblearch}"
 	fi
+}
+
+fn_stop_warning(){
+	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
 }
 
 # The location where the builds are checked and downloaded.

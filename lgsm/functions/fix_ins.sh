@@ -4,16 +4,15 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Insurgency.
 
-local commandname="FIX"
-local commandaction="Fix"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: ./srcds_linux: error while loading shared libraries: libtier0.so: cannot open shared object file: No such file or directory.
 
-export LD_LIBRARY_PATH=${serverfiles}:${serverfiles}/bin:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/bin"
 
 # Fixes: issue #529 - gamemode not passed to debug or start.
 
-if [ "${function_selfname}" == "command_debug.sh" ]; then
+if [ "${commandname}" == "DEBUG" ]; then
 	defaultmap="\"${defaultmap}\""
 else
 	defaultmap="\\\"${defaultmap}\\\""

@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
-local commandname="DETAILS"
-local commandaction="Details"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DETAILS"
+commandaction="Viewing details"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Run checks and gathers details to display.
 check.sh
@@ -15,7 +15,9 @@ info_config.sh
 info_parms.sh
 info_distro.sh
 info_messages.sh
-query_gamedig.sh
+if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
+	query_gamedig.sh
+fi
 fn_info_message_distro
 fn_info_message_server_resource
 fn_info_message_gameserver_resource
@@ -30,4 +32,5 @@ fi
 fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
+
 core_exit.sh

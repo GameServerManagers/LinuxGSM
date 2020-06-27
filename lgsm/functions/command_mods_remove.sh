@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
-local commandname="MODS"
-local commandaction="Mods Remove"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="MODS-REMOVE"
+commandaction="Removing mods"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 mods_core.sh
@@ -46,7 +46,7 @@ done
 fn_print_warning_nl "You are about to remove ${cyan}${usermodselect}${default}."
 echo -e " * Any custom files/configuration will be removed."
 if ! fn_prompt_yn "Continue?" Y; then
-	echo Exiting; exit
+	core_exit.sh
 fi
 
 currentmod="${usermodselect}"
@@ -64,11 +64,11 @@ modfileline="1"
 tput sc
 while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove.
-	currentfileremove="$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")"
+	currentfileremove=$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")
 	# If file or directory exists, then remove it.
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
-		rm -rf "${modinstalldir:?}/${currentfileremove}"
+		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
 		((exitcode=$?))
 		if [ ${exitcode} -ne 0 ]; then
 			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
@@ -87,11 +87,10 @@ if [ ${exitcode} -ne 0 ]; then
 else
 	fn_print_ok_eol_nl
 fi
-fn_sleep_time
 # Remove file list.
 echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time
-rm -rf "${modsdir}/${modcommand}-files.txt"
+rm -rf "${modsdir:?}/${modcommand}-files.txt"
 local exitcode=$?
 if [ ${exitcode} -ne 0 ]; then
 	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"

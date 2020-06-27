@@ -1,24 +1,23 @@
 #!/bin/bash
-# LinuxGSM logs.sh function
+# LinuxGSM core_logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
-local commandname="LOGS"
-local commandaction="Log-Manager"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist.
-if [ -n "${consolelog}" ]; then
-	if [ ! -e "${consolelog}" ]; then
+if [ "${consolelog}" ]; then
+	if [ ! -f "${consolelog}" ]; then
 		touch "${consolelog}"
 	fi
 fi
 
 # For games not displaying a console, and having logs into their game directory.
 check_status.sh
-if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -n "${gamelogfile}" ]; then
-	if [ -n "$(find "${systemdir}" -name "gamelog*.log")" ]; then
+if [ "${status}" != "0" ]&&[ "${commandname}" == "START" ]&&[ -n "${gamelogfile}" ]; then
+	if [ "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"
 		echo -en "\n"
@@ -41,8 +40,7 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 	# Setting up counting variables
 	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
 	fn_sleep_time
-	fn_print_ok_nl "Starting"
-	fn_print_info_nl "Removing logs older than ${logdays} days"
+	fn_print_info "Removing logs older than ${logdays} days"
 	fn_script_log_info "Removing logs older than ${logdays} days"
 	# Logging logfiles to be removed according to "${logdays}", counting and removing them.
 	# Script logfiles.
@@ -56,7 +54,7 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	fi
 	# Console logfiles.
-	if [ -n "${consolelog}" ]; then
+	if [ "${consolelog}" ]; then
 		find "${consolelogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		consolecount=$(find "${consolelogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 		find "${consolelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
@@ -98,8 +96,8 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 	fi
 
 	# Count total amount of files removed.
-	countlogs=$((${scriptcount} + ${consolecount} + ${gamecount} + ${srcdscount} + ${smcount} + ${ulxcount} + ${darkrpcount}))
+	countlogs=$((scriptcount + consolecount + gamecount + srcdscount + smcount + ulxcount + darkrpcount))
 	# Job done.
-	fn_print_ok_nl "Removed ${countlogs} log files"
+	fn_print_ok "Removed ${countlogs} log files"
 	fn_script_log "Removed ${countlogs} log files"
 fi

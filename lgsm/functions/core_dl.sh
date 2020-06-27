@@ -17,9 +17,7 @@
 # fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
-local commandname="DOWNLOAD"
-local commandaction="Download"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Emptys contents of the LinuxGSM tmpdir.
 fn_clear_tmp(){
@@ -42,7 +40,7 @@ fn_dl_md5(){
 	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
 		echo -en "verifying ${local_filename} with MD5..."
 		fn_sleep_time
-		local md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
+		md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
 		if [ "${md5sumcmd}" != "${md5}" ]; then
 			fn_print_fail_eol_nl
 			echo -e "${local_filename} returned MD5 checksum: ${md5sumcmd}"
@@ -77,11 +75,11 @@ fn_dl_extract(){
 	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
 		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then
-		tarcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-xz" ]; then
-		tarcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		extractcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/zip" ]; then
-		extractcmd=$(unzip -d "${extractdir}" "${local_filedir}/${local_filename}")
+		extractcmd=$(unzip -qo -d "${extractdir}" "${local_filedir}/${local_filename}")
 	fi
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
@@ -105,7 +103,7 @@ fn_fetch_trap(){
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	fn_sleep_time
-	rm -f "${local_filedir}/${local_filename}"
+	rm -f "${local_filedir:?}/${local_filename}"
 	echo -en "downloading ${local_filename}..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
@@ -114,66 +112,111 @@ fn_fetch_trap(){
 
 fn_fetch_file(){
 	remote_fileurl="${1}"
-	local_filedir="${2}"
-	local_filename="${3}"
-	chmodx="${4:-0}"
-	run="${5:-0}"
-	if [ -f /.dockerenv ]; then
+	remote_fileurl_backup="${2}"
+	remote_fileurl_name="${3}"
+	remote_fileurl_backup_name="${4}"
+	local_filedir="${5}"
+	local_filename="${6}"
+	chmodx="${7:-0}"
+	run="${8:-0}"
+		if [ -f /.dockerenv ]; then
 		# All required files should already exist locally
 		forcedl="0"
 	else
-		forcedl="${6:-0}"
+		forcedl="${9:-0}"
 	fi
-	
-	md5="${7:-0}"
+	md5="${10:-0}"
 
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
-		if [ ! -d "${local_filedir}" ]; then
-			mkdir -p "${local_filedir}"
-		fi
-		# Trap will remove part downloaded files if canceled.
-		trap fn_fetch_trap INT
-		# Larger files show a progress bar.
-		if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]||[ "${local_filename##*.}" == "xz" ]; then
-			echo -en "downloading ${local_filename}..."
-			fn_sleep_time
-			echo -en "\033[1K"
-			curlcmd=$(${curlpath} --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}")
-			echo -en "downloading ${local_filename}..."
+		# If backup fileurl exists include it.
+		if [ -n "${remote_fileurl_backup}" ]; then
+			# counter set to 0 to allow second try
+			counter=0
+			remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
 		else
-			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(${curlpath} -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
+			# counter set to 1 to not allow second try
+			counter=1
+			remote_fileurls_array=( remote_fileurl )
 		fi
-		local exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
-			fn_print_fail_eol_nl
-			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_fatal "Downloading ${local_filename}"
-				echo -e "${remote_fileurl}" >> "${lgsmlog}"
-				echo -e "${curlcmd}" >> "${lgsmlog}"
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"
+		do
+			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
+				fileurl="${remote_fileurl}"
+				fileurl_name="${remote_fileurl_name}"
+			elif [ "${remote_fileurl_array}" == "remote_fileurl_backup" ]; then
+				fileurl="${remote_fileurl_backup}"
+				fileurl_name="${remote_fileurl_backup_name}"
 			fi
-			echo -e "${remote_fileurl}"
-			echo -e "${curlcmd}"
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_pass "Downloading ${local_filename}"
+			counter=$((counter+1))
+			if [ ! -d "${local_filedir}" ]; then
+				mkdir -p "${local_filedir}"
 			fi
-		fi
-		# Remove trap.
-		trap - INT
-		# Make file executable if chmodx is set.
-		if [ "${chmodx}" == "chmodx" ]; then
-			chmod +x "${local_filedir}/${local_filename}"
-		fi
+			# Trap will remove part downloaded files if canceled.
+			trap fn_fetch_trap INT
+			# Larger files show a progress bar.
+			if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]||[ "${local_filename##*.}" == "xz" ]; then
+				echo -en "downloading ${local_filename}..."
+				fn_sleep_time
+				echo -en "\033[1K"
+				curlcmd=$(curl --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
+				echo -en "downloading ${local_filename}..."
+			else
+				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
+				curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+			fi
+			local exitcode=$?
+
+			# Download will fail if downloads a html file.
+			if [ -f "${local_filedir}/${local_filename}" ]; then
+				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE" )" ]; then
+					rm "${local_filedir:?}/${local_filename:?}"
+					local exitcode=2
+				fi
+			fi
+
+			# On first try will error. On second try will fail.
+			if [ ${exitcode} -ne 0 ]; then
+				if [ ${counter} -ge 2 ]; then
+					fn_print_fail_eol_nl
+					if [ -f "${lgsmlog}" ]; then
+						fn_script_log_fatal "Downloading ${local_filename}"
+						fn_script_log_fatal "${fileurl}"
+					fi
+					core_exit.sh
+				else
+					fn_print_error_eol_nl
+					if [ -f "${lgsmlog}" ]; then
+						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "${fileurl}"
+					fi
+				fi
+			else
+				fn_print_ok_eol
+				sleep 0.3
+				echo -en "\033[2K\\r"
+				if [ -f "${lgsmlog}" ]; then
+					fn_script_log_pass "Downloading ${local_filename}"
+				fi
+
+				# Make file executable if chmodx is set.
+				if [ "${chmodx}" == "chmodx" ]; then
+					chmod +x "${local_filedir}/${local_filename}"
+				fi
+
+				# Remove trap.
+				trap - INT
+
+				break
+			fi
+		done
 	fi
 
 	if [ -f "${local_filedir}/${local_filename}" ]; then
 		fn_dl_md5
 		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
@@ -194,13 +237,23 @@ fn_fetch_file(){
 # forcedl: Optional, force re-download of file even if exists
 # md5: Optional, set an md5 sum and will compare it against the file.
 
-# Fetches any files from the GitHub repo.
+# Fetches files from the Git repo.
 fn_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
+	if [ "${legacymode}" == "1" ]; then
+		# For legacy versions - code can be removed at a future date
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	elif [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
@@ -208,15 +261,22 @@ fn_fetch_file_github(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
+# Fetches config files from the Git repo.
 fn_fetch_config(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
+	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
 	local_filename="${4}"
 	chmodx="nochmodx"
@@ -224,16 +284,22 @@ fn_fetch_config(){
 	forcedl="noforce"
 	md5="nomd5"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
-# Fetches functions.
+# Fetches modules from the Git repo during first download.
 fn_fetch_function(){
 	github_file_url_dir="lgsm/functions"
 	github_file_url_name="${functionfile}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
+	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${functionsdir}"
 	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
@@ -241,29 +307,35 @@ fn_fetch_function(){
 	forcedl="noforce"
 	md5="nomd5"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
+# Fetches modules from the Git repo during update-lgsm.
 fn_update_function(){
-	exitbypass=1
 	github_file_url_dir="lgsm/functions"
 	github_file_url_name="${functionfile}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
+	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${functionsdir}"
 	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="norun"
 	forcedl="noforce"
 	md5="nomd5"
-	fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	# Passes vars to the file download function.
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+
 }
 
-# Defines curl path.
-curlpath=$(command -v curl 2>/dev/null)
-
-if [ "$(basename "${curlpath}")" != "curl" ]; then
+# Check that curl is installed
+if [ ! "$(command -v curl 2>/dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi

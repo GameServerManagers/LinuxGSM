@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
-local commandname="INSTALL"
-local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir(){
@@ -29,7 +27,7 @@ fn_fetch_default_config(){
 	# When running inside Docker we want to use a local copy of these files.
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${lgsmdir}/config-default/config-game/${gamedirname}" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
+		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game/${gamedirname}" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
 	done
 }
 
@@ -63,13 +61,12 @@ fn_default_config_remote(){
 # Copys local default config to server config location.
 fn_default_config_local(){
 	echo -e "copying ${servercfgdefault} config file."
-
 	if [ -f /.dockerenv ]; then
 		# In Docker we regenerate this config everytime at startup.
 		# we always want to overwrite the existing file.
 		rm ${servercfgfullpath}
 	fi
-	cp -nv "${servercfgfullpathdefault}" "${servercfgfullpath}"
+	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	fn_sleep_time
 }
 
@@ -157,21 +154,50 @@ fn_set_dst_config_vars(){
 	echo -e ""
 }
 
+# Lists local config file locations
+fn_list_config_locations(){
+	echo -e ""
+	echo -e "${lightyellow}Config File Locations${default}"
+	echo -e "================================="
+	if [ -n "${servercfgfullpath}" ]; then
+		if [ -f "${servercfgfullpath}" ]; then
+			echo -e "Game Server Config File: ${servercfgfullpath}"
+		elif [ -d "${servercfgfullpath}" ]; then
+			echo -e "Game Server Config Dir: ${servercfgfullpath}"
+		else
+			echo -e "Config file: ${red}${servercfgfullpath} (${red}FILE MISSING${default})"
+		fi
+	fi
+	echo -e "LinuxGSM Config: ${lgsmdir}/config-lgsm/${gameservername}"
+	echo -e "Documentation: https://docs.linuxgsm.com/configuration/game-server-config"
+	echo -e ""
+}
+
 if [ "${shortname}" == "sdtd" ]; then
 	gamedirname="7DaysToDie"
 	fn_default_config_local
+	fn_list_config_locations
+elif [ "${shortname}" == "ac" ]; then
+	gamedirname="AssettoCorsa"
+	array_configs+=( server_cfg.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ahl" ]; then
 	gamedirname="ActionHalfLife"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ahl2" ]; then
 	gamedirname="ActionSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ark" ]; then
 	gamedirname="ARKSurvivalEvolved"
 	fn_check_cfgdir
@@ -179,6 +205,7 @@ elif [ "${shortname}" == "ark" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "arma3" ]; then
 	gamedirname="Arma3"
 	fn_check_cfgdir
@@ -186,18 +213,21 @@ elif [ "${shortname}" == "arma3" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bo" ]; then
 	gamedirname="BallisticOverkill"
 	array_configs+=( config.txt )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bo" ]; then
 	gamedirname="BaseDefense"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bt" ]; then
 	gamedirname="Barotrauma"
 	fn_check_cfgdir
@@ -205,6 +235,7 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bt1944" ]; then
 	gamedirname="Battalion1944"
 	fn_check_cfgdir
@@ -212,120 +243,140 @@ elif [ "${shortname}" == "bt1944" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bf1942" ]; then
 	gamedirname="Battlefield1942"
 	array_configs+=( serversettings.con )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bs" ]; then
 	gamedirname="BladeSymphony"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bb" ]; then
 	gamedirname="BrainBread"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bb2" ]; then
 	gamedirname="BrainBread2"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bmdm" ]; then
 	gamedirname="BlackMesa"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cod" ]; then
 	gamedirname="CallOfDuty"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "coduo" ]; then
 	gamedirname="CallOfDutyUnitedOffensive"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cod2" ]; then
 	gamedirname="CallOfDuty2"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cod4" ]; then
 	gamedirname="CallOfDuty4"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "codwaw" ]; then
 	gamedirname="CallOfDutyWorldAtWar"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cc" ]; then
 	gamedirname="CodenameCURE"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
 	gamedirname="CounterStrike"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cscz" ]; then
 	gamedirname="CounterStrikeConditionZero"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "csgo" ]; then
 	gamedirname="CounterStrikeGlobalOffensive"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "css" ]; then
 	gamedirname="CounterStrikeSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dod" ]; then
 	gamedirname="DayOfDefeat"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dods" ]; then
 	gamedirname="DayOfDefeatSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "doi" ]; then
 	gamedirname="DayOfInfamy"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dmc" ]; then
 	gamedirname="DeathmatchClassic"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dst" ]; then
 	gamedirname="DontStarveTogether"
 	fn_check_cfgdir
@@ -333,132 +384,161 @@ elif [ "${shortname}" == "dst" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_dst_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dab" ]; then
 	gamedirname="DoubleActionBoogaloo"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dys" ]; then
 	gamedirname="Dystopia"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "eco" ]; then
 	gamedirname="Eco"
 	array_configs+=( Network.eco )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "etl" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "fctr" ]; then
 	gamedirname="Factorio"
 	array_configs+=( server-settings.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "fof" ]; then
 	gamedirname="FistfulofFrags"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "gmod" ]; then
 	gamedirname="GarrysMod"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ges" ]; then
 	gamedirname="GoldenEyeSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "hldm" ]; then
 	gamedirname="HalfLifeDeathmatch"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "hldms" ]; then
 	gamedirname="HalfLifeDeathmatchSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "opfor" ]; then
 	gamedirname="OpposingForce"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "hl2dm" ]; then
 	gamedirname="HalfLife2Deathmatch"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ins" ]; then
 	gamedirname="Insurgency"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ios" ]; then
 	gamedirname="IOSoccer"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "jc2" ]; then
 	gamedirname="JustCause2"
 	array_configs+=( config.lua )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "jc3" ]; then
 	gamedirname="JustCause3"
 	array_configs+=( config.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "kf" ]; then
 	gamedirname="KillingFloor"
 	array_configs+=( Default.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "l4d" ]; then
 	gamedirname="Left4Dead"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "l4d2" ]; then
 	gamedirname="Left4Dead2"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "mc" ]; then
 	gamedirname="Minecraft"
 	array_configs+=( server.properties )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "mcb" ]; then
+	gamedirname="MinecraftBedrock"
+	array_configs+=( server.properties )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "mohaa" ]; then
 	gamedirname="MedalOfHonorAlliedAssault"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "mh" ]; then
 	gamedirname="Mordhau"
 	fn_check_cfgdir
@@ -466,41 +546,48 @@ elif [ "${shortname}" == "mh" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ns" ]; then
 	gamedirname="NaturalSelection"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "nmrih" ]; then
 	gamedirname="NoMoreRoominHell"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "nd" ]; then
 	gamedirname="NuclearDawn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "mta" ]; then
 	gamedirname="MultiTheftAuto"
 	fn_check_cfgdir
 	array_configs+=( acl.xml mtaserver.conf vehiclecolors.conf )
 	fn_fetch_default_config
 	fn_default_config_remote
+	fn_list_config_locations
 elif [ "${shortname}" == "mumble" ]; then
 	gamedirname="Mumble"
 	array_configs+=( murmur.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
+	fn_list_config_locations
 elif [ "${shortname}" == "pvkii" ]; then
 	gamedirname="PiratesVikingandKnightsII"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "pz" ]; then
 	gamedirname="ProjectZomboid"
 	fn_check_cfgdir
@@ -508,143 +595,167 @@ elif [ "${shortname}" == "pz" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "pc" ]; then
 	gamedirname="ProjectCars"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "q2" ]; then
 	gamedirname="Quake2"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "q3" ]; then
 	gamedirname="Quake3Arena"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ql" ]; then
 	gamedirname="QuakeLive"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "qw" ]; then
 	gamedirname="QuakeWorld"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ricochet" ]; then
 	gamedirname="Ricochet"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "rtcw" ]; then
 	gamedirname="ReturnToCastleWolfenstein"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "rust" ]; then
 	gamedirname="Rust"
 	fn_check_cfgdir
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
+	fn_list_config_locations
 elif [ "${shortname}" == "samp" ]; then
 	gamedirname="SanAndreasMultiplayer"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ss3" ]; then
 	gamedirname="SeriousSam3BFE"
 	array_configs+=( server.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	gamedirname="Soldat"
 	array_configs+=( soldat.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sof2" ]; then
 	gamedirname="SoldierOfFortune2Gold"
 	array_configs+=( server.cfg mapcycle.txt)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sfc" ]; then
 	gamedirname="SourceFortsClassic"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "squad" ]; then
 	gamedirname="Squad"
 	array_configs+=( Admins.cfg Bans.cfg License.cfg Server.cfg Rcon.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sb" ]; then
 	gamedirname="Starbound"
 	array_configs+=( starbound_server.config )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "st" ]; then
 	gamedirname="Stationeers"
 	array_configs+=( default.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sven" ]; then
 	gamedirname="SvenCoop"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "tf2" ]; then
 	gamedirname="TeamFortress2"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "tfc" ]; then
 	gamedirname="TeamFortressClassic"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ts" ]; then
 	gamedirname="TheSpecialists"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ts3" ]; then
 	gamedirname="TeamSpeak3"
 	array_configs+=( ts3server.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
+	fn_list_config_locations
 elif [ "${shortname}" == "tw" ]; then
 	gamedirname="Teeworlds"
 	array_configs+=( server.cfg ctf.cfg dm.cfg duel.cfg tdm.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "terraria" ]; then
 	gamedirname="Terraria"
 	array_configs+=( serverconfig.txt )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "tu" ]; then
 	gamedirname="TowerUnite"
 	fn_check_cfgdir
@@ -652,64 +763,75 @@ elif [ "${shortname}" == "tu" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ut" ]; then
 	gamedirname="UnrealTournament"
 	array_configs+=( Game.ini Engine.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ut2k4" ]; then
 	gamedirname="UnrealTournament2004"
 	array_configs+=( UT2004.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ut99" ]; then
 	gamedirname="UnrealTournament99"
 	array_configs+=( Default.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "unt" ]; then
 	gamedirname="Unturned"
 	array_configs+=( Config.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "vs" ]; then
 	gamedirname="VampireSlayer"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "wet" ]; then
 	gamedirname="WolfensteinEnemyTerritory"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "wf" ]; then
 	gamedirname="Warfork"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "wurm" ]; then
 	gamedirname="WurmUnlimited"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "zmr" ]; then
 	gamedirname="ZombieMasterReborn"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "zps" ]; then
 	gamedirname="ZombiePanicSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
 fi

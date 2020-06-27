@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-local commandname="BACKUP"
-local commandaction="Backup"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="BACKUP"
+commandaction="Backing up"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 
@@ -17,28 +17,28 @@ fn_backup_trap(){
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
-	rm -f "${backupdir}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
+	rm -f "${backupdir:?}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file.
-	rm -f "${tmpdir}/.backup.lock"
+	rm -f "${lockdir:?}/backup.lock"
 	core_exit.sh
 }
 
-# Check if a backup is pending or has been aborted using .backup.lock.
+# Check if a backup is pending or has been aborted using backup.lock.
 fn_backup_check_lockfile(){
-	if [ -f "${tmpdir}/.backup.lock" ]; then
+	if [ -f "${lockdir}/backup.lock" ]; then
 		fn_print_info_nl "Lock file found: Backup is currently running"
-		fn_script_log_error "Lock file found: Backup is currently running: ${tmpdir}/.backup.lock"
+		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/backup.lock"
 		core_exit.sh
 	fi
 }
 
 # Initialisation.
 fn_backup_init(){
-	# Backup file name with servicename and current date.
-	backupname="${servicename}-$(date '+%Y-%m-%d-%H%M%S')"
+	# Backup file name with selfname and current date.
+	backupname="${selfname}-$(date '+%Y-%m-%d-%H%M%S')"
 
 	info_distro.sh
 	fn_print_dots "Backup starting"
@@ -54,7 +54,7 @@ fn_backup_init(){
 		else
 			daysago="${lastbackupdaysago} days ago"
 		fi
-		echo -e "	* Previous backup was created ${daysago}, total size ${lastbackupsize}"
+		echo -e "* Previous backup was created ${daysago}, total size ${lastbackupsize}"
 	fi
 }
 
@@ -67,14 +67,13 @@ fn_backup_stop_server(){
 	# Server is running and stoponbackup=off.
 	elif [ "${stoponbackup}" == "off" ]; then
 		serverstopped="no"
-		fn_print_warn_nl "${servicename} is currently running"
-		echo -e "	* Although unlikely; creating a backup while ${servicename} is running might corrupt the backup."
-		fn_script_log_warn "${servicename} is currently running"
-		fn_script_log_warn "Although unlikely; creating a backup while ${servicename} is running might corrupt the backup"
+		fn_print_warn_nl "${selfname} is currently running"
+		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+		fn_script_log_warn "${selfname} is currently running"
+		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_print_warn_nl "${servicename} will be stopped during the backup"
-		fn_script_log_warn "${servicename} will be stopped during the backup"
+		fn_stop_warning
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh
@@ -116,9 +115,9 @@ fn_backup_migrate_olddir(){
 
 fn_backup_create_lockfile(){
 	# Create lockfile.
-	date '+%s' > "${tmpdir}/.backup.lock"
+	date '+%s' > "${lockdir}/backup.lock"
 	fn_script_log_info "Lockfile generated"
-	fn_script_log_info "${tmpdir}/.backup.lock"
+	fn_script_log_info "${lockdir}/backup.lock"
 	# trap to remove lockfile on quit.
 	trap fn_backup_trap INT
 }
@@ -139,12 +138,12 @@ fn_backup_compression(){
 		core_exit.sh
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${tmpdir}/.backup.lock" ./.
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/backup.lock" ./.
 	local exitcode=$?
 	if [ ${exitcode} -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
-		echo -e "${tarcmd}" | tee -a "${lgsmlog}"
+		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
 		fn_script_log_fatal "Starting backup"
 	else
@@ -153,13 +152,13 @@ fn_backup_compression(){
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
-	rm -f "${tmpdir}/.backup.lock"
+	rm -f "${lockdir:?}/backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.
 fn_backup_prune(){
 	# Clear if backup variables are set.
-	if [ -n "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
+	if [ "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
 		# How many backups there are.
 		info_distro.sh
 		# How many backups exceed maxbackups.
@@ -174,7 +173,7 @@ fn_backup_prune(){
 			# If maxbackups greater or equal to backupsoutdatedcount, then it is over maxbackupdays.
 			if [ "${backupquotadiff}" -ge "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
+				echo -e "* Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_script_log_info "Pruning: ${backupquotadiff} backup(s) has exceeded the ${maxbackups} backups limit"
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
@@ -186,7 +185,7 @@ fn_backup_prune(){
 			# If maxbackupdays is used over maxbackups.
 			elif [ "${backupquotadiff}" -lt "${backupsoudatedcount}" ]; then
 				# Display how many backups will be cleared.
-				echo -e "	* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
+				echo -e "* Pruning: ${backupsoudatedcount} backup(s) are older than ${maxbackupdays} days."
 				fn_script_log_info "Pruning: ${backupsoudatedcount} backup(s) older than ${maxbackupdays} days."
 				fn_sleep_time
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)."
@@ -201,11 +200,9 @@ fn_backup_prune(){
 }
 
 fn_backup_relpath() {
-		# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
-
+	# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
 	# Populate an array of tokens initialized from the rootdir components.
-		declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
-
+	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
 		fn_script_log_fatal "Problem assessing rootdir during relative path assessment: ${rootdir}"
@@ -213,7 +210,7 @@ fn_backup_relpath() {
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components.
-		declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
 		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
@@ -222,31 +219,46 @@ fn_backup_relpath() {
 
 	# Compare the leading entries of each array.  These common elements will be clipped off.
 	# for the relative path output.
-		for ((base=0; base<${#rdirtoks[@]}; base++))
-		do
-			[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
-		done
+	for ((base=0; base<${#rdirtoks[@]}; base++))
+	do
+		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
+	done
 
 	# Next, climb out of the remaining rootdir location with updir references.
-		for ((x=base;x<${#rdirtoks[@]};x++))
-		do
-			echo -n "../"
-		done
+	for ((x=base;x<${#rdirtoks[@]};x++))
+	do
+		echo -n "../"
+	done
 
 	# Climb down the remaining components of the backupdir location.
-		for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
-		do
-					echo -n "${bdirtoks[$x]}/"
-		done
+	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
+	do
+				echo -n "${bdirtoks[$x]}/"
+	done
 
 	# In the event there were no directories left in the backupdir above to
 	# traverse down, just add a newline. Otherwise at this point, there is
 	# one remaining directory component in the backupdir to navigate.
-		if (( "$base" < "${#bdirtoks[@]}" )) ; then
-			echo -e "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
-		else
-			echo
+	if (( "$base" < "${#bdirtoks[@]}" )) ; then
+		echo -e "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
+	else
+		echo
+	fi
+}
+
+fn_stop_warning(){
+	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup"
+	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
 		fi
+	done
+	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during backup"
 }
 
 # Restart the server if it was stopped for the backup.
@@ -267,4 +279,5 @@ fn_backup_migrate_olddir
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
+
 core_exit.sh

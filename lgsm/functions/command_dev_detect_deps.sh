@@ -4,9 +4,9 @@
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
-local commandname="DETECT-DEPS"
-local commandaction="Detect-Deps"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEV-DETECT-DEPS"
+commandaction="Developer detect deps"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "================================="
 echo -e "Dependencies Checker"
@@ -34,9 +34,13 @@ done
 
 sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
 
+touch "${tmpdir}/.depdetect_centos_list"
+touch "${tmpdir}/.depdetect_ubuntu_list"
+touch "${tmpdir}/.depdetect_debian_list"
+
 while read -r lib; do
 	echo -e "${lib}"
-	local libs_array=( libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2 )
+	libs_array=( libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2 )
 	for lib_file in "${libs_array[@]}"
 	do
 		if [ "${lib}" == "${lib_file}" ]; then
@@ -47,7 +51,7 @@ while read -r lib; do
 		fi
 	done
 
-	local libs_array=( libawt.so libjava.so libjli.so libjvm.so libnet.so libnio.so libverify.so )
+	libs_array=( libawt.so libjava.so libjli.so libjvm.so libnet.so libnio.so libverify.so )
 	for lib_file in "${libs_array[@]}"
 	do
 		if [ "${lib}" == "${lib_file}" ]; then
@@ -58,7 +62,7 @@ while read -r lib; do
 		fi
 	done
 
-	local libs_array=( libtier0.so libtier0_srv.so libvstdlib_srv.so Core.so libvstdlib.so libtier0_s.so Editor.so Engine.so liblua.so libsteam_api.so ld-linux-x86-64.so.2 libPhysX3_x86.so libPhysX3Common_x86.so libPhysX3Cooking_x86.so)
+	libs_array=( libtier0.so libtier0_srv.so libvstdlib_srv.so Core.so libvstdlib.so libtier0_s.so Editor.so Engine.so liblua.so libsteam_api.so ld-linux-x86-64.so.2 libPhysX3_x86.so libPhysX3Common_x86.so libPhysX3Cooking_x86.so)
 	for lib_file in "${libs_array[@]}"
 	do
 		# Known shared libs what dont requires dependencies.
@@ -128,6 +132,31 @@ while read -r lib; do
 		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libgconf2-4" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
+	elif [ "${lib}" == "libz.so.1" ]; then
+		echo -e "zlib" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "zlib1g" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "zlib1g" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libatk-1.0.so.0" ]; then
+		echo -e "atk" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libatk1.0-0" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libatk1.0-0" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libcairo.so.2" ]; then
+		echo -e "cairo" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libcairo2" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libcairo2" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libfontconfig.so.1" ]; then
+		echo -e "fontconfig" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libfontconfig1" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libfontconfig1" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
+	elif [ "${lib}" == "libfreetype.so.6" ]; then
+		echo -e "freetype" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
 	fi
 
 	if [ "${libdetected}" != "1" ]; then
@@ -178,21 +207,21 @@ echo -e "Required Librarys"
 echo -e "================================="
 sort "${tmpdir}/.depdetect_readelf" | uniq
 echo -en "\n"
-rm -f "${tmpdir}/.depdetect_centos_line"
-rm -f "${tmpdir}/.depdetect_centos_list"
-rm -f "${tmpdir}/.depdetect_centos_list_uniq"
+rm -f "${tmpdir:?}/.depdetect_centos_line"
+rm -f "${tmpdir:?}/.depdetect_centos_list"
+rm -f "${tmpdir:?}/.depdetect_centos_list_uniq"
 
-rm -f "${tmpdir}/.depdetect_debian_line"
-rm -f "${tmpdir}/.depdetect_debian_list"
-rm -f "${tmpdir}/.depdetect_debian_list_uniq"
+rm -f "${tmpdir:?}/.depdetect_debian_line"
+rm -f "${tmpdir:?}/.depdetect_debian_list"
+rm -f "${tmpdir:?}/.depdetect_debian_list_uniq"
 
-rm -f "${tmpdir}/.depdetect_ubuntu_line"
-rm -f "${tmpdir}/.depdetect_ubuntu_list"
-rm -f "${tmpdir}/.depdetect_ubuntu_list_uniq"
+rm -f "${tmpdir:?}/.depdetect_ubuntu_line"
+rm -f "${tmpdir:?}/.depdetect_ubuntu_list"
+rm -f "${tmpdir:?}/.depdetect_ubuntu_list_uniq"
 
-rm -f "${tmpdir}/.depdetect_readelf"
-rm -f "${tmpdir}/.depdetect_readelf_uniq"
-rm -f "${tmpdir}/.depdetect_unknown"
-rm -f "${tmpdir}/.depdetect_unknown_uniq"
+rm -f "${tmpdir:?}/.depdetect_readelf"
+rm -f "${tmpdir:?}/.depdetect_readelf_uniq"
+rm -f "${tmpdir:?}/.depdetect_unknown"
+rm -f "${tmpdir:?}/.depdetect_unknown_uniq"
 
 core_exit.sh

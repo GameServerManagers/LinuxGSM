@@ -4,8 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if log files exist.
 
-local commandname="CHECK"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_check_logs(){
 	fn_print_dots "Checking for log files"
@@ -15,12 +14,12 @@ fn_check_logs(){
 }
 
 # Create directories for the script and console logs.
-if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]&&[ "${shortname}" != "ts3" ]; then
+if [ ! -d "${lgsmlogdir}" ]||[ ! -d "${consolelogdir}" ]; then
 	fn_check_logs
 fi
 
 # Create gamelogdir.
 # If variable exists gamelogdir exists and log/server does not.
-if [ -n "${gamelogdir}" ]&&[ -d "${gamelogdir}" ]&&[ ! -d "${logdir}/server" ]; then
+if [ "${gamelogdir}" ]&&[ -d "${gamelogdir}" ]&&[ ! -d "${logdir}/server" ]; then
 	fn_check_logs
 fi
