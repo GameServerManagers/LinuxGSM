@@ -394,6 +394,7 @@ fn_info_message_script(){
 	# LinuxGSM version:     v19.9.0
 	# glibc required:         2.15
 	# Discord alert:          off
+	# Rocketchat alert:	  off
 	# Slack alert:            off
 	# Email alert:            off
 	# Pushbullet alert:       off
@@ -434,6 +435,8 @@ fn_info_message_script(){
 
 		# Discord alert
 		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
+		# Rocketchat alert
+		echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
 		# Slack alert
 		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
 		# Email alert
