@@ -30,7 +30,10 @@ fn_update_steamcmd_dl(){
 	# All other servers.
 	else
 		if [ -n "${branch}" ]; then
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
+			if [ -n "${branchpassword}" ]; then
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${branchpassword}" +quit | tee -a "${lgsmlog}"
+			else
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
 		else
 			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
 		fi
