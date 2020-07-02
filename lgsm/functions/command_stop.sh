@@ -214,7 +214,7 @@ fn_stop_graceful_valheim(){
         fn_print_dots "Graceful: echo 1 to server_exit.drp"
         fn_script_log_info "Graceful: echo 1 to server_exit.drp"
         # sends quit
-        /bin/echo 1 > /home/steam/servers/valheim/server_exit.drp
+        /bin/echo 1 > "${serverfiles}"/server_exit.drp
 
         # Animate dots for shutdown period
         for seconds in {1..10}; do
