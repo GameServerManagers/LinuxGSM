@@ -11,68 +11,14 @@ if ! command -v jq > /dev/null; then
 	fn_script_log_fatal "Sending Rocketchat alert: jq is missing."
 fi
 
-#json=$(cat <<EOF
-#{
-#    "attachments": [
-#    	{
-#    		"color": "#36a64f",
-#    		"blocks": [
-#    			{
-#                    "type": "section",
-#                    "text": {
-#                        "type": "mrkdwn",
-#                        "text": "*LinuxGSM Alert*"
-#                    }
-#                },
-#                {
-#                    "type": "section",
-#                    "text": {
-#                        "type": "mrkdwn",
-#                        "text": "*${alertemoji} ${alertsubject}* \n ${alertbody}"
-#                    }
-#                },
-#                {
-#                    "type": "divider"
-#                },
-#                {
-#                    "type": "section",
-#                    "fields": [
-#                        {
-#                            "type": "mrkdwn",
-#                            "text": "*Game:* \n ${gamename}"
-#                        },
-#                        {
-#                            "type": "mrkdwn",
-#                            "text": "*Server IP:* \n ${alertip}:${port}"
-#                        },
-#                        {
-#                            "type": "mrkdwn",
-#                            "text": "*Server Name:* \n ${servername}"
-#                        }
-#                    ]
-#                },
-#     			{
-#                    "type": "section",
-#                    "text": {
-#                            "type": "mrkdwn",
-#                            "text": "Hostname: ${HOSTNAME} / More info: ${alerturl}"
-#                    }
-#                }
-#            ]
-#    	}
-#    ]
-#}
-#EOF
-#)
-
 json=$(cat <<EOF
 {
    "alias":"Yggdragsil",
-   "text":"*" + ${alertemoji} ${alertsubject} + "*" + \n ${alertbody},
+   "text":"* ${alertemoji} ${alertsubject}* + \n ${alertbody}",
    "attachments":[
       {
          "title":"Linuxgsm Alert",
-	 "text":"Hostname: ${HOSTNAME}"
+	 "text":"Hostname: ${HOSTNAME}",
          "color":"#36a64f",
          "fields":[
             {
@@ -97,10 +43,9 @@ json=$(cat <<EOF
 EOF
 )
 
-
 fn_print_dots "Sending Rocketchat alert"
 
-rocketlaunch=$(curl -X POST -H 'Content-Type: application/json' --data "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
+rocketlaunch=$(curl -X POST -H "Content-Type:application/json" --data "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
 
 if [ "${rocketlaunch}" == "ok" ]; then
 	fn_print_ok_nl "Sending Rocketchat alert"
