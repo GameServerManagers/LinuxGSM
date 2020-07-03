@@ -1,4 +1,5 @@
-A Saga of how a Viking <strike>wrote</strike> *bash*ed some <strike>scripts</strike> runes together that led him on a journey to the missing tenth (or so) missing realm of Valheim!
+A Saga of how a Viking <strike>wrote</strike> *bash*ed some <strike>scripts</strike> runes together that led him on a journey to the tenth (or so) missing realm of Valheim!
+
 ... *pausing for effect* ...
 
 Upon the whims of Odin, I was chosen to undergo the trial of Valheim, where, by chance, I met my liege, Sir Gloor, an outstanding burly Viking Warrior and Shaman (long beard, pointy hat), who had long discovered the secrets of Valheim, due to his divine connections. Blah blah blah ...etc. etc. etc., (skip the prologue)....booorrrriiinnngggg. Anyways, in order to be able to set out on adventures on dedicated servers, I'll point out some viking-ways to get you set up. First, you'll need 5 wood and 2 stones...
