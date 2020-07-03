@@ -4,7 +4,7 @@ A Saga of how a Viking <strike>wrote</strike> *bash*ed some <strike>scripts</str
 
 Upon the whims of Odin, I was chosen to undergo the trial of Valheim, where, by chance, I met my liege, Sir Gloor, an outstanding burly Viking Warrior and Shaman (long beard, pointy hat), who had long discovered the secrets of Valheim, due to his divine connections. Blah blah blah ...etc. etc. etc., (skip the prologue)....booorrrriiinnngggg. Anyways, in order to be able to set out on adventures on dedicated servers, I'll point out some viking-ways to get you set up. First, you'll need 5 wood and 2 stones...
 
-I won't go into to much detail, as lot of the knowledge to run on a server is similar to the rest in Linuxgsm. So I will point to links to their site as I go along.
+I won't go into to much detail, as lot of the knowledge to run on a server is similar to other server in Linuxgsm. So I will point to links to their site as I go along. You can either copy the whole repository, or just wget <path_to_Linuxgsm.sh>.
 First the game has it's own parameters for starting that should be set. Like other games managed with Linuxgsm, these can be found in the corresponding game folder, in Valheim's case: lgsm/config-default/config-lgsm/vhserver/_default.cfg. You shouldn't edit this file, as a copy will be made elsewhere upon installing the server, at lgsm/conifg-lgsm/vhserver/_default.cfg. Note: this file is always checked by the code if it has been changed, and will always be reset to match the version of github.
 
 I will suggest setting the following in the common.cfg, which will apply to all game instances created:
