@@ -339,7 +339,7 @@ fn_deps_build_debian(){
 	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat )
 
-	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
+	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( lib32gcc1 lib32stdc++6 )
@@ -370,7 +370,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( telnet expect )
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
-		array_deps_required+=( libncurses5:i386 libstdc++5:i386 )	
+		array_deps_required+=( libncurses5:i386 libstdc++5:i386 )
 		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
@@ -485,7 +485,7 @@ fn_deps_build_redhat(){
 		array_deps_required+=( telnet expect )
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
-		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )	
+		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
 		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
