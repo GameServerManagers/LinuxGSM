@@ -238,14 +238,14 @@ if [ -z "${extip}" ]; then
 			if [ -f "${tmpdir}/extip.txt" ]; then
 				extip=$(cat "${tmpdir}/extip.txt")
 			else
-				fn_print_error "Unable to get external IP"
+				fn_print_error_nl "Unable to get external IP"
 			fi
 		fi
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat "${tmpdir}/extip.txt")
 		else
-			fn_print_error "Unable to get external IP"
+			fn_print_error_nl "Unable to get external IP"
 		fi
 	fi
 fi
