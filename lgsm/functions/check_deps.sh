@@ -184,8 +184,15 @@ if [ "${javacheck}" == "1" ]; then
 		fi
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
-			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
-				steamcmdfail=1
+			# lib32gcc1 is now called lib32gcc-s1 in debian 11
+			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
+					steamcmdfail=1
+				fi
+			else
+				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
+					steamcmdfail=1
+				fi
 			fi
 		fi
 	fi
@@ -342,7 +349,12 @@ fn_deps_build_debian(){
 	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32gcc1 lib32stdc++6 )
+			# lib32gcc1 is now called lib32gcc-s1 in debian 11
+			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+				array_deps_required+=( lib32gcc-s1 lib32stdc++6 )
+			else
+				array_deps_required+=( lib32gcc1 lib32stdc++6 )
+			fi
 		else
 			array_deps_required+=( lib32stdc++6 )
 		fi
