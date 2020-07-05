@@ -48,7 +48,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "ts" ]; then
 		remote_fileurl="http://linuxgsm.download/TheSpecialists/ts-3-linux-final.tar.xz"; local_filedir="${tmpdir}"; local_filename="ts-3-linux-final.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="3c66ecff6e3644f7ac88015732a0fb93"
 	elif [ "${shortname}" == "ut2k4" ]; then
-		remote_fileurl="http://linuxgsm.download/UnrealTournament2004/ut2004-server-3369-2-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-2-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="8ebcb9b8f703905053d13a35c3af3e79"
+		remote_fileurl="http://linuxgsm.download/UnrealTournament2004/ut2004-server-3369-3-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-3-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="9fceaab68554749f4b45be66613b9a15"
 	elif [ "${shortname}" == "ut99" ]; then
 		remote_fileurl="http://linuxgsm.download/UnrealTournament99/ut99-server-451-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut99-server-451-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="42c6839f8cb95907eeef71a1838aa1f7"
 	elif [ "${shortname}" == "ut" ]; then
