@@ -367,11 +367,11 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Map rotation:\t${default}${randommap}"
 		fi
 
-		# Server Version (Jedi Knight 2)
+		# Server Version (Jedi Knight II: Jedi Outcast)
 		if [ -n "${serverversion}" ]; then
 			echo -e "${blue}Server Version:\t${default}${serverversion}"
 		fi
-    
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
@@ -1531,7 +1531,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
 	elif [ "${shortname}" == "bfv" ]; then
-		fn_info_message_bfv	
+		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then

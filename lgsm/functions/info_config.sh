@@ -491,7 +491,7 @@ fn_info_config_mofm(){
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
@@ -1536,7 +1536,7 @@ elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
 # Battlefield: Vietnam
 elif [ "${shortname}" == "bfv" ]; then
-	fn_info_config_bfv	
+	fn_info_config_bfv
 # Chivalry: Medieval Warfare
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_config_chivalry
@@ -1591,8 +1591,8 @@ elif [ "${shortname}" == "q3" ]; then
 # Quake Live
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_quakelive
-# Jedi Outcast
-elif [ "${gamename}" == "Jedi Knight II: Jedi Outcast" ]; then
+# Jedi Knight II: Jedi Outcast
+elif [ "${shortname}" == "jk2" ]; then
 	fn_info_config_jk2
 # Minecraft
 elif [ "${shortname}" == "mc" ]; then
