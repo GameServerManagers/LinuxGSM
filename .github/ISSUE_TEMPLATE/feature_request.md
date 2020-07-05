@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an idea for LinuxGSM.
 
 ---
 
@@ -25,10 +25,10 @@ As a [user description], I want [desired action] so that [desired outcome].
 
 ## Basic info
 
-* **Distro:** [Ubuntu 18.04]
+* **Distro:** [Ubuntu 20.04]
 * **Game:** [Garry's Mod]
 * **Command:** [Monitor]
-* **LinuxGSM version:** [v12.34.56]
+* **LinuxGSM version:** [v20.1.3]
 
 ## Further Information
 

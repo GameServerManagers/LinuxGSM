@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Found a bug? Raise a report
+about: Found a bug? Raise a report.
 
 ---
 Issues raised here are **ONLY** for:
@@ -27,7 +27,7 @@ As a [user description], I want [desired action] so that [desired outcome].
 * **Distro:** [Ubuntu 18.04]
 * **Game:** [Garry's Mod]
 * **Command:** [Monitor]
-* **LinuxGSM version:** [v12.34.56]
+* **LinuxGSM version:** [v20.1.3]
 
 ## Further Information
 

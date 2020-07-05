@@ -5,11 +5,11 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${selfname}"|awk '{print $2}')
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $2}')
 fi
 ### Distro information
 
@@ -263,9 +263,9 @@ fi
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)
 			if [ "${masterserver}" == "0" ]; then
-				masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l)
+				masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)
 			fi
 			if [ "${masterserver}" == "0" ]; then
 				displaymasterserver="false"

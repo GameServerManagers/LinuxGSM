@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Configures GSLT.
 
-local modulename="INSTALL"
-local commandaction="Install"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Game Server Login Token${default}"

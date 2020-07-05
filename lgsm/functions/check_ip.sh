@@ -5,7 +5,7 @@
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
-local modulename="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${travistest}" != "1" ]; then
 	if [ ! -f "/bin/ip" ]; then
@@ -23,10 +23,10 @@ if [ "${travistest}" != "1" ]; then
 		fn_print_dots "Check IP"
 		# Multiple interfaces.
 		if [ "${getipwc}" -ge "2" ]; then
-			if [ "${function_selfname}" == "command_details.sh" ]; then
-			    fn_print_warn "Check IP: Multiple IP addresses found."
+			if [ "${commandname}" == "details" ]; then
+				fn_print_warn "Check IP: Multiple IP addresses found."
 			else
-			    fn_print_fail "Check IP: Multiple IP addresses found."
+				fn_print_fail "Check IP: Multiple IP addresses found."
 			fi
 			echo -en "\n"
 			# IP is set within game config.
@@ -44,18 +44,14 @@ if [ "${travistest}" != "1" ]; then
 				echo -en "\n"
 				echo -en "Set ip=\"0.0.0.0\" to one of the following:\n"
 				fn_script_log_fatal "Multiple IP addresses found."
-				if [ "${legacymode}" == "1" ]; then
-					fn_script_log_fatal "Specify the IP you want to bind within the ${selfname} script."
-				else
-					fn_script_log_fatal "Specify the IP you want to bind within: ${configdirserver}."
-				fi
+				fn_script_log_fatal "Specify the IP you want to bind within: ${configdirserver}."
 			fi
 			echo -en "${getip}\n"
 			echo -en "\n"
 			echo -en "https://linuxgsm.com/network-interfaces\n"
 			echo -en ""
 			# Do not exit for details and postdetails commands.
-			if [ "${function_selfname}" != "command_details.sh" ]||[ "${function_selfname}" != "command_postdetails.sh" ]; then
+			if [ "${commandname}" != "DETAILS" ]||[ "${commandname}" != "POST-DETAILS" ]; then
 				fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
 				core_exit.sh
 			else
@@ -76,8 +72,8 @@ if [ "${travistest}" != "1" ]; then
 			fn_script_log_fatal "IP address not set in game config."
 			fn_script_log_fatal "Specify the IP you want to bind within: ${servercfgfullpath}."
 			fn_script_log_fatal "https://linuxgsm.com/network-interfaces\n"
-			if [ "${function_selfname}" != "command_details.sh" ]; then
-			    core_exit.sh
+			if [ "${commandname}" != "DETAILS" ]; then
+				core_exit.sh
 			fi
 		else
 			fn_print_info_nl "Check IP: ${getip}"

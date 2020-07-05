@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Wipes server data, useful after updates for some games like Rust
 
-local modulename="WIPE"
-local commandaction="Wipe"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+commandname="WIPE"
+commandaction="Wiping"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 fn_print_header

@@ -4,9 +4,7 @@
 # Website: https://bytegaming.de
 # Description: Sends Telegram Messenger alert.
 
-local modulename="ALERT"
-local commandaction="Alert"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF
 {
@@ -18,7 +16,7 @@ EOF
 )
 
 fn_print_dots "Sending Telegram alert"
-telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://api.telegram.org/bot${telegramtoken}/sendMessage" "${curlcustomstring}" | grep "error_code")
+telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${curlcustomstring} "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep "error_code")
 
 if [ "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"

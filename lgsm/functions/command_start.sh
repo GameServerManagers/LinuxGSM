@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-local modulename="START"
-local commandaction="Starting"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+commandname="START"
+commandaction="Starting"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -62,12 +62,15 @@ fn_start_tmux(){
 	fi
 
 	# Create lockfile
-	date > "${rootdir}/${lockselfname}"
+	date '+%s' > "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${selfname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
+
+	# Create last start lock file
+	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
 	# Get tmux version.
 	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
@@ -76,7 +79,7 @@ fn_start_tmux(){
 		fn_script_log "Tmux version: master (user compiled)"
 		echo -e "Tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ "${tmuxversion}" ]; then
 		# Get the digit version of tmux.
@@ -94,19 +97,19 @@ fn_start_tmux(){
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${selfname}" "exec cat >> '${consolelog}'"
+			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo -e "Unable to detect tmux version" >> "${consolelog}"
 		fn_script_log_warn "Unable to detect tmux version"
 	fi
 
-# Console logging disabled.
-if [ "${consolelogging}" == "off" ]; then
-	echo -e "Console logging disabled by user" >> "${consolelog}"
-	fn_script_log_info "Console logging disabled by user"
-fi
-fn_sleep_time
+	# Console logging disabled.
+	if [ "${consolelogging}" == "off" ]; then
+		echo -e "Console logging disabled by user" >> "${consolelog}"
+		fn_script_log_info "Console logging disabled by user"
+	fi
+	fn_sleep_time
 
 	# If the server fails to start.
 	check_status.sh
@@ -119,7 +122,7 @@ fn_sleep_time
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${selfname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${sessionname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
@@ -153,7 +156,6 @@ fn_sleep_time
 				fi
 			fi
 		fi
-
 		core_exit.sh
 	else
 		fn_print_ok "${servername}"
@@ -163,13 +165,12 @@ fn_sleep_time
 	echo -en "\n"
 }
 
-
 check.sh
 
-fn_print_dots "${servername}"
 # Is the server already started.
 # $status comes from check_status.sh, which is run by check.sh for this command
 if [ "${status}" != "0" ]; then
+	fn_print_dots "${servername}"
 	fn_print_info_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
@@ -180,14 +181,18 @@ if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
 info_config.sh
-logs.sh
+core_logs.sh
 
 # Will check for updates is updateonstart is yes.
 if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
 	exitbypass=1
 	unset updateonstart
 	command_update.sh
+	commandname="START"
+	commandaction="Starting"
 fi
+
+fn_print_dots "${servername}"
 
 if [ "${shortname}" == "ts3" ]; then
 	fn_start_teamspeak3

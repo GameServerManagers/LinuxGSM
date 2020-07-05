@@ -39,8 +39,8 @@
 # 6: q
 # 7: exit
 # 8: 7 Days to Die
-# 9: Gold Source
-# 10: Teamspeak 3
+# 9: GoldSrc
+# 10: Avorion
 ## Game Server Details
 # Do not edit
 #### Directories ####

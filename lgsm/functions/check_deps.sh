@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if required dependencies are installed for LinuxGSM.
 
-local modulename="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
@@ -26,13 +26,13 @@ fn_install_mono_repo(){
 			echo -en "   \r"
 			if [ "${distroid}" == "ubuntu" ]; then
 				if [ "${distroversion}" == "18.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "16.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "14.04" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
 					fn_print_warn_nl "Installing Mono repository."
@@ -43,13 +43,13 @@ fn_install_mono_repo(){
 				fi
 			elif [ "${distroid}" == "debian" ]; then
 				if [ "${distroversion}" == "10" ]; then
-					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-get install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "9" ]; then
-					cmd="sudo apt install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-get install apt-transport-https dirmngr;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "8" ]; then
-					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/debian stable-jessie main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
 					echo -e "Mono auto install not available for ${distroname}"
@@ -171,21 +171,28 @@ if [ "${javacheck}" == "1" ]; then
 	if [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${green}${deptocheck}${default}"
 			fn_sleep_time
 		fi
 	else
 		# If dependency is not found.
 		missingdep=1
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${red}${deptocheck}${default}"
 			fn_sleep_time
 		fi
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
-			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
-				steamcmdfail=1
+			# lib32gcc1 is now called lib32gcc-s1 in debian 11
+			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
+					steamcmdfail=1
+				fi
+			else
+				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
+					steamcmdfail=1
+				fi
 			fi
 		fi
 	fi
@@ -220,10 +227,10 @@ fn_deps_email(){
 }
 
 fn_found_missing_deps(){
-	if [ "${#array_deps_missing[@]}" != "0" ]; then
+	if [ "${#array_deps_missing[*]}" != "0" ]; then
 
-		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[@]}${default}"
-		fn_script_log_warn "Missing dependencies: ${array_deps_missing[@]}"
+		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
+		fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fn_sleep_time
 		if [ "${monostatus}" ]; then
 			fn_install_mono_repo
@@ -248,13 +255,13 @@ fn_found_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; sudo dpkg --add-architecture i386; sudo apt update; sudo apt -y install ${array_deps_missing[@]}"
+				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
-				cmd="sudo dnf -y install ${array_deps_missing[@]}"
+				cmd="sudo dnf -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
 			elif [ "$(command -v yum 2>/dev/null)" ]; then
-				cmd="sudo yum -y install ${array_deps_missing[@]}"
+				cmd="sudo yum -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
 			fi
 			if [ $? != 0 ]; then
@@ -264,15 +271,15 @@ fn_found_missing_deps(){
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
 				if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
 				elif [ "$(command -v dnf 2>/dev/null)" ]; then
-					echo -e "	sudo dnf install ${array_deps_missing[@]}"
+					echo -e "	sudo dnf install ${array_deps_missing[*]}"
 				elif [ "$(command -v yum 2>/dev/null)" ]; then
-					echo -e "	sudo yum install ${array_deps_missing[@]}"
+					echo -e "	sudo yum install ${array_deps_missing[*]}"
 				fi
 				if [ "${steamcmdfail}" ]; then
 					echo -e ""
-					if [ "${function_selfname}" == "command_install.sh" ]; then
+					if [ "${commandname}" == "INSTALL" ]; then
 						fn_print_failure_nl "Missing dependencies required to run SteamCMD."
 						fn_script_log_fatal "Missing dependencies required to run SteamCMD."
 						core_exit.sh
@@ -290,15 +297,15 @@ fn_found_missing_deps(){
 			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			echo -e ""
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[@]}"
+				echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
-				echo -e "sudo dnf install ${array_deps_missing[@]}"
+				echo -e "sudo dnf install ${array_deps_missing[*]}"
 			elif [ "$(command -v yum 2>/dev/null)" ]; then
-				echo -e "sudo yum install ${array_deps_missing[@]}"
+				echo -e "sudo yum install ${array_deps_missing[*]}"
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo -e ""
-				if [ "${function_selfname}" == "command_install.sh" ]; then
+				if [ "${commandname}" == "INSTALL" ]; then
 					fn_print_failure_nl "Missing dependencies required to run SteamCMD."
 					fn_script_log_fatal "Missing dependencies required to run SteamCMD."
 					core_exit.sh
@@ -309,11 +316,11 @@ fn_found_missing_deps(){
 			fi
 			echo -e ""
 		fi
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			sleep 5
 		fi
 	else
-		if [ "${function_selfname}" == "command_install.sh" ]; then
+		if [ "${commandname}" == "INSTALL" ]; then
 			fn_print_information_nl "Required dependencies already installed."
 			fn_script_log_info "Required dependencies already installed."
 		fi
@@ -322,7 +329,7 @@ fn_found_missing_deps(){
 
 fn_check_loop(){
 	# Loop though required depenencies.
-	for deptocheck in "${array_deps_required[@]}"
+	for deptocheck in ${array_deps_required[*]}
 	do
 		fn_deps_detector
 	done
@@ -339,18 +346,23 @@ fn_deps_build_debian(){
 	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat )
 
-	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
+	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32gcc1 lib32stdc++6 )
+			# lib32gcc1 is now called lib32gcc-s1 in debian 11
+			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+				array_deps_required+=( lib32gcc-s1 lib32stdc++6 )
+			else
+				array_deps_required+=( lib32gcc1 lib32stdc++6 )
+			fi
 		else
 			array_deps_required+=( lib32stdc++6 )
 		fi
 	fi
 	# If requires steamcmd.
 	if [ "${appid}" ]; then
-		# Will not use apt if non-free repo is missing
-		if [ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+		# Will not use apt if non-free repo is missing or Ubuntu 14.04
+		if [ "${distroversion}" == "14.04" ]||[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 			:
 		else
 			array_deps_required+=( steamcmd )
@@ -368,8 +380,11 @@ fn_deps_build_debian(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell, Counter-Strike: Source, Garry's Mod and Zombie Panic: Source
-	elif [ "${shortname}" == "nmrih" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "zps" ]; then
+	# Battlefield: Vietnam
+	elif [ "${shortname}" == "bfv" ]; then
+		array_deps_required+=( libncurses5:i386 libstdc++5:i386 )
+		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( libtinfo5:i386 )
 		else
@@ -378,12 +393,6 @@ fn_deps_build_debian(){
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
-		if [ "${shortname}" == "tf2" ]; then
-			array_deps_required+=( libtcmalloc-minimal4:i386 )
-		fi
-	# Battlefield: 1942
-	elif [ "${shortname}" == "bf1942" ]; then
-		array_deps_required+=( libncurses5:i386 )
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
@@ -417,9 +426,6 @@ fn_deps_build_debian(){
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
-	# Serious Sam 3: BFE
-	elif [ "${shortname}" == "ss3" ]; then
-		array_deps_required+=( libxrandr2:i386 libglu1-mesa:i386 libxtst6:i386 libusb-1.0-0-dev:i386 libxxf86vm1:i386 libopenal1:i386 libssl1.0.0:i386 libgtk2.0-0:i386 libdbus-glib-1-2:i386 libnm-glib-dev:i386 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
@@ -486,18 +492,15 @@ fn_deps_build_redhat(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
-	# No More Room in Hell, Counter-Strike: Source, Garry's Mod and Zombie Panic: Source
-	elif [ "${shortname}" == "nmrih" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "zps" ]; then
+	# Battlefield: Vietnam
+	elif [ "${shortname}" == "bfv" ]; then
+		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
+		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl.i686 )
-		if [ "${shortname}" == "tf2" ]; then
-			array_deps_required+=( gperftools-libs.i686 )
-		fi
-	# Battlefield: 1942
-	elif [ "${shortname}" == "bf1942" ]; then
-		array_deps_required+=( ncurses-libs.i686 )
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
@@ -531,9 +534,7 @@ fn_deps_build_redhat(){
 	# GoldenEye: Source
 	elif [ "${shortname}" == "ges" ]; then
 		array_deps_required+=( zlib.i686 openldap.i686 )
-	# Serious Sam 3: BFE
-	elif [ "${shortname}" == "ss3" ]; then
-		: # not compatible
+	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible
 	# Unreal Engine
@@ -561,7 +562,7 @@ fn_deps_build_redhat(){
 	fn_check_loop
 }
 
-if [ "${function_selfname}" == "command_install.sh" ]; then
+if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies as root${default}"

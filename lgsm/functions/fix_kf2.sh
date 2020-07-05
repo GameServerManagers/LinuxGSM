@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor 2.
 
-local modulename="FIX"
-local commandaction="Fix"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_parms(){
 parms="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""

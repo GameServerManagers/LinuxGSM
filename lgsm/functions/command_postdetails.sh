@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-local modulename="POSTDETAILS"
-local commandaction="Postdetails"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+commandname="POST-DETAILS"
+commandaction="Posting details"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Set posttarget to the appropriately-defined post destination.
 
@@ -74,14 +74,13 @@ else
 		fn_info_message_ports
 		fn_info_message_select_engine
 		fn_info_message_statusbottom
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${postdetailslog}" > /dev/null 2>&1
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | tee -a "${postdetailslog}" > /dev/null 2>&1
 fi
-
+# Pastebin
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
-	fn_print_dots "Posting details to pastbin.com for ${postexpire}"
+	fn_print_dots "pastbin.com for ${postexpire}"
 	# grab the return from 'value' from an initial visit to pastebin.
-	csrftoken=$(curl -s "${posttarget}" |
-					sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
+	csrftoken=$(curl -s "${posttarget}" | sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
 	#
 	# Use the csrftoken to then post the content.
 	#
@@ -93,29 +92,31 @@ if [ "${posttarget}" == "http://pastebin.com" ] ; then
 				awk '/^location: / { print $2 }' | sed "s/\n//g")
 
 	 # Output the resulting link.
-	fn_print_ok_nl "Posting details to pastbin.com for ${postexpire}"
+	fn_print_ok_nl "pastbin.com for ${postexpire}"
+	fn_script_log_pass "pastbin.com for ${postexpire}"
 	pdurl="${posttarget}${link}"
-	echo -e "  Please share the following url for support: ${pdurl}"
+# Hastebin
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
-	fn_print_dots "Posting details to hastebin.com"
+	fn_print_dots "hastebin.com"
 	# hastebin is a bit simpler.  If successful, the returned result
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
 	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
-	fn_print_ok_nl "Posting details to hastebin.com for ${postexpire}"
+	fn_print_ok_nl "hastebin.com for ${postexpire}"
+	fn_script_log_pass "hastebin.com for ${postexpire}"
 	pdurl="${posttarget}/${link}"
-	echo -e "Please share the following url for support: ${pdurl}"
+# Termbin
 elif [ "${posttarget}" == "https://termbin.com" ] ; then
-	fn_print_dots "Posting details to termbin.com"
+	fn_print_dots "termbin.com"
 	link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
-	fn_print_ok_nl "Posting details to termbin.com"
+	fn_print_ok_nl "termbin.com for 30D"
+	fn_script_log_pass "termbin.com for 30D"
 	pdurl="${link}"
-	echo -e "Please share the following url for support: "
-	echo -e "${pdurl}"
-else
-	 fn_print_warn_nl "Review output in: ${postdetailslog}"
-	 core_exit.sh
 fi
+echo -e ""
+echo -e "Please share the following url for support: "
+echo -e "${pdurl}"
+fn_script_log_info "${pdurl}"
 
 if [ -z "${exitbypass}" ]; then
 	core_exit.sh

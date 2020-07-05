@@ -5,9 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Core functions for mods list/install/update/remove
 
-local modulename="MODS"
-local commandaction="Mods"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories.
 modsdir="${lgsmdir}/mods"
@@ -20,7 +18,7 @@ modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
 # Download management.
 fn_mod_install_files(){
-	fn_fetch_file "${modurl}" "${modstmpdir}" "${modfilename}"
+	fn_fetch_file "${modurl}" "" "" "" "${modstmpdir}" "${modfilename}"
 	# Check if variable is valid checking if file has been downloaded and exists.
 	if [ ! -f "${modstmpdir}/${modfilename}" ]; then
 		fn_print_failure "An issue occurred downloading ${modprettyname}"
@@ -61,7 +59,6 @@ fn_mod_lowercase(){
 		else
 			fn_print_ok_eol_nl
 		fi
-		fn_sleep_time
 	fi
 }
 
@@ -84,7 +81,6 @@ fn_mod_create_filelist(){
 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
 		cat "${modsdir}/.removedfiles.tmp" >> "${modsdir}/${modcommand}-files.txt"
 	fi
-	fn_sleep_time
 }
 
 # Copy the mod into serverfiles.
@@ -394,7 +390,6 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod download dir ${modsdir}"
 		fi
-		fn_sleep_time
 	fi
 	# Create mod install directory.
 	if [ ! -d "${modinstalldir}" ]; then
@@ -409,7 +404,6 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod install directory ${modinstalldir}"
 		fi
-		fn_sleep_time
 	fi
 
 	# Create lgsm/data/${modsinstalledlist}.

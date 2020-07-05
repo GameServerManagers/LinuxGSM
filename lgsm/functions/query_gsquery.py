@@ -17,16 +17,18 @@ class gsquery:
         self.server_response_timeout = 5
         self.default_buffer_length = 1024
         #
-        sourcequery=['protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsource','spark','starbound','unity3d','unreal4','wurm']
+        sourcequery=['protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsrc','spark','starbound','unity3d','unreal4','wurm']
         idtech2query=['protocol-quake3','idtech2','quake','iw2.0']
         idtech3query=['protocol-quake3','iw3.0','ioquake3','qfusion']
         minecraftquery=['minecraft','lwjgl2']
         minecraftbequery=['minecraftbe']
         jc2mpquery=['jc2mp']
         mumblequery=['mumbleping']
+        soldatquery=['soldat']
         twquery=['teeworlds']
         unrealquery=['protocol-gamespy1','unreal']
         unreal2query=['protocol-unreal2','unreal2']
+        unreal3query=['ut3','unreal3']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:
@@ -41,12 +43,16 @@ class gsquery:
             self.query_prompt_string = b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78\x00\x00\x00\x00\x00\x00\x00\x00'
         elif self.option.engine in mumblequery:
             self.query_prompt_string = b'\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08'
+        elif self.option.engine in soldatquery:
+            self.query_prompt_string = b'\x69\x00'
+        elif self.option.engine in twquery:
+            self.query_prompt_string = b"\x04\x00\x00\xff\xff\xff\xff\x05" + bytearray(511)
         elif self.option.engine in unrealquery:
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.option.engine in unreal2query:
             self.query_prompt_string = b'\x79\x00\x00\x00\x00'
-        elif self.option.engine in twquery:
-            self.query_prompt_string = b"\x04\x00\x00\xff\xff\xff\xff\x05" + bytearray(511)
+        elif self.option.engine in unreal3query:
+            self.query_prompt_string = b'\xFE\xFD\x09\x00\x00\x00\x00'
 
         self.connected = False
         self.response = None
@@ -81,7 +87,7 @@ class gsquery:
         # Response.
         if self.response is None:
             self.fatal_error('No response', 3)
-        if len(self.response) < 10:
+        if len(self.response) < 5:
             sys.exit('Short response.', 3)
         else:
             self.exit_success(str(self.response))
@@ -116,7 +122,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft minecraftbe jc2mp mumbleping teeworlds'
+        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 ut3 minecraft minecraftbe jc2mp mumbleping soldat teeworlds'
     )
     parser.add_option(
         '-v', '--verbose',

@@ -5,9 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs the database server MariaDB for TeamSpeak 3.
 
-local modulename="INSTALL"
-local commandaction="Install"
-local function_selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_ts3db_mariadb(){
 	if [ ! -f "${serverfiles}/libts3db_mariadb.so" ]; then

@@ -4,6 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Handles CTRL-C trap to give an exit code.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 fn_exit_trap(){
 	echo -e ""
 	core_exit.sh
