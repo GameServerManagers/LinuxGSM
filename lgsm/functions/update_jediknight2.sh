@@ -43,7 +43,7 @@ fn_update_jk2_localbuild(){
 
 fn_update_jk2_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest"| grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
+	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest" | grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
 		# Checks if remotebuild variable has been set.
