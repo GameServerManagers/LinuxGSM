@@ -35,20 +35,42 @@ fn_update_minecraft_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
-	# Gives time for log file to generate.
-	if [ ! -f "${serverfiles}/logs/latest.log" ]; then
+	localbuild=$(grep version "${serverfiles}/logs/latest.log" 2>/dev/null | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
+	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
 		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
 		fn_script_log_error "No log files containing version info"
-		fn_script_log_info "Forcing server restart"
-		exitbypass=1
-		command_stop.sh
-		exitbypass=1
-		command_start.sh
+		fn_script_log_info "Forcing serv./m	er restart"
+
+		# start the server to allow logs to be generated.
+		check_status.sh
+		# If server stopped.
+		if [ "${status}" == "0" ]; then
+			updatestatus="stopped"
+			exitbypass=1
+			command_start.sh
+		# If server started.
+		else
+			exitbypass=1
+			command_stop.sh
+			exitbypass=1
+			command_start.sh
+		fi
+
+		#check if game server started but crashed.
+		sleep 5
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_fail_nl "Checking local build: ${remotelocation}: server has crashed on start"
+			fn_script_log_fatal "server has crashed on start"
+			core_exit.sh
+		fi
+
+		# check for localbuild until it is generated.
 		totalseconds=0
-		# Check again, allow time to generate logs.
-		while [ ! -f "${serverfiles}/logs/latest.log" ]; do
+		localbuild=$(grep version "${serverfiles}/logs/latest.log" 2>/dev/null | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
+		while [ -z "${localbuild}" ]; do
 			sleep 1
 			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
 			if [ -v "${loopignore}" ]; then
@@ -56,48 +78,32 @@ fn_update_minecraft_localbuild(){
 				fn_script_log_info "Waiting for log file to generate"
 			fi
 
+			localbuild=$(grep version "${serverfiles}/logs/latest.log" 2>/dev/null | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
+			if [ "${localbuild}" ]; then
+				break
+				# Stop the server if it was stopped when update started.
+				if [ "${updatestatus}" == "stopped" ]; then
+					exitbypass=1
+					command_stop.sh
+				fi
+			fi
+
 			if [ "${totalseconds}" -gt "120" ]; then
 				localbuild="0"
-				fn_print_error "Checking local build: ${remotelocation}: waiting for log file: missing log file"
-				fn_script_log_error "Missing log file"
-				fn_script_log_error "Set localbuild to 0"
+				fn_print_error "Checking local build: ${remotelocation}: waiting for log file"
+				fn_script_log_error "Local build did not generate"
+				fn_script_log_error "Required log file may be missing"
+				fn_script_log_error "Local build set to 0"
 			fi
-
 			totalseconds=$((totalseconds + 1))
 		done
 	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep version "${serverfiles}/logs/latest.log" | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		# Gives time for var to generate.
-		totalseconds=0
-		for seconds in {1..120}; do
-			fn_print_info "Checking local build: ${remotelocation}: waiting for local build: ${totalseconds}"
-			if [ -z "${loopignore}" ]; then
-				loopignore=1
-				fn_script_log_info "Waiting for local build to generate"
-			fi
-			localbuild=$(cat "${serverfiles}/logs/latest.log" 2> /dev/null | grep version | grep -Eo '((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}(-pre[0-9]+)?|([0-9]+w[0-9]+[a-z])')
-			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
-				break
-			fi
-			sleep 1
-			totalseconds=$((totalseconds + 1))
-		done
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
-		fn_script_log_error "Missing local build info"
-		fn_script_log_error "Set localbuild to 0"
-	else
+	if [ "${localbuild}" != "0" ]; then
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
+
+
 }
 
 fn_update_minecraft_remotebuild(){
