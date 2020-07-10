@@ -25,19 +25,49 @@ fn_update_jk2_dl(){
 	fi
 }
 
-fn_update_jk2_localbuild(){
+fn_update_minecraft_localbuild(){
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	# Uses executable to find local build.
-	cd "${executabledir}" || exit
-	if [ -f "${executable}" ]; then
-		localbuild=$(${executable} -version 2>&1 >/dev/null | awk '{print $5}')
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_pass "Checking local build"
-	else
+	fn_print_dots "Checking local build: ${remotelocation}"
+	# Uses log file to gather info.
+	# Log is generated and cleared on startup but filled on shutdown.
+	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}')
+	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}"
+		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
+		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
+		fn_script_log_error "No log files containing version info"
+		fn_script_log_info "Forcing server restart"
+
+		check_status.sh
+		# If server stopped.
+		if [ "${status}" == "0" ]; then
+			exitbypass=1
+			command_start.sh
+			sleep 3
+			exitbypass=1
+			command_stop.sh
+		# If server started.
+		else
+			exitbypass=1
+			command_stop.sh
+			exitbypass=1
+			command_start.sh
+			sleep 3
+		fi
+	fi
+
+	if [ -z "${localbuild}" ]; then
+		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
+	fi
+
+	if [ -z "${localbuild}" ]; then
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_error "Checking local build"
+		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
+	else
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
 	fi
 }
 
