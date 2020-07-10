@@ -35,7 +35,7 @@ fn_start_teamspeak3(){
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2(){
 	fn_start_tmux
-	tmux send -t "${sessionname}" quit version > /dev/null 2>&1
+	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux(){
