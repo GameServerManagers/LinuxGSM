@@ -239,6 +239,13 @@ elif [ "${shortname}" == "bf1942" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "bfv" ]; then
+	gamedirname="BattlefieldVietnam"
+	array_configs+=( serversettings.con )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bs" ]; then
 	gamedirname="BladeSymphony"
 	array_configs+=( server.cfg )
@@ -562,6 +569,13 @@ elif [ "${shortname}" == "mta" ]; then
 	array_configs+=( acl.xml mtaserver.conf vehiclecolors.conf )
 	fn_fetch_default_config
 	fn_default_config_remote
+	fn_list_config_locations
+elif [ "${shotname}" == "mom" ];then
+	gamedirname="MemoriesofMars"
+	array_configs+=( DedicatedServerConfig.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "mumble" ]; then
 	gamedirname="Mumble"
