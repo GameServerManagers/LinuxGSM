@@ -64,20 +64,17 @@ fn_backup_init(){
 # Check if server is started and whether to stop it.
 fn_backup_stop_server(){
 	check_status.sh
-	# Server is stopped.
-	if [ "${status}" == "0" ]; then
-		serverstopped="no"
-	# Server is running and stoponbackup=off.
-	elif [ "${stoponbackup}" == "off" ]; then
-		serverstopped="no"
+	# Server is running but will not be stopped.
+	if [ "${stoponbackup}" == "off" ]; then
 		fn_print_warn_nl "${selfname} is currently running"
 		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
 		fn_script_log_warn "${selfname} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
-	else
+	# If server is started
+	elif [ "${status}" != "0" ]; then
 		fn_stop_warning
-		serverstopped="yes"
+		startserver="1"
 		exitbypass=1
 		command_stop.sh
 		fn_commandname
@@ -265,9 +262,9 @@ fn_stop_warning(){
 	fn_print_warn_nl "this game server will be stopped during backup"
 }
 
-# Restart the server if it was stopped for the backup.
+# Start the server if it was stopped for the backup.
 fn_backup_start_server(){
-	if [ "${serverstopped}" == "yes" ]; then
+	if [ -n "${startserver}" ]; then
 		exitbypass=1
 		command_start.sh
 		fn_commandname
