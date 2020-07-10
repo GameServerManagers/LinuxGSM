@@ -31,6 +31,13 @@ fn_start_teamspeak3(){
 	fn_start_tmux
 }
 
+# This will allow the Jedi Knight 2 version to be printed in console on start.
+# Used to allow update to detect JK2MV server version.
+fn_start_jk2(){
+	fn_start_tmux
+	tmux send -t "${sessionname}" quit version > /dev/null 2>&1
+}
+
 fn_start_tmux(){
 	if [ "${parmsbypass}" ]; then
 		parms=""
@@ -196,6 +203,8 @@ fn_print_dots "${servername}"
 
 if [ "${shortname}" == "ts3" ]; then
 	fn_start_teamspeak3
+elif [ "${shortname}" == "jk2" ]; then
+	fn_start_jk2
 else
 	fn_start_tmux
 fi
