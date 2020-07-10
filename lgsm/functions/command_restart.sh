@@ -5,9 +5,9 @@
 # Description: Restarts the server.
 
 fn_commandname(){
-commandname="MODS-INSTALL"
-commandaction="Restarting"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+  commandname="MODS-INSTALL"
+  commandaction="Restarting"
+  functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 }
 fn_commandname
 

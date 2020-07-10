@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
-commandname="FASTDL"
-commandaction="Fastdl"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="FASTDL"
+	commandaction="Fastdl"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 check.sh
 

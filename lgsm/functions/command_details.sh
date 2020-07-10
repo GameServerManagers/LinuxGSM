@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
-commandname="DETAILS"
-commandaction="Viewing details"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="DETAILS"
+	commandaction="Viewing details"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 # Run checks and gathers details to display.
 check.sh

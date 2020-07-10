@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-fn_commandname(){}
+fn_commandname(){
 	commandname="START"
 	commandaction="Starting"
 	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

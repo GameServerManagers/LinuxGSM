@@ -6,9 +6,9 @@
 # Description: Wipes server data, useful after updates for some games like Rust
 
 fn_commandname(){
-commandname="WIPE"
-commandaction="Wiping"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+	commandname="WIPE"
+	commandaction="Wiping"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 }
 fn_commandname
 

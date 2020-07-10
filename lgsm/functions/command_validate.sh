@@ -5,9 +5,9 @@
 # Description: Runs a server validation.
 
 fn_commandname(){
-commandname="VALIDATE"
-commandaction="Validating"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+	commandname="VALIDATE"
+	commandaction="Validating"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 }
 fn_commandname
 

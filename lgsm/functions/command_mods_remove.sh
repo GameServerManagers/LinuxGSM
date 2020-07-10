@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
-commandname="MODS-REMOVE"
-commandaction="Removing mods"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="MODS-REMOVE"
+	commandaction="Removing mods"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 check.sh
 mods_core.sh
