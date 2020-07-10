@@ -173,6 +173,7 @@ for queryattempt in {1..5}; do
 				alert="restartquery"
 				alert.sh
 				command_restart.sh
+				fn_commandname
 				core_exit.sh
 			fi
 		elif [ "${querymethod}" ==  "gamedig" ]; then

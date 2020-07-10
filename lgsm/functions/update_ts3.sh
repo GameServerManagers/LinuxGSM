@@ -42,7 +42,6 @@ fn_update_ts3_localbuild(){
 		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
-		fn_commandname
 		exitbypass=1
 		command_start.sh
 		fn_commandname
@@ -152,7 +151,6 @@ fn_update_ts3_compare(){
 			fn_update_ts3_dl
 			exitbypass=1
 			command_start.sh
-			fn_commandname
 			exitbypass=1
 			command_stop.sh
 			fn_commandname

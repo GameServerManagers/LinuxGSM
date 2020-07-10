@@ -89,7 +89,6 @@ fn_update_mumble_compare(){
 			fn_update_mumble_dl
 			exitbypass=1
 			command_start.sh
-			fn_commandname
 			exitbypass=1
 			command_stop.sh
 			fn_commandname

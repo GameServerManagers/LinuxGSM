@@ -126,6 +126,7 @@ if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
 	fn_script_log "Validating to restore original ${gamename} files replaced by Oxide"
 	exitbypass="1"
 	command_validate.sh
+	fn_commandname
 	unset exitbypass
 fi
 echo -e "${modprettyname} removed"

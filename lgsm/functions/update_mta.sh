@@ -38,7 +38,6 @@ fn_update_mta_localbuild(){
 		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
-		fn_commandname
 		exitbypass=1
 		command_start.sh
 		fn_commandname
@@ -156,15 +155,18 @@ fn_update_mta_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			fn_stop_warning
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 			exitbypass=1
 			fn_update_mta_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"

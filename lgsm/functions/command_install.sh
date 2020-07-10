@@ -45,6 +45,7 @@ else
 		install_ts3db.sh
 	elif [ "${shortname}" == "mta" ]; then
 		command_install_resources_mta.sh
+		fn_commandname
 	fi
 
 	fix.sh

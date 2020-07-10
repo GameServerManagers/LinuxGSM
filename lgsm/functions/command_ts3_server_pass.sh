@@ -31,6 +31,7 @@ fn_serveradmin_password_set(){
 	ts3serverpass="1"
 	exitbypass="1"
 	command_start.sh
+	fn_commandname
 	fn_print_ok_nl "New password applied"
 	fn_script_log_pass "New ServerAdmin password applied"
 }
@@ -42,13 +43,16 @@ if [ "${status}" != "0" ]; then
 	# Stop any running server.
 	exitbypass="1"
 	command_stop.sh
+	fn_commandname
 	fn_serveradmin_password_set
 	parms="serveradmin_password=\"${newpassword}\" inifile=\"${servercfgfullpath}\" > /dev/null 2>&1"
 	ts3serverpass="0"
 	command_restart.sh
+	fn_commandname
 else
 	fn_serveradmin_password_set
 	command_stop.sh
+	fn_commandname
 fi
 
 core_exit.sh
