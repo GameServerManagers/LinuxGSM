@@ -12,7 +12,7 @@ fn_update_jk2_dl(){
 	fn_fetch_file "https://github.com/mvdevs/jk2mv/releases/download/${remotebuild}/jk2mv-v${remotebuild}-dedicated.zip" "" "" "" "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "${tmpdir}/jk2mv-v${remotebuild}-dedicated"
 	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/jk2mv-v${remotebuild}-dedicated/"* "${serverfiles}"
+	cp -R "${tmpdir}/jk2mv-v${remotebuild}-dedicated/linux-amd64/jk2mvded"* "${serverfiles}/GameData"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
