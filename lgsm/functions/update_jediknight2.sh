@@ -128,12 +128,13 @@ fn_update_jk2_compare(){
 remotelocation="jk2mv.org"
 
 # Game server architecture.
-jk2arch="x86"
+jk2arch="x64"
 
 if [ "${installer}" == "1" ]; then
 	fn_update_jk2_remotebuild
 	fn_update_jk2_dl
 else
+	update_steamcmd.sh
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_jk2_localbuild
