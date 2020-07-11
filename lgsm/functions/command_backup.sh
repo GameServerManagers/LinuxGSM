@@ -141,7 +141,7 @@ fn_backup_compression(){
 
 	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/backup.lock" ./.
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
 		echo -e "${extractcmd}" | tee -a "${lgsmlog}"

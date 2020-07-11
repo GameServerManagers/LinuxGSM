@@ -72,7 +72,7 @@ fn_clear_old_fastdl(){
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
 		rm -fR "${fastdldir:?}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"
 			core_exit.sh
@@ -89,7 +89,7 @@ fn_fastdl_dirs(){
 		echo -en "creating web directory ${webdir}..."
 		mkdir -p "${webdir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating web directory ${webdir}"
 			core_exit.sh
@@ -102,7 +102,7 @@ fn_fastdl_dirs(){
 		echo -en "creating fastdl directory ${fastdldir}..."
 		mkdir -p "${fastdldir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating fastdl directory ${fastdldir}"
 			core_exit.sh
@@ -248,7 +248,7 @@ fn_fastdl_gmod(){
 			echo -e "copying ${allowed_extention} : ${fileswc}..."
 			cp --parents "${fastdlfile}" "${fastdldir}"
 			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl
 				fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}"
 				core_exit.sh
@@ -265,7 +265,7 @@ fn_fastdl_gmod(){
 		echo -en "updating addons file structure..."
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Updating addons file structure"
 			core_exit.sh
@@ -278,7 +278,7 @@ fn_fastdl_gmod(){
 		fn_sleep_time
 		rm -fR "${fastdldir:?}/addons"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Clearing addons dir from fastdl dir"
 			core_exit.sh
@@ -293,7 +293,7 @@ fn_fastdl_gmod(){
 		fn_sleep_time
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Correcting DarkRP files"
 			core_exit.sh
@@ -345,7 +345,7 @@ fn_fastdl_source(){
 					fi
 					cp "${fastdlfile}" "${fastdldir}/${copytodir}"
 					exitcode=$?
-					if [ ${exitcode} -ne 0 ]; then
+					if [ "${exitcode}" != 0 ]; then
 						fn_print_fail_eol_nl
 						fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
 						core_exit.sh
@@ -381,7 +381,7 @@ fn_fastdl_gmod_dl_enforcer(){
 		echo -en "removing existing download enforcer: ${luafastdlfile}..."
 		rm -f "${luafastdlfullpath:?}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Removing existing download enforcer ${luafastdlfullpath}"
 			core_exit.sh
@@ -399,7 +399,7 @@ fn_fastdl_gmod_dl_enforcer(){
 			echo -e "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
 		done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n')
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating new download enforcer ${luafastdlfullpath}"
 			core_exit.sh
@@ -416,7 +416,7 @@ fn_fastdl_bzip2(){
 		echo -en "\r\033[Kcompressing ${filetocompress}..."
 		bzip2 -f "${filetocompress}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Compressing ${filetocompress}"
 			core_exit.sh

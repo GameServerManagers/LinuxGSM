@@ -73,7 +73,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
 		((exitcode=$?))
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
 			break
 		else
@@ -84,7 +84,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	echo -e "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
-if [ ${exitcode} -ne 0 ]; then
+if [ "${exitcode}" != 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -95,7 +95,7 @@ echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 local exitcode=$?
-if [ ${exitcode} -ne 0 ]; then
+if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -110,7 +110,7 @@ fn_sleep_time
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 local exitcode=$?
-if [ ${exitcode} -ne 0 ]; then
+if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh

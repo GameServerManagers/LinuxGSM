@@ -25,7 +25,7 @@ fn_clear_tmp(){
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
 		local exitcode=$?
-		if [ ${exitcode} -eq 0 ]; then
+		if [ "${exitcode}" == 0 ]; then
 			fn_print_ok_eol_nl
 			fn_script_log_pass "clearing LinuxGSM tmp directory"
 		else
@@ -82,7 +82,7 @@ fn_dl_extract(){
 		extractcmd=$(unzip -qo -d "${extractdir}" "${local_filedir}/${local_filename}")
 	fi
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Extracting download"
 		if [ -f "${lgsmlog}" ]; then
@@ -171,7 +171,7 @@ fn_fetch_file(){
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then

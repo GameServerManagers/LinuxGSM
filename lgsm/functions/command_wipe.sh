@@ -15,7 +15,7 @@ fn_commandname
 # Provides an exit code upon error.
 fn_wipe_exit_code(){
 	((exitcode=$?))
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_script_log_fatal "${currentaction}"
 		core_exit.sh
 	else
