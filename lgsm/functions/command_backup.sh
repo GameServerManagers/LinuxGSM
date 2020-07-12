@@ -73,7 +73,7 @@ fn_backup_stop_server(){
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	# If server is started
 	elif [ "${status}" != "0" ]; then
-		fn_stop_warning
+		fn_print_restart_warning
 		startserver="1"
 		exitbypass=1
 		command_stop.sh
@@ -245,21 +245,6 @@ fn_backup_relpath() {
 	else
 		echo
 	fi
-}
-
-fn_stop_warning(){
-	fn_print_warn "this game server will be stopped during backup"
-	fn_script_log_warn "this game server will be stopped during backup"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "this game server will be stopped during backup: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "this game server will be stopped during backup"
 }
 
 # Start the server if it was stopped for the backup.

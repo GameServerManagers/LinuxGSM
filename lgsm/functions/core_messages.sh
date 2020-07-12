@@ -529,3 +529,18 @@ fn_print_ascii_logo(){
 	echo -e "${lightyellow}LinuxGSM${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y2012P88   Y8888P   888       888"
 	echo -e ""
 }
+
+fn_print_restart_warning(){
+	fn_print_warn "${selfname} will be restarted"
+	fn_script_log_warn "${selfname} will be restarted"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "${selfname} will be restarted: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "${selfname} will be restarted"
+}

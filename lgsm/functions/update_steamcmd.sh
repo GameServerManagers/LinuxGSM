@@ -6,38 +6,6 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_steamcmd_dl(){
-	info_config.sh
-	# Detects if unbuffer command is available for 32 bit distributions only.
-	info_distro.sh
-	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
-		unbuffer="stdbuf -i0 -o0 -e0"
-	fi
-	if [ -d "${steamcmddir}" ]; then
-		cd "${steamcmddir}" || exit
-	fi
-
-	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
-	if [ "${appid}" == "90" ]; then
-		# If using a specific branch.
-		if [ -n "${branch}" ]; then
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
-		else
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
-		fi
-	elif [ "${shortname}" == "ac" ]; then
-		${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
-	# All other servers.
-	else
-		if [ -n "${branch}" ]; then
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
-		else
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
-		fi
-	fi
-	fix.sh
-}
-
 fn_update_steamcmd_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
@@ -122,15 +90,15 @@ fn_update_steamcmd_compare(){
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
-			fn_update_steamcmd_dl
+			fn_dl_steamcmd
 		# If server started.
 		else
-			fn_stop_warning
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
 			fn_commandname
 			exitbypass=1
-			fn_update_steamcmd_dl
+			fn_dl_steamcmd
 			exitbypass=1
 			command_start.sh
 			fn_commandname
@@ -190,14 +158,14 @@ fn_appmanifest_check(){
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
-			fn_update_steamcmd_dl
+			fn_dl_steamcmd
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
 		fn_print_error_nl "No appmanifest_${appid}.acf found"
 		fn_script_log_error "No appmanifest_${appid}.acf found"
 		fn_print_info_nl "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"
-		fn_update_steamcmd_dl
+		fn_dl_steamcmd
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -eq "0" ]; then
 			fn_print_fail_nl "Still no appmanifest_${appid}.acf found"
@@ -207,44 +175,29 @@ fn_appmanifest_check(){
 	fi
 }
 
-fn_stop_warning(){
-	fn_print_warn "this game server will be stopped during update"
-	fn_script_log_warn "this game server will be stopped during update"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "this game server will be stopped during update: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "this game server will be stopped during update"
-}
-
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
-check_steamcmd.sh
+check.sh
+
+fn_print_dots "${remotelocation}"
 
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
-	check_status.sh
 	if [ "${status}" != "0" ]; then
-		fn_stop_warning
+		fn_print_restart_warning
 		exitbypass=1
 		command_stop.sh
-		fn_update_steamcmd_dl
+		fn_commandname
+		fn_dl_steamcmd
 		date +%s > "${lockdir}/lastupdate.lock"
 		exitbypass=1
 		command_start.sh
 		fn_commandname
 	else
-		fn_update_steamcmd_dl
+		fn_dl_steamcmd
 		date +%s > "${lockdir}/lastupdate.lock"
 	fi
 else
-	fn_print_dots "Checking for update"
-	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_update_steamcmd_localbuild
 	fn_update_steamcmd_remotebuild
 	fn_update_steamcmd_compare
