@@ -73,7 +73,7 @@ fn_backup_stop_server(){
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_print_stop_warning_backup
+		fn_print_stop_warning
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh

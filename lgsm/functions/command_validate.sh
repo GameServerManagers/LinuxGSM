@@ -12,23 +12,26 @@ fn_commandname(){
 fn_commandname
 
 fn_validate(){
-	fn_script_log_warn "SteamCMD: Validate might overwrite some customised files"
+	fn_print_warn "${commandaction} server: Validate might overwrite some customised files"
+	fn_script_log_warn "${commandaction} server: Validate might overwrite some customised files"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "SteamCMD: Validate might overwrite some customised files: ${totalseconds}"
+		fn_print_warn "${commandaction} server: Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
+	fn_print_warn_nl "${commandaction} server: Validate might overwrite some customised files"
+
 	fn_dl_steamcmd
 }
 
 fn_print_dots "SteamCMD"
 check.sh
 if [ "${status}" != "0" ]; then
-	fn_print_stop_warning_update
+	fn_print_stop_warning
 	exitbypass=1
 	command_stop.sh
 	fn_commandname

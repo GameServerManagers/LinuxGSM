@@ -156,7 +156,7 @@ fn_update_mta_compare(){
 			command_stop.sh
 		# If server started.
 		else
-			fn_print_stop_warning_update
+			fn_print_stop_warning
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
