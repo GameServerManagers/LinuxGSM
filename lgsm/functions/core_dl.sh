@@ -53,9 +53,9 @@ fn_dl_steamcmd(){
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
 			if [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# Force Windows Platform type.
 		elif [ "${shortname}" == "ac" ]; then

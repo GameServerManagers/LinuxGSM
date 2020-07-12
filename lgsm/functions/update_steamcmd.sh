@@ -6,98 +6,6 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_steamcmd_dl(){
-	fn_print_start_nl "${remotelocation}"
-	fn_script_log_info "Updating server: ${remotelocation}"
-
-	if [ -d "${steamcmddir}" ]; then
-		cd "${steamcmddir}" || exit
-	fi
-
-	# Unbuffer will allow the output of steamcmd not buffer allowing a smooth output.
-	# unbuffer us part of the expect package.
-	if [ "$(command -v unbuffer)" ]; then
-		unbuffer="unbuffer"
-	fi
-
-	# Validate will be added as a parameter if required.
-	if [ "${commandname}" == "VALIDATE" ]||[ "${commandname}" == "INSTALL" ]; then
-		validate="validate"
-	fi
-
-	# To do error checking for SteamCMD the output of steamcmd will be saved to a log.
-	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
-
-	counter=0
-	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
-		counter=$((counter+1))
-		# Select SteamCMD parameters
-		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
-		if [ "${appid}" == "90" ]; then
-			# If using a specific branch.
-			if [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			else
-				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			fi
-		# Force Windows Platform type.
-		elif [ "${shortname}" == "ac" ]; then
-			if [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			else
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			fi
-		# All other servers.
-		else
-			if [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			else
-				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			fi
-		fi
-
-		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
-		exitcode=$?
-		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "ERROR!" "${steamcmdlog}" | tail -1)" ]; then
-			# Not enough space.
-			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "Updating server: ${remotelocation}: Not enough space to download server files"
-				fn_script_log_fatal "Updating server: ${remotelocation}: Not enough space to download server files"
-				core_exit.sh
-			# Need tp purchase game.
-			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
-				fn_script_log_fatal "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
-				core_exit.sh
-			# Two-factor authentication failure
-			elif [ -n "$(grep "Two-factor code mismatch" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "Updating server: ${remotelocation}: Two-factor authentication failure"
-				fn_script_log_fatal "Updating server: ${remotelocation}: Two-factor authentication failure"
-				core_exit.sh
-			# Update did not finish.
-			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_error2_nl "Updating server: ${remotelocation}: Update required but not completed - check network"
-				fn_script_log_error "Updating server: ${remotelocation}: Update required but not completed - check network"
-			else
-				fn_print_error2_nl "Updating server: ${remotelocation}: Unknown error occured"
-				fn_script_log_error "Updating server: ${remotelocation}: Unknown error occured"
-			fi
-		elif [ "${exitcode}" != "0" ]; then
-			fn_print_error2_nl "Updating server: ${remotelocation}: Exit code: ${exitcode}"
-			fn_script_log_error "Updating server: ${remotelocation}: Exit code: ${exitcode}"
-		else
-			fn_print_complete_nl "Updating server: ${remotelocation}"
-			fn_script_log_pass "Updating server: ${remotelocation}"
-		fi
-
-		if [ "${counter}" -gt "10" ]; then
-			fn_print_failure_nl "Updating server: ${remotelocation}: Did not complete the download, too many retrys"
-			fn_script_log_fatal "Updating server: ${remotelocation}: Did not complete the download, too many retrys"
-			core_exit.sh
-		fi
-	done
-}
-
 fn_update_steamcmd_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
@@ -182,7 +90,7 @@ fn_update_steamcmd_compare(){
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
-			fn_update_steamcmd_dl
+			fn_dl_steamcmd
 		# If server started.
 		else
 			fn_print_restart_warning
@@ -190,7 +98,7 @@ fn_update_steamcmd_compare(){
 			command_stop.sh
 			fn_commandname
 			exitbypass=1
-			fn_update_steamcmd_dl
+			fn_dl_steamcmd
 			exitbypass=1
 			command_start.sh
 			fn_commandname
@@ -250,14 +158,14 @@ fn_appmanifest_check(){
 			fn_script_log_pass "Removed x${appmanifestfilewc1} appmanifest_${appid}.acf files"
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
-			fn_update_steamcmd_dl
+			fn_dl_steamcmd
 		fi
 	elif [ "${appmanifestfilewc}" -eq "0" ]; then
 		fn_print_error_nl "No appmanifest_${appid}.acf found"
 		fn_script_log_error "No appmanifest_${appid}.acf found"
 		fn_print_info_nl "Forcing update to correct issue"
 		fn_script_log_info "Forcing update to correct issue"
-		fn_update_steamcmd_dl
+		fn_dl_steamcmd
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -eq "0" ]; then
 			fn_print_fail_nl "Still no appmanifest_${appid}.acf found"
@@ -280,13 +188,13 @@ if [ "${forceupdate}" == "1" ]; then
 		exitbypass=1
 		command_stop.sh
 		fn_commandname
-		fn_update_steamcmd_dl
+		fn_dl_steamcmd
 		date +%s > "${lockdir}/lastupdate.lock"
 		exitbypass=1
 		command_start.sh
 		fn_commandname
 	else
-		fn_update_steamcmd_dl
+		fn_dl_steamcmd
 		date +%s > "${lockdir}/lastupdate.lock"
 	fi
 else
