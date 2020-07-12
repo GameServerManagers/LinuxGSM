@@ -4,9 +4,12 @@
 # Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
-commandname="DEV-QUERY-RAW"
-commandaction="Developer query raw"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="DEV-QUERY-RAW"
+	commandaction="Developer query raw"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 check.sh
 info_config.sh

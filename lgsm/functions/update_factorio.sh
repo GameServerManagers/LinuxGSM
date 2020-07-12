@@ -96,17 +96,21 @@ fn_update_factorio_compare(){
 			fn_update_factorio_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			fn_print_stop_warning
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 			exitbypass=1
 			fn_update_factorio_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"

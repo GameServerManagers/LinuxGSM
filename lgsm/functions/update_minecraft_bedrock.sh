@@ -47,13 +47,16 @@ fn_update_minecraft_localbuild(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 			sleep 3
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		fi
 	fi
 
@@ -123,15 +126,18 @@ fn_update_minecraft_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			fn_print_stop_warning
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 			exitbypass=1
 			fn_update_minecraft_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"

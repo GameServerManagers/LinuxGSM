@@ -4,9 +4,12 @@
 # Website: https://linuxgsm.com
 # Description: Sends a test alert.
 
-commandname="TEST-ALERT"
-commandaction="Sending Alert"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+  commandname="TEST-ALERT"
+  commandaction="Sending Alert"
+  functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 fn_print_dots "${servername}"
 check.sh

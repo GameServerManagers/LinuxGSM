@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-commandname="BACKUP"
-commandaction="Backing up"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="BACKUP"
+	commandaction="Backing up"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 check.sh
 
@@ -61,22 +64,20 @@ fn_backup_init(){
 # Check if server is started and whether to stop it.
 fn_backup_stop_server(){
 	check_status.sh
-	# Server is stopped.
-	if [ "${status}" == "0" ]; then
-		serverstopped="no"
-	# Server is running and stoponbackup=off.
-	elif [ "${stoponbackup}" == "off" ]; then
-		serverstopped="no"
+	# Server is running but will not be stopped.
+	if [ "${stoponbackup}" == "off" ]; then
 		fn_print_warn_nl "${selfname} is currently running"
 		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
 		fn_script_log_warn "${selfname} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
-	else
+	# If server is started
+	elif [ "${status}" != "0" ]; then
 		fn_print_stop_warning
-		serverstopped="yes"
+		startserver="1"
 		exitbypass=1
 		command_stop.sh
+		fn_commandname
 	fi
 }
 
@@ -140,7 +141,7 @@ fn_backup_compression(){
 
 	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/backup.lock" ./.
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
 		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
@@ -246,11 +247,12 @@ fn_backup_relpath() {
 	fi
 }
 
-# Restart the server if it was stopped for the backup.
+# Start the server if it was stopped for the backup.
 fn_backup_start_server(){
-	if [ "${serverstopped}" == "yes" ]; then
+	if [ -n "${startserver}" ]; then
 		exitbypass=1
 		command_start.sh
+		fn_commandname
 	fi
 }
 

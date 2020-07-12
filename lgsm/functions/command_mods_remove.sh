@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
-commandname="MODS-REMOVE"
-commandaction="Removing mods"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="MODS-REMOVE"
+	commandaction="Removing mods"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 check.sh
 mods_core.sh
@@ -70,7 +73,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	if [ -f "${modinstalldir}/${currentfileremove}" ]||[ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
 		((exitcode=$?))
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
 			break
 		else
@@ -81,7 +84,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	echo -e "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
-if [ ${exitcode} -ne 0 ]; then
+if [ "${exitcode}" != 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -92,7 +95,7 @@ echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 local exitcode=$?
-if [ ${exitcode} -ne 0 ]; then
+if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -107,7 +110,7 @@ fn_sleep_time
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 local exitcode=$?
-if [ ${exitcode} -ne 0 ]; then
+if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -123,6 +126,7 @@ if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
 	fn_script_log "Validating to restore original ${gamename} files replaced by Oxide"
 	exitbypass="1"
 	command_validate.sh
+	fn_commandname
 	unset exitbypass
 fi
 echo -e "${modprettyname} removed"

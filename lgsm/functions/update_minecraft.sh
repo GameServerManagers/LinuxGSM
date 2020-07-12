@@ -44,8 +44,10 @@ fn_update_minecraft_localbuild(){
 		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
+		fn_commandname
 		exitbypass=1
 		command_start.sh
+		fn_commandname
 		totalseconds=0
 		# Check again, allow time to generate logs.
 		while [ ! -f "${serverfiles}/logs/latest.log" ]; do
@@ -157,15 +159,18 @@ fn_update_minecraft_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 		# If server started.
 		else
 			fn_print_stop_warning
 			exitbypass=1
 			command_stop.sh
+			fn_commandname
 			exitbypass=1
 			fn_update_minecraft_dl
 			exitbypass=1
 			command_start.sh
+			fn_commandname
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
