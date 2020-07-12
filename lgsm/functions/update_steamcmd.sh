@@ -61,33 +61,33 @@ fn_update_steamcmd_dl(){
 		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]; then
 			# Not enough space
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${remotelocation}: Not enough space to download game"
-				fn_script_log_fatal "Updating server: ${remotelocation}: Not enough space to download game"
+				fn_print_failure_nl "Updating server: ${remotelocation}: Not enough space to download server files"
+				fn_script_log_fatal "Updating server: ${remotelocation}: Not enough space to download server files"
 				core_exit.sh
 			# Need tp purchase game
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${remotelocation}: Game not owned by any authorised accounts"
+				fn_print_failure_nl "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
 				fn_script_log_fatal "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
 				core_exit.sh
 			# Update did not finish
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_error2_nl "${remotelocation}: Update required but not completed - check network"
+				fn_print_error2_nl "Updating server: ${remotelocation}: Update required but not completed - check network"
 				fn_script_log_error "Updating server: ${remotelocation}: Update required but not completed - check network"
 			else
-				fn_print_error2_nl "${remotelocation}: Unknown error occured"
+				fn_print_error2_nl "Updating server: ${remotelocation}: Unknown error occured"
 				fn_script_log_error "Updating server: ${remotelocation}: Unknown error occured"
 			fi
 		elif [ "${exitcode}" != "0" ]; then
-			fn_print_error2_nl "${remotelocation}: Exit code: ${exitcode}"
+			fn_print_error2_nl "Updating server: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "Updating server: ${remotelocation}: Exit code: ${exitcode}"
 		else
-			fn_print_complete_nl "${remotelocation}"
+			fn_print_complete_nl "Updating server: ${remotelocation}"
 			fn_script_log_pass "Updating server: ${remotelocation}"
 		fi
 
 		if [ "${counter}" -gt "10" ]; then
-			fn_print_failure_nl "${remotelocation}: Did not complete the download, too many retrys"
-			fn_script_log_fatal "${remotelocation}: Did not complete the download, too many retrys"
+			fn_print_failure_nl "Updating server: ${remotelocation}: Did not complete the download, too many retrys"
+			fn_script_log_fatal "Updating server: ${remotelocation}: Did not complete the download, too many retrys"
 			core_exit.sh
 		fi
 	done
