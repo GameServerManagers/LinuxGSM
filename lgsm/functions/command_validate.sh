@@ -28,8 +28,12 @@ fn_validate(){
 	fn_dl_steamcmd
 }
 
-fn_print_dots "SteamCMD"
+# The location where the builds are checked and downloaded.
+remotelocation="SteamCMD"
 check.sh
+
+fn_print_dots "${remotelocation}"
+
 if [ "${status}" != "0" ]; then
 	fn_print_stop_warning
 	exitbypass=1
