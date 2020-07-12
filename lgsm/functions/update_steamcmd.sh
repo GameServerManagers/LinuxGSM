@@ -9,13 +9,13 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_steamcmd_dl(){
 	fn_print_start_nl "${remotelocation}"
 	fn_script_log_info "Updating server: ${remotelocation}"
-	info_distro.sh
+
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
 
-	# Unbuffer will allow the output of steamcmd not buffer allowing a smooth output
-	# unbuffer us part of the except package
+	# Unbuffer will allow the output of steamcmd not buffer allowing a smooth output.
+	# unbuffer us part of the except package.
 	if [ "$(command -v unbuffer)" ]; then
 		unbuffer="unbuffer"
 	fi
@@ -25,7 +25,7 @@ fn_update_steamcmd_dl(){
 		validate="validate"
 	fi
 
-	# To do error checking for SteamCMD the output of steamcmd will be saved to a log
+	# To do error checking for SteamCMD the output of steamcmd will be saved to a log.
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
 	counter=0
@@ -40,7 +40,7 @@ fn_update_steamcmd_dl(){
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
-		# Force Windows Platform type
+		# Force Windows Platform type.
 		elif [ "${shortname}" == "ac" ]; then
 			if [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -56,20 +56,20 @@ fn_update_steamcmd_dl(){
 			fi
 		fi
 
-		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit
+		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
 		exitcode=$?
 		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]; then
-			# Not enough space
+			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "Updating server: ${remotelocation}: Not enough space to download server files"
 				fn_script_log_fatal "Updating server: ${remotelocation}: Not enough space to download server files"
 				core_exit.sh
-			# Need tp purchase game
+			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
 				fn_script_log_fatal "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
 				core_exit.sh
-			# Update did not finish
+			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "Updating server: ${remotelocation}: Update required but not completed - check network"
 				fn_script_log_error "Updating server: ${remotelocation}: Update required but not completed - check network"
