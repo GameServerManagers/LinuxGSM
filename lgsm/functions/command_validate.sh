@@ -12,18 +12,18 @@ fn_commandname(){
 fn_commandname
 
 fn_validate(){
-	fn_print_warn "${commandaction} server: Validate might overwrite some customised files"
+	fn_print_warn "Validate might overwrite some customised files"
 	fn_script_log_warn "${commandaction} server: Validate might overwrite some customised files"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "${commandaction} server: Validate might overwrite some customised files: ${totalseconds}"
+		fn_print_warn "Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "${commandaction} server: Validate might overwrite some customised files"
+	fn_print_warn_nl "Validate might overwrite some customised files"
 
 	fn_dl_steamcmd
 }

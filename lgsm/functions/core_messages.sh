@@ -531,16 +531,16 @@ fn_print_ascii_logo(){
 }
 
 fn_print_stop_warning(){
-	fn_print_warn "${commandaction} server: ${selfname} will be stopped"
-	fn_script_log_warn "${commandaction} server: ${selfname} will be stopped"
+	fn_print_warn "${selfname} will be stopped"
+	fn_script_log_warn "${selfname} will be stopped"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "${commandaction} server: ${selfname} will be stopped: ${totalseconds}"
+		fn_print_warn "${selfname} will be stopped: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "${commandaction} server: ${selfname} will be stopped"
+	fn_print_warn_nl "${selfname} will be stopped"
 }
