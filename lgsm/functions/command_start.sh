@@ -5,9 +5,12 @@
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
-commandname="START"
-commandaction="Starting"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="START"
+	commandaction="Starting"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -188,8 +191,7 @@ if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateon
 	exitbypass=1
 	unset updateonstart
 	command_update.sh
-	commandname="START"
-	commandaction="Starting"
+	fn_commandname
 fi
 
 fn_print_dots "${servername}"

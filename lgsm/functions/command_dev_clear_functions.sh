@@ -4,9 +4,12 @@
 # Website: https://linuxgsm.com
 # Description: Deletes the contents of the functions dir.
 
-commandname="DEV-CLEAR-MODULES"
-commandaction="Clearing modules"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="DEV-CLEAR-MODULES"
+	commandaction="Clearing modules"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 echo -e "================================="
 echo -e "Clear Functions"

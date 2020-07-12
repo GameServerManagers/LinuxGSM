@@ -135,7 +135,7 @@ fn_info_message_gameserver_resource(){
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
 	{
-		if [ "${status}" == "1" ]; then
+		if [ "${status}" != "0" ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
@@ -1515,7 +1515,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
 	elif [ "${shortname}" == "bfv" ]; then
-		fn_info_message_bfv	
+		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
