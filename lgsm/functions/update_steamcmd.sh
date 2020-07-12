@@ -58,7 +58,6 @@ fn_update_steamcmd_dl(){
 
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit
 		exitcode=$?
-		fn_print_dots "${remotelocation}"
 		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]; then
 			# Not enough space
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
@@ -79,16 +78,16 @@ fn_update_steamcmd_dl(){
 				fn_script_log_error "${remotelocation}: Unknown error occured"
 			fi
 		elif [ "${exitcode}" != "0" ]; then
-			fn_print_error2_nl "${remotelocation}"
-			fn_script_log_error "${remotelocation}: ERROR"
+			fn_print_error2_nl "${remotelocation}: Exit code: ${exitcode}"
+			fn_script_log_error "${remotelocation}: Exit code: ${exitcode}"
 		else
-			fn_print_ok_nl "${remotelocation}"
+			fn_print_complete_nl "${remotelocation}"
 			fn_script_log_pass "${remotelocation}: OK"
 		fi
 
 		if [ "${counter}" -gt "10" ]; then
-			fn_print_failure_nl "SteamCMD did not complete the download, too many retrys"
-			fn_script_log_fatal "SteamCMD did not complete the download, too many retrys"
+			fn_print_failure_nl "${remotelocation}: Did not complete the download, too many retrys"
+			fn_script_log_fatal "${remotelocation}: Did not complete the download, too many retrys"
 			core_exit.sh
 		fi
 	done
