@@ -73,7 +73,7 @@ fn_backup_stop_server(){
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	# If server is started
 	elif [ "${status}" != "0" ]; then
-		fn_print_stop_warning
+		fn_print_restart_warning
 		startserver="1"
 		exitbypass=1
 		command_stop.sh

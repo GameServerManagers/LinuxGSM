@@ -185,7 +185,7 @@ fn_update_steamcmd_compare(){
 			fn_update_steamcmd_dl
 		# If server started.
 		else
-			fn_print_stop_warning
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
 			fn_commandname
@@ -276,7 +276,7 @@ fn_print_dots "${remotelocation}"
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
 	if [ "${status}" != "0" ]; then
-		fn_print_stop_warning
+		fn_print_restart_warning
 		exitbypass=1
 		command_stop.sh
 		fn_commandname

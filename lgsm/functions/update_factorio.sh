@@ -102,7 +102,7 @@ fn_update_factorio_compare(){
 			fn_commandname
 		# If server started.
 		else
-			fn_print_stop_warning
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
 			fn_commandname

@@ -35,7 +35,7 @@ check.sh
 fn_print_dots "${remotelocation}"
 
 if [ "${status}" != "0" ]; then
-	fn_print_stop_warning
+	fn_print_restart_warning
 	exitbypass=1
 	command_stop.sh
 	fn_commandname
