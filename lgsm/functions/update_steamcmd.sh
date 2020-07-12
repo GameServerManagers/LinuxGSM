@@ -7,35 +7,91 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_steamcmd_dl(){
-	info_config.sh
-	# Detects if unbuffer command is available for 32 bit distributions only.
+	fn_print_start_nl "${remotelocation}"
+	fn_script_log_info "Updating server: ${remotelocation}"
 	info_distro.sh
-	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
-		unbuffer="stdbuf -i0 -o0 -e0"
-	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
 
-	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
-	if [ "${appid}" == "90" ]; then
-		# If using a specific branch.
-		if [ -n "${branch}" ]; then
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
-		else
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
-		fi
-	elif [ "${shortname}" == "ac" ]; then
-		${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit
-	# All other servers.
-	else
-		if [ -n "${branch}" ]; then
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" +quit | tee -a "${lgsmlog}"
-		else
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" +quit | tee -a "${lgsmlog}"
-		fi
+	# Unbuffer will allow the output of steamcmd not buffer allowing a smooth output
+	# unbuffer us part of the except package
+	if [ "$(command -v unbuffer)" ]; then
+		unbuffer="unbuffer"
 	fi
-	fix.sh
+
+	# Validate will be added as a parameter if required.
+	if [ "${commandname}" == "VALIDATE" ]||[ "${commandname}" == "INSTALL" ]; then
+		validate="validate"
+	fi
+
+	# To do error checking for SteamCMD the output of steamcmd will be saved to a log
+	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
+
+	counter=0
+	while [ "${exitcode}" != "0" ]; do
+		counter=$((counter+1))
+		# Select SteamCMD parameters
+		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
+		if [ "${appid}" == "90" ]; then
+			# If using a specific branch.
+			if [ -n "${branch}" ]; then
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			else
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			fi
+		# Force Windows Platform type
+		elif [ "${shortname}" == "ac" ]; then
+			if [ -n "${branch}" ]; then
+				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			else
+				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			fi
+		# All other servers.
+		else
+			if [ -n "${branch}" ]; then
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			else
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			fi
+		fi
+
+		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit
+		exitcode=$?
+		fn_print_dots "${remotelocation}"
+		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]; then
+			# Not enough space
+			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_fail_nl "${remotelocation}: Not enough space to download game"
+				fn_script_log_fatal "${remotelocation}: Not enough space to download game"
+				core_exit.sh
+			# Need tp purchase game
+			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_fail_nl "${remotelocation}: Game not owned by any authorised accounts"
+				fn_script_log_fatal "${remotelocation}: Game not owned by any authorised accounts"
+				core_exit.sh
+			# Update did not finish
+			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_error_nl "${remotelocation}: Update required but not completed - check network"
+				fn_script_log_error "${remotelocation}: Update required but not completed - check network"
+			else
+				fn_print_error_nl "${remotelocation}: Unknown error occured"
+				fn_script_log_error "${remotelocation}: Unknown error occured"
+			fi
+		elif [ "${exitcode}" != "0" ]; then
+			fn_print_error_nl "${remotelocation}"
+			fn_script_log_error "${remotelocation}: ERROR"
+		else
+			fn_print_ok_nl "${remotelocation}"
+			fn_script_log_pass "${remotelocation}: OK"
+		fi
+
+		if [ "${counter}" -gt "10" ]; then
+			fn_print_failure_nl "SteamCMD did not complete the download, too many retrys"
+			fn_script_log_fatal "SteamCMD did not complete the download, too many retrys"
+			core_exit.sh
+		fi
+	done
 }
 
 fn_update_steamcmd_localbuild(){
@@ -222,15 +278,17 @@ fn_stop_warning(){
 
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
-check_steamcmd.sh
+check.sh
+
+fn_print_dots "${remotelocation}"
 
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
-	check_status.sh
 	if [ "${status}" != "0" ]; then
 		fn_stop_warning
 		exitbypass=1
 		command_stop.sh
+		fn_commandname
 		fn_update_steamcmd_dl
 		date +%s > "${lockdir}/lastupdate.lock"
 		exitbypass=1
@@ -240,8 +298,6 @@ if [ "${forceupdate}" == "1" ]; then
 		date +%s > "${lockdir}/lastupdate.lock"
 	fi
 else
-	fn_print_dots "Checking for update"
-	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_update_steamcmd_localbuild
 	fn_update_steamcmd_remotebuild
 	fn_update_steamcmd_compare

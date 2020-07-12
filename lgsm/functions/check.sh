@@ -82,7 +82,7 @@ do
 	fi
 done
 
-allowed_commands_array=( DEBUG START VALIDATE )
+allowed_commands_array=( DEBUG START UPDATE VALIDATE )
 for allowed_command in "${allowed_commands_array[@]}"
 do
 	if [ "${allowed_command}" == "${commandname}" ]; then

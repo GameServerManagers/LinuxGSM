@@ -69,12 +69,18 @@ fn_install_server_files(){
 }
 
 fn_install_server_files_steamcmd(){
+	if [ -d "${steamcmddir}" ]; then
+		cd "${steamcmddir}" || exit
+	fi
+
+	if [ "$(command -v unbuffer)" ]; then
+		unbuffer="unbuffer"
+	fi
+
 	counter="0"
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
-		if [ -d "${steamcmddir}" ]; then
-			cd "${steamcmddir}" || exit
-		fi
+
 		if [ "${counter}" -le "10" ]; then
 			# Attempt 1-4: Standard attempt.
 			# Attempt 5-6: Validate attempt.
@@ -94,12 +100,6 @@ fn_install_server_files_steamcmd(){
 			if [ "${counter}" -ge "9" ]; then
 				rm -rf "${steamcmddir:?}"
 				check_steamcmd.sh
-			fi
-
-			# Detects if unbuffer command is available for 32 bit distributions only.
-			info_distro.sh
-			if [ "$(command -v stdbuf 2>/dev/null)" ]&&[ "${arch}" != "x86_64" ]; then
-				unbuffer="stdbuf -i0 -o0 -e0"
 			fi
 
 			if [ "${counter}" -le "4" ]; then
