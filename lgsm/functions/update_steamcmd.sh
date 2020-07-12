@@ -29,7 +29,7 @@ fn_update_steamcmd_dl(){
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
 	counter=0
-	while [ "${exitcode}" != "0" ]; do
+	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
 		# Select SteamCMD parameters
 		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
@@ -62,24 +62,24 @@ fn_update_steamcmd_dl(){
 		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]; then
 			# Not enough space
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_fail_nl "${remotelocation}: Not enough space to download game"
+				fn_print_failure_nl "${remotelocation}: Not enough space to download game"
 				fn_script_log_fatal "${remotelocation}: Not enough space to download game"
 				core_exit.sh
 			# Need tp purchase game
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_fail_nl "${remotelocation}: Game not owned by any authorised accounts"
+				fn_print_failure_nl "${remotelocation}: Game not owned by any authorised accounts"
 				fn_script_log_fatal "${remotelocation}: Game not owned by any authorised accounts"
 				core_exit.sh
 			# Update did not finish
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_error_nl "${remotelocation}: Update required but not completed - check network"
+				fn_print_error2_nl "${remotelocation}: Update required but not completed - check network"
 				fn_script_log_error "${remotelocation}: Update required but not completed - check network"
 			else
-				fn_print_error_nl "${remotelocation}: Unknown error occured"
+				fn_print_error2_nl "${remotelocation}: Unknown error occured"
 				fn_script_log_error "${remotelocation}: Unknown error occured"
 			fi
 		elif [ "${exitcode}" != "0" ]; then
-			fn_print_error_nl "${remotelocation}"
+			fn_print_error2_nl "${remotelocation}"
 			fn_script_log_error "${remotelocation}: ERROR"
 		else
 			fn_print_ok_nl "${remotelocation}"
