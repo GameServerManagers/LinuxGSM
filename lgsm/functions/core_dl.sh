@@ -41,6 +41,10 @@ fn_dl_steamcmd(){
 	# To do error checking for SteamCMD the output of steamcmd will be saved to a log.
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
+	# clear previous steamcmd log
+	if [ -f "${steamcmdlog}" ]; then
+		rm -f "${steamcmdlog:?}"
+	fi
 	counter=0
 	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
 		counter=$((counter+1))
