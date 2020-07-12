@@ -58,7 +58,7 @@ fn_update_steamcmd_dl(){
 
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
 		exitcode=$?
-		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]; then
+		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "ERROR!" "${steamcmdlog}" | tail -1)" ]; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "Updating server: ${remotelocation}: Not enough space to download server files"
@@ -68,6 +68,11 @@ fn_update_steamcmd_dl(){
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
 				fn_script_log_fatal "Updating server: ${remotelocation}: Game not owned by any authorised accounts"
+				core_exit.sh
+			# Two-factor authentication failure
+			elif [ -n "$(grep "Two-factor code mismatch" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_failure_nl "Updating server: ${remotelocation}: Two-factor authentication failure"
+				fn_script_log_fatal "Updating server: ${remotelocation}: Two-factor authentication failure"
 				core_exit.sh
 			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
