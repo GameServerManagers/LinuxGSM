@@ -83,7 +83,7 @@ fn_dl_steamcmd(){
 				core_exit.sh
 			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Game not owned by any authorised accounts"
+				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Steam account does not have a license for the required game"
 				fn_script_log_fatal "${commandaction} server: ${remotelocation}: Game not owned by any authorised accounts"
 				core_exit.sh
 			# Two-factor authentication failure
