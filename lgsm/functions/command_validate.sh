@@ -4,92 +4,38 @@
 # Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
-commandname="VALIDATE"
-commandaction="Validating"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_commandname(){
+	commandname="VALIDATE"
+	commandaction="Validating"
+	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+}
+fn_commandname
 
 fn_validate(){
-	fn_script_log_warn "${remotelocation}: Validate might overwrite some customised files"
+	fn_script_log_warn "SteamCMD: Validate might overwrite some customised files"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "${remotelocation}: Validate might overwrite some customised files: ${totalseconds}"
+		fn_print_warn "SteamCMD: Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "${remotelocation}: Validate might overwrite some customised files"
-
-	fn_print_start_nl "${remotelocation}"
-	fn_script_log_info "Validating server: ${remotelocation}"
-	info_distro.sh
-	if [ -d "${steamcmddir}" ]; then
-		cd "${steamcmddir}" || exit
-	fi
-
-	if [ "$(command -v unbuffer)" ]; then
-		unbuffer="unbuffer"
-	fi
-	
-	# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
-	if [ "${appid}" == "90" ]; then
-		# If using a specific branch.
-		if [ -n "${branch}" ]; then
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
-		else
-			${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${branch}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
-		fi
-	elif [ "${shortname}" == "ac" ]; then
-		${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" validate +quit
-		local exitcode=$?
-	# All other servers.
-	elif [ -n "${branch}" ]; then
-		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" validate +quit | tee -a "${lgsmlog}"
-	else
-		${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" validate +quit | tee -a "${lgsmlog}"
-	fi
-
-	exitcode=$?
-	fn_print_dots "${remotelocation}"
-	if [ "${exitcode}" != "0" ]; then
-		fn_print_fail_nl "${remotelocation}"
-		fn_script_log_fatal "Validating server: ${remotelocation}: FAIL"
-	else
-		fn_print_ok_nl "${remotelocation}"
-		fn_script_log_pass "Validating server: ${remotelocation}: OK"
-	fi
-	core_exit.sh
+	fn_dl_steamcmd
 }
 
-fn_stop_warning(){
-	fn_print_warn "Validating server: SteamCMD: ${selfname} will be stopped during validation"
-	fn_script_log_warn "Validating server: SteamCMD: ${selfname} will be stopped during validation"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "Validating server: SteamCMD: ${selfname} will be stopped during validation: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "Validating server: SteamCMD: ${selfname} will be stopped during validation"
-}
-
-# The location where the builds are checked and downloaded.
-remotelocation="SteamCMD"
+fn_print_dots "SteamCMD"
 check.sh
-
-fn_print_dots "${remotelocation}"
-
 if [ "${status}" != "0" ]; then
-	fn_stop_warning
+	fn_print_stop_warning_update
 	exitbypass=1
 	command_stop.sh
+	fn_commandname
 	fn_validate
 	exitbypass=1
 	command_start.sh
+	fn_commandname
 else
 	fn_validate
 fi

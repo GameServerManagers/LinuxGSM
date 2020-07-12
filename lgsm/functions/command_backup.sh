@@ -73,7 +73,7 @@ fn_backup_stop_server(){
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
 	else
-		fn_stop_warning
+		fn_print_stop_warning_backup
 		serverstopped="yes"
 		exitbypass=1
 		command_stop.sh
@@ -244,21 +244,6 @@ fn_backup_relpath() {
 	else
 		echo
 	fi
-}
-
-fn_stop_warning(){
-	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup"
-	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during backup"
 }
 
 # Restart the server if it was stopped for the backup.

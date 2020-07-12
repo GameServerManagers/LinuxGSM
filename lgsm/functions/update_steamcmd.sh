@@ -15,7 +15,7 @@ fn_update_steamcmd_dl(){
 	fi
 
 	# Unbuffer will allow the output of steamcmd not buffer allowing a smooth output.
-	# unbuffer us part of the except package.
+	# unbuffer us part of the expect package.
 	if [ "$(command -v unbuffer)" ]; then
 		unbuffer="unbuffer"
 	fi
@@ -185,7 +185,7 @@ fn_update_steamcmd_compare(){
 			fn_update_steamcmd_dl
 		# If server started.
 		else
-			fn_stop_warning
+			fn_print_stop_warning_update
 			exitbypass=1
 			command_stop.sh
 			exitbypass=1
@@ -265,21 +265,6 @@ fn_appmanifest_check(){
 	fi
 }
 
-fn_stop_warning(){
-	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
-}
-
 # The location where the builds are checked and downloaded.
 remotelocation="SteamCMD"
 check.sh
@@ -289,7 +274,7 @@ fn_print_dots "${remotelocation}"
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
 	if [ "${status}" != "0" ]; then
-		fn_stop_warning
+		fn_print_stop_warning_update
 		exitbypass=1
 		command_stop.sh
 		fn_commandname
