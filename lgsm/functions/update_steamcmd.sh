@@ -13,12 +13,9 @@ fn_update_steamcmd_localbuild(){
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
-	# Set branch for updateinfo.
-	IFS=' ' read -ra branchsplits <<< "${branch}"
-	if [ "${#branchsplits[@]}" -gt 1 ]; then
-		branchname="${branchsplits[1]}"
-	else
-		branchname="public"
+	# Set branch to public if no custom branch.
+	if [ -z "${branch}" ]; then
+		branch="public"
 	fi
 
 	# Checks if localbuild variable has been set.
@@ -43,10 +40,12 @@ fn_update_steamcmd_remotebuild(){
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \;
 	fi
 
-	if [ -n "${branch}" ]; then
-		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" -beta "${branch}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" -beta "${branch}" -betapassword "${betapassword}" +quit | sed '1,/branches/d' | sed "1,/${branch}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	elif [ -n "${branch}" ]; then
+		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" -beta "${branch}" +quit | sed '1,/branches/d' | sed "1,/${branch}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	else
-		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branch}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
 	fi
 
 	if [ "${installer}" != "1" ]; then
@@ -78,16 +77,22 @@ fn_update_steamcmd_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
-		if [ -v "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
+		fi
+		if [ -n "${betapassword}" ]; then
+			echo -e "* Branch password: ${betapassword}"
 		fi
 		echo -e "https://steamdb.info/app/${appid}/"
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
-		if [ -v "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -n "${betapassword}" ]; then
+			fn_script_log_info "Branch password: ${betapassword}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
@@ -117,16 +122,22 @@ fn_update_steamcmd_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
-		if [ -v "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
+		fi
+		if [ -n "${betapassword}" ]; then
+			echo -e "* Branch password: ${betapassword}"
 		fi
 		echo -e "https://steamdb.info/app/${appid}/"
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
-		if [ -v "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -n "${betapassword}" ]; then
+			fn_script_log_info "Branch password: ${betapassword}"
 		fi
 	fi
 }

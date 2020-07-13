@@ -22,7 +22,14 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_dl_steamcmd(){
 	fn_print_start_nl "${remotelocation}"
 	fn_script_log_info "${commandaction} server: ${remotelocation}"
-
+	if [ -n "${branch}" ]; then
+		echo -e "Branch: ${branch}"
+		fn_script_log_info "Branch: ${branch}"
+	fi
+	if [ -n "${betapassword}" ]; then
+		echo -e "Branch password: ${betapassword}"
+		fn_script_log_info "Branch password: ${betapassword}"
+	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
@@ -52,21 +59,27 @@ fn_dl_steamcmd(){
 		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
-			if [ -n "${branch}" ]; then
+			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# Force Windows Platform type.
 		elif [ "${shortname}" == "ac" ]; then
-			if [ -n "${branch}" ]; then
+			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# All other servers.
 		else
-			if [ -n "${branch}" ]; then
+			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -91,6 +104,11 @@ fn_dl_steamcmd(){
 				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Two-factor authentication failure"
 				fn_script_log_fatal "${commandaction} server: ${remotelocation}: Two-factor authentication failure"
 				core_exit.sh
+				# Incorrect Branch password
+				elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
+					fn_print_failure_nl "${commandaction} server: ${remotelocation}: betapassword is incorrect"
+					fn_script_log_fatal "${commandaction} server: ${remotelocation}: betapassword is incorrect"
+					core_exit.sh
 			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} server: ${remotelocation}: Update required but not completed - check network"
