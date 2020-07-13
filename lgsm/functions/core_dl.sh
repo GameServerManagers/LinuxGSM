@@ -22,7 +22,14 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_dl_steamcmd(){
 	fn_print_start_nl "${remotelocation}"
 	fn_script_log_info "${commandaction} server: ${remotelocation}"
-
+	if [ -n "${branch}" ]; then
+		echo -e "Branch: ${branch}"
+		fn_script_log_info "Branch: ${branch}"
+	fi
+	if [ -n "${betapassword}" ]; then
+		echo -e "Branch password: ${betapassword}"
+		fn_script_log_info "Branch password: ${betapassword}"
+	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi

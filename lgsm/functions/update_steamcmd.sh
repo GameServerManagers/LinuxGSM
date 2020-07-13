@@ -80,6 +80,9 @@ fn_update_steamcmd_compare(){
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		if [ -n "${betapassword}" ]; then
+			echo -e "* Branch password: ${betapassword}"
+		fi
 		echo -e "https://steamdb.info/app/${appid}/"
 		echo -en "\n"
 		fn_script_log_info "Update available"
@@ -87,6 +90,9 @@ fn_update_steamcmd_compare(){
 		fn_script_log_info "Remote build: ${remotebuild}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -n "${betapassword}" ]; then
+			fn_script_log_info "Branch password: ${betapassword}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
@@ -119,6 +125,9 @@ fn_update_steamcmd_compare(){
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		if [ -n "${betapassword}" ]; then
+			echo -e "* Branch password: ${betapassword}"
+		fi
 		echo -e "https://steamdb.info/app/${appid}/"
 		echo -en "\n"
 		fn_script_log_info "No update available"
@@ -126,6 +135,9 @@ fn_update_steamcmd_compare(){
 		fn_script_log_info "Remote build: ${remotebuild}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -n "${betapassword}" ]; then
+			fn_script_log_info "Branch password: ${betapassword}"
 		fi
 	fi
 }
