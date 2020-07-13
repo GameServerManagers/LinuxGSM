@@ -43,7 +43,12 @@ fn_update_steamcmd_remotebuild(){
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \;
 	fi
 
-	remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	if [ -n "${branch}" ]; then
+		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" -beta "${branch}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	else
+		remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed '1,/branches/d' | sed "1,/${branchname}/d" | grep -m 1 buildid | tr -cd '[:digit:]')
+	fi
+
 	if [ "${installer}" != "1" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
