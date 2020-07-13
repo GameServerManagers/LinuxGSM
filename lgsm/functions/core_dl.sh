@@ -99,8 +99,8 @@ fn_dl_steamcmd(){
 				core_exit.sh
 				# Incorrect Branch password
 				elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
-					fn_print_failure_nl "${commandaction} server: ${remotelocation}: Incorrect branch password"
-					fn_script_log_fatal "${commandaction} server: ${remotelocation}: Incorrect branch password"
+					fn_print_failure_nl "${commandaction} server: ${remotelocation}: betapassword is incorrect"
+					fn_script_log_fatal "${commandaction} server: ${remotelocation}: betapassword is incorrect"
 					core_exit.sh
 			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
