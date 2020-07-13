@@ -13,11 +13,8 @@ fn_update_steamcmd_localbuild(){
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
-	# Set branch for updateinfo.
-	IFS=' ' read -ra branchsplits <<< "${branch}"
-	if [ "${#branchsplits[@]}" -gt 1 ]; then
-		branchname="${branchsplits[1]}"
-	else
+	# Set branch to public if no custom branch.
+	if [ -z "${branchname}" ]; then
 		branchname="public"
 	fi
 
