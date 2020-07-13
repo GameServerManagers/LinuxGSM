@@ -97,6 +97,11 @@ fn_dl_steamcmd(){
 				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Two-factor authentication failure"
 				fn_script_log_fatal "${commandaction} server: ${remotelocation}: Two-factor authentication failure"
 				core_exit.sh
+				# Incorrect Branch password
+				elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
+					fn_print_failure_nl "${commandaction} server: ${remotelocation}: Incorrect branch password"
+					fn_script_log_fatal "${commandaction} server: ${remotelocation}: Incorrect branch password"
+					core_exit.sh
 			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} server: ${remotelocation}: Update required but not completed - check network"
