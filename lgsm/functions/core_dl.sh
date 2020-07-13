@@ -72,7 +72,7 @@ fn_dl_steamcmd(){
 		else
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
-			if [ -n "${branch}" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | tee -a "${lgsmlog}" "${steamcmdlog}"
