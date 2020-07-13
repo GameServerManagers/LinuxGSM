@@ -41,6 +41,7 @@
 # 8: 7 Days to Die
 # 9: GoldSrc
 # 10: Avorion
+# 11: end
 ## Game Server Details
 # Do not edit
 #### Directories ####
