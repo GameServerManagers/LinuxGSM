@@ -187,9 +187,19 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Server Description:\t${default}${serverdescription}"
 		fi
 
+		# Appid
+		if [ -n "${appid}" ]; then
+			echo -e "${lightblue}App ID:\t${default}${appid}"
+		fi
+
 		# Branch
 		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"
+		fi
+
+		# Beta Password
+		if [ -n "${betapassword}" ]; then
+			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
 		# Server ip
