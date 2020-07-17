@@ -544,3 +544,20 @@ fn_print_restart_warning(){
 	done
 	fn_print_warn_nl "${selfname} will be restarted"
 }
+
+# Functions below are used to ensure that logs and UI correctly reflect the command it is actually running.
+# Useful when a command has to call upon another command causing the other command to overrite commandname variables
+
+# Used to remember the command that ran first.
+fn_firstcommand_set(){
+	if [ -z "${firstcommandname}" ]; then
+		firstcommandname="${commandname}"
+		firstcommandaction="${commandaction}"
+	fi
+}
+
+# Used to reset commandname variables to the command the script ran first.
+fn_firstcommand_reset(){
+	commandname="${firstcommandname}"
+	commandaction="${firstcommandaction}"
+}

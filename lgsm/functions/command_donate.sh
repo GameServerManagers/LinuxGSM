@@ -4,12 +4,10 @@
 # Website: https://linuxgsm.com
 # Description: Shows ways to donate.
 
-fn_commandname(){
-  commandname="DONATE"
-  commandaction="Donate"
-  functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-}
-fn_commandname
+commandname="DONATE"
+commandaction="Donate"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_print_ascii_logo
 echo -e "${lightyellow}Support LinuxGSM${default}"

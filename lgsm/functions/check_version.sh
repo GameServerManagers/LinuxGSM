@@ -16,5 +16,5 @@ if [ -n "${modulesversion}" ]&&[ -n "${version}" ]&&[ "${version}" != "${modules
 	fn_sleep_time
 	fn_script_log_error "LinuxGSM Version mismatch: ${selfname}: ${version}: modules: ${modulesversion}"
 	command_update_linuxgsm.sh
-	fn_commandname
+	fn_firstcommand_reset
 fi
