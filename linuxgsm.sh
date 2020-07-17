@@ -381,7 +381,7 @@ else
 			mkdir -p "${configdirserver}"
 			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			if [ $? -ne 0 ]; then
+			if [ $? != 0 ]; then
 				echo -e "FAIL"
 				exit 1
 			else
@@ -393,7 +393,7 @@ else
 				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-				if [ $? -ne 0 ]; then
+				if [ $? != 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else

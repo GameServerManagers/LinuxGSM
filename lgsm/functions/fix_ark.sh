@@ -7,18 +7,18 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # removes mulitple appworkshop_346110.acf if found.
-steamappsfilewc=$(find ${HOME} -name appworkshop_346110.acf | wc -l)
+steamappsfilewc="$(find "${HOME}" -name appworkshop_346110.acf | wc -l)"
 if [ "${steamappsfilewc}" -gt "1" ]; then
 	fixname="multiple appworkshop acf files"
 	fn_fix_msg_start
-	find ${HOME} -name appworkshop_346110.acf -exec rm -f {} \;
+	find "${HOME}" -name appworkshop_346110.acf -exec rm -f {} \;
 	fn_fix_msg_end
 elif [ "${steamappsfilewc}" -eq "1" ]; then
 	# Steam mods directory selecter
 	# This allows LinxuGSM to select either ~/.steam or ~/Steam. depending on what is being used
-	steamappsfile=$(find ${HOME} -name appworkshop_346110.acf)
+	steamappsfile=$(find "${HOME}" -name appworkshop_346110.acf)
 	steamappsdir=$(dirname "${steamappsfile}")
-	steamappspath=$(cd "${steamappsdir}"|| return; cd ../;pwd)
+	steamappspath=$(cd "${steamappsdir}" || return; cd ../;pwd)
 
 	# removes the symlink if exists.
 	# fixes issue with older versions of LinuxGSM linking to /home/arkserver/steamcmd
@@ -40,7 +40,7 @@ elif [ "${steamappsfilewc}" -eq "1" ]; then
 	fi
 
 	# if the steamapps symlink is incorrect unlink it.
-	if [ -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]&&[ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]&&[ "$(readlink ${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps)" != "${steamappspath}" ]; then
+	if [ -d "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux" ]&&[ -L "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps" ]&&[ "$(readlink "${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps")" != "${steamappspath}" ]; then
 		fixname="incorrect steamapps symlink"
 		fn_fix_msg_start
 		unlink "${serverfiles:?}/Engine/Binaries/ThirdParty/SteamCMD/Linux/steamapps"
