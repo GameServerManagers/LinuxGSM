@@ -5,12 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
-fn_commandname(){
-	commandname="MODS-REMOVE"
-	commandaction="Removing mods"
-	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-}
-fn_commandname
+commandname="MODS-REMOVE"
+commandaction="Removing mods"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 mods_core.sh
@@ -126,7 +124,7 @@ if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
 	fn_script_log "Validating to restore original ${gamename} files replaced by Oxide"
 	exitbypass="1"
 	command_validate.sh
-	fn_commandname
+	fn_firstcommand_reset
 	unset exitbypass
 fi
 echo -e "${modprettyname} removed"

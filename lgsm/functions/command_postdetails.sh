@@ -5,12 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output
 
-fn_commandname(){
-	commandname="POST-DETAILS"
-	commandaction="Posting details"
-	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-}
-fn_commandname
+commandname="POST-DETAILS"
+commandaction="Posting details"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Set posttarget to the appropriately-defined post destination.
 

@@ -14,4 +14,4 @@ cp "${tmpdir}/LinuxGSM-master/lgsm/functions"/*.sh "${functionsdir}"
 cp "${tmpdir}/LinuxGSM-master/lgsm/functions"/*.py "${functionsdir}"
 chmod +x "${functionsdir}"/*
 command_update_linuxgsm.sh
-fn_commandname
+fn_firstcommand_reset

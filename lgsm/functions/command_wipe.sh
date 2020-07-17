@@ -5,12 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Wipes server data, useful after updates for some games like Rust
 
-fn_commandname(){
-	commandname="WIPE"
-	commandaction="Wiping"
-	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-}
-fn_commandname
+commandname="WIPE"
+commandaction="Wiping"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Provides an exit code upon error.
 fn_wipe_exit_code(){
@@ -198,11 +196,11 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 		fn_stop_warning
 		exitbypass=1
 		command_stop.sh
-		fn_commandname
+		fn_firstcommand_reset
 		fn_wipe_server_files
 		exitbypass=1
 		command_start.sh
-		fn_commandname
+		fn_firstcommand_reset
 	else
 		fn_wipe_server_files
 	fi
