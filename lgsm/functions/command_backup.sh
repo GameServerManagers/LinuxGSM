@@ -5,12 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
-fn_commandname(){
-	commandname="BACKUP"
-	commandaction="Backing up"
-	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-}
-fn_commandname
+commandname="BACKUP"
+commandaction="Backing up"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 
@@ -77,7 +75,7 @@ fn_backup_stop_server(){
 		startserver="1"
 		exitbypass=1
 		command_stop.sh
-		fn_commandname
+		fn_firstcommand_reset
 	fi
 }
 
@@ -252,7 +250,7 @@ fn_backup_start_server(){
 	if [ -n "${startserver}" ]; then
 		exitbypass=1
 		command_start.sh
-		fn_commandname
+		fn_firstcommand_reset
 	fi
 }
 

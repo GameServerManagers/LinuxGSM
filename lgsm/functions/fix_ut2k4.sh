@@ -21,15 +21,15 @@ echo -e "forcing server restart."
 fn_sleep_time
 exitbypass=1
 command_start.sh
-fn_commandname
+fn_firstcommand_reset
 sleep 5
 exitbypass=1
 command_stop.sh
-fn_commandname
+fn_firstcommand_reset
 exitbypass=1
 command_start.sh
-fn_commandname
+fn_firstcommand_reset
 sleep 5
 exitbypass=1
 command_stop.sh
-fn_commandname
+fn_firstcommand_reset

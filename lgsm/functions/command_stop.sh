@@ -5,12 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
-fn_commandname(){
-	commandname="STOP"
-	commandaction="Stopping"
-	functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-}
-fn_commandname
+commandname="STOP"
+commandaction="Stopping"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
