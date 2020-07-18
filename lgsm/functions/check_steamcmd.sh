@@ -7,7 +7,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_steamcmd(){
-	if [ ${shortname} == "ark" ]&&[ "${installsteamcmd}" == "1" ]; then
+	if [ "${shortname}" == "ark" ]&&[ "${installsteamcmd}" == "1" ]; then
 		steamcmddir="${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fi
 	if [ ! -d "${steamcmddir}" ]; then

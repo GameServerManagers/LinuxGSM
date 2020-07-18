@@ -135,13 +135,13 @@ fn_wipe_server_files(){
 			fn_script_log_pass "No blueprint file to remove"
 		fi
 	elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
-			echo -e "keeping blueprints"
-			fn_sleep_time
-			fn_script_log_info "Keeping blueprints"
+		echo -e "keeping blueprints"
+		fn_sleep_time
+		fn_script_log_info "Keeping blueprints"
 	else
-			echo -e "no blueprints found"
-			fn_sleep_time
-			fn_script_log_pass "No blueprints found"
+		echo -e "no blueprints found"
+		fn_sleep_time
+		fn_script_log_pass "No blueprints found"
 	fi
 	# Wipe some logs that might be there.
 	if [ "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then

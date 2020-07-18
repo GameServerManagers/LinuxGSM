@@ -232,8 +232,8 @@ fn_info_config_chivalry(){
 		serverpassword="${unavailable}"
 		adminpassword="${unavailable}"
         else
-		servername=$(egrep "^ServerName" "${servercfgfullpath}" | sed 's/^ServerName=//')
-		adminpassword=$(egrep "^AdminPassword" "${servercfgfullpath}" | sed 's/^AdminPassword=//')
+		servername=$(grep -E "^ServerName" "${servercfgfullpath}" | sed 's/^ServerName=//')
+		adminpassword=$(grep -E "^AdminPassword" "${servercfgfullpath}" | sed 's/^AdminPassword=//')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
