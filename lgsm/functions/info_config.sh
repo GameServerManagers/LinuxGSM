@@ -181,11 +181,38 @@ fn_info_config_bf1942(){
 		queryport="${zero}"
 	else
 
-		servername=$(grep "game.serverName " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverName //g' | tr -d '=\";,:' | xargs)
+		servername=$(grep "game.serverName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverName //g' | tr -d '=\";,:' | xargs)
 		serverpassword=$(grep "game.serverPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/game.serverPassword//g' | tr -d '=\";,:' | xargs)
 		maxplayers=$(grep "game.serverMaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
 		port=$(grep "game.serverPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
 		queryport="22000"
+
+		ip=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
+		ipsetinconfig=1
+		ipinconfigvar="game.serverIP"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"0"}
+	fi
+}
+
+fn_info_config_bfv(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+	else
+
+		servername=$(grep "game.serverName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverName//g' | tr -d '=\";,:' | xargs)
+		serverpassword=$(grep "game.serverPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/game.serverPassword//g' | tr -d '=\";,:' | xargs)
+		maxplayers=$(grep "game.serverMaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
+		port=$(grep "game.serverPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
+		queryport="23000"
 
 		ip=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
 		ipsetinconfig=1
@@ -205,8 +232,8 @@ fn_info_config_chivalry(){
 		serverpassword="${unavailable}"
 		adminpassword="${unavailable}"
         else
-		servername=$(egrep "^ServerName" "${servercfgfullpath}" | sed 's/^ServerName=//')
-		adminpassword=$(egrep "^AdminPassword" "${servercfgfullpath}" | sed 's/^AdminPassword=//')
+		servername=$(grep -E "^ServerName" "${servercfgfullpath}" | sed 's/^ServerName=//')
+		adminpassword=$(grep -E "^AdminPassword" "${servercfgfullpath}" | sed 's/^AdminPassword=//')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
@@ -454,6 +481,20 @@ fn_info_config_minecraft_bedrock(){
 		queryport=${queryport:-"NOT SET"}
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
+	fi
+}
+
+fn_info_config_mofm(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 }
 
@@ -1472,6 +1513,9 @@ elif [ "${shortname}" == "bt1944" ]; then
 # Battlefield: 1942
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
+# Battlefield: Vietnam
+elif [ "${shortname}" == "bfv" ]; then
+	fn_info_config_bfv	
 # Chivalry: Medieval Warfare
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_config_chivalry
@@ -1511,6 +1555,9 @@ elif [ "${shortname}" == "kf2" ]; then
 # Medal of Honor: Allied Assault
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_config_mohaa
+# Memories of Mars
+elif [ "${shortname}" == "mofm" ]; then
+	fn_info_config_mofm
 # QuakeWorld
 elif [ "${shortname}" == "qw" ]; then
 	fn_info_config_quakeworld

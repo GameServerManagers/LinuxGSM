@@ -44,6 +44,7 @@ fn_update_ts3_localbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
+		fn_firstcommand_reset
 		totalseconds=0
 		# Check again, allow time to generate logs.
 		while [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
@@ -152,15 +153,18 @@ fn_update_ts3_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
-			fn_stop_warning
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 			exitbypass=1
 			fn_update_ts3_dl
 			exitbypass=1
 			command_start.sh
+			fn_firstcommand_reset
 		fi
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
@@ -189,21 +193,6 @@ else
 	fn_script_log_fatal "Unknown or unsupported architecture: ${arch}"
 	core_exit.sh
 fi
-
-fn_stop_warning(){
-	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
-}
 
 # The location where the builds are checked and downloaded.
 remotelocation="teamspeak.com"

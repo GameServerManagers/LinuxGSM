@@ -184,8 +184,15 @@ if [ "${javacheck}" == "1" ]; then
 		fi
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
-			if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
-				steamcmdfail=1
+			# lib32gcc1 is now called lib32gcc-s1 in debian 11
+			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
+					steamcmdfail=1
+				fi
+			else
+				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
+					steamcmdfail=1
+				fi
 			fi
 		fi
 	fi
@@ -339,10 +346,15 @@ fn_deps_build_debian(){
 	# LinuxGSM requirements.
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat )
 
-	# All servers except ts3, mumble, GTA and minecraft servers require libstdc++6 and lib32gcc1.
+	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
-			array_deps_required+=( lib32gcc1 lib32stdc++6 )
+			# lib32gcc1 is now called lib32gcc-s1 in debian 11
+			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+				array_deps_required+=( lib32gcc-s1 lib32stdc++6 )
+			else
+				array_deps_required+=( lib32gcc1 lib32stdc++6 )
+			fi
 		else
 			array_deps_required+=( lib32stdc++6 )
 		fi
@@ -368,7 +380,10 @@ fn_deps_build_debian(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
-		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	# Battlefield: Vietnam
+	elif [ "${shortname}" == "bfv" ]; then
+		array_deps_required+=( libncurses5:i386 libstdc++5:i386 )
+	# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( libtinfo5:i386 )
@@ -378,9 +393,6 @@ fn_deps_build_debian(){
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl4-gnutls-dev:i386 )
-		if [ "${shortname}" == "tf2" ]; then
-			array_deps_required+=( libtcmalloc-minimal4:i386 )
-		fi
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
@@ -435,6 +447,7 @@ fn_deps_build_debian(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
+	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( libgconf-2-4 )
 	fi
@@ -480,15 +493,15 @@ fn_deps_build_redhat(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
-		# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	# Battlefield: Vietnam
+	elif [ "${shortname}" == "bfv" ]; then
+		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
+	# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
 		array_deps_required+=( libcurl.i686 )
-		if [ "${shortname}" == "tf2" ]; then
-			array_deps_required+=( gperftools-libs.i686 )
-		fi
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
@@ -543,6 +556,7 @@ fn_deps_build_redhat(){
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xorg-x11-server-Xvfb )
+	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( GConf2 )
 	fi

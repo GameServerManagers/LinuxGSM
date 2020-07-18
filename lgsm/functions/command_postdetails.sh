@@ -8,6 +8,7 @@
 commandname="POST-DETAILS"
 commandaction="Posting details"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Set posttarget to the appropriately-defined post destination.
 

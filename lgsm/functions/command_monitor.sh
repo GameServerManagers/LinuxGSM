@@ -9,6 +9,7 @@
 commandname="MONITOR"
 commandaction="Monitoring"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
@@ -107,7 +108,7 @@ for queryattempt in {1..5}; do
 		fn_print_delay_eol_nl
 		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-		fn_script_log_info "Server started: $(date -d @$(cat lgsm/lock/bmdmserver.lock))"
+		fn_script_log_info "Server started: $(date -d @$(cat "${lockdir}/${selfname}.lock"))"
 		fn_script_log_info "Current time: $(date)"
 		monitorpass=1
 		core_exit.sh
@@ -170,6 +171,7 @@ for queryattempt in {1..5}; do
 				alert="restartquery"
 				alert.sh
 				command_restart.sh
+				fn_firstcommand_reset
 				core_exit.sh
 			fi
 		elif [ "${querymethod}" ==  "gamedig" ]; then

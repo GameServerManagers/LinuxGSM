@@ -7,6 +7,7 @@
 commandname="DEV-CLEAR-MODULES"
 commandaction="Clearing modules"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 echo -e "================================="
 echo -e "Clear Functions"

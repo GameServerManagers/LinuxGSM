@@ -99,6 +99,7 @@ fn_alert_log
 if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 	exitbypass=1
 	command_postdetails.sh
+	fn_firstcommand_reset
 elif [ "${postalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "More Info not enabled"
 	fn_script_log_warn "More Info alerts not enabled"
