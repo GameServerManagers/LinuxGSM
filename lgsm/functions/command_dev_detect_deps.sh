@@ -7,6 +7,7 @@
 commandname="DEV-DETECT-DEPS"
 commandaction="Developer detect deps"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 echo -e "================================="
 echo -e "Dependencies Checker"

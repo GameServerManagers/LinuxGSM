@@ -135,7 +135,7 @@ fn_info_message_gameserver_resource(){
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
 	{
-		if [ "${status}" == "1" ]; then
+		if [ "${status}" != "0" ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
@@ -187,9 +187,19 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Server Description:\t${default}${serverdescription}"
 		fi
 
+		# Appid
+		if [ -n "${appid}" ]; then
+			echo -e "${lightblue}App ID:\t${default}${appid}"
+		fi
+
 		# Branch
 		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"
+		fi
+
+		# Beta Password
+		if [ -n "${betapassword}" ]; then
+			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
 		# Server ip
@@ -871,6 +881,16 @@ fn_info_message_mohaa(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mom(){
+	echo -e "netstat -atunp | grep MemoriesOfMar"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
@@ -979,6 +999,16 @@ fn_info_message_bf1942(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_bfv(){
+	echo -e "netstat -atunp | grep bfv_linded"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1436,6 +1466,8 @@ fn_info_message_select_engine(){
 		fn_info_message_minecraft_bedrock
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
+	elif [ "${shortname}" == "mom" ]; then
+		fn_info_message_mom
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
@@ -1462,7 +1494,7 @@ fn_info_message_select_engine(){
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
-	elif [ "${shortname}" == "st" ]; then
+	elif [ "${shortname}" == "sb" ]; then
 		fn_info_message_starbound
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
@@ -1492,6 +1524,8 @@ fn_info_message_select_engine(){
 		fn_info_message_mumble
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then

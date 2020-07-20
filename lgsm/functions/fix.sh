@@ -21,7 +21,7 @@ fn_fix_msg_start_nl(){
 }
 
 fn_fix_msg_end(){
-	if [ $? -ne 0 ]; then
+	if [ $? != 0 ]; then
 		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
 		fn_script_log_error "Applying ${fixname} fix: ${gamename}"
 	else

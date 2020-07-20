@@ -7,6 +7,7 @@
 commandname="CONSOLE"
 commandaction="Access console"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 fn_print_header
@@ -35,6 +36,7 @@ else
 	if fn_prompt_yn "Do you want to start the server?" Y; then
 		exitbypass=1
 		command_start.sh
+		fn_firstcommand_reset
 	fi
 fi
 

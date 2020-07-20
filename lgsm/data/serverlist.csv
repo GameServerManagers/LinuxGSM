@@ -8,6 +8,7 @@ bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
 bd,bdserver,Base Defense
 bf1942,bf1942server,Battlefield 1942
+bfv,bfvserver,Battlefield: Vietnam
 bmdm,bmdmserver,Black Mesa: Deathmatch
 bo,boserver,Ballistic Overkill
 bs,bsserver,Blade Symphony
@@ -55,6 +56,7 @@ mc,mcserver,Minecraft
 mcb,mcbserver,Minecraft Bedrock
 mh,mhserver,MORDHAU
 mohaa,mohaaserver,Medal of Honor: Allied Assault
+mom,momserver,Memories of Mars
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
 nd,ndserver,Nuclear Dawn

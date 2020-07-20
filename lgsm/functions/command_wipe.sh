@@ -8,11 +8,12 @@
 commandname="WIPE"
 commandaction="Wiping"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Provides an exit code upon error.
 fn_wipe_exit_code(){
 	((exitcode=$?))
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_script_log_fatal "${currentaction}"
 		core_exit.sh
 	else
@@ -134,13 +135,13 @@ fn_wipe_server_files(){
 			fn_script_log_pass "No blueprint file to remove"
 		fi
 	elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
-			echo -e "keeping blueprints"
-			fn_sleep_time
-			fn_script_log_info "Keeping blueprints"
+		echo -e "keeping blueprints"
+		fn_sleep_time
+		fn_script_log_info "Keeping blueprints"
 	else
-			echo -e "no blueprints found"
-			fn_sleep_time
-			fn_script_log_pass "No blueprints found"
+		echo -e "no blueprints found"
+		fn_sleep_time
+		fn_script_log_pass "No blueprints found"
 	fi
 	# Wipe some logs that might be there.
 	if [ "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
@@ -195,13 +196,11 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 		fn_stop_warning
 		exitbypass=1
 		command_stop.sh
-		commandname="START"
-		commandaction="Starting"
+		fn_firstcommand_reset
 		fn_wipe_server_files
 		exitbypass=1
 		command_start.sh
-		commandname="START"
-		commandaction="Starting"
+		fn_firstcommand_reset
 	else
 		fn_wipe_server_files
 	fi

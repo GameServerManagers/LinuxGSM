@@ -15,6 +15,6 @@ echo -e "by Daniel Gibbs"
 echo -e "${lightblue}Game:${default} ${gamename}"
 echo -e "${lightblue}Website:${default} https://linuxgsm.com"
 echo -e "${lightblue}Contributors:${default} https://linuxgsm.com/contrib"
-echo -e "${lightblue}Donate:${default} https://linuxgsm.com/donate"
+echo -e "${lightblue}Sponsor:${default} https://linuxgsm.com/sponsor"
 echo -e "================================="
 fn_sleep_time
