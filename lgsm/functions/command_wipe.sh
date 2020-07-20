@@ -26,7 +26,7 @@ fn_wipe_server_files(){
 	fn_print_start_nl "Wiping server"
 	fn_script_log_info "Wiping server"
 	# Wipe procedural map.
-	if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
 		echo -en "removing procedural map proceduralmap.*.map file(s)..."
 		fn_sleep_time
 		fn_script_log_info "Removing procedural map file(s): ${serveridentitydir}/proceduralmap.*.map"
@@ -39,7 +39,7 @@ fn_wipe_server_files(){
 		fn_script_log_pass "No procedural map file to remove"
 	fi
 	# Wipe procedural map save.
-	if [ "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
 		echo -en "removing map saves proceduralmap.*.sav file(s)..."
 		fn_sleep_time
 		fn_script_log_info "Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
@@ -52,7 +52,7 @@ fn_wipe_server_files(){
 		fn_script_log_pass "No procedural map save to remove"
 	fi
 	# Wipe Barren map.
-	if [ "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
 		echo -en "removing barren map barren*.map file(s)..."
 		fn_sleep_time
 		fn_script_log_info "Removing map file(s): ${serveridentitydir}/barren*.map"
@@ -65,7 +65,7 @@ fn_wipe_server_files(){
 		fn_script_log_pass "No barren map file to remove"
 	fi
 	# Wipe barren map save.
-	if [ "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
 		echo -en "removing barren map saves barren*.sav file(s)..."
 		fn_sleep_time
 		fn_script_log_info "Removing barren map save(s): ${serveridentitydir}/barren*.sav"
@@ -98,7 +98,7 @@ fn_wipe_server_files(){
 		# We do not print additional information if there is nothing to remove since this might be obsolete.
 	fi
 	# Wipe sv.files.
-	if [ "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 		echo -en "removing server misc srv.files*.db file(s)..."
 		fn_sleep_time
 		fn_script_log_info "Removing server misc files: ${serveridentitydir}/sv.files.*.db"
@@ -108,7 +108,7 @@ fn_wipe_server_files(){
 		# No further information if not found because it should I could not get this file showing up.
 	fi
 	# Wipe player death files.
-	if [ "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]; then
 		echo -en "removing player deaths player.deaths.*.db file(s)..."
 		fn_sleep_time
 		fn_script_log_info "Removing player death files: ${serveridentitydir}/player.deaths.*.db"
@@ -122,7 +122,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe blueprints only if full-wipe command was used.
 	if [ "${fullwipe}" == "1" ]; then
-		if [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
+		if [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 			echo -en "removing blueprints player.blueprints.*.db file(s)..."
 			fn_sleep_time
 			fn_script_log_info "Removing blueprint file(s): ${serveridentitydir}/player.blueprints.*.db"
@@ -134,7 +134,7 @@ fn_wipe_server_files(){
 			fn_sleep_time
 			fn_script_log_pass "No blueprint file to remove"
 		fi
-	elif [ "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
+	elif [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
 		echo -e "keeping blueprints"
 		fn_sleep_time
 		fn_script_log_info "Keeping blueprints"
@@ -144,7 +144,7 @@ fn_wipe_server_files(){
 		fn_script_log_pass "No blueprints found"
 	fi
 	# Wipe some logs that might be there.
-	if [ "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
+	if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
 		echo -en "removing Log files..."
 		fn_sleep_time
 		fn_script_log_info "Removing log files: ${serveridentitydir}/Log.*.txt"
@@ -189,23 +189,21 @@ fn_print_dots ""
 check.sh
 
 # Check if there is something to wipe.
-if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
-	fn_wipe_warning
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_stop_warning
-		exitbypass=1
-		command_stop.sh
-		fn_firstcommand_reset
-		fn_wipe_server_files
-		exitbypass=1
-		command_start.sh
-		fn_firstcommand_reset
-	else
-		fn_wipe_server_files
-	fi
-	fn_print_complete_nl ""
-	fn_script_log_pass "Wiping server"
+fn_wipe_warning
+check_status.sh
+if [ "${status}" != "0" ]; then
+	fn_stop_warning
+	exitbypass=1
+	command_stop.sh
+	fn_firstcommand_reset
+	fn_wipe_server_files
+	exitbypass=1
+	command_start.sh
+	fn_firstcommand_reset
+else
+	fn_wipe_server_files
 fi
+fn_print_complete_nl ""
+fn_script_log_pass "Wiping server"
 
 core_exit.sh
