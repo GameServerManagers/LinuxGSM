@@ -189,21 +189,25 @@ fn_print_dots ""
 check.sh
 
 # Check if there is something to wipe.
-fn_wipe_warning
-check_status.sh
-if [ "${status}" != "0" ]; then
-	fn_stop_warning
-	exitbypass=1
-	command_stop.sh
-	fn_firstcommand_reset
-	fn_wipe_server_files
-	exitbypass=1
-	command_start.sh
-	fn_firstcommand_reset
+if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
+	fn_wipe_warning
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_stop_warning
+		exitbypass=1
+		command_stop.sh
+		fn_firstcommand_reset
+		fn_wipe_server_files
+		exitbypass=1
+		command_start.sh
+		fn_firstcommand_reset
+	else
+		fn_wipe_server_files
+	fi
+	fn_print_complete_nl "Wiping ${selfname}"
+	fn_script_log_pass "Wiping ${selfname}"
 else
-	fn_wipe_server_files
+	fn_print_ok_nl "Wipe not required"
+	fn_script_log_pass "Wipe not required"
 fi
-fn_print_complete_nl "Wiping ${selfname}"
-fn_script_log_pass "Wiping ${selfname}"
-
 core_exit.sh
