@@ -204,7 +204,7 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	else
 		fn_wipe_server_files
 	fi
-	fn_print_ok_nl ""
+	fn_print_complete_nl ""
 	fn_script_log_pass "Wiping server"
 fi
 
