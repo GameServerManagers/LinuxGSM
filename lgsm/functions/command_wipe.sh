@@ -203,7 +203,7 @@ if [ "${status}" != "0" ]; then
 else
 	fn_wipe_server_files
 fi
-fn_print_complete_nl ""
-fn_script_log_pass "Wiping server"
+fn_print_complete_nl "Wiping ${selfname}"
+fn_script_log_pass "Wiping ${selfname}"
 
 core_exit.sh
