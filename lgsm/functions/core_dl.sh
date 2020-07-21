@@ -21,7 +21,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_dl_steamcmd(){
 	fn_print_start_nl "${remotelocation}"
-	fn_script_log_info "${commandaction} server: ${remotelocation}"
+	fn_script_log_info "${commandaction} ${selfname}: ${remotelocation}"
 	if [ -n "${branch}" ]; then
 		echo -e "Branch: ${branch}"
 		fn_script_log_info "Branch: ${branch}"
@@ -91,43 +91,43 @@ fn_dl_steamcmd(){
 		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "ERROR!" "${steamcmdlog}" | tail -1)" ]; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Not enough space to download server files"
-				fn_script_log_fatal "${commandaction} server: ${remotelocation}: Not enough space to download server files"
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"
+				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"
 				core_exit.sh
 			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Steam account does not have a license for the required game"
-				fn_script_log_fatal "${commandaction} server: ${remotelocation}: Steam account does not have a license for the required game"
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
+				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
 				core_exit.sh
 			# Two-factor authentication failure
 			elif [ -n "$(grep "Two-factor code mismatch" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${commandaction} server: ${remotelocation}: Two-factor authentication failure"
-				fn_script_log_fatal "${commandaction} server: ${remotelocation}: Two-factor authentication failure"
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
+				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
 				core_exit.sh
 				# Incorrect Branch password
 				elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
-					fn_print_failure_nl "${commandaction} server: ${remotelocation}: betapassword is incorrect"
-					fn_script_log_fatal "${commandaction} server: ${remotelocation}: betapassword is incorrect"
+					fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
+					fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
 					core_exit.sh
 			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_error2_nl "${commandaction} server: ${remotelocation}: Update required but not completed - check network"
-				fn_script_log_error "${commandaction} server: ${remotelocation}: Update required but not completed - check network"
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
 			else
-				fn_print_error2_nl "${commandaction} server: ${remotelocation}: Unknown error occured"
-				fn_script_log_error "${commandaction} server: ${remotelocation}: Unknown error occured"
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
 		elif [ "${exitcode}" != "0" ]; then
-			fn_print_error2_nl "${commandaction} server: ${remotelocation}: Exit code: ${exitcode}"
-			fn_script_log_error "${commandaction} server: ${remotelocation}: Exit code: ${exitcode}"
+			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
+			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 		else
-			fn_print_complete_nl "${commandaction} server: ${remotelocation}"
-			fn_script_log_pass "${commandaction} server: ${remotelocation}"
+			fn_print_complete_nl "${commandaction} ${selfname}: ${remotelocation}"
+			fn_script_log_pass "${commandaction} ${selfname}: ${remotelocation}"
 		fi
 
 		if [ "${counter}" -gt "10" ]; then
-			fn_print_failure_nl "${commandaction} server: ${remotelocation}: Did not complete the download, too many retrys"
-			fn_script_log_fatal "${commandaction} server: ${remotelocation}: Did not complete the download, too many retrys"
+			fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
+			fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
 			core_exit.sh
 		fi
 	done
