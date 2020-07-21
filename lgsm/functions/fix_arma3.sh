@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves an issue with ARMA3.
 
-local modulename="FIX"
-local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: 20150 Segmentation fault (core dumped) error.
 if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Arma 3" ]||[ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Arma 3 - Other Profiles" ]; then

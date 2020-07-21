@@ -5,9 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Core functions for mods list/install/update/remove
 
-local modulename="MODS"
-local commandaction="Mods"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories.
 modsdir="${lgsmdir}/mods"
@@ -20,7 +18,7 @@ modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
 # Download management.
 fn_mod_install_files(){
-	fn_fetch_file "${modurl}" "${modstmpdir}" "${modfilename}"
+	fn_fetch_file "${modurl}" "" "" "" "${modstmpdir}" "${modfilename}"
 	# Check if variable is valid checking if file has been downloaded and exists.
 	if [ ! -f "${modstmpdir}/${modfilename}" ]; then
 		fn_print_failure "An issue occurred downloading ${modprettyname}"
@@ -55,13 +53,12 @@ fn_mod_lowercase(){
 		done < <(find "${extractdir}" -depth)
 		echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
 
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
 		fi
-		fn_sleep_time
 	fi
 }
 
@@ -72,7 +69,7 @@ fn_mod_create_filelist(){
 	# ${modsdir}/${modcommand}-files.txt.
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Building ${modsdir}/${modcommand}-files.txt"
 		core_exit.sh
@@ -84,7 +81,6 @@ fn_mod_create_filelist(){
 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
 		cat "${modsdir}/.removedfiles.tmp" >> "${modsdir}/${modcommand}-files.txt"
 	fi
-	fn_sleep_time
 }
 
 # Copy the mod into serverfiles.
@@ -93,7 +89,7 @@ fn_mod_copy_destination(){
 	fn_sleep_time
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying ${modprettyname} to ${modinstalldir}"
 	else
@@ -131,7 +127,7 @@ fn_mod_tidy_files_list(){
 		sed -i "/^${removefilevar}$/d" "${modsdir}/${modcommand}-files.txt"
 		# Exit on error.
 		local exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Error while tidying line: ${removefilevar} from: ${modsdir}/${modcommand}-files.txt"
 			core_exit.sh
@@ -386,7 +382,7 @@ fn_create_mods_dir(){
 		echo -en "creating LinuxGSM mods data directory ${modsdir}..."
 		mkdir -p "${modsdir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod download dir ${modsdir}"
 			core_exit.sh
@@ -394,14 +390,13 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod download dir ${modsdir}"
 		fi
-		fn_sleep_time
 	fi
 	# Create mod install directory.
 	if [ ! -d "${modinstalldir}" ]; then
 		echo -en "creating mods install directory ${modinstalldir}..."
 		mkdir -p "${modinstalldir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod install directory ${modinstalldir}"
 			core_exit.sh
@@ -409,7 +404,6 @@ fn_create_mods_dir(){
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Creating mod install directory ${modinstalldir}"
 		fi
-		fn_sleep_time
 	fi
 
 	# Create lgsm/data/${modsinstalledlist}.
@@ -425,7 +419,7 @@ fn_mods_create_tmp_dir(){
 		mkdir -p "${modstmpdir}"
 		exitcode=$?
 		echo -en "creating mod download directory ${modstmpdir}..."
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod download directory ${modstmpdir}"
 			core_exit.sh
@@ -442,7 +436,7 @@ fn_mods_clear_tmp_dir(){
 		echo -en "clearing mod download directory ${modstmpdir}..."
 		rm -fr "${modstmpdir:?}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Clearing mod download directory ${modstmpdir}"
 			core_exit.sh

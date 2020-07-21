@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Teamspeak 3 servers.
 
-local modulename="UPDATE"
-local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl(){
 	if [ "${ts3arch}" == "amd64" ]; then
@@ -14,7 +12,7 @@ fn_update_ts3_dl(){
 	elif [ "${ts3arch}" == "x86" ]; then
 		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
 	fi
-	fn_fetch_file "${remotebuildurl}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
@@ -26,6 +24,7 @@ fn_update_ts3_dl(){
 	else
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying to ${serverfiles}"
+		fn_clear_tmp
 		core_exit.sh
 	fi
 }
@@ -45,6 +44,7 @@ fn_update_ts3_localbuild(){
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
+		fn_firstcommand_reset
 		totalseconds=0
 		# Check again, allow time to generate logs.
 		while [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
@@ -153,16 +153,20 @@ fn_update_ts3_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
-			fn_stop_warning
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 			exitbypass=1
 			fn_update_ts3_dl
 			exitbypass=1
 			command_start.sh
+			fn_firstcommand_reset
 		fi
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -171,6 +175,7 @@ fn_update_ts3_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -189,21 +194,6 @@ else
 	core_exit.sh
 fi
 
-fn_stop_warning(){
-	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during update"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during update: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during update"
-}
-
 # The location where the builds are checked and downloaded.
 remotelocation="teamspeak.com"
 
@@ -211,6 +201,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_ts3_remotebuild
 	fn_update_ts3_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_ts3_localbuild

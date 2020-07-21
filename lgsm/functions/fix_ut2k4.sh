@@ -4,9 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament 2004.
 
-local modulename="FIX"
-local commandaction="Fix"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "applying WebAdmin ut2003.css fix."
 echo -e "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"
@@ -23,11 +21,15 @@ echo -e "forcing server restart."
 fn_sleep_time
 exitbypass=1
 command_start.sh
+fn_firstcommand_reset
 sleep 5
 exitbypass=1
 command_stop.sh
+fn_firstcommand_reset
 exitbypass=1
 command_start.sh
+fn_firstcommand_reset
 sleep 5
 exitbypass=1
 command_stop.sh
+fn_firstcommand_reset

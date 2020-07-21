@@ -5,9 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 
-local modulename="INSTALL"
-local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="INSTALL"
+commandaction="Installing"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 if [ "$(whoami)" = "root" ]; then
@@ -42,6 +43,7 @@ else
 		install_ts3db.sh
 	elif [ "${shortname}" == "mta" ]; then
 		command_install_resources_mta.sh
+		fn_firstcommand_reset
 	fi
 
 	fix.sh

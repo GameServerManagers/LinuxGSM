@@ -5,6 +5,10 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
+modulesversion="v20.4.1"
+
 # Core
 
 core_dl.sh(){
@@ -233,6 +237,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+check_version.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Compress
 
 compress_unreal2_maps.sh(){
@@ -301,7 +310,17 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_av.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_arma3.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_cmw.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -536,7 +555,7 @@ fn_fetch_function
 }
 # Logs
 
-logs.sh(){
+core_logs.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

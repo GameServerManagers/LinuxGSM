@@ -1,12 +1,11 @@
 #!/bin/bash
-# LinuxGSM logs.sh function
+# LinuxGSM core_logs.sh function
 # Author: Daniel Gibbs
 # Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
-local modulename="LOGS"
-local commandaction="Log-Manager"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist.
 if [ "${consolelog}" ]; then
@@ -17,7 +16,7 @@ fi
 
 # For games not displaying a console, and having logs into their game directory.
 check_status.sh
-if [ "${status}" != "0" ]&&[ "${function_selfname}" == "command_start.sh" ]&&[ -n "${gamelogfile}" ]; then
+if [ "${status}" != "0" ]&&[ "${commandname}" == "START" ]&&[ -n "${gamelogfile}" ]; then
 	if [ "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"

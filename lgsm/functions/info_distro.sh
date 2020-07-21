@@ -5,11 +5,11 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}"| grep "^${selfname}"|awk '{print $2}')
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $2}')
 fi
 ### Distro information
 
@@ -228,7 +228,7 @@ netlink=$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
 
 # External IP address
 if [ -z "${extip}" ]; then
-	extip=$(curl -4 -m 3 ifconfig.co 2>/dev/null)
+	extip=$(curl -s https://api.ipify.org 2>/dev/null)
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
@@ -238,14 +238,14 @@ if [ -z "${extip}" ]; then
 			if [ -f "${tmpdir}/extip.txt" ]; then
 				extip=$(cat "${tmpdir}/extip.txt")
 			else
-				echo -e "x.x.x.x"
+				fn_print_error_nl "Unable to get external IP"
 			fi
 		fi
 	else
 		if [ -f "${tmpdir}/extip.txt" ]; then
 			extip=$(cat "${tmpdir}/extip.txt")
 		else
-			echo -e "x.x.x.x"
+			fn_print_error_nl "Unable to get external IP"
 		fi
 	fi
 fi

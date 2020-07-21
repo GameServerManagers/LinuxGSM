@@ -40,11 +40,11 @@
 # 7: exit
 # 8: 7 Days to Die
 # 9: GoldSrc
-# 10: Teamspeak 3
+# 10: Avorion
+# 11: end
 ## Console type
 consoleverbose=""
 consoleinteract=""
-
 ## Game Server Details
 # Do not edit
 #### Directories ####

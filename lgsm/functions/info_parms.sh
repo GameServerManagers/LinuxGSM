@@ -4,7 +4,7 @@
 # Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files
 # sed 's/foo//g' - remove foo
@@ -83,6 +83,11 @@ fn_info_parms_mohaa(){
 	port=${port:-"0"}
 	queryport=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
+}
+
+fn_info_parms_mom(){
+	port=${port:-"7777"}
+	beaconport=${queryport:-"15000"}
 }
 
 fn_info_parms_mta(){
@@ -207,8 +212,6 @@ fn_info_parms_unreal3(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	adminpassword=${adminpassword:-"NOT SET"}
 }
 
 fn_info_parms_unturned(){
@@ -247,6 +250,9 @@ elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_parms_mohaa
+#Memories of Mars
+elif [ "${shortname}" == "mom" ]; then
+	fn_info_parms_mom
 # Project Zomboid
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_parms_projectzomboid

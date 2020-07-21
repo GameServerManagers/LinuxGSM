@@ -28,6 +28,7 @@ class gsquery:
         twquery=['teeworlds']
         unrealquery=['protocol-gamespy1','unreal']
         unreal2query=['protocol-unreal2','unreal2']
+        unreal3query=['ut3','unreal3']
         if self.option.engine in sourcequery:
             self.query_prompt_string = b'\xFF\xFF\xFF\xFFTSource Engine Query\0'
         elif self.option.engine in idtech2query:
@@ -50,6 +51,8 @@ class gsquery:
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.option.engine in unreal2query:
             self.query_prompt_string = b'\x79\x00\x00\x00\x00'
+        elif self.option.engine in unreal3query:
+            self.query_prompt_string = b'\xFE\xFD\x09\x00\x00\x00\x00'
 
         self.connected = False
         self.response = None
@@ -84,8 +87,8 @@ class gsquery:
         # Response.
         if self.response is None:
             self.fatal_error('No response', 3)
-        if len(self.response) < 2:
-            sys.exit('Short response.', 5)
+        if len(self.response) < 5:
+            sys.exit('Short response.', 3)
         else:
             self.exit_success(str(self.response))
 
@@ -119,7 +122,7 @@ if __name__ == '__main__':
         action='store',
         dest='engine',
         default=False,
-        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 minecraft minecraftbe jc2mp mumbleping soldat teeworlds'
+        help='Engine type: protocol-valve protocol-quake3 protocol-quake3 protocol-gamespy1 protocol-unreal2 ut3 minecraft minecraftbe jc2mp mumbleping soldat teeworlds'
     )
     parser.add_option(
         '-v', '--verbose',

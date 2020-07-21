@@ -4,6 +4,8 @@
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # Standard Details
 # This applies to all engines
 
@@ -105,10 +107,10 @@ fn_info_message_server_resource(){
 	echo -e ""
 	{
 		echo -e "${lightyellow}Network${default}"
-		if [ "${netint}" ]; then
+		if [ -n "${netint}" ]; then
 			echo -e "${lightblue}Interface:\t${default}${netint}"
 		fi
-		if [ "${netlink}" ]; then
+		if [ -n "${netlink}" ]; then
 			echo -e "${lightblue}Link Speed:\t${default}${netlink}"
 		fi
 		echo -e "${lightblue}IP:\t${default}${ip}"
@@ -133,7 +135,7 @@ fn_info_message_gameserver_resource(){
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
 	{
-		if [ "${status}" == "1" ]; then
+		if [ "${status}" != "0" ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
@@ -174,20 +176,30 @@ fn_info_message_gameserver(){
 	fn_messages_separator
 	{
 		# Server name
-		if [ "${gdname}" ]; then
+		if [ -n "${gdname}" ]; then
 			echo -e "${lightblue}Server name:\t${default}${gdname}"
-		elif [ "${servername}" ]; then
+		elif [ -n "${servername}" ]; then
 			echo -e "${lightblue}Server name:\t${default}${servername}"
 		fi
 
 		# Server description
-		if [ "${serverdescription}" ]; then
+		if [ -n "${serverdescription}" ]; then
 			echo -e "${lightblue}Server Description:\t${default}${serverdescription}"
+		fi
+
+		# Appid
+		if [ -n "${appid}" ]; then
+			echo -e "${lightblue}App ID:\t${default}${appid}"
 		fi
 
 		# Branch
 		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"
+		fi
+
+		# Beta Password
+		if [ -n "${betapassword}" ]; then
+			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
 		# Server ip
@@ -198,179 +210,175 @@ fn_info_message_gameserver(){
 		fi
 
 		# Internet ip
-		if [ "${extip}" ]; then
+		if [ -n "${extip}" ]; then
 			if [ "${ip}" != "${extip}" ]; then
 				echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
 			fi
 		fi
 
 		# Display ip
-		if [ "${displayip}" ]; then
+		if [ -n "${displayip}" ]; then
 			echo -e "${lightblue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
 		# Server password
-		if [ "${serverpassword}" ]; then
+		if [ -n "${serverpassword}" ]; then
 			echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 		fi
 
 		# Query enabled (Starbound)
-		if [ "${queryenabled}" ]; then
+		if [ -n "${queryenabled}" ]; then
 			echo -e "${lightblue}Query enabled:\t${default}${queryenabled}"
 		fi
 
 		# RCON enabled (Starbound)
-		if [ "${rconenabled}" ]; then
-			echo -e "${lightblue}RCON enabled:\t${default}${rconpassword}"
+		if [ -n "${rconenabled}" ]; then
+			echo -e "${lightblue}RCON enabled:\t${default}${rconenabled}"
 		fi
 
 		# RCON password
-		if [ "${rconpassword}" ]; then
+		if [ -n "${rconpassword}" ]; then
 			echo -e "${lightblue}RCON password:\t${default}${rconpassword}"
 		fi
 
 		# RCON web (Rust)
-		if [ "${rconweb}" ]; then
+		if [ -n "${rconweb}" ]; then
 			echo -e "${lightblue}RCON web:\t${default}${rconweb}"
 		fi
 
 		# Admin password
-		if [ "${adminpassword}" ]; then
+		if [ -n "${adminpassword}" ]; then
 			echo -e "${lightblue}Admin password:\t${default}${adminpassword}"
 		fi
 
 		# Stats password (Quake Live)
-		if [ "${statspassword}" ]; then
+		if [ -n "${statspassword}" ]; then
 			echo -e "${lightblue}Stats password:\t${default}${statspassword}"
 		fi
 
 		# Players
 		if [ "${querystatus}" != "0" ]; then
-			if [ "${maxplayers}" ]; then
+			if [ -n "${maxplayers}" ]; then
 				echo -e "${lightblue}Maxplayers:\t${default}${maxplayers}"
 			fi
 		else
-			if [ "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+			if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
 				echo -e "${lightblue}Players:\t${default}${gdplayers}/${gdmaxplayers}"
-
-			elif [ "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
+			elif [ -n "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
 				echo -e "${lightblue}Players:\t${default}${gdplayers}/${maxplayers}"
-
 			elif [ -z "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
 				echo -e "${lightblue}Players:\t${default}0/${gdmaxplayers}"
-
-			elif [ "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
-				echo -e "${lightblue}Players:\t${default}${gdplayers}|∞"
-
+			elif [ -n "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
+				echo -e "${lightblue}Players:\t${default}${gdplayers}/∞"
 			elif [ -z "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]&&[ -n "${maxplayers}" ]; then
 				echo -e "${lightblue}Maxplayers:\t${default}${maxplayers}"
 			fi
 		fi
 
 		# Bots
-		if [ "${gdbots}" ]; then
+		if [ -n "${gdbots}" ]; then
 			echo -e "${lightblue}Bots:\t${default}${gdbots}"
 		fi
 
 		# Current map
-		if [ "${gdmap}" ]; then
+		if [ -n "${gdmap}" ]; then
 			echo -e "${lightblue}Current map:\t${default}${gdmap}"
 		fi
 
 		# Default map
-		if [ "${defaultmap}" ]; then
+		if [ -n "${defaultmap}" ]; then
 			echo -e "${lightblue}Default map:\t${default}${defaultmap}"
 		fi
 
-		if [ "${defaultscenario}" ]; then
+		if [ -n "${defaultscenario}" ]; then
 			# Current scenario
-			if [ "${gdgamemode}" ]; then
+			if [ -n "${gdgamemode}" ]; then
 				echo -e "${lightblue}Current scenario:\t${default}${gdgamemode}"
 			fi
 		else
 			# Current game mode
-			if [ "${gdgamemode}" ]; then
+			if [ -n "${gdgamemode}" ]; then
 				echo -e "${lightblue}Current game mode:\t${default}${gdgamemode}"
 			fi
 		fi
 
 		# Default scenario
-		if [ "${defaultscenario}" ]; then
+		if [ -n "${defaultscenario}" ]; then
 			echo -e "${lightblue}Default scenario:\t${default}${defaultscenario}"
 		fi
 
 		# Game type
-		if [ "${gametype}" ]; then
+		if [ -n "${gametype}" ]; then
 			echo -e "${lightblue}Game type:\t${default}${gametype}"
 		fi
 
 		# Game mode
-		if [ "${gamemode}" ]; then
+		if [ -n "${gamemode}" ]; then
 			echo -e "${lightblue}Game mode:\t${default}${gamemode}"
 		fi
 
 		# Game world
-		if [ "${gameworld}" ]; then
+		if [ -n "${gameworld}" ]; then
 			echo -e "${lightblue}Game world:\t${default}${gameworld}"
 		fi
 
 		# Tick rate
-		if [ "${tickrate}" ]; then
+		if [ -n "${tickrate}" ]; then
 			echo -e "${lightblue}Tick rate:\t${default}${tickrate}"
 		fi
 
 		# Sharding (Don't Starve Together)
-		if [ "${sharding}" ]; then
+		if [ -n "${sharding}" ]; then
 			echo -e "${lightblue}Sharding:\t${default}${sharding}"
 		fi
 
 		# Master (Don't Starve Together)
-		if [ "${master}" ]; then
+		if [ -n "${master}" ]; then
 			echo -e "${lightblue}Master:\t${default}${master}"
 		fi
 
 		# Shard (Don't Starve Together)
-		if [ "${shard}" ]; then
+		if [ -n "${shard}" ]; then
 			echo -e "${lightblue}Shard:\t${default}${shard}"
 		fi
 
 		# Cluster (Don't Starve Together)
-		if [ "${cluster}" ]; then
+		if [ -n "${cluster}" ]; then
 			echo -e "${lightblue}Cluster:\t${default}${cluster}"
 		fi
 
 		# Cave (Don't Starve Together)
-		if [ "${cave}" ]; then
+		if [ -n "${cave}" ]; then
 			echo -e "${lightblue}Cave:\t${default}${cave}"
 		fi
 
 		# Creativemode (Hurtworld)
-		if [ "${creativemode}" ]; then
+		if [ -n "${creativemode}" ]; then
 			echo -e "${lightblue}Creativemode:\t${default}${creativemode}"
 		fi
 
 		# TeamSpeak dbplugin
-		if [ "${dbplugin}" ]; then
+		if [ -n "${dbplugin}" ]; then
 			echo -e "${lightblue}dbplugin:\t${default}${dbplugin}"
 		fi
 
 		# ASE (Multi Theft Auto)
-		if [ "${ase}" ]; then
+		if [ -n "${ase}" ]; then
 			echo -e "${lightblue}ASE:\t${default}${ase}"
 		fi
 
 		# Save interval (Rust)
-		if [ "${saveinterval}" ]; then
+		if [ -n "${saveinterval}" ]; then
 			echo -e "${lightblue}ASE:\t${default}${saveinterval} s"
 		fi
 
 		# Random map rotation mode (Squad and Post Scriptum)
-		if [ "${randommap}" ]; then
+		if [ -n "${randommap}" ]; then
 			echo -e "${lightblue}Map rotation:\t${default}${randommap}"
 		fi
 
 		# Listed on Master server
-		if [ "${displaymasterserver}" ]; then
+		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
 				echo -e "${lightblue}Master server:\t${green}${displaymasterserver}${default}"
 			else
@@ -416,12 +424,12 @@ fn_info_message_script(){
 		echo -e "${lightblue}Script name:\t${default}${selfname}"
 
 		# LinuxGSM version
-		if [ "${version}" ]; then
+		if [ -n "${version}" ]; then
 			echo -e "${lightblue}LinuxGSM version:\t${default}${version}"
 		fi
 
 		# glibc required
-		if [ "${glibc}" ]; then
+		if [ -n "${glibc}" ]; then
 			if [ "${glibc}" == "null" ]; then
 				# Glibc is not required.
 				:
@@ -451,7 +459,7 @@ fn_info_message_script(){
 		# Telegram alert
 		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
 		# Update on start
-		if [ "${updateonstart}" ]; then
+		if [ -n "${updateonstart}" ]; then
 			echo -e "${lightblue}Update on start:\t${default}${updateonstart}"
 		fi
 
@@ -462,7 +470,7 @@ fn_info_message_script(){
 		echo -e "${lightblue}Location:\t${default}${rootdir}"
 
 		# Config file location
-		if [ "${servercfgfullpath}" ]; then
+		if [ -n "${servercfgfullpath}" ]; then
 			if [ -f "${servercfgfullpath}" ]; then
 				echo -e "${lightblue}Config file:\t${default}${servercfgfullpath}"
 			elif [ -d "${servercfgfullpath}" ]; then
@@ -473,7 +481,7 @@ fn_info_message_script(){
 		fi
 
 		# Network config file location (ARMA 3)
-		if [ "${networkcfgfullpath}" ]; then
+		if [ -n "${networkcfgfullpath}" ]; then
 			echo -e "${lightblue}Network config file:\t${default}${networkcfgfullpath}"
 		fi
 	} | column -s $'\t' -t
@@ -553,7 +561,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms.
-	local ports_edit_array=( "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	local ports_edit_array=( "Avorion" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"
 	do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
@@ -580,7 +588,7 @@ fn_info_logs(){
 	echo -e "${selfname} Logs"
 	echo -e "================================="
 
-	if [ "${lgsmlog}" ]; then
+	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
 		if [ ! "$(ls -A "${lgsmlogdir}")" ]; then
 			echo -e "${lgsmlogdir} (NO LOG FILES)"
@@ -593,7 +601,7 @@ fn_info_logs(){
 		echo -e ""
 	fi
 
-	if [ "${consolelog}" ]; then
+	if [ -n "${consolelog}" ]; then
 		echo -e "\nConsole log\n===================="
 		if [ ! "$(ls -A "${consolelogdir}")" ]; then
 			echo -e "${consolelogdir} (NO LOG FILES)"
@@ -606,7 +614,7 @@ fn_info_logs(){
 		echo -e ""
 	fi
 
-	if [ "${gamelogdir}" ]; then
+	if [ -n "${gamelogdir}" ]; then
 		echo -e "\nServer log\n==================="
 		if [ ! "$(ls -A "${gamelogdir}")" ]; then
 			echo -e "${gamelogdir} (NO LOG FILES)"
@@ -642,6 +650,16 @@ fn_info_message_ark(){
 			echo -e "> RAW\tINBOUND\t$((port+1))\tudp"
 		fi
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_avorion() {
+	echo "netstat -atunp | grep Avorion"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
@@ -687,6 +705,18 @@ fn_info_message_coduo(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_chivalry(){
+	fn_info_message_password_strip
+	echo -e "netstat -atunp | grep UDKGame"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t27960\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -851,6 +881,16 @@ fn_info_message_mohaa(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mom(){
+	echo -e "netstat -atunp | grep MemoriesOfMar"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mumble(){
 	echo -e "netstat -atunp | grep murmur"
 	echo -e ""
@@ -959,6 +999,16 @@ fn_info_message_bf1942(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_bfv(){
+	echo -e "netstat -atunp | grep bfv_linded"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1372,6 +1422,8 @@ fn_info_message_select_engine(){
 		fn_info_message_assettocorsa
 	elif [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
+	elif [ "${shortname}" == "av" ]; then
+		fn_info_message_avorion
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
 	elif [ "${shortname}" == "bo" ]; then
@@ -1380,6 +1432,8 @@ fn_info_message_select_engine(){
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_battalion1944
+	elif [ "${shortname}" == "cmw" ]; then
+		fn_info_message_chivalry
 	elif [ "${shortname}" == "cod" ]; then
 		fn_info_message_cod
 	elif [ "${shortname}" == "coduo" ]; then
@@ -1412,6 +1466,8 @@ fn_info_message_select_engine(){
 		fn_info_message_minecraft_bedrock
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
+	elif [ "${shortname}" == "mom" ]; then
+		fn_info_message_mom
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
@@ -1438,7 +1494,7 @@ fn_info_message_select_engine(){
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
-	elif [ "${shortname}" == "st" ]; then
+	elif [ "${shortname}" == "sb" ]; then
 		fn_info_message_starbound
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
@@ -1466,8 +1522,10 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-	elif [ "${engine}" == "bf1942" ]; then
+	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "rust" ]; then
@@ -1499,7 +1557,7 @@ fn_info_message_select_engine(){
 
 # Separator is different for details
 fn_messages_separator(){
-	if [ "${function_selfname}" == "command_details.sh" ]; then
+	if [ "${commandname}" == "details" ]; then
 		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	else
 		echo -e "================================="
@@ -1508,7 +1566,7 @@ fn_messages_separator(){
 
 # Removes the passwords form all but details
 fn_info_message_password_strip(){
-	if [ "${function_selfname}" != "command_details.sh" ]; then
+	if [ "${commandname}" != "DETAILS" ]; then
 		if [ "${serverpassword}" ]; then
 			serverpassword="********"
 		fi

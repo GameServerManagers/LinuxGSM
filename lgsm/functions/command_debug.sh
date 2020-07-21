@@ -4,9 +4,10 @@
 # Website: https://linuxgsm.com
 # Description: Runs the server without tmux and directly from the terminal.
 
-local modulename="DEBUG"
-local commandaction="Debug"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="DEBUG"
+commandaction="Debuging"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){
@@ -14,8 +15,11 @@ fn_lockfile_trap(){
 	rm -f "${lockdir:?}/${selfname}.lock"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
-	fn_print_ok_nl "Closing debug"
-	fn_script_log_pass "Debug closed"
+	fn_print_dots "Stopping debug"
+	fn_print_ok_nl "Stopping debug"
+	fn_script_log_pass "Stopping debug"
+	# remove trap.
+	trap - INT
 	core_exit.sh
 }
 
@@ -85,6 +89,8 @@ fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
 exitbypass=1
 command_stop.sh
+fn_firstcommand_reset
+unset exitbypass
 fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
 fn_print_ok_nl "Starting debug"
@@ -93,27 +99,26 @@ fn_print_ok_nl "Starting debug"
 date '+%s' > "${lockdir}/${selfname}.lock"
 fn_script_log_info "Lockfile generated"
 fn_script_log_info "${lockdir}/${selfname}.lock"
-# trap to remove lockfile on quit.
-trap fn_lockfile_trap INT
 
 cd "${executabledir}" || exit
 # Note: do not add double quotes to ${executable} ${parms}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	${executable} ${parms} -debug
-elif [ "${engine}" == "realvirtuality" ]; then
+elif [ "${shortname}" == "arma3" ]; then
 	# Arma3 requires semicolons in the module list, which need to
 	# be escaped for regular (tmux) loading, but need to be
 	# stripped when loading straight from the console.
 	${executable} ${parms//\\;/;}
 elif [ "${engine}" == "quake" ]; then
-    ${executable} ${parms} -condebug
+		${executable} ${parms} -condebug
 else
 	${executable} ${parms}
 fi
 
+fn_lockfile_trap
+
 fn_print_dots "Stopping debug"
 fn_print_ok_nl "Stopping debug"
-# remove trap.
-trap - INT
+fn_script_log_info "Stopping debug"
 
 core_exit.sh
