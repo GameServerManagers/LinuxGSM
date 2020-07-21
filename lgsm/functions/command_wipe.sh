@@ -145,7 +145,7 @@ fn_wipe_server_files(){
 	fi
 	# Wipe some logs that might be there.
 	if [ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]; then
-		echo -en "removing Log files..."
+		echo -en "removing log files..."
 		fn_sleep_time
 		fn_script_log_info "Removing log files: ${serveridentitydir}/Log.*.txt"
 		find "${serveridentitydir:?}" -type f -name "Log.*.txt" -delete
