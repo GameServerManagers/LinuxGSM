@@ -167,7 +167,7 @@ fn_info_message_gameserver(){
 	# Game type:        0
 	# Game mode:        0
 	# Tick rate:        64
-	# Master Server:    true
+	# Master Server:    listed
 	# Status:           ONLINE
 
 	echo -e ""
@@ -380,9 +380,9 @@ fn_info_message_gameserver(){
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
-				echo -e "${lightblue}Master server:\t${green}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master server:\t${green}listed${default}"
 			else
-				echo -e "${lightblue}Master server:\t${red}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master server:\t${red}not listed${default}"
 			fi
 		fi
 
