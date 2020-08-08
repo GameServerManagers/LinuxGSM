@@ -491,7 +491,7 @@ fn_info_config_mofm(){
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
@@ -631,8 +631,8 @@ fn_info_config_quakeworld(){
 		maxplayers="${zero}"
 		port="${zero}"
 	else
-		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "/")
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "/")
 		maxplayers=$(grep "maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
 		# Not Set
@@ -1515,7 +1515,7 @@ elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
 # Battlefield: Vietnam
 elif [ "${shortname}" == "bfv" ]; then
-	fn_info_config_bfv	
+	fn_info_config_bfv
 # Chivalry: Medieval Warfare
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_config_chivalry
