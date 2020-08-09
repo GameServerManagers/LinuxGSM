@@ -13,19 +13,19 @@ check.sh
 fn_print_header
 
 if [ "${consoleverbose}" == "yes" ]; then
-	echo "* Verbose output: ${lightgreen}yes${default}"
+	echo -e "* Verbose output: ${lightgreen}yes${default}"
 elif [ "${consoleverbose}" == "no" ]; then
-	echo "* Verbose output: ${red}no${default}"
+	echo -e "* Verbose output: ${red}no${default}"
 else
-	echo "* Verbose output: ${red}unknown${default}"
+	echo -e "* Verbose output: ${red}unknown${default}"
 fi
 
 if [ "${consoleinteract}" == "yes" ]; then
-	echo "* Interactive output: ${lightgreen}yes${default}"
+	echo -e "* Interactive output: ${lightgreen}yes${default}"
 elif [ "${consoleinteract}" == "no" ]; then
-	echo "* Interactive output: ${red}no${default}"
+	echo -e "* Interactive output: ${red}no${default}"
 else
-	echo "* Interactive output: ${red}unknown${default}"
+	echo -e "* Interactive output: ${red}unknown${default}"
 fi
 echo ""
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
