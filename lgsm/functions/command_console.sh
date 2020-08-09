@@ -12,26 +12,29 @@ fn_firstcommand_set
 check.sh
 fn_print_header
 
-# Verbose output
-if [ "${consoleoutput}" == "on" ]; then
-	fn_print_information_nl "${gamename} produces a verbose output to the console."
-elif [ "${consoleverbose}" == "off" ]; then
-	fn_print_information_nl "${gamename} does NOT produce a verbose output to the console."
+if [ "${consoleverbose}" == "yes" ]; then
+	echo "* Verbose output: ${lightgreen}yes${default}"
+elif [ "${consoleverbose}" == "no" ]; then
+	echo "* Verbose output: ${red}no${default}"
+else
+	echo "* Verbose output: ${red}unknown${default}"
 fi
 
-# Interactive console
-if [ "${consoleinteract}" == "on" ]; then
-	fn_print_information_nl "${gamename} DOES allow server commands to be entered in to the console."
-elif [ "${consoleinteract}" == "off" ]; then
-	fn_print_information_nl "${gamename} does NOT allow server commands to be entered in to the console."
+if [ "${consoleinteract}" == "yes" ]; then
+	echo "* Interactive output: ${lightgreen}yes${default}"
+elif [ "${consoleinteract}" == "no" ]; then
+	echo "* Interactive output: ${red}no${default}"
+else
+	echo "* Interactive output: ${red}unknown${default}"
 fi
-
+echo ""
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
 echo -e "* https://docs.linuxgsm.com/commands/console"
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	return
+	exitcode=0
+	core_exit.sh
 fi
 fn_print_dots "Accessing console"
 check_status.sh

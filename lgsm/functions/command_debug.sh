@@ -82,7 +82,8 @@ echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${selfname} is already running it will be stopped."
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	return
+	exitcode=0
+	core_exit.sh
 fi
 
 fn_print_info_nl "Stopping any running servers"

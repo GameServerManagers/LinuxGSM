@@ -20,7 +20,8 @@ echo -e ""
 echo -e "${compressedmapsdir}"
 echo -e ""
 if ! fn_prompt_yn "Start compression?" Y; then
-	return
+	exitcode=0
+	core_exit.sh
 fi
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
 rm -rfv "${serverfiles:?}/Maps/"*.unr.uz

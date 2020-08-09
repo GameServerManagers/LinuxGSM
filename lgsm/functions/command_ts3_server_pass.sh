@@ -16,7 +16,8 @@ fn_serveradmin_password_prompt(){
 	fn_print_warning_nl "${gamename} will restart during this process."
 	echo -e ""
 	if ! fn_prompt_yn "Continue?" Y; then
-		echo Exiting; exit
+		exitcode=0
+		core_exit.sh
 	fi
 	fn_script_log_info "Initiating ${gamename} ServerAdmin password change"
 	read -rp "Enter new password: " newpassword
