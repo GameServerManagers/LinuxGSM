@@ -11,6 +11,9 @@ fn_exit_trap(){
 		exitcode=$?
 	fi
 	echo -e ""
+	if [ -z "${exitcode}" ]; then
+		exitcode=0
+	fi
 	core_exit.sh
 }
 
