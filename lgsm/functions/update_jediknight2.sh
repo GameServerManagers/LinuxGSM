@@ -28,6 +28,10 @@ fn_update_jk2_dl(){
 fn_update_jk2_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
+	# Set localbuild to 0 if running installer
+	if [ "${firstcommandname}" == "INSTALL" ]; then
+		localbuild=0
+	fi
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
 	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
@@ -98,9 +102,6 @@ fn_update_jk2_remotebuild(){
 fn_update_jk2_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	if [ "${firstcommandname}" == "INSTALL" ]; then
-		localbuild=0
-	fi
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
