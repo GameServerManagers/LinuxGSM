@@ -25,7 +25,7 @@ fn_update_jk2_dl(){
 	fi
 }
 
-fn_update_minecraft_localbuild(){
+fn_update_jk2_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
