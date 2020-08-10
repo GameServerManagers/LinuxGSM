@@ -20,5 +20,6 @@ if [ -f "${lockdir}/lastupdate.lock" ]&&[ "${status}" != "0" ]; then
 		fn_print_info "${selfname} has not been restarted since last update"
 		fn_script_log_info "${selfname} has not been restarted since last update"
 		command_restart.sh
+		fn_firstcommand_reset
 	fi
 fi

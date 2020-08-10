@@ -7,6 +7,7 @@
 commandname="DEV-QUERY-RAW"
 commandaction="Developer query raw"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 info_config.sh

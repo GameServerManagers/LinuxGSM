@@ -53,7 +53,7 @@ fn_mod_lowercase(){
 		done < <(find "${extractdir}" -depth)
 		echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
 
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
@@ -69,7 +69,7 @@ fn_mod_create_filelist(){
 	# ${modsdir}/${modcommand}-files.txt.
 	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Building ${modsdir}/${modcommand}-files.txt"
 		core_exit.sh
@@ -89,7 +89,7 @@ fn_mod_copy_destination(){
 	fn_sleep_time
 	cp -Rf "${extractdir}/." "${modinstalldir}/"
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Copying ${modprettyname} to ${modinstalldir}"
 	else
@@ -127,7 +127,7 @@ fn_mod_tidy_files_list(){
 		sed -i "/^${removefilevar}$/d" "${modsdir}/${modcommand}-files.txt"
 		# Exit on error.
 		local exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Error while tidying line: ${removefilevar} from: ${modsdir}/${modcommand}-files.txt"
 			core_exit.sh
@@ -382,7 +382,7 @@ fn_create_mods_dir(){
 		echo -en "creating LinuxGSM mods data directory ${modsdir}..."
 		mkdir -p "${modsdir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod download dir ${modsdir}"
 			core_exit.sh
@@ -396,7 +396,7 @@ fn_create_mods_dir(){
 		echo -en "creating mods install directory ${modinstalldir}..."
 		mkdir -p "${modinstalldir}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod install directory ${modinstalldir}"
 			core_exit.sh
@@ -419,7 +419,7 @@ fn_mods_create_tmp_dir(){
 		mkdir -p "${modstmpdir}"
 		exitcode=$?
 		echo -en "creating mod download directory ${modstmpdir}..."
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Creating mod download directory ${modstmpdir}"
 			core_exit.sh
@@ -436,7 +436,7 @@ fn_mods_clear_tmp_dir(){
 		echo -en "clearing mod download directory ${modstmpdir}..."
 		rm -fr "${modstmpdir:?}"
 		exitcode=$?
-		if [ ${exitcode} -ne 0 ]; then
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "Clearing mod download directory ${modstmpdir}"
 			core_exit.sh

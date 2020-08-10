@@ -7,7 +7,13 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_exit_trap(){
+	if [ -z "${exitcode}" ]; then
+		exitcode=$?
+	fi
 	echo -e ""
+	if [ -z "${exitcode}" ]; then
+		exitcode=0
+	fi
 	core_exit.sh
 }
 

@@ -8,6 +8,7 @@
 commandname="MODS-INSTALL"
 commandaction="Installing mods"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 mods_core.sh

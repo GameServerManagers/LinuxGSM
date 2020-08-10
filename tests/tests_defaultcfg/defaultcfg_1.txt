@@ -6,7 +6,7 @@
 # common.cfg - applies settings to every instance.
 # [instance].cfg - applies settings to a specific instance.
 #### Game Server Settings ####
-## Server Start Command | https://docs.linuxgsm.com/configuration/start-parameters#additional-parameters
+## Server Parameters | https://docs.linuxgsm.com/configuration/start-parameters#additional-parameters
 #### LinuxGSM Settings ####
 ## Notification Alerts
 # (on|off)
@@ -41,6 +41,10 @@
 # 8: 7 Days to Die
 # 9: GoldSrc
 # 10: Avorion
+# 11: end
+## Console type
+consoleverbose=""
+consoleinteract=""
 ## Game Server Details
 # Do not edit
 #### Directories ####

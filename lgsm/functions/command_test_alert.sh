@@ -7,6 +7,7 @@
 commandname="TEST-ALERT"
 commandaction="Sending Alert"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_print_dots "${servername}"
 check.sh

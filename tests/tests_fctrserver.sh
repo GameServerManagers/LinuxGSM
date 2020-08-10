@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.3.3"
+version="v20.4.1"
 shortname="fctr"
 gameservername="fctrserver"
 commandname="CORE"
@@ -119,7 +119,7 @@ fn_bootstrap_fetch_file(){
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					echo -e "FAIL"
 					if [ -f "${lgsmlog}" ]; then
@@ -389,7 +389,7 @@ else
 			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				echo -e "FAIL"
 				exit 1
 			else
@@ -402,7 +402,7 @@ else
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 				exitcode=$?
-				if [ ${exitcode} -ne 0 ]; then
+				if [ "${exitcode}" != 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else

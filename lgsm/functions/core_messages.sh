@@ -529,3 +529,35 @@ fn_print_ascii_logo(){
 	echo -e "${lightyellow}LinuxGSM${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y2012P88   Y8888P   888       888"
 	echo -e ""
 }
+
+fn_print_restart_warning(){
+	fn_print_warn "${selfname} will be restarted"
+	fn_script_log_warn "${selfname} will be restarted"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "${selfname} will be restarted: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "${selfname} will be restarted"
+}
+
+# Functions below are used to ensure that logs and UI correctly reflect the command it is actually running.
+# Useful when a command has to call upon another command causing the other command to overrite commandname variables
+
+# Used to remember the command that ran first.
+fn_firstcommand_set(){
+	if [ -z "${firstcommandname}" ]; then
+		firstcommandname="${commandname}"
+		firstcommandaction="${commandaction}"
+	fi
+}
+
+# Used to reset commandname variables to the command the script ran first.
+fn_firstcommand_reset(){
+	commandname="${firstcommandname}"
+	commandaction="${firstcommandaction}"
+}

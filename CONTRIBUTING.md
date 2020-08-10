@@ -5,32 +5,34 @@
 The following is a set of guidelines for contributing to LinuxGSM, which are hosted in the [GameServerManagers Organization](https://github.com/gameservermanagers) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ## Table of Contents
-* [Contributing to LinuxGSM](#contributing-to-linuxgsm)
-      *  [Table of Contents](#table-of-contents)
+
+ [Contributing to LinuxGSM](#contributing-to-linuxgsm)
+  * [Table of Contents](#table-of-contents)
   * [Code of Conduct](#code-of-conduct)
-  * [Bug/Enhancement Contributions](#---bug-enhancement-contributions---)
-    * [Reporting Bugs](#--reporting-bugs)
-      * [Before Submitting A Bug Report](#before-submitting-a-bug-report)
-      * [How Do I Submit A (Good) Bug Report?](#how-do-i-submit-a--good--bug-report-)
-    * [Suggesting Features](#--suggesting-features)
-      * [Before Submitting An Feature Suggestion](#before-submitting-an-feature-suggestion)
-      * [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion-)
-    * [Game Server Requests](#---game-server-requests)
-      * [Before Submitting a Game Server Request](#before-submitting-a-game-server-request)
-      * [How Do I Submit A (Good) Game Server Suggestion?](#how-do-i-submit-a--good--feature-suggestion--1)
-    * [Game Server Specific Issues](#---game-server-specific-issues)
-  * [Code Contributions](#---code-contributions)
-    * [Pull Requests](#pull-requests)
-      * [Pull Request naming convention](#pull-request-naming-convention)
-    * [Testing](#testing)
-      * [Pull Request Status Checks](#pull-request-status-checks)
-      * [Test Environment](#test-environment)
-    * [Styleguides](#-wine-glass--styleguides)
-      * [Git Commit Messages](#git-commit-messages)
-      * [BASH Styleguide](#bash-styleguide)
-  * [Document Contributions](#-blue-book--document-contributions)
-    * [Documentation Styleguide](#documentation-styleguide)
+  * [🎉 Bug/Enhancement Contributions 🐛](#bug-enhancement-contributions)
+    + [🐛Reporting Bugs](#reporting-bugs)
+      - [Before Submitting A Bug Report](#before-submitting-a-bug-report)
+      - [How Do I Submit A (Good) Bug Report?](#how-do-i-submit-a--good--bug-report-)
+    + [🎉Suggesting Features](#suggesting-features)
+      - [Before Submitting An Feature Suggestion](#before-submitting-an-feature-suggestion)
+      - [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion-)
+    + [🎮 Game Server Requests](#game-server-requests)
+      - [Before Submitting a Game Server Request](#before-submitting-a-game-server-request)
+      - [How Do I Submit A (Good) Game Server Request?](#how-do-i-submit-a--good--game-server-request-)
+    + [🎮 Game Server Specific Issues](#game-server-specific-issues)
+  * [💻 Code Contributions](#code-contributions)
+    + [Pull Requests](#pull-requests)
+      - [Pull Request naming convention](#pull-request-naming-convention)
+    + [Testing](#testing)
+      - [Pull Request Status Checks](#pull-request-status-checks)
+      - [Test Environment](#test-environment)
+    + [:wine_glass: Styleguides](#-wine-glass--styleguides)
+      - [Git Commit Messages](#git-commit-messages)
+      - [BASH Styleguide](#bash-styleguide)
+  * [:blue_book: Document Contributions](#-blue-book--document-contributions)
+    + [Documentation Styleguide](#documentation-styleguide)
   * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
+
 ## Code of Conduct
 
 This project and everyone participating in it are governed by the [LinuxGSM Code of Conduct](https://github.com/GameServerManagers/linuxgsm/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behaviour to [daniel.gibbs@linuxgsm.com](mailto:daniel.gibbs@linuxgsm.com).
@@ -41,11 +43,11 @@ This project and everyone participating in it are governed by the [LinuxGSM Code
 
 This section guides you through submitting a bug report for LinuxGSM. Following these guidelines help maintainers and the community understand your report 📝, reproduce the behaviour💻, and find any related reports 🔎.
 
-Before creating bug reports, please check [this list](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#before-submitting-a-bug-report) as you might find out that you don’t need to create one. When you are creating a bug report, please [include as many details as possible](https://github.com/atom/atom/blob/master/CONTRIBUTING.md#how-do-i-submit-a-good-bug-report). Fill out [the required template](https://github.com/atom/.github/blob/master/.github/ISSUE_TEMPLATE/bug_report.md), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#before-submitting-a-bug-report) as you might find out that you don’t need to create one. When you are creating a bug report, please [include as many details as possible](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#how-do-i-submit-a-good-bug-report). Fill out [the required template]([https://github.com/GameServerManagers/LinuxGSM/issues/new/choose](https://github.com/GameServerManagers/LinuxGSM/issues/new/choose)), the information it asks for helps us resolve issues faster.
 
 #### Before Submitting A Bug Report
 
-* **Check the** [**documentation**](https://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/))**.** You might be able to find the cause of the problem and fix things yourself.
+* **Check the [documentation](https://docs.linuxgsm.com).** You might be able to find the cause of the problem and fix things yourself.
 * **Check that the problem is not related to** [**support page**](https://linuxgsm/com/support) for links to other support options.
 * **Check the** [**support page**](https://linuxgsm/com/support) for links to other support options.
 * **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
@@ -83,19 +85,23 @@ Features are tracked as [GitHub issues](https://guides.github.com/features/issue
 
 ### 🎮 Game Server Requests
 
-This section guides you through submitting a game server request for LinuxGSM, Following these guidelines help maintainers and the community understand your game server request 📝
-
+This section guides you through submitting a game server request for LinuxGSM, Following these guidelines help maintainers and the community understand your game server request 📝.
 #### Before Submitting a Game Server Request
 
-* **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs up instead of opening a new one.
+* **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs.
+* **Check the game server is supported on Linux**, this does not include Wine servers which we do not support.
+#### How Do I Submit A (Good) Game Server Request?
+* The title should be as follows: **[Server Request] Game Name**
+*  **Provide Steam App ID** if applicable
+* **Supply any documentation/how-to guides** for the game server.
 
 ### 🎮 Game Server Specific Issues
 
 LinuxGSM is a management script that acts as a wrapper around game servers. These game servers are developed by different game developers such as Valve, Epic and Facepunch to name a few.
 
-LinuxGSM has no control over the development and limited knowledge issues directly relating to the game servers themselves. The same also applies for any mods, add-ons, maps etc.
+LinuxGSM has no control over the development and limited knowledge of issues directly relating to the game servers themselves. The same also applies for any mods, add-ons, maps etc.
 
-If there is an issue with a specific game server or mod the best action may be to contact the game/mod developers on there support forums. If it is unclear some community members might be able to help.
+If there is an issue with a specific game server or mod the best action may be to contact the game/mod developers on there support forums. If it is unclear some community members should be able to help.
 
 A [list](https://docs.linuxgsm.com/support/game-server) of known game developer forums is available on the [LinuxGSM docs](https://docs.linuxgsm.com/support/game-server).
 
@@ -112,7 +118,7 @@ The process described here has several goals:
 
 Please follow these steps to have your contribution considered by the maintainers:
 
-1.  Follow all instructions in [the template](https://github.com/GameServerManagers/LinuxGSM/blob/master/.github/pull_request_template.md)
+1.  Follow all check-list in [the template](https://github.com/GameServerManagers/LinuxGSM/blob/master/.github/pull_request_template.md)
 2.  Follow the [style guides](#styleguides)
 3.  After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing
 
@@ -130,24 +136,24 @@ If applied, this commit will _your subject line here_
 
 For example:
 
-* If applied, this commit will _refactor subsystem X for readability_
-* If applied, this commit will _update getting started documentation_
-* If applied, this commit will _remove deprecated methods_
-* If applied, this commit will _release version 1.0.0_
-* If applied, this commit will _merge pull request #123 from user/branch_
+* If applied, this commit will **refactor subsystem X for readability**
+* If applied, this commit will **update getting started documentation**
+* If applied, this commit will **remove deprecated methods**
+* If applied, this commit will **release version 1.0.0**
+* If applied, this commit will **merge pull request #123 from user/branch**
 
 Notice how this doesn’t work for the other non-imperative forms:
 
-* If applied, this commit will _fixed bug with Y_
-* If applied, this commit will _change the behaviour of X_
-* If applied, this commit will _more fixes for broken stuff_
-* If applied, this commit will _sweet new API methods_
+* If applied, this commit will **fixed bug with Y**
+* If applied, this commit will **change the behaviour of X**
+* If applied, this commit will **more fixes for broken stuff**
+* If applied, this commit will **sweet new API methods**
 
-Below is an example of the subject line for a pull request.
+Below is an example of the subject line for a pull request:
 
-feat(alerts): add slack support to alerts
+**feat(alerts): add slack support to alerts**
 
-fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround
+**fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround**
 
 ### Testing
 
@@ -155,7 +161,7 @@ fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround
 When a Pull Request is submitted, a series of status check tests are conducted.  These tests will asses the code quality, complete CI tests etc. To get your PR merged these status checks must pass.
 
 #### Test Environment
-It is recommended that you have a testing environment available to test your code during development. To test your own cod you must change some variables within the `linuxgsm.sh` file. This will force the use of your own code branch.
+It is recommended that you have a testing environment available to test your code during development. To test your own code you must change some variables within the `linuxgsm.sh` file. This will force the use of your own code branch.
 ```bash
 ## GitHub Branch Select
 # Allows for the use of different function files
@@ -183,7 +189,7 @@ As well as code contributions it is possible to contribute by writing and improv
 
 ### Documentation Styleguide
 
-LinuxGSM has various documentation available to assist users and developers. LinuxGSM primarily uses [GitBook](http://gitbook.com/) which uses the [Markdown](https://www.markdownguide.org/) document standard. LinuxGSM uses [Codacy](https://app.codacy.com/manual/GameServerManagers/LinuxGSM/dashboard) to analyse any Pull Requests to give you feedback on markup standards.
+LinuxGSM has various documentation available to assist [users](https://docs.linuxgsm.com) and [developers](dev-docs.linuxgsm.com). LinuxGSM primarily uses [GitBook](http://gitbook.com/) which uses the [Markdown](https://www.markdownguide.org/) document standard. LinuxGSM uses [Codacy](https://app.codacy.com/manual/GameServerManagers/LinuxGSM/dashboard) to analyse any Pull Requests to give you feedback on markup standards.
 
 ## Issue and Pull Request Labels
 

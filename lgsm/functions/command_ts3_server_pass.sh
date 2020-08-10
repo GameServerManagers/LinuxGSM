@@ -8,6 +8,7 @@
 commandname="CHANGE-PASSWORD"
 commandaction="Changing password"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_serveradmin_password_prompt(){
 	fn_print_header
@@ -15,7 +16,8 @@ fn_serveradmin_password_prompt(){
 	fn_print_warning_nl "${gamename} will restart during this process."
 	echo -e ""
 	if ! fn_prompt_yn "Continue?" Y; then
-		echo Exiting; exit
+		exitcode=0
+		core_exit.sh
 	fi
 	fn_script_log_info "Initiating ${gamename} ServerAdmin password change"
 	read -rp "Enter new password: " newpassword
@@ -28,6 +30,7 @@ fn_serveradmin_password_set(){
 	ts3serverpass="1"
 	exitbypass="1"
 	command_start.sh
+	fn_firstcommand_reset
 	fn_print_ok_nl "New password applied"
 	fn_script_log_pass "New ServerAdmin password applied"
 }
@@ -39,13 +42,16 @@ if [ "${status}" != "0" ]; then
 	# Stop any running server.
 	exitbypass="1"
 	command_stop.sh
+	fn_firstcommand_reset
 	fn_serveradmin_password_set
 	parms="serveradmin_password=\"${newpassword}\" inifile=\"${servercfgfullpath}\" > /dev/null 2>&1"
 	ts3serverpass="0"
 	command_restart.sh
+	fn_firstcommand_reset
 else
 	fn_serveradmin_password_set
 	command_stop.sh
+	fn_firstcommand_reset
 fi
 
 core_exit.sh
