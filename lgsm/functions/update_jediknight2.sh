@@ -30,7 +30,7 @@ fn_update_jk2_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
-	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}')
+	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
