@@ -106,7 +106,7 @@ fn_update_ts3_remotebuild(){
 	elif [ "${arch}" == "x86" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
 	fi
-	if [ "${installer}" != "1" ]; then
+	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
@@ -197,7 +197,7 @@ fi
 # The location where the builds are checked and downloaded.
 remotelocation="teamspeak.com"
 
-if [ "${installer}" == "1" ]; then
+if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_ts3_remotebuild
 	fn_update_ts3_dl
 else

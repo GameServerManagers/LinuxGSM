@@ -43,7 +43,7 @@ fn_update_mumble_localbuild(){
 fn_update_mumble_remotebuild(){
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://api.github.com/repos/mumble-voip/mumble/releases/latest" | grep 'murmur-static_x86.*\.bz2"' | tail -1 | awk -F"/" '{ print $8 }')
-	if [ "${installer}" != "1" ]; then
+	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
@@ -126,7 +126,7 @@ remotelocation="mumble.info"
 # Game server architecture.
 mumblearch="x86"
 
-if [ "${installer}" == "1" ]; then
+if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_mumble_remotebuild
 	fn_update_mumble_dl
 else

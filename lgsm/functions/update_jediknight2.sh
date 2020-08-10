@@ -1,40 +1,36 @@
 #!/bin/bash
-# LinuxGSM update_minecraft_bedrock.sh function
+# LinuxGSM update_jk2.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Handles updating of Minecraft Bedrock servers.
+# Description: Handles updating of jk2 servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local commandname="UPDATE"
+local commandaction="Update"
+local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_minecraft_dl(){
-	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
-	fn_fetch_file "${latestmcbuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
-	echo -e "Extracting to ${serverfiles}...\c"
-	if [ "${firstcommandname}" == "INSTALL" ]; then
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "server.properties" -d "${serverfiles}"
-	else
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "whitelist.json" -d "${serverfiles}"
-	fi
+fn_update_jk2_dl(){
+	fn_fetch_file "https://github.com/mvdevs/jk2mv/releases/download/${remotebuild}/jk2mv-v${remotebuild}-dedicated.zip" "" "" "" "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "" "norun" "noforce" "nomd5"
+	fn_dl_extract "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "${tmpdir}/jk2mv-v${remotebuild}-dedicated"
+	echo -e "copying to ${serverfiles}...\c"
+	cp -R "${tmpdir}/jk2mv-v${remotebuild}-dedicated/linux-amd64/jk2mvded"* "${serverfiles}/GameData"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting to ${serverfiles}"
-		chmod u+x "${serverfiles}/bedrock_server"
+		fn_script_log_pass "Copying to ${serverfiles}"
 		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting to ${serverfiles}"
-		fn_clear_tmp
+		fn_script_log_fatal "Copying to ${serverfiles}"
 		core_exit.sh
 	fi
 }
 
-fn_update_minecraft_localbuild(){
+fn_update_jk2_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
-	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -75,9 +71,9 @@ fn_update_minecraft_localbuild(){
 	fi
 }
 
-fn_update_minecraft_remotebuild(){
+fn_update_jk2_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest" | grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
@@ -99,7 +95,7 @@ fn_update_minecraft_remotebuild(){
 	fi
 }
 
-fn_update_minecraft_compare(){
+fn_update_jk2_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
@@ -108,12 +104,12 @@ fn_update_minecraft_compare(){
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Local build: ${red}${localbuild} ${jk2arch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
 		echo -en "\n"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		unset updateonstart
@@ -121,7 +117,7 @@ fn_update_minecraft_compare(){
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
-			fn_update_minecraft_dl
+			fn_update_jk2_dl
 			exitbypass=1
 			command_start.sh
 			exitbypass=1
@@ -134,7 +130,7 @@ fn_update_minecraft_compare(){
 			command_stop.sh
 			fn_firstcommand_reset
 			exitbypass=1
-			fn_update_minecraft_dl
+			fn_update_jk2_dl
 			exitbypass=1
 			command_start.sh
 			fn_firstcommand_reset
@@ -146,26 +142,30 @@ fn_update_minecraft_compare(){
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Local build: ${green}${localbuild} ${jk2arch}${default}"
+		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
 		echo -en "\n"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
+		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
 	fi
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="minecraft.net"
+remotelocation="jk2mv.org"
+
+# Game server architecture.
+jk2arch="x64"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_minecraft_remotebuild
-	fn_update_minecraft_dl
+	fn_update_jk2_remotebuild
+	fn_update_jk2_dl
 else
+	update_steamcmd.sh
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_minecraft_localbuild
-	fn_update_minecraft_remotebuild
-	fn_update_minecraft_compare
+	fn_update_jk2_localbuild
+	fn_update_jk2_remotebuild
+	fn_update_jk2_compare
 fi

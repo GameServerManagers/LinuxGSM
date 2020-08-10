@@ -377,6 +377,11 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Map rotation:\t${default}${randommap}"
 		fi
 
+		# Server Version (Jedi Knight II: Jedi Outcast)
+		if [ -n "${serverversion}" ]; then
+			echo -e "${lightblue}Server Version:\t${default}${serverversion}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
@@ -819,6 +824,15 @@ fn_info_message_inss(){
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
+
+	fn_info_message_jk2(){
+		echo -e "netstat -atunp | grep jk2mvded"
+		echo -e ""
+		{
+			echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+			echo -e "> Game\tINBOUND\t${port}\tudp"
+		} | column -s $'\t' -t
+	}
 
 fn_info_message_justcause2(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
@@ -1456,6 +1470,8 @@ fn_info_message_select_engine(){
 		fn_info_message_hurtworld
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
+	elif [ "${shortname}" == "jk2" ]; then
+		fn_info_message_jk2
 	elif [ "${shortname}" == "jc2" ]; then
 		fn_info_message_justcause2
 	elif [ "${shortname}" == "jc3" ]; then

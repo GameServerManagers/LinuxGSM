@@ -680,6 +680,27 @@ fn_info_config_quake3(){
 	fi
 }
 
+fn_info_config_jk2(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		rconpassword=$(grep "seta rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "seta sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "seta g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "seta sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		serverversion=$(grep "seta mv_serverversion" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta mv_serverversion//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not Set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 fn_info_config_quakelive(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
@@ -1570,6 +1591,9 @@ elif [ "${shortname}" == "q3" ]; then
 # Quake Live
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_quakelive
+# Jedi Knight II: Jedi Outcast
+elif [ "${shortname}" == "jk2" ]; then
+	fn_info_config_jk2
 # Minecraft
 elif [ "${shortname}" == "mc" ]; then
 	fn_info_config_minecraft
