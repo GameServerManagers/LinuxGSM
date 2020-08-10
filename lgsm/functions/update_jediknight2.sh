@@ -43,16 +43,16 @@ fn_update_jk2_localbuild(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			command_start.sh
+			fn_firstcommand_reset
 			sleep 3
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
 			exitbypass=1
 			command_stop.sh
-			exitbypass=1
-			command_start.sh
-			sleep 3
+			fn_firstcommand_reset
 		fi
 	fi
 
@@ -75,14 +75,14 @@ fn_update_jk2_remotebuild(){
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest" | grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${installer}" != "1" ]; then
-		fn_print_dots "Checking for update: ${remotelocation}: checking remote build"
+		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
-			fn_print_fail "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
 		else
-			fn_print_ok "Checking for update: ${remotelocation}: checking remote build"
+			fn_print_ok "Checking remote build: ${remotelocation}"
 			fn_script_log_pass "Checking remote build"
 		fi
 	else
@@ -98,30 +98,21 @@ fn_update_jk2_remotebuild(){
 fn_update_jk2_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo "${remotebuild}" | tr -cd '[:digit:]')
+	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
+	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${jk2arch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		fn_sleep_time
-		echo -en "\n"
-		echo -en "applying update.\r"
-		sleep 1
-		echo -en "applying update..\r"
-		sleep 1
-		echo -en "applying update...\r"
-		sleep 1
-		echo -en "\n"
 
 		unset updateonstart
-
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
@@ -131,15 +122,20 @@ fn_update_jk2_compare(){
 			command_start.sh
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 			exitbypass=1
 			fn_update_jk2_dl
 			exitbypass=1
 			command_start.sh
+			fn_firstcommand_reset
 		fi
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -148,6 +144,7 @@ fn_update_jk2_compare(){
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${jk2arch}${default}"
 		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
@@ -165,6 +162,7 @@ if [ "${installer}" == "1" ]; then
 	fn_update_jk2_dl
 else
 	update_steamcmd.sh
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
 	fn_update_jk2_localbuild
