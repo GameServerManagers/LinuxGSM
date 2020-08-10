@@ -379,7 +379,7 @@ fn_info_message_gameserver(){
 
 		# Server Version (Jedi Knight II: Jedi Outcast)
 		if [ -n "${serverversion}" ]; then
-			echo -e "${blue}Server Version:\t${default}${serverversion}"
+			echo -e "${lightblue}Server Version:\t${default}${serverversion}"
 		fi
 
 		# Listed on Master server
