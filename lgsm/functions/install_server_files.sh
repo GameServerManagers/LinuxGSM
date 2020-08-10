@@ -92,7 +92,7 @@ elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 	install_factorio_save.sh
 elif [ "${shortname}" == "jk2" ]; then
-	update_jediknoght2.sh
+	update_jediknight2.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
