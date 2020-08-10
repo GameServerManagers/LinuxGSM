@@ -83,7 +83,7 @@ fn_update_minecraft_remotebuild(){
 		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].id')
 	fi
 
-	if [ "${installer}" != "1" ]; then
+	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
@@ -170,7 +170,7 @@ fn_update_minecraft_compare(){
 # The location where the builds are checked and downloaded.
 remotelocation="mojang.com"
 
-if [ "${installer}" == "1" ]; then
+if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_minecraft_remotebuild
 	fn_update_minecraft_dl
 else

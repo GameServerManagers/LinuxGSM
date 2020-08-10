@@ -28,10 +28,6 @@ fn_update_jk2_dl(){
 fn_update_jk2_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Set localbuild to 0 if running installer
-	if [ "${firstcommandname}" == "INSTALL" ]; then
-		localbuild=0
-	fi
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
 	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
@@ -78,7 +74,7 @@ fn_update_jk2_localbuild(){
 fn_update_jk2_remotebuild(){
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest" | grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
-	if [ "${installer}" != "1" ]; then
+	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
@@ -161,7 +157,7 @@ remotelocation="jk2mv.org"
 # Game server architecture.
 jk2arch="x64"
 
-if [ "${installer}" == "1" ]; then
+if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_jk2_remotebuild
 	fn_update_jk2_dl
 else
