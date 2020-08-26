@@ -119,12 +119,7 @@ fn_fetch_file(){
 	local_filename="${6}"
 	chmodx="${7:-0}"
 	run="${8:-0}"
-		if [ -f /.dockerenv ]; then
-		# All required files should already exist locally
-		forcedl="0"
-	else
-		forcedl="${9:-0}"
-	fi
+	forcedl="${9:-0}"
 	md5="${10:-0}"
 
 	# Download file if missing or download forced.
