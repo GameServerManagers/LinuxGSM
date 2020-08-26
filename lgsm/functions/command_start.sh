@@ -165,8 +165,6 @@ fn_start_tmux(){
 	echo -en "\n"
 }
 
-fn_print_dots "${servername}"
-
 check.sh
 
 # Is the server already started.
