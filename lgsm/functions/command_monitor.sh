@@ -261,8 +261,8 @@ if [ "${querymode}" != "1" ]; then
 		# When binding to all addresses, any of them can be used for testing
 		query_ip="$(hostname -i)"
 	else
-       	query_ip="${ip}"
-    fi
+		query_ip="${ip}"
+	fi
 
 	fn_monitor_loop
 fi
