@@ -37,11 +37,6 @@ fn_default_config_remote(){
 		# every config is copied
 		echo -e "copying ${config} config file."
 		fn_script_log_info "copying ${servercfg} config file."
-		if [ -f /.dockerenv ]; then
-			# In Docker we regenerate this config everytime at startup.
-			# we always want to overwrite the existing file.
-			rm ${servercfgfullpath}
-		fi
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${gamedirname}/${config}" "${servercfgfullpath}"
