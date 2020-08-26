@@ -254,14 +254,14 @@ if [ "${querymode}" != "1" ]; then
 	# In some complex networking cases, when listening on 0.0.0.0, not all addresses can be used when monitoring.
 	# In those cases you sometimes know one IP that will work before starting the container. 
 	# Allowing a "query ip" to be set allows binding to 0.0.0.0 while testing against a specfic ip 
-	# TODO: LGSM_MONITOR_IP should be configured like all other LGSM settings, reading this from an env is hacky
-    if [[ -n "${LGSM_MONITOR_IP}" ]]; then
-		query_ip="${LGSM_MONITOR_IP}"
-	elif [[ ${query_ip} == "0.0.0.0" ]]; then
+	# TODO: MONITOR_IP should be configured like all other LGSM settings, reading this from an env is hacky
+    if [ -n "${MONITOR_IP}" ]; then
+		query_ip="${MONITOR_IP}"
+	elif [ "${query_ip}" == "0.0.0.0" ]; then
 		# When binding to all addresses, any of them can be used for testing
 		query_ip="$(hostname -i)"
 	else
-       	query_ip=${ip}
+       	query_ip="${ip}"
     fi
 
 	fn_monitor_loop
