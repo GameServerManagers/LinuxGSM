@@ -61,11 +61,6 @@ fn_default_config_remote(){
 # Copys local default config to server config location.
 fn_default_config_local(){
 	echo -e "copying ${servercfgdefault} config file."
-	if [ -f /.dockerenv ]; then
-		# In Docker we regenerate this config everytime at startup.
-		# we always want to overwrite the existing file.
-		rm ${servercfgfullpath}
-	fi
 	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	fn_sleep_time
 }
