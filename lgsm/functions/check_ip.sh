@@ -7,6 +7,9 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+info_config.sh
+info_parms.sh
+
 if [ ! -f "/bin/ip" ]; then
 	ipcommand="/sbin/ip"
 else
@@ -25,7 +28,7 @@ else
 fi
 
 echo "###### DEV IP CHECK ######"
-echo "IP: ${IP}"
+echo "IP: ${i[]}"
 echo "EXTIP: ${extip}"
 echo "DISPLAYIP: ${displayip}"
 echo "QUERYIP: ${queryip}"
