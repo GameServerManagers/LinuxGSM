@@ -8,6 +8,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_config.sh
+info_distro.sh # for dev
 info_parms.sh
 
 if [ ! -f "/bin/ip" ]; then
@@ -20,11 +21,11 @@ getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\
 # Check if server has m ultiple IP addresses
 
 # If the ip variable is set by user
-if [ "${ip}" != "0.0.0.0" ]||[ "${ip}" != "" ]; then
-	queryip=( "${ip}" )
+if [ "${ip}" != "0.0.0.0" ]&&[ "${ip}" != "" ]; then
+	queryips=( "${ip}" )
 # If ip is not set by user
 else
-	queryip=( "${getip}" )
+	queryips=( "${getip}" )
 fi
 
 echo "###### DEV IP CHECK ######"
