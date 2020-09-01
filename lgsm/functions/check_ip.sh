@@ -28,7 +28,7 @@ else
 fi
 
 echo "###### DEV IP CHECK ######"
-echo "IP: ${i[]}"
+echo "IP: ${ip}"
 echo "EXTIP: ${extip}"
 echo "DISPLAYIP: ${displayip}"
 echo "QUERYIP: ${queryip}"
