@@ -42,20 +42,20 @@ echo -e ""
 echo -e "gsquery Raw Output"
 echo -e "================================="
 echo -e ""
-echo -e "./query_gsquery.py -a \"${ip}\" -p \"${queryport}\" -e \"${querytype}\""
+echo -e "./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\""
 echo -e ""
 if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 	fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 fi
-"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${querytype}"
+"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}"
 
 echo -e ""
 echo -e "TCP Raw Output"
 echo -e "================================="
 echo -e ""
-echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''"
+echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''"
 echo -e ""
-bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}''
+bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''
 querystatus="$?"
 echo -e ""
 if [ "${querystatus}" == "0" ]; then
@@ -71,9 +71,9 @@ echo -e ""
 echo -e "TCP Raw Output"
 echo -e "================================="
 echo -e ""
-echo -e "bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''"
+echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''"
 echo -e ""
-bash -c 'exec 3<> /dev/tcp/'${ip}'/'${port}''
+bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''
 querystatus="$?"
 echo -e ""
 if [ "${querystatus}" == "0" ]; then
