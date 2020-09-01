@@ -61,7 +61,7 @@ do
 	echo -e ""
 	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''"
 	echo -e ""
-	bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''
+	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''
 	querystatus="$?"
 	echo -e ""
 	if [ "${querystatus}" == "0" ]; then
@@ -79,7 +79,7 @@ do
 	echo -e ""
 	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''"
 	echo -e ""
-	bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''
+	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''
 	querystatus="$?"
 	echo -e ""
 	if [ "${querystatus}" == "0" ]; then
