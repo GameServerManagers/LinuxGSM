@@ -25,7 +25,7 @@ if [ "${ip}" != "0.0.0.0" ]&&[ "${ip}" != "" ]; then
 	queryips=( "${ip}" )
 # If ip is not set by user
 else
-	queryips=( "${getip}" )
+	queryips=( $(echo "${getip}") )
 fi
 
 echo "###### DEV IP CHECK ######"
