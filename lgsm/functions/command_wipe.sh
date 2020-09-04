@@ -27,55 +27,47 @@ fn_wipe_server_files(){
 	fn_script_log_info "Wiping server"
 	# Wipe procedural map.
 	if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
-		echo -en "removing procedural map proceduralmap.*.map file(s)..."
-		fn_sleep_time
-		fn_script_log_info "Removing procedural map file(s): ${serveridentitydir}/proceduralmap.*.map"
+		echo -en "Removing procedural map proceduralmap.*.map file..."
 		find "${serveridentitydir:?}" -type f -name "proceduralmap.*.map" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 		fn_sleep_time
-	else
-		echo -e "no procedural map file to remove"
-		fn_sleep_time
-		fn_script_log_pass "No procedural map file to remove"
-	fi
-	# Wipe procedural map save.
-	if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
-		echo -en "removing map saves proceduralmap.*.sav file(s)..."
-		fn_sleep_time
-		fn_script_log_info "Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
+		echo -en "Removing map saves proceduralmap.*.sav file..."
 		find "${serveridentitydir:?}" -type f -name "proceduralmap.*.sav" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 		fn_sleep_time
-	else
-		echo -e "no procedural map save to remove"
+		fn_script_log_info "Removing procedural map file(s): ${serveridentitydir}/proceduralmap.*.map"
+		fn_script_log_info "Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
 		fn_sleep_time
-		fn_script_log_pass "No procedural map save to remove"
-	fi
-	# Wipe Barren map.
-	if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
-		echo -en "removing barren map barren*.map file(s)..."
-		fn_sleep_time
-		fn_script_log_info "Removing map file(s): ${serveridentitydir}/barren*.map"
+	 # Wipe Barren map.
+	elif [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
+		echo -en "Removing barren map barren*.map file..."
 		find "${serveridentitydir:?}" -type f -name "barren*.map" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 		fn_sleep_time
-	else
-		echo -e "no barren map file to remove"
-		fn_sleep_time
-		fn_script_log_pass "No barren map file to remove"
-	fi
-	# Wipe barren map save.
-	if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
-		echo -en "removing barren map saves barren*.sav file(s)..."
-		fn_sleep_time
-		fn_script_log_info "Removing barren map save(s): ${serveridentitydir}/barren*.sav"
+		echo -en "Removing barren map saves barren*.sav file..."
 		find "${serveridentitydir:?}" -type f -name "barren*.sav" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 		fn_sleep_time
-	else
-		echo -e "no barren map save to remove"
+		fn_script_log_info "Removing map file(s): ${serveridentitydir}/barren*.map"
+		fn_script_log_info "Removing barren map save(s): ${serveridentitydir}/barren*.sav"
 		fn_sleep_time
-		fn_script_log_pass "No barren map save to remove."
+	# Wipe custom / static maps (craggyIsland/HapisIsland/SavasIsland_koth) maps.
+	elif [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
+		echo -en "Removing custom map file..."
+		find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
+		fn_wipe_exit_code
+		fn_sleep_time
+		echo -en "Removing custom map save file..."
+		find "${serveridentitydir:?}" -type f -name "*.sav" -delete | tee -a "${lgsmlog}"
+		fn_wipe_exit_code
+		fn_sleep_time
+		fn_script_log_info "Removing map file(s): ${serveridentitydir}/*.map"
+		fn_script_log_info "Removing map save(s): ${serveridentitydir}/*.sav"
+		fn_sleep_time
+	else
+		echo -e "No map or sav files to remove"
+		fn_sleep_time
+		fn_script_log_pass "No map or sav files to remove"
 	fi
 	# Wipe user dir, might be a legacy thing, maybe to be removed.
 	if [ -d "${serveridentitydir}/user" ]; then
