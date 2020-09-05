@@ -71,11 +71,13 @@ fn_monitor_check_queryport(){
 		fn_print_checking_eol
 		fn_script_log_info "Checking port: CHECKING"
 		if [ -n "${rconenabled}" ]&&[ "${rconenabled}" != "true" ]&&[ ${shortname} == "av" ]; then
-			fn_print_warn "Checking port: Unable to query as rconport, rcon not enabled: "
-			fn_script_log_warn "Checking port: Unable to query rconport, rcon not enabled: WARN"
+			fn_print_warn "Checking port: Unable to query, rcon is not enabled"
+			fn_print_warn_eol_nl
+			fn_script_log_warn "Checking port: Unable to query, rcon is not enabled"
 		else
-			fn_print_error "Checking port: Unable to query queryport is not set: "
-			fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
+			fn_print_error "Checking port: Unable to query, queryport is not set"
+			fn_script_log_error "Checking port: Unable to query, queryport is not set"
+			fn_print_error_eol_nl
 		fi
 		core_exit.sh
 	fi
@@ -162,25 +164,18 @@ for queryattempt in {1..5}; do
 			fn_print_fail_eol
 			fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
 			# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
-			if [ "${querymethod}" ==  "gsquery" ]||[ "${querymethod}" ==  "tcp" ]; then
-				# gsquery will fail if longer than 60s
-				if [ "${totalseconds}" -ge "59" ]; then
-					# Monitor will FAIL if over 60s and trigger gane server reboot.
-					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
-					fn_print_fail_eol_nl
-					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
-					# Send alert if enabled.
-					alert="restartquery"
-					alert.sh
-					command_restart.sh
-					fn_firstcommand_reset
-					core_exit.sh
-				fi
-			elif [ "${querymethod}" ==  "gamedig" ]; then
-				# gamedig will fail and try gsquery if longer than 30s
-				if [ "${totalseconds}" -ge "29" ]; then
-					break
-				fi
+			# gsquery will fail if longer than 60s
+			if [ "${totalseconds}" -ge "59" ]; then
+				# Monitor will FAIL if over 60s and trigger gane server reboot.
+				fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+				fn_print_fail_eol_nl
+				fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
+				# Send alert if enabled.
+				alert="restartquery"
+				alert.sh
+				command_restart.sh
+				fn_firstcommand_reset
+				core_exit.sh
 			fi
 		fi
 		done
