@@ -108,9 +108,9 @@ for queryattempt in {1..5}; do
 		fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
 		# querydelay
 		if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
-			fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 			fn_print_delay_eol_nl
-			fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : DELAY"
+			fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 			fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
 			fn_script_log_info "Server started: $(date -d @$(cat "${lockdir}/${selfname}.lock"))"
 			fn_script_log_info "Current time: $(date)"
