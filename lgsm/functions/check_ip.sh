@@ -8,7 +8,6 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_config.sh
-info_distro.sh # for dev
 info_parms.sh
 
 if [ ! -f "/bin/ip" ]; then
@@ -25,11 +24,6 @@ if [ "${ip}" != "0.0.0.0" ]&&[ "${ip}" != "" ]; then
 	queryips=( "${ip}" )
 # If ip is not set by user
 else
-	queryips=( $(echo "${getip}") )
+	queryips=()
+	echo "${getip}" | IFS=" " read -r -a queryips
 fi
-
-echo "###### DEV IP CHECK ######"
-echo "IP: ${ip}"
-echo "EXTIP: ${extip}"
-echo "DISPLAYIP: ${displayip}"
-echo "QUERYIP: ${queryips}"
