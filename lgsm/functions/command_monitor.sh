@@ -99,88 +99,91 @@ fn_monitor_query(){
 # Query will wait up to 60 seconds to confirm server is down as server can become non-responsive during map changes.
 totalseconds=0
 for queryattempt in {1..5}; do
-	fn_print_dots "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
-	fn_print_querying_eol
-	fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
-	# querydelay
-	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
-		fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_delay_eol_nl
-		fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : DELAY"
-		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-		fn_script_log_info "Server started: $(date -d @$(cat "${lockdir}/${selfname}.lock"))"
-		fn_script_log_info "Current time: $(date)"
-		monitorpass=1
-		core_exit.sh
-	# will use query method selected in fn_monitor_loop
-	# gamedig
-	elif [ "${querymethod}" ==  "gamedig" ]; then
-		query_gamedig.sh
-	# gsquery
-	elif [ "${querymethod}" ==  "gsquery" ]; then
-		fn_query_gsquery
-	#tcp query
-	elif [ "${querymethod}" ==  "tcp" ]; then
-		fn_query_tcp
-	fi
-
-	if [ "${querystatus}" == "0" ]; then
-		# Server query OK.
-		fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: OK"
-		monitorpass=1
-		if [ "${querystatus}" == "0" ]; then
-			# Add query data to log.
-			if [ "${gdname}" ]; then
-				fn_script_log_info "Server name: ${gdname}"
-			fi
-			if [ "${gdplayers}" ]; then
-				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
-			fi
-			if [ "${gdbots}" ]; then
-				fn_script_log_info "Bots: ${gdbots}"
-			fi
-			if [ "${gdmap}" ]; then
-				fn_script_log_info "Map: ${gdmap}"
-			fi
-			if [ "${gdgamemode}" ]; then
-				fn_script_log_info "Game Mode: ${gdgamemode}"
-			fi
-
-			# send LinuxGSM stats if monitor is OK.
-			if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
-				info_stats.sh
-			fi
-		fi
-		core_exit.sh
-	else
-		# Server query FAIL.
-		fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_fail_eol
-		fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
-		# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
-		if [ "${querymethod}" ==  "gsquery" ]||[ "${querymethod}" ==  "tcp" ]; then
-			# gsquery will fail if longer than 60s
-			if [ "${totalseconds}" -ge "59" ]; then
-				# Monitor will FAIL if over 60s and trigger gane server reboot.
-				fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
-				fn_print_fail_eol_nl
-				fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
-				# Send alert if enabled.
-				alert="restartquery"
-				alert.sh
-				command_restart.sh
-				fn_firstcommand_reset
-				core_exit.sh
-			fi
+	for queryip in "${queryips[@]}"
+	do
+		fn_print_dots "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+		fn_print_querying_eol
+		fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
+		# querydelay
+		if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+			fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_delay_eol_nl
+			fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : DELAY"
+			fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
+			fn_script_log_info "Server started: $(date -d @$(cat "${lockdir}/${selfname}.lock"))"
+			fn_script_log_info "Current time: $(date)"
+			monitorpass=1
+			core_exit.sh
+		# will use query method selected in fn_monitor_loop
+		# gamedig
 		elif [ "${querymethod}" ==  "gamedig" ]; then
-			# gamedig will fail and try gsquery if longer than 30s
-			if [ "${totalseconds}" -ge "29" ]; then
-				break
-			fi
+			query_gamedig.sh
+		# gsquery
+		elif [ "${querymethod}" ==  "gsquery" ]; then
+			fn_query_gsquery
+		#tcp query
+		elif [ "${querymethod}" ==  "tcp" ]; then
+			fn_query_tcp
 		fi
 
+		if [ "${querystatus}" == "0" ]; then
+			# Server query OK.
+			fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: OK"
+			monitorpass=1
+			if [ "${querystatus}" == "0" ]; then
+				# Add query data to log.
+				if [ "${gdname}" ]; then
+					fn_script_log_info "Server name: ${gdname}"
+				fi
+				if [ "${gdplayers}" ]; then
+					fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
+				fi
+				if [ "${gdbots}" ]; then
+					fn_script_log_info "Bots: ${gdbots}"
+				fi
+				if [ "${gdmap}" ]; then
+					fn_script_log_info "Map: ${gdmap}"
+				fi
+				if [ "${gdgamemode}" ]; then
+					fn_script_log_info "Game Mode: ${gdgamemode}"
+				fi
+
+				# send LinuxGSM stats if monitor is OK.
+				if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
+					info_stats.sh
+				fi
+			fi
+			core_exit.sh
+		else
+			# Server query FAIL.
+			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_fail_eol
+			fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
+			# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
+			if [ "${querymethod}" ==  "gsquery" ]||[ "${querymethod}" ==  "tcp" ]; then
+				# gsquery will fail if longer than 60s
+				if [ "${totalseconds}" -ge "59" ]; then
+					# Monitor will FAIL if over 60s and trigger gane server reboot.
+					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+					fn_print_fail_eol_nl
+					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
+					# Send alert if enabled.
+					alert="restartquery"
+					alert.sh
+					command_restart.sh
+					fn_firstcommand_reset
+					core_exit.sh
+				fi
+			elif [ "${querymethod}" ==  "gamedig" ]; then
+				# gamedig will fail and try gsquery if longer than 30s
+				if [ "${totalseconds}" -ge "29" ]; then
+					break
+				fi
+			fi
+		fi
+		done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: ${cyan}WAIT${default}"
@@ -190,7 +193,7 @@ for queryattempt in {1..5}; do
 				break
 			fi
 		done
-	fi
+
 done
 }
 
