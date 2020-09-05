@@ -58,7 +58,13 @@ else
 	info_parms.sh
 	info_distro.sh
 	info_messages.sh
-	query_gamedig.sh
+	for queryip in "${queryips[@]}"
+	do
+		query_gamedig.sh
+		if [ "${querystatus}" == "0" ]; then
+			break
+		fi
+	done
 	touch "${postdetailslog}" || fn_bad_postdetailslog
 	{
 		fn_info_message_distro

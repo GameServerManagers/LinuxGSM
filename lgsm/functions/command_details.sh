@@ -20,6 +20,9 @@ if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
 	for queryip in "${queryips[@]}"
 	do
 		query_gamedig.sh
+		if [ "${querystatus}" == "0" ]; then
+			break
+		fi
 	done
 fi
 fn_info_message_distro
