@@ -17,7 +17,10 @@ info_parms.sh
 info_distro.sh
 info_messages.sh
 if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
-	query_gamedig.sh
+	for queryip in "${queryips[@]}"
+	do
+		query_gamedig.sh
+	done
 fi
 fn_info_message_distro
 fn_info_message_server_resource
