@@ -181,7 +181,7 @@ for queryattempt in {1..5}; do
 		done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: ${cyan}WAIT${default}"
+			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: ${cyan}WAIT${default}"
 			sleep 0.5
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
