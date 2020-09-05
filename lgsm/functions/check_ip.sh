@@ -19,11 +19,11 @@ getip=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\
 getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}'|sort -u|grep -vc 127.0.0)
 # Check if server has m ultiple IP addresses
 
-# If the ip variable is set by user
-if [ "${ip}" != "0.0.0.0" ]&&[ "${ip}" != "" ]; then
-	queryips=( "${ip}" )
+
 # If ip is not set by user
+if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]&&[ -z "${ip}" ]; then
+	queryips=( $(echo "${getip}") )
+# If the ip variable is set by user
 else
-	queryips=()
-	echo "${getip}" | IFS=" " read -r -a queryips
+	queryips=( "${ip}" )
 fi
