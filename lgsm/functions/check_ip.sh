@@ -20,10 +20,13 @@ getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\
 # Check if server has m ultiple IP addresses
 
 
-# If ip is not set by user
-if [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]&&[ -z "${ip}" ]; then
+# If game server IP is set IP address in game config.
+if [ -n "${configip}" ]; then
+	queryips=( "${configip}" )
+# If IP has not been set by user.
+elif [ "${ip}" == "0.0.0.0" ]||[ "${ip}" == "" ]&&[ -z "${ip}" ]; then
 	queryips=( $(echo "${getip}") )
-# If the ip variable is set by user
+# If the IP variable has been set by user.
 else
 	queryips=( "${ip}" )
 fi
