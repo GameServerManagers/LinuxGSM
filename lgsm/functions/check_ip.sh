@@ -21,7 +21,7 @@ getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\
 # Check if server has multiple IP addresses
 
 # If the IP variable has been set by user.
-if [ -n "${ip}" ]||[ "${ip}" != "0.0.0.0" ]; then
+if [ -n "${ip}" ]&&[ "${ip}" != "0.0.0.0" ]; then
 	queryips=( "${ip}" )
 # If game server IP is set IP address in game config.
 elif [ -n "${configip}" ]; then
