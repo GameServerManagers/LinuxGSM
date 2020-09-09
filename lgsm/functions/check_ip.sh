@@ -28,6 +28,7 @@ elif [ -n "${configip}" ]; then
 	# If config does not have an IP set.
 	if [ "${configip}" == "" ];then
 		queryips=( $(echo "${getip}") )
+		ip="0.0.0.0"
 	# If config does have an IP set.
 	else
 		queryips=( "${configip}" )
