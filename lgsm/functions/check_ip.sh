@@ -25,8 +25,14 @@ if [ -n "${ip}" ]&&[ "${ip}" != "0.0.0.0" ]; then
 	queryips=( "${ip}" )
 # If game server IP is set IP address in game config.
 elif [ -n "${configip}" ]; then
-	queryips=( "${configip}" )
-	ip="${configip}"
+	# If config does not have an IP set.
+	if [ "${configip}" == "" ];then
+		queryips=( $(echo "${getip}") )
+	# If config does have an IP set.
+	else
+		queryips=( "${configip}" )
+		ip="${configip}"
+	fi
 # If IP has not been set by user.
 else
 	queryips=( $(echo "${getip}") )
