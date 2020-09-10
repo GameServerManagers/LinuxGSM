@@ -25,12 +25,8 @@ fn_info_message_head(){
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
 	echo -e ""
-	echo -e "Server IP"
-	if [ "${multiple_ip}" == "1" ]; then
-		echo -e "NOT SET"
-	else
-		echo -e "${ip}:${port}"
-	fi
+	echo -e "Game Server IP"
+	echo -e "${ip}:${port}"
 }
 
 fn_info_message_distro(){
@@ -113,7 +109,7 @@ fn_info_message_server_resource(){
 		if [ -n "${netlink}" ]; then
 			echo -e "${lightblue}Link Speed:\t${default}${netlink}"
 		fi
-		echo -e "${lightblue}IP:\t${default}${ip}"
+		echo -e "${lightblue}Server IP:\t${default}${getip}"
 		if [ "${ip}" != "${extip}" ]; then
 			echo -e "${lightblue}Internet IP:\t${default}${extip}"
 		fi
@@ -158,7 +154,7 @@ fn_info_message_gameserver(){
 	# Counter-Strike: Global Offensive Server Details
 	# ==========================================================================================================================================================================================================================================
 	# Server name:      LinuxGSM
-	# Server IP:        80.70.189.230:27015
+	# Game Server IP:        80.70.189.230:27015
 	# Server password:  NOT SET
 	# RCON password:    adminF54CC0VR
 	# Players:          0/16
@@ -202,12 +198,8 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
-		# Server ip
-		if [ "${multiple_ip}" == "1" ]; then
-			echo -e "${lightblue}Server IP:\t${default}NOT SET"
-		else
-			echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
-		fi
+		# Game Server IP
+		echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
 
 		# Internet ip
 		if [ -n "${extip}" ]; then
