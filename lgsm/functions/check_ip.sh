@@ -24,7 +24,7 @@ getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\
 if [ -n "${ip}" ]&&[ "${ip}" != "0.0.0.0" ]; then
 	queryips=( "${ip}" )
 	# If game config does have an IP set.
-elif [ -n "${configip}" ];then
+elif [ -n "${configip}" ]&&[ "${configip}" != "0.0.0.0" ];then
 		queryips=( "${configip}" )
 		ip="${configip}"
 	# If no ip is set by the user.
