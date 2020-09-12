@@ -212,20 +212,19 @@ fn_stop_graceful_avorion(){
 # custom half-baked shutdown procedure. Up till now, the game does
 # not support any signals.
 fn_stop_graceful_valheim(){
-        fn_print_dots "Graceful: echo 1 to server_exit.drp"
-        fn_script_log_info "Graceful: echo 1 to server_exit.drp"
-        # sends quit
-        /bin/echo 1 > "${serverfiles}"/server_exit.drp
+	fn_print_dots "Graceful: echo 1 to server_exit.drp"
+	fn_script_log_info "Graceful: echo 1 to server_exit.drp"
+	# sends quit
+	echo 1 > "${serverfiles}"/server_exit.drp
 
-        # Animate dots for shutdown period
-        for seconds in {1..10}; do
-                sleep 1
-                fn_print_dots "Graceful: echo 1 to server_exit.drp: ${seconds}"
-
-        done
-        fn_print_ok "Graceful: echo 1 to server_exit.drp: ${seconds}: "
-        fn_print_ok_eol_nl
-        fn_script_log_pass "Graceful: echo 1 to server_exit.drp: OK: ${seconds} seconds"
+	# Animate dots for shutdown period
+	for seconds in {1..10}; do
+		sleep 1
+			fn_print_dots "Graceful: echo 1 to server_exit.drp: ${seconds}"
+		done
+		fn_print_ok "Graceful: echo 1 to server_exit.drp: ${seconds}: "
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Graceful: echo 1 to server_exit.drp: OK: ${seconds} seconds"
 }
 
 
