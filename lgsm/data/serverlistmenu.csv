@@ -1,5 +1,4 @@
-ac,acserver,Assetto Corsa
-ahl,ahlserver,Action Half-Life
+ahl,ahlserver,Action half-life
 ahl2,ahl2server,Action: Source
 ark,arkserver,ARK: Survival Evolved
 arma3,arma3server,ARMA 3
@@ -8,7 +7,6 @@ bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
 bd,bdserver,Base Defense
 bf1942,bf1942server,Battlefield 1942
-bfv,bfvserver,Battlefield: Vietnam
 bmdm,bmdmserver,Black Mesa: Deathmatch
 bo,boserver,Ballistic Overkill
 bs,bsserver,Blade Symphony
@@ -48,7 +46,6 @@ inss,inssserver,Insurgency: Sandstorm
 ios,iosserver,IOSoccer
 jc2,jc2server,Just Cause 2
 jc3,jc3server,Just Cause 3
-jk2,jk2server,Jedi Knight II: Jedi Outcast
 kf,kfserver,Killing Floor
 kf2,kf2server,Killing Floor 2
 l4d,l4dserver,Left 4 Dead
@@ -57,7 +54,6 @@ mc,mcserver,Minecraft
 mcb,mcbserver,Minecraft Bedrock
 mh,mhserver,MORDHAU
 mohaa,mohaaserver,Medal of Honor: Allied Assault
-mom,momserver,Memories of Mars
 mta,mtaserver,Multi Theft Auto
 mumble,mumbleserver,Mumble
 nd,ndserver,Nuclear Dawn
