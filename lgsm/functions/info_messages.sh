@@ -25,8 +25,12 @@ fn_info_message_head(){
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
 	echo -e ""
-	echo -e "Game Server IP"
-	echo -e "${ip}:${port}"
+	echo -e "Server IP"
+	if [ "${multiple_ip}" == "1" ]; then
+		echo -e "NOT SET"
+	else
+		echo -e "${ip}:${port}"
+	fi
 }
 
 fn_info_message_distro(){
@@ -109,7 +113,7 @@ fn_info_message_server_resource(){
 		if [ -n "${netlink}" ]; then
 			echo -e "${lightblue}Link Speed:\t${default}${netlink}"
 		fi
-		echo -e "${lightblue}Server IP:\t${default}${getip}"
+		echo -e "${lightblue}IP:\t${default}${ip}"
 		if [ "${ip}" != "${extip}" ]; then
 			echo -e "${lightblue}Internet IP:\t${default}${extip}"
 		fi
@@ -154,7 +158,7 @@ fn_info_message_gameserver(){
 	# Counter-Strike: Global Offensive Server Details
 	# ==========================================================================================================================================================================================================================================
 	# Server name:      LinuxGSM
-	# Game Server IP:        80.70.189.230:27015
+	# Server IP:        80.70.189.230:27015
 	# Server password:  NOT SET
 	# RCON password:    adminF54CC0VR
 	# Players:          0/16
@@ -198,8 +202,12 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
-		# Game Server IP
-		echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
+		# Server ip
+		if [ "${multiple_ip}" == "1" ]; then
+			echo -e "${lightblue}Server IP:\t${default}NOT SET"
+		else
+			echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
+		fi
 
 		# Internet ip
 		if [ -n "${extip}" ]; then
@@ -547,8 +555,7 @@ fn_info_message_ports(){
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
 	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
-	for port_edit in "${ports_edit_array[@]}"
-	do
+	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			parmslocation="${servercfgdir}/UTWeb.ini"
 		elif [ "${shortname}" == "kf2" ]; then
@@ -559,8 +566,7 @@ fn_info_message_ports(){
 	done
 	# engines/games that require editing the parms.
 	local ports_edit_array=( "Avorion" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
-	for port_edit in "${ports_edit_array[@]}"
-	do
+	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
 		fi
@@ -757,7 +763,7 @@ fn_info_message_dst(){
 }
 
 fn_info_message_eco(){
-	echo -e "netstat -atunp | grep mono"
+	echo -e "netstat -atunp | grep EcoServer"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"

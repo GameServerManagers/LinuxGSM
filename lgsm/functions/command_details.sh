@@ -17,8 +17,7 @@ info_parms.sh
 info_distro.sh
 info_messages.sh
 if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
-	for queryip in "${queryips[@]}"
-	do
+	for queryip in "${queryips[@]}"; do
 		query_gamedig.sh
 		if [ "${querystatus}" == "0" ]; then
 			break

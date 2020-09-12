@@ -18,8 +18,7 @@ echo -e "Query Port - Raw Output"
 echo -e "=================================================================="
 echo -e ""
 echo -e "QUERY IP"
-for queryip in "${queryips[@]}"
-do
+for queryip in "${queryips[@]}"; do
 	echo -e "${queryip}"
 done
 echo -e "================================="
@@ -38,8 +37,7 @@ fi
 if [ ! "$(command -v jq 2>/dev/null)" ]; then
 	fn_print_failure_nl "jq not installed"
 fi
-for queryip in "${queryips[@]}"
-do
+for queryip in "${queryips[@]}"; do
 	query_gamedig.sh
 	echo -e "${gamedigcmd}"
 	echo""
@@ -49,8 +47,7 @@ echo -e ""
 echo -e "gsquery Raw Output"
 echo -e "================================="
 echo -e ""
-for queryip in "${queryips[@]}"
-do
+for queryip in "${queryips[@]}"; do
 	echo -e "./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\""
 	echo -e ""
 	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
@@ -62,8 +59,7 @@ echo -e ""
 echo -e "TCP Raw Output"
 echo -e "================================="
 echo -e ""
-for queryip in "${queryips[@]}"
-do
+for queryip in "${queryips[@]}"; do
 	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''"
 	echo -e ""
 	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''
@@ -82,8 +78,7 @@ echo -e ""
 echo -e "TCP Raw Output"
 echo -e "================================="
 echo -e ""
-for queryip in "${queryips[@]}"
-do
+for queryip in "${queryips[@]}"; do
 	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''"
 	echo -e ""
 	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''

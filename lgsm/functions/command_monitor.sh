@@ -101,8 +101,7 @@ fn_monitor_query(){
 # Query will wait up to 60 seconds to confirm server is down as server can become non-responsive during map changes.
 totalseconds=0
 for queryattempt in {1..5}; do
-	for queryip in "${queryips[@]}"
-	do
+	for queryip in "${queryips[@]}"; do
 		fn_print_dots "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
 		fn_print_querying_eol
 		fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
@@ -178,7 +177,7 @@ for queryattempt in {1..5}; do
 				core_exit.sh
 			fi
 		fi
-		done
+	done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: ${cyan}WAIT${default}"
@@ -188,7 +187,6 @@ for queryattempt in {1..5}; do
 				break
 			fi
 		done
-
 done
 }
 
@@ -204,8 +202,7 @@ fn_monitor_loop(){
 	elif [ "${querymode}" == "5" ]; then
 		local query_methods_array=( tcp )
 	fi
-	for querymethod in "${query_methods_array[@]}"
-	do
+	for querymethod in "${query_methods_array[@]}"; do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
 			if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then

@@ -42,8 +42,7 @@ touch "${tmpdir}/.depdetect_debian_list"
 while read -r lib; do
 	echo -e "${lib}"
 	libs_array=( libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2 )
-	for lib_file in "${libs_array[@]}"
-	do
+	for lib_file in "${libs_array[@]}"; do
 		if [ "${lib}" == "${lib_file}" ]; then
 			echo -e "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
 			echo -e "lib32gcc1" >> "${tmpdir}/.depdetect_ubuntu_list"
@@ -53,8 +52,7 @@ while read -r lib; do
 	done
 
 	libs_array=( libawt.so libjava.so libjli.so libjvm.so libnet.so libnio.so libverify.so )
-	for lib_file in "${libs_array[@]}"
-	do
+	for lib_file in "${libs_array[@]}"; do
 		if [ "${lib}" == "${lib_file}" ]; then
 			echo -e "java-1.8.0-openjdk" >> "${tmpdir}/.depdetect_centos_list"
 			echo -e "default-jre" >> "${tmpdir}/.depdetect_ubuntu_list"
@@ -64,8 +62,7 @@ while read -r lib; do
 	done
 
 	libs_array=( libtier0.so libtier0_srv.so libvstdlib_srv.so Core.so libvstdlib.so libtier0_s.so Editor.so Engine.so liblua.so libsteam_api.so ld-linux-x86-64.so.2 libPhysX3_x86.so libPhysX3Common_x86.so libPhysX3Cooking_x86.so)
-	for lib_file in "${libs_array[@]}"
-	do
+	for lib_file in "${libs_array[@]}"; do
 		# Known shared libs what dont requires dependencies.
 		if [ "${lib}" == "${lib_file}" ]; then
 			libdetected=1
