@@ -35,8 +35,7 @@ echo -e ""
 
 
 glibc_check_dir_array=( steamcmddir serverfiles )
-for glibc_check_var in "${glibc_check_dir_array[@]}"
-do
+for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 	if [ "${glibc_check_var}" == "serverfiles" ]; then
 		glibc_check_dir="${serverfiles}"
 		glibc_check_name="${gamename}"

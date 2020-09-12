@@ -329,8 +329,7 @@ fn_found_missing_deps(){
 
 fn_check_loop(){
 	# Loop though required depenencies.
-	for deptocheck in ${array_deps_required[*]}
-	do
+	for deptocheck in ${array_deps_required[*]}; do
 		fn_deps_detector
 	done
 

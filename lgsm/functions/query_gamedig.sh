@@ -14,13 +14,13 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		# checks if query is working null = pass.
-		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --query_port \"${queryport}\"|jq")
-		gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --query_port "${queryport}")
+		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${queryip}\" --query_port \"${queryport}\"|jq")
+		gamedigraw=$(gamedig --type "${querytype}" --host "${queryip}" --query_port "${queryport}")
 		querystatus=$(echo "${gamedigraw}" | jq '.error|length')
 
 		if [ "${querystatus}" != "null" ]; then
-			gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --port \"${queryport}\"|jq")
-			gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --port "${queryport}")
+			gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${queryip}\" --port \"${queryport}\"|jq")
+			gamedigraw=$(gamedig --type "${querytype}" --host "${queryip}" --port "${queryport}")
 			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
 		fi
 

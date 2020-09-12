@@ -248,8 +248,7 @@ fn_fetch_file(){
 			counter=1
 			remote_fileurls_array=( remote_fileurl )
 		fi
-		for remote_fileurl_array in "${remote_fileurls_array[@]}"
-		do
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
 				fileurl="${remote_fileurl}"
 				fileurl_name="${remote_fileurl_name}"

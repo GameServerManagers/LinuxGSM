@@ -149,8 +149,7 @@ fi
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
 		cd "${functionsdir}" || exit
-		for functionfile in *
-		do
+		for functionfile in *; do
 			# check if module exists in the repo and remove if missing.
 			# commonly used if module names change.
 			echo -en "checking ${remotereponame} module ${functionfile}...\c"

@@ -25,8 +25,7 @@ kernel=$(uname -r)
 
 # Gathers distro info from various sources filling in missing gaps.
 distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
-for distro_info in "${distro_info_array[@]}"
-do
+for distro_info in "${distro_info_array[@]}"; do
 	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
 		distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
 		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
