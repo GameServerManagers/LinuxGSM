@@ -82,8 +82,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "unt" ]; then
 		fix_unt.sh
-	elif [ "${shortname}" == "vh" ]; then
-		fix_vh.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
 	elif [ "${shortname}" == "zmr" ]; then
