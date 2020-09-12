@@ -765,7 +765,7 @@ fn_info_message_dst(){
 }
 
 fn_info_message_eco(){
-	echo -e "netstat -atunp | grep mono"
+	echo -e "netstat -atunp | grep EcoServer"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"

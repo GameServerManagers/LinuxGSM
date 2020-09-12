@@ -349,18 +349,16 @@ fn_info_config_eco(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
-		gamemode="${unavailable}"
 		tickrate="${zero}"
 		port="${zero}"
 		webadminport="${zero}"
-		public=""
 	else
-		servername=$(grep "Description" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "Password" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxConnections" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/MaxConnections//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		port=$(grep "\"GameServerPort\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
-		webadminport=$(grep "\"WebServerPort\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
-		public=$(grep "PublicServer" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/PublicServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(jq -r .Description "${servercfgdir}/Network.eco")
+		serverpassword=$(jq -r .Password "${servercfgdir}/Network.eco")
+		maxplayers=$(jq -r .MaxConnections "${servercfgdir}/Network.eco")
+		tickrate=$(jq -r .MaxConnections "${servercfgdir}/Network.eco")
+		port=$(jq -r .Rate "${servercfgdir}/Network.eco")
+		webadminport=$(jq -r .WebServerPort "${servercfgdir}/Network.eco")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
@@ -368,7 +366,6 @@ fn_info_config_eco(){
 		maxplayers=${maxplayers=:-"0"}
 		port=${port=:-"0"}
 		webadminport=${webadminport=:-"0"}
-		public=${public=:-"NOT SET"}
 	fi
 }
 
