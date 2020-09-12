@@ -409,19 +409,18 @@ fn_info_message_script(){
 	# LinuxGSM version:     v19.9.0
 	# glibc required:         2.15
 	# Discord alert:          off
-	# Rocketchat alert:	  off
-	# Slack alert:            off
 	# Email alert:            off
-	# Pushbullet alert:       off
 	# IFTTT alert:            off
 	# Mailgun (email) alert:  off
+	# Pushbullet alert:       off
 	# Pushover alert:         off
+	# Rocketchat alert:       off
+	# Slack alert:            off
 	# Telegram alert:         off
 	# Update on start:        off
 	# User:                   lgsm
 	# Location:               /home/lgsm/csgoserver
 	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
-
 
 	echo -e "${lightgreen}${selfname} Script Details${default}"
 	fn_messages_separator
@@ -450,22 +449,23 @@ fn_info_message_script(){
 
 		# Discord alert
 		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
-		# Rocketchat alert
-		echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
-		# Slack alert
-		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
 		# Email alert
 		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
-		# Pushbullet alert
-		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
 		# IFTTT alert
 		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		# Mailgun alert
 		echo -e "${lightblue}Mailgun (email) alert:\t${default}${mailgunalert}"
+		# Pushbullet alert
+		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
 		# Pushover alert
 		echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
+		# Rocketchat alert
+		echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
+		# Slack alert
+		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
 		# Telegram alert
 		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
+
 		# Update on start
 		if [ -n "${updateonstart}" ]; then
 			echo -e "${lightblue}Update on start:\t${default}${updateonstart}"
