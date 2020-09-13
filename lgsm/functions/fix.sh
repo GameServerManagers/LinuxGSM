@@ -56,6 +56,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_nmrih.sh
 	elif [ "${shortname}" == "onset" ]; then
 		fix_onset.sh
+	elif [ "${shortname}" == "pz" ]; then
+		fix_pz.sh
 	elif [ "${shortname}" == "rust" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
