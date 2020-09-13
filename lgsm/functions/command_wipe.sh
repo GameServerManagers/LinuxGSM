@@ -77,6 +77,32 @@ fn_wipe_server_files(){
 		fn_sleep_time
 		fn_script_log_pass "No barren map save to remove."
 	fi
+	# Wipe custom map.
+	if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
+		echo -en "removing custom map file(s)..."
+		fn_sleep_time
+		fn_script_log_info "Removing map file(s): ${serveridentitydir}/*.map"
+		find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
+		fn_wipe_exit_code
+		fn_sleep_time
+	else
+		echo -e "no map file to remove"
+		fn_sleep_time
+		fn_script_log_pass "No map file to remove"
+	fi
+	# Wipe custom map save.
+	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav")" ]; then
+		echo -en "removing map save *.sav file(s)..."
+		fn_sleep_time
+		fn_script_log_info "Removing map save(s): ${serveridentitydir}/*.sav"
+		find "${serveridentitydir:?}" -type f -name "*.sav" -delete | tee -a "${lgsmlog}"
+		fn_wipe_exit_code
+		fn_sleep_time
+	else
+		echo -e "no map save to remove"
+		fn_sleep_time
+		fn_script_log_pass "No map save to remove."
+	fi
 	# Wipe user dir, might be a legacy thing, maybe to be removed.
 	if [ -d "${serveridentitydir}/user" ]; then
 		echo -en "removing user directory..."
