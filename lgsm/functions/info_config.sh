@@ -377,15 +377,24 @@ fn_info_config_factorio(){
 		servername="Factorio Server"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
+		authtoken=${authtoken:-"NOT SET"}
+		savegameinterval="${unavailable}"
+		versioncount="${unavailable}"
 	else
-		servername="Factorio Server"
-		serverpassword=$(grep "game_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "\"max_players\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		servername=$(jq -r '.name' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.game_password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.max_players' "${servercfgfullpath}")
+		authtoken=$(jq -r '.token' "${servercfgfullpath}")
+		savegameinterval=$(jq -r '.autosave_interval' "${servercfgfullpath}")
+		versioncount=$(jq -r '.autosave_slots' "${servercfgfullpath}")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers=:-"0"}
+		maxplayers=${maxplayers:-"0"}
+		authtoken=${authtoken:-"NOT SET"}
+		savegameinterval=${savegameinterval:-"0"}
+		versioncount=${versioncount:-"0"}
 	fi
 }
 
