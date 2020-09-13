@@ -15,8 +15,6 @@ if [ "${shortname}" == "cs" ]; then
 			cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/steamclient.so" >> "${lgsmlog}"
 		elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
 			cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/steamclient.so" >> "${lgsmlog}"
-		else
-			:
 		fi
 		fn_fix_msg_end
 	fi
