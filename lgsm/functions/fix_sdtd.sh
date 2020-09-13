@@ -9,14 +9,14 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"
 
 # Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
-if [ ! -f "${serverfiles}/steamcmd/steamclient.so" ]; then
+if [ ! -f "${serverfiles}/steamcmd/linux32/steamclient.so" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start
-	mkdir -p "${serverfiles}/steamcmd"
+	mkdir -p "${serverfiles}/steamcmd/linux32"
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/steamcmd/steamclient.so" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/steamcmd/linux32/steamclient.so"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/steamcmd/linux32/steamclient.so"
 	fi
 	fn_fix_msg_end
 fi
