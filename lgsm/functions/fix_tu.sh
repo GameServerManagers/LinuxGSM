@@ -10,10 +10,11 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ ! -f "${executabledir}/steamclient.so" ]; then
 	fixname="steamclient.so x86_64"
 	fn_fix_msg_start
+	mkdir -p "${executabledir}"
 	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${executabledir}/steamclient.so" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${executabledir}/steamclient.so"
 	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp "${steamcmddir}/linux64/steamclient.so" "${executabledir}/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux64/steamclient.so" "${executabledir}/steamclient.so"
 	fi
 	fn_fix_msg_end
 fi
