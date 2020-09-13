@@ -31,8 +31,7 @@ if [ "${commandname}" != "INSTALL" ]&&[ "${commandname}" != "UPDATE-LGSM" ]&&[ "
 fi
 
 allowed_commands_array=( START DEBUG )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_executable.sh
 	fi
@@ -40,8 +39,7 @@ done
 
 if [ "$(whoami)" != "root" ]; then
 	allowed_commands_array=( DEBUG START INSTALL )
-	for allowed_command in "${allowed_commands_array[@]}"
-	do
+	for allowed_command in "${allowed_commands_array[@]}"; do
 		if [ "${allowed_command}" == "${commandname}" ]; then
 			check_glibc.sh
 		fi
@@ -49,32 +47,28 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 allowed_commands_array=( BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPE )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_logs.sh
 	fi
 done
 
 allowed_commands_array=( DEBUG START STOP )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_deps.sh
 	fi
 done
 
 allowed_commands_array=( CONSOLE DEBUG MONITOR START STOP )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_config.sh
 	fi
 done
 
 allowed_commands_array=( DEBUG DETAILS POST_DETAILS MONITOR START STOP DEV-QUERY-RAW )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ -z "${installflag}" ]; then
 			check_ip.sh
@@ -83,8 +77,7 @@ do
 done
 
 allowed_commands_array=( DEBUG START UPDATE VALIDATE )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ "${appid}" ]; then
 			check_steamcmd.sh
@@ -93,16 +86,14 @@ do
 done
 
 allowed_commands_array=( DETAILS MONITOR START STOP CHANGE-PASSWORD UPDATE VALIDATE )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_status.sh
 	fi
 done
 
 allowed_commands_array=( DEBUG START INSTALL )
-for allowed_command in "${allowed_commands_array[@]}"
-do
+for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_system_requirements.sh
 	fi

@@ -55,11 +55,8 @@ if [ "${glibc}" ]; then
 fi
 
 # Server IP
-if [ "${multiple_ip}" == "1" ]; then
-	echo -e "${lightblue}Server IP:\t${default}NOT SET"
-else
-	echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
-fi
+server echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
+
 # External server IP.
 if [ "${extip}" ]; then
 	if [ "${ip}" != "${extip}" ]; then

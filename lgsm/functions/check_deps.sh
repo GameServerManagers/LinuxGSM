@@ -329,8 +329,7 @@ fn_found_missing_deps(){
 
 fn_check_loop(){
 	# Loop though required depenencies.
-	for deptocheck in ${array_deps_required[*]}
-	do
+	for deptocheck in ${array_deps_required[*]}; do
 		fn_deps_detector
 	done
 
@@ -396,6 +395,9 @@ fn_deps_build_debian(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
+	# Ecoserver
+	elif [ "${shortname}" == "eco" ]; then
+		array_deps_required+=( libgdiplus )
 	# Factorio
 	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz-utils )
@@ -505,6 +507,9 @@ fn_deps_build_redhat(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
+	# Ecoserver
+	elif [ "${shortname}" == "eco" ]; then
+		array_deps_required+=( libgdiplus )
 	# Factorio
 	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz )
