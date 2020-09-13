@@ -9,10 +9,11 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ ! -f "${serverfiles}/nativelibs" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start
+	mkdir -p "${serverfiles}/nativelibs"
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/nativelibs" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/nativelibs" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
 	fi
 	fn_fix_msg_end
 fi
