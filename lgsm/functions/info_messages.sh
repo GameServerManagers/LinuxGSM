@@ -382,6 +382,21 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Server Version:\t${default}${serverversion}"
 		fi
 
+		# authentication token (Factorio)
+		if [ -n "${authtoken}" ]; then
+			echo -e "${lightblue}Auth Token:\t${default}${authtoken}"
+		fi
+
+		# savegameinterval (Factorio)
+		if [ -n "${savegameinterval}" ]; then
+			echo -e "${lightblue}Savegame Interval:\t${default}${savegameinterval}"
+		fi
+
+		# versioncount (Factorio)
+		if [ -n "${versioncount}" ]; then
+			echo -e "${lightblue}Version Count:\t${default}${versioncount}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
