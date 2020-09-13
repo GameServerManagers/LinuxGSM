@@ -6,9 +6,15 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Copies steamclient.so to correct location.
 if [ ! -f "${serverfiles}/nativelibs" ]; then
-	cp -f "${serverfiles}/linux64/steamclient.so" "${serverfiles}/nativelibs"
+	fixname="steamclient.so x86"
+	fn_fix_msg_start
+	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
+		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/nativelibs" >> "${lgsmlog}"
+	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
+		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/nativelibs" >> "${lgsmlog}"
+	fi
+	fn_fix_msg_end
 fi
 
 # First run requires start with no parms.
