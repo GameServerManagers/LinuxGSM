@@ -1115,7 +1115,7 @@ fn_info_message_sdtd(){
 	fn_messages_separator
 	{
 		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1162,7 +1162,7 @@ fn_info_message_spark(){
 	echo -e "${lightgreen}${servername} WebAdmin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${webadminip}:${webadminport}/index.html"
 		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1276,7 +1276,7 @@ fn_info_message_unreal(){
 	fn_messages_separator
 	{
 		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1300,7 +1300,7 @@ fn_info_message_unreal2(){
 	fn_messages_separator
 	{
 		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1321,7 +1321,7 @@ fn_info_message_unreal3(){
 	fn_messages_separator
 	{
 		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1362,7 +1362,7 @@ fn_info_message_kf2(){
 	fn_messages_separator
 	{
 		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
+		echo -e "${lightblue}WebAdmin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
