@@ -105,10 +105,17 @@ fn_info_config_justcause3(){
 fn_info_config_ark(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		serverpassword="${unavailable}"
 	else
 		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		adminpassword=$(grep "ServerAdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerAdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
+		serverpassword=$( grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 }
 
