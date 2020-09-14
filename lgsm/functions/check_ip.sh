@@ -23,13 +23,21 @@ getipwc=$(${ipcommand} -o -4 addr | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\
 # If the IP variable has been set by user.
 if [ -n "${ip}" ]&&[ "${ip}" != "0.0.0.0" ]; then
 	queryips=( "${ip}" )
-	# If game config does have an IP set.
+	webadminip=( "${ip}" )
+# If game config does have an IP set.
 elif [ -n "${configip}" ]&&[ "${configip}" != "0.0.0.0" ];then
 		queryips=( "${configip}" )
 		ip="${configip}"
-	# If no ip is set by the user.
+		webadminip=( "${configip}" )
+# If there is only 1 server IP address.
+# Some IP details can automaticly use the one IP
+elif [ "${getipwc}" == "1" ]; then
+	queryips=( $(echo "${getip}") )
+	ip="0.0.0.0"
+	webadminip=( "${getip}" )
+# If no ip is set by the user and server has more than one IP.
 else
 	queryips=( $(echo "${getip}") )
 	ip="0.0.0.0"
-# If IP has not been set by user.
+	webadminip=( "${ip}" )
 fi
