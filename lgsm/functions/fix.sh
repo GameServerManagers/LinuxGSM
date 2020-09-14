@@ -70,6 +70,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_sfc.sh
 	elif [ "${shortname}" == "sof2" ]; then
 		fix_sof2.sh
+	elif [ "${shortname}" == "squad" ]; then
+		fix_squad.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
 	elif [ "${shortname}" == "tf2" ]; then
