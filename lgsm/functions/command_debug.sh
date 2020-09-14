@@ -55,7 +55,7 @@ if [ "${glibc}" ]; then
 fi
 
 # Server IP
-server echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
+echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
 
 # External server IP.
 if [ "${extip}" ]; then
