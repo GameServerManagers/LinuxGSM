@@ -1231,6 +1231,7 @@ fn_info_config_sdtd(){
 		telnetenabled="${unavailable}"
 		telnetport="${zero}"
 		telnetpass="${unavailable}"
+		telnetip="${unavailable}"
 		maxplayers="${unavailable}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
@@ -1246,7 +1247,11 @@ fn_info_config_sdtd(){
 		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-
+		# Telnet IP will be localhost if no password is set
+		# check_ip will set the IP first. This will overwrite it.
+		if [ -z "${telnetpass}" ]; then
+			telnetip="127.0.0.1"
+		fi
 		maxplayers=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		gameworld=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")

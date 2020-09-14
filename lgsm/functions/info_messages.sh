@@ -1123,7 +1123,7 @@ fn_info_message_sdtd(){
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
-		echo -e "${lightblue}Telnet address:\t${default}${ip} ${telnetport}"
+		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
 		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
 	} | column -s $'\t' -t
 }
