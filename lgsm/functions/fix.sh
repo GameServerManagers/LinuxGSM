@@ -40,6 +40,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_arma3.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
+	elif [ "${shortname}" == "bo" ]; then
+		fix_bo.sh
 	elif [ "${shortname}" == "cs" ]; then
 		fix_cs.sh
 	elif [ "${shortname}" == "csgo" ]; then

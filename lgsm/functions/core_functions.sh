@@ -320,6 +320,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_bo.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_cmw.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
