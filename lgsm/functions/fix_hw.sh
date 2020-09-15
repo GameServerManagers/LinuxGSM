@@ -6,7 +6,9 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/Hurtworld_Data/Plugins/x86_64"
+
+# steamclient.so x86 fix for unity3d game server
 if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start
@@ -18,6 +20,8 @@ if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
 	fi
 	fn_fix_msg_end
 fi
+
+# steamclient.so x86_64 fix for unity3d game server
 if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
 	fixname="steamclient.so x86_64"
 	fn_fix_msg_start
