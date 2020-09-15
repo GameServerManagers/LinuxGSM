@@ -353,6 +353,7 @@ fn_info_config_dontstarve(){
 
 fn_info_config_eco(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		configip="${unavailable}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
@@ -360,14 +361,16 @@ fn_info_config_eco(){
 		port="${zero}"
 		webadminport="${zero}"
 	else
-		servername=$(jq -r .Description "${servercfgdir}/Network.eco")
-		serverpassword=$(jq -r .Password "${servercfgdir}/Network.eco")
-		maxplayers=$(jq -r .MaxConnections "${servercfgdir}/Network.eco")
-		tickrate=$(jq -r .MaxConnections "${servercfgdir}/Network.eco")
-		port=$(jq -r .Rate "${servercfgdir}/Network.eco")
-		webadminport=$(jq -r .WebServerPort "${servercfgdir}/Network.eco")
+		configip=$(jq -r '.IPAddress' "${servercfgfullpath}")
+		servername=$(jq -r '.Description' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.Password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.MaxConnections' "${servercfgfullpath}")
+		tickrate=$(jq -r '.Rate' "${servercfgfullpath}")
+		port=$(jq -r '.GameServerPort' "${servercfgfullpath}")
+		webadminport=$(jq -r '.WebServerPort' "${servercfgfullpath}")
 
 		# Not Set
+		configip=${configip:-"NOT SET"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers=:-"0"}
