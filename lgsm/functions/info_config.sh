@@ -1247,7 +1247,7 @@ fn_info_config_sdtd(){
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "ServerPort" "${servercfgfullpath}" | egrep -o 'value="[0-9]+"' | tr -cd '[:digit:]')
 		queryport=${port:-"0"}
 
 		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
