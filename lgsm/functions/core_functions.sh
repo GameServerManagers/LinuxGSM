@@ -415,6 +415,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_st.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function

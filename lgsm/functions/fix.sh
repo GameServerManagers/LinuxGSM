@@ -76,6 +76,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_squad.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
+	elif [ "${shortname}" == "st" ]; then
+		fix_st.sh
 	elif [ "${shortname}" == "tf2" ]; then
 		fix_tf2.sh
 	elif [ "${shortname}" == "terraria" ]; then
