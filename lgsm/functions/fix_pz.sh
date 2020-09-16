@@ -6,7 +6,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
+# steamclient.so x86 fix.
 if [ ! -f "${serverfiles}/linux32/steamclient.so" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start
@@ -19,6 +19,7 @@ if [ ! -f "${serverfiles}/linux32/steamclient.so" ]; then
 	fn_fix_msg_end
 fi
 
+# steamclient.so x86_64 fix.
 if [ ! -f "${serverfiles}/linux64/steamclient.so" ]; then
 	fixname="steamclient.so x86_64"
 	fn_fix_msg_start
