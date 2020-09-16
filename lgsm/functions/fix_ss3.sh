@@ -10,6 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ ! -f "${serverfiles}/Bin/steamclient.so" ]||[ "$(diff "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so" 2>/dev/null)" ]; then
 	fixname="steamclient.so"
 	fn_fix_msg_start
+	mkdir -p "${serverfiles}/Bin"
 	cp -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so"
 	fn_fix_msg_end
 fi
@@ -18,7 +19,7 @@ fi
 if [ ! -f "${HOME}/.steam/bin32/libsteam.so" ]; then
 	fixname="libsteam.so"
 	fn_fix_msg_start
-	mkdir -pv "${HOME}/.steam/bin32" >> "${lgsmlog}"
-	cp "${serverfiles}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so" >> "${lgsmlog}"
+	mkdir -p "${HOME}/.steam/bin32"
+	cp "${serverfiles}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
 	fn_fix_msg_end
 fi

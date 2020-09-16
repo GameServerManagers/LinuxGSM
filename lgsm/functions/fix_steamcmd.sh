@@ -10,11 +10,11 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
 	fixname="steamclient.so sdk64"
 	fn_fix_msg_start
-	mkdir -pv "${HOME}/.steam/sdk64" >> "${lgsmlog}"
+	mkdir -p "${HOME}/.steam/sdk64"
 	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so"
 	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so"
 	fi
 	fn_fix_msg_end
 fi
@@ -23,11 +23,11 @@ fi
 if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
 	fixname="steamclient.so sdk32"
 	fn_fix_msg_start
-	mkdir -pv "${HOME}/.steam/sdk32" >> "${lgsmlog}"
+	mkdir -p "${HOME}/.steam/sdk32"
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so" >> "${lgsmlog}"
+		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
 	fi
 	fn_fix_msg_end
 fi
