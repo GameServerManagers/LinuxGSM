@@ -78,6 +78,15 @@ fn_alert_config(){
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
 
+if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
+	for queryip in "${queryips[@]}"; do
+		query_gamedig.sh
+		if [ "${querystatus}" == "0" ]; then
+			break
+		fi
+	done
+fi
+
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
 elif [ "${alert}" == "restart" ]; then

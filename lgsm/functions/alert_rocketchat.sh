@@ -14,12 +14,9 @@ fi
 json=$(cat <<EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alertemoji} ${alertsubject} ${alertemoji}* + \n ${alertbody}",
+	"text": "*${alertemoji} ${alertsubject} ${alertemoji}* \n *${servername}* \n ${alertbody}",
 	"attachments": [
 		{
-			"title": "${servername}",
-			"text": "Hostname: ${HOSTNAME}",
-			"color": "#36a64f",
 			"fields": [
 				{
 					"short": true,
@@ -33,8 +30,8 @@ json=$(cat <<EOF
 				},
 				{
 					"short": true,
-					"title": "Server Name:",
-					"value": "${servername}"
+					"title": "Players:",
+					"value": "${gdplayers}/${gdmaxplayers}"
 				}
 			]
 		}
