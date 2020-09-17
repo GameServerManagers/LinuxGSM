@@ -40,6 +40,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_arma3.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
+	elif [ "${shortname}" == "bo" ]; then
+		fix_bo.sh
 	elif [ "${shortname}" == "cs" ]; then
 		fix_cs.sh
 	elif [ "${shortname}" == "csgo" ]; then
@@ -74,6 +76,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_squad.sh
 	elif [ "${shortname}" == "ss3" ]; then
 		fix_ss3.sh
+	elif [ "${shortname}" == "st" ]; then
+		fix_st.sh
 	elif [ "${shortname}" == "tf2" ]; then
 		fix_tf2.sh
 	elif [ "${shortname}" == "terraria" ]; then

@@ -6,26 +6,4 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Fixes: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.so.
-if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so" ]; then
-	fixname="steamclient.so x86"
-	fn_fix_msg_start
-	mkdir -p "${serverfiles}/Hurtworld_Data/Plugins/x86"
-	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so"
-	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86/steamclient.so"
-	fi
-	fn_fix_msg_end
-fi
-if [ ! -f "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so" ]; then
-	fixname="steamclient.so x86_64"
-	fn_fix_msg_start
-	mkdir -p "${serverfiles}/Hurtworld_Data/Plugins/x86_64"
-	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so"
-	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp "${steamcmddir}/linux64/steamclient.so" "${serverfiles}/Hurtworld_Data/Plugins/x86_64/steamclient.so"
-	fi
-	fn_fix_msg_end
-fi
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/Hurtworld_Data/Plugins/x86_64"

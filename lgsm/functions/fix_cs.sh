@@ -6,7 +6,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Fixes: steamclient.so: cannot open shared object file: No such file or directory
+# steamclient.so x86 fix.
 if [ ! -f "${serverfiles}/steamclient.so" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start

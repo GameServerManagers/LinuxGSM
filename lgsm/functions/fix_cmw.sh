@@ -12,6 +12,7 @@ if [ ! -f "${executabledir}/steam_appid.txt" ]; then
 	fn_fix_msg_end
 fi
 
+# steamclient.so x86 fix.
 if [ ! -f "${executabledir}/lib/steamclient.so" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start
