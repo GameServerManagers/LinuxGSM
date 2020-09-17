@@ -18,7 +18,7 @@ json=$(cat <<EOF
    "attachments":[
       {
          "title":"Linuxgsm Alert",
-	 "text":"Hostname: ${HOSTNAME}",
+         "text":"Hostname: ${HOSTNAME}",
          "color":"#36a64f",
          "fields":[
             {
@@ -45,7 +45,7 @@ EOF
 
 fn_print_dots "Sending Rocketchat alert"
 
-rocketlaunch=$(curl -X POST -H "Content-Type:application/json" --data "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
+rocketlaunch=$(curl -sSL -H "Content-Type:application/json" -X POST --d "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
 
 if [ "${rocketlaunch}" == "ok" ]; then
 	fn_print_ok_nl "Sending Rocketchat alert"
