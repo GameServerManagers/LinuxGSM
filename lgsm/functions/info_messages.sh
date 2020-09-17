@@ -382,6 +382,21 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Server Version:\t${default}${serverversion}"
 		fi
 
+		# authentication token (Factorio)
+		if [ -n "${authtoken}" ]; then
+			echo -e "${lightblue}Auth Token:\t${default}${authtoken}"
+		fi
+
+		# savegameinterval (Factorio)
+		if [ -n "${savegameinterval}" ]; then
+			echo -e "${lightblue}Savegame Interval:\t${default}${savegameinterval}"
+		fi
+
+		# versioncount (Factorio)
+		if [ -n "${versioncount}" ]; then
+			echo -e "${lightblue}Version Count:\t${default}${versioncount}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
@@ -771,7 +786,7 @@ fn_info_message_eco(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1095,23 +1110,23 @@ fn_info_message_sdtd(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
 		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${gamename} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Telnet${default}"
+	echo -e "${lightgreen}${gamename} Telnet${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
-		echo -e "${lightblue}Telnet address:\t${default}${ip} ${telnetport}"
+		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
 		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
 	} | column -s $'\t' -t
 }
@@ -1144,15 +1159,15 @@ fn_info_message_spark(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}/index.html"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1257,16 +1272,16 @@ fn_info_message_unreal(){
 				echo -e "< Steam\tINBOUND\t20660\tudp"
 			fi
 		fi
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1281,16 +1296,16 @@ fn_info_message_unreal2(){
 		if [ "${appid}" != "223250" ]; then
 			echo -e "> Query (GameSpy)\tINBOUND\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
 		fi
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1302,16 +1317,16 @@ fn_info_message_unreal3(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1343,16 +1358,16 @@ fn_info_message_kf2(){
 		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t20560\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 

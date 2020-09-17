@@ -320,7 +320,17 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_bo.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_cmw.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_cs.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -380,6 +390,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_pz.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_ro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -396,6 +411,11 @@ fn_fetch_function
 }
 
 fix_sfc.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_st.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -436,6 +456,11 @@ fn_fetch_function
 }
 
 fix_sof2.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_squad.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
