@@ -36,6 +36,7 @@ json=$(cat <<EOF
 			]
 		}
 	]
+	"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}",
 }
 EOF
 )

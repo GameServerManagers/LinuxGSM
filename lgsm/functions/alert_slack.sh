@@ -59,6 +59,9 @@ json=$(cat <<EOF
 					]
 				},
 				{
+					"type": "divider"
+				},
+				{
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
