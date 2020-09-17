@@ -38,11 +38,6 @@ json=$(cat <<EOF
 				"name": "Server IP",
 				"value": "[${alertip}:${port}](https://www.gametracker.com/server_info/${alertip}:${port})",
 				"inline": true
-			},
-			{
-				"name": "Server Name",
-				"value": "${servername}",
-				"inline": true
 			}
 		]
 	}]

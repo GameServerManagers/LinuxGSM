@@ -27,11 +27,6 @@ json=$(cat <<EOF
 					"short": true,
 					"title": "Server IP:",
 					"value": "${alertip}:${port}"
-				},
-				{
-					"short": true,
-					"title": "Players:",
-					"value": "${gdplayers}/${gdmaxplayers}"
 				}
 			]
 		}
