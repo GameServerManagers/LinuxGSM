@@ -17,20 +17,20 @@ json=$(cat <<EOF
 		{
 			"color": "#36a64f",
 			"blocks": [
-			{
-				"type": "section",
-				"text": {
-					"type": "mrkdwn",
-					"text": "*${alertemoji} ${alertsubject} ${alertemoji}*"
-				}
-			},
-			{
-				"type": "section",
-				"text": {
-					"type": "mrkdwn",
-					"text": "*${servername}*"
-				}
-			},
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*${alertemoji} ${alertsubject} ${alertemoji}*"
+					}
+				},
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*${servername}*"
+					}
+				},
 				{
 					"type": "section",
 					"text": {
