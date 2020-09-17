@@ -7,9 +7,6 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_alert_log(){
-	info_distro.sh
-	info_config.sh
-	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
 	fi
@@ -77,6 +74,14 @@ fn_alert_config(){
 	alerturl="not enabled"
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
+
+info_distro.sh
+info_config.sh
+info_messages.sh
+
+# JSON-safe escaping string. - use this is json based alerts
+escaped_servername=$(echo -n "${servername}" | jq -sRr "@json")
+escaped_alertbody=$(echo -n "${alertbody}" | jq -sRr "@json")
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions

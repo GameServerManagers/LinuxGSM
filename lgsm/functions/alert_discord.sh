@@ -12,9 +12,6 @@ if ! command -v jq > /dev/null; then
 	fn_script_log_fatal "Sending Discord alert: jq is missing."
 fi
 
-escaped_servername=$(echo -n "${servername}" | jq -sRr "@json")
-escaped_alertbody=$(echo -n "${alertbody}" | jq -sRr "@json")
-
 json=$(cat <<EOF
 {
 	"username":"LinuxGSM",
