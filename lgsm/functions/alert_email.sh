@@ -10,9 +10,9 @@ fn_print_dots "Sending Email alert: ${email}"
 fn_sleep_time
 
 if [ "${emailfrom}" ]; then
-	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${alertlog}"
+	mail -s "${alertemoji} ${alertsubject} ${alertemoji}" -r "${emailfrom}" "${email}" < "${alertlog}"
 else
-	mail -s "${alertsubject}" "${email}" < "${alertlog}"
+	mail -s "${alertemoji} ${alertsubject} ${alertemoji}" "${email}" < "${alertlog}"
 fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then

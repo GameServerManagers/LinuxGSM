@@ -22,8 +22,10 @@ json=$(cat <<EOF
 	"file":"content",
 	"embeds": [{
 		"color": "2067276",
-		"author": {"name": "${alertemoji} ${alertsubject}", "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
-		"title": "",
+		"author": {
+			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
+			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
+		"title": "${escaped_servername}",
 		"description": ${escaped_alertbody},
 		"url": "",
 		"type": "content",

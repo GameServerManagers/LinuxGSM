@@ -14,7 +14,7 @@ fi
 json=$(cat <<EOF
 {
    "alias":"LinuxGSM",
-   "text":"* ${alertemoji} ${alertsubject}* + \n ${alertbody}",
+   "text":"*${alertemoji} ${alertsubject} ${alertemoji}* + \n ${alertbody}",
    "attachments":[
       {
          "title":"Linuxgsm Alert",
