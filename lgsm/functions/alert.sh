@@ -7,6 +7,9 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_alert_log(){
+	info_distro.sh
+	info_config.sh
+	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
 	fi
@@ -74,10 +77,6 @@ fn_alert_config(){
 	alerturl="not enabled"
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
-
-info_distro.sh
-info_config.sh
-info_messages.sh
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
