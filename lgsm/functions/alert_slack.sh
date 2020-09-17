@@ -51,6 +51,10 @@ json=$(cat <<EOF
 						{
 							"type": "mrkdwn",
 							"text": "*Server IP:* \n ${alertip}:${port}"
+						},
+						{
+							"type": "mrkdwn",
+							"text": "*Hostname:* \n ${HOSTNAME}"
 						}
 					]
 				},

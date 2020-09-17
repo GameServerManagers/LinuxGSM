@@ -14,7 +14,7 @@ fi
 json=$(cat <<EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alertemoji} ${alertsubject} ${alertemoji}* \n *${servername}* \n ${alertbody} \n Hostname: ${HOSTNAME} / More info: ${alerturl}",
+	"text": "*${alertemoji} ${alertsubject} ${alertemoji}* \n *${servername}* \n ${alertbody} \n More info: ${alerturl}",
 	"attachments": [
 		{
 			"fields": [
@@ -28,9 +28,14 @@ json=$(cat <<EOF
 					"title": "Server IP:",
 					"value": "${alertip}:${port}"
 				}
+				{
+					"short": true,
+					"title": "Hostname:",
+					"value": "${HOSTNAME}"
+				}
 			]
 		}
-	],
+	]
 }
 EOF
 )
