@@ -10,7 +10,7 @@ json=$(cat <<EOF
 {
 	"value1": "${selfname}",
 	"value2": "${alertemoji} ${alertsubject} ${alertemoji}",
-	"value3": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${alertip}:${port}\n\nMore info\n${alerturl}"
+	"value3": "Message: \n${alertbody}\n\nGame: \n${gamename}\n\nServer name: \n${servername}\n\nHostname: \n${HOSTNAME}\n\nServer IP: \n${alertip}:${port}\n\nMore info: \n${alerturl}"
 }
 EOF
 )
