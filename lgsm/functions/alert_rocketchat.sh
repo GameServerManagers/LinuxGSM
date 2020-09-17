@@ -17,7 +17,7 @@ json=$(cat <<EOF
 	"text": "*${alertemoji} ${alertsubject} ${alertemoji}* + \n ${alertbody}",
 	"attachments": [
 		{
-			"title": "Linuxgsm Alert",
+			"title": "${servername}",
 			"text": "Hostname: ${HOSTNAME}",
 			"color": "#36a64f",
 			"fields": [

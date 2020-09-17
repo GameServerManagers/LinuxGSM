@@ -21,7 +21,7 @@ json=$(cat <<EOF
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
-						"text": "*LinuxGSM Alert*"
+						"text": "*${servername}*"
 					}
 				},
 				{
