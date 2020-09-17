@@ -22,8 +22,8 @@ json=$(cat <<EOF
     "author": {
       "name": "${alertemoji} ${alertsubject} ${alertemoji}",
       "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
-    "title": "${escaped_servername}",
-    "description": ${escaped_alertbody},
+    "title": "${servername}",
+    "description": "${alertbody}",
     "url": "",
     "type": "content",
     "thumbnail": {},
@@ -41,7 +41,7 @@ json=$(cat <<EOF
       },
       {
         "name": "Server Name",
-        "value": ${escaped_servername},
+        "value": "${servername}",
         "inline": true
       }
     ]
