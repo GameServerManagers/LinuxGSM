@@ -35,7 +35,7 @@ json=$(cat <<EOF
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
-						"text": "${alertbody}"
+						"text": "${alertbody} \n More info: ${alerturl}"
 					}
 				},
 				{
@@ -51,10 +51,6 @@ json=$(cat <<EOF
 						{
 							"type": "mrkdwn",
 							"text": "*Server IP:* \n ${alertip}:${port}"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Hostname:* \n ${HOSTNAME}"
 						}
 					]
 				},
@@ -65,7 +61,7 @@ json=$(cat <<EOF
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
-						"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}"
+						"text": "*Hostname:* ${HOSTNAME}"
 					}
 				}
 			]
