@@ -28,14 +28,14 @@ json=$(cat <<EOF
 				"type": "section",
 				"text": {
 					"type": "mrkdwn",
-					"text": "${alertbody}"
+					"text": "*${servername}*"
 				}
 			},
 				{
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
-						"text": "*${servername}*"
+						"text": "${alertbody}"
 					}
 				},
 				{
