@@ -7,7 +7,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
-	latestmcbuildurl=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
+	latestmcbuildurl=$(curl -Ls "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*zip')
 	fn_fetch_file "${latestmcbuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
 	echo -e "Extracting to ${serverfiles}...\c"
 	if [ "${firstcommandname}" == "INSTALL" ]; then
@@ -77,7 +77,7 @@ fn_update_minecraft_localbuild(){
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	remotebuild=$(curl -s "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+	remotebuild=$(curl -Ls "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
