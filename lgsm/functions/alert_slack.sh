@@ -15,7 +15,6 @@ json=$(cat <<EOF
 {
 	"attachments": [
 		{
-			"color": "#36a64f",
 			"blocks": [
 				{
 					"type": "section",

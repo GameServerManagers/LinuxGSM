@@ -23,11 +23,10 @@ json=$(cat <<EOF
 			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
 			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
 		"title": "${servername}",
-		"description": "${alertbody}",
+		"description": "${alertbody} \n More info: ${alerturl}",
 		"url": "",
 		"type": "content",
 		"thumbnail": {},
-		"footer": {"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}", "icon_url": ""},
 		"fields": [
 			{
 				"name": "Game",
