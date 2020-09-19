@@ -30,10 +30,10 @@ steamworkslatestfile=$(curl -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # CS:GO Mods
-get5scrapepath=$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/xml | grep -oP "<relativePath>\K(.+)(?=</relativePath>)")
-get5latestfile=$(echo -e "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo -e "basename "@""")
-get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
-get5url="${get5downloadurl}"
+get5lastbuild=$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/json | jq -r '.artifacts[]')
+get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.fileName')
+get5latestfilepath=$(echo -e "${get5lastbuild}" | jq -r '.relativePath')
+get5url="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5latestfilepath}"
 # Oxide
 oxiderustlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 oxidehurtworldlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
