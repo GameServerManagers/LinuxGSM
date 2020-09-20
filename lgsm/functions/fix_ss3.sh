@@ -7,12 +7,10 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: https://steamcommunity.com/app/41070/discussions/0/353916981477716386/
-if [ ! -f "${serverfiles}/Bin/steamclient.so" ]||[ "$(diff "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so" 2>/dev/null)" ]; then
-	fixname="steamclient.so"
-	fn_fix_msg_start
-	mkdir -p "${serverfiles}/Bin"
-	cp -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so"
-	fn_fix_msg_end
+if [ -f "${serverfiles}/Bin/steamclient.so" ] && [ "$(diff "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so" 2>/dev/null)" ]; then
+	# delete old steamclient.so file
+	rm -f "${serverfiles}/Bin/steamclient.so"
+	fn_fix_steamclient_so "32" "${serverfiles}/Bin"
 fi
 
 # Fixes: .steam/bin32/libsteam.so: cannot open shared object file: No such file or directory
