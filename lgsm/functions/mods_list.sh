@@ -30,10 +30,10 @@ steamworkslatestfile=$(curl -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # CS:GO Mods
-get5scrapepath=$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/xml | grep -oP "<relativePath>\K(.+)(?=</relativePath>)")
-get5latestfile=$(echo -e "${get5scrapepath}" | xargs -n 1 -I @ sh -c "echo -e "basename "@""")
-get5downloadurl="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5scrapepath}"
-get5url="${get5downloadurl}"
+get5lastbuild=$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/json | jq -r '.artifacts[]')
+get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.fileName')
+get5latestfilepath=$(echo -e "${get5lastbuild}" | jq -r '.relativePath')
+get5url="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5latestfilepath}"
 csgopuglatest=$(curl -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
 csgopuglatestfile=$(echo -e "${}" | jq -r '.name')
 csgopuglatestlink=$(echo -e "${}" | jq -r '.browser_download_url')
