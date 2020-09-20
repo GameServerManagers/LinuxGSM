@@ -6,8 +6,9 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# steamclient.so x86_64 fix.
 if [ ! -f "${serverfiles}/nativelibs/steamclient.so" ]; then
-	fixname="steamclient.so x64"
+	fixname="steamclient.so x86_64"
 	fn_fix_msg_start
 	mkdir -p "${serverfiles}/nativelibs"
 	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
