@@ -97,7 +97,7 @@ cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
-if [ "${gameserverpid}" ]; then
+if [ -n "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
 	cpuusedmhz=$(echo "${cpufreqency} * ${cpuused} / 100" | bc )
 fi

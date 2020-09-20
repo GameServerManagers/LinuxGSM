@@ -574,6 +574,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+alert_rocketchat.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 alert_slack.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
