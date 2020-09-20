@@ -67,7 +67,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=( DEBUG DETAILS POST_DETAILS MONITOR START STOP DEV-QUERY-RAW )
+allowed_commands_array=( DEBUG DETAILS DEV-QUERY-RAW MONITOR POST_DETAILS START STOP POST-DETAILS )
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ -z "${installflag}" ]; then
