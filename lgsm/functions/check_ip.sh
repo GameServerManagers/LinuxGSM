@@ -27,10 +27,10 @@ if [ -n "${ip}" ]&&[ "${ip}" != "0.0.0.0" ]; then
 	telnetip=( "${ip}" )
 # If game config does have an IP set.
 elif [ -n "${configip}" ]&&[ "${configip}" != "0.0.0.0" ];then
-		queryips=( "${configip}" )
-		ip="${configip}"
-		webadminip=( "${configip}" )
-		telnetip=( "${configip}" )
+	queryips=( "${configip}" )
+	ip="${configip}"
+	webadminip=( "${configip}" )
+	telnetip=( "${configip}" )
 # If there is only 1 server IP address.
 # Some IP details can automaticly use the one IP
 elif [ "${getipwc}" == "1" ]; then

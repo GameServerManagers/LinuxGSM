@@ -13,59 +13,54 @@ fi
 
 json=$(cat <<EOF
 {
-	"attachments": [
-		{
-			"blocks": [
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*${alertemoji} ${alertsubject} ${alertemoji}*"
-					}
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*${servername}*"
-					}
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "${alertbody} \n More info: ${alerturl}"
-					}
-				},
-				{
-					"type": "divider"
-				},
-				{
-					"type": "section",
-					"fields": [
-						{
-							"type": "mrkdwn",
-							"text": "*Game:* \n ${gamename}"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Server IP:* \n ${alertip}:${port}"
-						}
-					]
-				},
-				{
-					"type": "divider"
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Hostname:* ${HOSTNAME}"
-					}
-				}
-			]
-		}
-	]
+		"attachments": [
+			{
+				"color": "#36a64f",
+				"blocks": [
+					{
+										"type": "section",
+										"text": {
+												"type": "mrkdwn",
+												"text": "*LinuxGSM Alert*"
+										}
+								},
+								{
+										"type": "section",
+										"text": {
+												"type": "mrkdwn",
+												"text": "*${alertemoji} ${alertsubject}* \n ${alertbody}"
+										}
+								},
+								{
+										"type": "divider"
+								},
+								{
+										"type": "section",
+										"fields": [
+												{
+														"type": "mrkdwn",
+														"text": "*Game:* \n ${gamename}"
+												},
+												{
+														"type": "mrkdwn",
+														"text": "*Server IP:* \n ${alertip}:${port}"
+												},
+												{
+														"type": "mrkdwn",
+														"text": "*Server Name:* \n ${servername}"
+												}
+										]
+								},
+					 {
+										"type": "section",
+										"text": {
+														"type": "mrkdwn",
+														"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}"
+										}
+								}
+						]
+			}
+		]
 }
 EOF
 )
@@ -78,6 +73,6 @@ if [ "${slacksend}" == "ok" ]; then
 	fn_print_ok_nl "Sending Slack alert"
 	fn_script_log_pass "Sending Slack alert"
 else
-		fn_print_fail_nl "Sending Slack alert: ${slacksend}"
+	fn_print_fail_nl "Sending Slack alert: ${slacksend}"
 	fn_script_log_fatal "Sending Slack alert: ${slacksend}"
 fi

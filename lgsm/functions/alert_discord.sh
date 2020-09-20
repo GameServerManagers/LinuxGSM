@@ -21,7 +21,8 @@ json=$(cat <<EOF
 		"color": "2067276",
 		"author": {
 			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
-			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"},
+			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"
+		},
 		"title": "${servername}",
 		"description": "${alertbody} \n More info: ${alerturl}",
 		"url": "",

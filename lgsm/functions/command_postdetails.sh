@@ -67,14 +67,14 @@ fn_print_ok_nl "termbin.com for 30D"
 fn_script_log_pass "termbin.com for 30D"
 pdurl="${link}"
 
-if [ ${firstcommandname} == "POST-DETAILS" ]; then
+if [ "${firstcommandname}" == "POST-DETAILS" ]; then
 	echo -e ""
 	echo -e "Please share the following url for support: "
 	echo -e "${pdurl}"
 fi
 fn_script_log_info "${pdurl}"
+alerturl="${pdurl}"
 
 if [ -z "${exitbypass}" ]; then
 	core_exit.sh
 fi
-alerturl="${pdurl}"

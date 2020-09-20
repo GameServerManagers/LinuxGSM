@@ -1,8 +1,6 @@
 stats
 displayip
 postalert
-postdays
-posttarget
 discordalert
 discordwebhook
 emailalert
@@ -19,10 +17,13 @@ mailgunemail
 pushbulletalert
 pushbullettoken
 channeltag
-pushoveralert
-pushovertoken
+rocketchatalert
+rocketchatwebhook
+rocketchattoken
 slackalert
 slackwebhook
+pushoveralert
+pushovertoken
 telegramalert
 telegramtoken
 telegramchatid
@@ -38,6 +39,8 @@ sleeptime
 stopmode
 querymode
 querytype
+consoleverbose
+consoleinteract
 gamename
 engine
 glibc
