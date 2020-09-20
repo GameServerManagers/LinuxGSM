@@ -42,12 +42,12 @@ EOF
 
 fn_print_dots "Sending Rocketchat alert"
 
-rocketlaunch=$(curl -sSL -H "Content-Type:application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
+rocketchatsend=$(curl -sSL -H "Content-Type:application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
 
-if [ "${rocketlaunch}" == "ok" ]; then
+if [ -n "${rocketchatsend}" ]; then
 	fn_print_ok_nl "Sending Rocketchat alert"
 	fn_script_log_pass "Sending Rocketchat alert"
 else
-		fn_print_fail_nl "Sending Rocketchat alert: ${rocketlaunch}"
-	fn_script_log_fatal "Sending Rocketchat alert: ${rocketlaunch}"
+		fn_print_fail_nl "Sending Rocketchat alert: ${rocketchatsend}"
+	fn_script_log_fatal "Sending Rocketchat alert: ${rocketchatsend}"
 fi

@@ -18,7 +18,7 @@ EOF
 fn_print_dots "Sending Telegram alert"
 telegramsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${curlcustomstring} "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep "error_code")
 
-if [ "${telegramsend}" ]; then
+if [ -n "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"
 	fn_script_log_fatal "Sending Telegram alert: ${telegramsend}"
 else
