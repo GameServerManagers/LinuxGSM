@@ -329,8 +329,7 @@ fn_found_missing_deps(){
 
 fn_check_loop(){
 	# Loop though required depenencies.
-	for deptocheck in ${array_deps_required[*]}
-	do
+	for deptocheck in ${array_deps_required[*]}; do
 		fn_deps_detector
 	done
 
@@ -396,6 +395,9 @@ fn_deps_build_debian(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
+	# Ecoserver
+	elif [ "${shortname}" == "eco" ]; then
+		array_deps_required+=( libgdiplus )
 	# Factorio
 	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz-utils )
@@ -403,7 +405,7 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
 	# Minecraft, Rising World, Wurm
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wurm" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -441,9 +443,6 @@ fn_deps_build_debian(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
-	# Unturned
-	elif [ "${shortname}" == "unt" ]; then
-		array_deps_required+=( mono-complete )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
@@ -505,6 +504,9 @@ fn_deps_build_redhat(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
+	# Ecoserver
+	elif [ "${shortname}" == "eco" ]; then
+		array_deps_required+=( libgdiplus )
 	# Factorio
 	elif [ "${shortname}" == "fctr" ]; then
 		array_deps_required+=( xz )
@@ -512,7 +514,7 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
 	# Minecraft, Rising World, Wurm
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wurm" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -550,9 +552,6 @@ fn_deps_build_redhat(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
-	# Unturned
-	elif [ "${shortname}" == "unt" ]; then
-		array_deps_required+=( mono-complete )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xorg-x11-server-Xvfb )

@@ -9,7 +9,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $2}')
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')
 fi
 ### Distro information
 
@@ -25,8 +25,7 @@ kernel=$(uname -r)
 
 # Gathers distro info from various sources filling in missing gaps.
 distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
-for distro_info in "${distro_info_array[@]}"
-do
+for distro_info in "${distro_info_array[@]}"; do
 	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
 		distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
 		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
@@ -98,7 +97,7 @@ cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
-if [ "${gameserverpid}" ]; then
+if [ -n "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
 	cpuusedmhz=$(echo "${cpufreqency} * ${cpuused} / 100" | bc )
 fi
@@ -263,9 +262,13 @@ fi
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)
+			# Will query server IP addresses first.
+			for queryip in "${queryips[@]}"; do
+				masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
+			done
+			# Should that not work it will try the external IP.
 			if [ "${masterserver}" == "0" ]; then
-				masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)
+				masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
 			fi
 			if [ "${masterserver}" == "0" ]; then
 				displaymasterserver="false"

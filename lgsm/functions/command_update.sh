@@ -26,6 +26,8 @@ elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
+elif [ "${shortname}" == "jk2" ]; then
+	update_jediknight2.sh
 else
 	update_steamcmd.sh
 fi

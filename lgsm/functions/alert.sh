@@ -100,6 +100,7 @@ if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 	exitbypass=1
 	command_postdetails.sh
 	fn_firstcommand_reset
+	unset exitbypass
 elif [ "${postalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "More Info not enabled"
 	fn_script_log_warn "More Info alerts not enabled"
@@ -189,6 +190,17 @@ elif [ -z "${telegramchatid}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Telegram chat id not set."
 	echo -e "* https://docs.linuxgsm.com/alerts/telegram"
 	fn_script_error "Telegram chat id not set."
+fi
+
+if [ "${rocketchatalert}" == "on" ]&&[ -n "${rocketchatalert}" ]; then
+	alert_rocketchat.sh
+elif [ "${rocketchatalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "Rocketchat alerts not enabled"
+	fn_script_log_warn "Rocketchat alerts not enabled"
+elif [ -z "${rocketchattoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Rocketchat token not set"
+	#echo -e "* https://docs.linuxgsm.com/alerts/slack"
+	fn_script_error "Rocketchat token not set"
 fi
 
 if [ "${slackalert}" == "on" ]&&[ -n "${slackalert}" ]; then

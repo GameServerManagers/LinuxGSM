@@ -43,7 +43,7 @@ fn_update_factorio_localbuild(){
 fn_update_factorio_remotebuild(){
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
-	if [ "${installer}" != "1" ]; then
+	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
@@ -148,7 +148,7 @@ else
 	downloadbranch="${branch}"
 fi
 
-if [ "${installer}" == "1" ]; then
+if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_factorio_remotebuild
 	fn_update_factorio_dl
 else

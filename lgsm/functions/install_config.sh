@@ -626,6 +626,12 @@ elif [ "${shortname}" == "ql" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "jk2" ]; then
+	gamedirname="JediKnightIIJediOutcast"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${shortname}" == "qw" ]; then
 	gamedirname="QuakeWorld"
 	array_configs+=( server.cfg )

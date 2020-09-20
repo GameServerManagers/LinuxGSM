@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.4.1"
+modulesversion="v20.5.0"
 
 # Core
 
@@ -320,6 +320,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_bo.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_cmw.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -400,6 +405,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_st.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -411,11 +421,6 @@ fn_fetch_function
 }
 
 fix_tf2.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-fix_tu.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -436,6 +441,11 @@ fn_fetch_function
 }
 
 fix_sof2.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_squad.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -549,6 +559,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+alert_rocketchat.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 alert_slack.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -610,6 +625,11 @@ fn_fetch_function
 }
 
 update_factorio.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_jediknight2.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

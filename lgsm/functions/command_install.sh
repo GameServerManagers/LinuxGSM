@@ -24,7 +24,6 @@ else
 		install_server_files.sh
 		install_ut2k4_key.sh
 	elif [ -z "${appid}" ]; then
-		installer=1
 		install_server_files.sh
 	elif [ "${appid}" ]; then
 		install_steamcmd.sh

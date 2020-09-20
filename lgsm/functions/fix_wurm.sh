@@ -6,11 +6,6 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Copies steamclient.so to correct location.
-if [ ! -f "${serverfiles}/nativelibs" ]; then
-	cp -f "${serverfiles}/linux64/steamclient.so" "${serverfiles}/nativelibs"
-fi
-
 # First run requires start with no parms.
 # After first run new dirs are created.
 if [ ! -d "${serverfiles}/Creative" ]; then

@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.4.1"
+version="v20.5.0"
 shortname="ts3"
 gameservername="ts3server"
 commandname="CORE"
@@ -90,8 +90,7 @@ fn_bootstrap_fetch_file(){
 			remote_fileurls_array=( remote_fileurl )
 		fi
 
-		for remote_fileurl_array in "${remote_fileurls_array[@]}"
-		do
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
 				fileurl="${remote_fileurl}"
 				fileurl_name="${remote_fileurl_name}"

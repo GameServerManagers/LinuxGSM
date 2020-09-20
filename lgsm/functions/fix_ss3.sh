@@ -7,18 +7,17 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: https://steamcommunity.com/app/41070/discussions/0/353916981477716386/
-if [ ! -f "${serverfiles}/Bin/steamclient.so" ]||[ "$(diff "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so" 2>/dev/null)" ]; then
-	fixname="steamclient.so"
-	fn_fix_msg_start
-	cp -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so"
-	fn_fix_msg_end
+if [ -f "${serverfiles}/Bin/steamclient.so" ] && [ "$(diff "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/Bin/steamclient.so" 2>/dev/null)" ]; then
+	# delete old steamclient.so file
+	rm -f "${serverfiles}/Bin/steamclient.so"
+	fn_fix_steamclient_so "32" "${serverfiles}/Bin"
 fi
 
 # Fixes: .steam/bin32/libsteam.so: cannot open shared object file: No such file or directory
 if [ ! -f "${HOME}/.steam/bin32/libsteam.so" ]; then
 	fixname="libsteam.so"
 	fn_fix_msg_start
-	mkdir -pv "${HOME}/.steam/bin32" >> "${lgsmlog}"
-	cp "${serverfiles}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so" >> "${lgsmlog}"
+	mkdir -p "${HOME}/.steam/bin32"
+	cp "${serverfiles}/Bin/libsteam.so" "${HOME}/.steam/bin32/libsteam.so"
 	fn_fix_msg_end
 fi
