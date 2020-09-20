@@ -12,7 +12,7 @@ sendgridsend=$(curl --request POST \
   --url https://api.sendgrid.com/v3/mail/send \
   --header "Authorization: Bearer ${sendgridtoken}" \
   --header 'Content-Type: application/json' \
-  --data '{"personalizations": [{"to": [{"email": "${sendgrodemail}"}]}],"from": {"email": "${sendgridfrom}"},"subject": "${alertemoji} ${alertsubject} ${alertemoji}","content": [{"type": "text/plain", "value": "$(cat "${alertlog}")"}]}')
+  --data '{"personalizations": [{"to": [{"email": ${sendgridemail}"}]}],"from": {"email": "${sendgridemailfrom}"},"subject": "${alertemoji} ${alertsubject} ${alertemoji}","content": [{"type": "text/plain", "value": "$(cat "${alertlog}")"}]}')
 
 if [ -z "${mailgunsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"
