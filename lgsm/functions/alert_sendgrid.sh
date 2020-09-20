@@ -8,13 +8,13 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: SendGrid: ${email}"
 
-sendgridsend=$(curl --request POST \
+sendgridsend=$(curl -s --request POST \
   --url https://api.sendgrid.com/v3/mail/send \
   --header "Authorization: Bearer ${sendgridtoken}" \
   --header 'Content-Type: application/json' \
   --data '{"personalizations": [{"to": [{"email": ${sendgridemail}"}]}],"from": {"email": "${sendgridemailfrom}"},"subject": "${alertemoji} ${alertsubject} ${alertemoji}","content": [{"type": "text/plain", "value": "$(cat "${alertlog}")"}]}')
 
-if [ -z "${mailgunsend}" ]; then
+if [ -z "${sendgridsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"
 	fn_script_log_fatal "Sending Email alert: Mailgun: ${email}"
 else
