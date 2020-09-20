@@ -6,19 +6,6 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# steamclient.so x86_64 fix.
-if [ ! -f "${serverfiles}/nativelibs/steamclient.so" ]; then
-	fixname="steamclient.so x86_64"
-	fn_fix_msg_start
-	mkdir -p "${serverfiles}/nativelibs"
-	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
-	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp "${steamcmddir}/linux64/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
-	fi
-	fn_fix_msg_end
-fi
-
 # First run requires start with no parms.
 # After first run new dirs are created.
 if [ ! -d "${serverfiles}/Creative" ]; then

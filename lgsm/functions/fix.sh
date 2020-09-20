@@ -42,8 +42,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_ark.sh
 	elif [ "${shortname}" == "bo" ]; then
 		fix_bo.sh
-	elif [ "${shortname}" == "cs" ]; then
-		fix_cs.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
 	elif [ "${shortname}" == "cmw" ]; then
@@ -60,8 +58,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_nmrih.sh
 	elif [ "${shortname}" == "onset" ]; then
 		fix_onset.sh
-	elif [ "${shortname}" == "pz" ]; then
-		fix_pz.sh
 	elif [ "${shortname}" == "rust" ]; then
 		fix_rust.sh
 	elif [ "${shortname}" == "rw" ]; then
@@ -84,8 +80,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then
 		fix_ts3.sh
-	elif [ "${shortname}" == "tu" ]; then
-		fix_tu.sh
 	elif [ "${shortname}" == "mcb" ]; then
 		fix_mcb.sh
 	elif [ "${shortname}" == "mta" ]; then

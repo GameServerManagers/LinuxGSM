@@ -330,11 +330,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_cs.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_csgo.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -390,11 +385,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_pz.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_ro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -431,11 +421,6 @@ fn_fetch_function
 }
 
 fix_tf2.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-fix_tu.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
