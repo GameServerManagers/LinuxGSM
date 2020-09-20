@@ -8,7 +8,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/BODS_Data/Plugins/x86_64"
 
-# steamclient.so x86 fix for unity3d game server
+# steamclient.so x86 fix.
 if [ ! -f "${serverfiles}/BODS_Data/Plugins/x86/steamclient.so" ]; then
 	fixname="steamclient.so x86"
 	fn_fix_msg_start
@@ -21,7 +21,7 @@ if [ ! -f "${serverfiles}/BODS_Data/Plugins/x86/steamclient.so" ]; then
 	fn_fix_msg_end
 fi
 
-# steamclient.so x86_64 fix for unity3d game server
+# steamclient.so x86_64 fix.
 if [ ! -f "${serverfiles}/BODS_Data/Plugins/x86_64/steamclient.so" ]; then
 	fixname="steamclient.so x86_64"
 	fn_fix_msg_start

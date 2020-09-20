@@ -6,14 +6,15 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [ ! -f "${serverfiles}/nativelibs" ]; then
-	fixname="steamclient.so x86"
+# steamclient.so x86_64 fix.
+if [ ! -f "${serverfiles}/nativelibs/steamclient.so" ]; then
+	fixname="steamclient.so x86_64"
 	fn_fix_msg_start
 	mkdir -p "${serverfiles}/nativelibs"
-	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
-	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp "${steamcmddir}/linux32/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
+	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
+		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
+	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
+		cp "${steamcmddir}/linux64/steamclient.so" "${serverfiles}/nativelibs/steamclient.so"
 	fi
 	fn_fix_msg_end
 fi
