@@ -30,11 +30,6 @@ fn_firstcommand_set
 # to leave the output on the filesystem.
 posttarget=${posttarget="https://termbin.com"}
 
-# For pastebin, you can set the expiration period.
-# use 1 week as the default, other options are '24h' for a day, etc.
-# This, too, may be overridden from the command line at the top-level.
-postexpire="${postexpire="30D"}"
-
 # source all of the functions defined in the details command.
 info_messages.sh
 
@@ -85,22 +80,22 @@ else
 fi
 # Pastebin
 if [ "${posttarget}" == "http://pastebin.com" ] ; then
-	fn_print_dots "pastbin.com for ${postexpire}"
+	fn_print_dots "pastbin.com for 30D"
 	# grab the return from 'value' from an initial visit to pastebin.
 	csrftoken=$(curl -s "${posttarget}" | sed -n 's/^.*input type="hidden" name="csrf_token_post" value="\(.*\)".*$/\1/p')
 	#
 	# Use the csrftoken to then post the content.
 	#
 	link=$(curl -s "${posttarget}/post.php" -D - -F "submit_hidden=submit_hidden" \
-				-F "post_key=${csrftoken}" -F "paste_expire_date=${postexpire}" \
+				-F "post_key=${csrftoken}" -F "paste_expire_date=30D" \
 				-F "paste_name=${gamename} Debug Info" \
 				-F "paste_format=8" -F "paste_private=0" \
 				-F "paste_type=bash" -F "paste_code=<${postdetailslog}" |
 				awk '/^location: / { print $2 }' | sed "s/\n//g")
 
 	 # Output the resulting link.
-	fn_print_ok_nl "pastbin.com for ${postexpire}"
-	fn_script_log_pass "pastbin.com for ${postexpire}"
+	fn_print_ok_nl "pastbin.com for 30D"
+	fn_script_log_pass "pastbin.com for 30D"
 	pdurl="${posttarget}${link}"
 # Hastebin
 elif [ "${posttarget}" == "https://hastebin.com" ] ; then
@@ -109,8 +104,8 @@ elif [ "${posttarget}" == "https://hastebin.com" ] ; then
 	# should look like: {"something":"key"}, putting the reference that
 	# we need in "key".  TODO - error handling. -CedarLUG
 	link=$(curl -H "HTTP_X_REQUESTED_WITH:XMLHttpRequest" -s -d "$(<${postdetailslog})" "${posttarget}/documents" | cut -d\" -f4)
-	fn_print_ok_nl "hastebin.com for ${postexpire}"
-	fn_script_log_pass "hastebin.com for ${postexpire}"
+	fn_print_ok_nl "hastebin.com for 30D"
+	fn_script_log_pass "hastebin.com for 30D"
 	pdurl="${posttarget}/${link}"
 # Termbin
 elif [ "${posttarget}" == "https://termbin.com" ] ; then
