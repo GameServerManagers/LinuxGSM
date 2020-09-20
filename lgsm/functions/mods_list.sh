@@ -35,8 +35,8 @@ get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.fileName')
 get5latestfilepath=$(echo -e "${get5lastbuild}" | jq -r '.relativePath')
 get5url="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5latestfilepath}"
 csgopuglatest=$(curl -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
-csgopuglatestfile=$(echo -e "${}" | jq -r '.name')
-csgopuglatestlink=$(echo -e "${}" | jq -r '.browser_download_url')
+csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
+csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
 # Oxide
 oxiderustlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 oxidehurtworldlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
