@@ -15,9 +15,9 @@ sendgridsend=$(curl -s --request POST \
   --data '{"personalizations": [{"to": [{"email": ${sendgridemail}"}]}],"from": {"email": "${sendgridemailfrom}"},"subject": "${alertemoji} ${alertsubject} ${alertemoji}","content": [{"type": "text/plain", "value": "$(cat "${alertlog}")"}]}')
 
 if [ -z "${sendgridsend}" ]; then
-	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"
-	fn_script_log_fatal "Sending Email alert: Mailgun: ${email}"
+	fn_print_fail_nl "Sending Email alert: SendGrid: ${email}"
+	fn_script_log_fatal "Sending Email alert: SendGrid: ${email}"
 else
-	fn_print_ok_nl "Sending Email alert: Mailgun: ${email}"
-	fn_script_log_pass "Sending Email alert: Mailgun: ${email}"
+	fn_print_ok_nl "Sending Email alert: SendGrid: ${email}"
+	fn_script_log_pass "Sending Email alert: SendGrid: ${email}"
 fi
