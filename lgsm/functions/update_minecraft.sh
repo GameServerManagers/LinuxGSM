@@ -10,7 +10,7 @@ fn_update_minecraft_dl(){
 	if [ "${branch}" == "release" ]; then
 		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
 	else
-		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].url')
+		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions | .[] | select(.id=="${branch}") | .url')
 	fi
 
 	latestmcbuildurl=$(curl -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
@@ -80,7 +80,7 @@ fn_update_minecraft_remotebuild(){
 	if [ "${branch}" == "release" ]; then
 		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
 	else
-		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].id')
+		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions | .[] | select(.id=="${branch}") | .id')
 	fi
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
