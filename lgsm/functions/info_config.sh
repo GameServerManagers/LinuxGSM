@@ -105,10 +105,17 @@ fn_info_config_justcause3(){
 fn_info_config_ark(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		serverpassword="${unavailable}"
 	else
 		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		adminpassword=$(grep "ServerAdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerAdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
+		serverpassword=$( grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
 		# Not Set
 		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 }
 
@@ -346,29 +353,29 @@ fn_info_config_dontstarve(){
 
 fn_info_config_eco(){
 	if [ ! -f "${servercfgfullpath}" ]; then
+		configip="${unavailable}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
-		gamemode="${unavailable}"
 		tickrate="${zero}"
 		port="${zero}"
 		webadminport="${zero}"
-		public=""
 	else
-		servername=$(grep "Description" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "Password" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxConnections" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/MaxConnections//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		port=$(grep "\"GameServerPort\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
-		webadminport=$(grep "\"WebServerPort\"" "${servercfgdir}/Network.eco" | tr -cd '[:digit:]')
-		public=$(grep "PublicServer" "${servercfgdir}/Network.eco" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/PublicServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		configip=$(jq -r '.IPAddress' "${servercfgfullpath}")
+		servername=$(jq -r '.Description' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.Password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.MaxConnections' "${servercfgfullpath}")
+		tickrate=$(jq -r '.Rate' "${servercfgfullpath}")
+		port=$(jq -r '.GameServerPort' "${servercfgfullpath}")
+		webadminport=$(jq -r '.WebServerPort' "${servercfgfullpath}")
 
 		# Not Set
+		configip=${configip:-"NOT SET"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers=:-"0"}
 		port=${port=:-"0"}
 		webadminport=${webadminport=:-"0"}
-		public=${public=:-"NOT SET"}
 	fi
 }
 
@@ -377,15 +384,24 @@ fn_info_config_factorio(){
 		servername="Factorio Server"
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
+		authtoken=${authtoken:-"NOT SET"}
+		savegameinterval="${unavailable}"
+		versioncount="${unavailable}"
 	else
-		servername="Factorio Server"
-		serverpassword=$(grep "game_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/game_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "\"max_players\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		servername=$(jq -r '.name' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.game_password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.max_players' "${servercfgfullpath}")
+		authtoken=$(jq -r '.token' "${servercfgfullpath}")
+		savegameinterval=$(jq -r '.autosave_interval' "${servercfgfullpath}")
+		versioncount=$(jq -r '.autosave_slots' "${servercfgfullpath}")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers=:-"0"}
+		maxplayers=${maxplayers:-"0"}
+		authtoken=${authtoken:-"NOT SET"}
+		savegameinterval=${savegameinterval:-"0"}
+		versioncount=${versioncount:-"0"}
 	fi
 }
 
@@ -1225,13 +1241,14 @@ fn_info_config_sdtd(){
 		telnetenabled="${unavailable}"
 		telnetport="${zero}"
 		telnetpass="${unavailable}"
+		telnetip="${unavailable}"
 		maxplayers="${unavailable}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		port=$(grep "ServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "ServerPort" "${servercfgfullpath}" | grep -Eo 'value="[0-9]+"' | tr -cd '[:digit:]')
 		queryport=${port:-"0"}
 
 		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
@@ -1240,7 +1257,11 @@ fn_info_config_sdtd(){
 		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-
+		# Telnet IP will be localhost if no password is set
+		# check_ip will set the IP first. This will overwrite it.
+		if [ -z "${telnetpass}" ]; then
+			telnetip="127.0.0.1"
+		fi
 		maxplayers=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		gameworld=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")

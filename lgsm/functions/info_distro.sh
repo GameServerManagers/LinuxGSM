@@ -97,7 +97,7 @@ cpumodel=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed
 cpucores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 cpufreqency=$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')
 # CPU usage of the game server pid
-if [ "${gameserverpid}" ]; then
+if [ -n "${gameserverpid}" ]; then
 	cpuused=$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')
 	cpuusedmhz=$(echo "${cpufreqency} * ${cpuused} / 100" | bc )
 fi
@@ -262,9 +262,13 @@ fi
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
 		if [ "${steammaster}" == "true" ]; then
-			masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${ip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)
+			# Will query server IP addresses first.
+			for queryip in "${queryips[@]}"; do
+				masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
+			done
+			# Should that not work it will try the external IP.
 			if [ "${masterserver}" == "0" ]; then
-				masterserver=$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)
+				masterserver="$(curl -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
 			fi
 			if [ "${masterserver}" == "0" ]; then
 				displaymasterserver="false"

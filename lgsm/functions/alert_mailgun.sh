@@ -6,6 +6,12 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+if [ "${mailgunapiregion}" == "eu" ]; then
+	mailgunapiurl="https://api.eu.mailgun.net"
+else
+	mailgunapiurl="https://api.mailgun.net"
+fi
+
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
 
 mailgunsend=$(curl -s --user "api:${mailguntoken}" \
@@ -14,7 +20,7 @@ mailgunsend=$(curl -s --user "api:${mailguntoken}" \
 -F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
 -F o:tag='alert' \
 -F o:tag='LinuxGSM' \
--F text="$(cat "${alertlog}")" "https://api.mailgun.net/v3/${mailgundomain}/messages")
+-F text="$(cat "${alertlog}")" "${mailgunapiurl}/v3/${mailgundomain}/messages")
 
 if [ -z "${mailgunsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${email}"

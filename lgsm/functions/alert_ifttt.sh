@@ -9,8 +9,8 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(cat <<EOF
 {
 	"value1": "${selfname}",
-	"value2": "${alertsubject}",
-	"value3": "Message\n${alertbody}\n\nGame\n${gamename}\n\nServer name\n${servername}\n\nHostname\n${HOSTNAME}\n\nServer IP\n${alertip}:${port}\n\nMore info\n${alerturl}"
+	"value2": "${alertemoji} ${alertsubject} ${alertemoji}",
+	"value3": "Message: \n${alertbody}\n\nGame: \n${gamename}\n\nServer name: \n${servername}\n\nHostname: \n${HOSTNAME}\n\nServer IP: \n${alertip}:${port}\n\nMore info: \n${alerturl}"
 }
 EOF
 )
@@ -18,7 +18,7 @@ EOF
 fn_print_dots "Sending IFTTT alert"
 iftttsend=$(curl -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://maker.ifttt.com/trigger/${iftttevent}/with/key/${ifttttoken}" | grep "Bad Request")
 
-if [ "${iftttsend}" ]; then
+if [ -n "${iftttsend}" ]; then
 	fn_print_fail_nl "Sending IFTTT alert: ${pushbulletsend}"
 	fn_script_log_fatal "Sending IFTTT alert: ${pushbulletsend}"
 else

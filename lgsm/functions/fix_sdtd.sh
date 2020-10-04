@@ -6,4 +6,4 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}/7DaysToDieServer_Data/Plugins/x86_64"
