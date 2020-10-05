@@ -35,7 +35,7 @@ fn_update_minecraft_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
-	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep -i version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*[Vv]ersion //';'s/\r//g')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -49,7 +49,7 @@ fn_update_minecraft_localbuild(){
 		command_start.sh
 		fn_firstcommand_reset
 		totalseconds=0
-		localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
+		localbuild=$(grep -i version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*[Vv]ersion //';'s/\r//g')
 		while [ -z "${localbuild}" ]; do
 			sleep 1
 			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
@@ -58,7 +58,7 @@ fn_update_minecraft_localbuild(){
 				fn_script_log_info "Waiting for log file to generate"
 			fi
 
-			localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
+			localbuild=$(grep -i version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*[Vv]ersion //';'s/\r//g')
 			if [ "${totalseconds}" -gt "120" ]; then
 				localbuild="0"
 				fn_print_error "Checking local build: ${remotelocation}: waiting for log file"
