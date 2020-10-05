@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.5.0"
+version="v20.5.1"
 shortname="fctr"
 gameservername="fctrserver"
 commandname="CORE"
