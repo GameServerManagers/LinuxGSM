@@ -146,6 +146,19 @@ fn_wipe_server_files(){
 		fn_sleep_time
 		fn_script_log_pass "No player death to remove"
 	fi
+	# Wipe player states files
+	if [ -n "$(find "${serveridentitydir}" -type f -name "player.states.*.db")" ]; then
+		echo -en "removing player states player.states.*.db file(s)..."
+		fn_sleep_time
+		fn_script_log_info "Removing player states: ${serveridentitydir}/player.states.*.db"
+		find "${serveridentitydir:?}" -type f -name "player.states.*.db" -delete | tee -a "${lgsmlog}"
+		fn_wipe_exit_code
+		fn_sleep_time
+	else
+		echo -e "no player states to remove"
+		fn_sleep_time
+		fn_script_log_pass "No player states to remove"
+	fi
 	# Wipe blueprints only if full-wipe command was used.
 	if [ "${fullwipe}" == "1" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]; then
