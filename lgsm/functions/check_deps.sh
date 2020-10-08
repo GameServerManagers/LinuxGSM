@@ -425,9 +425,6 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
-	# GoldenEye: Source
-	elif [ "${shortname}" == "ges" ]; then
-		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
@@ -534,9 +531,6 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-11-openjdk rng-tools )
 		fi
-	# GoldenEye: Source
-	elif [ "${shortname}" == "ges" ]; then
-		array_deps_required+=( zlib.i686 openldap.i686 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible
