@@ -316,6 +316,13 @@ elif [ "${shortname}" == "cc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "col" ]; then
+	gamedirname="ColonySurvival"
+	array_configs+=( colserver.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
 	gamedirname="CounterStrike"
 	array_configs+=( server.cfg )

@@ -583,7 +583,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms.
-	local ports_edit_array=( "Avorion" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
@@ -1445,6 +1445,16 @@ fn_info_message_pavlovvr(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_colony(){
+	echo -e "netstat -atunp | grep colonyserver"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1473,6 +1483,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${shortname}" == "codwaw" ]; then
 		fn_info_message_codwaw
+	elif [ "${shortname}" == "col" ]; then
+		fn_info_message_colony
 	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
