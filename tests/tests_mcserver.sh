@@ -421,6 +421,15 @@ else
 			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
+		# Load the common-secrets.cfg config. If missing download it.
+		if [ ! -f "${configdirserver}/common-secrets.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "common-secrets.cfg" "${configdirserver}" "common-secrets.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/common-secrets.cfg"
+		else
+			# shellcheck source=/dev/null
+			source "${configdirserver}/common-secrets.cfg"
+		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
@@ -429,6 +438,15 @@ else
 		else
 			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
+		fi
+		# Load the instance-secrets.cfg config. If missing download it.
+		if [ ! -f "${configdirserver}/${selfname}-secrets.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-secrets-template.cfg" "${configdirserver}" "${selfname}-secrets.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/${selfname}-secrets.cfg"
+		else
+			# shellcheck source=/dev/null
+			source "${configdirserver}/${selfname}-secrets.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
