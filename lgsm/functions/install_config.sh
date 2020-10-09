@@ -429,13 +429,6 @@ elif [ "${shortname}" == "gmod" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "ges" ]; then
-	gamedirname="GoldenEyeSource"
-	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "hldm" ]; then
 	gamedirname="HalfLifeDeathmatch"
 	array_configs+=( server.cfg )
@@ -663,13 +656,6 @@ elif [ "${shortname}" == "rust" ]; then
 elif [ "${shortname}" == "samp" ]; then
 	gamedirname="SanAndreasMultiplayer"
 	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "ss3" ]; then
-	gamedirname="SeriousSam3BFE"
-	array_configs+=( server.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

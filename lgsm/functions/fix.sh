@@ -48,8 +48,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_cmw.sh
 	elif [ "${shortname}" == "dst" ]; then
 		fix_dst.sh
-	elif [ "${shortname}" == "ges" ]; then
-		fix_ges.sh
 	elif [ "${shortname}" == "hw" ]; then
 		fix_hw.sh
 	elif [ "${shortname}" == "ins" ]; then
@@ -70,8 +68,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_sof2.sh
 	elif [ "${shortname}" == "squad" ]; then
 		fix_squad.sh
-	elif [ "${shortname}" == "ss3" ]; then
-		fix_ss3.sh
 	elif [ "${shortname}" == "st" ]; then
 		fix_st.sh
 	elif [ "${shortname}" == "tf2" ]; then

@@ -827,29 +827,6 @@ fn_info_config_rtcw(){
 	fi
 }
 
-fn_info_config_seriousengine35(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		rconpassword="${unavailable}"
-		gamemode="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-	else
-		servername=$(grep "prj_strMultiplayerSessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/prj_strMultiplayerSessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "rcts_strAdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/rcts_strAdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		gamemode=$(grep "gam_idGameMode" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/gam_idGameMode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "gam_ctMaxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		port=$(grep "prj_uwPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-
-		# Not Set
-		servername=${servername:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		gamemode=${gamemode:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"0"}
-	fi
-}
-
 #StickyBots
 fn_info_config_sbots(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1534,162 +1511,108 @@ fn_info_config_soldat(){
 	fi
 }
 
-# Assetto Corsa
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
-# ARK: Survival Evolved
 elif [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
-# Avorion
 elif [ "${shortname}" == "av" ]; then
 	fn_info_config_avorion
-# Ballistic Overkill
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill
-# Barotrauma
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_config_barotrauma
-# Battalion 1944
 elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_config_battalion1944
-# Battlefield: 1942
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
-# Battlefield: Vietnam
 elif [ "${shortname}" == "bfv" ]; then
 	fn_info_config_bfv
-# Chivalry: Medieval Warfare
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_config_chivalry
-# Call of Duty
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]; then
 	fn_info_config_cod
-# Call of Duty 2
 elif [ "${shortname}" == "cod2" ]; then
 	fn_info_config_cod2
-# Call of Duty 4
 elif [ "${shortname}" == "cod4" ]; then
 	fn_info_config_cod4
-# Call of Duty: World at War
 elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_config_codwaw
-# Dont Starve Together
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_config_dontstarve
-# Eco
 elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
-# Factorio
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
-# Insurgency: Sandstorm
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_config_inss
-# Just Cause 2
 elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_justcause2
-# Just Cause 3
 elif [ "${shortname}" == "jc3" ]; then
 	fn_info_config_justcause3
-# Killing Floor 2
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
-# Medal of Honor: Allied Assault
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_config_mohaa
-# Memories of Mars
 elif [ "${shortname}" == "mofm" ]; then
 	fn_info_config_mofm
-# QuakeWorld
 elif [ "${shortname}" == "qw" ]; then
 	fn_info_config_quakeworld
-# Quake 2
 elif [ "${shortname}" == "q2" ]; then
 	fn_info_config_quake2
-# Quake 3
 elif [ "${shortname}" == "q3" ]; then
 	fn_info_config_quake3
-# Quake Live
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_quakelive
-# Jedi Knight II: Jedi Outcast
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_config_jk2
-# Minecraft
 elif [ "${shortname}" == "mc" ]; then
 	fn_info_config_minecraft
-# Minecraft Bedrock
 elif [ "${shortname}" == "mcb" ]; then
 	fn_info_config_minecraft_bedrock
-# Onset
 elif [ "${shortname}" == "onset" ]; then
 	fn_info_config_onset
-# Post Scriptum: The Bloody Seventh
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_config_pstbs
-# Project Cars
 elif [ "${shortname}" == "pc" ]; then
 	fn_info_config_projectcars
-# Project Zomboid
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_config_projectzomboid
-# ARMA 3
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_config_realvirtuality
-# Return to Castle Wolfenstein
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_config_rtcw
-# Rising World
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_config_risingworld
-# Serious Sam
-elif [ "${shortname}" == "ss3" ]; then
-	fn_info_config_seriousengine35
-# Soldat
 elif [ "${shortname}" == "sol" ]; then
 	fn_info_config_soldat
-# Soldier Of Fortune 2: Gold Edition
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_config_sof2
-# Source Engine Games
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	fn_info_config_source
-# Starbound
 elif [ "${shortname}" == "sb" ]; then
 	fn_info_config_starbound
-# Teamspeak 3
 elif [ "${shortname}" == "ts3" ]; then
 	fn_info_config_teamspeak3
-# Mumble
 elif [ "${shortname}" == "mumble" ]; then
 	fn_info_config_mumble
-# San Andreas Multiplayer
 elif [ "${shortname}" == "samp" ]; then
 	fn_info_config_samp
-# StickyBots
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_config_sbots
-# Teeworlds
 elif [ "${shortname}" == "tw" ]; then
 	fn_info_config_teeworlds
-# Terraria
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_config_terraria
-# Tower Unite
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_config_towerunite
-# Unreal engine
 elif [ "${engine}" == "unreal" ]; then
 	fn_info_config_unreal
-# Unreal 2 engine
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal2
-# Unreal 3 engine
 elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
-# 7 Day To Die (unity3d)
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then
@@ -1704,7 +1627,6 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_info_config_mta
 elif [ "${shortname}" == "squad" ]; then
 	fn_info_config_squad
-# Stationeers
 elif [ "${shortname}" == "st" ]; then
 	fn_info_config_stationeers
 elif [ "${shortname}" == "mh" ]; then
