@@ -15,7 +15,7 @@ fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends quit.
-	tmux send-keys -t "${sessionname}" C-c  > /dev/null 2>&1
+	tmux send-keys -t "${sessionname}${port}" C-c  > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
