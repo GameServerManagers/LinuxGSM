@@ -7,8 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [[ `tmux list-sessions -F "#{session_name}"` == *"$sessionname $port"* ]]; then
-    status=1;
+if [ "$(tmux list-sessions -F "#{session_name}" 2>/dev/null)" == "${sessionname}${port}" ]; then
+		status=1;
 else
-    status=0;
+		status=0;
 fi
