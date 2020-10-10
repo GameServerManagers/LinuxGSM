@@ -340,11 +340,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_ges.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_hw.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -446,11 +441,6 @@ fn_fetch_function
 }
 
 fix_squad.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-fix_ss3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
