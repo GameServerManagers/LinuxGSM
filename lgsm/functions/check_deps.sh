@@ -395,6 +395,9 @@ fn_deps_build_debian(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
+	# Barotrauma
+	elif [ "${shortname}" == "bt" ]; then
+		array_deps_required+=( libicu-dev )
 	# Ecoserver
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( libgdiplus )
@@ -489,6 +492,9 @@ fn_deps_build_redhat(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
+	# Barotrauma
+	elif [ "${shortname}" == "bt" ]; then
+		array_deps_required+=( libicu )
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
