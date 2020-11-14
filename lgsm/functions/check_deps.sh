@@ -185,7 +185,7 @@ if [ "${javacheck}" == "1" ]; then
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }; then
 				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
 					steamcmdfail=1
 				fi
@@ -349,7 +349,7 @@ fn_deps_build_debian(){
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }|| { [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }; then
 				array_deps_required+=( lib32gcc-s1 lib32stdc++6 )
 			else
 				array_deps_required+=( lib32gcc1 lib32stdc++6 )
