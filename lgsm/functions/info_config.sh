@@ -1511,6 +1511,20 @@ fn_info_config_soldat(){
 	fi
 }
 
+fn_info_config_pavlovvr(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+	else
+		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | awk -F '=' '{print $2}')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1631,4 +1645,6 @@ elif [ "${shortname}" == "st" ]; then
 	fn_info_config_stationeers
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
+elif [ "${shortname}" == "pvr" ];then
+	fn_info_config_pavlovvr
 fi
