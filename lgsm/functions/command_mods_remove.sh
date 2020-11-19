@@ -37,7 +37,7 @@ while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
 	read -r usermodselect
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
-			core_exit.sh
+		core_exit.sh
 	# Supplementary output upon invalid user input.
 	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
 		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
@@ -83,7 +83,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	((modfileline++))
 done
 
-# Added logic not to fail since removing game specific mods (amxmodxcs) removes files that will 
+# Added logic not to fail since removing game specific mods (amxmodxcs) removes files that will
 # not be found when removing the base (amxmodx) mod
 if [ "${modcommand}" != "amxmodx" ]; then
 	if [ "${exitcode}" != 0 ]; then
@@ -94,13 +94,13 @@ if [ "${modcommand}" != "amxmodx" ]; then
 	fi
 else
 	fn_print_ok_eol_nl
-fi	
+fi
 
 # Remove file list.
 echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
-local exitcode=$?
+exitcode=$?
 if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
@@ -115,7 +115,7 @@ echo -en "removing ${modcommand} from ${modsinstalledlist}..."
 fn_sleep_time
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
-local exitcode=$?
+exitcode=$?
 if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
