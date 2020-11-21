@@ -2,23 +2,27 @@
 # LinuxGSM check_glibc.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Checks if the server has the correct Glibc version or a fix available.
+# Description: Checks if the server has the correct Glibc version.
 
-local commandname="CHECK"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-info_glibc.sh
 info_distro.sh
 
-if [ "${glibcrequired}" == "NOT REQUIRED" ]; then
+if [ "${glibc}" == "null" ]; then
+	# Glibc is not required.
 	:
-elif [ "$(printf '%s\n'${glibcrequired}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibcrequired}" ]||[ "${glibcrequired}" == "UNKNOWN" ]; then
-	fn_print_dots "Glibc"
-	sleep 0.5
-	fn_print_error_nl "glibc: ${red}glibc distro version ${glibcversion} too old${default}"
+elif [ -z "${glibc}" ]; then
+	fn_print_dots "glibc"
+	fn_print_error_nl "glibc requirement unknown"
+	fn_script_log_error "glibc requirement unknown"
+elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
+	fn_print_dots "glibc"
+	fn_print_error_nl "glibc requirements not met"
+	fn_script_log_error "glibc requirements not met"
 	echo -en "\n"
-	echo -e "	* glibc required: ${glibcrequired}"
+	echo -e "	* glibc required: ${glibc}"
 	echo -e "	* glibc installed: ${red}${glibcversion}${default}"
 	echo -en "\n"
-	fn_print_information "The game server will probably not work. A distro upgrade is required!"
-	sleep 2
+	fn_print_information_nl "distro upgrade is required"
+	fn_script_log_info "distro upgrade is required"
 fi

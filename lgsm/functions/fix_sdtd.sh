@@ -2,9 +2,8 @@
 # LinuxGSM fix_sdtd.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with 7 Days to Die
+# Description: Resolves various issues with 7 Days to Die.
 
-local commandname="FIX"
-local commandaction="Fix"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-export LD_LIBRARY_PATH="${serverfiles}"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}/7DaysToDieServer_Data/Plugins/x86_64"
