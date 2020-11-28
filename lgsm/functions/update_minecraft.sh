@@ -55,6 +55,7 @@ fn_update_minecraft_remotebuild(){
 		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.snapshot')
 	# Specific release/snapshot.
 	else
+		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions | .[] | select(.id=="${branch}") | .id')
 		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${mcversion} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .id')
 	fi
 
