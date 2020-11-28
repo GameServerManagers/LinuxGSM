@@ -27,8 +27,6 @@ fn_install_server_files(){
 		remote_fileurl="http://linuxgsm.download/CallOfDutyWorldAtWar/codwaw-lnxded-1.7-full.tar.xz"; local_filedir="${tmpdir}"; local_filename="codwaw-lnxded-1.7-full.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="2c6be1bb66ea631b9b2e7ae6216c6680"
 	elif [ "${shortname}" == "etl" ]; then
 		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/etlegacy-v2.76-i386-et-260b.tar.xz"; local_filedir="${tmpdir}"; local_filename="etlegacy-v2.75-i386-et-260b.tar.bz2"; chmodx="nochmodx" run="norun"; force="noforce"; md5="178a00233cec1e25b69d130107ce1a79"
-	elif [ "${shortname}" == "ges" ]; then
-		remote_fileurl="http://linuxgsm.download/GoldenEyeSource/GoldenEye_Source_v5.0.6_full_server.tar.xz"; local_filedir="${tmpdir}"; local_filename="GoldenEye_Source_v5.0.6_full_server.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e31481f280eed40c9145816bd4f6dc45"
 	elif [ "${shortname}" == "mohaa" ]; then
 		remote_fileurl="http://linuxgsm.download/MedalofHonorAlliedAssault/moh_revival_v1.12_RC3.5.1.tar.xz"; local_filedir="${tmpdir}"; local_filename="moh_revival_v1.12_RC3.5.1.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="7c664538999252eeaf2b6d9949416480"
 	elif [ "${shortname}" == "ns" ]; then
@@ -50,7 +48,7 @@ fn_install_server_files(){
 	elif [ "${shortname}" == "ut2k4" ]; then
 		remote_fileurl="http://linuxgsm.download/UnrealTournament2004/ut2004-server-3369-3-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut2004-server-3369-3-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="9fceaab68554749f4b45be66613b9a15"
 	elif [ "${shortname}" == "ut99" ]; then
-		remote_fileurl="http://linuxgsm.download/UnrealTournament99/ut99-server-451-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut99-server-451-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="42c6839f8cb95907eeef71a1838aa1f7"
+		remote_fileurl="http://linuxgsm.download/UnrealTournament99/ut99-server-469a-ultimate-linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="ut99-server-469a-ultimate-linux.tar.xz"; chmodx="nochmodx" run="norun"; force="noforce"; md5="e3f2ffaab8e23b98d9e825d0244e8b9d"
 	elif [ "${shortname}" == "ut" ]; then
 		remote_fileurl="http://linuxgsm.download/UnrealTournament/UnrealTournament-Server-XAN-3525360-Linux.tar.xz"; local_filedir="${tmpdir}"; local_filename="UnrealTournament-Server-XAN-3525360-Linux.tar.xz";  chmodx="noexecute" run="norun"; force="noforce"; md5="41dd92015713a78211eaccf503b72393"
 	elif [ "${shortname}" == "ut3" ]; then
@@ -93,7 +91,7 @@ elif [ "${shortname}" == "fctr" ]; then
 	install_factorio_save.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
-elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ges" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
+elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi

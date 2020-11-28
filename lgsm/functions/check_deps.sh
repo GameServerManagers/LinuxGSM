@@ -185,7 +185,7 @@ if [ "${javacheck}" == "1" ]; then
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }; then
 				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
 					steamcmdfail=1
 				fi
@@ -349,7 +349,7 @@ fn_deps_build_debian(){
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; then
+			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }|| { [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }; then
 				array_deps_required+=( lib32gcc-s1 lib32stdc++6 )
 			else
 				array_deps_required+=( lib32gcc1 lib32stdc++6 )
@@ -382,8 +382,11 @@ fn_deps_build_debian(){
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( libncurses5:i386 libstdc++5:i386 )
-	# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
-	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
+	# Battlefield 1942
+	elif [ "${shortname}" == "bf1942" ]; then
+		array_deps_required+=( libncurses5:i386 libtinfo5:i386 )
+	# Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	elif [ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			array_deps_required+=( libtinfo5:i386 )
 		else
@@ -395,6 +398,9 @@ fn_deps_build_debian(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( libstdc++5:i386 )
+	# Barotrauma
+	elif [ "${shortname}" == "bt" ]; then
+		array_deps_required+=( libicu-dev )
 	# Ecoserver
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( libgdiplus )
@@ -425,9 +431,6 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
-	# GoldenEye: Source
-	elif [ "${shortname}" == "ges" ]; then
-		array_deps_required+=( zlib1g:i386 libldap-2.4-2:i386 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
@@ -492,6 +495,9 @@ fn_deps_build_redhat(){
 	# 7 Days to Die
 	elif [ "${shortname}" == "sdtd" ]; then
 		array_deps_required+=( telnet expect )
+	# Barotrauma
+	elif [ "${shortname}" == "bt" ]; then
+		array_deps_required+=( libicu )
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
@@ -534,9 +540,6 @@ fn_deps_build_redhat(){
 		else
 			array_deps_required+=( java-11-openjdk rng-tools )
 		fi
-	# GoldenEye: Source
-	elif [ "${shortname}" == "ges" ]; then
-		array_deps_required+=( zlib.i686 openldap.i686 )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible

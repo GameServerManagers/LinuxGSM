@@ -37,7 +37,6 @@ em,emserver,Empires Mod
 etl,etlserver,ET: Legacy
 fctr,fctrserver,Factorio
 fof,fofserver,Fistful of Frags
-ges,gesserver,GoldenEye: Source
 gmod,gmodserver,Garrys Mod
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch
 hldm,hldmserver,Half-Life: Deathmatch
@@ -70,6 +69,7 @@ opfor,opforserver,Opposing Force
 pc,pcserver,Project Cars
 pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
 pvkii,pvkiiserver,Pirates Vikings & Knights II
+pvr,pvrserver,Pavlov VR
 pz,pzserver,Project Zomboid
 q2,q2server,Quake 2
 q3,q3server,Quake 3: Arena
@@ -88,7 +88,6 @@ sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 sol,solserver,Soldat
 squad,squadserver,Squad
-ss3,ss3server,Serious Sam 3: BFE
 st,stserver,Stationeers
 sven,svenserver,Sven Co-op
 terraria,terrariaserver,Terraria

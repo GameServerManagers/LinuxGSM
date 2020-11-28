@@ -120,6 +120,7 @@ fn_update_minecraft_compare(){
 			command_start.sh
 			fn_firstcommand_reset
 		fi
+		unset exitbypass
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
