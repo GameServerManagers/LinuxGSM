@@ -660,13 +660,6 @@ elif [ "${shortname}" == "rust" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shortname}" == "samp" ]; then
-	gamedirname="SanAndreasMultiplayer"
-	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	gamedirname="Soldat"
 	array_configs+=( soldat.ini )
