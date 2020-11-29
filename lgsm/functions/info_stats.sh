@@ -8,6 +8,10 @@
 local modulegroup="INFO"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+fn_send_ga_data(){
+	curl --connect-timeout 10 -s https://www.google-analytics.com/collect -d "$@" 2>&1
+}
+
 info_distro.sh
 
 # remove uuid that was used in v20.2.0 and below
@@ -61,84 +65,49 @@ memusedroundup="$(((memused + 99) / 100 * 100))"
 # Install Property - UA-165287622-2
 # Hardware Property - UA-165287622-3
 
-## Distro.
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-
-## Game Server Name.
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-
-## LinuxGSM Version.
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-
-## CPU usage of a game server.
-if [ -n "${cpuusedmhzroundup}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-## Ram usage of a game server.
-if [ -n "${memusedroundup}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-## Disk usage of a game server.
-if [ -n "${serverfilesdu}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## CPU Model.
-if [ -n "${cpumodel}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-
-fi
-
-## CPU Frequency.
-if [ -n "${cpufreqency}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## Server RAM.
-if [ -n "${physmemtotal}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## Server Disk.
-if [ -n "${totalspace}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## Summary Stats
-curl https://www.google-analytics.com/collect -d "tid=UA-655379-31" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "v=1" > /dev/null 2>&1
+## loop to all Google Analytics ids + UUID
+for loopdata in {"UA-165287622-1:${uuidinstance}","UA-165287622-2:${uuidinstall}","UA-165287622-3:${uuidhardware}"}; do
+	# ID for GA
+	gatid=$(echo "${loopdata}" | awk -F: '{print $1}')
+	# get uuid for data
+	uuid=$(echo "${loopdata}" | awk -F: '{print $2}')
+	## Distro.
+	fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=distro&ea=${distroname}&el=${gamename}&v=1"
+	## Game Server Name.
+	fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=game&ea=${gamename}&el=${gamename}&v=1"
+	## LinuxGSM Version.
+	fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=version&ea=${version}&el=${gamename}&v=1"
+	## CPU usage of a game server.
+	if [ -n "${cpuusedmhzroundup}" ]; then
+		fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=cpuused&ea=${cpuusedmhzroundup}MHz&el=${gamename}&v=1"
+	fi
+	## Ram usage of a game server.
+	if [ -n "${memusedroundup}" ]; then
+		fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=ramused&ea=${memusedroundup}MB&el=${gamename}&v=1"
+	fi
+	## Disk usage of a game server.
+	if [ -n "${serverfilesdu}" ]; then
+		fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=diskused&ea=${serverfilesdu}&el=${gamename}&v=1"
+	fi
+	## CPU Model.
+	if [ -n "${cpumodel}" ]; then
+		fn_send_ga_data "tid=${garid}&aip=1&cid=${uuid}&t=event&ec=servercpu&ea=${cpumodel} ${cpucores} cores&el=${gamename}&v=1"
+	fi
+	## CPU Frequency.
+	if [ -n "${cpufreqency}" ]; then
+		fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=servercpufreq&ea=${cpufreqency} x${cpucores}&el=${gamename}&v=1"
+	fi
+	## Server RAM.
+	if [ -n "${physmemtotal}" ]; then
+		fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=serverram&ea=${physmemtotal}&el=${gamename}&v=1"
+	fi
+	## Server Disk.
+	if [ -n "${totalspace}" ]; then
+		fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=serverdisk&ea=${totalspace}&el=${gamename}&v=1"
+	fi
+	## Summary Stats
+	fn_send_ga_data "tid=${gatid}&aip=1&cid=${uuid}&t=event&ec=summary&ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}&v=1"
+done
 
 fn_script_log_info "Send LinuxGSM stats"
 fn_script_log_info "* uuid-${selfname}: ${uuidinstance}"
