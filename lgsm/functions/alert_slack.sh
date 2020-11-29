@@ -67,7 +67,7 @@ EOF
 
 fn_print_dots "Sending Slack alert"
 
-slacksend=$(curl -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${slackwebhook}")
+slacksend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${slackwebhook}")
 
 if [ "${slacksend}" == "ok" ]; then
 	fn_print_ok_nl "Sending Slack alert"

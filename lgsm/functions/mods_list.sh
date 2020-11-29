@@ -68,21 +68,21 @@ sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${so
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile=$(curl -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+steamworkslatestfile=$(curl --connect-timeout 10 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # CS:GO Mods
-get5lastbuild=$(curl -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/json | jq -r '.artifacts[]')
+get5lastbuild=$(curl --connect-timeout 10 -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/json | jq -r '.artifacts[]')
 get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.fileName')
 get5latestfilepath=$(echo -e "${get5lastbuild}" | jq -r '.relativePath')
 get5url="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5latestfilepath}"
-csgopuglatest=$(curl -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
+csgopuglatest=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
 csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
 csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
 # Oxide
-oxiderustlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-oxidehurtworldlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-oxidesdtdlatestlink=$(curl -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url' )
+oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxidehurtworldlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
+oxidesdtdlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url' )
 
 # Define mods information (required)
 
