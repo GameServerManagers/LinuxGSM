@@ -14,7 +14,7 @@ fi
 
 fn_print_dots "Sending Email alert: Mailgun: ${email}"
 
-mailgunsend=$(curl -s --user "api:${mailguntoken}" \
+mailgunsend=$(curl --connect-timeout 10 -s --user "api:${mailguntoken}" \
 -F from="LinuxGSM <${mailgunemailfrom}>" \
 -F to="LinuxGSM Admin <${mailgunemail}>" \
 -F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
