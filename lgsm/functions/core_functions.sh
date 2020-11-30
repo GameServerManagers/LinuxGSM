@@ -430,6 +430,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_samp.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_sdtd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
