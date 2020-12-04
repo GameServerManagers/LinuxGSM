@@ -609,7 +609,7 @@ fn_mod_install_liblist_gam_file(){
 			exitcode=$?
 			# if replacement back didn't happen, error out.
 			if [ "${exitcode}" != 0 ]; then
-				fn_script_log_fatal ${logentry}
+				fn_script_log_fatal "${logentry}"
 				fn_print_fail_eol_nl
 			else
 				fn_script_log_pass ${logentry}
@@ -633,7 +633,7 @@ fn_mod_remove_liblist_gam_file(){
 		exitcode=$?
 		# if replacement back didn't happen, error out.
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal ${logentry}
+			fn_script_log_fatal "${logentry}"
 			fn_print_fail_eol_nl
 		else
 			fn_script_log_pass ${logentry}
@@ -649,7 +649,7 @@ fn_mod_remove_liblist_gam_file(){
 		exitcode=$?
 		# if replacement back didn't happen, error out
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal ${logentry}
+			fn_script_log_fatal "${logentry}"
 			fn_print_fail_eol_nl
 		else
 			fn_script_log_pass ${logentry}
@@ -667,7 +667,7 @@ fn_mod_remove_liblist_gam_file(){
 			# if replacement back didn't happen, error out.
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
-				fn_script_log_fatal ${logentry}
+				fn_script_log_fatal "${logentry}"
 				fn_print_fail_eol_nl
 			else
 				fn_script_log_pass ${logentry}
@@ -690,7 +690,7 @@ fn_mod_install_amxmodx_file(){
 			echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" >> "${modinstalldir}/addons/metamod/plugins.ini"
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
-				fn_script_log_fatal ${logentry}
+				fn_script_log_fatal "${logentry}"
 				fn_print_fail_eol_nl
 			else
 				fn_script_log_pass ${logentry}
@@ -702,7 +702,7 @@ fn_mod_install_amxmodx_file(){
 		echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > "${modinstalldir}/addons/metamod/plugins.ini"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal ${logentry}
+			fn_script_log_fatal "${logentry}"
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
@@ -727,7 +727,7 @@ fn_mod_remove_amxmodx_file(){
 			sed -i '/^$/d' "${modinstalldir}/addons/metamod/plugins.ini"
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
-				fn_script_log_fatal ${logentry}
+				fn_script_log_fatal "${logentry}"
 				fn_print_fail_eol_nl
 			else
 				fn_script_log_pass ${logentry}
