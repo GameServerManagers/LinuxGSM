@@ -36,7 +36,7 @@ fn_start_teamspeak3(){
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2(){
 	fn_start_tmux
-	tmux send -t "${sessionname}${port}" version ENTER > /dev/null 2>&1
+	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux(){
@@ -72,7 +72,7 @@ fn_start_tmux(){
 	# Create lockfile
 	date '+%s' > "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}${port}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -130,7 +130,7 @@ fn_start_tmux(){
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname} ${port}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${sessionname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
