@@ -575,10 +575,10 @@ fn_mod_install_liblist_gam_file(){
 		exitcode=$?
 		# if replacement back didn't happen, error out.
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal ${logentry}
+			fn_script_log_fatal "${logentry}"
 			fn_print_fail_eol_nl
 		else
-			fn_script_log_pass ${logentry}
+			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
 		fi
 
@@ -591,10 +591,10 @@ fn_mod_install_liblist_gam_file(){
 		exitcode=$?
 		# if replacement back didn't happen, error out
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal ${logentry}
+			fn_script_log_fatal "${logentry}"
 			fn_print_fail_eol_nl
 		else
-			fn_script_log_pass ${logentry}
+			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
 		fi
 
@@ -604,7 +604,7 @@ fn_mod_install_liblist_gam_file(){
 			logentry="sed replace (dlls\\${moddylib}) ${modinstalldir}/liblist.gam"
 			echo -en "modifying gamedll_osx in liblist.gam..."
 			rpldylib="s/dlls\/${moddylib}/addons\/metamod\/dlls\/metamod.dylib/g"
-			sed -i $rpldylib ${modinstalldir}/liblist.gam
+			sed -i $rpldylib "${modinstalldir}/liblist.gam"
 			grep -q "addons/metamod/dlls/metamod.dylib" "${modinstalldir}/liblist.gam"
 			exitcode=$?
 			# if replacement back didn't happen, error out.
