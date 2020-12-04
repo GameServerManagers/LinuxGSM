@@ -37,7 +37,7 @@ while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
 	read -r usermodselect
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
-			core_exit.sh
+		core_exit.sh
 	# Supplementary output upon invalid user input.
 	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
 		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
@@ -82,17 +82,25 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	echo -e "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done
-if [ "${exitcode}" != 0 ]; then
-	fn_print_fail_eol_nl
-	core_exit.sh
+
+# Added logic not to fail since removing game specific mods (amxmodxcs) removes files that will
+# not be found when removing the base (amxmodx) mod
+if [ "${modcommand}" != "amxmodx" ]; then
+	if [ "${exitcode}" != 0 ]; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
 else
 	fn_print_ok_eol_nl
 fi
+
 # Remove file list.
 echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
-local exitcode=$?
+exitcode=$?
 if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
@@ -107,7 +115,7 @@ echo -en "removing ${modcommand} from ${modsinstalledlist}..."
 fn_sleep_time
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
-local exitcode=$?
+exitcode=$?
 if [ "${exitcode}" != 0 ]; then
 	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
@@ -127,6 +135,17 @@ if [ "${engine}" == "unity3d" ]&&[[ "${modprettyname}" == *"Oxide"* ]]; then
 	fn_firstcommand_reset
 	unset exitbypass
 fi
+
+# Remove/modify existing liblist.gam file for Metamod
+if [ "${modcommand}" == "metamod" ]; then
+	fn_mod_remove_liblist_gam_file
+fi
+
+# Remove/modify plugins.ini file for AMX Mod X
+if [ "${modcommand}" == "amxmodx" ]; then
+	fn_mod_remove_amxmodx_file
+fi
+
 echo -e "${modprettyname} removed"
 fn_script_log "${modprettyname} removed"
 

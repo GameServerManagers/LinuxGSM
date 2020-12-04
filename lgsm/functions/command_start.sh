@@ -71,6 +71,8 @@ fn_start_tmux(){
 
 	# Create lockfile
 	date '+%s' > "${lockdir}/${selfname}.lock"
+	echo "${version}" >> "${lockdir}/${selfname}.lock"
+	echo "${port}" >> "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 

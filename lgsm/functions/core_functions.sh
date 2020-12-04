@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.5.1"
+modulesversion="v20.6.0"
 
 # Core
 
@@ -340,11 +340,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_ges.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_hw.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -435,6 +430,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_samp.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_sdtd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -446,11 +446,6 @@ fn_fetch_function
 }
 
 fix_squad.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-fix_ss3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

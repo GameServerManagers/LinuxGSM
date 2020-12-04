@@ -48,8 +48,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_cmw.sh
 	elif [ "${shortname}" == "dst" ]; then
 		fix_dst.sh
-	elif [ "${shortname}" == "ges" ]; then
-		fix_ges.sh
 	elif [ "${shortname}" == "hw" ]; then
 		fix_hw.sh
 	elif [ "${shortname}" == "ins" ]; then
@@ -70,8 +68,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_sof2.sh
 	elif [ "${shortname}" == "squad" ]; then
 		fix_squad.sh
-	elif [ "${shortname}" == "ss3" ]; then
-		fix_ss3.sh
 	elif [ "${shortname}" == "st" ]; then
 		fix_st.sh
 	elif [ "${shortname}" == "tf2" ]; then
@@ -95,7 +91,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${commandname}" == "INSTALL" ]; then
-		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
+		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "samp" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
@@ -109,6 +105,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 				fix_kf2.sh
 			elif [ "${shortname}" == "ro" ]; then
 				fix_ro.sh
+			elif [ "${shortname}" == "samp" ]; then
+				fix_samp.sh
 			elif [ "${shortname}" == "ut2k4" ]; then
 				fix_ut2k4.sh
 			elif [ "${shortname}" == "ut" ]; then
