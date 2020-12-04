@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.5.1"
+version="v20.6.0"
 shortname="fctr"
 gameservername="fctrserver"
 commandname="CORE"
@@ -938,6 +938,8 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
 date '+%s' > "${lockdir}/${selfname}.lock"
+echo "${version}" >> "${lockdir}/${selfname}.lock"
+echo "${port}" >> "${lockdir}/${selfname}.lock"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"

@@ -25,8 +25,10 @@ fn_monitor_check_lockfile(){
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [ -f "${lockdir}/${selfname}.lock" ]&&[[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
-			date '+%s' > "${lockdir}/${selfname}.lock"
+	if [ -f "${lockdir}/${selfname}.lock" ]&&[[ "$(head -n 1 "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
+		date '+%s' > "${lockdir}/${selfname}.lock"
+		echo "${version}" >> "${lockdir}/${selfname}.lock"
+		echo "${port}" >> "${lockdir}/${selfname}.lock"
 	fi
 }
 

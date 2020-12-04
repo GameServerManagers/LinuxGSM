@@ -576,7 +576,7 @@ elif [ "${shortname}" == "mumble" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${gamename}" == "Pavlov VR" ]; then
+elif [ "${shortname}" == "pvr" ]; then
 	gamedirname="PavlovVR"
 	fn_check_cfgdir
 	array_configs+=( Game.ini )
