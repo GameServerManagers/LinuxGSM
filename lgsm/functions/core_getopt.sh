@@ -21,6 +21,7 @@ cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linux
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
 cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
+cmd_install_init=("ii;install-init" "command_install_init.sh" "Puts the service file in the right place")
 # Console servers only.
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
@@ -130,7 +131,7 @@ if [ "${engine}" == "source" ]||[ "${shortname}" == "rust" ]||[ "${shortname}" =
 fi
 
 ## Installer.
-currentopt+=( "${cmd_install[@]}" "${cmd_auto_install[@]}" )
+currentopt+=( "${cmd_install[@]}" "${cmd_auto_install[@]}" "${cmd_install_init[@]}")
 
 ## Developer commands.
 currentopt+=( "${cmd_dev_debug[@]}" )

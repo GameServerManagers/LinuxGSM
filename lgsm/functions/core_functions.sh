@@ -742,6 +742,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_install_init.sh () {
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Calls code required for legacy servers
 core_legacy.sh
 

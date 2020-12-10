@@ -368,6 +368,7 @@ if [ "${shortname}" == "core" ]; then
 
 # LinuxGSM server mode.
 else
+	path="$(dirname $(readlink -f $0))/$(basename $0)"
 	core_functions.sh
 	if [ "${shortname}" != "core-dep" ]; then
 		# Load LinuxGSM configs.
