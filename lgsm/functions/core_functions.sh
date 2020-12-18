@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.6.1"
+modulesversion="v20.6.2"
 
 # Core
 
