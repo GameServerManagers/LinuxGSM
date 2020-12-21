@@ -385,6 +385,9 @@ fn_deps_build_debian(){
 	# Battlefield 1942
 	elif [ "${shortname}" == "bf1942" ]; then
 		array_deps_required+=( libncurses5:i386 libtinfo5:i386 )
+	# Black Mesa: Death Match
+	elif [ "${shortname}" == "bmdm" ]; then
+		array_deps_required+=( libncurses5:i386 )
 	# Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
@@ -501,8 +504,8 @@ fn_deps_build_redhat(){
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
-	# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
-	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
+	# Battlefield 1942, Black Mesa: Deathmatch, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "bmdm" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
