@@ -26,6 +26,7 @@ cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
 # Update servers only.
 cmd_update=( "u;update" "command_update.sh" "Check and apply any server updates." )
+cmd_check_update=( "cu;check-update" "command_check_update.sh" "Check if a gameserver update is available" )
 cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Apply server updates bypassing check." )
 # SteamCMD servers only.
 cmd_validate=( "v;validate" "command_validate.sh" "Validate server files with SteamCMD." )
@@ -71,9 +72,9 @@ if [ "${shortname}" == "jk2" ]||[ "${engine}" != "idtech3" ];then
 	fi
 fi
 
-# Validate command.
+# Validate and check-update command.
 if [ "${appid}" ]; then
-	currentopt+=( "${cmd_validate[@]}" )
+	currentopt+=( "${cmd_validate[@]}" "${cmd_check_update[@]}" )
 fi
 
 # Backup.
