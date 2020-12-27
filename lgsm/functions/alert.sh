@@ -60,6 +60,15 @@ fn_alert_update(){
 	alertbody="${gamename} received update"
 }
 
+fn_alert_check_update(){
+	fn_script_log_info "Sending alert: Update available"
+	alertsubject="Alert - ${selfname} - Update available"
+	alertemoji="🎮"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${gamename} update available"
+}
+
 fn_alert_permissions(){
 	fn_script_log_info "Sending alert: Permissions error"
 	alertsubject="Alert - ${selfname}: Permissions error"
@@ -88,6 +97,8 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
+elif [ "${alert}" == "check-update" ]; then
+	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 fi
