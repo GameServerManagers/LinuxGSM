@@ -53,6 +53,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+core_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Commands
 
 command_backup.sh(){
@@ -590,6 +595,11 @@ fn_fetch_function
 }
 
 command_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+command_check_update.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
