@@ -25,8 +25,10 @@ fn_monitor_check_lockfile(){
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [ -f "${lockdir}/${selfname}.lock" ]&&[[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
-			date '+%s' > "${lockdir}/${selfname}.lock"
+	if [ -f "${lockdir}/${selfname}.lock" ]&&[[ "$(head -n 1 "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
+		date '+%s' > "${lockdir}/${selfname}.lock"
+		echo "${version}" >> "${lockdir}/${selfname}.lock"
+		echo "${port}" >> "${lockdir}/${selfname}.lock"
 	fi
 }
 
@@ -106,12 +108,12 @@ for queryattempt in {1..5}; do
 		fn_print_querying_eol
 		fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
 		# querydelay
-		if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+		if [ "$(head -n 1 "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 			fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 			fn_print_delay_eol_nl
 			fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 			fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-			fn_script_log_info "Server started: $(date -d @$(cat "${lockdir}/${selfname}.lock"))"
+			fn_script_log_info "Server started: $(date -d @$(head -n 1 "${lockdir}/${selfname}.lock"))"
 			fn_script_log_info "Current time: $(date)"
 			monitorpass=1
 			core_exit.sh

@@ -42,7 +42,7 @@ EOF
 
 fn_print_dots "Sending Rocketchat alert"
 
-rocketchatsend=$(curl -sSL -H "Content-Type:application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
+rocketchatsend=$(curl --connect-timeout 10 -sSL -H "Content-Type:application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
 
 if [ -n "${rocketchatsend}" ]; then
 	fn_print_ok_nl "Sending Rocketchat alert"

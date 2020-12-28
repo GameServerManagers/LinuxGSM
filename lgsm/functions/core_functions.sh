@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.5.1"
+modulesversion="v20.6.2"
 
 # Core
 
@@ -426,6 +426,11 @@ fn_fetch_function
 }
 
 fix_rust.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_samp.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
