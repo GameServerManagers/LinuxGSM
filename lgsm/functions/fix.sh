@@ -42,8 +42,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_ark.sh
 	elif [ "${shortname}" == "bo" ]; then
 		fix_bo.sh
-	elif [ "${shortname}" == "col" ]; then
-		fix_col.sh
 	elif [ "${shortname}" == "csgo" ]; then
 		fix_csgo.sh
 	elif [ "${shortname}" == "cmw" ]; then
@@ -93,7 +91,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${commandname}" == "INSTALL" ]; then
-		if [ "${shortname}" == "av" ]||[ "${shortname}" == "col" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "samp" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
+		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "samp" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
 			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
@@ -101,8 +99,6 @@ if [ "${commandname}" == "INSTALL" ]; then
 			postinstall=1
 			if [ "${shortname}" == "av" ]; then
 				fix_av.sh
-			elif [ "${shortname}" == "col" ]; then
-				fix_col.sh
 			elif [ "${shortname}" == "kf" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then

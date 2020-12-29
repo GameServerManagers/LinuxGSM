@@ -330,11 +330,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_col.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_csgo.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
