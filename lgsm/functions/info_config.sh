@@ -1537,6 +1537,7 @@ fn_info_config_col(){
 
 		# password not set
 		serverpassword=${serverpassword:-"NOT SET"}
+		queryport=${port:-"0"}
 	else
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
