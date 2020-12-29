@@ -793,6 +793,13 @@ elif [ "${shortname}" == "unt" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "vints" ]; then
+	gamedirname="VintageStory"
+	array_configs+=( serverconfig.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "vs" ]; then
 	gamedirname="VampireSlayer"
 	array_configs+=( server.cfg )

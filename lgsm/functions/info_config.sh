@@ -1548,6 +1548,27 @@ fn_info_config_col(){
 	fi
 }
 
+fn_info_config_vintagestory(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${unavailable}"
+		queryport="${unavailable}"
+		configip="${unavailable}"
+	else
+		servername=$(jq -r '.ServerName' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.MaxClients' "${servercfgfullpath}")
+		serverpassword=$(jq -r 'select(.Password != null) | .Password' "${servercfgfullpath}")
+		port=$(jq -r '.Port' "${servercfgfullpath}")
+		queryport=${port:-"0"}
+		configip=$(jq -r 'select(.Ip != null) | .Ip' "${servercfgfullpath}")
+
+		serverpassword=${serverpassword:-"NOT SET"}
+		configip=${configip:-"0.0.0.0"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1672,4 +1693,6 @@ elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
 elif [ "${shortname}" == "pvr" ];then
 	fn_info_config_pavlovvr
+elif [ "${shortname}" == "vints" ]; then
+	fn_info_config_vintagestory
 fi
