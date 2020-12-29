@@ -9,4 +9,4 @@ fn_print_dots ""
 check.sh
 
 # Find all directorys and create them in the skel directory
-find ${rootdir} -type d -not \( -path ./skel -prune \)
+find ${rootdir} -type d -not \( -path ./skel -prune \) | cpio -pdvm skel
