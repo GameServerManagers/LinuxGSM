@@ -9,8 +9,9 @@ fn_print_dots "Creating skeleton directory"
 check.sh
 
 # Find all directorys and create them in the skel directory
-find ${rootdir} -type d -not \( -path ./skel -prune \) | cpio -pdvm skel 2>/dev/null
-if [ $? != 0 ]; then
+find "${rootdir}" -type d -not \( -path ./skel -prune \) | cpio -pdvm skel 2>/dev/null
+exitcode=$?
+if [ "${exitcode}" != 0 ]; then
 	fn_print_fail_nl "Creating skeleton directory"
 	fn_script_log_fatal "Creating skeleton directory"
 else
