@@ -5,8 +5,16 @@
 # Description: Creates an copy of a game servers directorys.
 
 
-fn_print_dots ""
+fn_print_dots "Creating skeleton directory"
 check.sh
 
 # Find all directorys and create them in the skel directory
 find ${rootdir} -type d -not \( -path ./skel -prune \) | cpio -pdvm skel
+if [ $? != 0 ]; then
+	fn_print_fail_nl "Creating skeleton directory"
+	fn_script_log_fatal "Creating skeleton directory"
+	core_exit.sh
+else
+	fn_print_ok_nl "Creating skeleton directory"
+	fn_script_log_pass "Creating skeleton directory"
+fi
