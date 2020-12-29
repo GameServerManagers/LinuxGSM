@@ -14,7 +14,7 @@ if [ $? != 0 ]; then
 	fn_print_fail_nl "Creating skeleton directory"
 	fn_script_log_fatal "Creating skeleton directory"
 else
-	fn_print_ok_nl "Creating skeleton directory"
-	fn_script_log_pass "Creating skeleton directory"
+	fn_print_ok_nl "Creating skeleton directory: ./skel"
+	fn_script_log_pass "Creating skeleton directory: ./skel"
 fi
 core_exit.sh
