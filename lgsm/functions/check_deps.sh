@@ -474,9 +474,9 @@ fn_deps_build_redhat(){
 	elif [ "${distroversion}" == "8" ]; then
 		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	else
 		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	fi
