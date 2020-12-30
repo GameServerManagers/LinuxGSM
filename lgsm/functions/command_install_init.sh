@@ -1,4 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# LinuxGSM command_install_init.sh function
+# Author: legendofmiracles
+# Website: https://linuxgsm.com
+# Description: Installs the service files for systemd in the correct place.
 commandname="INITSYSTEM"
 commandaction="systemd service file"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
