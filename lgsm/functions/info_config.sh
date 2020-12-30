@@ -1525,6 +1525,29 @@ fn_info_config_pavlovvr(){
 	fi
 }
 
+fn_info_config_col(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(jq -r '.ServerSettings.ServerName' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.ServerSettings.ServerPassword' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.ServerSettings.MaxPlayerCount' "${servercfgfullpath}")
+		port=$(jq -r '.ServerSettings.ServerGamePort' "${servercfgfullpath}")
+		steamport=$(jq -r '.ServerSettings.ServerSteamPort' "${servercfgfullpath}")
+		rconpassword=$(jq -r '.ServerSettings.RCONPassword' "${servercfgfullpath}")
+		configip=$(jq -r '.ServerSettings.ServerIP' "${servercfgfullpath}")
+
+		# password not set
+		serverpassword=${serverpassword:-"NOT SET"}
+		queryport=${port:-"0"}
+	else
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"27004"}
+		steamport=${steamport:-"27005"}
+		rconpassword=${rconpassword:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1551,6 +1574,8 @@ elif [ "${shortname}" == "cod4" ]; then
 	fn_info_config_cod4
 elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_config_codwaw
+elif [ "${shortname}" == "col" ]; then
+	fn_info_config_col
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_config_dontstarve
 elif [ "${shortname}" == "eco" ]; then
