@@ -1446,7 +1446,7 @@ fn_info_message_pavlovvr(){
 }
 
 fn_info_message_colony(){
-	echo -e "netstat -atunp | grep colonyserver"
+	echo -e "netstat -atunp | grep colonyserv"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
