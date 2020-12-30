@@ -79,6 +79,8 @@ elif [ "${shortname}" == "cmw" ]; then
 	fn_fix_steamclient_so "32" "${executabledir}/lib"
 elif [ "${shortname}" == "cs" ]; then
 	fn_fix_steamclient_so "32" "${serverfiles}"
+elif [ "${shortname}" == "col" ]; then
+	fn_fix_steamclient_so "64" "${serverfiles}"
 elif [ "${shortname}" == "ins" ]; then
 	fn_fix_steamclient_so "32" "${serverfiles}/bin"
 elif [ "${shortname}" == "pz" ]; then
