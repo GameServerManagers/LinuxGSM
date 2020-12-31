@@ -440,10 +440,12 @@ else
 				# shellcheck source=/dev/null
 				source "${configdirserver}/secrets-${selfname}.cfg"
 			fi
-			if [ ! "$(grep startparameters "${configdirserver}/common.cfg")" ]||[ ! "$(grep startparameters "${configdirserver}/${selfname}.cfg")" ]; then
-				startparameters2="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
-				startparameters=startparameters2
+			if [ -n "$(grep startparameters "${configdirserver}/common.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/${selfname}.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/secrets-common.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/secrets-${selfname}.cfg" | sed -e '/^#/d')" ]; then
+				:
+			else
+				eval startparameters="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
 			fi
+
 			# Load the linuxgsm.sh in to tmpdir. If missing download it.
 			if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 				fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
