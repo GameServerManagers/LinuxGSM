@@ -39,7 +39,7 @@ fi
 }
 
 fn_parms(){
-parms="${launchparameters}"
+parms="${startparameters}"
 }
 
 core_exit.sh(){
