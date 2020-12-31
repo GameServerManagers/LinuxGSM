@@ -401,50 +401,56 @@ else
 				fi
 			fi
 		fi
-		# shellcheck source=/dev/null
-		source "${configdirserver}/_default.cfg"
-		# Load the common.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+		# Configs have to be loaded twice to allow start startparameters to pick up all vars
+		fn_configs(){
 			# shellcheck source=/dev/null
-			source "${configdirserver}/common.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/common.cfg"
-		fi
-		# Load the secrets-common.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
-			# shellcheck source=/dev/null
-			source "${configdirserver}/secrets-common.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/secrets-common.cfg"
-		fi
-		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			# shellcheck source=/dev/null
-			source "${configdirserver}/${selfname}.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/${selfname}.cfg"
-		fi
-		# Load the secrets-instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			# shellcheck source=/dev/null
-			source "${configdirserver}/secrets-${selfname}.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/secrets-${selfname}.cfg"
-		fi
+			source "${configdirserver}/_default.cfg"
+			# Load the common.cfg config. If missing download it.
+			if [ ! -f "${configdirserver}/common.cfg" ]; then
+				fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+				# shellcheck source=/dev/null
+				source "${configdirserver}/common.cfg"
+			else
+				# shellcheck source=/dev/null
+				source "${configdirserver}/common.cfg"
+			fi
+			# Load the secrets-common.cfg config. If missing download it.
+			if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
+				fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+				# shellcheck source=/dev/null
+				source "${configdirserver}/secrets-common.cfg"
+			else
+				# shellcheck source=/dev/null
+				source "${configdirserver}/secrets-common.cfg"
+			fi
+			# Load the instance.cfg config. If missing download it.
+			if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+				fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+				# shellcheck source=/dev/null
+				source "${configdirserver}/${selfname}.cfg"
+			else
+				# shellcheck source=/dev/null
+				source "${configdirserver}/${selfname}.cfg"
+			fi
+			# Load the secrets-instance.cfg config. If missing download it.
+			if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
+				fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+				# shellcheck source=/dev/null
+				source "${configdirserver}/secrets-${selfname}.cfg"
+			else
+				# shellcheck source=/dev/null
+				source "${configdirserver}/secrets-${selfname}.cfg"
+			fi
 
-		# Load the linuxgsm.sh in to tmpdir. If missing download it.
-		if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
-			fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
-		fi
+			# Load the linuxgsm.sh in to tmpdir. If missing download it.
+			if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
+				fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+			fi
+		}
+		fn_configs
+		fn_configs
 	fi
+
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.
