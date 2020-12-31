@@ -402,7 +402,6 @@ else
 			fi
 		fi
 		# Configs have to be loaded twice to allow start startparameters to pick up all vars
-		fn_configs(){
 			# shellcheck source=/dev/null
 			source "${configdirserver}/_default.cfg"
 			# Load the common.cfg config. If missing download it.
@@ -441,14 +440,14 @@ else
 				# shellcheck source=/dev/null
 				source "${configdirserver}/secrets-${selfname}.cfg"
 			fi
-
+			if [ ! "$(grep startparameters "${configdirserver}/common.cfg")" ]||[ ! "$(grep startparameters "${configdirserver}/${selfname}.cfg")" ]; then
+				startparameters="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
+			fi
 			# Load the linuxgsm.sh in to tmpdir. If missing download it.
 			if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 				fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 			fi
-		}
-		fn_configs
-		fn_configs
+
 	fi
 
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
