@@ -160,6 +160,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_skeleton.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 command_wipe.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function

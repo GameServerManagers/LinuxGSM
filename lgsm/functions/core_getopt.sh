@@ -20,6 +20,7 @@ cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the serve
 cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
+cmd_skeleton=( "sk;skeleton" "command_skeleton.sh" "Create a skeleton directory." )
 cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
 # Console servers only.
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
@@ -56,9 +57,9 @@ cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" 
 
 ### Set specific opt here.
 
-currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
+currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_skeleton[@]}" )
 
-# Update LGSM.
+# Update LinuxGSM.
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here.
