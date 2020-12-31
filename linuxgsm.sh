@@ -441,7 +441,8 @@ else
 				source "${configdirserver}/secrets-${selfname}.cfg"
 			fi
 			if [ ! "$(grep startparameters "${configdirserver}/common.cfg")" ]||[ ! "$(grep startparameters "${configdirserver}/${selfname}.cfg")" ]; then
-				startparameters="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
+				startparameters2="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
+				startparameters=startparameters2
 			fi
 			# Load the linuxgsm.sh in to tmpdir. If missing download it.
 			if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
