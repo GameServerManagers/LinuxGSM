@@ -89,7 +89,7 @@ fn_dl_steamcmd(){
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
 		# Check also if we have more errors than retries to be sure that we do not loop to many times and error out.
 		exitcode=$?
-		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ]&&[ $(grep -ic "Error!" "${steamcmdlog}") -ge ${counter} ] ; then
+		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ]&&[ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ] ; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"
