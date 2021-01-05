@@ -444,6 +444,7 @@ else
 				:
 			else
 				eval startparameters="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
+				eval executable="$(grep executable= "${configdirserver}/_default.cfg" | sed -e 's/executable=//g')"
 			fi
 
 			# Load the linuxgsm.sh in to tmpdir. If missing download it.
