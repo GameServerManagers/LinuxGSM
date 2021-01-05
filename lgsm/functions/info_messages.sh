@@ -556,7 +556,7 @@ fn_info_message_commandlineparms(){
 		unset serverpassword
 	fi
 	fn_parms
-	echo -e "${executable} ${parms}"
+	echo -e "${prexecutable} ${executable} ${parms}"
 }
 
 fn_info_message_ports(){

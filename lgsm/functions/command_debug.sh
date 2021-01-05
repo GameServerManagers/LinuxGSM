@@ -69,9 +69,9 @@ if [ "${serverpassword}" ]; then
 fi
 echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	echo -e "${executable} ${parms} -debug"
+	echo -e "${prexecutable} ${executable} ${parms} -debug"
 else
-	echo -e "${executable} ${parms}"
+	echo -e "${prexecutable} ${executable} ${parms}"
 fi
 echo -e ""
 echo -e "Use for identifying server issues only!"
