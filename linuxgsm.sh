@@ -443,8 +443,12 @@ else
 			if [ -n "$(grep startparameters "${configdirserver}/common.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/${selfname}.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/secrets-common.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/secrets-${selfname}.cfg" | sed -e '/^#/d')" ]; then
 				:
 			else
-				eval startparameters="$(grep startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
-				eval executable="$(grep executable= "${configdirserver}/_default.cfg" | sed -e 's/executable=//g')"
+				if [ "${shortname}" == "wurm" ]; then
+					# shellcheck source=/dev/null
+					source "${servercfgfullpath}"
+				fi
+				eval startparameters="$(grep -w startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
+				eval executable="$(grep -w executable= "${configdirserver}/_default.cfg" | sed -e 's/executable=//g')"
 			fi
 
 			# Load the linuxgsm.sh in to tmpdir. If missing download it.
