@@ -72,10 +72,10 @@ fn_update_vs_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
-		echo -en "\n"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
