@@ -25,7 +25,7 @@ fn_update_vs_localbuild(){
 	# Uses executable to find local build.
 	cd "${executabledir}" || exit
 	if [ -f "${executable}" ]; then
-		localbuild=$(${preexecutable} ${executable} --version 2>&1 >/dev/null)
+		localbuild=$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	else
