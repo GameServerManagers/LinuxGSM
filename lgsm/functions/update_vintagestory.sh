@@ -9,9 +9,9 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_vs_dl(){
 	# get version info for download
 	remotebuildresponse=$(curl -s "${apiurl}" | jq --arg version "${remotebuild}" '.[$version].server')
-	remotebuildfile=$(echo -e "${vsapiresponse}" | jq -r '.filename')
-	remotebuildlink=$(echo -e "${vsapiresponse}" | jq -r '.urls.cdn')
-	remotebuildmd5=$(echo -e "${vsapiresponse}" | jq -r '.md5')
+	remotebuildfile=$(echo -e "${remotebuildresponse}" | jq -r '.filename')
+	remotebuildlink=$(echo -e "${remotebuildresponse}" | jq -r '.urls.cdn')
+	remotebuildmd5=$(echo -e "${remotebuildresponse}" | jq -r '.md5')
 
 	# Download and extract files to serverfiles
 	fn_fetch_file "${remotebuildlink}" "" "" "" "${tmpdir}" "${remotebuildfile}" "nochmodx" "norun" "force" "${remotebuildmd5}"
