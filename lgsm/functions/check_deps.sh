@@ -343,7 +343,7 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat cpio )
 
 	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
 	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
@@ -385,6 +385,9 @@ fn_deps_build_debian(){
 	# Battlefield 1942
 	elif [ "${shortname}" == "bf1942" ]; then
 		array_deps_required+=( libncurses5:i386 libtinfo5:i386 )
+	# Black Mesa: Death Match
+	elif [ "${shortname}" == "bmdm" ]; then
+		array_deps_required+=( libncurses5:i386 )
 	# Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
@@ -401,6 +404,9 @@ fn_deps_build_debian(){
 	# Barotrauma
 	elif [ "${shortname}" == "bt" ]; then
 		array_deps_required+=( libicu-dev )
+	# Colony Survival
+	elif [ "${shortname}" == "col" ]; then
+		array_deps_required+=( coreutils )
 	# Ecoserver
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( libgdiplus )
@@ -464,15 +470,15 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements.
 	# CentOS
   if [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
+		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	elif [ "${distroversion}" == "8" ]; then
-		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
+		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	elif [ "${distroid}" == "fedora" ]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	else
-		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
 	fi
 
 	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.
@@ -501,8 +507,8 @@ fn_deps_build_redhat(){
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
-	# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
-	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
+	# Battlefield 1942, Black Mesa: Deathmatch, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "bmdm" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
@@ -510,6 +516,9 @@ fn_deps_build_redhat(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
+	# Colony Survival
+	elif [ "${shortname}" == "col" ]; then
+		array_deps_required+=( coreutils )
 	# Ecoserver
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( libgdiplus )

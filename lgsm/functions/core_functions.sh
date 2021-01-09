@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.6.1"
+modulesversion="v20.6.2"
 
 # Core
 
@@ -49,6 +49,11 @@ fn_fetch_function
 }
 
 core_trap.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_steamcmd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -151,6 +156,11 @@ fn_fetch_function
 }
 
 command_restart.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+command_skeleton.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -590,6 +600,11 @@ fn_fetch_function
 }
 
 command_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+command_check_update.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

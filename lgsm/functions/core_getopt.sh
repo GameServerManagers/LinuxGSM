@@ -20,6 +20,7 @@ cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the serve
 cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
+cmd_skeleton=( "sk;skeleton" "command_skeleton.sh" "Create a skeleton directory." )
 cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
 cmd_install_init=("ii;install-init" "command_install_init.sh" "Puts the service file in the right place")
 # Console servers only.
@@ -27,6 +28,7 @@ cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
 # Update servers only.
 cmd_update=( "u;update" "command_update.sh" "Check and apply any server updates." )
+cmd_check_update=( "cu;check-update" "command_check_update.sh" "Check if a gameserver update is available" )
 cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Apply server updates bypassing check." )
 # SteamCMD servers only.
 cmd_validate=( "v;validate" "command_validate.sh" "Validate server files with SteamCMD." )
@@ -56,9 +58,9 @@ cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" 
 
 ### Set specific opt here.
 
-currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
+currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_skeleton[@]}" )
 
-# Update LGSM.
+# Update LinuxGSM.
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here.
@@ -72,9 +74,9 @@ if [ "${shortname}" == "jk2" ]||[ "${engine}" != "idtech3" ];then
 	fi
 fi
 
-# Validate command.
+# Validate and check-update command.
 if [ "${appid}" ]; then
-	currentopt+=( "${cmd_validate[@]}" )
+	currentopt+=( "${cmd_validate[@]}" "${cmd_check_update[@]}" )
 fi
 
 # Backup.
