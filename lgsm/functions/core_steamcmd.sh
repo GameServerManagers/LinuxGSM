@@ -238,8 +238,8 @@ fn_update_steamcmd_compare(){
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset
+				unset exitbypass
 			fi
-			unset exitbypass
 			date +%s > "${lockdir}/lastupdate.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
