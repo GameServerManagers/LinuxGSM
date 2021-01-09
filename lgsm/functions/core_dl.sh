@@ -61,7 +61,7 @@ fn_dl_steamcmd(){
 			# If using a specific branch.
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]&&[ "${branch}" != "public" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -70,7 +70,7 @@ fn_dl_steamcmd(){
 		elif [ "${shortname}" == "ac" ]||[ "${shortname}" == "jk2" ]; then
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]&&[ "${branch}" != "public" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -79,7 +79,7 @@ fn_dl_steamcmd(){
 		else
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]&&[ "${branch}" != "public" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -87,8 +87,9 @@ fn_dl_steamcmd(){
 		fi
 
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
+		# Check also if we have more errors than retries to be sure that we do not loop to many times and error out.
 		exitcode=$?
-		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "ERROR!" "${steamcmdlog}" | tail -1)" ]; then
+		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ]&&[ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ] ; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"

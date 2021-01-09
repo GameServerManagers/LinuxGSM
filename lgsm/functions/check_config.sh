@@ -6,26 +6,21 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [ ! -f "${servercfgfullpath}" ]; then
-	if [ "${shortname}" != "hw" ]&&[ "${shortname}" != "ut3" ]&&[ "${shortname}" != "kf2" ]; then
-		fn_print_dots ""
-		fn_print_warn_nl "Configuration file missing!"
-		echo -e "${servercfgfullpath}"
-		fn_script_log_warn "Configuration file missing!"
-		fn_script_log_warn "${servercfgfullpath}"
-		install_config.sh
-	fi
+if [ -n "${servercfgfullpath}" ]&&[ ! -f "${servercfgfullpath}" ]; then
+	fn_print_dots ""
+	fn_print_warn_nl "Configuration file missing!"
+	echo -e "${servercfgfullpath}"
+	fn_script_log_warn "Configuration file missing!"
+	fn_script_log_warn "${servercfgfullpath}"
+	install_config.sh
 fi
 
-if [ "${shortname}" == "rust" ]; then
-	if  [ -z "${rconpassword}" ]; then
-		fn_print_dots ""
-		fn_print_fail_nl "RCON password is not set"
-		fn_script_log_fatal "RCON password is not set"
-		core_exit.sh
-	elif [ "${rconpassword}" == "CHANGE_ME" ]; then
-		fn_print_dots ""
-		fn_print_warn_nl "Default RCON Password detected"
-		fn_script_log_warn "Default RCON Password detected"
-	fi
+if [ "${shortname}" == "rust" ]&&[ -v rconpassword ]&&[ -z "${rconpassword}" ]; then
+	fn_print_dots ""
+	fn_print_fail_nl "RCON password is not set"
+	fn_script_log_warn "RCON password is not set"
+elif [ -v rconpassword ]&&[ "${rconpassword}" == "CHANGE_ME" ]; then
+	fn_print_dots ""
+	fn_print_warn_nl "Default RCON Password detected"
+	fn_script_log_warn "Default RCON Password detected"
 fi
