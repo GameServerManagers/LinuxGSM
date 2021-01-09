@@ -6,121 +6,140 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-remotelocation="vintagestory.at"
-apiurl="http://api.${remotelocation}/stable-unstable.json"
-local_version_file="${datadir}/vintagestory_version"
-
-fn_update_vs_remotebuild(){
-	if [ "${branch}" == "unstable" ]; then
-		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
-	else
-		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
-	fi
-}
-
-fn_update_vs_get_installed_version(){
-	localbuild=$(cat "${local_version_file}" )
-	# Alternative: get version from executeable $(mono .exe --version)
-}
-
 fn_update_vs_dl(){
 	# get version info for download
-	vsapiresponse=$(curl -s "${apiurl}" | jq --arg version "${remotebuild}" '.[$version].server')
-	remotebuildfile=$( echo -e "${vsapiresponse}" | jq -r '.filename' )
-	remotebuildlink=$( echo -e "${vsapiresponse}" | jq -r '.urls.cdn' )
-	remotebuildmd5=$( echo -e "${vsapiresponse}" | jq -r '.md5' )
+	remotebuildresponse=$(curl -s "${apiurl}" | jq --arg version "${remotebuild}" '.[$version].server')
+	remotebuildfile=$(echo -e "${vsapiresponse}" | jq -r '.filename')
+	remotebuildlink=$(echo -e "${vsapiresponse}" | jq -r '.urls.cdn')
+	remotebuildmd5=$(echo -e "${vsapiresponse}" | jq -r '.md5')
 
 	# Download and extract files to serverfiles
 	fn_fetch_file "${remotebuildlink}" "" "" "" "${tmpdir}" "${remotebuildfile}" "nochmodx" "norun" "force" "${remotebuildmd5}"
 	fn_dl_extract "${tmpdir}" "${remotebuildfile}" "${serverfiles}"
 	fn_clear_tmp
-	echo "${remotebuild}" > "${local_version_file}"
 }
 
-if [ -z "${branch}" ]; then
-	branch="stable"
-fi
-
-if [ "${commandname}" == "INSTALL" ]; then
-	fn_update_vs_remotebuild
-	if [ -z "${remotebuild}" ]; then
-		# cannot get version
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Cannot get version from remote"
-		core_exit.sh
+fn_update_vs_localbuild(){
+	# Gets local build info.
+	fn_print_dots "Checking local build: ${remotelocation}"
+	# Uses executable to find local build.
+	cd "${executabledir}" || exit
+	if [ -f "${executable}" ]; then
+		localbuild=$(${preexecutable} ${executable} --version 2>&1 >/dev/null)
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
 	else
-		# get version proceed
-		fn_update_vs_dl
+		localbuild="0"
+		fn_print_error "Checking local build: ${remotelocation}"
+		fn_script_log_error "Checking local build"
 	fi
-elif [ "${commandname}" == "UPDATE" ]||[ "${commandname}" == "CHECK-UPDATE" ]; then
-	if [ ! -f "${local_version_file}" ]; then
-		# server not installed
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Vintage story server not installed"
-		core_exit.sh
-	else
-		fn_update_vs_remotebuild
-		if [ -z "${remotebuild}" ]; then
-			fn_print_fail_eol_nl
-			fn_script_log_fatal "Cannot get version from remote"
-			core_exit.sh
-		fi
-		fn_update_vs_get_installed_version
-		if [ "${remotebuild}" != "${localbuild}" ]; then
-			fn_print_ok_nl "Checking for update: ${remotelocation}"
-			echo -en "\n"
-			echo -e "Update available"
-			echo -e "* Local build: ${red}${localbuild} ${default}"
-			echo -e "* Remote build: ${green}${remotebuild} ${default}"
-			echo -e "* Branch: ${branch}"
-			echo -en "\n"
-			fn_script_log_info "Update available"
-			fn_script_log_info "Local build: ${localbuild}"
-			fn_script_log_info "Remote build: ${remotebuild}"
+}
 
-			# update server
-			if [ "${commandname}" == "UPDATE" ]; then
-				unset updateonstart
-				check_status.sh
-				# If server stopped.
-				if [ "${status}" == "0" ]; then
-					fn_update_vs_dl
-				# If server started.
-				else
-					fn_print_restart_warning
-					exitbypass=1
-					command_stop.sh
-					fn_firstcommand_reset
-					exitbypass=1
-					fn_update_vs_dl
-					exitbypass=1
-					command_start.sh
-					fn_firstcommand_reset
-					unset exitbypass
-				fi
-				date +%s > "${lockdir}/lastupdate.lock"
-				alert="update"
-			elif [ "${commandname}" == "CHECK-UPDATE" ]; then
-				alert="check-update"
-			fi
-			# trigger alert
-			alert.sh
-		elif [ "${remotebuild}" == "${localbuild}" ]; then
-			fn_print_ok_nl "Checking for update: ${remotelocation}"
-			echo -en "\n"
-			echo -e "No update available"
-			echo -e "* Local build: ${green}${localbuild} ${default}"
-			echo -e "* Remote build: ${green}${remotebuild} ${default}"
-			echo -e "* Branch: ${branch}"
-			echo -en "\n"
-			fn_script_log_info "No update available"
-			fn_script_log_info "Local build: ${localbuild}"
-			fn_script_log_info "Remote build: ${remotebuild}"
-			fn_script_log_pass "Latest version ${remotebuild} already installed"
+fn_update_vs_remotebuild(){
+	if [ "${branch}" == "stable" ]; then
+		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
+	else
+		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+	fi
+
+	if [ "${firstcommandname}" != "INSTALL" ]; then
+		fn_print_dots "Checking remote build: ${remotelocation}"
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_fail "Checking remote build: ${remotelocation}"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
 		else
-			fn_print_fail_eol_nl
-			fn_script_log_fatal "Something went wrong"
+			fn_print_ok "Checking remote build: ${remotelocation}"
+			fn_script_log_pass "Checking remote build"
+		fi
+	else
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
 	fi
+}
+
+fn_update_vs_compare(){
+	# Removes dots so if statement can compare version numbers.
+	fn_print_dots "Checking for update: ${remotelocation}"
+	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
+		echo -e "Update available"
+		echo -e "* Local build: ${red}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
+		fn_script_log_info "Update available"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "${localbuild} > ${remotebuild}"
+
+		unset updateonstart
+		check_status.sh
+		# If server stopped.
+		if [ "${status}" == "0" ]; then
+			exitbypass=1
+			fn_update_vs_dl
+			exitbypass=1
+			command_start.sh
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
+		# If server started.
+		else
+			fn_print_restart_warning
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
+			exitbypass=1
+			fn_update_vs_dl
+			exitbypass=1
+			command_start.sh
+			fn_firstcommand_reset
+		fi
+		unset exitbypass
+		date +%s > "${lockdir}/lastupdate.lock"
+		alert="update"
+		alert.sh
+	else
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
+		echo -e "No update available"
+		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
+		echo -en "\n"
+		fn_script_log_info "No update available"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuild}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+	fi
+}
+
+# The location where the builds are checked and downloaded.
+remotelocation="vintagestory.at"
+apiurl="http://api.${remotelocation}/stable-unstable.json"
+localversionfile="${datadir}/vintagestoryversion"
+
+if [ "${firstcommandname}" == "INSTALL" ]; then
+	fn_update_vs_remotebuild
+	fn_update_vs_dl
+else
+	fn_print_dots "Checking for update"
+	fn_print_dots "Checking for update: ${remotelocation}"
+	fn_script_log_info "Checking for update: ${remotelocation}"
+	fn_update_vs_localbuild
+	fn_update_vs_remotebuild
+	fn_update_vs_compare
 fi
