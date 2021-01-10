@@ -1,7 +1,8 @@
 #!/bin/bash
-# command_dev_detect_ldd.sh function
+# LinuxGSM command_dev_detect_ldd.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Automatically detects required deps using ldd.
 # Can check a file or directory recursively.
 

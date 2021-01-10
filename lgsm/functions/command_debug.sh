@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_debug.sh function
+# LinuxGSM command_debug.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Runs the server without tmux and directly from the terminal.
 
 commandname="DEBUG"

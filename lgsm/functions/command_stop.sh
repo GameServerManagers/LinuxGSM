@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_stop.sh function
+# LinuxGSM command_stop.sh module
 # Author: Daniel Gibbs
-# Contributors: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Stops the server.
 
 commandname="STOP"

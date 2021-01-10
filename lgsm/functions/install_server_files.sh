@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_server_files.sh function
+# LinuxGSM install_server_files.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Installs server files.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

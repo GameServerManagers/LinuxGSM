@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM check_root.sh function
+# LinuxGSM check_root.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Checks if the user tried to run the script as root.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

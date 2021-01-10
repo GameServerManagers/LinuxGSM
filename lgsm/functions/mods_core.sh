@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_mods_install.sh function
+# LinuxGSM command_mods_install.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Core functions for mods list/install/update/remove
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

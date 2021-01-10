@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_start.sh function
+# LinuxGSM command_start.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Starts the server.
 
 commandname="START"

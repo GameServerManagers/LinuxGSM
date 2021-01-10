@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM info_config.sh function
+# LinuxGSM info_config.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Gets specific details from config files.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

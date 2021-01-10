@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM check_executable.sh function
+# LinuxGSM check_executable.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Checks if server executable exists.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

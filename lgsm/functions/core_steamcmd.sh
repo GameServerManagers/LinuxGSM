@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM core_steamcmd.sh function
+# LinuxGSM core_steamcmd.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Core functions for SteamCMD
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

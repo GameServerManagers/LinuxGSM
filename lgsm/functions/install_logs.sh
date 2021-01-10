@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_logs.sh function
+# LinuxGSM install_logs.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Creates log directories.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

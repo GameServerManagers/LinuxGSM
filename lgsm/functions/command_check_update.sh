@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_check_update.sh function
+# LinuxGSM command_check_update.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Handles updating of servers.
 
 commandname="CHECK-UPDATE"

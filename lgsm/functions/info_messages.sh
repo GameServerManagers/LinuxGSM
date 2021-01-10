@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM info_messages.sh function
+# LinuxGSM info_messages.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Defines server info messages for details and alerts.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_mods_install.sh function
+# LinuxGSM command_mods_install.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-INSTALL"

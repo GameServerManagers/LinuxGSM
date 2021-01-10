@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM update_steamcmd.sh function
+# LinuxGSM update_steamcmd.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Handles updating using SteamCMD.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

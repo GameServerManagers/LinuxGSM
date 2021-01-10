@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM core_logs.sh function
+# LinuxGSM core_logs.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Acts as a log rotator, removing old logs.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

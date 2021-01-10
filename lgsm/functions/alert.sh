@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM alert.sh function
+# LinuxGSM alert.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Overall function for managing alerts.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

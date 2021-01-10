@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_ts3.sh function
+# LinuxGSM command_ts3.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Handles updating of Teamspeak 3 servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

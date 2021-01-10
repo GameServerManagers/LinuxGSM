@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_stats.sh function
+# LinuxGSM install_stats.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Enabled LinuxGSM Stats.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

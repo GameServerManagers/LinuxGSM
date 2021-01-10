@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
-# query_gsquery.py
-# Author: Anonymous & Daniel Gibbs
+# LinuxGSM query_gsquery.py function
+# Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Allows querying of various game servers.
 
 import optparse

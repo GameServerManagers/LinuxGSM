@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM core_legacy.sh function
+# LinuxGSM core_legacy.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

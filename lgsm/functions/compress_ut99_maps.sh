@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM compress_ut99_maps.sh function
+# LinuxGSM compress_ut99_maps.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Compresses unreal maps.
 
 commandname="MAP-COMPRESSOR"

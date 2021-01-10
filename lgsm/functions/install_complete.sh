@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_complete.sh function
+# LinuxGSM install_complete.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Prints installation completion message and hints.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

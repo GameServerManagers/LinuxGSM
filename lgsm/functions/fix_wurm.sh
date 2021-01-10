@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_wurm.sh function
+# LinuxGSM fix_wurm.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Resolves various issues with Wurm Unlimited.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

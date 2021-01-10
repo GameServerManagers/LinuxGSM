@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM check.sh function
+# LinuxGSM check.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Overall function for managing checks.
 # Runs checks that will either halt on or fix an issue.
 

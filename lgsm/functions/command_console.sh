@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_console.sh function
+# LinuxGSM command_console.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Gives access to the server tmux console.
 
 commandname="CONSOLE"

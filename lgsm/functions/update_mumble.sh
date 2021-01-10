@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM update_mumble.sh function
+# LinuxGSM update_mumble.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Handles updating of Mumble servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

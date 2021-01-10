@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_eula.sh function
+# LinuxGSM install_eula.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Gets user to accept the EULA.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

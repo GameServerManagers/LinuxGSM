@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_gslt.sh function
+# LinuxGSM install_gslt.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Configures GSLT.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

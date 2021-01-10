@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM core_dl.sh function
+# LinuxGSM core_dl.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Deals with all downloads for LinuxGSM.
 
 # remote_fileurl: The URL of the file: http://example.com/dl/File.tar.bz2

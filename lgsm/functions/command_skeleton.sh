@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_skeleton.sh function
+# LinuxGSM command_skeleton.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Creates an copy of a game servers directorys.
 
 

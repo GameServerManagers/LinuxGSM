@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM core_getopt.sh function
+# LinuxGSM core_getopt.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: getopt arguments.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

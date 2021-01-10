@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_squad_license.sh function
+# LinuxGSM install_squad_license.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Configures the Squad server's license.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_fastdl.sh function
+# LinuxGSM command_fastdl.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Creates a FastDL directory.
 
 commandname="FASTDL"

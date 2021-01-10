@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_squad.sh function
-# Author: Christian Birk
+# LinuxGSM fix_squad.sh module
+# Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Resolves various issues with Squad.
 
 # As the server base dir changed for the game, we need to migrate the default config from the old to the new location

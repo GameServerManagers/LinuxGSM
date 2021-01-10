@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_arma3.sh function
+# LinuxGSM fix_arma3.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Resolves an issue with ARMA3.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

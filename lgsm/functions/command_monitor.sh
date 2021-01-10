@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_monitor.sh function
+# LinuxGSM command_monitor.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
 

@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM alert_pushbullet.sh function
+# LinuxGSM alert_pushbullet.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Sends Pushbullet Messenger alert.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

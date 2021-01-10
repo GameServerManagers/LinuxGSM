@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM check_last_update.sh function
+# LinuxGSM check_last_update.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Checks lock file to see when last update happened.
 # Will reboot server if instance not rebooted since update.
 

@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_ut2.sh function
+# LinuxGSM fix_ut2.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Resolves various issues with Unreal Tournament 3.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

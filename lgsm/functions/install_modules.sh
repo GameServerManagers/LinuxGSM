@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM install_modules.sh function
+# LinuxGSM install_modules.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Downloads all modules on install
 
 echo -e ""

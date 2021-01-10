@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM alert_discord.sh function
+# LinuxGSM alert_discord.sh module
 # Author: Daniel Gibbs
-# Contributor: faflfama, diamondburned
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Sends Discord alert.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

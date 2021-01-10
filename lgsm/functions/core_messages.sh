@@ -1,8 +1,8 @@
 #!/bin/bash
-# LinuxGSM core_messages.sh function
+# LinuxGSM core_messages.sh module
 # Author: Daniel Gibbs
-# Contributor: s-eam
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

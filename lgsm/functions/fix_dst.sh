@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_dst.sh function
+# LinuxGSM fix_dst.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Resolves various issues with Don't Starve Together.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

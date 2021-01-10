@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM command_donate.sh function
+# LinuxGSM command_donate.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Shows ways to donate.
 
 commandname="DONATE"

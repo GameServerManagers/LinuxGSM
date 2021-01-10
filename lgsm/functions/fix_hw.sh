@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_hw.sh function
+# LinuxGSM fix_hw.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Resolves various issues with Hurtworld.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

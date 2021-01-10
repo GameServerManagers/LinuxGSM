@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM check_logs.sh function
+# LinuxGSM check_logs.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
+# Contributors: http://linuxgsm.com/contrib
 # Description: Checks if log files exist.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
