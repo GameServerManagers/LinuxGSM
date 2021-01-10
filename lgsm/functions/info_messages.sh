@@ -572,7 +572,7 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "Vintage Story" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			parmslocation="${servercfgdir}/UTWeb.ini"
@@ -1455,6 +1455,15 @@ fn_info_message_colony(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_vintagestory(){
+	echo "netstat -atunp | grep cli"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tTCP"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1573,6 +1582,8 @@ fn_info_message_select_engine(){
 		fn_info_message_pavlovvr
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
+	elif [ "${shortname}" == "vints" ]; then
+		fn_info_message_vintagestory
 	elif [ "${shortname}" == "wf" ]; then
 		fn_info_message_warfork
 	elif [ "${shortname}" == "wurm" ]; then
