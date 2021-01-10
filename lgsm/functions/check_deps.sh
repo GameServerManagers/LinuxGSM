@@ -437,6 +437,9 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
+	# SCP: Secret Laboratory, SCP: Secret Laboratory ServerMod
+	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+		array_deps_required+=( mono-complete )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )

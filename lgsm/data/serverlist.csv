@@ -84,6 +84,8 @@ rw,rwserver,Rising World
 samp,sampserver,San Andreas Multiplayer
 sb,sbserver,Starbound
 sbots,sbotsserver,StickyBots
+scpsl,scpslserver,SCP: Secret Laboratory
+scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod
 sdtd,sdtdserver,7 Days to Die
 sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
