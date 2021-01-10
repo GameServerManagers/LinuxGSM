@@ -649,6 +649,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+update_vintagestory.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fn_update_functions.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
