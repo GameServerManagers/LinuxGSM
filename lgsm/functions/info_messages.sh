@@ -1456,7 +1456,7 @@ fn_info_message_colony(){
 }
 
 fn_info_message_vintagestory(){
-	echo "netstat -atunp | grep mono"
+	echo "netstat -atunp | grep cli"
 	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
