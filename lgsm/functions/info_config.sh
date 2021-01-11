@@ -1548,6 +1548,47 @@ fn_info_config_col(){
 	fi
 }
 
+fn_info_config_vintagestory(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${unavailable}"
+		queryport="${unavailable}"
+		configip="${unavailable}"
+	else
+		servername=$(jq -r '.ServerName' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.MaxClients' "${servercfgfullpath}")
+		serverpassword=$(jq -r 'select(.Password != null) | .Password' "${servercfgfullpath}")
+		port=$(jq -r '.Port' "${servercfgfullpath}")
+		queryport=${port:-"0"}
+		configip=$(jq -r 'select(.Ip != null) | .Ip' "${servercfgfullpath}")
+
+		serverpassword=${serverpassword:-"NOT SET"}
+		configip=${configip:-"0.0.0.0"}
+	fi
+}
+
+fn_info_config_scpsl(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
+		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
+
+		if [ "${adminpassword}" == "none" ]; then
+			adminpassword="NOT SET"
+		fi
+	else
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		configip=${configip:-"0.0.0.0"}
+		tickrate=${tickrate:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1652,6 +1693,8 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	fn_info_config_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then
@@ -1672,4 +1715,6 @@ elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
 elif [ "${shortname}" == "pvr" ];then
 	fn_info_config_pavlovvr
+elif [ "${shortname}" == "vints" ]; then
+	fn_info_config_vintagestory
 fi

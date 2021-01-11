@@ -28,6 +28,8 @@ elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
+elif [ "${shortname}" == "vints" ]; then
+	update_vintagestory.sh
 else
 	update_steamcmd.sh
 fi

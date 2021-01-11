@@ -84,6 +84,8 @@ rw,rwserver,Rising World
 samp,sampserver,San Andreas Multiplayer
 sb,sbserver,Starbound
 sbots,sbotsserver,StickyBots
+scpsl,scpslserver,SCP: Secret Laboratory
+scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod
 sdtd,sdtdserver,7 Days to Die
 sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
@@ -104,6 +106,7 @@ ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
 vs,vsserver,Vampire Slayer
+vints,vintsserver,Vintage Story
 wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
 wurm,wurmserver,Wurm Unlimited

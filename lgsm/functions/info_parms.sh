@@ -233,6 +233,10 @@ fn_info_parms_wf(){
 	webadminport=${webadminport:-"0"}
 }
 
+fn_info_parms_queryport(){
+	queryport="${port:-"0"}"
+}
+
 if [ "${shortname}" == "ark" ]; then
 	fn_info_parms_ark
 elif [ "${shortname}" == "arma3" ]; then
@@ -295,4 +299,7 @@ elif [ "${shortname}" == "ut" ]; then
 	fn_info_parms_ut
 elif [ "${shortname}" == "wf" ]; then
 	fn_info_parms_wf
+# for servers that have a missing queryport from the config
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	fn_info_parms_queryport
 fi
