@@ -155,6 +155,11 @@ while read -r lib; do
 		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
+	elif [ "${lib}" == "libc++.so.1" ]; then
+		echo -e "libcxx" >> "${tmpdir}/.depdetect_centos_list"
+		echo -e "libc++1" >> "${tmpdir}/.depdetect_ubuntu_list"
+		echo -e "libc++1" >> "${tmpdir}/.depdetect_debian_list"
+		libdetected=1
 	fi
 
 	if [ "${libdetected}" != "1" ]; then

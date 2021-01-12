@@ -437,6 +437,9 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
+	# SCP: Secret Laboratory, SCP: Secret Laboratory ServerMod
+	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+		array_deps_required+=( mono-complete )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
@@ -461,6 +464,9 @@ fn_deps_build_debian(){
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( libgconf-2-4 )
+	# Pavlov VR
+	elif [ "${shortname}" == "pvr" ]; then
+		array_deps_required+=( libc++1 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -576,6 +582,9 @@ fn_deps_build_redhat(){
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( GConf2 )
+	# Pavlov VR
+	elif [ "${shortname}" == "pvr" ]; then
+		array_deps_required+=( libcxx )
 	fi
 	fn_deps_email
 	fn_check_loop

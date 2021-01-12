@@ -405,30 +405,6 @@ fn_info_config_factorio(){
 	fi
 }
 
-fn_info_config_inss(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		rconenabled="${unavailable}"
-		rconpassword="${unavailable}"
-		rconport="${zero}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-		queryenabled="${unavailable}"
-		rconport="${zero}"
-		gamemode="${unavailable}"
-		gameworld="${unavailable}"
-	else
-		rconenabled=$(grep "bEnabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "ListenPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not Set
-		rconenabled=${rconenabled:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		rconport=${rconport:-"0"}
-	fi
-}
-
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1569,6 +1545,26 @@ fn_info_config_vintagestory(){
 	fi
 }
 
+fn_info_config_scpsl(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
+		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
+
+		if [ "${adminpassword}" == "none" ]; then
+			adminpassword="NOT SET"
+		fi
+	else
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		configip=${configip:-"0.0.0.0"}
+		tickrate=${tickrate:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1603,8 +1599,6 @@ elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
-elif [ "${shortname}" == "inss" ]; then
-	fn_info_config_inss
 elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_justcause2
 elif [ "${shortname}" == "jc3" ]; then
@@ -1673,6 +1667,8 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	fn_info_config_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then

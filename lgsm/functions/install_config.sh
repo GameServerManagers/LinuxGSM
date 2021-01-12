@@ -667,6 +667,13 @@ elif [ "${shortname}" == "rust" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	gamedirname="SCPSecretLaboratory"
+	array_configs+=( config_gameplay.txt config_localadmin.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	gamedirname="Soldat"
 	array_configs+=( soldat.ini )
