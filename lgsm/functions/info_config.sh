@@ -405,30 +405,6 @@ fn_info_config_factorio(){
 	fi
 }
 
-fn_info_config_inss(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		rconenabled="${unavailable}"
-		rconpassword="${unavailable}"
-		rconport="${zero}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-		queryenabled="${unavailable}"
-		rconport="${zero}"
-		gamemode="${unavailable}"
-		gameworld="${unavailable}"
-	else
-		rconenabled=$(grep "bEnabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "ListenPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not Set
-		rconenabled=${rconenabled:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		rconport=${rconport:-"0"}
-	fi
-}
-
 fn_info_config_minecraft(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1623,8 +1599,6 @@ elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
-elif [ "${shortname}" == "inss" ]; then
-	fn_info_config_inss
 elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_justcause2
 elif [ "${shortname}" == "jc3" ]; then
