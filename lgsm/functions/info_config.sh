@@ -1525,6 +1525,70 @@ fn_info_config_pavlovvr(){
 	fi
 }
 
+fn_info_config_col(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(jq -r '.ServerSettings.ServerName' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.ServerSettings.ServerPassword' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.ServerSettings.MaxPlayerCount' "${servercfgfullpath}")
+		port=$(jq -r '.ServerSettings.ServerGamePort' "${servercfgfullpath}")
+		steamport=$(jq -r '.ServerSettings.ServerSteamPort' "${servercfgfullpath}")
+		rconpassword=$(jq -r '.ServerSettings.RCONPassword' "${servercfgfullpath}")
+		configip=$(jq -r '.ServerSettings.ServerIP' "${servercfgfullpath}")
+
+		# password not set
+		serverpassword=${serverpassword:-"NOT SET"}
+		queryport=${port:-"0"}
+	else
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"27004"}
+		steamport=${steamport:-"27005"}
+		rconpassword=${rconpassword:-"NOT SET"}
+	fi
+}
+
+fn_info_config_vintagestory(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${unavailable}"
+		queryport="${unavailable}"
+		configip="${unavailable}"
+	else
+		servername=$(jq -r '.ServerName' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.MaxClients' "${servercfgfullpath}")
+		serverpassword=$(jq -r 'select(.Password != null) | .Password' "${servercfgfullpath}")
+		port=$(jq -r '.Port' "${servercfgfullpath}")
+		queryport=${port:-"0"}
+		configip=$(jq -r 'select(.Ip != null) | .Ip' "${servercfgfullpath}")
+
+		serverpassword=${serverpassword:-"NOT SET"}
+		configip=${configip:-"0.0.0.0"}
+	fi
+}
+
+fn_info_config_scpsl(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
+		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
+
+		if [ "${adminpassword}" == "none" ]; then
+			adminpassword="NOT SET"
+		fi
+	else
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		configip=${configip:-"0.0.0.0"}
+		tickrate=${tickrate:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1551,6 +1615,8 @@ elif [ "${shortname}" == "cod4" ]; then
 	fn_info_config_cod4
 elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_config_codwaw
+elif [ "${shortname}" == "col" ]; then
+	fn_info_config_col
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_config_dontstarve
 elif [ "${shortname}" == "eco" ]; then
@@ -1627,6 +1693,8 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	fn_info_config_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then
@@ -1647,4 +1715,6 @@ elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
 elif [ "${shortname}" == "pvr" ];then
 	fn_info_config_pavlovvr
+elif [ "${shortname}" == "vints" ]; then
+	fn_info_config_vintagestory
 fi

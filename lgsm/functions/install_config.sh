@@ -316,6 +316,13 @@ elif [ "${shortname}" == "cc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "col" ]; then
+	gamedirname="ColonySurvival"
+	array_configs+=( colserver.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
 	gamedirname="CounterStrike"
 	array_configs+=( server.cfg )
@@ -660,6 +667,13 @@ elif [ "${shortname}" == "rust" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	gamedirname="SCPSecretLaboratory"
+	array_configs+=( config_gameplay.txt config_localadmin.txt )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	gamedirname="Soldat"
 	array_configs+=( soldat.ini )
@@ -782,6 +796,13 @@ elif [ "${shortname}" == "ut99" ]; then
 elif [ "${shortname}" == "unt" ]; then
 	gamedirname="Unturned"
 	array_configs+=( Config.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "vints" ]; then
+	gamedirname="VintageStory"
+	array_configs+=( serverconfig.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

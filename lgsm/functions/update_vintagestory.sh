@@ -1,41 +1,31 @@
 #!/bin/bash
-# LinuxGSM update_minecraft.sh function
-# Author: Daniel Gibbs
+# LinuxGSM update_vintagestory.sh function
+# Author: Christian Birk
 # Website: https://linuxgsm.com
-# Description: Handles updating of Minecraft servers.
+# Description: Handles updating of Vintage Story servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_minecraft_dl(){
-	# Generate link to version manifest json.
-	remotebuildlink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${remotebuild} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
-	# Generate link to server.jar
-	remotebuildurl=$(curl -s "${remotebuildlink}" | jq -r '.downloads.server.url')
+fn_update_vs_dl(){
+	# get version info for download
+	remotebuildresponse=$(curl -s "${apiurl}" | jq --arg version "${remotebuild}" '.[$version].server')
+	remotebuildfile=$(echo -e "${remotebuildresponse}" | jq -r '.filename')
+	remotebuildlink=$(echo -e "${remotebuildresponse}" | jq -r '.urls.cdn')
+	remotebuildmd5=$(echo -e "${remotebuildresponse}" | jq -r '.md5')
 
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nomd5"
-	echo -e "copying to ${serverfiles}...\c"
-	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		chmod u+x "${serverfiles}/minecraft_server.jar"
-		fn_clear_tmp
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		fn_clear_tmp
-		core_exit.sh
-	fi
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildlink}" "" "" "" "${tmpdir}" "${remotebuildfile}" "nochmodx" "norun" "force" "${remotebuildmd5}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfile}" "${serverfiles}"
+	fn_clear_tmp
 }
 
-fn_update_minecraft_localbuild(){
+fn_update_vs_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to find local build.
 	cd "${executabledir}" || exit
-	if [ -f "minecraft_server.jar" ]; then
-		localbuild=$(unzip -p "minecraft_server.jar" version.json | jq -r '.id')
+	if [ -f "${executable}" ]; then
+		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	else
@@ -45,17 +35,11 @@ fn_update_minecraft_localbuild(){
 	fi
 }
 
-fn_update_minecraft_remotebuild(){
-	# Gets remote build info.
-	# Latest release.
-	if [ "${branch}" == "release" ] && [ "${mcversion}" == "latest" ]; then
-		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
-	# Latest snapshot.
-	elif [ "${branch}" == "snapshot" ] && [ "${mcversion}" == "latest" ]; then
-		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.snapshot')
-	# Specific release/snapshot.
+fn_update_vs_remotebuild(){
+	if [ "${branch}" == "stable" ]; then
+		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
 	else
-		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${mcversion} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .id')
+		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
 	fi
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
@@ -79,7 +63,7 @@ fn_update_minecraft_remotebuild(){
 	fi
 }
 
-fn_update_minecraft_compare(){
+fn_update_vs_compare(){
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then
@@ -102,7 +86,7 @@ fn_update_minecraft_compare(){
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
-			fn_update_minecraft_dl
+			fn_update_vs_dl
 			exitbypass=1
 			command_start.sh
 			exitbypass=1
@@ -115,7 +99,7 @@ fn_update_minecraft_compare(){
 			command_stop.sh
 			fn_firstcommand_reset
 			exitbypass=1
-			fn_update_minecraft_dl
+			fn_update_vs_dl
 			exitbypass=1
 			command_start.sh
 			fn_firstcommand_reset
@@ -144,16 +128,18 @@ fn_update_minecraft_compare(){
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="mojang.com"
+remotelocation="vintagestory.at"
+apiurl="http://api.${remotelocation}/stable-unstable.json"
+localversionfile="${datadir}/vintagestoryversion"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_minecraft_remotebuild
-	fn_update_minecraft_dl
+	fn_update_vs_remotebuild
+	fn_update_vs_dl
 else
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_minecraft_localbuild
-	fn_update_minecraft_remotebuild
-	fn_update_minecraft_compare
+	fn_update_vs_localbuild
+	fn_update_vs_remotebuild
+	fn_update_vs_compare
 fi
