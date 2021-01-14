@@ -437,6 +437,9 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
+	# SCP: Secret Laboratory, SCP: Secret Laboratory ServerMod
+	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+		array_deps_required+=( mono-complete )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
@@ -452,6 +455,9 @@ fn_deps_build_debian(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
+	# Vintage Story
+	elif [ "${shortname}" == "vints" ]; then
+		array_deps_required+=( mono-complete )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
@@ -564,6 +570,9 @@ fn_deps_build_redhat(){
 	# Unreal Tournament
 	elif [ "${shortname}" == "ut" ]; then
 		array_deps_required+=( unzip )
+	# Vintage Story
+	elif [ "${shortname}" == "vints" ]; then
+		array_deps_required+=( mono-complete )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xorg-x11-server-Xvfb )
