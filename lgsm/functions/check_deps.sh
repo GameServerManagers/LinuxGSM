@@ -364,7 +364,7 @@ fn_deps_build_debian(){
 		if [ "${distroversion}" == "14.04" ]||[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 			:
 		else
-			array_deps_required+=( steamcmd )
+			array_deps_required+=( steamcmd libsdl2-2.0-0:i386 )
 		fi
 	fi
 
