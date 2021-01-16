@@ -35,6 +35,7 @@ fn_update_ts3_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
+	requirerestart=1
 	if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -150,11 +151,14 @@ fn_update_ts3_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_ts3_dl
-			exitbypass=1
-			command_start.sh
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
 			fn_print_restart_warning
