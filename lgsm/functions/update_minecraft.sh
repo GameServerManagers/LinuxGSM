@@ -7,14 +7,12 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl(){
-	if [ "${branch}" == "release" ]; then
-		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release as $latest | .versions[] | select(.id == $latest) | .url')
-	else
-		latestmcreleaselink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].url')
-	fi
+	# Generate link to version manifest json.
+	remotebuildlink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${remotebuild} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
+	# Generate link to server.jar
+	remotebuildurl=$(curl -s "${remotebuildlink}" | jq -r '.downloads.server.url')
 
-	latestmcbuildurl=$(curl -s "${latestmcreleaselink}" | jq -r '.downloads.server.url')
-	fn_fetch_file "${latestmcbuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nomd5"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nomd5"
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
@@ -34,53 +32,30 @@ fn_update_minecraft_dl(){
 fn_update_minecraft_localbuild(){
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to gather info.
-	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
-	if [ -z "${localbuild}" ]; then
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
-		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
-		fn_script_log_error "No log files containing version info"
-		fn_script_log_info "Forcing server restart"
-		exitbypass=1
-		command_stop.sh
-		fn_firstcommand_reset
-		exitbypass=1
-		command_start.sh
-		fn_firstcommand_reset
-		totalseconds=0
-		localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
-		while [ -z "${localbuild}" ]; do
-			sleep 1
-			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
-			if [ -v "${loopignore}" ]; then
-				loopignore=1
-				fn_script_log_info "Waiting for log file to generate"
-			fi
-
-			localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
-			if [ "${totalseconds}" -gt "120" ]; then
-				localbuild="0"
-				fn_print_error "Checking local build: ${remotelocation}: waiting for log file"
-				fn_script_log_error "Local build did not generate"
-				fn_script_log_error "Required log file may be missing"
-				fn_script_log_error "Local build set to 0"
-			fi
-			totalseconds=$((totalseconds + 1))
-		done
-	fi
-	if [ "${localbuild}" != "0" ]; then
+	# Uses executable to find local build.
+	cd "${executabledir}" || exit
+	if [ -f "minecraft_server.jar" ]; then
+		localbuild=$(unzip -p "minecraft_server.jar" version.json | jq -r '.id')
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
+	else
+		localbuild="0"
+		fn_print_error "Checking local build: ${remotelocation}"
+		fn_script_log_error "Checking local build"
 	fi
 }
 
 fn_update_minecraft_remotebuild(){
 	# Gets remote build info.
-	if [ "${branch}" == "release" ]; then
+	# Latest release.
+	if [ "${branch}" == "release" ] && [ "${mcversion}" == "latest" ]; then
 		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.release')
+	# Latest snapshot.
+	elif [ "${branch}" == "snapshot" ] && [ "${mcversion}" == "latest" ]; then
+		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.latest.snapshot')
+	# Specific release/snapshot.
 	else
-		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r '.versions[0].id')
+		remotebuild=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${mcversion} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .id')
 	fi
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
@@ -113,10 +88,10 @@ fn_update_minecraft_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
-		echo -en "\n"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
+		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -128,11 +103,14 @@ fn_update_minecraft_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_minecraft_dl
-			exitbypass=1
-			command_start.sh
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
 			fn_print_restart_warning
@@ -145,6 +123,7 @@ fn_update_minecraft_compare(){
 			command_start.sh
 			fn_firstcommand_reset
 		fi
+		unset exitbypass
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh

@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.4.1"
+version="v20.6.2"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -99,7 +99,7 @@ fn_bootstrap_fetch_file(){
 			# Larger files show a progress bar.
 
 			echo -en "fetching ${fileurl_name} ${local_filename}...\c"
-			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+			curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
 
 			local exitcode=$?
 
@@ -160,7 +160,8 @@ fn_bootstrap_fetch_file(){
 fn_bootstrap_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
@@ -411,6 +412,15 @@ else
 			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
+		# Load the secrets-common.cfg config. If missing download it.
+		if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-common.cfg"
+		else
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-common.cfg"
+		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
@@ -419,6 +429,15 @@ else
 		else
 			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
+		fi
+		# Load the secrets-instance.cfg config. If missing download it.
+		if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-${selfname}.cfg"
+		else
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.

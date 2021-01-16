@@ -38,7 +38,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
-		elif [ "${gdplayers}" == "[]" ] || [ "${gdplayers}" == "-1" ]; then
+		elif [ "${gdplayers}" == "[]" ]||[ "${gdplayers}" == "-1" ]; then
 			gdplayers=0
 		fi
 
