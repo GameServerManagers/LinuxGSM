@@ -4,56 +4,45 @@
 # Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
-local commandname="VALIDATE"
-local commandaction="Validate"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="VALIDATE"
+commandaction="Validating"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
-fn_validation(){
-	echo ""
-	echo -e "	* Validating may overwrite some customised files."
-	echo -en "	* https://developer.valvesoftware.com/wiki/SteamCMD#Validate"
-	sleep 3
-	echo -en "\n"
+fn_validate(){
+	fn_print_warn "Validate might overwrite some customised files"
+	fn_script_log_warn "${commandaction} server: Validate might overwrite some customised files"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "Validate might overwrite some customised files: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "Validate might overwrite some customised files"
 
-	fn_script_log_info "Validating files: SteamCMD"
-	sleep 0.5
-
-	cd "${steamcmddir}" || exit
-	# Detects if unbuffer command is available for 32 bit distributions only.
-	info_distro.sh
-	if [ "$(command -v stdbuf)" ]&&[ "${arch}" != "x86_64" ]; then
-		unbuffer="stdbuf -i0 -o0 -e0"
-	fi
-
-	if [ "${appid}" == "90" ]; then
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_info_print 70 +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${branch} +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
-	else
-		${unbuffer} ./steamcmd.sh +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${branch} validate +quit | tee -a "${lgsmlog}"
-	fi
-	if [ $? != 0 ]; then
-		fn_print_fail_nl "Validating files: SteamCMD"
-		fn_script_log_fatal "Validating files: SteamCMD: FAIL"
-	else
-		fn_print_ok_nl "Validating files: SteamCMD"
-		fn_script_log_pass "Validating files: SteamCMD: OK"
-	fi
-	fix.sh
-
+	fn_dl_steamcmd
 }
 
-fn_print_dots "Validating files:"
-sleep 0.5
-fn_print_dots "Validating files: SteamCMD"
-sleep 0.5
+# The location where the builds are checked and downloaded.
+remotelocation="SteamCMD"
 check.sh
-check_status.sh
+
+fn_print_dots "${remotelocation}"
+
 if [ "${status}" != "0" ]; then
+	fn_print_restart_warning
 	exitbypass=1
 	command_stop.sh
-	fn_validation "${appid}"
+	fn_firstcommand_reset
+	fn_validate
 	exitbypass=1
 	command_start.sh
+	fn_firstcommand_reset
 else
-	fn_validation
+	fn_validate
 fi
+
 core_exit.sh

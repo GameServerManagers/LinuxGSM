@@ -4,12 +4,10 @@
 # Website: https://linuxgsm.com
 # Description: Sends email alert.
 
-local commandname="ALERT"
-local commandaction="Alert"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: ${email}"
-sleep 0.5
+fn_sleep_time
 
 if [ -n "${emailfrom}" ]; then
 	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${alertlog}"

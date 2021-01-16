@@ -4,15 +4,18 @@
 # Website: https://linuxgsm.com
 # Description: Prints installation header.
 
-local commandname="INSTALL"
-local commandaction="Install"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 clear
-echo "================================="
-echo "LinuxGSM - ${gamename}"
-echo "by Daniel Gibbs"
-echo "Website: https://linuxgsm.com"
-echo "Contributors: https://linuxgsm.com/contrib"
-echo "Donate: https://linuxgsm.com/donate"
-echo "================================="
+fn_print_ascii_logo
+fn_sleep_time
+echo -e "================================="
+echo -e "${lightyellow}Linux${default}GSM_"
+echo -e "by Daniel Gibbs"
+echo -e "${lightblue}Version:${default} ${version}"
+echo -e "${lightblue}Game:${default} ${gamename}"
+echo -e "${lightblue}Website:${default} https://linuxgsm.com"
+echo -e "${lightblue}Contributors:${default} https://linuxgsm.com/contrib"
+echo -e "${lightblue}Sponsor:${default} https://linuxgsm.com/sponsor"
+echo -e "================================="
+fn_sleep_time

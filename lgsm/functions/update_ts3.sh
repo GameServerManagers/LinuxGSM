@@ -2,182 +2,214 @@
 # LinuxGSM command_ts3.sh function
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Handles updating of teamspeak 3 servers.
+# Description: Handles updating of Teamspeak 3 servers.
 
-local commandname="UPDATE"
-local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl(){
-	info_distro.sh
 	if [ "${ts3arch}" == "amd64" ]; then
-		latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
+		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
 	elif [ "${ts3arch}" == "x86" ]; then
-		latestts3releaselink=$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
+		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
 	fi
-	fn_fetch_file "${latestts3releaselink}" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2"
-	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${ts3_version_number}.tar.bz2" "${tmpdir}"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
+	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
-	fn_script_log "Copying to ${serverfiles}"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
+		fn_script_log_pass "Copying to ${serverfiles}"
+		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
+		fn_script_log_fatal "Copying to ${serverfiles}"
+		fn_clear_tmp
+		core_exit.sh
 	fi
 }
 
-fn_update_ts3_currentbuild(){
-	# Gets current build info
-	# Checks if current build info is available. If it fails, then a server restart will be forced to generate logs.
+fn_update_ts3_localbuild(){
+	# Gets local build info.
+	fn_print_dots "Checking local build: ${remotelocation}"
+	# Uses log file to gather info.
+	# Gives time for log file to generate.
+	requirerestart=1
 	if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
-		fn_print_error "Checking for update: teamspeak.com"
-		sleep 0.5
-		fn_print_error_nl "Checking for update: teamspeak.com: No logs with server version found"
-		fn_script_log_error "Checking for update: teamspeak.com: No logs with server version found"
-		sleep 0.5
-		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
-		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
-		sleep 0.5
+		fn_print_error "Checking local build: ${remotelocation}"
+		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
+		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
+		fn_script_log_error "No log files containing version info"
+		fn_script_log_info "Forcing server restart"
 		exitbypass=1
 		command_stop.sh
 		exitbypass=1
 		command_start.sh
-		sleep 0.5
-		# Check again and exit on failure.
-		if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log')" ]; then
-			fn_print_fail_nl "Checking for update: teamspeak.com: Still No logs with server version found"
-			fn_script_log_fatal "Checking for update: teamspeak.com: Still No logs with server version found"
-			core_exit.sh
-		fi
+		fn_firstcommand_reset
+		totalseconds=0
+		# Check again, allow time to generate logs.
+		while [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
+			sleep 1
+			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
+			if [ -v "${loopignore}" ]; then
+				loopignore=1
+				fn_script_log_info "Waiting for log file to generate"
+			fi
+
+			if [ "${totalseconds}" -gt "120" ]; then
+				localbuild="0"
+				fn_print_error "Checking local build: ${remotelocation}: waiting for log file: missing log file"
+				fn_script_log_error "Missing log file"
+				fn_script_log_error "Set localbuild to 0"
+			fi
+
+			totalseconds=$((totalseconds + 1))
+		done
 	fi
 
-	# Get current build from logs
-	currentbuild="$(cat "$(find "${serverfiles}/logs/"* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V)"
-	if [ -z "${currentbuild}" ]; then
-		fn_print_error_nl "Checking for update: teamspeak.com: Current build version not found"
-		fn_script_log_error "Checking for update: teamspeak.com: Current build version not found"
-		sleep 0.5
-		fn_print_info_nl "Checking for update: teamspeak.com: Forcing server restart"
-		fn_script_log_info "Checking for update: teamspeak.com: Forcing server restart"
-		exitbypass=1
-		command_stop.sh
-		exitbypass=1
-		command_start.sh
-		currentbuild="$(cat "$(find "${serverfiles}/logs/"* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | sort -V)"
-		if [ -z "${currentbuild}" ]; then
-			fn_print_fail_nl "Checking for update: teamspeak.com: Current build version still not found"
-			fn_script_log_fatal "Checking for update: teamspeak.com: Current build version still not found"
+	if [ -z "${localbuild}" ]; then
+		localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
+	fi
+
+	if [ -z "${localbuild}" ]; then
+		# Gives time for var to generate.
+		totalseconds=0
+		for seconds in {1..120}; do
+			fn_print_info "Checking local build: ${remotelocation}: waiting for local build: ${totalseconds}"
+			if [ -z "${loopignore}" ]; then
+				loopignore=1
+				fn_script_log_info "Waiting for local build to generate"
+			fi
+			localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
+			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
+				break
+			fi
+			sleep 1
+			totalseconds=$((totalseconds + 1))
+		done
+	fi
+
+	if [ -z "${localbuild}" ]; then
+		localbuild="0"
+		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
+	else
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
+	fi
+}
+
+fn_update_ts3_remotebuild(){
+	# Gets remote build info.
+	if [ "${arch}" == "x86_64" ]; then
+		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
+	elif [ "${arch}" == "x86" ]; then
+		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
+	fi
+	if [ "${firstcommandname}" != "INSTALL" ]; then
+		fn_print_dots "Checking remote build: ${remotelocation}"
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_fail "Checking remote build: ${remotelocation}"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		else
+			fn_print_ok "Checking remote build: ${remotelocation}"
+			fn_script_log_pass "Checking remote build"
+		fi
+	else
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
 		fi
 	fi
 }
 
-fn_update_ts3_arch(){
-# Gets the teamspeak server architecture.
+fn_update_ts3_compare(){
+	# Removes dots so if statement can compare version numbers.
+	fn_print_dots "Checking for update: ${remotelocation}"
+	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
+	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
+		echo -e "Update available"
+		echo -e "* Local build: ${red}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		fn_script_log_info "Update available"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "${localbuild} > ${remotebuild}"
+
+		unset updateonstart
+		check_status.sh
+		# If server stopped.
+		if [ "${status}" == "0" ]; then
+			exitbypass=1
+			fn_update_ts3_dl
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
+		# If server started.
+		else
+			fn_print_restart_warning
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
+			exitbypass=1
+			fn_update_ts3_dl
+			exitbypass=1
+			command_start.sh
+			fn_firstcommand_reset
+		fi
+		unset exitbypass
+		date +%s > "${lockdir}/lastupdate.lock"
+		alert="update"
+		alert.sh
+	else
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
+		echo -en "\n"
+		echo -e "No update available"
+		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
+		fn_script_log_info "No update available"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuild}"
+	fi
+}
+
+# Game server architecture.
 info_distro.sh
 if [ "${arch}" == "x86_64" ]; then
 	ts3arch="amd64"
 elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
-	echo ""
 	fn_print_failure "Unknown or unsupported architecture: ${arch}"
 	fn_script_log_fatal "Unknown or unsupported architecture: ${arch}"
 	core_exit.sh
 fi
-}
 
-fn_update_ts3_availablebuild(){
-	# Gets latest build info.
-	if [ "${arch}" == "x86_64" ]; then
-		availablebuild="$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.version')"
-	elif [ "${arch}" == "x86" ]; then
-		availablebuild="$(${curlpath} -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.version')"
-	fi
-	ts3_version_number="${availablebuild}"
-	# Checks if availablebuild variable has been set
-	if [ -v "${availablebuild}" ]||[ "${availablebuild}" == "null" ]; then
-		fn_print_fail "Checking for update: teamspeak.com"
-		sleep 0.5
-		fn_print_fail "Checking for update: teamspeak.com: Not returning version info"
-		fn_script_log_fatal "Checking for update: teamspeak.com: Not returning version info"
-		core_exit.sh
-	elif [ "${installer}" == "1" ]; then
-		:
-	else
-		fn_print_ok_nl "Checking for update: teamspeak.com"
-		fn_script_log_pass "Checking for update: teamspeak.com"
-		sleep 0.5
-	fi
-}
+# The location where the builds are checked and downloaded.
+remotelocation="teamspeak.com"
 
-fn_update_ts3_compare(){
-	# Removes dots so if can compare version numbers
-	currentbuilddigit=$(echo "${currentbuild}" | tr -cd '[:digit:]')
-	availablebuilddigit=$(echo "${availablebuild}" | tr -cd '[:digit:]')
-
-	if [ "${currentbuilddigit}" -lt "${availablebuilddigit}" ]; then
-		echo -e "\n"
-		echo -e "Update available:"
-		sleep 0.5
-		echo -e "	Current build: ${red}${currentbuild} ${ts3arch}${default}"
-		echo -e "	Available build: ${green}${availablebuild} ${ts3arch}${default}"
-		echo -e ""
-		sleep 0.5
-		echo -en "Applying update.\r"
-		sleep 1
-		echo -en "Applying update..\r"
-		sleep 1
-		echo -en "Applying update...\r"
-		sleep 1
-		echo -en "\n"
-		fn_script_log "Update available"
-		fn_script_log "Current build: ${currentbuild}"
-		fn_script_log "Available build: ${availablebuild}"
-		fn_script_log "${currentbuild} > ${availablebuild}"
-
-		unset updateonstart
-
-		check_status.sh
-		if [ "${status}" == "0" ]; then
-			fn_update_ts3_dl
-			exitbypass=1
-			command_start.sh
-			exitbypass=1
-			command_stop.sh
-		else
-			exitbypass=1
-			command_stop.sh
-			fn_update_ts3_dl
-			exitbypass=1
-			command_start.sh
-		fi
-		alert="update"
-		alert.sh
-	else
-		echo -e "\n"
-		echo -e "No update available:"
-		echo -e "	Current version: ${green}${currentbuild}${default}"
-		echo -e "	Available version: ${green}${availablebuild}${default}"
-		echo -e ""
-		fn_print_ok_nl "No update available"
-		fn_script_log_info "Current build: ${currentbuild}"
-		fn_script_log_info "Available build: ${availablebuild}"
-	fi
-}
-
-fn_update_ts3_arch
-if [ "${installer}" == "1" ]; then
-	fn_update_ts3_availablebuild
+if [ "${firstcommandname}" == "INSTALL" ]; then
+	fn_update_ts3_remotebuild
 	fn_update_ts3_dl
 else
-	# Checks for server update from teamspeak.com using a mirror dl.4players.de.
-	fn_print_dots "Checking for update: teamspeak.com"
-	fn_script_log_info "Checking for update: teamspeak.com"
-	sleep 0.5
-	fn_update_ts3_currentbuild
-	fn_update_ts3_availablebuild
+	fn_print_dots "Checking for update"
+	fn_print_dots "Checking for update: ${remotelocation}"
+	fn_script_log_info "Checking for update: ${remotelocation}"
+	fn_update_ts3_localbuild
+	fn_update_ts3_remotebuild
 	fn_update_ts3_compare
 fi
