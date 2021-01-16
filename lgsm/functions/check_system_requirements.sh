@@ -38,6 +38,9 @@ elif [ "${shortname}" == "ns2" ]||[ "${shortname}" == "ns2c" ]; then
 elif [ "${shortname}" == "st" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
+elif [ "${shortname}" == "pvr" ];then
+	ramrequirementmb="2000"
+	ramrequirementgb="2"
 fi
 
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM.

@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.5.0"
+modulesversion="v20.6.2"
 
 # Core
 
@@ -49,6 +49,11 @@ fn_fetch_function
 }
 
 core_trap.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_steamcmd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -151,6 +156,11 @@ fn_fetch_function
 }
 
 command_restart.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+command_skeleton.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -340,11 +350,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_ges.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_hw.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -435,6 +440,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_samp.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_sdtd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -446,11 +456,6 @@ fn_fetch_function
 }
 
 fix_squad.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-fix_ss3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -604,6 +609,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_check_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 update_ts3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -640,6 +650,11 @@ fn_fetch_function
 }
 
 update_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_vintagestory.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
