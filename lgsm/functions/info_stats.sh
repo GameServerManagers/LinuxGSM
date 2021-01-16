@@ -5,8 +5,7 @@
 # Description: Collect optional Stats sent to LinuxGSM project.
 # Uses Google analytics.
 
-local modulegroup="INFO"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 
