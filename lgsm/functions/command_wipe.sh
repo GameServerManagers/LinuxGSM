@@ -198,7 +198,7 @@ fn_wipe_warning(){
 	fn_print_warn "wipe is about to start"
 }
 
-# Will change the seed everytime the wipe command is run if the seed in config is not set
+# Will change the seed everytime the wipe command is run if the seed in config is not set.
 fn_wipe_random_seed(){
 	if [ -z "${seed}" ]; then
 		shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
