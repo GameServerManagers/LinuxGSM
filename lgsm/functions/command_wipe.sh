@@ -198,6 +198,13 @@ fn_wipe_warning(){
 	fn_print_warn "wipe is about to start"
 }
 
+# Will change the seed everytime the wipe command is run if the seed in config is not set
+fn_wipe_random_seed(){
+	if [ -z "${seed}" ]; then
+		shuf -i 1-2147483647 -n 1 > "${datadir}/${servername}-seed.txt"
+	fi
+}
+
 fn_print_dots ""
 check.sh
 
@@ -219,6 +226,7 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	fi
 	fn_print_complete_nl "Wiping ${selfname}"
 	fn_script_log_pass "Wiping ${selfname}"
+	fn_wipe_random_seed
 else
 	fn_print_ok_nl "Wipe not required"
 	fn_script_log_pass "Wipe not required"
