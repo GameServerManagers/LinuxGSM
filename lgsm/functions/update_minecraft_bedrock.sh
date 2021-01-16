@@ -34,6 +34,7 @@ fn_update_minecraft_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
+	requirerestart=1
 	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
@@ -122,11 +123,14 @@ fn_update_minecraft_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_minecraft_dl
-			exitbypass=1
-			command_start.sh
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
 			fn_print_restart_warning
