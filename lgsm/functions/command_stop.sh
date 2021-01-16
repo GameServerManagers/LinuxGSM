@@ -231,16 +231,6 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_avorion
 	elif [ "${stopmode}" == "11" ]; then
 		fn_stop_graceful_cmd "end" 30
-	elif [ "${stopmode}" == "12" ]; then
-		# special stop for CSGO - needed if "-autoupdate" is set as launch option
-		# send a ctrl + c and after that use the quit method
-		fn_print_info_nl "Step 1: Graceful: CTRL+c"
-		fn_script_log_info "Step 1: Graceful: CTRL+c"
-		tmux send-keys -t "${sessionname}" C-c &> /dev/null
-		# send quit to stop the server in the end
-		fn_print_info_nl "Step 2: Graceful: quit"
-		fn_script_log_info "Step 2: Graceful: quit"
-		fn_stop_graceful_cmd "quit" 30
 	fi
 }
 
