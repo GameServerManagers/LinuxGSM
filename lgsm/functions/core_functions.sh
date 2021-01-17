@@ -58,6 +58,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+core_github.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Commands
 
 command_backup.sh(){
