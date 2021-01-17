@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM update_vintagestory.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles updating of Vintage Story servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

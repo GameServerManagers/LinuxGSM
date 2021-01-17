@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM check_deps.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Checks if required dependencies are installed for LinuxGSM.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

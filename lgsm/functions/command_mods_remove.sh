@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM command_mods_uninstall.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-REMOVE"

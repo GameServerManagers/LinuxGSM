@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM update_mta.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles updating of Multi Theft Auto servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

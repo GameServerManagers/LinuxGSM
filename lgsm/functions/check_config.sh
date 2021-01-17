@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM check_config.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Checks if the server config is missing and warns the user if needed.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

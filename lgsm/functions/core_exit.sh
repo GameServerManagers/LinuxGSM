@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM core_exit.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles exiting of LinuxGSM by running and reporting an exit code.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

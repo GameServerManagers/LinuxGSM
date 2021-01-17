@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM command_details.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Displays server information.
 
 commandname="DETAILS"

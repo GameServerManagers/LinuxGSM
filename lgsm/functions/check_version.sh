@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM command_version.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Will run update-lgsm if gameserver.sh and modules version does not match
 # this will allow gameserver.sh to update - useful for multi instance servers.
 

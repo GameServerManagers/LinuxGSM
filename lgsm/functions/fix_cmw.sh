@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM fix_cmw.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Resolves the issue of the not starting server on linux
 
 if [ ! -f "${executabledir}/steam_appid.txt" ]; then

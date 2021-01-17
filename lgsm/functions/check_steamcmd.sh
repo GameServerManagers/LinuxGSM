@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM check_steamcmd.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Checks if SteamCMD is installed correctly.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

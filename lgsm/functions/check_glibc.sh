@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM check_glibc.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Checks if the server has the correct Glibc version.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

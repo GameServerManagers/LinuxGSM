@@ -1,9 +1,9 @@
 #!/bin/bash
 # LinuxGSM install_factorio_save.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
-# Description: Creates the initial save file for Factorio
+# Website: https://linuxgsm.com
+# Description: Creates the initial save file for Factorio.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

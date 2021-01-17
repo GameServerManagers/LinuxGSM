@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM update_jk2.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles updating of jk2 servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # LinuxGSM query_gsquery.py function
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
 
 import optparse

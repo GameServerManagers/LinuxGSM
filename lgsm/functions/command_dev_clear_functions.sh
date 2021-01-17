@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM command_dev_clear_functions.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Deletes the contents of the functions dir.
 
 commandname="DEV-CLEAR-MODULES"

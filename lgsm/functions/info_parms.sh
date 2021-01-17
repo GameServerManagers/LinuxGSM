@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM info_parms.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

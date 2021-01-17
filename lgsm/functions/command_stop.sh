@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM command_stop.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Stops the server.
 
 commandname="STOP"

@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM update_minecraft_bedrock.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft Bedrock servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

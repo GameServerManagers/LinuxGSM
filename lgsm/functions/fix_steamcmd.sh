@@ -1,8 +1,8 @@
 #!/bin/bash
 # LinuxGSM fix_steamcmd.sh module
 # Author: Daniel Gibbs
-# Website: https://linuxgsm.com
 # Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Resolves various issues related to SteamCMD.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
