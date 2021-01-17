@@ -88,11 +88,14 @@ fn_update_vs_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_vs_dl
-			exitbypass=1
-			command_start.sh
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
 			fn_print_restart_warning
@@ -131,7 +134,6 @@ fn_update_vs_compare(){
 # The location where the builds are checked and downloaded.
 remotelocation="vintagestory.at"
 apiurl="http://api.${remotelocation}/stable-unstable.json"
-localversionfile="${datadir}/vintagestoryversion"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_vs_remotebuild

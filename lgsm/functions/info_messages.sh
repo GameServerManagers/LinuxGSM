@@ -584,7 +584,7 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms.
-	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
@@ -1465,6 +1465,15 @@ fn_info_message_vintagestory(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_scpsl(){
+	echo -e "netstat -atunp | grep SCPSL"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1537,6 +1546,8 @@ fn_info_message_select_engine(){
 		fn_info_message_quakelive
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
+	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+		fn_info_message_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_message_sdtd
 	elif [ "${shortname}" == "squad" ]; then
