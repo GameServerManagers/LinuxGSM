@@ -6,6 +6,8 @@
 # Description: Will run update-lgsm if gameserver.sh and modules version does not match
 # this will allow gameserver.sh to update - useful for multi instance servers.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 if [ -n "${modulesversion}" ]&&[ -n "${version}" ]&&[ "${version}" != "${modulesversion}" ]; then
 	exitbypass=1
 	echo -e ""

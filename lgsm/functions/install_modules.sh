@@ -5,6 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Downloads all modules on install.
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 echo -e ""
 echo -e "${lightyellow}Downloading LinuxGSM Modules${default}"
 echo -e "================================="

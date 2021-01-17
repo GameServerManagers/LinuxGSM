@@ -5,6 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Resolves the issue of the not starting server on linux
 
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 if [ ! -f "${executabledir}/steam_appid.txt" ]; then
 	fixname="steam_appid.txt"
 	fn_fix_msg_start
