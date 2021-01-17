@@ -447,11 +447,11 @@ fn_update_function(){
 
 }
 
-# Function to download latest github release
-# $1 github user / organisation
-# $2 repo name
-# $3 destination for download
-# $4 search string in releases (needed if there are more files that can be downloaded from the release pages)
+# Function to download latest github release.
+# $1 GitHub user / organisation.
+# $2 Repo name.
+# $3 Destination for download.
+# $4 Search string in releases (needed if there are more files that can be downloaded from the release pages).
 fn_dl_latest_release_github(){
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
@@ -459,29 +459,29 @@ fn_dl_latest_release_github(){
 	local githubreleasesearch="${4}"
 	local githublatestreleaseurl="https://api.github.com/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
 
-	# get last github release
-	# if no search for the release filename is set, just get the first file from the latest release
+	# Get last github release.
+	# If no search for the release filename is set, just get the first file from the latest release.
 	if [ -z "${githubreleasesearch}" ]; then
-		githubreleaseassets=$(curl -s "${githublatestreleaseurl}" | jq '[ .assets[] ]' )
+		githubreleaseassets=$(curl -s "${githublatestreleaseurl}" | jq '[ .assets[] ]')
 	else
-		githubreleaseassets=$(curl -s "${githublatestreleaseurl}" | jq "[ .assets[]|select(.browser_download_url | contains(\"${githubreleasesearch}\")) ]" )
+		githubreleaseassets=$(curl -s "${githublatestreleaseurl}" | jq "[ .assets[]|select(.browser_download_url | contains(\"${githubreleasesearch}\")) ]")
 	fi
 
-	# check how many releases we got from the api and exit if we have more then one
-	if [ "$(echo -e "${githubreleaseassets}" | jq '. | length' )" -gt 1 ]; then
-		fn_print_fatal_nl "Found more than one release to download - Please report this to the github issue tracker"
-		fn_script_log_fatal "Found more than one release to download - Please report this to the github issue tracker"
+	# Check how many releases we got from the api and exit if we have more then one.
+	if [ "$(echo -e "${githubreleaseassets}" | jq '. | length')" -gt 1 ]; then
+		fn_print_fatal_nl "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
+		fn_script_log_fatal "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
 	else
-		# set variables for download via fn_fetch_file
-		githubreleasefilename=$( echo -e "${githubreleaseassets}" | jq -r '.[]name' )
-		githubreleasedownloadlink=$( echo -e "${githubreleaseassets}" | jq -r '.[]browser_download_url' )
+		# Set variables for download via fn_fetch_file.
+		githubreleasefilename=$(echo -e "${githubreleaseassets}" | jq -r '.[]name')
+		githubreleasedownloadlink=$(echo -e "${githubreleaseassets}" | jq -r '.[]browser_download_url')
 
-		# error if no version is there
+		# Error if no version is there.
 		if [ -z "${githubreleasefilename}" ]; then
 			fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 			fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 		else
-			# fetch file from the remote location from the existing function to the ${tmpdir} for now
+			# Fetch file from the remote location from the existing function to the ${tmpdir} for now.
 			fn_fetch_file "${githubreleasedownloadlink}" "" "${githubreleasefilename}" "" "${githubreleasedownloadpath}" "${githubreleasefilename}"
 		fi
 	fi
