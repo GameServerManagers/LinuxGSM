@@ -387,7 +387,7 @@ else
 			else
 				echo -e "OK"
 			fi
-		fi	
+		fi
 	else
 		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 		if [ "${function_file_diff}" != "" ]; then
@@ -447,6 +447,10 @@ else
 		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
 			source "${servercfgfullpath}"
+		fi
+
+		if [ -n "${preexecutable}" ]; then
+			eval preexecutable="$(grep -w preexecutable= "${configdirserver}/_default.cfg" | sed -e 's/preexecutable=//g')"
 		fi
 		eval startparameters="$(grep -w startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
 		eval executable="$(grep -w executable= "${configdirserver}/_default.cfg" | sed -e 's/executable=//g')"

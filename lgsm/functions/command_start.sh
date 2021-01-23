@@ -74,7 +74,7 @@ fn_start_tmux(){
 	echo "${version}" >> "${lockdir}/${selfname}.lock"
 	echo "${port}" >> "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${prexecutable} ${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -132,7 +132,7 @@ fn_start_tmux(){
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname}\" \"${prexecutable} ${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="

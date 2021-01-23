@@ -73,7 +73,7 @@ if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 elif [ "${engine}" == "quake" ]; then
 	echo -e "${executable} ${parms} -condebug"
 else
-	echo -e "${prexecutable} ${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${parms}"
 fi
 echo -e ""
 echo -e "Use for identifying server issues only!"
@@ -114,7 +114,7 @@ elif [ "${shortname}" == "arma3" ]; then
 elif [ "${engine}" == "quake" ]; then
 	${executable} ${parms} -condebug
 else
-	${prexecutable} ${executable} ${parms}
+	${preexecutable} ${executable} ${parms}
 fi
 
 fn_lockfile_trap
