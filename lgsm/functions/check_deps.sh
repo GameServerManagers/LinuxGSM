@@ -364,7 +364,7 @@ fn_deps_build_debian(){
 		if [ "${distroversion}" == "14.04" ]||[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 			:
 		else
-			array_deps_required+=( steamcmd )
+			array_deps_required+=( steamcmd libsdl2-2.0-0:i386 )
 		fi
 	fi
 
@@ -464,6 +464,9 @@ fn_deps_build_debian(){
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( libgconf-2-4 )
+	# Pavlov VR
+	elif [ "${shortname}" == "pvr" ]; then
+		array_deps_required+=( libc++1 )
 	fi
 	fn_deps_email
 	fn_check_loop
@@ -579,6 +582,9 @@ fn_deps_build_redhat(){
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( GConf2 )
+	# Pavlov VR
+	elif [ "${shortname}" == "pvr" ]; then
+		array_deps_required+=( libcxx )
 	fi
 	fn_deps_email
 	fn_check_loop

@@ -140,6 +140,13 @@ fn_info_parms_rust(){
 	maxplayers=${maxplayers:-"0"}
 	saveinterval=${saveinterval:-"0"}
 	tickrate=${tickrate:-"0"}
+	# Part of random seed feature.
+	if [ -z "${seed}" ]; then
+		if [ ! -f "${datadir}/${selfname}-seed.txt" ]; then
+			shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
+		fi
+		seed=$(cat "${datadir}/${selfname}-seed.txt")
+	fi
 }
 
 fn_info_parms_samp(){
