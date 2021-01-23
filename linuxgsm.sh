@@ -387,6 +387,7 @@ else
 			else
 				echo -e "OK"
 			fi
+		fi	
 	else
 		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 		if [ "${function_file_diff}" != "" ]; then
@@ -455,7 +456,6 @@ else
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
 	fi
-fi
 
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
