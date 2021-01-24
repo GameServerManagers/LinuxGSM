@@ -387,18 +387,18 @@ else
 			else
 				echo -e "OK"
 			fi
-		fi
-	else
-		function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
-		if [ "${function_file_diff}" != "" ]; then
-			fn_print_warn_nl "_default.cfg has altered. reloading config."
-			echo -en "copying _default.cfg...\c"
-			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			if [ $? != 0 ]; then
-				echo -e "FAIL"
-				exit 1
-			else
-				echo -e "OK"
+		else
+			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
+			if [ "${function_file_diff}" != "" ]; then
+				fn_print_warn_nl "_default.cfg has altered. reloading config."
+				echo -en "copying _default.cfg...\c"
+				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
+				if [ $? != 0 ]; then
+					echo -e "FAIL"
+					exit 1
+				else
+					echo -e "OK"
+				fi
 			fi
 		fi
 	fi
