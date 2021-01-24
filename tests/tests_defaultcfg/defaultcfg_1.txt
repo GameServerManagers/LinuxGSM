@@ -6,7 +6,7 @@
 # common.cfg - applies settings to every instance.
 # [instance].cfg - applies settings to a specific instance.
 #### Game Server Settings ####
-## Server Start Command | https://docs.linuxgsm.com/configuration/start-parameters#additional-parameters
+## Server Parameters | https://docs.linuxgsm.com/configuration/start-parameters#additional-parameters
 #### LinuxGSM Settings ####
 ## Notification Alerts
 # (on|off)
@@ -20,9 +20,8 @@
 # Pushover Alerts | https://docs.linuxgsm.com/alerts/pushover
 # Slack Alerts | https://docs.linuxgsm.com/alerts/slack
 # Telegram Alerts | https://docs.linuxgsm.com/alerts/telegram
-# You can add a custom cURL string eg proxy (useful in Russia) or else in "curlcustomstring".
-# like a "--socks5 ipaddr:port" for socks5 proxy see more in "curl --help", if you not need
-# any custom string in curl - simple ignore this parameter.
+# You can add a custom cURL string eg proxy (useful in Russia) in "curlcustomstring".
+# For example "--socks5 ipaddr:port" for socks5 proxy see more in "curl --help".
 ## Backup | https://docs.linuxgsm.com/commands/backup
 ## Logging | https://docs.linuxgsm.com/features/logging
 ## Monitor | https://docs.linuxgsm.com/commands/monitor
@@ -41,6 +40,10 @@
 # 8: 7 Days to Die
 # 9: GoldSrc
 # 10: Avorion
+# 11: end
+## Console type
+consoleverbose=""
+consoleinteract=""
 ## Game Server Details
 # Do not edit
 #### Directories ####

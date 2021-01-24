@@ -7,6 +7,7 @@
 commandname="DEBUG"
 commandaction="Debuging"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Trap to remove lockfile on quit.
 fn_lockfile_trap(){
@@ -54,11 +55,8 @@ if [ "${glibc}" ]; then
 fi
 
 # Server IP
-if [ "${multiple_ip}" == "1" ]; then
-	echo -e "${lightblue}Server IP:\t${default}NOT SET"
-else
-	echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
-fi
+echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
+
 # External server IP.
 if [ "${extip}" ]; then
 	if [ "${ip}" != "${extip}" ]; then
@@ -72,8 +70,10 @@ fi
 echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${parms} -debug"
+elif [ "${engine}" == "quake" ]; then
+	echo -e "${executable} ${parms} -condebug"
 else
-	echo -e "${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${parms}"
 fi
 echo -e ""
 echo -e "Use for identifying server issues only!"
@@ -81,13 +81,15 @@ echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${selfname} is already running it will be stopped."
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	return
+	exitcode=0
+	core_exit.sh
 fi
 
 fn_print_info_nl "Stopping any running servers"
 fn_script_log_info "Stopping any running servers"
 exitbypass=1
 command_stop.sh
+fn_firstcommand_reset
 unset exitbypass
 fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
@@ -95,6 +97,8 @@ fn_print_ok_nl "Starting debug"
 
 # Create lockfile.
 date '+%s' > "${lockdir}/${selfname}.lock"
+echo "${version}" >> "${lockdir}/${selfname}.lock"
+echo "${port}" >> "${lockdir}/${selfname}.lock"
 fn_script_log_info "Lockfile generated"
 fn_script_log_info "${lockdir}/${selfname}.lock"
 
@@ -108,9 +112,10 @@ elif [ "${shortname}" == "arma3" ]; then
 	# stripped when loading straight from the console.
 	${executable} ${parms//\\;/;}
 elif [ "${engine}" == "quake" ]; then
-		${executable} ${parms} -condebug
+	${executable} ${parms} -condebug
 else
-	${executable} ${parms}
+	# shellcheck disable=SC2086
+	${preexecutable} ${executable} ${parms}
 fi
 
 fn_lockfile_trap

@@ -8,6 +8,7 @@
 commandname="START"
 commandaction="Starting"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_start_teamspeak3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -29,6 +30,13 @@ fn_start_teamspeak3(){
 		install_eula.sh
 	fi
 	fn_start_tmux
+}
+
+# This will allow the Jedi Knight 2 version to be printed in console on start.
+# Used to allow update to detect JK2MV server version.
+fn_start_jk2(){
+	fn_start_tmux
+	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux(){
@@ -63,8 +71,10 @@ fn_start_tmux(){
 
 	# Create lockfile
 	date '+%s' > "${lockdir}/${selfname}.lock"
+	echo "${version}" >> "${lockdir}/${selfname}.lock"
+	echo "${port}" >> "${lockdir}/${selfname}.lock"
 	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -122,7 +132,7 @@ fn_start_tmux(){
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname}\" \"${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${parms}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
@@ -188,14 +198,15 @@ if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateon
 	exitbypass=1
 	unset updateonstart
 	command_update.sh
-	commandname="START"
-	commandaction="Starting"
+	fn_firstcommand_reset
 fi
 
 fn_print_dots "${servername}"
 
 if [ "${shortname}" == "ts3" ]; then
 	fn_start_teamspeak3
+elif [ "${shortname}" == "jk2" ]; then
+	fn_start_jk2
 else
 	fn_start_tmux
 fi

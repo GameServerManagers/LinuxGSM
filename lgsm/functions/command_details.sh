@@ -8,6 +8,7 @@
 commandname="DETAILS"
 commandaction="Viewing details"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Run checks and gathers details to display.
 check.sh
@@ -16,7 +17,12 @@ info_parms.sh
 info_distro.sh
 info_messages.sh
 if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
-	query_gamedig.sh
+	for queryip in "${queryips[@]}"; do
+		query_gamedig.sh
+		if [ "${querystatus}" == "0" ]; then
+			break
+		fi
+	done
 fi
 fn_info_message_distro
 fn_info_message_server_resource

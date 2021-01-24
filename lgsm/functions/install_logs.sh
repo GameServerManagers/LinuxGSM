@@ -15,7 +15,7 @@ fn_sleep_time
 # Create LinuxGSM logs.
 echo -en "installing log dir: ${logdir}..."
 mkdir -p "${logdir}"
-if [ $? -ne 0 ]; then
+if [ $? != 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -24,7 +24,7 @@ fi
 
 echo -en "installing LinuxGSM log dir: ${lgsmlogdir}..."
 mkdir -p "${lgsmlogdir}"
-if [ $? -ne 0 ]; then
+if [ $? != 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -32,7 +32,7 @@ else
 fi
 echo -en "creating LinuxGSM log: ${lgsmlog}..."
 touch "${lgsmlog}"
-if [ $? -ne 0 ]; then
+if [ $? != 0 ]; then
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -42,7 +42,7 @@ fi
 if [ "${consolelogdir}" ]; then
 	echo -en "installing console log dir: ${consolelogdir}..."
 	mkdir -p "${consolelogdir}"
-	if [ $? -ne 0 ]; then
+	if [ $? != 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else

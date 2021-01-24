@@ -316,6 +316,13 @@ elif [ "${shortname}" == "cc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "col" ]; then
+	gamedirname="ColonySurvival"
+	array_configs+=( colserver.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
 	gamedirname="CounterStrike"
 	array_configs+=( server.cfg )
@@ -424,13 +431,6 @@ elif [ "${shortname}" == "fof" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "gmod" ]; then
 	gamedirname="GarrysMod"
-	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "ges" ]; then
-	gamedirname="GoldenEyeSource"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -583,6 +583,13 @@ elif [ "${shortname}" == "mumble" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
+elif [ "${shortname}" == "pvr" ]; then
+	gamedirname="PavlovVR"
+	fn_check_cfgdir
+	array_configs+=( Game.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${shortname}" == "pvkii" ]; then
 	gamedirname="PiratesVikingandKnightsII"
 	array_configs+=( server.cfg )
@@ -626,6 +633,12 @@ elif [ "${shortname}" == "ql" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "jk2" ]; then
+	gamedirname="JediKnightIIJediOutcast"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
 elif [ "${shortname}" == "qw" ]; then
 	gamedirname="QuakeWorld"
 	array_configs+=( server.cfg )
@@ -654,16 +667,9 @@ elif [ "${shortname}" == "rust" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shortname}" == "samp" ]; then
-	gamedirname="SanAndreasMultiplayer"
-	array_configs+=( server.cfg )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "ss3" ]; then
-	gamedirname="SeriousSam3BFE"
-	array_configs+=( server.ini )
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	gamedirname="SCPSecretLaboratory"
+	array_configs+=( config_gameplay.txt config_localadmin.txt )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -790,6 +796,13 @@ elif [ "${shortname}" == "ut99" ]; then
 elif [ "${shortname}" == "unt" ]; then
 	gamedirname="Unturned"
 	array_configs+=( Config.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "vints" ]; then
+	gamedirname="VintageStory"
+	array_configs+=( serverconfig.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.3.3"
+version="v20.6.2"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -82,8 +82,7 @@ fn_bootstrap_fetch_file(){
 			remote_fileurls_array=( remote_fileurl )
 		fi
 
-		for remote_fileurl_array in "${remote_fileurls_array[@]}"
-		do
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
 				fileurl="${remote_fileurl}"
 				fileurl_name="${remote_fileurl_name}"
@@ -100,7 +99,7 @@ fn_bootstrap_fetch_file(){
 			# Larger files show a progress bar.
 
 			echo -en "fetching ${fileurl_name} ${local_filename}...\c"
-			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+			curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
 
 			local exitcode=$?
 
@@ -113,7 +112,7 @@ fn_bootstrap_fetch_file(){
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					echo -e "FAIL"
 					if [ -f "${lgsmlog}" ]; then
@@ -161,7 +160,8 @@ fn_bootstrap_fetch_file(){
 fn_bootstrap_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
@@ -381,7 +381,7 @@ else
 			mkdir -p "${configdirserver}"
 			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			if [ $? -ne 0 ]; then
+			if [ $? != 0 ]; then
 				echo -e "FAIL"
 				exit 1
 			else
@@ -393,7 +393,7 @@ else
 				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-				if [ $? -ne 0 ]; then
+				if [ $? != 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else
@@ -401,32 +401,65 @@ else
 				fi
 			fi
 		fi
+	fi
+	# Configs have to be loaded twice to allow start startparameters to pick up all vars
+	# shellcheck source=/dev/null
+	source "${configdirserver}/_default.cfg"
+	# Load the common.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/common.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
 		# shellcheck source=/dev/null
-		source "${configdirserver}/_default.cfg"
-		# Load the common.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+		source "${configdirserver}/common.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/common.cfg"
+	fi
+	# Load the secrets-common.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-common.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-common.cfg"
+	fi
+	# Load the instance.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		# shellcheck source=/dev/null
+		source "${configdirserver}/${selfname}.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/${selfname}.cfg"
+	fi
+	# Load the secrets-instance.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-${selfname}.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-${selfname}.cfg"
+	fi
+	# Use eval if startparameters are only in _default.cfg to ensure all vars in startparameters are set.
+	if ! grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg"; then
+		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
-			source "${configdirserver}/common.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/common.cfg"
-		fi
-		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			# shellcheck source=/dev/null
-			source "${configdirserver}/${selfname}.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/${selfname}.cfg"
+			source "${servercfgfullpath}"
 		fi
 
-		# Load the linuxgsm.sh in to tmpdir. If missing download it.
-		if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
-			fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+		if [ -n "${preexecutable}" ]; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
+		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		eval executable="$(sed -nr 's/^ *executable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 	fi
+
+	# Load the linuxgsm.sh in to tmpdir. If missing download it.
+	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
+		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+	fi
+
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.

@@ -7,19 +7,34 @@
 commandname="CONSOLE"
 commandaction="Access console"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 fn_print_header
-if [ "${shortname}" == "rust" ]||[ "${shortname}" == "hw" ]||[ "${shortname}" == "ark" ]; then
-	fn_print_information_nl "${gamename} does not produce a verbose output to the console"
-	fn_print_information_nl "${gamename} does not allow server commands to be entered in to the console"
+
+if [ "${consoleverbose}" == "yes" ]; then
+	echo -e "* Verbose output: ${lightgreen}yes${default}"
+elif [ "${consoleverbose}" == "no" ]; then
+	echo -e "* Verbose output: ${red}no${default}"
+else
+	echo -e "* Verbose output: ${red}unknown${default}"
 fi
+
+if [ "${consoleinteract}" == "yes" ]; then
+	echo -e "* Interactive output: ${lightgreen}yes${default}"
+elif [ "${consoleinteract}" == "no" ]; then
+	echo -e "* Interactive output: ${red}no${default}"
+else
+	echo -e "* Interactive output: ${red}unknown${default}"
+fi
+echo ""
 fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
 fn_print_warning_nl "Do NOT press CTRL+c to exit."
-echo -e "	* https://docs.linuxgsm.com/commands/console"
+echo -e "* https://docs.linuxgsm.com/commands/console"
 echo -e ""
 if ! fn_prompt_yn "Continue?" Y; then
-	return
+	exitcode=0
+	core_exit.sh
 fi
 fn_print_dots "Accessing console"
 check_status.sh
@@ -35,6 +50,7 @@ else
 	if fn_prompt_yn "Do you want to start the server?" Y; then
 		exitbypass=1
 		command_start.sh
+		fn_firstcommand_reset
 	fi
 fi
 

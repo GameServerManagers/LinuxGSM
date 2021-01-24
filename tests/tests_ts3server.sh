@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.3.3"
+version="v20.6.2"
 shortname="ts3"
 gameservername="ts3server"
 commandname="CORE"
@@ -90,8 +90,7 @@ fn_bootstrap_fetch_file(){
 			remote_fileurls_array=( remote_fileurl )
 		fi
 
-		for remote_fileurl_array in "${remote_fileurls_array[@]}"
-		do
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
 				fileurl="${remote_fileurl}"
 				fileurl_name="${remote_fileurl_name}"
@@ -120,7 +119,7 @@ fn_bootstrap_fetch_file(){
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					echo -e "FAIL"
 					if [ -f "${lgsmlog}" ]; then
@@ -169,7 +168,8 @@ fn_bootstrap_fetch_file(){
 fn_bootstrap_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	if [ "${githubbranch}" == "master" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
@@ -390,7 +390,7 @@ else
 			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
+			if [ "${exitcode}" != 0 ]; then
 				echo -e "FAIL"
 				exit 1
 			else
@@ -403,7 +403,7 @@ else
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 				exitcode=$?
-				if [ ${exitcode} -ne 0 ]; then
+				if [ "${exitcode}" != 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else
@@ -422,6 +422,15 @@ else
 			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		fi
+		# Load the secrets-common.cfg config. If missing download it.
+		if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-common.cfg"
+		else
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-common.cfg"
+		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
 			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
@@ -430,6 +439,15 @@ else
 		else
 			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
+		fi
+		# Load the secrets-instance.cfg config. If missing download it.
+		if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-${selfname}.cfg"
+		else
+			# shellcheck source=/dev/null
+			source "${configdirserver}/secrets-${selfname}.cfg"
 		fi
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
@@ -937,6 +955,8 @@ requiredstatus="OFFLINE"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
 date '+%s' > "${lockdir}/${selfname}.lock"
+echo "${version}" >> "${lockdir}/${selfname}.lock"
+echo "${port}" >> "${lockdir}/${selfname}.lock"
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"

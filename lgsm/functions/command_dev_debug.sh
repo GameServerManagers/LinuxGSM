@@ -7,6 +7,7 @@
 commandname="DEV-DEBUG"
 commandaction="Developer debug"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_reset
 
 if [ -f "${rootdir}/.dev-debug" ]; then
 	rm "${rootdir:?}/.dev-debug"
