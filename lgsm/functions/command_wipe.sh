@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM command_backup.sh function
+# LinuxGSM command_backup.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Wipes server data, useful after updates for some games like Rust
+# Description: Wipes server data, useful after updates for some games like Rust.
 
 commandname="WIPE"
 commandaction="Wiping"

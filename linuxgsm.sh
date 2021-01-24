@@ -1,5 +1,5 @@
 #!/bin/bash
-# Project: Game Server Managers - LinuxGSM
+# Project: Linux Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
 # License: MIT License, Copyright (c) 2020 Daniel Gibbs
 # Purpose: Linux Game Server Management Script
@@ -338,11 +338,11 @@ if [ "${shortname}" == "core" ]; then
 
 	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
 		{
-			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
+			tail -n +1 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
-		tail -n +2 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
+		tail -n +1 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
 		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
 		fn_server_info

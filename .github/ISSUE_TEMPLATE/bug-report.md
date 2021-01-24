@@ -1,8 +1,12 @@
 ---
-name: Bug report
+name: Bug Report
 about: Found a bug? Raise a report.
+title: "[BUG]"
+labels: 'type: bug'
+assignees: ''
 
 ---
+
 Issues raised here are **ONLY** for:
 * LinuxGSM bugs.
 * Feature suggestions.

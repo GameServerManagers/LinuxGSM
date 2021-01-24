@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM info_config.sh function
+# LinuxGSM info_config.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 

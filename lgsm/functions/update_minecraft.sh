@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM update_minecraft.sh function
+# LinuxGSM update_minecraft.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft servers.
 

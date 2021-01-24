@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_update.sh function
+# LinuxGSM command_update.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of servers.
 

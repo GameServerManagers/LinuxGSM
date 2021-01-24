@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_tf2.sh function
-# Author: Vector Sigma
-# Website: https://github.com/vectorsigma
+# LinuxGSM fix_tf2.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Resolves various issues with Team Fortress 2.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM check_config.sh function
+# LinuxGSM check_config.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Checks if run from tmux or screen
+# Description: Checks if run from tmux or screen.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_validate.sh function
+# LinuxGSM command_validate.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
