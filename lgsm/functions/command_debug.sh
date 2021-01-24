@@ -114,6 +114,7 @@ elif [ "${shortname}" == "arma3" ]; then
 elif [ "${engine}" == "quake" ]; then
 	${executable} ${parms} -condebug
 else
+	# shellcheck disable=SC2086
 	${preexecutable} ${executable} ${parms}
 fi
 
