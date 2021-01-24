@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_backup.sh function
+# LinuxGSM command_backup.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 

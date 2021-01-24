@@ -1,6 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_github.sh function
-# Author: Christian Birk
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: core function file for updates via github
 

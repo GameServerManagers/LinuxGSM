@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_update_linuxgsm.sh function
+# LinuxGSM command_update_linuxgsm.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Deletes the functions dir to allow re-downloading of functions from GitHub.
 

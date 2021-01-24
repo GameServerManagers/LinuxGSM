@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_sfc.sh function
+# LinuxGSM fix_sfc.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Source Forts Classic.
 

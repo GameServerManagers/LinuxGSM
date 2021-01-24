@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_header.sh function
+# LinuxGSM install_header.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Prints installation header.
 

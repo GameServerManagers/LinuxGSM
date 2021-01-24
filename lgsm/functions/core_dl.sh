@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_dl.sh function
+# LinuxGSM core_dl.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Deals with all downloads for LinuxGSM.
 
