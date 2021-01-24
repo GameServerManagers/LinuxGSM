@@ -70,8 +70,10 @@ fi
 echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${parms} -debug"
+elif [ "${engine}" == "quake" ]; then
+	echo -e "${executable} ${parms} -condebug"
 else
-	echo -e "${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${parms}"
 fi
 echo -e ""
 echo -e "Use for identifying server issues only!"
@@ -110,9 +112,10 @@ elif [ "${shortname}" == "arma3" ]; then
 	# stripped when loading straight from the console.
 	${executable} ${parms//\\;/;}
 elif [ "${engine}" == "quake" ]; then
-		${executable} ${parms} -condebug
+	${executable} ${parms} -condebug
 else
-	${executable} ${parms}
+	# shellcheck disable=SC2086
+	${preexecutable} ${executable} ${parms}
 fi
 
 fn_lockfile_trap
