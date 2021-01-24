@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_functions.sh function
+# LinuxGSM core_functions.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.

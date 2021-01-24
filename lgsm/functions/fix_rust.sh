@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_rust.sh function
+# LinuxGSM fix_rust.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves startup issue with Rust.
 

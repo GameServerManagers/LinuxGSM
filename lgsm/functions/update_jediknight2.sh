@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM update_jk2.sh function
+# LinuxGSM update_jk2.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of jk2 servers.
 

@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM alert.sh function
+# LinuxGSM alert.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 

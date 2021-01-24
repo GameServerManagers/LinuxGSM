@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM info_messages.sh function
+# LinuxGSM info_messages.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 

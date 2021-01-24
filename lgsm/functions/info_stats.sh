@@ -1,12 +1,12 @@
 #!/bin/bash
-# LinuxGSM info_stats.sh function
+# LinuxGSM info_stats.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Collect optional Stats sent to LinuxGSM project.
 # Uses Google analytics.
 
-local modulegroup="INFO"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 

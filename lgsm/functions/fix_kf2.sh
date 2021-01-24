@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_kf2.sh function
+# LinuxGSM fix_kf2.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor 2.
 

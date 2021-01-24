@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM update_vintagestory.sh function
-# Author: Christian Birk
+# LinuxGSM update_vintagestory.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Vintage Story servers.
 

@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_mcb.sh function
+# LinuxGSM fix_mcb.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves possible startup issue with Minecraft Bedrock.
 
