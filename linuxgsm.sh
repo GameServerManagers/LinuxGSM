@@ -450,10 +450,10 @@ else
 		fi
 
 		if [ -n "${preexecutable}" ]; then
-			eval preexecutable="$(grep -w preexecutable= "${configdirserver}/_default.cfg" | sed -e 's/preexecutable=//g')"
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
-		eval startparameters="$(grep -w startparameters= "${configdirserver}/_default.cfg" | sed -e 's/startparameters=//g')"
-		eval executable="$(grep -w executable= "${configdirserver}/_default.cfg" | sed -e 's/executable=//g')"
+		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		eval executable="$(sed -nr 's/^ *executable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 	fi
 
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
