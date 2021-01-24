@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM alert_telegram.sh function
-# Author: Bennet Becker <bennet@becker-dd.de>
-# Website: https://bytegaming.de
+# LinuxGSM alert_telegram.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Sends Telegram Messenger alert.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

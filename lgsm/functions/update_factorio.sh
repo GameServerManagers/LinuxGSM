@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM update_factorio.sh function
+# LinuxGSM update_factorio.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 

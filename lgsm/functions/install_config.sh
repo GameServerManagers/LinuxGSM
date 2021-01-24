@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_config.sh function
+# LinuxGSM install_config.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 

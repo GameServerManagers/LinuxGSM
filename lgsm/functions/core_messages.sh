@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_messages.sh function
+# LinuxGSM core_messages.sh module
 # Author: Daniel Gibbs
-# Contributor: s-eam
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 

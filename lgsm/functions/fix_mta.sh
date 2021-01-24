@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_mta.sh function
+# LinuxGSM fix_mta.sh module
 # Author: Daniel Gibbs
-# Contributor: ChaosMTA
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Installs the libmysqlclient for database functions on the server.
 

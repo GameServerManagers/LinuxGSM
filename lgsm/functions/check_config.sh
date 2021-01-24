@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM check_config.sh function
+# LinuxGSM check_config.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks if the server config is missing and warns the user if needed.
 

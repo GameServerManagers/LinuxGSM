@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_install.sh function
+# LinuxGSM command_install.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall function for the installer.
 

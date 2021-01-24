@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_steamcmd.sh function
+# LinuxGSM install_steamcmd.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Downloads SteamCMD on install.
 
