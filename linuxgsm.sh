@@ -441,7 +441,7 @@ else
 		# shellcheck source=/dev/null
 		source "${configdirserver}/secrets-${selfname}.cfg"
 	fi
-	if [ -n "$(grep startparameters "${configdirserver}/common.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/${selfname}.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/secrets-common.cfg" | sed -e '/^#/d')" ]||[ -n "$(grep startparameters "${configdirserver}/secrets-${selfname}.cfg" | sed -e '/^#/d')" ]; then
+	if [ -n "$(grep -E "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg")" ]; then
 		:
 	else
 		if [ "${shortname}" == "wurm" ]; then
