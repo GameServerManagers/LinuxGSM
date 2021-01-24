@@ -557,7 +557,7 @@ fn_info_message_commandlineparms(){
 		unset serverpassword
 	fi
 	fn_parms
-	echo -e "${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${parms}"
 }
 
 fn_info_message_ports(){
@@ -838,7 +838,9 @@ fn_info_message_inss(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		if [ -n "${rconport}" ]; then
+			echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		fi
 	} | column -s $'\t' -t
 }
 

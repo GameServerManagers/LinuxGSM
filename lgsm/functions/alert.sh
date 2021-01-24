@@ -116,12 +116,6 @@ if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 elif [ "${postalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "More Info not enabled"
 	fn_script_log_warn "More Info alerts not enabled"
-elif [ -z "${posttarget}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
-	fn_print_error_nl "posttarget not set"
-	fn_script_error "posttarget not set"
-elif [ -z "${postdays}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
-	fn_print_error_nl "postdays not set"
-	fn_script_error "postdays not set"
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then

@@ -39,6 +39,10 @@ else
 fi
 }
 
+fn_parms(){
+parms="${startparameters}"
+}
+
 core_exit.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
