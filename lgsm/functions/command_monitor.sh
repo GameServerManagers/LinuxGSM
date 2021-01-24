@@ -9,6 +9,7 @@
 commandname="MONITOR"
 commandaction="Monitoring"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_monitor_check_lockfile(){
 	# Monitor does not run it lockfile is not found.
@@ -16,18 +17,18 @@ fn_monitor_check_lockfile(){
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
-		fn_sleep_time
 		fn_print_error "Checking lockfile: No lockfile found: "
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
-		fn_sleep_time
 		echo -e "* Start ${selfname} to run monitor."
 		core_exit.sh
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [[ "$(cat "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
-			date '+%s' > "${lockdir}/${selfname}.lock"
+	if [ -f "${lockdir}/${selfname}.lock" ]&&[[ "$(head -n 1 "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
+		date '+%s' > "${lockdir}/${selfname}.lock"
+		echo "${version}" >> "${lockdir}/${selfname}.lock"
+		echo "${port}" >> "${lockdir}/${selfname}.lock"
 	fi
 }
 
@@ -37,11 +38,9 @@ fn_monitor_check_update(){
 		fn_print_dots "Checking active updates: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking active updates: CHECKING"
-		fn_sleep_time
 		fn_print_error_nl "Checking active updates: SteamCMD is currently checking for updates: "
 		fn_print_error_eol
 		fn_script_log_error "Checking active updates: SteamCMD is currently checking for updates: ERROR"
-		fn_sleep_time
 		core_exit.sh
 	fi
 }
@@ -50,18 +49,15 @@ fn_monitor_check_session(){
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
-	fn_sleep_time
 	# uses status var from check_status.sh
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
-		fn_sleep_time
 	else
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
 		fn_script_log_fatal "Checking session: FAIL"
-		fn_sleep_time
 		alert="restart"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"
@@ -76,17 +72,15 @@ fn_monitor_check_queryport(){
 		fn_print_dots "Checking port: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking port: CHECKING"
-		fn_sleep_time
 		if [ -n "${rconenabled}" ]&&[ "${rconenabled}" != "true" ]&&[ ${shortname} == "av" ]; then
-			fn_print_warn "Checking port: Unable to query as rconport, rcon not enabled: "
+			fn_print_warn "Checking port: Unable to query, rcon is not enabled"
 			fn_print_warn_eol_nl
-			fn_script_log_warn "Checking port: Unable to query rconport, rcon not enabled: WARN"
+			fn_script_log_warn "Checking port: Unable to query, rcon is not enabled"
 		else
-			fn_print_error "Checking port: Unable to query queryport is not set: "
+			fn_print_error "Checking port: Unable to query, queryport is not set"
+			fn_script_log_error "Checking port: Unable to query, queryport is not set"
 			fn_print_error_eol_nl
-			fn_script_log_error "Checking port: Unable to query as queryport is not set: ERROR"
 		fi
-		fn_sleep_time
 		core_exit.sh
 	fi
 }
@@ -95,12 +89,12 @@ fn_query_gsquery(){
 	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
 		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 	fi
-	"${functionsdir}"/query_gsquery.py -a "${ip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
+	"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
 	querystatus="$?"
 }
 
 fn_query_tcp(){
-	bash -c 'exec 3<> /dev/tcp/'${ip}'/'${queryport}'' > /dev/null 2>&1
+	bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}'' > /dev/null 2>&1
 	querystatus="$?"
 }
 
@@ -109,99 +103,92 @@ fn_monitor_query(){
 # Query will wait up to 60 seconds to confirm server is down as server can become non-responsive during map changes.
 totalseconds=0
 for queryattempt in {1..5}; do
-	fn_print_dots "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
-	fn_print_querying_eol
-	fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : QUERYING"
-	fn_sleep_time
-	# querydelay
-	if [ "$(cat "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
-		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_delay_eol_nl
-		fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
-		fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-		fn_sleep_time
-		monitorpass=1
-		core_exit.sh
-	# will use query method selected in fn_monitor_loop
-	# gamedig
-	elif [ "${querymethod}" ==  "gamedig" ]; then
-		query_gamedig.sh
-	# gsquery
-	elif [ "${querymethod}" ==  "gsquery" ]; then
-		fn_query_gsquery
-	#tcp query
-	elif [ "${querymethod}" ==  "tcp" ]; then
-		fn_query_tcp
-	fi
-
-	if [ "${querystatus}" == "0" ]; then
-		# Server query OK.
-		fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: OK"
-		fn_sleep_time
-		monitorpass=1
-		if [ "${querystatus}" == "0" ]; then
-			# Add query data to log.
-			if [ "${gdname}" ]; then
-				fn_script_log_info "Server name: ${gdname}"
-			fi
-			if [ "${gdplayers}" ]; then
-				fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
-			fi
-			if [ "${gdbots}" ]; then
-				fn_script_log_info "Bots: ${gdbots}"
-			fi
-			if [ "${gdmap}" ]; then
-				fn_script_log_info "Map: ${gdmap}"
-			fi
-			if [ "${gdgamemode}" ]; then
-				fn_script_log_info "Game Mode: ${gdgamemode}"
-			fi
-
-			# send LinuxGSM stats if monitor is OK.
-			if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
-				info_stats.sh
-			fi
+	for queryip in "${queryips[@]}"; do
+		fn_print_dots "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+		fn_print_querying_eol
+		fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
+		# querydelay
+		if [ "$(head -n 1 "${lockdir}/${selfname}.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+			fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_delay_eol_nl
+			fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
+			fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
+			fn_script_log_info "Server started: $(date -d @$(head -n 1 "${lockdir}/${selfname}.lock"))"
+			fn_script_log_info "Current time: $(date)"
+			monitorpass=1
+			core_exit.sh
+		# will use query method selected in fn_monitor_loop
+		# gamedig
+		elif [ "${querymethod}" ==  "gamedig" ]; then
+			query_gamedig.sh
+		# gsquery
+		elif [ "${querymethod}" ==  "gsquery" ]; then
+			fn_query_gsquery
+		#tcp query
+		elif [ "${querymethod}" ==  "tcp" ]; then
+			fn_query_tcp
 		fi
-		core_exit.sh
-	else
-		# Server query FAIL.
-		fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
-		fn_print_fail_eol
-		fn_script_log_warn "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
-		fn_sleep_time
-		# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
-		if [ "${querymethod}" ==  "gsquery" ]||[ "${querymethod}" ==  "tcp" ]; then
+
+		if [ "${querystatus}" == "0" ]; then
+			# Server query OK.
+			fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: OK"
+			monitorpass=1
+			if [ "${querystatus}" == "0" ]; then
+				# Add query data to log.
+				if [ "${gdname}" ]; then
+					fn_script_log_info "Server name: ${gdname}"
+				fi
+				if [ "${gdplayers}" ]; then
+					fn_script_log_info "Players: ${gdplayers}/${gdmaxplayers}"
+				fi
+				if [ "${gdbots}" ]; then
+					fn_script_log_info "Bots: ${gdbots}"
+				fi
+				if [ "${gdmap}" ]; then
+					fn_script_log_info "Map: ${gdmap}"
+				fi
+				if [ "${gdgamemode}" ]; then
+					fn_script_log_info "Game Mode: ${gdgamemode}"
+				fi
+
+				# send LinuxGSM stats if monitor is OK.
+				if [ "${stats}" == "on" ]||[ "${stats}" == "y" ]; then
+					info_stats.sh
+				fi
+			fi
+			core_exit.sh
+		else
+			# Server query FAIL.
+			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_fail_eol
+			fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
+			# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
 			# gsquery will fail if longer than 60s
 			if [ "${totalseconds}" -ge "59" ]; then
 				# Monitor will FAIL if over 60s and trigger gane server reboot.
-				fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
+				fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_fail_eol_nl
-				fn_script_log_warn "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt}: FAIL"
-				fn_sleep_time
+				fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
 				# Send alert if enabled.
 				alert="restartquery"
 				alert.sh
 				command_restart.sh
+				fn_firstcommand_reset
 				core_exit.sh
 			fi
-		elif [ "${querymethod}" ==  "gamedig" ]; then
-			# gamedig will fail and try gsquery if longer than 30s
-			if [ "${totalseconds}" -ge "29" ]; then
-				break
-			fi
 		fi
-
+	done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: WAIT"
+			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: ${cyan}WAIT${default}"
+			sleep 0.5
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
 				break
 			fi
 		done
-	fi
 done
 }
 
@@ -217,8 +204,7 @@ fn_monitor_loop(){
 	elif [ "${querymode}" == "5" ]; then
 		local query_methods_array=( tcp )
 	fi
-	for querymethod in "${query_methods_array[@]}"
-	do
+	for querymethod in "${query_methods_array[@]}"; do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
 			if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then

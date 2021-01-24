@@ -8,6 +8,7 @@
 commandname="MODS-INSTALL"
 commandaction="Installing mods"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 mods_core.sh
@@ -94,6 +95,18 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 fi
 
 ## Installation.
+# If amxmodx check if metamod exists first
+if [ "${modcommand}" == "amxmodx" ]; then
+	fn_mod_exist "metamod"
+fi
+
+if [ "${modcommand}" == "amxmodxcs"  ] ||
+   [ "${modcommand}" == "amxmodxdod" ] ||
+   [ "${modcommand}" == "amxmodxtfc" ] ||
+   [ "${modcommand}" == "amxmodxns"  ] ||
+   [ "${modcommand}" == "amxmodxts"  ]; then
+	fn_mod_exist "amxmodx"
+fi
 
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
@@ -105,6 +118,17 @@ fn_mod_copy_destination
 fn_mod_add_list
 fn_mod_tidy_files_list
 fn_mods_clear_tmp_dir
+
+# Create/modify existing liblist.gam file for Metamod
+if [ "${modcommand}" == "metamod" ]; then
+	fn_mod_install_liblist_gam_file
+fi
+
+# Create/modify plugins.ini file for Metamod
+if [ "${modcommand}" == "amxmodx" ]; then
+	fn_mod_install_amxmodx_file
+fi
+
 echo -e "${modprettyname} installed"
 fn_script_log_pass "${modprettyname} installed."
 

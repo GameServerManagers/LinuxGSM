@@ -135,7 +135,7 @@ fn_info_message_gameserver_resource(){
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
 	{
-		if [ "${status}" == "1" ]; then
+		if [ "${status}" != "0" ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
@@ -167,7 +167,7 @@ fn_info_message_gameserver(){
 	# Game type:        0
 	# Game mode:        0
 	# Tick rate:        64
-	# Master Server:    true
+	# Master Server:    listed
 	# Status:           ONLINE
 
 	echo -e ""
@@ -187,9 +187,19 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Server Description:\t${default}${serverdescription}"
 		fi
 
+		# Appid
+		if [ -n "${appid}" ]; then
+			echo -e "${lightblue}App ID:\t${default}${appid}"
+		fi
+
 		# Branch
 		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"
+		fi
+
+		# Beta Password
+		if [ -n "${betapassword}" ]; then
+			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
 		# Server ip
@@ -367,12 +377,32 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Map rotation:\t${default}${randommap}"
 		fi
 
+		# Server Version (Jedi Knight II: Jedi Outcast)
+		if [ -n "${serverversion}" ]; then
+			echo -e "${lightblue}Server Version:\t${default}${serverversion}"
+		fi
+
+		# authentication token (Factorio)
+		if [ -n "${authtoken}" ]; then
+			echo -e "${lightblue}Auth Token:\t${default}${authtoken}"
+		fi
+
+		# savegameinterval (Factorio)
+		if [ -n "${savegameinterval}" ]; then
+			echo -e "${lightblue}Savegame Interval:\t${default}${savegameinterval}"
+		fi
+
+		# versioncount (Factorio)
+		if [ -n "${versioncount}" ]; then
+			echo -e "${lightblue}Version Count:\t${default}${versioncount}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
-				echo -e "${lightblue}Master server:\t${green}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master server:\t${green}listed${default}"
 			else
-				echo -e "${lightblue}Master server:\t${red}${displaymasterserver}${default}"
+				echo -e "${lightblue}Master server:\t${red}not listed${default}"
 			fi
 		fi
 
@@ -394,18 +424,18 @@ fn_info_message_script(){
 	# LinuxGSM version:     v19.9.0
 	# glibc required:         2.15
 	# Discord alert:          off
-	# Slack alert:            off
 	# Email alert:            off
-	# Pushbullet alert:       off
 	# IFTTT alert:            off
 	# Mailgun (email) alert:  off
+	# Pushbullet alert:       off
 	# Pushover alert:         off
+	# Rocketchat alert:       off
+	# Slack alert:            off
 	# Telegram alert:         off
 	# Update on start:        off
 	# User:                   lgsm
 	# Location:               /home/lgsm/csgoserver
 	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
-
 
 	echo -e "${lightgreen}${selfname} Script Details${default}"
 	fn_messages_separator
@@ -434,20 +464,23 @@ fn_info_message_script(){
 
 		# Discord alert
 		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
-		# Slack alert
-		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
 		# Email alert
 		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
-		# Pushbullet alert
-		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
 		# IFTTT alert
 		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		# Mailgun alert
 		echo -e "${lightblue}Mailgun (email) alert:\t${default}${mailgunalert}"
+		# Pushbullet alert
+		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
 		# Pushover alert
 		echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
+		# Rocketchat alert
+		echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
+		# Slack alert
+		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
 		# Telegram alert
 		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
+
 		# Update on start
 		if [ -n "${updateonstart}" ]; then
 			echo -e "${lightblue}Update on start:\t${default}${updateonstart}"
@@ -523,7 +556,7 @@ fn_info_message_commandlineparms(){
 		unset serverpassword
 	fi
 	fn_parms
-	echo -e "${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${parms}"
 }
 
 fn_info_message_ports(){
@@ -539,9 +572,8 @@ fn_info_message_ports(){
 
 	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "seriousengine35" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
-	for port_edit in "${ports_edit_array[@]}"
-	do
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "Vintage Story" "wurm")
+	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			parmslocation="${servercfgdir}/UTWeb.ini"
 		elif [ "${shortname}" == "kf2" ]; then
@@ -551,9 +583,8 @@ fn_info_message_ports(){
 		fi
 	done
 	# engines/games that require editing the parms.
-	local ports_edit_array=( "Avorion" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
-	for port_edit in "${ports_edit_array[@]}"
-	do
+	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
 		fi
@@ -698,6 +729,18 @@ fn_info_message_coduo(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_chivalry(){
+	fn_info_message_password_strip
+	echo -e "netstat -atunp | grep UDKGame"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> RCON\tINBOUND\t27960\ttcp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_cod2(){
 	echo -e "netstat -atunp | grep cod2_lnxded"
 	echo -e ""
@@ -738,12 +781,12 @@ fn_info_message_dst(){
 }
 
 fn_info_message_eco(){
-	echo -e "netstat -atunp | grep mono"
+	echo -e "netstat -atunp | grep EcoServer"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -794,9 +837,20 @@ fn_info_message_inss(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		if [ -n "${rconport}" ]; then
+			echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		fi
 	} | column -s $'\t' -t
 }
+
+	fn_info_message_jk2(){
+		echo -e "netstat -atunp | grep jk2mvded"
+		echo -e ""
+		{
+			echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+			echo -e "> Game\tINBOUND\t${port}\tudp"
+		} | column -s $'\t' -t
+	}
 
 fn_info_message_justcause2(){
 	echo -e "netstat -atunp | grep Jcmp-Server"
@@ -856,6 +910,16 @@ fn_info_message_mohaa(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_mom(){
+	echo -e "netstat -atunp | grep MemoriesOfMar"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -970,6 +1034,16 @@ fn_info_message_bf1942(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_bfv(){
+	echo -e "netstat -atunp | grep bfv_linded"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_risingworld(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
@@ -1009,17 +1083,6 @@ fn_info_message_samp(){
 	} | column -s $'\t' -t
 }
 
-
-fn_info_message_ss3(){
-	echo -e "netstat -atunp | grep Sam3_Ded"
-	echo -e ""
-	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_sbots(){
 	echo -e "netstat -atunp | grep blank1"
 	echo -e ""
@@ -1038,23 +1101,23 @@ fn_info_message_sdtd(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
 		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${gamename} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Telnet${default}"
+	echo -e "${lightgreen}${gamename} Telnet${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
-		echo -e "${lightblue}Telnet address:\t${default}${ip} ${telnetport}"
+		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
 		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
 	} | column -s $'\t' -t
 }
@@ -1087,15 +1150,15 @@ fn_info_message_spark(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}/index.html"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}/index.html"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1200,16 +1263,16 @@ fn_info_message_unreal(){
 				echo -e "< Steam\tINBOUND\t20660\tudp"
 			fi
 		fi
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1224,16 +1287,16 @@ fn_info_message_unreal2(){
 		if [ "${appid}" != "223250" ]; then
 			echo -e "> Query (GameSpy)\tINBOUND\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
 		fi
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1245,16 +1308,16 @@ fn_info_message_unreal3(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1286,16 +1349,16 @@ fn_info_message_kf2(){
 		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 		echo -e "> Steam\tINBOUND\t20560\tudp"
-		echo -e "> WebAdmin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} WebAdmin${default}"
+	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}WebAdmin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}WebAdmin url:\t${default}http://${ip}:${webadminport}"
-		echo -e "${lightblue}WebAdmin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}WebAdmin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1374,6 +1437,44 @@ fn_info_message_warfork(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_pavlovvr(){
+	echo "netstat -atunp | grep Pavlov"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\tINBOUND\t$((port+400))\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_colony(){
+	echo -e "netstat -atunp | grep colonyserv"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_vintagestory(){
+	echo "netstat -atunp | grep cli"
+	echo -e ""
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\tINBOUND\t${port}\tTCP"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_scpsl(){
+	echo -e "netstat -atunp | grep SCPSL"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1390,6 +1491,8 @@ fn_info_message_select_engine(){
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_battalion1944
+	elif [ "${shortname}" == "cmw" ]; then
+		fn_info_message_chivalry
 	elif [ "${shortname}" == "cod" ]; then
 		fn_info_message_cod
 	elif [ "${shortname}" == "coduo" ]; then
@@ -1400,6 +1503,8 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${shortname}" == "codwaw" ]; then
 		fn_info_message_codwaw
+	elif [ "${shortname}" == "col" ]; then
+		fn_info_message_colony
 	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
@@ -1412,6 +1517,8 @@ fn_info_message_select_engine(){
 		fn_info_message_hurtworld
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
+	elif [ "${shortname}" == "jk2" ]; then
+		fn_info_message_jk2
 	elif [ "${shortname}" == "jc2" ]; then
 		fn_info_message_justcause2
 	elif [ "${shortname}" == "jc3" ]; then
@@ -1422,6 +1529,8 @@ fn_info_message_select_engine(){
 		fn_info_message_minecraft_bedrock
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
+	elif [ "${shortname}" == "mom" ]; then
+		fn_info_message_mom
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_message_projectzomboid
 	elif [ "${shortname}" == "pstbs" ]; then
@@ -1438,6 +1547,8 @@ fn_info_message_select_engine(){
 		fn_info_message_quakelive
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
+	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+		fn_info_message_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_message_sdtd
 	elif [ "${shortname}" == "squad" ]; then
@@ -1448,12 +1559,10 @@ fn_info_message_select_engine(){
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
 		fn_info_message_soldat
-	elif [ "${shortname}" == "st" ]; then
+	elif [ "${shortname}" == "sb" ]; then
 		fn_info_message_starbound
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
-	elif [ "${shortname}" == "ss3" ]; then
-		fn_info_message_ss3
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then
@@ -1476,12 +1585,18 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-	elif [ "${engine}" == "bf1942" ]; then
+	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
+	elif [ "${shortname}" == "pvr" ]; then
+		fn_info_message_pavlovvr
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
+	elif [ "${shortname}" == "vints" ]; then
+		fn_info_message_vintagestory
 	elif [ "${shortname}" == "wf" ]; then
 		fn_info_message_warfork
 	elif [ "${shortname}" == "wurm" ]; then

@@ -7,6 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+modulesversion="v20.6.2"
+
 # Core
 
 core_dl.sh(){
@@ -36,6 +38,10 @@ else
 fi
 }
 
+fn_parms(){
+parms="${startparameters}"
+}
+
 core_exit.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -47,6 +53,16 @@ fn_fetch_function
 }
 
 core_trap.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_github.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -153,6 +169,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_skeleton.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 command_wipe.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -235,6 +256,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+check_version.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 # Compress
 
 compress_unreal2_maps.sh(){
@@ -313,17 +339,22 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_bo.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_cmw.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_csgo.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
 fix_dst.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-fix_ges.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -388,6 +419,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_st.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_steamcmd.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -403,17 +439,17 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_tu.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 fix_ut3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
 fix_rust.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_samp.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -428,7 +464,7 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-fix_ss3.sh(){
+fix_squad.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -537,6 +573,16 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+alert_rocketchat.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+alert_sendgrid.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 alert_slack.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -572,6 +618,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_check_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 update_ts3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -602,7 +653,17 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+update_jediknight2.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 update_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_vintagestory.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

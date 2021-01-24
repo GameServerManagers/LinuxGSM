@@ -20,12 +20,13 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v20.2.1"
+version="v20.6.2"
 shortname="core"
 gameservername="core"
 commandname="CORE"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+sessionname=$(echo "${selfname}" | cut -f1 -d".")
 lgsmdir="${rootdir}/lgsm"
 logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -59,46 +60,96 @@ core_functions.sh(){
 # Fetches the core functions required before passed off to core_dl.sh.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
-	local_filedir="${2}"
-	local_filename="${3}"
-	chmodx="${4:-0}"
-	run="${5:-0}"
-	forcedl="${6:-0}"
-	md5="${7:-0}"
+	remote_fileurl_backup="${2}"
+	remote_fileurl_name="${3}"
+	remote_fileurl_backup_name="${4}"
+	local_filedir="${5}"
+	local_filename="${6}"
+	chmodx="${7:-0}"
+	run="${8:-0}"
+	forcedl="${9:-0}"
+	md5="${10:-0}"
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
-		if [ ! -d "${local_filedir}" ]; then
-			mkdir -p "${local_filedir}"
+		# If backup fileurl exists include it.
+		if [ -n "${remote_fileurl_backup}" ]; then
+			# counter set to 0 to allow second try
+			counter=0
+			remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+		else
+			# counter set to 1 to not allow second try
+			counter=1
+			remote_fileurls_array=( remote_fileurl )
 		fi
 
-		# If curl exists download file.
-		if [ "$(command -v curl 2>/dev/null)" ]; then
-			# Trap to remove part downloaded files.
-			echo -en "    fetching ${local_filename}...\c"
-			curlcmd=$(curl -s --fail -L -o "${local_filedir}/${local_filename}" "${remote_fileurl}" 2>&1)
-			local exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
-				echo -e "FAIL"
-				if [ -f "${lgsmlog}" ]; then
-					echo -e "${remote_fileurl}" | tee -a "${lgsmlog}"
-					echo -e "${curlcmd}" | tee -a "${lgsmlog}"
-				fi
-				exit 1
-			else
-				echo -e "OK"
+		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
+			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
+				fileurl="${remote_fileurl}"
+				fileurl_name="${remote_fileurl_name}"
+			elif [ "${remote_fileurl_array}" == "remote_fileurl_backup" ]; then
+				fileurl="${remote_fileurl_backup}"
+				fileurl_name="${remote_fileurl_backup_name}"
 			fi
-		else
-			echo -e "[ FAIL ] Curl is not installed"
-			exit 1
-		fi
-		# Make file chmodx if chmodx is set.
-		if [ "${chmodx}" == "chmodx" ]; then
-			chmod +x "${local_filedir}/${local_filename}"
-		fi
+			counter=$((counter+1))
+			if [ ! -d "${local_filedir}" ]; then
+				mkdir -p "${local_filedir}"
+			fi
+			# Trap will remove part downloaded files if canceled.
+			trap fn_fetch_trap INT
+			# Larger files show a progress bar.
+
+			echo -en "fetching ${fileurl_name} ${local_filename}...\c"
+			curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+
+			local exitcode=$?
+
+			# Download will fail if downloads a html file.
+			if [ -f "${local_filedir}/${local_filename}" ]; then
+				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE" )" ]; then
+					rm "${local_filedir:?}/${local_filename:?}"
+					local exitcode=2
+				fi
+			fi
+
+			# On first try will error. On second try will fail.
+			if [ "${exitcode}" != 0 ]; then
+				if [ ${counter} -ge 2 ]; then
+					echo -e "FAIL"
+					if [ -f "${lgsmlog}" ]; then
+						fn_script_log_fatal "Downloading ${local_filename}"
+						fn_script_log_fatal "${fileurl}"
+					fi
+					core_exit.sh
+				else
+					echo -e "ERROR"
+					if [ -f "${lgsmlog}" ]; then
+						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "${fileurl}"
+					fi
+				fi
+			else
+				echo -en "OK"
+				sleep 0.3
+				echo -en "\033[2K\\r"
+				if [ -f "${lgsmlog}" ]; then
+					fn_script_log_pass "Downloading ${local_filename}"
+				fi
+
+				# Make file executable if chmodx is set.
+				if [ "${chmodx}" == "chmodx" ]; then
+					chmod +x "${local_filedir}/${local_filename}"
+				fi
+
+				# Remove trap.
+				trap - INT
+
+				break
+			fi
+		done
 	fi
 
 	if [ -f "${local_filedir}/${local_filename}" ]; then
-		# Run file if run is set.
+		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
 			# shellcheck source=/dev/null
 			source "${local_filedir}/${local_filename}"
@@ -109,9 +160,16 @@ fn_bootstrap_fetch_file(){
 fn_bootstrap_fetch_file_github(){
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	githuburl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-
-	remote_fileurl="${githuburl}"
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
@@ -119,7 +177,7 @@ fn_bootstrap_fetch_file_github(){
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download function.
-	fn_bootstrap_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_bootstrap_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
 # Installer menu.
@@ -321,10 +379,9 @@ else
 		fi
 		if [ ! -f "${configdirserver}/_default.cfg" ]; then
 			mkdir -p "${configdirserver}"
-			echo -en "    copying _default.cfg...\c"
+			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			exitcode=$?
-			if [ ${exitcode} -ne 0 ]; then
+			if [ $? != 0 ]; then
 				echo -e "FAIL"
 				exit 1
 			else
@@ -333,11 +390,10 @@ else
 		else
 			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
 			if [ "${function_file_diff}" != "" ]; then
-				fn_print_warn_nl "_default.cfg has been altered. reloading config."
-				echo -en "    copying _default.cfg...\c"
+				fn_print_warn_nl "_default.cfg has altered. reloading config."
+				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-				exitcode=$?
-				if [ ${exitcode} -ne 0 ]; then
+				if [ $? != 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else
@@ -345,32 +401,65 @@ else
 				fi
 			fi
 		fi
+	fi
+	# Configs have to be loaded twice to allow start startparameters to pick up all vars
+	# shellcheck source=/dev/null
+	source "${configdirserver}/_default.cfg"
+	# Load the common.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/common.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
 		# shellcheck source=/dev/null
-		source "${configdirserver}/_default.cfg"
-		# Load the common.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+		source "${configdirserver}/common.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/common.cfg"
+	fi
+	# Load the secrets-common.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-common.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-common.cfg"
+	fi
+	# Load the instance.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		# shellcheck source=/dev/null
+		source "${configdirserver}/${selfname}.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/${selfname}.cfg"
+	fi
+	# Load the secrets-instance.cfg config. If missing download it.
+	if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
+		fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-${selfname}.cfg"
+	else
+		# shellcheck source=/dev/null
+		source "${configdirserver}/secrets-${selfname}.cfg"
+	fi
+	# Use eval if startparameters are only in _default.cfg to ensure all vars in startparameters are set.
+	if ! grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg"; then
+		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
-			source "${configdirserver}/common.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/common.cfg"
-		fi
-		# Load the instance.cfg config. If missing download it.
-		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
-			# shellcheck source=/dev/null
-			source "${configdirserver}/${selfname}.cfg"
-		else
-			# shellcheck source=/dev/null
-			source "${configdirserver}/${selfname}.cfg"
+			source "${servercfgfullpath}"
 		fi
 
-		# Load the linuxgsm.sh in to tmpdir. If missing download it.
-		if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
-			fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+		if [ -n "${preexecutable}" ]; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
+		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		eval executable="$(sed -nr 's/^ *executable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 	fi
+
+	# Load the linuxgsm.sh in to tmpdir. If missing download it.
+	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
+		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+	fi
+
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
 	# Prevents running of core_exit.sh for Travis-CI.

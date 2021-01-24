@@ -8,6 +8,7 @@
 commandname="BACKUP"
 commandaction="Backing up"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 
@@ -28,11 +29,11 @@ fn_backup_trap(){
 	core_exit.sh
 }
 
-# Check if a backup is pending or has been aborted using .backup.lock.
+# Check if a backup is pending or has been aborted using backup.lock.
 fn_backup_check_lockfile(){
-	if [ -f "${lockdir}/.backup.lock" ]; then
+	if [ -f "${lockdir}/backup.lock" ]; then
 		fn_print_info_nl "Lock file found: Backup is currently running"
-		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/.backup.lock"
+		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/backup.lock"
 		core_exit.sh
 	fi
 }
@@ -63,22 +64,20 @@ fn_backup_init(){
 # Check if server is started and whether to stop it.
 fn_backup_stop_server(){
 	check_status.sh
-	# Server is stopped.
-	if [ "${status}" == "0" ]; then
-		serverstopped="no"
-	# Server is running and stoponbackup=off.
-	elif [ "${stoponbackup}" == "off" ]; then
-		serverstopped="no"
+	# Server is running but will not be stopped.
+	if [ "${stoponbackup}" == "off" ]; then
 		fn_print_warn_nl "${selfname} is currently running"
 		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
 		fn_script_log_warn "${selfname} is currently running"
 		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
 	# Server is running and will be stopped if stoponbackup=on or unset.
-	else
-		fn_stop_warning
-		serverstopped="yes"
+	# If server is started
+	elif [ "${status}" != "0" ]; then
+		fn_print_restart_warning
+		startserver="1"
 		exitbypass=1
 		command_stop.sh
+		fn_firstcommand_reset
 	fi
 }
 
@@ -117,9 +116,9 @@ fn_backup_migrate_olddir(){
 
 fn_backup_create_lockfile(){
 	# Create lockfile.
-	date '+%s' > "${lockdir}/.backup.lock"
+	date '+%s' > "${lockdir}/backup.lock"
 	fn_script_log_info "Lockfile generated"
-	fn_script_log_info "${lockdir}/.backup.lock"
+	fn_script_log_info "${lockdir}/backup.lock"
 	# trap to remove lockfile on quit.
 	trap fn_backup_trap INT
 }
@@ -140,9 +139,9 @@ fn_backup_compression(){
 		core_exit.sh
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/.backup.lock" ./.
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/backup.lock" ./.
 	local exitcode=$?
-	if [ ${exitcode} -ne 0 ]; then
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "Backup in progress: FAIL"
 		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
@@ -154,7 +153,7 @@ fn_backup_compression(){
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
 	# Remove lock file
-	rm -f "${lockdir:?}/.backup.lock"
+	rm -f "${lockdir:?}/backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.
@@ -221,21 +220,18 @@ fn_backup_relpath() {
 
 	# Compare the leading entries of each array.  These common elements will be clipped off.
 	# for the relative path output.
-	for ((base=0; base<${#rdirtoks[@]}; base++))
-	do
+	for ((base=0; base<${#rdirtoks[@]}; base++)); do
 		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
 	done
 
 	# Next, climb out of the remaining rootdir location with updir references.
-	for ((x=base;x<${#rdirtoks[@]};x++))
-	do
+	for ((x=base;x<${#rdirtoks[@]};x++)); do
 		echo -n "../"
 	done
 
 	# Climb down the remaining components of the backupdir location.
-	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++))
-	do
-				echo -n "${bdirtoks[$x]}/"
+	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++)); do
+		echo -n "${bdirtoks[$x]}/"
 	done
 
 	# In the event there were no directories left in the backupdir above to
@@ -248,26 +244,12 @@ fn_backup_relpath() {
 	fi
 }
 
-fn_stop_warning(){
-	fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup"
-	fn_script_log_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup"
-	totalseconds=3
-	for seconds in {3..1}; do
-		fn_print_warn "Updating server: SteamCMD: ${selfname} will be stopped during backup: ${totalseconds}"
-		totalseconds=$((totalseconds - 1))
-		sleep 1
-		if [ "${seconds}" == "0" ]; then
-			break
-		fi
-	done
-	fn_print_warn_nl "Updating server: SteamCMD: ${selfname} will be stopped during backup"
-}
-
-# Restart the server if it was stopped for the backup.
+# Start the server if it was stopped for the backup.
 fn_backup_start_server(){
-	if [ "${serverstopped}" == "yes" ]; then
+	if [ -n "${startserver}" ]; then
 		exitbypass=1
 		command_start.sh
+		fn_firstcommand_reset
 	fi
 }
 

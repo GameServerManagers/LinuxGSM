@@ -17,7 +17,8 @@ pwd
 echo -e ""
 if [ -z "${autoinstall}" ]; then
 	if ! fn_prompt_yn "Continue?" Y; then
-		exit
+		exitcode=0
+		core_exit.sh
 	fi
 fi
 if [ ! -d "${serverfiles}" ]; then

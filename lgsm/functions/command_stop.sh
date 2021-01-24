@@ -8,13 +8,14 @@
 commandname="STOP"
 commandaction="Stopping"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc(){
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends quit.
-	tmux send-keys -t "${selfname}" C-c  > /dev/null 2>&1
+	tmux send-keys -t "${sessionname}" C-c  > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -33,7 +34,6 @@ fn_stop_graceful_ctrlc(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: CTRL+c: FAIL"
 	fi
-	fn_sleep_time
 }
 
 # Attempts graceful shutdown by sending a specified command.
@@ -43,7 +43,7 @@ fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
-	tmux send -t "${selfname}" "${1}" ENTER > /dev/null 2>&1
+	tmux send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh
@@ -62,7 +62,6 @@ fn_stop_graceful_cmd(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: sending \"${1}\": FAIL"
 	fi
-	fn_sleep_time
 }
 
 # Attempts graceful shutdown of goldsrc using rcon 'quit' command.
@@ -72,7 +71,7 @@ fn_stop_graceful_goldsrc(){
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
-	tmux send -t "${selfname}" quit ENTER > /dev/null 2>&1
+	tmux send -t "${sessionname}" quit ENTER > /dev/null 2>&1
 	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
 		sleep 1
@@ -178,7 +177,6 @@ fn_stop_graceful_sdtd(){
 		fn_print_fail_eol_nl
 		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
 	fi
-	fn_sleep_time
 }
 
 # Attempts graceful shutdown by sending /save /stop.
@@ -186,10 +184,10 @@ fn_stop_graceful_avorion(){
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
-	tmux send-keys -t "${selfname}" /save ENTER > /dev/null 2>&1
+	tmux send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
 	sleep 5
 	# Sends /quit.
-	tmux send-keys -t "${selfname}" /stop ENTER > /dev/null 2>&1
+	tmux send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -208,7 +206,6 @@ fn_stop_graceful_avorion(){
 		fn_print_fail_eol_nl
 		fn_script_log_error "Graceful: /save /stop: FAIL"
 	fi
-	fn_sleep_time
 }
 
 fn_stop_graceful_select(){
@@ -232,15 +229,17 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_goldsrc
 	elif [ "${stopmode}" == "10" ]; then
 		fn_stop_graceful_avorion
+	elif [ "${stopmode}" == "11" ]; then
+		fn_stop_graceful_cmd "end" 30
 	fi
 }
 
 fn_stop_tmux(){
 	fn_print_dots "${servername}"
-	fn_script_log_info "tmux kill-session: ${servername}"
+	fn_script_log_info "tmux kill-session: ${sessionname}: ${servername}"
 	# Kill tmux session.
-	tmux kill-session -t "${selfname}" > /dev/null 2>&1
-	fn_sleep_time
+	tmux kill-session -t "${sessionname}" > /dev/null 2>&1
+	sleep 0.5
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_print_ok_nl "${servername}"

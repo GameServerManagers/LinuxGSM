@@ -116,6 +116,17 @@ fn_script_log_info(){
 	fi
 }
 
+## Feb 28 14:56:58 ut99-server: Monitor: INFO:
+fn_script_log_update(){
+	if [ -d "${lgsmlogdir}" ]; then
+		if [ -n "${commandname}" ]; then
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: UPDATE: ${1}" >> "${lgsmlog}"
+		else
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: UPDATE: ${1}" >> "${lgsmlog}"
+		fi
+	fi
+}
+
 # On-Screen - Automated functions
 ##################################
 
@@ -354,100 +365,133 @@ fn_prompt_yn(){
 # OK
 fn_print_ok_eol(){
 	echo -en "${green}OK${default}"
+	fn_sleep_time
 }
 
 fn_print_ok_eol_nl(){
 	echo -e "${green}OK${default}"
+	fn_sleep_time
 }
 
 # FAIL
 fn_print_fail_eol(){
 	echo -en "${red}FAIL${default}"
+	fn_sleep_time
 }
 
 fn_print_fail_eol_nl(){
 	echo -e "${red}FAIL${default}"
+	fn_sleep_time
 }
 
 # ERROR
 fn_print_error_eol(){
 	echo -en "${red}ERROR${default}"
+	fn_sleep_time
 }
 
 fn_print_error_eol_nl(){
 	echo -e "${red}ERROR${default}"
+	fn_sleep_time
+}
+
+# WAIT
+fn_print_wait_eol(){
+	echo -en "${cyan}WAIT${default}"
+	fn_sleep_time
+}
+
+fn_print_wait_eol_nl(){
+	echo -e "${cyan}WAIT${default}"
+	fn_sleep_time
 }
 
 # WARN
 fn_print_warn_eol(){
 	echo -en "${lightyellow}WARN${default}"
+	fn_sleep_time
 }
 
 fn_print_warn_eol_nl(){
 	echo -e "${lightyellow}WARN${default}"
+	fn_sleep_time
 }
 
 # INFO
 fn_print_info_eol(){
-	echo -en "${red}INFO${default}"
+	echo -en "${cyan}INFO${default}"
+	fn_sleep_time
 }
 
 fn_print_info_eol_nl(){
-	echo -e "${red}INFO${default}"
+	echo -e "${cyan}INFO${default}"
+	fn_sleep_time
 }
 
 # QUERYING
 fn_print_querying_eol(){
 	echo -en "${cyan}QUERYING${default}"
+	fn_sleep_time
 }
 
 fn_print_querying_eol_nl(){
 	echo -e "${cyan}QUERYING${default}"
+	fn_sleep_time
 }
 
 # CHECKING
 fn_print_checking_eol(){
 	echo -en "${cyan}CHECKING${default}"
+	fn_sleep_time
 }
 
 fn_print_checking_eol_nl(){
 	echo -e "${cyan}CHECKING${default}"
+	fn_sleep_time
 }
 
 # DELAY
 fn_print_delay_eol(){
 	echo -en "${green}DELAY${default}"
+	fn_sleep_time
 }
 
 fn_print_delay_eol_nl(){
 	echo -e "${green}DELAY${default}"
+	fn_sleep_time
 }
 
 # CANCELED
 fn_print_canceled_eol(){
-	echo -en "${yellow}CANCELED${default}"
+	echo -en "${lightyellow}CANCELED${default}"
+	fn_sleep_time
 }
 
 fn_print_canceled_eol_nl(){
-	echo -e "${yellow}CANCELED${default}"
+	echo -e "${lightyellow}CANCELED${default}"
+	fn_sleep_time
 }
 
 # REMOVED
 fn_print_removed_eol(){
 	echo -en "${red}REMOVED${default}"
+	fn_sleep_time
 }
 
 fn_print_removed_eol_nl(){
 	echo -e "${red}REMOVED${default}"
+	fn_sleep_time
 }
 
 # UPDATE
 fn_print_update_eol(){
 	echo -en "${cyan}UPDATE${default}"
+	fn_sleep_time
 }
 
 fn_print_update_eol_nl(){
 	echo -e "${cyan}UPDATE${default}"
+	fn_sleep_time
 }
 
 fn_print_ascii_logo(){
@@ -484,4 +528,36 @@ fn_print_ascii_logo(){
 	echo -e "${lightyellow}888${default}      ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default} ${lightyellow}Y88b${default} ${lightyellow}88Y${default} ${lightyellow}.d8pq8b.${default} Y88b  d88P Y88b  d88P 888   *   888"
 	echo -e "${lightyellow}LinuxGSM${default} ${lightyellow}888${default} ${lightyellow}888${default}  ${lightyellow}888${default}  ${lightyellow}Y8888Y${default}  ${lightyellow}888${default}  ${lightyellow}888${default}   Y2012P88   Y8888P   888       888"
 	echo -e ""
+}
+
+fn_print_restart_warning(){
+	fn_print_warn "${selfname} will be restarted"
+	fn_script_log_warn "${selfname} will be restarted"
+	totalseconds=3
+	for seconds in {3..1}; do
+		fn_print_warn "${selfname} will be restarted: ${totalseconds}"
+		totalseconds=$((totalseconds - 1))
+		sleep 1
+		if [ "${seconds}" == "0" ]; then
+			break
+		fi
+	done
+	fn_print_warn_nl "${selfname} will be restarted"
+}
+
+# Functions below are used to ensure that logs and UI correctly reflect the command it is actually running.
+# Useful when a command has to call upon another command causing the other command to overrite commandname variables
+
+# Used to remember the command that ran first.
+fn_firstcommand_set(){
+	if [ -z "${firstcommandname}" ]; then
+		firstcommandname="${commandname}"
+		firstcommandaction="${commandaction}"
+	fi
+}
+
+# Used to reset commandname variables to the command the script ran first.
+fn_firstcommand_reset(){
+	commandname="${firstcommandname}"
+	commandaction="${firstcommandaction}"
 }

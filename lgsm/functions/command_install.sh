@@ -8,6 +8,7 @@
 commandname="INSTALL"
 commandaction="Installing"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 if [ "$(whoami)" = "root" ]; then
@@ -23,7 +24,6 @@ else
 		install_server_files.sh
 		install_ut2k4_key.sh
 	elif [ -z "${appid}" ]; then
-		installer=1
 		install_server_files.sh
 	elif [ "${appid}" ]; then
 		install_steamcmd.sh
@@ -42,6 +42,7 @@ else
 		install_ts3db.sh
 	elif [ "${shortname}" == "mta" ]; then
 		command_install_resources_mta.sh
+		fn_firstcommand_reset
 	fi
 
 	fix.sh

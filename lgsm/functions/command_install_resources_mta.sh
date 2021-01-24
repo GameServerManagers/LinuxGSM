@@ -7,12 +7,13 @@
 commandname="DEFAULT-RESOURCES"
 commandaction="Default Resources"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_install_resources(){
 	echo -e ""
 	echo -e "Installing Default Resources"
 	echo -e "================================="
-	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nomd5"
+	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "" "" "" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "mtasa-resources-latest.zip" "${resourcesdir}"
 	echo -e "Default Resources Installed."
 }
