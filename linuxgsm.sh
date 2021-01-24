@@ -441,9 +441,8 @@ else
 		# shellcheck source=/dev/null
 		source "${configdirserver}/secrets-${selfname}.cfg"
 	fi
-	if [ -n "$(grep -E "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg")" ]; then
-		:
-	else
+	# Eval again differnt params if startparameters is not other than the _default.cfg parameters
+	if ! [ "$(grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg")" ]; then
 		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
 			source "${servercfgfullpath}"
