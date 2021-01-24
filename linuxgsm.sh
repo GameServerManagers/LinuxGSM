@@ -441,7 +441,7 @@ else
 		# shellcheck source=/dev/null
 		source "${configdirserver}/secrets-${selfname}.cfg"
 	fi
-	# Eval again differnt params if startparameters is not other than the _default.cfg parameters
+	# Use eval if startparameters are only in _default.cfg to ensure all vars in startparameters are set.
 	if ! [ "$(grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg")" ]; then
 		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
