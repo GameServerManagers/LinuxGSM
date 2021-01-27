@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_dl.sh function
+# LinuxGSM core_dl.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Deals with all downloads for LinuxGSM.
 
@@ -61,16 +61,16 @@ fn_dl_steamcmd(){
 			# If using a specific branch.
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]&&[ "${branch}" != "public" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# Force Windows Platform type.
-		elif [ "${shortname}" == "ac" ]||[ "${shortname}" == "jk2" ]; then
+		elif [ "${steamcmdforcewindows}" == "yes" ]; then
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]&&[ "${branch}" != "public" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -79,7 +79,7 @@ fn_dl_steamcmd(){
 		else
 			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]&&[ "${branch}" != "public" ]; then
+			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +force_install_dir "${serverfiles}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -87,8 +87,9 @@ fn_dl_steamcmd(){
 		fi
 
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
+		# Check also if we have more errors than retries to be sure that we do not loop to many times and error out.
 		exitcode=$?
-		if [ -n "$(grep "Error!" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "ERROR!" "${steamcmdlog}" | tail -1)" ]; then
+		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ]&&[ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ] ; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"
@@ -444,6 +445,46 @@ fn_update_function(){
 	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 
+}
+
+# Function to download latest github release.
+# $1 GitHub user / organisation.
+# $2 Repo name.
+# $3 Destination for download.
+# $4 Search string in releases (needed if there are more files that can be downloaded from the release pages).
+fn_dl_latest_release_github(){
+	local githubreleaseuser="${1}"
+	local githubreleaserepo="${2}"
+	local githubreleasedownloadpath="${3}"
+	local githubreleasesearch="${4}"
+	local githublatestreleaseurl="https://api.github.com/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
+
+	# Get last github release.
+	# If no search for the release filename is set, just get the first file from the latest release.
+	if [ -z "${githubreleasesearch}" ]; then
+		githubreleaseassets=$(curl -s "${githublatestreleaseurl}" | jq '[ .assets[] ]')
+	else
+		githubreleaseassets=$(curl -s "${githublatestreleaseurl}" | jq "[ .assets[]|select(.browser_download_url | contains(\"${githubreleasesearch}\")) ]")
+	fi
+
+	# Check how many releases we got from the api and exit if we have more then one.
+	if [ "$(echo -e "${githubreleaseassets}" | jq '. | length')" -gt 1 ]; then
+		fn_print_fatal_nl "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
+		fn_script_log_fatal "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
+	else
+		# Set variables for download via fn_fetch_file.
+		githubreleasefilename=$(echo -e "${githubreleaseassets}" | jq -r '.[]name')
+		githubreleasedownloadlink=$(echo -e "${githubreleaseassets}" | jq -r '.[]browser_download_url')
+
+		# Error if no version is there.
+		if [ -z "${githubreleasefilename}" ]; then
+			fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
+			fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
+		else
+			# Fetch file from the remote location from the existing function to the ${tmpdir} for now.
+			fn_fetch_file "${githubreleasedownloadlink}" "" "${githubreleasefilename}" "" "${githubreleasedownloadpath}" "${githubreleasefilename}"
+		fi
+	fi
 }
 
 # Check that curl is installed

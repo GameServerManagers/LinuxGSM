@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM info_config.sh function
+# LinuxGSM info_config.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gets specific details from config files.
 
@@ -402,30 +402,6 @@ fn_info_config_factorio(){
 		authtoken=${authtoken:-"NOT SET"}
 		savegameinterval=${savegameinterval:-"0"}
 		versioncount=${versioncount:-"0"}
-	fi
-}
-
-fn_info_config_inss(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		rconenabled="${unavailable}"
-		rconpassword="${unavailable}"
-		rconport="${zero}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-		queryenabled="${unavailable}"
-		rconport="${zero}"
-		gamemode="${unavailable}"
-		gameworld="${unavailable}"
-	else
-		rconenabled=$(grep "bEnabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "ListenPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not Set
-		rconenabled=${rconenabled:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		rconport=${rconport:-"0"}
 	fi
 }
 
@@ -1088,15 +1064,15 @@ fn_info_config_unreal2(){
 		webadminuser="${unavailable}"
 		webadminpass="${unavailable}"
 	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
-		serverpassword=$(grep "GamePassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/GamePassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
-		adminpassword=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
-		port=$(grep "Port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' | grep "^Port" | grep -v "#" | tr -cd '[:digit:]')
+		servername=$(sed -nr 's/^ServerName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		serverpassword=$(sed -nr 's/^GamePassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		adminpassword=$(sed -nr 's/^AdminPassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
-		queryportgs=$(grep "OldQueryPortNumber" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		webadminenabled=$(grep "bEnabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
-		webadminport=$(grep "ListenPort" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		webadminuser=$(grep "AdminName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
+		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		webadminport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		webadminpass="${adminpassword}"
 
 		# Not Set
@@ -1525,6 +1501,70 @@ fn_info_config_pavlovvr(){
 	fi
 }
 
+fn_info_config_col(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(jq -r '.ServerSettings.ServerName' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.ServerSettings.ServerPassword' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.ServerSettings.MaxPlayerCount' "${servercfgfullpath}")
+		port=$(jq -r '.ServerSettings.ServerGamePort' "${servercfgfullpath}")
+		steamport=$(jq -r '.ServerSettings.ServerSteamPort' "${servercfgfullpath}")
+		rconpassword=$(jq -r '.ServerSettings.RCONPassword' "${servercfgfullpath}")
+		configip=$(jq -r '.ServerSettings.ServerIP' "${servercfgfullpath}")
+
+		# password not set
+		serverpassword=${serverpassword:-"NOT SET"}
+		queryport=${port:-"0"}
+	else
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"27004"}
+		steamport=${steamport:-"27005"}
+		rconpassword=${rconpassword:-"NOT SET"}
+	fi
+}
+
+fn_info_config_vintagestory(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${unavailable}"
+		serverpassword="${unavailable}"
+		port="${unavailable}"
+		queryport="${unavailable}"
+		configip="${unavailable}"
+	else
+		servername=$(jq -r '.ServerName' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.MaxClients' "${servercfgfullpath}")
+		serverpassword=$(jq -r 'select(.Password != null) | .Password' "${servercfgfullpath}")
+		port=$(jq -r '.Port' "${servercfgfullpath}")
+		queryport=${port:-"0"}
+		configip=$(jq -r 'select(.Ip != null) | .Ip' "${servercfgfullpath}")
+
+		serverpassword=${serverpassword:-"NOT SET"}
+		configip=${configip:-"0.0.0.0"}
+	fi
+}
+
+fn_info_config_scpsl(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
+		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
+
+		if [ "${adminpassword}" == "none" ]; then
+			adminpassword="NOT SET"
+		fi
+	else
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		configip=${configip:-"0.0.0.0"}
+		tickrate=${tickrate:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1551,14 +1591,14 @@ elif [ "${shortname}" == "cod4" ]; then
 	fn_info_config_cod4
 elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_config_codwaw
+elif [ "${shortname}" == "col" ]; then
+	fn_info_config_col
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_config_dontstarve
 elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
-elif [ "${shortname}" == "inss" ]; then
-	fn_info_config_inss
 elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_justcause2
 elif [ "${shortname}" == "jc3" ]; then
@@ -1627,6 +1667,8 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	fn_info_config_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then
@@ -1647,4 +1689,6 @@ elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
 elif [ "${shortname}" == "pvr" ];then
 	fn_info_config_pavlovvr
+elif [ "${shortname}" == "vints" ]; then
+	fn_info_config_vintagestory
 fi

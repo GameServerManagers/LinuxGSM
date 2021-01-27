@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_server_files.sh function
+# LinuxGSM install_server_files.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Installs server files.
 
@@ -91,6 +92,8 @@ elif [ "${shortname}" == "fctr" ]; then
 	install_factorio_save.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
+elif [ "${shortname}" == "vints" ]; then
+	update_vintagestory.sh
 elif [ -z "${appid}" ]||[ "${shortname}" == "ahl" ]||[ "${shortname}" == "bd" ]||[ "${shortname}" == "bb" ]||[ "${shortname}" == "ns" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "ts" ]||[ "${shortname}" == "vs" ]||[ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh

@@ -1,6 +1,7 @@
 #!/bin/bash
-# command_dev_query_raw.sh function
+# LinuxGSM command_dev_query_raw.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 

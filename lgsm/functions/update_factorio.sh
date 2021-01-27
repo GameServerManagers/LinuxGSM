@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM update_factorio.sh function
+# LinuxGSM update_factorio.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
@@ -94,12 +95,14 @@ fn_update_factorio_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_factorio_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
 			fn_print_restart_warning

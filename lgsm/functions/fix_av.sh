@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_av.sh function
-# Author: Christian Birk
+# LinuxGSM fix_av.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves startup issue with Avorion
 

@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM update_mta.sh function
+# LinuxGSM update_mta.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Multi Theft Auto servers.
 
@@ -30,6 +31,7 @@ fn_update_mta_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
+	requirerestart=1
 	if [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -151,11 +153,14 @@ fn_update_mta_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_mta_dl
-			exitbypass=1
-			command_start.sh
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
+			if [ "${requirerestart}" == "1" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
 			fn_print_restart_warning

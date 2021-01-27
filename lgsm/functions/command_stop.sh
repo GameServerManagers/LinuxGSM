@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_stop.sh function
+# LinuxGSM command_stop.sh module
 # Author: Daniel Gibbs
-# Contributors: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Stops the server.
 
@@ -43,7 +43,7 @@ fn_stop_graceful_cmd(){
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
-	tmux send -t "${sessionname}" "${1}" ENTER > /dev/null 2>&1
+	tmux send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds=1; seconds<=${2}; seconds++)); do
 		check_status.sh

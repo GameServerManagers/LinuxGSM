@@ -1,13 +1,14 @@
 #!/bin/bash
-# LinuxGSM core_functions.sh function
+# LinuxGSM core_functions.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.6.2"
+modulesversion="v21.1.0"
 
 # Core
 
@@ -38,6 +39,10 @@ else
 fi
 }
 
+fn_parms(){
+parms="${startparameters}"
+}
+
 core_exit.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -49,6 +54,16 @@ fn_fetch_function
 }
 
 core_trap.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_github.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -151,6 +166,11 @@ fn_fetch_function
 }
 
 command_restart.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+command_skeleton.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -594,6 +614,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_check_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 update_ts3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -630,6 +655,11 @@ fn_fetch_function
 }
 
 update_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_vintagestory.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

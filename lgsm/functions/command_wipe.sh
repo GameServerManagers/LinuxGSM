@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM command_backup.sh function
+# LinuxGSM command_backup.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Wipes server data, useful after updates for some games like Rust
+# Description: Wipes server data, useful after updates for some games like Rust.
 
 commandname="WIPE"
 commandaction="Wiping"
@@ -38,19 +38,6 @@ fn_wipe_server_files(){
 		fn_sleep_time
 		fn_script_log_pass "No procedural map file to remove"
 	fi
-	# Wipe procedural map save.
-	if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.sav")" ]; then
-		echo -en "removing map saves proceduralmap.*.sav file(s)..."
-		fn_sleep_time
-		fn_script_log_info "Removing procedural map save(s): ${serveridentitydir}/proceduralmap.*.sav"
-		find "${serveridentitydir:?}" -type f -name "proceduralmap.*.sav" -delete | tee -a "${lgsmlog}"
-		fn_wipe_exit_code
-		fn_sleep_time
-	else
-		echo -e "no procedural map save to remove"
-		fn_sleep_time
-		fn_script_log_pass "No procedural map save to remove"
-	fi
 	# Wipe Barren map.
 	if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.map")" ]; then
 		echo -en "removing barren map barren*.map file(s)..."
@@ -63,19 +50,6 @@ fn_wipe_server_files(){
 		echo -e "no barren map file to remove"
 		fn_sleep_time
 		fn_script_log_pass "No barren map file to remove"
-	fi
-	# Wipe barren map save.
-	if [ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]; then
-		echo -en "removing barren map saves barren*.sav file(s)..."
-		fn_sleep_time
-		fn_script_log_info "Removing barren map save(s): ${serveridentitydir}/barren*.sav"
-		find "${serveridentitydir:?}" -type f -name "barren*.sav" -delete | tee -a "${lgsmlog}"
-		fn_wipe_exit_code
-		fn_sleep_time
-	else
-		echo -e "no barren map save to remove"
-		fn_sleep_time
-		fn_script_log_pass "No barren map save to remove."
 	fi
 	# Wipe custom map.
 	if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
@@ -91,11 +65,11 @@ fn_wipe_server_files(){
 		fn_script_log_pass "No map file to remove"
 	fi
 	# Wipe custom map save.
-	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav")" ]; then
-		echo -en "removing map save *.sav file(s)..."
+	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]; then
+		echo -en "removing map save *.sav* file(s)..."
 		fn_sleep_time
-		fn_script_log_info "Removing map save(s): ${serveridentitydir}/*.sav"
-		find "${serveridentitydir:?}" -type f -name "*.sav" -delete | tee -a "${lgsmlog}"
+		fn_script_log_info "Removing map save(s): ${serveridentitydir}/*.sav*"
+		find "${serveridentitydir:?}" -type f -name "*.sav*" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 		fn_sleep_time
 	else
@@ -224,11 +198,16 @@ fn_wipe_warning(){
 	fn_print_warn "wipe is about to start"
 }
 
+# Will change the seed everytime the wipe command is run if the seed in config is not set.
+fn_wipe_random_seed(){
+	shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
+}
+
 fn_print_dots ""
 check.sh
 
 # Check if there is something to wipe.
-if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "barren*.sav")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
+if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "Log.*.txt")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.deaths.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "player.blueprints.*.db")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "sv.files.*.db")" ]; then
 	fn_wipe_warning
 	check_status.sh
 	if [ "${status}" != "0" ]; then
@@ -245,6 +224,7 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	fi
 	fn_print_complete_nl "Wiping ${selfname}"
 	fn_script_log_pass "Wiping ${selfname}"
+	fn_wipe_random_seed
 else
 	fn_print_ok_nl "Wipe not required"
 	fn_script_log_pass "Wipe not required"

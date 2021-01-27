@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_dst_token.sh function
-# Author: Daniel Gibbs & Marvin Lehmann (marvinl97)
+# LinuxGSM install_dst_token.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Configures Don't Starve Together cluster with given token.
 
