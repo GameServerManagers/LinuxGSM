@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM command_backup.sh function
+# LinuxGSM command_backup.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Wipes server data, useful after updates for some games like Rust
+# Description: Wipes server data, useful after updates for some games like Rust.
 
 commandname="WIPE"
 commandaction="Wiping"
@@ -198,6 +198,11 @@ fn_wipe_warning(){
 	fn_print_warn "wipe is about to start"
 }
 
+# Will change the seed everytime the wipe command is run if the seed in config is not set.
+fn_wipe_random_seed(){
+	shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
+}
+
 fn_print_dots ""
 check.sh
 
@@ -219,6 +224,7 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	fi
 	fn_print_complete_nl "Wiping ${selfname}"
 	fn_script_log_pass "Wiping ${selfname}"
+	fn_wipe_random_seed
 else
 	fn_print_ok_nl "Wipe not required"
 	fn_script_log_pass "Wipe not required"

@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_csgo.sh function
+# LinuxGSM fix_csgo.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with CS:GO.
 

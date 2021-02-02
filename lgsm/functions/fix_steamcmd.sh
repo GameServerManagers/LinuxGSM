@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_steamcmd.sh function
+# LinuxGSM fix_steamcmd.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues related to SteamCMD.
 

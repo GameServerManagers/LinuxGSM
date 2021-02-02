@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_squad_license.sh function
+# LinuxGSM install_squad_license.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Configures the Squad server's license.
 

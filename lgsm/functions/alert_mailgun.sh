@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM alert_mailgun.sh function
+# LinuxGSM alert_mailgun.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Mailgun Email alert.
 

@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM command_postdetails.sh function
-# Author: CedarLUG
-# Contributor: CedarLUG
+# LinuxGSM command_postdetails.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Strips sensitive information out of Details output
+# Description: Strips sensitive information out of Details output.
 
 commandname="POST-DETAILS"
 commandaction="Posting details"
