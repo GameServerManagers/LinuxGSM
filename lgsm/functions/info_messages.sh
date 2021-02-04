@@ -1341,6 +1341,15 @@ fn_info_message_ut(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_vh(){
+	echo -e "netstat -atunp | grep valheim"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_kf2(){
 	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep KFGame"
