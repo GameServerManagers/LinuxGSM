@@ -405,9 +405,6 @@ fn_deps_build_debian(){
 	# Barotrauma
 	elif [ "${shortname}" == "bt" ]; then
 		array_deps_required+=( libicu-dev )
-	# Colony Survival
-	elif [ "${shortname}" == "col" ]; then
-		array_deps_required+=( coreutils )
 	# Ecoserver
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( libgdiplus )
@@ -526,9 +523,6 @@ fn_deps_build_redhat(){
 	# Call of Duty & Medal of Honor: Allied Assault
 	elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${shortname}" == "cod2" ]||[ "${shortname}" == "mohaa" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 )
-	# Colony Survival
-	elif [ "${shortname}" == "col" ]; then
-		array_deps_required+=( coreutils )
 	# Ecoserver
 	elif [ "${shortname}" == "eco" ]; then
 		array_deps_required+=( libgdiplus )
