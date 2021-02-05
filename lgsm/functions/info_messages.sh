@@ -583,8 +583,8 @@ fn_info_message_ports(){
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines/games that require editing the parms.
-	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	# engines/games that require editing the start parameters.
+	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" "vh" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
@@ -1341,6 +1341,15 @@ fn_info_message_ut(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_vh(){
+	echo -e "netstat -atunp | grep valheim"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_kf2(){
 	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep KFGame"
@@ -1486,6 +1495,10 @@ fn_info_message_select_engine(){
 		fn_info_message_avorion
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
+	elif [ "${shortname}" == "bf1942" ]; then
+		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_message_ballisticoverkill
 	elif [ "${shortname}" == "bt" ]; then
@@ -1526,8 +1539,18 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
+	elif [ "${shortname}" == "mc" ]; then
+		fn_info_message_minecraft
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_message_minecraft_bedrock
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
+	elif [ "${shortname}" == "mohaa" ]; then
+		fn_info_message_mohaa
+	elif [ "${shortname}" == "mta" ]; then
+		fn_info_message_mta
+	elif [ "${shortname}" == "mumble" ]; then
+		fn_info_message_mumble
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
 	elif [ "${shortname}" == "mom" ]; then
@@ -1576,20 +1599,8 @@ fn_info_message_select_engine(){
 		fn_info_message_unturned
 	elif [ "${shortname}" == "ut" ]; then
 		fn_info_message_ut
-	elif [ "${shortname}" == "mc" ]; then
-		fn_info_message_minecraft
-	elif [ "${shortname}" == "mh" ]; then
-		fn_info_message_mordhau
-	elif [ "${shortname}" == "mohaa" ]; then
-		fn_info_message_mohaa
-	elif [ "${shortname}" == "mta" ]; then
-		fn_info_message_mta
-	elif [ "${shortname}" == "mumble" ]; then
-		fn_info_message_mumble
-	elif [ "${shortname}" == "bf1942" ]; then
-		fn_info_message_bf1942
-	elif [ "${shortname}" == "bfv" ]; then
-		fn_info_message_bfv
+	elif [ "${shortname}" == "vh" ]; then
+		fn_info_message_vh
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "pvr" ]; then

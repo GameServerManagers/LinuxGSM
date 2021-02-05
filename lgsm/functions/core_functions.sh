@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v21.1.1"
+modulesversion="v21.1.2"
 
 # Core
 
@@ -486,6 +486,11 @@ fn_fetch_function
 }
 
 fix_unt.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_vh.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
