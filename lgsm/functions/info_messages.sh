@@ -583,8 +583,8 @@ fn_info_message_ports(){
 			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines/games that require editing the parms.
-	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
+	# engines/games that require editing the start parameters.
+	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" "vh" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			parmslocation="${configdirserver}"
