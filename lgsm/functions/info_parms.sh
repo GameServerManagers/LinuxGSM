@@ -235,6 +235,14 @@ fn_info_parms_ut(){
 	port=${port:-"0"}
 }
 
+fn_info_parms_vh(){
+	port=${port:-"0"}
+	queryport=$((port + 1))
+	gameworld=${gameworld:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	servername=${servername:-"NOT SET"}
+}
+
 fn_info_parms_wf(){
 	port=${port:-"0"}
 	queryport="${port:-"0"}"
@@ -293,6 +301,8 @@ elif [ "${shortname}" == "tu" ]; then
 	fn_info_parms_towerunite
 elif [ "${shortname}" == "tw" ]; then
 	fn_info_parms_teeworlds
+elif [ "${shortname}" == "vh" ]; then
+	fn_info_parms_vh
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_parms_mordhau
 elif [ "${shortname}" == "mta" ]; then
