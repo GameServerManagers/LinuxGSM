@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.1.2"
+version="v21.1.3"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -452,7 +452,6 @@ else
 			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
 		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
-		eval executable="$(sed -nr 's/^ *executable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 	fi
 
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
