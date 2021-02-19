@@ -8,7 +8,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
-	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nomd5"
+	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/factorio/"* "${serverfiles}"

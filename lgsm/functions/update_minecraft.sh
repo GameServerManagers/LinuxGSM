@@ -13,7 +13,7 @@ fn_update_minecraft_dl(){
 	# Generate link to server.jar
 	remotebuildurl=$(curl -s "${remotebuildlink}" | jq -r '.downloads.server.url')
 
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nomd5"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nohash"
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?

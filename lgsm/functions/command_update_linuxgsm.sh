@@ -58,7 +58,7 @@ if [ "${tmp_script_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_update "Checking ${remotereponame} linuxgsm.sh"
 	rm -f "${tmpdir:?}/linuxgsm.sh"
-	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nomd5"
+	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nohash"
 else
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
@@ -138,7 +138,7 @@ if [ "${config_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
 	fn_script_log_update "Checking ${remotereponame} config _default.cfg"
 	rm -f "${configdirdefault:?}/config-lgsm/${gameservername:?}/_default.cfg"
-	fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nomd5"
+	fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nohash"
 	alert="config"
 	alert.sh
 else

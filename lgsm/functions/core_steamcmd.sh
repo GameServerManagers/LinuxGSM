@@ -14,7 +14,7 @@ fn_install_steamcmd(){
 	if [ ! -d "${steamcmddir}" ]; then
 		mkdir -p "${steamcmddir}"
 	fi
-	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "" "norun" "noforce" "nomd5"
+	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
