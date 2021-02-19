@@ -11,10 +11,10 @@
 # chmodx: Optional, set to "chmodx" to make file executable using chmod +x
 # run: Optional, set run to execute the file after download
 # forcedl: Optional, force re-download of file even if exists
-# md5: Optional, set an md5 sum and will compare it against the file.
+# hash: Optional, set an hash sum and will compare it against the file.
 #
 # Downloads can be defined in code like so:
-# fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+# fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -150,25 +150,46 @@ fn_clear_tmp(){
 	fi
 }
 
-fn_dl_md5(){
-	# Runs MD5 Check if available.
-	if [ "${md5}" != "0" ]&&[ "${md5}" != "nomd5" ]; then
-		echo -en "verifying ${local_filename} with MD5..."
+fn_dl_hash(){
+	# Runs Hash Check if available.
+	if [ "${hash}" != "0" ]&&[ "${hash}" != "nohash" ]&&[ "${hash}" != "nomd5" ]; then
+		# MD5
+		if [ "${#hash}" == "32" ]; then
+			hashbin="md5sum"
+			hashtype="MD5"
+		# SHA1
+		elif [ "${#hash}" == "40" ]; then
+			hashbin="sha1sum"
+			hashtype="SHA1"
+		# SHA256
+		elif [ "${#hash}" == "64" ]; then
+			hashbin="sha256sum"
+			hashtype="SHA256"
+		# SHA512
+		elif [ "${#hash}" == "128" ]; then
+			hashbin="sha512sum"
+			hashtype="SHA512"
+		else
+			fn_script_log_error "hash lengh not known for hash type"
+			fn_print_error_nl "hash lengh not known for hash type"
+			core_exit.sh
+		fi
+		echo -en "verifying ${local_filename} with ${hashtype}..."
 		fn_sleep_time
-		md5sumcmd=$(md5sum "${local_filedir}/${local_filename}"|awk '{print $1;}')
-		if [ "${md5sumcmd}" != "${md5}" ]; then
+		hashsumcmd=$(${hashbin} "${local_filedir}/${local_filename}" | awk '{print $1}')
+		if [ "${hashsumcmd}" != "${hash}" ]; then
 			fn_print_fail_eol_nl
-			echo -e "${local_filename} returned MD5 checksum: ${md5sumcmd}"
-			echo -e "expected MD5 checksum: ${md5}"
-			fn_script_log_fatal "Verifying ${local_filename} with MD5"
-			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_script_log_info "Expected MD5 checksum: ${md5}"
+			echo -e "${local_filename} returned ${hashtype} checksum: ${hashsumcmd}"
+			echo -e "expected ${hashtype} checksum: ${hash}"
+			fn_script_log_fatal "Verifying ${local_filename} with ${hashtype}"
+			fn_script_log_info "${local_filename} returned ${hashtype} checksum: ${hashsumcmd}"
+			fn_script_log_info "Expected ${hashtype} checksum: ${hash}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Verifying ${local_filename} with MD5"
-			fn_script_log_info "${local_filename} returned MD5 checksum: ${md5sumcmd}"
-			fn_script_log_info "Expected MD5 checksum: ${md5}"
+			fn_script_log_pass "Verifying ${local_filename} with ${hashtype}"
+			fn_script_log_info "${local_filename} returned ${hashtype} checksum: ${hashsumcmd}"
+			fn_script_log_info "Expected ${hashtype} checksum: ${hash}"
 		fi
 	fi
 }
@@ -235,7 +256,7 @@ fn_fetch_file(){
 	chmodx="${7:-0}"
 	run="${8:-0}"
 	forcedl="${9:-0}"
-	md5="${10:-0}"
+	hash="${10:-0}"
 
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
@@ -322,7 +343,7 @@ fn_fetch_file(){
 	fi
 
 	if [ -f "${local_filedir}/${local_filename}" ]; then
-		fn_dl_md5
+		fn_dl_hash
 		# Execute file if run is set.
 		if [ "${run}" == "run" ]; then
 			# shellcheck source=/dev/null
@@ -344,7 +365,7 @@ fn_fetch_file(){
 # chmodx: Optional, set to "chmodx" to make file executable using chmod +x
 # run: Optional, set run to execute the file after download
 # forcedl: Optional, force re-download of file even if exists
-# md5: Optional, set an md5 sum and will compare it against the file.
+# hash: Optional, set an hash sum and will compare it against the file.
 
 # Fetches files from the Git repo.
 fn_fetch_file_github(){
@@ -369,9 +390,9 @@ fn_fetch_file_github(){
 	chmodx="${4:-0}"
 	run="${5:-0}"
 	forcedl="${6:-0}"
-	md5="${7:-0}"
+	hash="${7:-0}"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches config files from the Git repo.
@@ -393,9 +414,9 @@ fn_fetch_config(){
 	chmodx="nochmodx"
 	run="norun"
 	forcedl="noforce"
-	md5="nomd5"
+	hash="nohash"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches modules from the Git repo during first download.
@@ -417,9 +438,9 @@ fn_fetch_function(){
 	chmodx="chmodx"
 	run="run"
 	forcedl="noforce"
-	md5="nomd5"
+	hash="nohash"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches modules from the Git repo during update-lgsm.
@@ -441,9 +462,9 @@ fn_update_function(){
 	chmodx="chmodx"
 	run="norun"
 	forcedl="noforce"
-	md5="nomd5"
+	hash="nohash"
 	# Passes vars to the file download function.
-	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 
 }
 
