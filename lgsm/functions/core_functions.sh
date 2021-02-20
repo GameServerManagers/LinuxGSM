@@ -181,7 +181,7 @@ fn_fetch_function
 }
 
 command_send.sh(){
-functionfile="${FUNCNAME}"
+functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
