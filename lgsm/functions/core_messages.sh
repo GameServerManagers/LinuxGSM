@@ -362,14 +362,13 @@ fn_prompt_yn(){
 # Prompt for message
 fn_prompt_message(){
 	local prompt="$1"
-
 	while true; do
-			read -e -p  "${prompt}" -r answer
-	if fn_prompt_yn "\"${answer}\", is this correct ?" Y; then
-		break;
-	fi
+		read -e -p  "${prompt}" -r answer
+		if fn_prompt_yn "\"${answer}\", is this correct ?" Y; then
+			break;
+		fi
 	done
-    echo "${answer}"
+	echo "${answer}"
 }
 
 

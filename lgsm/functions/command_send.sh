@@ -1,12 +1,11 @@
 #!/bin/bash
-# LinuxGSM command_send.sh function
-# Author: Duval Lucas
+# LinuxGSM command_send.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Send command to the server tmux console.
 
-local commandname="SEND"
-local commandaction="Send"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 check.sh
 if [ -z "${userinput2}" ]; then
@@ -17,15 +16,15 @@ fi
 check_status.sh
 if [ "${status}" != "0" ]; then
 	if [ -n "${userinput2}" ]; then
-		command_to_send="${userinput2}"
+		commandtosend="${userinput2}"
 	else
 		echo ""
-		command_to_send=$( fn_prompt_message "send: " )
+		commandtosend=$( fn_prompt_message "send: " )
 	fi
-	fn_print_dots "Sending command to console: \"${command_to_send}\""
-	tmux send-keys -t "${servicename}" "${command_to_send}" ENTER
-	fn_print_ok_nl "Sending command to console: \"${command_to_send}\""
-	fn_script_log_pass "Command \"${command_to_send}\" sent to console"
+	fn_print_dots "Sending command to console: \"${commandtosend}\""
+	tmux send-keys -t "${servicename}" "${commandtosend}" ENTER
+	fn_print_ok_nl "Sending command to console: \"${commandtosend}\""
+	fn_script_log_pass "Command \"${commandtosend}\" sent to console"
 else
 	fn_print_error_nl "Server not running"
 	fn_script_log_error "Failed to access: Server not running"

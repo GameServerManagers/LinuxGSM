@@ -23,7 +23,7 @@ cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
 cmd_skeleton=( "sk;skeleton" "command_skeleton.sh" "Create a skeleton directory." )
 cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
-cmd_send=( "sd;send" "command_send.sh" "Send command to server console." )
+cmd_send=( "sd;send" "command_send.sh" "Send command to game server console." )
 # Console servers only.
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
@@ -83,11 +83,11 @@ fi
 # Backup.
 currentopt+=( "${cmd_backup[@]}" )
 
-# Console & Debug
+# Console & Debug.
 currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
 
-# Exclude game servers that dont support send
-if [ "${shortname}" != "rust" ]||[ "${shortname}" != "hw" ]||[ "${shortname}" != "ark" ]||[ "${shortname}" != "ts3" ]; then
+# Console send.
+if [ "${consoleinteract}" == "yes" ]; then
 	currentopt+=( "${cmd_send[@]}" )
 fi
 
