@@ -364,13 +364,14 @@ fn_prompt_message(){
 	local prompt="$1"
 	while true; do
 		read -e -p  "${prompt}" -r answer
-		if fn_prompt_yn "\"${answer}\", is this correct ?" Y; then
-			break;
+		echo -e "${answer}"
+		if ! fn_prompt_yn "Continue?" Y; then
+			exitcode=0
+			core_exit.sh
 		fi
 	done
 	echo "${answer}"
 }
-
 
 # On-Screen End of Line
 ##################################

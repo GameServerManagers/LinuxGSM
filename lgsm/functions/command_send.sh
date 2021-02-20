@@ -10,7 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 check.sh
 if [ -z "${userinput2}" ]; then
 	fn_print_header
-	fn_print_information_nl "Send allows a command to be sent to the console."
+	fn_print_information_nl "Send a command to to the console."
 fi
 
 check_status.sh
