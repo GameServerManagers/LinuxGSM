@@ -359,6 +359,19 @@ fn_prompt_yn(){
 	done
 }
 
+# Prompt for message
+fn_prompt_message(){
+	while true; do
+		unset prompt
+		local prompt="$1"
+		read -e -p  "${prompt}" -r answer
+		if fn_prompt_yn "Continue" Y; then
+			break;
+		fi
+	done
+	echo "${answer}"
+}
+
 # On-Screen End of Line
 ##################################
 
