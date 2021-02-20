@@ -361,13 +361,12 @@ fn_prompt_yn(){
 
 # Prompt for message
 fn_prompt_message(){
-	local prompt="$1"
 	while true; do
+		unset prompt
+		local prompt="$1"
 		read -e -p  "${prompt}" -r answer
-		echo -e "${answer}"
-		if ! fn_prompt_yn "Continue?" Y; then
-			exitcode=0
-			core_exit.sh
+		if fn_prompt_yn "Continue" Y; then
+			break;
 		fi
 	done
 	echo "${answer}"

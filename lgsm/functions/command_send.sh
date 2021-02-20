@@ -5,12 +5,15 @@
 # Website: https://linuxgsm.com
 # Description: Send command to the server tmux console.
 
+commandname="SEND"
+commandaction="Send"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 check.sh
 if [ -z "${userinput2}" ]; then
 	fn_print_header
-	fn_print_information_nl "Send a command to to the console."
+	fn_print_information_nl "Send a command to the console."
 fi
 
 check_status.sh
@@ -21,6 +24,7 @@ if [ "${status}" != "0" ]; then
 		echo ""
 		commandtosend=$( fn_prompt_message "send: " )
 	fi
+	echo ""
 	fn_print_dots "Sending command to console: \"${commandtosend}\""
 	tmux send-keys -t "${servicename}" "${commandtosend}" ENTER
 	fn_print_ok_nl "Sending command to console: \"${commandtosend}\""
