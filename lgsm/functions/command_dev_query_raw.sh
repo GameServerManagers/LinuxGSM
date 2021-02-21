@@ -25,47 +25,47 @@ echo -e ""
 echo -e "${lightgreen}Game Server Ports${default}"
 echo -e "=================================================================="
 {
-echo -e "${lightblue}Port Name\tPort Number\tStatus\tTCP\tUDP${default}"
+echo -e "${lightblue}Port Name \tPort Number \tStatus \tTCP \tUDP${default}"
 if [ -v port ]; then
-	echo -e "Game:\t${port}\t$(ss -tupl|grep ${port}|wc -l)\t$(ss -tupl|grep ${port}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${port}|grep udp|awk '{ print $2 }')"
+	echo -e "Game: \t${port} \t$(ss -tupl|grep ${port}|wc -l) \t$(ss -tupl|grep ${port}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${port}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "Game:\tN/A"
+	echo -e "Game:"
 fi
 
 if [ -v queryport ]; then
-	echo -e "Query:\t${queryport}\t$(ss -tupl|grep ${queryport}|wc -l)\t$(ss -tupl|grep ${queryport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${queryport}|grep udp|awk '{ print $2 }')"
+	echo -e "Query: \t${queryport} \t$(ss -tupl|grep ${queryport}|wc -l) \t$(ss -tupl|grep ${queryport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${queryport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "Query:\tN/A"
+	echo -e "Query:"
 fi
 
 if [ -v clientport ]; then
-	echo -e "Client:\t${clientport}\t$(ss -tupl|grep ${clientport}|wc -l)\t$(ss -tupl|grep ${clientport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${clientport}|grep udp|awk '{ print $2 }')"
+	echo -e "Client: \t${clientport} \t$(ss -tupl|grep ${clientport}|wc -l) \t$(ss -tupl|grep ${clientport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${clientport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "Client:\tN/A"
+	echo -e "Client:"
 fi
 
 if [ -v rconport ]; then
-	echo -e "RCON:\t${rconport}\t$(ss -tupl|grep ${rconport}|wc -l)\t$(ss -tupl|grep ${rconport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${rconport}|grep udp|awk '{ print $2 }')"
+	echo -e "RCON: \t${rconport} \t$(ss -tupl|grep ${rconport}|wc -l) \t$(ss -tupl|grep ${rconport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${rconport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "RCON:\tN/A"
+	echo -e "RCON:"
 fi
 
 if [ -v httpport ]; then
-	echo -e "HTTP:\t${httpport}\t$(ss -tupl|grep ${httpport}|wc -l)\t$(ss -tupl|grep ${httpport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${httpport}|grep udp|awk '{ print $2 }')"
+	echo -e "HTTP: \t${httpport} \t$(ss -tupl|grep ${httpport}|wc -l) \t$(ss -tupl|grep ${httpport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${httpport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "HTTP:\tN/A"
+	echo -e "HTTP:"
 fi
 
 if [ -v steamport ]; then
-	echo -e "Steam:\t${steamport}\t$(ss -tupl|grep ${steamport}|wc -l)\t$(ss -tupl|grep ${steamport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${steamport}|grep udp|awk '{ print $2 }')"
+	echo -e "Steam: \t${steamport} \t$(ss -tupl|grep ${steamport}|wc -l) \t$(ss -tupl|grep ${steamport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steamport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "Steam:\tN/A"
+	echo -e "Steam:"
 fi
 
 if [ -v rawport ]; then
-	echo -e "Raw UDP:\t${rawport}\t$(ss -tupl|grep ${rawport}|wc -l)\t$(ss -tupl|grep ${rawport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${rawport}|grep udp|awk '{ print $2 }')"
+	echo -e "Raw UDP: \t${rawport} \t$(ss -tupl|grep ${rawport}|wc -l) \t$(ss -tupl|grep ${rawport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${rawport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "Raw UDP:\tN/A"
+	echo -e "Raw UDP:"
 fi
 
 } | column -s $'\t' -t
