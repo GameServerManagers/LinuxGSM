@@ -696,18 +696,14 @@ fn_info_message_ballisticoverkill(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_battalion1944(){
+fn_info_message_bt1944(){
 	echo -e "netstat -atunp | grep BattalionServ"
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		# Don't do arithmetics if ever the port wasn't a numeric value
-		# unconfirmed - http://wiki.battaliongame.com/Community_Servers#Firewalls_.2F_Port_Forwarding
-		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
-			echo -e "> Unused\tINBOUND\t$((port+2))\ttcp"
-		fi
+		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
@@ -1505,7 +1501,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
-		fn_info_message_battalion1944
+		fn_info_message_bt1944
 	elif [ "${shortname}" == "cmw" ]; then
 		fn_info_message_chivalry
 	elif [ "${shortname}" == "cod" ]; then

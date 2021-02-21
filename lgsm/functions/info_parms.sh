@@ -28,6 +28,13 @@ fn_info_parms_barotrauma(){
 	queryport=${queryport:-"0"}
 }
 
+fn_info_parms_bt1944(){
+	port=${port:-"0"}
+	steamport=$((port+1))
+	rconport=$((port+2))
+	queryport=${queryport:-"0"}
+}
+
 fn_info_parms_cod(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
@@ -95,7 +102,7 @@ fn_info_parms_mom(){
 }
 
 fn_info_parms_mta(){
-	queryport=$((port + 123))
+	queryport=$((port+123))
 }
 
 fn_info_parms_projectzomboid(){
@@ -116,13 +123,13 @@ fn_info_parms_quake2(){
 
 fn_info_parms_realvirtuality(){
 	port=${port:-"0"}
-	queryport=$((port + 1))
+	queryport=$((port+1))
 }
 
 fn_info_parms_risingworld(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
-	httpqueryport=$((port - 1))
+	httpqueryport=$((port-1))
 }
 
 fn_info_parms_rtcw(){
@@ -171,7 +178,7 @@ fn_info_parms_spark(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
-	queryport=$((port + 1))
+	queryport=$((port+1))
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	webadminuser=${webadminuser:-"NOT SET"}
@@ -211,12 +218,12 @@ fn_info_parms_pavlovvr(){
 
 fn_info_parms_unreal(){
 	defaultmap=${defaultmap:-"NOT SET"}
-	queryport=$((port + 1))
+	queryport=$((port+1))
 }
 
 fn_info_parms_unreal2(){
 	defaultmap=${defaultmap:-"NOT SET"}
-	queryport=$((port + 1))
+	queryport=$((port+1))
 }
 
 fn_info_parms_unreal3(){
@@ -228,7 +235,7 @@ fn_info_parms_unreal3(){
 fn_info_parms_unturned(){
 	servername=${selfname:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=$((port + 1))
+	queryport=$((port+1))
 }
 
 fn_info_parms_ut(){
@@ -237,7 +244,7 @@ fn_info_parms_ut(){
 
 fn_info_parms_vh(){
 	port=${port:-"0"}
-	queryport=$((port + 1))
+	queryport=$((port+1))
 	gameworld=${gameworld:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	servername=${servername:-"NOT SET"}
@@ -259,6 +266,8 @@ elif [ "${shortname}" == "arma3" ]; then
 	fn_info_parms_realvirtuality
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_parms_barotrauma
+elif [ "${shortname}" == "bt1944" ]; then
+	fn_info_parms_bt1944
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]||[ "${engine}" == "iw2.0" ]||[ "${engine}" == "iw3.0" ]; then
 	fn_info_parms_cod
 elif [ "${shortname}" == "fctr" ]; then

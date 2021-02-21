@@ -165,7 +165,7 @@ fn_info_config_barotrauma(){
 	fi
 }
 
-fn_info_config_battalion1944(){
+fn_info_config_bt1944(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -1578,7 +1578,7 @@ elif [ "${shortname}" == "bo" ]; then
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_config_barotrauma
 elif [ "${shortname}" == "bt1944" ]; then
-	fn_info_config_battalion1944
+	fn_info_config_bt1944
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_config_bf1942
 elif [ "${shortname}" == "bfv" ]; then
