@@ -55,6 +55,13 @@ if [ -v httpport ]; then
 else
 	echo -e "HTTP:\tN/A"
 fi
+
+if [ -v steamport ]; then
+	echo -e "Steam:\t${steamport}\t$(ss -tupl|grep ${steamport}|wc -l)\t$(ss -tupl|grep ${steamport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${steamport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "HTTP:\tN/A"
+fi
+
 } | column -s $'\t' -t
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
