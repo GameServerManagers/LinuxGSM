@@ -20,6 +20,7 @@ fn_info_parms_ark(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	rconport=${rconport:-"0"}
+	rawport=$((port+1))
 	maxplayers=${maxplayers:-"0"}
 }
 
