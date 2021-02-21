@@ -53,11 +53,11 @@ fn_info_message_password_strip(){
 	fi
 }
 
-# Standard Details
-# This applies to all engines
+# Alert Summary
+# used with alertlog
 fn_info_message_head(){
 	echo -e ""
-	echo -e "${lightyellow}Summary${default}"
+	echo -e "${lightyellow}Alert Summary${default}"
 	fn_messages_separator
 	echo -e "Message"
 	echo -e "${alertbody}"
@@ -72,17 +72,14 @@ fn_info_message_head(){
 	echo -e "${HOSTNAME}"
 	echo -e ""
 	echo -e "Server IP"
-	if [ "${multiple_ip}" == "1" ]; then
-		echo -e "NOT SET"
-	else
-		echo -e "${ip}:${port}"
-	fi
+	echo -e "${ip}:${port}"
 }
 
 fn_info_message_distro(){
 	#
 	# Distro Details
 	# =================================
+	# Date:      Sun 21 Feb 2021 09:22:53 AM UTC
 	# Distro:    Ubuntu 20.04.2 LTS
 	# Arch:      x86_64
 	# Kernel:    5.4.0-65-generic
@@ -95,6 +92,7 @@ fn_info_message_distro(){
 	echo -e "${lightyellow}Distro Details${default}"
 	fn_messages_separator
 	{
+		echo -e "${lightblue}Date:\t${default}${date}"
 		echo -e "${lightblue}Distro:\t${default}${distroname}"
 		echo -e "${lightblue}Arch:\t${default}${arch}"
 		echo -e "${lightblue}Kernel:\t${default}${kernel}"
@@ -187,7 +185,7 @@ fn_info_message_gameserver_resource(){
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
 	{
-		if [ "${status}" != "0" ]; then
+		if [ "${status}" != "0" ]&&[ -v status ]; then
 			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
@@ -257,11 +255,7 @@ fn_info_message_gameserver(){
 		fi
 
 		# Server ip
-		if [ "${multiple_ip}" == "1" ]; then
-			echo -e "${lightblue}Server IP:\t${default}NOT SET"
-		else
-			echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
-		fi
+		echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 
 		# Internet ip
 		if [ -n "${extip}" ]; then
@@ -460,7 +454,7 @@ fn_info_message_gameserver(){
 			fi
 		fi
 
-		# Online status
+		# Game server status
 		if [ "${status}" == "0" ]; then
 			echo -e "${lightblue}Status:\t${red}STOPPED${default}"
 		else

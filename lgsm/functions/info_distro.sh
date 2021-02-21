@@ -81,6 +81,9 @@ else
 	fi
 fi
 
+## Date
+date="$(date)"
+
 ## Uptime
 uptime=$(</proc/uptime)
 uptime=${uptime/[. ]*/}
