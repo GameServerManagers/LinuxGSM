@@ -657,7 +657,7 @@ fn_info_message_assettocorsa(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> HTTP\tINBOUND\t${port}\tudp"
+		echo -e "> HTTP\tINBOUND\t${httpport}\tudp"
 	} | column -s $'\t' -t
 }
 
