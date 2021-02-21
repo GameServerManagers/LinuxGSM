@@ -15,21 +15,59 @@ info_config.sh
 info_parms.sh
 
 echo -e ""
-echo -e "Query Port - Raw Output"
+echo -e "${lightgreen}Query IP Addresses${default}"
 echo -e "=================================================================="
 echo -e ""
-echo -e "QUERY IP"
 for queryip in "${queryips[@]}"; do
 	echo -e "${queryip}"
 done
+echo -e ""
+echo -e "${lightgreen}Game Server Ports${default}"
+echo -e "=================================================================="
+{
+echo -e "${lightblue}Port Name\tPort Number\tStatus\tTCP\tUDP${default}"
+if [ -v port ]; then
+	echo -e "Game:\t${port}\t$(ss -tupl|grep ${port}|wc -l)\t$(ss -tupl|grep ${port}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${port}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "Game:\tN/A"
+fi
+
+if [ -v queryport ]; then
+	echo -e "Query:\t${queryport}\t$(ss -tupl|grep ${queryport}|wc -l)\t$(ss -tupl|grep ${queryport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${queryport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "Query:\tN/A"
+fi
+
+if [ -v clientport ]; then
+	echo -e "Client:\t${clientport}\t$(ss -tupl|grep ${clientport}|wc -l)\t$(ss -tupl|grep ${clientport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${clientport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "Client:\tN/A"
+fi
+
+if [ -v rconport ]; then
+	echo -e "RCON:\t${rconport}\t$(ss -tupl|grep ${rconport}|wc -l)\t$(ss -tupl|grep ${rconport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${rconport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "RCON:\tN/A"
+fi
+
+if [ -v httpport ]; then
+	echo -e "HTTP:\t${httpport}\t$(ss -tupl|grep ${httpport}|wc -l)\t$(ss -tupl|grep ${httpport}|grep tcp|awk '{ print $2 }')\t$(ss -tupl|grep ${httpport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "HTTP:\tN/A"
+fi
+} | column -s $'\t' -t
+echo -e ""
+echo -e "${lightgreen}Query Port - Raw Output${default}"
+echo -e "=================================================================="
+
 echo -e "================================="
-echo -e "Ports"
+echo -e "${lightgreen}Ports${default}"
 echo -e "================================="
 echo -e ""
 echo -e "PORT: ${port}"
 echo -e "QUERY PORT: ${queryport}"
 echo -e ""
-echo -e "Gamedig Raw Output"
+echo -e "${lightgreen}Gamedig Raw Output${default}"
 echo -e "================================="
 echo -e ""
 if [ ! "$(command -v gamedig 2>/dev/null)" ]; then
@@ -45,7 +83,7 @@ for queryip in "${queryips[@]}"; do
 	echo "${gamedigraw}" | jq
 done
 echo -e ""
-echo -e "gsquery Raw Output"
+echo -e "${lightgreen}gsquery Raw Output${default}"
 echo -e "================================="
 echo -e ""
 for queryip in "${queryips[@]}"; do
@@ -57,7 +95,7 @@ for queryip in "${queryips[@]}"; do
 	"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}"
 done
 echo -e ""
-echo -e "TCP Raw Output"
+echo -e "${lightgreen}TCP Raw Output${default}"
 echo -e "================================="
 echo -e ""
 for queryip in "${queryips[@]}"; do
@@ -73,10 +111,10 @@ for queryip in "${queryips[@]}"; do
 	fi
 done
 echo -e ""
-echo -e "Game Port - Raw Output"
+echo -e "${lightgreen}Game Port - Raw Output${default}"
 echo -e "=================================================================="
 echo -e ""
-echo -e "TCP Raw Output"
+echo -e "${lightgreen}TCP Raw Output${default}"
 echo -e "================================="
 echo -e ""
 for queryip in "${queryips[@]}"; do
@@ -91,5 +129,15 @@ for queryip in "${queryips[@]}"; do
 		echo -e "TCP query FAIL"
 	fi
 done
+echo -e ""
+echo -e "${lightgreen}Steam Master Server Response${default}"
+echo -e "=================================================================="
+echo -e ""
+
+echo -e ""
+echo -e "${lightgreen}ss Details${default}"
+echo -e "=================================================================="
+echo -e ""
+
 exitcode=0
 core_exit.sh
