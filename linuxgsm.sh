@@ -403,7 +403,7 @@ else
 			fi
 		fi
 	fi
-	# execute check_ip.sh once before the initial config is load to set the ip
+	# Load the IP details before the first config is loaded.
 	check_ip.sh
 	# Configs have to be loaded twice to allow start startparameters to pick up all vars
 	# shellcheck source=/dev/null
