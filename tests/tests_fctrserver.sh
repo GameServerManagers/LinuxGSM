@@ -466,9 +466,9 @@ fi
 fn_currentstatus_tmux(){
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		currentstatus="ONLINE"
+		currentstatus="STARTED"
 	else
-		currentstatus="OFFLINE"
+		currentstatus="STOPPED"
 	fi
 }
 
@@ -483,7 +483,7 @@ fn_setstatus(){
 		fn_currentstatus_tmux
 		echo -en "New status:  ${currentstatus}\\r"
 
-		if [ "${requiredstatus}" == "ONLINE" ]; then
+		if [ "${requiredstatus}" == "STARTED" ]; then
 			(command_start.sh > /dev/null 2>&1)
 		else
 			(command_stop.sh > /dev/null 2>&1)
@@ -749,7 +749,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "start ${gamename} server."
 echo -e "Command: ./${gameservername} start"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -768,7 +768,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "start ${gamename} server while already running."
 echo -e "Command: ./${gameservername} start"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -787,7 +787,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "will update server on start."
 echo -e "Command: ./${gameservername} start"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -806,7 +806,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "stop ${gamename} server."
 echo -e "Command: ./${gameservername} stop"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -825,7 +825,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "stop ${gamename} server while already stopped."
 echo -e "Command: ./${gameservername} stop"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -844,7 +844,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "restart ${gamename}."
 echo -e "Command: ./${gameservername} restart"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -863,7 +863,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "restart ${gamename} while already stopped."
 echo -e "Command: ./${gameservername} restart"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -886,7 +886,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "check for updates."
 echo -e "Command: ./${gameservername} update"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -906,7 +906,7 @@ echo -e "Description:"
 echo -e "update LinuxGSM."
 echo -e ""
 echo -e "Command: ./jc2server update-lgam"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -933,7 +933,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor server while already running."
 echo -e "Command: ./${gameservername} monitor"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -952,7 +952,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor while server is offline with lockfile."
 echo -e "Command: ./${gameservername} monitor"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
 date '+%s' > "${lockdir}/${selfname}.lock"
@@ -975,7 +975,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor while server is offline with no lockfile."
 echo -e "Command: ./${gameservername} monitor"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -994,7 +994,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor while server is offline with no lockfile."
 echo -e "Command: ./${gameservername} test-alert"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1017,7 +1017,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "display details."
 echo -e "Command: ./${gameservername} details"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1036,7 +1036,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "post details."
 echo -e "Command: ./${gameservername} postdetails"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1059,7 +1059,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run a backup."
 echo -e "Command: ./${gameservername} backup"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 echo -e "test de-activated until issue #1839 fixed"
 #(command_backup.sh)
@@ -1078,7 +1078,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "detect glibc."
 echo -e "Command: ./${gameservername} detect-glibc"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1097,7 +1097,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "detect ldd."
 echo -e "Command: ./${gameservername} detect-ldd"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1116,7 +1116,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "detect dependencies."
 echo -e "Command: ./${gameservername} detect-deps"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1135,7 +1135,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "raw query output."
 echo -e "Command: ./${gameservername} query-raw"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1159,7 +1159,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "donate."
 echo -e "Command: ./${gameservername} donate"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1177,7 +1177,7 @@ echo -e "================================="
 echo -e "Server Tests - Complete!"
 echo -e "Using: ${gamename}"
 echo -e "================================="
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 
 core_exit.sh
