@@ -41,9 +41,7 @@ fn_start_jk2(){
 
 fn_start_tmux(){
 	if [ "${parmsbypass}" ]; then
-		parms=""
-	else
-		fn_parms
+		startparameters=""
 	fi
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then

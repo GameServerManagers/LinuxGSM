@@ -556,8 +556,7 @@ fn_info_message_commandlineparms(){
 	if [ "${serverpassword}" == "NOT SET" ]; then
 		unset serverpassword
 	fi
-	fn_parms
-	echo -e "${preexecutable} ${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${startparameters}"
 }
 
 fn_info_message_ports(){

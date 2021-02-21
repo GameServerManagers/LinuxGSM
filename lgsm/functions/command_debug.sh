@@ -29,7 +29,6 @@ fix.sh
 info_distro.sh
 info_config.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
-fn_parms
 fn_print_header
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
