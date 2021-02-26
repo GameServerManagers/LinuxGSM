@@ -145,7 +145,7 @@ fn_info_message_gameserver_resource(){
 			if [ -n "${memused}" ]; then
 				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 			else
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${red}unknown${default}"
+				echo -e "${lightblue}Mem Used:\t${default}${pmemused}\t${red}unknown${default}"
 			fi
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
