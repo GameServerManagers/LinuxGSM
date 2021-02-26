@@ -645,7 +645,7 @@ fn_fetch_function
 }
 
 update_papermc.sh(){
-functionfile="${FUNCNAME}"
+functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
