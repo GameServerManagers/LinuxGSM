@@ -8,10 +8,6 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-### Game Server pid
-if [ "${status}" == "1" ]; then
-	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')
-fi
 ### Distro information
 
 ## Distro
@@ -70,15 +66,12 @@ done
 glibcversion=$(ldd --version | sed -n '1s/.* //p')
 
 ## tmux version
-# e.g: tmux 1.6
-if [ ! "$(command -V tmux 2>/dev/null)" ]; then
-	tmuxv="${red}NOT INSTALLED!${default}"
-else
-	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
-		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
-	else
-		tmuxv=$(tmux -V)
-	fi
+tmuxv=$(tmux -V | sed "s/tmux //")
+tmuxvdigit=$(echo "${tmuxv}" | tr -cd '[:digit:]')
+
+## Game Server pid
+if [ "${status}" == "1" ]&&[ "${tmuxv}" != "1.8" ]; then
+	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')
 fi
 
 ## Uptime
