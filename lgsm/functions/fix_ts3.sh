@@ -18,7 +18,7 @@ fi
 # Fixes: failed to register local accounting service: No such file or directory
 accountingfile="/dev/shm/7gbhujb54g8z9hu43jre8"
 if [ -f "${accountingfile}" ]; then
-	# check permissions for the file if the current user owns it, if not exit as well and exit as well
+	# Check permissions for the file if the current user owns it, if not exit.
 	if [ "$( stat -c %U ${accountingfile})" == "$(whoami)" ]; then
 		fixname="Delete file ${accountingfile}"
 		fn_fix_msg_start
