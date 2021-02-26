@@ -137,8 +137,16 @@ fn_info_message_gameserver_resource(){
 	fn_messages_separator
 	{
 		if [ "${status}" != "0" ]; then
-			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
-			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
+			if [ -n "${cpuused}" ]; then
+				echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
+			else
+				echo -e "${lightblue}CPU Used:\t${red}unknown${default}"
+			fi
+			if [ -n "${memused}" ]; then
+				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
+			else
+				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${red}unknown${default}"
+			fi
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
