@@ -347,7 +347,7 @@ fn_deps_build_debian(){
 	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat cpio )
 
 	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${shortname}" != "pmc" ]&&[ "${shortname}" != "wmc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
 			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }|| { [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; } ||{ [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "20.10" ]; }; then
@@ -415,7 +415,7 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
 	# Minecraft, Rising World, Wurm
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]||[ "${shortname}" == "rw" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -441,18 +441,6 @@ fn_deps_build_debian(){
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
-	# Unreal Engine
-	elif [ "${executable}" == "./ucc-bin" ]; then
-		# UT2K4
-		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( libsdl1.2debian libstdc++5:i386 )
-		# UT99
-		else
-			array_deps_required+=( libsdl1.2debian )
-		fi
-	# Unreal Tournament
-	elif [ "${shortname}" == "ut" ]; then
-		array_deps_required+=( unzip )
 	# Vintage Story
 	elif [ "${shortname}" == "vints" ]; then
 		array_deps_required+=( mono-complete )
@@ -533,7 +521,7 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
 	# Minecraft, Rising World, Wurm
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]||[ "${shortname}" == "rw" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -556,18 +544,6 @@ fn_deps_build_redhat(){
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible
-	# Unreal Engine
-	elif [ "${executable}" == "./ucc-bin" ]; then
-		# UT2K4
-		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 )
-		# UT99
-		else
-			array_deps_required+=( SDL.i686 bzip2 )
-		fi
-	# Unreal Tournament
-	elif [ "${shortname}" == "ut" ]; then
-		array_deps_required+=( unzip )
 	# Vintage Story
 	elif [ "${shortname}" == "vints" ]; then
 		array_deps_required+=( mono-complete )

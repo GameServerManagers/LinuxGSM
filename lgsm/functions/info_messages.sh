@@ -186,8 +186,16 @@ fn_info_message_gameserver_resource(){
 	fn_messages_separator
 	{
 		if [ "${status}" != "0" ]&&[ -v status ]; then
-			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
-			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
+			if [ -n "${cpuused}" ]; then
+				echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
+			else
+				echo -e "${lightblue}CPU Used:\t${red}unknown${default}"
+			fi
+			if [ -n "${memused}" ]; then
+				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
+			else
+				echo -e "${lightblue}Mem Used:\t${default}${pmemused}\t${red}unknown${default}"
+			fi
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
@@ -1597,7 +1605,7 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
-	elif [ "${shortname}" == "mc" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
 		fn_info_message_minecraft
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_message_minecraft_bedrock
