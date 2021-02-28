@@ -622,7 +622,6 @@ fn_info_message_ports(){
 	# =================================
 	# Change ports by editing the parameters in:
 	# /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
-  # NEED TO FIND BETTER WAY TO WORK OUT HOW PORT IS SET
 	echo -e ""
 	echo -e "${lightgreen}Ports${default}"
 	fn_messages_separator
@@ -1455,7 +1454,7 @@ fn_info_message_mta(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game/Query\tINBOUN\t${port}\tudp"
+		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
 			echo -e "> Query Port\tOUTBOUND\t${queryport}\tudp"
