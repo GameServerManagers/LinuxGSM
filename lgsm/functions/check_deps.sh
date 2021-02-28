@@ -441,18 +441,6 @@ fn_deps_build_debian(){
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
-	# Unreal Engine
-	elif [ "${executable}" == "./ucc-bin" ]; then
-		# UT2K4
-		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( libsdl1.2debian libstdc++5:i386 )
-		# UT99
-		else
-			array_deps_required+=( libsdl1.2debian )
-		fi
-	# Unreal Tournament
-	elif [ "${shortname}" == "ut" ]; then
-		array_deps_required+=( unzip )
 	# Vintage Story
 	elif [ "${shortname}" == "vints" ]; then
 		array_deps_required+=( mono-complete )
@@ -556,18 +544,6 @@ fn_deps_build_redhat(){
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible
-	# Unreal Engine
-	elif [ "${executable}" == "./ucc-bin" ]; then
-		# UT2K4
-		if [ -f "${executabledir}/ut2004-bin" ]; then
-			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 )
-		# UT99
-		else
-			array_deps_required+=( SDL.i686 bzip2 )
-		fi
-	# Unreal Tournament
-	elif [ "${shortname}" == "ut" ]; then
-		array_deps_required+=( unzip )
 	# Vintage Story
 	elif [ "${shortname}" == "vints" ]; then
 		array_deps_required+=( mono-complete )

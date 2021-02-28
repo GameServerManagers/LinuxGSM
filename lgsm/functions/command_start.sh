@@ -82,26 +82,22 @@ fn_start_tmux(){
 	# Create last start lock file
 	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
-	# Get tmux version.
-	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
-	# Tmux compiled from source will return "master", therefore ignore it.
-	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p')" == "master" ]; then
-		fn_script_log "Tmux version: master (user compiled)"
-		echo -e "Tmux version: master (user compiled)" >> "${consolelog}"
+	# tmux compiled from source will return "master", therefore ignore it.
+	if [ "${tmuxv}" == "master" ]; then
+		fn_script_log "tmux version: master (user compiled)"
+		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
-	elif [ "${tmuxversion}" ]; then
-		# Get the digit version of tmux.
-		tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')
+	elif [ -n "${tmuxv}" ]; then
 		# tmux pipe-pane not supported in tmux versions < 1.6.
-		if [ "${tmuxversion}" -lt "16" ]; then
-			echo -e "Console logging disabled: Tmux => 1.6 required
+		if [ "${tmuxvdigit}" -lt "16" ]; then
+			echo -e "Console logging disabled: tmux => 1.6 required
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 
 		# Console logging disabled: Bug in tmux 1.8 breaks logging.
-		elif [ "${tmuxversion}" -eq "18" ]; then
+		elif [ "${tmuxvdigit}" -eq "18" ]; then
 			echo -e "Console logging disabled: Bug in tmux 1.8 breaks logging
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
@@ -127,8 +123,8 @@ fn_start_tmux(){
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
 		if [ -s "${lgsmlogdir}/.${selfname}-tmux-error.tmp" ]; then
-			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
-			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
+			fn_print_fail_nl "Unable to start ${servername}: tmux error:"
+			fn_script_log_fatal "Unable to start ${servername}: tmux error:"
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
