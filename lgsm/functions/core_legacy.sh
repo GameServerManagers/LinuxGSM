@@ -77,3 +77,7 @@ if [ -z "${wsstartmap}" ]; then
 		wscollectionid="${ws_start_map}"
 	fi
 fi
+
+fn_parms(){
+parms="${startparameters}"
+}
