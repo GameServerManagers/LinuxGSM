@@ -29,7 +29,6 @@ fix.sh
 info_distro.sh
 info_config.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
-fn_parms
 fn_print_header
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
@@ -70,11 +69,11 @@ if [ "${serverpassword}" ]; then
 fi
 echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	echo -e "${executable} ${parms} -debug"
+	echo -e "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
-	echo -e "${executable} ${parms} -condebug"
+	echo -e "${executable} ${startparameters} -condebug"
 else
-	echo -e "${preexecutable} ${executable} ${parms}"
+	echo -e "${preexecutable} ${executable} ${startparameters}"
 fi
 echo -e ""
 echo -e "Use for identifying server issues only!"
@@ -104,19 +103,19 @@ fn_script_log_info "Lockfile generated"
 fn_script_log_info "${lockdir}/${selfname}.lock"
 
 cd "${executabledir}" || exit
-# Note: do not add double quotes to ${executable} ${parms}.
+# Note: do not add double quotes to ${executable} ${startparameters}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	${executable} ${parms} -debug
+	${executable} ${startparameters} -debug
 elif [ "${shortname}" == "arma3" ]; then
 	# Arma3 requires semicolons in the module list, which need to
 	# be escaped for regular (tmux) loading, but need to be
 	# stripped when loading straight from the console.
 	${executable} ${parms//\\;/;}
 elif [ "${engine}" == "quake" ]; then
-	${executable} ${parms} -condebug
+	${executable} ${startparameters} -condebug
 else
 	# shellcheck disable=SC2086
-	${preexecutable} ${executable} ${parms}
+	${preexecutable} ${executable} ${startparameters}
 fi
 
 fn_lockfile_trap

@@ -74,6 +74,9 @@ if [ "${status}" == "1" ]&&[ "${tmuxv}" != "1.8" ]; then
 	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')
 fi
 
+## Date
+date="$(date)"
+
 ## Uptime
 uptime=$(</proc/uptime)
 uptime=${uptime/[. ]*/}
