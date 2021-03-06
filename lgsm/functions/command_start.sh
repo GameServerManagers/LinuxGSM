@@ -165,7 +165,7 @@ fn_start_tmux(){
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp"
+	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2>/dev/null
 	echo -en "\n"
 }
 
