@@ -465,6 +465,9 @@ fn_deps_build_debian(){
 	# Pavlov VR
 	elif [ "${shortname}" == "pvr" ]; then
 		array_deps_required+=( libc++1 )
+	# Valheim ( for Plus mod)
+	elif [ "${shortname}" == "vh" ]; then
+		array_deps_required+=( libc6-dev )
 	fi
 
 	# check if system is a lxc container and the hostname dependency.
@@ -577,6 +580,9 @@ fn_deps_build_redhat(){
 	# Pavlov VR
 	elif [ "${shortname}" == "pvr" ]; then
 		array_deps_required+=( libcxx )
+	# Valheim ( for Plus mod )
+	elif [ "${shortname}" == "vh" ]; then
+		array_deps_required+=( glibc-devel )
 	fi
 
 	# check if system is a lxc container and the hostname dependency.
