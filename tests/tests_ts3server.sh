@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.1.3"
+version="v21.2.0"
 shortname="ts3"
 gameservername="ts3server"
 commandname="CORE"
