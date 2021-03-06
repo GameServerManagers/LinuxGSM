@@ -116,7 +116,7 @@ fn_script_log_info(){
 	fi
 }
 
-## Feb 28 14:56:58 ut99-server: Monitor: INFO:
+## Feb 28 14:56:58 ut99-server: Monitor: UPDATE:
 fn_script_log_update(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then

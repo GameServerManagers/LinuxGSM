@@ -610,17 +610,7 @@ fn_info_message_commandlineparms(){
 	if [ "${serverpassword}" == "NOT SET" ]; then
 		unset serverpassword
 	fi
-	if grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/secrets-${selfname}.cfg"; then
-		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
-	elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/${selfname}.cfg"; then
-		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/${selfname}.cfg")"
-	elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/secrets-common.cfg"; then
-		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/secrets-common.cfg")"
-	elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg"; then
-		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/common.cfg")"
-	elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
-		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
-	fi
+	fn_reload_startparameters
 	echo -e "${preexecutable} ${executable} ${startparameters}"
 }
 
