@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Separator is different for details
+# Separator is different for details.
 fn_messages_separator(){
 	if [ "${commandname}" == "DETAILS" ]; then
 		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
