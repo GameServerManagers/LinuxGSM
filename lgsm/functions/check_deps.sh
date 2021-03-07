@@ -454,6 +454,15 @@ fn_deps_build_debian(){
 	elif [ "${shortname}" == "pvr" ]; then
 		array_deps_required+=( libc++1 )
 	fi
+
+	# check if system is a lxc container and add the hosstname dependency
+	if command -v systemd-detect-virt &> /dev/null; then
+		systemd_virt=$(systemd-detect-virt)
+		if [ "${systemd_virt}" == "lxc" ]||[ "${systemd_virt}" == "lxc-libvirt" ]; then
+			array_deps_required+=( hostname )
+		fi
+	fi
+
 	fn_deps_email
 	fn_check_loop
 }
@@ -557,6 +566,15 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "pvr" ]; then
 		array_deps_required+=( libcxx )
 	fi
+
+	# check if system is a lxc container and add the hosstname dependency
+	if command -v systemd-detect-virt &> /dev/null; then
+		systemd_virt=$(systemd-detect-virt)
+		if [ "${systemd_virt}" == "lxc" ]||[ "${systemd_virt}" == "lxc-libvirt" ]; then
+			array_deps_required+=( hostname )
+		fi
+	fi
+
 	fn_deps_email
 	fn_check_loop
 }
