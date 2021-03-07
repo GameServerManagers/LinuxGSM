@@ -455,7 +455,7 @@ fn_deps_build_debian(){
 		array_deps_required+=( libc++1 )
 	fi
 
-	# check if system is a lxc container and add the hosstname dependency
+	# check if system is a lxc container and the hostname dependency.
 	if command -v systemd-detect-virt &> /dev/null; then
 		systemd_virt=$(systemd-detect-virt)
 		if [ "${systemd_virt}" == "lxc" ]||[ "${systemd_virt}" == "lxc-libvirt" ]; then
@@ -567,7 +567,7 @@ fn_deps_build_redhat(){
 		array_deps_required+=( libcxx )
 	fi
 
-	# check if system is a lxc container and add the hosstname dependency
+	# check if system is a lxc container and the hostname dependency.
 	if command -v systemd-detect-virt &> /dev/null; then
 		systemd_virt=$(systemd-detect-virt)
 		if [ "${systemd_virt}" == "lxc" ]||[ "${systemd_virt}" == "lxc-libvirt" ]; then
