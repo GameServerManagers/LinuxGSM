@@ -103,7 +103,7 @@ fn_update_ts3_localbuild(){
 
 fn_update_ts3_remotebuild(){
 	# Gets remote build info.
-	if [ "${ts3arch}" == "x86_64" ]; then
+	if [ "${ts3arch}" == "amd64" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
 	elif [ "${ts3arch}" == "x86" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
