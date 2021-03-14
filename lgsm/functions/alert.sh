@@ -7,6 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Generates alert log of the details at the time of the alert.
+# Used with email alerts.
 fn_alert_log(){
 	info_distro.sh
 	info_config.sh

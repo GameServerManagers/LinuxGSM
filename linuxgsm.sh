@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.1.3"
+version="v21.2.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -42,6 +42,7 @@ configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 userinput="${1}"
+userinput2="${2}"
 
 ## GitHub Branch Select
 # Allows for the use of different function files
@@ -402,6 +403,8 @@ else
 			fi
 		fi
 	fi
+	# Load the IP details before the first config is loaded.
+	check_ip.sh
 	# Configs have to be loaded twice to allow start startparameters to pick up all vars
 	# shellcheck source=/dev/null
 	source "${configdirserver}/_default.cfg"
@@ -441,19 +444,29 @@ else
 		# shellcheck source=/dev/null
 		source "${configdirserver}/secrets-${selfname}.cfg"
 	fi
-	# Use eval if startparameters are only in _default.cfg to ensure all vars in startparameters are set.
-	if ! grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/secrets-${selfname}.cfg"; then
+
+	# Reloads start parameter to ensure all vars in startparameters are set.
+	# Will reload the last defined startparameter.
+	fn_reload_startparameters(){
+		# reload Wurm config.
 		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
 			source "${servercfgfullpath}"
 		fi
 
-		if [ -n "${preexecutable}" ]; then
-			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		if grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/secrets-${selfname}.cfg"; then
+			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/${selfname}.cfg"; then
+			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/secrets-common.cfg"; then
+			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/secrets-common.cfg")"
+		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/common.cfg"; then
+			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/common.cfg")"
+		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
+			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
-		eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
-	fi
-
+	}
+	fn_reload_startparameters
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"

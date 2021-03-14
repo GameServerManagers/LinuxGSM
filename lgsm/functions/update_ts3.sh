@@ -13,7 +13,7 @@ fn_update_ts3_dl(){
 	elif [ "${ts3arch}" == "x86" ]; then
 		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
 	fi
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
@@ -103,9 +103,9 @@ fn_update_ts3_localbuild(){
 
 fn_update_ts3_remotebuild(){
 	# Gets remote build info.
-	if [ "${arch}" == "x86_64" ]; then
+	if [ "${ts3arch}" == "x86_64" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
-	elif [ "${arch}" == "x86" ]; then
+	elif [ "${ts3arch}" == "x86" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
 	fi
 	if [ "${firstcommandname}" != "INSTALL" ]; then

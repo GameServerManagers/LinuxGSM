@@ -73,8 +73,10 @@ glibcversion=$(ldd --version | sed -n '1s/.* //p')
 # e.g: tmux 1.6
 if [ ! "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
+	tmuxvdigit="0"
 else
-	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
+	tmuxvdigit="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
+	if [ "${tmuxvdigit}" -lt "16" ]; then
 		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 	else
 		tmuxv=$(tmux -V)
@@ -212,7 +214,7 @@ if [ -d "${backupdir}" ]; then
 		# number of backups.
 		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
 		# most recent backup.
-		lastbackup=$(find "${backupdir}"/*.tar.gz | head -1)
+		lastbackup=$(ls -1t "${backupdir}"/*.tar.gz | head -1)
 		# date of most recent backup.
 		lastbackupdate=$(date -r "${lastbackup}")
 		# no of days since last backup.

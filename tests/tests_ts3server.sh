@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.1.3"
+version="v21.2.0"
 shortname="ts3"
 gameservername="ts3server"
 commandname="CORE"
@@ -61,7 +61,7 @@ githubbranch="${TRAVIS_BRANCH}"
 # Core function that is required first.
 core_functions.sh(){
 	functionfile="${FUNCNAME[0]}"
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 }
 
 # Bootstrap
@@ -338,7 +338,7 @@ fi
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
 	# Download the latest serverlist. This is the complete list of all supported servers.
-	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
 	if [ ! -f "${serverlist}" ]; then
 		echo -e "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
@@ -383,7 +383,7 @@ else
 		# Load the default config. If missing download it. If changed reload it.
 		if [ ! -f "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" ]; then
 			mkdir -p "${configdirdefault}/config-lgsm/${gameservername}"
-			fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_config "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "_default.cfg" "nochmodx" "norun" "noforcedl" "nohash"
 		fi
 		if [ ! -f "${configdirserver}/_default.cfg" ]; then
 			mkdir -p "${configdirserver}"
@@ -415,7 +415,7 @@ else
 		source "${configdirserver}/_default.cfg"
 		# Load the common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nohash"
 			# shellcheck source=/dev/null
 			source "${configdirserver}/common.cfg"
 		else
@@ -424,7 +424,7 @@ else
 		fi
 		# Load the secrets-common.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/secrets-common.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-common-template.cfg" "${configdirserver}" "secrets-common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nohash"
 			# shellcheck source=/dev/null
 			source "${configdirserver}/secrets-common.cfg"
 		else
@@ -433,7 +433,7 @@ else
 		fi
 		# Load the instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_config "lgsm/config-default/config-lgsm" "instance-template.cfg" "${configdirserver}" "${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nohash"
 			# shellcheck source=/dev/null
 			source "${configdirserver}/${selfname}.cfg"
 		else
@@ -442,7 +442,7 @@ else
 		fi
 		# Load the secrets-instance.cfg config. If missing download it.
 		if [ ! -f "${configdirserver}/secrets-${selfname}.cfg" ]; then
-			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_config "lgsm/config-default/config-lgsm" "secrets-instance-template.cfg" "${configdirserver}" "secrets-${selfname}.cfg" "nochmodx" "norun" "noforcedl" "nohash"
 			# shellcheck source=/dev/null
 			source "${configdirserver}/secrets-${selfname}.cfg"
 		else
@@ -452,7 +452,7 @@ else
 
 		# Load the linuxgsm.sh in to tmpdir. If missing download it.
 		if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
-			fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
+			fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nohash"
 		fi
 	fi
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
@@ -467,9 +467,9 @@ fi
 fn_currentstatus_tmux(){
 	check_status.sh
 	if [ "${status}" != "0" ]; then
-		currentstatus="ONLINE"
+		currentstatus="STARTED"
 	else
-		currentstatus="OFFLINE"
+		currentstatus="STOPPED"
 	fi
 }
 
@@ -484,7 +484,7 @@ fn_setstatus(){
 		fn_currentstatus_tmux
 		echo -en "New status:  ${currentstatus}\\r"
 
-		if [ "${requiredstatus}" == "ONLINE" ]; then
+		if [ "${requiredstatus}" == "STARTED" ]; then
 			(command_start.sh > /dev/null 2>&1)
 		else
 			(command_stop.sh > /dev/null 2>&1)
@@ -748,7 +748,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "start ${gamename} server."
 echo -e "Command: ./${gameservername} start"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -767,7 +767,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "start ${gamename} server while already running."
 echo -e "Command: ./${gameservername} start"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -786,7 +786,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "will update server on start."
 echo -e "Command: ./${gameservername} start"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -805,7 +805,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "stop ${gamename} server."
 echo -e "Command: ./${gameservername} stop"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -824,7 +824,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "stop ${gamename} server while already stopped."
 echo -e "Command: ./${gameservername} stop"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -843,7 +843,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "restart ${gamename}."
 echo -e "Command: ./${gameservername} restart"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -862,7 +862,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "restart ${gamename} while already stopped."
 echo -e "Command: ./${gameservername} restart"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -885,7 +885,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "check for updates."
 echo -e "Command: ./${gameservername} update"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -905,7 +905,7 @@ echo -e "Description:"
 echo -e "update LinuxGSM."
 echo -e ""
 echo -e "Command: ./jc2server update-lgam"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -932,7 +932,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor server while already running."
 echo -e "Command: ./${gameservername} monitor"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -951,7 +951,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor while server is offline with lockfile."
 echo -e "Command: ./${gameservername} monitor"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 fn_print_info_nl "creating lockfile."
 date '+%s' > "${lockdir}/${selfname}.lock"
@@ -974,7 +974,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor while server is offline with no lockfile."
 echo -e "Command: ./${gameservername} monitor"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -993,7 +993,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run monitor while server is offline with no lockfile."
 echo -e "Command: ./${gameservername} test-alert"
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1016,7 +1016,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "display details."
 echo -e "Command: ./${gameservername} details"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1035,7 +1035,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "post details."
 echo -e "Command: ./${gameservername} postdetails"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1058,7 +1058,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "run a backup."
 echo -e "Command: ./${gameservername} backup"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 echo -e "test de-activated until issue #1839 fixed"
 #(command_backup.sh)
@@ -1077,7 +1077,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "detect glibc."
 echo -e "Command: ./${gameservername} detect-glibc"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1096,7 +1096,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "detect ldd."
 echo -e "Command: ./${gameservername} detect-ldd"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1115,7 +1115,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "detect dependencies."
 echo -e "Command: ./${gameservername} detect-deps"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1134,7 +1134,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "raw query output."
 echo -e "Command: ./${gameservername} query-raw"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1157,7 +1157,7 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "donate."
 echo -e "Command: ./${gameservername} donate"
-requiredstatus="ONLINE"
+requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
@@ -1175,7 +1175,7 @@ echo -e "================================="
 echo -e "Server Tests - Complete!"
 echo -e "Using: ${gamename}"
 echo -e "================================="
-requiredstatus="OFFLINE"
+requiredstatus="STOPPED"
 fn_setstatus
 
 core_exit.sh
