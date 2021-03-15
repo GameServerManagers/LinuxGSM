@@ -482,8 +482,8 @@ else
 		if [ -n "${parms}" ]; then
 			startparameters="${parms}"
 		fi
-
 	}
+
 	fn_reload_startparameters
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
