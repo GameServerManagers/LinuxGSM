@@ -1610,6 +1610,22 @@ fn_info_game_terraria(){
 	fi
 }
 
+fn_info_game_stn(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ServerIP="(.*)"/\1/p' "${servercfgfullpath}")
+		port=$(sed -nr 's/^ServerPort=([0-9]+)/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^ServerPassword=(.*)/\1/' "${servercfgfullpath}")
+		queryport=$((port + 1))
+	else
+		servername="${unavailable}"
+		configip=${configip:-"0.0.0.0"}
+		port="${zero}"
+		queryport="${zero}"
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
+}
+
 fn_info_game_ts3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		dbplugin="${unavailable}"
@@ -2118,6 +2134,8 @@ elif [ "${shortname}" == "squad" ]; then
 	fn_info_game_squad
 elif [ "${shortname}" == "st" ]; then
 	fn_info_game_st
+elif [ "${shortname}" == "stn" ]; then
+	fn_info_game_stn
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_game_terraria
 elif [ "${shortname}" == "tu" ]; then

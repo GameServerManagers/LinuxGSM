@@ -717,6 +717,13 @@ elif [ "${shortname}" == "st" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "stn" ]; then
+	gamedirname="SurvivetheNights"
+	array_configs+=( ServerConfig.txt ServerUsers.txt TpPresets.json UserPermissions.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sven" ]; then
 	gamedirname="SvenCoop"
 	array_configs+=( server.cfg )

@@ -1561,6 +1561,14 @@ fn_info_message_wurm(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_stn(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1677,6 +1685,8 @@ fn_info_message_select_engine(){
 		fn_info_message_squad
 	elif [ "${shortname}" == "st" ]; then
 		fn_info_message_st
+	elif [ "${shortname}" == "stn" ]; then
+		fn_info_message_stn
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then
