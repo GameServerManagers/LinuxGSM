@@ -237,7 +237,11 @@ fn_info_parms_ut(){
 
 fn_info_parms_vh(){
 	port=${port:-"0"}
-	queryport=$((port + 1))
+	if [ "${public}" != "0" ]; then
+		queryport=$((port + 1))
+	else
+		querymode="1"
+	fi
 	gameworld=${gameworld:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	servername=${servername:-"NOT SET"}
