@@ -453,7 +453,7 @@ else
 			# shellcheck source=/dev/null
 			source "${servercfgfullpath}"
 		fi
-
+		# reload startparameters.
 		if grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/secrets-${selfname}.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/${selfname}.cfg"; then
@@ -465,9 +465,13 @@ else
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
-		# reload preexecutable
-		if grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/${selfname}.cfg"; then
+		# reload preexecutable.
+		if grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/secrets-${selfname}.cfg"; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/${selfname}.cfg"; then
 			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/secrets-common.cfg"; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/secrets-common.cfg")"
 		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/common.cfg"; then
 			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/common.cfg")"
 		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/_default.cfg"; then
