@@ -465,6 +465,14 @@ else
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
+		# reload preexecutable
+		if grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/${selfname}.cfg"; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/common.cfg"; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/common.cfg")"
+		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/_default.cfg"; then
+			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		fi
 	}
 	fn_reload_startparameters
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
