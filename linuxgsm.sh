@@ -465,7 +465,25 @@ else
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
+
+		# For legacy configs that still use parms= 15.03.21
+		if grep -qE "^[[:blank:]]*parms=" "${configdirserver}/secrets-${selfname}.cfg"; then
+			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*parms=" "${configdirserver}/${selfname}.cfg"; then
+			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/${selfname}.cfg")"
+		elif grep -qE "^[[:blank:]]*parms=" "${configdirserver}/secrets-common.cfg"; then
+			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/secrets-common.cfg")"
+		elif grep -qE "^[[:blank:]]*parms=" "${configdirserver}/common.cfg"; then
+			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/common.cfg")"
+		elif grep -qE "^[[:blank:]]*parms=" "${configdirserver}/_default.cfg"; then
+			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		fi
+
+		if [ -n "${parms}" ]; then
+			startparameters="${parms}"
+		fi
 	}
+
 	fn_reload_startparameters
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
