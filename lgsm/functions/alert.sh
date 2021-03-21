@@ -28,12 +28,12 @@ fn_alert_log(){
 }
 
 fn_alert_custom(){
-        fn_script_log_info "Sending custom alert"
-        alertsubject="${alertsubject_custom}"
-        alertemoji="🚧"
-        alertsound="2"
-        alerturl="${alerturl_custom}"
-        alertbody="${alertbody_custom}"
+	fn_script_log_info "Sending custom alert"
+	alertsubject="${alertsubject_custom}"
+	alertemoji="🚧"
+	alertsound="2"
+	alerturl="${alerturl_custom}"
+	alertbody="${alertbody_custom}"
 }
 
 fn_alert_test(){
@@ -114,7 +114,7 @@ elif [ "${alert}" == "check-update" ]; then
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 elif [ "${alert}" == "custom" ]; then
-        fn_alert_custom
+	fn_alert_custom
 fi
 
 # Generate alert log.
