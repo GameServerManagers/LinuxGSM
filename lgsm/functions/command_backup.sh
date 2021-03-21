@@ -76,6 +76,12 @@ fn_backup_stop_server(){
 		fn_print_restart_warning
 		startserver="1"
 		exitbypass=1
+                alert="custom"
+                alertsubject_custom="Alert - Starting Backup"
+                alertbody_custom="Backup of ${selfname} is starting. Server will shutdown in 5 minutes."
+                alerturl_custom=""
+                alert.sh
+                sleep 300
 		command_stop.sh
 		fn_firstcommand_reset
 	fi
@@ -250,6 +256,12 @@ fn_backup_start_server(){
 		exitbypass=1
 		command_start.sh
 		fn_firstcommand_reset
+                sleep 30
+                alert="custom"
+                alertsubject_custom="Alert - Backup Complete"
+                alertbody_custom="Backup of ${selfname} is complete. Server is running."
+                alerturl_custom="Backup File: ${backupname}.tar.gz"
+                alert.sh
 	fi
 }
 

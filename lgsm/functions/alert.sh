@@ -27,6 +27,15 @@ fn_alert_log(){
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${alertlog}" > /dev/null 2>&1
 }
 
+fn_alert_custom(){
+        fn_script_log_info "Sending custom alert"
+        alertsubject="${alertsubject_custom}"
+        alertemoji="🚧"
+        alertsound="2"
+        alerturl="${alerturl_custom}"
+        alertbody="${alertbody_custom}"
+}
+
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
 	alertsubject="Alert - ${selfname} - Test"
@@ -104,6 +113,8 @@ elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
+elif [ "${alert}" == "custom" ]; then
+        fn_alert_custom
 fi
 
 # Generate alert log.
