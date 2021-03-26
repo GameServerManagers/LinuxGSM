@@ -127,7 +127,6 @@ fn_start_tmux(){
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			fn_reload_startparameters
 			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
