@@ -425,8 +425,24 @@ fn_info_message_gameserver(){
 
 		# Save interval (Rust)
 		if [ -n "${saveinterval}" ]; then
-			echo -e "${lightblue}ASE:\t${default}${saveinterval} s"
+			echo -e "${lightblue}Save interval:\t${default}${saveinterval} s"
 		fi
+
+		# Seed (Rust)
+		if [ -n "${seed}" ]; then
+			echo -e "${lightblue}Seed:\t${default}${seed}"
+		fi
+
+		# Salt (Rust)
+		if [ -n "${salt}" ]; then
+			echo -e "${lightblue}Salt:\t${default}${salt}"
+		fi
+
+		# World Size (Rust)
+		if [ -n "${worldsize}" ]; then
+			echo -e "${lightblue}World Size:\t${default}${worldsize}"
+		fi
+
 
 		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
