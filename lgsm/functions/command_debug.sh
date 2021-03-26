@@ -67,6 +67,8 @@ fi
 if [ "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 fi
+
+fn_reload_startparameters
 echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${startparameters} -debug"
