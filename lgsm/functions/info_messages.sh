@@ -425,7 +425,7 @@ fn_info_message_gameserver(){
 
 		# Save interval (Rust)
 		if [ -n "${saveinterval}" ]; then
-			echo -e "${lightblue}Save interval:\t${default}${saveinterval} s"
+			echo -e "${lightblue}Save interval:\t${default}${saveinterval}s"
 		fi
 
 		# Seed (Rust)
@@ -440,7 +440,7 @@ fn_info_message_gameserver(){
 
 		# World Size (Rust)
 		if [ -n "${worldsize}" ]; then
-			echo -e "${lightblue}World Size:\t${default}${worldsize}"
+			echo -e "${lightblue}World size:\t${default}${worldsize}m"
 		fi
 
 
