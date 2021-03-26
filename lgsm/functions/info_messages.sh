@@ -347,7 +347,7 @@ fn_info_message_gameserver(){
 		fi
 
 		if [ -n "${defaultscenario}" ]; then
-			# Current scenario
+			# Current scenario (Insurgency: Sandstorm)
 			if [ -n "${gdgamemode}" ]; then
 				echo -e "${lightblue}Current scenario:\t${default}${gdgamemode}"
 			fi
@@ -442,7 +442,6 @@ fn_info_message_gameserver(){
 		if [ -n "${worldsize}" ]; then
 			echo -e "${lightblue}World size:\t${default}${worldsize}m"
 		fi
-
 
 		# Random map rotation mode (Squad and Post Scriptum)
 		if [ -n "${randommap}" ]; then
