@@ -478,7 +478,7 @@ else
 		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/_default.cfg"; then
 			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
-		
+
 		# For legacy configs that still use parms= 15.03.21
 		if grep -qE "^[[:blank:]]*parms=" "${configdirserver}/secrets-${selfname}.cfg"; then
 			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
@@ -497,7 +497,6 @@ else
 		fi
 	}
 
-	fn_reload_startparameters
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
