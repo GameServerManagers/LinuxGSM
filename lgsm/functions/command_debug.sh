@@ -110,7 +110,7 @@ elif [ "${shortname}" == "arma3" ]; then
 	# Arma3 requires semicolons in the module list, which need to
 	# be escaped for regular (tmux) loading, but need to be
 	# stripped when loading straight from the console.
-	${executable} ${parms//\\;/;}
+	${executable} ${startparameters//\\;/;}
 elif [ "${engine}" == "quake" ]; then
 	${executable} ${startparameters} -condebug
 else
