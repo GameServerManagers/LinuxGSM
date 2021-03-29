@@ -142,11 +142,17 @@ fn_info_parms_rust(){
 	saveinterval=${saveinterval:-"0"}
 	tickrate=${tickrate:-"0"}
 	# Part of random seed feature.
+	# If seed is not defined by user generate a seed file.
 	if [ -z "${seed}" ]; then
 		if [ ! -f "${datadir}/${selfname}-seed.txt" ]; then
 			shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
 		fi
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
+	# If the seed is defined by the user remove the seed file if it exists.
+	else
+		if [ -f "${datadir}/${selfname}-seed.txt" ]; then
+			rm -f "${datadir:?}/${selfname}-seed.txt"
+		fi
 	fi
 }
 
