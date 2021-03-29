@@ -29,8 +29,8 @@ fn_wipe_server_files(){
 	# Remove Map files
 	if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
 		echo -en "removing *.map file(s)..."
-		fn_sleep_time
 		fn_script_log_info "removing *.map file(s).."
+		fn_sleep_time
 		find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 	else
@@ -42,22 +42,22 @@ fn_wipe_server_files(){
 	# Remove Save files
 	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav")" ]; then
 		echo -en "removing *.sav file(s)..."
-		fn_sleep_time
 		fn_script_log_info "removing *.sav file(s).."
+		fn_sleep_time
 		find "${serveridentitydir:?}" -type f -name "*.sav" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 	else
 		echo -e "no *.sav file(s) to remove"
-		fn_sleep_time
 		fn_script_log_pass "no *.sav file(s) to remove"
+		fn_sleep_time
 	fi
 
 	# Remove db files for full wipe
 	if [ -n "${fullwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.db")" ]; then
 			echo -en "removing *.db file(s)..."
-			fn_sleep_time
 			fn_script_log_info "removing *.db file(s).."
+			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.db" -delete | tee -a "${lgsmlog}"
 			fn_wipe_exit_code
 		else
@@ -100,8 +100,11 @@ fn_full_wipe_warning(){
 
 # Will change the seed everytime the wipe command is run if the seed in config is not set.
 fn_wipe_random_seed(){
+	echo -en "generating random seed..."
 	shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
 	seed=$(cat "${datadir}/${selfname}-seed.txt")
+	exitcode=0
+	fn_wipe_exit_code
 }
 
 fn_print_dots ""
@@ -122,16 +125,17 @@ if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]||[ -n "$(find 
 		fn_firstcommand_reset
 		fn_wipe_server_files
 		fn_wipe_random_seed
+		fn_print_complete_nl "Wiping ${selfname}"
+		fn_script_log_pass "Wiping ${selfname}"
 		exitbypass=1
 		command_start.sh
 		fn_firstcommand_reset
 	else
 		fn_wipe_server_files
 		fn_wipe_random_seed
+		fn_print_complete_nl "Wiping ${selfname}"
+		fn_script_log_pass "Wiping ${selfname}"
 	fi
-	fn_print_complete_nl "Wiping ${selfname}"
-	fn_script_log_pass "Wiping ${selfname}"
-
 else
 	fn_print_ok_nl "Wipe not required"
 	fn_script_log_pass "Wipe not required"
