@@ -25,7 +25,7 @@ fn_wipe_exit_code(){
 fn_wipe_server_files(){
 	fn_print_start_nl "Wiping server"
 	fn_script_log_info "Wiping server"
-	# Wipe procedural map.
+	# Wipe Procedural map.
 	if [ -n "$(find "${serveridentitydir}" -type f -name "proceduralmap.*.map")" ]; then
 		echo -en "removing procedural map proceduralmap.*.map file(s)..."
 		fn_sleep_time
@@ -201,6 +201,7 @@ fn_wipe_warning(){
 # Will change the seed everytime the wipe command is run if the seed in config is not set.
 fn_wipe_random_seed(){
 	shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
+	seed=$(cat "${datadir}/${selfname}-seed.txt")
 }
 
 fn_print_dots ""
@@ -216,6 +217,7 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 		command_stop.sh
 		fn_firstcommand_reset
 		fn_wipe_server_files
+		fn_wipe_random_seed
 		exitbypass=1
 		command_start.sh
 		fn_firstcommand_reset
@@ -224,7 +226,7 @@ if [ -d "${serveridentitydir}/storage" ]||[ -d "${serveridentitydir}/user" ]||[ 
 	fi
 	fn_print_complete_nl "Wiping ${selfname}"
 	fn_script_log_pass "Wiping ${selfname}"
-	fn_wipe_random_seed
+
 else
 	fn_print_ok_nl "Wipe not required"
 	fn_script_log_pass "Wipe not required"
