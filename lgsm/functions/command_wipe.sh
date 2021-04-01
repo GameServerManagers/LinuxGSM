@@ -101,13 +101,10 @@ fn_full_wipe_warning(){
 # Will change the seed everytime the wipe is run, if the seed is not defined by the user.
 fn_wipe_random_seed(){
 	if [ -f "${datadir}/${selfname}-seed.txt" ]; then
-		echo -en "generating random seed..."
 		shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
-		echo -e "${cyan}${seed}${default}"
+		echo -en "generating new random seed (${cyan}${seed}${default})..."
 		fn_sleep_time
-		exitcode=0
-		fn_wipe_exit_code
 	fi
 }
 
