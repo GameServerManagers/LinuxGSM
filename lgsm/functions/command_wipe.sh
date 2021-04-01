@@ -105,6 +105,7 @@ fn_wipe_random_seed(){
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
 		echo -en "generating new random seed (${cyan}${seed}${default})..."
 		fn_sleep_time
+		fn_print_ok_eol_nl
 	fi
 }
 

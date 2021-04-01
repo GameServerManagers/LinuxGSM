@@ -148,14 +148,7 @@ fn_info_parms_rust(){
 		if [ ! -f "${datadir}/${selfname}-seed.txt" ]; then
 			shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
 		fi
-		randomseed=$(cat "${datadir}/${selfname}-seed.txt")
-		seed="${randomseed}"
-	fi
-	# Remove the random seed file if user defined
-	if [ -n "${seed}" ]&&[ -z "${randomseed}" ]; then
-		if [ -f "${datadir}/${selfname}-seed.txt" ]; then
-			rm -f "${datadir:?}/${selfname}-seed.txt"
-		fi
+		seed="$(cat "${datadir}/${selfname}-seed.txt")"
 	fi
 }
 
