@@ -29,7 +29,7 @@ fn_wipe_server_files(){
 	# Remove Map files
 	if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
 		echo -en "removing *.map file(s)..."
-		fn_script_log_info "removing *.map file(s).."
+		fn_script_log_info "removing *.map file(s)"
 		fn_sleep_time
 		find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" >>  "${lgsmlog}"
 		find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
@@ -43,7 +43,7 @@ fn_wipe_server_files(){
 	# Remove Save files.
 	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]; then
 		echo -en "removing .sav file(s)..."
-		fn_script_log_info "removing .sav file(s)..."
+		fn_script_log_info "removing .sav file(s)"
 		fn_sleep_time
 		find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" >>  "${lgsmlog}"
 		find "${serveridentitydir:?}" -type f -name "*.sav*" -delete
@@ -58,7 +58,7 @@ fn_wipe_server_files(){
 	if [ -n "${fullwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.db")" ]; then
 			echo -en "removing .db file(s)..."
-			fn_script_log_info "removing .db file(s)..."
+			fn_script_log_info "removing .db file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.db" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.db" -delete
@@ -107,6 +107,7 @@ fn_wipe_random_seed(){
 		shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
 		echo -en "generating new random seed (${cyan}${seed}${default})..."
+		fn_script_log_pass "generating new random seed (${cyan}${seed}${default})"
 		fn_sleep_time
 		fn_print_ok_eol_nl
 	fi
