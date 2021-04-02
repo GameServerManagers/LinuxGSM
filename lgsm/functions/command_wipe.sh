@@ -91,7 +91,7 @@ fn_full_wipe_warning(){
 	fn_script_log_warn "Full wipe will reset the map and remove player data"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "ull wipe will reset the map and remove player data: ${totalseconds}"
+		fn_print_warn "Full wipe will reset the map and remove player data: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		sleep 1
 		if [ "${seconds}" == "0" ]; then
