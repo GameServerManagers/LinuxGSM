@@ -262,6 +262,11 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
+		# Bots
+		if [ -n "${gdversion}" ]; then
+			echo -e "${lightblue}Server Version:\t${default}${gdversion}"
+		fi
+
 		# Server ip
 		echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 

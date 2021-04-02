@@ -68,5 +68,11 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi
+
+		# server version.
+		gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
+		if [ "${gdversion}" == "null" ]||[ "${gdversion}" == "0" ]; then
+			unset gdversion
+		fi
 	fi
 fi
