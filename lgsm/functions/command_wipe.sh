@@ -40,30 +40,30 @@ fn_wipe_server_files(){
 	fi
 
 	# Remove Save files
-	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav")" ]; then
-		echo -en "removing *.sav file(s)..."
-		fn_script_log_info "removing *.sav file(s).."
+	if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]; then
+		echo -en "removing .sav file(s)..."
+		fn_script_log_info "removing .sav file(s)..."
 		fn_sleep_time
-		find "${serveridentitydir:?}" -type f -name "*.sav" -delete | tee -a "${lgsmlog}"
+		find "${serveridentitydir:?}" -type f -name "*.sav*" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 	else
-		echo -e "no *.sav file(s) to remove"
-		fn_script_log_pass "no *.sav file(s) to remove"
+		echo -e "no .sav file(s) to remove"
+		fn_script_log_pass "no .sav file(s) to remove"
 		fn_sleep_time
 	fi
 
 	# Remove db files for full wipe
 	if [ -n "${fullwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.db")" ]; then
-			echo -en "removing *.db file(s)..."
-			fn_script_log_info "removing *.db file(s).."
+			echo -en "removing .db file(s)..."
+			fn_script_log_info "removing .db file(s)..."
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.db" -delete | tee -a "${lgsmlog}"
 			fn_wipe_exit_code
 		else
-			echo -e "no *.db file(s) to remove"
+			echo -e "no .db file(s) to remove"
 			fn_sleep_time
-			fn_script_log_pass "no *.db file(s) to remove"
+			fn_script_log_pass "no .db file(s) to remove"
 		fi
 	fi
 }
