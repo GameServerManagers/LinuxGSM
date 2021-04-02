@@ -31,7 +31,7 @@ fn_wipe_server_files(){
 		echo -en "removing *.map file(s)..."
 		fn_script_log_info "removing *.map file(s).."
 		fn_sleep_time
-		find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" | tee -a "${lgsmlog}"
+		find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" >>  "${lgsmlog}"
 		find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
 		fn_wipe_exit_code
 	else
@@ -45,7 +45,7 @@ fn_wipe_server_files(){
 		echo -en "removing .sav file(s)..."
 		fn_script_log_info "removing .sav file(s)..."
 		fn_sleep_time
-		find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" | tee -a "${lgsmlog}"
+		find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" >>  "${lgsmlog}"
 		find "${serveridentitydir:?}" -type f -name "*.sav*" -delete
 		fn_wipe_exit_code
 	else
@@ -60,7 +60,7 @@ fn_wipe_server_files(){
 			echo -en "removing .db file(s)..."
 			fn_script_log_info "removing .db file(s)..."
 			fn_sleep_time
-			find "${serveridentitydir:?}" -type f -name "*.db" -printf "%f\n" | tee -a "${lgsmlog}"
+			find "${serveridentitydir:?}" -type f -name "*.db" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.db" -delete
 			fn_wipe_exit_code
 		else
