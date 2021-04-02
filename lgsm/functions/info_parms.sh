@@ -137,14 +137,13 @@ fn_info_parms_rust(){
 	queryport=${port:-"0"}
 	appport=${appport:-"0"}
 	rconport=${rconport:-"0"}
-	gamemode=${gamemode:-"0"}
+	gamemode=${gamemode:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	rconweb=${rconweb:-"NOT SET"}
 	tickrate=${tickrate:-"0"}
-	salt=${salt:-"0"}
 	saveinterval=${saveinterval:-"0"}
-	serverlevel=${serverlevel:-"0"}
+	serverlevel=${serverlevel:-"NOT SET"}
 	worldsize=${worldsize:-"0"}
 	# Part of random seed feature.
 	# If seed is not defined by user generate a seed file.
