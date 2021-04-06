@@ -262,6 +262,11 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
+		# Server Version
+		if [ -n "${gdversion}" ]; then
+			echo -e "${lightblue}Server Version:\t${default}${gdversion}"
+		fi
+
 		# Server ip
 		echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 
@@ -347,7 +352,7 @@ fn_info_message_gameserver(){
 		fi
 
 		if [ -n "${defaultscenario}" ]; then
-			# Current scenario
+			# Current scenario (Insurgency: Sandstorm)
 			if [ -n "${gdgamemode}" ]; then
 				echo -e "${lightblue}Current scenario:\t${default}${gdgamemode}"
 			fi
@@ -425,7 +430,22 @@ fn_info_message_gameserver(){
 
 		# Save interval (Rust)
 		if [ -n "${saveinterval}" ]; then
-			echo -e "${lightblue}ASE:\t${default}${saveinterval} s"
+			echo -e "${lightblue}Save interval:\t${default}${saveinterval}s"
+		fi
+
+		# Seed (Rust)
+		if [ -n "${seed}" ]; then
+			echo -e "${lightblue}Seed:\t${default}${seed}"
+		fi
+
+		# Salt (Rust)
+		if [ -n "${salt}" ]; then
+			echo -e "${lightblue}Salt:\t${default}${salt}"
+		fi
+
+		# World Size (Rust)
+		if [ -n "${worldsize}" ]; then
+			echo -e "${lightblue}World size:\t${default}${worldsize}m"
 		fi
 
 		# Random map rotation mode (Squad and Post Scriptum)
@@ -1126,6 +1146,7 @@ fn_info_message_rust(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> App\tINBOUND\t${appport}\ttcp"
 	} | column -s $'\t' -t
 }
 

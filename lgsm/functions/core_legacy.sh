@@ -79,5 +79,6 @@ if [ -z "${wsstartmap}" ]; then
 fi
 
 fn_parms(){
-parms="${startparameters}"
+	fn_reload_startparameters
+	parms="${startparameters}"
 }

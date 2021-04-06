@@ -46,7 +46,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		# maxplayers.
 		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers')
 		if [ "${gdmaxplayers}" == "null" ]; then
-			unset maxplayers
+			unset gdmaxplayers
 		elif [ "${gdmaxplayers}" == "[]" ]; then
 			gdmaxplayers=0
 		fi
@@ -67,6 +67,12 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		gdbots=$(echo "${gamedigraw}" | jq -re '.bots | length')
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
+		fi
+
+		# server version.
+		gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
+		if [ "${gdversion}" == "null" ]||[ "${gdversion}" == "0" ]; then
+			unset gdversion
 		fi
 	fi
 fi
