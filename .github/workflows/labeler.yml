@@ -1,9 +1,9 @@
 name: "Set Issue Label and Assignee"
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
   pull_request:
-    typed: [opened]
+    types: [opened, edited]
 
 jobs:
   test:
