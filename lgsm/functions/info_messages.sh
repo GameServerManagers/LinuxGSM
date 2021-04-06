@@ -262,6 +262,11 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
+		# Server Version
+		if [ -n "${gdversion}" ]; then
+			echo -e "${lightblue}Server Version:\t${default}${gdversion}"
+		fi
+
 		# Server ip
 		echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 
@@ -1141,6 +1146,7 @@ fn_info_message_rust(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> App\tINBOUND\t${appport}\ttcp"
 	} | column -s $'\t' -t
 }
 
