@@ -847,7 +847,7 @@ fn_info_message_dst(){
 		echo -e "> Game: Server\tINBOUND\t${port}\tudp"
 		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
 		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
-		echo -e "> Steam: Master\tINBOUND\t${steammasterserverport}\tudp"
+		echo -e "> Steam: Master\tINBOUND\t${steammasterport}\tudp"
 	} | column -s $'\t' -t
 }
 

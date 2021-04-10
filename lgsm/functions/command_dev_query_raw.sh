@@ -100,8 +100,8 @@ else
 	echo -e "Steam: Auth:"
 fi
 
-if [ -v steammasterserverport ]; then
-	echo -e "Steam: Master: \t${steammasterserverport} \t$(ss -tupl|grep ${steammasterserverport}|wc -l) \t$(ss -tupl|grep ${steammasterserverport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steammasterserverport}|grep udp|awk '{ print $2 }')"
+if [ -v steammasterport ]; then
+	echo -e "Steam: Master: \t${steammasterport} \t$(ss -tupl|grep ${steammasterport}|wc -l) \t$(ss -tupl|grep ${steammasterport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steammasterport}|grep udp|awk '{ print $2 }')"
 else
 	echo -e "Steam: Master:"
 fi

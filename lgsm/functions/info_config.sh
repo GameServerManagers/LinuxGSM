@@ -340,16 +340,16 @@ fn_info_config_dontstarve(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		port="${zero}"
 		steamauthenticationport="${zero}"
-		steammasterserverport="${zero}"
+		steammasterport="${zero}"
 	else
 		port=$(grep "server_port" "${servercfgfullpath}" | grep "^server_port" | grep -v "#" | tr -cd '[:digit:]')
 		steamauthenticationport=$(grep "authentication_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		steammasterserverport=$(grep "master_server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		steammasterport=$(grep "master_server_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
 		# Not Set
 		port=${port:-"0"}
 		steamauthenticationport=${steamauthenticationport:-"0"}
-		steammasterserverport=${steammasterserverport:-"0"}
+		steammasterport=${steammasterport:-"0"}
 	fi
 }
 
