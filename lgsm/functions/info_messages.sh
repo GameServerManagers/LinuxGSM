@@ -1077,7 +1077,7 @@ fn_info_message_quakelive(){
 }
 
 fn_info_message_arma3(){
-	echo -e " ss -tupl| grep  ${executable}"
+	echo -e " ss -tupl| grep "${executable//.\/}""
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
