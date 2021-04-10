@@ -731,7 +731,7 @@ fn_info_config_quakelive(){
 	fi
 }
 
-fn_info_config_realvirtuality(){
+fn_info_config_arma3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		adminpassword="${unavailable}"
@@ -1656,7 +1656,7 @@ elif [ "${shortname}" == "pc" ]; then
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_config_projectzomboid
 elif [ "${shortname}" == "arma3" ]; then
-	fn_info_config_realvirtuality
+	fn_info_config_arma3
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_config_rtcw
 elif [ "${shortname}" == "rw" ]; then

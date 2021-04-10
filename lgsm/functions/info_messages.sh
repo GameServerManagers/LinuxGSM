@@ -1077,21 +1077,17 @@ fn_info_message_quakelive(){
 }
 
 fn_info_message_arma3(){
-	echo -e "netstat -atunp | grep arma3server"
+	echo -e " ss -tupl| grep  ${executable}"
 	echo -e ""
-	# Default port
-	if [ -z "${port}" ]; then
-		port="2302"
-	fi
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
-		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> Query Steam\tINBOUND\t$((port+1))\tudp"
-			echo -e "> Steam: Master traffic\tINBOUND\t$((port+2))\tudp"
-			echo -e "> Undocumented Port\tINBOUND\t$((port+3))\tudp"
-		fi
+		echo -e "> Voice\tINBOUND\t${voiceport}\tudp"
+		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
+		echo -e "> Steam Master\tINBOUND\t${steammasterport}\tudp"
+		echo -e "> Voice (unused)\tINBOUND\t${voiceunusedport}\tudp"
+		echo -e "> BattleEye\tINBOUND\t${battleeyeport}\tudp"
+
 	} | column -s $'\t' -t
 }
 

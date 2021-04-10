@@ -122,9 +122,14 @@ fn_info_parms_quake2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
-fn_info_parms_realvirtuality(){
-	port=${port:-"0"}
+fn_info_parms_arma3(){
+	port=${port:-"2302"}
+	voiceport=${port:-"2302"}
 	queryport=$((port+1))
+	steammasterport=$((port+2))
+	voiceunusedport=$((port+3))
+	battleeyeport=$((port+4))
+
 }
 
 fn_info_parms_risingworld(){
@@ -265,7 +270,7 @@ fn_info_parms_queryport(){
 if [ "${shortname}" == "ark" ]; then
 	fn_info_parms_ark
 elif [ "${shortname}" == "arma3" ]; then
-	fn_info_parms_realvirtuality
+	fn_info_parms_arma3
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_parms_barotrauma
 elif [ "${shortname}" == "bt1944" ]; then
