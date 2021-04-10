@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v21.1.3"
+modulesversion="v21.2.3"
 
 # Core
 
@@ -37,10 +37,6 @@ if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
 else
 	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 fi
-}
-
-fn_parms(){
-parms="${startparameters}"
 }
 
 core_exit.sh(){
@@ -640,6 +636,11 @@ fn_fetch_function
 }
 
 update_minecraft_bedrock.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_papermc.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

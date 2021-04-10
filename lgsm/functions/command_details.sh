@@ -32,7 +32,6 @@ fn_info_message_script
 fn_info_message_backup
 # Some game servers do not have parms.
 if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "jc2" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
-	fn_parms
 	fn_info_message_commandlineparms
 fi
 fn_info_message_ports

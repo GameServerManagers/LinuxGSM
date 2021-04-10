@@ -178,7 +178,7 @@ fn_fastdl_preview(){
 				elif [ "${directory}" == "materials" ]; then
 					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
 				elif [ "${directory}" == "models" ]; then
-					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
+					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" "*.vmt" "*.vtf" )
 				elif [ "${directory}" == "particles" ]; then
 					local allowed_extentions_array=( "*.pcf" )
 				elif [ "${directory}" == "sound" ]; then

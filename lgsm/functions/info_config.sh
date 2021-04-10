@@ -1567,6 +1567,28 @@ fn_info_config_scpsl(){
 	fi
 }
 
+fn_info_config_waterfall(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -e '/^listeners:/,/^[a-z]/!d' "${servercfgfullpath}" | sed -nr 's/^[ ]+motd: (.*)$/\1/p' | tr -d "'" | sed 's/&1//')
+		queryport=$(sed -nr 's/^[ -]+query_port: ([0-9]+)/\1/p' "${servercfgfullpath}")
+		queryenabled=$(sed -nr 's/^[ ]+query_enabled: (.*)$/\1/p' "${servercfgfullpath}")
+		port=$(sed -nr 's/^[ ]+host: [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:([0-9]+)/\1/p' "${servercfgfullpath}")
+		# the normal max_players does only show in on the client side and has no effect how many players can connect
+		maxplayers=$(sed -nr 's/^player_limit: ([-]*[0-9])/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^[ ]+host: ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+):[0-9]+/\1/p' "${servercfgfullpath}")
+
+		if [ "${maxplayers}" == "-1" ]||[ "${maxplayers}" == "0" ]; then
+			maxplayers="UNLIMITED"
+		fi
+	else
+		servername="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		queryenabled="${unavailable}"
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1621,7 +1643,7 @@ elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_quakelive
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_config_jk2
-elif [ "${shortname}" == "mc" ]; then
+elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 	fn_info_config_minecraft
 elif [ "${shortname}" == "mcb" ]; then
 	fn_info_config_minecraft_bedrock
@@ -1693,4 +1715,6 @@ elif [ "${shortname}" == "pvr" ];then
 	fn_info_config_pavlovvr
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_config_vintagestory
+elif [ "${shortname}" == "wmc" ]; then
+	fn_info_config_waterfall
 fi

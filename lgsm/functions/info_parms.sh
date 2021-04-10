@@ -143,19 +143,16 @@ fn_info_parms_rust(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
 	queryport=${port:-"0"}
+	appport=${appport:-"0"}
 	rconport=${rconport:-"0"}
+	gamemode=${gamemode:-"NOT SET"}
+	maxplayers=${maxplayers:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	rconweb=${rconweb:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
-	saveinterval=${saveinterval:-"0"}
 	tickrate=${tickrate:-"0"}
-	# Part of random seed feature.
-	if [ -z "${seed}" ]; then
-		if [ ! -f "${datadir}/${selfname}-seed.txt" ]; then
-			shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
-		fi
-		seed=$(cat "${datadir}/${selfname}-seed.txt")
-	fi
+	saveinterval=${saveinterval:-"0"}
+	serverlevel=${serverlevel:-"NOT SET"}
+	worldsize=${worldsize:-"0"}
 }
 
 fn_info_parms_samp(){
@@ -245,7 +242,11 @@ fn_info_parms_ut(){
 
 fn_info_parms_vh(){
 	port=${port:-"0"}
-	queryport=$((port+1))
+	if [ "${public}" != "0" ]; then
+		queryport=$((port+1))
+	else
+		querymode="1"
+	fi
 	gameworld=${gameworld:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
 	servername=${servername:-"NOT SET"}
