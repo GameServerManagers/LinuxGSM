@@ -143,21 +143,21 @@ else
 fi
 
 if [ -v voiceport ]; then
-	echo -e "UDP Link: \t${voiceport} \t$(ss -tupl|grep ${voiceport}|wc -l) \t$(ss -tupl|grep ${voiceport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${voiceport}|grep udp|awk '{ print $2 }')"
+	echo -e "Voice: \t${voiceport} \t$(ss -tupl|grep ${voiceport}|wc -l) \t$(ss -tupl|grep ${voiceport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${voiceport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "UDP Link:"
+	echo -e "Voice:"
 fi
 
 if [ -v voiceunusedport ]; then
-	echo -e "UDP Link: \t${voiceunusedport} \t$(ss -tupl|grep ${voiceunusedport}|wc -l) \t$(ss -tupl|grep ${voiceunusedport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${voiceunusedport}|grep udp|awk '{ print $2 }')"
+	echo -e "Voice (Unused): \t${voiceunusedport} \t$(ss -tupl|grep ${voiceunusedport}|wc -l) \t$(ss -tupl|grep ${voiceunusedport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${voiceunusedport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "UDP Link:"
+	echo -e "Voice (Unused):"
 fi
 
 if [ -v battleeyeport ]; then
-	echo -e "UDP Link: \t${battleeyeport} \t$(ss -tupl|grep ${battleeyeport}|wc -l) \t$(ss -tupl|grep ${battleeyeport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${battleeyeport}|grep udp|awk '{ print $2 }')"
+	echo -e "BattleEye: \t${battleeyeport} \t$(ss -tupl|grep ${battleeyeport}|wc -l) \t$(ss -tupl|grep ${battleeyeport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${battleeyeport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "UDP Link:"
+	echo -e "BattleEye:"
 fi
 } | column -s $'\t' -t
 echo -e ""
