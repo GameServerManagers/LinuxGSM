@@ -290,4 +290,4 @@ if [ "${appid}" ]; then
 fi
 
 # Gather Port Info using ss
-ssinfo="$(ss -tupl)"
+ssinfo="$(ss -tuplwn)"
