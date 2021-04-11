@@ -727,64 +727,64 @@ fn_info_logs(){
 
 # Engine/Game Specific details
 
-fn_info_message_assettocorsa(){
-	{
-		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> HTTP\tINBOUND\t${httpport}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_ark(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> RAW UDP Socket\tINBOUND\t$((port+1))\tudp"
+			echo -e "> RAW UDP Socket\t$((port+1))\tudp"
 		fi
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_assettocorsa(){
+	{
+		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> HTTP\t${httpport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_avorion(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_ballisticoverkill(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game/RCON\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_bt1944(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Steam\t${steamport}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_cod(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_coduo(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -792,48 +792,48 @@ fn_info_message_chivalry(){
 	fn_info_message_password_strip
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t27960\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> RCON\t27960\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_cod2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_cod4(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_codwaw(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_dst(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game: Server\tINBOUND\t${port}\tudp"
-		echo -e "> Game: Master\tINBOUND\t${masterport}\tudp"
-		echo -e "> Steam: Auth\tINBOUND\t${steamauthenticationport}\tudp"
-		echo -e "> Steam: Master\tINBOUND\t${steammasterport}\tudp"
+		echo -e "> Game: Server\t${port}\tudp"
+		echo -e "> Game: Master\t${masterport}\tudp"
+		echo -e "> Steam: Auth\t${steamauthenticationport}\tudp"
+		echo -e "> Steam: Master\t${steammasterport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_eco(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Web Admin\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -841,41 +841,41 @@ fn_info_message_eco(){
 fn_info_message_etlegacy(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_factorio(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_goldsrc(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
-		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
+		echo -e "> Game/RCON\t${port}\ttcp/udp"
+		echo -e "< Client\t${clientport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_hurtworld(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game/RCON\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_inss(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 		if [ -n "${rconport}" ]; then
-			echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+			echo -e "> RCON\t${rconport}\ttcp"
 		fi
 	} | column -s $'\t' -t
 }
@@ -883,117 +883,117 @@ fn_info_message_inss(){
 	fn_info_message_jk2(){
 		{
 			echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-			echo -e "> Game\tINBOUND\t${port}\tudp"
+			echo -e "> Game\t${port}\tudp"
 		} | column -s $'\t' -t
 	}
 
 fn_info_message_justcause2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_justcause3(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Steam\t${steamport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_minecraft(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Rcon\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game\t${port}\ttcp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Rcon\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_minecraft_bedrock(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Game\tINBOUND\t${port6}\tudp6"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Game\t${port6}\tudp6"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_onset(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> HTTP\t${httpport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_mohaa(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_mom(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> BeaconPort\t${beaconport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_mumble(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Voice\tINBOUND\t${port}\tudp"
-		echo -e "> ServerQuery\tINBOUND\t${port}\ttcp"
+		echo -e "> Voice\t${port}\tudp"
+		echo -e "> ServerQuery\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 fn_info_message_pstbs(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_projectcars(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Steam\t${steamport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_projectzomboid(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_quake(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_quake2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_quake3(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1004,16 +1004,16 @@ fn_info_message_quakelive(){
 	fi
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-		echo -e "> Rcon\tINBOUND\t${rconport}\tudp"
-		echo -e "> Stats\tINBOUND\t${statsport}\tudp"
+		echo -e "> Game/Query\t${port}\tudp"
+		echo -e "> Rcon\t${rconport}\tudp"
+		echo -e "> Stats\t${statsport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_arma3(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "Game\t${port}\tudp\t\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 		echo -e "Voice\t${voiceport}\tudp\t$(echo "${ssinfo}" | grep ${voiceport} | wc -l)"
 		echo -e "Query Steam\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 		echo -e "Steam Master\t${steammasterport}\tudp\t$(echo "${ssinfo}" | grep ${steammasterport} | wc -l)"
@@ -1025,56 +1025,56 @@ fn_info_message_arma3(){
 fn_info_message_bf1942(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game/Query\t${port}\tudp"
+		echo -e "> Query Steam\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_bfv(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_risingworld(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
-		echo -e "> Query HTTP\tINBOUND\t${httpqueryport}\ttcp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game/Query\t${port}\ttcp/udp"
+		echo -e "> Query HTTP\t${httpqueryport}\ttcp"
+		echo -e "> RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_rtcw(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_rust(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
-		echo -e "> App\tINBOUND\t${appport}\ttcp"
+		echo -e "> Game/Query\t${port}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
+		echo -e "> App\t${appport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_samp(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
+		echo -e "> Game/RCON\t${port}\ttcp/udp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_sbots(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1082,10 +1082,10 @@ fn_info_message_sdtd(){
 	fn_info_message_password_strip
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
-		echo -e "> Telnet\tINBOUND\t${telnetport}\ttcp"
+		echo -e "> Game/RCON\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Web Admin\t${webadminport}\ttcp"
+		echo -e "> Telnet\t${telnetport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Web Admin${default}"
@@ -1108,16 +1108,16 @@ fn_info_message_sdtd(){
 fn_info_message_sof2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_source(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
-		echo -e "> SourceTV\tINBOUND\t${sourcetvport}\tudp"
-		echo -e "< Client\tOUTBOUND\t${clientport}\tudp"
+		echo -e "> Game/RCON\t${port}\ttcp/udp"
+		echo -e "> SourceTV\t${sourcetvport}\tudp"
+		echo -e "< Client\t${clientport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1125,9 +1125,9 @@ fn_info_message_spark(){
 	fn_info_message_password_strip
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp"
+		echo -e "> Game/RCON\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Web Admin\t${webadminport}\ttcp"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
@@ -1142,61 +1142,61 @@ fn_info_message_spark(){
 fn_info_message_squad(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_starbound(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
-		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
+		echo -e "> Game\t${port}\ttcp"
+		echo -e "> Query\t${queryport}\ttcp"
+		echo -e "> RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_stationeers(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\ttcp"
+		echo -e "> Game\t${port}\ttcp"
+		echo -e "> Query\t${queryport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_teamspeak3(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Voice\tINBOUND\t${port}\tudp"
-		echo -e "> ServerQuery\tINBOUND\t${queryport}\ttcp"
-		echo -e "> File transfer\tINBOUND\t${fileport}\ttcp"
+		echo -e "> Voice\t${port}\tudp"
+		echo -e "> ServerQuery\t${queryport}\ttcp"
+		echo -e "> File transfer\t${fileport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_teeworlds(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\Query\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\Query\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_terraria(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\t${port}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_towerunite(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
+		echo -e "> Game\t${port}\ttcp"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> Steam\tINBOUND\t$((port+1))\tudp"
+			echo -e "> Steam\t$((port+1))\tudp"
 		fi
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1204,27 +1204,27 @@ fn_info_message_unreal(){
 	fn_info_message_password_strip
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp\tPort=${port}"
+		echo -e "> Query\t${queryport}\tudp"
 		if [ "${engine}" == "unreal" ]; then
-			echo -e "< UdpLink Port (random)\tOUTBOUND\t${udplinkport}+\tudp"
+			echo -e "< UdpLink Port (random)\t${udplinkport}+\tudp"
 		fi
 		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
-			echo -e "> Query (GameSpy)\tINBOUND\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
+			echo -e "> Query (GameSpy)\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
 		fi
 		if [ "${appid}" == "215360" ]; then
-			echo -e "< Master server\tOUTBOUND\t28852\ttcp/udp"
+			echo -e "< Master server\t28852\ttcp/udp"
 		else
-			echo -e "< Master server\tOUTBOUND\t28900/28902\ttcp/udp"
+			echo -e "< Master server\t28900/28902\ttcp/udp"
 		fi
 		if [ "${appid}" ]; then
 			if [ "${appid}" == "223250" ]; then
-				echo -e "> Steam\tINBOUND\t20610\tudp"
+				echo -e "> Steam\t20610\tudp"
 			else
-				echo -e "> Steam\tINBOUND\t20660\tudp"
+				echo -e "> Steam\t20660\tudp"
 			fi
 		fi
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
@@ -1241,12 +1241,12 @@ fn_info_message_unreal2(){
 	fn_info_message_password_strip
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp\tPort=${port}"
+		echo -e "> Query\t${queryport}\tudp"
 		if [ "${appid}" != "223250" ]; then
-			echo -e "> Query (GameSpy)\tINBOUND\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
+			echo -e "> Query (GameSpy)\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
 		fi
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
@@ -1263,9 +1263,9 @@ fn_info_message_unreal3(){
 	fn_info_message_password_strip
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
@@ -1281,23 +1281,23 @@ fn_info_message_unreal3(){
 fn_info_message_unturned(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_ut(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_vh(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1305,10 +1305,10 @@ fn_info_message_kf2(){
 	fn_info_message_password_strip
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam\tINBOUND\t20560\tudp"
-		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		echo -e "> Game\t${port}\ttcp\tPort=${port}"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> Steam\t20560\tudp"
+		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
@@ -1324,7 +1324,7 @@ fn_info_message_kf2(){
 fn_info_message_wolfensteinenemyterritory(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1332,18 +1332,18 @@ fn_info_message_wolfensteinenemyterritory(){
 fn_info_message_wurmunlimited(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\ttcp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\ttcp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_mta(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
-		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
+		echo -e "> Game/Query\t${port}\tudp"
+		echo -e "> HTTP Server\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
-			echo -e "> Query Port\tOUTBOUND\t${queryport}\tudp"
+			echo -e "> Query Port\t${queryport}\tudp"
 		fi
 	} | column -s $'\t' -t
 }
@@ -1351,64 +1351,64 @@ fn_info_message_mta(){
 fn_info_message_mordhau(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> BeaconPort\tINBOUND\t${beaconport}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> BeaconPort\t${beaconport}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_barotrauma(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t$((port+1))\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t$((port+1))\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_soldat(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		echo -e "> FILES\tINBOUND\t$((port+10))\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Query\t${queryport}\tudp"
+		echo -e "> FILES\t$((port+10))\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_warfork(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> HTTP\tINBOUND\t${httpport}\ttcp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> HTTP\t${httpport}\ttcp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_pavlovvr(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Game\tINBOUND\t$((port+400))\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Game\t$((port+400))\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_colony(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
+		echo -e "> Game\t${port}\tudp"
+		echo -e "> Steam\t${steamport}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_vintagestory(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tTCP"
+		echo -e "> Game\t${port}\tTCP"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_scpsl(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
