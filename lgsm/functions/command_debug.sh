@@ -104,7 +104,12 @@ echo "${port}" >> "${lockdir}/${selfname}.lock"
 fn_script_log_info "Lockfile generated"
 fn_script_log_info "${lockdir}/${selfname}.lock"
 
-cd "${executabledir}" || exit
+if [ "${shortname}" == "av" ]; then
+	cd "${systemdir}" || exit
+else
+	cd "${executabledir}" || exit
+fi
+
 # Note: do not add double quotes to ${executable} ${startparameters}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	${executable} ${startparameters} -debug
