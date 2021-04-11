@@ -731,13 +731,10 @@ fn_info_logs(){
 fn_info_message_ark(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> RAW UDP Socket\t${rawport}\tudp\t$(echo "${ssinfo}" | grep ${rawport} | wc -l)"
-		fi
-		echo -e "> Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
-		echo -e "> RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "RAW UDP Socket\t${rawport}\tudp\t$(echo "${ssinfo}" | grep ${rawport} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -750,11 +747,11 @@ fn_info_message_ac(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_avorion(){
+fn_info_message_av(){
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> RCON\t${rconport}\ttcp"
+		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1421,7 +1418,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
 	elif [ "${shortname}" == "av" ]; then
-		fn_info_message_avorion
+		fn_info_message_av
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
 	elif [ "${shortname}" == "bf1942" ]; then
