@@ -164,8 +164,16 @@ fi
 echo -e ""
 echo -e "${lightgreen}SS Output${default}"
 echo -e "================================="
-executableshort="$(echo "${executable//.\/}" | cut -c -15)"
-ss -tupl | grep ${executableshort}
+if [ "${shortname}" == "av" ]; then
+	echo -e "ss -tuplwn | grep AvorionServer"
+	echo -e ""
+	ss -tuplwn | grep AvorionServer
+else
+	executableshort="$(echo "${executable//.\/}" | cut -c -15)"
+	echo -e "ss -tuplwn | grep ${executableshort}"
+	echo -e ""
+	ss -tuplwn | grep ${executableshort}
+fi
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
 echo -e "=================================================================="
