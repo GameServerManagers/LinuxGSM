@@ -667,7 +667,8 @@ fn_info_message_ports(){
 	echo -e "${startparameterslocation}"
 	echo -e ""
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
-	echo -e "ss -tupl | grep ${executable//.\/}"
+	executableshort="$(echo "${executable//.\/}" | cut -c -15)"
+	echo -e "ss -tupl | grep ${executableshort}"
 	echo -e ""
 }
 
