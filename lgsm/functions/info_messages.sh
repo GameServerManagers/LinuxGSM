@@ -734,7 +734,7 @@ fn_info_message_ark(){
 		echo -e "> Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 		# Don't do arithmetics if ever the port wasn't a numeric value
 		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> RAW UDP Socket\t$((port+1))\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+			echo -e "> RAW UDP Socket\t${rawport}\tudp\t$(echo "${ssinfo}" | grep ${rawport} | wc -l)"
 		fi
 		echo -e "> Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 		echo -e "> RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
