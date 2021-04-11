@@ -741,11 +741,12 @@ fn_info_message_ark(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_assettocorsa(){
+fn_info_message_ac(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> HTTP\t${httpport}\tudp"
+		echo -e "Game\t${port}\ttcp/udp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "HTTP\t${httpport}\tudp\t$(echo "${ssinfo}" | grep ${httpport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -1416,7 +1417,7 @@ fn_info_message_scpsl(){
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
-		fn_info_message_assettocorsa
+		fn_info_message_ac
 	elif [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
 	elif [ "${shortname}" == "av" ]; then

@@ -25,7 +25,7 @@ fn_info_config_assettocorsa(){
 	else
 		httpport=$(grep "HTTP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		port=$(grep "TCP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport="${port}"
+		queryport="${httpport}"
 		servername=$(grep "NAME" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/NAME//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| head -n 1)
 		adminpassword=$(grep "ADMIN_PASSWORD" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMIN_PASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
