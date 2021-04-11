@@ -726,8 +726,6 @@ fn_info_logs(){
 # Engine/Game Specific details
 
 fn_info_message_assettocorsa(){
-	echo -e "netstat -atunp| grep acServer"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -736,8 +734,6 @@ fn_info_message_assettocorsa(){
 }
 
 fn_info_message_ark(){
-	echo -e "netstat -atunp | grep ShooterGame"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -750,9 +746,7 @@ fn_info_message_ark(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_avorion() {
-	echo "netstat -atunp | grep Avorion"
-	echo -e ""
+fn_info_message_avorion(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -761,8 +755,6 @@ fn_info_message_avorion() {
 }
 
 fn_info_message_ballisticoverkill(){
-	echo -e "netstat -atunp | grep BODS.x86"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
@@ -771,8 +763,6 @@ fn_info_message_ballisticoverkill(){
 }
 
 fn_info_message_bt1944(){
-	echo -e "netstat -atunp | grep BattalionServ"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -783,8 +773,6 @@ fn_info_message_bt1944(){
 }
 
 fn_info_message_cod(){
-	echo -e "netstat -atunp | grep cod_lnxded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -792,8 +780,6 @@ fn_info_message_cod(){
 }
 
 fn_info_message_coduo(){
-	echo -e "netstat -atunp | grep coduo_lnxded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -802,8 +788,6 @@ fn_info_message_coduo(){
 
 fn_info_message_chivalry(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep UDKGame"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -813,8 +797,6 @@ fn_info_message_chivalry(){
 }
 
 fn_info_message_cod2(){
-	echo -e "netstat -atunp | grep cod2_lnxded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -822,8 +804,6 @@ fn_info_message_cod2(){
 }
 
 fn_info_message_cod4(){
-	echo -e "netstat -atunp"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -831,8 +811,6 @@ fn_info_message_cod4(){
 }
 
 fn_info_message_codwaw(){
-	echo -e "netstat -atunp | grep codwaw_lnxded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -840,8 +818,6 @@ fn_info_message_codwaw(){
 }
 
 fn_info_message_dst(){
-	echo -e "netstat -atunp | grep dontstarve"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game: Server\tINBOUND\t${port}\tudp"
@@ -852,8 +828,6 @@ fn_info_message_dst(){
 }
 
 fn_info_message_eco(){
-	echo -e "netstat -atunp | grep EcoServer"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -863,8 +837,6 @@ fn_info_message_eco(){
 
 
 fn_info_message_etlegacy(){
-	echo -e "netstat -atunp | grep etlded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -872,8 +844,6 @@ fn_info_message_etlegacy(){
 }
 
 fn_info_message_factorio(){
-	echo -e "netstat -atunp | grep factorio"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -882,8 +852,6 @@ fn_info_message_factorio(){
 }
 
 fn_info_message_goldsrc(){
-	echo -e "netstat -atunp | grep hlds_linux"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
@@ -892,8 +860,6 @@ fn_info_message_goldsrc(){
 }
 
 fn_info_message_hurtworld(){
-	echo -e "netstat -atunp | grep Hurtworld"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
@@ -902,8 +868,6 @@ fn_info_message_hurtworld(){
 }
 
 fn_info_message_inss(){
-	echo -e "netstat -atunp | grep Insurgency"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -915,8 +879,6 @@ fn_info_message_inss(){
 }
 
 	fn_info_message_jk2(){
-		echo -e "netstat -atunp | grep jk2mvded"
-		echo -e ""
 		{
 			echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 			echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -924,8 +886,6 @@ fn_info_message_inss(){
 	}
 
 fn_info_message_justcause2(){
-	echo -e "netstat -atunp | grep Jcmp-Server"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -933,8 +893,6 @@ fn_info_message_justcause2(){
 }
 
 fn_info_message_justcause3(){
-	echo -e "netstat -atunp | grep Server"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -944,8 +902,6 @@ fn_info_message_justcause3(){
 }
 
 fn_info_message_minecraft(){
-	echo -e "netstat -atunp | grep java"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
@@ -955,8 +911,6 @@ fn_info_message_minecraft(){
 }
 
 fn_info_message_minecraft_bedrock(){
-	echo -e "netstat -atunp | grep bedrock_serv"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -965,8 +919,6 @@ fn_info_message_minecraft_bedrock(){
 }
 
 fn_info_message_onset(){
-	echo -e "netstat -atunp | grep OnsetServer"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -976,8 +928,6 @@ fn_info_message_onset(){
 }
 
 fn_info_message_mohaa(){
-	echo -e "netstat -atunp | grep mohaa_lnxded"
-	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -985,8 +935,6 @@ fn_info_message_mohaa(){
 }
 
 fn_info_message_mom(){
-	echo -e "netstat -atunp | grep MemoriesOfMar"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -995,8 +943,6 @@ fn_info_message_mom(){
 }
 
 fn_info_message_mumble(){
-	echo -e "netstat -atunp | grep murmur"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
@@ -1004,8 +950,6 @@ fn_info_message_mumble(){
 	} | column -s $'\t' -t
 }
 fn_info_message_pstbs(){
-	echo -e "netstat -atunp | grep PostScriptum"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1015,8 +959,6 @@ fn_info_message_pstbs(){
 }
 
 fn_info_message_projectcars(){
-	echo -e "netstat -atunp | grep DedicatedS"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1026,8 +968,6 @@ fn_info_message_projectcars(){
 }
 
 fn_info_message_projectzomboid(){
-	echo -e "netstat -atunp | grep ProjectZomb"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -1035,8 +975,6 @@ fn_info_message_projectzomboid(){
 }
 
 fn_info_message_quake(){
-	echo -e "netstat -atunp | grep mvdsv"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1044,8 +982,6 @@ fn_info_message_quake(){
 }
 
 fn_info_message_quake2(){
-	echo -e "netstat -atunp | grep quake2"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1053,8 +989,6 @@ fn_info_message_quake2(){
 }
 
 fn_info_message_quake3(){
-	echo -e "netstat -atunp | grep q3ded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1062,8 +996,6 @@ fn_info_message_quake3(){
 }
 
 fn_info_message_quakelive(){
-	echo -e "netstat -atunp | grep qzeroded"
-	echo -e ""
 	if [ -z "${port}" ]||[ -z "${rconport}" ]||[ -z "${statsport}" ]; then
 		echo -e "${red}ERROR!${default} Missing/commented ports in ${servercfg}."
 		echo -e ""
@@ -1077,23 +1009,18 @@ fn_info_message_quakelive(){
 }
 
 fn_info_message_arma3(){
-	echo -e "ss -tupl | grep ${executable//.\/}"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
 		echo -e "Game\t${port}\tudp\t\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "Voice\t${voiceport}\tudp\t$(echo "${ssinfo}" | grep ${voiceport}|wc -l)"
-		echo -e "Query Steam\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport}|wc -l)"
-		echo -e "Steam Master\t${steammasterport}\tudp\t$(echo "${ssinfo}" | grep ${steammasterport}|wc -l)"
-		echo -e "Voice (unused)\t${voiceunusedport}\tudp\t$(echo "${ssinfo}" | grep ${voiceunusedport}|wc -l)"
-		echo -e "BattleEye\t${battleeyeport}\tudp\t$(echo "${ssinfo}" | grep ${battleeyeport}|wc -l)"
-
+		echo -e "Voice\t${voiceport}\tudp\t$(echo "${ssinfo}" | grep ${voiceport} | wc -l)"
+		echo -e "Query Steam\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "Steam Master\t${steammasterport}\tudp\t$(echo "${ssinfo}" | grep ${steammasterport} | wc -l)"
+		echo -e "Voice (unused)\t${voiceunusedport}\tudp\t$(echo "${ssinfo}" | grep ${voiceunusedport} | wc -l)"
+		echo -e "BattleEye\t${battleeyeport}\tudp\t$(echo "${ssinfo}" | grep ${battleeyeport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_bf1942(){
-	echo -e "netstat -atunp | grep bf1942_lnxd"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -1102,8 +1029,6 @@ fn_info_message_bf1942(){
 }
 
 fn_info_message_bfv(){
-	echo -e "netstat -atunp | grep bfv_linded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1112,8 +1037,6 @@ fn_info_message_bfv(){
 }
 
 fn_info_message_risingworld(){
-	echo -e "netstat -atunp | grep java"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\ttcp/udp"
@@ -1123,8 +1046,6 @@ fn_info_message_risingworld(){
 }
 
 fn_info_message_rtcw(){
-	echo -e "netstat -atunp | grep iowolfded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1132,8 +1053,6 @@ fn_info_message_rtcw(){
 }
 
 fn_info_message_rust(){
-	echo -e "netstat -atunp | grep Rust"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -1143,8 +1062,6 @@ fn_info_message_rust(){
 }
 
 fn_info_message_samp(){
-	echo -e "netstat -atunp | grep samp03svr"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
@@ -1152,8 +1069,6 @@ fn_info_message_samp(){
 }
 
 fn_info_message_sbots(){
-	echo -e "netstat -atunp | grep blank1"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1163,8 +1078,6 @@ fn_info_message_sbots(){
 
 fn_info_message_sdtd(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep 7DaysToDie"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
@@ -1191,8 +1104,6 @@ fn_info_message_sdtd(){
 }
 
 fn_info_message_sof2(){
-	echo -e "netstat -atunp | grep sof2ded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -1200,8 +1111,6 @@ fn_info_message_sof2(){
 }
 
 fn_info_message_source(){
-	echo -e "netstat -atunp | grep srcds_linux"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\ttcp/udp"
@@ -1212,8 +1121,6 @@ fn_info_message_source(){
 
 fn_info_message_spark(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep server_linux"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/RCON\tINBOUND\t${port}\tudp"
@@ -1231,8 +1138,6 @@ fn_info_message_spark(){
 }
 
 fn_info_message_squad(){
-	echo -e "netstat -atunp | grep SquadServer"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1242,8 +1147,6 @@ fn_info_message_squad(){
 }
 
 fn_info_message_starbound(){
-	echo -e "netstat -atunp | grep starbound"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
@@ -1253,8 +1156,6 @@ fn_info_message_starbound(){
 }
 
 fn_info_message_stationeers(){
-	echo -e "netstat -atunp | grep rocketstation"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
@@ -1263,8 +1164,6 @@ fn_info_message_stationeers(){
 }
 
 fn_info_message_teamspeak3(){
-	echo -e "netstat -atunp | grep ts3server"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Voice\tINBOUND\t${port}\tudp"
@@ -1274,8 +1173,6 @@ fn_info_message_teamspeak3(){
 }
 
 fn_info_message_teeworlds(){
-	echo -e "netstat -atunp | grep teeworlds"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\Query\tINBOUND\t${port}\ttcp"
@@ -1283,8 +1180,6 @@ fn_info_message_teeworlds(){
 }
 
 fn_info_message_terraria(){
-	echo -e "netstat -atunp | grep Terraria"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
@@ -1292,8 +1187,6 @@ fn_info_message_terraria(){
 }
 
 fn_info_message_towerunite(){
-	echo -e "netstat -atunp | grep TowerServer"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
@@ -1307,8 +1200,6 @@ fn_info_message_towerunite(){
 
 fn_info_message_unreal(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep ucc-bin"
-	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
 		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
@@ -1346,8 +1237,6 @@ fn_info_message_unreal(){
 
 fn_info_message_unreal2(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep ucc-bin"
-	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
 		echo -e "> Game\tINBOUND\t${port}\tudp\tPort=${port}"
@@ -1370,8 +1259,6 @@ fn_info_message_unreal2(){
 
 fn_info_message_unreal3(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep ut3-bin"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1390,8 +1277,6 @@ fn_info_message_unreal3(){
 }
 
 fn_info_message_unturned(){
-	echo -e "netstat -atunp | grep Unturned"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1400,8 +1285,6 @@ fn_info_message_unturned(){
 }
 
 fn_info_message_ut(){
-	echo -e "netstat -atunp | grep UE4Server"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1409,8 +1292,6 @@ fn_info_message_ut(){
 }
 
 fn_info_message_vh(){
-	echo -e "netstat -atunp | grep valheim"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1420,8 +1301,6 @@ fn_info_message_vh(){
 
 fn_info_message_kf2(){
 	fn_info_message_password_strip
-	echo -e "netstat -atunp | grep KFGame"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp\tPort=${port}"
@@ -1441,8 +1320,6 @@ fn_info_message_kf2(){
 }
 
 fn_info_message_wolfensteinenemyterritory(){
-	echo -e "netstat -atunp | grep etded"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -1451,8 +1328,6 @@ fn_info_message_wolfensteinenemyterritory(){
 
 
 fn_info_message_wurmunlimited(){
-	echo -e "netstat -atunp | grep WurmServer"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\ttcp"
@@ -1461,8 +1336,6 @@ fn_info_message_wurmunlimited(){
 }
 
 fn_info_message_mta(){
-	echo -e "netstat -atunp | grep mta-server"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
@@ -1474,8 +1347,6 @@ fn_info_message_mta(){
 }
 
 fn_info_message_mordhau(){
-	echo -e "netstat -atunp | grep Mord"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1485,8 +1356,6 @@ fn_info_message_mordhau(){
 }
 
 fn_info_message_barotrauma(){
-	echo -e "netstat -atunp | grep /./Server.bin"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1494,9 +1363,7 @@ fn_info_message_barotrauma(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_soldat() {
-	echo -e "netstat -atunp | grep soldat"
-	echo -e ""
+fn_info_message_soldat(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1506,8 +1373,6 @@ fn_info_message_soldat() {
 }
 
 fn_info_message_warfork(){
-	echo -e "netstat -atunp | grep wf_server"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1516,8 +1381,6 @@ fn_info_message_warfork(){
 }
 
 fn_info_message_pavlovvr(){
-	echo "netstat -atunp | grep Pavlov"
-	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1526,8 +1389,6 @@ fn_info_message_pavlovvr(){
 }
 
 fn_info_message_colony(){
-	echo -e "netstat -atunp | grep colonyserv"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1536,8 +1397,6 @@ fn_info_message_colony(){
 }
 
 fn_info_message_vintagestory(){
-	echo "netstat -atunp | grep cli"
-	echo -e ""
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
 		echo -e "> Game\tINBOUND\t${port}\tTCP"
@@ -1545,8 +1404,6 @@ fn_info_message_vintagestory(){
 }
 
 fn_info_message_scpsl(){
-	echo -e "netstat -atunp | grep SCPSL"
-	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
@@ -1555,6 +1412,9 @@ fn_info_message_scpsl(){
 
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
+	echo -e "ss -tupl | grep ${executable//.\/}"
+	echo -e ""
+	echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
 	if [ "${shortname}" == "ac" ]; then
 		fn_info_message_assettocorsa
 	elif [ "${shortname}" == "ark" ]; then
