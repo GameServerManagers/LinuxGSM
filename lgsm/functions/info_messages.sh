@@ -667,8 +667,12 @@ fn_info_message_ports(){
 	echo -e "${startparameterslocation}"
 	echo -e ""
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
-	executableshort="$(echo "${executable//.\/}" | cut -c -15)"
-	echo -e "ss -tuplwn | grep ${executableshort}"
+	if [ "${shortname}" == "av" ]; then
+		echo -e "ss -tuplwn | grep AvorionServer"
+	else
+		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
+		echo -e "ss -tuplwn | grep ${executableshort}"
+	fi
 	echo -e ""
 }
 
