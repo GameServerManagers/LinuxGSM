@@ -13,6 +13,7 @@ fn_firstcommand_set
 check.sh
 info_config.sh
 info_parms.sh
+info_distro.sh
 
 echo -e ""
 echo -e "${lightgreen}Query IP Addresses${default}"
