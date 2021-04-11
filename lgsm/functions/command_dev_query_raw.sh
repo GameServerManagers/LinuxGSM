@@ -161,9 +161,10 @@ else
 fi
 } | column -s $'\t' -t
 echo -e ""
-echo -e "${lightgreen}Ports Raw Output${default}"
+echo -e "${lightgreen}SS Output${default}"
 echo -e "================================="
-ss -tupl
+executableshort="$(echo "${executable//.\/}" | cut -c -15)"
+ss -tupl | grep ${executableshort}
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
 echo -e "=================================================================="
@@ -237,10 +238,7 @@ echo -e ""
 echo -e "${lightgreen}Steam Master Server Response${default}"
 echo -e "=================================================================="
 echo -e ""
-
-echo -e ""
-echo -e "${lightgreen}ss Details${default}"
-echo -e "=================================================================="
+echo -e "${displaymasterserver}"
 echo -e ""
 
 exitcode=0
