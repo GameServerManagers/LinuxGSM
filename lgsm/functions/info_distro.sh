@@ -288,3 +288,6 @@ if [ "${appid}" ]; then
 		glibc="2.14"
 	fi
 fi
+
+# Gather Port Info using ss
+ssinfo="$(ss -tupl)"

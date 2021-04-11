@@ -1077,16 +1077,16 @@ fn_info_message_quakelive(){
 }
 
 fn_info_message_arma3(){
-	echo -e " ss -tupl | grep ${executable//.\/}"
+	echo -e "ss -tupl | grep ${executable//.\/}"
 	echo -e ""
 	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Voice\tINBOUND\t${voiceport}\tudp"
-		echo -e "> Query Steam\tINBOUND\t${queryport}\tudp"
-		echo -e "> Steam Master\tINBOUND\t${steammasterport}\tudp"
-		echo -e "> Voice (unused)\tINBOUND\t${voiceunusedport}\tudp"
-		echo -e "> BattleEye\tINBOUND\t${battleeyeport}\tudp"
+		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
+		echo -e "Game\t${port}\tudp\t\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Voice\t${voiceport}\tudp\t$(echo "${ssinfo}" | grep ${voiceport}|wc -l)"
+		echo -e "Query Steam\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport}|wc -l)"
+		echo -e "Steam Master\t${steammasterport}\tudp\t$(echo "${ssinfo}" | grep ${steammasterport}|wc -l)"
+		echo -e "Voice (unused)\t${voiceunusedport}\tudp\t$(echo "${ssinfo}" | grep ${voiceunusedport}|wc -l)"
+		echo -e "BattleEye\t${battleeyeport}\tudp\t$(echo "${ssinfo}" | grep ${battleeyeport}|wc -l)"
 
 	} | column -s $'\t' -t
 }

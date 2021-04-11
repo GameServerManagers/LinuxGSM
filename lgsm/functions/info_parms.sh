@@ -129,7 +129,6 @@ fn_info_parms_arma3(){
 	steammasterport=$((port+2))
 	voiceunusedport=$((port+3))
 	battleeyeport=$((port+4))
-
 }
 
 fn_info_parms_risingworld(){
