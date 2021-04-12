@@ -755,7 +755,10 @@ fn_info_message_av(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tSTATUS${default}"
 		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "RCON\t${rconport}\ttcp"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "Steam\t${steammasterport}\tudp\t$(echo "${ssinfo}" | grep ${steammasterport} | wc -l)"
+		echo -e "Steam Query\t${steamqueryport}\tudp\t$(echo "${ssinfo}" | grep ${steamqueryport} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
