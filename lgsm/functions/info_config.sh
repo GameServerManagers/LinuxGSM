@@ -1432,7 +1432,7 @@ fn_info_config_mordhau(){
 }
 
 
-fn_info_config_avorion() {
+fn_info_config_av() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		maxplayers="${unavailable}"
 		servername="${unavailable}"
@@ -1442,14 +1442,21 @@ fn_info_config_avorion() {
 		rconenabled="${unavailable}"
 		queryport="${unavailable}"
 	else
+
 		maxplayers=$(grep "maxPlayers=" "${servercfgfullpath}" | sed 's/maxPlayers=//')
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
-		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
+
+		port=$(grep "port=" "${servercfgfullpath}" | sed 's/port=//')
+		queryport=$((port+3))
+		steamqueryport=$((port+20))
+		steammasterport=$((port+21))
 		rconport=$(grep "rconPort=" "${servercfgfullpath}" | sed 's/rconPort=//')
+
+		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
 		if [ -n "${rconpassword}" ]; then
 			rconenabled="true"
-			queryport="${rconport}"
+
 		fi
 
 		# Not set
@@ -1594,7 +1601,7 @@ if [ "${shortname}" == "ac" ]; then
 elif [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
 elif [ "${shortname}" == "av" ]; then
-	fn_info_config_avorion
+	fn_info_config_av
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_ballistic_overkill
 elif [ "${shortname}" == "bt" ]; then
