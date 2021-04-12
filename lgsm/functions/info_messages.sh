@@ -762,11 +762,11 @@ fn_info_message_av(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_ballisticoverkill(){
+fn_info_message_bo(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game/RCON\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "> Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -783,7 +783,8 @@ fn_info_message_bt1944(){
 fn_info_message_cod(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -1396,11 +1397,11 @@ fn_info_message_pavlovvr(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_colony(){
+fn_info_message_col(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Steam\t${steamport}\tudp"
+		echo -e "Game\t${port}\ttcp/udp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Steam\t${steamport}\tudp\t$(echo "${ssinfo}" | grep ${steamport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -1433,7 +1434,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "bfv" ]; then
 		fn_info_message_bfv
 	elif [ "${shortname}" == "bo" ]; then
-		fn_info_message_ballisticoverkill
+		fn_info_message_bo
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
@@ -1451,7 +1452,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "codwaw" ]; then
 		fn_info_message_codwaw
 	elif [ "${shortname}" == "col" ]; then
-		fn_info_message_colony
+		fn_info_message_col
 	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
