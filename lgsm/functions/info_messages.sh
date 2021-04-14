@@ -799,8 +799,8 @@ fn_info_message_chivalry(){
 	fn_info_message_password_strip
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "Game\t${port}\tudp"
-		echo -e "Query\t${queryport}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
