@@ -235,20 +235,18 @@ fn_info_config_bfv(){
 	fi
 }
 
-fn_info_config_chivalry(){
+fn_info_config_cmw(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		adminpassword="${unavailable}"
-        else
+		rconport="${unavailable}"
+	else
 		servername=$(grep -E "^ServerName" "${servercfgfullpath}" | sed 's/^ServerName=//')
-		adminpassword=$(grep -E "^AdminPassword" "${servercfgfullpath}" | sed 's/^AdminPassword=//')
-
+		rconport=$(grep -E "^RConPort=" "${servercfgdir}/DefaultGame.ini" | tr -cd '[:digit:]')
 		# Not Set
 		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-		port=${port:-"0"}
+		rconport=${port:-"0"}
 	fi
 }
 
@@ -1613,7 +1611,7 @@ elif [ "${shortname}" == "bf1942" ]; then
 elif [ "${shortname}" == "bfv" ]; then
 	fn_info_config_bfv
 elif [ "${shortname}" == "cmw" ]; then
-	fn_info_config_chivalry
+	fn_info_config_cmw
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]; then
 	fn_info_config_cod
 elif [ "${shortname}" == "cod2" ]; then
