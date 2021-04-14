@@ -31,7 +31,6 @@ fn_info_parms_barotrauma(){
 
 fn_info_parms_bt1944(){
 	port=${port:-"0"}
-	steamport=$((port+1))
 	rconport=$((port+2))
 	queryport=${queryport:-"0"}
 }

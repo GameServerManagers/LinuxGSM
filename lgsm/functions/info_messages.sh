@@ -773,10 +773,9 @@ fn_info_message_bo(){
 fn_info_message_bt1944(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Steam\t${steamport}\tudp"
-		echo -e "> RCON\t${rconport}\ttcp"
-		echo -e "> Query\t${queryport}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -1401,7 +1400,7 @@ fn_info_message_col(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 		echo -e "Game\t${port}\ttcp/udp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "Steam\t${steamport}\tudp\t$(echo "${ssinfo}" | grep ${steamport} | wc -l)"
+		echo -e "Steam\t${steamport}\ttcp\t$(echo "${ssinfo}" | grep ${steamport} | wc -l)"
 	} | column -s $'\t' -t
 }
 

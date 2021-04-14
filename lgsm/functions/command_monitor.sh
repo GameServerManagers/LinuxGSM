@@ -74,12 +74,10 @@ fn_monitor_check_queryport(){
 		fn_script_log_info "Checking port: CHECKING"
 		if [ -n "${rconenabled}" ]&&[ "${rconenabled}" != "true" ]&&[ ${shortname} == "av" ]; then
 			fn_print_warn "Checking port: Unable to query, rcon is not enabled"
-			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking port: Unable to query, rcon is not enabled"
 		else
 			fn_print_error "Checking port: Unable to query, queryport is not set"
 			fn_script_log_error "Checking port: Unable to query, queryport is not set"
-			fn_print_error_eol_nl
 		fi
 		core_exit.sh
 	fi
