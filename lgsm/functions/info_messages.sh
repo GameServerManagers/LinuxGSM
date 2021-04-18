@@ -851,7 +851,8 @@ fn_info_message_eco(){
 fn_info_message_etlegacy(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game/Query\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
