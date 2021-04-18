@@ -95,8 +95,8 @@ else
 	echo -e "Game: Master:"
 fi
 
-if [ -v steamauthenticationport ]; then
-	echo -e "Steam: Auth: \t${steamauthenticationport} \t$(ss -tupl|grep ${steamauthenticationport}|wc -l) \t$(ss -tupl|grep ${steamauthenticationport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steamauthenticationport}|grep udp|awk '{ print $2 }')"
+if [ -v steamauthport ]; then
+	echo -e "Steam: Auth: \t${steamauthport} \t$(ss -tupl|grep ${steamauthport}|wc -l) \t$(ss -tupl|grep ${steamauthport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steamauthport}|grep udp|awk '{ print $2 }')"
 else
 	echo -e "Steam: Auth:"
 fi

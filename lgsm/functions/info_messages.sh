@@ -779,6 +779,16 @@ fn_info_message_bt1944(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_chivalry(){
+	fn_info_message_password_strip
+	{
+		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_cod(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
@@ -795,52 +805,45 @@ fn_info_message_coduo(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_chivalry(){
-	fn_info_message_password_strip
+fn_info_message_cod2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
-		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
-	} | column -s $'\t' -t
-}
-
-fn_info_message_cod2(){
-	{
-		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_cod4(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_codwaw(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_dst(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game: Server\t${port}\tudp"
-		echo -e "> Game: Master\t${masterport}\tudp"
-		echo -e "> Steam: Auth\t${steamauthenticationport}\tudp"
-		echo -e "> Steam: Master\t${steammasterport}\tudp"
+		echo -e "Game: Server\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Game: Master\t${masterport}\tudp\t$(echo "${ssinfo}" | grep ${masterport} | wc -l)"
+		echo -e "Steam: Auth\t${steamauthport}\tudpt$(echo "${ssinfo}" | grep ${steamauthport} | wc -l)"
+		echo -e "Steam: Master\t${steammasterport}\tudpt$(echo "${ssinfo}" | grep ${steammasterport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_eco(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Web Admin\t${webadminport}\ttcp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Web Admin\t${webadminport}\ttcp\t$(echo "${ssinfo}" | grep ${webadminport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
