@@ -871,7 +871,7 @@ fn_info_message_goldsrc(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_hurtworld(){
+fn_info_message_hw(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
@@ -1463,7 +1463,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "fctr" ]; then
 		fn_info_message_factorio
 	elif [ "${shortname}" == "hw" ]; then
-		fn_info_message_hurtworld
+		fn_info_message_hw
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
 	elif [ "${shortname}" == "jk2" ]; then
