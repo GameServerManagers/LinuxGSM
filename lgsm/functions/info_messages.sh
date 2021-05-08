@@ -847,7 +847,6 @@ fn_info_message_eco(){
 	} | column -s $'\t' -t
 }
 
-
 fn_info_message_etlegacy(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
@@ -859,23 +858,24 @@ fn_info_message_etlegacy(){
 fn_info_message_factorio(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> RCON\t${rconport}\ttcp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_goldsrc(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game/RCON\t${port}\ttcp/udp"
-		echo -e "< Client\t${clientport}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Client\t${clientport}\tudp\t$(echo "${ssinfo}" | grep ${clientport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_hurtworld(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game/RCON\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 		echo -e "> Query\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
