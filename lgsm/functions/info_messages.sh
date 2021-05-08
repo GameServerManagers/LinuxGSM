@@ -875,7 +875,6 @@ fn_info_message_hurtworld(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
@@ -883,20 +882,18 @@ fn_info_message_hurtworld(){
 fn_info_message_inss(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
-		if [ -n "${rconport}" ]; then
-			echo -e "> RCON\t${rconport}\ttcp"
-		fi
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
-	fn_info_message_jk2(){
-		{
-			echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-			echo -e "> Game\t${port}\tudp"
-		} | column -s $'\t' -t
-	}
+fn_info_message_jk2(){
+	{
+		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
+		echo -e "> Game\t${port}\tudp"
+	} | column -s $'\t' -t
+}
 
 fn_info_message_justcause2(){
 	{
