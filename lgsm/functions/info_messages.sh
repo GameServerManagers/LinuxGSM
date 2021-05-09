@@ -891,23 +891,23 @@ fn_info_message_inss(){
 fn_info_message_jk2(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_justcause2(){
+fn_info_message_jc2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_justcause3(){
+fn_info_message_jc3(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> Steam\t${steamport}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "Steam\t${steamport}\tudp\t$(echo "${ssinfo}" | grep ${steamport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -1469,9 +1469,9 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "jk2" ]; then
 		fn_info_message_jk2
 	elif [ "${shortname}" == "jc2" ]; then
-		fn_info_message_justcause2
+		fn_info_message_jc2
 	elif [ "${shortname}" == "jc3" ]; then
-		fn_info_message_justcause3
+		fn_info_message_jc3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
 	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
