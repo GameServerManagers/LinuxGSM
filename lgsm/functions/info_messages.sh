@@ -957,8 +957,8 @@ fn_info_message_mom(){
 fn_info_message_mumble(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Voice\t${port}\tudp"
-		echo -e "> ServerQuery\t${port}\ttcp"
+		echo -e "Voice\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\ttcp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 fn_info_message_pstbs(){
