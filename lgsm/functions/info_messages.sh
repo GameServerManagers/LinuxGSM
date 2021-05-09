@@ -942,15 +942,15 @@ fn_info_message_onset(){
 fn_info_message_mohaa(){
 	{
 		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\t${port}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_mom(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> BeaconPort\t${beaconport}\tudp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "BeaconPort\t${beaconport}\tudp\t$(echo "${ssinfo}" | grep ${beaconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
