@@ -916,17 +916,17 @@ fn_info_message_jc3(){
 fn_info_message_mc(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> Rcon\t${rconport}\ttcp"
+		echo -e "Game\t${port}\ttcp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
+		echo -e "RCON\t${rconport}\ttcp\t$(echo "${ssinfo}" | grep ${rconport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_mc_bedrock(){
+fn_info_message_mcb(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Game\t${port6}\tudp6"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Game\t${port6}\tudp6\t$(echo "${ssinfo}" | grep ${port6} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -1479,7 +1479,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
 		fn_info_message_mc
 	elif [ "${shortname}" == "mcb" ]; then
-		fn_info_message_mc_bedrock
+		fn_info_message_mcb
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
 	elif [ "${shortname}" == "mohaa" ]; then

@@ -100,6 +100,7 @@ fn_info_config_jc3(){
 		port=${port=:-"0"}
 		queryport=${queryport=:-"0"}
 		steamport=${steamport=:-"0"}
+		httpport=${httpport=:-"0"}
 		tickrate=${tickrate=:-"0"}
 	fi
 }
