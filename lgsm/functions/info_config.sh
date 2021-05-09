@@ -39,7 +39,7 @@ fn_info_config_assettocorsa(){
 	fi
 }
 
-fn_info_config_justcause2(){
+fn_info_config_jc2(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -66,7 +66,7 @@ fn_info_config_justcause2(){
 	fi
 }
 
-fn_info_config_justcause3(){
+fn_info_config_jc3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverdescription="${unavailable}"
@@ -75,6 +75,7 @@ fn_info_config_justcause3(){
 		port="${zero}"
 		queryPort="${zero}"
 		steamport="${zero}"
+		httpport="${zero}"
 		tickrate="${zero}"
 	else
 		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -84,6 +85,7 @@ fn_info_config_justcause3(){
 		port=$(grep "\"port\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$(grep "\"queryPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		steamport=$(grep "\"steamPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		httpport=$(grep "\"httpPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		tickrate=$(grep "\"maxTickRate\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
 
 		configip=$(grep "host" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/host//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -1629,9 +1631,9 @@ elif [ "${shortname}" == "eco" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_config_factorio
 elif [ "${shortname}" == "jc2" ]; then
-	fn_info_config_justcause2
+	fn_info_config_jc2
 elif [ "${shortname}" == "jc3" ]; then
-	fn_info_config_justcause3
+	fn_info_config_jc3
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
 elif [ "${shortname}" == "mohaa" ]; then

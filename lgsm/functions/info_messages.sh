@@ -899,6 +899,7 @@ fn_info_message_jc2(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
+		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
@@ -908,19 +909,20 @@ fn_info_message_jc3(){
 		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 		echo -e "Query\t${queryport}\tudp\t$(echo "${ssinfo}" | grep ${queryport} | wc -l)"
 		echo -e "Steam\t${steamport}\tudp\t$(echo "${ssinfo}" | grep ${steamport} | wc -l)"
+		echo -e "HTTP\t${httpport}\ttcp\t$(echo "${ssinfo}" | grep ${httpport} | wc -l)"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_minecraft(){
+fn_info_message_mc(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
-		echo -e "> Game\t${port}\ttcp"
+		echo -e "Game\t${port}\tudp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
 		echo -e "> Query\t${queryport}\tudp"
 		echo -e "> Rcon\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
-fn_info_message_minecraft_bedrock(){
+fn_info_message_mc_bedrock(){
 	{
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 		echo -e "> Game\t${port}\tudp"
@@ -1475,9 +1477,9 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
 	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
-		fn_info_message_minecraft
+		fn_info_message_mc
 	elif [ "${shortname}" == "mcb" ]; then
-		fn_info_message_minecraft_bedrock
+		fn_info_message_mc_bedrock
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_message_mordhau
 	elif [ "${shortname}" == "mohaa" ]; then
