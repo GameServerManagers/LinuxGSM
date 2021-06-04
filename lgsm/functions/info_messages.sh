@@ -1150,7 +1150,7 @@ fn_info_message_source(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# not manualy set by default more research needed
