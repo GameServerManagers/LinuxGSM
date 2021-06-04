@@ -671,6 +671,8 @@ fn_info_message_ports(){
 		echo -e "ss -tuplwn | grep AvorionServer"
 	elif [ "${engine}" == "source" ]; then
 		echo -e "ss -tuplwn | grep srcds_linux"
+	elif [ "${engine}" == "goldsrc" ]; then
+		echo -e "ss -tuplwn | grep hlds_linux"
 	else
 		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
