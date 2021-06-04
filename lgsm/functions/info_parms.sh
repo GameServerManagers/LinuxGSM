@@ -170,6 +170,11 @@ fn_info_parms_source(){
 	rconport=${port:-"0"}
 	queryport=${port:-"0"}
 	clientport=${clientport:-"0"}
+	# Steamport can be between 26901-26910 and is normaly automaticly set.
+	# Some servers might support -steamport parameter to set
+	if [ -z "${steamport}" ]; then
+		steamport="$(echo "${ssinfo}" | grep "${gameserverpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	fi
 	steamport="${steamport:-"0"}"
 }
 

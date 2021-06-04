@@ -748,7 +748,7 @@ fn_port(){
 		portname="${1}"
 		porttype="${2}"
 		portprotocol="${3}"
-		echo -e "${portname}\t${!porttype}\t${portprotocol}\t$(echo "${ssinfo}"  | grep ${portprotocol} | grep ${!porttype} | wc -l)"
+		echo -e "${portname}\t${!porttype}\t${portprotocol}\t$(echo "${ssinfo}" | grep ${portprotocol} | grep ${!porttype} | wc -l)"
 	fi
 }
 
@@ -1146,6 +1146,17 @@ fn_info_message_sof2(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_csgo(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "RCON" rconport tcp
+		fn_port "SourceTV" sourcetvport udp
+		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source(){
 	{
 		fn_port "header"
@@ -1470,6 +1481,8 @@ fn_info_message_select_engine(){
 		fn_info_message_barotrauma
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_bt1944
+	elif [ "${shortname}" == "csgo" ]; then
+		fn_info_message_csgo
 	elif [ "${shortname}" == "cmw" ]; then
 		fn_info_message_chivalry
 	elif [ "${shortname}" == "cod" ]; then
