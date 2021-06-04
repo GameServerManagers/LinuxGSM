@@ -1161,6 +1161,17 @@ fn_info_message_csgo(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_ins(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "RCON" rconport tcp
+		fn_port "SourceTV" sourcetvport udp
+		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source(){
 	{
 		fn_port "header"
@@ -1511,6 +1522,8 @@ fn_info_message_select_engine(){
 		fn_info_message_factorio
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_message_hw
+	elif [ "${shortname}" == "ins" ]; then
+		fn_info_message_ins
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
 	elif [ "${shortname}" == "jk2" ]; then
