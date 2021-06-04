@@ -939,17 +939,20 @@ fn_info_config_samp(){
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
 		port="7777"
+		rconport="${port}"
 		maxplayers="50"
 	else
 		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		rconport="${port}"
 		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
-		port=${port:-"8303"}
+		port=${port:-"7777"}
+		rconport="${port}"
 		maxplayers=${maxplayers:-"12"}
 	fi
 }

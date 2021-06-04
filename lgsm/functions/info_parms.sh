@@ -163,17 +163,14 @@ fn_info_parms_samp(){
 	queryport=${port:-"0"}
 }
 
-fn_info_parms_sof2(){
-	port=${port:-"0"}
-	defaultmap=${defaultmap:-"NOT SET"}
-}
-
 fn_info_parms_source(){
 	defaultmap=${defaultmap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
+	rconport=${port:-"0"}
 	queryport=${port:-"0"}
 	clientport=${clientport:-"0"}
+	steamport="${steamport:-"0"}"
 }
 
 fn_info_parms_spark(){
