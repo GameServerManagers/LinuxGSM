@@ -86,6 +86,9 @@ elif [ "${shortname}" == "mcb" ]; then
 elif [ "${shortname}" == "pmc" ]; then
 	install_eula.sh
 	update_papermc.sh
+elif [ "${shortname}" == "fabmc" ]; then
+	install_eula.sh
+	update_fabricmc.sh
 elif [ "${shortname}" == "wmc" ]; then
 	update_papermc.sh
 elif [ "${shortname}" == "mumble" ]; then
