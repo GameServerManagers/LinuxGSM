@@ -92,7 +92,7 @@ fn_info_message_distro(){
 	echo -e "${lightyellow}Distro Details${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Date:\t${default}${date}"
+		echo -e "${lightblue}Date:\t${default}$(date)"
 		echo -e "${lightblue}Distro:\t${default}${distroname}"
 		echo -e "${lightblue}Arch:\t${default}${arch}"
 		echo -e "${lightblue}Kernel:\t${default}${kernel}"
