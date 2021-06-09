@@ -83,6 +83,10 @@ else
 	fi
 fi
 
+if [ "$(command -V java 2>/dev/null)" ]; then
+	javaversion=$(java -version 2>&1 | grep "version")
+fi
+
 ## Uptime
 uptime=$(</proc/uptime)
 uptime=${uptime/[. ]*/}
