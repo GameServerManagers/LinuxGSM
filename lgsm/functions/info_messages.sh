@@ -1131,17 +1131,19 @@ fn_info_message_sdtd(){
 	fn_info_message_password_strip
 	{
 		fn_port "header"
-		echo -e "> Game/RCON\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> Web Admin\t${webadminport}\ttcp"
-		echo -e "> Telnet\t${telnetport}\ttcp"
+		fn_port "Game" port udp
+		fn_port "Game+2" port3 udp
+		fn_port "Query" queryport tcp
+		fn_port "Web Admin" webadminport tcp
+		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Web Admin${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}/index.html"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 	echo -e ""
