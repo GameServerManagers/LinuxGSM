@@ -95,23 +95,22 @@ else
 	echo -e "RCON:"
 fi
 
-
-if [ -v steamport ]; then
-	echo -e "Steam: \t${steamport} \t$(ss -tupl|grep ${steamport}|wc -l) \t$(ss -tupl|grep ${steamport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steamport}|grep udp|awk '{ print $2 }')"
-else
-	echo -e "Steam:"
-fi
-
 if [ -v rawport ]; then
-	echo -e "Raw UDP: \t${rawport} \t$(ss -tupl|grep ${rawport}|wc -l) \t$(ss -tupl|grep ${rawport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${rawport}|grep udp|awk '{ print $2 }')"
+	echo -e "RAW UDP Socket: \t${rawport} \t$(ss -tupl|grep ${rawport}|wc -l) \t$(ss -tupl|grep ${rawport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${rawport}|grep udp|awk '{ print $2 }')"
 else
-	echo -e "Raw UDP:"
+	echo -e "RAW UDP Socket:"
 fi
 
 if [ -v masterport ]; then
 	echo -e "Game: Master: \t${masterport} \t$(ss -tupl|grep ${masterport}|wc -l) \t$(ss -tupl|grep ${masterport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${masterport}|grep udp|awk '{ print $2 }')"
 else
 	echo -e "Game: Master:"
+fi
+
+if [ -v steamport ]; then
+	echo -e "Steam: \t${steamport} \t$(ss -tupl|grep ${steamport}|wc -l) \t$(ss -tupl|grep ${steamport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steamport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "Steam:"
 fi
 
 if [ -v steamauthport ]; then
@@ -126,6 +125,11 @@ else
 	echo -e "Steam: Master:"
 fi
 
+if [ -v steamqueryport ]; then
+	echo -e "Steam: Query: \t${steamqueryport} \t$(ss -tupl|grep ${steamqueryport}|wc -l) \t$(ss -tupl|grep ${steamqueryport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${steamqueryport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "Steam: Query:"
+fi
 if [ -v beaconport ]; then
 	echo -e "Beacon: \t${beaconport} \t$(ss -tupl|grep ${beaconport}|wc -l) \t$(ss -tupl|grep ${beaconport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${beaconport}|grep udp|awk '{ print $2 }')"
 else
@@ -179,6 +183,13 @@ if [ -v battleeyeport ]; then
 else
 	echo -e "BattleEye:"
 fi
+
+if [ -v statsport ]; then
+	echo -e "Stats: \t${battleeyeport} \t$(ss -tupl|grep ${statsport}|wc -l) \t$(ss -tupl|grep ${statsport}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${statsport}|grep udp|awk '{ print $2 }')"
+else
+	echo -e "Stats:"
+fi
+
 } | column -s $'\t' -t
 echo -e ""
 echo -e "${lightgreen}SS Output${default}"
