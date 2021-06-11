@@ -650,7 +650,7 @@ fn_info_message_ports(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "Vintage Story" "wurm")
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Rising World" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "Vintage Story" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -676,6 +676,8 @@ fn_info_message_ports(){
 		echo -e "ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
 		echo -e "ss -tuplwn | grep hlds_linux"
+	elif [ "${shortname}" == "rw" ]; then
+			echo -e "ss -tuplwn | grep java"
 	else
 		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
@@ -1079,9 +1081,10 @@ fn_info_message_bfv(){
 fn_info_message_risingworld(){
 	{
 		fn_port "header"
-		echo -e "> Game/Query\t${port}\ttcp/udp"
-		echo -e "> Query HTTP\t${httpqueryport}\ttcp"
-		echo -e "> RCON\t${rconport}\ttcp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Query HTTP" httpqueryport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
