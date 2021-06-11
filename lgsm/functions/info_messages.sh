@@ -1192,12 +1192,12 @@ fn_info_message_spark(){
 	fn_info_message_password_strip
 	{
 		fn_port "header"
-		echo -e "> Game/RCON\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> Web Admin\t${webadminport}\ttcp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Web Admin" webadminport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${gamename} Web Admin${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}/index.html"

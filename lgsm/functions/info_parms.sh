@@ -188,7 +188,8 @@ fn_info_parms_spark(){
 	webadminuser=${webadminuser:-"NOT SET"}
 	webadminpass=${webadminpass:-"NOT SET"}
 	webadminport=${webadminport:-"0"}
-	mods=${mods:-"NOT SET"}
+	# Commented out as displaying not set in details parameters
+	#mods=${mods:-"NOT SET"}
 }
 
 fn_info_parms_stickybots(){

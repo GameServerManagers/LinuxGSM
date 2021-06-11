@@ -247,7 +247,7 @@ echo -e ""
 echo -e "${lightgreen}Steam Master Server Response${default}"
 echo -e "=================================================================="
 echo -e ""
-echo -e "Resonse: ${displaymasterserver}"
+echo -e "Response: ${displaymasterserver}"
 echo -e ""
 
 exitcode=0
