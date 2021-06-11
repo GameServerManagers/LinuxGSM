@@ -427,7 +427,7 @@ fn_info_config_minecraft(){
 		port=$(grep "server-port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		queryport=$(grep "query.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		if [ -z "${queryport}" ]; then
-			queryport=${port}
+			queryport=${port:-"0"}
 		fi
 		queryenabled=$(grep "enable-query" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/enable-query//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
@@ -464,7 +464,7 @@ fn_info_config_minecraft_bedrock(){
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port\b" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		portipv6=$(grep "server-portv6\b" "${servercfgfullpath}" | sed 's/v6//g' | grep -v "#" | tr -cd '[:digit:]')
-		queryport=${port}
+		queryport=${port:-"0"}
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/gamemode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -759,6 +759,10 @@ fn_info_config_risingworld(){
 		rconport="${zero}"
 		maxplayers="${zero}"
 		port="${zero}"
+		port2="${zero}"
+		port3="${zero}"
+		port4="${zero}"
+		queryport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
@@ -1197,6 +1201,7 @@ fn_info_config_sdtd(){
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 		port="${zero}"
+		port3="${zero}"
 		queryport="${zero}"
 		webadminenabled="${unavailable}"
 		webadminport="${zero}"
@@ -1212,8 +1217,8 @@ fn_info_config_sdtd(){
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		port=$(grep "ServerPort" "${servercfgfullpath}" | grep -Eo 'value="[0-9]+"' | tr -cd '[:digit:]')
+		port3=$((port+2))
 		queryport=${port:-"0"}
-
 		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
 		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
