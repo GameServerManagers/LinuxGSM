@@ -455,7 +455,7 @@ fn_info_config_minecraft_bedrock(){
 		servername="${unavailable}"
 		maxplayers="${zero}"
 		port="${zero}"
-		port6="${zero}"
+		portipv6="${zero}"
 		queryport="${zero}"
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
@@ -463,7 +463,7 @@ fn_info_config_minecraft_bedrock(){
 		servername=$(grep "server-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/server-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		port=$(grep "server-port\b" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		port6=$(grep "server-portv6\b" "${servercfgfullpath}" | sed 's/v6//g' | grep -v "#" | tr -cd '[:digit:]')
+		portipv6=$(grep "server-portv6\b" "${servercfgfullpath}" | sed 's/v6//g' | grep -v "#" | tr -cd '[:digit:]')
 		queryport=${port}
 		gamemode=$(grep "gamemode" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/gamemode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		gameworld=$(grep "level-name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/level-name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -472,7 +472,7 @@ fn_info_config_minecraft_bedrock(){
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"NOT SET"}
 		port=${port:-"NOT SET"}
-		port6=${port6:-"NOT SET"}
+		portipv6=${portipv6:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}

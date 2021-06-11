@@ -956,7 +956,7 @@ fn_info_message_mcb(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Game" port6 udp6
+		fn_port "Game" portipv6 udp6
 	} | column -s $'\t' -t
 }
 

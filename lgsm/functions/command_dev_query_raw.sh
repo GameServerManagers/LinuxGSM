@@ -32,9 +32,28 @@ if [ -v port ]; then
 else
 	echo -e "Game:"
 fi
+if [ "${shortname}" == "rw" ]; then
+	if [ -v port2 ]; then
+		echo -e "Game+1: \t${port2} \t$(ss -tupl|grep ${port}|wc -l) \t$(ss -tupl|grep ${port2}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${port2}|grep udp|awk '{ print $2 }')"
+	else
+		echo -e "Game+1:"
+	fi
 
-if [ -v port6 ]; then
-	echo -e "Game ipv6: \t${port6} \t$(ss -tupl|grep ${port6}|wc -l) \t$(ss -tupl|grep ${port6}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${port6}|grep udp|awk '{ print $2 }')"
+	if [ -v port3 ]; then
+		echo -e "Game+2: \t${port3} \t$(ss -tupl|grep ${port}|wc -l) \t$(ss -tupl|grep ${port3}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${port3}|grep udp|awk '{ print $2 }')"
+	else
+		echo -e "Game+2:"
+	fi
+
+	if [ -v port4 ]; then
+		echo -e "Game+3: \t${port4} \t$(ss -tupl|grep ${port}|wc -l) \t$(ss -tupl|grep ${port4}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${port4}|grep udp|awk '{ print $2 }')"
+	else
+		echo -e "Game+3:"
+	fi
+fi
+
+if [ -v portipv6 ]; then
+	echo -e "Game ipv6: \t${portipv6} \t$(ss -tupl|grep ${portipv6}|wc -l) \t$(ss -tupl|grep ${portipv6}|grep tcp|awk '{ print $2 }') \t$(ss -tupl|grep ${portipv6}|grep udp|awk '{ print $2 }')"
 else
 	echo -e "Game ipv6:"
 fi
