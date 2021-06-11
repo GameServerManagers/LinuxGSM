@@ -100,6 +100,9 @@ fn_info_message_distro(){
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
 		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
+		if [ -n "${javaram}" ]; then
+			echo -e "${lightblue}Java:\t${default}${javaversion}"
+		fi
 	} | column -s $'\t' -t
 }
 
