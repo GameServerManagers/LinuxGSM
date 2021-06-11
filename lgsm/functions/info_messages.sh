@@ -1082,6 +1082,12 @@ fn_info_message_risingworld(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Game+1" port2 udp
+		fn_port "Game+2" port3 udp
+		fn_port "Game+3" port4 udp
+		fn_port "Game+1" port2 tcp
+		fn_port "Game+2" port3 tcp
+		fn_port "Game+3" port4 tcp
 		fn_port "Query" queryport tcp
 		fn_port "Query HTTP" httpqueryport tcp
 		fn_port "RCON" rconport tcp
