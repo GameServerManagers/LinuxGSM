@@ -39,7 +39,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		if [ "${querytype}" == "minecraft" ]; then
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
 		elif [ "${querytype}" == "teamspeak3" ]; then
-			gdplayers=$(echo "${gamedigraw}" | jq -re '.virtualserver_clientsonline')
+			gdplayers=$(echo "${gamedigraw}" | jq -re '.raw.virtualserver_clientsonline')
 		else
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')
 		fi
@@ -76,7 +76,12 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# server version.
-		gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
+		if [ "${querytype}" == "teamspeak3" ]; then
+			dversion=$(echo "${gamedigraw}" | jq -re '.raw.virtualserver_version')
+		else
+			gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
+		fi
+
 		if [ "${gdversion}" == "null" ]||[ "${gdversion}" == "0" ]; then
 			unset gdversion
 		fi
