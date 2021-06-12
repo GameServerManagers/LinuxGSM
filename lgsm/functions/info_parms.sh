@@ -220,6 +220,7 @@ fn_info_parms_sof2(){
 
 fn_info_parms_towerunite(){
 	port=${port:-"0"}
+	steamport=$((port+1))
 	queryport=${queryport:-"0"}
 }
 

@@ -1280,12 +1280,9 @@ fn_info_message_terraria(){
 fn_info_message_towerunite(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\ttcp"
-		# Don't do arithmetics if ever the port wasn't a numeric value
-		if [ "${port}" -eq "${port}" ]; then
-			echo -e "> Steam\t$((port+1))\tudp"
-		fi
-		echo -e "> Query\t${queryport}\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
