@@ -903,11 +903,17 @@ fn_info_config_teamspeak3(){
 		dbplugin="${unavailable}"
 		port="9987"
 		queryport="10011"
+		querysshport="10022"
+		queryhttpport="10080"
+		queryhttpsport="10443"
 		fileport="30033"
 	else
 		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/dbplugin=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "default_voice_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$(grep "query_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		querysshport=$(grep "query_ssh_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryhttpport=$(grep "query_http_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryhttpsport=$(grep "query_https_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		fileport=$(grep "filetransfer_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
 		configip=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -915,8 +921,12 @@ fn_info_config_teamspeak3(){
 		ipinconfigvar="voice_ip"
 
 		# Not Set
+		dbplugin=${dbplugin:-"NOT SET"}
 		port=${port:-"9987"}
 		queryport=${queryport:-"10011"}
+		querysshport=${querysshport:-"10022"}
+		queryhttpport=${queryhttpport:-"10080"}
+		queryhttpsport=${queryhttpsport:-"10443"}
 		fileport=${fileport:-"30033"}
 	fi
 }

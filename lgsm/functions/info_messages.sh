@@ -1253,9 +1253,12 @@ fn_info_message_stationeers(){
 fn_info_message_teamspeak3(){
 	{
 		fn_port "header"
-		echo -e "> Voice\t${port}\tudp"
-		echo -e "> ServerQuery\t${queryport}\ttcp"
-		echo -e "> File transfer\t${fileport}\ttcp"
+		fn_port "Voice" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Query (SSH)" querysshport tcp
+		fn_port "Query (http)" queryhttpport tcp
+		fn_port "Query (https)" queryhttpsport tcp
+		fn_port "File Transfer" fileport tcp
 	} | column -s $'\t' -t
 }
 
