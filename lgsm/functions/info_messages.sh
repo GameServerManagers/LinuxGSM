@@ -1229,9 +1229,9 @@ fn_info_message_squad(){
 fn_info_message_starbound(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\ttcp"
-		echo -e "> Query\t${queryport}\ttcp"
-		echo -e "> RCON\t${rconport}\ttcp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
