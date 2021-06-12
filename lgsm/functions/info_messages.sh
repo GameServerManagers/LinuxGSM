@@ -1239,8 +1239,8 @@ fn_info_message_stationeers(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
+		fn_port "Web Admin" webadminport tcp
 	} | column -s $'\t' -t
 }
 

@@ -139,7 +139,7 @@ fn_info_parms_risingworld(){
 
 fn_info_parms_rtcw(){
 	port=${port:-"0"}
-	queryport="${port:-"0"}"
+	queryport=${port:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
@@ -190,6 +190,17 @@ fn_info_parms_spark(){
 	webadminport=${webadminport:-"0"}
 	# Commented out as displaying not set in details parameters
 	#mods=${mods:-"NOT SET"}
+}
+
+fn_info_parms_stationeers(){
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	webadminport=${port:-"0"}
+	worldtype=${worldtype:-"NOT SET"}
+	autosaveinterval=${autosaveinterval:-"0"}
+	clearinterval=${clearinterval:-"0"}
+	worldname=${worldname:-"NOT SET"}
+
 }
 
 fn_info_parms_stickybots(){
@@ -305,6 +316,8 @@ elif [ "${shortname}" == "rust" ]; then
 	fn_info_parms_rust
 elif [ "${shortname}" == "samp" ]; then
   fn_info_parms_samp
+elif [ "${shortname}" == "st" ]; then
+	fn_info_parms_stationeers
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_risingworld
 elif [ "${shortname}" == "sof2" ]; then
