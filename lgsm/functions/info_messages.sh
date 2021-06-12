@@ -1242,6 +1242,12 @@ fn_info_message_stationeers(){
 		fn_port "Query" queryport udp
 		fn_port "Web Admin" webadminport tcp
 	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${gamename} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+	} | column -s $'\t' -t
 }
 
 fn_info_message_teamspeak3(){
