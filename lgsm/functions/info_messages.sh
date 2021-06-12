@@ -1238,8 +1238,9 @@ fn_info_message_starbound(){
 fn_info_message_stationeers(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\ttcp"
-		echo -e "> Query\t${queryport}\ttcp"
+		fn_port "Game" port udp
+		fn_port "Game" port tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
