@@ -15,7 +15,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		# GameDig requires you use the voice port when querying.
-		if [ ${shortname} == "ts3" ]; then
+		if [ "${querytype}" == "teamspeak3" ]; then
 			queryport="${port}"
 		fi
 		# checks if query is working null = pass.
@@ -27,6 +27,10 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${queryip}\" --port \"${queryport}\"|jq")
 			gamedigraw=$(gamedig --type "${querytype}" --host "${queryip}" --port "${queryport}")
 			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
+		fi
+
+		if [ "${querytype}" == "teamspeak3" ]; then
+			fn_info_config_teamspeak3
 		fi
 
 		# server name.
