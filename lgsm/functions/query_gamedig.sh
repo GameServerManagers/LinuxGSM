@@ -14,6 +14,10 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 	# will bypass query if server offline.
 	check_status.sh
 	if [ "${status}" != "0" ]; then
+		# GameDig requires you use the voice port when querying.
+		if [ ${shortname} == "ts3" ]; then
+			queryport="${port}"
+		fi
 		# checks if query is working null = pass.
 		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${queryip}\" --query_port \"${queryport}\"|jq")
 		gamedigraw=$(gamedig --type "${querytype}" --host "${queryip}" --query_port "${queryport}")
@@ -34,6 +38,8 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		# numplayers.
 		if [ "${querytype}" == "minecraft" ]; then
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
+		elif [ "${querytype}" == "teamspeak3" ]; then
+			gdplayers=$(echo "${gamedigraw}" | jq -re '.virtualserver_clientsonline')
 		else
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')
 		fi
