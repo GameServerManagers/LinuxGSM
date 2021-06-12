@@ -273,7 +273,7 @@ fi
 # Steam Master Server - checks if detected by master server.
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
-		if [ "${steammaster}" == "true" ]; then
+		if [ "${steammaster}" == "true" ]||[ ${commandname} == "DEV-QUERY-RAW" ]; then
 			# Will query server IP addresses first.
 			for queryip in "${queryips[@]}"; do
 				masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
