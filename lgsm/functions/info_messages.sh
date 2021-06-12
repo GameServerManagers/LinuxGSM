@@ -1259,6 +1259,7 @@ fn_info_message_teamspeak3(){
 		fn_port "Query (http)" queryhttpport tcp
 		fn_port "Query (https)" queryhttpsport tcp
 		fn_port "File Transfer" fileport tcp
+		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
 }
 

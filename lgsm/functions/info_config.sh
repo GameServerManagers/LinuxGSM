@@ -907,6 +907,7 @@ fn_info_config_teamspeak3(){
 		queryhttpport="10080"
 		queryhttpsport="10443"
 		fileport="30033"
+		telnetport="10011"
 	else
 		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/dbplugin=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "default_voice_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
@@ -915,6 +916,7 @@ fn_info_config_teamspeak3(){
 		queryhttpport=$(grep "query_http_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		queryhttpsport=$(grep "query_https_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		fileport=$(grep "filetransfer_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		telnetport="${queryport}"
 
 		configip=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		ipsetinconfig=1
@@ -928,6 +930,7 @@ fn_info_config_teamspeak3(){
 		queryhttpport=${queryhttpport:-"10080"}
 		queryhttpsport=${queryhttpsport:-"10443"}
 		fileport=${fileport:-"30033"}
+		telnetport=${telnetport:-"10011"}
 	fi
 }
 
