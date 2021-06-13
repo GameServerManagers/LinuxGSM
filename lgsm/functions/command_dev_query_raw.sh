@@ -14,6 +14,7 @@ check.sh
 info_config.sh
 info_parms.sh
 info_distro.sh
+info_messages.sh
 
 echo -e ""
 echo -e "${lightgreen}Query IP Addresses${default}"
@@ -194,16 +195,7 @@ fi
 echo -e ""
 echo -e "${lightgreen}SS Output${default}"
 echo -e "================================="
-if [ "${shortname}" == "av" ]; then
-	echo -e "ss -tuplwn | grep AvorionServer"
-	echo -e ""
-	ss -tuplwn | grep AvorionServer
-else
-	executableshort="$(echo "${executable//.\/}" | cut -c -15)"
-	echo -e "ss -tuplwn | grep ${executableshort}"
-	echo -e ""
-	ss -tuplwn | grep ${executableshort}
-fi
+fn_info_message_ports
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
 echo -e "=================================================================="

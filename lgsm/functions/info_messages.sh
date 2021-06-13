@@ -637,7 +637,7 @@ fn_info_message_commandlineparms(){
 	echo -e "${preexecutable} ${executable} ${startparameters}"
 }
 
-fn_info_message_ports(){
+fn_info_message_ports_edit(){
 	#
 	# Ports
 	# =================================
@@ -669,6 +669,9 @@ fn_info_message_ports(){
 	done
 	echo -e "${startparameterslocation}"
 	echo -e ""
+}
+
+fn_info_message_ports(){
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
 	if [ "${shortname}" == "av" ]; then
 		echo -e "ss -tuplwn | grep AvorionServer"

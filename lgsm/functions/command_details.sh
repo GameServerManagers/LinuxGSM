@@ -34,6 +34,7 @@ fn_info_message_backup
 if [ "${shortname}" != "jc2" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
 	fn_info_message_commandlineparms
 fi
+fn_info_message_ports_edit
 fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
