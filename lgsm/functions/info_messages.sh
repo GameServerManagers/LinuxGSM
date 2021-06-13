@@ -1374,23 +1374,24 @@ fn_info_message_unreal3(){
 fn_info_message_unturned(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
 fn_info_message_ut(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
 fn_info_message_vh(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
