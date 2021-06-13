@@ -1276,7 +1276,8 @@ fn_info_message_teeworlds(){
 fn_info_message_terraria(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\ttcp"
+		fn_port "Game" port tcp
+		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t
 }
 
