@@ -678,6 +678,8 @@ fn_info_message_ports(){
 		echo -e "ss -tuplwn | grep hlds_linux"
 	elif [ "${shortname}" == "rw" ]; then
 			echo -e "ss -tuplwn | grep java"
+	elif [ "${shortname}" == "terraria" ]; then
+		echo -e "ss -tuplwn | grep Main"
 	else
 		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
@@ -1266,7 +1268,8 @@ fn_info_message_teamspeak3(){
 fn_info_message_teeworlds(){
 	{
 		fn_port "header"
-		echo -e "> Game\Query\t${port}\ttcp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
