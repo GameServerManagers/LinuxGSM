@@ -1418,7 +1418,8 @@ fn_info_message_kf2(){
 fn_info_message_wolfensteinenemyterritory(){
 	{
 		fn_port "header"
-		echo -e "> Game/Query\t${port}\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1426,8 +1427,8 @@ fn_info_message_wolfensteinenemyterritory(){
 fn_info_message_wurmunlimited(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\ttcp"
-		echo -e "> Query\t${queryport}\tudp"
+		fn_port "Game" port tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1445,17 +1446,17 @@ fn_info_message_mta(){
 fn_info_message_mordhau(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> BeaconPort\t${beaconport}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Beacon" beaconport udp
 	} | column -s $'\t' -t
 }
 
 fn_info_message_barotrauma(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t$((port+1))\tudp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
