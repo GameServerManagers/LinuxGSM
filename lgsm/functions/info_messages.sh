@@ -782,7 +782,7 @@ fn_info_message_ac(){
 		fn_port "Game" port udp
 		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
-		fn_port "HTTP" httpport udp
+		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1435,11 +1435,11 @@ fn_info_message_wurmunlimited(){
 fn_info_message_mta(){
 	{
 		fn_port "header"
-		echo -e "> Game/Query\t${port}\tudp"
-		echo -e "> HTTP Server\t${httpport}\ttcp"
+		fn_port "Game" port udp
 		if [ "${ase}" == "Enabled" ]; then
-			echo -e "> Query Port\t${queryport}\tudp"
+			fn_port "Query" queryport udp
 		fi
+		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1463,9 +1463,9 @@ fn_info_message_barotrauma(){
 fn_info_message_soldat(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> FILES\t$((port+10))\ttcp"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
 

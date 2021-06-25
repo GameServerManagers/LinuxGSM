@@ -1509,6 +1509,7 @@ fn_info_config_soldat(){
 		maxplayers=$(grep "Max_Players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		port=$(grep "Port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport="${port}"
+		filesport=$((port+10))
 		servername=$(grep "Server_Name=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
 		serverpassword=$(grep "Game_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
 
