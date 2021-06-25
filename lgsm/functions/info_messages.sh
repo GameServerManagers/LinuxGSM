@@ -1472,8 +1472,8 @@ fn_info_message_soldat(){
 fn_info_message_warfork(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> HTTP\t${httpport}\ttcp"
+			fn_port "Game" port udp
+			fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1488,15 +1488,16 @@ fn_info_message_pavlovvr(){
 fn_info_message_col(){
 	{
 		fn_port "header"
-		echo -e "Game\t${port}\ttcp/udp\t$(echo "${ssinfo}" | grep ${port} | wc -l)"
-		echo -e "Steam\t${steamport}\ttcp\t$(echo "${ssinfo}" | grep ${steamport} | wc -l)"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Steam" steamport tcp
 	} | column -s $'\t' -t
 }
 
 fn_info_message_vintagestory(){
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\t${port}\tTCP"
+		fn_port "header"
+		fn_port "Game" port tcp
 	} | column -s $'\t' -t
 }
 
