@@ -230,6 +230,7 @@ fn_info_parms_teeworlds(){
 
 fn_info_parms_pavlovvr(){
 	port=${port:-"0"}
+	port401=$((port+400))
 	queryport=${port:-"0"}
 }
 

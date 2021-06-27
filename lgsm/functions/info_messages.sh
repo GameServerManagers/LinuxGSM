@@ -1472,16 +1472,18 @@ fn_info_message_soldat(){
 fn_info_message_warfork(){
 	{
 		fn_port "header"
-			fn_port "Game" port udp
-			fn_port "HTTP" httpport tcp
+		fn_port "Game" port udp
+		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
 fn_info_message_pavlovvr(){
 	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Game\t$((port+400))\tudp"
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Game" port tcp
+		fn_port "Game +400" port401 udp
+		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t
 }
 
