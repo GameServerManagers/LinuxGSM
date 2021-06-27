@@ -108,7 +108,7 @@ fn_info_parms_mta(){
 
 fn_info_parms_projectzomboid(){
 	adminpassword=${adminpassword:-"NOT SET"}
-  queryport=${port:-"0"}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_quakeworld(){
@@ -225,12 +225,12 @@ fn_info_parms_towerunite(){
 }
 
 fn_info_parms_teeworlds(){
-  queryport=${port:-"0"}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_pavlovvr(){
 	port=${port:-"0"}
-	queryport=${queryport:-"0"}
+	queryport=${port:-"0"}
 }
 
 fn_info_parms_unreal(){
@@ -317,7 +317,7 @@ elif [ "${shortname}" == "rtcw" ]; then
 elif [ "${shortname}" == "rust" ]; then
 	fn_info_parms_rust
 elif [ "${shortname}" == "samp" ]; then
-  fn_info_parms_samp
+	fn_info_parms_samp
 elif [ "${shortname}" == "st" ]; then
 	fn_info_parms_stationeers
 elif [ "${shortname}" == "rw" ]; then
