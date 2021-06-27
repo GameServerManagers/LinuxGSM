@@ -1299,7 +1299,7 @@ fn_info_message_unreal(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Beacon" beaconport udp
+		fn_port "LAN Beacon" beaconport udp
 		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""

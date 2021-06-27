@@ -1060,6 +1060,7 @@ fn_info_config_unreal(){
 		port=$(grep "Port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' | grep "^Port" | grep -v "#" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
 		queryportgs=$(grep "OldQueryPortNumber" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		beaconport=$(grep "ServerBeaconPort" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		webadminenabled=$(grep "bEnabled" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
 		webadminport=$(grep "ListenPort" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		webadminuser=$(grep "AdminUsername" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminUsername//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//'| sed 's/\r$//')
@@ -1070,6 +1071,7 @@ fn_info_config_unreal(){
 		adminpassword=${adminpassword:-"NOT SET"}
 		port=${port:-"0"}
 		queryport=${queryport:-"0"}
+		beaconport=${beaconport:-"8777"}
 		queryportgs=${queryportgs:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
 		webadminport=${webadminport:-"0"}
