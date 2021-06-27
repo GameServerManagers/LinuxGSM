@@ -650,18 +650,18 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Rising World" "starbound" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "Vintage Story" "wurm")
+	local ports_edit_array=( "jc2" "jc3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "mcb" "pc" "pz" "qw" "refractor" "arma3" "renderware" "rw" "sb" "st" "tw" "terraria" "unreal" "unreal2" "unreal3" "ts3" "mumble" "sdtd" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
 		elif [ "${shortname}" == "kf2" ]; then
 			startparameterslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
-		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
+		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${servercfgfullpath}"
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "unreal4" "realvirtuality" "Unturned" "vh" )
+	local ports_edit_array=( "av" "col" "goldsrc" "fctr" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "unt" "vh" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -814,7 +814,7 @@ fn_info_message_bt1944(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_chivalry(){
+fn_info_message_cmw(){
 	fn_info_message_password_strip
 	{
 		fn_port "header"
@@ -882,7 +882,7 @@ fn_info_message_eco(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_etlegacy(){
+fn_info_message_etl(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -890,7 +890,7 @@ fn_info_message_etlegacy(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_factorio(){
+fn_info_message_fctr(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1006,7 +1006,7 @@ fn_info_message_pstbs(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_projectcars(){
+fn_info_message_fctr(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1015,7 +1015,7 @@ fn_info_message_projectcars(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_projectzomboid(){
+fn_info_message_pz(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1023,28 +1023,28 @@ fn_info_message_projectzomboid(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_quake(){
+fn_info_message_qw(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 	} | column -s $'\t' -t
 }
 
-fn_info_message_quake2(){
+fn_info_message_q2(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 	} | column -s $'\t' -t
 }
 
-fn_info_message_quake3(){
+fn_info_message_q3(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 	} | column -s $'\t' -t
 }
 
-fn_info_message_quakelive(){
+fn_info_message_ql(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1083,7 +1083,7 @@ fn_info_message_bfv(){
 }
 
 # Not udpated to new format as cant get server to start
-fn_info_message_risingworld(){
+fn_info_message_rw(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1231,7 +1231,7 @@ fn_info_message_squad(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_starbound(){
+fn_info_message_sb(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1240,7 +1240,7 @@ fn_info_message_starbound(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_stationeers(){
+fn_info_message_st(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1255,7 +1255,7 @@ fn_info_message_stationeers(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_teamspeak3(){
+fn_info_message_ts3(){
 	{
 		fn_port "header"
 		fn_port "Voice" port udp
@@ -1268,7 +1268,7 @@ fn_info_message_teamspeak3(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_teeworlds(){
+fn_info_message_tw(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1284,7 +1284,7 @@ fn_info_message_terraria(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_towerunite(){
+fn_info_message_tu(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1371,7 +1371,7 @@ fn_info_message_unreal3(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_unturned(){
+fn_info_message_unt(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1415,7 +1415,7 @@ fn_info_message_kf2(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_wolfensteinenemyterritory(){
+fn_info_message_wet(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1424,7 +1424,7 @@ fn_info_message_wolfensteinenemyterritory(){
 }
 
 
-fn_info_message_wurmunlimited(){
+fn_info_message_wurm(){
 	{
 		fn_port "header"
 		fn_port "Game" port tcp
@@ -1443,7 +1443,7 @@ fn_info_message_mta(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_mordhau(){
+fn_info_message_mh(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1452,7 +1452,7 @@ fn_info_message_mordhau(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_barotrauma(){
+fn_info_message_bt(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1460,7 +1460,7 @@ fn_info_message_barotrauma(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_soldat(){
+fn_info_message_sol(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1469,7 +1469,7 @@ fn_info_message_soldat(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_warfork(){
+fn_info_message_wf(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1477,12 +1477,12 @@ fn_info_message_warfork(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_pavlovvr(){
+fn_info_message_pvr(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Game" port tcp
-		fn_port "Game +400" port401 udp
+		fn_port "Game+400" port401 udp
 		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t
 }
@@ -1496,7 +1496,7 @@ fn_info_message_col(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_vintagestory(){
+fn_info_message_vints(){
 	{
 		fn_port "header"
 		fn_port "Game" port tcp
@@ -1506,7 +1506,7 @@ fn_info_message_vintagestory(){
 fn_info_message_scpsl(){
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
+		fn_port "Game" port tcp
 	} | column -s $'\t' -t
 }
 
@@ -1527,13 +1527,13 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_message_bo
 	elif [ "${shortname}" == "bt" ]; then
-		fn_info_message_barotrauma
+		fn_info_message_bt
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_bt1944
 	elif [ "${shortname}" == "csgo" ]; then
 		fn_info_message_csgo
 	elif [ "${shortname}" == "cmw" ]; then
-		fn_info_message_chivalry
+		fn_info_message_cmw
 	elif [ "${shortname}" == "cod" ]; then
 		fn_info_message_cod
 	elif [ "${shortname}" == "coduo" ]; then
@@ -1551,9 +1551,9 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "eco" ]; then
 		fn_info_message_eco
 	elif [ "${shortname}" == "etl" ]; then
-		fn_info_message_etlegacy
+		fn_info_message_etl
 	elif [ "${shortname}" == "fctr" ]; then
-		fn_info_message_factorio
+		fn_info_message_fctr
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_message_hw
 	elif [ "${shortname}" == "ins" ]; then
@@ -1573,7 +1573,7 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_message_mcb
 	elif [ "${shortname}" == "mh" ]; then
-		fn_info_message_mordhau
+		fn_info_message_mh
 	elif [ "${shortname}" == "mohaa" ]; then
 		fn_info_message_mohaa
 	elif [ "${shortname}" == "mta" ]; then
@@ -1585,19 +1585,19 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "mom" ]; then
 		fn_info_message_mom
 	elif [ "${shortname}" == "pz" ]; then
-		fn_info_message_projectzomboid
+		fn_info_message_pz
 	elif [ "${shortname}" == "pstbs" ]; then
 		fn_info_message_pstbs
 	elif [ "${shortname}" == "pc" ]; then
-		fn_info_message_projectcars
+		fn_info_message_pc
 	elif [ "${shortname}" == "qw" ]; then
-		fn_info_message_quake
+		fn_info_message_qw
 	elif [ "${shortname}" == "q2" ]; then
-		fn_info_message_quake2
+		fn_info_message_q2
 	elif [ "${shortname}" == "q3" ]; then
-		fn_info_message_quake3
+		fn_info_message_q3
 	elif [ "${shortname}" == "ql" ]; then
-		fn_info_message_quakelive
+		fn_info_message_ql
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
 	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
@@ -1607,25 +1607,25 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "squad" ]; then
 		fn_info_message_squad
 	elif [ "${shortname}" == "st" ]; then
-		fn_info_message_stationeers
+		fn_info_message_st
 	elif [ "${shortname}" == "sof2" ]; then
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then
-		fn_info_message_soldat
+		fn_info_message_sol
 	elif [ "${shortname}" == "sb" ]; then
-		fn_info_message_starbound
+		fn_info_message_sb
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then
-		fn_info_message_teamspeak3
+		fn_info_message_ts3
 	elif [ "${shortname}" == "tu" ]; then
-		fn_info_message_towerunite
+		fn_info_message_tu
 	elif [ "${shortname}" == "tw" ]; then
-		fn_info_message_teeworlds
+		fn_info_message_tw
 	elif [ "${shortname}" == "unt" ]; then
-		fn_info_message_unturned
+		fn_info_message_unt
 	elif [ "${shortname}" == "ut" ]; then
 		fn_info_message_ut
 	elif [ "${shortname}" == "vh" ]; then
@@ -1633,19 +1633,19 @@ fn_info_message_select_engine(){
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "pvr" ]; then
-		fn_info_message_pavlovvr
+		fn_info_message_pvr
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
 	elif [ "${shortname}" == "vints" ]; then
-		fn_info_message_vintagestory
+		fn_info_message_vints
 	elif [ "${shortname}" == "wf" ]; then
-		fn_info_message_warfork
+		fn_info_message_wf
 	elif [ "${shortname}" == "wurm" ]; then
-		fn_info_message_wurmunlimited
+		fn_info_message_wurm
 	elif [ "${shortname}" == "rw" ]; then
-		fn_info_message_risingworld
+		fn_info_message_rw
 	elif [ "${shortname}" == "wet" ]; then
-		fn_info_message_wolfensteinenemyterritory
+		fn_info_message_wet
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_message_goldsrc
 	elif [ "${engine}" == "source" ]; then
