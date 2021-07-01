@@ -1350,6 +1350,23 @@ fn_info_message_unreal(){
 #	} | column -s $'\t' -t
 #}
 
+fn_info_message_ut2k4(){
+	fn_port "header"
+	fn_port "Game" port udp
+	fn_port "Query" queryport udp
+	fn_port "Query (GameSpy)" queryportgs udp
+	fn_port "HTTP" httpport tcp
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_unreal2(){
 	fn_info_message_password_strip
 	{
@@ -1371,6 +1388,27 @@ fn_info_message_unreal2(){
 		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
+
+fn_info_message_unreal(){
+	fn_info_message_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "LAN Beacon" beaconport udp
+		fn_port "HTTP" httpport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${httpport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
 
 fn_info_message_unreal3(){
 	fn_info_message_password_strip
@@ -1664,6 +1702,8 @@ fn_info_message_select_engine(){
 		fn_info_message_wurm
 	elif [ "${shortname}" == "rw" ]; then
 		fn_info_message_rw
+	elif [ "${shortname}" == "ut2k4" ]; then
+		fn_info_message_ut2k4
 	elif [ "${shortname}" == "wet" ]; then
 		fn_info_message_wet
 	elif [ "${engine}" == "goldsrc" ]; then
