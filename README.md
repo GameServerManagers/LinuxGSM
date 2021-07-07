@@ -45,7 +45,7 @@ Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgs
 
 There are a various ways to get support, check out the [support](https://linuxgsm.com/support/) page to the right support.
 
-## :heart: Donate
+## :heart: Sponsor
 
 If you would like to [sponsor](https://linuxgsm.com/sponsor) to the project there are several ways you can, via [GitHub Sponsors](https://github.com/sponsors/dgibbs64) and [PayPal](https://www.paypal.me/dgibbs64). I would like to thank everyone who has previously sent a donation. Since 2012 LinuxGSM has been steadily growing with new servers, features and improvements added regularly.
 
