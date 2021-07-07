@@ -141,6 +141,17 @@ elif [ -z "${email}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_script_log_error "Email not set"
 fi
 
+if [ "${gotifyalert}" == "on" ]&&[ -n "${gotifyalert}" ]; then
+        alert_gotify.sh
+elif [ "${gotifyalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+        fn_print_warn_nl "Gotify alerts not enabled"
+        fn_script_log_warn "Gotify alerts not enabled"
+elif [ -z "${Gotifytoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+        fn_print_error_nl "Gotify token not set"
+        echo -e "* https://docs.linuxgsm.com/alerts/gotify"
+        fn_script_error "Gotify token not set"
+fi
+
 if [ "${iftttalert}" == "on" ]&&[ -n "${iftttalert}" ]; then
 	alert_ifttt.sh
 elif [ "${iftttalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
