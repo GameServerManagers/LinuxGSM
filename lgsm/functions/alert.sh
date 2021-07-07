@@ -146,10 +146,14 @@ if [ "${gotifyalert}" == "on" ]&&[ -n "${gotifyalert}" ]; then
 elif [ "${gotifyalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
         fn_print_warn_nl "Gotify alerts not enabled"
         fn_script_log_warn "Gotify alerts not enabled"
-elif [ -z "${Gotifytoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
-        fn_print_error_nl "Gotify token not set"
-        echo -e "* https://docs.linuxgsm.com/alerts/gotify"
-        fn_script_error "Gotify token not set"
+elif [ -z "${gotifytoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Gotify token not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/gotify"
+	fn_script_error "Gotify token not set"
+elif [ -z "${gotifywebhook}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Gotify webhook not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/gotify"
+	fn_script_error "Gotify webhook not set"
 fi
 
 if [ "${iftttalert}" == "on" ]&&[ -n "${iftttalert}" ]; then
