@@ -42,7 +42,7 @@ EOF
 
 fn_print_dots "Sending Gotify alert"
 
-gotifysend=$(curl --connect-timeout 10 -sSL -H "{"X-Gotify-Key": "${gotifytoken}" -X POST -d "$(echo -n "$json" | jq -c .)" "${gotifywebhook}")
+gotifysend=$(curl --connect-timeout 10 -sSL -H "{"X-Gotify-Key": "${gotifytoken}"}" -X POST -d "$(echo -n "$json" | jq -c .)" "${gotifywebhook}")
 
 if [ -n "${gotifysend}" ]; then
 	fn_print_ok_nl "Sending Gotify alert"
