@@ -17,7 +17,7 @@ EOF
 )
 
 fn_print_dots "Sending Matrix alert"
-matrixsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://${matrixhomeserver}/_matrix/client/r0/rooms/${matrixroom}/send/m.room.message?access_token=${matrixaccesstoken} | grep "error")
+matrixsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d """${json}""" "https://${matrixhomeserver}/_matrix/client/r0/rooms/${matrixroom}/send/m.room.message?access_token=${matrixtoken} | grep "error")
 
 
 if [ -n "${matrixsend}" ]; then
