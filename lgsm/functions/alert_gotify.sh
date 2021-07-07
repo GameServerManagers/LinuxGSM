@@ -10,7 +10,7 @@ content=(message="${alertsubject}, ${servername}, ${alertbody}. More info: ${ale
 
 fn_print_dots "Sending Gotify alert"
 
-gotifysend=$(curl "$gotifywebhook"?token="$gotifytoken" -F "title=LinuxGSM" -F "$content" -F "priority=5")
+gotifysend=$(curl --connect-timeout 10 -sSL "$gotifywebhook"?token="$gotifytoken" -F "title=LinuxGSM" -F "$content" -F "priority=5")
 
 if [ -n "${gotifysend}" ]; then
 	fn_print_ok_nl "Sending Gotify alert"
