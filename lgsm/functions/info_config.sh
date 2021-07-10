@@ -1210,7 +1210,7 @@ fn_info_config_kf(){
 		queryport=${queryport:-"0"}
 		queryportgs=${queryportgs:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
-		httpport=${webadminport:-"0"}
+		httpport=${httpport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi
