@@ -1194,18 +1194,18 @@ fn_info_config_kf(){
 		webadminuser="${unavailable}"
 		webadminpass="${unavailable}"
 	else
-		servername=$(grep "ServerName=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		serverpassword=$(grep "GamePassword=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		adminpassword=$(grep "AdminPassword=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		servername=$(sed -nr 's/^ServerName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		serverpassword=$(sed -nr 's/^GamePassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		adminpassword=$(sed -nr 's/^AdminPassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
-		queryportgs=$(grep "OldQueryPortNumber=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		steamport="20560"
 		steammasterport="28852"
 		lanport=$(grep "LANServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		httpport=$(grep "ListenPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminenabled=$(grep "Enabled=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		webadminuser=$(grep "AdminName=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		webadminpass="${adminpassword}"
 
 		# Not Set
