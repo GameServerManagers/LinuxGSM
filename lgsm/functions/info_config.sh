@@ -1187,6 +1187,7 @@ fn_info_config_kf(){
 		queryport="${zero}"
 		queryportgs="${zero}"
 		steamport="${zero}"
+		steammasterport="${zero}"
 		lanport="${zero}"
 		httpport="${zero}"
 		webadminenabled="${unavailable}"
@@ -1200,6 +1201,7 @@ fn_info_config_kf(){
 		queryport=$((port + 1))
 		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		steamport="20560"
+		steammasterport="28852"
 		lanport=$(grep "LANServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
@@ -1213,6 +1215,8 @@ fn_info_config_kf(){
 		port=${port:-"0"}
 		queryport=${queryport:-"0"}
 		queryportgs=${queryportgs:-"0"}
+		steamport=${steamport:-"0"}
+		steammasterport=${steammasterport:-"0"}
 		lanport=${lanport:-"0"}
 		httpport=${httpport:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
