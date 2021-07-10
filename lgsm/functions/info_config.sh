@@ -1196,8 +1196,8 @@ fn_info_config_kf(){
 	else
 		servername=$(grep "ServerName=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		serverpassword=$(grep "GamePassword=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		adminpassword=$(grep "s/^AdminPassword=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		port=$(grep "Port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		adminpassword=$(grep "AdminPassword=" "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
 		queryportgs=$(grep "OldQueryPortNumber=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		steamport="20560"
