@@ -1357,6 +1357,7 @@ fn_info_message_ut2k4(){
 	fn_port "Query" queryport udp
 	fn_port "Query (GameSpy)" queryportgs udp
 	fn_port "HTTP" httpport tcp
+	fn_port "LAN" lanport udp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
