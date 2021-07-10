@@ -1266,6 +1266,7 @@ fn_info_config_ut2k4(){
 		port="${zero}"
 		queryport="${zero}"
 		queryportgs="${zero}"
+		lanport="${zero}"
 		webadminenabled="${unavailable}"
 		httpport="${zero}"
 		webadminuser="${unavailable}"
@@ -1277,6 +1278,7 @@ fn_info_config_ut2k4(){
 		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
 		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		lanport=$(grep "LANServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
@@ -1289,8 +1291,9 @@ fn_info_config_ut2k4(){
 		port=${port:-"0"}
 		queryport=${queryport:-"0"}
 		queryportgs=${queryportgs:-"0"}
+		lanport=${lanport:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
-		httpport=${webadminport:-"0"}
+		httpport=${httpport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi
