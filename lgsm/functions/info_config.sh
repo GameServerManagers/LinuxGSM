@@ -1224,7 +1224,7 @@ fn_info_config_kf2(){
 		port="${unavailable}"
 		queryport="${unavailable}"
 		webadminenabled="${unavailable}"
-		webadminport="${zero}"
+		httpport="${zero}"
 		webadminuser="${unavailable}"
 		webadminpass="${unavailable}"
 	else
@@ -1233,7 +1233,7 @@ fn_info_config_kf2(){
 		adminpassword=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "Port" "${servercfgdir}/LinuxServer-KFEngine.ini" | sed -e 's/^[ \t]*//g' | grep "^Port" | grep -v "#" | tr -cd '[:digit:]')
 		webadminenabled=$(grep "bEnabled" "${servercfgdir}/KFWeb.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		webadminport=$(grep "ListenPort" "${servercfgdir}/KFWeb.ini" | grep -v "#" | tr -cd '[:digit:]')
+		httpport=$(grep "ListenPort" "${servercfgdir}/KFWeb.ini" | grep -v "#" | tr -cd '[:digit:]')
 		webadminuser="Admin"
 		webadminpass=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
@@ -1243,7 +1243,7 @@ fn_info_config_kf2(){
 		adminpassword=${adminpassword:-"NOT SET"}
 		port=${port:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
-		webadminport=${webadminport:-"0"}
+		httpport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi
