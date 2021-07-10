@@ -1376,6 +1376,8 @@ fn_info_message_kf(){
 	fn_port "Query" queryport udp
 	fn_port "Query (GameSpy)" queryportgs udp
 	fn_port "HTTP" httpport tcp
+	fn_port "LAN" lanport udp
+	fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"

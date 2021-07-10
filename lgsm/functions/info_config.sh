@@ -1186,8 +1186,9 @@ fn_info_config_kf(){
 		port="${zero}"
 		queryport="${zero}"
 		queryportgs="${zero}"
-		webadminenabled="${unavailable}"
+		lanport="${zero}"
 		httpport="${zero}"
+		webadminenabled="${unavailable}"
 		webadminuser="${unavailable}"
 		webadminpass="${unavailable}"
 	else
@@ -1197,8 +1198,9 @@ fn_info_config_kf(){
 		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport=$((port + 1))
 		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		lanport=$(sed -nr 's/^:LANServerPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
 		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
 		webadminpass="${adminpassword}"
 
@@ -1209,8 +1211,9 @@ fn_info_config_kf(){
 		port=${port:-"0"}
 		queryport=${queryport:-"0"}
 		queryportgs=${queryportgs:-"0"}
-		webadminenabled=${webadminenabled:-"NOT SET"}
+		lanport=${lanport:-"0"}
 		httpport=${httpport:-"0"}
+		webadminenabled=${webadminenabled:-"NOT SET"}
 		webadminuser=${webadminuser:-"NOT SET"}
 		webadminpass=${webadminpass:-"NOT SET"}
 	fi
