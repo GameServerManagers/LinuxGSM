@@ -1313,43 +1313,6 @@ fn_info_message_unreal(){
 	} | column -s $'\t' -t
 }
 
-#fn_info_message_unreal(){
-#	fn_info_message_password_strip
-#	{
-#		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-#		echo -e "> Game\t${port}\tudp\tPort=${port}"
-#		echo -e "> Query\t${queryport}\tudp"
-#		if [ "${engine}" == "unreal" ]; then
-#			echo -e "< UdpLink Port (random)\t${udplinkport}+\tudp"??
-#		fi
-#		if [ "${engine}" != "unreal" ]&&[ "${appid}" != "223250" ]; then
-#			echo -e "> Query (GameSpy)\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
-#		fi
-#		if [ "${appid}" == "215360" ]; then
-#			echo -e "< Master server\t28852\ttcp/udp"
-#		else
-#			echo -e "< Master server\t28900/28902\ttcp/udp"
-#		fi
-#		if [ "${appid}" ]; then
-#			if [ "${appid}" == "223250" ]; then
-#				echo -e "> Steam\t20610\tudp"
-#			else
-#				echo -e "> Steam\t20660\tudp"
-#			fi
-#		fi
-#		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
-#	} | column -s $'\t' -t
-#	echo -e ""
-#	echo -e "${lightgreen}${servername} Web Admin${default}"
-#	fn_messages_separator
-#	{
-#		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-#		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-#		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-#		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
-#	} | column -s $'\t' -t
-#}
-
 fn_info_message_ut2k4(){
 	{
 	fn_port "header"
@@ -1408,28 +1371,6 @@ fn_info_message_ro(){
 	{
 		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
 		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${httpport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
-	} | column -s $'\t' -t
-}
-
-fn_info_message_unreal2(){
-	fn_info_message_password_strip
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL\tINI VARIABLE"
-		echo -e "> Game\t${port}\tudp\tPort=${port}"
-		echo -e "> Query\t${queryport}\tudp"
-		if [ "${appid}" != "223250" ]; then
-			echo -e "> Query (GameSpy)\t${queryportgs}\tudp\tOldQueryPortNumber=${queryportgs}"
-		fi
-		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1503,17 +1444,16 @@ fn_info_message_kf2(){
 	fn_info_message_password_strip
 	{
 		fn_port "header"
-		echo -e "> Game\t${port}\ttcp\tPort=${port}"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> Steam\t20560\tudp"
-		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Admin${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${httpport}"
 		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1764,8 +1704,6 @@ fn_info_message_select_engine(){
 		fn_info_message_spark
 	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
-	elif [ "${engine}" == "unreal2" ]; then
-		fn_info_message_unreal2
 	elif [ "${engine}" == "unreal3" ]; then
 		fn_info_message_unreal3
 	else
