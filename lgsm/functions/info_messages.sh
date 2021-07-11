@@ -1392,6 +1392,28 @@ fn_info_message_kf(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_ro(){
+	{
+	fn_port "header"
+	fn_port "Game" port udp
+	fn_port "Query" queryport udp
+	fn_port "Query (GameSpy)" queryportgs udp
+	fn_port "HTTP" httpport tcp
+	fn_port "LAN" lanport udp
+	fn_port "Steam" steamport udp
+	fn_port "Steam Master" steammasterport udp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${httpport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_unreal2(){
 	fn_info_message_password_strip
 	{
@@ -1683,6 +1705,8 @@ fn_info_message_select_engine(){
 		fn_info_message_q3
 	elif [ "${shortname}" == "ql" ]; then
 		fn_info_message_ql
+	elif [ "${shortname}" == "ro" ]; then
+		fn_info_message_ro
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
 	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then

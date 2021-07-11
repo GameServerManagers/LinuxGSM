@@ -1178,6 +1178,53 @@ fn_info_config_warfork(){
 	fi
 }
 
+fn_info_config_ro(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		adminpassword="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		queryportgs="${zero}"
+		steamport="${zero}"
+		steammasterport="${zero}"
+		lanport="${zero}"
+		httpport="${zero}"
+		webadminenabled="${unavailable}"
+		webadminuser="${unavailable}"
+		webadminpass="${unavailable}"
+	else
+		servername=$(sed -nr 's/^ServerName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		serverpassword=$(sed -nr 's/^GamePassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		adminpassword=$(sed -nr 's/^AdminPassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$((port + 1))
+		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		steamport="20560"
+		steammasterport="28852"
+		lanport=$(grep "LANServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
+		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
+		webadminpass="${adminpassword}"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		queryportgs=${queryportgs:-"0"}
+		steamport=${steamport:-"0"}
+		steammasterport=${steammasterport:-"0"}
+		lanport=${lanport:-"0"}
+		httpport=${httpport:-"0"}
+		webadminenabled=${webadminenabled:-"NOT SET"}
+		webadminuser=${webadminuser:-"NOT SET"}
+		webadminpass=${webadminpass:-"NOT SET"}
+	fi
+}
+
 fn_info_config_kf(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -1751,6 +1798,7 @@ elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_jc2
 elif [ "${shortname}" == "jc3" ]; then
 	fn_info_config_jc3
+
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_config_kf
 elif [ "${shortname}" == "kf2" ]; then
@@ -1783,6 +1831,8 @@ elif [ "${shortname}" == "pz" ]; then
 	fn_info_config_projectzomboid
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_config_arma3
+elif [ "${shortname}" == "ro" ]; then
+	fn_info_config_ro
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_config_rtcw
 elif [ "${shortname}" == "rw" ]; then
