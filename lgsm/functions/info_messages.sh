@@ -1397,7 +1397,6 @@ fn_info_message_ro(){
 	fn_port "header"
 	fn_port "Game" port udp
 	fn_port "Query" queryport udp
-	fn_port "Query (GameSpy)" queryportgs udp
 	fn_port "HTTP" httpport tcp
 	fn_port "LAN" lanport udp
 	fn_port "Steam" steamport udp
