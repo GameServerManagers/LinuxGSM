@@ -1415,10 +1415,21 @@ fn_info_message_ut(){
 }
 
 fn_info_message_ut3(){
+	fn_info_message_password_strip
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+		fn_port "Web Admin" webadminport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
