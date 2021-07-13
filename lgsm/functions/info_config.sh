@@ -15,7 +15,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # cut -f1 -d "/" remove everything after /
 
 
-fn_info_config_assettocorsa(){
+fn_info_config_ac(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		httpport="${zero}"
 		port="${zero}"
@@ -39,72 +39,6 @@ fn_info_config_assettocorsa(){
 	fi
 }
 
-fn_info_config_jc2(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-	else
-		servername=$(grep "Name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/Name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverdescription=$(grep "Description" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/Description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
-		port=$(grep "BindPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
-		queryport="${port}"
-		configip=$(grep "BindIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/BindIP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		ipsetinconfig=1
-		ipinconfigvar="BindIP"
-
-		# Not Set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-	fi
-}
-
-fn_info_config_jc3(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverdescription="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryPort="${zero}"
-		steamport="${zero}"
-		httpport="${zero}"
-		tickrate="${zero}"
-	else
-		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverdescription=$(grep "description" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "\"maxPlayers\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		port=$(grep "\"port\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$(grep "\"queryPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		steamport=$(grep "\"steamPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		httpport=$(grep "\"httpPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		tickrate=$(grep "\"maxTickRate\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		configip=$(grep "host" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/host//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		ipsetinconfig=1
-		ipinconfigvar="host"
-
-		# Not Set
-		servername=${servername:-"NOT SET"}
-		serverdescription=${serverdescription:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers=:-"0"}
-		port=${port=:-"0"}
-		queryport=${queryport=:-"0"}
-		steamport=${steamport=:-"0"}
-		httpport=${httpport=:-"0"}
-		tickrate=${tickrate=:-"0"}
-	fi
-}
-
 fn_info_config_ark(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -122,7 +56,7 @@ fn_info_config_ark(){
 	fi
 }
 
-fn_info_config_ballistic_overkill(){
+fn_info_config_bo(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -145,7 +79,7 @@ fn_info_config_ballistic_overkill(){
 	fi
 }
 
-fn_info_config_barotrauma(){
+fn_info_config_bt(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -309,7 +243,7 @@ fn_info_config_codwaw(){
 	fi
 }
 
-fn_info_config_dontstarve(){
+fn_info_config_dst(){
 	if [ ! -f "${clustercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -382,7 +316,7 @@ fn_info_config_eco(){
 	fi
 }
 
-fn_info_config_factorio(){
+fn_info_config_fctr(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="Factorio Server"
 		serverpassword="${unavailable}"
@@ -408,7 +342,73 @@ fn_info_config_factorio(){
 	fi
 }
 
-fn_info_config_minecraft(){
+fn_info_config_jc2(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+	else
+		servername=$(grep "Name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/Name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverdescription=$(grep "Description" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/Description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "Password" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
+		port=$(grep "BindPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
+		queryport="${port}"
+		configip=$(grep "BindIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/BindIP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="BindIP"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+	fi
+}
+
+fn_info_config_jc3(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverdescription="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryPort="${zero}"
+		steamport="${zero}"
+		httpport="${zero}"
+		tickrate="${zero}"
+	else
+		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverdescription=$(grep "description" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "\"maxPlayers\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		port=$(grep "\"port\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryport=$(grep "\"queryPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		steamport=$(grep "\"steamPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		httpport=$(grep "\"httpPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		tickrate=$(grep "\"maxTickRate\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
+
+		configip=$(grep "host" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/host//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		ipsetinconfig=1
+		ipinconfigvar="host"
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		serverdescription=${serverdescription:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers=:-"0"}
+		port=${port=:-"0"}
+		queryport=${queryport=:-"0"}
+		steamport=${steamport=:-"0"}
+		httpport=${httpport=:-"0"}
+		tickrate=${tickrate=:-"0"}
+	fi
+}
+
+fn_info_config_mc(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		rconpassword="${unavailable}"
@@ -450,7 +450,7 @@ fn_info_config_minecraft(){
 	fi
 }
 
-fn_info_config_minecraft_bedrock(){
+fn_info_config_mcb(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${zero}"
@@ -566,7 +566,7 @@ fn_info_config_pstbs(){
 	numreservedslots=${numreservedslots:-"0"}
 }
 
-fn_info_config_projectcars(){
+fn_info_config_pc(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -592,7 +592,7 @@ fn_info_config_projectcars(){
 	fi
 }
 
-fn_info_config_projectzomboid(){
+fn_info_config_pz(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -618,7 +618,7 @@ fn_info_config_projectzomboid(){
 	fi
 }
 
-fn_info_config_quakeworld(){
+fn_info_config_qw(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -637,7 +637,7 @@ fn_info_config_quakeworld(){
 	fi
 }
 
-fn_info_config_quake2(){
+fn_info_config_q2(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -655,7 +655,7 @@ fn_info_config_quake2(){
 	fi
 }
 
-fn_info_config_quake3(){
+fn_info_config_q3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -696,7 +696,7 @@ fn_info_config_jk2(){
 	fi
 }
 
-fn_info_config_quakelive(){
+fn_info_config_ql(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -752,7 +752,7 @@ fn_info_config_arma3(){
 	fi
 }
 
-fn_info_config_risingworld(){
+fn_info_config_rw(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		rconpassword="${unavailable}"
@@ -866,7 +866,7 @@ fn_info_config_source(){
 	fi
 }
 
-fn_info_config_starbound(){
+fn_info_config_sb(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		queryenabled="${unavailable}"
@@ -978,7 +978,7 @@ fn_info_config_samp(){
 	fi
 }
 
-fn_info_config_teeworlds(){
+fn_info_config_tw(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="unnamed server"
 		serverpassword="${unavailable}"
@@ -1027,7 +1027,7 @@ fn_info_config_terraria(){
 	fi
 }
 
-fn_info_config_towerunite(){
+fn_info_config_tu(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${zero}"
@@ -1161,7 +1161,7 @@ fn_info_config_ut(){
 	fi
 }
 
-fn_info_config_warfork(){
+fn_info_config_wf(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -1433,7 +1433,7 @@ fn_info_config_mta(){
 	fi
 }
 
-fn_info_config_wolfensteinenemyterritory(){
+fn_info_config_wet(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -1463,7 +1463,7 @@ fn_info_config_wolfensteinenemyterritory(){
 	fi
 }
 
-fn_info_config_etlegacy(){
+fn_info_config_etl(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
 		servername="${unavailable}"
@@ -1493,7 +1493,7 @@ fn_info_config_etlegacy(){
 	fi
 }
 
-fn_info_config_wurmunlimited(){
+fn_info_config_wurm(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		port="${zero}"
 		queryport="${zero}"
@@ -1571,7 +1571,7 @@ fn_info_config_st(){
 	fi
 }
 
-fn_info_config_mordhau(){
+fn_info_config_mh(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -1630,7 +1630,7 @@ fn_info_config_av() {
 	fi
 }
 
-fn_info_config_soldat(){
+fn_info_config_sol(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		adminpassword="${unavailable}"
 		maxplayers="${unavailable}"
@@ -1657,7 +1657,7 @@ fn_info_config_soldat(){
 	fi
 }
 
-fn_info_config_pavlovvr(){
+fn_info_config_pvr(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${unavailable}"
@@ -1694,7 +1694,7 @@ fn_info_config_col(){
 	fi
 }
 
-fn_info_config_vintagestory(){
+fn_info_config_vints(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${unavailable}"
@@ -1735,7 +1735,7 @@ fn_info_config_scpsl(){
 	fi
 }
 
-fn_info_config_waterfall(){
+fn_info_config_wmc(){
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(sed -e '/^listeners:/,/^[a-z]/!d' "${servercfgfullpath}" | sed -nr 's/^[ ]+motd: (.*)$/\1/p' | tr -d "'" | sed 's/&1//')
 		queryport=$(sed -nr 's/^[ -]+query_port: ([0-9]+)/\1/p' "${servercfgfullpath}")
@@ -1758,15 +1758,17 @@ fn_info_config_waterfall(){
 }
 
 if [ "${shortname}" == "ac" ]; then
-	fn_info_config_assettocorsa
+	fn_info_config_ac
 elif [ "${shortname}" == "ark" ]; then
 	fn_info_config_ark
+elif [ "${shortname}" == "arma3" ]; then
+	fn_info_config_arma3
 elif [ "${shortname}" == "av" ]; then
 	fn_info_config_av
 elif [ "${shortname}" == "bo" ]; then
-	fn_info_config_ballistic_overkill
+	fn_info_config_bo
 elif [ "${shortname}" == "bt" ]; then
-	fn_info_config_barotrauma
+	fn_info_config_bt
 elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_config_bt1944
 elif [ "${shortname}" == "bf1942" ]; then
@@ -1786,76 +1788,77 @@ elif [ "${shortname}" == "codwaw" ]; then
 elif [ "${shortname}" == "col" ]; then
 	fn_info_config_col
 elif [ "${shortname}" == "dst" ]; then
-	fn_info_config_dontstarve
+	fn_info_config_dst
 elif [ "${shortname}" == "eco" ]; then
 	fn_info_config_eco
+elif [ "${shortname}" == "etl" ]; then
+	fn_info_config_etl
 elif [ "${shortname}" == "fctr" ]; then
-	fn_info_config_factorio
+	fn_info_config_fctr
 elif [ "${shortname}" == "jc2" ]; then
 	fn_info_config_jc2
 elif [ "${shortname}" == "jc3" ]; then
 	fn_info_config_jc3
-
+elif [ "${shortname}" == "jk2" ]; then
+	fn_info_config_jk2
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_config_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_config_kf2
+elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
+	fn_info_config_mc
+elif [ "${shortname}" == "mcb" ]; then
+	fn_info_config_mcb
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_config_mohaa
 elif [ "${shortname}" == "mofm" ]; then
 	fn_info_config_mofm
-elif [ "${shortname}" == "qw" ]; then
-	fn_info_config_quakeworld
-elif [ "${shortname}" == "q2" ]; then
-	fn_info_config_quake2
-elif [ "${shortname}" == "q3" ]; then
-	fn_info_config_quake3
-elif [ "${shortname}" == "ql" ]; then
-	fn_info_config_quakelive
-elif [ "${shortname}" == "jk2" ]; then
-	fn_info_config_jk2
-elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
-	fn_info_config_minecraft
-elif [ "${shortname}" == "mcb" ]; then
-	fn_info_config_minecraft_bedrock
+elif [ "${shortname}" == "mumble" ]; then
+	fn_info_config_mumble
 elif [ "${shortname}" == "onset" ]; then
 	fn_info_config_onset
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_config_pstbs
 elif [ "${shortname}" == "pc" ]; then
-	fn_info_config_projectcars
+	fn_info_config_pc
 elif [ "${shortname}" == "pz" ]; then
-	fn_info_config_projectzomboid
-elif [ "${shortname}" == "arma3" ]; then
-	fn_info_config_arma3
+	fn_info_config_pz
+elif [ "${shortname}" == "qw" ]; then
+	fn_info_config_qw
+elif [ "${shortname}" == "q2" ]; then
+	fn_info_config_q2
+elif [ "${shortname}" == "q3" ]; then
+	fn_info_config_q3
+elif [ "${shortname}" == "ql" ]; then
+	fn_info_config_ql
 elif [ "${shortname}" == "ro" ]; then
 	fn_info_config_ro
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_config_rtcw
 elif [ "${shortname}" == "rw" ]; then
-	fn_info_config_risingworld
+	fn_info_config_rw
+elif [ "${shortname}" == "sb" ]; then
+	fn_info_config_sb
 elif [ "${shortname}" == "sol" ]; then
-	fn_info_config_soldat
+	fn_info_config_sol
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_config_sof2
 elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	fn_info_config_source
-elif [ "${shortname}" == "sb" ]; then
-	fn_info_config_starbound
-elif [ "${shortname}" == "ts3" ]; then
-	fn_info_config_teamspeak3
-elif [ "${shortname}" == "mumble" ]; then
-	fn_info_config_mumble
 elif [ "${shortname}" == "samp" ]; then
 	fn_info_config_samp
-elif [ "${shortname}" == "pstbs" ]; then
+elif [ "${shortname}" == "sbots" ]; then
 	fn_info_config_sbots
+elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+	fn_info_config_scpsl
+elif [ "${shortname}" == "sdtd" ]; then
+	fn_info_config_sdtd
 elif [ "${shortname}" == "tw" ]; then
-	fn_info_config_teeworlds
+	fn_info_config_tw
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_config_terraria
 elif [ "${shortname}" == "tu" ]; then
-	fn_info_config_towerunite
+	fn_info_config_tu
 elif [ "${shortname}" == "ut2k4" ]; then
 	fn_info_config_ut2k4
 elif [ "${engine}" == "unreal" ]; then
@@ -1866,18 +1869,12 @@ elif [ "${engine}" == "unreal3" ]; then
 	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
-elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
-	fn_info_config_scpsl
-elif [ "${shortname}" == "sdtd" ]; then
-	fn_info_config_sdtd
 elif [ "${shortname}" == "wet" ]; then
-	fn_info_config_wolfensteinenemyterritory
+	fn_info_config_wet
 elif [ "${shortname}" == "wf" ]; then
-	fn_info_config_warfork
-elif [ "${shortname}" == "etl" ]; then
-	fn_info_config_etlegacy
+	fn_info_config_wf
 elif [ "${shortname}" == "wurm" ]; then
-	fn_info_config_wurmunlimited
+	fn_info_config_wurm
 elif [ "${shortname}" == "mta" ]; then
 	fn_info_config_mta
 elif [ "${shortname}" == "squad" ]; then
@@ -1885,11 +1882,11 @@ elif [ "${shortname}" == "squad" ]; then
 elif [ "${shortname}" == "st" ]; then
 	fn_info_config_st
 elif [ "${shortname}" == "mh" ]; then
-	fn_info_config_mordhau
+	fn_info_config_mh
 elif [ "${shortname}" == "pvr" ];then
-	fn_info_config_pavlovvr
+	fn_info_config_pvr
 elif [ "${shortname}" == "vints" ]; then
-	fn_info_config_vintagestory
+	fn_info_config_vints
 elif [ "${shortname}" == "wmc" ]; then
-	fn_info_config_waterfall
+	fn_info_config_wmc
 fi
