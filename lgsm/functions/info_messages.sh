@@ -1561,10 +1561,10 @@ fn_info_message_select_engine(){
 		fn_info_message_ac
 	elif [ "${shortname}" == "ark" ]; then
 		fn_info_message_ark
-	elif [ "${shortname}" == "av" ]; then
-		fn_info_message_av
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
+	elif [ "${shortname}" == "av" ]; then
+		fn_info_message_av
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_message_bf1942
 	elif [ "${shortname}" == "bfv" ]; then

@@ -479,7 +479,7 @@ fn_info_config_mcb(){
 	fi
 }
 
-fn_info_config_mofm(){
+fn_info_config_mom(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -1811,8 +1811,8 @@ elif [ "${shortname}" == "mcb" ]; then
 	fn_info_config_mcb
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_config_mohaa
-elif [ "${shortname}" == "mofm" ]; then
-	fn_info_config_mofm
+elif [ "${shortname}" == "mom" ]; then
+	fn_info_config_mom
 elif [ "${shortname}" == "mumble" ]; then
 	fn_info_config_mumble
 elif [ "${shortname}" == "onset" ]; then
