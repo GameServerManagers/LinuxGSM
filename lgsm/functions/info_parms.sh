@@ -192,10 +192,10 @@ fn_info_parms_spark(){
 	#mods=${mods:-"NOT SET"}
 }
 
-fn_info_parms_stationeers(){
+fn_info_parms_st(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
-	webadminport=${port:-"0"}
+	httpport=${port:-"0"}
 	worldtype=${worldtype:-"NOT SET"}
 	autosaveinterval=${autosaveinterval:-"0"}
 	clearinterval=${clearinterval:-"0"}
@@ -320,7 +320,7 @@ elif [ "${shortname}" == "rust" ]; then
 elif [ "${shortname}" == "samp" ]; then
 	fn_info_parms_samp
 elif [ "${shortname}" == "st" ]; then
-	fn_info_parms_stationeers
+	fn_info_parms_st
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_risingworld
 elif [ "${shortname}" == "sof2" ]; then

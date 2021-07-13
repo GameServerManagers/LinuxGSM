@@ -1245,13 +1245,13 @@ fn_info_message_st(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Web Admin${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${httpport}"
 	} | column -s $'\t' -t
 }
 
@@ -1391,26 +1391,6 @@ fn_info_message_unreal(){
 	{
 		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
 		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${httpport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
-	} | column -s $'\t' -t
-}
-
-
-fn_info_message_unreal3(){
-	fn_info_message_password_strip
-	{
-		fn_port "header"
-		echo -e "> Game\t${port}\tudp"
-		echo -e "> Query\t${queryport}\tudp"
-		echo -e "> Web Admin\t${webadminport}\ttcp\tListenPort=${webadminport}"
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
 		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
 		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
@@ -1704,8 +1684,6 @@ fn_info_message_select_engine(){
 		fn_info_message_spark
 	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
-	elif [ "${engine}" == "unreal3" ]; then
-		fn_info_message_unreal3
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi

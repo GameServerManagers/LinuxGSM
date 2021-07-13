@@ -1551,7 +1551,7 @@ fn_info_config_squad(){
 	maxplayers=${maxplayers:-"0"}
 }
 
-fn_info_config_stationeers(){
+fn_info_config_st(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -1883,7 +1883,7 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "squad" ]; then
 	fn_info_config_squad
 elif [ "${shortname}" == "st" ]; then
-	fn_info_config_stationeers
+	fn_info_config_st
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_config_mordhau
 elif [ "${shortname}" == "pvr" ];then
