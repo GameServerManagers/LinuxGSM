@@ -1118,7 +1118,7 @@ fn_info_config_unreal2(){
 	fi
 }
 
-fn_info_config_unreal3(){
+fn_info_config_ut3(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
@@ -1865,10 +1865,10 @@ elif [ "${engine}" == "unreal" ]; then
 	fn_info_config_unreal
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_config_unreal2
-elif [ "${engine}" == "unreal3" ]; then
-	fn_info_config_unreal3
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_config_ut
+elif [ "${shortname}" == "ut3" ]; then
+	fn_info_config_ut3
 elif [ "${shortname}" == "wet" ]; then
 	fn_info_config_wet
 elif [ "${shortname}" == "wf" ]; then

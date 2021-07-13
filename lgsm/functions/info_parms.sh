@@ -230,7 +230,7 @@ fn_info_parms_unreal2(){
 	queryport=$((port+1))
 }
 
-fn_info_parms_unreal3(){
+fn_info_parms_ut3(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	defaultmap=${defaultmap:-"NOT SET"}
@@ -323,8 +323,8 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_info_parms_mta
 elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
 	fn_info_parms_unreal
-elif [ "${engine}" == "unreal3" ]; then
-	fn_info_parms_unreal3
+elif [ "${shortname}" == "ut3" ]; then
+	fn_info_parms_ut3
 elif [ "${shortname}" == "unt" ]; then
 	fn_info_parms_unt
 elif [ "${shortname}" == "ut" ]; then
