@@ -285,52 +285,52 @@ elif [ "${shortname}" == "inss" ]; then
 	fn_info_parms_inss
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
+elif [ "${shortname}" == "mh" ]; then
+	fn_info_parms_mh
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_parms_mohaa
 elif [ "${shortname}" == "mom" ]; then
 	fn_info_parms_mom
-elif [ "${shortname}" == "pz" ]; then
-	fn_info_parms_pz
+elif [ "${shortname}" == "mta" ]; then
+	fn_info_parms_mta
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_parms_pvr
-elif [ "${shortname}" == "qw" ]; then
-	fn_info_parms_qw
+elif [ "${shortname}" == "pz" ]; then
+	fn_info_parms_pz
 elif [ "${shortname}" == "q2" ]||[ "${shortname}" == "q3" ]; then
 	fn_info_parms_quake2
+elif [ "${shortname}" == "qw" ]; then
+	fn_info_parms_qw
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_parms_rtcw
 elif [ "${shortname}" == "rust" ]; then
 	fn_info_parms_rust
-elif [ "${shortname}" == "st" ]; then
-	fn_info_parms_st
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_parms_rw
+elif [ "${shortname}" == "st" ]; then
+	fn_info_parms_st
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_parms_sof2
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_parms_sbots
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	fn_info_parms_source
-elif [ "${engine}" == "spark" ]; then
-	fn_info_parms_spark
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_parms_tu
-elif [ "${shortname}" == "vh" ]; then
-	fn_info_parms_vh
-elif [ "${shortname}" == "mh" ]; then
-	fn_info_parms_mh
-elif [ "${shortname}" == "mta" ]; then
-	fn_info_parms_mta
-elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
-	fn_info_parms_unreal
 elif [ "${shortname}" == "ut3" ]; then
 	fn_info_parms_ut3
 elif [ "${shortname}" == "unt" ]; then
 	fn_info_parms_unt
 elif [ "${shortname}" == "ut" ]; then
 	fn_info_parms_ut
+elif [ "${shortname}" == "vh" ]; then
+	fn_info_parms_vh
 elif [ "${shortname}" == "wf" ]; then
 	fn_info_parms_wf
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+	fn_info_parms_source
+elif [ "${engine}" == "spark" ]; then
+	fn_info_parms_spark
+elif [ "${engine}" == "unreal" ]||[ "${engine}" == "unreal2" ]; then
+	fn_info_parms_unreal
 # for servers that have a missing queryport from the game config.
 elif [ "${shortname}" == "samp" ]||[ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]||[ "${shortname}" == "jk2" ]||[ "${shortname}" == "tw" ]; then
 	fn_info_parms_queryport

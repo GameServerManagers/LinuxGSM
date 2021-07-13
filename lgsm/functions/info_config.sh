@@ -1770,16 +1770,16 @@ elif [ "${shortname}" == "arma3" ]; then
 	fn_info_config_arma3
 elif [ "${shortname}" == "av" ]; then
 	fn_info_config_av
+elif [ "${shortname}" == "bf1942" ]; then
+	fn_info_config_bf1942
+elif [ "${shortname}" == "bfv" ]; then
+	fn_info_config_bfv
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_config_bo
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_config_bt
 elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_config_bt1944
-elif [ "${shortname}" == "bf1942" ]; then
-	fn_info_config_bf1942
-elif [ "${shortname}" == "bfv" ]; then
-	fn_info_config_bfv
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_config_cmw
 elif [ "${shortname}" == "cod" ]||[ "${shortname}" == "coduo" ]; then
@@ -1814,84 +1814,84 @@ elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 	fn_info_config_mc
 elif [ "${shortname}" == "mcb" ]; then
 	fn_info_config_mcb
+elif [ "${shortname}" == "mh" ]; then
+	fn_info_config_mh
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_config_mohaa
 elif [ "${shortname}" == "mom" ]; then
 	fn_info_config_mom
+elif [ "${shortname}" == "mta" ]; then
+	fn_info_config_mta
 elif [ "${shortname}" == "mumble" ]; then
 	fn_info_config_mumble
 elif [ "${shortname}" == "onset" ]; then
 	fn_info_config_onset
-elif [ "${shortname}" == "pstbs" ]; then
-	fn_info_config_pstbs
 elif [ "${shortname}" == "pc" ]; then
 	fn_info_config_pc
+elif [ "${shortname}" == "pstbs" ]; then
+	fn_info_config_pstbs
+elif [ "${shortname}" == "pvr" ];then
+	fn_info_config_pvr
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_config_pz
-elif [ "${shortname}" == "qw" ]; then
-	fn_info_config_qw
 elif [ "${shortname}" == "q2" ]; then
 	fn_info_config_q2
 elif [ "${shortname}" == "q3" ]; then
 	fn_info_config_q3
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_config_ql
+elif [ "${shortname}" == "qw" ]; then
+	fn_info_config_qw
 elif [ "${shortname}" == "ro" ]; then
 	fn_info_config_ro
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_config_rtcw
 elif [ "${shortname}" == "rw" ]; then
 	fn_info_config_rw
-elif [ "${shortname}" == "sb" ]; then
-	fn_info_config_sb
-elif [ "${shortname}" == "sol" ]; then
-	fn_info_config_sol
-elif [ "${shortname}" == "sof2" ]; then
-	fn_info_config_sof2
-elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	fn_info_config_source
 elif [ "${shortname}" == "samp" ]; then
 	fn_info_config_samp
+elif [ "${shortname}" == "sb" ]; then
+	fn_info_config_sb
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_config_sbots
 elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
 	fn_info_config_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
-elif [ "${shortname}" == "tw" ]; then
-	fn_info_config_tw
-elif [ "${shortname}" == "terraria" ]; then
-	fn_info_config_terraria
-elif [ "${shortname}" == "tu" ]; then
-	fn_info_config_tu
-elif [ "${shortname}" == "ut2k4" ]; then
-	fn_info_config_ut2k4
-elif [ "${engine}" == "unreal" ]; then
-	fn_info_config_unreal
-elif [ "${engine}" == "unreal2" ]; then
-	fn_info_config_unreal2
-elif [ "${shortname}" == "ut" ]; then
-	fn_info_config_ut
-elif [ "${shortname}" == "ut3" ]; then
-	fn_info_config_ut3
-elif [ "${shortname}" == "wet" ]; then
-	fn_info_config_wet
-elif [ "${shortname}" == "wf" ]; then
-	fn_info_config_wf
-elif [ "${shortname}" == "wurm" ]; then
-	fn_info_config_wurm
-elif [ "${shortname}" == "mta" ]; then
-	fn_info_config_mta
+elif [ "${shortname}" == "sof2" ]; then
+	fn_info_config_sof2
+elif [ "${shortname}" == "sol" ]; then
+	fn_info_config_sol
+elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+	fn_info_config_source
 elif [ "${shortname}" == "squad" ]; then
 	fn_info_config_squad
 elif [ "${shortname}" == "st" ]; then
 	fn_info_config_st
-elif [ "${shortname}" == "mh" ]; then
-	fn_info_config_mh
-elif [ "${shortname}" == "pvr" ];then
-	fn_info_config_pvr
+elif [ "${shortname}" == "terraria" ]; then
+	fn_info_config_terraria
+elif [ "${shortname}" == "tu" ]; then
+	fn_info_config_tu
+elif [ "${shortname}" == "tw" ]; then
+	fn_info_config_tw
+elif [ "${shortname}" == "ut" ]; then
+	fn_info_config_ut
+elif [ "${shortname}" == "ut2k4" ]; then
+	fn_info_config_ut2k4
+elif [ "${shortname}" == "ut3" ]; then
+	fn_info_config_ut3
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_config_vints
+elif [ "${shortname}" == "wet" ]; then
+	fn_info_config_wet
+elif [ "${shortname}" == "wf" ]; then
+	fn_info_config_wf
 elif [ "${shortname}" == "wmc" ]; then
 	fn_info_config_wmc
+elif [ "${shortname}" == "wurm" ]; then
+	fn_info_config_wurm
+elif [ "${engine}" == "unreal" ]; then
+	fn_info_config_unreal
+elif [ "${engine}" == "unreal2" ]; then
+	fn_info_config_unreal2
 fi

@@ -1605,12 +1605,12 @@ fn_info_message_select_engine(){
 		fn_info_message_ins
 	elif [ "${shortname}" == "inss" ]; then
 		fn_info_message_inss
-	elif [ "${shortname}" == "jk2" ]; then
-		fn_info_message_jk2
 	elif [ "${shortname}" == "jc2" ]; then
 		fn_info_message_jc2
 	elif [ "${shortname}" == "jc3" ]; then
 		fn_info_message_jc3
+	elif [ "${shortname}" == "jk2" ]; then
+		fn_info_message_jk2
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_message_kf
 	elif [ "${shortname}" == "kf2" ]; then
@@ -1627,44 +1627,48 @@ fn_info_message_select_engine(){
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-	elif [ "${shortname}" == "onset" ]; then
-		fn_info_message_onset
 	elif [ "${shortname}" == "mom" ]; then
 		fn_info_message_mom
-	elif [ "${shortname}" == "pz" ]; then
-		fn_info_message_pz
-	elif [ "${shortname}" == "pstbs" ]; then
-		fn_info_message_pstbs
+	elif [ "${shortname}" == "onset" ]; then
+		fn_info_message_onset
 	elif [ "${shortname}" == "pc" ]; then
 		fn_info_message_pc
-	elif [ "${shortname}" == "qw" ]; then
-		fn_info_message_qw
+	elif [ "${shortname}" == "pstbs" ]; then
+		fn_info_message_pstbs
+	elif [ "${shortname}" == "pvr" ]; then
+		fn_info_message_pvr
+	elif [ "${shortname}" == "pz" ]; then
+		fn_info_message_pz
 	elif [ "${shortname}" == "q2" ]; then
 		fn_info_message_q2
 	elif [ "${shortname}" == "q3" ]; then
 		fn_info_message_q3
 	elif [ "${shortname}" == "ql" ]; then
 		fn_info_message_ql
+	elif [ "${shortname}" == "qw" ]; then
+		fn_info_message_qw
 	elif [ "${shortname}" == "ro" ]; then
 		fn_info_message_ro
+	elif [ "${shortname}" == "rtcw" ]; then
+		fn_info_message_rtcw
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
-	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
-		fn_info_message_scpsl
-	elif [ "${shortname}" == "sdtd" ]; then
-		fn_info_message_sdtd
-	elif [ "${shortname}" == "squad" ]; then
-		fn_info_message_squad
-	elif [ "${shortname}" == "st" ]; then
-		fn_info_message_st
-	elif [ "${shortname}" == "sof2" ]; then
-		fn_info_message_sof2
-	elif [ "${shortname}" == "sol" ]; then
-		fn_info_message_sol
 	elif [ "${shortname}" == "sb" ]; then
 		fn_info_message_sb
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_message_sbots
+	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
+		fn_info_message_scpsl
+	elif [ "${shortname}" == "sdtd" ]; then
+		fn_info_message_sdtd
+	elif [ "${shortname}" == "sof2" ]; then
+		fn_info_message_sof2
+	elif [ "${shortname}" == "sol" ]; then
+		fn_info_message_sol
+	elif [ "${shortname}" == "squad" ]; then
+		fn_info_message_squad
+	elif [ "${shortname}" == "st" ]; then
+		fn_info_message_st
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then
@@ -1675,30 +1679,26 @@ fn_info_message_select_engine(){
 		fn_info_message_tw
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_message_unt
-	elif [ "${shortname}" == "ut" ]; then
-		fn_info_message_ut
 	elif [ "${shortname}" == "vh" ]; then
 		fn_info_message_vh
-	elif [ "${shortname}" == "rtcw" ]; then
-		fn_info_message_rtcw
-	elif [ "${shortname}" == "pvr" ]; then
-		fn_info_message_pvr
-	elif [ "${shortname}" == "rust" ]; then
-		fn_info_message_rust
 	elif [ "${shortname}" == "vints" ]; then
 		fn_info_message_vints
-	elif [ "${shortname}" == "wf" ]; then
-		fn_info_message_wf
-	elif [ "${shortname}" == "wurm" ]; then
-		fn_info_message_wurm
+	elif [ "${shortname}" == "rust" ]; then
+		fn_info_message_rust
 	elif [ "${shortname}" == "rw" ]; then
 		fn_info_message_rw
+	elif [ "${shortname}" == "ut" ]; then
+		fn_info_message_ut
 	elif [ "${shortname}" == "ut2k4" ]; then
 		fn_info_message_ut2k4
 	elif [ "${shortname}" == "ut3" ]; then
 		fn_info_message_ut3
 	elif [ "${shortname}" == "wet" ]; then
 		fn_info_message_wet
+	elif [ "${shortname}" == "wf" ]; then
+		fn_info_message_wf
+	elif [ "${shortname}" == "wurm" ]; then
+		fn_info_message_wurm
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_message_goldsrc
 	elif [ "${engine}" == "source" ]; then
@@ -1707,6 +1707,7 @@ fn_info_message_select_engine(){
 		fn_info_message_spark
 	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
+
 	else
 		fn_print_error_nl "Unable to detect server engine."
 	fi
