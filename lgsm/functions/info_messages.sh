@@ -1414,6 +1414,14 @@ fn_info_message_ut(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_ut3(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_vh(){
 	{
 		fn_port "header"
@@ -1676,6 +1684,8 @@ fn_info_message_select_engine(){
 		fn_info_message_rw
 	elif [ "${shortname}" == "ut2k4" ]; then
 		fn_info_message_ut2k4
+	elif [ "${shortname}" == "ut3" ]; then
+		fn_info_message_ut3
 	elif [ "${shortname}" == "wet" ]; then
 		fn_info_message_wet
 	elif [ "${engine}" == "goldsrc" ]; then
