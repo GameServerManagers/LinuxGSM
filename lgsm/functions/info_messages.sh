@@ -950,6 +950,16 @@ fn_info_message_justcause3(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_lo(){
+	echo -e "netstat -atunp | grep MistServer"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_minecraft(){
 	echo -e "netstat -atunp | grep java"
 	echo -e ""
@@ -1616,6 +1626,8 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause2
 	elif [ "${shortname}" == "jc3" ]; then
 		fn_info_message_justcause3
+	elif [ "${shortname}" == "lo" ]; then
+		fn_info_message_lo
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
 	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
