@@ -106,6 +106,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 				fix_kf.sh
 			elif [ "${shortname}" == "kf2" ]; then
 				fix_kf2.sh
+			elif [ "${shortname}" == "lo" ]; then
+				fix_lo.sh
 			elif [ "${shortname}" == "ro" ]; then
 				fix_ro.sh
 			elif [ "${shortname}" == "samp" ]; then
