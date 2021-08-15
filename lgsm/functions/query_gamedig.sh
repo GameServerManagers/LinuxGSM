@@ -30,7 +30,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		if [ "${querytype}" == "teamspeak3" ]; then
-			fn_info_config_teamspeak3
+			fn_info_game_ts3
 		fi
 
 		# server name.

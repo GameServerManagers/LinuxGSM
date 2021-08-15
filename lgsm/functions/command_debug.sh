@@ -27,7 +27,7 @@ fn_lockfile_trap(){
 check.sh
 fix.sh
 info_distro.sh
-info_config.sh
+info_game.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
 fn_print_header
 {

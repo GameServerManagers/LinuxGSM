@@ -31,8 +31,7 @@ if [ "${exitbypass}" ]; then
 else
 	# Run checks and gathers details to display.
 	check.sh
-	info_config.sh
-	info_parms.sh
+	info_game.sh
 	info_distro.sh
 	info_messages.sh
 	for queryip in "${queryips[@]}"

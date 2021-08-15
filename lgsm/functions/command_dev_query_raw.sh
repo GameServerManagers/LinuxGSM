@@ -11,8 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh
-info_config.sh
-info_parms.sh
+info_game.sh
 info_distro.sh
 info_messages.sh
 

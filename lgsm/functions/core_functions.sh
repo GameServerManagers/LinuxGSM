@@ -513,7 +513,7 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-info_config.sh(){
+info_game.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -529,11 +529,6 @@ fn_fetch_function
 }
 
 info_messages.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-info_parms.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

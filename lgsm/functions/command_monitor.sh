@@ -225,8 +225,7 @@ fn_monitor_loop(){
 monitorflag=1
 check.sh
 core_logs.sh
-info_config.sh
-info_parms.sh
+info_game.sh
 
 # query pre-checks
 fn_monitor_check_lockfile

@@ -191,7 +191,7 @@ fi
 if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
-info_config.sh
+info_game.sh
 core_logs.sh
 
 # Will check for updates is updateonstart is yes.
