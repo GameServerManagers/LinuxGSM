@@ -650,7 +650,7 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "jc2" "jc3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "mcb" "pc" "pz" "qw" "refractor" "arma3" "renderware" "rw" "sb" "st" "tw" "terraria" "unreal" "unreal2" "unreal3" "ts3" "mumble" "sdtd" "vints" "wurm")
+	local ports_edit_array=( "arma3" "ac" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "jc2" "jc3" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
