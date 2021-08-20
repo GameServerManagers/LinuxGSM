@@ -14,6 +14,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # grep -v "foo" filter out lines that contain foo
 # cut -f1 -d "/" remove everything after /
 
+
 fn_info_game_ac(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		httpport="${zero}"
@@ -102,6 +103,7 @@ fn_info_game_av() {
 		rconenabled="${unavailable}"
 		queryport="${unavailable}"
 	else
+
 		maxplayers=$(grep "maxPlayers=" "${servercfgfullpath}" | sed 's/maxPlayers=//')
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
@@ -115,6 +117,7 @@ fn_info_game_av() {
 		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
 		if [ -n "${rconpassword}" ]; then
 			rconenabled="true"
+
 		fi
 
 		# Not set
@@ -1494,9 +1497,9 @@ fn_info_game_source(){
 		serverpassword="${unavailable}"
 		rconpassword="${unavailable}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | tr -d '\";,:' |  sed -e '/^#/d' -e 's/hostname//g' -e 's/^[ \t]*//g' -e 's/[ \t]*$//g')
-		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | tr -d '\";,:' |  sed -e '/^#/d' -e 's/hostname//g' -e 's/^[ \t]*//g' -e 's/[ \t]*$//g')
-		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | tr -d '\";,:' |  sed -e '/^#/d' -e 's/hostname//g' -e 's/^[ \t]*//g' -e 's/[ \t]*$//g')
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "sv_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/sv_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
