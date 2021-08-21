@@ -83,6 +83,8 @@ csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
 oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 oxidehurtworldlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
 oxidesdtdlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url' )
+# Valheim Plus
+valeimpluslatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/valheimPlus/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 
 # Define mods information (required)
 
@@ -159,5 +161,8 @@ mod_info_rustoxide=( MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "
 mod_info_hwoxide=( MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlink}" "Oxide.Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "https://umod.org/games/hurtworld" "Allows for the use of plugins" )
 mod_info_sdtdoxide=( MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "https://umod.org/games/7-days-to-die" "Allows for the use of plugins" )
 
+# ValheimPlus
+mod_info_valheimplus=( MOD "valheimplus" "Valheim PLUS" "${valeimpluslatestlink}" "ValheimPlus.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://github.com/valheimPlus/ValheimPlus" "Mod to improve Valheim gameplay")
+
 # REQUIRED: Set all mods info into the global array
-mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_pug[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" )
+mods_global_array=( "${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_pug[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_valheimplus[@]}" )
