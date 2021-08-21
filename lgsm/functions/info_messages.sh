@@ -754,7 +754,6 @@ fn_info_logs(){
 # Query           27015  udp       1
 # RCON            27020  tcp       1
 
-
 fn_port(){
 	if [ "${1}" == "header" ]; then
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"

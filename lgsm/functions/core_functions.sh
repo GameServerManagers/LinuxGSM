@@ -508,17 +508,12 @@ fn_fetch_function
 
 # Info
 
-info_stats.sh(){
+info_distro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
 info_game.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-info_distro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -529,6 +524,11 @@ fn_fetch_function
 }
 
 info_messages.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+info_stats.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
