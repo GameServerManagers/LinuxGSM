@@ -14,7 +14,6 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # grep -v "foo" filter out lines that contain foo
 # cut -f1 -d "/" remove everything after /
 
-
 fn_info_game_ac(){
 	if [ ! -f "${servercfgfullpath}" ]; then
 		httpport="${zero}"
@@ -103,7 +102,6 @@ fn_info_game_av() {
 		rconenabled="${unavailable}"
 		queryport="${unavailable}"
 	else
-
 		maxplayers=$(grep "maxPlayers=" "${servercfgfullpath}" | sed 's/maxPlayers=//')
 		servername=$(grep "name=" "${servercfgfullpath}" | sed 's/name=//')
 		serverpassword=$(grep "password=" "${servercfgfullpath}" | sed 's/password=//')
@@ -117,7 +115,6 @@ fn_info_game_av() {
 		rconpassword=$(grep "rconPassword=" "${servercfgfullpath}" | sed 's/rconPassword=//')
 		if [ -n "${rconpassword}" ]; then
 			rconenabled="true"
-
 		fi
 
 		# Not set
