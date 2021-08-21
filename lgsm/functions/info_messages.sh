@@ -209,8 +209,8 @@ fn_info_message_gameserver_resource(){
 		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
-		if [ -d "${backudpir}" ]; then
-			echo -e "${lightblue}Backups:\t${default}${backudpirdu}"
+		if [ -d "${backupdir}" ]; then
+			echo -e "${lightblue}Backups:\t${default}${backupdirdu}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -510,7 +510,7 @@ fn_info_message_script(){
 	# Rocketchat alert:       off
 	# Slack alert:            off
 	# Telegram alert:         off
-	# udpate on start:        off
+	# Update on start:        off
 	# User:                   lgsm
 	# Location:               /home/lgsm/csgoserver
 	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
@@ -559,9 +559,9 @@ fn_info_message_script(){
 		# Telegram alert
 		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
 
-		# udpate on start
-		if [ -n "${udpateonstart}" ]; then
-			echo -e "${lightblue}udpate on start:\t${default}${udpateonstart}"
+		# Update on start
+		if [ -n "${updateonstart}" ]; then
+			echo -e "${lightblue}Update on start:\t${default}${updateonstart}"
 		fi
 
 		# User
@@ -601,18 +601,18 @@ fn_info_message_backup(){
 	echo -e ""
 	echo -e "${lightgreen}Backups${default}"
 	fn_messages_separator
-	if [ ! -d "${backudpir}" ]||[ "${backupcount}" == "0" ]; then
+	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
 		echo -e "No Backups created"
 	else
 		{
 			echo -e "${lightblue}No. of backups:\t${default}${backupcount}"
 			echo -e "${lightblue}Latest backup:${default}"
-			if [ "${lastbackudpaysago}" == "0" ]; then
-				echo -e "${lightblue}    date:\t${default}${lastbackudpate} (less than 1 day ago)"
-			elif [ "${lastbackudpaysago}" == "1" ]; then
-				echo -e "${lightblue}    date:\t${default}${lastbackudpate} (1 day ago)"
+			if [ "${lastbackupdaysago}" == "0" ]; then
+				echo -e "${lightblue}    date:\t${default}${lastbackupdate} (less than 1 day ago)"
+			elif [ "${lastbackupdaysago}" == "1" ]; then
+				echo -e "${lightblue}    date:\t${default}${lastbackupdate} (1 day ago)"
 			else
-				echo -e "${lightblue}    date:\t${default}${lastbackudpate} (${lastbackudpaysago} days ago)"
+				echo -e "${lightblue}    date:\t${default}${lastbackupdate} (${lastbackupdaysago} days ago)"
 			fi
 			echo -e "${lightblue}    file:\t${default}${lastbackup}"
 			echo -e "${lightblue}    size:\t${default}${lastbackupsize}"
@@ -1084,7 +1084,7 @@ fn_info_message_bfv(){
 	} | column -s $'\t' -t
 }
 
-# Not udpated to new format as cant get server to start
+# Not updated to new format as cant get server to start
 fn_info_message_rw(){
 	{
 		fn_port "header"
