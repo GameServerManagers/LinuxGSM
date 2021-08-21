@@ -1587,6 +1587,17 @@ fn_info_config_waterfall(){
 	fi
 }
 
+fn_info_config_dayofdragons(){
+	if [ -f "${servercfgfullpath}" ]; then
+		maxplayers=$(sed -nr 's/^iServerMaxPlayers=(.*)$/\1/p' "${servercfgfullpath}")
+		if [ -z "${maxplayers}" ]; then
+			maxplayers=${maxplayers:-"NOT SET"}
+		fi
+	else
+		maxplayers=${maxplayers:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1615,6 +1626,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_config_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_config_col
+elif [ "${shortname}" == "dodr" ]; then
+	fn_info_config_dayofdragons
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_config_dontstarve
 elif [ "${shortname}" == "eco" ]; then
