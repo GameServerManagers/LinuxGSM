@@ -12,7 +12,7 @@ fn_firstcommand_set
 
 fn_print_dots "${servername}"
 check.sh
-info_config.sh
+info_game.sh
 alert="test"
 alert.sh
 

@@ -12,6 +12,9 @@ if [ "$(whoami)" = "root" ]; then
 		fn_print_fail_nl "Do NOT run this script as root!"
 		if [ -d "${lgsmlogdir}" ]; then
 			fn_script_log_fatal "${selfname} attempted to run as root."
+		else
+			# Forces exit code is log does not yet exist.
+			exitcode=1
 		fi
 		core_exit.sh
 	fi
