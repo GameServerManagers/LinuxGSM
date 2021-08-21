@@ -260,6 +260,10 @@ fn_info_parms_queryport(){
 	queryport="${port:-"0"}"
 }
 
+fn_info_parms_queryport_plusone(){
+	queryport=$((port + 1))
+}
+
 if [ "${shortname}" == "ark" ]; then
 	fn_info_parms_ark
 elif [ "${shortname}" == "arma3" ]; then
@@ -329,4 +333,6 @@ elif [ "${shortname}" == "wf" ]; then
 # for servers that have a missing queryport from the config
 elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
 	fn_info_parms_queryport
+elif [ "${shortname}" == "stn" ]; then
+	fn_info_parms_queryport_plusone
 fi

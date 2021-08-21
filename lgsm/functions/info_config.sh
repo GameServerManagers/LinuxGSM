@@ -1587,6 +1587,20 @@ fn_info_config_waterfall(){
 	fi
 }
 
+fn_info_config_stn(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ServerIP="(.*)"/\1/p' "${servercfgfullpath}")
+		port=$(sed -nr 's/^ServerPort=([0-9]+)/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^ServerPassword=(.*)/\1/' "${servercfgfullpath}")
+	else
+		servername="${unavailable}"
+		configip=${configip:-"0.0.0.0"}
+		port="${zero}"
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
+}
+
 if [ "${shortname}" == "ac" ]; then
 	fn_info_config_assettocorsa
 elif [ "${shortname}" == "ark" ]; then
@@ -1693,6 +1707,8 @@ elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
 	fn_info_config_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_config_sdtd
+elif [ "${shortname}" == "stn" ]; then
+	fn_info_config_stn
 elif [ "${shortname}" == "wet" ]; then
 	fn_info_config_wolfensteinenemyterritory
 elif [ "${shortname}" == "wf" ]; then
