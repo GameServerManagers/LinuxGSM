@@ -307,9 +307,8 @@ fn_deps_detector(){
 info_distro.sh
 
 if [ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-	fn_fetch_config "lgsm/data" "${distroid}-${distroversion}.csv" "${datadir}" "${distroid}-${distroversion}.csv" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
-	# shellcheck source=/dev/null
-	source "${configdirserver}/common.cfg"
+	fn_fetch_file_github "lgsm/data" "${distroid}-${distroversion}.csv" "${datadir}" "${distroid}-${distroversion}.csv" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+
 fi
 
 
