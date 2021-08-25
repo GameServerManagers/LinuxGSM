@@ -246,6 +246,80 @@ fn_fetch_trap(){
 	core_exit.sh
 }
 
+fn_check_file(){
+	remote_fileurl="${1}"
+	remote_fileurl_backup="${2}"
+	remote_fileurl_name="${3}"
+	remote_fileurl_backup_name="${4}"
+
+	# If backup fileurl exists include it.
+	if [ -n "${remote_fileurl_backup}" ]; then
+		# counter set to 0 to allow second try
+		counter=0
+		remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+	else
+		# counter set to 1 to not allow second try
+		counter=1
+		remote_fileurls_array=( remote_fileurl )
+	fi
+	for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
+		if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
+			fileurl="${remote_fileurl}"
+			fileurl_name="${remote_fileurl_name}"
+		elif [ "${remote_fileurl_array}" == "remote_fileurl_backup" ]; then
+			fileurl="${remote_fileurl_backup}"
+			fileurl_name="${remote_fileurl_backup_name}"
+		fi
+		counter=$((counter+1))
+		echo -en "checking ${fileurl_name} ${remote_fileurl_name}...\c"
+		curlcmd=$(curl --output /dev/null --silent --head --fail "${fileurl}" 2>&1)
+		local exitcode=$?
+
+		# On first try will error. On second try will fail.
+		if [ "${exitcode}" != 0 ]; then
+			if [ ${counter} -ge 2 ]; then
+				fn_print_fail_eol_nl
+				if [ -f "${lgsmlog}" ]; then
+					fn_script_log_fatal "Checking ${remote_fileurl_name}"
+					fn_script_log_fatal "${fileurl}"
+				fi
+			else
+				fn_print_error_eol_nl
+				if [ -f "${lgsmlog}" ]; then
+					fn_script_log_error "Checking ${remote_fileurl_name}"
+					fn_script_log_error "${fileurl}"
+				fi
+			fi
+		else
+			fn_print_ok_eol
+			sleep 0.3
+			echo -en "\033[2K\\r"
+			if [ -f "${lgsmlog}" ]; then
+				fn_script_log_pass "Checking ${local_filename}"
+			fi
+
+			# Make file executable if chmodx is set.
+			if [ "${chmodx}" == "chmodx" ]; then
+				chmod +x "${local_filedir}/${local_filename}"
+			fi
+
+			# Remove trap.
+			trap - INT
+
+			break
+		fi
+	done
+
+	if [ -f "${local_filedir}/${local_filename}" ]; then
+		fn_dl_hash
+		# Execute file if run is set.
+		if [ "${run}" == "run" ]; then
+			# shellcheck source=/dev/null
+			source "${local_filedir}/${local_filename}"
+		fi
+	fi
+}
+
 fn_fetch_file(){
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
@@ -393,6 +467,21 @@ fn_fetch_file_github(){
 	hash="${7:-0}"
 	# Passes vars to the file download function.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
+}
+
+fn_check_file_github(){
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
+	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	fn_check_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
 }
 
 # Fetches config files from the Git repo.

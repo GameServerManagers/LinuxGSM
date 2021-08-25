@@ -307,6 +307,7 @@ fn_deps_detector(){
 info_distro.sh
 
 if [ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
+	fn_check_file "lgsm/data" "${distroid}-${distroversion}.csv"
 	fn_fetch_file_github "lgsm/data" "${distroid}-${distroversion}.csv" "${datadir}" "${distroid}-${distroversion}.csv" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
 
 fi
