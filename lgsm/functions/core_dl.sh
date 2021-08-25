@@ -295,17 +295,8 @@ fn_check_file(){
 			sleep 0.3
 			echo -en "\033[2K\\r"
 			if [ -f "${lgsmlog}" ]; then
-				fn_script_log_pass "Checking ${local_filename}"
+				fn_script_log_pass "Checking ${remote_filename}"
 			fi
-
-			# Make file executable if chmodx is set.
-			if [ "${chmodx}" == "chmodx" ]; then
-				chmod +x "${local_filedir}/${local_filename}"
-			fi
-
-			# Remove trap.
-			trap - INT
-
 			break
 		fi
 	done
