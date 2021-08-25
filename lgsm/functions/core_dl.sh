@@ -251,7 +251,7 @@ fn_check_file(){
 	remote_fileurl_backup="${2}"
 	remote_fileurl_name="${3}"
 	remote_fileurl_backup_name="${4}"
-
+	remote_filename="${5}"
 	# If backup fileurl exists include it.
 	if [ -n "${remote_fileurl_backup}" ]; then
 		# counter set to 0 to allow second try
@@ -280,13 +280,13 @@ fn_check_file(){
 			if [ ${counter} -ge 2 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_fatal "Checking ${remote_fileurl_name}"
+					fn_script_log_fatal "Checking ${remote_filename}"
 					fn_script_log_fatal "${fileurl}"
 				fi
 			else
 				fn_print_error_eol_nl
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_error "Checking ${remote_fileurl_name}"
+					fn_script_log_error "Checking ${remote_filename}"
 					fn_script_log_error "${fileurl}"
 				fi
 			fi
@@ -471,7 +471,7 @@ fn_fetch_file_github(){
 
 fn_check_file_github(){
 	github_file_url_dir="${1}"
-	github_file_url_name="${2}"
+	github_remote_filename="${2}"
 	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -481,7 +481,7 @@ fn_check_file_github(){
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	fn_check_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}"
+	fn_check_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${github_remote_filename}"
 }
 
 # Fetches config files from the Git repo.
