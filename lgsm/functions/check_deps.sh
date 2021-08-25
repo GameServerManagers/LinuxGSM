@@ -102,6 +102,29 @@ fn_install_mono_repo(){
 	fi
 }
 
+fn_deps_email(){
+	# Adds postfix to required dependencies if email alert is enabled.
+	if [ "${emailalert}" == "on" ]; then
+		if [ -f /usr/bin/mailx ]; then
+			if [ -d /etc/exim4 ]; then
+				array_deps_required+=( exim4 )
+			elif [ -d /etc/sendmail ]; then
+				array_deps_required+=( sendmail )
+			elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+				array_deps_required+=( mailutils postfix )
+			elif [ "$(command -v rpm 2>/dev/null)" ]; then
+				array_deps_required+=( mailx postfix )
+			fi
+		else
+			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+				array_deps_required+=( mailutils postfix )
+			elif [ "$(command -v rpm 2>/dev/null)" ]; then
+				array_deps_required+=( mailx postfix )
+			fi
+		fi
+	fi
+}
+
 fn_found_missing_deps(){
 	if [ "${#array_deps_missing[*]}" != "0" ]; then
 
@@ -216,19 +239,19 @@ fn_check_loop(){
 fn_deps_detector(){
 	# Checks if dependency is missing.
 
-  # Java: Added for users using Oracle JRE to bypass check.
-  if [ ${deptocheck} == "openjdk-16-jre" ]; then
-  	javaversion=$(java -version 2>&1 | grep "version")
-  	if [ "${javaversion}" ]; then
-  		javacheck=1
-  	fi
-  fi
-  if [ "${javacheck}" == "1" ]; then
+	# Java: Added for users using Oracle JRE to bypass check.
+	if [ ${deptocheck} == "openjdk-16-jre" ]; then
+		javaversion=$(java -version 2>&1 | grep "version")
+		if [ "${javaversion}" ]; then
+			javacheck=1
+		fi
+	fi
+	if [ "${javacheck}" == "1" ]; then
 		# Added for users using Oracle JRE to bypass check.
 		depstatus=0
 		deptocheck="${javaversion}"
 		unset javacheck
-  # Mono
+	# Mono
 	elif [ "${deptocheck}" == "mono-complete" ]; then
 		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
 			# Mono >= 5.0.0 already installed.
@@ -284,9 +307,9 @@ fn_deps_detector(){
 info_distro.sh
 
 if [ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-  fn_fetch_config "lgsm/data" "${distroid}-${distroversion}.csv" "${datadir}" "${distroid}-${distroversion}.csv" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
-  # shellcheck source=/dev/null
-  source "${configdirserver}/common.cfg"
+	fn_fetch_config "lgsm/data" "${distroid}-${distroversion}.csv" "${datadir}" "${distroid}-${distroversion}.csv" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"
+	# shellcheck source=/dev/null
+	source "${configdirserver}/common.cfg"
 fi
 
 
