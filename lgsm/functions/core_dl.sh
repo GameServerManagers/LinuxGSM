@@ -461,7 +461,6 @@ fn_fetch_file_github(){
 }
 
 fn_check_file_github(){
-	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
 	github_fileurl_dir="${1}"
 	github_fileurl_name="${2}"
 	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
