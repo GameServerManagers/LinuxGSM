@@ -1,4 +1,5 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,jq,python3,tar,tmux,util-linux,netcat,unzip,xz-utils,lib32gcc1,lib32stdc++6
+install,apt install
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,jq,python3,tar,tmux,util-linux,netcat,unzip,xz-utils,lib32gcc1,lib32stdc++6,hostname
 ac
 ahl
 ahl2

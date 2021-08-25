@@ -28,10 +28,10 @@ kernel=$(uname -r)
 distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
 for distro_info in "${distro_info_array[@]}"; do
 	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
-		distroname=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="' | sed 's/\"//g')
-		distroversion=$(grep VERSION_ID /etc/os-release | sed 's/VERSION_ID=//g' | sed 's/\"//g')
-		distroid=$(grep ID /etc/os-release | grep -v _ID | grep -v ID_ | sed 's/ID=//g' | sed 's/\"//g')
-		distrocodename=$(grep VERSION_CODENAME /etc/os-release | sed 's/VERSION_CODENAME=//g' | sed 's/\"//g')
+		distroname=$(grep "PRETTY_NAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')
+		distroversion=$(grep "VERSION_ID" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')
+		distroid=$(grep "ID=" /etc/os-release | grep -v VERSION | awk -F\= '{gsub(/"/,"",$2);print $2}')
+		distrocodename=$(grep "VERSION_CODENAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')
 	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ];then
 			distroname=$(lsb_release -sd)
