@@ -650,7 +650,7 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "arma3" "ac" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "jc2" "jc3" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=( "ac" "arma3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -661,7 +661,7 @@ fn_info_message_ports_edit(){
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=( "av" "col" "goldsrc" "fctr" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "unt" "vh" )
+	local ports_edit_array=( "av" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "unt" "vh" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
