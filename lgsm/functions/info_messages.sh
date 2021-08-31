@@ -675,16 +675,16 @@ fn_info_message_ports(){
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
 	if [ "${shortname}" == "av" ]; then
 		echo -e "ss -tuplwn | grep AvorionServer"
+	elif [ "${shortname}" == "bf1942" ]; then
+		echo -e "ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wmc" ]; then
+		echo -e "ss -tuplwn | grep java"
+	elif [ "${shortname}" == "terraria" ]; then
+		echo -e "ss -tuplwn | grep Main"
 	elif [ "${engine}" == "source" ]; then
 		echo -e "ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
 		echo -e "ss -tuplwn | grep hlds_linux"
-	elif [ "${shortname}" == "rw" ]; then
-			echo -e "ss -tuplwn | grep java"
-	elif [ "${shortname}" == "terraria" ]; then
-		echo -e "ss -tuplwn | grep Main"
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wmc" ]; then
-		echo -e "ss -tuplwn | grep java"
 	else
 		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
