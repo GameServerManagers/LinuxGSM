@@ -974,15 +974,6 @@ fn_info_message_mcb(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_onset(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "HTTP" httpport tcp
-	} | column -s $'\t' -t
-}
-
 fn_info_message_mohaa(){
 	{
 		fn_port "header"
@@ -1006,21 +997,30 @@ fn_info_message_mumble(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_onset(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "HTTP" httpport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_pc(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Steam" steamport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_pstbs(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_fctr(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
