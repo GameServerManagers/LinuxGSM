@@ -8,8 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-info_config.sh
-info_parms.sh
+info_game.sh
 
 if [ ! -f "/bin/ip" ]; then
 	ipcommand="/sbin/ip"
