@@ -1201,7 +1201,7 @@ fn_info_message_ql(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_ro(){ 
+fn_info_message_ro(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
