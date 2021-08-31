@@ -787,6 +787,18 @@ fn_info_message_ark(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_arma3(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Voice" voiceport udp
+		fn_port "Query Steam" queryport udp
+		fn_port "Steam Master" steammasterport udp
+		fn_port "Voice (unused)" voiceunusedport udp
+		fn_port "BattleEye" battleeyeport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_av(){
 	{
 		fn_port "header"
@@ -798,7 +810,31 @@ fn_info_message_av(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_bf1942(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_bfv(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_bo(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_bt(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -865,6 +901,26 @@ fn_info_message_codwaw(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_col(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Steam" steamport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_csgo(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "RCON" rconport tcp
+		fn_port "SourceTV" sourcetvport udp
+		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_dst(){
 	{
 		fn_port "header"
@@ -915,6 +971,17 @@ fn_info_message_hw(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_ins(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "RCON" rconport tcp
+		fn_port "SourceTV" sourcetvport udp
+		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_inss(){
 	{
 		fn_port "header"
@@ -949,6 +1016,47 @@ fn_info_message_jk2(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_kf(){
+	{
+	fn_port "header"
+	fn_port "Game" port udp
+	fn_port "Query" queryport udp
+	fn_port "Query (GameSpy)" queryportgs udp
+	fn_port "Web Admin" webadminport tcp
+	fn_port "LAN" lanport udp
+	fn_port "Steam" steamport udp
+	fn_port "Steam Master" steammasterport udp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_kf2(){
+	fn_info_message_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Web Admin" webadminport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+	} | column -s $'\t' -t
+}
+
 fn_info_message_lo(){
 	{
 		fn_port "header"
@@ -974,6 +1082,15 @@ fn_info_message_mcb(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_mh(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Beacon" beaconport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_mohaa(){
 	{
 		fn_port "header"
@@ -986,6 +1103,17 @@ fn_info_message_mom(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Beacon" beaconport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_mta(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		if [ "${ase}" == "Enabled" ]; then
+			fn_port "Query" queryport udp
+		fi
+		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1021,6 +1149,16 @@ fn_info_message_pstbs(){
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_pvr(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Game" port tcp
+		fn_port "Game+400" port401 udp
+		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1063,48 +1201,24 @@ fn_info_message_ql(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_arma3(){
+fn_info_message_ro(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Voice" voiceport udp
-		fn_port "Query Steam" queryport udp
+		fn_port "Query" queryport udp
+		fn_port "Web Admin" webadminport tcp
+		fn_port "LAN" lanport udp
+		fn_port "Steam" steamport udp
 		fn_port "Steam Master" steammasterport udp
-		fn_port "Voice (unused)" voiceunusedport udp
-		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
-}
-
-fn_info_message_bf1942(){
+	echo -e ""
+	echo -e "${lightgreen}${servername} Web Admin${default}"
+	fn_messages_separator
 	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_bfv(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
-# Not updated to new format as cant get server to start
-fn_info_message_rw(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Game+1" port2 udp
-		fn_port "Game+2" port3 udp
-		fn_port "Game+3" port4 udp
-		fn_port "Game+1" port2 tcp
-		fn_port "Game+2" port3 tcp
-		fn_port "Game+3" port4 tcp
-		fn_port "Query" queryport tcp
-		fn_port "Query HTTP" httpqueryport tcp
-		fn_port "RCON" rconport tcp
+		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
+		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
+		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
 	} | column -s $'\t' -t
 }
 
@@ -1125,6 +1239,22 @@ fn_info_message_rust(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_rw(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Game+1" port2 udp
+		fn_port "Game+2" port3 udp
+		fn_port "Game+3" port4 udp
+		fn_port "Game+1" port2 tcp
+		fn_port "Game+2" port3 tcp
+		fn_port "Game+3" port4 tcp
+		fn_port "Query" queryport tcp
+		fn_port "Query HTTP" httpqueryport tcp
+		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_samp(){
 	{
 		fn_port "header"
@@ -1133,11 +1263,27 @@ fn_info_message_samp(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_sb(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_sbots(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_scpsl(){
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
 	} | column -s $'\t' -t
 }
 
@@ -1178,28 +1324,14 @@ fn_info_message_sof2(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_csgo(){
+fn_info_message_sol(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
-		fn_port "RCON" rconport tcp
-		fn_port "SourceTV" sourcetvport udp
-		fn_port "Client" clientport udp
+		fn_port "Query" queryport udp
+		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
-
-fn_info_message_ins(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
-		fn_port "RCON" rconport tcp
-		fn_port "SourceTV" sourcetvport udp
-		fn_port "Client" clientport udp
-	} | column -s $'\t' -t
-}
-
 fn_info_message_source(){
 	{
 		fn_port "header"
@@ -1236,15 +1368,6 @@ fn_info_message_squad(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "RCON" rconport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_sb(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -1342,49 +1465,6 @@ fn_info_message_ut2k4(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_kf(){
-	{
-	fn_port "header"
-	fn_port "Game" port udp
-	fn_port "Query" queryport udp
-	fn_port "Query (GameSpy)" queryportgs udp
-	fn_port "Web Admin" webadminport tcp
-	fn_port "LAN" lanport udp
-	fn_port "Steam" steamport udp
-	fn_port "Steam Master" steammasterport udp
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
-	} | column -s $'\t' -t
-}
-
-fn_info_message_ro(){
-	{
-	fn_port "header"
-	fn_port "Game" port udp
-	fn_port "Query" queryport udp
-	fn_port "Web Admin" webadminport tcp
-	fn_port "LAN" lanport udp
-	fn_port "Steam" steamport udp
-	fn_port "Steam Master" steammasterport udp
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_unreal(){
 	fn_info_message_password_strip
 	{
@@ -1448,22 +1528,10 @@ fn_info_message_vh(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_kf2(){
-	fn_info_message_password_strip
+fn_info_message_vints(){
 	{
 		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		fn_port "Game" port tcp
 	} | column -s $'\t' -t
 }
 
@@ -1475,52 +1543,6 @@ fn_info_message_wet(){
 	} | column -s $'\t' -t
 }
 
-
-fn_info_message_wurm(){
-	{
-		fn_port "header"
-		fn_port "Game" port tcp
-		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_mta(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		if [ "${ase}" == "Enabled" ]; then
-			fn_port "Query" queryport udp
-		fi
-		fn_port "HTTP" httpport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_mh(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Beacon" beaconport udp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_bt(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_sol(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Files" filesport tcp
-	} | column -s $'\t' -t
-}
-
 fn_info_message_wf(){
 	{
 		fn_port "header"
@@ -1529,36 +1551,11 @@ fn_info_message_wf(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_pvr(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Game" port tcp
-		fn_port "Game+400" port401 udp
-		fn_port "Query" queryport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_col(){
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
-		fn_port "Steam" steamport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_vints(){
+fn_info_message_wurm(){
 	{
 		fn_port "header"
 		fn_port "Game" port tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_scpsl(){
-	{
-		fn_port "header"
-		fn_port "Game" port tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
