@@ -683,6 +683,8 @@ fn_info_message_ports(){
 			echo -e "ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		echo -e "ss -tuplwn | grep Main"
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wmc" ]; then
+		echo -e "ss -tuplwn | grep java"
 	else
 		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
