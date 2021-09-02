@@ -686,7 +686,7 @@ fn_info_message_ports(){
 	elif [ "${engine}" == "goldsrc" ]; then
 		echo -e "ss -tuplwn | grep hlds_linux"
 	else
-		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
+		executableshort="$(basename "${executable}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
 	fi
 	echo -e ""
@@ -1713,8 +1713,7 @@ fn_info_message_select_engine(){
 		fn_info_message_spark
 	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
-
 	else
-		fn_print_error_nl "Unable to detect server engine."
+		fn_print_error_nl "Unable to detect game server."
 	fi
 }
