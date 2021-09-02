@@ -1339,8 +1339,10 @@ fn_info_message_source(){
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
-		# not manualy set by default more research needed
-		fn_port "Steam" steamport udp
+		# Will not show if unaviable
+		if [ "${steamport}" == "0" ]||[ -z "${steamport}" ]; then
+			fn_port "Steam" steamport udp
+		fi
 		fn_port "Client" clientport udp
 	} | column -s $'\t' -t
 }
