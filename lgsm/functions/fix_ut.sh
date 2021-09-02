@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 #Set Binary Executable
 echo -e "chmod +x ${executabledir}/${executable}"

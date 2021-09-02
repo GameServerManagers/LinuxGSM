@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Wurm Unlimited.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # First run requires start with no parms.
 # After first run new dirs are created.

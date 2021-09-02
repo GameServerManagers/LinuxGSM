@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e "Applying WebAdmin ROOst.css fix."
 echo -e "http://forums.tripwireinteractive.com/showpost.php?p=585435&postcount=13"

@@ -3,10 +3,10 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Overall function for managing checks.
+# Description: Overall module for managing checks.
 # Runs checks that will either halt on or fix an issue.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Every command that requires checks just references check.sh.
 # check.sh selects which checks to run by using arrays.

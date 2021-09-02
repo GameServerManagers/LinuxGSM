@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
 	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nohash"

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of jk2 servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_jk2_dl(){
 	fn_fetch_file "https://github.com/mvdevs/jk2mv/releases/download/${remotebuild}/jk2mv-v${remotebuild}-dedicated.zip" "" "" "" "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "" "norun" "noforce" "nohash"

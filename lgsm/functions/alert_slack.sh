@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Slack alert.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if ! command -v jq > /dev/null; then
 	fn_print_fail_nl "Sending Slack alert: jq is missing."

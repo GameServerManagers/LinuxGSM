@@ -6,7 +6,7 @@
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_game.sh
 

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Prints installation completion message and hints.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "================================="

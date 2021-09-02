@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir(){

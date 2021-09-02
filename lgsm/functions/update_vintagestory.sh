@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Vintage Story servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_vs_dl(){
 	# get version info for download

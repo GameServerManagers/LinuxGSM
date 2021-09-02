@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with CS:GO.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: server not always creating steam_appid.txt file.
 if [ ! -f "${serverfiles}/steam_appid.txt" ]; then

@@ -6,7 +6,7 @@
 # Description: Collect optional Stats sent to LinuxGSM project.
 # Uses Google analytics.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 

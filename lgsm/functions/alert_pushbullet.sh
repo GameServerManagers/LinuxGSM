@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Pushbullet Messenger alert.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF
 {

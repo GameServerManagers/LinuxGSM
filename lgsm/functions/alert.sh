@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Overall function for managing alerts.
+# Description: Overall module for managing alerts.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Generates alert log of the details at the time of the alert.
 # Used with email alerts.

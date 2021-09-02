@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if the server config is missing and warns the user if needed.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ -n "${servercfgfullpath}" ]&&[ ! -f "${servercfgfullpath}" ]; then
 	fn_print_dots ""

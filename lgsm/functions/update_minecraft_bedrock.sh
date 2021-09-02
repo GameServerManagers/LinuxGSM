@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft Bedrock servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 #random number for userAgent
 randnum=$((1 + RANDOM % 5000))

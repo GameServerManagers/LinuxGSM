@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Team Fortress 2.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: Team Fortress 2 Segmentation fault for Red-Hat Distros #2062.
 if [ -f "/etc/redhat-release" ]&&[ ! -f "${serverfiles}/bin/libcurl-gnutls.so.4" ]; then

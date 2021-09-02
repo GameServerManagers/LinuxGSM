@@ -7,7 +7,7 @@
 
 commandname="UPDATE"
 commandaction="Updating"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_print_dots ""

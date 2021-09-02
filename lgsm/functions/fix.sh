@@ -3,10 +3,10 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Overall function for managing fixes.
-# Runs functions that will fix an issue.
+# Description: Overall module for managing fixes.
+# Runs modules that will fix an issue.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Messages that are displayed for some fixes.
 fn_fix_msg_start(){

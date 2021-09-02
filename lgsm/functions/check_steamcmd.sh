@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if SteamCMD is installed correctly.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # init steamcmd functions
 core_steamcmd.sh

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Pushover alert.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Pushover alert"
 

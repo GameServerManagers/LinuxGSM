@@ -17,7 +17,7 @@
 # fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 # fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_dl_steamcmd(){
 	fn_print_start_nl "${remotelocation}"
@@ -358,10 +358,10 @@ fn_fetch_file(){
 	fi
 }
 
-# GitHub file download functions.
+# GitHub file download modules.
 # Used to simplify downloading specific files from GitHub.
 
-# github_file_url_dir: the directory of the file in the GitHub: lgsm/functions
+# github_file_url_dir: the directory of the file in the GitHub: lgsm/modules
 # github_file_url_name: the filename of the file to download from GitHub: core_messages.sh
 # githuburl: the full GitHub url
 
@@ -397,7 +397,7 @@ fn_fetch_file_github(){
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	hash="${7:-0}"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
@@ -421,14 +421,14 @@ fn_fetch_config(){
 	run="norun"
 	forcedl="noforce"
 	hash="nohash"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches modules from the Git repo during first download.
-fn_fetch_function(){
-	github_file_url_dir="lgsm/functions"
-	github_file_url_name="${functionfile}"
+fn_fetch_module(){
+	github_file_url_dir="lgsm/modules"
+	github_file_url_name="${modulefile}"
 		# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
 	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -439,20 +439,20 @@ fn_fetch_function(){
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	local_filedir="${functionsdir}"
+	local_filedir="${modulesdir}"
 	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="run"
 	forcedl="noforce"
 	hash="nohash"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches modules from the Git repo during update-lgsm.
-fn_update_function(){
-	github_file_url_dir="lgsm/functions"
-	github_file_url_name="${functionfile}"
+fn_update_module(){
+	github_file_url_dir="lgsm/modules"
+	github_file_url_name="${modulefile}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
 	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
@@ -463,13 +463,13 @@ fn_update_function(){
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	local_filedir="${functionsdir}"
+	local_filedir="${modulesdir}"
 	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="norun"
 	forcedl="noforce"
 	hash="nohash"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 
 }
@@ -508,7 +508,7 @@ fn_dl_latest_release_github(){
 			fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 			fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 		else
-			# Fetch file from the remote location from the existing function to the ${tmpdir} for now.
+			# Fetch file from the remote location from the existing module to the ${tmpdir} for now.
 			fn_fetch_file "${githubreleasedownloadlink}" "" "${githubreleasefilename}" "" "${githubreleasedownloadpath}" "${githubreleasefilename}"
 		fi
 	fi

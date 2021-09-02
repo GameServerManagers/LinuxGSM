@@ -6,7 +6,7 @@
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then

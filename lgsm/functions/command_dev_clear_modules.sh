@@ -1,21 +1,21 @@
 #!/bin/bash
-# LinuxGSM command_dev_clear_functions.sh module
+# LinuxGSM command_dev_clear_modules.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Deletes the contents of the functions dir.
+# Description: Deletes the contents of the modules dir.
 
 commandname="DEV-CLEAR-MODULES"
 commandaction="Clearing modules"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 echo -e "================================="
 echo -e "Clear Functions"
 echo -e "================================="
 echo -e ""
-if fn_prompt_yn "Do you want to delete all functions?" Y; then
-	rm -rfv "${functionsdir:?}/"*
+if fn_prompt_yn "Do you want to delete all modules?" Y; then
+	rm -rfv "${modulesdir:?}/"*
 	rm -rfv "${configdirdefault:?}/"*
 	fn_script_log_info "Cleared modules directory"
 	fn_script_log_info "Cleared default config directory"

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Mailgun Email alert.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${mailgunapiregion}" == "eu" ]; then
 	mailgunapiurl="https://api.eu.mailgun.net"

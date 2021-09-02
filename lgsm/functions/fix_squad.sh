@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Squad.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # As the server base dir changed for the game, we need to migrate the default config from the old to the new location
 oldservercfg="${serverfiles}/Squad/ServerConfig/${servercfg}"

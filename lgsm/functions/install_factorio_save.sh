@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates the initial save file for Factorio.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Creating initial Factorio savefile${default}"

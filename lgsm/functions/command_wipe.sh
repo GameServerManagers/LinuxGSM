@@ -7,7 +7,7 @@
 
 commandname="WIPE"
 commandaction="Wiping"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Provides an exit code upon error.

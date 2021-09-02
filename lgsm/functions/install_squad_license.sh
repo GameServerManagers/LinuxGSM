@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Configures the Squad server's license.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Squad Server License${default}"

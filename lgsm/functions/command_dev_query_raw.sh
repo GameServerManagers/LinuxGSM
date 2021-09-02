@@ -7,7 +7,7 @@
 
 commandname="DEV-QUERY-RAW"
 commandaction="Developer query raw"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh
@@ -230,10 +230,10 @@ echo -e ""
 for queryip in "${queryips[@]}"; do
 	echo -e "./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\""
 	echo -e ""
-	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
-		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nohash"
+	if [ ! -f "${modulesdir}/query_gsquery.py" ]; then
+		fn_fetch_file_github "lgsm/modules" "query_gsquery.py" "${modulesdir}" "chmodx" "norun" "noforce" "nohash"
 	fi
-	"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}"
+	"${modulesdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}"
 done
 echo -e ""
 echo -e "${lightgreen}TCP Raw Output${default}"

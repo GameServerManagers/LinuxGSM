@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_check_ownership(){
 	if [ -f "${rootdir}/${selfname}" ]; then
@@ -13,8 +13,8 @@ fn_check_ownership(){
 			selfownissue=1
 		fi
 	fi
-	if [ -d "${functionsdir}" ]; then
-		if [ "$(find "${functionsdir}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
+	if [ -d "${modulesdir}" ]; then
+		if [ "$(find "${modulesdir}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			funcownissue=1
 		fi
 	fi
@@ -34,7 +34,7 @@ fn_check_ownership(){
 				find "${rootdir}/${selfname}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
 			fi
 			if [ "${funcownissue}" == "1" ]; then
-				find "${functionsdir}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
+				find "${modulesdir}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1"  ]; then
 				find "${serverfiles}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
@@ -53,15 +53,15 @@ fn_check_ownership(){
 }
 
 fn_check_permissions(){
-	if [ -d "${functionsdir}" ]; then
-		if [ "$(find "${functionsdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
+	if [ -d "${modulesdir}" ]; then
+		if [ "$(find "${modulesdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
 			fn_script_log_info "The following files are not executable:"
 			{
 				echo -e "File\n"
-				find "${functionsdir}" -type f -not -executable -printf "%p\n"
+				find "${modulesdir}" -type f -not -executable -printf "%p\n"
 			} | column -s $'\t' -t | tee -a "${lgsmlog}"
 			if [ "${monitorflag}" == 1 ]; then
 				alert="permissions"
@@ -141,7 +141,7 @@ fn_check_permissions(){
 	fi
 }
 
-## The following fn_sys_perm_* functions checks for permission errors in /sys directory.
+## The following fn_sys_perm_* modules checks for permission errors in /sys directory.
 
 # Checks for permission errors in /sys directory.
 fn_sys_perm_errors_detect(){
@@ -223,7 +223,7 @@ fn_sys_perm_error_process(){
 	fi
 }
 
-# Run perm error detect & fix/alert functions on /sys directories.
+# Run perm error detect & fix/alert modules on /sys directories.
 
 ## Run checks.
 if [ "$(whoami)" != "root" ]; then

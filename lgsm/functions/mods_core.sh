@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Core functions for mods list/install/update/remove
+# Description: Core modules for mods list/install/update/remove
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories.
 modsdir="${lgsmdir}/mods"

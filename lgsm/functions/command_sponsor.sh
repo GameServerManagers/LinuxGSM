@@ -1,13 +1,13 @@
 #!/bin/bash
-# LinuxGSM command_donate.sh module
+# LinuxGSM command_sponsor.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Shows ways to donate.
+# Description: Shows ways to sponsor.
 
-commandname="DONATE"
-commandaction="Donate"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="SPONSOR"
+commandaction="Sponsor"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_print_ascii_logo
@@ -15,7 +15,7 @@ echo -e "${lightyellow}Support LinuxGSM${default}"
 echo -e "================================="
 echo -e ""
 echo -e "Been using LinuxGSM?"
-echo -e "Consider donating to support development."
+echo -e "Consider sponsoring to support development."
 echo -e ""
 echo -e "* ${lightblue}Patreon:${default} https://linuxgsm.com/patreon"
 echo -e "* ${lightblue}GitHub:${default} https://github.com/sponsors/dgibbs64"

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Gathers various game server information.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo

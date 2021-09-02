@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Mumble servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
 	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "" "" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nohash"

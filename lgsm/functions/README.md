@@ -3,10 +3,10 @@
 These modules are scripts that are called upon by the primary script linuxgsm.sh
 
 ## Module Names
-Modules have been named to give an idea of what the function does.
+Modules have been named to give an idea of what the module does.
 
 * core: Essential modules that will always run first.
-* command: Primary command function.
+* command: Primary command module.
 * check: Runs checks that will either halt on or fix an issue.
 * dev: development modules.
 * fix: Applies a game server specific fix.

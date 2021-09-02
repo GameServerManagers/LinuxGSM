@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM update_papermc.sh function
+# LinuxGSM update_papermc.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
@@ -7,7 +7,7 @@
 
 local commandname="UPDATE"
 local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+local module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_papermc_dl(){
 	# get build info
