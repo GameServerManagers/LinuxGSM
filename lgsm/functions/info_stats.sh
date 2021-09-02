@@ -126,31 +126,31 @@ fi
 
 ## Alert Stats.
 if [ "${discordalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${discordalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Discord" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${emailalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${emailalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Email" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${iftttalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${iftttalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=IFTTT" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${mailgunalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${mailgunalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Mailgun" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${pushbulletalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${pushbulletalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Pushbullet" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${pushoveralert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${pushoveralert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Pushover" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${rocketchatalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${rocketchatalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Rocket Chat" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${slackalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${slackalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Slack" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 if [ "${telegramalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=${telegramalert}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Telegram" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 fi
 
 ## Summary Stats
