@@ -131,16 +131,13 @@ fn_found_missing_deps(){
 			fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		else
+			fn_print_dots "Missing dependencies"
 			fn_print_warn_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
 		fn_sleep_time
 		if [ "${monostatus}" ]; then
 			fn_install_mono_repo
-		fi
-		if [ "${jqstatus}" ]; then
-			fn_print_warning_nl "jq is not available in the ${distroname} repository."
-			echo -e "	* https://docs.linuxgsm.com/requirements/jq"
 		fi
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
@@ -180,7 +177,7 @@ fn_found_missing_deps(){
 				elif [ "$(command -v yum 2>/dev/null)" ]; then
 					echo -e "	sudo yum install ${array_deps_missing[*]}"
 				fi
-				if [ "${steamcmdfail}" ]; then
+				if [ -n "${steamcmdfail}" ]; then
 					echo -e ""
 					if [ "${commandname}" == "INSTALL" ]; then
 						fn_print_failure_nl "Missing dependencies required to run SteamCMD."
