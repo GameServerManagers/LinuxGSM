@@ -310,17 +310,20 @@ if [ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
 fi
 
-
 # Select Distro
-dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
-dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
-dependencyshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
+if [ "${checkflag}" == "0" ]; then
+	dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
+	dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
+	dependencyshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
 
-# dev code
-echo "${dependencyinstall}${dependencyall}${dependencyshortname}"
+	# dev code
+	echo "${dependencyinstall}${dependencyall}${dependencyshortname}"
 
-# Generate array of missing deps.
-array_deps_missing=()
+	# Generate array of missing deps.
+	array_deps_missing=()
 
-array_deps_required=(${dependencyall} ${dependencyshortname})
-fn_check_loop
+	array_deps_required=(${dependencyall} ${dependencyshortname})
+	fn_check_loop
+else
+	fn_print_warning_nl "LinuxGSM dependency checking currently unavailable for ${distroname}."
+fi

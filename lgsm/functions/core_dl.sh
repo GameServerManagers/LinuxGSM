@@ -288,12 +288,14 @@ fn_check_file(){
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_fatal "Checking ${remote_filename}"
 					fn_script_log_fatal "${fileurl}"
+					checkflag=1
 				fi
 			else
 				fn_print_error_eol_nl
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_error "Checking ${remote_filename}"
 					fn_script_log_error "${fileurl}"
+					checkflag=2
 				fi
 			fi
 		else
@@ -302,6 +304,7 @@ fn_check_file(){
 			echo -en "\033[2K\\r"
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_pass "Checking ${remote_filename}"
+				checkflag=0
 			fi
 			break
 		fi
