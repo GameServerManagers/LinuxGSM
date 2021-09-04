@@ -686,7 +686,7 @@ fn_info_message_ports(){
 	elif [ "${engine}" == "goldsrc" ]; then
 		echo -e "ss -tuplwn | grep hlds_linux"
 	else
-		executableshort="$(echo "${executable//.\/}" | cut -c -15)"
+		executableshort="$(basename "${executable}" | cut -c -15)"
 		echo -e "ss -tuplwn | grep ${executableshort}"
 	fi
 	echo -e ""
@@ -1339,8 +1339,10 @@ fn_info_message_source(){
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
-		# not manualy set by default more research needed
-		fn_port "Steam" steamport udp
+		# Will not show if unaviable
+		if [ "${steamport}" == "0" ]||[ -z "${steamport}" ]; then
+			fn_port "Steam" steamport udp
+		fi
 		fn_port "Client" clientport udp
 	} | column -s $'\t' -t
 }
@@ -1713,8 +1715,7 @@ fn_info_message_select_engine(){
 		fn_info_message_spark
 	elif [ "${engine}" == "unreal" ]; then
 		fn_info_message_unreal
-
 	else
-		fn_print_error_nl "Unable to detect server engine."
+		fn_print_error_nl "Unable to detect game server."
 	fi
 }
