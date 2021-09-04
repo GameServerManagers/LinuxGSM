@@ -127,9 +127,13 @@ fn_deps_email(){
 
 fn_found_missing_deps(){
 	if [ "${#array_deps_missing[*]}" != "0" ]; then
-
-		fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
-		fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
+		if [ "${commandname}" == "INSTALL" ]; then
+			fn_print_warning_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
+			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
+		else
+			fn_print_warn_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
+			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
+		fi
 		fn_sleep_time
 		if [ "${monostatus}" ]; then
 			fn_install_mono_repo
