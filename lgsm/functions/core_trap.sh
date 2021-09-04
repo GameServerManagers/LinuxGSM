@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM core_trap.sh module
+# LinuxGSM core_trap.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles CTRL-C trap to give an exit code.
 

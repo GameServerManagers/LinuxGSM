@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM command_test_alert.sh module
+# LinuxGSM command_test_alert.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends a test alert.
 

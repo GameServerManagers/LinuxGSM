@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM fix.sh module
+# LinuxGSM fix.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall function for managing fixes.
 # Runs functions that will fix an issue.
@@ -83,8 +82,6 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 		fix_mta.sh
 	elif [ "${shortname}" == "unt" ]; then
 		fix_unt.sh
-	elif [ "${shortname}" == "vh" ]; then
-		fix_vh.sh
 	elif [ "${shortname}" == "wurm" ]; then
 		fix_wurm.sh
 	elif [ "${shortname}" == "zmr" ]; then
@@ -96,7 +93,7 @@ fi
 if [ "${commandname}" == "INSTALL" ]; then
 		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "samp" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
 			echo -e ""
-			echo -e "${lightyellow}Applying Post-Install Fixes}${default}"
+			echo -e "Applying Post-Install Fixes"
 			echo -e "================================="
 			fn_sleep_time
 			postinstall=1

@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM info_parms.sh module
+# LinuxGSM info_parms.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: If specific parms are not set then this will be displayed in details.
 
@@ -135,16 +134,12 @@ fn_info_parms_rust(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
 	queryport=${port:-"0"}
-	appport=${appport:-"0"}
 	rconport=${rconport:-"0"}
-	gamemode=${gamemode:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
 	rconweb=${rconweb:-"NOT SET"}
-	tickrate=${tickrate:-"0"}
+	maxplayers=${maxplayers:-"0"}
 	saveinterval=${saveinterval:-"0"}
-	serverlevel=${serverlevel:-"NOT SET"}
-	worldsize=${worldsize:-"0"}
+	tickrate=${tickrate:-"0"}
 }
 
 fn_info_parms_samp(){
@@ -232,26 +227,10 @@ fn_info_parms_ut(){
 	port=${port:-"0"}
 }
 
-fn_info_parms_vh(){
-	port=${port:-"0"}
-	if [ "${public}" != "0" ]; then
-		queryport=$((port + 1))
-	else
-		querymode="1"
-	fi
-	gameworld=${gameworld:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	servername=${servername:-"NOT SET"}
-}
-
 fn_info_parms_wf(){
 	port=${port:-"0"}
 	queryport="${port:-"0"}"
 	webadminport=${webadminport:-"0"}
-}
-
-fn_info_parms_queryport(){
-	queryport="${port:-"0"}"
 }
 
 if [ "${shortname}" == "ark" ]; then
@@ -302,8 +281,6 @@ elif [ "${shortname}" == "tu" ]; then
 	fn_info_parms_towerunite
 elif [ "${shortname}" == "tw" ]; then
 	fn_info_parms_teeworlds
-elif [ "${shortname}" == "vh" ]; then
-	fn_info_parms_vh
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_parms_mordhau
 elif [ "${shortname}" == "mta" ]; then
@@ -318,7 +295,4 @@ elif [ "${shortname}" == "ut" ]; then
 	fn_info_parms_ut
 elif [ "${shortname}" == "wf" ]; then
 	fn_info_parms_wf
-# for servers that have a missing queryport from the config
-elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
-	fn_info_parms_queryport
 fi

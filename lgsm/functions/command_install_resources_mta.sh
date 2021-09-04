@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM command_install_resources_mta.sh module
+# LinuxGSM command_install_resources_mta.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Installs the default resources for Multi Theft Auto.
 
@@ -14,7 +13,7 @@ fn_install_resources(){
 	echo -e ""
 	echo -e "Installing Default Resources"
 	echo -e "================================="
-	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "" "" "" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nohash"
+	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "" "" "" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "mtasa-resources-latest.zip" "${resourcesdir}"
 	echo -e "Default Resources Installed."
 }

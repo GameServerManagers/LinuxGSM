@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM fix_sdtd.sh module
+# LinuxGSM fix_sdtd.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with 7 Days to Die.
 

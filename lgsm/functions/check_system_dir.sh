@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM check_system_dir.sh module
+# LinuxGSM check_system_dir.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks if systemdir/serverfiles is accessible.
 

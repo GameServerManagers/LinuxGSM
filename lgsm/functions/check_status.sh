@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM check_status.sh module
+# LinuxGSM check_status.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Checks the process status of the server. Either online or offline.
 

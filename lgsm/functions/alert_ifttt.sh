@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM alert_ifttt.sh module
+# LinuxGSM alert_ifttt.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends IFTTT alert.
 

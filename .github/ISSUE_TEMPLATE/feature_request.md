@@ -1,9 +1,6 @@
 ---
-name: Feature Request
+name: Feature request
 about: Suggest an idea for LinuxGSM.
-title: "[FEATURE]"
-labels: 'type: feature request'
-assignees: ''
 
 ---
 

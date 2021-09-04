@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_fastdl.sh module
+# LinuxGSM command_fastdl.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Creates a FastDL directory.
 
@@ -178,7 +178,7 @@ fn_fastdl_preview(){
 				elif [ "${directory}" == "materials" ]; then
 					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
 				elif [ "${directory}" == "models" ]; then
-					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" "*.vmt" "*.vtf" )
+					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
 				elif [ "${directory}" == "particles" ]; then
 					local allowed_extentions_array=( "*.pcf" )
 				elif [ "${directory}" == "sound" ]; then

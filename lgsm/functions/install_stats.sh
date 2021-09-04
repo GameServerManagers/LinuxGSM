@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_stats.sh module
+# LinuxGSM install_stats.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Enabled LinuxGSM Stats.
 

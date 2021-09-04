@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_monitor.sh module
+# LinuxGSM command_monitor.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
@@ -87,7 +87,7 @@ fn_monitor_check_queryport(){
 
 fn_query_gsquery(){
 	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
-		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 	fi
 	"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
 	querystatus="$?"

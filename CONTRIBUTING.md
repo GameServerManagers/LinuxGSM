@@ -48,7 +48,8 @@ Before creating bug reports, please check [this list](https://github.com/GameSer
 #### Before Submitting A Bug Report
 
 * **Check the [documentation](https://docs.linuxgsm.com).** You might be able to find the cause of the problem and fix things yourself.
-* **Check the** [**support page**](https://linuxgsm.com/support) for links to other support options.
+* **Check that the problem is not related to** [**support page**](https://linuxgsm/com/support) for links to other support options.
+* **Check the** [**support page**](https://linuxgsm/com/support) for links to other support options.
 * **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?

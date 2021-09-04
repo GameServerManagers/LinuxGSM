@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM command_dev_detect_deps.sh module
+# LinuxGSM command_dev_detect_deps.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
@@ -155,11 +154,6 @@ while read -r lib; do
 		echo -e "freetype" >> "${tmpdir}/.depdetect_centos_list"
 		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libfreetype6" >> "${tmpdir}/.depdetect_debian_list"
-		libdetected=1
-	elif [ "${lib}" == "libc++.so.1" ]; then
-		echo -e "libcxx" >> "${tmpdir}/.depdetect_centos_list"
-		echo -e "libc++1" >> "${tmpdir}/.depdetect_ubuntu_list"
-		echo -e "libc++1" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
 	fi
 

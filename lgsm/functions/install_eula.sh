@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_eula.sh module
+# LinuxGSM install_eula.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
@@ -9,7 +8,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "ts3" ]; then
 	eulaurl="https://www.teamspeak.com/en/privacy-and-terms"
-elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	eulaurl="https://account.mojang.com/documents/minecraft_eula"
 elif [ "${shortname}" == "ut" ]; then
 	eulaurl="https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula"
@@ -41,7 +40,7 @@ fi
 
 if [ "${shortname}" == "ts3" ]; then
 	touch "${executabledir}/.ts3server_license_accepted"
-elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	touch "${serverfiles}/eula.txt"
 	echo -e "eula=true" > "${serverfiles}/eula.txt"
 elif [ "${shortname}" == "ut" ]; then

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 

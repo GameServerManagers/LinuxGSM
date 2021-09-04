@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM alert_email.sh module
+# LinuxGSM alert_email.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends email alert.
 

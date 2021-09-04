@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM install_ts3db.sh module
+# LinuxGSM install_ts3db.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: PhilPhonic
 # Website: https://linuxgsm.com
 # Description: Installs the database server MariaDB for TeamSpeak 3.
 

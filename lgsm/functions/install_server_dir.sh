@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_server_dir.sh module
+# LinuxGSM install_server_dir.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Creates the server directory.
 

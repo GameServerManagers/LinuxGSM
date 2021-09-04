@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_ut2k4_key.sh module
+# LinuxGSM install_ut2k4_key.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Activates ut2k4 server with given key.
 

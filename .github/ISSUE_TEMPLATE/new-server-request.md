@@ -1,9 +1,6 @@
 ---
-name: New Server Request
+name: New server request
 about: Suggest a new game server to be added.
-title: "[Server Request]"
-labels: 'type: game server request'
-assignees: ''
 
 ---
 

@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_mods_update.sh module
+# LinuxGSM command_mods_update.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 

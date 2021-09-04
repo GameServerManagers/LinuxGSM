@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_retry.sh module
+# LinuxGSM install_retry.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Asks for installation retry after failure.
 

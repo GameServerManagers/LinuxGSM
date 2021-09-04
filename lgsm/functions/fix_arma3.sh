@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM fix_arma3.sh module
+# LinuxGSM fix_arma3.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves an issue with ARMA3.
 

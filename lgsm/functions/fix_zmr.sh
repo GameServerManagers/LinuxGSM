@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM fix_sfc.sh module
+# LinuxGSM fix_sfc.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Zombie Master: Reborn.
 

@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_backup.sh module
+# LinuxGSM command_backup.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
@@ -24,8 +24,6 @@ fn_backup_trap(){
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
 	# Remove lock file.
 	rm -f "${lockdir:?}/backup.lock"
-	fn_backup_start_server
-	unset exitbypass
 	core_exit.sh
 }
 
@@ -255,11 +253,11 @@ fn_backup_start_server(){
 
 # Run functions.
 fn_backup_check_lockfile
+fn_backup_create_lockfile
 fn_backup_init
 fn_backup_stop_server
 fn_backup_dir
 fn_backup_migrate_olddir
-fn_backup_create_lockfile
 fn_backup_compression
 fn_backup_prune
 fn_backup_start_server

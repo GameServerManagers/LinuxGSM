@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM command_dev_query_raw.sh module
+# command_dev_query_raw.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
@@ -52,7 +51,7 @@ for queryip in "${queryips[@]}"; do
 	echo -e "./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\""
 	echo -e ""
 	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
-		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nomd5"
 	fi
 	"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}"
 done

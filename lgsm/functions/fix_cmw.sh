@@ -1,11 +1,8 @@
 #!/bin/bash
-# LinuxGSM fix_cmw.sh module
-# Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# LinuxGSM fix_cmw.sh function
+# Author: Christian Birk
 # Website: https://linuxgsm.com
 # Description: Resolves the issue of the not starting server on linux
-
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ ! -f "${executabledir}/steam_appid.txt" ]; then
 	fixname="steam_appid.txt"

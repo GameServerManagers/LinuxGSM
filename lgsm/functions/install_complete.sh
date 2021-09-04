@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_complete.sh module
+# LinuxGSM install_complete.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Prints installation completion message and hints.
 

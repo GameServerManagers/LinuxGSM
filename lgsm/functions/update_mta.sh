@@ -1,14 +1,13 @@
 #!/bin/bash
-# LinuxGSM update_mta.sh module
+# LinuxGSM update_mta.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Multi Theft Auto servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mta_dl(){
-	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "" "norun" "noforce" "nohash"
+	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "" "norun" "noforce" "nomd5"
 	mkdir "${tmpdir}/multitheftauto_linux_x64"
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${tmpdir}/multitheftauto_linux_x64"
 	echo -e "copying to ${serverfiles}...\c"
@@ -31,7 +30,6 @@ fn_update_mta_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
-	requirerestart=1
 	if [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -153,14 +151,11 @@ fn_update_mta_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_mta_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-			fi
+			exitbypass=1
+			command_start.sh
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
 			fn_print_restart_warning

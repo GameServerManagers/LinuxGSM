@@ -1,14 +1,13 @@
 #!/bin/bash
-# LinuxGSM update_factorio.sh module
+# LinuxGSM update_factorio.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_factorio_dl(){
-	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nohash"
+	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/factorio/"* "${serverfiles}"
@@ -95,14 +94,12 @@ fn_update_factorio_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_factorio_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-			fi
+			exitbypass=1
+			command_start.sh
+			fn_firstcommand_reset
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
 			fn_print_restart_warning

@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_details.sh module
+# LinuxGSM command_details.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
@@ -32,6 +32,7 @@ fn_info_message_script
 fn_info_message_backup
 # Some game servers do not have parms.
 if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "jc2" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
+	fn_parms
 	fn_info_message_commandlineparms
 fi
 fn_info_message_ports

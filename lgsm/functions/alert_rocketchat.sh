@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM alert_rocketchat.sh module
-# Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# LinuxGSM alert_rocketchat.sh function
+# Author: Alasdair Haig
 # Website: https://linuxgsm.com
 # Description: Sends Rocketchat alert.
 

@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM core_legacy.sh module
+# LinuxGSM core_legacy.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
@@ -77,8 +76,3 @@ if [ -z "${wsstartmap}" ]; then
 		wscollectionid="${ws_start_map}"
 	fi
 fi
-
-fn_parms(){
-	fn_reload_startparameters
-	parms="${startparameters}"
-}

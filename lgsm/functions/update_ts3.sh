@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM command_ts3.sh module
+# LinuxGSM command_ts3.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Teamspeak 3 servers.
 
@@ -13,7 +12,7 @@ fn_update_ts3_dl(){
 	elif [ "${ts3arch}" == "x86" ]; then
 		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
 	fi
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nohash"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
@@ -35,7 +34,6 @@ fn_update_ts3_localbuild(){
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
-	requirerestart=1
 	if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -103,9 +101,9 @@ fn_update_ts3_localbuild(){
 
 fn_update_ts3_remotebuild(){
 	# Gets remote build info.
-	if [ "${ts3arch}" == "amd64" ]; then
+	if [ "${arch}" == "x86_64" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
-	elif [ "${ts3arch}" == "x86" ]; then
+	elif [ "${arch}" == "x86" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
 	fi
 	if [ "${firstcommandname}" != "INSTALL" ]; then
@@ -151,14 +149,11 @@ fn_update_ts3_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_ts3_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-			fi
+			exitbypass=1
+			command_start.sh
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
 			fn_print_restart_warning

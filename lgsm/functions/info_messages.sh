@@ -1,63 +1,17 @@
 #!/bin/bash
-# LinuxGSM info_messages.sh module
+# LinuxGSM info_messages.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Separator is different for details.
-fn_messages_separator(){
-	if [ "${commandname}" == "DETAILS" ]; then
-		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-	else
-		echo -e "================================="
-	fi
-}
+# Standard Details
+# This applies to all engines
 
-# Removes the passwords form all but details.
-fn_info_message_password_strip(){
-	if [ "${commandname}" != "DETAILS" ]; then
-		if [ "${serverpassword}" ]; then
-			serverpassword="********"
-		fi
-
-		if [ "${rconpassword}" ]; then
-			rconpassword="********"
-		fi
-
-		if [ "${adminpassword}" ]; then
-			adminpassword="********"
-		fi
-
-		if [ "${statspassword}" ]; then
-			statspassword="********"
-		fi
-
-		if [ "${webadminpass}" ]; then
-			webadminpass="********"
-		fi
-
-		if [ "${telnetpass}" ]; then
-			telnetpass="********"
-		fi
-
-		if [ "${wsapikey}" ]; then
-			wsapikey="********"
-		fi
-
-		if [ "${gslt}" ]; then
-			gslt="********"
-		fi
-	fi
-}
-
-# Alert Summary
-# used with alertlog
 fn_info_message_head(){
 	echo -e ""
-	echo -e "${lightyellow}Alert Summary${default}"
+	echo -e "${lightyellow}Summary${default}"
 	fn_messages_separator
 	echo -e "Message"
 	echo -e "${alertbody}"
@@ -72,27 +26,28 @@ fn_info_message_head(){
 	echo -e "${HOSTNAME}"
 	echo -e ""
 	echo -e "Server IP"
-	echo -e "${ip}:${port}"
+	if [ "${multiple_ip}" == "1" ]; then
+		echo -e "NOT SET"
+	else
+		echo -e "${ip}:${port}"
+	fi
 }
 
 fn_info_message_distro(){
 	#
 	# Distro Details
-	# =================================
-	# Date:      Sun 21 Feb 2021 09:22:53 AM UTC
-	# Distro:    Ubuntu 20.04.2 LTS
+	# =====================================
+	# Distro:    Ubuntu 14.04.4 LTS
 	# Arch:      x86_64
-	# Kernel:    5.4.0-65-generic
-	# Hostname:  server
-	# Uptime:    16d, 5h, 18m
-	# tmux:      tmux 3.0a
-	# glibc:     2.31
+	# Kernel:    3.13.0-79-generic
+	# Hostname:  hostname
+	# tmux:      tmux 1.8
+	# glibc:     2.19
 
 	echo -e ""
 	echo -e "${lightyellow}Distro Details${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Date:\t${default}${date}"
 		echo -e "${lightblue}Distro:\t${default}${distroname}"
 		echo -e "${lightblue}Arch:\t${default}${arch}"
 		echo -e "${lightblue}Kernel:\t${default}${kernel}"
@@ -100,36 +55,29 @@ fn_info_message_distro(){
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
 		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
-		if [ -n "${javaram}" ]; then
-			echo -e "${lightblue}Java:\t${default}${javaversion}"
-		fi
 	} | column -s $'\t' -t
 }
 
 fn_info_message_server_resource(){
 	#
 	# Server Resource
-	# =================================
+	# ==========================================================================================================================================================================================================================================
 	# CPU
-	# Model:      AMD EPYC 7601 32-Core Processor
-	# Cores:      2
-	# Frequency:  2199.994MHz
-	# Avg Load:   0.01, 0.05, 0.18
+	# Model:      Intel(R) Xeon(R) CPU E5-2680 v3 @ 2.50GHz
+	# Cores:      4
+	# Frequency:  2499.994 MHz
+	# Avg Load:   0.20, 0.08, 0.01
 	#
 	# Memory
 	# Mem:       total  used   free   cached  available
-	# Physical:  3.9GB  350MB  3.3GB  3.2GB   3.3GB
-	# Swap:      512MB  55MB   458MB
+	# Physical:  7.8GB  598MB  7.0GB  4.0GB   7.0GB
+	# Swap:      512MB  0B     512MB
 	#
 	# Storage
-	# Filesystem:  /dev/sda
-	# Total:       79G
-	# Used:        73G
-	# Available:   1.4G
-	#
-	# Network
-	# IP:           0.0.0.0
-	# Internet IP:  176.58.124.96
+	# Filesystem:	/dev/sda
+	# Total:			157G
+	# Used:				138G
+	# Available:	12G
 
 	echo -e ""
 	echo -e "${lightyellow}Server Resource${default}"
@@ -173,32 +121,23 @@ fn_info_message_server_resource(){
 }
 
 fn_info_message_gameserver_resource(){
-	#
 	# Game Server Resource Usage
-	# =================================
-	# CPU Used:  1.1%
-	# Mem Used:  4.8%  189MB
+	# ==========================================================================================================================================================================================================================================
+	# CPU Used:  2.5%
+	# Mem Used:  2.1%  171MB
 	#
 	# Storage
-	# Total:        241M
-	# Serverfiles:  240M
-	# Backups:      24K
+	# Total:        21G
+	# Serverfiles:  20G
+	# Backups:      20K
 
 	echo -e ""
 	echo -e "${lightyellow}Game Server Resource Usage${default}"
 	fn_messages_separator
 	{
-		if [ "${status}" != "0" ]&&[ -v status ]; then
-			if [ -n "${cpuused}" ]; then
-				echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
-			else
-				echo -e "${lightblue}CPU Used:\t${red}unknown${default}"
-			fi
-			if [ -n "${memused}" ]; then
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
-			else
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}\t${red}unknown${default}"
-			fi
+		if [ "${status}" != "0" ]; then
+			echo -e "${lightblue}CPU Used:\t${default}${cpuused}%${default}"
+			echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
 			echo -e "${lightblue}Mem Used:\t${default}0%\t0MB${default}"
@@ -216,12 +155,10 @@ fn_info_message_gameserver_resource(){
 }
 
 fn_info_message_gameserver(){
-	#
 	# Counter-Strike: Global Offensive Server Details
-	# =================================
+	# ==========================================================================================================================================================================================================================================
 	# Server name:      LinuxGSM
-	# Server IP:        0.0.0.0:27015
-	# Internet IP:      176.48.124.96:34197
+	# Server IP:        80.70.189.230:27015
 	# Server password:  NOT SET
 	# RCON password:    adminF54CC0VR
 	# Players:          0/16
@@ -231,7 +168,7 @@ fn_info_message_gameserver(){
 	# Game mode:        0
 	# Tick rate:        64
 	# Master Server:    listed
-	# Status:           STARTED
+	# Status:           ONLINE
 
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Server Details${default}"
@@ -265,13 +202,12 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Beta Password:\t${default}${betapassword}"
 		fi
 
-		# Server Version
-		if [ -n "${gdversion}" ]; then
-			echo -e "${lightblue}Server Version:\t${default}${gdversion}"
-		fi
-
 		# Server ip
-		echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
+		if [ "${multiple_ip}" == "1" ]; then
+			echo -e "${lightblue}Server IP:\t${default}NOT SET"
+		else
+			echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
+		fi
 
 		# Internet ip
 		if [ -n "${extip}" ]; then
@@ -355,7 +291,7 @@ fn_info_message_gameserver(){
 		fi
 
 		if [ -n "${defaultscenario}" ]; then
-			# Current scenario (Insurgency: Sandstorm)
+			# Current scenario
 			if [ -n "${gdgamemode}" ]; then
 				echo -e "${lightblue}Current scenario:\t${default}${gdgamemode}"
 			fi
@@ -433,22 +369,7 @@ fn_info_message_gameserver(){
 
 		# Save interval (Rust)
 		if [ -n "${saveinterval}" ]; then
-			echo -e "${lightblue}Save interval:\t${default}${saveinterval}s"
-		fi
-
-		# Seed (Rust)
-		if [ -n "${seed}" ]; then
-			echo -e "${lightblue}Seed:\t${default}${seed}"
-		fi
-
-		# Salt (Rust)
-		if [ -n "${salt}" ]; then
-			echo -e "${lightblue}Salt:\t${default}${salt}"
-		fi
-
-		# World Size (Rust)
-		if [ -n "${worldsize}" ]; then
-			echo -e "${lightblue}World size:\t${default}${worldsize}m"
+			echo -e "${lightblue}ASE:\t${default}${saveinterval} s"
 		fi
 
 		# Random map rotation mode (Squad and Post Scriptum)
@@ -485,22 +406,23 @@ fn_info_message_gameserver(){
 			fi
 		fi
 
-		# Game server status
+		# Online status
 		if [ "${status}" == "0" ]; then
-			echo -e "${lightblue}Status:\t${red}STOPPED${default}"
+			echo -e "${lightblue}Status:\t${red}OFFLINE${default}"
 		else
-			echo -e "${lightblue}Status:\t${green}STARTED${default}"
+			echo -e "${lightblue}Status:\t${green}ONLINE${default}"
 		fi
 	} | column -s $'\t' -t
 	echo -e ""
 }
 
 fn_info_message_script(){
+	#
 	# csgoserver Script Details
-	# =================================
-	# Script name:            csgoserver
-	# LinuxGSM version:       v21.1.3
-	# glibc required:         2.18
+	#==========================================================================================================================================================================================================================================
+	# Script name:           csgoserver
+	# LinuxGSM version:     v19.9.0
+	# glibc required:         2.15
 	# Discord alert:          off
 	# Email alert:            off
 	# IFTTT alert:            off
@@ -591,7 +513,7 @@ fn_info_message_script(){
 fn_info_message_backup(){
 	#
 	# Backups
-	# =================================
+	# =====================================
 	# No. of backups:    1
 	# Latest backup:
 	#     date:          Fri May  6 18:34:19 UTC 2016
@@ -623,7 +545,7 @@ fn_info_message_backup(){
 fn_info_message_commandlineparms(){
 	#
 	# Command-line Parameters
-	# =================================
+	# =====================================
 	# ./run_server_x86.sh +set net_strict 1
 
 	echo -e ""
@@ -633,41 +555,41 @@ fn_info_message_commandlineparms(){
 	if [ "${serverpassword}" == "NOT SET" ]; then
 		unset serverpassword
 	fi
-	fn_reload_startparameters
-	echo -e "${preexecutable} ${executable} ${startparameters}"
+	fn_parms
+	echo -e "${executable} ${parms}"
 }
 
 fn_info_message_ports(){
-	#
 	# Ports
-	# =================================
+	# =====================================
 	# Change ports by editing the parameters in:
 	# /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
+
 	echo -e ""
 	echo -e "${lightgreen}Ports${default}"
 	fn_messages_separator
 	echo -e "${lightblue}Change ports by editing the parameters in:${default}"
 
-	startparameterslocation="${red}UNKNOWN${default}"
+	parmslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "Vintage Story" "wurm")
+	local ports_edit_array=( "avalanche2.0" "avalanche3.0" "Ballistic Overkill" "Barotrauma" "dontstarve" "Eco" "idtech2" "idtech3" "idtech3_ql" "lwjgl2" "Minecraft Bedrock" "Project Cars" "projectzomboid" "quake" "refractor" "realvirtuality" "renderware" "Stationeers" "teeworlds" "terraria" "unreal" "unreal2" "unreal3" "TeamSpeak 3" "Mumble" "7 Days To Die" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
-			startparameterslocation="${servercfgdir}/UTWeb.ini"
+			parmslocation="${servercfgdir}/UTWeb.ini"
 		elif [ "${shortname}" == "kf2" ]; then
-			startparameterslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
+			parmslocation="${servercfgdir}/LinuxServer-KFEngine.ini\n${servercfgdir}/KFWeb.ini"
 		elif [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]; then
-			startparameterslocation="${servercfgfullpath}"
+			parmslocation="${servercfgfullpath}"
 		fi
 	done
-	# engines/games that require editing the start parameters.
-	local ports_edit_array=( "Avorion" "col" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "scpsl" "scpslsm" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" "vh" )
+	# engines/games that require editing the parms.
+	local ports_edit_array=( "Avorion" "goldsrc" "Factorio" "Hurtworld" "iw3.0" "ioquake3" "qfusion" "Rust" "Soldat" "spark" "source" "starbound" "unreal4" "realvirtuality" "Unturned" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
-			startparameterslocation="${configdirserver}"
+			parmslocation="${configdirserver}"
 		fi
 	done
-	echo -e "${startparameterslocation}"
+	echo -e "${parmslocation}"
 	echo -e ""
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
 }
@@ -675,9 +597,9 @@ fn_info_message_ports(){
 fn_info_message_statusbottom(){
 	echo -e ""
 	if [ "${status}" == "0" ]; then
-		echo -e "${lightblue}Status:\t${red}STOPPED${default}"
+		echo -e "${lightblue}Status:\t${red}OFFLINE${default}"
 	else
-		echo -e "${lightblue}Status:\t${green}STARTED${default}"
+		echo -e "${lightblue}Status:\t${green}ONLINE${default}"
 	fi
 	echo -e ""
 }
@@ -915,9 +837,7 @@ fn_info_message_inss(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game\tINBOUND\t${port}\tudp"
 		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-		if [ -n "${rconport}" ]; then
-			echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
-		fi
+		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1149,7 +1069,6 @@ fn_info_message_rust(){
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
 		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
 		echo -e "> RCON\tINBOUND\t${rconport}\ttcp"
-		echo -e "> App\tINBOUND\t${appport}\ttcp"
 	} | column -s $'\t' -t
 }
 
@@ -1337,9 +1256,9 @@ fn_info_message_unreal(){
 		fi
 		if [ "${appid}" ]; then
 			if [ "${appid}" == "223250" ]; then
-				echo -e "> Steam\tINBOUND\t20610\tudp"
+				echo -e "< Steam\tINBOUND\t20610\tudp"
 			else
-				echo -e "> Steam\tINBOUND\t20660\tudp"
+				echo -e "< Steam\tINBOUND\t20660\tudp"
 			fi
 		fi
 		echo -e "> Web Admin\tINBOUND\t${webadminport}\ttcp\tListenPort=${webadminport}"
@@ -1419,16 +1338,6 @@ fn_info_message_ut(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_vh(){
-	echo -e "netstat -atunp | grep valheim"
-	echo -e ""
-	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_kf2(){
 	fn_info_message_password_strip
 	echo -e "netstat -atunp | grep KFGame"
@@ -1476,7 +1385,7 @@ fn_info_message_mta(){
 	echo -e ""
 	{
 		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game/Query\tINBOUND\t${port}\tudp"
+		echo -e "> Game/Query\tOUTBOUND\t${port}\tudp"
 		echo -e "> HTTP Server\tINBOUND\t${httpport}\ttcp"
 		if [ "${ase}" == "Enabled" ]; then
 			echo -e "> Query Port\tOUTBOUND\t${queryport}\tudp"
@@ -1536,34 +1445,6 @@ fn_info_message_pavlovvr(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_colony(){
-	echo -e "netstat -atunp | grep colonyserv"
-	echo -e ""
-	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Steam\tINBOUND\t${steamport}\tudp"
-	} | column -s $'\t' -t
-}
-
-fn_info_message_vintagestory(){
-	echo "netstat -atunp | grep cli"
-	echo -e ""
-	{
-		echo -e "DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL"
-		echo -e "> Game\tINBOUND\t${port}\tTCP"
-	} | column -s $'\t' -t
-}
-
-fn_info_message_scpsl(){
-	echo -e "netstat -atunp | grep SCPSL"
-	echo -e ""
-	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1574,10 +1455,6 @@ fn_info_message_select_engine(){
 		fn_info_message_avorion
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
-	elif [ "${shortname}" == "bf1942" ]; then
-		fn_info_message_bf1942
-	elif [ "${shortname}" == "bfv" ]; then
-		fn_info_message_bfv
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_message_ballisticoverkill
 	elif [ "${shortname}" == "bt" ]; then
@@ -1596,8 +1473,6 @@ fn_info_message_select_engine(){
 		fn_info_message_cod4
 	elif [ "${shortname}" == "codwaw" ]; then
 		fn_info_message_codwaw
-	elif [ "${shortname}" == "col" ]; then
-		fn_info_message_colony
 	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
@@ -1618,18 +1493,8 @@ fn_info_message_select_engine(){
 		fn_info_message_justcause3
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
-		fn_info_message_minecraft
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_message_minecraft_bedrock
-	elif [ "${shortname}" == "mh" ]; then
-		fn_info_message_mordhau
-	elif [ "${shortname}" == "mohaa" ]; then
-		fn_info_message_mohaa
-	elif [ "${shortname}" == "mta" ]; then
-		fn_info_message_mta
-	elif [ "${shortname}" == "mumble" ]; then
-		fn_info_message_mumble
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
 	elif [ "${shortname}" == "mom" ]; then
@@ -1650,8 +1515,6 @@ fn_info_message_select_engine(){
 		fn_info_message_quakelive
 	elif [ "${shortname}" == "samp" ]; then
 		fn_info_message_samp
-	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
-		fn_info_message_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_message_sdtd
 	elif [ "${shortname}" == "squad" ]; then
@@ -1678,16 +1541,26 @@ fn_info_message_select_engine(){
 		fn_info_message_unturned
 	elif [ "${shortname}" == "ut" ]; then
 		fn_info_message_ut
-	elif [ "${shortname}" == "vh" ]; then
-		fn_info_message_vh
+	elif [ "${shortname}" == "mc" ]; then
+		fn_info_message_minecraft
+	elif [ "${shortname}" == "mh" ]; then
+		fn_info_message_mordhau
+	elif [ "${shortname}" == "mohaa" ]; then
+		fn_info_message_mohaa
+	elif [ "${shortname}" == "mta" ]; then
+		fn_info_message_mta
+	elif [ "${shortname}" == "mumble" ]; then
+		fn_info_message_mumble
+	elif [ "${shortname}" == "bf1942" ]; then
+		fn_info_message_bf1942
+	elif [ "${shortname}" == "bfv" ]; then
+		fn_info_message_bfv
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_message_rtcw
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_message_pavlovvr
 	elif [ "${shortname}" == "rust" ]; then
 		fn_info_message_rust
-	elif [ "${shortname}" == "vints" ]; then
-		fn_info_message_vintagestory
 	elif [ "${shortname}" == "wf" ]; then
 		fn_info_message_warfork
 	elif [ "${shortname}" == "wurm" ]; then
@@ -1710,5 +1583,52 @@ fn_info_message_select_engine(){
 		fn_info_message_unreal3
 	else
 		fn_print_error_nl "Unable to detect server engine."
+	fi
+}
+
+# Separator is different for details
+fn_messages_separator(){
+	if [ "${commandname}" == "details" ]; then
+		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	else
+		echo -e "================================="
+	fi
+}
+
+# Removes the passwords form all but details
+fn_info_message_password_strip(){
+	if [ "${commandname}" != "DETAILS" ]; then
+		if [ "${serverpassword}" ]; then
+			serverpassword="********"
+		fi
+
+		if [ "${rconpassword}" ]; then
+			rconpassword="********"
+		fi
+
+		if [ "${adminpassword}" ]; then
+			adminpassword="********"
+		fi
+
+		if [ "${statspassword}" ]; then
+			statspassword="********"
+		fi
+
+		if [ "${webadminpass}" ]; then
+			webadminpass="********"
+		fi
+
+		if [ "${telnetpass}" ]; then
+			telnetpass="********"
+		fi
+
+		if [ "${wsapikey}" ]; then
+			wsapikey="********"
+		fi
+
+		if [ "${gslt}" ]; then
+			gslt="********"
+		fi
+
 	fi
 }

@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM command_update.sh module
+# LinuxGSM command_update.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of servers.
 
@@ -21,8 +20,6 @@ elif [ "${shortname}" == "mc" ]; then
 	update_minecraft.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_minecraft_bedrock.sh
-elif [ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
-	update_papermc.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
 elif [ "${shortname}" == "fctr" ]; then
@@ -31,8 +28,6 @@ elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
-elif [ "${shortname}" == "vints" ]; then
-	update_vintagestory.sh
 else
 	update_steamcmd.sh
 fi

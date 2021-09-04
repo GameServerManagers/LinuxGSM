@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM install_config.sh module
+# LinuxGSM install_config.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
@@ -26,7 +25,7 @@ fn_fetch_default_config(){
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
-		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
+		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nomd5"
 	done
 }
 
@@ -317,13 +316,6 @@ elif [ "${shortname}" == "cc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "col" ]; then
-	gamedirname="ColonySurvival"
-	array_configs+=( colserver.json )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
 	gamedirname="CounterStrike"
 	array_configs+=( server.cfg )
@@ -514,7 +506,7 @@ elif [ "${shortname}" == "l4d2" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	gamedirname="Minecraft"
 	array_configs+=( server.properties )
 	fn_fetch_default_config
@@ -668,13 +660,6 @@ elif [ "${shortname}" == "rust" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
-	gamedirname="SCPSecretLaboratory"
-	array_configs+=( config_gameplay.txt config_localadmin.txt )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	gamedirname="Soldat"
 	array_configs+=( soldat.ini )
@@ -801,13 +786,6 @@ elif [ "${shortname}" == "unt" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "vints" ]; then
-	gamedirname="VintageStory"
-	array_configs+=( serverconfig.json )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "vs" ]; then
 	gamedirname="VampireSlayer"
 	array_configs+=( server.cfg )
@@ -829,12 +807,6 @@ elif [ "${shortname}" == "wf" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "wmc" ]; then
-	gamedirname="Waterfall"
-	array_configs+=( config.yml )
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
 elif [ "${shortname}" == "wurm" ]; then
 	gamedirname="WurmUnlimited"
 	array_configs+=( server.cfg )

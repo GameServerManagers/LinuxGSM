@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM core_exit.sh module
+# LinuxGSM core_exit.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles exiting of LinuxGSM by running and reporting an exit code.
 

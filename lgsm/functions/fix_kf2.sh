@@ -1,13 +1,14 @@
 #!/bin/bash
-# LinuxGSM fix_kf2.sh module
+# LinuxGSM fix_kf2.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Killing Floor 2.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-startparameters="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""
+fn_parms(){
+parms="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""
+}
 
 fn_print_information "starting ${gamename} server to generate configs."
 fn_sleep_time

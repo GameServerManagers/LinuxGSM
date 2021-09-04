@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM query_gamedig.sh module
+# query_gamedig.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Querys a gameserver using node-gamedig.
 # https://github.com/sonicsnes/node-gamedig
@@ -46,7 +45,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		# maxplayers.
 		gdmaxplayers=$(echo "${gamedigraw}" | jq -re '.maxplayers')
 		if [ "${gdmaxplayers}" == "null" ]; then
-			unset gdmaxplayers
+			unset maxplayers
 		elif [ "${gdmaxplayers}" == "[]" ]; then
 			gdmaxplayers=0
 		fi
@@ -67,12 +66,6 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		gdbots=$(echo "${gamedigraw}" | jq -re '.bots | length')
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
-		fi
-
-		# server version.
-		gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
-		if [ "${gdversion}" == "null" ]||[ "${gdversion}" == "0" ]; then
-			unset gdversion
 		fi
 	fi
 fi

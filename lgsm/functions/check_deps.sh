@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM check_deps.sh module
+# LinuxGSM check_deps.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks if required dependencies are installed for LinuxGSM.
 
@@ -186,7 +185,7 @@ if [ "${javacheck}" == "1" ]; then
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; } || { [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "20.10" ]; }; then
+			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }; then
 				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
 					steamcmdfail=1
 				fi
@@ -344,13 +343,13 @@ fn_deps_build_debian(){
 	array_deps_missing=()
 
 	# LinuxGSM requirements.
-	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat cpio )
+	array_deps_required=( curl wget ca-certificates file bsdmainutils util-linux python3 tar bzip2 gzip unzip binutils bc jq tmux netcat )
 
 	# All servers except ts3, mumble, GTA and minecraft servers require lib32stdc++6 and lib32gcc1.
-	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${shortname}" != "pmc" ]&&[ "${shortname}" != "wmc" ]&&[ "${engine}" != "renderware" ]; then
+	if [ "${shortname}" != "ts3" ]&&[ "${shortname}" != "mumble" ]&&[ "${shortname}" != "mc" ]&&[ "${engine}" != "renderware" ]; then
 		if [ "${arch}" == "x86_64" ]; then
 			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }||{ [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "20.10" ]; }; then
+			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }|| { [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }; then
 				array_deps_required+=( lib32gcc-s1 lib32stdc++6 )
 			else
 				array_deps_required+=( lib32gcc1 lib32stdc++6 )
@@ -365,7 +364,7 @@ fn_deps_build_debian(){
 		if [ "${distroversion}" == "14.04" ]||[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 			:
 		else
-			array_deps_required+=( steamcmd libsdl2-2.0-0:i386 )
+			array_deps_required+=( steamcmd )
 		fi
 	fi
 
@@ -386,9 +385,6 @@ fn_deps_build_debian(){
 	# Battlefield 1942
 	elif [ "${shortname}" == "bf1942" ]; then
 		array_deps_required+=( libncurses5:i386 libtinfo5:i386 )
-	# Black Mesa: Death Match
-	elif [ "${shortname}" == "bmdm" ]; then
-		array_deps_required+=( libncurses5:i386 )
 	# Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
 	elif [ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		if [ "${arch}" == "x86_64" ]; then
@@ -414,20 +410,8 @@ fn_deps_build_debian(){
 	# Hurtword/Rust
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( lib32z1 )
-	# Minecraft, Rising World
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
-		javaversion=$(java -version 2>&1 | grep "version")
-		if [ "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass the check.
-			javacheck=1
-		else
-			if { [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.04" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "21.04" ]; }||{ [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "20.04" ]; }||{ [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "20.10" ]; }||{ [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "21.04" ]; }; then
-				array_deps_required+=( openjdk-16-jre )
-			else
-				array_deps_required+=( default-jre )
-			fi
-		fi
-	elif [ "${shortname}" == "rw" ]; then
+	# Minecraft, Rising World, Wurm
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -447,34 +431,28 @@ fn_deps_build_debian(){
 		else
 			array_deps_required+=( default-jre rng-tools )
 		fi
-	# SCP: Secret Laboratory, SCP: Secret Laboratory ServerMod
-	elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
-		array_deps_required+=( mono-complete )
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		array_deps_required+=( libssl1.1:i386 zlib1g:i386 )
-	# Vintage Story
-	elif [ "${shortname}" == "vints" ]; then
-		array_deps_required+=( mono-complete )
+	# Unreal Engine
+	elif [ "${executable}" == "./ucc-bin" ]; then
+		# UT2K4
+		if [ -f "${executabledir}/ut2004-bin" ]; then
+			array_deps_required+=( libsdl1.2debian libstdc++5:i386 )
+		# UT99
+		else
+			array_deps_required+=( libsdl1.2debian )
+		fi
+	# Unreal Tournament
+	elif [ "${shortname}" == "ut" ]; then
+		array_deps_required+=( unzip )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xvfb )
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( libgconf-2-4 )
-	# Pavlov VR
-	elif [ "${shortname}" == "pvr" ]; then
-		array_deps_required+=( libc++1 )
 	fi
-
-	# check if system is a lxc container and the hostname dependency.
-	if command -v systemd-detect-virt &> /dev/null; then
-		systemd_virt=$(systemd-detect-virt)
-		if [ "${systemd_virt}" == "lxc" ]||[ "${systemd_virt}" == "lxc-libvirt" ]; then
-			array_deps_required+=( hostname )
-		fi
-	fi
-
 	fn_deps_email
 	fn_check_loop
 }
@@ -486,15 +464,15 @@ fn_deps_build_redhat(){
 	# LinuxGSM requirements.
 	# CentOS
   if [ "${distroversion}" == "7" ]; then
-		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+		array_deps_required=( epel-release curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	elif [ "${distroversion}" == "8" ]; then
-		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+		array_deps_required=( epel-release curl wget util-linux python36 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	elif [ "${distroid}" == "fedora" ]; then
-		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	elif [[ "${distroname}" == *"Amazon Linux AMI"* ]]; then
-		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+			array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	else
-		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat cpio )
+		array_deps_required=( curl wget util-linux python3 file tar gzip bzip2 unzip binutils bc jq tmux nmap-ncat )
 	fi
 
 	# All servers except ts3, mumble, multi theft auto and minecraft servers require glibc.i686 and libstdc++.i686.
@@ -523,8 +501,8 @@ fn_deps_build_redhat(){
 	# Battlefield: Vietnam
 	elif [ "${shortname}" == "bfv" ]; then
 		array_deps_required+=( compat-libstdc++-33.i686 glibc.i686 )
-	# Battlefield 1942, Black Mesa: Deathmatch, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
-	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "bmdm" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
+	# Battlefield 1942, Counter-Strike: Source, Garry's Mod, No More Room in Hell, Source Forts Classic, Zombie Master Reborn and Zombie Panic: Source
+	elif [ "${shortname}" == "bf1942" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "gmod" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "sfc" ]||[ "${shortname}" == "zmr" ]||[ "${shortname}" == "zps" ]; then
 		array_deps_required+=( ncurses-libs.i686 )
 	# Brainbread 2, Don't Starve Together & Team Fortress 2
 	elif [ "${shortname}" == "bb2" ]||[ "${shortname}" == "dst" ]||[ "${shortname}" == "tf2" ]; then
@@ -542,7 +520,7 @@ fn_deps_build_redhat(){
 	elif [ "${shortname}" == "hw" ]||[ "${shortname}" == "rust" ]; then
 		array_deps_required+=( zlib-devel )
 	# Minecraft, Rising World, Wurm
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]||[ "${shortname}" == "rw" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "rw" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass the check.
@@ -565,28 +543,25 @@ fn_deps_build_redhat(){
 	# Sven Co-op
 	elif [ "${shortname}" == "sven" ]; then
 		: # not compatible
-	# Vintage Story
-	elif [ "${shortname}" == "vints" ]; then
-		array_deps_required+=( mono-complete )
+	# Unreal Engine
+	elif [ "${executable}" == "./ucc-bin" ]; then
+		# UT2K4
+		if [ -f "${executabledir}/ut2004-bin" ]; then
+			array_deps_required+=( compat-libstdc++-33.i686 SDL.i686 bzip2 )
+		# UT99
+		else
+			array_deps_required+=( SDL.i686 bzip2 )
+		fi
+	# Unreal Tournament
+	elif [ "${shortname}" == "ut" ]; then
+		array_deps_required+=( unzip )
 	# Wurm: Unlimited
 	elif [ "${shortname}" == "wurm" ]; then
 		array_deps_required+=( xorg-x11-server-Xvfb )
 	# Post Scriptum
 	elif [ "${shortname}" == "pstbs" ]; then
 		array_deps_required+=( GConf2 )
-	# Pavlov VR
-	elif [ "${shortname}" == "pvr" ]; then
-		array_deps_required+=( libcxx )
 	fi
-
-	# check if system is a lxc container and the hostname dependency.
-	if command -v systemd-detect-virt &> /dev/null; then
-		systemd_virt=$(systemd-detect-virt)
-		if [ "${systemd_virt}" == "lxc" ]||[ "${systemd_virt}" == "lxc-libvirt" ]; then
-			array_deps_required+=( hostname )
-		fi
-	fi
-
 	fn_deps_email
 	fn_check_loop
 }

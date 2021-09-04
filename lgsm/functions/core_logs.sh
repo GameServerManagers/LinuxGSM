@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_logs.sh module
+# LinuxGSM core_logs.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 

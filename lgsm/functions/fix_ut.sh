@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM fix_ut.sh module
-# Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# LinuxGSM fix_ut.sh function
+# Author: Alexander Hurd
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with Unreal Tournament.
 

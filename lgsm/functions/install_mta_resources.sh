@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM install_mta_resources.sh module
+# LinuxGSM install_mta_resources.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: ChaosMTA
 # Website: https://linuxgsm.com
-# Description: Installs the libmysqlclient for database functions on the server and optionally installs default resources required to run the server.
+# Description: Installs the libmysqlclient for database functions on the server and optionally installs default resources required to run the server
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

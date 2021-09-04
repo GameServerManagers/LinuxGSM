@@ -1,9 +1,9 @@
 #!/bin/bash
 # LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributor: UltimateByte
 # Website: https://linuxgsm.com
-# Description: Checks RAM requirements.
+# Description: Checks RAM requirements
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -26,7 +26,7 @@ elif [ "${shortname}" == "arma3" ]; then
 elif [ "${shortname}" == "rust" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
+elif [ "${shortname}" == "mc" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pstbs" ]; then
@@ -49,7 +49,7 @@ if [ "${ramrequirementmb}" ]; then
 		fn_print_dots "Check RAM"
 		# Warn the user.
 		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
-		echo "* ${gamename} server may fail to run or experience poor performance."
+		echo  "	* ${gamename} server may fail to run or experience poor performance."
 		fn_sleep_time
 	fi
 fi

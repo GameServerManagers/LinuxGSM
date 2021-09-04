@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM update_minecraft.sh module
+# LinuxGSM update_minecraft.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft servers.
 
@@ -13,7 +12,7 @@ fn_update_minecraft_dl(){
 	# Generate link to server.jar
 	remotebuildurl=$(curl -s "${remotebuildlink}" | jq -r '.downloads.server.url')
 
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nohash"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nomd5"
 	echo -e "copying to ${serverfiles}...\c"
 	cp "${tmpdir}/minecraft_server.${remotebuild}.jar" "${serverfiles}/minecraft_server.jar"
 	local exitcode=$?
@@ -89,10 +88,10 @@ fn_update_minecraft_compare(){
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -en "\n"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
-		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
@@ -104,14 +103,11 @@ fn_update_minecraft_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_minecraft_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-			fi
+			exitbypass=1
+			command_start.sh
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
 			fn_print_restart_warning

@@ -1,7 +1,6 @@
 #!/bin/bash
-# LinuxGSM alert_pushover.sh module
+# LinuxGSM alert_pushover.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Pushover alert.
 

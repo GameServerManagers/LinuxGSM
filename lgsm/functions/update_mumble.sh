@@ -1,14 +1,13 @@
 #!/bin/bash
-# LinuxGSM update_mumble.sh module
+# LinuxGSM update_mumble.sh function
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Mumble servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_mumble_dl(){
-	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "" "" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nohash"
+	fn_fetch_file "https://github.com/mumble-voip/mumble/releases/download/${remotebuild}/murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "" "" "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nomd5"
 	fn_dl_extract "${tmpdir}" "murmur-static_${mumblearch}-${remotebuild}.tar.bz2" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/murmur-static_${mumblearch}-${remotebuild}/"* "${serverfiles}"
@@ -88,14 +87,11 @@ fn_update_mumble_compare(){
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_mumble_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-			fi
+			exitbypass=1
+			command_start.sh
+			exitbypass=1
+			command_stop.sh
+			fn_firstcommand_reset
 		# If server started.
 		else
 			fn_print_restart_warning
