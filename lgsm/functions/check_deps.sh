@@ -306,24 +306,30 @@ fn_deps_detector(){
 
 info_distro.sh
 
-if [ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
+if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
+	# Check that the disto dependency csv file exists and if it does download it.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
 fi
 
-# Select Distro
-if [ "${checkflag}" == "0" ]; then
+# If the file successfully downloaded run the dependency check.
+if [ -n "${checkflag}" ]||[ "${checkflag}" == "0" ]; then
 	dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
 
-	# dev code
-	echo "${dependencyinstall}${dependencyall}${dependencyshortname}"
-
 	# Generate array of missing deps.
 	array_deps_missing=()
-
 	array_deps_required=(${dependencyall} ${dependencyshortname})
 	fn_check_loop
-else
+# Warn the user that dependency checking is unavailable for their distro.
+elif [ -n "${checkflag}" ]||[ "${checkflag}" != "0" ]; then
 	fn_print_warning_nl "LinuxGSM dependency checking currently unavailable for ${distroname}."
+	# Prevent future dependency checking if unavailable for the distro.
+	echo "${version}" > "${tmpdir}/dependency-no-check.tmp"
+elif 	[ -f "${tmpdir}/dependency-no-check.tmp" ]; then
+	# Allow LinuxGSM to try a dependency check if LinuxGSM has been recently updated.
+	nocheckversion=$(cat "${tmpdir}/dependency-no-check.tmp" )
+	if [ "${version}" != "${nocheckversion}" ]; then
+		rm -f "${tmpdir:?}/dependency-no-check.tmp"
+	fi
 fi

@@ -252,6 +252,7 @@ fn_fetch_trap(){
 	core_exit.sh
 }
 
+# Will check a file exists and download it. Will not exit if fails to download.
 fn_check_file(){
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
