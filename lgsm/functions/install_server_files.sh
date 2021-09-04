@@ -73,8 +73,8 @@ echo -e "================================="
 fn_sleep_time
 
 if [ "${appid}" ]; then
-	forceupdate=1
-	update_steamcmd.sh
+	remotelocation="SteamCMD"
+	fn_dl_steamcmd
 fi
 
 if [ "${shortname}" == "ts3" ]; then
