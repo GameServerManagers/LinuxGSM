@@ -312,7 +312,7 @@ if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-
 fi
 
 # If the file successfully downloaded run the dependency check.
-if [ -n "${checkflag}" ]||[ "${checkflag}" == "0" ]; then
+if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
 	dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
@@ -322,7 +322,7 @@ if [ -n "${checkflag}" ]||[ "${checkflag}" == "0" ]; then
 	array_deps_required=(${dependencyall} ${dependencyshortname})
 	fn_check_loop
 # Warn the user that dependency checking is unavailable for their distro.
-elif [ -n "${checkflag}" ]||[ "${checkflag}" != "0" ]; then
+elif [ "${commandname}" == "INSTALL" ]||[ -n "${checkflag}" ]&&[ "${checkflag}" != "0" ]; then
 	fn_print_warning_nl "LinuxGSM dependency checking currently unavailable for ${distroname}."
 	# Prevent future dependency checking if unavailable for the distro.
 	echo "${version}" > "${tmpdir}/dependency-no-check.tmp"
