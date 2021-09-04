@@ -274,14 +274,14 @@ fn_deps_detector(){
 		missingdep=0
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${green}${deptocheck}${default}"
-			fn_sleep_time
+			sleep 0.1
 		fi
 	else
 		# If dependency is not found.
 		missingdep=1
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${red}${deptocheck}${default}"
-			fn_sleep_time
+			sleep 0.1
 		fi
 		# Define required dependencies for SteamCMD.
 		if [ "${appid}" ]; then
