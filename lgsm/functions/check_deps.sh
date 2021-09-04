@@ -322,12 +322,13 @@ fi
 info_distro.sh
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-	# Check that the disto dependency csv file exists and if it does download it.
+	# Check that the disto dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
 fi
 
 # If the file successfully downloaded run the dependency check.
 if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
+	fn_fetch_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
 	dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
