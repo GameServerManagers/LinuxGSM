@@ -327,7 +327,7 @@ if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-
 fi
 
 # If the file successfully downloaded run the dependency check.
-if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
+if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]||[ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
 	fn_fetch_file_github "lgsm/data" "${distroid}-${distroversion}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
 	dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
