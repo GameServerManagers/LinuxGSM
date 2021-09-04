@@ -1,0 +1,16 @@
+name: "Set Issue Label and Assignee"
+on:
+  issues:
+    types: [opened, edited]
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Naturalclar/issue-action@v2.0.2
+        with:
+          title-or-body: "both"
+          parameters: '[ {"keywords": ["Server Request"], "labels": ["type: game server request"]}, {"keywords": ["backup"], "labels": ["command: backup"]}, {"keywords": ["console"], "labels": ["command: console"]}, {"keywords": ["command: debug"], "labels": ["command: debug"]}, {"keywords": ["command: details"], "labels": ["command: details"]}, {"keywords": ["fast-dl"], "labels": ["command: fast-dl"]}, {"keywords": ["command: install"], "labels": ["command: install"]}, {"keywords": ["command: mods"], "labels": ["command: mods"]}, {"keywords": ["monitor"], "labels": ["command: monitor"]}, {"keywords": ["command: start"], "labels": ["command: start"]}, {"keywords": ["command: stop"], "labels": ["command: stop"]}, {"keywords": ["command: update-lgsm"], "labels": ["command: update-lgsm"]}, {"keywords": ["update"], "labels": ["command: update"]}, {"keywords": ["validate"], "labels": ["command: validate"]}, {"keywords": ["wipe"], "labels": ["command: wipe"]}, {"keywords": ["CentOS"], "labels": ["distro: CentOS"]}, {"keywords": ["Debian"], "labels": ["distro: Debian"]}, {"keywords": ["Fedora"], "labels": ["distro: Fedora"]}, {"keywords": ["Ubuntu"], "labels": ["distro: Ubuntu"]}, {"keywords": ["alert"], "labels": ["info: alerts"]}, {"keywords": ["dependency"], "labels": ["info: dependency"]}, {"keywords": ["docker"], "labels": ["info: docker"]}, {"keywords": ["steamcmd"], "labels": ["info: steamcmd"]}, {"keywords": ["systemd"], "labels": ["info: systemd"]}, {"keywords": ["tmux"], "labels": ["info: tmux"]}, {"keywords": ["bug"], "labels": ["type: bug"]}, {"keywords": ["feature"], "labels": ["type: feature request"]}, {"keywords": ["refactor"], "labels": ["type: refactor"]}, {"keywords": ["Ark"], "labels": ["game: Ark: Survival Evolved"]}, {"keywords": ["Arma 3"], "labels": ["game: Arma 3"]}, {"keywords": ["Counter-Strike: Global Offensive"], "labels": ["game: Counter-Strike: Global Offensive"]}, {"keywords": ["Minecraft"], "labels": ["game: Minecraft"]}, {"keywords": ["Rust"], "labels": ["game: Rust"]}, {"keywords": ["Valheim"], "labels": ["game: Valheim"]}, {"keywords": ["7 Days to Die"], "labels": ["game: 7 Days to Die"]}]'
+          github-token: "${{ secrets.GITHUB_TOKEN }}"

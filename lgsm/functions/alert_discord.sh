@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM alert_discord.sh function
+# LinuxGSM alert_discord.sh module
 # Author: Daniel Gibbs
-# Contributor: faflfama, diamondburned
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Discord alert.
 
@@ -15,13 +15,13 @@ fi
 json=$(cat <<EOF
 {
 	"username":"LinuxGSM",
-	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png",
+	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
 	"file":"content",
 	"embeds": [{
 		"color": "2067276",
 		"author": {
 			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
-			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"
+			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 		},
 		"title": "${servername}",
 		"description": "${alertbody} \n More info: ${alerturl}",

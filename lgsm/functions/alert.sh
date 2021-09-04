@@ -1,11 +1,14 @@
 #!/bin/bash
-# LinuxGSM alert.sh function
+# LinuxGSM alert.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall function for managing alerts.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Generates alert log of the details at the time of the alert.
+# Used with email alerts.
 fn_alert_log(){
 	info_distro.sh
 	info_config.sh
@@ -60,6 +63,15 @@ fn_alert_update(){
 	alertbody="${gamename} received update"
 }
 
+fn_alert_check_update(){
+	fn_script_log_info "Sending alert: Update available"
+	alertsubject="Alert - ${selfname} - Update available"
+	alertemoji="🎮"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${gamename} update available"
+}
+
 fn_alert_permissions(){
 	fn_script_log_info "Sending alert: Permissions error"
 	alertsubject="Alert - ${selfname}: Permissions error"
@@ -88,6 +100,8 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
+elif [ "${alert}" == "check-update" ]; then
+	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 fi
@@ -104,12 +118,6 @@ if [ "${postalert}" == "on" ]&&[ -n "${postalert}" ]; then
 elif [ "${postalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "More Info not enabled"
 	fn_script_log_warn "More Info alerts not enabled"
-elif [ -z "${posttarget}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
-	fn_print_error_nl "posttarget not set"
-	fn_script_error "posttarget not set"
-elif [ -z "${postdays}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
-	fn_print_error_nl "postdays not set"
-	fn_script_error "postdays not set"
 fi
 
 if [ "${discordalert}" == "on" ]&&[ -n "${discordalert}" ]; then

@@ -1,7 +1,8 @@
 #!/bin/bash
-# LinuxGSM alert_telegram.sh function
-# Author: Bennet Becker <bennet@becker-dd.de>
-# Website: https://bytegaming.de
+# LinuxGSM alert_telegram.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Sends Telegram Messenger alert.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -16,7 +17,7 @@ EOF
 )
 
 fn_print_dots "Sending Telegram alert"
-telegramsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${curlcustomstring} "https://api.telegram.org/bot${telegramtoken}/sendMessage" | grep "error_code")
+telegramsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d """${json}""" ${curlcustomstring} "https://${telegramapi}/bot${telegramtoken}/sendMessage" | grep "error_code")
 
 if [ -n "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"

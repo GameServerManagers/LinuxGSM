@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_getopt.sh function
+# LinuxGSM core_getopt.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
@@ -20,12 +21,15 @@ cmd_backup=( "b;backup" "command_backup.sh" "Create backup archives of the serve
 cmd_update_linuxgsm=( "ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates." )
 cmd_test_alert=( "ta;test-alert" "command_test_alert.sh" "Send a test alert." )
 cmd_monitor=( "m;monitor" "command_monitor.sh" "Check server status and restart if crashed." )
+cmd_skeleton=( "sk;skeleton" "command_skeleton.sh" "Create a skeleton directory." )
 cmd_donate=( "do;donate" "command_donate.sh" "Donation options." )
+cmd_send=( "sd;send" "command_send.sh" "Send command to game server console." )
 # Console servers only.
 cmd_console=( "c;console" "command_console.sh" "Access server console." )
 cmd_debug=( "d;debug" "command_debug.sh" "Start server directly in your terminal." )
 # Update servers only.
 cmd_update=( "u;update" "command_update.sh" "Check and apply any server updates." )
+cmd_check_update=( "cu;check-update" "command_check_update.sh" "Check if a gameserver update is available" )
 cmd_force_update=( "fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Apply server updates bypassing check." )
 # SteamCMD servers only.
 cmd_validate=( "v;validate" "command_validate.sh" "Validate server files with SteamCMD." )
@@ -36,8 +40,8 @@ cmd_mods_update=( "mu;mods-update" "command_mods_update.sh" "Update installed mo
 # Server specific.
 cmd_change_password=( "pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password." )
 cmd_install_default_resources=( "ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources." )
-cmd_wipe=( "w;wipe;wi" "command_wipe.sh" "Map assets are wiped and blueprints are kept." )
-cmd_full_wipe=( "fw;full-wipe;wa;wipeall" "fullwipe=1; command_wipe.sh" "Map assets and blueprints are wiped." )
+cmd_fullwipe=( "fw;full-wipe;wa;wipeall" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data." )
+cmd_mapwipe=( "mw;map-wipe;w;wipe;wi" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data." )
 cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
@@ -55,9 +59,9 @@ cmd_dev_clear_functions=( "cf;clear-functions" "command_dev_clear_functions.sh" 
 
 ### Set specific opt here.
 
-currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" )
+currentopt=( "${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_skeleton[@]}" )
 
-# Update LGSM.
+# Update LinuxGSM.
 currentopt+=( "${cmd_update_linuxgsm[@]}" )
 
 # Exclude noupdate games here.
@@ -71,16 +75,21 @@ if [ "${shortname}" == "jk2" ]||[ "${engine}" != "idtech3" ];then
 	fi
 fi
 
-# Validate command.
+# Validate and check-update command.
 if [ "${appid}" ]; then
-	currentopt+=( "${cmd_validate[@]}" )
+	currentopt+=( "${cmd_validate[@]}" "${cmd_check_update[@]}" )
 fi
 
 # Backup.
 currentopt+=( "${cmd_backup[@]}" )
 
-# Console & Debug
+# Console & Debug.
 currentopt+=( "${cmd_console[@]}" "${cmd_debug[@]}" )
+
+# Console send.
+if [ "${consoleinteract}" == "yes" ]; then
+	currentopt+=( "${cmd_send[@]}" )
+fi
 
 ## Game server exclusive commands.
 
@@ -96,7 +105,7 @@ fi
 
 # Unreal exclusive.
 if [ "${shortname}" == "rust" ]; then
-	currentopt+=( "${cmd_wipe[@]}" "${cmd_full_wipe[@]}" )
+	currentopt+=( "${cmd_fullwipe[@]}" "${cmd_mapwipe[@]}" )
 fi
 if [ "${engine}" == "unreal2" ]; then
 	if [ "${shortname}" == "ut2k4" ]; then

@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM core_messages.sh function
+# LinuxGSM core_messages.sh module
 # Author: Daniel Gibbs
-# Contributor: s-eam
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
@@ -116,7 +116,7 @@ fn_script_log_info(){
 	fi
 }
 
-## Feb 28 14:56:58 ut99-server: Monitor: INFO:
+## Feb 28 14:56:58 ut99-server: Monitor: UPDATE:
 fn_script_log_update(){
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
@@ -359,8 +359,43 @@ fn_prompt_yn(){
 	done
 }
 
+# Prompt for message
+fn_prompt_message(){
+	while true; do
+		unset prompt
+		local prompt="$1"
+		read -e -p  "${prompt}" -r answer
+		if fn_prompt_yn "Continue" Y; then
+			break;
+		fi
+	done
+	echo "${answer}"
+}
+
 # On-Screen End of Line
 ##################################
+
+# YES
+fn_print_yes_eol(){
+	echo -en "${cyan}YES${default}"
+	fn_sleep_time
+}
+
+fn_print_yes_eol_nl(){
+	echo -e "${cyan}YES${default}"
+	fn_sleep_time
+}
+
+# NO
+fn_print_no_eol(){
+	echo -en "${red}NO${default}"
+	fn_sleep_time
+}
+
+fn_print_no_eol_nl(){
+	echo -e "${red}NO${default}"
+	fn_sleep_time
+}
 
 # OK
 fn_print_ok_eol(){

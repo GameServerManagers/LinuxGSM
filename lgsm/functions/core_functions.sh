@@ -1,40 +1,41 @@
 #!/bin/bash
-# LinuxGSM core_functions.sh function
+# LinuxGSM core_functions.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v20.6.1"
+modulesversion="v21.2.5"
 
 # Core
 
 core_dl.sh(){
 functionfile="${FUNCNAME[0]}"
 if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
-	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_fetch_core_dl "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 else
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_dl.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 fi
 }
 
 core_messages.sh(){
 functionfile="${FUNCNAME[0]}"
 if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
-	fn_fetch_core_dl "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_fetch_core_dl "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 else
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_messages.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 fi
 }
 
 core_legacy.sh(){
 functionfile="${FUNCNAME[0]}"
 if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
-	fn_fetch_core_dl "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_fetch_core_dl "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 else
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/functions" "core_legacy.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
 fi
 }
 
@@ -49,6 +50,16 @@ fn_fetch_function
 }
 
 core_trap.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+core_github.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -155,7 +166,17 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_skeleton.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 command_wipe.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+command_send.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -470,6 +491,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_vh.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_wurm.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -594,6 +620,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+command_check_update.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 update_ts3.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -605,6 +636,11 @@ fn_fetch_function
 }
 
 update_minecraft_bedrock.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_papermc.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -630,6 +666,11 @@ fn_fetch_function
 }
 
 update_steamcmd.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+update_vintagestory.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

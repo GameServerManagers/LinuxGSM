@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM mods_list.sh function
+# LinuxGSM mods_list.sh module
 # Author: Daniel Gibbs
-# Contributor: UltimateByte
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Lists and defines available mods for LinuxGSM supported servers; works along with mods_core.sh.
 # Usage: To add a mod, you need to add an array variable following the guide to set proper values;
@@ -55,7 +55,7 @@ amxxtslatestfile="amxmodx-${amxxtsversion}-${amxxtsmod}-linux.tar.gz"
 amxxtsdownloadurl="https://www.amxmodx.org/release/${amxxtslatestfile}"
 amxxtsurl="${amxxtsdownloadurl}"
 # Metamod:Source
-metamodsourceversion="1.10"
+metamodsourceversion="1.11"
 metamodsourcescrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsourceversion}/mmsource-latest-linux"
 metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
 metamodsourcedownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsourceversion}"

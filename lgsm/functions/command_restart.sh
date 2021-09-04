@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM command_restart.sh function
+# LinuxGSM command_restart.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Restarts the server.
 

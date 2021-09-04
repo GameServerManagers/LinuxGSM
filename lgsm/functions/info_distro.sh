@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM info_distro.sh function
+# LinuxGSM info_distro.sh module
 # Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
@@ -72,12 +73,18 @@ glibcversion=$(ldd --version | sed -n '1s/.* //p')
 # e.g: tmux 1.6
 if [ ! "$(command -V tmux 2>/dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
+	tmuxvdigit="0"
 else
-	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')" -lt "16" ]; then
+	tmuxvdigit="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
+	if [ "${tmuxvdigit}" -lt "16" ]; then
 		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
 	else
 		tmuxv=$(tmux -V)
 	fi
+fi
+
+if [ "$(command -V java 2>/dev/null)" ]; then
+	javaversion=$(java -version 2>&1 | grep "version")
 fi
 
 ## Uptime
@@ -211,7 +218,7 @@ if [ -d "${backupdir}" ]; then
 		# number of backups.
 		backupcount=$(find "${backupdir}"/*.tar.gz | wc -l)
 		# most recent backup.
-		lastbackup=$(find "${backupdir}"/*.tar.gz | head -1)
+		lastbackup=$(ls -1t "${backupdir}"/*.tar.gz | head -1)
 		# date of most recent backup.
 		lastbackupdate=$(date -r "${lastbackup}")
 		# no of days since last backup.

@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM alert_slack.sh function
-# Author: Kenneth Lindeof
+# LinuxGSM alert_slack.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Slack alert.
 

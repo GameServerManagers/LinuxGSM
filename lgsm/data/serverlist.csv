@@ -21,6 +21,7 @@ cod2,cod2server,Call of Duty 2
 cod4,cod4server,Call of Duty 4
 coduo,coduoserver,Call of Duty: United Offensive
 codwaw,codwawserver,Call of Duty: World at War
+col,colserver,Colony Survival
 cs,csserver,Counter-Strike 1.6
 cscz,csczserver,Counter-Strike: Condition Zero
 csgo,csgoserver,Counter-Strike: Global Offensive
@@ -67,6 +68,7 @@ ns2c,ns2cserver,NS2: Combat
 onset,onsetserver,Onset
 opfor,opforserver,Opposing Force
 pc,pcserver,Project Cars
+pmc,pmcserver,PaperMC
 pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
 pvkii,pvkiiserver,Pirates Vikings & Knights II
 pvr,pvrserver,Pavlov VR
@@ -83,6 +85,8 @@ rw,rwserver,Rising World
 samp,sampserver,San Andreas Multiplayer
 sb,sbserver,Starbound
 sbots,sbotsserver,StickyBots
+scpsl,scpslserver,SCP: Secret Laboratory
+scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod
 sdtd,sdtdserver,7 Days to Die
 sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
@@ -102,9 +106,12 @@ ut,utserver,Unreal Tournament
 ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
+vh,vhserver,Valheim
 vs,vsserver,Vampire Slayer
+vints,vintsserver,Vintage Story
 wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
+wmc,wmcserver,WaterfallMC
 wurm,wurmserver,Wurm Unlimited
 zmr,zmrserver,Zombie Master: Reborn
 zps,zpsserver,Zombie Panic! Source

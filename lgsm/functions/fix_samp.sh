@@ -1,6 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_sfc.sh function
-# Author: Christian Birk
+# LinuxGSM fix_sfc.sh module
+# Author: Daniel Gibbs
+# Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves issue that the default rcon password is not changed
 
