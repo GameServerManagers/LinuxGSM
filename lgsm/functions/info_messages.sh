@@ -469,7 +469,6 @@ fn_info_message_gameserver(){
 			echo -e "${lightblue}Status:\t${green}STARTED${default}"
 		fi
 	} | column -s $'\t' -t
-	echo -e ""
 }
 
 fn_info_message_script(){
@@ -492,6 +491,7 @@ fn_info_message_script(){
 	# Location:               /home/lgsm/csgoserver
 	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
 
+	echo -e ""
 	echo -e "${lightgreen}${selfname} Script Details${default}"
 	fn_messages_separator
 	{
@@ -662,7 +662,7 @@ fn_info_message_statusbottom(){
 fn_info_logs(){
 	echo -e ""
 	echo -e "${selfname} Logs"
-	echo -e "================================="
+	fn_messages_separator
 
 	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
@@ -674,7 +674,6 @@ fn_info_logs(){
 			echo -e "${lgsmlog}"
 			tail -25 "${lgsmlog}"
 		fi
-		echo -e ""
 	fi
 
 	if [ -n "${consolelog}" ]; then
@@ -687,7 +686,6 @@ fn_info_logs(){
 			echo -e "${consolelog}"
 			tail -25 "${consolelog}" | awk '{ sub("\r$", ""); print }'
 		fi
-		echo -e ""
 	fi
 
 	if [ -n "${gamelogdir}" ]; then
@@ -699,7 +697,6 @@ fn_info_logs(){
 			# dos2unix sed 's/\r//'
 			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
-		echo -e ""
 	fi
 }
 
