@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Used with email alerts.
 fn_alert_log(){
 	info_distro.sh
-	info_config.sh
+	info_game.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
