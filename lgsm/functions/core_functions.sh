@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v21.2.4"
+modulesversion="v21.2.5"
 
 # Core
 
@@ -381,6 +381,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_lo.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_mcb.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
@@ -508,22 +513,12 @@ fn_fetch_function
 
 # Info
 
-info_stats.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
-info_config.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 info_distro.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-info_gamedig.sh(){
+info_game.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
@@ -533,7 +528,7 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-info_parms.sh(){
+info_stats.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

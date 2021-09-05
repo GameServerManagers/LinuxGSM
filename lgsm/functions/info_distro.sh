@@ -11,6 +11,11 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 ### Game Server pid
 if [ "${status}" == "1" ]; then
 	gameserverpid=$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')
+	if [ "${engine}" == "source" ]; then
+		srcdslinuxpid=$(ps -ef | grep -v grep | grep "${gameserverpid}" | grep srcds_linux | awk '{print $2}')
+	elif [ "${engine}" == "goldsrc" ]; then
+		hldslinuxpid=$(ps -ef | grep -v grep | grep "${gameserverpid}" | grep hlds_linux | awk '{print $2}')
+	fi
 fi
 ### Distro information
 
@@ -268,7 +273,7 @@ fi
 # Steam Master Server - checks if detected by master server.
 if [ "$(command -v jq 2>/dev/null)" ]; then
 	if [ "${ip}" ]&&[ "${port}" ]; then
-		if [ "${steammaster}" == "true" ]; then
+		if [ "${steammaster}" == "true" ]||[ ${commandname} == "DEV-QUERY-RAW" ]; then
 			# Will query server IP addresses first.
 			for queryip in "${queryips[@]}"; do
 				masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
@@ -292,3 +297,6 @@ if [ "${appid}" ]; then
 		glibc="2.14"
 	fi
 fi
+
+# Gather Port Info using ss
+ssinfo="$(ss -tuplwn)"
