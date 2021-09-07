@@ -35,7 +35,7 @@ dods
 doi
 dst,libcurl4-gnutls-dev:i386
 dys
-eco	libgdiplus
+eco,libgdiplus
 em
 etl
 fctr
