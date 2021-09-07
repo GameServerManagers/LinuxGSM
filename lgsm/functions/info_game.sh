@@ -1511,12 +1511,11 @@ fn_info_game_source(){
 	rconport=${port:-"0"}
 	queryport=${port:-"0"}
 	clientport=${clientport:-"0"}
-	# Steamport can be between 26901-26910 and is normaly automaticly set.
+	# Steamport can be between 26901-26910 and is normaly automatically set.
 	# Some servers might support -steamport parameter to set
-	if [ "${steamport}" == "0" ]||[ -z "${steamport}" ]; then
+	if [ "${steamport}" == "0" ]||[ -v "${steamport}" ]; then
 		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
 	fi
-	steamport="${steamport:-"0"}"
 }
 
 fn_info_game_spark(){

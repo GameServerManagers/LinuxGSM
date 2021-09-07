@@ -523,11 +523,6 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
-info_gamedig.sh(){
-functionfile="${FUNCNAME[0]}"
-fn_fetch_function
-}
-
 info_messages.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
