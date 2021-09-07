@@ -132,7 +132,7 @@ fn_found_missing_deps(){
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		else
 			fn_print_dots "Missing dependencies"
-			fn_print_warn_nl "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
+			fn_print_warn "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
 		fn_sleep_time
