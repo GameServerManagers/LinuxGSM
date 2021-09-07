@@ -1,5 +1,5 @@
 install,apt install
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,jq,python3,tar,tmux,util-linux,netcat,unzip,xz-utils,lib32gcc1,lib32stdc++6,hostname
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,jq,python3,tar,tmux,util-linux,netcat,unzip,xz-utils,lib32gcc-s1,lib32stdc++6,hostname
 ac
 ahl
 ahl2
@@ -72,9 +72,9 @@ onset
 opfor
 pc
 pmc,openjdk-16-jre
-pstbs
+pstbs,libgconf-2-4
 pvkii
-pvr
+pvr,libc++1
 pz
 q2
 q3
@@ -84,19 +84,19 @@ ricochet
 ro
 rtcw
 rust,lib32z1
-rw
+rw,openjdk-16-jre
 samp
 sb
 sbots
-scpsl
-scpslsm
+scpsl,mono-complete
+scpslsm,mono-complete
 sdtd,telnet,expect
 sfc,libtinfo5:i386
 sof2
 sol
 squad
 st
-sven
+sven,libssl1.1:i386,zlib1g:i386
 terraria
 tf2,libcurl4-gnutls-dev:i386
 tfc
@@ -111,10 +111,10 @@ ut3
 ut99
 vh
 vs
-vints
+vints,mono-complete
 wet
 wf
 wmc,openjdk-16-jre
-wurm
+wurm,xvfb
 zmr,libtinfo5:i386
 zps,libtinfo5:i386
