@@ -193,15 +193,17 @@ fn_found_missing_deps(){
 				fn_script_log_pass "Install dependencies completed."
 			fi
 		else
-			fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
-			fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
-			echo -e ""
-			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
-			elif [ "$(command -v dnf 2>/dev/null)" ]; then
-				echo -e "sudo dnf install ${array_deps_missing[*]}"
-			elif [ "$(command -v yum 2>/dev/null)" ]; then
-				echo -e "sudo yum install ${array_deps_missing[*]}"
+			if [ "${commandname}" == "INSTALL" ]; then
+				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
+				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
+				echo -e ""
+				if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+					echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
+				elif [ "$(command -v dnf 2>/dev/null)" ]; then
+					echo -e "sudo dnf install ${array_deps_missing[*]}"
+				elif [ "$(command -v yum 2>/dev/null)" ]; then
+					echo -e "sudo yum install ${array_deps_missing[*]}"
+				fi
 			fi
 			if [ "${steamcmdfail}" ]; then
 				echo -e ""
