@@ -9,14 +9,13 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_mono_repo(){
 	if [ "${monostatus}" != "0" ]; then
-		fn_print_dots "Adding Mono repository"
 		if [ "${autoinstall}" == "1" ]; then
 			sudo -n true > /dev/null 2>&1
 		else
 			sudo -v > /dev/null 2>&1
 		fi
 		if [ $? -eq 0 ]; then
-			fn_print_info_nl "Automatically adding Mono repository."
+			fn_print_information_nl "Automatically adding Mono repository."
 			fn_script_log_info "Automatically adding Mono repository."
 			echo -en ".\r"
 			sleep 1
@@ -26,7 +25,10 @@ fn_install_mono_repo(){
 			sleep 1
 			echo -en "   \r"
 			if [ "${distroid}" == "ubuntu" ]; then
-				if [ "${distroversion}" == "18.04" ]; then
+				if [ "${distroversion}" == "20.04" ]; then
+					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main';sudo apt-get update"
+					eval "${cmd}"
+				elif [ "${distroversion}" == "18.04" ]; then
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				elif [ "${distroversion}" == "16.04" ]; then
@@ -36,7 +38,7 @@ fn_install_mono_repo(){
 					cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt-get install apt-transport-https;echo 'deb https://download.mono-project.com/repo/ubuntu stable-trusty main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt-get update"
 					eval "${cmd}"
 				else
-					fn_print_warn_nl "Installing Mono repository."
+					fn_print_warning_nl "Installing Mono repository."
 					echo -e "Mono auto install not available for ${distroname}"
 					echo -e "	Follow instructions on mono site to install the latest version of Mono."
 					echo -e "	https://www.mono-project.com/download/stable/#download-lin"
@@ -136,7 +138,7 @@ fn_found_missing_deps(){
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
 		fn_sleep_time
-		if [ "${monostatus}" ]; then
+		if [ -n "${monostatus}" ]; then
 			fn_install_mono_repo
 		fi
 		if [ "${autoinstall}" == "1" ]; then
