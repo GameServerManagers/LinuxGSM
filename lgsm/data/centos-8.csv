@@ -1,5 +1,5 @@
 install,dnf install
-all,epel-release curl wget util-linux python36 file tar gzip bzip2 unzip xz binutils bc jq tmux nmap-ncat cpio,hostname
+all,epel-release,curl,wget,util-linux,python36,file,tar,gzip,bzip2,unzip,xz,binutils,bc,jq,tmux,nmap-ncat,cpio,hostname
 ac
 ahl
 ahl2
