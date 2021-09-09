@@ -356,6 +356,35 @@ fn_info_game_col(){
 	fi
 }
 
+fn_info_game_dayz(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/passwordAdmin//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+
+	# Parameters
+	port=${port:-"2302"}
+	voiceport=${port:-"2302"}
+	queryport=$((port+1))
+	steammasterport=$((port+2))
+	voiceunusedport=$((port+3))
+	battleeyeport=$((port+4))
+}
+
 fn_info_game_dst(){
 	# Config
 	if [ ! -f "${clustercfgfullpath}" ]; then
@@ -2036,6 +2065,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "dayz" ]; then
+	fn_info_game_dayz
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_game_dst
 elif [ "${shortname}" == "eco" ]; then
