@@ -245,7 +245,7 @@ fn_deps_detector(){
 	# Checks if dependency is missing.
 
 	# Java: Added for users using Oracle JRE to bypass check.
-	if [ ${deptocheck} == "openjdk-16-jre" ]; then
+	if [ ${deptocheck} == "openjdk-16-jre" ]||[ ${deptocheck} == "java-11-openjdk" ]; then
 		javaversion=$(java -version 2>&1 | grep "version")
 		if [ "${javaversion}" ]; then
 			javacheck=1
@@ -268,11 +268,12 @@ fn_deps_detector(){
 		fi
 	elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
-		depstatus=$?
+	elif [ "$(command -v dnf 2>/dev/null)" ]; then
+		dnf list installed "${deptocheck}" > /dev/null 2>&1
 	elif [ "$(command -v rpm 2>/dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
-		depstatus=$?
 	fi
+	depstatus=$?
 
 	if [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
@@ -342,7 +343,8 @@ if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
 
 	# Generate array of missing deps.
 	array_deps_missing=()
-	array_deps_required=(${dependencyall} ${dependencyshortname})
+	array_deps_required=("${dependencyall} ${dependencyshortname}")
+	fn_deps_email
 	fn_check_loop
 # Warn the user that dependency checking is unavailable for their distro.
 elif [ "${commandname}" == "INSTALL" ]||[ -n "${checkflag}" ]&&[ "${checkflag}" != "0" ]; then
