@@ -173,11 +173,11 @@ fn_found_missing_deps(){
 				fn_print_warning_nl "Manually install dependencies."
 				fn_script_log_warn "Manually install dependencies."
 				if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-					echo -e "	sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
+					echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
 				elif [ "$(command -v dnf 2>/dev/null)" ]; then
-					echo -e "	sudo dnf install ${array_deps_missing[*]}"
+					echo -e "sudo dnf install ${array_deps_missing[*]}"
 				elif [ "$(command -v yum 2>/dev/null)" ]; then
-					echo -e "	sudo yum install ${array_deps_missing[*]}"
+					echo -e "sudo yum install ${array_deps_missing[*]}"
 				fi
 				if [ -n "${steamcmdfail}" ]; then
 					echo -e ""
