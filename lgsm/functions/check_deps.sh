@@ -340,7 +340,7 @@ if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
 
 	# Generate array of missing deps.
 	array_deps_missing=()
-	array_deps_required=("${dependencyall} ${dependencyshortname}")
+	array_deps_required=("${dependencyall} ${dependencysteamcmd} ${dependencyshortname}")
 	fn_deps_email
 	fn_check_loop
 # Warn the user that dependency checking is unavailable for their distro.
