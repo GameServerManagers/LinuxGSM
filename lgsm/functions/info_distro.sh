@@ -271,26 +271,28 @@ else
 fi
 
 # Steam Master Server - checks if detected by master server.
-if [ "$(command -v jq 2>/dev/null)" ]; then
-	if [ "${ip}" ]&&[ "${port}" ]; then
-		if [ "${steammaster}" == "true" ]||[ ${commandname} == "DEV-QUERY-RAW" ]; then
-			# Will query server IP addresses first.
-			for queryip in "${queryips[@]}"; do
-				masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
-			done
-			# Should that not work it will try the external IP.
-			if [ "${masterserver}" == "0" ]; then
-				masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
-			fi
-			if [ "${masterserver}" == "0" ]; then
-				displaymasterserver="false"
-			else
-				displaymasterserver="true"
+if [ "${masterserverbypass}" == "1" ]; then
+	masterserverbypass=1
+	if [ "$(command -v jq 2>/dev/null)" ]; then
+		if [ "${ip}" ]&&[ "${port}" ]; then
+			if [ "${steammaster}" == "true" ]||[ ${commandname} == "DEV-QUERY-RAW" ]; then
+				# Will query server IP addresses first.
+				for queryip in "${queryips[@]}"; do
+					masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
+				done
+				# Should that not work it will try the external IP.
+				if [ "${masterserver}" == "0" ]; then
+					masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
+				fi
+				if [ "${masterserver}" == "0" ]; then
+					displaymasterserver="false"
+				else
+					displaymasterserver="true"
+				fi
 			fi
 		fi
 	fi
 fi
-
 # Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
 if [ "${appid}" ]; then
 	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
