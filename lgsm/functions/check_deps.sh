@@ -290,17 +290,13 @@ fn_deps_detector(){
 			sleep 0.1
 		fi
 		# Define required dependencies for SteamCMD.
-		if [ "${appid}" ]; then
-			# lib32gcc1 is now called lib32gcc-s1 in debian 11
-			if { [ "${distroid}" == "debian" ]&&[ "${distroversion}" == "11" ]; }||{ [ "${distroid}" == "ubuntu" ]&&[ "${distroversion}" == "20.10" ]; } || { [ "${distroid}" == "pop" ]&&[ "${distroversion}" == "20.10" ]; }; then
-				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc-s1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
-					steamcmdfail=1
-				fi
-			else
-				if [ "${deptocheck}" ==  "glibc.i686" ]||[ "${deptocheck}" ==  "libstdc++64.i686" ]||[ "${deptocheck}" ==  "lib32gcc1" ]||[ "${deptocheck}" ==  "lib32stdc++6" ]; then
-					steamcmdfail=1
-				fi
-			fi
+		if [ -n "${appid}" ]; then
+				array_steamcmd_deps_required=("${dependencysteamcmd}")
+				for steamcmddeptocheck in ${array_steamcmd_deps_required[*]}; do
+					if [ "${deptocheck}" ==  "${steamcmddeptocheck}" ]; then
+						steamcmdfail=1
+					fi
+				done
 		fi
 	fi
 
@@ -339,6 +335,7 @@ fi
 if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
 	dependencyinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
+	dependencysteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	dependencyshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
 
 	# Generate array of missing deps.
