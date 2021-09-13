@@ -129,19 +129,20 @@ fn_install_missing_deps(){
 		fi
 		autodepinstall="$?"
 
+		if [ "${monostatus}" == "1" ]; then
+			fn_install_mono_repo
+		fi
+
 		if [ "${commandname}" == "INSTALL" ]; then
 			if [ "${autodepinstall}" == "0" ]; then
 				fn_print_information_nl "$(whoami) has sudo access."
 				fn_script_log_info "$(whoami) has sudo access."
 			else
-				fn_print_information_nl "$(whoami) does not have sudo access. Manually install dependencies."
-				fn_script_log_info "$(whoami) does not have sudo access. Manually install dependencies."
+				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
+				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
 			fi
 		fi
 
-		if [ "${monostatus}" == "1" ]; then
-			fn_install_mono_repo
-		fi
 
 		# If automatic dependency install is available
 		if [ "${autodepinstall}" == "0" ]; then
