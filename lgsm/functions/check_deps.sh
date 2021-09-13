@@ -139,7 +139,7 @@ fn_install_missing_deps(){
 			fi
 		fi
 
-		if [ -n "${monostatus}" ]; then
+		if [ "${monostatus}" == "0" ]; then
 			fn_install_mono_repo
 		fi
 
@@ -212,21 +212,17 @@ fn_deps_detector(){
 	# Java: Added for users using Oracle JRE to bypass check.
 	if [ ${deptocheck} == "openjdk-16-jre" ]||[ ${deptocheck} == "java-11-openjdk" ]; then
 		# Is java already installed?
-		javaversion=$(java -version 2>&1 | grep "version")
 		if [ -n "${javaversion}" ]; then
-			javastatus=1
+			# Added for users using Oracle JRE to bypass check.
+			depstatus=0
+			deptocheck="${javaversion}"
 		fi
-	fi
-	if [ "${javastatus}" == "1" ]; then
-		# Added for users using Oracle JRE to bypass check.
-		depstatus=0
-		deptocheck="${javaversion}"
-		unset javastatus
 	# Mono: A Mono repo needs to be installed.
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ "$(command -v mono 2>/dev/null)" ]&&[ "$(mono --version 2>&1 | grep -Po '(?<=version )\d')" -ge 5 ]; then
+		if [ -n "${monoversion}" ]&&[ "${monoversion}" -ge "5" ]; then
 			# Mono >= 5.0.0 already installed.
 			depstatus=0
+			monostatus=0
 		else
 			# Mono not installed or installed Mono < 5.0.0.
 			depstatus=1
@@ -239,8 +235,10 @@ fn_deps_detector(){
 	elif [ "$(command -v rpm 2>/dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
 	fi
-	depstatus=$?
 
+	if [ -z "${depstatus}" ]; then
+		depstatus=$?
+	fi
 	if [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
