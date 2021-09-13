@@ -217,6 +217,8 @@ fn_deps_detector(){
 			# Added for users using Oracle JRE to bypass check.
 			depstatus=0
 			deptocheck="${javaversion}"
+		else
+			depstatus=1
 		fi
 	# Mono: A Mono repo needs to be installed.
 	elif [ "${deptocheck}" == "mono-complete" ]; then
