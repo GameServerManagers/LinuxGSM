@@ -211,7 +211,7 @@ fn_check_loop(){
 # Checks if dependency is installed or not.
 fn_deps_detector(){
 	# Java: Added for users using Oracle JRE to bypass check.
-	if [ ${deptocheck} == "openjdk-16-jre" ]||[ ${deptocheck} == "java-11-openjdk" ]; then
+	if [[ ${deptocheck} == "openjdk"* ]]||[[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass check.
