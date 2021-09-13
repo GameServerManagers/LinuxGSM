@@ -263,6 +263,7 @@ fn_deps_detector(){
 				done
 		fi
 	fi
+	unset depstatus
 
 	# Missing dependencies are added to array_deps_missing.
 	if [ "${missingdep}" == "1" ]; then
