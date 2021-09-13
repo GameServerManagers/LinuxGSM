@@ -139,7 +139,7 @@ fn_install_missing_deps(){
 			fi
 		fi
 
-		if [ "${monostatus}" == "0" ]; then
+		if [ "${monostatus}" == "1" ]; then
 			fn_install_mono_repo
 		fi
 
