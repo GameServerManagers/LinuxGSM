@@ -10,8 +10,6 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Generates alert log of the details at the time of the alert.
 # Used with email alerts.
 fn_alert_log(){
-	info_distro.sh
-	info_game.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
@@ -89,6 +87,42 @@ fn_alert_config(){
 	alerturl="not enabled"
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
+
+info_distro.sh
+info_game.sh
+query_gamedig.sh
+
+# Allow Alert to display gamedig info if available.
+if [ "${querystatus}" != "0" ]; then
+	if [ -n "${maxplayers}" ]; then
+		alertplayerstitle="Maxplayers"
+		alertplayers="-${maxplayers}"
+	fi
+else
+	if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+		alertplayerstitle="Players"
+		alertplayers="${gdplayers}/${gdmaxplayers}"
+	elif [ -n "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
+		alertplayerstitle="Players"
+		alertplayers="${gdplayers}/${maxplayers}"
+	elif [ -z "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
+		alertplayerstitle="Players"
+		alertplayers="-1/${gdmaxplayers}"
+	elif [ -n "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
+		alertplayerstitle="Players"
+		alertplayers="${gdplayers}/∞"
+	elif [ -z "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]&&[ -n "${maxplayers}" ]; then
+		alertplayerstitle="Maxplayers"
+		alertplayers="${maxplayers}"
+	fi
+fi
+
+if [ -n "${gdmap}" ]; then
+	alertmap="${gdmap}"
+else
+	alertmap="Unknown"
+fi
+
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions

@@ -9,53 +9,63 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF
 {
-  "username": "LinuxGSM Alert",
-  "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-  "content": "",
-  "embeds": [
-    {
-      "author": {
-        "name": "LinuxGSM",
-        "url": "",
-        "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
-      },
-      "title": "${servername}",
-      "url": "",
-      "description": "${alertemoji} ${alertsubject}",
-      "color": 15258703,
-      "fields": [
-        {
-        "name": "Game",
+	"username": "LinuxGSM Alert",
+	"avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+	"content": "",
+	"embeds": [
+		{
+			"author": {
+				"name": "LinuxGSM",
+				"url": "",
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+			},
+			"title": "${servername}",
+			"url": "",
+			"description": "${alertemoji} ${alertsubject}",
+			"color": 15258703,
+			"fields": [
+				{
+				"name": "Game",
 				"value": "${gamename}",
 				"inline": true
-        },
-        {
-        "name": "Server IP",
+				},
+				{
+				"name": "Players",
+				"value": "${alertplayers}",
+				"inline": true
+				},
+				{
+				"name": "Map",
+				"value": "${alertmap}",
+				"inline": true
+				},
+				{
+				"name": "Server IP",
 				"value": "[${alertip}:${port}](https://www.gametracker.com/server_info/${alertip}:${port})",
 				"inline": true
-        },
-        {
-        "name": "Hostname",
+				},
+				{
+				"name": "Hostname",
 				"value": "${HOSTNAME}",
 				"inline": true
-        },
-        {
-          "name": "Information",
-          "value": "${alertbody} \n More info: ${alerturl}"
-        }
-      ],
-      "thumbnail": {
-        "url": "https://linuxgsm.com/wp-content/uploads/2020/07/minecraft-bedrock-icon.jpg"
-      },
-      "image": {
-        "url": "https://linuxgsm.com/wp-content/uploads/2021/02/mcbe-header.jpg"
-      },
-      "footer": {
-        "text": "Powered by LinuxGSM",
-        "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
-      }
-    }
-  ]
+				},
+				{
+					"name": "Information",
+					"value": "${alertbody} \n More info: ${alerturl}"
+				}
+			],
+			"thumbnail": {
+				"url": "https://linuxgsm.com/wp-content/uploads/2020/07/minecraft-bedrock-icon.jpg"
+			},
+			"image": {
+				"url": "https://linuxgsm.com/wp-content/uploads/2021/02/mcbe-header.jpg"
+			},
+			"footer": {
+				"text": "Powered by LinuxGSM",
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+			}
+		}
+	]
 }
 EOF
 )
