@@ -233,15 +233,15 @@ fn_deps_detector(){
 		fi
 	elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
+		depstatus=$?
 	elif [ "$(command -v dnf 2>/dev/null)" ]; then
 		dnf list installed "${deptocheck}" > /dev/null 2>&1
+		depstatus=$?
 	elif [ "$(command -v rpm 2>/dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
-	fi
-
-	if [ -z "${depstatus}" ]; then
 		depstatus=$?
 	fi
+
 	if [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
