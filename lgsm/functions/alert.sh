@@ -99,7 +99,7 @@ if [ -n "${appid}" ]; then
 else
 	alertimage="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameheaders/${shortname}-header.jpg"
 fi
-alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.jpg"
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
 
 # Allow Alert to display gamedig info if available.
 if [ "${querystatus}" != "0" ]; then

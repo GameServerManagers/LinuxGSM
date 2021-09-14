@@ -55,7 +55,7 @@ json=$(cat <<EOF
 				}
 			],
 			"thumbnail": {
-				"url": "https://linuxgsm.com/wp-content/uploads/2020/07/minecraft-bedrock-icon.jpg"
+				"url": "${alerticon}"
 			},
 			"image": {
 				"url": "${alertimage}"
