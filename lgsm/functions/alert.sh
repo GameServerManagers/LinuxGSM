@@ -126,6 +126,11 @@ else
 	fi
 fi
 
+if [ -z "${alertplayers}" ]; then
+	alertplayerstitle="Current Players"
+	alertplayers="Unknown"
+fi
+
 if [ -n "${gdmap}" ]; then
 	alertmap="${gdmap}"
 else
