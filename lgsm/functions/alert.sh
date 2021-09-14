@@ -88,9 +88,18 @@ fn_alert_config(){
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
 
+# Gather info required for alert.
 info_distro.sh
 info_game.sh
 query_gamedig.sh
+
+# Images
+if [ -n "${appid}" ]; then
+	alertimage="https://steamcdn-a.akamaihd.net/steam/apps/${appid}/header.jpg"
+else
+	alertimage="https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/gameheaders/${shortname}-header.jpg"
+fi
+alerticon="https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/gameicons/${shortname}-icon.jpg"
 
 # Allow Alert to display gamedig info if available.
 if [ "${querystatus}" != "0" ]; then

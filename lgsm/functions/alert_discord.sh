@@ -58,7 +58,7 @@ json=$(cat <<EOF
 				"url": "https://linuxgsm.com/wp-content/uploads/2020/07/minecraft-bedrock-icon.jpg"
 			},
 			"image": {
-				"url": "https://linuxgsm.com/wp-content/uploads/2021/02/mcbe-header.jpg"
+				"url": "${alertimage}"
 			},
 			"footer": {
 				"text": "Powered by LinuxGSM",
