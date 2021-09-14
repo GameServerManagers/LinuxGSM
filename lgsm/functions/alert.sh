@@ -97,9 +97,9 @@ query_gamedig.sh
 if [ -n "${appid}" ]; then
 	alertimage="https://steamcdn-a.akamaihd.net/steam/apps/${appid}/header.jpg"
 else
-	alertimage="https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/gameheaders/${shortname}-header.jpg"
+	alertimage="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameheaders/${shortname}-header.jpg"
 fi
-alerticon="https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/gameicons/${shortname}-icon.jpg"
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.jpg"
 
 # Allow Alert to display gamedig info if available.
 if [ "${querystatus}" != "0" ]; then
