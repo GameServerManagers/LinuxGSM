@@ -368,20 +368,19 @@ fn_info_game_dayz(){
 		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/passwordAdmin//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		maxplayers=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		queryport=$(grep "steamQueryPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
+		queryport=${queryport:-"27016"}
 	fi
 
 	# Parameters
 	port=${port:-"2302"}
-	voiceport=${port:-"2302"}
-	queryport=$((port+1))
 	steammasterport=$((port+2))
-	voiceunusedport=$((port+3))
 	battleeyeport=$((port+4))
 }
 

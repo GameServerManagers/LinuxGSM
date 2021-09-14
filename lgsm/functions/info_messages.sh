@@ -925,10 +925,8 @@ fn_info_message_dayz(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Voice" voiceport udp
 		fn_port "Query Steam" queryport udp
 		fn_port "Steam Master" steammasterport udp
-		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
