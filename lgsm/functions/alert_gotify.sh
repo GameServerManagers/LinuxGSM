@@ -1,16 +1,24 @@
 #!/bin/bash
 # LinuxGSM alert_gotify.sh module
+# Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Gotify alert.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-content=(message="${alertsubject}, ${servername}, ${alertbody}. More info: ${alerturl}")
+json=$(cat <<EOF
+{
+	"title": "${alertemoji} ${alertsubject} ${alertemoji}",
+	"message": "Server name\n${servername}\n\nMessage\n${alertbody}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
+	"priority": 5
+}
+EOF
+)
 
 fn_print_dots "Sending Gotify alert"
 
-gotifysend=$(curl --connect-timeout 10 -sSL "$gotifywebhook"?token="$gotifytoken" -F "title=LinuxGSM" -F "$content" -F "priority=5")
+gotifysend=$(curl --connect-timeout 10 -sSL "${gotifywebhook}"?token="${gotifytoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)")
 
 if [ -n "${gotifysend}" ]; then
 	fn_print_ok_nl "Sending Gotify alert"
