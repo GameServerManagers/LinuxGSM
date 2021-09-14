@@ -100,16 +100,16 @@ if [ "${querystatus}" != "0" ]; then
 	fi
 else
 	if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
-		alertplayerstitle="Players"
+		alertplayerstitle="Current Players"
 		alertplayers="${gdplayers}/${gdmaxplayers}"
 	elif [ -n "${gdplayers}" ]&&[ -n "${maxplayers}" ]; then
-		alertplayerstitle="Players"
+		alertplayerstitle="Current Players"
 		alertplayers="${gdplayers}/${maxplayers}"
 	elif [ -z "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
-		alertplayerstitle="Players"
+		alertplayerstitle="Current Players"
 		alertplayers="-1/${gdmaxplayers}"
 	elif [ -n "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]; then
-		alertplayerstitle="Players"
+		alertplayerstitle="Current Players"
 		alertplayers="${gdplayers}/∞"
 	elif [ -z "${gdplayers}" ]&&[ -z "${gdmaxplayers}" ]&&[ -n "${maxplayers}" ]; then
 		alertplayerstitle="Maxplayers"
