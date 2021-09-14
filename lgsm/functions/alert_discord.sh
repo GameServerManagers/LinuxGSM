@@ -30,7 +30,7 @@ json=$(cat <<EOF
 				"inline": true
 				},
 				{
-				"name": "Players",
+				"name": "${alertplayerstitle}",
 				"value": "${alertplayers}",
 				"inline": true
 				},
