@@ -105,7 +105,7 @@ alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githu
 if [ "${querystatus}" != "0" ]; then
 	if [ -n "${maxplayers}" ]; then
 		alertplayerstitle="Maxplayers"
-		alertplayers="-${maxplayers}"
+		alertplayers="${maxplayers}"
 	fi
 else
 	if [ -n "${gdplayers}" ]&&[ -n "${gdmaxplayers}" ]; then
