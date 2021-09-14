@@ -570,6 +570,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+alert_gotify.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 alert_telegram.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
