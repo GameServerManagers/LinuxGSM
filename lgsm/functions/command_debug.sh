@@ -113,7 +113,7 @@ fi
 # Note: do not add double quotes to ${executable} ${startparameters}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	${executable} ${startparameters} -debug
-elif [ "${shortname}" == "arma3" ]||[ "${shortname}" == "dayz" ]; then
+elif [ "${shortname}" == "arma3" ]; then
 	# Arma3 and DayZ requires semicolons in the module list, which need to
 	# be escaped for regular (tmux) loading, but need to be
 	# stripped when loading straight from the console.
