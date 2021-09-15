@@ -22,7 +22,7 @@ json=$(cat <<EOF
 			"title": "${servername}",
 			"url": "",
 			"description": "${alertemoji} ${alertsubject}",
-			"color": 15258703,
+			"color": "${alertcolourdec}",
 			"fields": [
 				{
 				"name": "Game",

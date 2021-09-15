@@ -32,6 +32,9 @@ fn_alert_test(){
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
+	# Green
+	alertcolourhex="#cdcd00"
+	alertcolourdec="13487360"
 }
 
 fn_alert_restart(){
@@ -41,6 +44,9 @@ fn_alert_restart(){
 	alertsound="2"
 	alerturl="not enabled"
 	alertbody="${selfname} ${executable} not running"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_restart_query(){
@@ -50,6 +56,9 @@ fn_alert_restart_query(){
 	alertsound="2"
 	alerturl="not enabled"
 	alertbody="Unable to query: ${selfname}"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_update(){
@@ -59,6 +68,9 @@ fn_alert_update(){
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${gamename} received update"
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_check_update(){
@@ -68,6 +80,9 @@ fn_alert_check_update(){
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${gamename} update available"
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 fn_alert_permissions(){
@@ -77,6 +92,9 @@ fn_alert_permissions(){
 	alertsound="2"
 	alerturl="not enabled"
 	alertbody="${selfname} has permissions issues"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_config(){
@@ -86,6 +104,9 @@ fn_alert_config(){
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 fn_alert_wipe(){
@@ -95,6 +116,9 @@ fn_alert_wipe(){
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} as been wiped."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 # Gather info required for alert.
