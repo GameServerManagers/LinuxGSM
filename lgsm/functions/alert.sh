@@ -88,6 +88,15 @@ fn_alert_config(){
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
 
+fn_alert_wipe(){
+	fn_script_log_info "Sending alert: Wiped: ${executable} not running"
+	alertsubject="Alert - ${selfname} - Wiped"
+	alertemoji="💿"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${selfname} as been wiped."
+}
+
 # Gather info required for alert.
 info_distro.sh
 info_game.sh
@@ -152,6 +161,8 @@ elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
+elif [ "${alert}" == "wipe" ]; then
+	fn_alert_wipe
 fi
 
 # Generate alert log.

@@ -173,6 +173,8 @@ if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]||[ -n "$(find "
 	else
 		fn_wipe_files
 		fn_wipe_random_seed
+		alert="wipe"
+		alert.sh
 		fn_print_complete_nl "${wipetype}"
 		fn_script_log_pass "${wipetype}"
 	fi
