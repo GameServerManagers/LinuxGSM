@@ -13,7 +13,10 @@ fn_firstcommand_set
 fn_print_dots "${servername}"
 check.sh
 info_game.sh
-alert="test"
+alert="${userinput2}"
+if [ -z "${alert}" ]; then
+	alert="test"
+fi
 alert.sh
 
 core_exit.sh

@@ -38,12 +38,12 @@ fn_alert_test(){
 }
 
 fn_alert_restart(){
-	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
+	fn_script_log_info "Sending alert: Restarted: ${selfname}, ${executable} is not running"
 	alertsubject="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="${selfname} ${executable} not running"
+	alertbody="${selfname} is not running. Game Server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -55,19 +55,19 @@ fn_alert_restart_query(){
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="Unable to query: ${selfname}"
+	alertbody="Unable to query ${selfname}. Game server has been restarted"
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
 }
 
 fn_alert_update(){
-	fn_script_log_info "Sending alert: Updated"
+	fn_script_log_info "Sending alert: Updated: ${selfname}"
 	alertsubject="Alert - ${selfname} - Updated"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} received update"
+	alertbody="${selfname} has received an update"
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -79,7 +79,7 @@ fn_alert_check_update(){
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} update available"
+	alertbody="Update availablefor ${selfname}"
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -100,7 +100,7 @@ fn_alert_permissions(){
 fn_alert_config(){
 	fn_script_log_info "Sending alert: New _default.cfg"
 	alertsubject="Alert - ${selfname} - New _default.cfg"
-	alertemoji="🎮"
+	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
@@ -110,7 +110,7 @@ fn_alert_config(){
 }
 
 fn_alert_wipe(){
-	fn_script_log_info "Sending alert: Wiped: ${executable} not running"
+	fn_script_log_info "Sending alert: Wiped: ${selfname} wiped"
 	alertsubject="Alert - ${selfname} - Wiped"
 	alertemoji="💿"
 	alertsound="1"

@@ -51,7 +51,7 @@ json=$(cat <<EOF
 				},
 				{
 					"name": "Information",
-					"value": "${alertbody} \n More info: ${alerturl}"
+					"value": "${alertdescription} \n More info: ${alerturl}"
 				}
 			],
 			"thumbnail": {

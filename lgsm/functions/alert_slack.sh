@@ -24,7 +24,7 @@ json=$(cat <<EOF
 										"type": "section",
 										"text": {
 												"type": "mrkdwn",
-												"text": "*${alertemoji} ${alertsubject}* \n ${alertbody}"
+												"text": "*${alertemoji} ${alertsubject}* \n ${alertdescription}"
 										}
 								},
 								{
