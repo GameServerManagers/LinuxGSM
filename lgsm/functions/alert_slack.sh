@@ -9,54 +9,116 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(cat <<EOF
 {
-		"attachments": [
-			{
-				"color": "#36a64f",
-				"blocks": [
-					{
-										"type": "section",
-										"text": {
-												"type": "mrkdwn",
-												"text": "*LinuxGSM Alert*"
-										}
-								},
-								{
-										"type": "section",
-										"text": {
-												"type": "mrkdwn",
-												"text": "*${alertemoji} ${alertsubject}* \n ${alertdescription}"
-										}
-								},
-								{
-										"type": "divider"
-								},
-								{
-										"type": "section",
-										"fields": [
-												{
-														"type": "mrkdwn",
-														"text": "*Game:* \n ${gamename}"
-												},
-												{
-														"type": "mrkdwn",
-														"text": "*Server IP:* \n ${alertip}:${port}"
-												},
-												{
-														"type": "mrkdwn",
-														"text": "*Server Name:* \n ${servername}"
-												}
-										]
-								},
-					 {
-										"type": "section",
-										"text": {
-														"type": "mrkdwn",
-														"text": "Hostname: ${HOSTNAME} / More info: ${alerturl}"
-										}
-								}
-						]
+	"blocks": [
+		{
+			"type": "context",
+			"elements": [
+				{
+					"type": "image",
+					"image_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/alert_discord_logo.jpg",
+					"alt_text": "LinuxGSM"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*LinuxGSM Alert*"
+				}
+			]
+		},
+		{
+			"type": "header",
+			"text": {
+				"type": "plain_text",
+				"text": "${servername}",
+				"emoji": true
 			}
-		]
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*${alertemoji} ${alertsubject}* \n ${alertdescription}"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Game:* ${gamename}"
+			}
+		},
+		{
+			"type": "section",
+			"fields": [
+				{
+					"type": "mrkdwn",
+					"text": "*Maxplayers*"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*Map*"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${alertplayers}"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${alertmap}"
+				}
+			]
+		},
+		{
+			"type": "section",
+			"fields": [
+				{
+					"type": "mrkdwn",
+					"text": "*Server IP*"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*Hostname*"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "[${alertip}:${port}"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${HOSTNAME}"
+				}
+			]
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Information*\n${alertdescription} \n More info: ${alerturl}"
+			}
+		},
+		{
+			"type": "image",
+			"image_url": "${alertimage}",
+			"alt_text": "${gamename}"
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "context",
+			"elements": [
+				{
+					"type": "image",
+					"image_url": "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/alert_discord_logo.jpg",
+					"alt_text": "LinuxGSM Logo"
+				},
+				{
+					"type": "plain_text",
+					"text": "Powered by LinuxGSM",
+					"emoji": true
+				}
+			]
+		}
+	]
 }
 EOF
 )

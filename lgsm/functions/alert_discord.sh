@@ -15,7 +15,7 @@ json=$(cat <<EOF
 	"embeds": [
 		{
 			"author": {
-				"name": "LinuxGSM",
+				"name": "LinuxGSM Alert",
 				"url": "",
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 			},
