@@ -61,7 +61,7 @@ json=$(cat <<EOF
 				"url": "${alertimage}"
 			},
 			"footer": {
-				"text": "Powered by LinuxGSM",
+				"text": "Powered by LinuxGSM ${version}",
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 			}
 		}

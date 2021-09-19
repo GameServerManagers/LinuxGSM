@@ -80,7 +80,7 @@ json=$(cat <<EOF
 				},
 				{
 					"type": "mrkdwn",
-					"text": "[${alertip}:${port}"
+					"text": "${alertip}:${port}"
 				},
 				{
 					"type": "mrkdwn",
@@ -113,7 +113,7 @@ json=$(cat <<EOF
 				},
 				{
 					"type": "plain_text",
-					"text": "Powered by LinuxGSM",
+					"text": "Powered by LinuxGSM ${version}",
 					"emoji": true
 				}
 			]
