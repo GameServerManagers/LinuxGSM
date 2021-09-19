@@ -128,7 +128,7 @@ query_gamedig.sh
 
 # Images
 if [ -n "${appid}" ]; then
-	alertimage="https://steamcdn-a.akamaihd.net/steam/apps/${appid}/header.jpg"
+	alertimage="https://steamcdn-a.akamaihd.net/steam/apps/${gameappid}/header.jpg"
 else
 	alertimage="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameheaders/${shortname}-header.jpg"
 fi
