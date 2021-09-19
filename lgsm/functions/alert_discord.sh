@@ -21,7 +21,7 @@ json=$(cat <<EOF
 			},
 			"title": "${servername}",
 			"url": "",
-			"description": "${alertemoji} ${alertsubject}",
+			"description": "${alertemoji} ${alertsubject} ${alertemoji}",
 			"color": "${alertcolourdec}",
 			"fields": [
 				{
@@ -50,6 +50,11 @@ json=$(cat <<EOF
 				"inline": true
 				},
 				{
+				"name": "Version",
+				"value": "${alertversion}",
+				"inline": true
+				},
+				{
 					"name": "Information",
 					"value": "${alertdescription} \n More info: ${alerturl}"
 				}
@@ -72,7 +77,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
+discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -en "${json}" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

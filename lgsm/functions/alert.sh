@@ -170,6 +170,12 @@ else
 	alertmap="Unknown"
 fi
 
+if [ -n "${gdversion}" ]; then
+	alertversion="${gdmap}"
+else
+	alertversion="Unknown"
+fi
+
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
