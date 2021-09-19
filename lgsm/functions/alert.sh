@@ -171,7 +171,7 @@ else
 fi
 
 if [ -n "${gdversion}" ]; then
-	alertversion="${gdmap}"
+	alertversion="${gdversion}"
 else
 	alertversion="Unknown"
 fi
