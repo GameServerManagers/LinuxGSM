@@ -503,6 +503,7 @@ fn_info_message_script(){
 	# glibc required:         2.18
 	# Discord alert:          off
 	# Email alert:            off
+	# Gotify alert:           off
 	# IFTTT alert:            off
 	# Mailgun (email) alert:  off
 	# Pushbullet alert:       off
@@ -544,6 +545,8 @@ fn_info_message_script(){
 		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
 		# Email alert
 		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
+		# Gotify alert
+		echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
 		# IFTTT alert
 		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		# Mailgun alert
