@@ -1624,9 +1624,9 @@ fn_info_game_terraria(){
 fn_info_game_stn(){
 	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
-		configip=$(sed -nr 's/^ServerIP="(.*)"/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ServerIP=([0-9]+)/\1/p' "${servercfgfullpath}")
 		port=$(sed -nr 's/^ServerPort=([0-9]+)/\1/p' "${servercfgfullpath}")
-		serverpassword=$(sed -nr 's/^ServerPassword=(.*)/\1/' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^ServerPassword=(.*)$/\1/p' "${servercfgfullpath}")
 		queryport=$((port + 1))
 	else
 		servername="${unavailable}"
