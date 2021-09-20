@@ -359,6 +359,12 @@ elif [ "${shortname}" == "dod" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "dodr" ]; then
+	gamedirname="DayOfDragons"
+	array_configs+=( Game.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_list_config_locations
 elif [ "${shortname}" == "dods" ]; then
 	gamedirname="DayOfDefeatSource"
 	array_configs+=( server.cfg )

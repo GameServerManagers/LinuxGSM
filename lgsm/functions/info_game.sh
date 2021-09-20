@@ -356,6 +356,17 @@ fn_info_game_col(){
 	fi
 }
 
+fn_info_game_dodr(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		maxplayers="${zero}"
+	else
+		maxplayers=$(sed -nr 's/^iServerMaxPlayers=(.*)$/\1/p' "${servercfgfullpath}")
+
+		# Not Set
+		maxplayers=${maxplayers:-"NOT SET"}
+	fi
+}
+
 fn_info_game_dst(){
 	# Config
 	if [ ! -f "${clustercfgfullpath}" ]; then
@@ -2052,6 +2063,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "dodr" ]; then
+	fn_info_game_dodr
 elif [ "${shortname}" == "dst" ]; then
 	fn_info_game_dst
 elif [ "${shortname}" == "eco" ]; then
