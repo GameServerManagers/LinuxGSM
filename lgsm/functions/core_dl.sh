@@ -92,9 +92,14 @@ fn_dl_steamcmd(){
 		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ]&&[ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ] ; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
-				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"
-				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough space to download server files"
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				core_exit.sh
+				# Not enough space.
+			elif [ -n "$(grep "0x212" "${steamcmdlog}" | tail -1)" ]; then
+					fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+					fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+					core_exit.sh
 			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
@@ -116,6 +121,7 @@ fn_dl_steamcmd(){
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
+				echo -en "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
 		elif [ "${exitcode}" != "0" ]; then

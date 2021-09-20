@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: webfactory/ssh-agent
-      uses: webfactory/ssh-agent@v0.4.1
+      uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.BITBUCKET_SECRET }}
 
     - name: repo-sync
-      uses: wei/git-sync@v2.1.0
+      uses: wei/git-sync@v3.0.0
       with:
         ssh_private_key: ${{ secrets.BITBUCKET_SECRET }}
         source_repo: "https://github.com/GameServerManagers/LinuxGSM"
