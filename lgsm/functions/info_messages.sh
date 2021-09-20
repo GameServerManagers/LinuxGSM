@@ -653,7 +653,7 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "ac" "arma3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=( "ac" "arma3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -921,6 +921,14 @@ fn_info_message_csgo(){
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_dodr(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1608,6 +1616,8 @@ fn_info_message_select_engine(){
 		fn_info_message_codwaw
 	elif [ "${shortname}" == "col" ]; then
 		fn_info_message_col
+	elif [ "${shortname}" == "dodr" ]; then
+		fn_info_message_dodr
 	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
