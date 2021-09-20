@@ -357,12 +357,12 @@ fn_info_game_col(){
 }
 
 fn_info_game_dodr(){
-	if [ -f "${servercfgfullpath}" ]; then
-		maxplayers=$(sed -nr 's/^iServerMaxPlayers=(.*)$/\1/p' "${servercfgfullpath}")
-		if [ -z "${maxplayers}" ]; then
-			maxplayers=${maxplayers:-"NOT SET"}
-		fi
+	if [ ! -f "${servercfgfullpath}" ]; then
+		maxplayers="${zero}"
 	else
+		maxplayers=$(sed -nr 's/^iServerMaxPlayers=(.*)$/\1/p' "${servercfgfullpath}")
+
+		# Not Set
 		maxplayers=${maxplayers:-"NOT SET"}
 	fi
 }
