@@ -36,7 +36,7 @@ json=$(cat <<EOF
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*${alertemoji} ${alertsubject}* \n ${alertdescription}"
+				"text": "*${alertemoji} ${alerttitle}* \n ${alertmessage}"
 			}
 		},
 		{
@@ -92,7 +92,7 @@ json=$(cat <<EOF
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*Information*\n${alertdescription} \n More info: ${alerturl}"
+				"text": "*Message*\n${alertmessage} \n More info: ${alerturl}"
 			}
 		},
 		{

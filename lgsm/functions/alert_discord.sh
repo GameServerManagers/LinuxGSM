@@ -21,7 +21,7 @@ json=$(cat <<EOF
 			},
 			"title": "${servername}",
 			"url": "",
-			"description": "${alertemoji} ${alertsubject} ${alertemoji}",
+			"description": "${alertemoji} ${alerttitle} ${alertemoji}",
 			"color": "${alertcolourdec}",
 			"fields": [
 				{
@@ -56,7 +56,7 @@ json=$(cat <<EOF
 				},
 				{
 					"name": "Information",
-					"value": "${alertdescription} \n More info: ${alerturl}"
+					"value": "${alertmessage} \n More info: ${alerturl}"
 				}
 			],
 			"thumbnail": {

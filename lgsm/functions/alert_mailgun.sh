@@ -18,7 +18,7 @@ fn_print_dots "Sending Email alert: Mailgun: ${email}"
 mailgunsend=$(curl --connect-timeout 10 -s --user "api:${mailguntoken}" \
 -F from="LinuxGSM <${mailgunemailfrom}>" \
 -F to="LinuxGSM Admin <${mailgunemail}>" \
--F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
+-F subject="${alertemoji} ${alerttitle} ${alertemoji}" \
 -F o:tag='alert' \
 -F o:tag='LinuxGSM' \
 -F text="$(cat "${alertlog}")" "${mailgunapiurl}/v3/${mailgundomain}/messages")

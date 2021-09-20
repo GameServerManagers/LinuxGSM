@@ -60,7 +60,7 @@ fn_info_message_head(){
 	echo -e "${lightyellow}Alert Summary${default}"
 	fn_messages_separator
 	echo -e "Message"
-	echo -e "${alertdescription}"
+	echo -e "${alertmessage}"
 	echo -e ""
 	echo -e "Game"
 	echo -e "${gamename}"
