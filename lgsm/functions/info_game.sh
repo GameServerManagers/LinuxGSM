@@ -310,8 +310,8 @@ fn_info_game_cod4(){
 		servername="${unavailable}"
 		rconpassword="${unavailable}"
 	else
-		servername=$(grep "sv_hostname " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname //g' | tr -d '=\";,:' | xargs)
-		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword //g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(sed -nr 's/^set\s*sv_hostname\s*"(.*)".*/\1/p' "${servercfgfullpath}")
+		rconpassword=$(sed -nr 's/^set\s*rcon_password\s*"(.*)"\s*\/.*/\1/p' "${servercfgfullpath}")
 
 		# Not Set
 		servername=${servername:-"NOT SET"}
