@@ -77,6 +77,12 @@ fn_info_parms_kf2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_parms_lo(){
+	servername=${servername:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+}
+
 fn_info_parms_mordhau(){
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
@@ -270,6 +276,8 @@ elif [ "${shortname}" == "jk2" ]; then
 	fn_info_parms_jk2
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_parms_kf2
+elif [ "${shortname}" == "lo" ]; then
+	fn_info_parms_lo
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_parms_mohaa
 elif [ "${shortname}" == "mom" ]; then
