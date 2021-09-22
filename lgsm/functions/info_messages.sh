@@ -339,6 +339,11 @@ fn_info_message_gameserver(){
 			fi
 		fi
 
+		# Reverved Slots
+		if [ -n "${statspassword}" ]; then
+			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
+		fi
+
 		# Bots
 		if [ -n "${gdbots}" ]; then
 			echo -e "${lightblue}Bots:\t${default}${gdbots}"
