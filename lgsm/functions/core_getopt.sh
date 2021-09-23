@@ -40,8 +40,8 @@ cmd_mods_update=( "mu;mods-update" "command_mods_update.sh" "Update installed mo
 # Server specific.
 cmd_change_password=( "pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password." )
 cmd_install_default_resources=( "ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources." )
-cmd_wipe=( "w;wipe;wi" "command_wipe.sh" "Map assets are wiped and blueprints are kept." )
-cmd_full_wipe=( "fw;full-wipe;wa;wipeall" "fullwipe=1; command_wipe.sh" "Map assets and blueprints are wiped." )
+cmd_fullwipe=( "fw;full-wipe;wa;wipeall" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data." )
+cmd_mapwipe=( "mw;map-wipe;w;wipe;wi" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data." )
 cmd_map_compressor_u99=( "mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_map_compressor_u2=( "mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps." )
 cmd_install_cdkey=( "cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key." )
@@ -105,7 +105,7 @@ fi
 
 # Unreal exclusive.
 if [ "${shortname}" == "rust" ]; then
-	currentopt+=( "${cmd_wipe[@]}" "${cmd_full_wipe[@]}" )
+	currentopt+=( "${cmd_fullwipe[@]}" "${cmd_mapwipe[@]}" )
 fi
 if [ "${engine}" == "unreal2" ]; then
 	if [ "${shortname}" == "ut2k4" ]; then

@@ -97,6 +97,13 @@ fn_check_steamcmd_dir_legacy(){
 	fi
 }
 
+fn_check_steamcmd_steamapp(){
+	# Check that steamapp directory fixes issue #3481
+	if [ ! -d "${serverfiles}/steamapps" ]; then
+		mkdir -p "${serverfiles}/steamapps"
+	fi
+}
+
 fn_check_steamcmd_ark(){
 	# Checks if SteamCMD exists in
 	# Engine/Binaries/ThirdParty/SteamCMD/Linux

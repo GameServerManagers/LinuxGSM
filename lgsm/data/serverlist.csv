@@ -29,6 +29,7 @@ css,cssserver,Counter-Strike: Source
 dab,dabserver,Double Action: Boogaloo
 dmc,dmcserver,Deathmatch Classic
 dod,dodserver,Day of Defeat
+dodr,dodrserver,Day of Dragons
 dods,dodsserver,Day of Defeat: Source
 doi,doiserver,Day of Infamy
 dst,dstserver,Don't Starve Together
@@ -93,6 +94,7 @@ sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 sol,solserver,Soldat
 squad,squadserver,Squad
 st,stserver,Stationeers
+stn,stnserver,Survive the Nights
 sven,svenserver,Sven Co-op
 terraria,terrariaserver,Terraria
 tf2,tf2server,Team Fortress 2
@@ -107,8 +109,8 @@ ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
 vh,vhserver,Valheim
-vs,vsserver,Vampire Slayer
 vints,vintsserver,Vintage Story
+vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
 wmc,wmcserver,WaterfallMC

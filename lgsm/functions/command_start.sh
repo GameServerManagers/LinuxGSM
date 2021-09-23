@@ -71,7 +71,14 @@ fn_start_tmux(){
 	date '+%s' > "${lockdir}/${selfname}.lock"
 	echo "${version}" >> "${lockdir}/${selfname}.lock"
 	echo "${port}" >> "${lockdir}/${selfname}.lock"
-	cd "${executabledir}" || exit
+	fn_reload_startparameters
+
+	if [ "${shortname}" == "av" ]; then
+		cd "${systemdir}" || exit
+	else
+		cd "${executabledir}" || exit
+	fi
+
 	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
@@ -184,7 +191,7 @@ fi
 if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
-info_config.sh
+info_game.sh
 core_logs.sh
 
 # Will check for updates is updateonstart is yes.
