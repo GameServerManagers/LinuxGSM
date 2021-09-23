@@ -144,6 +144,13 @@ fn_install_missing_deps(){
 		fi
 
 
+		# Add sudo dpkg --add-architecture i386 if using i386 packages.
+		if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if printf '%s\n' "${array_deps_required[@]}" | grep -q -P 'i386'; then
+				i386installcommand="sudo dpkg --add-architecture i386; "
+			fi
+		fi
+
 		# If automatic dependency install is available
 		if [ "${autodepinstall}" == "0" ]; then
 			fn_print_information_nl "Automatically installing missing dependencies."
@@ -156,7 +163,7 @@ fn_install_missing_deps(){
 			sleep 1
 			echo -en "   \r"
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; sudo dpkg --add-architecture i386; sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
+				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; ${i386installcommand}sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				cmd="sudo dnf -y install ${array_deps_missing[*]}"
@@ -171,7 +178,7 @@ fn_install_missing_deps(){
 		# If automatic dependency install is unavailable.
 		if [ "${autodepinstall}" != "0" ]; then
 			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				echo -e "sudo dpkg --add-architecture i386; sudo apt update; sudo apt install ${array_deps_missing[*]}"
+				echo -e "${i386installcommand}sudo apt update; sudo apt install ${array_deps_missing[*]}"
 			elif [ "$(command -v dnf 2>/dev/null)" ]; then
 				echo -e "sudo dnf install ${array_deps_missing[*]}"
 			elif [ "$(command -v yum 2>/dev/null)" ]; then
@@ -301,7 +308,6 @@ fi
 
 # If the file successfully downloaded run the dependency check.
 if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-	depinstall=$(awk -F, '$1=="install" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
 	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")

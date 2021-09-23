@@ -1,4 +1,3 @@
-install,dnf install
 all,epel-release,curl,wget,util-linux,python36,file,tar,gzip,bzip2,unzip,xz,binutils,bc,jq,tmux,nmap-ncat,cpio,hostname
 ac
 ahl
@@ -58,7 +57,7 @@ lo
 l4d
 l4d2
 mc,java-11-openjdk
-mcb
+mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
 mom
