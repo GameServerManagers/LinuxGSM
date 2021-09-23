@@ -35,7 +35,10 @@ for distro_info in "${distro_info_array[@]}"; do
 	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
 		distroname="$(grep "PRETTY_NAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distroversion="$(grep "VERSION_ID" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
+		# Special var for rhel like distros to removed point in number e.g 8.4 to just 8.
+		distroversionrh="$(printf "%.0f\n" "${distroname}")"
 		distroid="$(grep "ID=" /etc/os-release | grep -v _ID | awk -F\= '{gsub(/"/,"",$2);print $2}')"
+		distroidlike="$(grep "ID_LIKE=" /etc/os-release | grep -v _ID | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distrocodename="$(grep "VERSION_CODENAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ];then

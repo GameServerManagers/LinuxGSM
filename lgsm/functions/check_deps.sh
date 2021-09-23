@@ -298,6 +298,11 @@ fi
 
 info_distro.sh
 
+# some RHEL based distros use 8.4 instead of just 8.
+if [[ "${distroidlike}" == *"rhel"* ]]||[ "${distroid}" == "rhel" ]; then
+	distroversion="${distroversionrh}"
+fi
+
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
 	# Check that the disto dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
