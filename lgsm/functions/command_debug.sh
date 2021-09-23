@@ -105,12 +105,12 @@ fn_script_log_info "${lockdir}/${selfname}.lock"
 cd "${executabledir}" || exit
 # Note: do not add double quotes to ${executable} ${startparameters}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	${executable} ${startparameters} -debug
+	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
-	${executable} ${startparameters} -condebug
+	eval "${executable} ${startparameters} -condebug"
 else
 	# shellcheck disable=SC2086
-	${preexecutable} ${executable} ${startparameters}
+	eval "${preexecutable} ${executable} ${startparameters}"
 fi
 
 fn_lockfile_trap
