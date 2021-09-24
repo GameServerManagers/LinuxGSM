@@ -159,7 +159,6 @@ fn_list_config_locations(){
 	fi
 	echo -e "LinuxGSM Config: ${lgsmdir}/config-lgsm/${gameservername}"
 	echo -e "Documentation: https://docs.linuxgsm.com/configuration/game-server-config"
-	echo -e ""
 }
 
 if [ "${shortname}" == "sdtd" ]; then

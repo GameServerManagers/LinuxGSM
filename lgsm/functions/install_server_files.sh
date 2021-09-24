@@ -73,6 +73,7 @@ echo -e "================================="
 fn_sleep_time
 
 if [ "${appid}" ]; then
+	remotelocation="SteamCMD"
 	fn_dl_steamcmd
 fi
 
