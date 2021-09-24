@@ -70,6 +70,23 @@ for distro_info in "${distro_info_array[@]}"; do
 	fi
 done
 
+# Check if distro supported by distro developer.
+if [ "$(command -v distro-info 2>/dev/null)" ]; then
+	distrosunsupported="$(distro-info --unsupported)"
+	distrosunsupported_array=( "${distrosunsupported}" )
+	for distrounsupported in "${distrosunsupported_array[@]}"; do
+		if [ "${distrounsupported}" == "${distrocodename}" ]; then
+			distrosupport=unsupported
+			break
+		else
+			distrosupport=supported
+		fi
+	done
+else
+	distrosupport=unknown
+fi
+
+echo "${distrosupport}"
 ## Glibc version
 # e.g: 1.17
 glibcversion=$(ldd --version | sed -n '1s/.* //p')

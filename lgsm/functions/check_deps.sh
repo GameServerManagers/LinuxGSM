@@ -598,6 +598,7 @@ fn_deps_build_redhat(){
 }
 
 if [ "${commandname}" == "INSTALL" ]; then
+
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies as root${default}"
@@ -609,6 +610,13 @@ if [ "${commandname}" == "INSTALL" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies${default}"
 		echo -e "================================="
+	fi
+	if [ "${distrosupport}" == "supported" ]||[ "${distrosupport}" == "unsupported" ]; then
+		if [ "${distrosupport}" == "unsupported" ]; then
+			fn_print_warning_nl "${distroname} is no longer supported. Upgrading is reccomended."
+		else
+
+		fi
 	fi
 fi
 
