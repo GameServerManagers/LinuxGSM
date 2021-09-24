@@ -7,11 +7,6 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if ! command -v jq > /dev/null; then
-	fn_print_fail_nl "Sending Discord alert: jq is missing."
-	fn_script_log_fatal "Sending Discord alert: jq is missing."
-fi
-
 json=$(cat <<EOF
 {
 	"username":"LinuxGSM",
@@ -52,7 +47,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
+discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
