@@ -29,6 +29,7 @@ css,cssserver,Counter-Strike: Source
 dab,dabserver,Double Action: Boogaloo
 dmc,dmcserver,Deathmatch Classic
 dod,dodserver,Day of Defeat
+dodr,dodrserver,Day of Dragons
 dods,dodsserver,Day of Defeat: Source
 doi,doiserver,Day of Infamy
 dst,dstserver,Don't Starve Together
@@ -51,7 +52,6 @@ jc3,jc3server,Just Cause 3
 jk2,jk2server,Jedi Knight II: Jedi Outcast
 kf,kfserver,Killing Floor
 kf2,kf2server,Killing Floor 2
-lo,loserver,Last Oasis
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
@@ -94,6 +94,7 @@ sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 sol,solserver,Soldat
 squad,squadserver,Squad
 st,stserver,Stationeers
+stn,stnserver,Survive the Nights
 sven,svenserver,Sven Co-op
 terraria,terrariaserver,Terraria
 tf2,tf2server,Team Fortress 2
