@@ -241,8 +241,8 @@ if [ -d "${backupdir}" ]; then
 fi
 
 # Network Interface name
-netint="$(ip -o addr | grep "${ip}" | awk '{print $2}')"
-netlink="$(ethtool "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')"
+netint=$(${ipcommand} -o addr | grep "${ip}" | awk '{print $2}')
+netlink=$(${ethtoolcommand} "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
 
 # External IP address
 if [ -z "${extip}" ]; then
