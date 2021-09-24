@@ -933,10 +933,10 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "Inserting Travis IP in to config."
 echo -e "Allows monitor to work"
-if [ "$(ip -o -4 addr|grep eth0)" ]; then
-	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+if [ "$(${ipcommand}-o -4 addr|grep eth0)" ]; then
+	travisip=$(${ipcommand}-o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
 else
-	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+	travisip=$(${ipcommand}-o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
 fi
 sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
 echo -e "IP: ${travisip}"
@@ -1167,10 +1167,10 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "Inserting Travis IP in to config."
 echo -e "Allows monitor to work"
-if [ "$(ip -o -4 addr|grep eth0)" ]; then
-	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+if [ "$(${ipcommand}-o -4 addr|grep eth0)" ]; then
+	travisip=$(${ipcommand}-o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
 else
-	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+	travisip=$(${ipcommand}-o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
 fi
 sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
 echo -e "IP: ${travisip}"
