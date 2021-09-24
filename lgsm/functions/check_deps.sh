@@ -211,7 +211,7 @@ fn_check_loop(){
 		fn_deps_detector
 	done
 
-	# user eill be informed of any missing dependencies.
+	# user will be informed of any missing dependencies.
 	fn_install_missing_deps
 }
 
