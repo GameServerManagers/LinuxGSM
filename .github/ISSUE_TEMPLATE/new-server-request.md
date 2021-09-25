@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## What game server would you like adding?
+## What game server would you like to add?
 
 [game server]
 
