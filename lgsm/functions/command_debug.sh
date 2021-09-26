@@ -27,7 +27,7 @@ fn_lockfile_trap(){
 check.sh
 fix.sh
 info_distro.sh
-info_config.sh
+info_game.sh
 # NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
 fn_print_header
 {
@@ -104,20 +104,20 @@ echo "${port}" >> "${lockdir}/${selfname}.lock"
 fn_script_log_info "Lockfile generated"
 fn_script_log_info "${lockdir}/${selfname}.lock"
 
-cd "${executabledir}" || exit
+if [ "${shortname}" == "av" ]; then
+	cd "${systemdir}" || exit
+else
+	cd "${executabledir}" || exit
+fi
+
 # Note: do not add double quotes to ${executable} ${startparameters}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	${executable} ${startparameters} -debug
-elif [ "${shortname}" == "arma3" ]; then
-	# Arma3 requires semicolons in the module list, which need to
-	# be escaped for regular (tmux) loading, but need to be
-	# stripped when loading straight from the console.
-	${executable} ${parms//\\;/;}
+	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
-	${executable} ${startparameters} -condebug
+	eval "${executable} ${startparameters} -condebug"
 else
 	# shellcheck disable=SC2086
-	${preexecutable} ${executable} ${startparameters}
+	eval "${preexecutable} ${executable} ${startparameters}"
 fi
 
 fn_lockfile_trap

@@ -31,13 +31,13 @@ fn_check_ownership(){
 		{
 			echo -e "User\tGroup\tFile\n"
 			if [ "${selfownissue}" == "1" ]; then
-				find "${rootdir}/${selfname}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
+				find "${rootdir}/${selfname}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
 			if [ "${funcownissue}" == "1" ]; then
-				find "${functionsdir}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
+				find "${functionsdir}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1"  ]; then
-				find "${serverfiles}" -not -user "$(whoami)" -printf "%u\t\t%g\t%p\n"
+				find "${serverfiles}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
