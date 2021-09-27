@@ -259,7 +259,7 @@ fn_deps_detector(){
 
 	if [ "${steamcmdstatus}" == "1" ]; then
 		# If SteamCMD is not available in repo dont check for it.
-		:
+		unset steamcmdstatus
 	elif [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
