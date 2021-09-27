@@ -256,7 +256,11 @@ fn_deps_detector(){
 	fi
 
 	# Outcome of Check.
-	if [ "${depstatus}" == "0" ]; then
+
+	if [ "${steamcmdstatus}" == "1" ]; then
+		# If SteamCMD is not available in repo dont check for it.
+		:
+	elif [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
 		if [ "${commandname}" == "INSTALL" ]; then
@@ -277,9 +281,6 @@ fn_deps_detector(){
 						steamcmdfail=1
 					fi
 				done
-		# If SteamCMD is not available in repo dont check for it.
-		elif [ "${steamcmdstatus}" == "1" ]; then
-			:
 		fi
 	fi
 	unset depstatus
