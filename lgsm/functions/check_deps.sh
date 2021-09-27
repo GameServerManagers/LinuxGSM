@@ -300,22 +300,24 @@ info_distro.sh
 
 # some RHEL based distros use 8.4 instead of just 8.
 if [[ "${distroidlike}" == *"rhel"* ]]||[ "${distroid}" == "rhel" ]; then
-	distroversion="${distroversionrh}"
+	distroversioncsv="${distroversionrh}"
+else
+	distroversioncsv="${distroversion}"
 fi
 
-if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
+if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	# Check that the disto dependency csv file exists.
-	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
+	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversion}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
 
 # If the file successfully downloaded run the dependency check.
-if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
-	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
-	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
+if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
+	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversioncsv}.csv")
 
 	# Generate array of missing deps.
 	array_deps_missing=()
