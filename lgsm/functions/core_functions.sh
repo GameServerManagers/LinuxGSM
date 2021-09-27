@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v21.2.5"
+modulesversion="v21.3.0"
 
 # Core
 
@@ -566,6 +566,11 @@ fn_fetch_function
 }
 
 alert_pushover.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+alert_gotify.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }

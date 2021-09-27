@@ -339,6 +339,11 @@ fn_info_message_gameserver(){
 			fi
 		fi
 
+		# Reverved Slots
+		if [ -n "${statspassword}" ]; then
+			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
+		fi
+
 		# Bots
 		if [ -n "${gdbots}" ]; then
 			echo -e "${lightblue}Bots:\t${default}${gdbots}"
@@ -503,6 +508,7 @@ fn_info_message_script(){
 	# glibc required:         2.18
 	# Discord alert:          off
 	# Email alert:            off
+	# Gotify alert:           off
 	# IFTTT alert:            off
 	# Mailgun (email) alert:  off
 	# Pushbullet alert:       off
@@ -544,6 +550,8 @@ fn_info_message_script(){
 		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
 		# Email alert
 		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
+		# Gotify alert
+		echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
 		# IFTTT alert
 		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		# Mailgun alert
@@ -650,7 +658,7 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "ac" "arma3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=( "ac" "arma3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -931,6 +939,14 @@ fn_info_message_dayz(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_dodr(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_dst(){
 	{
 		fn_port "header"
@@ -1023,6 +1039,16 @@ fn_info_message_jk2(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_lo(){
+	echo -e "netstat -atunp | grep MistServer"
+	echo -e ""
+	{
+		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
+		echo -e "> Game\tINBOUND\t${port}\tudp"
+		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1571,6 +1597,14 @@ fn_info_message_wurm(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_stn(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_select_engine(){
 	# Display details depending on game or engine.
 	if [ "${shortname}" == "ac" ]; then
@@ -1609,6 +1643,8 @@ fn_info_message_select_engine(){
 		fn_info_message_col
 	elif [ "${shortname}" == "dayz" ]; then
 		fn_info_message_dayz
+	elif [ "${shortname}" == "dodr" ]; then
+		fn_info_message_dodr
 	elif [ "${shortname}" == "dst" ]; then
 		fn_info_message_dst
 	elif [ "${shortname}" == "eco" ]; then
@@ -1629,6 +1665,8 @@ fn_info_message_select_engine(){
 		fn_info_message_jc3
 	elif [ "${shortname}" == "jk2" ]; then
 		fn_info_message_jk2
+	elif [ "${shortname}" == "lo" ]; then
+		fn_info_message_lo
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_message_kf
 	elif [ "${shortname}" == "kf2" ]; then
@@ -1689,6 +1727,8 @@ fn_info_message_select_engine(){
 		fn_info_message_squad
 	elif [ "${shortname}" == "st" ]; then
 		fn_info_message_st
+	elif [ "${shortname}" == "stn" ]; then
+		fn_info_message_stn
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
 	elif [ "${shortname}" == "ts3" ]; then

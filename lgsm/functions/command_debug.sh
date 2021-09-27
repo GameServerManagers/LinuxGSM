@@ -112,19 +112,12 @@ fi
 
 # Note: do not add double quotes to ${executable} ${startparameters}.
 if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	${executable} ${startparameters} -debug
-elif [ "${shortname}" == "arma3" ]; then
-	# Arma3 requires semicolons in the module list, which need to
-	# be escaped for regular (tmux) loading, but need to be
-	# stripped when loading straight from the console.
-	${executable} ${parms//\\;/;}
-elif [ "${shortname}" == "dayz" ]; then
-	eval "${preexecutable} ${executable} ${startparameters}"
+	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
-	${executable} ${startparameters} -condebug
+	eval "${executable} ${startparameters} -condebug"
 else
 	# shellcheck disable=SC2086
-	${preexecutable} ${executable} ${startparameters}
+	eval "${preexecutable} ${executable} ${startparameters}"
 fi
 
 fn_lockfile_trap
