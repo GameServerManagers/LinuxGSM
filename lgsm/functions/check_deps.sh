@@ -173,6 +173,11 @@ fn_install_missing_deps(){
 				eval "${cmd}"
 			fi
 			autodepinstall="$?"
+
+			# If auto install passes remove steamcmd install failure.
+			if [ "${autodepinstall}" == "0" ]; then
+				unset steamcmdfail
+			fi
 		fi
 
 		# If automatic dependency install is unavailable.
