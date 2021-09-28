@@ -1366,7 +1366,7 @@ fn_info_message_source(){
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# Will not show if unaviable
-		if [ "${steamport}" == "0" ]||[ -z "${steamport}" ]; then
+		if [ "${steamport}" == "0" ]||[ -v "${steamport}" ]; then
 			fn_port "Steam" steamport udp
 		fi
 		fn_port "Client" clientport udp
