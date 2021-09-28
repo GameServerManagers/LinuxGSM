@@ -11,6 +11,14 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh
+info_distro.sh
+
+# some RHEL based distros use 8.4 instead of just 8.
+if [[ "${distroidlike}" == *"rhel"* ]]||[ "${distroid}" == "rhel" ]; then
+	distroversioncsv="${distroversionrh}"
+else
+	distroversioncsv="${distroversion}"
+fi
 
 fn_print_dots ""
 fn_script_log_info "Updating LinuxGSM"
