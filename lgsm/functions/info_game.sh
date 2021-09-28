@@ -1741,6 +1741,9 @@ fn_info_game_stn(){
 		port=$(sed -nr 's/^ServerPort=([0-9]+)/\1/p' "${servercfgfullpath}")
 		serverpassword=$(sed -nr 's/^ServerPassword=(.*)$/\1/p' "${servercfgfullpath}")
 		queryport=$((port + 1))
+
+		# Not set
+		serverpassword=${serverpassword:-"NOT SET"}
 	else
 		servername="${unavailable}"
 		configip=${configip:-"0.0.0.0"}
