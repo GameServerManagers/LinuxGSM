@@ -1,0 +1,83 @@
+# Add/remove 'critical' label if issue contains the words 'urgent' or 'critical'
+# Type
+"type: game server request":
+    - '(Server Request)'
+"type: bug":
+    - '(bug)'
+"type: feature request":
+    - '(feature)'
+# Commands
+"command: backup":
+    - '(backup)'
+"command: console":
+    - '(console|tmux)'
+"command: debug":
+    - '(debug)'
+"command: details":
+    - '(details)'
+"command: fast-dl":
+    - '(fast-dl|fastdl)'
+"command: install":
+    - '(install)'
+"command: mods":
+    - '(mods)'
+"command: monitor":
+    - '(monitor)'
+"command: post-details":
+    - '(post-details)'
+"command: restart":
+    - '(restart)'
+"command: send":
+    - '(send)'
+"command: skeleton":
+    - '(skeleton)'
+"command: start":
+    - '(start)'
+"command: stop":
+    - '(stop)'
+"command: update-lgsm":
+    - '(update-lgsm)'
+"command: update":
+    - '(update)'
+"command: validate":
+    - '(validate)'
+"command: wipe":
+    - '(wipe)'
+# Distros
+"distro: AlmaLinux":
+    - '(Alma)'
+"distro: Arch Linux":
+    - '(Arch)'
+"distro: CentOS":
+    - '(CentOS)'
+"distro: Debian":
+    - '(Debian)'
+"distro: Fedora":
+    - '(Fedora)'
+"distro: openSUSE":
+    - '(openSUSE)'
+"distro: Rocky Linux":
+    - '(Rocky)'
+"distro: Slackware":
+    - '(Slackware)'
+"distro: Ubuntu":
+    - '(Ubuntu)'
+# Info
+"info: alerts":
+    - '(alert)'
+"info: dependency":
+    - '(dependency|deps)'
+"info: docker":
+    - '(docker)'
+"info: docs":
+    - '(documentation|docs)'
+"info: email":
+    - '(postfix|sendmail|exim|smtp)'
+"info: steamcmd":
+    - '(steamcmd)'
+"info: systemd":
+    - '(systemd)'
+"info: tmux":
+    - '(tmux)'
+"info: website":
+    - '(website)'
