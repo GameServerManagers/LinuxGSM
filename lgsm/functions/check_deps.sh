@@ -261,7 +261,6 @@ fn_deps_detector(){
 	fi
 
 	# Outcome of Check.
-
 	if [ "${steamcmdstatus}" == "1" ]; then
 		# If SteamCMD is not available in repo dont check for it.
 		unset steamcmdstatus
