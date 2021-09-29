@@ -142,6 +142,5 @@ if __name__ == '__main__':
         help='Display debugging output.'
     )
     options, arguments = parser.parse_args()
-    #
     server = gsquery(options, arguments)
     server.responding()
