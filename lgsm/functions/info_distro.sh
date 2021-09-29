@@ -73,6 +73,13 @@ for distro_info in "${distro_info_array[@]}"; do
 	fi
 done
 
+# some RHEL based distros use 8.4 instead of just 8.
+if [[ "${distroidlike}" == *"rhel"* ]]||[ "${distroid}" == "rhel" ]; then
+	distroversioncsv="${distroversionrh}"
+else
+	distroversioncsv="${distroversion}"
+fi
+
 ## Glibc version
 # e.g: 1.17
 glibcversion="$(ldd --version | sed -n '1s/.* //p')"
