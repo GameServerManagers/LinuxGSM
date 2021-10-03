@@ -73,6 +73,8 @@
     - '/(documentation|docs)/i'
 "info: email":
     - '/(postfix|sendmail|exim|smtp)/i'
+"info: query":
+    - '/(gamedig|gsquery)/i'
 "info: steamcmd":
     - '/(steamcmd)/i'
 "info: systemd":
@@ -81,3 +83,16 @@
     - '/(tmux)/i'
 "info: website":
     - '/(website)/i'
+# Games
+"game: Ark: Survival Evolved":
+    - '/(Ark: Survival Evolved|Ark)/i'
+"game: ARMA 3":
+    - '/(ARMA 3)/i'
+"game: Assetto Corsa":
+    - '/(Assetto Corsa)/i'
+"game: Avorion":
+    - '/(Avorion)/i'
+"game: Ballistic Overkill":
+    - '/(Ballistic Overkill)/i'
+"game: Barotrauma":
+    - '/(Barotrauma)/i'
