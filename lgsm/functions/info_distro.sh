@@ -36,7 +36,7 @@ for distro_info in "${distro_info_array[@]}"; do
 		distroname="$(grep "PRETTY_NAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distroversion="$(grep "VERSION_ID" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		# Special var for rhel like distros to removed point in number e.g 8.4 to just 8.
-		distroversionrh="$(printf "%.0f\n" "${distroversion}")"
+		distroversionrh="$(sed -nr 's/^VERSION_ID="([0-9]*).+?"/\1/p' /etc/os-release)"
 		distroid="$(grep "ID=" /etc/os-release | grep -v _ID | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distroidlike="$(grep "ID_LIKE=" /etc/os-release | grep -v _ID | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distrocodename="$(grep "VERSION_CODENAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
