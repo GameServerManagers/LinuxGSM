@@ -99,7 +99,7 @@ squad
 st
 stn
 sven,libssl1.1:i386,zlib1g:i386
-terraria
+terraria,libsdl
 tf2,libcurl4-gnutls-dev:i386
 tfc
 ts
