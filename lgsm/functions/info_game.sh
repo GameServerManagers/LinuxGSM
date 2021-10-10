@@ -1077,7 +1077,9 @@ fn_info_game_pstbs(){
 
 	# Parameters
 	port=${port:-"0"}
-	queryport=${port:-"0"}
+	if [ -z "${queryport}" ]; then
+		queryport=${port:-"0"}
+	fi
 	rconport=${rconport:-"0"}
 	randommap=${randommap:-"NOT SET"}
 	maxplayers=${maxplayers:-"0"}
