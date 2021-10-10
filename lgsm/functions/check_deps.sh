@@ -223,9 +223,9 @@ fn_check_loop(){
 # Checks if dependency is installed or not.
 fn_deps_detector(){
 	## Check.
-	# SteamCMD: Will be removed from required array if non-free repo is not available.
+	# SteamCMD: Will be removed from required array if no appid is present or non-free repo is not available.
 	# This will cause SteamCMD to be installed using tar.
-	if [ "${deptocheck}" == "steamcmd" ]&&[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+ if [ -z "${appid}" ]||[ "${deptocheck}" == "steamcmd" ]&&[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 		array_deps_required=( "${array_deps_required[@]/steamcmd}" )
 		steamcmdstatus=1
 	# Java: Added for users using Oracle JRE to bypass check.
@@ -313,7 +313,7 @@ fi
 info_distro.sh
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
-	# Check that the disto dependency csv file exists.
+	# Check that the distro dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
 		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
