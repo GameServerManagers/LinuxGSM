@@ -126,14 +126,6 @@ info_distro.sh
 info_game.sh
 query_gamedig.sh
 
-# Images
-if [ -n "${appid}" ]; then
-	alertimage="https://steamcdn-a.akamaihd.net/steam/apps/${gameappid}/header.jpg"
-else
-	alertimage="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameheaders/${shortname}-header.jpg"
-fi
-alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
-
 # Allow Alert to display gamedig info if available.
 if [ "${querystatus}" != "0" ]; then
 	if [ -n "${maxplayers}" ]; then
@@ -176,6 +168,16 @@ else
 	alertversion="Unknown"
 fi
 
+# Images
+mapimagestatus="$(curl -o /dev/null -s -w "%{http_code}\n" https://raw.githubusercontent.com/${githubuser}/game-server-map-images/main/${shortname}/${alertmap}.jpg)"
+if [ -n "${gdmap}" ]&&[ "${mapimagestatus}" == "200" ]; then
+alertimage="https://raw.githubusercontent.com/${githubuser}/game-server-map-images/main/${shortname}/${gdmap}.jpg"
+elif [ -n "${appid}" ]; then
+	alertimage="https://cdn.cloudflare.steamstatic.com/steam/apps/${gameappid}/header.jpg"
+else
+	alertimage="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameheaders/${shortname}-header.jpg"
+fi
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
