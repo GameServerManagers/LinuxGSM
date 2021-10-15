@@ -37,14 +37,26 @@ json=$(cat <<EOF
 			"text": {
 				"type": "mrkdwn",
 				"text": "*${alertemoji} ${alerttitle}* \n ${alertmessage}"
+			},
+			"accessory": {
+				"type": "image",
+				"image_url": "${alertimage}",
+				"alt_text": "Alert Image"
 			}
 		},
 		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "*Game:* ${gamename}"
-			}
+			"type": "context",
+			"elements": [
+				{
+					"type": "image",
+					"image_url": "${alerticon}",
+					"alt_text": "Alert Icon"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*Game:* ${gamename}"
+				}
+			]
 		},
 		{
 			"type": "section",
@@ -94,11 +106,6 @@ json=$(cat <<EOF
 				"type": "mrkdwn",
 				"text": "*Message*\n${alertmessage} \n More info: ${alerturl}"
 			}
-		},
-		{
-			"type": "image",
-			"image_url": "${alertimage}",
-			"alt_text": "${gamename}"
 		},
 		{
 			"type": "divider"
