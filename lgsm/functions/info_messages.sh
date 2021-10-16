@@ -62,6 +62,9 @@ fn_info_message_head(){
 	echo -e "Server name"
 	echo -e "${servername}"
 	echo -e ""
+	echo -e "Trigger Message"
+	echo -e "${alerttriggermessage}"
+	echo -e ""
 	echo -e "Game"
 	echo -e "${gamename}"
 	echo -e ""
@@ -79,8 +82,6 @@ fn_info_message_head(){
 	echo -e ""
 	echo -e "Version"
 	echo -e "${alertversion}"
-	echo -e "Information"
-	echo -e "${alerttriggermessage}"
 }
 
 fn_info_message_distro(){
