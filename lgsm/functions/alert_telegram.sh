@@ -11,7 +11,7 @@ json=$(cat <<EOF
 {
 	"chat_id": "${telegramchatid}",
 	"parse_mode": "HTML",
-	"text": "<b>${alertemoji} ${alertsubject} ${alertemoji}</b>\<br><br><b>Server name</b><br>${servername}<br><br><b>Trigger Message</b><br>${alerttriggermessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Current Players</b><br>${alertplayers}<br><br><b>Map</b><br>${alertmap}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>Version</b><br>${alertversion}<br><br><b>More info</b><br>${alerturl}",
+	"text": "<b>${alertemoji} ${alertsubject} ${alertemoji}</b>\n\n<b>Server name</b>\n${servername}\n\n<b>Trigger Message</b>\n${alerttriggermessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Current Players</b>\n${alertplayers}\n\n<b>Map</b>\n${alertmap}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n<b>Version</b>\n${alertversion}\n\n<b>More info</b>\n${alerturl}",
 	"disable_web_page_preview": "yes"
 }
 EOF
