@@ -27,7 +27,7 @@ fn_alert_log(){
 
 fn_alert_test(){
 	fn_script_log_info "Sending test alert"
-	alerttitle="${selfname} - Test"
+	alerttitle="Alert - ${selfname} - Test"
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"
@@ -39,7 +39,7 @@ fn_alert_test(){
 
 fn_alert_restart(){
 	fn_script_log_info "Sending alert: Restarted: ${selfname}, ${executable} is not running"
-	alerttitle="${selfname} - Restarted"
+	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
@@ -51,7 +51,7 @@ fn_alert_restart(){
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending alert: Restarted: ${selfname}"
-	alerttitle="${selfname} - Restarted"
+	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
@@ -63,8 +63,8 @@ fn_alert_restart_query(){
 
 fn_alert_update(){
 	fn_script_log_info "Sending alert: Updated: ${selfname}"
-	alerttitle="${selfname} - Updated"
-	alertemoji="🎮"
+	alerttitle="Alert - ${selfname} - Updated"
+	alertemoji="🎉"
 	alertsound="1"
 	alerturl="not enabled"
 	alertmessage="${selfname} has received an update"
@@ -75,8 +75,8 @@ fn_alert_update(){
 
 fn_alert_check_update(){
 	fn_script_log_info "Sending alert: Update available"
-	alerttitle="${selfname} - Update available"
-	alertemoji="🎮"
+	alerttitle="Alert - ${selfname} - Update available"
+	alertemoji="💿"
 	alertsound="1"
 	alerturl="not enabled"
 	alertmessage="Update availablefor ${selfname}"
@@ -87,7 +87,7 @@ fn_alert_check_update(){
 
 fn_alert_permissions(){
 	fn_script_log_info "Sending alert: Permissions error"
-	alerttitle="${selfname}: Permissions error"
+	alerttitle="Alert - ${selfname}: Permissions error"
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
@@ -99,7 +99,7 @@ fn_alert_permissions(){
 
 fn_alert_config(){
 	fn_script_log_info "Sending alert: New _default.cfg"
-	alerttitle="${selfname} - New _default.cfg"
+	alerttitle="Alert - ${selfname} - New _default.cfg"
 	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
@@ -111,8 +111,8 @@ fn_alert_config(){
 
 fn_alert_wipe(){
 	fn_script_log_info "Sending alert: Wiped: ${selfname} wiped"
-	alerttitle="${selfname} - Wiped"
-	alertemoji="💿"
+	alerttitle="Alert - ${selfname} - Wiped"
+	alertemoji="🧹"
 	alertsound="1"
 	alerturl="not enabled"
 	alertmessage="${selfname} as been wiped."

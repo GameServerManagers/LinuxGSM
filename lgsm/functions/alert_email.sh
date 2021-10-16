@@ -11,7 +11,7 @@ fn_print_dots "Sending Email alert: ${email}"
 fn_sleep_time
 
 if [ -n "${emailfrom}" ]; then
-	mail -s "${alerttitle}" -r "${emailfrom}" "${email}" < "${alertlog}"
+	mail -s "${alertemoji} ${alerttitle} ${alertemoji}" -r "${emailfrom}" "${email}" < "${alertlog}"
 else
 	mail -s "${alerttitle}" "${email}" < "${alertlog}"
 fi
