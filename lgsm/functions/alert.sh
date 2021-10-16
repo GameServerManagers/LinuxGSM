@@ -21,6 +21,11 @@ fn_alert_log(){
 		fn_info_message_server_resource
 		fn_info_message_gameserver_resource
 		fn_info_message_gameserver
+		fn_info_message_script
+		fn_info_message_backup
+		fn_info_message_commandlineparms
+		fn_info_message_ports_edit
+		fn_info_message_ports
 		fn_info_logs
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${alertlog}" > /dev/null 2>&1
 }

@@ -62,17 +62,17 @@ fn_info_message_head(){
 	echo -e "Message"
 	echo -e "${alertmessage}"
 	echo -e ""
-	echo -e "Game"
-	echo -e "${gamename}"
-	echo -e ""
 	echo -e "Server name"
 	echo -e "${servername}"
+	echo -e ""
+	echo -e "Game"
+	echo -e "${gamename}"
 	echo -e ""
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
 	echo -e ""
 	echo -e "Server IP"
-	echo -e "${ip}:${port}"
+	echo -e "${alertip}:${port}"
 }
 
 fn_info_message_distro(){
