@@ -79,6 +79,8 @@ fn_info_message_head(){
 	echo -e ""
 	echo -e "Version"
 	echo -e "${alertversion}"
+	echo -e "Information"
+	echo -e "${alerttriggermessage}"
 }
 
 fn_info_message_distro(){

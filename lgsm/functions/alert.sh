@@ -36,7 +36,7 @@ fn_alert_test(){
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="Testing LinuxGSM Alert. No action to be taken."
+	alerttriggermessage="Testing LinuxGSM Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
 	alertcolourdec="13487360"
@@ -48,7 +48,7 @@ fn_alert_restart(){
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="${selfname} is not running. Game Server has been restarted."
+	alerttriggermessage="${selfname} is not running. Game Server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -60,7 +60,7 @@ fn_alert_restart_query(){
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="Unable to query ${selfname}. Game server has been restarted"
+	alerttriggermessage="Unable to query ${selfname}. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -72,7 +72,7 @@ fn_alert_update(){
 	alertemoji="🎉"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} has received an update"
+	alerttriggermessage="${selfname} has received an update."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -84,7 +84,7 @@ fn_alert_check_update(){
 	alertemoji="💿"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="Update availablefor ${selfname}"
+	alerttriggermessage="Update available for ${selfname}."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -96,7 +96,7 @@ fn_alert_permissions(){
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="${selfname} has permissions issues"
+	alerttriggermessage="${selfname} has permissions issues."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -108,7 +108,7 @@ fn_alert_config(){
 	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} has received a new _default.cfg. Check file for changes."
+	alerttriggermessage="${selfname} has received a new _default.cfg. Check file for changes."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -120,7 +120,7 @@ fn_alert_wipe(){
 	alertemoji="🧹"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} as been wiped."
+	alerttriggermessage="${selfname} as been wiped."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"

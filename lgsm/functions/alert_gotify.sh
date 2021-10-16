@@ -10,7 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(cat <<EOF
 {
 	"title": "${alertemoji} ${alerttitle} ${alertemoji}",
-	"message": "Server name\n${servername}\n\nMessage\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
+	"message": "Server name\n${servername}\n\nTrigger Message\n${alerttriggermessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
 	"priority": 5
 }
 EOF
