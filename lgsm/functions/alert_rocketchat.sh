@@ -22,12 +22,7 @@ json=$(cat <<EOF
 				{
 					"short": true,
 					"title": "${alertplayerstitle}",
-					"value": "${alertmap}"
-				},
-				{
-					"short": true,
-					"title": "Server Time",
-					"value": "${alertdate}"
+					"value": "${alertplayers}"
 				},
 				{
 					"short": true,
@@ -46,8 +41,8 @@ json=$(cat <<EOF
 				}
 				{
 					"short": true,
-					"title": "Version",
-					"value": "${alertversion}"
+					"title": "Country",
+					"value": "${country}"
 				}
 			]
 		}
