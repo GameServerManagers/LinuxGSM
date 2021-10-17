@@ -60,10 +60,17 @@ json=$(cat <<EOF
 		},
 		{
 			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Game*\n${gamename}"
+			}
+		},
+		{
+			"type": "section",
 			"fields": [
 				{
 					"type": "mrkdwn",
-					"text": "*Game*"
+					"text": "*Map*"
 				},
 				{
 					"type": "mrkdwn",
@@ -71,7 +78,7 @@ json=$(cat <<EOF
 				},
 				{
 					"type": "mrkdwn",
-					"text": "${gamename}"
+					"text": "${alertmap}"
 				},
 				{
 					"type": "mrkdwn",
@@ -84,19 +91,19 @@ json=$(cat <<EOF
 			"fields": [
 				{
 					"type": "mrkdwn",
-					"text": "*Map*"
+					"text": "*Version*"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Server IP*"
+					"text": "*Country*"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "${alertmap}"
+					"text": "${alertversion}"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "${alertip}:${port}"
+					"text": "${country}"
 				}
 			]
 		},
@@ -105,19 +112,19 @@ json=$(cat <<EOF
 			"fields": [
 				{
 					"type": "mrkdwn",
+					"text": "*Server IP*"
+				},
+				{
+					"type": "mrkdwn",
 					"text": "*Hostname*"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Version*"
+					"text": "${alertip}:${port}"
 				},
 				{
 					"type": "mrkdwn",
 					"text": "${HOSTNAME}"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "${alertversion}"
 				}
 
 			]
