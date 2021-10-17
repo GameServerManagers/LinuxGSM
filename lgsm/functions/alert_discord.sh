@@ -41,7 +41,7 @@ json=$(cat <<EOF
 				},
 				{
 				"name": "Server IP",
-				"value": "[${alertip}:${port}](https://www.gametracker.com/server_info/${alertip}:${port})",
+				"value": "${alertip}:${port}",
 				"inline": true
 				},
 				{
@@ -56,7 +56,11 @@ json=$(cat <<EOF
 				},
 				{
 					"name": "Trigger Message",
-					"value": "${alerttriggermessage} \n\n More info: ${alerturl}"
+					"value": "${alerttriggermessage}"
+				},
+				{
+					"name": "${alertmoreinfo}",
+					"value": "${alertmoreinfourl}"
 				}
 			],
 			"thumbnail": {

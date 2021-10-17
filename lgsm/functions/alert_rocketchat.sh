@@ -10,7 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(cat <<EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alertemoji} ${alerttitle} ${alertemoji}* \n *${servername}* \n ${alerttriggermessage} \n More info: ${alerturl}",
+	"text": "*${alertemoji} ${alerttitle} ${alertemoji}* \n *${servername}* \n ${alerttriggermessage} \n More info: ${alertmoreinfourl}",
 	"attachments": [
 		{
 			"fields": [

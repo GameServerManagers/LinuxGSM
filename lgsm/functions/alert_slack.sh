@@ -36,12 +36,12 @@ json=$(cat <<EOF
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*${alertemoji} ${alerttitle}* \n ${alertmessage}"
+				"text": "*${alertemoji} ${alerttitle} ${alertemoji}*"
 			},
 			"accessory": {
 				"type": "image",
 				"image_url": "${alertimage}",
-				"alt_text": "Alert Image"
+				"alt_text": "${alertimagealt}"
 			}
 		},
 		{
@@ -50,7 +50,7 @@ json=$(cat <<EOF
 				{
 					"type": "image",
 					"image_url": "${alerticon}",
-					"alt_text": "Alert Icon"
+					"alt_text": "${alerticonalt}"
 				},
 				{
 					"type": "mrkdwn",
@@ -63,19 +63,19 @@ json=$(cat <<EOF
 			"fields": [
 				{
 					"type": "mrkdwn",
-					"text": "*Maxplayers*"
+					"text": "*Game*"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Map*"
+					"text": "*${alertplayerstitle}*"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${gamename}"
 				},
 				{
 					"type": "mrkdwn",
 					"text": "${alertplayers}"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "${alertmap}"
 				}
 			]
 		},
@@ -84,27 +84,56 @@ json=$(cat <<EOF
 			"fields": [
 				{
 					"type": "mrkdwn",
+					"text": "*Map*"
+				},
+				{
+					"type": "mrkdwn",
 					"text": "*Server IP*"
 				},
+				{
+					"type": "mrkdwn",
+					"text": "${alertmap}"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${alertip}:${port}"
+				}
+			]
+		},
+		{
+			"type": "section",
+			"fields": [
 				{
 					"type": "mrkdwn",
 					"text": "*Hostname*"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "${alertip}:${port}"
+					"text": "*Version*"
 				},
 				{
 					"type": "mrkdwn",
 					"text": "${HOSTNAME}"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${alertversion}"
 				}
+
 			]
 		},
 		{
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*Trigger Message*\n${alerttriggermessage} \n More info: ${alerturl}"
+				"text": "*Trigger Message*\n${alerttriggermessage}"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*${alertmoreinfo}*\n${alertmoreinfourl}"
 			}
 		},
 		{
@@ -124,6 +153,9 @@ json=$(cat <<EOF
 					"emoji": true
 				}
 			]
+		},
+		{
+			"type": "divider"
 		}
 	]
 }

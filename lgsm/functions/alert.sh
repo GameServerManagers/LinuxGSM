@@ -35,7 +35,6 @@ fn_alert_test(){
 	alerttitle="Alert - ${selfname} - Test"
 	alertemoji="🚧"
 	alertsound="1"
-	alerturl="not enabled"
 	alerttriggermessage="Testing LinuxGSM Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
@@ -47,7 +46,6 @@ fn_alert_restart(){
 	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
-	alerturl="not enabled"
 	alerttriggermessage="${selfname} is not running. Game Server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
@@ -59,7 +57,6 @@ fn_alert_restart_query(){
 	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
-	alerturl="not enabled"
 	alerttriggermessage="Unable to query ${selfname}. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
@@ -71,7 +68,6 @@ fn_alert_update(){
 	alerttitle="Alert - ${selfname} - Updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alerturl="not enabled"
 	alerttriggermessage="${selfname} has received an update."
 	# Green
 	alertcolourhex="#00cd00"
@@ -83,7 +79,6 @@ fn_alert_check_update(){
 	alerttitle="Alert - ${selfname} - Update available"
 	alertemoji="💿"
 	alertsound="1"
-	alerturl="not enabled"
 	alerttriggermessage="Update available for ${selfname}."
 	# Blue
 	alertcolourhex="#1e90ff"
@@ -95,7 +90,6 @@ fn_alert_permissions(){
 	alerttitle="Alert - ${selfname}: Permissions error"
 	alertemoji="❗"
 	alertsound="2"
-	alerturl="not enabled"
 	alerttriggermessage="${selfname} has permissions issues."
 	# Red
 	alertcolourhex="#cd0000"
@@ -107,7 +101,6 @@ fn_alert_config(){
 	alerttitle="Alert - ${selfname} - New _default.cfg"
 	alertemoji="📄"
 	alertsound="1"
-	alerturl="not enabled"
 	alerttriggermessage="${selfname} has received a new _default.cfg. Check file for changes."
 	# Blue
 	alertcolourhex="#1e90ff"
@@ -119,7 +112,6 @@ fn_alert_wipe(){
 	alerttitle="Alert - ${selfname} - Wiped"
 	alertemoji="🧹"
 	alertsound="1"
-	alerturl="not enabled"
 	alerttriggermessage="${selfname} as been wiped."
 	# Green
 	alertcolourhex="#00cd00"
@@ -173,16 +165,24 @@ else
 	alertversion="Unknown"
 fi
 
+if [ "${postalert}" == "on" ]; then
+	alertmoreinfo="More info"
+fi
+
 # Images
 mapimagestatus="$(curl -o /dev/null -s -w "%{http_code}\n" https://raw.githubusercontent.com/${githubuser}/game-server-map-images/main/${shortname}/${alertmap}.jpg)"
 if [ -n "${gdmap}" ]&&[ "${mapimagestatus}" == "200" ]; then
 alertimage="https://raw.githubusercontent.com/${githubuser}/game-server-map-images/main/${shortname}/${gdmap}.jpg"
+alertimagealt="${gdmap}"
 elif [ -n "${appid}" ]; then
 	alertimage="https://cdn.cloudflare.steamstatic.com/steam/apps/${gameappid}/header.jpg"
+	alertimagealt="${gamename} header"
 else
 	alertimage="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameheaders/${shortname}-header.jpg"
+	alertimagealt="${gamename} header"
 fi
 alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
+alerticonalt="${gamename} icon"
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
