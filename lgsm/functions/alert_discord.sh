@@ -25,9 +25,8 @@ json=$(cat <<EOF
 			"color": "${alertcolourdec}",
 			"fields": [
 				{
-				"name": "Game",
-				"value": "${gamename}",
-				"inline": true
+					"name": "Game",
+					"value": "${gamename}"
 				},
 				{
 				"name": "${alertplayerstitle}",
@@ -54,6 +53,10 @@ json=$(cat <<EOF
 				"value": "${alertversion}",
 				"inline": true
 				},
+				"name": "Server time",
+				"value": "$(date)",
+				"inline": true
+				},
 				{
 					"name": "Trigger Message",
 					"value": "${alerttriggermessage}"
@@ -70,7 +73,7 @@ json=$(cat <<EOF
 				"url": "${alertimage}"
 			},
 			"footer": {
-				"text": "Powered by LinuxGSM ${version}",
+				"text": "Powered by LinuxGSM ${version} - $(date)",
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 			}
 		}

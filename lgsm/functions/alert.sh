@@ -64,25 +64,36 @@ fn_alert_restart_query(){
 }
 
 fn_alert_update(){
-	fn_script_log_info "Sending alert: Updated: ${selfname}"
-	alerttitle="Alert - ${selfname} - Updated"
+	fn_script_log_info "Sending alert: Game server updated: ${selfname}"
+	alerttitle="Alert - ${selfname} - Game server updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alerttriggermessage="${selfname} has received an update."
+	alerttriggermessage="${selfname} has received an game server update."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
 }
 
 fn_alert_check_update(){
-	fn_script_log_info "Sending alert: Update available"
-	alerttitle="Alert - ${selfname} - Update available"
+	fn_script_log_info "Sending alert: Game server update available"
+	alerttitle="Alert - ${selfname} - Game server Update available"
 	alertemoji="💿"
 	alertsound="1"
-	alerttriggermessage="Update available for ${selfname}."
+	alerttriggermessage="Game server update available for ${selfname}."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
+}
+
+fn_alert_update_linuxgsm(){
+	fn_script_log_info "Sending alert: LinuxGSM updated: ${selfname}"
+	alerttitle="Alert - ${selfname} - LinuxGSM updated"
+	alertemoji="🎉"
+	alertsound="1"
+	alerttriggermessage="${selfname} has received a LinuxGSM update."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_permissions(){

@@ -10,24 +10,24 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(cat <<EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${servername}*\n${alertemoji} ${alerttitle} ${alertemoji}\n\n*Trigger Message*\n${alerttriggermessage}\n\n*More info*\n${alertmoreinfourl}",
+	"text": "*${servername}*\n${alertemoji} ${alerttitle} ${alertemoji}\n\n*Trigger Message*\n${alerttriggermessage}\n\n*More info*\n${alertmoreinfourl}\n\n*Game*\n${gamename}",
 	"attachments": [
 		{
 			"fields": [
 				{
 					"short": true,
-					"title": "Game",
-					"value": "${gamename}"
+					"title": "Map",
+					"value": "${alertmap}"
 				},
 				{
 					"short": true,
 					"title": "${alertplayerstitle}",
-					"value": "${gamename}"
+					"value": "${alertmap}"
 				},
 				{
 					"short": true,
-					"title": "Map",
-					"value": "${alertmap}"
+					"title": "Server Time",
+					"value": "$(date)"
 				},
 				{
 					"short": true,
@@ -39,6 +39,11 @@ json=$(cat <<EOF
 					"title": "Hostname",
 					"value": "${HOSTNAME}"
 				},
+				{
+					"short": true,
+					"title": "Version",
+					"value": "${alertversion}"
+				}
 				{
 					"short": true,
 					"title": "Version",
