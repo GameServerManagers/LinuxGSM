@@ -54,7 +54,7 @@ json=$(cat <<EOF
 				"inline": true
 				},
 				"name": "Server time",
-				"value": "$(date)",
+				"value": "${alertdate}",
 				"inline": true
 				},
 				{

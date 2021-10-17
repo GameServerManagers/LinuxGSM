@@ -27,7 +27,7 @@ json=$(cat <<EOF
 				{
 					"short": true,
 					"title": "Server Time",
-					"value": "$(date)"
+					"value": "${alertdate}"
 				},
 				{
 					"short": true,

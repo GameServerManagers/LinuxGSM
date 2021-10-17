@@ -180,6 +180,8 @@ if [ "${postalert}" != "on" ]; then
 	alertmoreinfourl="not enabled"
 fi
 
+alertdate="$(date)"
+
 # Images
 mapimagestatus="$(curl -o /dev/null -s -w "%{http_code}\n" https://raw.githubusercontent.com/${githubuser}/game-server-map-images/main/${shortname}/${alertmap}.jpg)"
 if [ -n "${gdmap}" ]&&[ "${mapimagestatus}" == "200" ]; then
