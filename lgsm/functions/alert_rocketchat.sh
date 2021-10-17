@@ -38,7 +38,7 @@ json=$(cat <<EOF
 					"short": true,
 					"title": "Version",
 					"value": "${alertversion}"
-				}
+				},
 				{
 					"short": true,
 					"title": "Country",
