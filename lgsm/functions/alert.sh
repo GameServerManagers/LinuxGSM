@@ -165,8 +165,8 @@ else
 	alertversion="Unknown"
 fi
 
-if [ "${postalert}" == "on" ]; then
-	alertmoreinfo="More info"
+if [ "${postalert}" != "on" ]; then
+	alertmoreinfourl="not enabled"
 fi
 
 # Images

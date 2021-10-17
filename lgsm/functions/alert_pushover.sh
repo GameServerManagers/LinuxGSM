@@ -22,7 +22,7 @@ else
 	alertpriority="0"
 fi
 
-pushoversend=$(curl --connect-timeout 10 -sSL -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alertemoji} ${alerttitle} ${alertemoji}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Trigger Message</b><br>${alerttriggermessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Current Players</b><br>${alertplayers}<br><br><b>Map</b><br>${alertmap}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>Version</b><br>${alertversion}<br><br><b>${alertmoreinfo}</b><br>${alertmoreinfourl}" "https://api.pushover.net/1/messages.json" | grep errors)
+pushoversend=$(curl --connect-timeout 10 -sSL -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alertemoji} ${alerttitle} ${alertemoji}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Trigger Message</b><br>${alerttriggermessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Current Players</b><br>${alertplayers}<br><br><b>Map</b><br>${alertmap}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>Version</b><br>${alertversion}<br><br><b>More Info</b><br>${alertmoreinfourl}" "https://api.pushover.net/1/messages.json" | grep errors)
 
 if [ -n "${pushoversend}" ]; then
 	fn_print_fail_nl "Sending Pushover alert: ${pushoversend}"

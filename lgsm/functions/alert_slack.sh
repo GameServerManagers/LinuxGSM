@@ -133,7 +133,7 @@ json=$(cat <<EOF
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*${alertmoreinfo}*\n${alertmoreinfourl}"
+				"text": "*More info*\n${alertmoreinfourl}"
 			}
 		},
 		{
