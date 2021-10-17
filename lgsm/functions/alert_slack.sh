@@ -25,6 +25,20 @@ json=$(cat <<EOF
 			]
 		},
 		{
+			"type": "context",
+			"elements": [
+				{
+					"type": "image",
+					"image_url": "${alerticon}",
+					"alt_text": "${alerticonalt}"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*${gamename}*"
+				}
+			]
+		},
+		{
 			"type": "header",
 			"text": {
 				"type": "plain_text",
@@ -43,20 +57,6 @@ json=$(cat <<EOF
 				"image_url": "${alertimage}",
 				"alt_text": "${alertimagealt}"
 			}
-		},
-		{
-			"type": "context",
-			"elements": [
-				{
-					"type": "image",
-					"image_url": "${alerticon}",
-					"alt_text": "${alerticonalt}"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "*${gamename}*"
-				}
-			]
 		},
 		{
 			"type": "section",
