@@ -39,16 +39,6 @@ json=$(cat <<EOF
 				"inline": true
 				},
 				{
-				"name": "Server IP",
-				"value": "${alertip}:${port}",
-				"inline": true
-				},
-				{
-				"name": "Hostname",
-				"value": "${HOSTNAME}",
-				"inline": true
-				},
-				{
 				"name": "Version",
 				"value": "${alertversion}",
 				"inline": true
@@ -56,6 +46,16 @@ json=$(cat <<EOF
 				{
 				"name": "Country",
 				"value": "${country}",
+				"inline": true
+				},
+				{
+				"name": "Server IP",
+				"value": "${alertip}:${port}",
+				"inline": true
+				},
+				{
+				"name": "Hostname",
+				"value": "${HOSTNAME}",
 				"inline": true
 				},
 				{

@@ -26,16 +26,6 @@ json=$(cat <<EOF
 				},
 				{
 					"short": true,
-					"title": "Server IP",
-					"value": "${alertip}:${port}"
-				},
-				{
-					"short": true,
-					"title": "Hostname",
-					"value": "${HOSTNAME}"
-				},
-				{
-					"short": true,
 					"title": "Version",
 					"value": "${alertversion}"
 				},
@@ -43,6 +33,16 @@ json=$(cat <<EOF
 					"short": true,
 					"title": "Country",
 					"value": "${country}"
+				},
+				{
+					"short": true,
+					"title": "Server IP",
+					"value": "${alertip}:${port}"
+				},
+				{
+					"short": true,
+					"title": "Hostname",
+					"value": "${HOSTNAME}"
 				}
 			]
 		}
