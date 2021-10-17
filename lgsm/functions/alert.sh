@@ -21,6 +21,11 @@ fn_alert_log(){
 		fn_info_message_server_resource
 		fn_info_message_gameserver_resource
 		fn_info_message_gameserver
+		fn_info_message_script
+		fn_info_message_backup
+		fn_info_message_commandlineparms
+		fn_info_message_ports_edit
+		fn_info_message_ports
 		fn_info_logs
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"| tee -a "${alertlog}" > /dev/null 2>&1
 }
@@ -31,7 +36,7 @@ fn_alert_test(){
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="Testing LinuxGSM Alert. No action to be taken."
+	alerttriggermessage="Testing LinuxGSM Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
 	alertcolourdec="13487360"
@@ -43,7 +48,7 @@ fn_alert_restart(){
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="${selfname} is not running. Game Server has been restarted."
+	alerttriggermessage="${selfname} is not running. Game Server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -55,7 +60,7 @@ fn_alert_restart_query(){
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="Unable to query ${selfname}. Game server has been restarted"
+	alerttriggermessage="Unable to query ${selfname}. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -64,10 +69,10 @@ fn_alert_restart_query(){
 fn_alert_update(){
 	fn_script_log_info "Sending alert: Updated: ${selfname}"
 	alerttitle="Alert - ${selfname} - Updated"
-	alertemoji="🎮"
+	alertemoji="🎉"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} has received an update"
+	alerttriggermessage="${selfname} has received an update."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -76,10 +81,10 @@ fn_alert_update(){
 fn_alert_check_update(){
 	fn_script_log_info "Sending alert: Update available"
 	alerttitle="Alert - ${selfname} - Update available"
-	alertemoji="🎮"
+	alertemoji="💿"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="Update availablefor ${selfname}"
+	alerttriggermessage="Update available for ${selfname}."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -91,7 +96,7 @@ fn_alert_permissions(){
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="${selfname} has permissions issues"
+	alerttriggermessage="${selfname} has permissions issues."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -103,7 +108,7 @@ fn_alert_config(){
 	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} has received a new _default.cfg. Check file for changes."
+	alerttriggermessage="${selfname} has received a new _default.cfg. Check file for changes."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -112,10 +117,10 @@ fn_alert_config(){
 fn_alert_wipe(){
 	fn_script_log_info "Sending alert: Wiped: ${selfname} wiped"
 	alerttitle="Alert - ${selfname} - Wiped"
-	alertemoji="💿"
+	alertemoji="🧹"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} as been wiped."
+	alerttriggermessage="${selfname} as been wiped."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"

@@ -55,8 +55,8 @@ json=$(cat <<EOF
 				"inline": true
 				},
 				{
-					"name": "Information",
-					"value": "${alertmessage} \n More info: ${alerturl}"
+					"name": "Trigger Message",
+					"value": "${alerttriggermessage} \n\n More info: ${alerturl}"
 				}
 			],
 			"thumbnail": {

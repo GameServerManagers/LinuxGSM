@@ -12,13 +12,13 @@ json=$(cat <<EOF
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alertemoji} ${alerttitle} ${alertemoji}",
-	"body": "Server name\n${servername}\n\nMessage\n${alertmessage}\n\nGame\n${gamename}\n\n${alertplayerstitle}\n${alertplayers}\n\nMap\n${alertmap}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}"
+	"body": "Server name\n${servername}\n\nTrigger Message\n${alerttriggermessage}\n\nGame\n${gamename}\n\nCurrent Players\n${alertplayers}\n\nMap\n${alertmap}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nVersion\n${alertversion}\n\nMore info\n${alerturl}"
 }
 EOF
 )
 
 fn_print_dots "Sending Pushbullet alert"
-pushbulletsend=$(curl --connect-timeout 10 -sSL -u """${pushbullettoken}"":" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
+pushbulletsend=$(curl --connect-timeout 10 -sSL -H "Access-Token: ${pushbullettoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
 
 if [ -n "${pushbulletsend}" ]; then
 	fn_print_fail_nl "Sending Pushbullet alert: ${pushbulletsend}"
