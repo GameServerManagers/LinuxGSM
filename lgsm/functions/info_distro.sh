@@ -253,7 +253,9 @@ netlink=$(${ethtoolcommand} "${netint}" 2>/dev/null| grep Speed | awk '{print $2
 
 # External IP address
 if [ -z "${extip}" ]; then
-	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2>/dev/null)"
+	ipapijson=$(curl --connect-timeout 10 -s http://ip-api.com/json)
+	extip="$(echo "${ipapijson}" | jq -r .query)"
+	country="$(echo "${ipapijson}" | jq -r .country)"
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then

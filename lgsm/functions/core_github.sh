@@ -41,7 +41,7 @@ fn_github_set_latest_release_version(){
 	fn_githublocalversionfile "${githubreleaseuser}" "${githubreleaserepo}"
 
 	local githublatestreleaseurl="${github_api}/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
-	githubreleaseversion=$(curl -s "${githublatestreleaseurl}" | jq -r '.tag_name' )
+	githubreleaseversion=$(curl -s --connect-timeout 10 "${githublatestreleaseurl}" | jq '.tag_name' )
 
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
@@ -76,7 +76,7 @@ fn_github_compare_version(){
 	local githublatestreleaseurl="${github_api}/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
 
 	githublocalversion=$(cat "${githublocalversionfile}")
-	githubreleaseversion=$(curl -s "${githublatestreleaseurl}" | jq '.tag_name' )
+	githubreleaseversion=$(curl -s --connect-timeout 10 "${githublatestreleaseurl}" | jq '.tag_name' )
 
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
