@@ -26,8 +26,7 @@ json=$(cat <<EOF
 			"fields": [
 				{
 				"name": "Game",
-				"value": "${gamename}",
-				"inline": true
+				"value": "${gamename}"
 				},
 				{
 				"name": "${alertplayerstitle}",
@@ -57,11 +56,6 @@ json=$(cat <<EOF
 				{
 				"name": "Country",
 				"value": "${country}",
-				"inline": true
-				},
-				{
-				"name": "Server time",
-				"value": "${alertdate}",
 				"inline": true
 				},
 				{
