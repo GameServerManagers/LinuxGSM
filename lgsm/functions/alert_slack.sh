@@ -124,7 +124,6 @@ EOF
 )
 
 fn_print_dots "Sending Slack alert"
-
 slacksend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${slackwebhook}")
 
 if [ "${slacksend}" == "ok" ]; then
