@@ -34,7 +34,7 @@ json=$(cat <<EOF
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*${gamename}*"
+					"text": "${gamename}"
 				}
 			]
 		},

@@ -11,7 +11,7 @@ json=$(cat <<EOF
 {
 	"value1": "${selfname}",
 	"value2": "${alertemoji} ${alerttitle} ${alertemoji}",
-	"value3": "Server name<br>${servername}<br><br>Trigger Message<br>${alerttriggermessage}<br><br>Game<br>${gamename}<br><br>${alertplayerstitle}<br>${alertplayers}<br><br>Map<br>${alertmap}<br><br>Server IP<br>${alertip}:${port}<br><br>Hostname<br>${HOSTNAME}<br><br>More info<br>${alertmoreinfourl}"
+	"value3": "<b>Server name</b><br>${servername}<br><br><b>Trigger Message</b><br>${alerttriggermessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Current Players</b><br>${alertplayers}<br><br><b>Map</b><br>${alertmap}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>Version</b><br>${alertversion}<br><br><b>More Info</b><br>${alertmoreinfourl}"
 }
 EOF
 )
