@@ -749,13 +749,13 @@ fn_info_logs(){
 	fi
 
 	if [ -n "${gamelogdir}" ]; then
-		echo -e "\nServer log\n==================="
+		echo -e "\nGame Server log\n==================="
 		if [ ! "$(ls -A "${gamelogdir}")" ]; then
 			echo -e "${gamelogdir} (NO LOG FILES)"
 		else
 			echo -e "${gamelogdir}"
 			# dos2unix sed 's/\r//'
-			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
+			tail "${gamelogdir}"/*.log* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
 	fi
 }
