@@ -45,7 +45,7 @@ json=$(cat <<EOF
 				},
 				{
 				"name": "Country",
-				"value": "${country}",
+				"value": "${countryflag} ${country}",
 				"inline": true
 				},
 				{

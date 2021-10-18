@@ -256,6 +256,15 @@ if [ -z "${extip}" ]; then
 	ipapijson=$(curl --connect-timeout 10 -s http://ip-api.com/json)
 	extip="$(echo "${ipapijson}" | jq -r .query)"
 	country="$(echo "${ipapijson}" | jq -r .country)"
+
+	if [ ! -f "${datadir}/emoji.json" ];then
+		fn_fetch_file "https://raw.githubusercontent.com/GameServerManagers/unicode-emoji-json/main/data-by-emoji.json" "${datadir}" "emoji.json"
+	fi
+
+	if [ -n "${country}" ]&&[ -f "${datadir}/emoji.json" ];then
+	 countryflag="$(jq -r --arg country "flag $country" 'to_entries[]| {"emoji": .key, "name": .value.name} | select(.name==$country)|.emoji' ${datadir}/emoji.json)"
+ 	fi
+
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
