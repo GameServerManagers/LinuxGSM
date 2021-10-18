@@ -7,6 +7,35 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+jsonshort=$(cat <<EOF
+{
+	"username": "LinuxGSM Alert",
+	"avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+	"content": "",
+	"embeds": [
+		{
+			"author": {
+				"name": "LinuxGSM Alert",
+				"url": "",
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+			},
+			"title": "${servername}",
+			"url": "",
+			"description": "${alertemoji} ${alerttitle} ${alertemoji}",
+			"color": "${alertcolourdec}",
+			"thumbnail": {
+				"url": "${alerticon}"
+			},
+			"footer": {
+				"text": "Powered by LinuxGSM ${version}",
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+			}
+		}
+	]
+}
+EOF
+)
+
 json=$(cat <<EOF
 {
 	"username": "LinuxGSM Alert",
@@ -82,6 +111,10 @@ json=$(cat <<EOF
 }
 EOF
 )
+
+if [ "${alerttype}" == "${short}" ]; then
+	json="${jsonshort}"
+fi
 
 fn_print_dots "Sending Discord alert"
 

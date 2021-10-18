@@ -43,6 +43,7 @@ fn_alert_test(){
 
 fn_alert_stopping(){
 	fn_script_log_info "Sending alert: Stopping"
+	alerttype="short"
 	alerttitle="Alert - ${selfname} - Stopping"
 	alertemoji="🟡"
 	alertsound="1"
@@ -54,6 +55,7 @@ fn_alert_stopping(){
 
 fn_alert_stopped(){
 	fn_script_log_info "Sending alert: Stopped"
+	alerttype="short"
 	alerttitle="Alert - ${selfname} - Stopped"
 	alertemoji="🔴"
 	alertsound="1"
