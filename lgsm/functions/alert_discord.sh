@@ -19,9 +19,9 @@ jsonshort=$(cat <<EOF
 				"url": "",
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 			},
-			"title": "${servername}",
+			"title": "${alertemoji} ${alerttriggermessage}",
 			"url": "",
-			"description": "${alertemoji} ${alerttriggermessage}",
+			"description": "${servername}",
 			"color": "${alertcolourdec}",
 			"thumbnail": {
 				"url": "${alerticon}"
