@@ -256,6 +256,8 @@ fn_stop_pre_check(){
 		fn_print_info_nl "${servername} is already stopped"
 		fn_script_log_error "${servername} is already stopped"
 	else
+		alert="stopping"
+		alert.sh
 		# Select graceful shutdown.
 		fn_stop_graceful_select
 	fi
@@ -273,6 +275,8 @@ info_game.sh
 fn_stop_pre_check
 # Remove lockfile.
 if [ -f "${lockdir}/${selfname}.lock" ]; then
+	alert="stopped"
+	alert.sh
 	rm -f "${lockdir:?}/${selfname}.lock"
 fi
 

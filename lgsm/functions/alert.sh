@@ -31,12 +31,34 @@ fn_alert_log(){
 }
 
 fn_alert_test(){
-	fn_script_log_info "Sending test alert"
+	fn_script_log_info "Sending alert: test"
 	alerttitle="Alert - ${selfname} - Test"
 	alertemoji="🚧"
 	alertsound="1"
 	alerttriggermessage="Testing LinuxGSM Alert. No action to be taken."
 	# Green
+	alertcolourhex="#cdcd00"
+	alertcolourdec="13487360"
+}
+
+fn_alert_stopping(){
+	fn_script_log_info "Sending alert: test"
+	alerttitle="Alert - ${selfname} - Stopping"
+	alertemoji="🟡"
+	alertsound="1"
+	alerttriggermessage="${selfname} is stopping."
+	# Amber
+	alertcolourhex="#ffbf00"
+	alertcolourdec="16760576"
+}
+
+fn_alert_stopped(){
+	fn_script_log_info "Sending test alert"
+	alerttitle="Alert - ${selfname} - Test"
+	alertemoji="🔴"
+	alertsound="1"
+	alerttriggermessage="${selfname} has stopped."
+	# Red
 	alertcolourhex="#cdcd00"
 	alertcolourdec="13487360"
 }
@@ -68,7 +90,7 @@ fn_alert_update(){
 	alerttitle="Alert - ${selfname} - Game server updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alerttriggermessage="${selfname} has received an game server update."
+	alerttriggermessage="${selfname} has received a game server update."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -127,6 +149,17 @@ fn_alert_wipe(){
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
+}
+
+fn_alert_test(){
+	fn_script_log_info "Sending info alert"
+	alerttitle="Alert - ${selfname} - Info"
+	alertemoji="👾"
+	alertsound="1"
+	alerttriggermessage="Game server information."
+	# Green
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 # Gather info required for alert.
@@ -199,6 +232,10 @@ alerticonalt="${gamename} icon"
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
+elif [ "${alert}" == "stopping" ]; then
+	fn_alert_stopping
+elif [ "${alert}" == "stopped" ]; then
+	fn_alert_stopping
 elif [ "${alert}" == "restart" ]; then
 	fn_alert_restart
 elif [ "${alert}" == "restartquery" ]; then
