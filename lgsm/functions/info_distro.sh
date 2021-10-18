@@ -258,11 +258,11 @@ if [ -z "${extip}" ]; then
 	country="$(echo "${ipapijson}" | jq -r .country)"
 
 	if [ ! -f "${datadir}/emoji.json" ];then
-		fn_fetch_file "https://raw.githubusercontent.com/GameServerManagers/unicode-emoji-json/main/data-by-emoji.json" "${datadir}" "emoji.json"
+		fn_fetch_file_github "lgsm/data" "emoji.json" "${datadir}"
 	fi
 
 	if [ -n "${country}" ]&&[ -f "${datadir}/emoji.json" ];then
-	 countryflag="$(jq -r --arg country "flag $country" 'to_entries[]| {"emoji": .key, "name": .value.name} | select(.name==$country)|.emoji' ${datadir}/emoji.json)"
+		countryflag="$(jq -r --arg country "flag $country" 'to_entries[]| {"emoji": .key, "name": .value.name} | select(.name==$country)|.emoji' ${datadir}/emoji.json)"
  	fi
 
 	exitcode=$?
