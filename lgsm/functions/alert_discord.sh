@@ -46,7 +46,7 @@ json=$(cat <<EOF
 			},
 			"title": "${servername}",
 			"url": "",
-			"description": "${alertemoji} ${alerttitle} ${alertemoji}",
+			"description": "${alertemoji} ${alerttitle}",
 			"color": "${alertcolourdec}",
 			"fields": [
 				{

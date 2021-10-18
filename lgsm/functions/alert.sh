@@ -61,8 +61,8 @@ fn_alert_stopped(){
 	alertsound="1"
 	alerttriggermessage="${selfname} has stopped."
 	# Red
-	alertcolourhex="#cdcd00"
-	alertcolourdec="13487360"
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_restart(){
