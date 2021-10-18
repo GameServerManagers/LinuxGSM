@@ -42,7 +42,7 @@ fn_alert_test(){
 }
 
 fn_alert_stopping(){
-	fn_script_log_info "Sending alert: test"
+	fn_script_log_info "Sending alert: Stopping"
 	alerttitle="Alert - ${selfname} - Stopping"
 	alertemoji="🟡"
 	alertsound="1"
@@ -53,7 +53,7 @@ fn_alert_stopping(){
 }
 
 fn_alert_stopped(){
-	fn_script_log_info "Sending test alert"
+	fn_script_log_info "Sending alert: Stopped"
 	alerttitle="Alert - ${selfname} - Test"
 	alertemoji="🔴"
 	alertsound="1"
@@ -235,7 +235,7 @@ if [ "${alert}" == "permissions" ]; then
 elif [ "${alert}" == "stopping" ]; then
 	fn_alert_stopping
 elif [ "${alert}" == "stopped" ]; then
-	fn_alert_stopping
+	fn_alert_stopped
 elif [ "${alert}" == "restart" ]; then
 	fn_alert_restart
 elif [ "${alert}" == "restartquery" ]; then
