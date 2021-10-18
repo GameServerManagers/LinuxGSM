@@ -112,7 +112,7 @@ json=$(cat <<EOF
 EOF
 )
 
-if [ "${alerttype}" == "${short}" ]; then
+if [ "${alerttype}" == "short" ]; then
 	json="${jsonshort}"
 fi
 
