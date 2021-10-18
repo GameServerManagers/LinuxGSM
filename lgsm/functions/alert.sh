@@ -54,7 +54,7 @@ fn_alert_stopping(){
 
 fn_alert_stopped(){
 	fn_script_log_info "Sending alert: Stopped"
-	alerttitle="Alert - ${selfname} - Test"
+	alerttitle="Alert - ${selfname} - Stopped"
 	alertemoji="🔴"
 	alertsound="1"
 	alerttriggermessage="${selfname} has stopped."
@@ -151,7 +151,7 @@ fn_alert_wipe(){
 	alertcolourdec="52480"
 }
 
-fn_alert_test(){
+fn_alert_info(){
 	fn_script_log_info "Sending info alert"
 	alerttitle="Alert - ${selfname} - Info"
 	alertemoji="👾"
