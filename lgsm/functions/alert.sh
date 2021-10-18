@@ -252,6 +252,8 @@ elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 elif [ "${alert}" == "wipe" ]; then
 	fn_alert_wipe
+elif [ "${alert}" == "info" ]; then
+	fn_alert_info
 fi
 
 # Generate alert log.
