@@ -62,7 +62,7 @@ mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
 mom
-mta
+mta,ncurses-libs
 mumble
 nd
 nmrih,ncurses-libs.i686
