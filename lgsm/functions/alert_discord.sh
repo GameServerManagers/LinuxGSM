@@ -15,13 +15,13 @@ jsonshort=$(cat <<EOF
 	"embeds": [
 		{
 			"author": {
-				"name": "LinuxGSM Alert",
+				"name": "${servername}",
 				"url": "",
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 			},
 			"title": "${alertemoji} ${alerttriggermessage}",
 			"url": "",
-			"description": "${servername}",
+			"description": "",
 			"color": "${alertcolourdec}",
 			"thumbnail": {
 				"url": "${alerticon}"

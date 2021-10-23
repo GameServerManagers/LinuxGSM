@@ -78,6 +78,7 @@ fn_alert_restart(){
 
 fn_alert_restart_query(){
 	fn_script_log_info "Sending alert: Restarted: ${selfname}"
+	alerttype="short"
 	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
@@ -90,9 +91,10 @@ fn_alert_restart_query(){
 fn_alert_update(){
 	fn_script_log_info "Sending alert: Game server updated: ${selfname}"
 	alerttitle="Alert - ${selfname} - Game server updated"
+	alerttype="short"
 	alertemoji="🎉"
 	alertsound="1"
-	alerttriggermessage="${selfname} has received a game server update."
+	alerttriggermessage="${selfname} has received a game server update: ${localbuild}."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -101,9 +103,10 @@ fn_alert_update(){
 fn_alert_check_update(){
 	fn_script_log_info "Sending alert: Game server update available"
 	alerttitle="Alert - ${selfname} - Game server Update available"
+	alerttype="short"
 	alertemoji="💿"
 	alertsound="1"
-	alerttriggermessage="Game server update available for ${selfname}."
+	alerttriggermessage="Game server update available for ${selfname}: ${remotebuild}."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -112,6 +115,7 @@ fn_alert_check_update(){
 fn_alert_update_linuxgsm(){
 	fn_script_log_info "Sending alert: LinuxGSM updated: ${selfname}"
 	alerttitle="Alert - ${selfname} - LinuxGSM updated"
+	alerttype="short"
 	alertemoji="🎉"
 	alertsound="1"
 	alerttriggermessage="${selfname} has received a LinuxGSM update."
