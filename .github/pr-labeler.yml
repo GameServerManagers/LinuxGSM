@@ -1,3 +1,0 @@
-feature: ['feature/*', 'feat/*']
-hotfix: hotfix/*
-release: release/*
