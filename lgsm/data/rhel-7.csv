@@ -93,6 +93,7 @@ scpsl
 scpslsm
 sdtd,telnet,expect
 sfc,ncurses-libs.i686
+sf
 sof2
 sol
 squad

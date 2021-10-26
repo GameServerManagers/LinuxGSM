@@ -1032,16 +1032,6 @@ fn_info_message_jk2(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_lo(){
-	echo -e "netstat -atunp | grep MistServer"
-	echo -e ""
-	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_kf(){
 	{
 	fn_port "header"
@@ -1339,6 +1329,15 @@ fn_info_message_sdtd(){
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
 		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
 		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
+	} | column -s $'\t' -t
+}
+
+fn_info_message_sf(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Beacon" beaconport udp
 	} | column -s $'\t' -t
 }
 
@@ -1653,8 +1652,6 @@ fn_info_message_select_engine(){
 		fn_info_message_jc3
 	elif [ "${shortname}" == "jk2" ]; then
 		fn_info_message_jk2
-	elif [ "${shortname}" == "lo" ]; then
-		fn_info_message_lo
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_message_kf
 	elif [ "${shortname}" == "kf2" ]; then
@@ -1707,6 +1704,8 @@ fn_info_message_select_engine(){
 		fn_info_message_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_message_sdtd
+	elif [ "${shortname}" == "sf" ]; then
+		fn_info_message_sf
 	elif [ "${shortname}" == "sof2" ]; then
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then

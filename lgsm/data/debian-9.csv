@@ -93,6 +93,7 @@ scpsl,mono-complete
 scpslsm,mono-complete
 sdtd,telnet,expect
 sfc,libtinfo5:i386
+sf
 sof2
 sol
 squad
