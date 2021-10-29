@@ -803,7 +803,7 @@ fn_info_game_mc(){
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
-		servername=$(grep "motd" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/motd//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "motd" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/motd//g' | tr -d '=\";,:' | sed 's/\\u00A70//g;s/\\u00A71//g;s/\\u00A72//g;s/\\u00A73//g;s/\\u00A74//g;s/\\u00A75//g;s/\\u00A76//g;s/\\u00A77//g;s/\\u00A78//g;s/\\u00A79//g;s/\\u00A7a//g;s/\\u00A7b//g;s/\\u00A7c//g;s/\\u00A7d//g;s/\\u00A7e//g;s/\\u00A7f//g;s/\\u00A7l//g;s/\\u00A7o//g;s/\\u00A7n//g;s/\\u00A7m//g;s/\\u00A7k//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rcon.password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/rcon.password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
