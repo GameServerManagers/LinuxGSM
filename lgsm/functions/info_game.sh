@@ -790,6 +790,14 @@ fn_info_game_kf2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_game_lo(){
+	# Parameters
+	servername=${servername:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	maxplayers=${slots:-"0"}
+}
+
 fn_info_game_mc(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -803,7 +811,7 @@ fn_info_game_mc(){
 		gamemode="${unavailable}"
 		gameworld="${unavailable}"
 	else
-		servername=$(grep "motd" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/motd//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "motd" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/motd//g' | tr -d '=\";,:' | sed 's/\\u00A70//g;s/\\u00A71//g;s/\\u00A72//g;s/\\u00A73//g;s/\\u00A74//g;s/\\u00A75//g;s/\\u00A76//g;s/\\u00A77//g;s/\\u00A78//g;s/\\u00A79//g;s/\\u00A7a//g;s/\\u00A7b//g;s/\\u00A7c//g;s/\\u00A7d//g;s/\\u00A7e//g;s/\\u00A7f//g;s/\\u00A7l//g;s/\\u00A7o//g;s/\\u00A7n//g;s/\\u00A7m//g;s/\\u00A7k//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rcon.password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/rcon.password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconport=$(grep "rcon.port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 		maxplayers=$(grep "max-players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
@@ -1550,6 +1558,14 @@ fn_info_game_sdtd(){
 	fi
 }
 
+fn_info_game_sf(){
+	# Parameters
+	servername=${selfname:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	beaconport=${beaconport:-"0"}
+}
+
 fn_info_game_sof2(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1927,7 +1943,8 @@ fn_info_game_unt(){
 	# Parameters
 	servername=${selfname:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=$((port+1))
+	queryport=${port}
+	steamport=$((port+1))
 }
 
 fn_info_game_ut(){
@@ -2230,6 +2247,8 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
+elif [ "${shortname}" == "lo" ]; then
+	fn_info_game_lo
 elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then
@@ -2280,6 +2299,8 @@ elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
 	fn_info_game_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd
+elif [ "${shortname}" == "sf" ]; then
+	fn_info_game_sf
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_game_sof2
 elif [ "${shortname}" == "sol" ]; then
