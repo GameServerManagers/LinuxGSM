@@ -1943,7 +1943,7 @@ fn_info_game_ut(){
 
 	# Parameters
 	port=${port:-"0"}
-	queryport=$((port+1))
+	queryport=${queryport:-"0"}
 }
 
 fn_info_game_unreal2k4(){
