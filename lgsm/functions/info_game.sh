@@ -1927,7 +1927,8 @@ fn_info_game_unt(){
 	# Parameters
 	servername=${selfname:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=$((port))
+	queryport=${port}
+	steamport=$((port+1))
 }
 
 fn_info_game_ut(){
