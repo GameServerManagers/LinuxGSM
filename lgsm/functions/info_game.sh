@@ -1562,8 +1562,8 @@ fn_info_game_sf(){
 	# Parameters
 	servername=${selfname:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${$queryport:-"0"}
-	beaconport=${$beaconport:-"0"}
+	queryport=${queryport:-"0"}
+	beaconport=${beaconport:-"0"}
 }
 
 fn_info_game_sof2(){
