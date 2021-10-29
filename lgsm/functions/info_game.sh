@@ -790,6 +790,14 @@ fn_info_game_kf2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_game_lo(){
+	# Parameters
+	servername=${servername:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	maxplayers=${slots:-"0"}
+}
+
 fn_info_game_mc(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1548,6 +1556,14 @@ fn_info_game_sdtd(){
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
 	fi
+}
+
+fn_info_game_sf(){
+	# Parameters
+	servername=${selfname:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${$queryport:-"0"}
+	beaconport=${$beaconport:-"0"}
 }
 
 fn_info_game_sof2(){
