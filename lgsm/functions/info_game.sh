@@ -2246,6 +2246,8 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
+elif [ "${shortname}" == "lo" ]; then
+	fn_info_game_lo
 elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then
@@ -2296,6 +2298,8 @@ elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
 	fn_info_game_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd
+elif [ "${shortname}" == "sf" ]; then
+	fn_info_game_sf
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_game_sof2
 elif [ "${shortname}" == "sol" ]; then
