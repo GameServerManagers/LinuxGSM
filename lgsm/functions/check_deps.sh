@@ -173,6 +173,11 @@ fn_install_missing_deps(){
 				eval "${cmd}"
 			fi
 			autodepinstall="$?"
+
+			# If auto install passes remove steamcmd install failure.
+			if [ "${autodepinstall}" == "0" ]; then
+				unset steamcmdfail
+			fi
 		fi
 
 		# If automatic dependency install is unavailable.
@@ -217,8 +222,14 @@ fn_check_loop(){
 
 # Checks if dependency is installed or not.
 fn_deps_detector(){
+	## Check.
+	# SteamCMD: Will be removed from required array if no appid is present or non-free repo is not available.
+	# This will cause SteamCMD to be installed using tar.
+	if [ "${deptocheck}" == "steamcmd" ]&&[ -z "${appid}" ]||[ "${deptocheck}" == "steamcmd" ]&&[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+		array_deps_required=( "${array_deps_required[@]/steamcmd}" )
+		steamcmdstatus=1
 	# Java: Added for users using Oracle JRE to bypass check.
-	if [[ ${deptocheck} == "openjdk"* ]]||[[ ${deptocheck} == "java"* ]]; then
+	elif [[ ${deptocheck} == "openjdk"* ]]||[[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass check.
@@ -249,25 +260,28 @@ fn_deps_detector(){
 		depstatus=$?
 	fi
 
-	if [ "${depstatus}" == "0" ]; then
+	# Outcome of Check.
+	if [ "${steamcmdstatus}" == "1" ]; then
+		# If SteamCMD is not available in repo dont check for it.
+		unset steamcmdstatus
+	elif [ "${depstatus}" == "0" ]; then
 		# If dependency is found.
 		missingdep=0
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${green}${deptocheck}${default}"
 			sleep 0.1
 		fi
-	else
+	elif [ "${depstatus}" != "0" ]; then
 		# If dependency is not found.
 		missingdep=1
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${red}${deptocheck}${default}"
 			sleep 0.1
 		fi
-		# Define required dependencies for SteamCMD.
+		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
-				array_steamcmd_deps_required=("${depsteamcmd}")
-				for steamcmddeptocheck in ${array_steamcmd_deps_required[*]}; do
-					if [ "${deptocheck}" ==  "${steamcmddeptocheck}" ]; then
+				for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
+					if [ "${deptocheck}" != "steamcmd" ]&&[ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
 						steamcmdfail=1
 					fi
 				done
@@ -298,29 +312,25 @@ fi
 
 info_distro.sh
 
-# some RHEL based distros use 8.4 instead of just 8.
-if [[ "${distroidlike}" == *"rhel"* ]]||[ "${distroid}" == "rhel" ]; then
-	distroversion="${distroversionrh}"
-fi
-
-if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-	# Check that the disto dependency csv file exists.
-	fn_check_file_github "lgsm/data" "${distroid}-${distroversion}.csv"
+if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
+	# Check that the distro dependency csv file exists.
+	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversion}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
 
 # If the file successfully downloaded run the dependency check.
-if [ -f "${datadir}/${distroid}-${distroversion}.csv" ]; then
-	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
-	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversion}.csv")
-	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversion}.csv")
+if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
+	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversioncsv}.csv")
 
 	# Generate array of missing deps.
 	array_deps_missing=()
 
 	array_deps_required=("${depall} ${depsteamcmd} ${depshortname}")
+	array_deps_required_steamcmd=("${depsteamcmd}")
 	fn_deps_email
 	# Unique sort dependency array.
 	IFS=" " read -r -a array_deps_required <<< "$(echo "${array_deps_required[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')"

@@ -800,7 +800,7 @@ fn_info_message_arma3(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Voice" voiceport udp
-		fn_port "Query Steam" queryport udp
+		fn_port "Query" queryport udp
 		fn_port "Steam Master" steammasterport udp
 		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
@@ -1039,16 +1039,6 @@ fn_info_message_jk2(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-	} | column -s $'\t' -t
-}
-
-fn_info_message_lo(){
-	echo -e "netstat -atunp | grep MistServer"
-	echo -e ""
-	{
-		echo -e "${lightblue}DESCRIPTION\tDIRECTION\tPORT\tPROTOCOL${default}"
-		echo -e "> Game\tINBOUND\t${port}\tudp"
-		echo -e "> Query\tINBOUND\t${queryport}\tudp"
 	} | column -s $'\t' -t
 }
 
@@ -1352,6 +1342,15 @@ fn_info_message_sdtd(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_sf(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Beacon" beaconport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_sof2(){
 	{
 		fn_port "header"
@@ -1376,7 +1375,7 @@ fn_info_message_source(){
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# Will not show if unaviable
-		if [ "${steamport}" == "0" ]||[ -z "${steamport}" ]; then
+		if [ "${steamport}" == "0" ]||[ -v "${steamport}" ]; then
 			fn_port "Steam" steamport udp
 		fi
 		fn_port "Client" clientport udp
@@ -1528,6 +1527,7 @@ fn_info_message_unt(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
@@ -1665,8 +1665,6 @@ fn_info_message_select_engine(){
 		fn_info_message_jc3
 	elif [ "${shortname}" == "jk2" ]; then
 		fn_info_message_jk2
-	elif [ "${shortname}" == "lo" ]; then
-		fn_info_message_lo
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_message_kf
 	elif [ "${shortname}" == "kf2" ]; then
@@ -1719,6 +1717,8 @@ fn_info_message_select_engine(){
 		fn_info_message_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_message_sdtd
+	elif [ "${shortname}" == "sf" ]; then
+		fn_info_message_sf
 	elif [ "${shortname}" == "sof2" ]; then
 		fn_info_message_sof2
 	elif [ "${shortname}" == "sol" ]; then

@@ -1,4 +1,5 @@
-all,epel-release,curl,wget,util-linux,python36,file,tar,gzip,bzip2,unzip,xz,binutils,bc,jq,tmux,nmap-ncat,cpio,hostname
+all,bc,binutils,bzip2,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
+steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
 ahl2
@@ -92,10 +93,12 @@ scpsl
 scpslsm
 sdtd,telnet,expect
 sfc,ncurses-libs.i686
+sf
 sof2
 sol
 squad
 st
+stn
 sven
 terraria
 tf2,libcurl.i686
