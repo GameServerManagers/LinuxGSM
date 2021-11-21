@@ -2315,6 +2315,8 @@ elif [ "${shortname}" == "stn" ]; then
 	fn_info_game_stn
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_game_terraria
+elif [ "${shortname}" == "ts3" ]; then
+	fn_info_game_ts3
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_game_tu
 elif [ "${shortname}" == "tw" ]; then
