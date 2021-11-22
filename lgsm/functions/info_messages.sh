@@ -658,7 +658,7 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "ac" "arma3" "bo" "bt" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=( "ac" "arma3" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -855,6 +855,15 @@ fn_info_message_bt1944(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_cd(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Steam" steamport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -1615,6 +1624,8 @@ fn_info_message_select_engine(){
 		fn_info_message_bt
 	elif [ "${shortname}" == "bt1944" ]; then
 		fn_info_message_bt1944
+	elif [ "${shortname}" == "cd" ]; then
+		fn_info_messages_cd
 	elif [ "${shortname}" == "csgo" ]; then
 		fn_info_message_csgo
 	elif [ "${shortname}" == "cmw" ]; then

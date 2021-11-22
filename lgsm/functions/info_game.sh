@@ -258,6 +258,26 @@ fn_info_game_bt1944(){
 	rconport=$((port+2))
 }
 
+fn_info_game_cd(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		port="${zero}"
+		rconenabled="false"
+		rconport="${zero}"
+		rconpassword="${unavailable}"
+		steamport="${zero}"
+		maxplayers="${zero}"
+	else
+		servername=$(jq -r '.game_title' "${servercfgfullpath}")
+		port=$(jq -r '.game_port' "${servercfgfullpath}")
+		steamport=$(jq -r '.steam_port_messages' "${servercfgfullpath}")
+		rconenabled=$(jq -r '.rcon' "${servercfgfullpath}")
+		rconport=$(jq -r '.rcon_port' "${servercfgfullpath}")
+		rconpassword=$(jq -r '.rcon_password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.player_count' "${servercfgfullpath}")
+	fi
+}
+
 fn_info_game_cmw(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2209,6 +2229,8 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
 elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_game_bt1944
+elif [ "${shortname}" == "cd" ]; then
+	fn_info_game_cd
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_game_cmw
 elif [ "${shortname}" == "cod" ]; then
