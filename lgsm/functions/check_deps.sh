@@ -225,7 +225,13 @@ fn_deps_detector(){
 	## Check.
 	# SteamCMD: Will be removed from required array if no appid is present or non-free repo is not available.
 	# This will cause SteamCMD to be installed using tar.
-	if [ "${deptocheck}" == "steamcmd" ]&&[ -z "${appid}" ]||[ "${deptocheck}" == "steamcmd" ]&&[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+	if [ "${deptocheck}" == "libsdl2-2.0-0:i386" ]&&[ -z "${appid}" ]; then
+		array_deps_required=( "${array_deps_required[@]/libsdl2-2.0-0:i386}" )
+		steamcmdstatus=1
+	elif [ "${deptocheck}" == "steamcmd" ]&&[ -z "${appid}" ]; then
+		array_deps_required=( "${array_deps_required[@]/steamcmd}" )
+		steamcmdstatus=1
+	elif [ "${deptocheck}" == "steamcmd" ]&&[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
 		array_deps_required=( "${array_deps_required[@]/steamcmd}" )
 		steamcmdstatus=1
 	# Java: Added for users using Oracle JRE to bypass check.
