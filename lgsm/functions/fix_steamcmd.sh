@@ -25,6 +25,8 @@ fn_fix_steamclient_so(){
 				cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${2}/steamclient.so"
 			elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
 				cp "${steamcmddir}/linux32/steamclient.so" "${2}/steamclient.so"
+			elif [ -f "${HOME}/.local/share/Steam/steamcmd/linux32/steamclient.so" ]; then
+				cp "${HOME}/.local/share/Steam/steamcmd/linux32/steamclient.so" "${2}/steamclient.so"
 			fi
 			fn_fix_msg_end
 		fi
@@ -40,6 +42,8 @@ fn_fix_steamclient_so(){
 				cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${2}/steamclient.so"
 			elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
 				cp "${steamcmddir}/linux64/steamclient.so" "${2}/steamclient.so"
+			elif [ -f "${HOME}/.local/share/Steam/steamcmd/linux64/steamclient.so" ]; then
+				cp "${HOME}/.local/share/Steam/steamcmd/linux64/steamclient.so" "${2}/steamclient.so"
 			fi
 			fn_fix_msg_end
 		fi
@@ -47,27 +51,64 @@ fn_fix_steamclient_so(){
 }
 
 # Helps fix: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
-if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
-	fixname="steamclient.so sdk64"
+steamsdk64="${HOME}/.steam/sdk64"
+steamclientsdk64="${steamsdk64}/steamclient.so"
+# remove any old unlinked versions of steamclient.so
+if [ -f "${steamclientsdk64}" ]; then
+	if [ $(stat -c '%h' "${steamclientsdk64}") -eq 1 ]; then
+		fixname="steamclient.so sdk64 -- remove old file"
+		fn_fix_msg_start
+		rm -f "${steamclientsdk64}"
+		fn_fix_msg_end
+	fi
+fi
+
+# place new hardlink for the file to the disk
+if [ ! -f "${steamclientsdk64}" ]; then
+	fixname="steamclient.so sdk64 hardlink"
 	fn_fix_msg_start
-	mkdir -p "${HOME}/.steam/sdk64"
+	if [ ! -d "${steamsdk64}" ]; then
+		mkdir -p "${steamsdk64}"
+	fi
 	if [ -f "${HOME}/.steam/steamcmd/linux64/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so"
+		ln "${HOME}/.steam/steamcmd/linux64/steamclient.so" "${steamclientsdk64}"
 	elif [ -f "${steamcmddir}/linux64/steamclient.so" ]; then
-		cp "${steamcmddir}/linux64/steamclient.so" "${HOME}/.steam/sdk64/steamclient.so"
+		ln "${steamcmddir}/linux64/steamclient.so" "${steamclientsdk64}"
+	elif [ -f "${HOME}/.local/share/Steam/steamcmd/linux64/steamclient.so" ]; then
+		ln "${HOME}/.local/share/Steam/steamcmd/linux64/steamclient.so" "${steamclientsdk64}"
+	else
+		fn_print_fail_nl "Could not copy any steamclient.so 64bit for the gameserver"
 	fi
 	fn_fix_msg_end
 fi
 
 # Helps fix: [S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam,or a local steamclient.so.
-if [ ! -f "${HOME}/.steam/sdk32/steamclient.so" ]; then
-	fixname="steamclient.so sdk32"
+steamsdk32="${HOME}/.steam/sdk32"
+steamclientsdk32="${HOME}/.steam/sdk32/steamclient.so"
+if [ -f "${steamclientsdk32}" ]; then
+	if [ $(stat -c '%h' "${steamclientsdk32}") -eq 1 ]; then
+		fixname="steamclient.so sdk32 -- remove old file"
+		fn_fix_msg_start
+		rm -f "${steamclientsdk32}"
+		fn_fix_msg_end
+	fi
+fi
+
+# place new hardlink for the file to the disk
+if [ ! -f "${steamclientsdk32}" ]; then
+	fixname="steamclient.so sdk32 link"
 	fn_fix_msg_start
-	mkdir -p "${HOME}/.steam/sdk32"
+	if [ ! -d "${steamsdk32}" ]; then
+		mkdir -p "${steamsdk32}"
+	fi
 	if [ -f "${HOME}/.steam/steamcmd/linux32/steamclient.so" ]; then
-		cp "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+		ln "${HOME}/.steam/steamcmd/linux32/steamclient.so" "${steamclientsdk32}"
 	elif [ -f "${steamcmddir}/linux32/steamclient.so" ]; then
-		cp "${steamcmddir}/linux32/steamclient.so" "${HOME}/.steam/sdk32/steamclient.so"
+		ln "${steamcmddir}/linux32/steamclient.so" "${steamclientsdk32}"
+	elif [ -f "${HOME}/.local/share/Steam/steamcmd/linux32/steamclient.so" ]; then
+		ln "${HOME}/.local/share/Steam/steamcmd/linux32/steamclient.so" "${steamclientsdk32}"
+	else
+		fn_print_fail_nl "Could not copy any steamclient.so 32bit for the gameserver"
 	fi
 	fn_fix_msg_end
 fi
