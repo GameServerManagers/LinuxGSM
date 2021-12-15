@@ -10,9 +10,8 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_fabric(){
-    # get build info
-    installername=$(echo -e "fabric-installer-${latestfabricinstaller}.jar")
-    installersha256=$(curl "https://${remotelocation}/net/fabricmc/fabric-installer/${latestfabricinstaller}/${installername}.sha256")
+	installername=$(echo -e "fabric-installer-${latestfabricinstaller}.jar")
+	installersha256=$(curl "https://${remotelocation}/net/fabricmc/fabric-installer/${latestfabricinstaller}/${installername}.sha256")
 	fn_fetch_file "https://${remotelocation}/net/fabricmc/fabric-installer/${latestfabricinstaller}/${installername}" "" "" "" "${tmpdir}" "fabric-installer.jar" "nochmodx" "norun" "force" "${installersha256}"
 	echo -e "Generating Fabric jars...\c"
 	java -jar ${tmpdir}/fabric-installer.jar server -dir ${serverfiles} -mcversion ${mcversion} -downloadMinecraft &> ${logdir}/script/fabric-installer.log
@@ -117,7 +116,6 @@ fn_update_fabricmc_compare(){
 # The location where the builds are checked and downloaded.
 remotelocation="maven.fabricmc.net"
 
-
 localversionfile="${datadir}/fabricmc-version"
 
 # check if datadir was created, if not create it
@@ -125,13 +123,9 @@ if [ ! -d "${datadir}" ]; then
 	mkdir -p "${datadir}"
 fi
 
-
 if [ "${mcversion}" == "latest" ]; then
 	mcversion=$(curl -s "https://launchermeta.mojang.com/mc/game/version_manifest.json" | jq -r '.latest.release')
 fi
-
-
-
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_fabricmc_remotebuild
