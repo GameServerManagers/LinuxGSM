@@ -159,7 +159,6 @@ fn_list_config_locations(){
 	fi
 	echo -e "LinuxGSM Config: ${lgsmdir}/config-lgsm/${gameservername}"
 	echo -e "Documentation: https://docs.linuxgsm.com/configuration/game-server-config"
-	echo -e ""
 }
 
 if [ "${shortname}" == "sdtd" ]; then
@@ -358,6 +357,12 @@ elif [ "${shortname}" == "dod" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "dodr" ]; then
+	gamedirname="DayOfDragons"
+	array_configs+=( Game.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
 	fn_list_config_locations
 elif [ "${shortname}" == "dods" ]; then
 	gamedirname="DayOfDefeatSource"
@@ -675,6 +680,13 @@ elif [ "${shortname}" == "scpsl" ]||[ "${shortname}" == "scpslsm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "sf" ]; then
+	gamedirname="Satisfactory"
+	array_configs+=( GameUserSettings.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	gamedirname="Soldat"
 	array_configs+=( soldat.ini )
@@ -713,6 +725,13 @@ elif [ "${shortname}" == "sb" ]; then
 elif [ "${shortname}" == "st" ]; then
 	gamedirname="Stationeers"
 	array_configs+=( default.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "stn" ]; then
+	gamedirname="SurvivetheNights"
+	array_configs+=( ServerConfig.txt ServerUsers.txt TpPresets.json UserPermissions.json )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

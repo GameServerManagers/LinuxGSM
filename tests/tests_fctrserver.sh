@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.2.3"
+version="v21.4.1"
 shortname="fctr"
 gameservername="fctrserver"
 commandname="CORE"
@@ -923,7 +923,7 @@ echo -e ""
 echo -e "5.0 - Monitor Tests"
 echo -e "=================================================================="
 echo -e ""
-info_config.sh
+info_game.sh
 echo -e "Server IP - Port: ${ip}:${port}"
 echo -e "Server IP - Query Port: ${ip}:${queryport}"
 

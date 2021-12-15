@@ -35,7 +35,7 @@ The following is a set of guidelines for contributing to LinuxGSM, which are hos
 
 ## Code of Conduct
 
-This project and everyone participating in it are governed by the [LinuxGSM Code of Conduct](https://github.com/GameServerManagers/linuxgsm/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behaviour to [daniel.gibbs@linuxgsm.com](mailto:daniel.gibbs@linuxgsm.com).
+This project and everyone participating in it is governed by the [LinuxGSM Code of Conduct](https://github.com/GameServerManagers/linuxgsm/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behaviour to [daniel.gibbs@linuxgsm.com](mailto:daniel.gibbs@linuxgsm.com).
 
 ## 🎉 Bug/Enhancement Contributions 🐛
 
@@ -48,8 +48,7 @@ Before creating bug reports, please check [this list](https://github.com/GameSer
 #### Before Submitting A Bug Report
 
 * **Check the [documentation](https://docs.linuxgsm.com).** You might be able to find the cause of the problem and fix things yourself.
-* **Check that the problem is not related to** [**support page**](https://linuxgsm/com/support) for links to other support options.
-* **Check the** [**support page**](https://linuxgsm/com/support) for links to other support options.
+* **Check the** [**support page**](https://linuxgsm.com/support) for links to other support options.
 * **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
@@ -88,7 +87,7 @@ Features are tracked as [GitHub issues](https://guides.github.com/features/issue
 This section guides you through submitting a game server request for LinuxGSM, Following these guidelines help maintainers and the community understand your game server request 📝.
 #### Before Submitting a Game Server Request
 
-* **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs.
+* **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs up.
 * **Check the game server is supported on Linux**, this does not include Wine servers which we do not support.
 #### How Do I Submit A (Good) Game Server Request?
 * The title should be as follows: **[Server Request] Game Name**
@@ -99,9 +98,9 @@ This section guides you through submitting a game server request for LinuxGSM, F
 
 LinuxGSM is a management script that acts as a wrapper around game servers. These game servers are developed by different game developers such as Valve, Epic and Facepunch to name a few.
 
-LinuxGSM has no control over the development and limited knowledge of issues directly relating to the game servers themselves. The same also applies for any mods, add-ons, maps etc.
+LinuxGSM has no control over the development and limited knowledge of issues directly relating to the game servers themselves. The same also applies to any mods, add-ons, maps etc.
 
-If there is an issue with a specific game server or mod the best action may be to contact the game/mod developers on there support forums. If it is unclear some community members should be able to help.
+If there is an issue with a specific game server or mod the best action may be to contact the game/mod developers on their support forums. If it is unclear some community members should be able to help.
 
 A [list](https://docs.linuxgsm.com/support/game-server) of known game developer forums is available on the [LinuxGSM docs](https://docs.linuxgsm.com/support/game-server).
 
@@ -158,7 +157,7 @@ Below is an example of the subject line for a pull request:
 ### Testing
 
 #### Pull Request Status Checks
-When a Pull Request is submitted, a series of status check tests are conducted.  These tests will asses the code quality, complete CI tests etc. To get your PR merged these status checks must pass.
+When a Pull Request is submitted, a series of status check tests are conducted.  These tests will assess the code quality, complete CI tests etc. To get your PR merged these status checks must pass.
 
 #### Test Environment
 It is recommended that you have a testing environment available to test your code during development. To test your own code you must change some variables within the `linuxgsm.sh` file. This will force the use of your own code branch.
@@ -198,10 +197,10 @@ This section lists the labels we use to help us track and manage issues and pull
 [GitHub search](https://help.github.com/articles/searching-issues/) makes it easy to use labels for finding groups of issues or pull requests you're interested in. There are several categories of labels available:
 
 **command** Labels
-Highlights the LinuxGSM command the Issue/PR relates too.
+Highlights the LinuxGSM command the Issue/PR relates to.
 
 **info** Labels
-Labels to help pinpoint what the issue or PR relates too.
+Labels to help pinpoint what the issue or PR relates to.
 
 variants:
 * _distro_
