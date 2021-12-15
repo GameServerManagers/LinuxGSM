@@ -39,6 +39,7 @@ dys
 eco,libgdiplus
 em
 etl
+fabmc,openjdk-8-jre
 fctr
 fof
 gmod,libtinfo5:i386
