@@ -10,7 +10,7 @@ local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_fabric(){
-	# get build info
+    # get build info
     installername=$(echo -e "fabric-installer-${latestfabricinstaller}.jar")
     installersha256=$(curl "https://${remotelocation}/net/fabricmc/fabric-installer/${latestfabricinstaller}/${installername}.sha256")
 	fn_fetch_file "https://${remotelocation}/net/fabricmc/fabric-installer/${latestfabricinstaller}/${installername}" "" "" "" "${tmpdir}" "fabric-installer.jar" "nochmodx" "norun" "force" "${installersha256}"
