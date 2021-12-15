@@ -685,7 +685,7 @@ fn_info_message_ports(){
 		echo -e "ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		echo -e "ss -tuplwn | grep bf1942_lnxded"
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "rw" ]||[ "${shortname}" == "wmc" ]||[ "${shortname}" == "fabmc" ]||; then
 		echo -e "ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		echo -e "ss -tuplwn | grep Main"
@@ -1659,7 +1659,7 @@ fn_info_message_select_engine(){
 		fn_info_message_kf2
 	elif [ "${shortname}" == "lo" ]; then
 		fn_info_message_lo
-	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]||[ "${shortname}" == "fabmc" ]; then
 		fn_info_message_mc
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_message_mcb
