@@ -114,7 +114,6 @@ fn_update_fabricmc_compare(){
 	fi
 }
 
-
 # The location where the builds are checked and downloaded.
 remotelocation="maven.fabricmc.net"
 
