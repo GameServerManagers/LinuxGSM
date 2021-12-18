@@ -33,33 +33,40 @@ fn_mod_install_files(){
 
 # Convert mod files to lowercase if needed.
 fn_mod_lowercase(){
+	# Checking lowercase settings from mods array definition
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
-
 		echo -en "converting ${modprettyname} files to lowercase..."
 		fn_sleep_time
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
-		fileswc=$(find "${extractdir}" -depth | wc -l)
-		echo -en "\r"
+		# Total files and directories for the mod, to output to the user
+		fileswc=$(find "${extractdir}" | wc -l)
+		# Total uppercase files and directories for the mod, to output to the user
+		filesupperwc=$(find "${extractdir}" -name '*[[:upper:]]*' | wc -l)
+		fn_script_log_info "Found ${filesupperwc} uppercase files out of ${fileswc}, converting"
+		echo -en "Found ${filesupperwc} uppercase files out of ${fileswc}, converting..."
+		# Convert files and directories starting from the deepest to prevent issues (-depth argument)
 		while read -r src; do
-			dst=$(dirname "${src}$(/)basename" "${src}" | tr '[:upper:]' '[:lower:]')
-			if [ "${src}" != "${dst}" ]
-			then
-				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo -e "${src} was not renamed"
+			# We have to convert only the last file from the path, otherwise we will fail to convert anything if a parent dir has any uppercase
+			# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
+			# Gather parent dir, filename lowercase filename, and set lowercase destination name
+			latestparentdir=$(dirname "${src}")
+			latestfile=$(basename "${src}")
+			latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
+			dst="${latestparentdir}/${latestfilelc}"
+			# Only convert if destination does not already exist for some reason
+			if [ ! -e "${dst}" ]; then
+				# Finally we can rename the file
+				mv "${src}" "${dst}"
+				# Exit if it fails for any reason
 				local exitcode=$?
-				((renamedwc++))
+				if [ "${exitcode}" != 0 ]; then
+					fn_print_fail_eol_nl
+					core_exit.sh
+				fi
 			fi
-			echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..." $'\r'
-			((totalfileswc++))
-		done < <(find "${extractdir}" -depth)
-		echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
-
-		if [ "${exitcode}" != 0 ]; then
-			fn_print_fail_eol_nl
-			core_exit.sh
-		else
+			done < <(find "${extractdir}" -depth -name '*[[:upper:]]*')
 			fn_print_ok_eol_nl
-		fi
-	fi
+        fi
 }
 
 # Create ${modcommand}-files.txt containing the full extracted file/directory list.
