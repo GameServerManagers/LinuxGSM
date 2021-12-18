@@ -50,7 +50,6 @@ fn_mod_lowercase(){
 			# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
 			# Gather parent dir, filename lowercase filename, and set lowercase destination name
 			latestparentdir=$(dirname "${src}")
-			latestfile=$(basename "${src}")
 			latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
 			dst="${latestparentdir}/${latestfilelc}"
 			# Only convert if destination does not already exist for some reason
