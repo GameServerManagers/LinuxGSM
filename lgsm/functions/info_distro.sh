@@ -70,7 +70,7 @@ for distro_info in "${distro_info_array[@]}"; do
 	fi
 done
 
-# Check if distro supported by distro developer.
+# Check if distro supported by distro vendor.
 if [ "$(command -v distro-info 2>/dev/null)" ]; then
 	distrosunsupported="$(distro-info --unsupported)"
 	distrosunsupported_array=( "${distrosunsupported}" )

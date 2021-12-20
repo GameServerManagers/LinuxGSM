@@ -592,13 +592,11 @@ fn_deps_build_redhat(){
 			array_deps_required+=( hostname )
 		fi
 	fi
-
 	fn_deps_email
 	fn_check_loop
 }
 
 if [ "${commandname}" == "INSTALL" ]; then
-
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies as root${default}"
@@ -611,12 +609,13 @@ if [ "${commandname}" == "INSTALL" ]; then
 		echo -e "${lightyellow}Checking Dependencies${default}"
 		echo -e "================================="
 	fi
-	if [ "${distrosupport}" == "supported" ]||[ "${distrosupport}" == "unsupported" ]; then
-		if [ "${distrosupport}" == "unsupported" ]; then
-			fn_print_warning_nl "${distroname} is no longer supported. Upgrading is reccomended."
-		else
+fi
 
-		fi
+# Will warn user if their distro is no longer supported by the vendor.
+if [ -n "${distrosupport}" ]; then
+	if [ "${distrosupport}" == "unsupported" ]; then
+		fn_print_warning_nl "${distroname} is no longer supported by the vendor. Upgrading is recommended."
+		fn_script_log_warn "${distroname} is no longer supported by the vendor. Upgrading is recommended."
 	fi
 fi
 
