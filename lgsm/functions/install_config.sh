@@ -765,6 +765,13 @@ elif [ "${shortname}" == "tfc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ti" ]; then
+	gamedirname="TheIsle"
+	array_configs+=( Game.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ts" ]; then
 	gamedirname="TheSpecialists"
 	array_configs+=( server.cfg )

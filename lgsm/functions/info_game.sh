@@ -1819,6 +1819,16 @@ fn_info_game_stn(){
 	fi
 }
 
+fn_info_game_ti(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^MaxPlayerCount=([0-9]+)/\1/' "${servercfgfullpath}")
+	else
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	fi
+}
+
 fn_info_game_ts3(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2367,6 +2377,8 @@ elif [ "${shortname}" == "stn" ]; then
 	fn_info_game_stn
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_game_terraria
+elif [ "${shortname}" == "ti" ]; then
+	fn_info_game_ti
 elif [ "${shortname}" == "ts3" ]; then
 	fn_info_game_ts3
 elif [ "${shortname}" == "tu" ]; then

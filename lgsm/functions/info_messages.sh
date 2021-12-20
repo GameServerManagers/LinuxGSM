@@ -1433,6 +1433,12 @@ fn_info_message_st(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_ti(){
+	fn_port "header"
+	fn_port "Game" port udp
+	fn_port "Query" queryport udp
+}
+
 fn_info_message_ts3(){
 	{
 		fn_port "header"
@@ -1742,6 +1748,8 @@ fn_info_message_select_engine(){
 		fn_info_message_stn
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_message_terraria
+	elif [ "${shortname}" == "ti" ]; then
+		fn_info_message_ti
 	elif [ "${shortname}" == "ts3" ]; then
 		fn_info_message_ts3
 	elif [ "${shortname}" == "tu" ]; then
