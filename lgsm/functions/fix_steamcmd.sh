@@ -55,7 +55,7 @@ steamsdk64="${HOME}/.steam/sdk64"
 steamclientsdk64="${steamsdk64}/steamclient.so"
 # remove any old unlinked versions of steamclient.so
 if [ -f "${steamclientsdk64}" ]; then
-	if [ $(stat -c '%h' "${steamclientsdk64}") -eq 1 ]; then
+	if [ "$(stat -c '%h' "${steamclientsdk64}")" -eq 1 ]; then
 		fixname="steamclient.so sdk64 -- remove old file"
 		fn_fix_msg_start
 		rm -f "${steamclientsdk64}"
@@ -86,7 +86,7 @@ fi
 steamsdk32="${HOME}/.steam/sdk32"
 steamclientsdk32="${HOME}/.steam/sdk32/steamclient.so"
 if [ -f "${steamclientsdk32}" ]; then
-	if [ $(stat -c '%h' "${steamclientsdk32}") -eq 1 ]; then
+	if [ " $(stat -c '%h' "${steamclientsdk32}")" -eq 1 ]; then
 		fixname="steamclient.so sdk32 -- remove old file"
 		fn_fix_msg_start
 		rm -f "${steamclientsdk32}"
