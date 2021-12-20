@@ -669,7 +669,7 @@ fn_info_message_ports_edit(){
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=( "av" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "unt" "vh" )
+	local ports_edit_array=( "av" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh" )
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ]||[ "${gamename}" == "${port_edit}" ]||[ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -935,6 +935,16 @@ fn_info_message_csgo(){
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_dayz(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query Steam" queryport udp
+		fn_port "Steam Master" steammasterport udp
+		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
 
@@ -1642,6 +1652,8 @@ fn_info_message_select_engine(){
 		fn_info_message_codwaw
 	elif [ "${shortname}" == "col" ]; then
 		fn_info_message_col
+	elif [ "${shortname}" == "dayz" ]; then
+		fn_info_message_dayz
 	elif [ "${shortname}" == "dodr" ]; then
 		fn_info_message_dodr
 	elif [ "${shortname}" == "dst" ]; then

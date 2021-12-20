@@ -462,6 +462,34 @@ fn_info_game_dodr(){
 	queryport=${queryport:-"27015"}
 }
 
+fn_info_game_dayz(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(sed -nr 's/^hostname\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^passwordAdmin\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^password\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^maxPlayers\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")
+		queryport=$(sed -nr 's/^steamQueryPort\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		queryport=${queryport:-"27016"}
+	fi
+
+	# Parameters
+	port=${port:-"2302"}
+	steammasterport=$((port+2))
+	battleeyeport=$((port+4))
+}
+
 fn_info_game_dst(){
 	# Config
 	if [ ! -f "${clustercfgfullpath}" ]; then
@@ -2245,6 +2273,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "dayz" ]; then
+	fn_info_game_dayz
 elif [ "${shortname}" == "dodr" ]; then
 	fn_info_game_dodr
 elif [ "${shortname}" == "dst" ]; then
