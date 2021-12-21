@@ -35,7 +35,7 @@ Other distros are likely to work but are not fully tested.
 
 ## :wrench: Requirements
 
-Each game server has its own specific dependency requirements. Visit a specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to check dependency requirements for the game server you want to install.
+Each game server has specific dependency requirements. Visit a specific game server installation page on the [LinuxGSM](https://linuxgsm.com) website to check dependency requirements for the game server you want to install.
 
 ## :blue_book: Documentation
 
@@ -43,11 +43,11 @@ Documentation is found at [linuxgsm.com](https://linuxgsm.com) and [docs.linuxgs
 
 ## :question: Support
 
-There are a various ways to get support, check out the [support](https://linuxgsm.com/support/) page to the right support.
+There are various ways to get support, check out the [support](https://linuxgsm.com/support/) page to the right support.
 
 ## :heart: Sponsor
 
-If you would like to [sponsor](https://linuxgsm.com/sponsor) to the project there are several ways you can, via [GitHub Sponsors](https://github.com/sponsors/dgibbs64) and [PayPal](https://www.paypal.me/dgibbs64). I would like to thank everyone who has previously sent a donation. Since 2012 LinuxGSM has been steadily growing with new servers, features and improvements added regularly.
+If you would like to [sponsor](https://linuxgsm.com/sponsor) to the project there are several ways you can, via [GitHub Sponsors](https://github.com/sponsors/dgibbs64) and [PayPal](https://www.paypal.me/dgibbs64). I would like to thank everyone who sponsors me. Since 2012 LinuxGSM has been steadily growing with new servers, features and improvements added regularly.
 
 ## Contributors
 

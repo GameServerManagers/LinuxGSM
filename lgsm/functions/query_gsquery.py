@@ -59,10 +59,12 @@ class gsquery:
         self.response = None
         self.sanity_checks()
 
+    @staticmethod
     def fatal_error(self, error_message, error_code=1):
         sys.stderr.write('ERROR: ' + str(error_message) + '\n')
         sys.exit(error_code)
 
+    @staticmethod
     def exit_success(self, success_message=''):
         sys.stdout.write('OK: ' + str(success_message) + '\n')
         sys.exit(0)
@@ -140,6 +142,5 @@ if __name__ == '__main__':
         help='Display debugging output.'
     )
     options, arguments = parser.parse_args()
-    #
     server = gsquery(options, arguments)
     server.responding()

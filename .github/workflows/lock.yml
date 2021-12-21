@@ -2,13 +2,13 @@ name: 'Lock Threads'
 
 on:
   schedule:
-    - cron: '0 0 * * *'     
+    - cron: '0 0 * * *'
 
 jobs:
   lock:
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/lock-threads@v2.0.3
+      - uses: dessant/lock-threads@v2.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-lock-comment: >
