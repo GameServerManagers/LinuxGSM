@@ -187,11 +187,11 @@ if [ -n "${modulesdir}" ]; then
 			# check if module exists in the repo and remove if missing.
 			# commonly used if module names change.
 			echo -en "checking ${remotereponame} module ${modulefile}...\c"
-			github_file_url_dir="lgsm/modules"
+			github_fileurl_dir="lgsm/modules"
 			if [ "${remotereponame}" == "GitHub" ]; then
-				curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}" 1>/dev/null
+				curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${modulefile}" 1>/dev/null
 			else
-				curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}" 1>/dev/null
+				curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${modulefile}" 1>/dev/null
 			fi
 			if [ $? != 0 ]; then
 				fn_print_error_eol_nl
@@ -208,9 +208,9 @@ if [ -n "${modulesdir}" ]; then
 			else
 				# compare file
 				if [ "${remotereponame}" == "GitHub" ]; then
-					module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}"))
+					module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${modulefile}"))
 				else
-					module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}"))
+					module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${modulefile}"))
 				fi
 
 				# results

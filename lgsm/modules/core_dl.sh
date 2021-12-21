@@ -432,8 +432,8 @@ fn_fetch_file(){
 
 # github_fileurl_dir: the directory of the file in the GitHub: lgsm/modules
 # github_fileurl_name: the filename of the file to download from GitHub: core_messages.sh
-# github_file_url_dir: the directory of the file in the GitHub: lgsm/modules
-# github_file_url_name: the filename of the file to download from GitHub: core_messages.sh
+# github_fileurl_dir: the directory of the file in the GitHub: lgsm/modules
+# github_fileurl_name: the filename of the file to download from GitHub: core_messages.sh
 # githuburl: the full GitHub url
 
 # remote_fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
@@ -513,8 +513,8 @@ fn_fetch_config(){
 
 # Fetches modules from the Git repo during first download.
 fn_fetch_module(){
-	github_file_url_dir="lgsm/modules"
-	github_file_url_name="${modulefile}"
+	github_fileurl_dir="lgsm/modules"
+	github_fileurl_name="${modulefile}"
 		# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
 	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
@@ -526,7 +526,7 @@ fn_fetch_module(){
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${modulesdir}"
-	local_filename="${github_file_url_name}"
+	local_filename="${github_fileurl_name}"
 	chmodx="chmodx"
 	run="run"
 	forcedl="noforce"
@@ -537,8 +537,8 @@ fn_fetch_module(){
 
 # Fetches modules from the Git repo during update-lgsm.
 fn_update_module(){
-	github_file_url_dir="lgsm/modules"
-	github_file_url_name="${modulefile}"
+	github_fileurl_dir="lgsm/modules"
+	github_fileurl_name="${modulefile}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
 	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
@@ -550,7 +550,7 @@ fn_update_module(){
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${modulesdir}"
-	local_filename="${github_file_url_name}"
+	local_filename="${github_fileurl_name}"
 	chmodx="chmodx"
 	run="norun"
 	forcedl="noforce"
