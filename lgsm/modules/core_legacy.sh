@@ -78,12 +78,14 @@ if [ -z "${wsstartmap}" ]; then
 	fi
 fi
 
-# Added as part of changing functions dir to modules dir.
+# Added as part of migrating functions dir to modules dir.
+# Will remove functions dir if files in modules dir older than 14 days
 functionsdir="${lgsmdir}/modules"
 if [ -d "${lgsmdir}/functions" ]; then
-	cp -v "${lgsmdir}/functions/*" "${lgsmdir}/modules"
+	if [ "$(find "${lgsmdir}/modules"/ -type f -mtime +"14" | wc -l)" -ne "0" ]; then
+		rm -rf "${lgsmdir:?}/functions"
+	fi
 fi
-
 fn_parms(){
 	fn_reload_startparameters
 	parms="${startparameters}"
