@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# init steamcmd functions
+# init steamcmd functions.
 core_steamcmd.sh
 
 fn_check_steamcmd_clear

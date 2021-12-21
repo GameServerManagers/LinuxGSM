@@ -45,13 +45,12 @@ userinput="${1}"
 userinput2="${2}"
 
 ## GitHub Branch Select
-# Allows for the use of different function files
-# from a different repo and/or branch.
+# Allows for the use of different branches and forks.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
-# Core function that is required first.
+# Core module that is required first.
 core_modules.sh(){
 	modulefile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
@@ -177,7 +176,7 @@ fn_bootstrap_fetch_file_github(){
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_bootstrap_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
@@ -389,8 +388,8 @@ else
 				echo -e "OK"
 			fi
 		else
-			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
-			if [ "${function_file_diff}" != "" ]; then
+			config_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
+			if [ "${config_file_diff}" != "" ]; then
 				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"

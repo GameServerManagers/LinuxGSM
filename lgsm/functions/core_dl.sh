@@ -430,7 +430,7 @@ fn_fetch_file(){
 # GitHub file download modules.
 # Used to simplify downloading specific files from GitHub.
 
-# github_fileurl_dir: the directory of the file in the GitHub: lgsm/functions
+# github_fileurl_dir: the directory of the file in the GitHub: lgsm/modules
 # github_fileurl_name: the filename of the file to download from GitHub: core_messages.sh
 # github_file_url_dir: the directory of the file in the GitHub: lgsm/modules
 # github_file_url_name: the filename of the file to download from GitHub: core_messages.sh
