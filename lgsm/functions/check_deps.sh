@@ -316,6 +316,14 @@ if [ "${commandname}" == "INSTALL" ]; then
 	fi
 fi
 
+# Will warn user if their distro is no longer supported by the vendor.
+if [ -n "${distrosupport}" ]; then
+	if [ "${distrosupport}" == "unsupported" ]; then
+		fn_print_warning_nl "${distroname} is no longer supported by the vendor. Upgrading is recommended."
+		fn_script_log_warn "${distroname} is no longer supported by the vendor. Upgrading is recommended."
+	fi
+fi
+
 info_distro.sh
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
