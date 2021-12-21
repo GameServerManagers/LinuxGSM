@@ -78,6 +78,12 @@ if [ -z "${wsstartmap}" ]; then
 	fi
 fi
 
+# Added as part of changing functions dir to modules dir.
+functionsdir="${lgsmdir}/modules"
+if [ -d "${lgsmdir}/functions" ]; then
+	mv "${lgsmdir}/functions" "${lgsmdir}/modules"
+fi
+
 fn_parms(){
 	fn_reload_startparameters
 	parms="${startparameters}"

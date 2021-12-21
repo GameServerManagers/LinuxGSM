@@ -32,7 +32,7 @@ logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${HOME}/.steam/steamcmd"
 serverfiles="${rootdir}/serverfiles"
-functionsdir="${lgsmdir}/functions"
+modulesdir="${lgsmdir}/modules"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
@@ -52,13 +52,13 @@ githubrepo="LinuxGSM"
 githubbranch="master"
 
 # Core function that is required first.
-core_functions.sh(){
-	functionfile="${FUNCNAME[0]}"
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+core_modules.sh(){
+	modulefile="${FUNCNAME[0]}"
+	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 # Bootstrap
-# Fetches the core functions required before passed off to core_dl.sh.
+# Fetches the core modules required before passed off to core_dl.sh.
 fn_bootstrap_fetch_file(){
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
@@ -319,11 +319,11 @@ if [ "$(whoami)" == "root" ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
-	elif [ ! -f "${functionsdir}/core_functions.sh" ]||[ ! -f "${functionsdir}/check_root.sh" ]||[ ! -f "${functionsdir}/core_messages.sh" ]; then
+	elif [ ! -f "${modulesdir}/core_modules.sh" ]||[ ! -f "${modulesdir}/check_root.sh" ]||[ ! -f "${modulesdir}/core_messages.sh" ]; then
 		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else
-		core_functions.sh
+		core_modules.sh
 		check_root.sh
 	fi
 fi
@@ -369,7 +369,7 @@ if [ "${shortname}" == "core" ]; then
 
 # LinuxGSM server mode.
 else
-	core_functions.sh
+	core_modules.sh
 	if [ "${shortname}" != "core-dep" ]; then
 		# Load LinuxGSM configs.
 		# These are required to get all the default variables for the specific server.
