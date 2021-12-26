@@ -274,6 +274,13 @@ elif [ "${shortname}" == "bmdm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "cd" ]; then
+	gamedirname="CraftingDead"
+	array_configs+=( properties.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cod" ]; then
 	gamedirname="CallOfDuty"
 	array_configs+=( server.cfg )
