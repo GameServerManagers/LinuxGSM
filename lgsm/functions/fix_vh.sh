@@ -17,7 +17,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 		if ! grep -qE "^executable=\"./start_server_bepinex.sh\"" "${configdirserver}/${selfname}.cfg"
 		then
 			echo 'executable="./start_server_bepinex.sh"' >> "${configdirserver}/${selfname}.cfg"
-			executeable="./start_server_bepinex.sh"
+			executable="./start_server_bepinex.sh"
 		fi
 	fi
 fi

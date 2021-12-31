@@ -15,6 +15,7 @@ bs,bsserver,Blade Symphony
 bt,btserver,Barotrauma
 bt1944,bt1944server,Battalion 1944
 cc,ccserver,Codename CURE
+cd,cdserver,Crafting Dead
 cmw,cmwserver,Chivalry: Medieval Warfare
 cod,codserver,Call of Duty
 cod2,cod2server,Call of Duty 2
@@ -27,6 +28,7 @@ cscz,csczserver,Counter-Strike: Condition Zero
 csgo,csgoserver,Counter-Strike: Global Offensive
 css,cssserver,Counter-Strike: Source
 dab,dabserver,Double Action: Boogaloo
+dayz,dayzserver,DayZ
 dmc,dmcserver,Deathmatch Classic
 dod,dodserver,Day of Defeat
 dodr,dodrserver,Day of Dragons
@@ -101,6 +103,7 @@ sven,svenserver,Sven Co-op
 terraria,terrariaserver,Terraria
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
+ti,tiserver,The Isle
 ts,tsserver,The Specialists
 ts3,ts3server,Teamspeak 3
 tu,tuserver,Tower Unite

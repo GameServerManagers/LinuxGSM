@@ -274,6 +274,13 @@ elif [ "${shortname}" == "bmdm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "cd" ]; then
+	gamedirname="CraftingDead"
+	array_configs+=( properties.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cod" ]; then
 	gamedirname="CallOfDuty"
 	array_configs+=( server.cfg )
@@ -346,6 +353,14 @@ elif [ "${shortname}" == "csgo" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "css" ]; then
 	gamedirname="CounterStrikeSource"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "dayz" ]; then
+	gamedirname="DayZ"
+	fn_check_cfgdir
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -753,6 +768,13 @@ elif [ "${shortname}" == "tf2" ]; then
 elif [ "${shortname}" == "tfc" ]; then
 	gamedirname="TeamFortressClassic"
 	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "ti" ]; then
+	gamedirname="TheIsle"
+	array_configs+=( Game.ini )
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

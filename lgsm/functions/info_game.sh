@@ -258,6 +258,26 @@ fn_info_game_bt1944(){
 	rconport=$((port+2))
 }
 
+fn_info_game_cd(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		port="${zero}"
+		rconenabled="false"
+		rconport="${zero}"
+		rconpassword="${unavailable}"
+		steamport="${zero}"
+		maxplayers="${zero}"
+	else
+		servername=$(jq -r '.game_title' "${servercfgfullpath}")
+		port=$(jq -r '.game_port' "${servercfgfullpath}")
+		steamport=$(jq -r '.steam_port_messages' "${servercfgfullpath}")
+		rconenabled=$(jq -r '.rcon' "${servercfgfullpath}")
+		rconport=$(jq -r '.rcon_port' "${servercfgfullpath}")
+		rconpassword=$(jq -r '.rcon_password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.player_count' "${servercfgfullpath}")
+	fi
+}
+
 fn_info_game_cmw(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -440,6 +460,34 @@ fn_info_game_dodr(){
 	servername=${servername:-"NOT SET"}
 	port=${port:-"7777"}
 	queryport=${queryport:-"27015"}
+}
+
+fn_info_game_dayz(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(sed -nr 's/^hostname\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^passwordAdmin\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^password\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^maxPlayers\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")
+		queryport=$(sed -nr 's/^steamQueryPort\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")
+
+		# Not Set
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		queryport=${queryport:-"27016"}
+	fi
+
+	# Parameters
+	port=${port:-"2302"}
+	steammasterport=$((port+2))
+	battleeyeport=$((port+4))
 }
 
 fn_info_game_dst(){
@@ -1771,6 +1819,16 @@ fn_info_game_stn(){
 	fi
 }
 
+fn_info_game_ti(){
+	if [ -f "${servercfgfullpath}" ]; then
+		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^MaxPlayerCount=([0-9]+)/\1/' "${servercfgfullpath}")
+	else
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	fi
+}
+
 fn_info_game_ts3(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2209,6 +2267,8 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
 elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_game_bt1944
+elif [ "${shortname}" == "cd" ]; then
+	fn_info_game_cd
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_game_cmw
 elif [ "${shortname}" == "cod" ]; then
@@ -2223,6 +2283,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "dayz" ]; then
+	fn_info_game_dayz
 elif [ "${shortname}" == "dodr" ]; then
 	fn_info_game_dodr
 elif [ "${shortname}" == "dst" ]; then
@@ -2315,6 +2377,10 @@ elif [ "${shortname}" == "stn" ]; then
 	fn_info_game_stn
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_game_terraria
+elif [ "${shortname}" == "ti" ]; then
+	fn_info_game_ti
+elif [ "${shortname}" == "ts3" ]; then
+	fn_info_game_ts3
 elif [ "${shortname}" == "tu" ]; then
 	fn_info_game_tu
 elif [ "${shortname}" == "tw" ]; then

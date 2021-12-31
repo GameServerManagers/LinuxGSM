@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,netcat,python3,tar,tmux,unzip,util-linux,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,python3,tar,tmux,unzip,util-linux,wget,xz-utils
 steamcmd,lib32gcc1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -17,6 +17,7 @@ bs
 bt,libicu-dev
 bt1944
 cc
+cd
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
@@ -29,6 +30,7 @@ cscz
 csgo
 css,libtinfo5:i386
 dab
+dayz
 dmc
 dod
 dodr
@@ -103,6 +105,7 @@ sven,libssl1.1:i386,zlib1g:i386
 terraria
 tf2,libcurl4-gnutls-dev:i386
 tfc
+ti
 ts
 ts3
 tu

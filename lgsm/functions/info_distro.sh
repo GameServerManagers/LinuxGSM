@@ -80,6 +80,23 @@ else
 	distroversioncsv="${distroversion}"
 fi
 
+# Check if distro supported by distro vendor.
+if [ "$(command -v distro-info 2>/dev/null)" ]; then
+	distrosunsupported="$(distro-info --unsupported)"
+	distrosunsupported_array=( "${distrosunsupported}" )
+	for distrounsupported in "${distrosunsupported_array[@]}"; do
+		if [ "${distrounsupported}" == "${distrocodename}" ]; then
+			distrosupport=unsupported
+			break
+		else
+			distrosupport=supported
+		fi
+	done
+else
+	distrosupport=unknown
+fi
+
+echo "${distrosupport}"
 ## Glibc version
 # e.g: 1.17
 glibcversion="$(ldd --version | sed -n '1s/.* //p')"
@@ -291,11 +308,11 @@ if [ -z "${displaymasterserver}" ]; then
 			if [ "${steammaster}" == "true" ]||[ "${commandname}" == "DEV-QUERY-RAW" ]; then
 				# Will query server IP addresses first.
 				for queryip in "${queryips[@]}"; do
-					masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${queryip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
 				done
 				# Should that not work it will try the external IP.
 				if [ "${masterserver}" == "0" ]; then
-					masterserver="$(curl --connect-timeout 10 -m 3 -s 'https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr='${extip}':'${port}'&format=json' | jq '.response.servers[]|.addr' | wc -l 2>/dev/null)"
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
 				fi
 				if [ "${masterserver}" == "0" ]; then
 					displaymasterserver="false"
