@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.4.1"
+version="v21.5.0"
 shortname="mc"
 gameservername="mcserver"
 commandname="CORE"
