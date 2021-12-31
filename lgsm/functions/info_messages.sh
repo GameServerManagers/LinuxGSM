@@ -1434,9 +1434,11 @@ fn_info_message_st(){
 }
 
 fn_info_message_ti(){
-	fn_port "header"
-	fn_port "Game" port udp
-	fn_port "Query" queryport udp
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
 }
 
 fn_info_message_ts3(){
