@@ -1843,22 +1843,34 @@ fn_info_game_ts3(){
 	else
 		dbplugin=$(grep "dbplugin=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/dbplugin=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "default_voice_port" "${servercfgfullpath}" | tr -cd '[:digit:]')
+		queryip=$(grep "query_ip=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/query_ip=//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		queryport=$(grep "query_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		querysship=$(grep "query_ssh_ip=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/query_ssh_ip=//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		querysshport=$(grep "query_ssh_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryhttpip=$(grep "query_http_ip=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/query_http_ip=//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		queryhttpport=$(grep "query_http_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		queryhttpsip=$(grep "query_https_ip=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/query_https_ip=//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		queryhttpsport=$(grep "query_https_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		fileip=$(grep "filetransfer_ip=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/filetransfer_ip=//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		fileport=$(grep "filetransfer_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		telnetip="${queryip}"
 		telnetport="${queryport}"
 		configip=$(grep "voice_ip" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/voice_ip//g' | sed 's/,.*//' | tr -d '=\";,' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not set
 		dbplugin=${dbplugin:-"NOT SET"}
 		port=${port:-"9987"}
+		queryip=${queryip:-"0.0.0.0"}
 		queryport=${queryport:-"10011"}
+		querysship=${querysship:-"0.0.0.0"}
 		querysshport=${querysshport:-"10022"}
+		queryhttpip=${queryhttpip:-"0.0.0.0"}
 		queryhttpport=${queryhttpport:-"10080"}
+		queryhttpsip=${queryhttpsip:-"0.0.0.0"}
 		queryhttpsport=${queryhttpsport:-"10443"}
+		fileip=${fileip:-"0.0.0.0"}
 		fileport=${fileport:-"30033"}
+		telnetip=${telnetip:-"0.0.0.0"}
 		telnetport=${telnetport:-"10011"}
 		configip=${configip:-"0.0.0.0"}
 	fi

@@ -56,3 +56,8 @@ else
 	webadminip=( "${ip}" )
 	telnetip=( "${ip}" )
 fi
+
+# If game config does have a queryip set, use it instead of configip.
+if [ -n "${queryip}" ]&&[ "${queryip}" != "0.0.0.0" ];then
+	queryips=( "${queryip}" )
+fi
