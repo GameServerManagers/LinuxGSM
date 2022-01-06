@@ -21,10 +21,10 @@ fn_fetch_default_config(){
 	echo -e ""
 	echo -e "${lightyellow}Downloading ${gamename} Configs${default}"
 	echo -e "================================="
-	echo -e "default configs from https://github.com/sharaga44/Game-Server-Configs"
+	echo -e "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
 	fn_sleep_time
 	mkdir -p "${lgsmdir}/config-default/config-game"
-	githuburl="https://raw.githubusercontent.com/sharaga44/Game-Server-Configs/master"
+	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master"
 	for config in "${array_configs[@]}"; do
 		fn_fetch_file "${githuburl}/${gamedirname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
 	done
