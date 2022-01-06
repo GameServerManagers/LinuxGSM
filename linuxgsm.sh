@@ -47,7 +47,7 @@ userinput2="${2}"
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="sharaga44"
+githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
