@@ -483,7 +483,27 @@ fn_info_game_col() {
 	fi
 }
 
-fn_info_game_dodr() {
+fn_info_game_ct(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		gamemode="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		serverpasswordenabled="${unavailable}"
+		serverpassword="${unavailable}"
+		saveinterval="${zero}"
+	else
+		servername=$(sed -nr 's/^name=(.*)$/\1/p' "${servercfgfullpath}")
+		gamemode=$(sed -nr 's/^gameMode=([0-9]+)/\1/p' "${servercfgfullpath}")
+		port=$(sed -nr 's/^port=([0-9]+)/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^maxPlayerNumber=([0-9]+)/\1/p' "${servercfgfullpath}")
+		serverpasswordenabled=$(sed -nr 's/^usePassword=([0-9]+)/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^serverPassword=(.*)$/\1/p' "${servercfgfullpath}")
+		saveinterval=$(sed -nr 's/^autoSaveSec=([0-9]+)/\1/p' "${servercfgfullpath}")
+	fi
+}
+
+fn_info_game_dodr(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		maxplayers="${zero}"
@@ -2409,6 +2429,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "ct" ]; then
+	fn_info_game_ct
 elif [ "${shortname}" == "dayz" ]; then
 	fn_info_game_dayz
 elif [ "${shortname}" == "dodr" ]; then

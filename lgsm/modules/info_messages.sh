@@ -285,6 +285,11 @@ fn_info_message_gameserver() {
 			echo -e "${lightblue}Display IP:\t${default}${displayip}:${port}"
 		fi
 
+		# Server password enabled (Craftopia)
+		if [ -n "${serverpasswordenabled}" ]; then
+			echo -e "${lightblue}Server password enabled:\t${default}${serverpasswordenabled}"
+		fi
+
 		# Server password
 		if [ -n "${serverpassword}" ]; then
 			echo -e "${lightblue}Server password:\t${default}${serverpassword}"
@@ -658,7 +663,7 @@ fn_info_message_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -957,7 +962,15 @@ fn_info_message_csgo() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_dayz() {
+fn_info_message_ct(){
+	fn_info_message_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_dayz(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1707,6 +1720,8 @@ fn_info_message_select_engine() {
 		fn_info_message_codwaw
 	elif [ "${shortname}" == "col" ]; then
 		fn_info_message_col
+	elif [ "${shortname}" == "ct" ]; then
+		fn_info_message_ct
 	elif [ "${shortname}" == "dayz" ]; then
 		fn_info_message_dayz
 	elif [ "${shortname}" == "dodr" ]; then
