@@ -597,9 +597,3 @@ fn_dl_latest_release_github(){
 		fi
 	fi
 }
-
-# Check that curl is installed
-if [ ! "$(command -v curl 2>/dev/null)" ]; then
-	echo -e "[ FAIL ] Curl is not installed"
-	exit 1
-fi
