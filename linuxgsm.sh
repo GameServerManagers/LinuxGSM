@@ -410,12 +410,41 @@ else
 				fi
 			fi
 		fi
+		if [ ! -f "${configdirdefault}/config-lgsm/lgsm-template.cfg" ]; then
+			fn_fetch_config "lgsm/config-default/config-lgsm" "lgsm-template.cfg" "${configdirdefault}/config-lgsm" "lgsm-template.cfg" "nochmodx" "norun" "noforcedl" "nomd5"
+		fi
+		if [ ! -f "${configdirserver}/lgsm-template.cfg" ]; then
+			echo -en "copying lgsm-template.cfg...\c"
+			cp -R "${configdirdefault}/config-lgsm/lgsm-template.cfg" "${configdirserver}/lgsm-template.cfg"
+			if [ $? != 0 ]; then
+				echo -e "FAIL"
+				exit 1
+			else
+				echo -e "OK"
+			fi
+		else
+			notification_file_diff=$(diff -q "${configdirdefault}/config-lgsm/lgsm-template.cfg" "${configdirserver}/lgsm-template.cfg")
+			if [ "${notification_file_diff}" != "" ]; then
+				fn_print_warn_nl "lgsm-template.cfg has altered. reloading config."
+				echo -en "copying lgsm-template.cfg...\c"
+				cp -R "${configdirdefault}/config-lgsm/lgsm-template.cfg" "${configdirserver}/lgsm-template.cfg"
+				if [ $? != 0 ]; then
+					echo -e "FAIL"
+					exit 1
+				else
+					echo -e "OK"
+				fi
+			fi
+		fi
 	fi
 	# Load the IP details before the first config is loaded.
 	check_ip.sh
 	# Configs have to be loaded twice to allow start startparameters to pick up all vars
 	# shellcheck source=/dev/null
 	source "${configdirserver}/_default.cfg"
+	# Load seperate notification template config
+	# shellcheck source=/dev/null
+	source "${configdirserver}/lgsm-template.cfg"
 	# Load the common.cfg config. If missing download it.
 	if [ ! -f "${configdirserver}/common.cfg" ]; then
 		fn_fetch_config "lgsm/config-default/config-lgsm" "common-template.cfg" "${configdirserver}" "common.cfg" "${chmodx}" "nochmodx" "norun" "noforcedl" "nomd5"

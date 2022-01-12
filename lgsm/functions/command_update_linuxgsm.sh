@@ -147,6 +147,37 @@ else
 	fn_script_log_pass "Checking ${remotereponame} config _default.cfg"
 fi
 
+# Check lgsm-template.cfg
+echo -en "checking ${remotereponame} config lgsm-template.cfg...\c"
+fn_script_log_info "Checking ${remotereponame} config lgsm-template.cfg"
+if [ "${remotereponame}" == "GitHub" ]; then
+        curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/lgsm-template.cfg" 1>/dev/null
+else
+        curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/lgsm-template.cfg" 1>/dev/null
+fi
+if [ $? != "0" ]; then
+        fn_print_fail_eol_nl
+        fn_script_log_fatal "Checking ${remotereponame} config lgsm-template.cfg"
+        fn_script_log_fatal "Curl returned error: $?"
+        core_exit.sh
+fi
+
+if [ "${remotereponame}" == "GitHub" ]; then
+        config_file_diff=$(diff "${configdirdefault}/config-lgsm/lgsm-template.cfg" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/lgsm-template.cfg"))
+else
+        config_file_diff=$(diff "${configdirdefault}/config-lgsm/lgsm-template.cfg" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/lgsm-template.cfg"))
+fi
+
+if [ "${config_file_diff}" != "" ]; then
+        fn_print_update_eol_nl
+        fn_script_log_update "Checking ${remotereponame} config lgsm-template.cfg"
+        rm -f "${configdirdefault:?}/config-lgsm/lgsm-template.cfg"
+        fn_fetch_file_github "lgsm/config-default/config-lgsm" "lgsm-template.cfg" "${configdirdefault}/config-lgsm" "nochmodx" "norun" "noforce" "nohash"
+else
+        fn_print_ok_eol_nl
+        fn_script_log_pass "Checking ${remotereponame} config lgsm-template.cfg"
+fi
+
 # Check distro csv. ${datadir}/${distroid}-${distroversioncsv}.csv
 if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	echo -en "checking ${remotereponame} config ${distroid}-${distroversioncsv}.csv...\c"
