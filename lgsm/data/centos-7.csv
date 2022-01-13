@@ -111,10 +111,10 @@ ts3
 tu
 tw
 unt
-ut
-ut2k4
-ut3
-ut99
+ut,xz-utils
+ut2k4,xz-utils
+ut3,xz-utils
+ut99,xz-utils
 vh,glibc-devel
 vs
 vints,mono-complete
