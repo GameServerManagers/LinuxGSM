@@ -51,6 +51,12 @@ githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="master"
 
+# Check that curl is installed before doing anything
+if [ ! "$(command -v curl 2>/dev/null)" ]; then
+	echo -e "[ FAIL ] Curl is not installed"
+	exit 1
+fi
+
 # Core function that is required first.
 core_functions.sh(){
 	functionfile="${FUNCNAME[0]}"
