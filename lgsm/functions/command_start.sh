@@ -36,7 +36,7 @@ fn_start_teamspeak3(){
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2(){
 	fn_start_tmux
-	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
+	tmux -L "${sessionname}" send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux(){
@@ -79,7 +79,7 @@ fn_start_tmux(){
 		cd "${executabledir}" || exit
 	fi
 
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux -L "${sessionname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -92,7 +92,7 @@ fn_start_tmux(){
 		fn_script_log "tmux version: master (user compiled)"
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ -n "${tmuxv}" ]; then
 		# tmux pipe-pane not supported in tmux versions < 1.6.
@@ -108,7 +108,7 @@ fn_start_tmux(){
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo -e "Unable to detect tmux version" >> "${consolelog}"
@@ -133,7 +133,7 @@ fn_start_tmux(){
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux -L \"${sessionname}\" new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
