@@ -19,11 +19,11 @@ fn_install_mono_repo(){
 		sleep 1
 		echo -en "   \r"
 		if [ "${distroid}" == "ubuntu" ]; then
-			if [ "${distroversion}" == "20.04" ]; then
+			if [ "${distroversion:0:5}" == "20.04" ]; then
 				cmd="sudo apt install gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-			elif [ "${distroversion}" == "18.04" ]; then
+			elif [ "${distroversion:0:5}" == "18.04" ]; then
 				cmd="sudo apt install gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
-			elif [ "${distroversion}" == "16.04" ]; then
+			elif [ "${distroversion:0:5}" == "16.04" ]; then
 				cmd="sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;sudo apt install apt-transport-https ca-certificates;echo 'deb https://download.mono-project.com/repo/ubuntu stable-xenial main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 			else
 				monoautoinstall="1"
