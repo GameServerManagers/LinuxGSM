@@ -2412,3 +2412,60 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
 fi
+
+# External IP address
+if [ -z "${extip}" ]; then
+	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2>/dev/null)"
+	exitcode=$?
+	# Should ifconfig.co return an error will use last known IP.
+	if [ ${exitcode} -eq 0 ]; then
+		if [[ "${extip}" != *"DOCTYPE"* ]]; then
+			echo -e "${extip}" > "${tmpdir}/extip.txt"
+		else
+			if [ -f "${tmpdir}/extip.txt" ]; then
+				extip="$(cat "${tmpdir}/extip.txt")"
+			else
+				fn_print_error_nl "Unable to get external IP"
+			fi
+		fi
+	else
+		if [ -f "${tmpdir}/extip.txt" ]; then
+			extip="$(cat "${tmpdir}/extip.txt")"
+		else
+			fn_print_error_nl "Unable to get external IP"
+		fi
+	fi
+fi
+
+# Alert IP address
+if [ "${displayip}" ]; then
+	alertip="${displayip}"
+elif [ "${extip}" ]; then
+	alertip="${extip}"
+else
+	alertip="${ip}"
+fi
+
+# Steam Master Server - checks if detected by master server.
+# Checked after config init, as the queryport is needed
+if [ -z "${displaymasterserver}" ]; then
+	if [ "$(command -v jq 2>/dev/null)" ]; then
+		if [ "${ip}" ]&&[ "${port}" ]; then
+			if [ "${steammaster}" == "true" ]||[ "${commandname}" == "DEV-QUERY-RAW" ]; then
+				# Will query server IP addresses first.
+				for queryip in "${queryips[@]}"; do
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
+				done
+				# Should that not work it will try the external IP.
+				if [ "${masterserver}" == "0" ]; then
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
+				fi
+				if [ "${masterserver}" == "0" ]; then
+					displaymasterserver="false"
+				else
+					displaymasterserver="true"
+				fi
+			fi
+		fi
+	fi
+fi
