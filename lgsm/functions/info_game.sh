@@ -1742,7 +1742,7 @@ fn_info_game_squad(){
 
 	# Parameters
 	port=${port:-"0"}
-	queryport=${port:-"0"}
+	queryport=${queryport:-"0"}
 }
 
 fn_info_game_st(){
