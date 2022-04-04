@@ -125,7 +125,7 @@ fn_info_game_av() {
 		maxplayers=${maxplayers:-"NOT SET"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		port=${zero}
+		port=${port:-"0"}
 		queryport=${queryport:-"0"}
 		steamqueryport=${steamqueryport:-"0"}
 		steammasterport=${steammasterport:-"0"}
