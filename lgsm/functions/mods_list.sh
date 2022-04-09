@@ -82,6 +82,13 @@ csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_downl
 csgopuglatest=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
 csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
 csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
+gokzlatestversion=$(curl --connect-timeout 10 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+gokzlatestfile="GOKZ-v${gokzlatestversion}.zip"
+gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlatestversion}/${gokzlatestfile}"
+movementapilatestversion=$(curl --connect-timeout 10 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
+movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
+
 # Oxide
 oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 oxidehurtworldlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
@@ -140,13 +147,13 @@ mod_info_steamworks=( MOD "steamworks" "SteamWorks" "${steamworksurl}" "${steamw
 mod_info_stripper=( MOD "stripper" "Stripper Source" "http://www.bailopan.net/stripper/snapshots/1.2/stripper-1.2.2-git129-linux.tar.gz" "stripper-1.2.2-git129-linux.tar.gz" "0" "LowercaseOff" "${systemdir}" "addons/stripper/maps;" "ENGINES" "Counter-Strike: Global Offensive;Counter-Strike: Source;Day of Defeat: Source;Half Life: Deathmatch;Half Life 2: Deathmatch;Insurgency;Left 4 Dead;Left 4 Dead 2;Nuclear Dawn;Team Fortress 2;" "NOTGAMES" "http://www.bailopan.net/stripper/" "Add or remove objects from map (requires MetaMod)")
 
 # CS:GO Mods
-mod_info_gokz=( MOD "gokz" "GOKZ" "https://bitbucket.org/kztimerglobalteam/gokz/downloads/GOKZ-latest.zip" "gokz-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://bitbucket.org/kztimerglobalteam/gokz/src/master/" "Implements the KZ game mode (requires SourceMod and MetaMod)" )
+mod_info_gokz=( MOD "gokz" "GOKZ" "${gokzlatestlink}" "${gokzlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KZGlobalTeam/gokz" "GOKZ ${gokzlatestversion} - Implements the KZ game mode (requires SourceMod and MetaMod)" )
 mod_info_ttt=( MOD "ttt" "Trouble in Terrorist Town" "https://csgottt.com/downloads/ttt-latest-dev-${sourcemodversion}.zip" "ttt-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/Bara/TroubleinTerroristTown" "Implements the TTT game mode (requires SourceMod and MetaMod)" )
 mod_info_get5=( MOD "get5" "Get 5" "${get5url}" "${get5latestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/get5" "Plugin for competitive matches/scrims (requires SourceMod and MetaMod)" )
 mod_info_prac=( MOD "prac" "csgo practice mode" "${csgopracticelatestlink}" "${csgopracticelatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/csgo-practice-mode" "Practice Mode is a sourcemod plugin for helping players/teams run practices." )
 mod_info_pug=( MOD "pug" "PUG" "${csgopuglatestlink}" "${csgopuglatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/csgo-pug-setup" "plugin for setting up private pug/10man games" )
 mod_info_dhook=( MOD "dhook" "dhook" "https://forums.alliedmods.net/attachment.php?attachmentid=190123&d=1625050030" "dhooks-2.2.0d17.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://forums.alliedmods.net/showpost.php?p=2588686&postcount=589" "DHooks 2.2.0 - Required for GOKZ" )
-mod_info_movement=( MOD "movementapi" "movementapi" "https://github.com/danzayau/MovementAPI/releases/download/2.1.0/MovementAPI-v2.1.0.zip" "MovementAPI-v2.1.0.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/danzayau/MovementAPI" "Movement API 2.1.0 - Required for GOKZ" )
+mod_info_movement=( MOD "movementapi" "movementapi" "${movementapilatestlink}" "${movementapilatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/danzayau/MovementAPI" "Movement API ${movementapilatestversion} - Required for GOKZ" )
 mod_info_cleaner=( MOD "cleaner" "cleaner" "https://github.com/e54385991/console-cleaner/archive/refs/heads/master.zip" "console-cleaner.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/e54385991/console-cleaner" "Console Cleaner - Optional for GOKZ" )
 
 # Garry's Mod Addons
