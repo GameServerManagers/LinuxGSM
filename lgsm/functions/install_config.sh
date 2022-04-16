@@ -633,6 +633,10 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "pc2" ]; then
+	gamedirname="ProjectCars2"
+	fn_default_config_local
+	fn_list_config_locations
 elif [ "${shortname}" == "q2" ]; then
 	gamedirname="Quake2"
 	array_configs+=( server.cfg )
