@@ -1178,6 +1178,15 @@ fn_info_message_pc(){
 	} | column -s $'\t' -t
 }
 
+fn_info_message_pc2(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Steam" steamport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_pstbs(){
 	{
 		fn_port "header"
@@ -1708,6 +1717,8 @@ fn_info_message_select_engine(){
 		fn_info_message_onset
 	elif [ "${shortname}" == "pc" ]; then
 		fn_info_message_pc
+	elif [ "${shortname}" == "pc2" ]; then
+		fn_info_message_pc2
 	elif [ "${shortname}" == "pstbs" ]; then
 		fn_info_message_pstbs
 	elif [ "${shortname}" == "pvr" ]; then
