@@ -1100,6 +1100,33 @@ fn_info_game_pc(){
 	fi
 }
 
+fn_info_game_pc2(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		steamport="${zero}"
+	else
+		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "password " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		port=$(grep "hostPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		queryport=$(grep "queryPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		steamport=$(grep "steamPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"NOT SET"}
+		port=${port:-"NOT SET"}
+		queryport=${queryport:-"NOT SET"}
+		steamport=${steamport:-"NOT SET"}
+	fi
+}
+
 fn_info_game_pstbs(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2329,6 +2356,8 @@ elif [ "${shortname}" == "onset" ]; then
 	fn_info_game_onset
 elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
+elif [ "${shortname}" == "pc2" ]; then
+	fn_info_game_pc2
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_game_pstbs
 elif [ "${shortname}" == "pvr" ];then
