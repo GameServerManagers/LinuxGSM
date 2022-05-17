@@ -93,6 +93,27 @@ fn_info_game_arma3(){
 	battleeyeport=$((port+4))
 }
 
+fn_info_game_armar(){
+	if [ -f "${servercfgfullpath}" ]; then
+		configip=$(jq -r '.gameHostBindAddress' "${servercfgfullpath}")
+		port=$(jq -r '.gameHostBindPort' "${servercfgfullpath}")
+		servername=$(jq -r '.game.name' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.game.password' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.game.playerCountLimit' "${servercfgfullpath}")
+
+		# Not set
+		configip=${configip:-"0.0.0.0"}
+		port=${port:-"0"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	else
+		port=${zero}
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	fi
+}
+
 fn_info_game_av() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2282,6 +2303,8 @@ elif [ "${shortname}" == "ark" ]; then
 	fn_info_game_ark
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_game_arma3
+elif [ "${shortname}" == "armar" ]; then
+	fn_info_game_armar
 elif [ "${shortname}" == "av" ]; then
 	fn_info_game_av
 elif [ "${shortname}" == "bf1942" ]; then

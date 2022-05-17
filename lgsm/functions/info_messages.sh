@@ -658,7 +658,7 @@ fn_info_message_ports_edit(){
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=( "ac" "arma3" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pc2" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=( "ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "pc" "pc2" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -804,6 +804,14 @@ fn_info_message_arma3(){
 		fn_port "Steam Master" steammasterport udp
 		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_message_armar(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Steam Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1639,6 +1647,8 @@ fn_info_message_select_engine(){
 		fn_info_message_ark
 	elif [ "${shortname}" == "arma3" ]; then
 		fn_info_message_arma3
+	elif [ "${shortname}" == "armar" ]; then
+		fn_info_message_armar
 	elif [ "${shortname}" == "av" ]; then
 		fn_info_message_av
 	elif [ "${shortname}" == "bf1942" ]; then
