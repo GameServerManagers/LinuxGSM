@@ -5,7 +5,7 @@ ahl
 ahl2
 ark
 arma3
-armareforger
+armareforger,libcurl4,libssl1.1
 av
 bb
 bb2,libcurl4-gnutls-dev:i386
