@@ -93,6 +93,31 @@ fn_info_game_arma3(){
 	battleeyeport=$((port+4))
 }
 
+fn_info_game_armareforger(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		adminpassword="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		adminpassword=$(grep "adminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/adminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "playerCountLimit" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		adminpassword=${adminpassword:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+	fi
+
+	# Parameters
+	port=${port:-"2001"}
+	queryport=${queryport:-"1376"}
+}
+
 fn_info_game_av() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2255,6 +2280,8 @@ elif [ "${shortname}" == "ark" ]; then
 	fn_info_game_ark
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_game_arma3
+elif [ "${shortname}" == "armareforger" ]; then
+	fn_info_game_armareforger
 elif [ "${shortname}" == "av" ]; then
 	fn_info_game_av
 elif [ "${shortname}" == "bf1942" ]; then
