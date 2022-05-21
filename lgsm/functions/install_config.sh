@@ -202,8 +202,8 @@ elif [ "${shortname}" == "arma3" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "armar" ]; then
-	gamedirname="ArmaReforged"
+elif [ "${shortname}" == "armareforger" ]; then
+	gamedirname="ArmaReforger"
 	fn_check_cfgdir
 	array_configs+=( server.json )
 	fn_fetch_default_config
