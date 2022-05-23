@@ -97,18 +97,22 @@ fn_info_game_armar(){
 	if [ -f "${servercfgfullpath}" ]; then
 		configip=$(jq -r '.gameHostBindAddress' "${servercfgfullpath}")
 		port=$(jq -r '.gameHostBindPort' "${servercfgfullpath}")
+		queryport=$(jq -r '.steamQueryPort' "${servercfgfullpath}")
 		servername=$(jq -r '.game.name' "${servercfgfullpath}")
 		serverpassword=$(jq -r '.game.password' "${servercfgfullpath}")
 		maxplayers=$(jq -r '.game.playerCountLimit' "${servercfgfullpath}")
+		adminpassword=$(jq -r '.adminPassword' "${servercfgfullpath}")
 
 		# Not set
 		configip=${configip:-"0.0.0.0"}
 		port=${port:-"0"}
+		queryport=${queryport:-"0"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
+		adminpassword=${adminpassword:-"NOT SET"}
 	else
-		port=${zero}
+		port=${port:-"0"}
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 	fi
