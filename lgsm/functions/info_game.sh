@@ -46,9 +46,9 @@ fn_info_game_ark(){
 		adminpassword="${unavailable}"
 		serverpassword="${unavailable}"
 	else
-		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		adminpassword=$(grep "ServerAdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerAdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
-		serverpassword=$( grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(sed -nr 's/^SessionName=(.*)/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^ServerAdminPassword=(.*)/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^ServerPassword=(.*)/\1/p' "${servercfgfullpath}")
 
 		# Not set
 		servername=${servername:-"NOT SET"}
