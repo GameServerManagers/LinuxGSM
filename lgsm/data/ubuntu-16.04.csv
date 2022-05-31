@@ -18,6 +18,7 @@ bt,libicu-dev
 bt1944
 cc
 cd
+ck,xvfb
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386

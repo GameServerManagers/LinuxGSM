@@ -669,7 +669,7 @@ fn_info_message_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -876,6 +876,14 @@ fn_info_messages_cd() {
 		fn_port "Game" port udp
 		fn_port "Steam" steamport udp
 		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_ck() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1673,6 +1681,8 @@ fn_info_message_select_engine() {
 		fn_info_message_bt1944
 	elif [ "${shortname}" == "cd" ]; then
 		fn_info_messages_cd
+	elif [ "${shortname}" == "ck" ]; then
+		fn_info_messages_ck
 	elif [ "${shortname}" == "csgo" ]; then
 		fn_info_message_csgo
 	elif [ "${shortname}" == "cmw" ]; then
