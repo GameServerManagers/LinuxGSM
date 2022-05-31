@@ -681,6 +681,8 @@ fn_info_message_ports_edit(){
 
 fn_info_message_ports(){
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
+	if [ "${shortname}" == "armar" ]; then
+		echo -e "ss -tuplwn | grep enfMain"
 	if [ "${shortname}" == "av" ]; then
 		echo -e "ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
