@@ -17,7 +17,7 @@ fn_update_minecraft_dl(){
 	if [ "${firstcommandname}" == "INSTALL" ]; then
 		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "server.properties" -d "${serverfiles}"
 	else
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "whitelist.json" -d "${serverfiles}"
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
 	fi
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
