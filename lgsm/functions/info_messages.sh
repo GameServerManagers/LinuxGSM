@@ -814,6 +814,7 @@ fn_info_message_armar(){
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Steam Query" queryport udp
+		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
 
