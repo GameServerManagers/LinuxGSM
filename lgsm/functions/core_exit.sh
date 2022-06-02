@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_exit_dev_debug(){
+fn_exit_dev_debug() {
 	if [ -f "${rootdir}/.dev-debug" ]; then
 		echo -e ""
 		echo -e "${functionselfname} exiting with code: ${exitcode}"
@@ -25,7 +25,7 @@ fi
 
 if [ "${exitbypass}" ]; then
 	unset exitbypass
-elif [ "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
+elif [ "${exitcode}" ] && [ "${exitcode}" != "0" ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	if [ "${exitcode}" == "1" ]; then
@@ -41,7 +41,7 @@ elif [ "${exitcode}" ]&&[ "${exitcode}" != "0" ]; then
 	# remove trap.
 	trap - INT
 	exit "${exitcode}"
-elif [ "${exitcode}" ]&&[ "${exitcode}" == "0" ]; then
+elif [ "${exitcode}" ] && [ "${exitcode}" == "0" ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	fn_script_log_pass "${functionselfname} exiting with code: ${exitcode}"

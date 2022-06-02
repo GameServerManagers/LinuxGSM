@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_install_mono_repo(){
+fn_install_mono_repo() {
 	if [ "${autodepinstall}" == "0" ]; then
 		fn_print_information_nl "Automatically adding Mono repository."
 		fn_script_log_info "Automatically adding Mono repository."
@@ -36,7 +36,7 @@ fn_install_mono_repo(){
 			else
 				monoautoinstall="1"
 			fi
-		elif [ "${distroid}" == "centos" ]||[ "${distroid}" == "almalinux" ]||[ "${distroid}" == "rocky" ]; then
+		elif [ "${distroid}" == "centos" ] || [ "${distroid}" == "almalinux" ] || [ "${distroid}" == "rocky" ]; then
 			if [ "${distroversion}" == "8" ]; then
 				cmd="sudo rpmkeys --import 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF';su -c 'curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo'"
 			elif [ "${distroversion}" == "7" ]; then
@@ -85,30 +85,30 @@ fn_install_mono_repo(){
 	fi
 }
 
-fn_deps_email(){
+fn_deps_email() {
 	# Adds postfix to required dependencies if email alert is enabled.
 	if [ "${emailalert}" == "on" ]; then
 		if [ -f /usr/bin/mailx ]; then
 			if [ -d /etc/exim4 ]; then
-				array_deps_required+=( exim4 )
+				array_deps_required+=(exim4)
 			elif [ -d /etc/sendmail ]; then
-				array_deps_required+=( sendmail )
-			elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				array_deps_required+=( mailutils postfix )
-			elif [ "$(command -v rpm 2>/dev/null)" ]; then
-				array_deps_required+=( mailx postfix )
+				array_deps_required+=(sendmail)
+			elif [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+				array_deps_required+=(mailutils postfix)
+			elif [ "$(command -v rpm 2> /dev/null)" ]; then
+				array_deps_required+=(mailx postfix)
 			fi
 		else
-			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-				array_deps_required+=( mailutils postfix )
-			elif [ "$(command -v rpm 2>/dev/null)" ]; then
-				array_deps_required+=( mailx postfix )
+			if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+				array_deps_required+=(mailutils postfix)
+			elif [ "$(command -v rpm 2> /dev/null)" ]; then
+				array_deps_required+=(mailx postfix)
 			fi
 		fi
 	fi
 }
 
-fn_install_missing_deps(){
+fn_install_missing_deps() {
 	# If any dependencies are not installed.
 	if [ "${#array_deps_missing[*]}" != "0" ]; then
 		if [ "${commandname}" == "INSTALL" ]; then
@@ -143,9 +143,8 @@ fn_install_missing_deps(){
 			fi
 		fi
 
-
 		# Add sudo dpkg --add-architecture i386 if using i386 packages.
-		if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+		if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
 			if printf '%s\n' "${array_deps_required[@]}" | grep -q -P 'i386'; then
 				i386installcommand="sudo dpkg --add-architecture i386; "
 			fi
@@ -162,13 +161,13 @@ fn_install_missing_deps(){
 			echo -en "...\r"
 			sleep 1
 			echo -en "   \r"
-			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
 				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; ${i386installcommand}sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
-			elif [ "$(command -v dnf 2>/dev/null)" ]; then
+			elif [ "$(command -v dnf 2> /dev/null)" ]; then
 				cmd="sudo dnf -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
-			elif [ "$(command -v yum 2>/dev/null)" ]; then
+			elif [ "$(command -v yum 2> /dev/null)" ]; then
 				cmd="sudo yum -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
 			fi
@@ -182,11 +181,11 @@ fn_install_missing_deps(){
 
 		# If automatic dependency install is unavailable.
 		if [ "${autodepinstall}" != "0" ]; then
-			if [ "$(command -v dpkg-query 2>/dev/null)" ]; then
+			if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
 				echo -e "${i386installcommand}sudo apt update; sudo apt install ${array_deps_missing[*]}"
-			elif [ "$(command -v dnf 2>/dev/null)" ]; then
+			elif [ "$(command -v dnf 2> /dev/null)" ]; then
 				echo -e "sudo dnf install ${array_deps_missing[*]}"
-			elif [ "$(command -v yum 2>/dev/null)" ]; then
+			elif [ "$(command -v yum 2> /dev/null)" ]; then
 				echo -e "sudo yum install ${array_deps_missing[*]}"
 			fi
 		fi
@@ -210,7 +209,7 @@ fn_install_missing_deps(){
 	fi
 }
 
-fn_check_loop(){
+fn_check_loop() {
 	# Loop though required depenencies checking if they are installed.
 	for deptocheck in ${array_deps_required[*]}; do
 		fn_deps_detector
@@ -221,21 +220,21 @@ fn_check_loop(){
 }
 
 # Checks if dependency is installed or not.
-fn_deps_detector(){
+fn_deps_detector() {
 	## Check.
 	# SteamCMD: Will be removed from required array if no appid is present or non-free repo is not available.
 	# This will cause SteamCMD to be installed using tar.
-	if [ "${deptocheck}" == "libsdl2-2.0-0:i386" ]&&[ -z "${appid}" ]; then
-		array_deps_required=( "${array_deps_required[@]/libsdl2-2.0-0:i386}" )
+	if [ "${deptocheck}" == "libsdl2-2.0-0:i386" ] && [ -z "${appid}" ]; then
+		array_deps_required=("${array_deps_required[@]/libsdl2-2.0-0:i386/}")
 		steamcmdstatus=1
-	elif [ "${deptocheck}" == "steamcmd" ]&&[ -z "${appid}" ]; then
-		array_deps_required=( "${array_deps_required[@]/steamcmd}" )
+	elif [ "${deptocheck}" == "steamcmd" ] && [ -z "${appid}" ]; then
+		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
-	elif [ "${deptocheck}" == "steamcmd" ]&&[ "${distroid}" == "debian" ]&& ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
-		array_deps_required=( "${array_deps_required[@]/steamcmd}" )
+	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 	# Java: Added for users using Oracle JRE to bypass check.
-	elif [[ ${deptocheck} == "openjdk"* ]]||[[ ${deptocheck} == "java"* ]]; then
+	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
 			# Added for users using Oracle JRE to bypass check.
@@ -246,7 +245,7 @@ fn_deps_detector(){
 		fi
 	# Mono: A Mono repo needs to be installed.
 	elif [ "${deptocheck}" == "mono-complete" ]; then
-		if [ -n "${monoversion}" ]&&[ "${monoversion}" -ge "5" ]; then
+		if [ -n "${monoversion}" ] && [ "${monoversion}" -ge "5" ]; then
 			# Mono >= 5.0.0 already installed.
 			depstatus=0
 			monostatus=0
@@ -255,13 +254,13 @@ fn_deps_detector(){
 			depstatus=1
 			monostatus=1
 		fi
-	elif [ "$(command -v dpkg-query 2>/dev/null)" ]; then
-		dpkg-query -W -f='${Status}' "${deptocheck}" 2>/dev/null | grep -q -P '^install ok installed'
+	elif [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+		dpkg-query -W -f='${Status}' "${deptocheck}" 2> /dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
-	elif [ "$(command -v dnf 2>/dev/null)" ]; then
+	elif [ "$(command -v dnf 2> /dev/null)" ]; then
 		dnf list installed "${deptocheck}" > /dev/null 2>&1
 		depstatus=$?
-	elif [ "$(command -v rpm 2>/dev/null)" ]; then
+	elif [ "$(command -v rpm 2> /dev/null)" ]; then
 		rpm -q "${deptocheck}" > /dev/null 2>&1
 		depstatus=$?
 	fi
@@ -286,11 +285,11 @@ fn_deps_detector(){
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
-				for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
-					if [ "${deptocheck}" != "steamcmd" ]&&[ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
-						steamcmdfail=1
-					fi
-				done
+			for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
+				if [ "${deptocheck}" != "steamcmd" ] && [ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
+					steamcmdfail=1
+				fi
+			done
 		fi
 	fi
 	unset depstatus
@@ -326,10 +325,10 @@ fi
 
 info_distro.sh
 
-if [ ! -f "${tmpdir}/dependency-no-check.tmp" ]&&[ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
+if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	# Check that the distro dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
-	if [ -n "${checkflag}" ]&&[ "${checkflag}" == "0" ]; then
+	if [ -n "${checkflag}" ] && [ "${checkflag}" == "0" ]; then
 		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
@@ -338,7 +337,7 @@ fi
 if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
 	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
-	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}'  "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
 
 	# Generate array of missing deps.
 	array_deps_missing=()
@@ -351,11 +350,11 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 
 	fn_check_loop
 # Warn the user that dependency checking is unavailable for their distro.
-elif [ "${commandname}" == "INSTALL" ]||[ -n "${checkflag}" ]&&[ "${checkflag}" != "0" ]; then
+elif [ "${commandname}" == "INSTALL" ] || [ -n "${checkflag}" ] && [ "${checkflag}" != "0" ]; then
 	fn_print_warning_nl "LinuxGSM dependency checking currently unavailable for ${distroname}."
 	# Prevent future dependency checking if unavailable for the distro.
 	echo "${version}" > "${tmpdir}/dependency-no-check.tmp"
-elif 	[ -f "${tmpdir}/dependency-no-check.tmp" ]; then
+elif [ -f "${tmpdir}/dependency-no-check.tmp" ]; then
 	# Allow LinuxGSM to try a dependency check if LinuxGSM has been recently updated.
 	nocheckversion=$(cat "${tmpdir}/dependency-no-check.tmp")
 	if [ "${version}" != "${nocheckversion}" ]; then

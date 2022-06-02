@@ -7,8 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_install_steamcmd(){
-	if [ "${shortname}" == "ark" ]&&[ "${installsteamcmd}" == "1" ]; then
+fn_install_steamcmd() {
+	if [ "${shortname}" == "ark" ] && [ "${installsteamcmd}" == "1" ]; then
 		steamcmddir="${serverfiles}/Engine/Binaries/ThirdParty/SteamCMD/Linux"
 	fi
 	if [ ! -d "${steamcmddir}" ]; then
@@ -19,7 +19,7 @@ fn_install_steamcmd(){
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
 
-fn_check_steamcmd_user(){
+fn_check_steamcmd_user() {
 	# Checks if steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
@@ -39,10 +39,10 @@ fn_check_steamcmd_user(){
 	fi
 }
 
-fn_check_steamcmd(){
+fn_check_steamcmd() {
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Only install if steamcmd package is missing or steamcmd dir is missing.
-	if [ ! -f "${steamcmddir}/steamcmd.sh" ]&&[ -z "$(command -v steamcmd 2>/dev/null)" ]; then
+	if [ ! -f "${steamcmddir}/steamcmd.sh" ] && [ -z "$(command -v steamcmd 2> /dev/null)" ]; then
 		if [ "${commandname}" == "INSTALL" ]; then
 			fn_install_steamcmd
 		else
@@ -56,7 +56,7 @@ fn_check_steamcmd(){
 	fi
 }
 
-fn_check_steamcmd_dir(){
+fn_check_steamcmd_dir() {
 	# Worksround that pre-installs the correct steam directories to ensure all packages use the correct Standard.
 	# https://github.com/ValveSoftware/steam-for-linux/issues/6976#issuecomment-610446347
 
@@ -86,25 +86,25 @@ fn_check_steamcmd_dir(){
 	fi
 }
 
-fn_check_steamcmd_dir_legacy(){
+fn_check_steamcmd_dir_legacy() {
 	# Remove old Steam installation directories ~/Steam and ${rootdir}/steamcmd
-	if [ -d "${rootdir}/steamcmd" ]&&[ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
+	if [ -d "${rootdir}/steamcmd" ] && [ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
 		rm -rf "${rootdir:?}/steamcmd"
 	fi
 
-	if [ -d "${HOME}/Steam" ]&&[ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
+	if [ -d "${HOME}/Steam" ] && [ "${steamcmddir}" == "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" ]; then
 		rm -rf "${HOME}/Steam"
 	fi
 }
 
-fn_check_steamcmd_steamapp(){
+fn_check_steamcmd_steamapp() {
 	# Check that steamapp directory fixes issue #3481
 	if [ ! -d "${serverfiles}/steamapps" ]; then
 		mkdir -p "${serverfiles}/steamapps"
 	fi
 }
 
-fn_check_steamcmd_ark(){
+fn_check_steamcmd_ark() {
 	# Checks if SteamCMD exists in
 	# Engine/Binaries/ThirdParty/SteamCMD/Linux
 	# to allow ark mods to work
@@ -123,9 +123,9 @@ fn_check_steamcmd_ark(){
 	fi
 }
 
-fn_check_steamcmd_clear(){
+fn_check_steamcmd_clear() {
 	# Will remove steamcmd dir if steamcmd package is installed.
-	if [ "$(command -v steamcmd 2>/dev/null)" ]&&[ -d "${rootdir}/steamcmd" ]; then
+	if [ "$(command -v steamcmd 2> /dev/null)" ] && [ -d "${rootdir}/steamcmd" ]; then
 		rm -rf "${steamcmddir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -136,15 +136,15 @@ fn_check_steamcmd_clear(){
 	fi
 }
 
-fn_check_steamcmd_exec(){
-	if [ "$(command -v steamcmd 2>/dev/null)" ]; then
+fn_check_steamcmd_exec() {
+	if [ "$(command -v steamcmd 2> /dev/null)" ]; then
 		steamcmdcommand="steamcmd"
 	else
 		steamcmdcommand="./steamcmd.sh"
 	fi
 }
 
-fn_update_steamcmd_localbuild(){
+fn_update_steamcmd_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	fn_appmanifest_check
@@ -157,7 +157,7 @@ fn_update_steamcmd_localbuild(){
 	fi
 
 	# Checks if localbuild variable has been set.
-	if [ -z "${localbuild}" ]||[ "${localbuild}" == "null" ]; then
+	if [ -z "${localbuild}" ] || [ "${localbuild}" == "null" ]; then
 		fn_print_fail "Checking local build: ${remotelocation}"
 		fn_script_log_fatal "Checking local build"
 		core_exit.sh
@@ -167,7 +167,7 @@ fn_update_steamcmd_localbuild(){
 	fi
 }
 
-fn_update_steamcmd_remotebuild(){
+fn_update_steamcmd_remotebuild() {
 	# Gets remote build info.
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
@@ -184,7 +184,7 @@ fn_update_steamcmd_remotebuild(){
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -194,7 +194,7 @@ fn_update_steamcmd_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -202,7 +202,7 @@ fn_update_steamcmd_remotebuild(){
 	fi
 }
 
-fn_update_steamcmd_compare(){
+fn_update_steamcmd_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	if [ "${localbuild}" != "${remotebuild}" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
@@ -280,12 +280,12 @@ fn_update_steamcmd_compare(){
 	fi
 }
 
-fn_appmanifest_info(){
+fn_appmanifest_info() {
 	appmanifestfile=$(find "${serverfiles}" -type f -name "appmanifest_${appid}.acf")
 	appmanifestfilewc=$(find "${serverfiles}" -type f -name "appmanifest_${appid}.acf" | wc -l)
 }
 
-fn_appmanifest_check(){
+fn_appmanifest_check() {
 	fn_appmanifest_info
 	# Multiple or no matching appmanifest files may sometimes be present.
 	# This error is corrected if required.

@@ -34,8 +34,7 @@ elif [ -f "${serverfiles}" ]; then
 fi
 echo -e ""
 
-
-glibc_check_dir_array=( steamcmddir serverfiles )
+glibc_check_dir_array=(steamcmddir serverfiles)
 for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 	if [ "${glibc_check_var}" == "serverfiles" ]; then
 		glibc_check_dir="${serverfiles}"
@@ -47,23 +46,23 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 
 	if [ -d "${glibc_check_dir}" ]; then
 		glibc_check_files=$(find "${glibc_check_dir}" | wc -l)
-		find "${glibc_check_dir}" -type f -print0 |
-		while IFS= read -r -d $'\0' line; do
-			glibcversion=$(objdump -T "${line}" 2>/dev/null | grep -oP "GLIBC[^ ]+" | grep -v GLIBCXX | sort | uniq | sort -r --version-sort | head -n 1)
-			if [ "${glibcversion}" ]; then
-				echo -e "${glibcversion}: ${line}" >>"${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
-			fi
-			objdump -T "${line}" 2>/dev/null | grep -oP "GLIBC[^ ]+" >>"${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
-			echo -n "${i} / ${glibc_check_files}" $'\r'
-			((i++))
-		done
-			echo -e ""
-			echo -e ""
-			echo -e "${glibc_check_name} glibc Requirements"
-			echo -e "================================="
+		find "${glibc_check_dir}" -type f -print0 \
+			| while IFS= read -r -d $'\0' line; do
+				glibcversion=$(objdump -T "${line}" 2> /dev/null | grep -oP "GLIBC[^ ]+" | grep -v GLIBCXX | sort | uniq | sort -r --version-sort | head -n 1)
+				if [ "${glibcversion}" ]; then
+					echo -e "${glibcversion}: ${line}" >> "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
+				fi
+				objdump -T "${line}" 2> /dev/null | grep -oP "GLIBC[^ ]+" >> "${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
+				echo -n "${i} / ${glibc_check_files}" $'\r'
+				((i++))
+			done
+		echo -e ""
+		echo -e ""
+		echo -e "${glibc_check_name} glibc Requirements"
+		echo -e "================================="
 		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo -e "Required glibc"
-			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 |tee -a "${tmpdir}/detect_glibc_highest.tmp"
+			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 | tee -a "${tmpdir}/detect_glibc_highest.tmp"
 			echo -e ""
 			echo -e "Files requiring GLIBC"
 			echo -e "Highest verion required: filename"

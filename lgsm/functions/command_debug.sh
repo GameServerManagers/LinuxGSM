@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Trap to remove lockfile on quit.
-fn_lockfile_trap(){
+fn_lockfile_trap() {
 	# Remove lockfile.
 	rm -f "${lockdir:?}/${selfname}.lock"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
@@ -70,7 +70,7 @@ fi
 
 fn_reload_startparameters
 echo -e "${lightblue}Start parameters:${default}"
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	echo -e "${executable} ${startparameters} -condebug"
@@ -111,7 +111,7 @@ else
 fi
 
 # Note: do not add double quotes to ${executable} ${startparameters}.
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	eval "${executable} ${startparameters} -condebug"

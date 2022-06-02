@@ -9,7 +9,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if gamedig and jq are installed.
-if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; then
+if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
 
 	# will bypass query if server offline.
 	check_status.sh
@@ -49,7 +49,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
-		elif [ "${gdplayers}" == "[]" ]||[ "${gdplayers}" == "-1" ]; then
+		elif [ "${gdplayers}" == "[]" ] || [ "${gdplayers}" == "-1" ]; then
 			gdplayers=0
 		fi
 
@@ -75,7 +75,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 
 		# numbots.
 		gdbots=$(echo "${gamedigraw}" | jq -re '.bots | length')
-		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
+		if [ "${gdbots}" == "null" ] || [ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi
 
@@ -86,7 +86,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
 		fi
 
-		if [ "${gdversion}" == "null" ]||[ "${gdversion}" == "0" ]; then
+		if [ "${gdversion}" == "null" ] || [ "${gdversion}" == "0" ]; then
 			unset gdversion
 		fi
 	fi

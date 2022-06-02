@@ -13,7 +13,7 @@ fn_firstcommand_set
 check.sh
 
 # Trap to remove lockfile on quit.
-fn_backup_trap(){
+fn_backup_trap() {
 	echo -e ""
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_canceled_eol_nl
@@ -30,7 +30,7 @@ fn_backup_trap(){
 }
 
 # Check if a backup is pending or has been aborted using backup.lock.
-fn_backup_check_lockfile(){
+fn_backup_check_lockfile() {
 	if [ -f "${lockdir}/backup.lock" ]; then
 		fn_print_info_nl "Lock file found: Backup is currently running"
 		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/backup.lock"
@@ -39,7 +39,7 @@ fn_backup_check_lockfile(){
 }
 
 # Initialisation.
-fn_backup_init(){
+fn_backup_init() {
 	# Backup file name with selfname and current date.
 	backupname="${selfname}-$(date '+%Y-%m-%d-%H%M%S')"
 
@@ -47,7 +47,7 @@ fn_backup_init(){
 	fn_print_dots "Backup starting"
 	fn_script_log_info "Backup starting"
 	fn_print_ok_nl "Backup starting"
-	if [ ! -d "${backupdir}" ]||[ "${backupcount}" == "0" ]; then
+	if [ ! -d "${backupdir}" ] || [ "${backupcount}" == "0" ]; then
 		fn_print_info_nl "There are no previous backups"
 	else
 		if [ "${lastbackupdaysago}" == "0" ]; then
@@ -62,7 +62,7 @@ fn_backup_init(){
 }
 
 # Check if server is started and whether to stop it.
-fn_backup_stop_server(){
+fn_backup_stop_server() {
 	check_status.sh
 	# Server is running but will not be stopped.
 	if [ "${stoponbackup}" == "off" ]; then
@@ -82,7 +82,7 @@ fn_backup_stop_server(){
 }
 
 # Create required folders.
-fn_backup_dir(){
+fn_backup_dir() {
 	# Create backupdir if it doesn't exist.
 	if [ ! -d "${backupdir}" ]; then
 		mkdir -p "${backupdir}"
@@ -90,17 +90,17 @@ fn_backup_dir(){
 }
 
 # Migrate Backups from old dir before refactor
-fn_backup_migrate_olddir(){
+fn_backup_migrate_olddir() {
 	# Check if old backup dir is there before the refactor and move the backups
 	if [ -d "${rootdir}/backups" ]; then
 		if [ "${rootdir}/backups" != "${backupdir}" ]; then
 			fn_print_dots "Backup directory is being migrated"
 			fn_script_log_info "Backup directory is being migrated"
 			fn_script_log_info "${rootdir}/backups > ${backupdir}"
-			mv "${rootdir}/backups/"* "${backupdir}" 2>/dev/null
+			mv "${rootdir}/backups/"* "${backupdir}" 2> /dev/null
 			exitcode=$?
 			if [ "${exitcode}" -eq 0 ]; then
-				rmdir "${rootdir}/backups" 2>/dev/null
+				rmdir "${rootdir}/backups" 2> /dev/null
 				exitcode=$?
 			fi
 			if [ "${exitcode}" -eq 0 ]; then
@@ -114,7 +114,7 @@ fn_backup_migrate_olddir(){
 	fi
 }
 
-fn_backup_create_lockfile(){
+fn_backup_create_lockfile() {
 	# Create lockfile.
 	date '+%s' > "${lockdir}/backup.lock"
 	fn_script_log_info "Lockfile generated"
@@ -124,7 +124,7 @@ fn_backup_create_lockfile(){
 }
 
 # Compressing files.
-fn_backup_compression(){
+fn_backup_compression() {
 	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue.
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
@@ -133,7 +133,7 @@ fn_backup_compression(){
 	excludedir=$(fn_backup_relpath)
 
 	# Check that excludedir is a valid path.
-	if [ ! -d "${excludedir}" ] ; then
+	if [ ! -d "${excludedir}" ]; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
@@ -157,17 +157,17 @@ fn_backup_compression(){
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.
-fn_backup_prune(){
+fn_backup_prune() {
 	# Clear if backup variables are set.
-	if [ "${maxbackups}" ]&&[ -n "${maxbackupdays}" ]; then
+	if [ "${maxbackups}" ] && [ -n "${maxbackupdays}" ]; then
 		# How many backups there are.
 		info_distro.sh
 		# How many backups exceed maxbackups.
-		backupquotadiff=$((backupcount-maxbackups))
+		backupquotadiff=$((backupcount - maxbackups))
 		# How many backups exceed maxbackupdays.
-		backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}"|wc -l)
+		backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}" | wc -l)
 		# If anything can be cleared.
-		if [ "${backupquotadiff}" -gt "0" ]||[ "${backupsoudatedcount}" -gt "0" ]; then
+		if [ "${backupquotadiff}" -gt "0" ] || [ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
 			fn_script_log_info "Backup pruning activated"
 			fn_print_ok_nl "Pruning"
@@ -220,32 +220,32 @@ fn_backup_relpath() {
 
 	# Compare the leading entries of each array.  These common elements will be clipped off.
 	# for the relative path output.
-	for ((base=0; base<${#rdirtoks[@]}; base++)); do
+	for ((base = 0; base < ${#rdirtoks[@]}; base++)); do
 		[[ "${rdirtoks[$base]}" != "${bdirtoks[$base]}" ]] && break
 	done
 
 	# Next, climb out of the remaining rootdir location with updir references.
-	for ((x=base;x<${#rdirtoks[@]};x++)); do
+	for ((x = base; x < ${#rdirtoks[@]}; x++)); do
 		echo -n "../"
 	done
 
 	# Climb down the remaining components of the backupdir location.
-	for ((x=base;x<$(( ${#bdirtoks[@]} - 1 ));x++)); do
+	for ((x = base; x < $((${#bdirtoks[@]} - 1)); x++)); do
 		echo -n "${bdirtoks[$x]}/"
 	done
 
 	# In the event there were no directories left in the backupdir above to
 	# traverse down, just add a newline. Otherwise at this point, there is
 	# one remaining directory component in the backupdir to navigate.
-	if (( "$base" < "${#bdirtoks[@]}" )) ; then
-		echo -e "${bdirtoks[ $(( ${#bdirtoks[@]} - 1)) ]}"
+	if (("$base" < "${#bdirtoks[@]}")); then
+		echo -e "${bdirtoks[$((${#bdirtoks[@]} - 1))]}"
 	else
 		echo
 	fi
 }
 
 # Start the server if it was stopped for the backup.
-fn_backup_start_server(){
+fn_backup_start_server() {
 	if [ -n "${startserver}" ]; then
 		exitbypass=1
 		command_start.sh

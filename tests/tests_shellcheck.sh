@@ -21,10 +21,10 @@ echo -e "Using: Shellcheck"
 echo -e "Testing Branch: $TRAVIS_BRANCH"
 echo -e "================================="
 echo -e ""
-scissues=$(find . -type f  \( -name "*.sh" -o -name "*.cfg" \) -not -path "./shunit2-2.1.6/*" -exec shellcheck --shell=bash --exclude=SC2154,SC2034 {} \; | grep -F "^--" | wc -l)
+scissues=$(find . -type f \( -name "*.sh" -o -name "*.cfg" \) -not -path "./shunit2-2.1.6/*" -exec shellcheck --shell=bash --exclude=SC2154,SC2034 {} \; | grep -F "^--" | wc -l)
 echo -e "Found issues: ${scissues}"
 echo -e "================================="
-find . -type f  \( -name "*.sh" -o -name "*.cfg" \) -not -path "./shunit2-2.1.6/*" -exec shellcheck --shell=bash --exclude=SC2154,SC2034 {} \;
+find . -type f \( -name "*.sh" -o -name "*.cfg" \) -not -path "./shunit2-2.1.6/*" -exec shellcheck --shell=bash --exclude=SC2154,SC2034 {} \;
 echo -e ""
 echo -e "================================="
 echo -e "Bash Analysis Tests - Complete!"

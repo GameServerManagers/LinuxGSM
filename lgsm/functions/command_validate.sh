@@ -10,7 +10,7 @@ commandaction="Validating"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_validate(){
+fn_validate() {
 	fn_print_warn "Validate might overwrite some customised files"
 	fn_script_log_warn "${commandaction} server: Validate might overwrite some customised files"
 	totalseconds=3

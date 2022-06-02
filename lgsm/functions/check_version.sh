@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [ -n "${modulesversion}" ]&&[ -n "${version}" ]&&[ "${version}" != "${modulesversion}" ]; then
+if [ -n "${modulesversion}" ] && [ -n "${version}" ] && [ "${version}" != "${modulesversion}" ]; then
 	exitbypass=1
 	echo -e ""
 	fn_print_error_nl "LinuxGSM version mismatch"

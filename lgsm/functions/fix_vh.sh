@@ -12,10 +12,8 @@ export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
 modsdir="${lgsmdir}/mods"
 modsinstalledlistfullpath="${modsdir}/installed-mods.txt"
 if [ -f "${modsinstalledlistfullpath}" ]; then
-	if grep -qE "^valheimplus" "${modsinstalledlistfullpath}"
-	then
-		if ! grep -qE "^executable=\"./start_server_bepinex.sh\"" "${configdirserver}/${selfname}.cfg"
-		then
+	if grep -qE "^valheimplus" "${modsinstalledlistfullpath}"; then
+		if ! grep -qE "^executable=\"./start_server_bepinex.sh\"" "${configdirserver}/${selfname}.cfg"; then
 			echo 'executable="./start_server_bepinex.sh"' >> "${configdirserver}/${selfname}.cfg"
 			executable="./start_server_bepinex.sh"
 		fi
