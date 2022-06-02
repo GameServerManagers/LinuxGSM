@@ -39,6 +39,8 @@ if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
 
 	if  [ "${shortname}" == "arma3" ]; then
 		fix_arma3.sh
+	elif [ "${shortname}" == "armar" ]; then
+		fix_armar.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
 	elif [ "${shortname}" == "bo" ]; then

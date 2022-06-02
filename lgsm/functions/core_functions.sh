@@ -341,6 +341,11 @@ functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
 
+fix_armar.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
 fix_bo.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
