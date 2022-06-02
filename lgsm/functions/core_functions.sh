@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v21.5.1"
+modulesversion="v22.1.0"
 
 # Core
 
@@ -337,6 +337,11 @@ fn_fetch_function
 }
 
 fix_arma3.sh(){
+functionfile="${FUNCNAME[0]}"
+fn_fetch_function
+}
+
+fix_armar.sh(){
 functionfile="${FUNCNAME[0]}"
 fn_fetch_function
 }
