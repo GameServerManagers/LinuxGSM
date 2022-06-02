@@ -25,3 +25,11 @@ elif [ -v rconpassword ]&&[ "${rconpassword}" == "CHANGE_ME" ]; then
 	fn_print_warn_nl "Default RCON Password detected"
 	fn_script_log_warn "Default RCON Password detected"
 fi
+
+if [ "${shortname}" == "vh" ]&&[ -z "${serverpassword}" ]; then
+	fn_print_fail_nl "serverpassword is not set"
+	fn_script_log_fatal "serverpassword is not set"
+elif [ "${shortname}" == "vh" ]&&[ "${#serverpassword}" -le "4" ]; then
+	fn_print_fail_nl "serverpassword is to short (min 5 chars)"
+	fn_script_log_fatal "serverpassword is to short (min 5 chars)"
+fi

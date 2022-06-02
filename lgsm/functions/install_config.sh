@@ -202,6 +202,14 @@ elif [ "${shortname}" == "arma3" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "armar" ]; then
+	gamedirname="ArmaReforger"
+	fn_check_cfgdir
+	array_configs+=( server.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bo" ]; then
 	gamedirname="BallisticOverkill"
 	array_configs+=( config.txt )
@@ -632,6 +640,10 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "pc2" ]; then
+	gamedirname="ProjectCars2"
+	fn_default_config_local
 	fn_list_config_locations
 elif [ "${shortname}" == "q2" ]; then
 	gamedirname="Quake2"

@@ -1,10 +1,11 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,python3,tar,tmux,unzip,util-linux,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,python3,tar,tmux,unzip,util-linux,wget,xz-utils
 steamcmd,lib32gcc1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
 ahl2
 ark
 arma3
+armar,libcurl4,libssl1.1
 av
 bb
 bb2,libcurl4-gnutls-dev:i386

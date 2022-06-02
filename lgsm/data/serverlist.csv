@@ -3,6 +3,7 @@ ahl,ahlserver,Action Half-Life
 ahl2,ahl2server,Action: Source
 ark,arkserver,ARK: Survival Evolved
 arma3,arma3server,ARMA 3
+armar,armarserver,Arma Reforger
 av,avserver,Avorion
 bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
@@ -72,6 +73,7 @@ ns2c,ns2cserver,NS2: Combat
 onset,onsetserver,Onset
 opfor,opforserver,Opposing Force
 pc,pcserver,Project Cars
+pc2,pc2server,Project Cars 2
 pmc,pmcserver,PaperMC
 pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
 pvkii,pvkiiserver,Pirates Vikings & Knights II

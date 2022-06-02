@@ -46,9 +46,9 @@ fn_info_game_ark(){
 		adminpassword="${unavailable}"
 		serverpassword="${unavailable}"
 	else
-		servername=$(grep "SessionName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/SessionName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		adminpassword=$(grep "ServerAdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerAdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' )
-		serverpassword=$( grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(sed -nr 's/^SessionName=(.*)/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^ServerAdminPassword=(.*)/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^ServerPassword=(.*)/\1/p' "${servercfgfullpath}")
 
 		# Not set
 		servername=${servername:-"NOT SET"}
@@ -72,10 +72,10 @@ fn_info_game_arma3(){
 		serverpassword="${unavailable}"
 		maxplayers="${zero}"
 	else
-		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		adminpassword=$(grep "passwordAdmin" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/passwordAdmin//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "maxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		servername=$(sed -nr 's/^hostname\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^passwordAdmin\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^password\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^maxPlayers\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")
 
 		# Not set
 		servername=${servername:-"NOT SET"}
@@ -91,6 +91,33 @@ fn_info_game_arma3(){
 	steammasterport=$((port+2))
 	voiceunusedport=$((port+3))
 	battleeyeport=$((port+4))
+}
+
+fn_info_game_armar(){
+	if [ -f "${servercfgfullpath}" ]; then
+		adminpassword=$(jq -r '.adminPassword' "${servercfgfullpath}")
+		configip=$(jq -r '.gameHostBindAddress' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.game.playerCountLimit' "${servercfgfullpath}")
+		port=$(jq -r '.gameHostBindPort' "${servercfgfullpath}")
+		queryport=$(jq -r '.steamQueryPort' "${servercfgfullpath}")
+		servername=$(jq -r '.game.name' "${servercfgfullpath}")
+		serverpassword=$(jq -r '.game.password' "${servercfgfullpath}")
+		battleeyeport=1376
+
+
+		# Not set
+		adminpassword=${adminpassword:-"NOT SET"}
+		configip=${configip:-"0.0.0.0"}
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"0"}
+		queryport=${queryport:-"0"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+	else
+		port=${port:-"0"}
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	fi
 }
 
 fn_info_game_av() {
@@ -125,7 +152,7 @@ fn_info_game_av() {
 		maxplayers=${maxplayers:-"NOT SET"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		port=${zero}
+		port=${port:-"0"}
 		queryport=${queryport:-"0"}
 		steamqueryport=${steamqueryport:-"0"}
 		steammasterport=${steammasterport:-"0"}
@@ -1100,6 +1127,33 @@ fn_info_game_pc(){
 	fi
 }
 
+fn_info_game_pc2(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		port="${zero}"
+		queryport="${zero}"
+		steamport="${zero}"
+	else
+		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "password " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		port=$(grep "hostPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		queryport=$(grep "queryPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+		steamport=$(grep "steamPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"NOT SET"}
+		port=${port:-"NOT SET"}
+		queryport=${queryport:-"NOT SET"}
+		steamport=${steamport:-"NOT SET"}
+	fi
+}
+
 fn_info_game_pstbs(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1742,7 +1796,7 @@ fn_info_game_squad(){
 
 	# Parameters
 	port=${port:-"0"}
-	queryport=${port:-"0"}
+	queryport=${queryport:-"0"}
 }
 
 fn_info_game_st(){
@@ -2255,6 +2309,8 @@ elif [ "${shortname}" == "ark" ]; then
 	fn_info_game_ark
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_game_arma3
+elif [ "${shortname}" == "armar" ]; then
+	fn_info_game_armar
 elif [ "${shortname}" == "av" ]; then
 	fn_info_game_av
 elif [ "${shortname}" == "bf1942" ]; then
@@ -2329,6 +2385,8 @@ elif [ "${shortname}" == "onset" ]; then
 	fn_info_game_onset
 elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
+elif [ "${shortname}" == "pc2" ]; then
+	fn_info_game_pc2
 elif [ "${shortname}" == "pstbs" ]; then
 	fn_info_game_pstbs
 elif [ "${shortname}" == "pvr" ];then
@@ -2411,4 +2469,61 @@ elif [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
 	fn_info_game_source
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
+fi
+
+# External IP address
+if [ -z "${extip}" ]; then
+	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2>/dev/null)"
+	exitcode=$?
+	# Should ifconfig.co return an error will use last known IP.
+	if [ ${exitcode} -eq 0 ]; then
+		if [[ "${extip}" != *"DOCTYPE"* ]]; then
+			echo -e "${extip}" > "${tmpdir}/extip.txt"
+		else
+			if [ -f "${tmpdir}/extip.txt" ]; then
+				extip="$(cat "${tmpdir}/extip.txt")"
+			else
+				fn_print_error_nl "Unable to get external IP"
+			fi
+		fi
+	else
+		if [ -f "${tmpdir}/extip.txt" ]; then
+			extip="$(cat "${tmpdir}/extip.txt")"
+		else
+			fn_print_error_nl "Unable to get external IP"
+		fi
+	fi
+fi
+
+# Alert IP address
+if [ "${displayip}" ]; then
+	alertip="${displayip}"
+elif [ "${extip}" ]; then
+	alertip="${extip}"
+else
+	alertip="${ip}"
+fi
+
+# Steam Master Server - checks if detected by master server.
+# Checked after config init, as the queryport is needed
+if [ -z "${displaymasterserver}" ]; then
+	if [ "$(command -v jq 2>/dev/null)" ]; then
+		if [ "${ip}" ]&&[ "${port}" ]; then
+			if [ "${steammaster}" == "true" ]||[ "${commandname}" == "DEV-QUERY-RAW" ]; then
+				# Will query server IP addresses first.
+				for queryip in "${queryips[@]}"; do
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
+				done
+				# Should that not work it will try the external IP.
+				if [ "${masterserver}" == "0" ]; then
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
+				fi
+				if [ "${masterserver}" == "0" ]; then
+					displaymasterserver="false"
+				else
+					displaymasterserver="true"
+				fi
+			fi
+		fi
+	fi
 fi
