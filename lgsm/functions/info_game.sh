@@ -776,7 +776,7 @@ fn_info_game_jk2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
-fn_info_game_jk2(){
+fn_info_game_jk3(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		rconpassword="${unavailable}"
