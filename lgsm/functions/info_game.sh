@@ -776,6 +776,35 @@ fn_info_game_jk2(){
 	defaultmap=${defaultmap:-"NOT SET"}
 }
 
+fn_info_game_jk2(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		rconpassword="${unavailable}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+		maxplayers="${zero}"
+		serverversion="${unavailable}"
+	else
+		rconpassword=$(grep "seta rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta rconpassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		servername=$(grep "seta sv_hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta sv_hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		serverpassword=$(grep "seta g_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta g_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		maxplayers=$(grep "seta sv_maxclients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
+		serverversion=$(grep "seta mv_serverversion" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/seta mv_serverversion//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not set
+		rconpassword=${rconpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
+		serverversion=${serverversion:-"NOT SET"}
+	fi
+
+	# Parameters
+	port=${port:-"0"}
+	queryport=${port}
+	defaultmap=${defaultmap:-"NOT SET"}
+}
+
 fn_info_game_kf(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2361,6 +2390,8 @@ elif [ "${shortname}" == "jc3" ]; then
 	fn_info_game_jc3
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_game_jk2
+elif [ "${shortname}" == "jk3" ]; then
+	fn_info_game_jk3
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
