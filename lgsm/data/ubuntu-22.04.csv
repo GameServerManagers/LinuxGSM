@@ -40,6 +40,7 @@ dys
 eco,libgdiplus
 em
 etl
+fabmc,openjdk-17-jre
 fctr
 fof
 gmod,libtinfo5:i386
