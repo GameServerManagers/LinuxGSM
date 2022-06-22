@@ -9,19 +9,19 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Messages that are displayed for some fixes.
-fn_fix_msg_start(){
+fn_fix_msg_start() {
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
 }
 
-fn_fix_msg_start_nl(){
+fn_fix_msg_start_nl() {
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
 	fn_print_info "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
 }
 
-fn_fix_msg_end(){
+fn_fix_msg_end() {
 	if [ $? != 0 ]; then
 		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
 		fn_script_log_error "Applying ${fixname} fix: ${gamename}"
@@ -32,12 +32,12 @@ fn_fix_msg_end(){
 }
 
 # Fixes that are run on start.
-if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
+if [ "${commandname}" != "INSTALL" ] && [ -z "${fixbypass}" ]; then
 	if [ "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
 
-	if  [ "${shortname}" == "arma3" ]; then
+	if [ "${shortname}" == "arma3" ]; then
 		fix_arma3.sh
 	elif [ "${shortname}" == "armar" ]; then
 		fix_armar.sh
@@ -96,32 +96,32 @@ fi
 
 # Fixes that are run on install only.
 if [ "${commandname}" == "INSTALL" ]; then
-		if [ "${shortname}" == "av" ]||[ "${shortname}" == "cmw" ]||[ "${shortname}" == "kf" ]||[ "${shortname}" == "kf2" ]||[ "${shortname}" == "lo" ]||[ "${shortname}" == "onset" ]||[ "${shortname}" == "ro" ]||[ "${shortname}" == "samp" ]||[ "${shortname}" == "ut2k4" ]||[ "${shortname}" == "ut" ]||[ "${shortname}" == "ut3" ]; then
-			echo -e ""
-			echo -e "${lightyellow}Applying Post-Install Fixes${default}"
-			echo -e "================================="
-			fn_sleep_time
-			postinstall=1
-			if [ "${shortname}" == "av" ]; then
-				fix_av.sh
-			elif [ "${shortname}" == "kf" ]; then
-				fix_kf.sh
-			elif [ "${shortname}" == "kf2" ]; then
-				fix_kf2.sh
-			elif [ "${shortname}" == "lo" ]; then
-				fix_lo.sh
-			elif [ "${shortname}" == "ro" ]; then
-				fix_ro.sh
-			elif [ "${shortname}" == "samp" ]; then
-				fix_samp.sh
-			elif [ "${shortname}" == "ut2k4" ]; then
-				fix_ut2k4.sh
-			elif [ "${shortname}" == "ut" ]; then
-				fix_ut.sh
-			elif [ "${shortname}" == "ut3" ]; then
-				fix_ut3.sh
-			else
-				fn_print_information_nl "No fixes required."
-			fi
+	if [ "${shortname}" == "av" ] || [ "${shortname}" == "cmw" ] || [ "${shortname}" == "kf" ] || [ "${shortname}" == "kf2" ] || [ "${shortname}" == "lo" ] || [ "${shortname}" == "onset" ] || [ "${shortname}" == "ro" ] || [ "${shortname}" == "samp" ] || [ "${shortname}" == "ut2k4" ] || [ "${shortname}" == "ut" ] || [ "${shortname}" == "ut3" ]; then
+		echo -e ""
+		echo -e "${lightyellow}Applying Post-Install Fixes${default}"
+		echo -e "================================="
+		fn_sleep_time
+		postinstall=1
+		if [ "${shortname}" == "av" ]; then
+			fix_av.sh
+		elif [ "${shortname}" == "kf" ]; then
+			fix_kf.sh
+		elif [ "${shortname}" == "kf2" ]; then
+			fix_kf2.sh
+		elif [ "${shortname}" == "lo" ]; then
+			fix_lo.sh
+		elif [ "${shortname}" == "ro" ]; then
+			fix_ro.sh
+		elif [ "${shortname}" == "samp" ]; then
+			fix_samp.sh
+		elif [ "${shortname}" == "ut2k4" ]; then
+			fix_ut2k4.sh
+		elif [ "${shortname}" == "ut" ]; then
+			fix_ut.sh
+		elif [ "${shortname}" == "ut3" ]; then
+			fix_ut3.sh
+		else
+			fn_print_information_nl "No fixes required."
 		fi
+	fi
 fi

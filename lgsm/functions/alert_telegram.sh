@@ -7,7 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(cat <<EOF
+json=$(
+	cat << EOF
 {
 	"chat_id": "${telegramchatid}",
 	"parse_mode": "HTML",

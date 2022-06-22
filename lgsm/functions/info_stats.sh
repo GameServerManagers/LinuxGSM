@@ -20,7 +20,7 @@ fi
 # to allow human readable uuid's.
 # e.g angry_proskuriakova_38a9ef76-4ae3-46a6-a895-7af474831eba
 
-if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.txt" ]; then
+if [ ! -f "${datadir}/uuid-${selfname}.txt" ] || [ ! -f "${datadir}/uuid-install.txt" ]; then
 	# download dictionary words
 	if [ ! -f "${datadir}/name-left.csv" ]; then
 		fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
@@ -30,7 +30,7 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.t
 	fi
 
 	# generate instance uuid
-	if [ -n "$(command -v uuidgen 2>/dev/null)" ]; then
+	if [ -n "$(command -v uuidgen 2> /dev/null)" ]; then
 		uuid="$(uuidgen)"
 	else
 		uuid="$(cat /proc/sys/kernel/random/uuid)"
@@ -40,7 +40,7 @@ if [ ! -f "${datadir}/uuid-${selfname}.txt" ]||[ ! -f "${datadir}/uuid-install.t
 	nameright="$(shuf -n 1 "${datadir}/name-right.csv")"
 	echo "instance_${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-${selfname}.txt"
 	# generate install uuid if missing
-	if [ ! -f "${datadir}/uuid-install.txt" ];then
+	if [ ! -f "${datadir}/uuid-install.txt" ]; then
 		echo "${nameleft}_${nameright}_${uuid}" > "${datadir}/uuid-install.txt"
 	fi
 fi

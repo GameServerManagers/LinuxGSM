@@ -21,7 +21,7 @@ elif [ "${shortname}" == "mc" ]; then
 	update_minecraft.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_minecraft_bedrock.sh
-elif [ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
+elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
 	update_papermc.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh

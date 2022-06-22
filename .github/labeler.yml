@@ -1,98 +1,98 @@
 # Add/remove 'critical' label if issue contains the words 'urgent' or 'critical'
 # Type
 "type: game server request":
-    - '/(Server Request)/i'
+  - "/(Server Request)/i"
 "type: bug":
-    - '/(bug)/i'
+  - "/(bug)/i"
 "type: feature request":
-    - '/(feature)/i'
+  - "/(feature)/i"
 # Commands
 "command: backup":
-    - '/(backup)/i'
+  - "/(backup)/i"
 "command: console":
-    - '/(console|tmux)/i'
+  - "/(console|tmux)/i"
 "command: debug":
-    - '/(debug)/i'
+  - "/(debug)/i"
 "command: details":
-    - '/(details)/i'
+  - "/(details)/i"
 "command: fast-dl":
-    - '/(fast-dl|fastdl)/i'
+  - "/(fast-dl|fastdl)/i"
 "command: install":
-    - '/(install)/i'
+  - "/(install)/i"
 "command: mods":
-    - '/(mods)/i'
+  - "/(mods)/i"
 "command: monitor":
-    - '/(monitor)/i'
+  - "/(monitor)/i"
 "command: post-details":
-    - '/(post-details)/i'
+  - "/(post-details)/i"
 "command: restart":
-    - '/(restart)/i'
+  - "/(restart)/i"
 "command: send":
-    - '/(send)/i'
+  - "/(send)/i"
 "command: skeleton":
-    - '/(skeleton)/i'
+  - "/(skeleton)/i"
 "command: start":
-    - '/(start)/i'
+  - "/(start)/i"
 "command: stop":
-    - '/(stop)/i'
+  - "/(stop)/i"
 "command: update-lgsm":
-    - '/(update-lgsm)/i'
+  - "/(update-lgsm)/i"
 "command: update":
-    - '/(update)/i'
+  - "/(update)/i"
 "command: validate":
-    - '/(validate)/i'
+  - "/(validate)/i"
 "command: wipe":
-    - '/(wipe)/i'
+  - "/(wipe)/i"
 # Distros
 "distro: AlmaLinux":
-    - '/(Alma)/i'
+  - "/(Alma)/i"
 "distro: Arch Linux":
-    - '/(Arch)/i'
+  - "/(Arch)/i"
 "distro: CentOS":
-    - '/(CentOS)/i'
+  - "/(CentOS)/i"
 "distro: Debian":
-    - '/(Debian)/i'
+  - "/(Debian)/i"
 "distro: Fedora":
-    - '/(Fedora)/i'
+  - "/(Fedora)/i"
 "distro: openSUSE":
-    - '/(openSUSE|suse)/i'
+  - "/(openSUSE|suse)/i"
 "distro: Rocky Linux":
-    - '/(Rocky)/i'
+  - "/(Rocky)/i"
 "distro: Slackware":
-    - '/(Slackware)/i'
+  - "/(Slackware)/i"
 "distro: Ubuntu":
-    - '/(Ubuntu)/i'
+  - "/(Ubuntu)/i"
 # Info
 "info: alerts":
-    - '/(alert)/i'
+  - "/(alert)/i"
 "info: dependency":
-    - '/(dependency|deps)/i'
+  - "/(dependency|deps)/i"
 "info: docker":
-    - '/(docker)/i'
+  - "/(docker)/i"
 "info: docs":
-    - '/(documentation|docs)/i'
+  - "/(documentation|docs)/i"
 "info: email":
-    - '/(postfix|sendmail|exim|smtp)/i'
+  - "/(postfix|sendmail|exim|smtp)/i"
 "info: query":
-    - '/(gamedig|gsquery)/i'
+  - "/(gamedig|gsquery)/i"
 "info: steamcmd":
-    - '/(steamcmd)/i'
+  - "/(steamcmd)/i"
 "info: systemd":
-    - '/(systemd)/i'
+  - "/(systemd)/i"
 "info: tmux":
-    - '/(tmux)/i'
+  - "/(tmux)/i"
 "info: website":
-    - '/(website)/i'
+  - "/(website)/i"
 # Games
 "game: Ark: Survival Evolved":
-    - '/(Ark: Survival Evolved|Ark)/i'
+  - "/(Ark: Survival Evolved|Ark)/i"
 "game: ARMA 3":
-    - '/(ARMA 3)/i'
+  - "/(ARMA 3)/i"
 "game: Assetto Corsa":
-    - '/(Assetto Corsa)/i'
+  - "/(Assetto Corsa)/i"
 "game: Avorion":
-    - '/(Avorion)/i'
+  - "/(Avorion)/i"
 "game: Ballistic Overkill":
-    - '/(Ballistic Overkill)/i'
+  - "/(Ballistic Overkill)/i"
 "game: Barotrauma":
-    - '/(Barotrauma)/i'
+  - "/(Barotrauma)/i"

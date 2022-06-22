@@ -2,9 +2,8 @@
 name: New Server Request
 about: Suggest a new game server to be added.
 title: "[Server Request]"
-labels: 'type: game server request'
-assignees: ''
-
+labels: "type: game server request"
+assignees: ""
 ---
 
 ## What game server would you like to add?
@@ -17,8 +16,8 @@ Provide any useful documentation or resources that might help.
 
 ## Is the server on Steam?
 
-* [ ] Yes
-* [ ] No
+-   [ ] Yes
+-   [ ] No
 
 If yes Use SteamDB to get the appid. (https://steamdb.info).
 
@@ -28,5 +27,5 @@ If yes Use SteamDB to get the appid. (https://steamdb.info).
 
 We only support Linux servers and do **not** support Wine.
 
-* [ ] Yes
-* [ ] No
+-   [ ] Yes
+-   [ ] No

@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_ts3_dl(){
+fn_update_ts3_dl() {
 	if [ "${ts3arch}" == "amd64" ]; then
 		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
 	elif [ "${ts3arch}" == "x86" ]; then
@@ -30,13 +30,13 @@ fn_update_ts3_dl(){
 	fi
 }
 
-fn_update_ts3_localbuild(){
+fn_update_ts3_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Gives time for log file to generate.
 	requirerestart=1
-	if [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
+	if [ ! -d "${serverfiles}/logs" ] || [ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
 		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
@@ -49,7 +49,7 @@ fn_update_ts3_localbuild(){
 		fn_firstcommand_reset
 		totalseconds=0
 		# Check again, allow time to generate logs.
-		while [ ! -d "${serverfiles}/logs" ]||[ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
+		while [ ! -d "${serverfiles}/logs" ] || [ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
 			sleep 1
 			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
 			if [ -v "${loopignore}" ]; then
@@ -82,7 +82,7 @@ fn_update_ts3_localbuild(){
 				fn_script_log_info "Waiting for local build to generate"
 			fi
 			localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
-			if [ "${localbuild}" ]||[ "${seconds}" == "120" ]; then
+			if [ "${localbuild}" ] || [ "${seconds}" == "120" ]; then
 				break
 			fi
 			sleep 1
@@ -101,7 +101,7 @@ fn_update_ts3_localbuild(){
 	fi
 }
 
-fn_update_ts3_remotebuild(){
+fn_update_ts3_remotebuild() {
 	# Gets remote build info.
 	if [ "${ts3arch}" == "amd64" ]; then
 		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
@@ -111,7 +111,7 @@ fn_update_ts3_remotebuild(){
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -121,7 +121,7 @@ fn_update_ts3_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -129,12 +129,12 @@ fn_update_ts3_remotebuild(){
 	fi
 }
 
-fn_update_ts3_compare(){
+fn_update_ts3_compare() {
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -192,7 +192,7 @@ fn_update_ts3_compare(){
 info_distro.sh
 if [ "${arch}" == "x86_64" ]; then
 	ts3arch="amd64"
-elif [ "${arch}" == "i386" ]||[ "${arch}" == "i686" ]; then
+elif [ "${arch}" == "i386" ] || [ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
 	fn_print_failure "Unknown or unsupported architecture: ${arch}"
