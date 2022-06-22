@@ -32,7 +32,7 @@ info_game.sh
 fn_print_header
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
-	echo -e "${lightblue}Arch:\t\t${default}${arch}"
+	echo -e "${lightblue}Architecture:\t\t${default}${arch}"
 	echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
 	echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
 	echo -e "${lightblue}tmux:\t\t${default}${tmuxv}"
