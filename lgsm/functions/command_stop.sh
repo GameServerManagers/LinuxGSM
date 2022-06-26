@@ -231,6 +231,8 @@ fn_stop_graceful_select() {
 		fn_stop_graceful_avorion
 	elif [ "${stopmode}" == "11" ]; then
 		fn_stop_graceful_cmd "end" 30
+	elif [ "${stopmode}" == "12" ]; then
+		fn_stop_graceful_cmd "shutdown" 30
 	fi
 }
 

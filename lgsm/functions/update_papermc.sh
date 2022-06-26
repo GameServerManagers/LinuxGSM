@@ -122,6 +122,8 @@ remotelocation="papermc.io"
 
 if [ "${shortname}" == "pmc" ]; then
 	paperproject="paper"
+elif [ "${shortname}" == "vpmc" ]; then
+	paperproject="velocity"
 elif [ "${shortname}" == "wmc" ]; then
 	paperproject="waterfall"
 fi

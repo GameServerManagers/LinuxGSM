@@ -687,7 +687,7 @@ fn_info_message_ports() {
 		echo -e "ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		echo -e "ss -tuplwn | grep bf1942_lnxded"
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		echo -e "ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		echo -e "ss -tuplwn | grep Main"
@@ -1610,6 +1610,13 @@ fn_info_message_vints() {
 	} | column -s $'\t' -t
 }
 
+fn_info_message_vpmc() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_wet() {
 	{
 		fn_port "header"
@@ -1798,6 +1805,8 @@ fn_info_message_select_engine() {
 		fn_info_message_ut2k4
 	elif [ "${shortname}" == "ut3" ]; then
 		fn_info_message_ut3
+	elif [ "${shortname}" == "vpmc" ]; then
+		fn_info_message_vpmc
 	elif [ "${shortname}" == "wet" ]; then
 		fn_info_message_wet
 	elif [ "${shortname}" == "wf" ]; then

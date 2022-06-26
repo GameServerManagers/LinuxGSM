@@ -222,7 +222,7 @@ elif [ "${shortname}" == "mcb" ]; then
 elif [ "${shortname}" == "pmc" ]; then
 	install_eula.sh
 	update_papermc.sh
-elif [ "${shortname}" == "wmc" ]; then
+elif [ "${shortname}" == "wmc" ]||[ "${shortname}" == "vpmc" ]; then
 	update_papermc.sh
 elif [ "${shortname}" == "mumble" ]; then
 	update_mumble.sh
