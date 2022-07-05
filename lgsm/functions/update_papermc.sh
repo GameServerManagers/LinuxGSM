@@ -74,7 +74,7 @@ fn_update_papermc_remotebuild(){
 fn_update_papermc_compare(){
 	fn_print_dots "Checking for update: ${remotelocation}"
 	sleep 0.5
-	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then		
+	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available for version ${paperversion}"

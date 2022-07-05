@@ -3,6 +3,7 @@ ahl,ahlserver,Action Half-Life
 ahl2,ahl2server,Action: Source
 ark,arkserver,ARK: Survival Evolved
 arma3,arma3server,ARMA 3
+armar,armarserver,Arma Reforger
 av,avserver,Avorion
 bb,bbserver,BrainBread
 bb2,bb2server,BrainBread 2
@@ -15,6 +16,7 @@ bs,bsserver,Blade Symphony
 bt,btserver,Barotrauma
 bt1944,bt1944server,Battalion 1944
 cc,ccserver,Codename CURE
+cd,cdserver,Crafting Dead
 cmw,cmwserver,Chivalry: Medieval Warfare
 cod,codserver,Call of Duty
 cod2,cod2server,Call of Duty 2
@@ -27,8 +29,10 @@ cscz,csczserver,Counter-Strike: Condition Zero
 csgo,csgoserver,Counter-Strike: Global Offensive
 css,cssserver,Counter-Strike: Source
 dab,dabserver,Double Action: Boogaloo
+dayz,dayzserver,DayZ
 dmc,dmcserver,Deathmatch Classic
 dod,dodserver,Day of Defeat
+dodr,dodrserver,Day of Dragons
 dods,dodsserver,Day of Defeat: Source
 doi,doiserver,Day of Infamy
 dst,dstserver,Don't Starve Together
@@ -51,6 +55,7 @@ jc3,jc3server,Just Cause 3
 jk2,jk2server,Jedi Knight II: Jedi Outcast
 kf,kfserver,Killing Floor
 kf2,kf2server,Killing Floor 2
+lo,loserver,Last Oasis
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
 mc,mcserver,Minecraft
@@ -68,6 +73,7 @@ ns2c,ns2cserver,NS2: Combat
 onset,onsetserver,Onset
 opfor,opforserver,Opposing Force
 pc,pcserver,Project Cars
+pc2,pc2server,Project Cars 2
 pmc,pmcserver,PaperMC
 pstbs,pstbsserver,Post Scriptum: The Bloody Seventh
 pvkii,pvkiiserver,Pirates Vikings & Knights II
@@ -89,14 +95,17 @@ scpsl,scpslserver,SCP: Secret Laboratory
 scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod
 sdtd,sdtdserver,7 Days to Die
 sfc,sfcserver,SourceForts Classic
+sf,sfserver,Satisfactory
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 sol,solserver,Soldat
 squad,squadserver,Squad
 st,stserver,Stationeers
+stn,stnserver,Survive the Nights
 sven,svenserver,Sven Co-op
 terraria,terrariaserver,Terraria
 tf2,tf2server,Team Fortress 2
 tfc,tfcserver,Team Fortress Classic
+ti,tiserver,The Isle
 ts,tsserver,The Specialists
 ts3,ts3server,Teamspeak 3
 tu,tuserver,Tower Unite
@@ -107,8 +116,8 @@ ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
 vh,vhserver,Valheim
-vs,vsserver,Vampire Slayer
 vints,vintsserver,Vintage Story
+vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
 wmc,wmcserver,WaterfallMC

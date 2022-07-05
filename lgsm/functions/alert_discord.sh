@@ -7,21 +7,16 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if ! command -v jq > /dev/null; then
-	fn_print_fail_nl "Sending Discord alert: jq is missing."
-	fn_script_log_fatal "Sending Discord alert: jq is missing."
-fi
-
 json=$(cat <<EOF
 {
 	"username":"LinuxGSM",
-	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png",
+	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
 	"file":"content",
 	"embeds": [{
 		"color": "2067276",
 		"author": {
 			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
-			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.png"
+			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
 		},
 		"title": "${servername}",
 		"description": "${alertbody} \n More info: ${alerturl}",
@@ -52,7 +47,7 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${discordwebhook}")
+discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

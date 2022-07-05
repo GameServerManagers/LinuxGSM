@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Used with email alerts.
 fn_alert_log(){
 	info_distro.sh
-	info_config.sh
+	info_game.sh
 	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
@@ -150,6 +150,21 @@ elif [ "${emailalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${email}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Email not set"
 	fn_script_log_error "Email not set"
+fi
+
+if [ "${gotifyalert}" == "on" ]&&[ -n "${gotifyalert}" ]; then
+	alert_gotify.sh
+elif [ "${gotifyalert}" != "on" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "Gotify alerts not enabled"
+	fn_script_log_warn "Gotify alerts not enabled"
+elif [ -z "${gotifytoken}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Gotify token not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/gotify"
+	fn_script_error "Gotify token not set"
+elif [ -z "${gotifywebhook}" ]&&[ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Gotify webhook not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/gotify"
+	fn_script_error "Gotify webhook not set"
 fi
 
 if [ "${iftttalert}" == "on" ]&&[ -n "${iftttalert}" ]; then

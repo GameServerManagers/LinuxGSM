@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.2.2"
+version="v22.1.0"
 shortname="mc"
 gameservername="mcserver"
 commandname="CORE"
@@ -933,10 +933,10 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "Inserting Travis IP in to config."
 echo -e "Allows monitor to work"
-if [ "$(ip -o -4 addr|grep eth0)" ]; then
-	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+if [ "$(${ipcommand}-o -4 addr|grep eth0)" ]; then
+	travisip=$(${ipcommand}-o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
 else
-	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+	travisip=$(${ipcommand}-o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
 fi
 sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
 echo -e "IP: ${travisip}"
@@ -945,7 +945,7 @@ echo -e ""
 echo -e "5.0 - Monitor Tests"
 echo -e "=================================================================="
 echo -e ""
-info_config.sh
+info_game.sh
 echo -e "Server IP - Port: ${ip}:${port}"
 echo -e "Server IP - Query Port: ${ip}:${queryport}"
 
@@ -1167,10 +1167,10 @@ echo -e "================================="
 echo -e "Description:"
 echo -e "Inserting Travis IP in to config."
 echo -e "Allows monitor to work"
-if [ "$(ip -o -4 addr|grep eth0)" ]; then
-	travisip=$(ip -o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
+if [ "$(${ipcommand}-o -4 addr|grep eth0)" ]; then
+	travisip=$(${ipcommand}-o -4 addr | grep eth0 | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | grep -v 127.0.0)
 else
-	travisip=$(ip -o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
+	travisip=$(${ipcommand}-o -4 addr | grep ens | awk '{print $4}' | grep -oe '\([0-9]\{1,3\}\.\?\)\{4\}' | sort -u | grep -v 127.0.0)
 fi
 sed -i "/server-ip=/c\server-ip=${travisip}" "${serverfiles}/server.properties"
 echo -e "IP: ${travisip}"

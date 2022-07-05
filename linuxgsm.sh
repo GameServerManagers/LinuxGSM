@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v21.2.2"
+version="v22.1.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -47,9 +47,15 @@ userinput2="${2}"
 ## GitHub Branch Select
 # Allows for the use of different function files
 # from a different repo and/or branch.
-githubuser="GameServerManagers"
-githubrepo="LinuxGSM"
-githubbranch="master"
+[ -n "${LGSM_GITHUBUSER}" ] && githubuser="${LGSM_GITHUBUSER}" || githubuser="GameServerManagers"
+[ -n "${LGSM_GITHUBREPO}" ] && githubrepo="${LGSM_GITHUBREPO}" || githubrepo="LinuxGSM"
+[ -n "${LGSM_GITHUBBRANCH}" ] && githubbranch="${LGSM_GITHUBBRANCH}" || githubbranch="master"
+
+# Check that curl is installed before doing anything
+if [ ! "$(command -v curl 2>/dev/null)" ]; then
+	echo -e "[ FAIL ] Curl is not installed"
+	exit 1
+fi
 
 # Core function that is required first.
 core_functions.sh(){
@@ -478,7 +484,7 @@ else
 		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/_default.cfg"; then
 			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
-		
+
 		# For legacy configs that still use parms= 15.03.21
 		if grep -qE "^[[:blank:]]*parms=" "${configdirserver}/secrets-${selfname}.cfg"; then
 			eval parms="$(sed -nr 's/^ *parms=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
@@ -497,7 +503,6 @@ else
 		fi
 	}
 
-	fn_reload_startparameters
 	# Load the linuxgsm.sh in to tmpdir. If missing download it.
 	if [ ! -f "${tmpdir}/linuxgsm.sh" ]; then
 		fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "chmodx" "norun" "noforcedl" "nomd5"
