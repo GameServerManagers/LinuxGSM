@@ -75,6 +75,8 @@ if [ "${commandname}" != "INSTALL" ] && [ -z "${fixbypass}" ]; then
 		fix_st.sh
 	elif [ "${shortname}" == "tf2" ]; then
 		fix_tf2.sh
+	elif [ "${shortname}" == "tf2c" ]; then
+		fix_tf2c.sh
 	elif [ "${shortname}" == "terraria" ]; then
 		fix_terraria.sh
 	elif [ "${shortname}" == "ts3" ]; then

@@ -85,6 +85,14 @@ fn_install_server_files() {
 		chmodx="nochmodx" run="norun"
 		force="noforce"
 		md5="7c664538999252eeaf2b6d9949416480"
+    elif [ "${shortname}" == "tf2c" ]; then
+		remote_fileurl="https://chapo.services/tf2c/tf2classic-2.0.3.zip" 
+		local_filedir="${tmpdir}" 
+		local_filename="tf2classic-2.0.3.zip" 
+		chmodx="nochmodx"
+		run="norun"
+		force="noforce"
+        md5="6f973d912ff2583d6b715ca624abe30a"
 	elif [ "${shortname}" == "ns" ]; then
 		remote_fileurl="http://linuxgsm.download/NaturalSelection/ns_dedicated_server_v32.tar.xz"
 		local_filedir="${tmpdir}"

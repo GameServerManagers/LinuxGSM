@@ -451,6 +451,11 @@ fix_tf2.sh() {
 	fn_fetch_function
 }
 
+fix_tf2c.sh() {
+	functionfile="${FUNCNAME[0]}"
+	fn_fetch_function
+}
+
 fix_ut3.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function

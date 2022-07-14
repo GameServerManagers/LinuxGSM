@@ -777,6 +777,13 @@ elif [ "${shortname}" == "tf2" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "tf2c" ]; then
+	gamedirname="TeamFortress2Classic"
+	array_configs+=( server.cfg )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "tfc" ]; then
 	gamedirname="TeamFortressClassic"
 	array_configs+=(server.cfg)
