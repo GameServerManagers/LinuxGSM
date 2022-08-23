@@ -2177,20 +2177,17 @@ fn_info_game_vints() {
 		servername="${unavailable}"
 		maxplayers="${unavailable}"
 		serverpassword="${unavailable}"
-		port="${unavailable}"
-		queryport="${unavailable}"
-		configip="${unavailable}"
+		port="${port:-"0"}"
 	else
 		servername=$(jq -r '.ServerName' "${servercfgfullpath}")
 		maxplayers=$(jq -r '.MaxClients' "${servercfgfullpath}")
 		serverpassword=$(jq -r 'select(.Password != null) | .Password' "${servercfgfullpath}")
 		port=$(jq -r '.Port' "${servercfgfullpath}")
-		queryport=${port:-"0"}
 		configip=$(jq -r 'select(.Ip != null) | .Ip' "${servercfgfullpath}")
-
-		serverpassword=${serverpassword:-"NOT SET"}
-		configip=${configip:-"0.0.0.0"}
 	fi
+	queryport=${port:-"0"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	configip=${configip:-"0.0.0.0"}
 }
 
 fn_info_game_wet() {
