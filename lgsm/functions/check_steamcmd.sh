@@ -12,7 +12,7 @@ core_steamcmd.sh
 
 fn_check_steamcmd_clear
 fn_check_steamcmd
-if [ ${shortname} == "ark" ]; then
+if [ "${shortname}" == "ark" ]; then
 	fn_check_steamcmd_ark
 fi
 fn_check_steamcmd_dir
