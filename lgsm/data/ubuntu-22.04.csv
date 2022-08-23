@@ -77,7 +77,7 @@ pmc,openjdk-17-jre
 pstbs,libgconf-2-4
 pvkii
 pvr,libc++1
-pz,openjdk-16-jre,rng-tools
+pz,openjdk-17-jre,rng-tools5
 q2
 q3
 ql
@@ -86,7 +86,7 @@ ricochet
 ro
 rtcw
 rust,lib32z1
-rw,openjdk-16-jre
+rw,openjdk-17-jre
 samp
 sb
 sbots
