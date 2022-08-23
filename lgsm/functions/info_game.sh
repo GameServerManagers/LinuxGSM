@@ -653,6 +653,12 @@ fn_info_game_fctr() {
 	port=${port:-"0"}
 	rconport=${rconport:-"0"}
 	rconpassword=${rconpassword:-"NOT SET"}
+
+	# get server version if installed
+	local factoriobin="${executabledir}${executable:1}"
+	if [ -f "${factoriobin}" ]; then
+		serverversion=$(${factoriobin} --version | grep "Version:" | awk '{print $2}')
+	fi
 }
 
 fn_info_game_jc2() {
