@@ -217,7 +217,7 @@ elif [ "${shortname}" == "bo" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "bo" ]; then
+elif [ "${shortname}" == "bd" ]; then
 	gamedirname="BaseDefense"
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
