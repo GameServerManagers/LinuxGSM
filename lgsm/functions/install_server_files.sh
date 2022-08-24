@@ -86,7 +86,7 @@ fn_install_server_files() {
 		force="noforce"
 		md5="7c664538999252eeaf2b6d9949416480"
     elif [ "${shortname}" == "tf2c" ]; then
-		remote_fileurl="https://chapo.services/tf2c/tf2classic-2.0.3.zip" 
+		remote_fileurl="https://tf2classic.org/tf2c/tf2classic-2.0.3.zip" 
 		local_filedir="${tmpdir}" 
 		local_filename="tf2classic-2.0.3.zip" 
 		chmodx="nochmodx"
