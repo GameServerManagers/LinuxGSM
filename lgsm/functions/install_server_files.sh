@@ -191,12 +191,12 @@ fn_install_server_files() {
 		force="noforce"
 		md5="93705e165550c97484678236749198a4"
 	elif [ "${shortname}" == "zmr" ]; then
-		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b5_2.tar.xz"
+		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b6_1.tar.xz"
 		local_filedir="${tmpdir}"
 		local_filename="zombie_master_reborn_b5_2.tar.xz"
 		chmodx="nochmodx" run="norun"
 		force="noforce"
-		md5="4b9b9832e863d03981a40c26065792a6"
+		md5="0188ae86dbc9376f11ae3032dba2d665"
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
