@@ -8,13 +8,17 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ts3_dl() {
+	ts3latestdata=$(curl -s "https://www.${remotelocation}/versions/server.json" | jq '.linux')
 	if [ "${ts3arch}" == "amd64" ]; then
-		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
+		remotebuildurl=$(echo -e "${ts3latestdata}" | jq -r '.x86_64.mirrors."teamspeak.com"')
+		remotehash=$(echo -e "${ts3latestdata}" | jq -r '.x86_64.checksum')
 	elif [ "${ts3arch}" == "x86" ]; then
-		remotebuildurl=$(curl -s 'https://www.teamspeak.com/versions/server.json' | jq -r '.linux.x86.mirrors."teamspeak.com"')
+		remotebuildurl=$(echo -e "${ts3latestdata}" | jq -r '.x86.mirrors."teamspeak.com"')
+		remotehash=$(echo -e "${ts3latestdata}" | jq -r '.x86.checksum')
 	fi
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "" "norun" "noforce" "nohash"
-	fn_dl_extract "${tmpdir}" "teamspeak3-server_linux_${ts3arch}-${remotebuild}.tar.bz2" "${tmpdir}"
+	remotefile=$(basename "${remotebuildurl}")
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotefile}" "" "norun" "noforce" "${remotehash}"
+	fn_dl_extract "${tmpdir}" "${remotefile}" "${tmpdir}"
 	echo -e "copying to ${serverfiles}...\c"
 	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
 	local exitcode=$?
@@ -103,10 +107,11 @@ fn_update_ts3_localbuild() {
 
 fn_update_ts3_remotebuild() {
 	# Gets remote build info.
+	ts3latestdata=$(curl -s "https://www.${remotelocation}/versions/server.json" | jq '.linux')
 	if [ "${ts3arch}" == "amd64" ]; then
-		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86_64.version')
+		remotebuild=$(echo -e "${ts3latestdata}" | jq -r '.x86_64.version')
 	elif [ "${ts3arch}" == "x86" ]; then
-		remotebuild=$(curl -s "https://www.teamspeak.com/versions/server.json" | jq -r '.linux.x86.version')
+		remotebuild=$(echo -e "${ts3latestdata}" | jq -r '.x86.version')
 	fi
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
