@@ -243,7 +243,7 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vintagestory.sh
-elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bd" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
+elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bd" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ] || [ "${shortname}" == "tf2c" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi
