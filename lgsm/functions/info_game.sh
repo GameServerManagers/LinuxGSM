@@ -2265,7 +2265,7 @@ fn_info_game_wmc(){
 
 		# Not set
 		servername=${servername:-"NOT SET"}
-		queryport=${rconpassword:-"NOT SET"}
+		queryport=${queryport:-"25577"}
 		maxplayers=${maxplayers:-"0"}
 		configip=${configip:-"0.0.0.0"}
 	fi
