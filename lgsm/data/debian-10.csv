@@ -119,6 +119,7 @@ ut99
 vh,libc6-dev
 vs
 vints,mono-complete
+vpmc,openjdk-11-jre
 wet
 wf
 wmc,openjdk-11-jre

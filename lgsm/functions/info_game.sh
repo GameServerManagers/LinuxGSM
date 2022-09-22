@@ -2190,6 +2190,22 @@ fn_info_game_vints() {
 	configip=${configip:-"0.0.0.0"}
 }
 
+fn_info_game_vpmc() {
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		configip="0.0.0.0"
+		port="25577"
+	else
+		servername=$(sed -nr 's/^motd\s*=\s*"(.*)"/\1/p' "${servercfgfullpath}")
+		bindaddress=$(sed -nr 's/^bind\s*=\s*"([0-9.:]+)"/\1/p' "${servercfgfullpath}")
+		configip=$(echo "${bindaddress}" | cut -d ':' -f 1)
+		port=$(echo "${bindaddress}" | cut -d ':' -f 2)
+
+		servername=${servername:-"NOT SET"}
+	fi
+	queryport=${port:-"25577"}
+}
+
 fn_info_game_wet() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2456,6 +2472,8 @@ elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_game_vints
+elif [ "${shortname}" == "vpmc" ]; then
+	fn_info_game_vpmc
 elif [ "${shortname}" == "wet" ]; then
 	fn_info_game_wet
 elif [ "${shortname}" == "wf" ]; then

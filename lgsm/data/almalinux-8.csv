@@ -119,6 +119,7 @@ ut99
 vh,glibc-devel
 vs
 vints,mono-complete
+vpmc,java-11-openjdk
 wet
 wf
 wmc,java-11-openjdk
