@@ -10,7 +10,7 @@ import argparse
 import socket
 import sys
 
-engine_types=('protocol-valve','protocol-quake3', 'protocol-quake3','protocol-gamespy1','protocol-unreal2','ut3 minecraft','minecraftbe','jc2mp','mumbleping','soldat','teeworlds')
+engine_types=('protocol-valve','protocol-quake3','protocol-quake3','protocol-gamespy1','protocol-unreal2','ut3','minecraft','minecraftbe','jc2mp','mumbleping','soldat','teeworlds')
 
 class gsquery:
     server_response_timeout = 5
