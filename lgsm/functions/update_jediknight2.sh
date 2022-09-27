@@ -7,7 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_jk2_dl(){
+fn_update_jk2_dl() {
 	fn_fetch_file "https://github.com/mvdevs/jk2mv/releases/download/${remotebuild}/jk2mv-v${remotebuild}-dedicated.zip" "" "" "" "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "${tmpdir}/jk2mv-v${remotebuild}-dedicated"
 	echo -e "copying to ${serverfiles}...\c"
@@ -24,13 +24,13 @@ fn_update_jk2_dl(){
 	fi
 }
 
-fn_update_jk2_localbuild(){
+fn_update_jk2_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
 	requirerestart=1
-	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2>/dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
+	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2> /dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -57,7 +57,7 @@ fn_update_jk2_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
+		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2> /dev/null)" | tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -71,13 +71,13 @@ fn_update_jk2_localbuild(){
 	fi
 }
 
-fn_update_jk2_remotebuild(){
+fn_update_jk2_remotebuild() {
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest" | grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -87,7 +87,7 @@ fn_update_jk2_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -95,12 +95,12 @@ fn_update_jk2_remotebuild(){
 	fi
 }
 
-fn_update_jk2_compare(){
+fn_update_jk2_compare() {
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"

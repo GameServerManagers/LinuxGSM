@@ -10,7 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 #random number for userAgent
 randnum=$((1 + RANDOM % 5000))
 
-fn_update_minecraft_dl(){
+fn_update_minecraft_dl() {
 	fn_fetch_file "https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuild}.zip" "" "" "" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
 	echo -e "Extracting to ${serverfiles}...\c"
 	if [ "${firstcommandname}" == "INSTALL" ]; then
@@ -32,13 +32,13 @@ fn_update_minecraft_dl(){
 	fi
 }
 
-fn_update_minecraft_localbuild(){
+fn_update_minecraft_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to gather info.
 	# Log is generated and cleared on startup but filled on shutdown.
 	requirerestart=1
-	localbuild=$(grep Version "${consolelogdir}"/* 2>/dev/null | tail -1 | sed 's/.*Version //')
+	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version //')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}"
 		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
@@ -65,7 +65,7 @@ fn_update_minecraft_localbuild(){
 	fi
 
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2>/dev/null)" | tail -1 | sed 's/.*Version //')
+		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2> /dev/null)" | tail -1 | sed 's/.*Version //')
 	fi
 
 	if [ -z "${localbuild}" ]; then
@@ -79,7 +79,7 @@ fn_update_minecraft_localbuild(){
 	fi
 }
 
-fn_update_minecraft_remotebuild(){
+fn_update_minecraft_remotebuild() {
 	# Gets remote build info.
 	if [ "${mcversion}" == "latest" ]; then
 		remotebuild=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
@@ -90,7 +90,7 @@ fn_update_minecraft_remotebuild(){
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -100,7 +100,7 @@ fn_update_minecraft_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -108,12 +108,12 @@ fn_update_minecraft_remotebuild(){
 	fi
 }
 
-fn_update_minecraft_compare(){
+fn_update_minecraft_compare() {
 	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"

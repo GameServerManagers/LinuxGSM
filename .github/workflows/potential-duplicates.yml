@@ -12,9 +12,9 @@ jobs:
           # Issue title filter work with anymatch https://www.npmjs.com/package/anymatch.
           # Any matched issue will stop detection immediately.
           # You can specify multi filters in each line.
-          filter: ''
+          filter: ""
           # Exclude keywords in title before detecting.
-          exclude: ''
+          exclude: ""
           # Label to set, when potential duplicates are detected.
           label: potential-duplicate
           # Get issues with state to compare. Supported state: 'all', 'closed', 'open'.

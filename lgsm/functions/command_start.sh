@@ -10,17 +10,17 @@ commandaction="Starting"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_start_teamspeak3(){
+fn_start_teamspeak3() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		fn_print_warn_nl "${servercfgfullpath} is missing"
 		fn_script_log_warn "${servercfgfullpath} is missing"
-		echo  "	* Creating blank ${servercfg}"
+		echo "	* Creating blank ${servercfg}"
 		fn_script_log_info "Creating blank ${servercfg}"
 		fn_sleep_time
-		echo  "	* ${servercfg} can remain blank by default."
+		echo "	* ${servercfg} can remain blank by default."
 		fn_script_log_info "${servercfgfullpath} can remain blank by default."
 		fn_sleep_time
-		echo  "	* ${servercfg} is located in ${servercfgfullpath}."
+		echo "	* ${servercfg} is located in ${servercfgfullpath}."
 		fn_script_log_info "${servercfg} is located in ${servercfgfullpath}."
 		sleep 5
 		touch "${servercfgfullpath}"
@@ -34,12 +34,12 @@ fn_start_teamspeak3(){
 
 # This will allow the Jedi Knight 2 version to be printed in console on start.
 # Used to allow update to detect JK2MV server version.
-fn_start_jk2(){
+fn_start_jk2() {
 	fn_start_tmux
 	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
-fn_start_tmux(){
+fn_start_tmux() {
 	if [ "${parmsbypass}" ]; then
 		startparameters=""
 	fi
@@ -57,7 +57,7 @@ fn_start_tmux(){
 
 	# Log rotation.
 	fn_script_log_info "Rotating log files"
-	if [ "${engine}" == "unreal2" ]&&[ -f "${gamelog}" ]; then
+	if [ "${engine}" == "unreal2" ] && [ -f "${gamelog}" ]; then
 		mv "${gamelog}" "${gamelogdate}"
 	fi
 	if [ -f "${lgsmlog}" ]; then
@@ -91,7 +91,7 @@ fn_start_tmux(){
 	if [ "${tmuxv}" == "master" ]; then
 		fn_script_log "tmux version: master (user compiled)"
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
-		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	elif [ -n "${tmuxv}" ]; then
@@ -107,7 +107,7 @@ fn_start_tmux(){
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
-		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	else
@@ -140,11 +140,10 @@ fn_start_tmux(){
 			cat "${lgsmlogdir}/.${selfname}-tmux-error.tmp" | tee -a "${lgsmlog}"
 
 			# Detected error https://linuxgsm.com/support
-			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
-			then
-			echo -e ""
-			echo -e "Fix"
-			echo -e "================================="
+			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"; then
+				echo -e ""
+				echo -e "Fix"
+				echo -e "================================="
 				if ! grep "tty:" /etc/group | grep "$(whoami)"; then
 					echo -e "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
@@ -172,7 +171,7 @@ fn_start_tmux(){
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2>/dev/null
+	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
 	echo -en "\n"
 }
 
@@ -195,7 +194,7 @@ info_game.sh
 core_logs.sh
 
 # Will check for updates is updateonstart is yes.
-if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
+if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${updateonstart}" == "on" ]; then
 	exitbypass=1
 	unset updateonstart
 	command_update.sh

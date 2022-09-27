@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Trap to remove lockfile on quit.
-fn_lockfile_trap(){
+fn_lockfile_trap() {
 	# Remove lockfile.
 	rm -f "${lockdir:?}/${selfname}.lock"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
@@ -32,7 +32,7 @@ info_game.sh
 fn_print_header
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
-	echo -e "${lightblue}Arch:\t\t${default}${arch}"
+	echo -e "${lightblue}Architecture:\t\t${default}${arch}"
 	echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
 	echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
 	echo -e "${lightblue}tmux:\t\t${default}${tmuxv}"
@@ -70,7 +70,7 @@ fi
 
 fn_reload_startparameters
 echo -e "${lightblue}Start parameters:${default}"
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	echo -e "${executable} ${startparameters} -condebug"
@@ -111,7 +111,7 @@ else
 fi
 
 # Note: do not add double quotes to ${executable} ${startparameters}.
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	eval "${executable} ${startparameters} -condebug"

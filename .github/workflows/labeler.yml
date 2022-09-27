@@ -9,8 +9,8 @@ permissions:
 jobs:
   triage:
     permissions:
-      contents: read  # for github/issue-labeler to get repo contents
-      issues: write  # for github/issue-labeler to create or remove labels
+      contents: read # for github/issue-labeler to get repo contents
+      issues: write # for github/issue-labeler to create or remove labels
     runs-on: ubuntu-latest
     steps:
     - uses: github/issue-labeler@v2.5

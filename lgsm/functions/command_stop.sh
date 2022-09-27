@@ -11,11 +11,11 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Attempts graceful shutdown by sending 'CTRL+c'.
-fn_stop_graceful_ctrlc(){
+fn_stop_graceful_ctrlc() {
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends quit.
-	tmux send-keys -t "${sessionname}" C-c  > /dev/null 2>&1
+	tmux send-keys -t "${sessionname}" C-c > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -39,13 +39,13 @@ fn_stop_graceful_ctrlc(){
 # Attempts graceful shutdown by sending a specified command.
 # Usage: fn_stop_graceful_cmd "console_command" "timeout_in_seconds"
 # e.g.: fn_stop_graceful_cmd "quit" "30"
-fn_stop_graceful_cmd(){
+fn_stop_graceful_cmd() {
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
 	tmux send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
-	for ((seconds=1; seconds<=${2}; seconds++)); do
+	for ((seconds = 1; seconds <= ${2}; seconds++)); do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
 			fn_print_ok "Graceful: sending \"${1}\": ${seconds}: "
@@ -67,7 +67,7 @@ fn_stop_graceful_cmd(){
 # Attempts graceful shutdown of goldsrc using rcon 'quit' command.
 # There is only a 3 second delay before a forced a tmux shutdown
 # as GoldSrc servers 'quit' command does a restart rather than shutdown.
-fn_stop_graceful_goldsrc(){
+fn_stop_graceful_goldsrc() {
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
@@ -83,9 +83,9 @@ fn_stop_graceful_goldsrc(){
 }
 
 # telnet command for sdtd graceful shutdown.
-fn_stop_graceful_sdtd_telnet(){
-	if [ -z "${telnetpass}" ]||[ "${telnetpass}" == "NOT SET" ]; then
-		sdtd_telnet_shutdown=$( expect -c '
+fn_stop_graceful_sdtd_telnet() {
+	if [ -z "${telnetpass}" ] || [ "${telnetpass}" == "NOT SET" ]; then
+		sdtd_telnet_shutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
@@ -99,7 +99,7 @@ fn_stop_graceful_sdtd_telnet(){
 		puts "Completed.\n"
 		')
 	else
-		sdtd_telnet_shutdown=$( expect -c '
+		sdtd_telnet_shutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
@@ -120,12 +120,12 @@ fn_stop_graceful_sdtd_telnet(){
 }
 
 # Attempts graceful shutdown of 7 Days To Die using telnet.
-fn_stop_graceful_sdtd(){
+fn_stop_graceful_sdtd() {
 	fn_print_dots "Graceful: telnet"
 	fn_script_log_info "Graceful: telnet"
 	if [ "${telnetenabled}" == "false" ]; then
 		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
-	elif [ "$(command -v expect 2>/dev/null)" ]; then
+	elif [ "$(command -v expect 2> /dev/null)" ]; then
 		# Tries to shutdown with both localhost and server IP.
 		for telnetip in 127.0.0.1 ${ip}; do
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
@@ -180,7 +180,7 @@ fn_stop_graceful_sdtd(){
 }
 
 # Attempts graceful shutdown by sending /save /stop.
-fn_stop_graceful_avorion(){
+fn_stop_graceful_avorion() {
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
@@ -208,7 +208,7 @@ fn_stop_graceful_avorion(){
 	fi
 }
 
-fn_stop_graceful_select(){
+fn_stop_graceful_select() {
 	if [ "${stopmode}" == "1" ]; then
 		fn_stop_tmux
 	elif [ "${stopmode}" == "2" ]; then
@@ -231,10 +231,12 @@ fn_stop_graceful_select(){
 		fn_stop_graceful_avorion
 	elif [ "${stopmode}" == "11" ]; then
 		fn_stop_graceful_cmd "end" 30
+	elif [ "${stopmode}" == "12" ]; then
+		fn_stop_graceful_cmd "shutdown" 30
 	fi
 }
 
-fn_stop_tmux(){
+fn_stop_tmux() {
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${sessionname}: ${servername}"
 	# Kill tmux session.
@@ -251,7 +253,7 @@ fn_stop_tmux(){
 }
 
 # Checks if the server is already stopped.
-fn_stop_pre_check(){
+fn_stop_pre_check() {
 	if [ "${status}" == "0" ]; then
 		fn_print_info_nl "${servername} is already stopped"
 		fn_script_log_error "${servername} is already stopped"

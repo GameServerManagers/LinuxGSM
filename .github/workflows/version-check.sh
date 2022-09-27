@@ -1,5 +1,5 @@
-version=$(grep "version=" linuxgsm.sh | sed -e 's/version//g'| tr -d '="')
-modulesversion=$(grep "modulesversion=" lgsm/functions/core_functions.sh | sed -e 's/modulesversion//g'| tr -d '="')
+version=$(grep "version=" linuxgsm.sh | sed -e 's/version//g' | tr -d '="')
+modulesversion=$(grep "modulesversion=" lgsm/functions/core_functions.sh | sed -e 's/modulesversion//g' | tr -d '="')
 
 if [ "${version}" != "${modulesversion}" ]; then
 	echo "Error! LinuxGSM version mismatch"

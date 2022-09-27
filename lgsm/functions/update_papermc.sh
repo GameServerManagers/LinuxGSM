@@ -9,9 +9,9 @@ local commandname="UPDATE"
 local commandaction="Update"
 local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_papermc_dl(){
+fn_update_papermc_dl() {
 	# get build info
-	builddata=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}/builds/${remotebuild}" | jq '.downloads' )
+	builddata=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}/builds/${remotebuild}" | jq '.downloads')
 	buildname=$(echo -e "${builddata}" | jq -r '.application.name')
 	buildsha256=$(echo -e "${builddata}" | jq -r '.application.sha256')
 
@@ -33,7 +33,7 @@ fn_update_papermc_dl(){
 	fi
 }
 
-fn_update_papermc_localbuild(){
+fn_update_papermc_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
 	sleep 0.5
@@ -56,12 +56,12 @@ fn_update_papermc_localbuild(){
 	sleep 0.5
 }
 
-fn_update_papermc_remotebuild(){
+fn_update_papermc_remotebuild() {
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}" | jq -r '.builds[-1]')
 
 	# Checks if remotebuild variable has been set.
-	if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+	if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 		fn_print_failure "Unable to get remote build"
 		fn_script_log_fatal "Unable to get remote build"
 		core_exit.sh
@@ -71,10 +71,10 @@ fn_update_papermc_remotebuild(){
 	fi
 }
 
-fn_update_papermc_compare(){
+fn_update_papermc_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	sleep 0.5
-	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available for version ${paperversion}"
@@ -122,6 +122,8 @@ remotelocation="papermc.io"
 
 if [ "${shortname}" == "pmc" ]; then
 	paperproject="paper"
+elif [ "${shortname}" == "vpmc" ]; then
+	paperproject="velocity"
 elif [ "${shortname}" == "wmc" ]; then
 	paperproject="waterfall"
 fi

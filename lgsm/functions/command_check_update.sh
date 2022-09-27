@@ -14,12 +14,16 @@ fn_print_dots ""
 check.sh
 core_logs.sh
 
-core_steamcmd.sh
+if [ "${appid}" ]; then
+	core_steamcmd.sh
 
-check_steamcmd.sh
+	check_steamcmd.sh
 
-fn_update_steamcmd_localbuild
-fn_update_steamcmd_remotebuild
-fn_update_steamcmd_compare
+	fn_update_steamcmd_localbuild
+	fn_update_steamcmd_remotebuild
+	fn_update_steamcmd_compare
+elif [ "${shortname}" == "ts3" ]; then
+	update_ts3.sh
+fi
 
 core_exit.sh

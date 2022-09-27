@@ -22,7 +22,7 @@ if [ "${status}" != "0" ]; then
 		commandtosend="${userinput2}"
 	else
 		echo ""
-		commandtosend=$( fn_prompt_message "send: " )
+		commandtosend=$(fn_prompt_message "send: ")
 	fi
 	echo ""
 	fn_print_dots "Sending command to console: \"${commandtosend}\""
