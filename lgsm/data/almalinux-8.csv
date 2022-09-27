@@ -68,6 +68,7 @@ mom
 mta,ncurses-compat-libs
 mumble
 nd
+nec,lib32gcc1,lib32gcc-s1
 nmrih,ncurses-libs.i686
 ns
 ns2,speex,tbb
