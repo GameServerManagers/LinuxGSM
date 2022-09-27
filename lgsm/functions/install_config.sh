@@ -612,6 +612,10 @@ elif [ "${shortname}" == "mumble" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
+elif [ "${shortname}" == "nec" ]; then
+	gamedirname="Necesse"
+	fn_default_config_local
+	fn_list_config_locations
 elif [ "${shortname}" == "pvr" ]; then
 	gamedirname="PavlovVR"
 	fn_check_cfgdir

@@ -1076,6 +1076,25 @@ fn_info_game_mumble(){
 	fi
 }
 
+fn_info_game_nec(){
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		port="14159"
+		queryport="${port}"
+		servername="Necesse"
+	else
+		port=$(grep "port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/port//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		queryport="${port}"
+		configip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		# Not set
+		port=${port:-"14159"}
+		queryport=${queryport:-"14159"}
+		servername="Necesse Port ${port}"
+		configip=${configip:-"0.0.0.0"}
+	fi
+}
+
 fn_info_game_onset(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
