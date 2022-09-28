@@ -637,10 +637,6 @@ elif [ "${shortname}" == "pz" ]; then
 elif [ "${shortname}" == "nec" ]; then
 	gamedirname="Necesse"
 	fn_check_cfgdir
-	fn_default_config_local
-	fn_set_config_vars
-	fn_list_config_locations
-
 elif [ "${shortname}" == "pc" ]; then
 	gamedirname="ProjectCars"
 	array_configs+=(server.cfg)

@@ -19,4 +19,8 @@ if [ "${postinstall}" == "1" ]; then
 	fn_firstcommand_reset
 fi
 
+fn_default_config_local
+fn_set_config_vars
+fn_list_config_locations
+
 
