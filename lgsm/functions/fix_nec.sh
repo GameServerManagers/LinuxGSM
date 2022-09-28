@@ -1,20 +1,18 @@
 #!/bin/bash
-# LinuxGSM fix_av.sh module
+# LinuxGSM fix_nec.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Avorion
+# Description: Starts a server to autogenerate configs after installation
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 
-if [ "${postinstall}" == "1" ]; then
-
-	fn_print_information "starting ${gamename} server to generate configs."
-	command_start.sh
-	sleep 30
-	command_stop.sh
-
-fi
-
-
+fn_print_information "starting ${gamename} server to generate configs."
+exitbypass=1
+command_start.sh
+fn_firstcommand_reset
+sleep 10
+exibypass=1
+command_stop.sh
+fn_firstcommand_reset
