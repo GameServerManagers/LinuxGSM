@@ -98,7 +98,7 @@ fi
 
 # Fixes that are run on install only.
 if [ "${commandname}" == "INSTALL" ]; then
-	if [ "${shortname}" == "av" ] || [ "${shortname}" == "cmw" ] || [ "${shortname}" == "kf" ] || [ "${shortname}" == "kf2" ] || [ "${shortname}" == "lo" ] || [ "${shortname}" == "onset" ] || [ "${shortname}" == "ro" ] || [ "${shortname}" == "samp" ] || [ "${shortname}" == "ut2k4" ] || [ "${shortname}" == "ut" ] || [ "${shortname}" == "ut3" ]; then
+	if [ "${shortname}" == "av" ] || [ "${shortname}" == "cmw" ] || [ "${shortname}" == "kf" ] || [ "${shortname}" == "kf2" ] || [ "${shortname}" == "lo" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "onset" ] || [ "${shortname}" == "ro" ] || [ "${shortname}" == "samp" ] || [ "${shortname}" == "ut2k4" ] || [ "${shortname}" == "ut" ] || [ "${shortname}" == "ut3" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Applying Post-Install Fixes${default}"
 		echo -e "================================="
@@ -112,6 +112,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 			fix_kf2.sh
 		elif [ "${shortname}" == "lo" ]; then
 			fix_lo.sh
+		elif [ "${shortname}" == "nec" ]; then
+			fix_nec.sh
 		elif [ "${shortname}" == "ro" ]; then
 			fix_ro.sh
 		elif [ "${shortname}" == "samp" ]; then
