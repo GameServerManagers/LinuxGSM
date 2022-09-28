@@ -636,8 +636,6 @@ elif [ "${shortname}" == "pz" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "nec" ]; then
 	gamedirname="Necesse"
-	fn_check_cfgdir
-	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "pc" ]; then
 	gamedirname="ProjectCars"
