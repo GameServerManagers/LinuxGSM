@@ -19,7 +19,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_dl_steamcmd(){
+fn_dl_steamcmd() {
 	fn_print_start_nl "${remotelocation}"
 	fn_script_log_info "${commandaction} ${selfname}: ${remotelocation}"
 	if [ -n "${branch}" ]; then
@@ -41,7 +41,7 @@ fn_dl_steamcmd(){
 	fi
 
 	# Validate will be added as a parameter if required.
-	if [ "${commandname}" == "VALIDATE" ]||[ "${commandname}" == "INSTALL" ]; then
+	if [ "${commandname}" == "VALIDATE" ] || [ "${commandname}" == "INSTALL" ]; then
 		validate="validate"
 	fi
 
@@ -53,13 +53,13 @@ fn_dl_steamcmd(){
 		rm -f "${steamcmdlog:?}"
 	fi
 	counter=0
-	while [ "${counter}" == "0" ]||[ "${exitcode}" != "0" ]; do
-		counter=$((counter+1))
+	while [ "${counter}" == "0" ] || [ "${exitcode}" != "0" ]; do
+		counter=$((counter + 1))
 		# Select SteamCMD parameters
 		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
-			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -68,7 +68,7 @@ fn_dl_steamcmd(){
 			fi
 		# Force Windows Platform type.
 		elif [ "${steamcmdforcewindows}" == "yes" ]; then
-			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -77,7 +77,7 @@ fn_dl_steamcmd(){
 			fi
 		# All other servers.
 		else
-			if [ -n "${branch}" ]&&[ -n "${betapassword}" ]; then
+			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
 				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
 				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
@@ -89,7 +89,7 @@ fn_dl_steamcmd(){
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
 		# Check also if we have more errors than retries to be sure that we do not loop to many times and error out.
 		exitcode=$?
-		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ]&&[ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ] ; then
+		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ] && [ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ]; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
@@ -97,9 +97,9 @@ fn_dl_steamcmd(){
 				core_exit.sh
 				# Not enough space.
 			elif [ -n "$(grep "0x212" "${steamcmdlog}" | tail -1)" ]; then
-					fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
-					fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
-					core_exit.sh
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+				core_exit.sh
 			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
@@ -110,13 +110,13 @@ fn_dl_steamcmd(){
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
 				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
 				core_exit.sh
-				# Incorrect Branch password
-				elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
-					fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
-					fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
-					core_exit.sh
+			# Incorrect Branch password
+			elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
+				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
+				core_exit.sh
 			# Update did not finish.
-			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ]||[ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
+			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
 			else
@@ -141,7 +141,7 @@ fn_dl_steamcmd(){
 }
 
 # Emptys contents of the LinuxGSM tmpdir.
-fn_clear_tmp(){
+fn_clear_tmp() {
 	echo -en "clearing LinuxGSM tmp directory..."
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
@@ -156,9 +156,9 @@ fn_clear_tmp(){
 	fi
 }
 
-fn_dl_hash(){
+fn_dl_hash() {
 	# Runs Hash Check if available.
-	if [ "${hash}" != "0" ]&&[ "${hash}" != "nohash" ]&&[ "${hash}" != "nomd5" ]; then
+	if [ "${hash}" != "0" ] && [ "${hash}" != "nohash" ] && [ "${hash}" != "nomd5" ]; then
 		# MD5
 		if [ "${#hash}" == "32" ]; then
 			hashbin="md5sum"
@@ -204,7 +204,7 @@ fn_dl_hash(){
 # Extracts can be defined in code like so:
 # fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdir}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
-fn_dl_extract(){
+fn_dl_extract() {
 	local_filedir="${1}"
 	local_filename="${2}"
 	extractdir="${3}"
@@ -214,7 +214,7 @@ fn_dl_extract(){
 	if [ ! -d "${extractdir}" ]; then
 		mkdir "${extractdir}"
 	fi
-	if [ "${mime}" == "application/gzip" ]||[ "${mime}" == "application/x-gzip" ]; then
+	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
 		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}")
@@ -239,7 +239,7 @@ fn_dl_extract(){
 }
 
 # Trap to remove file download if canceled before completed.
-fn_fetch_trap(){
+fn_fetch_trap() {
 	echo -e ""
 	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
@@ -253,7 +253,7 @@ fn_fetch_trap(){
 }
 
 # Will check a file exists and download it. Will not exit if fails to download.
-fn_check_file(){
+fn_check_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
 	remote_fileurl_name="${3}"
@@ -263,11 +263,11 @@ fn_check_file(){
 	if [ -n "${remote_fileurl_backup}" ]; then
 		# counter set to 0 to allow second try
 		counter=0
-		remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+		remote_fileurls_array=(remote_fileurl remote_fileurl_backup)
 	else
 		# counter set to 1 to not allow second try
 		counter=1
-		remote_fileurls_array=( remote_fileurl )
+		remote_fileurls_array=(remote_fileurl)
 	fi
 	for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 		if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
@@ -277,7 +277,7 @@ fn_check_file(){
 			fileurl="${remote_fileurl_backup}"
 			fileurl_name="${remote_fileurl_backup_name}"
 		fi
-		counter=$((counter+1))
+		counter=$((counter + 1))
 		echo -en "checking ${fileurl_name} ${remote_filename}...\c"
 		curlcmd=$(curl --output /dev/null --silent --head --fail "${fileurl}" 2>&1)
 		local exitcode=$?
@@ -321,7 +321,7 @@ fn_check_file(){
 	fi
 }
 
-fn_fetch_file(){
+fn_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
 	remote_fileurl_name="${3}"
@@ -334,16 +334,16 @@ fn_fetch_file(){
 	hash="${10:-0}"
 
 	# Download file if missing or download forced.
-	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
+	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
 		# If backup fileurl exists include it.
 		if [ -n "${remote_fileurl_backup}" ]; then
 			# counter set to 0 to allow second try
 			counter=0
-			remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+			remote_fileurls_array=(remote_fileurl remote_fileurl_backup)
 		else
 			# counter set to 1 to not allow second try
 			counter=1
-			remote_fileurls_array=( remote_fileurl )
+			remote_fileurls_array=(remote_fileurl)
 		fi
 		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
@@ -353,14 +353,14 @@ fn_fetch_file(){
 				fileurl="${remote_fileurl_backup}"
 				fileurl_name="${remote_fileurl_backup_name}"
 			fi
-			counter=$((counter+1))
+			counter=$((counter + 1))
 			if [ ! -d "${local_filedir}" ]; then
 				mkdir -p "${local_filedir}"
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
 			# Larger files show a progress bar.
-			if [ "${local_filename##*.}" == "bz2" ]||[ "${local_filename##*.}" == "gz" ]||[ "${local_filename##*.}" == "zip" ]||[ "${local_filename##*.}" == "jar" ]||[ "${local_filename##*.}" == "xz" ]; then
+			if [ "${local_filename##*.}" == "bz2" ] || [ "${local_filename##*.}" == "gz" ] || [ "${local_filename##*.}" == "zip" ] || [ "${local_filename##*.}" == "jar" ] || [ "${local_filename##*.}" == "xz" ]; then
 				echo -en "downloading ${local_filename}..."
 				fn_sleep_time
 				echo -en "\033[1K"
@@ -374,7 +374,7 @@ fn_fetch_file(){
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE" )" ]; then
+				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
 					rm "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
@@ -443,7 +443,7 @@ fn_fetch_file(){
 # hash: Optional, set an hash sum and will compare it against the file.
 
 # Fetches files from the Git repo.
-fn_fetch_file_github(){
+fn_fetch_file_github() {
 	github_fileurl_dir="${1}"
 	github_fileurl_name="${2}"
 	# For legacy versions - code can be removed at a future date
@@ -451,7 +451,7 @@ fn_fetch_file_github(){
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	elif [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	elif [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 	else
@@ -470,10 +470,10 @@ fn_fetch_file_github(){
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
-fn_check_file_github(){
+fn_check_file_github() {
 	github_fileurl_dir="${1}"
 	github_fileurl_name="${2}"
-	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 	else
@@ -486,11 +486,11 @@ fn_check_file_github(){
 }
 
 # Fetches config files from the Git repo.
-fn_fetch_config(){
+fn_fetch_config() {
 	github_fileurl_dir="${1}"
 	github_fileurl_name="${2}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 	else
@@ -510,11 +510,11 @@ fn_fetch_config(){
 }
 
 # Fetches modules from the Git repo during first download.
-fn_fetch_function(){
+fn_fetch_function() {
 	github_fileurl_dir="lgsm/functions"
 	github_fileurl_name="${functionfile}"
-		# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 	else
@@ -534,11 +534,11 @@ fn_fetch_function(){
 }
 
 # Fetches modules from the Git repo during update-lgsm.
-fn_update_function(){
+fn_update_function() {
 	github_fileurl_dir="lgsm/functions"
 	github_fileurl_name="${functionfile}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
 	else
@@ -563,7 +563,7 @@ fn_update_function(){
 # $2 Repo name.
 # $3 Destination for download.
 # $4 Search string in releases (needed if there are more files that can be downloaded from the release pages).
-fn_dl_latest_release_github(){
+fn_dl_latest_release_github() {
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
 	local githubreleasedownloadpath="${3}"

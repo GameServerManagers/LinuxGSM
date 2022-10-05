@@ -10,7 +10,7 @@ commandaction="Changing password"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_serveradmin_password_prompt(){
+fn_serveradmin_password_prompt() {
 	fn_print_header
 	fn_print_information_nl "You are about to change the ${gamename} ServerAdmin password."
 	fn_print_warning_nl "${gamename} will restart during this process."
@@ -25,7 +25,7 @@ fn_serveradmin_password_prompt(){
 	fn_script_log_info "Changing password"
 }
 
-fn_serveradmin_password_set(){
+fn_serveradmin_password_set() {
 	# Start server in "new password mode".
 	ts3serverpass="1"
 	exitbypass="1"

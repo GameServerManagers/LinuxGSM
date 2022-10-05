@@ -9,7 +9,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 github_api="https://api.github.com"
 
-fn_githublocalversionfile(){
+fn_githublocalversionfile() {
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
 
@@ -18,12 +18,12 @@ fn_githublocalversionfile(){
 
 # $1 githubuser/group
 # $2 github repo name
-fn_github_get_latest_release_version(){
+fn_github_get_latest_release_version() {
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
 	local githublatestreleaseurl="${github_api}/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
 
-	githubreleaseversion=$(curl -s --connect-timeout 10 "${githublatestreleaseurl}" | jq '.tag_name' )
+	githubreleaseversion=$(curl -s --connect-timeout 10 "${githublatestreleaseurl}" | jq '.tag_name')
 
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
@@ -34,14 +34,14 @@ fn_github_get_latest_release_version(){
 
 # $1 githubuser/group
 # $2 github repo name
-fn_github_set_latest_release_version(){
+fn_github_set_latest_release_version() {
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
 
 	fn_githublocalversionfile "${githubreleaseuser}" "${githubreleaserepo}"
 
 	local githublatestreleaseurl="${github_api}/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
-	githubreleaseversion=$(curl -s "${githublatestreleaseurl}" | jq -r '.tag_name' )
+	githubreleaseversion=$(curl -s "${githublatestreleaseurl}" | jq -r '.tag_name')
 
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
@@ -54,7 +54,7 @@ fn_github_set_latest_release_version(){
 
 # $1 githubuser/group
 # $2 github repo name
-fn_github_get_installed_version(){
+fn_github_get_installed_version() {
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
 
@@ -66,7 +66,7 @@ fn_github_get_installed_version(){
 # $1 githubuser/group
 # $2 github repo name
 # if a update needs to be downloaded - updateneeded is set to 1
-fn_github_compare_version(){
+fn_github_compare_version() {
 	local githubreleaseuser="${1}"
 	local githubreleaserepo="${2}"
 	exitcode=0
@@ -76,7 +76,7 @@ fn_github_compare_version(){
 	local githublatestreleaseurl="${github_api}/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
 
 	githublocalversion=$(cat "${githublocalversionfile}")
-	githubreleaseversion=$(curl -s "${githublatestreleaseurl}" | jq '.tag_name' )
+	githubreleaseversion=$(curl -s "${githublatestreleaseurl}" | jq '.tag_name')
 
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
@@ -91,7 +91,7 @@ fn_github_compare_version(){
 			echo -en "\n"
 		else
 			# check if version that is installed is higher than the remote version to not override it
-			last_version=$(echo -e "${githublocalversion}\n${githubreleaseversion}" | sort -V | head -n1 )
+			last_version=$(echo -e "${githublocalversion}\n${githubreleaseversion}" | sort -V | head -n1)
 			if [ "${githubreleaseversion}" == "${last_version}" ]; then
 				echo -en "\n"
 				echo -e "Update from github.com/${githubreleaseuser}/${githubreleaserepo}/ available:"

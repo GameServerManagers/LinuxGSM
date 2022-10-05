@@ -10,7 +10,7 @@ commandaction="Default Resources"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_install_resources(){
+fn_install_resources() {
 	echo -e ""
 	echo -e "Installing Default Resources"
 	echo -e "================================="

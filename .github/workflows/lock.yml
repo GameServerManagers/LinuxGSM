@@ -1,8 +1,8 @@
-name: 'Lock Threads'
+name: "Lock Threads"
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 permissions:
   contents: read
@@ -10,8 +10,8 @@ permissions:
 jobs:
   lock:
     permissions:
-      issues: write  # for dessant/lock-threads to lock issues
-      pull-requests: write  # for dessant/lock-threads to lock PRs
+      issues: write # for dessant/lock-threads to lock issues
+      pull-requests: write # for dessant/lock-threads to lock PRs
     runs-on: ubuntu-latest
     steps:
       - uses: dessant/lock-threads@v3
