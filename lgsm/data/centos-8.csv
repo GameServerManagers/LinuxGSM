@@ -15,7 +15,7 @@ bfv,compat-libstdc++-33.i686,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
-bt,libicu
+bt,libicu,dos2unix
 bt1944
 cc
 cd

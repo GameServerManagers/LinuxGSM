@@ -15,7 +15,7 @@ bfv,libncurses5:i386,libstdc++5:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev
+bt,libicu-dev,dos2unix
 bt1944
 cc
 cmw
