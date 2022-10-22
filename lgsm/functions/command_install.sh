@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh
-if [ "$(whoami)" = "root" ]; then
+if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 	check_deps.sh
 else
 	install_header.sh
