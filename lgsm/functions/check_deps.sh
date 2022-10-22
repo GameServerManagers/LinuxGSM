@@ -301,7 +301,7 @@ fn_deps_detector() {
 }
 
 if [ "${commandname}" == "INSTALL" ]; then
-	if [ "$(whoami)" == "root" ]; then
+	if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies as root${default}"
 		echo -e "================================="

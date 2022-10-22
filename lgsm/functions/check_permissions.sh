@@ -226,7 +226,7 @@ fn_sys_perm_error_process() {
 # Run perm error detect & fix/alert functions on /sys directories.
 
 ## Run checks.
-if [ "$(whoami)" != "root" ]; then
+if [ "$(whoami)" != "root" ] || [ -f /.dockerenv ]; then
 	fn_check_ownership
 	fn_check_permissions
 	if [ "${commandname}" == "START" ]; then

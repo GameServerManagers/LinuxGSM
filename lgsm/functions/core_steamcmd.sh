@@ -174,7 +174,7 @@ fn_update_steamcmd_remotebuild() {
 	fi
 
 	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD.
-	if [ "$(find "${HOME}" -type f -name "appinfo.vdf" | wc -l)" -ne "0" ]; then
+	if [ "$(find -L "${HOME}" -type f -name "appinfo.vdf" | wc -l)" -ne "0" ]; then
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \;
 	fi
 
@@ -281,8 +281,8 @@ fn_update_steamcmd_compare() {
 }
 
 fn_appmanifest_info() {
-	appmanifestfile=$(find "${serverfiles}" -type f -name "appmanifest_${appid}.acf")
-	appmanifestfilewc=$(find "${serverfiles}" -type f -name "appmanifest_${appid}.acf" | wc -l)
+	appmanifestfile=$(find -L "${serverfiles}" -type f -name "appmanifest_${appid}.acf")
+	appmanifestfilewc=$(find -L "${serverfiles}" -type f -name "appmanifest_${appid}.acf" | wc -l)
 }
 
 fn_appmanifest_check() {
