@@ -174,7 +174,7 @@ fn_update_steamcmd_remotebuild() {
 	fi
 
 	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD.
-	if [ "$(find -L "${HOME}" -type f -name "appinfo.vdf" | wc -l)" -ne "0" ]; then
+	if [ "$(find "${HOME}" -type f -name "appinfo.vdf" | wc -l)" -ne "0" ]; then
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \;
 	fi
 
