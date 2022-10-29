@@ -181,7 +181,7 @@ fn_sys_perm_fix_manually_msg() {
 
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise.
 fn_sys_perm_errors_fix() {
-	if sudo -n true > /dev/null 2>&1; then
+	if sudo -n true >/dev/null 2>&1; then
 		fn_print_dots "Automatically fixing /sys permissions"
 		fn_script_log_info "Automatically fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
@@ -223,10 +223,8 @@ fn_sys_perm_error_process() {
 	fi
 }
 
-# Run perm error detect & fix/alert functions on /sys directories.
-
-## Run checks.
-if [ "$(whoami)" != "root" ] || [ -f /.dockerenv ]; then
+## Run permisions checks when not root or docker.
+if [ "$(whoami)" != "root" ] && [ ! -f /.dockerenv ]; then
 	fn_check_ownership
 	fn_check_permissions
 	if [ "${commandname}" == "START" ]; then
