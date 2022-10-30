@@ -68,7 +68,7 @@ mom
 mta,libncursesw5
 mumble
 nd
-nec,lib32gcc1,lib32gcc-s1
+nec
 nmrih,libtinfo5:i386
 ns
 ns2,speex,libtbb2
