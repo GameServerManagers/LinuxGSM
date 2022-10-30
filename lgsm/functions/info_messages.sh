@@ -1171,6 +1171,13 @@ fn_info_message_mumble() {
 	} | column -s $'\t' -t
 }
 
+fn_info_message_nec() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_onset() {
 	{
 		fn_port "header"
@@ -1727,12 +1734,14 @@ fn_info_message_select_engine() {
 		fn_info_message_mh
 	elif [ "${shortname}" == "mohaa" ]; then
 		fn_info_message_mohaa
+	elif [ "${shortname}" == "mom" ]; then
+		fn_info_message_mom
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_message_mta
 	elif [ "${shortname}" == "mumble" ]; then
 		fn_info_message_mumble
-	elif [ "${shortname}" == "mom" ]; then
-		fn_info_message_mom
+	elif [ "${shortname}" == "nec" ]; then
+		fn_info_message_nec
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
 	elif [ "${shortname}" == "pc" ]; then
