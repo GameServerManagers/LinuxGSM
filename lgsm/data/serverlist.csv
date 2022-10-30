@@ -55,9 +55,9 @@ jc3,jc3server,Just Cause 3
 jk2,jk2server,Jedi Knight II: Jedi Outcast
 kf,kfserver,Killing Floor
 kf2,kf2server,Killing Floor 2
-lo,loserver,Last Oasis
 l4d,l4dserver,Left 4 Dead
 l4d2,l4d2server,Left 4 Dead 2
+lo,loserver,Last Oasis
 mc,mcserver,Minecraft
 mcb,mcbserver,Minecraft Bedrock
 mh,mhserver,MORDHAU
@@ -95,8 +95,8 @@ sbots,sbotsserver,StickyBots
 scpsl,scpslserver,SCP: Secret Laboratory
 scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod
 sdtd,sdtdserver,7 Days to Die
-sfc,sfcserver,SourceForts Classic
 sf,sfserver,Satisfactory
+sfc,sfcserver,SourceForts Classic
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition
 sol,solserver,Soldat
 squad,squadserver,Squad
@@ -117,8 +117,8 @@ ut2k4,ut2k4server,Unreal Tournament 2004
 ut3,ut3server,Unreal Tournament 3
 ut99,ut99server,Unreal Tournament 99
 vh,vhserver,Valheim
-vpmc,vpmcserver,Velocity Proxy MC
 vints,vintsserver,Vintage Story
+vpmc,vpmcserver,Velocity Proxy MC
 vs,vsserver,Vampire Slayer
 wet,wetserver,Wolfenstein: Enemy Territory
 wf,wfserver,Warfork
