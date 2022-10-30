@@ -57,9 +57,9 @@ jc3
 jk2
 kf
 kf2
-lo
 l4d
 l4d2
+lo
 mc,openjdk-11-jre
 mcb
 mh
@@ -68,6 +68,7 @@ mom
 mta,libncursesw5
 mumble
 nd
+nec
 nmrih,libtinfo5:i386
 ns
 ns2,speex,libtbb2
@@ -95,8 +96,8 @@ sbots
 scpsl,mono-complete
 scpslsm,mono-complete
 sdtd,telnet,expect
-sfc,libtinfo5:i386
 sf
+sfc,libtinfo5:i386
 sof2
 sol
 squad
@@ -117,9 +118,9 @@ ut2k4
 ut3
 ut99
 vh,libc6-dev
-vs
 vints,mono-complete
 vpmc,openjdk-11-jre
+vs
 wet
 wf
 wmc,openjdk-11-jre
