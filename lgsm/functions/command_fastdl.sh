@@ -24,7 +24,7 @@ luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 # Check if bzip2 is installed.
-if [ ! "$(command -v bzip2 2> /dev/null)" ]; then
+if [ ! "$(command -v bzip2 2>/dev/null)" ]; then
 	fn_print_fail "bzip2 is not installed"
 	fn_script_log_fatal "bzip2 is not installed"
 	core_exit.sh
@@ -133,7 +133,7 @@ fn_human_readable_file_size() {
 			local factor="${item%:*}"
 			local abbrev="${item#*:}"
 			if [[ "${bytes}" -ge "${factor}" ]]; then
-				size=$(bc -l <<< "${bytes} / ${factor}")
+				size=$(bc -l <<<"${bytes} / ${factor}")
 				printf "%.*f %s\n" "${precision}" "${size}" "${abbrev}"
 				break
 			fi
@@ -161,7 +161,7 @@ fn_fastdl_preview() {
 				tput rc
 				tput el
 				echo -e "gathering ${allowed_extention} : ${fileswc}..."
-				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+				echo -e "${ext}" >>"${tmpdir}/fastdl_files_to_compress.txt"
 			done < <(find . -type f -iname "${allowed_extention}")
 			if [ ${fileswc} != 0 ]; then
 				fn_print_ok_eol_nl
@@ -193,7 +193,7 @@ fn_fastdl_preview() {
 						tput rc
 						tput el
 						echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
-						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+						echo -e "${ext}" >>"${tmpdir}/fastdl_files_to_compress.txt"
 					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
 					tput rc
 					tput el
@@ -210,7 +210,7 @@ fn_fastdl_preview() {
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
 		echo -e "calculating total file size..."
 		fn_sleep_time
-		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
+		totalfiles=$(wc -l <"${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size.
 		while read -r dufile; do
 			filesize=$(stat -c %s "${dufile}")
@@ -221,7 +221,7 @@ fn_fastdl_preview() {
 				fn_script_log_fatal "Calculating total file size."
 				core_exit.sh
 			fi
-		done < "${tmpdir}/fastdl_files_to_compress.txt"
+		done <"${tmpdir}/fastdl_files_to_compress.txt"
 	else
 		fn_print_fail_eol_nl "generating file list"
 		fn_script_log_fatal "Generating file list."
@@ -304,12 +304,12 @@ fn_fastdl_gmod() {
 		fi
 	fi
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
+		totalfiles=$(wc -l <"${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size.
 		while read -r dufile; do
 			filesize=$(du -b "${dufile}" | awk '{ print $1 }')
 			filesizetotal=$((filesizetotal + filesize))
-		done < "${tmpdir}/fastdl_files_to_compress.txt"
+		done <"${tmpdir}/fastdl_files_to_compress.txt"
 	fi
 }
 
@@ -396,7 +396,7 @@ fn_fastdl_gmod_dl_enforcer() {
 		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path.
 		while read -r line; do
-			echo -e "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
+			echo -e "resource.AddFile( \"${line}\" )" >>"${luafastdlfullpath}"
 		done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n')
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
