@@ -1007,7 +1007,7 @@ fn_info_game_mom() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
-		maxplayer="${zero}"
+		maxplayers="${zero}"
 		defaultmap="${unavailable}"
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -1018,7 +1018,7 @@ fn_info_game_mom() {
 		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayer=${maxplayers:-"0"}
+		maxplayers=${maxplayers:-"0"}
 		defaultmap=${defaultmap:-"NOT SET"}
 	fi
 
@@ -2523,12 +2523,12 @@ fi
 
 # External IP address
 if [ -z "${extip}" ]; then
-	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2>/dev/null)"
+	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
 	exitcode=$?
 	# Should ifconfig.co return an error will use last known IP.
 	if [ ${exitcode} -eq 0 ]; then
 		if [[ "${extip}" != *"DOCTYPE"* ]]; then
-			echo -e "${extip}" >"${tmpdir}/extip.txt"
+			echo -e "${extip}" > "${tmpdir}/extip.txt"
 		else
 			if [ -f "${tmpdir}/extip.txt" ]; then
 				extip="$(cat "${tmpdir}/extip.txt")"
@@ -2557,16 +2557,16 @@ fi
 # Steam Master Server - checks if detected by master server.
 # Checked after config init, as the queryport is needed
 if [ -z "${displaymasterserver}" ]; then
-	if [ "$(command -v jq 2>/dev/null)" ]; then
+	if [ "$(command -v jq 2> /dev/null)" ]; then
 		if [ "${ip}" ] && [ "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
 				# Will query server IP addresses first.
 				for queryip in "${queryips[@]}"; do
-					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2> /dev/null)"
 				done
 				# Should that not work it will try the external IP.
 				if [ "${masterserver}" == "0" ]; then
-					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2> /dev/null)"
 				fi
 				if [ "${masterserver}" == "0" ]; then
 					displaymasterserver="false"

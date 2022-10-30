@@ -15,7 +15,7 @@
 
 # Debugging
 if [ -f ".dev-debug" ]; then
-	exec 5>dev-debug.log
+	exec 5> dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
@@ -52,7 +52,7 @@ userinput2="${2}"
 [ -n "${LGSM_GITHUBBRANCH}" ] && githubbranch="${LGSM_GITHUBBRANCH}" || githubbranch="master"
 
 # Check that curl is installed before doing anything
-if [ ! "$(command -v curl 2>/dev/null)" ]; then
+if [ ! "$(command -v curl 2> /dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi
@@ -213,7 +213,7 @@ fn_install_menu_bash() {
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=("${var}")
-	done <"${options}"
+	done < "${options}"
 	menu_options+=("Cancel")
 	select option in "${menu_options[@]}"; do
 		if [ "${option}" ] && [ "${option}" != "Cancel" ]; then
@@ -239,7 +239,7 @@ fn_install_menu_whiptail() {
 		key=$(echo -e "${line}" | awk -F "," '{print $3}')
 		val=$(echo -e "${line}" | awk -F "," '{print $2}')
 		menu_options+=("${val//\"/}" "${key//\"/}")
-	done <"${options}"
+	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
@@ -263,12 +263,12 @@ fn_install_menu() {
 		fi
 	done
 	case "$(basename "${menucmd}")" in
-	whiptail | dialog)
-		fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
-		;;
-	*)
-		fn_install_menu_bash selection "${title}" "${caption}" "${options}"
-		;;
+		whiptail | dialog)
+			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
+			;;
+		*)
+			fn_install_menu_bash selection "${title}" "${caption}" "${options}"
+			;;
 	esac
 	eval "$resultvar=\"${selection}\""
 }
@@ -351,7 +351,7 @@ if [ "${shortname}" == "core" ]; then
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ] || [ "${userinput}" == "i" ]; then
-		tail -n +1 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' >"${serverlistmenu}"
+		tail -n +1 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
 		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
 		fn_server_info
