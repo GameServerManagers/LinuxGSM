@@ -687,7 +687,7 @@ fn_info_message_ports() {
 		echo -e "ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		echo -e "ss -tuplwn | grep bf1942_lnxded"
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		echo -e "ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		echo -e "ss -tuplwn | grep Main"
@@ -750,7 +750,7 @@ fn_info_logs() {
 		else
 			echo -e "${gamelogdir}"
 			# dos2unix sed 's/\r//'
-			tail "${gamelogdir}"/* 2> /dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
+			tail "${gamelogdir}"/* 2>/dev/null | grep -v "==>" | sed '/^$/d' | sed 's/\r//' | tail -25
 		fi
 		echo -e ""
 	fi
