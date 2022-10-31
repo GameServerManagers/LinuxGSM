@@ -72,10 +72,9 @@ steamworkslatestfile=$(curl --connect-timeout 10 -sL ${steamworksscrapeurl} | gr
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # CS:GO Mods
-get5lastbuild=$(curl --connect-timeout 10 -sL https://ci.splewis.net/job/get5/lastSuccessfulBuild/api/json | jq -r '.artifacts[]')
-get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.fileName')
-get5latestfilepath=$(echo -e "${get5lastbuild}" | jq -r '.relativePath')
-get5url="https://ci.splewis.net/job/get5/lastSuccessfulBuild/artifact/${get5latestfilepath}"
+get5lastbuild=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
+get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
+get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
 csgopracticelatest=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
 csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
 csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
@@ -151,7 +150,7 @@ mod_info_stripper=(MOD "stripper" "Stripper Source" "http://www.bailopan.net/str
 # CS:GO Mods
 mod_info_gokz=(MOD "gokz" "GOKZ" "${gokzlatestlink}" "${gokzlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KZGlobalTeam/gokz" "GOKZ ${gokzlatestversion} - Implements the KZ game mode (requires SourceMod and MetaMod)")
 mod_info_ttt=(MOD "ttt" "Trouble in Terrorist Town" "https://csgottt.com/downloads/ttt-latest-dev-${sourcemodversion}.zip" "ttt-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/Bara/TroubleinTerroristTown" "Implements the TTT game mode (requires SourceMod and MetaMod)")
-mod_info_get5=(MOD "get5" "Get 5" "${get5url}" "${get5latestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/get5" "Plugin for competitive matches/scrims (requires SourceMod and MetaMod)")
+mod_info_get5=(MOD "get5" "Get 5" "${get5latestfilelink}" "${get5latestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/get5" "Plugin for competitive matches/scrims (requires SourceMod and MetaMod)")
 mod_info_prac=(MOD "prac" "csgo practice mode" "${csgopracticelatestlink}" "${csgopracticelatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/csgo-practice-mode" "Practice Mode is a sourcemod plugin for helping players/teams run practices.")
 mod_info_pug=(MOD "pug" "PUG" "${csgopuglatestlink}" "${csgopuglatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/csgo-pug-setup" "plugin for setting up private pug/10man games")
 mod_info_dhook=(MOD "dhook" "dhook" "https://forums.alliedmods.net/attachment.php?attachmentid=190123&d=1625050030" "dhooks-2.2.0d17.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://forums.alliedmods.net/showpost.php?p=2588686&postcount=589" "DHooks 2.2.0 - Required for GOKZ")
