@@ -1462,7 +1462,12 @@ fn_info_game_rust() {
 	# Parameters
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${port:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		queryport=$(sed -nr 's/^queryport\s+(.*)/\1/p' "${servercfgfullpath}")
+	fi
+	if [ -z "${queryport}" ]; then
+		queryport=${port:-"0"}
+	fi
 	appport=${appport:-"0"}
 	rconport=${rconport:-"0"}
 	gamemode=${gamemode:-"NOT SET"}
