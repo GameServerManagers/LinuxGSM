@@ -160,6 +160,13 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="201e23bab04207d00ce813d001c483d9"
+	elif [ "${shortname}" == "tmnf" ]; then
+		remote_fileurl="http://files2.trackmaniaforever.com/TrackmaniaServer_2011-02-21.zip"
+		local_filedir="${tmpdir}"
+		local_filename="TrackmaniaServer_2011-02-21.zip"
+		chmodx="nochmodx" run="norun"
+		force="noforce"
+		md5="dd021f49c3d58d45ee09f333015bdb35b19243a38fa65f202ca8a88fb6550c0b" # sha256 sum
 	elif [ "${shortname}" == "ts" ]; then
 		remote_fileurl="http://linuxgsm.download/TheSpecialists/ts-3-linux-final.tar.xz"
 		local_filedir="${tmpdir}"
