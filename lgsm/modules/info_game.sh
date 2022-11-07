@@ -1939,6 +1939,30 @@ fn_info_game_ti() {
 
 }
 
+fn_info_game_maniaplanet() {
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	else
+		# To avoid to have a error when not installed or on distro with unsupported dep checking
+		if [ -x "$(command -v xmlstarlet)" ]; then
+			servername=$(xmlstarlet sel -t -v '/dedicated/server_options/name' "${servercfgfullpath}")
+			maxplayers=$(xmlstarlet sel -t -v '/dedicated/server_options/max_players' "${servercfgfullpath}")
+			serverpassword=$(xmlstarlet sel -t -v '/dedicated/server_options/password' "${servercfgfullpath}")
+			configip=$(xmlstarlet sel -t -v '/dedicated/server_options/bind_ip_address' "${servercfgfullpath}")
+			port=$(xmlstarlet sel -t -v '/dedicated/server_options/server_port' "${servercfgfullpath}")
+			queryport=$(xmlstarlet sel -t -v '/dedicated/server_options/xmlrpc_port' "${servercfgfullpath}")
+		else
+			fn_script_log_info "cannot parse config as xmlstarlet is no in the PATH"
+			fn_print_info_nl "cannot parse config as xmlstarlet is no in the PATH"
+		fi
+		serverpassword=${serverpassword:-"NOT SET"}
+		configip=${configip:-"0.0.0.0"}
+		port=${port:-"2350"}
+		queryport=${queryport:-"5000"}
+	fi
+}
+
 fn_info_game_ts3() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2537,6 +2561,8 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_info_game_wmc
 elif [ "${shortname}" == "wurm" ]; then
 	fn_info_game_wurm
+elif [ "${engine}" == "maniaplanet" ]; then
+	fn_info_game_maniaplanet
 elif [ "${engine}" == "prism3d" ]; then
 	fn_info_game_prism3d
 elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then

@@ -658,7 +658,7 @@ fn_info_message_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "maniaplanet" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -1477,6 +1477,15 @@ fn_info_message_ti() {
 	} | column -s $'\t' -t
 }
 
+fn_info_message_maniaplanet() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Game" port tcp
+		fn_port "XMLRPC" queryport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_ts3() {
 	{
 		fn_port "header"
@@ -1833,6 +1842,8 @@ fn_info_message_select_engine() {
 		fn_info_message_wurm
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_message_goldsrc
+	elif [ "${engine}" == "maniaplanet" ]; then
+		fn_info_message_maniaplanet
 	elif [ "${engine}" == "prism3d" ]; then
 		fn_info_message_prism3d
 	elif [ "${engine}" == "source" ]; then

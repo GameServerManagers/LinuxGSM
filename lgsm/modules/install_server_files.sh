@@ -134,6 +134,13 @@ fn_install_server_files() {
 		chmodx="nochmodx" run="norun"
 		force="noforce"
 		md5="201e23bab04207d00ce813d001c483d9"
+	elif [ "${shortname}" == "tm2020" ]; then
+		remote_fileurl="https://nadeo-download.cdn.ubi.com/trackmania/TrackmaniaServer_Latest.zip"
+		local_filedir="${tmpdir}"
+		local_filename="TrackmaniaServer_Latest.zip"
+		chmodx="nochmodx" run="norun"
+		force="noforce"
+		md5="nohash"
 	elif [ "${shortname}" == "ts" ]; then
 		remote_fileurl="http://linuxgsm.download/TheSpecialists/ts-3-linux-final.tar.xz"
 		local_filedir="${tmpdir}"
