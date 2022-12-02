@@ -1439,7 +1439,7 @@ fn_info_game_rust() {
 	# Parameters
 	servername=${servername:-"NOT SET"}
 	port=${port:-"0"}
-	queryport=${port:-"0"}
+	queryport=${queryport:-"0"}
 	appport=${appport:-"0"}
 	rconport=${rconport:-"0"}
 	gamemode=${gamemode:-"NOT SET"}
