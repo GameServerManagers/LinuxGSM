@@ -96,7 +96,7 @@ oxidesdtdlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos
 # Valheim Plus
 valeimpluslatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/valheimPlus/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 # Valheim BepInEx
-bepinexvhlatestlink=$(curl --connect-timeout 10 -sL "https://valheim.thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url' )
+bepinexvhlatestlink=$(curl --connect-timeout 10 -sL "https://valheim.thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
 
 # Define mods information (required)
 

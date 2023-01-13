@@ -210,10 +210,10 @@ echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 echo -e "================================="
 echo -e ""
-if [ ! "$(command -v gamedig 2>/dev/null)" ]; then
+if [ ! "$(command -v gamedig 2> /dev/null)" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
-if [ ! "$(command -v jq 2>/dev/null)" ]; then
+if [ ! "$(command -v jq 2> /dev/null)" ]; then
 	fn_print_failure_nl "jq not installed"
 fi
 for queryip in "${queryips[@]}"; do
