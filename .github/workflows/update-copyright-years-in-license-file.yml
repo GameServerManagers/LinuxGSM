@@ -2,6 +2,7 @@
 name: Update copyright year(s) in license file
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 3 1 1 *" # 03:00 AM on January 1
 
@@ -15,3 +16,9 @@ jobs:
       - uses: FantasticFiasco/action-update-license-year@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          path: LICENSE.md
+      - name: Merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge --merge --delete-branch
