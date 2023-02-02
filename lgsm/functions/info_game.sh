@@ -17,24 +17,24 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_info_game_ac() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
+		adminpassword="${unavailable}"
 		httpport="${zero}"
 		port="${zero}"
 		queryport="${zero}"
 		servername="${unavailable}"
-		adminpassword="${unavailable}"
 	else
+		adminpassword=$(grep "ADMIN_PASSWORD" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMIN_PASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		httpport=$(grep "HTTP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		port=$(grep "TCP_PORT" "${servercfgfullpath}" | tr -cd '[:digit:]')
 		queryport="${httpport}"
 		servername=$(grep "NAME" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/NAME//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | head -n 1)
-		adminpassword=$(grep "ADMIN_PASSWORD" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMIN_PASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not set
+		adminpassword=${adminpassword:-"NOT SET"}
 		httpport=${httpport:-"0"}
 		port=${port:-"0"}
 		queryport=${queryport:-"0"}
 		servername=${servername:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
 
 	fi
 }
@@ -42,67 +42,74 @@ fn_info_game_ac() {
 fn_info_game_ark() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
 		adminpassword="${unavailable}"
+		servername="${unavailable}"
 		serverpassword="${unavailable}"
 	else
-		servername=$(sed -nr 's/^SessionName=(.*)/\1/p' "${servercfgfullpath}")
 		adminpassword=$(sed -nr 's/^ServerAdminPassword=(.*)/\1/p' "${servercfgfullpath}")
+		servername=$(sed -nr 's/^SessionName=(.*)/\1/p' "${servercfgfullpath}")
 		serverpassword=$(sed -nr 's/^ServerPassword=(.*)/\1/p' "${servercfgfullpath}")
 
 		# Not set
-		servername=${servername:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
+		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 
 	# Parameters
+	maxplayers=${maxplayers:-"0"}
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
-	rconport=${rconport:-"0"}
 	rawport=$((port + 1))
-	maxplayers=${maxplayers:-"0"}
+	rconport=${rconport:-"0"}
 }
 
 fn_info_game_arma3() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
 		adminpassword="${unavailable}"
-		serverpassword="${unavailable}"
 		maxplayers="${zero}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
 	else
-		servername=$(sed -nr 's/^hostname\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
 		adminpassword=$(sed -nr 's/^passwordAdmin\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
-		serverpassword=$(sed -nr 's/^password\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
 		maxplayers=$(sed -nr 's/^maxPlayers\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")
+		servername=$(sed -nr 's/^hostname\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^password\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")
 
 		# Not set
-		servername=${servername:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
 	fi
 
 	# Parameters
+	battleeyeport=$((port + 4))
 	port=${port:-"2302"}
-	voiceport=${port:-"2302"}
 	queryport=$((port + 1))
 	steammasterport=$((port + 2))
+	voiceport=${port:-"2302"}
 	voiceunusedport=$((port + 3))
-	battleeyeport=$((port + 4))
 }
 
 fn_info_game_armar() {
-	if [ -f "${servercfgfullpath}" ]; then
+	if [ ! -f "${servercfgfullpath}" ]; then
+		adminpassword="${unavailable}"
+		maxplayers="${zero}"
+		port=${port:-"0"}
+		queryport=
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	else
 		adminpassword=$(jq -r '.adminPassword' "${servercfgfullpath}")
+		battleeyeport=1376
 		configip=$(jq -r '.gameHostBindAddress' "${servercfgfullpath}")
 		maxplayers=$(jq -r '.game.playerCountLimit' "${servercfgfullpath}")
 		port=$(jq -r '.gameHostBindPort' "${servercfgfullpath}")
 		queryport=$(jq -r '.steamQueryPort' "${servercfgfullpath}")
 		servername=$(jq -r '.game.name' "${servercfgfullpath}")
 		serverpassword=$(jq -r '.game.password' "${servercfgfullpath}")
-		battleeyeport=1376
 
 		# Not set
 		adminpassword=${adminpassword:-"NOT SET"}
@@ -112,10 +119,6 @@ fn_info_game_armar() {
 		queryport=${queryport:-"0"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-	else
-		port=${port:-"0"}
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
 	fi
 }
 
@@ -148,7 +151,7 @@ fn_info_game_av() {
 		fi
 
 		# Not set
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		port=${port:-"0"}
@@ -233,7 +236,7 @@ fn_info_game_bo() {
 		serverpassword=${serverpassword:-"NOT SET"}
 		port=${port:-"0"}
 		queryport=${queryport:-"0"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 	fi
 }
 
@@ -477,7 +480,7 @@ fn_info_game_dodr() {
 		maxplayers=$(sed -nr 's/^iServerMaxPlayers=(.*)$/\1/p' "${servercfgfullpath}")
 
 		# Not set
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 	fi
 
 	# Parameters
@@ -907,7 +910,7 @@ fn_info_game_mc() {
 		servername=${servername:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		port=${port:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
 		queryenabled="${queryenabled:-"NOT SET"}"
@@ -938,7 +941,7 @@ fn_info_game_mcb() {
 
 		# Not set
 		servername=${servername:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		port=${port:-"NOT SET"}
 		portipv6=${portipv6:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
@@ -1004,7 +1007,7 @@ fn_info_game_mom() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
-		maxplayer="${zero}"
+		maxplayers="${zero}"
 		defaultmap="${unavailable}"
 	else
 		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
@@ -1015,7 +1018,7 @@ fn_info_game_mom() {
 		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayer=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		defaultmap=${defaultmap:-"NOT SET"}
 	fi
 
@@ -1079,6 +1082,26 @@ fn_info_game_mumble() {
 	fi
 }
 
+fn_info_game_nec() {
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"0"}
+		servername="Necesse"
+		serverpassword="${unavailable}"
+	else
+		maxplayers=$(grep "slots" "${servercfgfullpath}" | cut -f1 -d "/" | tr -cd '[:digit:]')
+		port=$(grep "port" "${servercfgfullpath}" | cut -f1 -d "/" | tr -cd '[:digit:]')
+		serverpassword=$(grep "password" "${servercfgfullpath}" | cut -f1 -d "/" | tr -cd '[:digit:]')
+
+		# Not set
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"0"}
+		servername="Necesse Port ${port}"
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
+}
+
 fn_info_game_onset() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1096,7 +1119,7 @@ fn_info_game_onset() {
 
 		# Not set
 		servername=${servername:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		port=${port:-"NOT SET"}
 		httpport=${httpport:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
@@ -1123,7 +1146,7 @@ fn_info_game_pc() {
 		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		port=${port:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
 		steamport=${steamport:-"NOT SET"}
@@ -1150,7 +1173,7 @@ fn_info_game_pc2() {
 		# Not set
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		port=${port:-"NOT SET"}
 		queryport=${queryport:-"NOT SET"}
 		steamport=${steamport:-"NOT SET"}
@@ -1491,7 +1514,7 @@ fn_info_game_rw() {
 		serverpassword=${serverpassword:-"NOT SET"}
 		rconpassword=${rconpassword:-"NOT SET"}
 		rconport=${rconport:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		port=${port:-"0"}
 		port2=${port2:-"0"}
 		port3=${port3:-"0"}
@@ -1588,18 +1611,18 @@ fn_info_game_sbots() {
 
 fn_info_game_scpsl() {
 	# Config
-	if [ -f "${servercfgfullpath}" ]; then
-		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
-		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
-		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
-		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
-		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
-	else
+	if [ ! -f "${servercfgfullpath}" ]; then
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
 		configip=${configip:-"0.0.0.0"}
 		tickrate=${tickrate:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
+	else
+		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
+		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
+		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
+		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
 	fi
 
 	# Parameters
@@ -1657,7 +1680,7 @@ fn_info_game_sdtd() {
 		telnetenabled=${telnetenabled:-"NOT SET"}
 		telnetport=${telnetport:-"0"}
 		telnetpass=${telnetpass:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		gamemode=${gamemode:-"NOT SET"}
 		gameworld=${gameworld:-"NOT SET"}
 	fi
@@ -1858,7 +1881,13 @@ fn_info_game_terraria() {
 
 fn_info_game_stn() {
 	# Config
-	if [ -f "${servercfgfullpath}" ]; then
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		configip=${configip:-"0.0.0.0"}
+		port="${zero}"
+		queryport="${zero}"
+		serverpassword=${serverpassword:-"NOT SET"}
+	else
 		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
 		configip=$(sed -nr 's/^ServerIP=([0-9]+)/\1/p' "${servercfgfullpath}")
 		port=$(sed -nr 's/^ServerPort=([0-9]+)/\1/p' "${servercfgfullpath}")
@@ -1867,23 +1896,25 @@ fn_info_game_stn() {
 
 		# Not set
 		serverpassword=${serverpassword:-"NOT SET"}
-	else
-		servername="${unavailable}"
-		configip=${configip:-"0.0.0.0"}
-		port="${zero}"
-		queryport="${zero}"
+		port=${port:-"0"}
 		serverpassword=${serverpassword:-"NOT SET"}
+		queryport=${queryport:-"0"}
 	fi
 }
 
 fn_info_game_ti() {
-	if [ -f "${servercfgfullpath}" ]; then
-		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
-		maxplayers=$(sed -nr 's/^MaxPlayerCount=([0-9]+)/\1/' "${servercfgfullpath}")
-	else
+	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${zero}"
+	else
+		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
+		maxplayers=$(sed -nr 's/^MaxPlayerCount=([0-9]+)/\1/' "${servercfgfullpath}")
+
+		# Not set
+		servername=${servername:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 	fi
+
 }
 
 fn_info_game_ts3() {
@@ -2145,7 +2176,7 @@ fn_info_game_ut3() {
 		servername=${servername:-"NOT SET"}
 		serverpassword=${serverpassword:-"NOT SET"}
 		adminpassword=${adminpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"NOT SET"}
+		maxplayers=${maxplayers:-"0"}
 		webadminenabled=${webadminenabled:-"NOT SET"}
 		webadminport=${webadminport:-"0"}
 		webadminuser=${webadminuser:-"NOT SET"}
@@ -2396,6 +2427,8 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_info_game_mta
 elif [ "${shortname}" == "mumble" ]; then
 	fn_info_game_mumble
+elif [ "${shortname}" == "nec" ]; then
+	fn_info_game_nec
 elif [ "${shortname}" == "onset" ]; then
 	fn_info_game_onset
 elif [ "${shortname}" == "pc" ]; then

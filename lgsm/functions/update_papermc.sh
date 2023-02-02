@@ -5,9 +5,9 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of PaperMC and Waterfall servers.
 
-local commandname="UPDATE"
-local commandaction="Update"
-local function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+commandname="UPDATE"
+commandaction="Update"
+function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_papermc_dl() {
 	# get build info

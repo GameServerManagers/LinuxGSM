@@ -14,3 +14,11 @@ if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Daedalic Entertainment GmbH/
 	mkdir -p "${XDG_DATA_HOME:="${HOME}/.local/share"}/Daedalic Entertainment GmbH/Barotrauma"
 	fn_fix_msg_end
 fi
+
+# check if startscript is with windows line endings and reformat it
+if file -b "${serverfiles}${executable:1}" | grep -q CRLF; then
+	fixname="Convert ${executable:2} to unix file format"
+	fn_fix_msg_start
+	dos2unix -q "${serverfiles}${executable:1}"
+	fn_fix_msg_end
+fi
