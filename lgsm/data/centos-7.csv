@@ -15,7 +15,7 @@ bfv,compat-libstdc++-33.i686,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
-bt,libicu
+bt,libicu,dos2unix
 bt1944
 cc
 cd
@@ -57,9 +57,9 @@ jc3
 jk2
 kf
 kf2
-lo
 l4d
 l4d2
+lo
 mc,java-11-openjdk
 mcb,libnsl
 mh
@@ -68,6 +68,7 @@ mom
 mta,ncurses-libs
 mumble
 nd
+nec
 nmrih,ncurses-libs.i686
 ns
 ns2,speex,tbb
@@ -95,8 +96,8 @@ sbots
 scpsl
 scpslsm
 sdtd,telnet,expect
-sfc,ncurses-libs.i686
 sf
+sfc,ncurses-libs.i686
 sof2
 sol
 squad
@@ -117,8 +118,8 @@ ut2k4
 ut3
 ut99
 vh,glibc-devel
-vs
 vints,mono-complete
+vs
 wet
 wf
 wmc,java-11-openjdk
