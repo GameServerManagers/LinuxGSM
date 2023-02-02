@@ -337,7 +337,7 @@ fi
 if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
 	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
-	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depshortname=$(awk -v shortname="${shortname}" -F, '$1==shortname {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
 
 	# Generate array of missing deps.
 	array_deps_missing=()

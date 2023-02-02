@@ -131,7 +131,7 @@ fn_monitor_query() {
 				# Server query OK.
 				fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_ok_eol_nl
-				fn_script_log_pass "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: OK"
+				fn_script_log_pass "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : OK"
 				monitorpass=1
 				if [ "${querystatus}" == "0" ]; then
 					# Add query data to log.
@@ -161,14 +161,14 @@ fn_monitor_query() {
 				# Server query FAIL.
 				fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_fail_eol
-				fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
+				fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
 				# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
 				# gsquery will fail if longer than 60s
 				if [ "${totalseconds}" -ge "59" ]; then
 					# Monitor will FAIL if over 60s and trigger gane server reboot.
 					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
 					fn_print_fail_eol_nl
-					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt}: FAIL"
+					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
 					# Send alert if enabled.
 					alert="restartquery"
 					alert.sh
@@ -180,7 +180,7 @@ fn_monitor_query() {
 		done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: ${cyan}WAIT${default}"
+			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt} : ${cyan}WAIT${default}"
 			sleep 0.5
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then

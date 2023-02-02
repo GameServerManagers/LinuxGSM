@@ -1,3 +1,4 @@
+#!/bin/bash
 version=$(grep "version=" linuxgsm.sh | sed -e 's/version//g' | tr -d '="')
 modulesversion=$(grep "modulesversion=" lgsm/functions/core_functions.sh | sed -e 's/modulesversion//g' | tr -d '="')
 
