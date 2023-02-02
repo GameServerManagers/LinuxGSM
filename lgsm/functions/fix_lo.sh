@@ -6,12 +6,12 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-local APPID_FILE=${executabledir}/steam_appid.txt
-if [ ! -f "${APPID_FILE}" ]; then
-	fn_print_information "adding ${APPID_FILE} to ${gamename} server."
+appidfile=${executabledir}/steam_appid.txt
+if [ ! -f "${appidfile}" ]; then
+	fn_print_information "adding ${appidfile} to ${gamename} server."
 	fn_sleep_time
-	echo "903950" > "${APPID_FILE}"
+	echo "903950" > "${appidfile}"
 else
-	fn_print_information "${APPID_FILE} already exists. No action to be taken."
+	fn_print_information "${appidfile} already exists. No action to be taken."
 	fn_sleep_time
 fi
