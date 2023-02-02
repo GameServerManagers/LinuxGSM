@@ -75,7 +75,7 @@ if [ "${shortname}" == "jk2" ] || [ "${engine}" != "idtech3" ]; then
 fi
 
 # Validate and check-update command.
-if [ "${appid}" ]||[ "${shortname}" == "ts3" ]; then
+if [ "${appid}" ] || [ "${shortname}" == "ts3" ]; then
 	currentopt+=("${cmd_validate[@]}" "${cmd_check_update[@]}")
 fi
 
