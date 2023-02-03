@@ -2,41 +2,41 @@
 
 # Commands
 "command: backup":
-  - "(backup)"
+  - "(command: backup)"
 "command: console":
-  - "(console|tmux)"
+  - "(command: console|tmux)"
 "command: debug":
-  - "(debug)"
+  - "(command: debug)"
 "command: details":
-  - "(details)"
+  - "(command: details)"
 "command: fast-dl":
-  - "(fast-dl|fastdl)"
+  - "(command: fast-dl|fastdl|fast-dl)"
 "command: install":
-  - "(install)"
+  - "(command: install)"
 "command: mods":
-  - "(mods)"
+  - "(command: mods)"
 "command: monitor":
-  - "(monitor)"
+  - "(command: monitor|monitor)"
 "command: post-details":
-  - "(post-details)"
+  - "(command: post-details|post-details)"
 "command: restart":
-  - "(restart)"
+  - "(command: restart)"
 "command: send":
-  - "(send)"
+  - "(command: send)"
 "command: skeleton":
-  - "(skeleton)"
+  - "(command: skeleton)"
 "command: start":
-  - "(start)"
+  - "(command: start)"
 "command: stop":
-  - "(stop)"
+  - "(command: stop)"
 "command: update-lgsm":
-  - "(update-lgsm)"
+  - "(command: update-lgsm|update-lgsm)"
 "command: update":
-  - "(update)"
+  - "(command: update)"
 "command: validate":
-  - "(validate)"
+  - "(command: validate)"
 "command: wipe":
-  - "(wipe)"
+  - "(command: wipe)"
 # Distros
 "distro: AlmaLinux":
   - "(Alma)"
@@ -69,6 +69,8 @@
   - "(Ballistic Overkill)"
 "game: Barotrauma":
   - "(Barotrauma)"
+"game: Black Mesa":
+  - "(Black Mesa)"
 # Info
 "info: alerts":
   - "(alert)"
