@@ -40,6 +40,7 @@ dys,dysserver,Dystopia,ubuntu-22.04
 eco,ecoserver,Eco,ubuntu-22.04
 em,emserver,Empires Mod,ubuntu-22.04
 etl,etlserver,ET: Legacy,ubuntu-22.04
+ets2,ets2server,Euro Truck Simulator 2,ubuntu-22.04
 fctr,fctrserver,Factorio,ubuntu-22.04
 fof,fofserver,Fistful of Frags,ubuntu-22.04
 gmod,gmodserver,Garrys Mod,ubuntu-22.04
