@@ -1242,6 +1242,30 @@ fn_info_game_pvr() {
 	queryport=${port:-"0"}
 }
 
+fn_info_game_prism3d() {
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		maxplayers="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	else
+		maxplayers=$(sed -nr 's/^\s*max_players\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
+		port=$(sed -nr 's/^\s*connection_dedicated_port\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
+		queryport=$(sed -nr 's/^\s*query_dedicated_port\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
+		servername=$(sed -nr 's/^\s*lobby_name\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^\s*password\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
+
+		# Not set
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"27015"}
+		queryport=${queryport:-"27016"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
+}
+
 fn_info_game_pz() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2515,6 +2539,8 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_info_game_wmc
 elif [ "${shortname}" == "wurm" ]; then
 	fn_info_game_wurm
+elif [ "${engine}" == "prism3d" ]; then
+	fn_info_game_prism3d
 elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	fn_info_game_source
 elif [ "${engine}" == "unreal2" ]; then
