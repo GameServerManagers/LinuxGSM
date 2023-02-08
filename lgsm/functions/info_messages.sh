@@ -691,8 +691,6 @@ fn_info_message_ports() {
 		echo -e "ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		echo -e "ss -tuplwn | grep java"
-	elif [ "${shortname}" == "ets2" ]; then
-		echo -e "ss -tuplwn | grep eurotrucks2_ser"
 	elif [ "${shortname}" == "terraria" ]; then
 		echo -e "ss -tuplwn | grep Main"
 	elif [ "${engine}" == "source" ]; then
