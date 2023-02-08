@@ -1254,7 +1254,7 @@ fn_info_game_prism3d() {
 		maxplayers=$(sed -nr 's/^\s*max_players\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
 		port=$(sed -nr 's/^\s*connection_dedicated_port\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
 		queryport=$(sed -nr 's/^\s*query_dedicated_port\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
-		servername=$(sed -nr 's/^\s*lobby_name\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
+		servername=$(sed -nr 's/^\s*lobby_name\s*:\s*"?([^"\r\n]+)"?/\1/p' "${servercfgfullpath}")
 		serverpassword=$(sed -nr 's/^\s*password\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
 
 		# Not set
