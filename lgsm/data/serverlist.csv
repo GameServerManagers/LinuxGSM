@@ -4,6 +4,7 @@ ahl2,ahl2server,Action: Source,ubuntu-22.04
 ark,arkserver,ARK: Survival Evolved,ubuntu-22.04
 arma3,arma3server,ARMA 3,ubuntu-22.04
 armar,armarserver,Arma Reforger,ubuntu-20.04
+ats,ats2server,American Truck Simulator
 av,avserver,Avorion,ubuntu-22.04
 bb,bbserver,BrainBread,ubuntu-22.04
 bb2,bb2server,BrainBread 2,ubuntu-22.04
