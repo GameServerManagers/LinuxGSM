@@ -1,24 +1,21 @@
-# Add/remove 'critical' label if issue contains the words 'urgent' or 'critical'
-
-# Commands
 "command: backup":
-  - "(command: backup)"
+  - "(backup)"
 "command: console":
-  - "(command: console|tmux)"
+  - "(console|tmux)"
 "command: debug":
   - "(command: debug)"
 "command: details":
   - "(command: details)"
 "command: fast-dl":
-  - "(command: fast-dl|fastdl|fast-dl)"
+  - "(fast-dl|fastdl)"
 "command: install":
   - "(command: install)"
 "command: mods":
   - "(command: mods)"
 "command: monitor":
-  - "(command: monitor|monitor)"
+  - "(command: monitor)"
 "command: post-details":
-  - "(command: post-details|post-details)"
+  - "(command: post-details)"
 "command: restart":
   - "(command: restart)"
 "command: send":
@@ -30,13 +27,13 @@
 "command: stop":
   - "(command: stop)"
 "command: update-lgsm":
-  - "(command: update-lgsm|update-lgsm)"
+  - "(update-lgsm)"
 "command: update":
   - "(command: update)"
 "command: validate":
-  - "(command: validate)"
+  - "(validate)"
 "command: wipe":
-  - "(command: wipe)"
+  - "(wipe)"
 # Distros
 "distro: AlmaLinux":
   - "(Alma)"
@@ -69,8 +66,6 @@
   - "(Ballistic Overkill)"
 "game: Barotrauma":
   - "(Barotrauma)"
-"game: Black Mesa":
-  - "(Black Mesa)"
 # Info
 "info: alerts":
   - "(alert)"
