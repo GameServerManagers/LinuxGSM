@@ -9,7 +9,7 @@
 "command: fast-dl":
   - "(fast-dl|fastdl)"
 "command: install":
-  - "(command: install)"
+  - "(install)"
 "command: mods":
   - "(command: mods)"
 "command: monitor":
