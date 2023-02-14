@@ -1094,6 +1094,23 @@ fn_info_game_nec() {
 	fi
 }
 
+fn_info_game_ohd(){
+	if [ -f "${servercfgfullpath}" ]; then
+		# get first match after find RCON
+		rconenabled=$(sed -nr '1,/RCON/s/^bEnabled=(.*)/\1/p' "${servercfgfullpath}")
+		rconport=$(sed -nr '1,/RCON/s/^ListenPort=(.*)/\1/p' "${servercfgfullpath}")
+		rconpassword=$(sed -nr '1,/RCON/s/^Password=(.*)/\1/p' "${servercfgfullpath}")
+
+		rconenabled=${rconenabled:-"false"}
+		rconport=${rconport:-"7779"}
+		rconpassword=${rconpassword:-"NOT SET"}
+	else
+		rconenabled="${unavailable}"
+		rconport="7779"
+		rconpassword="${unavailable}"
+	fi
+}
+
 fn_info_game_onset() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2451,6 +2468,8 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_info_game_mta
 elif [ "${shortname}" == "nec" ]; then
 	fn_info_game_nec
+elif [ "${shortname}" == "ohd" ]; then
+	fn_info_game_ohd
 elif [ "${shortname}" == "onset" ]; then
 	fn_info_game_onset
 elif [ "${shortname}" == "pc" ]; then
