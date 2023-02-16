@@ -1,8 +1,8 @@
 name: Trigger Docker Build
 on:
-  push:
-    branches:
-      - master
+  release:
+    types:
+      - published
 jobs:
   trigger_build_docker-linuxgsm:
     name: Trigger Build docker-linuxgsm

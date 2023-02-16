@@ -2,6 +2,8 @@ name: "Issue Labeler"
 on:
   issues:
     types: [opened, edited]
+  pull_request:
+    types: [opened, edited]
 
 permissions:
   contents: read
@@ -13,9 +15,10 @@ jobs:
       issues: write # for github/issue-labeler to create or remove labels
     runs-on: ubuntu-latest
     steps:
-    - uses: github/issue-labeler@v2.6
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        configuration-path: .github/labeler.yml
-        not-before:
-        enable-versioned-regex: 0
+      - uses: github/issue-labeler@v2.5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          not-before:
+          enable-versioned-regex: 0
+          include-title: 1
