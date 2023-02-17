@@ -223,10 +223,8 @@ fn_sys_perm_error_process() {
 	fi
 }
 
-# Run perm error detect & fix/alert functions on /sys directories.
-
-## Run checks.
-if [ "$(whoami)" != "root" ]; then
+## Run permisions checks when not root or docker.
+if [ "$(whoami)" != "root" ] && [ ! -f /.dockerenv ]; then
 	fn_check_ownership
 	fn_check_permissions
 	if [ "${commandname}" == "START" ]; then

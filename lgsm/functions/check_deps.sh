@@ -301,7 +301,7 @@ fn_deps_detector() {
 }
 
 if [ "${commandname}" == "INSTALL" ]; then
-	if [ "$(whoami)" == "root" ]; then
+	if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 		echo -e ""
 		echo -e "${lightyellow}Checking Dependencies as root${default}"
 		echo -e "================================="
@@ -337,7 +337,7 @@ fi
 if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	depall=$(awk -F, '$1=="all" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
 	depsteamcmd=$(awk -F, '$1=="steamcmd" {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
-	depshortname=$(awk -v shortname="$shortname" -F, '$1==shortname {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
+	depshortname=$(awk -v shortname="${shortname}" -F, '$1==shortname {$1=""; print $0}' "${datadir}/${distroid}-${distroversioncsv}.csv")
 
 	# Generate array of missing deps.
 	array_deps_missing=()
