@@ -307,7 +307,18 @@ fn_info_game_cd() {
 	fi
 }
 
-fn_info_game_cmw() {
+fn_info_game_ck(){
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(jq -r '.worldName' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.maxNumberPlayers' "${servercfgfullpath}")
+	fi
+	queryport=$((port + 1))
+}
+
+fn_info_game_cmw(){
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		adminpassword="${unavailable}"
@@ -2395,6 +2406,8 @@ elif [ "${shortname}" == "bt1944" ]; then
 	fn_info_game_bt1944
 elif [ "${shortname}" == "cd" ]; then
 	fn_info_game_cd
+elif [ "${shortname}" == "ck" ]; then
+	fn_info_game_ck
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_game_cmw
 elif [ "${shortname}" == "cod" ]; then

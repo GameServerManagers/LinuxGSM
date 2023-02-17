@@ -18,6 +18,7 @@ bt,btserver,Barotrauma,ubuntu-22.04
 bt1944,bt1944server,Battalion 1944,ubuntu-22.04
 cc,ccserver,Codename CURE,ubuntu-22.04
 cd,cdserver,Crafting Dead,ubuntu-22.04
+ck,ckserver,Core Keeper,ubuntu-22.04
 cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-22.04
 cod,codserver,Call of Duty,ubuntu-22.04
 cod2,cod2server,Call of Duty 2,ubuntu-22.04
@@ -128,3 +129,4 @@ wmc,wmcserver,WaterfallMC,ubuntu-22.04
 wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
 zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
 zps,zpsserver,Zombie Panic! Source,ubuntu-22.04
+

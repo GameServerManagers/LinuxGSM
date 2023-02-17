@@ -297,6 +297,13 @@ elif [ "${shortname}" == "cd" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ck" ]; then
+	gamedirname="CoreKeeper"
+	array_configs+=( ServerConfig.json )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "cod" ]; then
 	gamedirname="CallOfDuty"
 	array_configs+=(server.cfg)
