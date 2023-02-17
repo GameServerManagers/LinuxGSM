@@ -658,7 +658,7 @@ fn_info_message_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "nec" "pc" "pc2" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -1403,6 +1403,15 @@ fn_info_message_sol() {
 		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
+
+fn_info_message_prism3d() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source() {
 	{
 		fn_port "header"
@@ -1824,6 +1833,8 @@ fn_info_message_select_engine() {
 		fn_info_message_wurm
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_message_goldsrc
+	elif [ "${engine}" == "prism3d" ]; then
+		fn_info_message_prism3d
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
 	elif [ "${engine}" == "spark" ]; then

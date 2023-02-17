@@ -6,6 +6,7 @@ ahl2
 ark
 arma3
 armar,libcurl4
+ats
 av
 bb
 bb2,libcurl4-gnutls-dev:i386
@@ -42,6 +43,7 @@ dys
 eco,libgdiplus
 em
 etl
+ets2
 fctr
 fof
 gmod,libtinfo5:i386

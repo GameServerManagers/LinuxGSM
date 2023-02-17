@@ -210,6 +210,14 @@ elif [ "${shortname}" == "armar" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ats" ]; then
+	gamedirname="AmericanTruckSimulator"
+	fn_check_cfgdir
+	array_configs+=(server_config.sii)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bo" ]; then
 	gamedirname="BallisticOverkill"
 	array_configs+=(config.txt)
@@ -440,6 +448,14 @@ elif [ "${shortname}" == "eco" ]; then
 elif [ "${shortname}" == "etl" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "ets2" ]; then
+	gamedirname="EuroTruckSimulator2"
+	fn_check_cfgdir
+	array_configs+=(server_config.sii)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
