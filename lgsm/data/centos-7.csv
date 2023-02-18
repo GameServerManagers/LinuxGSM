@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++.i686,nmap-ncat,python3,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python3,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -122,6 +122,7 @@ ut3
 ut99
 vh,glibc-devel
 vints,mono-complete
+vpmc,java-11-openjdk
 vs
 wet
 wf

@@ -5,6 +5,7 @@ ahl
 ahl2
 ark
 arma3
+armar,libcurl4
 ats
 av
 bb
@@ -121,6 +122,7 @@ ut3
 ut99
 vh,libc6-dev
 vints,mono-complete
+vpmc,openjdk-8-jre
 vs
 wet
 wf
