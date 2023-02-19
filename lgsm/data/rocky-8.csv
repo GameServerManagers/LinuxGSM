@@ -63,7 +63,7 @@ kf2
 l4d
 l4d2
 lo
-mc,java-11-openjdk
+mc,java-17-openjdk
 mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
@@ -79,7 +79,7 @@ ns2c,speex.i686,tbb.i686
 onset,mariadb-connector-c
 opfor
 pc
-pmc,java-11-openjdk
+pmc,java-17-openjdk
 pstbs,GConf2
 pvkii
 pvr,libcxx
@@ -122,11 +122,11 @@ ut3
 ut99
 vh,glibc-devel
 vints,mono-complete
-vpmc,java-11-openjdk
+vpmc,java-17-openjdk
 vs
 wet
 wf
-wmc,java-11-openjdk
+wmc,java-17-openjdk
 wurm,xorg-x11-server-Xvfb
 zmr,ncurses-libs.i686
 zps,ncurses-libs.i686
