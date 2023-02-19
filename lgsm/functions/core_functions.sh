@@ -86,7 +86,7 @@ command_details.sh() {
 	fn_fetch_function
 }
 
-command_donate.sh() {
+command_sponsor.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }
