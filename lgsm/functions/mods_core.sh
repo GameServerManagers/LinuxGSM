@@ -440,7 +440,7 @@ fn_mods_create_tmp_dir() {
 fn_mods_clear_tmp_dir() {
 	if [ -d "${modstmpdir}" ]; then
 		echo -en "clearing mod download directory ${modstmpdir}..."
-		rm -fr "${modstmpdir:?}"
+		rm -rf "${modstmpdir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
@@ -742,7 +742,7 @@ fn_mod_remove_amxmodx_file() {
 
 			# if file is empty, remove it.
 			if [ -f "${modinstalldir}/addons/metamod/plugins.ini" ]; then
-				rm "${modinstalldir}/addons/metamod/plugins.ini"
+				rm -f "${modinstalldir}/addons/metamod/plugins.ini"
 				fn_script_log_pass "file removed ${modinstalldir}/addons/metamod/plugins.ini because it was empty"
 			fi
 		fi

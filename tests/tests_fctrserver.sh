@@ -112,7 +112,7 @@ fn_bootstrap_fetch_file() {
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
 				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
-					rm "${local_filedir:?}/${local_filename:?}"
+					rm -f "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi

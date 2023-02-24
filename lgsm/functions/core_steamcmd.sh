@@ -73,7 +73,7 @@ fn_check_steamcmd_dir() {
 	# Symbolic links to Steam installation directory.
 	if [ ! -L "${HOME}/.steam/root" ]; then
 		if [ -d "${HOME}/.steam/root" ]; then
-			rm "${HOME}/.steam/root"
+			rm -f "${HOME:?}/.steam/root"
 		fi
 		ln -s "${XDG_DATA_HOME:="${HOME}/.local/share"}/Steam" "${HOME}/.steam/root"
 	fi

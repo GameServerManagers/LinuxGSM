@@ -2561,27 +2561,24 @@ elif [ "${engine}" == "unreal2" ]; then
 fi
 
 # External IP address
-if [ -z "${extip}" ]; then
+# Cache external IP address for 24 hours
+if [ -f "${tmpdir}/extip.txt" ]; then
+	if [ "$(find "${tmpdir}/extip.txt" -mmin +1440)" ]; then
+		rm -f "${tmpdir:?}/extip.txt"
+	fi
+fi
+
+if [ ! -f "${tmpdir}/extip.txt" ]; then
 	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
 	exitcode=$?
-	# Should ifconfig.co return an error will use last known IP.
-	if [ ${exitcode} -eq 0 ]; then
-		if [[ "${extip}" != *"DOCTYPE"* ]]; then
-			echo -e "${extip}" > "${tmpdir}/extip.txt"
-		else
-			if [ -f "${tmpdir}/extip.txt" ]; then
-				extip="$(cat "${tmpdir}/extip.txt")"
-			else
-				fn_print_error_nl "Unable to get external IP"
-			fi
-		fi
+	# if curl passes add extip to externalip.txt
+	if [ "${exitcode}" == "0" ]; then
+		echo "${extip}" > "${tmpdir}/extip.txt"
 	else
-		if [ -f "${tmpdir}/extip.txt" ]; then
-			extip="$(cat "${tmpdir}/extip.txt")"
-		else
-			fn_print_error_nl "Unable to get external IP"
-		fi
+		echo "Unable to get external IP address"
 	fi
+else
+	extip="$(cat "${tmpdir}/extip.txt")"
 fi
 
 # Alert IP address

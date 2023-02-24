@@ -12,7 +12,7 @@ info_distro.sh
 
 # remove uuid that was used in v20.2.0 and below
 if [ -f "${datadir}/uuid.txt" ]; then
-	rm "${datadir:?}/uuid.txt"
+	rm -f "${datadir:?}/uuid.txt"
 fi
 
 # generate uuid's

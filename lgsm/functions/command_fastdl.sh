@@ -68,7 +68,7 @@ fn_clear_old_fastdl() {
 	# Clearing old FastDL.
 	if [ -d "${fastdldir}" ]; then
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
-		rm -fR "${fastdldir:?}"
+		rm -rf "${fastdldir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
@@ -277,7 +277,7 @@ fn_fastdl_gmod() {
 		# Clear addons directory in fastdl.
 		echo -en "clearing addons dir from fastdl dir..."
 		fn_sleep_time
-		rm -fR "${fastdldir:?}/addons"
+		rm -rf "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
