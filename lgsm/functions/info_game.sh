@@ -264,7 +264,7 @@ fn_info_game_bt() {
 	fi
 }
 
-fn_info_game_bt1944() {
+fn_info_game_btl() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -307,7 +307,7 @@ fn_info_game_cd() {
 	fi
 }
 
-fn_info_game_ck(){
+fn_info_game_ck() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${zero}"
@@ -318,7 +318,7 @@ fn_info_game_ck(){
 	queryport=$((port + 1))
 }
 
-fn_info_game_cmw(){
+fn_info_game_cmw() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		adminpassword="${unavailable}"
@@ -2402,8 +2402,8 @@ elif [ "${shortname}" == "bo" ]; then
 	fn_info_game_bo
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
-elif [ "${shortname}" == "bt1944" ]; then
-	fn_info_game_bt1944
+elif [ "${shortname}" == "btl" ]; then
+	fn_info_game_btl
 elif [ "${shortname}" == "cd" ]; then
 	fn_info_game_cd
 elif [ "${shortname}" == "ck" ]; then

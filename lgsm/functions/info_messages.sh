@@ -861,7 +861,7 @@ fn_info_message_bt() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_bt1944() {
+fn_info_message_btl() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1693,8 +1693,8 @@ fn_info_message_select_engine() {
 		fn_info_message_bo
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_message_bt
-	elif [ "${shortname}" == "bt1944" ]; then
-		fn_info_message_bt1944
+	elif [ "${shortname}" == "btl" ]; then
+		fn_info_message_btl
 	elif [ "${shortname}" == "cd" ]; then
 		fn_info_messages_cd
 	elif [ "${shortname}" == "ck" ]; then
