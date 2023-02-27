@@ -15,7 +15,7 @@ bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-22.04
 bo,boserver,Ballistic Overkill,ubuntu-22.04
 bs,bsserver,Blade Symphony,ubuntu-22.04
 bt,btserver,Barotrauma,ubuntu-22.04
-bt1944,bt1944server,Battalion 1944,ubuntu-22.04
+btl,btlserver,BATTALION: Legacy,ubuntu-22.04
 cc,ccserver,Codename CURE,ubuntu-22.04
 cd,cdserver,Crafting Dead,ubuntu-22.04
 ck,ckserver,Core Keeper,ubuntu-22.04
