@@ -241,7 +241,7 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "btl" ]; then
-	gamedirname="Battalion1944"
+	gamedirname="BattalionLegacy"
 	fn_check_cfgdir
 	array_configs+=(DefaultGame.ini)
 	fn_fetch_default_config
