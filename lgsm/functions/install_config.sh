@@ -240,8 +240,8 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "bt1944" ]; then
-	gamedirname="Battalion1944"
+elif [ "${shortname}" == "btl" ]; then
+	gamedirname="BattalionLegacy"
 	fn_check_cfgdir
 	array_configs+=(DefaultGame.ini)
 	fn_fetch_default_config
@@ -299,7 +299,7 @@ elif [ "${shortname}" == "cd" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "ck" ]; then
 	gamedirname="CoreKeeper"
-	array_configs+=( ServerConfig.json )
+	array_configs+=(ServerConfig.json)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
