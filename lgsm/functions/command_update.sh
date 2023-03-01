@@ -23,8 +23,6 @@ elif [ "${shortname}" == "mcb" ]; then
 	update_minecraft_bedrock.sh
 elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 	update_papermc.sh
-elif [ "${shortname}" == "mumble" ]; then
-	update_mumble.sh
 elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 elif [ "${shortname}" == "mta" ]; then

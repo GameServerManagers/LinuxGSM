@@ -1074,25 +1074,6 @@ fn_info_game_mta() {
 
 }
 
-fn_info_game_mumble() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		port="64738"
-		queryport="${port}"
-		servername="Mumble"
-	else
-		port=$(grep "port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/port//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		queryport="${port}"
-		configip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		port=${port:-"64738"}
-		queryport=${queryport:-"64738"}
-		servername="Mumble Port ${port}"
-		configip=${configip:-"0.0.0.0"}
-	fi
-}
-
 fn_info_game_nec() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -2462,8 +2443,6 @@ elif [ "${shortname}" == "mom" ]; then
 	fn_info_game_mom
 elif [ "${shortname}" == "mta" ]; then
 	fn_info_game_mta
-elif [ "${shortname}" == "mumble" ]; then
-	fn_info_game_mumble
 elif [ "${shortname}" == "nec" ]; then
 	fn_info_game_nec
 elif [ "${shortname}" == "onset" ]; then
