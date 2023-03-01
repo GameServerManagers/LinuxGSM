@@ -224,8 +224,6 @@ elif [ "${shortname}" == "pmc" ]; then
 	update_papermc.sh
 elif [ "${shortname}" == "wmc" ] || [ "${shortname}" == "vpmc" ]; then
 	update_papermc.sh
-elif [ "${shortname}" == "mumble" ]; then
-	update_mumble.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "fctr" ]; then

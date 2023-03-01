@@ -655,11 +655,6 @@ update_papermc.sh() {
 	fn_fetch_function
 }
 
-update_mumble.sh() {
-	functionfile="${FUNCNAME[0]}"
-	fn_fetch_function
-}
-
 update_mta.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function

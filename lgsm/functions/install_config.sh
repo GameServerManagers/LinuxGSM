@@ -629,12 +629,6 @@ elif [ "${shotname}" == "mom" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "mumble" ]; then
-	gamedirname="Mumble"
-	array_configs+=(murmur.ini)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_list_config_locations
 elif [ "${shortname}" == "pvr" ]; then
 	gamedirname="PavlovVR"
 	fn_check_cfgdir
