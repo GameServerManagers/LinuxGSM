@@ -43,6 +43,8 @@ if [ "${commandname}" != "INSTALL" ] && [ -z "${fixbypass}" ]; then
 		fix_armar.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
+	elif [ "${shortname}" == "av" ]; then
+		fix_av.sh
 	elif [ "${shortname}" == "bt" ]; then
 		fix_bt.sh
 	elif [ "${shortname}" == "bo" ]; then

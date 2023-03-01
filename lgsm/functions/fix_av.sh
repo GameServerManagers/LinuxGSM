@@ -9,11 +9,11 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${serverfiles}:${serverfiles}/linux64"
 
-if [ "${postinstall}" == "1" ]; then
+# Generates the server config if it doesn't exist.
+if [ ! -f "${servercfgfullpath}" ]; then
 	startparameters="--datapath ${avdatapath} --galaxy-name ${selfname} --init-folders-only"
 	fn_print_information "starting ${gamename} server to generate configs."
 	fn_sleep_time
-	# go to the executeable dir and start the init of the server
-	cd "${systemdir}" || return 2
-	"${executabledir}/${executable}" ${startparameters}
+	cd "${systemdir}" || exit
+	eval "${executable} ${startparameters}"
 fi
