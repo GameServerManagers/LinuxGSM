@@ -31,6 +31,8 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vintagestory.sh
+elif [ "${shortname}" == "ut99" ]; then
+	update_ut99.sh
 else
 	update_steamcmd.sh
 fi
