@@ -65,11 +65,8 @@ fn_update_jk2_remotebuild() {
 }
 
 fn_update_jk2_compare() {
-	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"

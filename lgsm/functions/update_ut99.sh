@@ -8,23 +8,12 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ut99_dl() {
-	remotebuildlink=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
+	remotebuildurl=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
 	remotebuildfilename=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
 
-	fn_fetch_file "${remotebuildlink}" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
+	fn_fetch_file "${remotebuildurl}" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
-		# put version number in version.txt
-		echo "${remotebuild}" > "${serverfiles}/version.txt"
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		core_exit.sh
-	fi
+	echo "${remotebuild}" > "${serverfiles}/build.txt"
 }
 
 fn_update_ut99_localbuild() {
@@ -68,11 +57,8 @@ fn_update_ut99_remotebuild() {
 }
 
 fn_update_ut99_compare() {
-	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -84,35 +70,39 @@ fn_update_ut99_compare() {
 		fn_script_log_info "Remote build: ${remotebuild}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
-		unset updateonstart
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			fn_update_ut99_dl
-			if [ "${localbuild}" == "0" ]; then
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
 				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
+				fn_update_ut99_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
 				exitbypass=1
 				command_stop.sh
 				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_ut99_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
 			fi
-		# If server started.
-		else
-			fn_print_restart_warning
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			fn_update_ut99_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
 		fi
-		unset exitbypass
-		date +%s > "${lockdir}/lastupdate.lock"
-		alert="update"
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
@@ -129,8 +119,6 @@ fn_update_ut99_compare() {
 
 # The location where the builds are checked and downloaded.
 remotelocation="github.com"
-
-localbuildfile="${serverfiles}/version.txt"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_ut99_remotebuild

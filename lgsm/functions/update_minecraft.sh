@@ -9,9 +9,9 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_minecraft_dl() {
 	# Generate link to version manifest json.
-	remotebuildlink=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${remotebuild} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
+	remotebuildurl=$(curl -s "https://launchermeta.${remotelocation}/mc/game/version_manifest.json" | jq -r --arg branch ${branch} --arg mcversion ${remotebuild} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
 	# Generate link to server.jar
-	remotebuildurl=$(curl -s "${remotebuildlink}" | jq -r '.downloads.server.url')
+	remotebuildurl=$(curl -s "${remotebuildurl}" | jq -r '.downloads.server.url')
 
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "minecraft_server.${remotebuild}.jar" "" "norun" "noforce" "nohash"
 	echo -e "copying to ${serverfiles}...\c"
@@ -82,7 +82,6 @@ fn_update_minecraft_remotebuild() {
 }
 
 fn_update_minecraft_compare() {
-	# Removes dots so if statement can compare version numbers.
 	fn_print_dots "Checking for update: ${remotelocation}"
 	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
