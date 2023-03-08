@@ -19,8 +19,8 @@ fn_update_ut99_dl() {
 fn_update_ut99_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses version file to get local build.
-	localbuild=$(head -n 1 "${localbuildfile}" > /dev/null 2>&1)
+	# Uses build file to get local build.
+	localbuild=$(head -n 1 "${serverfiles}/build.txt")
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -81,6 +81,7 @@ fn_update_ut99_compare() {
 					command_start.sh
 					fn_firstcommand_reset
 					exitbypass=1
+					sleep 5
 					command_stop.sh
 					fn_firstcommand_reset
 				fi
