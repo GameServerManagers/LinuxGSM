@@ -14,8 +14,8 @@
 # hash: Optional, set an hash sum and will compare it against the file.
 #
 # Downloads can be defined in code like so:
-# fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
-# fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
+# fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
+# fn_fetch_file "http://example.com/file.tar.bz2" "http://example.com/file2.tar.bz2" "file.tar.bz2" "file2.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -210,10 +210,18 @@ fn_dl_extract() {
 	extractdir="${3}"
 	# Extracts archives.
 	echo -en "extracting ${local_filename}..."
-	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
+
 	if [ ! -d "${extractdir}" ]; then
 		mkdir "${extractdir}"
 	fi
+	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+		fn_print_fail_eol_nl
+		echo -en "file ${local_filedir}/${local_filename} not found"
+		fn_script_log_fatal "extracting ${local_filename}"
+		fn_script_log_fatal "File ${local_filedir}/${local_filename} not found"
+		core_exit.sh
+	fi
+	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
 		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
 	elif [ "${mime}" == "application/x-bzip2" ]; then

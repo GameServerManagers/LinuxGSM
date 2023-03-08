@@ -11,7 +11,7 @@ fn_update_ut99_dl() {
 	remotebuildurl=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
 	remotebuildfilename=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
 
-	fn_fetch_file "${remotebuildurl}" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	echo "${remotebuild}" > "${serverfiles}/build.txt"
 }
@@ -75,7 +75,6 @@ fn_update_ut99_compare() {
 			check_status.sh
 			# If server stopped.
 			if [ "${status}" == "0" ]; then
-				exitbypass=1
 				fn_update_ut99_dl
 				if [ "${localbuild}" == "0" ]; then
 					exitbypass=1
