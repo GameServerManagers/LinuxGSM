@@ -2551,10 +2551,10 @@ if [ ! -f "${tmpdir}/extip.txt" ]; then
 	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
 	exitcode=$?
 	# if curl passes add extip to externalip.txt
-	if [ "${exitcode}" == "0" ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
-	else
+	if [ "${exitcode}" != "0" ]; then
 		echo "Unable to get external IP address"
+	else
+		echo "${extip}" > "${tmpdir}/extip.txt"
 	fi
 else
 	extip="$(cat "${tmpdir}/extip.txt")"

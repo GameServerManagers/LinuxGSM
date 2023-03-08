@@ -124,7 +124,7 @@ fn_dl_steamcmd() {
 				echo -en "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
-		elif [ "${exitcode}" != "0" ]; then
+		elif [ "${exitcode}" != 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 		else
@@ -146,12 +146,12 @@ fn_clear_tmp() {
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
 		local exitcode=$?
-		if [ "${exitcode}" == 0 ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "clearing LinuxGSM tmp directory"
-		else
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_error_eol_nl
 			fn_script_log_error "clearing LinuxGSM tmp directory"
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "clearing LinuxGSM tmp directory"
 		fi
 	fi
 }
@@ -226,7 +226,7 @@ fn_dl_extract() {
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting download"
+		fn_script_log_fatal "Extracting ${local_filename}"
 		if [ -f "${lgsmlog}" ]; then
 			echo -e "${extractcmd}" >> "${lgsmlog}"
 		fi
@@ -234,7 +234,7 @@ fn_dl_extract() {
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting download"
+		fn_script_log_pass "Extracting ${local_filename}"
 	fi
 }
 
