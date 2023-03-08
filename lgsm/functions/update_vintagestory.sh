@@ -23,16 +23,17 @@ fn_update_vs_dl() {
 fn_update_vs_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses executable to find local build.
+	# Uses executable to get local build.
 	cd "${executabledir}" || exit
-	if [ -f "${executable}" ]; then
-		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
+	localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
+	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
+	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
-	else
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_script_log_error "Checking local build"
 	fi
 }
 
@@ -88,7 +89,7 @@ fn_update_vs_compare() {
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_vs_dl
-			if [ "${requirerestart}" == "1" ]; then
+			if [ "${localbuild}" == "0" ]; then
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset

@@ -60,7 +60,7 @@ fn_alert_update() {
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} received update"
+	alertbody="${gamename} received update: ${remotebuild}"
 }
 
 fn_alert_check_update() {
@@ -69,7 +69,7 @@ fn_alert_check_update() {
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} update available"
+	alertbody="${gamename} update available: ${remotebuild}"
 }
 
 fn_alert_permissions() {

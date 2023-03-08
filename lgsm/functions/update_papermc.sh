@@ -24,7 +24,7 @@ fn_update_papermc_dl() {
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying to ${serverfiles}"
 		chmod u+x "${serverfiles}/${executable#./}"
-		echo "${remotebuild}" > "${localversionfile}"
+		echo "${remotebuild}" > "${localbuildfile}"
 		fn_clear_tmp
 	else
 		fn_print_fail_eol_nl
@@ -35,74 +35,86 @@ fn_update_papermc_dl() {
 
 fn_update_papermc_localbuild() {
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	sleep 0.5
-
-	if [ ! -f "${localversionfile}" ]; then
-		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no local build files"
-		fn_script_log_error "No local build file found"
-	else
-		localbuild=$(head -n 1 "${localversionfile}")
-	fi
-
+	fn_print_dots "Checking local build: ${remotelocation}"
+	# Uses version file to get local build.
+	localbuild=$(head -n 1 "${localbuildfile}" > /dev/null 2>&1)
 	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
-		fn_script_log_error "Missing local build info, Set localbuild to 0"
 	else
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
-	sleep 0.5
 }
 
 fn_update_papermc_remotebuild() {
 	# Gets remote build info.
 	remotebuild=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}" | jq -r '.builds[-1]')
-
-	# Checks if remotebuild variable has been set.
-	if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
-		fn_print_failure "Unable to get remote build"
-		fn_script_log_fatal "Unable to get remote build"
-		core_exit.sh
+	if [ "${firstcommandname}" != "INSTALL" ]; then
+		fn_print_dots "Checking remote build: ${remotelocation}"
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+			fn_print_fail "Checking remote build: ${remotelocation}"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		else
+			fn_print_ok "Checking remote build: ${remotelocation}"
+			fn_script_log_pass "Checking remote build"
+		fi
 	else
-		fn_print_ok "Got build for version ${paperversion}"
-		fn_script_log "Got build for version ${paperversion}"
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Unable to get remote build"
+			core_exit.sh
+		fi
 	fi
 }
 
 fn_update_papermc_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	sleep 0.5
 	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
-		echo -e "Update available for version ${paperversion}"
+		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuild}${default}"
-		fn_script_log_info "Update available for version ${paperversion}"
+		echo -en "\n"
+		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
-		echo -en "\n"
-		echo -en "applying update.\r"
-		echo -en "\n"
 
 		unset updateonstart
-
 		check_status.sh
 		# If server stopped.
 		if [ "${status}" == "0" ]; then
-			fn_update_papermc_dl
+			exitbypass=1
+			fn_update_ut99_dl
+			if [ "${localbuild}" == "0" ]; then
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+			fi
 		# If server started.
 		else
+			fn_print_restart_warning
 			exitbypass=1
 			command_stop.sh
+			fn_firstcommand_reset
 			exitbypass=1
-			fn_update_papermc_dl
+			fn_update_ut99_dl
 			exitbypass=1
 			command_start.sh
+			fn_firstcommand_reset
 		fi
+		unset exitbypass
+		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
 	else
@@ -128,12 +140,7 @@ elif [ "${shortname}" == "wmc" ]; then
 	paperproject="waterfall"
 fi
 
-localversionfile="${datadir}/${paperproject}-version"
-
-# check if datadir was created, if not create it
-if [ ! -d "${datadir}" ]; then
-	mkdir -p "${datadir}"
-fi
+localbuildfile="${serverfiles}/version.txt"
 
 # check version if the user did set one and check it
 if [ "${mcversion}" == "latest" ]; then

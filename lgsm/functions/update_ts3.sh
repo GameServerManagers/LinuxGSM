@@ -37,68 +37,13 @@ fn_update_ts3_dl() {
 fn_update_ts3_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to gather info.
-	# Gives time for log file to generate.
-	requirerestart=1
-	if [ ! -d "${serverfiles}/logs" ] || [ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; then
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
-		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
-		fn_script_log_error "No log files containing version info"
-		fn_script_log_info "Forcing server restart"
-		exitbypass=1
-		command_stop.sh
-		exitbypass=1
-		command_start.sh
-		fn_firstcommand_reset
-		totalseconds=0
-		# Check again, allow time to generate logs.
-		while [ ! -d "${serverfiles}/logs" ] || [ -z "$(find "${serverfiles}/logs/"* -name 'ts3server*_0.log' 2> /dev/null)" ]; do
-			sleep 1
-			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
-			if [ -v "${loopignore}" ]; then
-				loopignore=1
-				fn_script_log_info "Waiting for log file to generate"
-			fi
-
-			if [ "${totalseconds}" -gt "120" ]; then
-				localbuild="0"
-				fn_print_error "Checking local build: ${remotelocation}: waiting for log file: missing log file"
-				fn_script_log_error "Missing log file"
-				fn_script_log_error "Set localbuild to 0"
-			fi
-
-			totalseconds=$((totalseconds + 1))
-		done
-	fi
-
+	# Uses log file to get local build.
+	localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		# Gives time for var to generate.
-		totalseconds=0
-		for seconds in {1..120}; do
-			fn_print_info "Checking local build: ${remotelocation}: waiting for local build: ${totalseconds}"
-			if [ -z "${loopignore}" ]; then
-				loopignore=1
-				fn_script_log_info "Waiting for local build to generate"
-			fi
-			localbuild=$(cat "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
-			if [ "${localbuild}" ] || [ "${seconds}" == "120" ]; then
-				break
-			fi
-			sleep 1
-			totalseconds=$((totalseconds + 1))
-		done
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
@@ -113,6 +58,7 @@ fn_update_ts3_remotebuild() {
 	elif [ "${ts3arch}" == "x86" ]; then
 		remotebuild=$(echo -e "${ts3latestdata}" | jq -r '.x86.version')
 	fi
+
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
@@ -157,7 +103,7 @@ fn_update_ts3_compare() {
 			if [ "${status}" == "0" ]; then
 				exitbypass=1
 				fn_update_ts3_dl
-				if [ "${requirerestart}" == "1" ]; then
+				if [ "${localbuild}" == "0" ]; then
 					exitbypass=1
 					command_start.sh
 					fn_firstcommand_reset

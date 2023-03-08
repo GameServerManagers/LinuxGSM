@@ -28,16 +28,17 @@ fn_update_factorio_dl() {
 fn_update_factorio_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses executable to find local build.
+	# Uses executable to get local build.
 	cd "${executabledir}" || exit
-	if [ -f "${executable}" ]; then
-		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_pass "Checking local build"
-	else
+	localbuild=$(${executable} --version > /dev/null/ 2>&1 | grep "Version:" | awk '{print $2}')
+	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_error "Checking local build"
+	else
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
 	fi
 }
 
@@ -68,7 +69,6 @@ fn_update_factorio_remotebuild() {
 fn_update_factorio_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	# Removes dots so if statement can compare version numbers.
-	fn_print_dots "Checking for update: ${remotelocation}"
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
@@ -84,40 +84,44 @@ fn_update_factorio_compare() {
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
 		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
-		if [ -v "${branch}" ]; then
+		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
-		unset updateonstart
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			fn_update_factorio_dl
-			if [ "${requirerestart}" == "1" ]; then
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
 				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
+				fn_update_factorio_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
 				exitbypass=1
 				command_stop.sh
 				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_factorio_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
 			fi
-		# If server started.
-		else
-			fn_print_restart_warning
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			fn_update_factorio_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
 		fi
-		unset exitbypass
-		date +%s > "${lockdir}/lastupdate.lock"
-		alert="update"
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"

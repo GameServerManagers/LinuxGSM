@@ -27,44 +27,13 @@ fn_update_jk2_dl() {
 fn_update_jk2_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to gather info.
-	# Log is generated and cleared on startup but filled on shutdown.
-	requirerestart=1
+	# Uses log file to get local build.
 	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2> /dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
 	if [ -z "${localbuild}" ]; then
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
-		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
-		fn_script_log_error "No log files containing version info"
-		fn_script_log_info "Forcing server restart"
-
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
-			sleep 3
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-		# If server started.
-		else
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-		fi
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2> /dev/null)" | tail -1 | sed 's/.*Version //')
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
@@ -112,34 +81,39 @@ fn_update_jk2_compare() {
 		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
-		unset updateonstart
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			fn_update_jk2_dl
-			if [ "${requirerestart}" == "1" ]; then
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
 				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
+				fn_update_jk2_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
 				exitbypass=1
 				command_stop.sh
 				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_jk2_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
 			fi
-		# If server started.
-		else
-			fn_print_restart_warning
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			fn_update_jk2_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
 		fi
-		date +%s > "${lockdir}/lastupdate.lock"
-		alert="update"
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"

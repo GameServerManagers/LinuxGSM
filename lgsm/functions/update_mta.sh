@@ -29,68 +29,13 @@ fn_update_mta_dl() {
 fn_update_mta_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to gather info.
-	# Gives time for log file to generate.
-	requirerestart=1
-	if [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; then
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
-		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
-		fn_script_log_error "No log files containing version info"
-		fn_script_log_info "Forcing server restart"
-		exitbypass=1
-		command_stop.sh
-		exitbypass=1
-		command_start.sh
-		fn_firstcommand_reset
-		totalseconds=0
-		# Check again, allow time to generate logs.
-		while [ ! -f "${serverfiles}/mods/deathmatch/logs/server.log" ]; do
-			sleep 1
-			fn_print_info "Checking local build: ${remotelocation}: waiting for log file: ${totalseconds}"
-			if [ -v "${loopignore}" ]; then
-				loopignore=1
-				fn_script_log_info "Waiting for log file to generate"
-			fi
-
-			if [ "${totalseconds}" -gt "120" ]; then
-				localbuild="0"
-				fn_print_error "Checking local build: ${remotelocation}: waiting for log file: missing log file"
-				fn_script_log_error "Missing log file"
-				fn_script_log_error "Set localbuild to 0"
-			fi
-
-			totalseconds=$((totalseconds + 1))
-		done
-	fi
-
+	# Uses log file to get local build.
+	localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
 	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		# Gives time for var to generate.
-		totalseconds=0
-		for seconds in {1..120}; do
-			fn_print_info "Checking local build: ${remotelocation}: waiting for local build: ${totalseconds}"
-			if [ -z "${loopignore}" ]; then
-				loopignore=1
-				fn_script_log_info "Waiting for local build to generate"
-			fi
-			localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
-			if [ "${localbuild}" ]; then
-				break
-			fi
-			sleep 1
-			totalseconds=$((totalseconds + 1))
-		done
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
@@ -127,13 +72,13 @@ fn_update_mta_compare() {
 	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
 	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
 	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
-		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		if [ "${forceupdate}" == "1" ]; then
 			# forceupdate bypasses checks, useful for small build changes
 			mtaupdatestatus="forced"
 		else
 			mtaupdatestatus="available"
 		fi
+		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update ${mtaupdatestatus}:"
 		echo -e "* Local build: ${red}${localbuild}${default}"
@@ -150,7 +95,7 @@ fn_update_mta_compare() {
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_mta_dl
-			if [ "${requirerestart}" == "1" ]; then
+			if [ "${localbuild}" == "0" ]; then
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset

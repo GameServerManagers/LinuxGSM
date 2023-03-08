@@ -12,7 +12,7 @@ fn_update_ut99_dl() {
 	remotebuildfilename=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
 
 	fn_fetch_file "${remotebuildlink}" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
-	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}/${remotebuildfilename%.tar.bz2}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	local exitcode=$?
 	if [ "${exitcode}" == "0" ]; then
 		fn_print_ok_eol_nl
@@ -30,15 +30,13 @@ fn_update_ut99_dl() {
 fn_update_ut99_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to gather info.
-	# Log is generated and cleared on startup but filled on shutdown.
-	requirerestart=1
-	localbuild=$(cat "${serverfiles}/version.txt" 2> /dev/null)
+	# Uses version file to get local build.
+	localbuild=$(head -n 1 "${localbuildfile}" > /dev/null 2>&1)
 	if [ -z "${localbuild}" ]; then
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
@@ -47,7 +45,7 @@ fn_update_ut99_localbuild() {
 
 fn_update_ut99_remotebuild() {
 	# Gets remote build info.
-	remotebuild=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.tag_name')
+	remotebuild=$(curl -s "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.tag_name')
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
@@ -78,12 +76,12 @@ fn_update_ut99_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild} ${ut99arch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${ut99arch}${default}"
+		echo -e "* Local build: ${red}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuild}${default}"
 		echo -en "\n"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild} ${ut99arch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${ut99arch}"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuild}"
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		unset updateonstart
@@ -92,7 +90,7 @@ fn_update_ut99_compare() {
 		if [ "${status}" == "0" ]; then
 			exitbypass=1
 			fn_update_ut99_dl
-			if [ "${requirerestart}" == "1" ]; then
+			if [ "${localbuild}" == "0" ]; then
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset
@@ -112,6 +110,7 @@ fn_update_ut99_compare() {
 			command_start.sh
 			fn_firstcommand_reset
 		fi
+		unset exitbypass
 		date +%s > "${lockdir}/lastupdate.lock"
 		alert="update"
 		alert.sh
@@ -119,20 +118,19 @@ fn_update_ut99_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild} ${ut99arch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${ut99arch}${default}"
+		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuild}${default}"
 		echo -en "\n"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild} ${ut99arch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${ut99arch}"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuild}"
 	fi
 }
 
 # The location where the builds are checked and downloaded.
 remotelocation="github.com"
 
-# Game server architecture.
-ut99arch="x64"
+localbuildfile="${serverfiles}/version.txt"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_ut99_remotebuild
