@@ -8,15 +8,9 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_vs_dl() {
-	# get version info for download
-	remotebuildresponse=$(curl -s "${apiurl}" | jq --arg version "${remotebuild}" '.[$version].server')
-	remotebuildfile=$(echo -e "${remotebuildresponse}" | jq -r '.filename')
-	remotebuildurl=$(echo -e "${remotebuildresponse}" | jq -r '.urls.cdn')
-	remotebuildmd5=$(echo -e "${remotebuildresponse}" | jq -r '.md5')
-
 	# Download and extract files to serverfiles
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfile}" "nochmodx" "norun" "force" "${remotebuildmd5}"
-	fn_dl_extract "${tmpdir}" "${remotebuildfile}" "${serverfiles}"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildmd5}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	fn_clear_tmp
 }
 
@@ -38,16 +32,21 @@ fn_update_vs_localbuild() {
 }
 
 fn_update_vs_remotebuild() {
+	apiurl="http://api.vintagestory.at/stable-unstable.json"
+	remotebuildresponse=$(curl -s "${apiurl}")
 	if [ "${branch}" == "stable" ]; then
-		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion=$(echo -e "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
 	else
-		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion=$(echo -e "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
 	fi
+	remotebuildfilename=$(echo -e "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.filename')
+	remotebuildurl=$(echo -e "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.filename')
+	remotebuildmd5=$(echo -e "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.filename')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -57,7 +56,7 @@ fn_update_vs_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -94,6 +93,7 @@ fn_update_vs_compare() {
 					command_start.sh
 					fn_firstcommand_reset
 					exitbypass=1
+					sleep 5
 					command_stop.sh
 					fn_firstcommand_reset
 				fi
@@ -137,7 +137,6 @@ fn_update_vs_compare() {
 
 # The location where the builds are checked and downloaded.
 remotelocation="vintagestory.at"
-apiurl="http://api.${remotelocation}/stable-unstable.json"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_vs_remotebuild

@@ -105,6 +105,7 @@ fn_update_ts3_compare() {
 					command_start.sh
 					fn_firstcommand_reset
 					exitbypass=1
+					sleep 5
 					command_stop.sh
 					fn_firstcommand_reset
 				fi

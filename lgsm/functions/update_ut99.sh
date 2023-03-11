@@ -8,9 +8,6 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_ut99_dl() {
-	remotebuildurl=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
-	remotebuildfilename=$(curl --connect-timeout 10 -sL "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
-
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	echo "${remotebuild}" > "${serverfiles}/build.txt"
@@ -33,12 +30,16 @@ fn_update_ut99_localbuild() {
 }
 
 fn_update_ut99_remotebuild() {
-	# Gets remote build info.
-	remotebuild=$(curl -s "https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest" | jq -r '.tag_name')
+	# Get remote build info.
+	apiurl="https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest"
+	remotebuildresponse=$(curl -s "${apiurl}")
+	remotebuildfilename=$(echo -e "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
+	remotebuildurl=$(echo -e "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
+	remotebuildversion=$(echo -e "${remotebuildresponse}" | jq -r '.tag_name')
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -48,7 +49,7 @@ fn_update_ut99_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
