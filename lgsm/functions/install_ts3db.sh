@@ -64,7 +64,7 @@ fi
 install_eula.sh
 
 echo -e ""
-echo -e "${lightyellow}Getting privilege key${default}"
+echo -e "${lightyellow}Getting Privilege Key${default}"
 echo -e "================================="
 fn_sleep_time
 fn_print_information_nl "Save these details for later."

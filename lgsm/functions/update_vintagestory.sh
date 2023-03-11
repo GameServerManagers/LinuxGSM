@@ -7,14 +7,14 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_vs_dl() {
+fn_update_dl() {
 	# Download and extract files to serverfiles
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildmd5}"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	fn_clear_tmp
 }
 
-fn_update_vs_localbuild() {
+fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to get local build.
@@ -31,7 +31,7 @@ fn_update_vs_localbuild() {
 	fi
 }
 
-fn_update_vs_remotebuild() {
+fn_update_remotebuild() {
 	# Get remote build info.
 	apiurl="http://api.vintagestory.at/stable-unstable.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
@@ -42,7 +42,7 @@ fn_update_vs_remotebuild() {
 	fi
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.filename')
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.urls.cdn')
-	remotebuildmd5=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.md5')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.md5')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -65,7 +65,7 @@ fn_update_vs_remotebuild() {
 	fi
 }
 
-fn_update_vs_compare() {
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
@@ -75,6 +75,13 @@ fn_update_vs_compare() {
 		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
@@ -87,8 +94,7 @@ fn_update_vs_compare() {
 			check_status.sh
 			# If server stopped.
 			if [ "${status}" == "0" ]; then
-				exitbypass=1
-				fn_update_vs_dl
+				fn_update_dl
 				if [ "${localbuild}" == "0" ]; then
 					exitbypass=1
 					command_start.sh
@@ -105,7 +111,7 @@ fn_update_vs_compare() {
 				command_stop.sh
 				fn_firstcommand_reset
 				exitbypass=1
-				fn_update_vs_dl
+				fn_update_dl
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset
@@ -133,6 +139,13 @@ fn_update_vs_compare() {
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 	fi
 }
 
@@ -140,13 +153,13 @@ fn_update_vs_compare() {
 remotelocation="vintagestory.at"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_vs_remotebuild
-	fn_update_vs_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_vs_localbuild
-	fn_update_vs_remotebuild
-	fn_update_vs_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

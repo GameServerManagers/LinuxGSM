@@ -31,11 +31,9 @@ if [ -z "${autoinstall}" ]; then
 	fi
 elif [ "${commandname}" == "START" ]; then
 	fn_print_info "By continuing you are indicating your agreement to the EULA."
-	echo -e ""
 	sleep 5
 else
 	echo -e "By using auto-install you are indicating your agreement to the EULA."
-	echo -e ""
 	sleep 5
 fi
 

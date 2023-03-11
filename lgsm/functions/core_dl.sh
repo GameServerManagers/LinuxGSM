@@ -202,17 +202,17 @@ fn_dl_hash() {
 
 # Extracts bzip2, gzip or zip files.
 # Extracts can be defined in code like so:
-# fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdir}"
+# fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdest}" "${extractsrc}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
 fn_dl_extract() {
 	local_filedir="${1}"
 	local_filename="${2}"
-	extractdir="${3}"
+	extractdest="${3}"
 	# Extracts archives.
 	echo -en "extracting ${local_filename}..."
 
-	if [ ! -d "${extractdir}" ]; then
-		mkdir "${extractdir}"
+	if [ ! -d "${extractdest}" ]; then
+		mkdir "${extractdest}"
 	fi
 	if [ ! -f "${local_filedir}/${local_filename}" ]; then
 		fn_print_fail_eol_nl
@@ -223,13 +223,29 @@ fn_dl_extract() {
 	fi
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
-		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		if [ -n "${extractsec}" ]; then
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" "${extractsrc}")
+		else
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
-		extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" "${extractsrc}")
+		else
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
 	elif [ "${mime}" == "application/x-xz" ]; then
-		extractcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" "${extractsrc}")
+		else
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
 	elif [ "${mime}" == "application/zip" ]; then
-		extractcmd=$(unzip -qo -d "${extractdir}" "${local_filedir}/${local_filename}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(unzip -qoj -d "${extractdest}" "${local_filedir}/${local_filename}" "${extractsrc}"/*)
+		else
+			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
+		fi
 	fi
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then

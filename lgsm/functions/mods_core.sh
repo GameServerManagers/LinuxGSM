@@ -10,7 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Files and Directories.
 modsdir="${lgsmdir}/mods"
 modstmpdir="${modsdir}/tmp"
-extractdir="${modstmpdir}/extract"
+extractdest="${modstmpdir}/extract"
 modsinstalledlist="installed-mods.txt"
 modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
@@ -25,10 +25,10 @@ fn_mod_install_files() {
 		fn_script_log_fatal "An issue occurred downloading ${modprettyname}"
 		core_exit.sh
 	fi
-	if [ ! -d "${extractdir}" ]; then
-		mkdir -p "${extractdir}"
+	if [ ! -d "${extractdest}" ]; then
+		mkdir -p "${extractdest}"
 	fi
-	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdir}"
+	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
 }
 
 # Convert mod files to lowercase if needed.
@@ -39,9 +39,9 @@ fn_mod_lowercase() {
 		fn_sleep_time
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
 		# Total files and directories for the mod, to output to the user
-		fileswc=$(find "${extractdir}" | wc -l)
+		fileswc=$(find "${extractdest}" | wc -l)
 		# Total uppercase files and directories for the mod, to output to the user
-		filesupperwc=$(find "${extractdir}" -name '*[[:upper:]]*' | wc -l)
+		filesupperwc=$(find "${extractdest}" -name '*[[:upper:]]*' | wc -l)
 		fn_script_log_info "Found ${filesupperwc} uppercase files out of ${fileswc}, converting"
 		echo -en "Found ${filesupperwc} uppercase files out of ${fileswc}, converting..."
 		# Convert files and directories starting from the deepest to prevent issues (-depth argument)
@@ -63,7 +63,7 @@ fn_mod_lowercase() {
 					core_exit.sh
 				fi
 			fi
-		done < <(find "${extractdir}" -depth -name '*[[:upper:]]*')
+		done < <(find "${extractdest}" -depth -name '*[[:upper:]]*')
 		fn_print_ok_eol_nl
 	fi
 }
@@ -73,7 +73,7 @@ fn_mod_create_filelist() {
 	echo -en "building ${modcommand}-files.txt..."
 	fn_sleep_time
 	# ${modsdir}/${modcommand}-files.txt.
-	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
+	find "${extractdest}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
@@ -93,7 +93,7 @@ fn_mod_create_filelist() {
 fn_mod_copy_destination() {
 	echo -en "copying ${modprettyname} to ${modinstalldir}..."
 	fn_sleep_time
-	cp -Rf "${extractdir}/." "${modinstalldir}/"
+	cp -Rf "${extractdest}/." "${modinstalldir}/"
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
