@@ -9,20 +9,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "${remotebuildhash}"
-	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${tmpdir}"
-	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/teamspeak3-server_linux_${ts3arch}/"* "${serverfiles}"
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		fn_clear_tmp
-		core_exit.sh
-	fi
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}" "teamspeak3-server_linux_${ts3arch}"
 }
 
 fn_update_localbuild() {

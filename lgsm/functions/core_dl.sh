@@ -208,6 +208,7 @@ fn_dl_extract() {
 	local_filedir="${1}"
 	local_filename="${2}"
 	extractdest="${3}"
+	extractsrc="${4}"
 	# Extracts archives.
 	echo -en "extracting ${local_filename}..."
 
@@ -223,26 +224,26 @@ fn_dl_extract() {
 	fi
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
-		if [ -n "${extractsec}" ]; then
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" "${extractsrc}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
 		else
 			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
 		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" "${extractsrc}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
 		else
 			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
 		fi
 	elif [ "${mime}" == "application/x-xz" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" "${extractsrc}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
 		else
 			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(unzip -qoj -d "${extractdest}" "${local_filedir}/${local_filename}" "${extractsrc}"/*)
+			extractcmd=$(unzip -qoj -d "${extractdest}" "${local_filedir}/${local_filename}" --strip-components=1 "${extractsrc}"/*)
 		else
 			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
 		fi
