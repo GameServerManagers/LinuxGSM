@@ -10,7 +10,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_ut99_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
-	echo "${remotebuild}" > "${serverfiles}/build.txt"
+	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
 }
 
 fn_update_ut99_localbuild() {
@@ -33,9 +33,9 @@ fn_update_ut99_remotebuild() {
 	# Get remote build info.
 	apiurl="https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest"
 	remotebuildresponse=$(curl -s "${apiurl}")
-	remotebuildfilename=$(echo -e "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
-	remotebuildurl=$(echo -e "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
-	remotebuildversion=$(echo -e "${remotebuildresponse}" | jq -r '.tag_name')
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
+	remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuildversion variable has been set.
@@ -59,17 +59,24 @@ fn_update_ut99_remotebuild() {
 
 fn_update_ut99_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 
 		if [ "${commandname}" == "UPDATE" ]; then
 			unset updateonstart
@@ -110,11 +117,18 @@ fn_update_ut99_compare() {
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 	fi
 }
 

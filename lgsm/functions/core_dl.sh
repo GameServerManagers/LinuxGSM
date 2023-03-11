@@ -217,7 +217,7 @@ fn_dl_extract() {
 	if [ ! -f "${local_filedir}/${local_filename}" ]; then
 		fn_print_fail_eol_nl
 		echo -en "file ${local_filedir}/${local_filename} not found"
-		fn_script_log_fatal "extracting ${local_filename}"
+		fn_script_log_fatal "Extracting ${local_filename}"
 		fn_script_log_fatal "File ${local_filedir}/${local_filename} not found"
 		core_exit.sh
 	fi
@@ -368,22 +368,21 @@ fn_fetch_file() {
 			trap fn_fetch_trap INT
 			# Larger files show a progress bar.
 			if [ "${local_filename##*.}" == "bz2" ] || [ "${local_filename##*.}" == "gz" ] || [ "${local_filename##*.}" == "zip" ] || [ "${local_filename##*.}" == "jar" ] || [ "${local_filename##*.}" == "xz" ]; then
-				echo -en "downloading ${local_filename}..."
+				echo -e "downloading ${local_filename}..."
 				fn_sleep_time
-				echo -en "\033[1K"
 				curlcmd=$(curl --connect-timeout 10 --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
 				local exitcode=$?
 				echo -en "downloading ${local_filename}..."
 			else
-				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
-				curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+				curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
 				local exitcode=$?
+				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
 			fi
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
-					rm -f "${local_filedir:?}/${local_filename:?}"
+				if head -n 1 "${local_filedir}/${local_filename}" | grep -q "DOCTYPE"; then
+					rm "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
@@ -393,22 +392,21 @@ fn_fetch_file() {
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fatal "Downloading ${local_filename}"
+						fn_script_log_fatal "Downloading ${local_filename}..."
 						fn_script_log_fatal "${fileurl}"
 					fi
 					core_exit.sh
 				else
 					fn_print_error_eol_nl
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "Downloading ${local_filename}..."
 						fn_script_log_error "${fileurl}"
 					fi
 				fi
 			else
-				fn_print_ok_eol
-				echo -en "\033[2K\\r"
+				fn_print_ok_eol_nl
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_pass "Downloading ${local_filename}"
+					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
 
 				# Make file executable if chmodx is set.
