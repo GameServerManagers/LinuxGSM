@@ -372,12 +372,13 @@ fn_fetch_file() {
 				fn_sleep_time
 				echo -en "\033[1K"
 				curlcmd=$(curl --connect-timeout 10 --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
+				local exitcode=$?
 				echo -en "downloading ${local_filename}..."
 			else
 				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
 				curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+				local exitcode=$?
 			fi
-			local exitcode=$?
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
