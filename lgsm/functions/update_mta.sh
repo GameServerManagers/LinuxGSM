@@ -7,26 +7,13 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_mta_dl() {
-	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "" "norun" "noforce" "nohash"
-	mkdir "${tmpdir}/multitheftauto_linux_x64"
-	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${tmpdir}/multitheftauto_linux_x64"
-	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/multitheftauto_linux_x64/multitheftauto_linux_x64/"* "${serverfiles}"
-	local exitcode=$?
-	fn_clear_tmp
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		chmod u+x "${serverfiles}/mta-server64"
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		core_exit.sh
-	fi
+fn_update_dl() {
+	# Download and extract files to tmpdir.
+	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
+	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${serverfiles}" "multitheftauto_linux_x64"
 }
 
-fn_update_mta_localbuild() {
+fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to get local build.
@@ -42,13 +29,17 @@ fn_update_mta_localbuild() {
 	fi
 }
 
-fn_update_mta_remotebuild() {
+fn_update_remotebuild() {
 	# Gets remote build info.
-	remotebuild=$(curl -s "https://api.github.com/repos/multitheftauto/mtasa-blue/releases/latest" | jq -r '.tag_name')
+	apiurl="https://api.github.com/repos/multitheftauto/mtasa-blue/releases/latest"
+	remotebuildresponse=$(curl -s "${apiurl}")
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
+	remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -58,7 +49,7 @@ fn_update_mta_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -66,9 +57,9 @@ fn_update_mta_remotebuild() {
 	fi
 }
 
-fn_update_mta_compare() {
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		if [ "${forceupdate}" == "1" ]; then
 			# forceupdate bypasses checks, useful for small build changes
 			mtaupdatestatus="forced"
@@ -77,22 +68,34 @@ fn_update_mta_compare() {
 		fi
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
-		echo -e "Update ${mtaupdatestatus}:"
+		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
 			unset updateonstart
 			check_status.sh
 			# If server stopped.
 			if [ "${status}" == "0" ]; then
-				exitbypass=1
-				fn_update_mta_dl
+				fn_update_dl
 				if [ "${localbuild}" == "0" ]; then
 					exitbypass=1
 					command_start.sh
@@ -109,7 +112,7 @@ fn_update_mta_compare() {
 				command_stop.sh
 				fn_firstcommand_reset
 				exitbypass=1
-				fn_update_mta_dl
+				fn_update_dl
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset
@@ -126,11 +129,24 @@ fn_update_mta_compare() {
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 	fi
 }
 
@@ -138,13 +154,13 @@ fn_update_mta_compare() {
 remotelocation="linux.mtasa.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_mta_remotebuild
-	fn_update_mta_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_mta_localbuild
-	fn_update_mta_remotebuild
-	fn_update_mta_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

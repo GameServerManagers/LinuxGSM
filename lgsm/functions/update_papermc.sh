@@ -8,7 +8,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles
+	# Download and extract files to tmpdir.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
 	mv "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
 	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
