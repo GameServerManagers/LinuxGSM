@@ -8,8 +8,10 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "${remotebuildhash}"
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}" "teamspeak3-server_linux_${ts3arch}"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
@@ -29,9 +31,10 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Gets remote build info.
+	# Get remote build info.
 	apiurl="https://www.teamspeak.com/versions/server.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
+
 	if [ "${ts3arch}" == "amd64" ]; then
 		remotebuildurl=$(echo -e "${remotebuildresponse}" | jq -r '.linux.x86_64.mirrors."teamspeak.com"')
 		remotebuildhash=$(echo -e "${remotebuildresponse}" | jq -r '.linux.x86_64.checksum')
@@ -39,8 +42,8 @@ fn_update_remotebuild() {
 		remotebuildurl=$(echo -e "${remotebuildresponse}" | jq -r '.linux.x86.mirrors."teamspeak.com"')
 		remotebuildhash=$(echo -e "${remotebuildresponse}" | jq -r '.linux.x86.checksum')
 	fi
-	remotebuildversion=$(echo -e "${remotebuildresponse}" | jq -r '.linux.x86_64.version')
 	remotebuildfilename=$(basename "${remotebuildurl}")
+	remotebuildversion=$(echo -e "${remotebuildresponse}" | jq -r '.linux.x86_64.version')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -85,6 +88,9 @@ fn_update_compare() {
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
 		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
@@ -92,7 +98,6 @@ fn_update_compare() {
 			check_status.sh
 			# If server stopped.
 			if [ "${status}" == "0" ]; then
-				exitbypass=1
 				fn_update_dl
 				if [ "${localbuild}" == "0" ]; then
 					exitbypass=1
