@@ -151,6 +151,21 @@ command_mods_remove.sh() {
 	fn_fetch_function
 }
 
+command_workshop_install.sh() {
+	functionfile="${FUNCNAME[0]}"
+	fn_fetch_function
+}
+
+command_workshop_update.sh() {
+	functionfile="${FUNCNAME[0]}"
+	fn_fetch_function
+}
+
+command_workshop_remove.sh() {
+	functionfile="${FUNCNAME[0]}"
+	fn_fetch_function
+}
+
 command_fastdl.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
@@ -283,6 +298,13 @@ mods_list.sh() {
 }
 
 mods_core.sh() {
+	functionfile="${FUNCNAME[0]}"
+	fn_fetch_function
+}
+
+# Steam Workshop
+
+workshop_core.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }

@@ -37,6 +37,10 @@ cmd_validate=("v;validate" "command_validate.sh" "Validate server files with Ste
 cmd_mods_install=("mi;mods-install" "command_mods_install.sh" "View and install available mods/addons.")
 cmd_mods_remove=("mr;mods-remove" "command_mods_remove.sh" "View and remove an installed mod/addon.")
 cmd_mods_update=("mu;mods-update" "command_mods_update.sh" "Update installed mods/addons.")
+# Server with Steam Workshop
+cmd_workshop_install=("wi;workshop-install" "command_workshop_install.sh" "View and install mods/addons from Steam Workshop.")
+cmd_workshop_remove=("wr;workshop-remove" "command_workshop_remove.sh" "View and remove an installed mod/addon from Steam Workshop.")
+cmd_workshop_update=("wu;workshop-update" "command_workshop_update.sh" "Update installed mods/addons from Steam Workshop.")
 # Server specific.
 cmd_change_password=("pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password.")
 cmd_install_default_resources=("ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources.")
@@ -133,8 +137,13 @@ if [ "${shortname}" == "squad" ]; then
 fi
 
 ## Mods commands.
-if [ "${engine}" == "source" ] || [ "${shortname}" == "rust" ] || [ "${shortname}" == "hq" ] || [ "${shortname}" == "sdtd" ] || [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ] || [ "${shortname}" == "vh" ]; then
+if [ "${engine}" == "source" ] || [ "${shortname}" == "rust" ] || [ "${shortname}" == "hq" ] || [ "${shortname}" == "sdtd" ] || [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ] || [ "${shortname}" == "vh" ] || [ "${shortname}" == "realvirtuality" ]; then
 	currentopt+=("${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}")
+fi
+
+## Workshop commands.
+if [ "${engine}" == "realvirtuality" ]; then
+	currentopt+=("${cmd_workshop_install[@]}" "${cmd_workshop_remove[@]}" "${cmd_workshop_update[@]}")
 fi
 
 ## Installer.
