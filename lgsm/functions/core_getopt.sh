@@ -137,7 +137,7 @@ if [ "${shortname}" == "squad" ]; then
 fi
 
 ## Mods commands.
-if [ "${engine}" == "source" ] || [ "${shortname}" == "rust" ] || [ "${shortname}" == "hq" ] || [ "${shortname}" == "sdtd" ] || [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ] || [ "${shortname}" == "vh" ] || [ "${shortname}" == "realvirtuality" ]; then
+if [ "${engine}" == "source" ] || [ "${shortname}" == "rust" ] || [ "${shortname}" == "hq" ] || [ "${shortname}" == "sdtd" ] || [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ] || [ "${shortname}" == "vh" ]; then
 	currentopt+=("${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}")
 fi
 
