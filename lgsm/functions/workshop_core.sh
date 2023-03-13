@@ -9,7 +9,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Files and Directories.
 steam="${steamcmd}/steam"
-workhshopmodsdir="${serverfiles}/mods"
+workshopmodsdir="${serverfiles}/mods"
 keysdir="${serverfiles}/keys"
 workshopmodsdldir="${lgsmdir}/workshop"
 workshopmodslist="workshop-mods.txt"
@@ -101,15 +101,6 @@ fn_workshop_download() {
 			core_exit.sh
 		fi
 	done
-
-	# if [ -f "${workshopmodsrcdir}/meta.cpp" ]; then
-    #             echo "Mod $modid downloaded"
-    #             modsrcdirs[$modid]="$modsrcdir"
-    #             return 0
-	# else
-	# 		echo "Mod $modid was not successfully downloaded"
-	# 		return 1
-	# fi
 }
 
 fn_workshop_get_list() {
@@ -118,12 +109,22 @@ fn_workshop_get_list() {
 
 fn_workshop_get_latest_mod_version() {
 	local modid="$1"
-            local serverresp="$(curl -s -d "itemcount=1&publishedfileids[0]=${modid}" "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1")"
-            local remupd=
-             if [[ "$serverresp" =~ \"hcontent_file\":[[:space:]]*([^,]*) ]]; then
-           remupd="${BASH_REMATCH[1]}"
-     fi
-     echo "$remupd" | tr -d '"'
+	local serverresp="$(curl -s -d "itemcount=1&publishedfileids[0]=${modid}" "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1")"
+	local remupd=
+	if [[ "$serverresp" =~ \"hcontent_file\":[[:space:]]*([^,]*) ]]; then
+       remupd="${BASH_REMATCH[1]}"
+    fi
+    echo "$remupd" | tr -d '"'
+}
+
+fn_workshop_get_name_from_steam() {
+	local modid="$1"
+	local serverresp="$(curl -s -d "itemcount=1&publishedfileids[0]=${modid}" "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1")"
+	local title=
+	if [[ "$serverresp" =~ \"title\":[[:space:]]*([^,]*) ]]; then
+       title="${BASH_REMATCH[1]}"
+    fi
+    echo "$title" | tr -d '"'
 }
 
 fn_workshop_check_mod_update() {
@@ -141,8 +142,8 @@ fn_workshop_check_mod_update() {
 fn_workshop_is_mod_copy_needed(){
 	local modid="$1"
 	local modsrc="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}"
-	if [ ! -f "${workhshopmodsdir}/${modid}/meta.cpp" ]; then return 0; fi
-	local instmft="$(grep "timestamp" ${workhshopmodsdir}/${modid}/meta.cpp)"
+	if [ ! -f "${workshopmodsdir}/${modid}/meta.cpp" ]; then return 0; fi
+	local instmft="$(grep "timestamp" ${workshopmodsdir}/${modid}/meta.cpp)"
 	if [ -z "$instmft" ]; then return 0; fi
 	local remmft="$(grep "timestamp" $modsrc/meta.cpp)"
 	if [[ -n "${remmft}" && "${instmft}" != "${remmft}" ]]; then
@@ -154,123 +155,118 @@ fn_workshop_is_mod_copy_needed(){
 
 fn_workshop_get_mod_name(){
 	local modid="$1"
-	#echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdir}/steamapps/workshop/content/${gameappid}/${modid}/mod.cpp)"
-	echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}/mod.cpp)"
+	if ! [ -d "${workshopmodsdir}/${modid}" ]; then
+		echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdir}/${modid}/mod.cpp)"
+	elif ! [ -d "${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}" ]; then
+		echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}/mod.cpp)"
+	else
+		echo "$(fn_workshop_get_name_from_steam ${modid})"
+	fi
 }
 
 # Convert workshop mod files to lowercase if needed.
 fn_workshop_lowercase() {
-	local modid="$1"
+	# local modid="$1"
+	# local modname="$(fn_workshop_get_mod_name $modid)"
 	# Arma 3 requires lowercase
 	if [ "${engine}" == "realvirtuality" ]; then
-		echo -en "converting ${modprettyname} files to lowercase..."
+		echo -en "Converting ${modname} files to lowercase..."
 		fn_sleep_time
-		fn_script_log_info "Converting ${modprettyname} files to lowercase"
+		fn_script_log_info "Converting ${modname} files to lowercase"
 		# Total files and directories for the mod, to output to the user
-		fileswc=$(find "${extractdir}" | wc -l)
+		fileswc=$(find "${workshopmodsdir}" | wc -l)
 		# Total uppercase files and directories for the mod, to output to the user
-		filesupperwc=$(find "${extractdir}" -name '*[[:upper:]]*' | wc -l)
+		filesupperwc=$(find "${workshopmodsdir}/" -name '*[[:upper:]]*' | wc -l)
 		fn_script_log_info "Found ${filesupperwc} uppercase files out of ${fileswc}, converting"
 		echo -en "Found ${filesupperwc} uppercase files out of ${fileswc}, converting..."
+		# Works but not on folders
+		# while IFS= read -r -d '' file; do
+        # 	mv -b -- "$file" "${file,,}" 2>/dev/null
+		# done < <(find ${workshopmodsdir} -depth -name '*[A-Z]*' -print0)
+		# while IFS= read -r -d '' file; do
+        # 	mv -b -- "$file" "${file,,}" 2>/dev/null
+		# done < <(find ${workshopmodsdir}/ -depth -name '*[A-Z]*' -print0)
+
+		# Works bu not on WSL?
+		# https://unix.stackexchange.com/questions/20222/change-entire-directory-tree-to-lower-case-names/20232#20232
+		#
+		find ${workshopmodsdir} -depth -exec sh -c '
+			t=${0%/*}/$(printf %s "${0##*/}" | tr "[:upper:]" "[:lower:]");
+			[ "$t" = "$0" ] || mv -i "$0" "$t"
+		' {} \;
+
+		#
+		# Coudln't get this to work.
+		#
 		# Convert files and directories starting from the deepest to prevent issues (-depth argument)
-		while read -r src; do
-			# We have to convert only the last file from the path, otherwise we will fail to convert anything if a parent dir has any uppercase
-			# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
-			# Gather parent dir, filename lowercase filename, and set lowercase destination name
-			latestparentdir=$(dirname "${src}")
-			latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
-			dst="${latestparentdir}/${latestfilelc}"
-			# Only convert if destination does not already exist for some reason
-			if [ ! -e "${dst}" ]; then
-				# Finally we can rename the file
-				mv "${src}" "${dst}"
-				# Exit if it fails for any reason
-				local exitcode=$?
-				if [ "${exitcode}" != 0 ]; then
-					fn_print_fail_eol_nl
-					core_exit.sh
-				fi
-			fi
-		done < <(find "${extractdir}" -depth -name '*[[:upper:]]*')
+		# while IFS= read -r -d '' src; do
+		# 	# We have to convert only the last file from the path, otherwise we will fail to convert anything if a parent dir has any uppercase
+		# 	# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
+		# 	# Gather parent dir, filename lowercase filename, and set lowercase destination name
+		# 	latestparentdir=$(dirname "${src}")
+		# 	latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
+		# 	dst="${latestparentdir}/${latestfilelc}"
+		# 	# Only convert if destination does not already exist for some reason
+		# 	if [ ! -e "${dst}" ]; then
+		# 		# Finally we can rename the file
+		# 		mv "${src}" "${dst}"
+		# 		# Exit if it fails for any reason
+		# 		local exitcode=$?
+		# 		if [ "${exitcode}" != 0 ]; then
+		# 			fn_print_fail_eol_nl
+		# 			core_exit.sh
+		# 		fi
+		# 	fi
+		# done < <(find "${workshopmodsdir}" -depth -name '*[[:upper:]]*' -print0)
 		fn_print_ok_eol_nl
 	fi
 }
 
 # # Copy the mod into serverfiles.
-# fn_mod_copy_destination() {
-# 	echo -en "copying ${modprettyname} to ${modinstalldir}..."
-# 	fn_sleep_time
-# 	cp -Rf "${extractdir}/." "${modinstalldir}/"
-# 	local exitcode=$?
-# 	if [ "${exitcode}" != 0 ]; then
-# 		fn_print_fail_eol_nl
-# 		fn_script_log_fatal "Copying ${modprettyname} to ${modinstalldir}"
-# 	else
-# 		fn_print_ok_eol_nl
-# 		fn_script_log_pass "Copying ${modprettyname} to ${modinstalldir}"
-# 	fi
-# }
-
-# ## Information Gathering.
-
-# # Get details of a mod any (relevant and unique, such as full mod name or install command) value.
-# fn_mod_get_info() {
-# 	# Variable to know when job is done.
-# 	modinfocommand="0"
-# 	# Find entry in global array.
-# 	for ((index = 0; index <= ${#mods_global_array[@]}; index++)); do
-# 		# When entry is found.
-# 		if [ "${mods_global_array[index]}" == "${currentmod}" ]; then
-# 			# Go back to the previous "MOD" separator.
-# 			for ((index = index; index <= ${#mods_global_array[@]}; index--)); do
-# 				# When "MOD" is found.
-# 				if [ "${mods_global_array[index]}" == "MOD" ]; then
-# 					# Get info.
-# 					fn_mods_define
-# 					modinfocommand="1"
-# 					break
-# 				fi
-# 			done
-# 		fi
-# 		# Exit the loop if job is done.
-# 		if [ "${modinfocommand}" == "1" ]; then
-# 			break
-# 		fi
-# 	done
-
-# 	# What happens if mod is not found.
-# 	if [ "${modinfocommand}" == "0" ]; then
-# 		fn_script_log_error "Could not find information for ${currentmod}"
-# 		fn_print_error_nl "Could not find information for ${currentmod}"
-# 		core_exit.sh
-# 	fi
-# }
-
-# # Builds list of installed mods.
-# # using installed-mods.txt grabing mod info from mods_list.sh.
-# fn_mods_installed_list() {
-# 	fn_mods_count_installed
-# 	# Set/reset variables.
-# 	installedmodsline="1"
-# 	installedmodslist=()
-# 	modprettynamemaxlength="0"
-# 	modsitemaxlength="0"
-# 	moddescriptionmaxlength="0"
-# 	modcommandmaxlength="0"
-# 	# Loop through every line of the installed mods list ${modsinstalledlistfullpath}.
-# 	while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
-# 		currentmod=$(sed "${installedmodsline}q;d" "${modsinstalledlistfullpath}")
-# 		# Get mod info to make sure mod exists.
-# 		fn_mod_get_info
-# 		# Add the mod to available commands.
-# 		installedmodslist+=("${modcommand}")
-# 		# Increment line check.
-# 		((installedmodsline++))
-# 	done
-# 	if [ "${installedmodscount}" ]; then
-# 		fn_script_log_info "${installedmodscount} addons/mods are currently installed"
-# 	fi
-# }
+fn_workshop_copy_destination() {
+	local modid="$1"
+	local modname="$(fn_workshop_get_mod_name $modid)"
+	if fn_workshop_is_mod_copy_needed $modid; then
+		echo "Copying mod ${modname} (${modid})"
+		# If workshop mod exists in installation folder, delete it for clean install
+		if [ -d "${workshopmodsdir}/${modid}" ]; then
+			rm -rf "${workshopmodsdir}/${modid}"
+		fi
+		modsrc="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/$modid"
+		cp -fa ${modsrc} ${workshopmodsdir}
+		if [ "${engine}" == "realvirtuality" ]; then
+			modkey="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/$modid/keys"
+			if ! [ -d "${modkey}" ]; then
+				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/$modid/Keys"
+			fi
+			if ! [ -d "${modkey}" ]; then
+				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/$modid/key"
+			fi
+			if ! [ -d "${modkey}" ]; then
+				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/$modid/Key"
+			fi
+			if ! [ -d "${modkey}" ]; then
+				echo "Mod ${modname} seems to be missing key folder. Tring to copy key from the main folder."
+				cp -fa "${workshopmodsdir}/${modid}/*.bikey" ${keysdir}
+			else
+				cp -fa $modkey/*.bikey ${keysdir}
+			fi
+		fi
+	else
+		echo "Mod ${modname}  is already in mods folder."
+	fi
+	# echo -en "copying ${modprettyname} to ${modinstalldir}..."
+	# fn_sleep_time
+	# cp -Rf "${extractdir}/." "${modinstalldir}/"
+	# local exitcode=$?
+	# if [ "${exitcode}" != 0 ]; then
+	# 	fn_print_fail_eol_nl
+	# 	fn_script_log_fatal "Copying ${modprettyname} to ${modinstalldir}"
+	# else
+	# 	fn_print_ok_eol_nl
+	# 	fn_script_log_pass "Copying ${modprettyname} to ${modinstalldir}"
+	# fi
+}
 
 # ## Directory management.
 
@@ -291,66 +287,27 @@ fn_create_workshop_dir() {
 		fi
 	fi
 	# Create mod install directory.
-	if [ ! -d "${workhshopmodsdir}" ]; then
-		echo -en "creating Steam Workshop install directory ${workhshopmodsdir}..."
-		mkdir -p "${workhshopmodsdir}"
+	if [ ! -d "${workshopmodsdir}" ]; then
+		echo -en "creating Steam Workshop install directory ${workshopmodsdir}..."
+		mkdir -p "${workshopmodsdir}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Creating mod install directory ${workhshopmodsdir}"
+			fn_script_log_fatal "Creating mod install directory ${workshopmodsdir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Creating mod install directory ${workhshopmodsdir}"
+			fn_script_log_pass "Creating mod install directory ${workshopmodsdir}"
 		fi
 	fi
 }
 
-# # Create tmp download mod directory.
-# fn_mods_create_tmp_dir() {
-# 	if [ ! -d "${modstmpdir}" ]; then
-# 		mkdir -p "${modstmpdir}"
-# 		exitcode=$?
-# 		echo -en "creating mod download directory ${modstmpdir}..."
-# 		if [ "${exitcode}" != 0 ]; then
-# 			fn_print_fail_eol_nl
-# 			fn_script_log_fatal "Creating mod download directory ${modstmpdir}"
-# 			core_exit.sh
-# 		else
-# 			fn_print_ok_eol_nl
-# 			fn_script_log_pass "Creating mod download directory ${modstmpdir}"
-# 		fi
-# 	fi
-# }
-
-# # Remove the tmp mod download directory when finished.
-# fn_mods_clear_tmp_dir() {
-# 	if [ -d "${modstmpdir}" ]; then
-# 		echo -en "clearing mod download directory ${modstmpdir}..."
-# 		rm -fr "${modstmpdir:?}"
-# 		exitcode=$?
-# 		if [ "${exitcode}" != 0 ]; then
-# 			fn_print_fail_eol_nl
-# 			fn_script_log_fatal "Clearing mod download directory ${modstmpdir}"
-# 			core_exit.sh
-# 		else
-# 			fn_print_ok_eol_nl
-# 			fn_script_log_pass "Clearing mod download directory ${modstmpdir}"
-# 		fi
-
-# 	fi
-# 	# Clear temp file list as well.
-# 	if [ -f "${modsdir}/.removedfiles.tmp" ]; then
-# 		rm -f "${modsdir:?}/.removedfiles.tmp"
-# 	fi
-# }
-
 # Counts how many mods were installed.
 fn_workshop_count_installed() {
-	if [ -f "${workhshopmodsdir}" ]; then
-		installedmodscount=$(ls -l "${workhshopmodsdir}" | grep -c ^d)
+	if [ -f "${workshopmodsdir}" ]; then
+		installedworkshopmodscount=$(ls -l "${workshopmodsdir}" | grep -c ^d)
 	else
-		installedmodscount=0
+		installedworkshopmodscount=0
 	fi
 }
 
@@ -359,7 +316,7 @@ fn_workshop_check_installed() {
 	# Count installed mods.
 	fn_workshop_count_installed
 	# If no mods are found.
-	if [ ${installedmodscount} -eq 0 ]; then
+	if [ ${installedworkshopmodscount}/* -eq 0 ]; then
 		echo -e ""
 		fn_print_failure_nl "No installed workshop mods or addons were found"
 		echo -e " * Install mods using LinuxGSM first with: ./${selfname} workshop-install"
@@ -368,31 +325,15 @@ fn_workshop_check_installed() {
 	fi
 }
 
-# fn_mod_exist() {
-# 	modreq=$1
-# 	# requires one parameter, the mod
-# 	if [ -f "${modsdir}/${modreq}-files.txt" ]; then
-# 		# how many lines is the file list
-# 		modsfilelistsize=$(wc -l < "${modsdir}/${modreq}-files.txt")
-# 		# if file list is empty
-# 		if [ "${modsfilelistsize}" -eq 0 ]; then
-# 			fn_mod_required_fail_exist "${modreq}"
-# 		fi
-# 	else
-# 		fn_mod_required_fail_exist "${modreq}"
-# 	fi
-# }
-
-# fn_mod_required_fail_exist() {
-# 	modreq=$1
-# 	# requires one parameter, the mod
-# 	fn_script_log_fatal "${modreq}-files.txt is empty: unable to find ${modreq} installed"
-# 	echo -en "* Unable to find '${modreq}' which is required prior to installing this mod..."
-# 	fn_print_fail_eol_nl
-# 	core_exit.sh
-# }
-
-# ## Database initialisation.
-
-# mods_list.sh
-# fn_mods_available
+# Builds list of installed Steam Workshop mods.
+fn_workshop_installed_list() {
+	fn_workshop_count_installed
+	for f in ${workshopmodsdir}/*; do
+		if [ -d "$f" ]; then
+			echo -e "$(fn_workshop_get_mod_name $(basename ${f})) ($(basename ${f}))"
+		fi
+	done
+	if [ "${installedworkshopmodscount}" ]; then
+		fn_script_log_info "${installedworkshopmodscount} addons/mods are currently installed"
+	fi
+}
