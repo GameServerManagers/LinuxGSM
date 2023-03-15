@@ -104,35 +104,35 @@ fn_workshop_download() {
 }
 
 fn_workshop_get_list() {
-	workshoplist=($(echo $workshopmods | tr ";" "\n"))
+	workshoplist=($(echo "${workshopmods}" | tr ";" "\n"))
 }
 
 fn_workshop_get_latest_mod_version() {
 	local modid="$1"
 	local serverresp="$(curl -s -d "itemcount=1&publishedfileids[0]=${modid}" "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1")"
 	local remupd=
-	if [[ "$serverresp" =~ \"hcontent_file\":[[:space:]]*([^,]*) ]]; then
+	if [[ "${serverresp}" =~ \"hcontent_file\":[[:space:]]*([^,]*) ]]; then
        remupd="${BASH_REMATCH[1]}"
     fi
-    echo "$remupd" | tr -d '"'
+    echo "${remupd}" | tr -d '"'
 }
 
 fn_workshop_get_name_from_steam() {
 	local modid="$1"
 	local serverresp="$(curl -s -d "itemcount=1&publishedfileids[0]=${modid}" "http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1")"
 	local title=
-	if [[ "$serverresp" =~ \"title\":[[:space:]]*([^,]*) ]]; then
+	if [[ "${serverresp}" =~ \"title\":[[:space:]]*([^,]*) ]]; then
        title="${BASH_REMATCH[1]}"
     fi
-    echo "$title" | tr -d '"'
+    echo "${title}" | tr -d '"'
 }
 
 fn_workshop_check_mod_update() {
 	local modid="$1"
 	if [ ! -f "${workshopmodsdldir}/steamapps/workshop/appworkshop_${gameappid}.acf" ]; then return 0; fi
 	local instmft="$(sed -n '/^\t"WorkshopItemsInstalled"$/,/^\t[}]$/{/^\t\t"'"${modid}"'"$/,/^\t\t[}]$/{s|^\t\t\t"manifest"\t\t"\(.*\)"$|\1|p}}' <"${workshopmodsdldir}/steamapps/workshop/appworkshop_${gameappid}.acf")"
-	if [ -z "$instmft" ]; then return 0; fi
-	local remmft="$(fn_workshop_get_latest_mod_version "$modid")"
+	if [ -z "${instmft}" ]; then return 0; fi
+	local remmft="$(fn_workshop_get_latest_mod_version "${modid}")"
 	if [[ -n "${remmft}" && "${instmft}" != "${remmft}" ]]; then
 		return 0 # true
 	fi
@@ -144,8 +144,8 @@ fn_workshop_is_mod_copy_needed(){
 	local modsrc="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}"
 	if [ ! -f "${workshopmodsdir}/${modid}/meta.cpp" ]; then return 0; fi
 	local instmft="$(grep "timestamp" ${workshopmodsdir}/${modid}/meta.cpp)"
-	if [ -z "$instmft" ]; then return 0; fi
-	local remmft="$(grep "timestamp" $modsrc/meta.cpp)"
+	if [ -z "${instmft}" ]; then return 0; fi
+	local remmft="$(grep "timestamp" ${modsrc}/meta.cpp)"
 	if [[ -n "${remmft}" && "${instmft}" != "${remmft}" ]]; then
 		return 0 # true
 	fi
@@ -225,31 +225,31 @@ fn_workshop_lowercase() {
 # # Copy the mod into serverfiles.
 fn_workshop_copy_destination() {
 	local modid="$1"
-	local modname="$(fn_workshop_get_mod_name $modid)"
-	if fn_workshop_is_mod_copy_needed $modid; then
+	local modname="$(fn_workshop_get_mod_name ${modid})"
+	if fn_workshop_is_mod_copy_needed ${modid}; then
 		echo "Copying mod ${modname} (${modid})"
 		# If workshop mod exists in installation folder, delete it for clean install
 		if [ -d "${workshopmodsdir}/${modid}" ]; then
 			rm -rf "${workshopmodsdir}/${modid}"
 		fi
-		modsrc="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/$modid"
+		modsrc="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}"
 		cp -fa ${modsrc} ${workshopmodsdir}
 		if [ "${engine}" == "realvirtuality" ]; then
-			modkey="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/$modid/keys"
+			modkey="${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}/keys"
 			if ! [ -d "${modkey}" ]; then
-				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/$modid/Keys"
+				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/${modid}/Keys"
 			fi
 			if ! [ -d "${modkey}" ]; then
-				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/$modid/key"
+				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/${modid}/key"
 			fi
 			if ! [ -d "${modkey}" ]; then
-				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/$modid/Key"
+				modkey="$steamcmd/steamapps/workshop/content/${gameappid}/${modid}/Key"
 			fi
 			if ! [ -d "${modkey}" ]; then
 				echo "Mod ${modname} seems to be missing key folder. Tring to copy key from the main folder."
 				cp -fa "${workshopmodsdir}/${modid}/*.bikey" ${keysdir}
 			else
-				cp -fa $modkey/*.bikey ${keysdir}
+				cp -fa ${modkey}/*.bikey ${keysdir}
 			fi
 		fi
 	else
@@ -328,8 +328,9 @@ fn_workshop_check_installed() {
 # Builds list of installed Steam Workshop mods.
 fn_workshop_installed_list() {
 	fn_workshop_count_installed
-	for f in ${workshopmodsdir}/*; do
-		if [ -d "$f" ]; then
+	for folder in ${workshopmodsdir}/*; do
+		# If it is a folder, then use it's name as Steam Workshop Mod Id
+		if [ -d "${folder}" ]; then
 			echo -e "$(fn_workshop_get_mod_name $(basename ${f})) ($(basename ${f}))"
 		fi
 	done

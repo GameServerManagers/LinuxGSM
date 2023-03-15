@@ -22,13 +22,13 @@ echo -e "================================="
 fn_workshop_installed_list
 
 for modid in "${workshoplist[@]}"; do
-    modname="$(fn_workshop_get_mod_name $modid)"
-    if fn_workshop_check_mod_update $modid; then
+    modname="$(fn_workshop_get_mod_name ${modid})"
+    if [ fn_workshop_check_mod_update "${modid}" ]; then
         echo "Mod ${modname} (${modid}) is not up to date."
-        fn_workshop_download $modid
-        fn_workshop_copy_destination $modid
+        fn_workshop_download "${modid}"
+        fn_workshop_copy_destination "${modid}"
     else
-        echo "Mod $modname is up to date."
+        echo "Mod ${modname} is up to date."
     fi
 done
 

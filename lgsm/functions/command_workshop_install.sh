@@ -38,8 +38,8 @@ for modid in "${workshoplist[@]}"; do
 	echo -e ""
 	echo -e "Installing $(fn_workshop_get_mod_name ${modid})."
 	echo -e "================================="
-	fn_workshop_download $modid
-	fn_workshop_copy_destination $modid
+	fn_workshop_download "${modid}"
+	fn_workshop_copy_destination "${modid}"s
 done
 
 fn_workshop_lowercase
