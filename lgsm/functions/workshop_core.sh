@@ -155,10 +155,15 @@ fn_workshop_is_mod_copy_needed(){
 
 fn_workshop_get_mod_name(){
 	local modid="$1"
-	if ! [ -d "${workshopmodsdir}/${modid}" ]; then
-		echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdir}/${modid}/mod.cpp)"
-	elif ! [ -d "${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}" ]; then
-		echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}/mod.cpp)"
+	# Each game has different Steam Workshop structure, so mod id will be stored in a different place
+	if [ "${engine}" == "realvirtuality" ]; then
+		if ! [ -d "${workshopmodsdir}/${modid}" ]; then
+			echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdir}/${modid}/mod.cpp)"
+		elif ! [ -d "${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}" ]; then
+			echo "$(grep -Po '(?<=name = ").+?(?=")' ${workshopmodsdldir}/steamapps/workshop/content/${gameappid}/${modid}/mod.cpp)"
+		else
+			echo "$(fn_workshop_get_name_from_steam ${modid})"
+		fi
 	else
 		echo "$(fn_workshop_get_name_from_steam ${modid})"
 	fi
@@ -179,45 +184,29 @@ fn_workshop_lowercase() {
 		filesupperwc=$(find "${workshopmodsdir}/" -name '*[[:upper:]]*' | wc -l)
 		fn_script_log_info "Found ${filesupperwc} uppercase files out of ${fileswc}, converting"
 		echo -en "Found ${filesupperwc} uppercase files out of ${fileswc}, converting..."
-		# Works but not on folders
-		# while IFS= read -r -d '' file; do
-        # 	mv -b -- "$file" "${file,,}" 2>/dev/null
-		# done < <(find ${workshopmodsdir} -depth -name '*[A-Z]*' -print0)
-		# while IFS= read -r -d '' file; do
-        # 	mv -b -- "$file" "${file,,}" 2>/dev/null
-		# done < <(find ${workshopmodsdir}/ -depth -name '*[A-Z]*' -print0)
-
-		# Works bu not on WSL?
-		# https://unix.stackexchange.com/questions/20222/change-entire-directory-tree-to-lower-case-names/20232#20232
 		#
-		find ${workshopmodsdir} -depth -exec sh -c '
-			t=${0%/*}/$(printf %s "${0##*/}" | tr "[:upper:]" "[:lower:]");
-			[ "$t" = "$0" ] || mv -i "$0" "$t"
-		' {} \;
-
-		#
-		# Coudln't get this to work.
+		# Coudln't get this to work on WSL. Needs to be verified on an acutal linux server.
 		#
 		# Convert files and directories starting from the deepest to prevent issues (-depth argument)
-		# while IFS= read -r -d '' src; do
-		# 	# We have to convert only the last file from the path, otherwise we will fail to convert anything if a parent dir has any uppercase
-		# 	# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
-		# 	# Gather parent dir, filename lowercase filename, and set lowercase destination name
-		# 	latestparentdir=$(dirname "${src}")
-		# 	latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
-		# 	dst="${latestparentdir}/${latestfilelc}"
-		# 	# Only convert if destination does not already exist for some reason
-		# 	if [ ! -e "${dst}" ]; then
-		# 		# Finally we can rename the file
-		# 		mv "${src}" "${dst}"
-		# 		# Exit if it fails for any reason
-		# 		local exitcode=$?
-		# 		if [ "${exitcode}" != 0 ]; then
-		# 			fn_print_fail_eol_nl
-		# 			core_exit.sh
-		# 		fi
-		# 	fi
-		# done < <(find "${workshopmodsdir}" -depth -name '*[[:upper:]]*' -print0)
+		while IFS= read -r -d '' src; do
+			# We have to convert only the last file from the path, otherwise we will fail to convert anything if a parent dir has any uppercase
+			# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
+			# Gather parent dir, filename lowercase filename, and set lowercase destination name
+			latestparentdir=$(dirname "${src}")
+			latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
+			dst="${latestparentdir}/${latestfilelc}"
+			# Only convert if destination does not already exist for some reason
+			if [ ! -e "${dst}" ]; then
+				# Finally we can rename the file
+				mv "${src}" "${dst}"
+				# Exit if it fails for any reason
+				local exitcode=$?
+				if [ "${exitcode}" != 0 ]; then
+					fn_print_fail_eol_nl
+					core_exit.sh
+				fi
+			fi
+		done < <(find "${workshopmodsdir}" -depth -name '*[[:upper:]]*' -print0)
 		fn_print_ok_eol_nl
 	fi
 }
@@ -255,17 +244,6 @@ fn_workshop_copy_destination() {
 	else
 		echo "Mod ${modname}  is already in mods folder."
 	fi
-	# echo -en "copying ${modprettyname} to ${modinstalldir}..."
-	# fn_sleep_time
-	# cp -Rf "${extractdir}/." "${modinstalldir}/"
-	# local exitcode=$?
-	# if [ "${exitcode}" != 0 ]; then
-	# 	fn_print_fail_eol_nl
-	# 	fn_script_log_fatal "Copying ${modprettyname} to ${modinstalldir}"
-	# else
-	# 	fn_print_ok_eol_nl
-	# 	fn_script_log_pass "Copying ${modprettyname} to ${modinstalldir}"
-	# fi
 }
 
 # ## Directory management.
