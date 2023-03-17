@@ -90,8 +90,8 @@ movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
 movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
 
 # Rust
-carbonrustapilatestfile="Carbon.ReleaseUnix.tar.gz"
-carbonrustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/latest | jq -r '.assets[]|select(.name == "Carbon.ReleaseUnix.tar.gz") | .browser_download_url')
+carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
+carbonrustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
 
 # Oxide
 oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
@@ -193,7 +193,7 @@ mod_info_darkrpmodification=(MOD "darkrpmodification" "DarkRP Modification" "htt
 mod_info_laserstool=(MOD "laserstool" "Laser STool" "https://github.com/dvdvideo1234/laserstool/archive/main.zip" "laserstool-main.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/dvdvideo1234/LaserSTool" "Scripted tool that spawns laser entities, simulates light rays and even kill players")
 
 # Rust
-mod_info_rustcarbon=(MOD "rustcarbon" "Carbon for Rust" "${carbonrustlatestlink}" "Carbon.ReleaseUnix.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "carbonmod.gg" "Allows for the use of both plugins and harmony mods")
+mod_info_rustcarbon=(MOD "rustcarbon" "Carbon for Rust" "${carbonrustlatestlink}" "Carbon.Linux.Release.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "carbonmod.gg" "Allows for the use of both plugins and harmony mods")
 
 # Oxidemod
 mod_info_rustoxide=(MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "Oxide.Rust-linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "https://umod.org/games/rust" "Allows for the use of plugins")
