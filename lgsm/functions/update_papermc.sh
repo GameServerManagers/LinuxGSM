@@ -8,11 +8,9 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to tmpdir.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
-	mv "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${serverfiles}" "${executable#./}" "chmodx" "norun" "force" "${remotebuildhash}"
 	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
-	fn_clear_tmp
 }
 
 fn_update_localbuild() {
@@ -32,7 +30,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Gets remote build info.
+	# Get remote build info.
 	apiurl="https://papermc.io/api/v2/projects/"
 	# Get list of projects.
 	remotebuildresponse=$(curl -s "${apiurl}")

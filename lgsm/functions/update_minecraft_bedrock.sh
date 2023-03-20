@@ -49,7 +49,7 @@ fn_update_minecraft_localbuild() {
 }
 
 fn_update_minecraft_remotebuild() {
-	# Gets remote build info.
+	# Get remote build info.
 	if [ "${mcversion}" == "latest" ]; then
 		remotebuild=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
 	else

@@ -30,7 +30,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Gets remote build info.
+	# Get remote build info.
 	apiurl="https://api.github.com/repos/multitheftauto/mtasa-blue/releases/latest"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
