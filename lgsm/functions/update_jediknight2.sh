@@ -3,32 +3,22 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of jk2 servers.
+# Description: Handles updating of Jedi Knight 2 servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_jk2_dl() {
-	fn_fetch_file "https://github.com/mvdevs/jk2mv/releases/download/${remotebuild}/jk2mv-v${remotebuild}-dedicated.zip" "" "" "" "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "" "norun" "noforce" "nohash"
-	fn_dl_extract "${tmpdir}" "jk2mv-${remotebuild}-dedicated.zip" "${tmpdir}/jk2mv-v${remotebuild}-dedicated"
-	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/jk2mv-v${remotebuild}-dedicated/linux-amd64/jk2mvded"* "${serverfiles}/GameData"
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		core_exit.sh
-	fi
+fn_update_dl() {
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}/GameData" "linux-amd64"
+	fn_clear_tmp
 }
 
-fn_update_jk2_localbuild() {
+fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to get local build.
-	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2> /dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1)
+	localbuild=$(grep "\"version\"" "${consolelogdir}"/* 2> /dev/null | sed 's/.*://' | awk '{print $1}' | head -n 1 | sed 's/v//')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -40,13 +30,18 @@ fn_update_jk2_localbuild() {
 	fi
 }
 
-fn_update_jk2_remotebuild() {
+fn_update_remotebuild() {
 	# Get remote build info.
-	remotebuild=$(curl -s "https://api.github.com/repos/mvdevs/jk2mv/releases/latest" | grep dedicated.zip | tail -1 | awk -F"/" '{ print $8 }')
+	apiurl="https://api.github.com/repos/mvdevs/jk2mv/releases/latest"
+	remotebuildresponse=$(curl -s "${apiurl}")
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("dedicated.zip")) | .name')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("dedicated.zip")) | .browser_download_url')
+	remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
+
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -56,7 +51,7 @@ fn_update_jk2_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -64,27 +59,39 @@ fn_update_jk2_remotebuild() {
 	fi
 }
 
-fn_update_jk2_compare() {
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild} ${jk2arch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
+		echo -e "* Local build: ${red}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
 			unset updateonstart
 			check_status.sh
 			# If server stopped.
 			if [ "${status}" == "0" ]; then
-				exitbypass=1
-				fn_update_jk2_dl
+				fn_update_dl
 				if [ "${localbuild}" == "0" ]; then
 					exitbypass=1
 					command_start.sh
@@ -101,7 +108,7 @@ fn_update_jk2_compare() {
 				command_stop.sh
 				fn_firstcommand_reset
 				exitbypass=1
-				fn_update_jk2_dl
+				fn_update_dl
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset
@@ -117,30 +124,40 @@ fn_update_jk2_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild} ${jk2arch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${jk2arch}${default}"
+		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild} ${jk2arch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${jk2arch}"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 	fi
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="jk2mv.org"
-
-# Game server architecture.
-jk2arch="x64"
+remotelocation="github.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_jk2_remotebuild
-	fn_update_jk2_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
 	update_steamcmd.sh
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_jk2_localbuild
-	fn_update_jk2_remotebuild
-	fn_update_jk2_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

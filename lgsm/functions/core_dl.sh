@@ -243,7 +243,7 @@ fn_dl_extract() {
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(unzip -qoj -d "${extractdest}" "${local_filedir}/${local_filename}" --strip-components=1 "${extractsrc}"/*)
+			extractcmd=$(unzip -qoj -d "${extractdest}" "${local_filedir}/${local_filename}" "${extractsrc}"/*)
 		else
 			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
 		fi
