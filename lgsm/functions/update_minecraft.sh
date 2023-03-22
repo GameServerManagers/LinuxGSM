@@ -43,10 +43,10 @@ fn_update_remotebuild() {
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.latest.snapshot')
 	# Specific release/snapshot.
 	else
-		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r --arg branch ${branch} --arg mcversion ${mcversion} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .id')
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg mcversion "${mcversion}" '.versions | .[] | select(.type==$branch and .id==$mcversion) | .id')
 	fi
 	# Generate link to version manifest json.
-	remotebuildmanifest=$(echo "${remotebuildresponse}" | jq -r --arg branch ${branch} --arg mcversion ${remotebuildversion} '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
+	remotebuildmanifest=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg mcversion "${remotebuildversion}" '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
 	# Generate link to server.jar
 	remotebuildurl=$(curl -s "${remotebuildmanifest}" | jq -r '.downloads.server.url')
 
