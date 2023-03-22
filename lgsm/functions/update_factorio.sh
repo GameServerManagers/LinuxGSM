@@ -18,8 +18,10 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to get local build.
-	cd "${executabledir}" || exit
-	localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
+	if [ -d "${exutabledir}" ]; then
+		cd "${executabledir}" || exit
+		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
