@@ -217,13 +217,6 @@ fn_update_steamcmd_compare() {
 			echo -e "* Branch password: ${betapassword}"
 		fi
 		echo -e "https://steamdb.info/app/${appid}/"
-		if [ -f "${rootdir}/.dev-debug" ]; then
-			echo -e "Remote build info"
-			echo -e "* apiurl: ${apiurl}"
-			echo -e "* remotebuildfilename: ${remotebuildfilename}"
-			echo -e "* remotebuildurl: ${remotebuildurl}"
-			echo -e "* remotebuildversion: ${remotebuildversion}"
-		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
@@ -283,13 +276,6 @@ fn_update_steamcmd_compare() {
 		fi
 		if [ -n "${betapassword}" ]; then
 			fn_script_log_info "Branch password: ${betapassword}"
-		fi
-		if [ -f "${rootdir}/.dev-debug" ]; then
-			echo -e "Remote build info"
-			echo -e "* apiurl: ${apiurl}"
-			echo -e "* remotebuildfilename: ${remotebuildfilename}"
-			echo -e "* remotebuildurl: ${remotebuildurl}"
-			echo -e "* remotebuildversion: ${remotebuildversion}"
 		fi
 	fi
 }
