@@ -233,6 +233,9 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vintagestory.sh
+elif [ "${shortname}" == "ut99" ]; then
+	fn_install_server_files
+	update_ut99.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh

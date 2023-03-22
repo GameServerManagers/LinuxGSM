@@ -1,23 +1,25 @@
 #!/bin/bash
-# LinuxGSM update_mta.sh module
+# LinuxGSM command_ut99.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Multi Theft Auto servers.
+# Description: Handles updating of Unreal Tournament 99 servers.
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to tmpdir.
-	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
-	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${serverfiles}" "multitheftauto_linux_x64"
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
+	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to get local build.
-	localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
+	# Uses build file to get local build.
+	localbuild=$(head -n 1 "${serverfiles}/build.txt")
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -31,11 +33,12 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="https://api.github.com/repos/multitheftauto/mtasa-blue/releases/latest"
+	apiurl="https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
 	remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
+
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuildversion variable has been set.
@@ -60,12 +63,6 @@ fn_update_remotebuild() {
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
-		if [ "${forceupdate}" == "1" ]; then
-			# forceupdate bypasses checks, useful for small build changes
-			mtaupdatestatus="forced"
-		else
-			mtaupdatestatus="available"
-		fi
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -151,7 +148,7 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="linux.mtasa.com"
+remotelocation="github.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
