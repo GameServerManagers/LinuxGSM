@@ -1490,7 +1490,11 @@ fn_info_game_rust() {
 	serverlevel=${serverlevel:-"NOT SET"}
 	customlevelurl=${customlevelurl:-"NOT SET"}
 	worldsize=${worldsize:-"0"}
-	seed=${seed:-"0"}
+	if [ -n "${seed}" ]; then
+		seed=${seed:-"0"}
+	elif [ -f "${datadir}/${selfname}-seed.txt" ]; then
+		seed=$(cat "${datadir}/${selfname}-seed.txt")
+	fi
 	salt=${salt:-"0"}
 }
 
