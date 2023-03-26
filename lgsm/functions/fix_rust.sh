@@ -25,5 +25,5 @@ if [ -f "${serverfiles}/carbon/tools/environment.sh" ]; then
 	fn_print_info_nl "Running Carbon environment.sh"
 	fn_script_log_info "Running Carbon environment.sh"
 	# shellcheck source=/dev/null
-	"${serverfiles}/carbon/tools/environment.sh"
+	source "${serverfiles}/carbon/tools/environment.sh"
 fi
