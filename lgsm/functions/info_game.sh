@@ -1494,6 +1494,8 @@ fn_info_game_rust() {
 		seed=${seed:-"0"}
 	elif [ -f "${datadir}/${selfname}-seed.txt" ]; then
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
+	else
+		seed="0"
 	fi
 	salt=${salt:-"0"}
 }
