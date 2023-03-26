@@ -19,3 +19,11 @@ if [ -z "${seed}" ] || [ "${seed}" == "0" ]; then
 	seed="$(cat "${datadir}/${selfname}-seed.txt")"
 	randomseed=1
 fi
+
+# If Carbon mod is installed, run enviroment.sh
+if [ -f "${serverfiles}/carbon/tools/environment.sh" ]; then
+	fn_print_info_nl "Running Carbon environment.sh"
+	fn_script_log_info "Running Carbon environment.sh"
+	# shellcheck source=/dev/null
+	source "${serverfiles}/carbon/tools/environment.sh"
+fi
