@@ -8,7 +8,7 @@
 commandname="START"
 commandaction="Starting"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-add_ts="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
+addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
 fn_firstcommand_set
 
 fn_start_teamspeak3() {
@@ -94,7 +94,7 @@ fn_start_tmux() {
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
-				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $add_ts\" >> '${consolelog}'"
+				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
 				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
@@ -115,7 +115,7 @@ fn_start_tmux() {
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
-				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $add_ts\" >> '${consolelog}'"
+				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
 				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
@@ -147,7 +147,7 @@ fn_start_tmux() {
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
-			cat "${lgsmlogdir}/.${selfname}-tmux-error.tmp" | tee -a "${lgsmlog}"
+			tee -a "${lgsmlog}" < "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 			# Detected error https://linuxgsm.com/support
 			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"; then
