@@ -8,6 +8,7 @@
 commandname="START"
 commandaction="Starting"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
 fn_firstcommand_set
 
 fn_start_teamspeak3() {
@@ -92,8 +93,13 @@ fn_start_tmux() {
 		fn_script_log "tmux version: master (user compiled)"
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			if [ "$logtimestamp" == "on" ]; then
+				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			else
+				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			fi
 		fi
+
 	elif [ -n "${tmuxv}" ]; then
 		# tmux pipe-pane not supported in tmux versions < 1.6.
 		if [ "${tmuxvdigit}" -lt "16" ]; then
@@ -108,7 +114,11 @@ fn_start_tmux() {
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			if [ "$logtimestamp" == "on" ]; then
+				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			else
+				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			fi
 		fi
 	else
 		echo -e "Unable to detect tmux version" >> "${consolelog}"
@@ -137,7 +147,7 @@ fn_start_tmux() {
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
-			cat "${lgsmlogdir}/.${selfname}-tmux-error.tmp" | tee -a "${lgsmlog}"
+			tee -a "${lgsmlog}" < "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 			# Detected error https://linuxgsm.com/support
 			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"; then
