@@ -92,7 +92,7 @@ fn_start_tmux() {
 	if [ "${tmuxv}" == "master" ]; then
 		fn_script_log "tmux version: master (user compiled)"
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
-		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
 				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $add_ts\" >> '${consolelog}'"
 			else
@@ -113,7 +113,7 @@ fn_start_tmux() {
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
-		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
+		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
 				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $add_ts\" >> '${consolelog}'"
 			else
