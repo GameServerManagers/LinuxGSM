@@ -7,46 +7,49 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_vs_dl(){
-	# get version info for download
-	remotebuildresponse=$(curl -s "${apiurl}" | jq --arg version "${remotebuild}" '.[$version].server')
-	remotebuildfile=$(echo -e "${remotebuildresponse}" | jq -r '.filename')
-	remotebuildlink=$(echo -e "${remotebuildresponse}" | jq -r '.urls.cdn')
-	remotebuildmd5=$(echo -e "${remotebuildresponse}" | jq -r '.md5')
-
+fn_update_dl() {
 	# Download and extract files to serverfiles
-	fn_fetch_file "${remotebuildlink}" "" "" "" "${tmpdir}" "${remotebuildfile}" "nochmodx" "norun" "force" "${remotebuildmd5}"
-	fn_dl_extract "${tmpdir}" "${remotebuildfile}" "${serverfiles}"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	fn_clear_tmp
 }
 
-fn_update_vs_localbuild(){
+fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses executable to find local build.
-	cd "${executabledir}" || exit
-	if [ -f "${executable}" ]; then
+	# Uses executable to get local build.
+	if [ -d "${exutabledir}" ]; then
+		cd "${executabledir}" || exit
 		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
+	fi
+	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
+	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
-	else
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_script_log_error "Checking local build"
 	fi
 }
 
-fn_update_vs_remotebuild(){
+fn_update_remotebuild() {
+	# Get remote build info.
+	apiurl="http://api.vintagestory.at/stable-unstable.json"
+	remotebuildresponse=$(curl -s "${apiurl}")
 	if [ "${branch}" == "stable" ]; then
-		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
 	else
-		remotebuild=$(curl -s "${apiurl}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
 	fi
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.filename')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.urls.cdn')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.md5')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -56,7 +59,7 @@ fn_update_vs_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -64,85 +67,104 @@ fn_update_vs_remotebuild(){
 	fi
 }
 
-fn_update_vs_compare(){
-	# Removes dots so if statement can compare version numbers.
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	if [ "${localbuild}" != "${remotebuild}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
-		unset updateonstart
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			fn_update_vs_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
+				fn_update_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					sleep 5
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
 				exitbypass=1
 				command_stop.sh
 				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
 			fi
-		# If server started.
-		else
-			fn_print_restart_warning
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			fn_update_vs_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
 		fi
-		unset exitbypass
-		date +%s > "${lockdir}/lastupdate.lock"
-		alert="update"
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
 		fi
 	fi
 }
 
 # The location where the builds are checked and downloaded.
 remotelocation="vintagestory.at"
-apiurl="http://api.${remotelocation}/stable-unstable.json"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_vs_remotebuild
-	fn_update_vs_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_vs_localbuild
-	fn_update_vs_remotebuild
-	fn_update_vs_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

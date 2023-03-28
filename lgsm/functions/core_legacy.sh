@@ -8,7 +8,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # This is to help the transition to v20.3.0 and above
-legacy_versions_array=( v20.2.1 v20.2.0 v20.1.5 v20.1.4 v20.1.3 v20.1.2 v20.1.1 v20.1.0 v19.12.5 v19.12.4 v19.12.3 v19.12.2 v19.12.1 v19.12.0 )
+legacy_versions_array=(v20.2.1 v20.2.0 v20.1.5 v20.1.4 v20.1.3 v20.1.2 v20.1.1 v20.1.0 v19.12.5 v19.12.4 v19.12.3 v19.12.2 v19.12.1 v19.12.0)
 for legacy_version in "${legacy_versions_array[@]}"; do
 	if [ "${version}" == "${legacy_version}" ]; then
 		legacymode=1
@@ -78,7 +78,7 @@ if [ -z "${wsstartmap}" ]; then
 	fi
 fi
 
-fn_parms(){
+fn_parms() {
 	fn_reload_startparameters
 	parms="${startparameters}"
 }

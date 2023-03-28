@@ -10,16 +10,16 @@ jobs:
   GitHub-to-Bitbucket:
     runs-on: ubuntu-latest
     steps:
-    - name: webfactory/ssh-agent@v0.5.3
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.BITBUCKET_SECRET }}
+      - name: webfactory/ssh-agent@v0.7.0
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.BITBUCKET_SECRET }}
 
-    - name: wei/git-sync@v3.0.0
-      uses: wei/git-sync@v3.0.0
-      with:
-        ssh_private_key: ${{ secrets.BITBUCKET_SECRET }}
-        source_repo: "https://github.com/GameServerManagers/LinuxGSM"
-        source_branch: "refs/heads/*"
-        destination_repo: "git@bitbucket.org:GameServerManagers/linuxgsm.git"
-        destination_branch: "refs/heads/*"
+      - name: wei/git-sync@v3.0.0
+        uses: wei/git-sync@v3.0.0
+        with:
+          ssh_private_key: ${{ secrets.BITBUCKET_SECRET }}
+          source_repo: "https://github.com/GameServerManagers/LinuxGSM"
+          source_branch: "refs/heads/*"
+          destination_repo: "git@bitbucket.org:GameServerManagers/linuxgsm.git"
+          destination_branch: "refs/heads/*"

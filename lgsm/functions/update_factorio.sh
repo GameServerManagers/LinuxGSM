@@ -7,47 +7,44 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_factorio_dl(){
-	fn_fetch_file "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" "" "" "" "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "" "norun" "noforce" "nohash"
-	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuild}.tar.xz" "${tmpdir}"
-	echo -e "copying to ${serverfiles}...\c"
-	cp -R "${tmpdir}/factorio/"* "${serverfiles}"
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		fn_clear_tmp
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		core_exit.sh
-		fn_clear_tmp
-	fi
+fn_update_dl() {
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
+	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz" "${serverfiles}" "factorio"
+	fn_clear_tmp
 }
 
-fn_update_factorio_localbuild(){
+fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses executable to find local build.
-	cd "${executabledir}" || exit
-	if [ -f "${executable}" ]; then
+	# Uses executable to get local build.
+	if [ -d "${exutabledir}" ]; then
+		cd "${executabledir}" || exit
 		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_pass "Checking local build"
-	else
+	fi
+	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: checking local build"
-		fn_script_log_error "Checking local build"
+	else
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
 	fi
 }
 
-fn_update_factorio_remotebuild(){
-	# Gets remote build info.
-	remotebuild=$(curl -s "https://factorio.com/get-download/${downloadbranch}/headless/${factorioarch}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
+fn_update_remotebuild() {
+	# Get remote build info.
+	apiurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
+	remotebuildresponse=$(curl -s "${apiurl}")
+	remotebuildversion=$(echo "${remotebuildresponse}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
+	remotebuildurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
+	remotebuildfilename="factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz"
+
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -57,7 +54,7 @@ fn_update_factorio_remotebuild(){
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ]||[ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -65,101 +62,107 @@ fn_update_factorio_remotebuild(){
 	fi
 }
 
-fn_update_factorio_compare(){
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	# Removes dots so if statement can compare version numbers.
-	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ]||[ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild} ${factorioarch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion} ${factorioarch}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
-		if [ -v "${branch}" ]; then
+		fn_script_log_info "Remote build: ${remotebuildversion} ${factorioarch}"
+		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
-		unset updateonstart
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			fn_update_factorio_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
+				fn_update_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					sleep 5
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
 				exitbypass=1
 				command_stop.sh
 				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
 			fi
-		# If server started.
-		else
-			fn_print_restart_warning
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			fn_update_factorio_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
 		fi
-		unset exitbypass
-		date +%s > "${lockdir}/lastupdate.lock"
-		alert="update"
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
-		echo -e "* Remote build: ${green}${remotebuild} ${factorioarch}${default}"
-		if [ -v "${branch}" ]; then
+		echo -e "* Remote build: ${green}${remotebuildversion} ${factorioarch}${default}"
+		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
-		fn_script_log_info "Remote build: ${remotebuild} ${factorioarch}"
-		if [ -v "${branch}" ]; then
+		fn_script_log_info "Remote build: ${remotebuildversion} ${factorioarch}"
+		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
 		fi
 	fi
 }
 
-# The location where the builds are checked and downloaded.
-remotelocation="factorio.com"
-
 # Game server architecture.
 factorioarch="linux64"
 
-if [ "${branch}" == "stable" ]; then
-	downloadbranch="stable"
-elif [ "${branch}" == "experimental" ]; then
-	downloadbranch="latest"
-else
-	downloadbranch="${branch}"
-fi
+# The location where the builds are checked and downloaded.
+remotelocation="factorio.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_factorio_remotebuild
-	fn_update_factorio_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_factorio_localbuild
-	fn_update_factorio_remotebuild
-	fn_update_factorio_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

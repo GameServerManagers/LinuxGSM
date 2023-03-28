@@ -15,7 +15,7 @@ check.sh
 info_distro.sh
 info_game.sh
 info_messages.sh
-if [ "${querymode}" == "2" ]||[ "${querymode}" == "3" ]; then
+if [ "${querymode}" == "2" ] || [ "${querymode}" == "3" ]; then
 	for queryip in "${queryips[@]}"; do
 		query_gamedig.sh
 		if [ "${querystatus}" == "0" ]; then
@@ -30,7 +30,7 @@ fn_info_message_gameserver
 fn_info_message_script
 fn_info_message_backup
 # Some game servers do not have parms.
-if [ "${shortname}" != "jc2" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
+if [ "${shortname}" != "jc2" ] && [ "${shortname}" != "dst" ] && [ "${shortname}" != "pz" ] && [ "${engine}" != "renderware" ]; then
 	fn_info_message_commandlineparms
 fi
 fn_info_message_ports_edit

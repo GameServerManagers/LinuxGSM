@@ -21,7 +21,7 @@ if [ "${installedmodscount}" -gt "0" ]; then
 	echo -e "Installed addons/mods"
 	echo -e "================================="
 	# Go through all available commands, get details and display them to the user.
-	for ((llindex=0; llindex < ${#installedmodslist[@]}; llindex++)); do
+	for ((llindex = 0; llindex < ${#installedmodslist[@]}; llindex++)); do
 		# Current mod is the "llindex" value of the array we're going through.
 		currentmod="${installedmodslist[llindex]}"
 		fn_mod_get_info
@@ -40,9 +40,9 @@ compatiblemodslistindex=0
 while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
 	# Set values for convenience.
 	displayedmodname="${compatiblemodslist[compatiblemodslistindex]}"
-	displayedmodcommand="${compatiblemodslist[compatiblemodslistindex+1]}"
-	displayedmodsite="${compatiblemodslist[compatiblemodslistindex+2]}"
-	displayedmoddescription="${compatiblemodslist[compatiblemodslistindex+3]}"
+	displayedmodcommand="${compatiblemodslist[compatiblemodslistindex + 1]}"
+	displayedmodsite="${compatiblemodslist[compatiblemodslistindex + 2]}"
+	displayedmoddescription="${compatiblemodslist[compatiblemodslistindex + 3]}"
 	# Output mods to the user.
 	echo -e "${displayedmodname} - ${displayedmoddescription} - ${displayedmodsite}"
 	echo -e " * ${cyan}${displayedmodcommand}${default}"
@@ -65,8 +65,8 @@ while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
 	read -r usermodselect
 	# Exit if user says exit or abort.
-	if [ "${usermodselect}" == "exit" ]||[ "${usermodselect}" == "abort" ]; then
-			core_exit.sh
+	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
+		core_exit.sh
 	# Supplementary output upon invalid user input.
 	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
 		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
@@ -100,11 +100,11 @@ if [ "${modcommand}" == "amxmodx" ]; then
 	fn_mod_exist "metamod"
 fi
 
-if [ "${modcommand}" == "amxmodxcs"  ] ||
-   [ "${modcommand}" == "amxmodxdod" ] ||
-   [ "${modcommand}" == "amxmodxtfc" ] ||
-   [ "${modcommand}" == "amxmodxns"  ] ||
-   [ "${modcommand}" == "amxmodxts"  ]; then
+if [ "${modcommand}" == "amxmodxcs" ] \
+	|| [ "${modcommand}" == "amxmodxdod" ] \
+	|| [ "${modcommand}" == "amxmodxtfc" ] \
+	|| [ "${modcommand}" == "amxmodxns" ] \
+	|| [ "${modcommand}" == "amxmodxts" ]; then
 	fn_mod_exist "amxmodx"
 fi
 

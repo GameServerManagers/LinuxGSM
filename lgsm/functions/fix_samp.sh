@@ -9,14 +9,14 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ -f "${servercfgfullpath}" ]; then
 	# check if default password is set "changeme"
-	currentpass=$(grep -E "^rcon_password" "${servercfgfullpath}" | sed 's/^rcon_password //' )
+	currentpass=$(grep -E "^rcon_password" "${servercfgfullpath}" | sed 's/^rcon_password //')
 	defaultpass="changeme"
 	# check if default password is set
 	if [ "${currentpass}" == "${defaultpass}" ]; then
 		fixname="change default rcon password"
 		fn_fix_msg_start
 		fn_script_log_info "changing rcon/admin password."
-	       	random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
+		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		rconpass="admin${random}"
 		sed -i "s/rcon_password changeme/rcon_password ${rconpass}/g" "${servercfgfullpath}"
 		fn_fix_msg_end
