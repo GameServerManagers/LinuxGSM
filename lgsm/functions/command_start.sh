@@ -8,7 +8,7 @@
 commandname="START"
 commandaction="Starting"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-add_ts="gawk '{ print strftime(\\\"[$logtsformat]\\\"), \\\$0 }'"
+add_ts="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
 fn_firstcommand_set
 
 fn_start_teamspeak3() {
@@ -93,7 +93,7 @@ fn_start_tmux() {
 		fn_script_log "tmux version: master (user compiled)"
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			if [ "$logts" == "on" ]; then
+			if [ "$logtimestamp" == "on" ]; then
 				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $add_ts\" >> '${consolelog}'"
 			else
 				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
@@ -114,7 +114,7 @@ fn_start_tmux() {
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			if [ "$logts" == "on" ]; then
+			if [ "$logtimestamp" == "on" ]; then
 				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $add_ts\" >> '${consolelog}'"
 			else
 				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
