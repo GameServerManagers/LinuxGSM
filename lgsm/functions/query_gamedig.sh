@@ -7,7 +7,7 @@
 # https://github.com/sonicsnes/node-gamedig
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-
+querystatus="2"
 # Check if gamedig and jq are installed.
 if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
 
@@ -81,7 +81,7 @@ if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)"
 
 		# server version.
 		if [ "${querytype}" == "teamspeak3" ]; then
-			dversion=$(echo "${gamedigraw}" | jq -re '.raw.virtualserver_version')
+			gdversion=$(echo "${gamedigraw}" | jq -re '.raw.virtualserver_version')
 		else
 			gdversion=$(echo "${gamedigraw}" | jq -re '.raw.version')
 		fi
