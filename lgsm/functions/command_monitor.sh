@@ -164,7 +164,10 @@ fn_monitor_query() {
 		if ! ss -tuplwn | grep -qFe ":${queryport} "; then
 			fn_print_warn_nl "Port is not in use right now \"${queryport}\". Check command details for ports, use provided command to check if every port is used + console to validate server is booted. Maybe server didn't boot, e.g. a second port which is needed is already in use by another application or the configuration for the queryport is incorrect."
 		else
+			# return value of following lines arent used so not an issue
+		    #shellcheck disable=SC2155
 			local process_using_port="$( ss -tuplwn "( dport = :${queryport} or sport = :${queryport} )" | grep -o '[^ ]*$')"
+			#shellcheck disable=SC2155
 			local listen_on="$( ss -tuplwn "( dport = :${queryport} or sport = :${queryport} )" | grep -o "[^ ]*:${queryport} ")"
 
 			local msg="Found application \"${process_using_port}\" which listens on \"${listen_on}\""
