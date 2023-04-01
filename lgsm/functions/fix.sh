@@ -65,7 +65,7 @@ for fix in "${apply_pre_start_fix[@]}" "${apply_post_install_fix[@]}"; do
 done
 
 # Fixes that are run on start.
-if [ "${commandname}" != "INSTALL" ]&&[ -z "${fixbypass}" ]; then
+if [ "${commandname}" != "INSTALL" ] && [ -z "${fixbypass}" ]; then
 	if [ "${appid}" ]; then
 		fix_steamcmd.sh
 	fi
