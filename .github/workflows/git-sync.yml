@@ -10,8 +10,8 @@ jobs:
   GitHub-to-Bitbucket:
     runs-on: ubuntu-latest
     steps:
-      - name: webfactory/ssh-agent@v0.7.0
-        uses: webfactory/ssh-agent@v0.7.0
+      - name: webfactory/ssh-agent@v0.8.0
+        uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.BITBUCKET_SECRET }}
 

@@ -197,6 +197,9 @@ fn_install_server_files() {
 		chmodx="nochmodx" run="norun"
 		force="noforce"
 		md5="0188ae86dbc9376f11ae3032dba2d665"
+	else
+		fn_print_fail_nl "Installing ${gamename} Server failed, missing default configuration"
+		fn_script_log_fatal "Installing ${gamename} Server failed, missing default configuration"
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
