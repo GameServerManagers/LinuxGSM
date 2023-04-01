@@ -28,7 +28,6 @@ check.sh
 fix.sh
 info_distro.sh
 info_game.sh
-# NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
 fn_print_header
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
@@ -40,8 +39,9 @@ fn_print_header
 	echo -e "${lightblue}Free Memory:\t\t${default}${physmemfree}"
 	echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"
 } | column -s $'\t' -t
+
 # glibc required.
-if [ "${glibc}" ]; then
+if [ -n "${glibc}" ]; then
 	if [ "${glibc}" == "null" ]; then
 		# Glibc is not required.
 		:
@@ -54,7 +54,7 @@ if [ "${glibc}" ]; then
 	fi
 fi
 
-# Server IP
+# Server IP.
 echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
 
 # External server IP.
@@ -63,6 +63,7 @@ if [ "${extip}" ]; then
 		echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
 	fi
 fi
+
 # Server password.
 if [ "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
@@ -78,7 +79,7 @@ else
 	echo -e "${preexecutable} ${executable} ${startparameters}"
 fi
 echo -e ""
-echo -e "Use for identifying server issues only!"
+echo -e "Use debug for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${selfname} is already running it will be stopped."
 echo -e ""
@@ -118,6 +119,18 @@ elif [ "${engine}" == "quake" ]; then
 else
 	# shellcheck disable=SC2086
 	eval "${preexecutable} ${executable} ${startparameters}"
+fi
+
+if [ $? -ne 0 ]; then
+	fn_print_error_nl "Server has stopped: exit code: $?"
+	fn_script_log_error "Server has stopped: exit code: $?"
+	fn_print_error_nl "Press ENTER to exit debug mode"
+	read -r
+else
+	fn_print_ok_nl "Server has stopped"
+	fn_script_log_pass "Server has stopped"
+	fn_print_ok_nl "Press ENTER to exit debug mode"
+	read -r
 fi
 
 fn_lockfile_trap

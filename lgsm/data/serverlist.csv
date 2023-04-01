@@ -4,6 +4,7 @@ ahl2,ahl2server,Action: Source,ubuntu-22.04
 ark,arkserver,ARK: Survival Evolved,ubuntu-22.04
 arma3,arma3server,ARMA 3,ubuntu-22.04
 armar,armarserver,Arma Reforger,ubuntu-20.04
+ats,atsserver,American Truck Simulator
 av,avserver,Avorion,ubuntu-22.04
 bb,bbserver,BrainBread,ubuntu-22.04
 bb2,bb2server,BrainBread 2,ubuntu-22.04
@@ -14,9 +15,10 @@ bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-22.04
 bo,boserver,Ballistic Overkill,ubuntu-22.04
 bs,bsserver,Blade Symphony,ubuntu-22.04
 bt,btserver,Barotrauma,ubuntu-22.04
-bt1944,bt1944server,Battalion 1944,ubuntu-22.04
+btl,btlserver,BATTALION: Legacy,ubuntu-22.04
 cc,ccserver,Codename CURE,ubuntu-22.04
 cd,cdserver,Crafting Dead,ubuntu-22.04
+ck,ckserver,Core Keeper,ubuntu-22.04
 cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-22.04
 cod,codserver,Call of Duty,ubuntu-22.04
 cod2,cod2server,Call of Duty 2,ubuntu-22.04
@@ -40,6 +42,7 @@ dys,dysserver,Dystopia,ubuntu-22.04
 eco,ecoserver,Eco,ubuntu-22.04
 em,emserver,Empires Mod,ubuntu-22.04
 etl,etlserver,ET: Legacy,ubuntu-22.04
+ets2,ets2server,Euro Truck Simulator 2,ubuntu-22.04
 fctr,fctrserver,Factorio,ubuntu-22.04
 fof,fofserver,Fistful of Frags,ubuntu-22.04
 gmod,gmodserver,Garrys Mod,ubuntu-22.04
@@ -64,7 +67,6 @@ mh,mhserver,MORDHAU,ubuntu-22.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-22.04
 mom,momserver,Memories of Mars,ubuntu-22.04
 mta,mtaserver,Multi Theft Auto,ubuntu-22.04
-mumble,mumbleserver,Mumble,ubuntu-22.04
 nd,ndserver,Nuclear Dawn,ubuntu-22.04
 nec,necserver,Necesse,ubuntu-22.04
 nmrih,nmrihserver,No More Room in Hell,ubuntu-22.04
@@ -126,3 +128,4 @@ wmc,wmcserver,WaterfallMC,ubuntu-22.04
 wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
 zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
 zps,zpsserver,Zombie Panic! Source,ubuntu-22.04
+

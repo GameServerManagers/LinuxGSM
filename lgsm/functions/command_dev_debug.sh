@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_reset
 
 if [ -f "${rootdir}/.dev-debug" ]; then
-	rm "${rootdir:?}/.dev-debug"
+	rm -f "${rootdir:?}/.dev-debug"
 	fn_print_ok_nl "Disabled dev-debug"
 	fn_script_log_info "Disabled dev-debug"
 else

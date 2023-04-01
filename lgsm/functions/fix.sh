@@ -17,7 +17,7 @@ fn_fix_msg_start() {
 
 fn_fix_msg_start_nl() {
 	fn_print_dots "Applying ${fixname} fix: ${gamename}"
-	fn_print_info "Applying ${fixname} fix: ${gamename}"
+	fn_print_info_nl "Applying ${fixname} fix: ${gamename}"
 	fn_script_log_info "Applying ${fixname} fix: ${gamename}"
 }
 
@@ -43,6 +43,8 @@ if [ "${commandname}" != "INSTALL" ] && [ -z "${fixbypass}" ]; then
 		fix_armar.sh
 	elif [ "${shortname}" == "ark" ]; then
 		fix_ark.sh
+	elif [ "${shortname}" == "av" ]; then
+		fix_av.sh
 	elif [ "${shortname}" == "bt" ]; then
 		fix_bt.sh
 	elif [ "${shortname}" == "bo" ]; then

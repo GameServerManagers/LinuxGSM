@@ -210,6 +210,14 @@ elif [ "${shortname}" == "armar" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ats" ]; then
+	gamedirname="AmericanTruckSimulator"
+	fn_check_cfgdir
+	array_configs+=(server_config.sii)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bo" ]; then
 	gamedirname="BallisticOverkill"
 	array_configs+=(config.txt)
@@ -232,8 +240,8 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "bt1944" ]; then
-	gamedirname="Battalion1944"
+elif [ "${shortname}" == "btl" ]; then
+	gamedirname="BattalionLegacy"
 	fn_check_cfgdir
 	array_configs+=(DefaultGame.ini)
 	fn_fetch_default_config
@@ -285,6 +293,13 @@ elif [ "${shortname}" == "bmdm" ]; then
 elif [ "${shortname}" == "cd" ]; then
 	gamedirname="CraftingDead"
 	array_configs+=(properties.json)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "ck" ]; then
+	gamedirname="CoreKeeper"
+	array_configs+=(ServerConfig.json)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -440,6 +455,14 @@ elif [ "${shortname}" == "eco" ]; then
 elif [ "${shortname}" == "etl" ]; then
 	gamedirname="ETLegacy"
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "ets2" ]; then
+	gamedirname="EuroTruckSimulator2"
+	fn_check_cfgdir
+	array_configs+=(server_config.sii)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -605,12 +628,6 @@ elif [ "${shotname}" == "mom" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "mumble" ]; then
-	gamedirname="Mumble"
-	array_configs+=(murmur.ini)
-	fn_fetch_default_config
-	fn_default_config_remote
 	fn_list_config_locations
 elif [ "${shortname}" == "pvr" ]; then
 	gamedirname="PavlovVR"

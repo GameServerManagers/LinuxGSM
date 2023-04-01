@@ -658,7 +658,7 @@ fn_info_message_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "mumble" "nec" "pc" "pc2" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -669,7 +669,7 @@ fn_info_message_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -861,7 +861,7 @@ fn_info_message_bt() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_bt1944() {
+fn_info_message_btl() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -876,6 +876,14 @@ fn_info_messages_cd() {
 		fn_port "Game" port udp
 		fn_port "Steam" steamport udp
 		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_ck() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1163,14 +1171,6 @@ fn_info_message_mta() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_mumble() {
-	{
-		fn_port "header"
-		fn_port "Voice" port udp
-		fn_port "Query" queryport tcp
-	} | column -s $'\t' -t
-}
-
 fn_info_message_nec() {
 	{
 		fn_port "header"
@@ -1403,6 +1403,15 @@ fn_info_message_sol() {
 		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
+
+fn_info_message_prism3d() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_source() {
 	{
 		fn_port "header"
@@ -1676,10 +1685,12 @@ fn_info_message_select_engine() {
 		fn_info_message_bo
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_message_bt
-	elif [ "${shortname}" == "bt1944" ]; then
-		fn_info_message_bt1944
+	elif [ "${shortname}" == "btl" ]; then
+		fn_info_message_btl
 	elif [ "${shortname}" == "cd" ]; then
 		fn_info_messages_cd
+	elif [ "${shortname}" == "ck" ]; then
+		fn_info_messages_ck
 	elif [ "${shortname}" == "csgo" ]; then
 		fn_info_message_csgo
 	elif [ "${shortname}" == "cmw" ]; then
@@ -1738,8 +1749,6 @@ fn_info_message_select_engine() {
 		fn_info_message_mom
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_message_mta
-	elif [ "${shortname}" == "mumble" ]; then
-		fn_info_message_mumble
 	elif [ "${shortname}" == "nec" ]; then
 		fn_info_message_nec
 	elif [ "${shortname}" == "onset" ]; then
@@ -1824,6 +1833,8 @@ fn_info_message_select_engine() {
 		fn_info_message_wurm
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_message_goldsrc
+	elif [ "${engine}" == "prism3d" ]; then
+		fn_info_message_prism3d
 	elif [ "${engine}" == "source" ]; then
 		fn_info_message_source
 	elif [ "${engine}" == "spark" ]; then

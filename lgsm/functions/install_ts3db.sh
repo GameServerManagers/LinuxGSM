@@ -12,13 +12,13 @@ fn_install_ts3db_mariadb() {
 		echo -e "copying libmariadb.so.2...\c"
 		cp "${serverfiles}/redist/libmariadb.so.2" "${serverfiles}"
 		local exitcode=$?
-		if [ "${exitcode}" == "0" ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "copying libmariadb.so.2"
-		else
+		if [ "${exitcode}" != "0" ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "copying libmariadb.so.2"
 			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "copying libmariadb.so.2"
 		fi
 	fi
 
@@ -64,7 +64,7 @@ fi
 install_eula.sh
 
 echo -e ""
-echo -e "${lightyellow}Getting privilege key${default}"
+echo -e "${lightyellow}Getting Privilege Key${default}"
 echo -e "================================="
 fn_sleep_time
 fn_print_information_nl "Save these details for later."
