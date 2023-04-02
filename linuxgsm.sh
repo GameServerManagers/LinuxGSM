@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Linux Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2020 Daniel Gibbs
+# License: MIT License, see LICENSE.md
 # Purpose: Linux Game Server Management Script
 # Contributors: https://linuxgsm.com/contrib
 # Documentation: https://docs.linuxgsm.com
@@ -113,7 +113,7 @@ fn_bootstrap_fetch_file() {
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
 				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
-					rm "${local_filedir:?}/${local_filename:?}"
+					rm -f "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
@@ -167,8 +167,8 @@ fn_bootstrap_fetch_file() {
 fn_bootstrap_fetch_file_github() {
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
-	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+	# By default modules will be downloaded from the version release to prevent potential version mixing. Only update-lgsm will allow an update.
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
@@ -512,9 +512,7 @@ else
 
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
-	# Prevents running of core_exit.sh for Travis-CI.
-	if [ "${travistest}" != "1" ]; then
-		getopt=$1
-		core_getopt.sh
-	fi
+
+	getopt=$1
+	core_getopt.sh
 fi
