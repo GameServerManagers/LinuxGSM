@@ -6,6 +6,7 @@ ahl2
 ark
 arma3
 armar,libcurl4
+ats
 av
 bb
 bb2,libcurl4-gnutls-dev:i386
@@ -16,9 +17,10 @@ bmdm,libncurses5:i386
 bo
 bs
 bt,libicu-dev,dos2unix
-bt1944
+btl
 cc
 cd
+ck,xvfb
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
@@ -42,6 +44,7 @@ dys
 eco,libgdiplus
 em
 etl
+ets2
 fctr
 fof
 gmod,libtinfo5:i386
@@ -66,7 +69,6 @@ mh
 mohaa,libstdc++5:i386
 mom
 mta,libncursesw5
-mumble
 nd
 nec
 nmrih,libtinfo5:i386
@@ -119,6 +121,7 @@ ut3
 ut99
 vh,libc6-dev
 vints,mono-complete
+vpmc,openjdk-8-jre
 vs
 wet
 wf

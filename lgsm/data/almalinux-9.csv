@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -6,6 +6,7 @@ ahl2
 ark
 arma3
 armar,libcurl,openssl-libs
+ats
 av
 bb
 bb2,libcurl.i686
@@ -16,9 +17,10 @@ bmdm,ncurses-libs.i686
 bo
 bs
 bt,libicu,dos2unix
-bt1944
+btl
 cc
 cd
+ck,xorg-x11-server-Xvfb
 cmw
 cod,compat-libstdc++-33.i686
 cod2,compat-libstdc++-33.i686
@@ -42,6 +44,7 @@ dys
 eco,libgdiplus
 em
 etl
+ets2
 fctr
 fof
 gmod,ncurses-libs.i686
@@ -60,13 +63,12 @@ kf2
 l4d
 l4d2
 lo
-mc,java-11-openjdk
+mc,java-17-openjdk
 mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
 mom
 mta,ncurses-compat-libs
-mumble
 nd
 nec
 nmrih,ncurses-libs.i686
@@ -76,7 +78,7 @@ ns2c,speex.i686,tbb.i686
 onset,mariadb-connector-c
 opfor
 pc
-pmc,java-11-openjdk
+pmc,java-17-openjdk
 pstbs,GConf2
 pvkii
 pvr,libcxx
@@ -119,11 +121,11 @@ ut3
 ut99
 vh,glibc-devel
 vints,mono-complete
-vpmc,java-11-openjdk
+vpmc,java-17-openjdk
 vs
 wet
 wf
-wmc,java-11-openjdk
+wmc,java-17-openjdk
 wurm,xorg-x11-server-Xvfb
 zmr,ncurses-libs.i686
 zps,ncurses-libs.i686

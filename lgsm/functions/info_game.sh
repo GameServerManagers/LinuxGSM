@@ -264,7 +264,7 @@ fn_info_game_bt() {
 	fi
 }
 
-fn_info_game_bt1944() {
+fn_info_game_btl() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -305,6 +305,17 @@ fn_info_game_cd() {
 		rconpassword=$(jq -r '.rcon_password' "${servercfgfullpath}")
 		maxplayers=$(jq -r '.player_count' "${servercfgfullpath}")
 	fi
+}
+
+fn_info_game_ck() {
+	if [ ! -f "${servercfgfullpath}" ]; then
+		servername="${unavailable}"
+		maxplayers="${zero}"
+	else
+		servername=$(jq -r '.worldName' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.maxNumberPlayers' "${servercfgfullpath}")
+	fi
+	queryport=$((port + 1))
 }
 
 fn_info_game_cmw() {
@@ -1063,25 +1074,6 @@ fn_info_game_mta() {
 
 }
 
-fn_info_game_mumble() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		port="64738"
-		queryport="${port}"
-		servername="Mumble"
-	else
-		port=$(grep "port" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/port//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		queryport="${port}"
-		configip=$(grep "host=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^;/d' -e 's/host=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		port=${port:-"64738"}
-		queryport=${queryport:-"64738"}
-		servername="Mumble Port ${port}"
-		configip=${configip:-"0.0.0.0"}
-	fi
-}
-
 fn_info_game_nec() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
@@ -1240,6 +1232,30 @@ fn_info_game_pvr() {
 	port=${port:-"0"}
 	port401=$((port + 400))
 	queryport=${port:-"0"}
+}
+
+fn_info_game_prism3d() {
+	# Config
+	if [ ! -f "${servercfgfullpath}" ]; then
+		maxplayers="${unavailable}"
+		port="${zero}"
+		queryport="${zero}"
+		servername="${unavailable}"
+		serverpassword="${unavailable}"
+	else
+		maxplayers=$(sed -nr 's/^\s*max_players\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
+		port=$(sed -nr 's/^\s*connection_dedicated_port\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
+		queryport=$(sed -nr 's/^\s*query_dedicated_port\s*:\s*([0-9]+)/\1/p' "${servercfgfullpath}")
+		servername=$(sed -nr 's/^\s*lobby_name\s*:\s*"?([^"\r\n]+)"?/\1/p' "${servercfgfullpath}")
+		serverpassword=$(sed -nr 's/^\s*password\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
+
+		# Not set
+		maxplayers=${maxplayers:-"0"}
+		port=${port:-"27015"}
+		queryport=${queryport:-"27016"}
+		servername=${servername:-"NOT SET"}
+		serverpassword=${serverpassword:-"NOT SET"}
+	fi
 }
 
 fn_info_game_pz() {
@@ -1474,7 +1490,13 @@ fn_info_game_rust() {
 	serverlevel=${serverlevel:-"NOT SET"}
 	customlevelurl=${customlevelurl:-"NOT SET"}
 	worldsize=${worldsize:-"0"}
-	seed=${seed:-"0"}
+	if [ -n "${seed}" ]; then
+		seed=${seed:-"0"}
+	elif [ -f "${datadir}/${selfname}-seed.txt" ]; then
+		seed=$(cat "${datadir}/${selfname}-seed.txt")
+	else
+		seed="0"
+	fi
 	salt=${salt:-"0"}
 }
 
@@ -2367,10 +2389,12 @@ elif [ "${shortname}" == "bo" ]; then
 	fn_info_game_bo
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
-elif [ "${shortname}" == "bt1944" ]; then
-	fn_info_game_bt1944
+elif [ "${shortname}" == "btl" ]; then
+	fn_info_game_btl
 elif [ "${shortname}" == "cd" ]; then
 	fn_info_game_cd
+elif [ "${shortname}" == "ck" ]; then
+	fn_info_game_ck
 elif [ "${shortname}" == "cmw" ]; then
 	fn_info_game_cmw
 elif [ "${shortname}" == "cod" ]; then
@@ -2425,8 +2449,6 @@ elif [ "${shortname}" == "mom" ]; then
 	fn_info_game_mom
 elif [ "${shortname}" == "mta" ]; then
 	fn_info_game_mta
-elif [ "${shortname}" == "mumble" ]; then
-	fn_info_game_mumble
 elif [ "${shortname}" == "nec" ]; then
 	fn_info_game_nec
 elif [ "${shortname}" == "onset" ]; then
@@ -2515,6 +2537,8 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_info_game_wmc
 elif [ "${shortname}" == "wurm" ]; then
 	fn_info_game_wurm
+elif [ "${engine}" == "prism3d" ]; then
+	fn_info_game_prism3d
 elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	fn_info_game_source
 elif [ "${engine}" == "unreal2" ]; then
@@ -2522,27 +2546,24 @@ elif [ "${engine}" == "unreal2" ]; then
 fi
 
 # External IP address
-if [ -z "${extip}" ]; then
+# Cache external IP address for 24 hours
+if [ -f "${tmpdir}/extip.txt" ]; then
+	if [ "$(find "${tmpdir}/extip.txt" -mmin +1440)" ]; then
+		rm -f "${tmpdir:?}/extip.txt"
+	fi
+fi
+
+if [ ! -f "${tmpdir}/extip.txt" ]; then
 	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
 	exitcode=$?
-	# Should ifconfig.co return an error will use last known IP.
-	if [ ${exitcode} -eq 0 ]; then
-		if [[ "${extip}" != *"DOCTYPE"* ]]; then
-			echo -e "${extip}" > "${tmpdir}/extip.txt"
-		else
-			if [ -f "${tmpdir}/extip.txt" ]; then
-				extip="$(cat "${tmpdir}/extip.txt")"
-			else
-				fn_print_error_nl "Unable to get external IP"
-			fi
-		fi
+	# if curl passes add extip to externalip.txt
+	if [ "${exitcode}" != "0" ]; then
+		echo "Unable to get external IP address"
 	else
-		if [ -f "${tmpdir}/extip.txt" ]; then
-			extip="$(cat "${tmpdir}/extip.txt")"
-		else
-			fn_print_error_nl "Unable to get external IP"
-		fi
+		echo "${extip}" > "${tmpdir}/extip.txt"
 	fi
+else
+	extip="$(cat "${tmpdir}/extip.txt")"
 fi
 
 # Alert IP address

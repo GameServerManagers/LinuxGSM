@@ -197,6 +197,9 @@ fn_install_server_files() {
 		chmodx="nochmodx" run="norun"
 		force="noforce"
 		md5="0188ae86dbc9376f11ae3032dba2d665"
+	else
+		fn_print_fail_nl "Installing ${gamename} Server failed, missing default configuration"
+		fn_script_log_fatal "Installing ${gamename} Server failed, missing default configuration"
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
@@ -224,8 +227,6 @@ elif [ "${shortname}" == "pmc" ]; then
 	update_papermc.sh
 elif [ "${shortname}" == "wmc" ] || [ "${shortname}" == "vpmc" ]; then
 	update_papermc.sh
-elif [ "${shortname}" == "mumble" ]; then
-	update_mumble.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "fctr" ]; then
@@ -235,6 +236,9 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vintagestory.sh
+elif [ "${shortname}" == "ut99" ]; then
+	fn_install_server_files
+	update_ut99.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh

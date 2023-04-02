@@ -23,8 +23,6 @@ elif [ "${shortname}" == "mcb" ]; then
 	update_minecraft_bedrock.sh
 elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 	update_papermc.sh
-elif [ "${shortname}" == "mumble" ]; then
-	update_mumble.sh
 elif [ "${shortname}" == "fctr" ]; then
 	update_factorio.sh
 elif [ "${shortname}" == "mta" ]; then
@@ -33,6 +31,8 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vintagestory.sh
+elif [ "${shortname}" == "ut99" ]; then
+	update_ut99.sh
 else
 	update_steamcmd.sh
 fi
