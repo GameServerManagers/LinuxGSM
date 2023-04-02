@@ -99,16 +99,17 @@ fn_backup_migrate_olddir() {
 			fn_script_log_info "${rootdir}/backups > ${backupdir}"
 			mv "${rootdir}/backups/"* "${backupdir}" 2> /dev/null
 			exitcode=$?
-			if [ "${exitcode}" -eq 0 ]; then
+			if [ "${exitcode}" == 0 ]; then
 				rmdir "${rootdir}/backups" 2> /dev/null
 				exitcode=$?
 			fi
-			if [ "${exitcode}" -eq 0 ]; then
-				fn_print_ok_nl "Backup directory is being migrated"
-				fn_script_log_pass "Backup directory is being migrated"
-			else
+			if [ "${exitcode}" != 0 ]; then
 				fn_print_error_nl "Backup directory is being migrated"
 				fn_script_log_error "Backup directory is being migrated"
+			else
+
+				fn_print_ok_nl "Backup directory is being migrated"
+				fn_script_log_pass "Backup directory is being migrated"
 			fi
 		fi
 	fi

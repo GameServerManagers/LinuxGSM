@@ -8,7 +8,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v23.1.0"
+modulesversion="v23.2.0"
 
 # Core
 
@@ -655,11 +655,6 @@ update_papermc.sh() {
 	fn_fetch_function
 }
 
-update_mumble.sh() {
-	functionfile="${FUNCNAME[0]}"
-	fn_fetch_function
-}
-
 update_mta.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
@@ -681,6 +676,11 @@ update_steamcmd.sh() {
 }
 
 update_vintagestory.sh() {
+	functionfile="${FUNCNAME[0]}"
+	fn_fetch_function
+}
+
+update_ut99.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }

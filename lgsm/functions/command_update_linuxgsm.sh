@@ -182,49 +182,51 @@ fi
 # Check and update modules.
 if [ -n "${functionsdir}" ]; then
 	if [ -d "${functionsdir}" ]; then
-		cd "${functionsdir}" || exit
-		for functionfile in *; do
-			# check if module exists in the repo and remove if missing.
-			# commonly used if module names change.
-			echo -en "checking ${remotereponame} module ${functionfile}...\c"
-			github_file_url_dir="lgsm/functions"
-			if [ "${remotereponame}" == "GitHub" ]; then
-				curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1> /dev/null
-			else
-				curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1> /dev/null
-			fi
-			if [ $? != 0 ]; then
-				fn_print_error_eol_nl
-				fn_script_log_error "Checking ${remotereponame} module ${functionfile}"
-				echo -en "removing module ${functionfile}...\c"
-				if ! rm -f "${functionfile:?}"; then
-					fn_print_fail_eol_nl
-					fn_script_log_fatal "Removing module ${functionfile}"
-					core_exit.sh
-				else
-					fn_print_ok_eol_nl
-					fn_script_log_pass "Removing module ${functionfile}"
-				fi
-			else
-				# compare file
+		(
+			cd "${functionsdir}" || exit
+			for functionfile in *; do
+				# check if module exists in the repo and remove if missing.
+				# commonly used if module names change.
+				echo -en "checking ${remotereponame} module ${functionfile}...\c"
+				github_file_url_dir="lgsm/functions"
 				if [ "${remotereponame}" == "GitHub" ]; then
-					function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+					curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1> /dev/null
 				else
-					function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+					curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1> /dev/null
 				fi
+				if [ $? != 0 ]; then
+					fn_print_error_eol_nl
+					fn_script_log_error "Checking ${remotereponame} module ${functionfile}"
+					echo -en "removing module ${functionfile}...\c"
+					if ! rm -f "${functionfile:?}"; then
+						fn_print_fail_eol_nl
+						fn_script_log_fatal "Removing module ${functionfile}"
+						core_exit.sh
+					else
+						fn_print_ok_eol_nl
+						fn_script_log_pass "Removing module ${functionfile}"
+					fi
+				else
+					# compare file
+					if [ "${remotereponame}" == "GitHub" ]; then
+						function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+					else
+						function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+					fi
 
-				# results
-				if [ "${function_file_diff}" != "" ]; then
-					fn_print_update_eol_nl
-					fn_script_log_update "Checking ${remotereponame} module ${functionfile}"
-					rm -rf "${functionsdir:?}/${functionfile}"
-					fn_update_function
-				else
-					fn_print_ok_eol_nl
-					fn_script_log_pass "Checking ${remotereponame} module ${functionfile}"
+					# results
+					if [ "${function_file_diff}" != "" ]; then
+						fn_print_update_eol_nl
+						fn_script_log_update "Checking ${remotereponame} module ${functionfile}"
+						rm -rf "${functionsdir:?}/${functionfile}"
+						fn_update_function
+					else
+						fn_print_ok_eol_nl
+						fn_script_log_pass "Checking ${remotereponame} module ${functionfile}"
+					fi
 				fi
-			fi
-		done
+			done
+		)
 	fi
 fi
 

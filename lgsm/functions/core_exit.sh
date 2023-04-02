@@ -25,7 +25,7 @@ fi
 
 if [ "${exitbypass}" ]; then
 	unset exitbypass
-elif [ "${exitcode}" ] && [ "${exitcode}" != "0" ]; then
+elif [ "${exitcode}" != "0" ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	if [ "${exitcode}" == "1" ]; then
