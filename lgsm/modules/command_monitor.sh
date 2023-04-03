@@ -26,9 +26,9 @@ fn_monitor_check_lockfile() {
 
 	# Fix if lockfile is not unix time or contains letters
 	if [ -f "${lockdir}/${selfname}.lock" ] && [[ "$(head -n 1 "${lockdir}/${selfname}.lock")" =~ [A-Za-z] ]]; then
-		date '+%s' >"${lockdir}/${selfname}.lock"
-		echo "${version}" >>"${lockdir}/${selfname}.lock"
-		echo "${port}" >>"${lockdir}/${selfname}.lock"
+		date '+%s' > "${lockdir}/${selfname}.lock"
+		echo "${version}" >> "${lockdir}/${selfname}.lock"
+		echo "${port}" >> "${lockdir}/${selfname}.lock"
 	fi
 }
 
@@ -87,12 +87,12 @@ fn_query_gsquery() {
 	if [ ! -f "${modulesdir}/query_gsquery.py" ]; then
 		fn_fetch_file_github "lgsm/modules" "query_gsquery.py" "${modulesdir}" "chmodx" "norun" "noforce" "nohash"
 	fi
-	"${modulesdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}" >/dev/null 2>&1
+	"${modulesdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
 	querystatus="$?"
 }
 
 fn_query_tcp() {
-	bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}'' >/dev/null 2>&1
+	bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}'' > /dev/null 2>&1
 	querystatus="$?"
 }
 
@@ -205,7 +205,7 @@ fn_monitor_loop() {
 	for querymethod in "${query_methods_array[@]}"; do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
-			if [ "$(command -v gamedig 2>/dev/null)" ] && [ "$(command -v jq 2>/dev/null)" ]; then
+			if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
 				if [ -z "${monitorpass}" ]; then
 					fn_monitor_query
 				fi
