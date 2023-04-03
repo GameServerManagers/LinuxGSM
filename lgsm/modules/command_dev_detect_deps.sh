@@ -15,26 +15,26 @@ echo -e "Dependencies Checker"
 echo -e "================================="
 echo -e "Checking directory: "
 echo -e "${serverfiles}"
-if [ "$(command -v eu-readelf 2>/dev/null)" ]; then
+if [ "$(command -v eu-readelf 2> /dev/null)" ]; then
 	readelf=eu-readelf
-elif [ "$(command -v readelf 2>/dev/null)" ]; then
+elif [ "$(command -v readelf 2> /dev/null)" ]; then
 	readelf=readelf
 else
 	echo -e "readelf/eu-readelf not installed"
 fi
 files=$(find "${serverfiles}" | wc -l)
-find "${serverfiles}" -type f -print0 |
-while IFS= read -r -d $'\0' line; do
-	if [ "${readelf}" == "eu-readelf" ]; then
-		${readelf} -d "${line}" 2>/dev/null | grep NEEDED| awk '{ print $4 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
-	else
-		${readelf} -d "${line}" 2>/dev/null | grep NEEDED | awk '{ print $5 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
-	fi
-	echo -n "${i} / ${files}" $'\r'
-	((i++))
-done
+find "${serverfiles}" -type f -print0 \
+	| while IFS= read -r -d $'\0' line; do
+		if [ "${readelf}" == "eu-readelf" ]; then
+			${readelf} -d "${line}" 2> /dev/null | grep NEEDED | awk '{ print $4 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+		else
+			${readelf} -d "${line}" 2> /dev/null | grep NEEDED | awk '{ print $5 }' | sed 's/\[//g;s/\]//g' >> "${tmpdir}/.depdetect_readelf"
+		fi
+		echo -n "${i} / ${files}" $'\r'
+		((i++))
+	done
 
-sort "${tmpdir}/.depdetect_readelf" |uniq >"${tmpdir}/.depdetect_readelf_uniq"
+sort "${tmpdir}/.depdetect_readelf" | uniq > "${tmpdir}/.depdetect_readelf_uniq"
 
 touch "${tmpdir}/.depdetect_centos_list"
 touch "${tmpdir}/.depdetect_ubuntu_list"
@@ -42,7 +42,7 @@ touch "${tmpdir}/.depdetect_debian_list"
 
 while read -r lib; do
 	echo -e "${lib}"
-	libs_array=( libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2 )
+	libs_array=(libm.so.6 libc.so.6 libtcmalloc_minimal.so.4 libpthread.so.0 libdl.so.2 libnsl.so.1 libgcc_s.so.1 librt.so.1 ld-linux.so.2 libdbus-glib-1.so.2 libgio-2.0.so.0 libglib-2.0.so.0 libGL.so.1 libgobject-2.0.so.0 libnm-glib.so.4 libnm-util.so.2)
 	for lib_file in "${libs_array[@]}"; do
 		if [ "${lib}" == "${lib_file}" ]; then
 			echo -e "glibc.i686" >> "${tmpdir}/.depdetect_centos_list"
@@ -52,7 +52,7 @@ while read -r lib; do
 		fi
 	done
 
-	libs_array=( libawt.so libjava.so libjli.so libjvm.so libnet.so libnio.so libverify.so )
+	libs_array=(libawt.so libjava.so libjli.so libjvm.so libnet.so libnio.so libverify.so)
 	for lib_file in "${libs_array[@]}"; do
 		if [ "${lib}" == "${lib_file}" ]; then
 			echo -e "java-1.8.0-openjdk" >> "${tmpdir}/.depdetect_centos_list"
@@ -62,7 +62,7 @@ while read -r lib; do
 		fi
 	done
 
-	libs_array=( libtier0.so libtier0_srv.so libvstdlib_srv.so Core.so libvstdlib.so libtier0_s.so Editor.so Engine.so liblua.so libsteam_api.so ld-linux-x86-64.so.2 libPhysX3_x86.so libPhysX3Common_x86.so libPhysX3Cooking_x86.so)
+	libs_array=(libtier0.so libtier0_srv.so libvstdlib_srv.so Core.so libvstdlib.so libtier0_s.so Editor.so Engine.so liblua.so libsteam_api.so ld-linux-x86-64.so.2 libPhysX3_x86.so libPhysX3Common_x86.so libPhysX3Cooking_x86.so)
 	for lib_file in "${libs_array[@]}"; do
 		# Known shared libs what dont requires dependencies.
 		if [ "${lib}" == "${lib_file}" ]; then
@@ -85,12 +85,12 @@ while read -r lib; do
 		echo -e "libcurl4-gnutls-dev:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libcurl4-gnutls-dev:i386" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
-	elif [ "${lib}" == "libspeex.so.1" ]||[ "${lib}" == "libspeexdsp.so.1" ]; then
+	elif [ "${lib}" == "libspeex.so.1" ] || [ "${lib}" == "libspeexdsp.so.1" ]; then
 		echo -e "speex.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo -e "speex:i386" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "speex:i386" >> "${tmpdir}/.depdetect_debian_list"
 		libdetected=1
-	elif [ "${lib}" == "./libSDL-1.2.so.0" ]||[ "${lib}" == "libSDL-1.2.so.0" ]; then
+	elif [ "${lib}" == "./libSDL-1.2.so.0" ] || [ "${lib}" == "libSDL-1.2.so.0" ]; then
 		echo -e "SDL.i686" >> "${tmpdir}/.depdetect_centos_list"
 		echo -e "libsdl1.2debian" >> "${tmpdir}/.depdetect_ubuntu_list"
 		echo -e "libsdl1.2debian" >> "${tmpdir}/.depdetect_debian_list"

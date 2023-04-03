@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # function to simplify the steamclient.so fix
 # example
 # fn_fix_steamclient_so 32|64 (bit) "${serverfiles}/linux32/"
-fn_fix_steamclient_so(){
+fn_fix_steamclient_so() {
 	# $1 type of fix 32 or 64 as possible values
 	# $2 as destination where the lib will be copied to
 	if [ "$1" == "32" ]; then
@@ -56,7 +56,7 @@ steamclientsdk64="${steamsdk64}/steamclient.so"
 # remove any old unlinked versions of steamclient.so
 if [ -f "${steamclientsdk64}" ]; then
 	if [ "$(stat -c '%h' "${steamclientsdk64}")" -eq 1 ]; then
-		fixname="steamclient.so sdk64 -- remove old file"
+		fixname="steamclient.so sdk64 - remove old file"
 		fn_fix_msg_start
 		rm -f "${steamclientsdk64}"
 		fn_fix_msg_end
@@ -87,7 +87,7 @@ steamsdk32="${HOME}/.steam/sdk32"
 steamclientsdk32="${HOME}/.steam/sdk32/steamclient.so"
 if [ -f "${steamclientsdk32}" ]; then
 	if [ " $(stat -c '%h' "${steamclientsdk32}")" -eq 1 ]; then
-		fixname="steamclient.so sdk32 -- remove old file"
+		fixname="steamclient.so sdk32 - remove old file"
 		fn_fix_msg_start
 		rm -f "${steamclientsdk32}"
 		fn_fix_msg_end
@@ -132,7 +132,7 @@ elif [ "${shortname}" == "pvr" ]; then
 	fn_fix_steamclient_so "64" "${executabledir}"
 elif [ "${shortname}" == "ss3" ]; then
 	fn_fix_steamclient_so "32" "${serverfiles}/Bin"
-elif [ "${shortname}" == "tu" ];then
+elif [ "${shortname}" == "tu" ]; then
 	fn_fix_steamclient_so "64" "${executabledir}"
 elif [ "${shortname}" == "unt" ]; then
 	fn_fix_steamclient_so "64" "${serverfiles}"

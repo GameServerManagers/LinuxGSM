@@ -11,7 +11,7 @@ echo -e ""
 echo -e "${lightyellow}Game Server Login Token${default}"
 echo -e "================================="
 fn_sleep_time
-if [ "${shortname}" == "csgo" ]||[ "${shortname}" == "css" ]||[ "${shortname}" == "nmrih" ]||[ "${shortname}" == "bs" ]; then
+if [ "${shortname}" == "csgo" ] || [ "${shortname}" == "css" ] || [ "${shortname}" == "nmrih" ] || [ "${shortname}" == "bs" ]; then
 	echo -e "GSLT is required to run a public ${gamename} server"
 	fn_script_log_info "GSLT is required to run a public ${gamename} server"
 else

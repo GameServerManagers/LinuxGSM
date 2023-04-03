@@ -15,12 +15,12 @@
 
 # Debugging
 if [ -f ".dev-debug" ]; then
-	exec 5>dev-debug.log
+	exec 5> dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
 
-version="v21.4.1"
+version="v23.2.0"
 shortname="ts3"
 gameservername="ts3server"
 commandname="CORE"
@@ -78,16 +78,16 @@ fn_bootstrap_fetch_file(){
 	forcedl="${9:-0}"
 	md5="${10:-0}"
 	# Download file if missing or download forced.
-	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
+	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
 		# If backup fileurl exists include it.
 		if [ -n "${remote_fileurl_backup}" ]; then
 			# counter set to 0 to allow second try
 			counter=0
-			remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+			remote_fileurls_array=(remote_fileurl remote_fileurl_backup)
 		else
 			# counter set to 1 to not allow second try
 			counter=1
-			remote_fileurls_array=( remote_fileurl )
+			remote_fileurls_array=(remote_fileurl)
 		fi
 
 		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
@@ -98,7 +98,7 @@ fn_bootstrap_fetch_file(){
 				fileurl="${remote_fileurl_backup}"
 				fileurl_name="${remote_fileurl_backup_name}"
 			fi
-			counter=$((counter+1))
+			counter=$((counter + 1))
 			if [ ! -d "${local_filedir}" ]; then
 				mkdir -p "${local_filedir}"
 			fi
@@ -112,8 +112,8 @@ fn_bootstrap_fetch_file(){
 			local exitcode=$?
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE" )" ]; then
-					rm "${local_filedir:?}/${local_filename:?}"
+				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
+					rm -f "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
@@ -165,13 +165,13 @@ fn_bootstrap_fetch_file(){
 	fi
 }
 
-fn_bootstrap_fetch_file_github(){
-	github_fileurl_dir="${1}"
-	github_fileurl_name="${2}"
+fn_bootstrap_fetch_file_github() {
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
@@ -193,10 +193,10 @@ fn_bootstrap_fetch_file_github(){
 fn_print_center() {
 	columns=$(tput cols)
 	line="$*"
-	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
+	printf "%*s\n" $(((${#line} + columns) / 2)) "${line}"
 }
 
-fn_print_horizontal(){
+fn_print_horizontal() {
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
@@ -213,11 +213,11 @@ fn_install_menu_bash() {
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
-		menu_options+=( "${var}" )
+		menu_options+=("${var}")
 	done < "${options}"
-	menu_options+=( "Cancel" )
+	menu_options+=("Cancel")
 	select option in "${menu_options[@]}"; do
-		if [ "${option}" ]&&[ "${option}" != "Cancel" ]; then
+		if [ "${option}" ] && [ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -239,7 +239,7 @@ fn_install_menu_whiptail() {
 	while read -r line; do
 		key=$(echo -e "${line}" | awk -F "," '{print $3}')
 		val=$(echo -e "${line}" | awk -F "," '{print $2}')
-		menu_options+=( "${val//\"}" "${key//\"}" )
+		menu_options+=("${val//\"/}" "${key//\"/}")
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
@@ -264,24 +264,26 @@ fn_install_menu() {
 		fi
 	done
 	case "$(basename "${menucmd}")" in
-		whiptail|dialog)
-			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30;;
+		whiptail | dialog)
+			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
+			;;
 		*)
-			fn_install_menu_bash selection "${title}" "${caption}" "${options}";;
+			fn_install_menu_bash selection "${title}" "${caption}" "${options}"
+			;;
 	esac
 	eval "$resultvar=\"${selection}\""
 }
 
 # Gets server info from serverlist.csv and puts in to array.
-fn_server_info(){
+fn_server_info() {
 	IFS=","
 	server_info_array=($(grep -aw "${userinput}" "${serverlist}"))
-	shortname="${server_info_array[0]}" # csgo
+	shortname="${server_info_array[0]}"      # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
-	gamename="${server_info_array[2]}" # Counter Strike: Global Offensive
+	gamename="${server_info_array[2]}"       # Counter Strike: Global Offensive
 }
 
-fn_install_getopt(){
+fn_install_getopt() {
 	userinput="empty"
 	echo -e "Usage: $0 [option]"
 	echo -e ""
@@ -295,13 +297,13 @@ fn_install_getopt(){
 	exit
 }
 
-fn_install_file(){
+fn_install_file() {
 	local_filename="${gameservername}"
 	if [ -e "${local_filename}" ]; then
 		i=2
-	while [ -e "${local_filename}-${i}" ] ; do
-		(( i++ ))
-	done
+		while [ -e "${local_filename}-${i}" ]; do
+			((i++))
+		done
 		local_filename="${local_filename}-${i}"
 	fi
 	cp -R "${selfname}" "${local_filename}"
@@ -321,7 +323,7 @@ fn_install_file(){
 
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
 if [ "$(whoami)" == "root" ]; then
-	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
+	if [ "${userinput}" == "install" ] || [ "${userinput}" == "auto-install" ] || [ "${userinput}" == "i" ] || [ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
@@ -344,12 +346,12 @@ if [ "${shortname}" == "core" ]; then
 		exit 1
 	fi
 
-	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
+	if [ "${userinput}" == "list" ] || [ "${userinput}" == "l" ]; then
 		{
 			tail -n +2 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
 		} | column -s $'\t' -t | more
 		exit
-	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
+	elif [ "${userinput}" == "install" ] || [ "${userinput}" == "i" ]; then
 		tail -n +2 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
 		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
@@ -365,7 +367,7 @@ if [ "${shortname}" == "core" ]; then
 		fi
 	elif [ "${userinput}" ]; then
 		fn_server_info
-		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
+		if [ "${userinput}" == "${gameservername}" ] || [ "${userinput}" == "${gamename}" ] || [ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
 			echo -e "[ FAIL ] unknown game server"
@@ -464,7 +466,7 @@ else
 	fi
 fi
 
-fn_currentstatus_tmux(){
+fn_currentstatus_tmux() {
 	check_status.sh
 	if [ "${status}" != "0" ]; then
 		currentstatus="STARTED"
@@ -473,14 +475,14 @@ fn_currentstatus_tmux(){
 	fi
 }
 
-fn_setstatus(){
+fn_setstatus() {
 	fn_currentstatus_tmux
 	echo""
 	echo -e "Required status: ${requiredstatus}"
 	counter=0
 	echo -e "Current status:  ${currentstatus}"
-	while [  "${requiredstatus}" != "${currentstatus}" ]; do
-		counter=$((counter+1))
+	while [ "${requiredstatus}" != "${currentstatus}" ]; do
+		counter=$((counter + 1))
 		fn_currentstatus_tmux
 		echo -en "New status:  ${currentstatus}\\r"
 
@@ -506,7 +508,7 @@ fn_setstatus(){
 # End of every test will expect the result to either pass or fail
 # If the script does not do as intended the whole test will fail
 # if expecting a pass
-fn_test_result_pass(){
+fn_test_result_pass() {
 	if [ $? != 0 ]; then
 		echo -e "================================="
 		echo -e "Expected result: PASS"
@@ -524,7 +526,7 @@ fn_test_result_pass(){
 }
 
 # if expecting a fail
-fn_test_result_fail(){
+fn_test_result_fail() {
 	if [ $? == 0 ]; then
 		echo -e "================================="
 		echo -e "Expected result: FAIL"
@@ -542,7 +544,7 @@ fn_test_result_fail(){
 }
 
 # test result n/a
-fn_test_result_na(){
+fn_test_result_na() {
 	echo -e "================================="
 	echo -e "Expected result: N/A"
 	echo -e "Actual result: N/A"
@@ -612,7 +614,7 @@ echo -e "8.2 - dev - detect ldd"
 echo -e "8.3 - dev - detect deps"
 echo -e "8.4 - dev - query-raw"
 echo -e ""
-echo -e "9.0 - Donate"
+echo -e "9.0 - Sponsor"
 echo -e "9.1 - sponsor"
 echo -e ""
 echo -e "0.0 - Pre-test Tasks"
@@ -626,7 +628,7 @@ echo -e "0.1 - Create log dir's"
 echo -e "================================="
 echo -e ""
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	install_logs.sh
@@ -642,7 +644,7 @@ echo -e "Description:"
 echo -e "Enable dev-debug"
 echo -e ""
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_dev_debug.sh
@@ -665,13 +667,13 @@ echo -e "Command: ./${gameservername} start"
 echo -e ""
 # Allows for testing not on Travis CI
 if [ -z "${TRAVIS}" ]; then
-(
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
-	BASH_XTRACEFD="5"
-	set -x
-	command_start.sh
-)
-fn_test_result_fail
+	(
+		exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
+		BASH_XTRACEFD="5"
+		set -x
+		command_start.sh
+	)
+	fn_test_result_fail
 else
 	echo -e "Test bypassed"
 fi
@@ -688,7 +690,7 @@ echo -e "displaying options messages."
 echo -e "Command: ./${gameservername}"
 echo -e ""
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	core_getopt.sh
@@ -707,7 +709,7 @@ echo -e "Command: ./${gameservername} abc123"
 echo -e ""
 getopt="abc123"
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	core_getopt.sh
@@ -728,7 +730,7 @@ echo -e "Description:"
 echo -e "install ${gamename} server."
 echo -e "Command: ./${gameservername} auto-install"
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	fn_autoinstall
@@ -751,7 +753,7 @@ echo -e "Command: ./${gameservername} start"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_start.sh
@@ -770,7 +772,7 @@ echo -e "Command: ./${gameservername} start"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_start.sh
@@ -789,10 +791,11 @@ echo -e "Command: ./${gameservername} start"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
-	updateonstart="on";command_start.sh
+	updateonstart="on"
+	command_start.sh
 )
 fn_test_result_pass
 echo -e "run order"
@@ -808,7 +811,7 @@ echo -e "Command: ./${gameservername} stop"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_stop.sh
@@ -827,7 +830,7 @@ echo -e "Command: ./${gameservername} stop"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_stop.sh
@@ -846,7 +849,7 @@ echo -e "Command: ./${gameservername} restart"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_restart.sh
@@ -865,7 +868,7 @@ echo -e "Command: ./${gameservername} restart"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_restart.sh
@@ -888,7 +891,7 @@ echo -e "Command: ./${gameservername} update"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_update.sh
@@ -908,7 +911,7 @@ echo -e "Command: ./jc2server update-lgam"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_update_linuxgsm.sh
@@ -935,7 +938,7 @@ echo -e "Command: ./${gameservername} monitor"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_monitor.sh
@@ -958,7 +961,7 @@ date '+%s' > "${lockdir}/${selfname}.lock"
 echo "${version}" >> "${lockdir}/${selfname}.lock"
 echo "${port}" >> "${lockdir}/${selfname}.lock"
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_monitor.sh
@@ -977,7 +980,7 @@ echo -e "Command: ./${gameservername} monitor"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_monitor.sh
@@ -996,7 +999,7 @@ echo -e "Command: ./${gameservername} test-alert"
 requiredstatus="STOPPED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_test_alert.sh
@@ -1019,7 +1022,7 @@ echo -e "Command: ./${gameservername} details"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_details.sh
@@ -1038,7 +1041,7 @@ echo -e "Command: ./${gameservername} postdetails"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_postdetails.sh
@@ -1080,7 +1083,7 @@ echo -e "Command: ./${gameservername} detect-glibc"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_dev_detect_glibc.sh
@@ -1099,7 +1102,7 @@ echo -e "Command: ./${gameservername} detect-ldd"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_dev_detect_ldd.sh
@@ -1118,7 +1121,7 @@ echo -e "Command: ./${gameservername} detect-deps"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_dev_detect_deps.sh
@@ -1137,7 +1140,7 @@ echo -e "Command: ./${gameservername} query-raw"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_dev_query_raw.sh
@@ -1148,7 +1151,7 @@ echo -e "================="
 grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
-echo -e "9.0 - Donate"
+echo -e "9.0 - Sponsor"
 echo -e "=================================================================="
 
 echo -e ""
@@ -1160,7 +1163,7 @@ echo -e "Command: ./${gameservername} sponsor"
 requiredstatus="STARTED"
 fn_setstatus
 (
-	exec 5>"${TRAVIS_BUILD_DIR}/dev-debug.log"
+	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
 	command_sponsor.sh

@@ -7,7 +7,8 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(cat <<EOF
+json=$(
+	cat << EOF
 {
 	"value1": "${selfname}",
 	"value2": "${alertemoji} ${alertsubject} ${alertemoji}",

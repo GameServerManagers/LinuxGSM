@@ -30,9 +30,9 @@ kernel="$(uname -r)"
 # Distro Codename - xenial
 
 # Gathers distro info from various sources filling in missing gaps.
-distro_info_array=( os-release lsb_release hostnamectl debian_version redhat-release )
+distro_info_array=(os-release lsb_release hostnamectl debian_version redhat-release)
 for distro_info in "${distro_info_array[@]}"; do
-	if [ -f "/etc/os-release" ]&&[ "${distro_info}" == "os-release" ]; then
+	if [ -f "/etc/os-release" ] && [ "${distro_info}" == "os-release" ]; then
 		distroname="$(grep "PRETTY_NAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distroversion="$(grep "VERSION_ID" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		# Special var for rhel like distros to removed point in number e.g 8.4 to just 8.
@@ -40,8 +40,8 @@ for distro_info in "${distro_info_array[@]}"; do
 		distroid="$(grep "ID=" /etc/os-release | grep -v _ID | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distroidlike="$(grep "ID_LIKE=" /etc/os-release | grep -v _ID | awk -F\= '{gsub(/"/,"",$2);print $2}')"
 		distrocodename="$(grep "VERSION_CODENAME" /etc/os-release | awk -F\= '{gsub(/"/,"",$2);print $2}')"
-	elif [ "$(command -v lsb_release 2>/dev/null)" ]&&[ "${distro_info}" == "lsb_release" ]; then
-		if [ -z "${distroname}" ];then
+	elif [ "$(command -v lsb_release 2> /dev/null)" ] && [ "${distro_info}" == "lsb_release" ]; then
+		if [ -z "${distroname}" ]; then
 			distroname="$(lsb_release -sd)"
 		elif [ -z "${distroversion}" ]; then
 			distroversion="$(lsb_release -sr)"
@@ -50,11 +50,11 @@ for distro_info in "${distro_info_array[@]}"; do
 		elif [ -z "${distrocodename}" ]; then
 			distrocodename="$(lsb_release -sc)"
 		fi
-	elif [ "$(command -v hostnamectl 2>/dev/null)" ]&&[ "${distro_info}" == "hostnamectl" ]; then
-		if [ -z "${distroname}" ];then
+	elif [ "$(command -v hostnamectl 2> /dev/null)" ] && [ "${distro_info}" == "hostnamectl" ]; then
+		if [ -z "${distroname}" ]; then
 			distroname="$(hostnamectl | grep "Operating System" | sed 's/Operating System: //g')"
 		fi
-	elif [ -f "/etc/debian_version" ]&&[ "${distro_info}" == "debian_version" ]; then
+	elif [ -f "/etc/debian_version" ] && [ "${distro_info}" == "debian_version" ]; then
 		if [ -z "${distroname}" ]; then
 			distroname="Debian $(cat /etc/debian_version)"
 		elif [ -z "${distroversion}" ]; then
@@ -62,7 +62,7 @@ for distro_info in "${distro_info_array[@]}"; do
 		elif [ -z "${distroid}" ]; then
 			distroid="debian"
 		fi
-	elif [ -f "/etc/redhat-release" ]&&[ "${distro_info}" == "redhat-release" ]; then
+	elif [ -f "/etc/redhat-release" ] && [ "${distro_info}" == "redhat-release" ]; then
 		if [ -z "${distroname}" ]; then
 			distroname="$(cat /etc/redhat-release)"
 		elif [ -z "${distroversion}" ]; then
@@ -74,10 +74,26 @@ for distro_info in "${distro_info_array[@]}"; do
 done
 
 # some RHEL based distros use 8.4 instead of just 8.
-if [[ "${distroidlike}" == *"rhel"* ]]||[ "${distroid}" == "rhel" ]; then
+if [[ "${distroidlike}" == *"rhel"* ]] || [ "${distroid}" == "rhel" ]; then
 	distroversioncsv="${distroversionrh}"
 else
 	distroversioncsv="${distroversion}"
+fi
+
+# Check if distro supported by distro vendor.
+if [ "$(command -v distro-info 2> /dev/null)" ]; then
+	distrosunsupported="$(distro-info --unsupported)"
+	distrosunsupported_array=("${distrosunsupported}")
+	for distrounsupported in "${distrosunsupported_array[@]}"; do
+		if [ "${distrounsupported}" == "${distrocodename}" ]; then
+			distrosupport=unsupported
+			break
+		else
+			distrosupport=supported
+		fi
+	done
+else
+	distrosupport=unknown
 fi
 
 ## Glibc version
@@ -86,7 +102,7 @@ glibcversion="$(ldd --version | sed -n '1s/.* //p')"
 
 ## tmux version
 # e.g: tmux 1.6
-if [ ! "$(command -V tmux 2>/dev/null)" ]; then
+if [ ! "$(command -V tmux 2> /dev/null)" ]; then
 	tmuxv="${red}NOT INSTALLED!${default}"
 	tmuxvdigit="0"
 else
@@ -98,25 +114,25 @@ else
 	fi
 fi
 
-if [ "$(command -V java 2>/dev/null)" ]; then
+if [ "$(command -V java 2> /dev/null)" ]; then
 	javaversion="$(java -version 2>&1 | grep "version")"
 fi
 
-if [ "$(command -v mono 2>/dev/null)" ]; then
+if [ "$(command -v mono 2> /dev/null)" ]; then
 	monoversion="$(mono --version 2>&1 | grep -Po '(?<=version )\d')"
 fi
 
 ## Uptime
-uptime="$(</proc/uptime)"
+uptime="$(< /proc/uptime)"
 uptime=${uptime/[. ]*/}
-minutes="$(( uptime/60%60 ))"
-hours="$(( uptime/60/60%24 ))"
-days="$(( uptime/60/60/24 ))"
+minutes="$((uptime / 60 % 60))"
+hours="$((uptime / 60 / 60 % 24))"
+days="$((uptime / 60 / 60 / 24))"
 
 ### Performance information
 
 ## Average server load
-load="$(uptime|awk -F 'load average: ' '{ print $2 }')"
+load="$(uptime | awk -F 'load average: ' '{ print $2 }')"
 
 ## CPU information
 cpumodel="$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')"
@@ -124,7 +140,7 @@ cpucores="$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)"
 cpufreqency="$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')"
 # CPU usage of the game server pid
 if [ -n "${gameserverpid}" ]; then
-	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}"|awk '{s+=$1} END {print s}')"
+	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}" | awk '{s+=$1} END {print s}')"
 	cpuusedmhz="$(echo "${cpufreqency} * ${cpuused} / 100" | bc)"
 fi
 
@@ -132,7 +148,7 @@ fi
 # Available RAM and swap.
 
 # Newer distros can use numfmt to give more accurate results.
-if [ "$(command -v numfmt 2>/dev/null)" ]; then
+if [ "$(command -v numfmt 2> /dev/null)" ]; then
 	# Issue #2005 - Kernel 3.14+ contains MemAvailable which should be used. All others will be calculated.
 
 	# get the raw KB values of these fields.
@@ -146,31 +162,34 @@ if [ "$(command -v numfmt 2>/dev/null)" ]; then
 	if grep -q ^MemAvailable /proc/meminfo; then
 		physmemactualfreekb="$(grep ^MemAvailable /proc/meminfo | awk '{print $2}')"
 	else
-		physmemactualfreekb="$((physmemfreekb+physmembufferskb+physmemcachedkb))"
+		physmemactualfreekb="$((physmemfreekb + physmembufferskb + physmemcachedkb))"
 	fi
 
 	# Available RAM and swap.
-	physmemtotalmb="$((physmemtotalkb/1024))"
+	physmemtotalmb="$((physmemtotalkb / 1024))"
 	physmemtotal="$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")"
 	physmemfree="$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")"
-	physmemused="$(numfmt --to=iec --from=iec --suffix=B "$((physmemtotalkb-physmemfreekb-physmembufferskb-physmemcachedkb-physmemreclaimablekb))K")"
+	physmemused="$(numfmt --to=iec --from=iec --suffix=B "$((physmemtotalkb - physmemfreekb - physmembufferskb - physmemcachedkb - physmemreclaimablekb))K")"
 	physmemavailable="$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")"
-	physmemcached="$(numfmt --to=iec --from=iec --suffix=B "$((physmemcachedkb+physmemreclaimablekb))K")"
+	physmemcached="$(numfmt --to=iec --from=iec --suffix=B "$((physmemcachedkb + physmemreclaimablekb))K")"
 
 	swaptotal="$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapTotal /proc/meminfo | awk '{print $2}')K")"
 	swapfree="$(numfmt --to=iec --from=iec --suffix=B "$(grep ^SwapFree /proc/meminfo | awk '{print $2}')K")"
-	swapused="$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}')-$(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")"
+	swapused="$(numfmt --to=iec --from=iec --suffix=B "$(($(grep ^SwapTotal /proc/meminfo | awk '{print $2}') - $(grep ^SwapFree /proc/meminfo | awk '{print $2}')))K")"
 	# RAM usage of the game server pid
 	# MB
 	if [ "${gameserverpid}" ]; then
-		memused="$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}'| awk '{$1/=1024;printf "%.0f",$1}{print $2}')"
-	# %
+		memused="$(ps --forest -o rss -g "${gameserverpid}" | awk '{s+=$1} END {print s}' | awk '{$1/=1024;printf "%.0f",$1}{print $2}')"
+		# %
 		pmemused="$(ps --forest -o %mem -g "${gameserverpid}" | awk '{s+=$1} END {print s}')"
 	fi
 else
 	# Older distros will need to use free.
 	# Older versions of free do not support -h option.
-	if [ "$(free -h > /dev/null 2>&1; echo $?)" -ne "0" ]; then
+	if [ "$(
+		free -h > /dev/null 2>&1
+		echo $?
+	)" -ne "0" ]; then
 		humanreadable="-m"
 	else
 		humanreadable="-h"
@@ -241,7 +260,7 @@ if [ -d "${backupdir}" ]; then
 		# date of most recent backup.
 		lastbackupdate="$(date -r "${lastbackup}")"
 		# no of days since last backup.
-		lastbackupdaysago="$(( ( $(date +'%s') - $(date -r "${lastbackup}" +'%s') )/60/60/24 ))"
+		lastbackupdaysago="$((($(date +'%s') - $(date -r "${lastbackup}" +'%s')) / 60 / 60 / 24))"
 		# size of most recent backup.
 		lastbackupsize="$(du -h "${lastbackup}" | awk '{print $1}')"
 	fi
@@ -249,66 +268,11 @@ fi
 
 # Network Interface name
 netint=$(${ipcommand} -o addr | grep "${ip}" | awk '{print $2}')
-netlink=$(${ethtoolcommand} "${netint}" 2>/dev/null| grep Speed | awk '{print $2}')
+netlink=$(${ethtoolcommand} "${netint}" 2> /dev/null | grep Speed | awk '{print $2}')
 
-# External IP address
-if [ -z "${extip}" ]; then
-	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2>/dev/null)"
-	exitcode=$?
-	# Should ifconfig.co return an error will use last known IP.
-	if [ ${exitcode} -eq 0 ]; then
-		if [[ "${extip}" != *"DOCTYPE"* ]]; then
-			echo -e "${extip}" > "${tmpdir}/extip.txt"
-		else
-			if [ -f "${tmpdir}/extip.txt" ]; then
-				extip="$(cat "${tmpdir}/extip.txt")"
-			else
-				fn_print_error_nl "Unable to get external IP"
-			fi
-		fi
-	else
-		if [ -f "${tmpdir}/extip.txt" ]; then
-			extip="$(cat "${tmpdir}/extip.txt")"
-		else
-			fn_print_error_nl "Unable to get external IP"
-		fi
-	fi
-fi
-
-# Alert IP address
-if [ "${displayip}" ]; then
-	alertip="${displayip}"
-elif [ "${extip}" ]; then
-	alertip="${extip}"
-else
-	alertip="${ip}"
-fi
-
-# Steam Master Server - checks if detected by master server.
-if [ -z "${displaymasterserver}" ]; then
-	if [ "$(command -v jq 2>/dev/null)" ]; then
-		if [ "${ip}" ]&&[ "${port}" ]; then
-			if [ "${steammaster}" == "true" ]||[ "${commandname}" == "DEV-QUERY-RAW" ]; then
-				# Will query server IP addresses first.
-				for queryip in "${queryips[@]}"; do
-					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
-				done
-				# Should that not work it will try the external IP.
-				if [ "${masterserver}" == "0" ]; then
-					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" '.response.servers[] | select((.gameport == ($port|tonumber) or (.gameport == ($queryport|tonumber)))) | .addr' | wc -l 2>/dev/null)"
-				fi
-				if [ "${masterserver}" == "0" ]; then
-					displaymasterserver="false"
-				else
-					displaymasterserver="true"
-				fi
-			fi
-		fi
-	fi
-fi
 # Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
 if [ "${appid}" ]; then
-	if [ "${glibc}" = "null" ]||[ -z "${glibc}" ]||[ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
+	if [ "${glibc}" = "null" ] || [ -z "${glibc}" ] || [ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibc="2.14"
 	fi
 fi

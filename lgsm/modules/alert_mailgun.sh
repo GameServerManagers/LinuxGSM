@@ -16,12 +16,12 @@ fi
 fn_print_dots "Sending Email alert: Mailgun: ${mailgunemail}"
 
 mailgunsend=$(curl --connect-timeout 10 -s --user "api:${mailguntoken}" \
--F from="LinuxGSM <${mailgunemailfrom}>" \
--F to="LinuxGSM Admin <${mailgunemail}>" \
--F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
--F o:tag='alert' \
--F o:tag='LinuxGSM' \
--F text="$(cat "${alertlog}")" "${mailgunapiurl}/v3/${mailgundomain}/messages")
+	-F from="LinuxGSM <${mailgunemailfrom}>" \
+	-F to="LinuxGSM Admin <${mailgunemail}>" \
+	-F subject="${alertemoji} ${alertsubject} ${alertemoji}" \
+	-F o:tag='alert' \
+	-F o:tag='LinuxGSM' \
+	-F text="$(cat "${alertlog}")" "${mailgunapiurl}/v3/${mailgundomain}/messages")
 
 if [ -z "${mailgunsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${mailgunemail}"

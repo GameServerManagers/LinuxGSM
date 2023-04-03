@@ -16,7 +16,7 @@ fi
 
 # For games not displaying a console, and having logs into their game directory.
 check_status.sh
-if [ "${status}" != "0" ]&&[ "${commandname}" == "START" ]&&[ -n "${gamelogfile}" ]; then
+if [ "${status}" != "0" ] && [ "${commandname}" == "START" ] && [ -n "${gamelogfile}" ]; then
 	if [ "$(find "${systemdir}" -name "gamelog*.log")" ]; then
 		fn_print_info "Moving game logs to ${gamelogdir}"
 		fn_script_log_info "Moving game logs to ${gamelogdir}"
@@ -38,7 +38,14 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 	darkrplogdir="${systemdir}/data/darkrp_logs"
 	legacyserverlogdir="${logdir}/server"
 	# Setting up counting variables
-	scriptcount="0" ; consolecount="0" ; gamecount="0" ; srcdscount="0" ; smcount="0" ; ulxcount="0" ; darkrpcount="0" ; legacycount="0"
+	scriptcount="0"
+	consolecount="0"
+	gamecount="0"
+	srcdscount="0"
+	smcount="0"
+	ulxcount="0"
+	darkrpcount="0"
+	legacycount="0"
 	fn_sleep_time
 	fn_print_info "Removing logs older than ${logdays} days"
 	fn_script_log_info "Removing logs older than ${logdays} days"
@@ -48,7 +55,7 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 	scriptcount=$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 	find "${lgsmlogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
 	# SRCDS and unreal logfiles.
-	if [ "${engine}" == "unreal2" ]||[ "${engine}" == "source" ]; then
+	if [ "${engine}" == "unreal2" ] || [ "${engine}" == "source" ]; then
 		find "${gamelogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		gamecount=$(find "${gamelogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;

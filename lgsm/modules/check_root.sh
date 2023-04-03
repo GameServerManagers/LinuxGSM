@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [ "$(whoami)" = "root" ]; then
+if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 	if [ "${commandname}" != "INSTALL" ]; then
 		fn_print_fail_nl "Do NOT run this script as root!"
 		if [ -d "${lgsmlogdir}" ]; then

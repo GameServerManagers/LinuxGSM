@@ -10,9 +10,9 @@ commandaction="Default Resources"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_install_resources(){
+fn_install_resources() {
 	echo -e ""
-	echo -e "Installing Default Resources"
+	echo -e "${lightyellow}Installing Default Resources${default}"
 	echo -e "================================="
 	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "" "" "" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "mtasa-resources-latest.zip" "${resourcesdir}"
@@ -30,5 +30,3 @@ else
 	fn_print_warning_nl "Default resources are not installed when using ./${selfname} auto-install."
 	fn_print_information_nl "To install default resources use ./${selfname} install"
 fi
-
-core_exit.sh

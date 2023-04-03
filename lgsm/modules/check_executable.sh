@@ -8,6 +8,7 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists
+execname=$(basename "${executable}")
 if [ ! -f "${executabledir}/${execname}" ]; then
 	fn_print_fail_nl "executable was not found"
 	echo -e "* ${executabledir}/${execname}"

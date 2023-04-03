@@ -1,7 +1,7 @@
 #!/bin/bash
 # Project: Linux Game Server Managers - LinuxGSM
 # Author: Daniel Gibbs
-# License: MIT License, Copyright (c) 2020 Daniel Gibbs
+# License: MIT License, see LICENSE.md
 # Purpose: Linux Game Server Management Script
 # Contributors: https://linuxgsm.com/contrib
 # Documentation: https://docs.linuxgsm.com
@@ -15,12 +15,12 @@
 
 # Debugging
 if [ -f ".dev-debug" ]; then
-	exec 5>dev-debug.log
+	exec 5> dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
 
-version="v21.4.1"
+version="v23.2.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -45,10 +45,11 @@ userinput="${1}"
 userinput2="${2}"
 
 ## GitHub Branch Select
-# Allows for the use of different branches and forks.
-githubuser="GameServerManagers"
-githubrepo="LinuxGSM"
-githubbranch="master"
+# Allows for the use of different function files
+# from a different repo and/or branch.
+[ -n "${LGSM_GITHUBUSER}" ] && githubuser="${LGSM_GITHUBUSER}" || githubuser="GameServerManagers"
+[ -n "${LGSM_GITHUBREPO}" ] && githubrepo="${LGSM_GITHUBREPO}" || githubrepo="LinuxGSM"
+[ -n "${LGSM_GITHUBBRANCH}" ] && githubbranch="${LGSM_GITHUBBRANCH}" || githubbranch="master"
 
 # Core module that is required first.
 core_modules.sh(){
@@ -70,16 +71,16 @@ fn_bootstrap_fetch_file(){
 	forcedl="${9:-0}"
 	md5="${10:-0}"
 	# Download file if missing or download forced.
-	if [ ! -f "${local_filedir}/${local_filename}" ]||[ "${forcedl}" == "forcedl" ]; then
+	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
 		# If backup fileurl exists include it.
 		if [ -n "${remote_fileurl_backup}" ]; then
 			# counter set to 0 to allow second try
 			counter=0
-			remote_fileurls_array=( remote_fileurl remote_fileurl_backup )
+			remote_fileurls_array=(remote_fileurl remote_fileurl_backup)
 		else
 			# counter set to 1 to not allow second try
 			counter=1
-			remote_fileurls_array=( remote_fileurl )
+			remote_fileurls_array=(remote_fileurl)
 		fi
 
 		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
@@ -90,7 +91,7 @@ fn_bootstrap_fetch_file(){
 				fileurl="${remote_fileurl_backup}"
 				fileurl_name="${remote_fileurl_backup_name}"
 			fi
-			counter=$((counter+1))
+			counter=$((counter + 1))
 			if [ ! -d "${local_filedir}" ]; then
 				mkdir -p "${local_filedir}"
 			fi
@@ -105,8 +106,8 @@ fn_bootstrap_fetch_file(){
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE" )" ]; then
-					rm "${local_filedir:?}/${local_filename:?}"
+				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
+					rm -f "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
@@ -157,13 +158,13 @@ fn_bootstrap_fetch_file(){
 	fi
 }
 
-fn_bootstrap_fetch_file_github(){
-	github_fileurl_dir="${1}"
-	github_fileurl_name="${2}"
-	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ]&&[ "${githubuser}" == "GameServerManager" ]&&[ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+fn_bootstrap_fetch_file_github() {
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
+	# By default modules will be downloaded from the version release to prevent potential version mixing. Only update-lgsm will allow an update.
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
@@ -185,10 +186,10 @@ fn_bootstrap_fetch_file_github(){
 fn_print_center() {
 	columns=$(tput cols)
 	line="$*"
-	printf "%*s\n" $(( (${#line} + columns) / 2)) "${line}"
+	printf "%*s\n" $(((${#line} + columns) / 2)) "${line}"
 }
 
-fn_print_horizontal(){
+fn_print_horizontal() {
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
 }
 
@@ -205,11 +206,11 @@ fn_install_menu_bash() {
 	menu_options=()
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
-		menu_options+=( "${var}" )
+		menu_options+=("${var}")
 	done < "${options}"
-	menu_options+=( "Cancel" )
+	menu_options+=("Cancel")
 	select option in "${menu_options[@]}"; do
-		if [ "${option}" ]&&[ "${option}" != "Cancel" ]; then
+		if [ "${option}" ] && [ "${option}" != "Cancel" ]; then
 			eval "$resultvar=\"${option/%\ */}\""
 		fi
 		break
@@ -231,7 +232,7 @@ fn_install_menu_whiptail() {
 	while read -r line; do
 		key=$(echo -e "${line}" | awk -F "," '{print $3}')
 		val=$(echo -e "${line}" | awk -F "," '{print $2}')
-		menu_options+=( "${val//\"}" "${key//\"}" )
+		menu_options+=("${val//\"/}" "${key//\"/}")
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
@@ -256,24 +257,26 @@ fn_install_menu() {
 		fi
 	done
 	case "$(basename "${menucmd}")" in
-		whiptail|dialog)
-			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30;;
+		whiptail | dialog)
+			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
+			;;
 		*)
-			fn_install_menu_bash selection "${title}" "${caption}" "${options}";;
+			fn_install_menu_bash selection "${title}" "${caption}" "${options}"
+			;;
 	esac
 	eval "$resultvar=\"${selection}\""
 }
 
 # Gets server info from serverlist.csv and puts in to array.
-fn_server_info(){
+fn_server_info() {
 	IFS=","
 	server_info_array=($(grep -aw "${userinput}" "${serverlist}"))
-	shortname="${server_info_array[0]}" # csgo
+	shortname="${server_info_array[0]}"      # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
-	gamename="${server_info_array[2]}" # Counter Strike: Global Offensive
+	gamename="${server_info_array[2]}"       # Counter Strike: Global Offensive
 }
 
-fn_install_getopt(){
+fn_install_getopt() {
 	userinput="empty"
 	echo -e "Usage: $0 [option]"
 	echo -e ""
@@ -287,13 +290,13 @@ fn_install_getopt(){
 	exit
 }
 
-fn_install_file(){
+fn_install_file() {
 	local_filename="${gameservername}"
 	if [ -e "${local_filename}" ]; then
 		i=2
-	while [ -e "${local_filename}-${i}" ] ; do
-		(( i++ ))
-	done
+		while [ -e "${local_filename}-${i}" ]; do
+			((i++))
+		done
 		local_filename="${local_filename}-${i}"
 	fi
 	cp -R "${selfname}" "${local_filename}"
@@ -312,8 +315,8 @@ fn_install_file(){
 }
 
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
-if [ "$(whoami)" == "root" ]; then
-	if [ "${userinput}" == "install" ]||[ "${userinput}" == "auto-install" ]||[ "${userinput}" == "i" ]||[ "${userinput}" == "ai" ]; then
+if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
+	if [ "${userinput}" == "install" ] || [ "${userinput}" == "auto-install" ] || [ "${userinput}" == "i" ] || [ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
@@ -336,12 +339,12 @@ if [ "${shortname}" == "core" ]; then
 		exit 1
 	fi
 
-	if [ "${userinput}" == "list" ]||[ "${userinput}" == "l" ]; then
+	if [ "${userinput}" == "list" ] || [ "${userinput}" == "l" ]; then
 		{
 			tail -n +1 "${serverlist}" | awk -F "," '{print $2 "\t" $3}'
 		} | column -s $'\t' -t | more
 		exit
-	elif [ "${userinput}" == "install" ]||[ "${userinput}" == "i" ]; then
+	elif [ "${userinput}" == "install" ] || [ "${userinput}" == "i" ]; then
 		tail -n +1 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
 		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
@@ -357,7 +360,7 @@ if [ "${shortname}" == "core" ]; then
 		fi
 	elif [ "${userinput}" ]; then
 		fn_server_info
-		if [ "${userinput}" == "${gameservername}" ]||[ "${userinput}" == "${gamename}" ]||[ "${userinput}" == "${shortname}" ]; then
+		if [ "${userinput}" == "${gameservername}" ] || [ "${userinput}" == "${gamename}" ] || [ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
 			echo -e "[ FAIL ] unknown game server"
@@ -446,7 +449,7 @@ else
 
 	# Reloads start parameter to ensure all vars in startparameters are set.
 	# Will reload the last defined startparameter.
-	fn_reload_startparameters(){
+	fn_reload_startparameters() {
 		# reload Wurm config.
 		if [ "${shortname}" == "wurm" ]; then
 			# shellcheck source=/dev/null
@@ -465,7 +468,7 @@ else
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
 
-# reload preexecutable.
+		# reload preexecutable.
 		if grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/secrets-${selfname}.cfg"; then
 			eval preexecutable="$(sed -nr 's/^ *preexecutable=(.*)$/\1/p' "${configdirserver}/secrets-${selfname}.cfg")"
 		elif grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/${selfname}.cfg"; then
@@ -503,9 +506,7 @@ else
 
 	# Enables ANSI colours from core_messages.sh. Can be disabled with ansi=off.
 	fn_ansi_loader
-	# Prevents running of core_exit.sh for Travis-CI.
-	if [ "${travistest}" != "1" ]; then
-		getopt=$1
-		core_getopt.sh
-	fi
+
+	getopt=$1
+	core_getopt.sh
 fi

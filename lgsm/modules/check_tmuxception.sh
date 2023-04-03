@@ -7,8 +7,8 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_check_is_in_tmux(){
-  if [ "${TMUX}" ]; then
+fn_check_is_in_tmux() {
+	if [ "${TMUX}" ]; then
 		fn_print_fail_nl "tmuxception error: Sorry Cobb you cannot start a tmux session inside of a tmux session."
 		fn_script_log_fatal "Tmuxception error: Attempted to start a tmux session inside of a tmux session."
 		fn_print_information_nl "LinuxGSM creates a tmux session when starting the server."
@@ -18,7 +18,7 @@ fn_check_is_in_tmux(){
 	fi
 }
 
-fn_check_is_in_screen(){
+fn_check_is_in_screen() {
 	if [ "${STY}" ]; then
 		fn_print_fail_nl "tmuxception error: Sorry Cobb you cannot start a tmux session inside of a screen session."
 		fn_script_log_fatal "Tmuxception error: Attempted to start a tmux session inside of a screen session."

@@ -7,4 +7,4 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-status=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -Ecx "^${sessionname}")
+status=$(tmux list-sessions -F "#{session_name}" 2> /dev/null | grep -Ecx "^${sessionname}")

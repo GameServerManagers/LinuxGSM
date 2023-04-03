@@ -7,6 +7,9 @@ name: Version Check
 on: push
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: read
+
 jobs:
   # This workflow contains a single job called "build"
   Version-Check:
@@ -15,9 +18,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
 
-    # Runs a single command using the runners shell
-    - name: compare versions
-      run: chmod +x .github/workflows/version-check.sh; .github/workflows/version-check.sh
+      # Runs a single command using the runners shell
+      - name: compare versions
+        run: chmod +x .github/workflows/version-check.sh; .github/workflows/version-check.sh

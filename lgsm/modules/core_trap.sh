@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_exit_trap(){
+fn_exit_trap() {
 	if [ -z "${exitcode}" ]; then
 		exitcode=$?
 	fi
