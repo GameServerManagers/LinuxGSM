@@ -212,7 +212,8 @@ fn_sleep_time
 
 if [ "${appid}" ]; then
 	remotelocation="SteamCMD"
-	fn_dl_steamcmd
+	forceupdate=1
+	update_steamcmd.sh
 fi
 
 if [ "${shortname}" == "ts3" ]; then
