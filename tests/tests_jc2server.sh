@@ -620,8 +620,8 @@ echo -e "8.2 - dev - detect ldd"
 echo -e "8.3 - dev - detect deps"
 echo -e "8.4 - dev - query-raw"
 echo -e ""
-echo -e "9.0 - Donate"
-echo -e "9.1 - donate"
+echo -e "9.0 - Sponsor"
+echo -e "9.1 - sponsor"
 echo -e ""
 echo -e "0.0 - Pre-test Tasks"
 echo -e "=================================================================="
@@ -1320,22 +1320,22 @@ echo -e "================="
 grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
 
 echo -e ""
-echo -e "9.0 - Donate"
+echo -e "9.0 - Sponsor"
 echo -e "=================================================================="
 
 echo -e ""
-echo -e "9.1 - donate"
+echo -e "9.1 - sponsor"
 echo -e "================================="
 echo -e "Description:"
-echo -e "donate."
-echo -e "Command: ./${gameservername} donate"
+echo -e "sponsor."
+echo -e "Command: ./${gameservername} sponsor"
 requiredstatus="STARTED"
 fn_setstatus
 (
 	exec 5> "${TRAVIS_BUILD_DIR}/dev-debug.log"
 	BASH_XTRACEFD="5"
 	set -x
-	command_donate.sh
+	command_sponsor.sh
 )
 fn_test_result_pass
 echo -e "run order"

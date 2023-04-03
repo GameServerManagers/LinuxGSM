@@ -22,7 +22,7 @@ cmd_update_linuxgsm=("ul;update-lgsm;uf;update-functions" "command_update_linuxg
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
 cmd_skeleton=("sk;skeleton" "command_skeleton.sh" "Create a skeleton directory.")
-cmd_donate=("do;donate" "command_donate.sh" "Donation options.")
+cmd_sponsor=("s;sponsor" "command_sponsor.sh" "Donation options.")
 cmd_send=("sd;send" "command_send.sh" "Send command to game server console.")
 # Console servers only.
 cmd_console=("c;console" "command_console.sh" "Access server console.")
@@ -148,8 +148,8 @@ if [ -f ".dev-debug" ]; then
 	currentopt+=("${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_functions[@]}")
 fi
 
-## Donate.
-currentopt+=("${cmd_donate[@]}")
+## Sponsor.
+currentopt+=("${cmd_sponsor[@]}")
 
 ### Build list of available commands.
 optcommands=()
