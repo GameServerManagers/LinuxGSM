@@ -15,25 +15,25 @@ mods_core.sh
 
 # Prevents specific files being overwritten upon update (set by ${modkeepfiles}).
 # For that matter, remove cfg files after extraction before copying them to destination.
-fn_remove_cfg_files(){
-	if [ "${modkeepfiles}" !=  "OVERWRITE" ]&&[ "${modkeepfiles}" != "NOUPDATE" ]; then
+fn_remove_cfg_files() {
+	if [ "${modkeepfiles}" != "OVERWRITE" ] && [ "${modkeepfiles}" != "NOUPDATE" ]; then
 		echo -e "the following files/directories will be preserved:"
 		fn_sleep_time
 		# Count how many files there are to remove.
 		filestopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')
 		# Test all subvalues of "modkeepfiles" using the ";" separator.
-		for ((preservefilesindex=1; preservefilesindex < filestopreserve; preservefilesindex++)); do
+		for ((preservefilesindex = 1; preservefilesindex < filestopreserve; preservefilesindex++)); do
 			# Put the current file we are looking for into a variable.
-			filetopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }' )
+			filetopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }')
 			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file.
-			if [ -f "${extractdir}/${filetopreserve}" ]||[ -d "${extractdir}/${filetopreserve}" ]; then
-				rm -r "${extractdir:?}/${filetopreserve}"
+			if [ -f "${extractdest}/${filetopreserve}" ] || [ -d "${extractdest}/${filetopreserve}" ]; then
+				rm -r "${extractdest:?}/${filetopreserve}"
 				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update.
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"
 				fi
-					echo -e "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
+				echo -e "${filetopreserve}" >> "${modsdir}/.removedfiles.tmp"
 			fi
 		done
 	fi
@@ -45,7 +45,7 @@ fn_print_info_nl "Update addons/mods: ${installedmodscount} addons/mods will be 
 fn_script_log_info "${installedmodscount} mods or addons will be updated"
 fn_mods_installed_list
 # Go through all available commands, get details and display them to the user.
-for ((ulindex=0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
+for ((ulindex = 0; ulindex < ${#installedmodslist[@]}; ulindex++)); do
 	# Current mod is the "ulindex" value of the array we're going through.
 	currentmod="${installedmodslist[ulindex]}"
 	fn_mod_get_info

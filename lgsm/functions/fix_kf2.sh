@@ -7,9 +7,7 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_parms(){
-parms="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""
-}
+startparameters="\"${defaultmap}?Game=KFGameContent.KFGameInfo_VersusSurvival\""
 
 fn_print_information "starting ${gamename} server to generate configs."
 fn_sleep_time

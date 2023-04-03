@@ -8,19 +8,20 @@
 commandname="START"
 commandaction="Starting"
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
 fn_firstcommand_set
 
-fn_start_teamspeak3(){
+fn_start_teamspeak3() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		fn_print_warn_nl "${servercfgfullpath} is missing"
 		fn_script_log_warn "${servercfgfullpath} is missing"
-		echo  "	* Creating blank ${servercfg}"
+		echo "	* Creating blank ${servercfg}"
 		fn_script_log_info "Creating blank ${servercfg}"
 		fn_sleep_time
-		echo  "	* ${servercfg} can remain blank by default."
+		echo "	* ${servercfg} can remain blank by default."
 		fn_script_log_info "${servercfgfullpath} can remain blank by default."
 		fn_sleep_time
-		echo  "	* ${servercfg} is located in ${servercfgfullpath}."
+		echo "	* ${servercfg} is located in ${servercfgfullpath}."
 		fn_script_log_info "${servercfg} is located in ${servercfgfullpath}."
 		sleep 5
 		touch "${servercfgfullpath}"
@@ -34,16 +35,14 @@ fn_start_teamspeak3(){
 
 # This will allow the Jedi Knight 2 version to be printed in console on start.
 # Used to allow update to detect JK2MV server version.
-fn_start_jk2(){
+fn_start_jk2() {
 	fn_start_tmux
 	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
-fn_start_tmux(){
+fn_start_tmux() {
 	if [ "${parmsbypass}" ]; then
-		parms=""
-	else
-		fn_parms
+		startparameters=""
 	fi
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -59,7 +58,7 @@ fn_start_tmux(){
 
 	# Log rotation.
 	fn_script_log_info "Rotating log files"
-	if [ "${engine}" == "unreal2" ]&&[ -f "${gamelog}" ]; then
+	if [ "${engine}" == "unreal2" ] && [ -f "${gamelog}" ]; then
 		mv "${gamelog}" "${gamelogdate}"
 	fi
 	if [ -f "${lgsmlog}" ]; then
@@ -73,8 +72,15 @@ fn_start_tmux(){
 	date '+%s' > "${lockdir}/${selfname}.lock"
 	echo "${version}" >> "${lockdir}/${selfname}.lock"
 	echo "${port}" >> "${lockdir}/${selfname}.lock"
-	cd "${executabledir}" || exit
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${parms}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	fn_reload_startparameters
+
+	if [ "${shortname}" == "av" ]; then
+		cd "${systemdir}" || exit
+	else
+		cd "${executabledir}" || exit
+	fi
+
+	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -82,32 +88,37 @@ fn_start_tmux(){
 	# Create last start lock file
 	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
-	# Get tmux version.
-	tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p')
-	# Tmux compiled from source will return "master", therefore ignore it.
-	if [ "$(tmux -V | sed "s/tmux //" | sed -n '1 p')" == "master" ]; then
-		fn_script_log "Tmux version: master (user compiled)"
-		echo -e "Tmux version: master (user compiled)" >> "${consolelog}"
-		if [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+	# tmux compiled from source will return "master", therefore ignore it.
+	if [ "${tmuxv}" == "master" ]; then
+		fn_script_log "tmux version: master (user compiled)"
+		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
+		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
+			if [ "$logtimestamp" == "on" ]; then
+				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			else
+				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			fi
 		fi
-	elif [ "${tmuxversion}" ]; then
-		# Get the digit version of tmux.
-		tmuxversion=$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')
+
+	elif [ -n "${tmuxv}" ]; then
 		# tmux pipe-pane not supported in tmux versions < 1.6.
-		if [ "${tmuxversion}" -lt "16" ]; then
-			echo -e "Console logging disabled: Tmux => 1.6 required
+		if [ "${tmuxvdigit}" -lt "16" ]; then
+			echo -e "Console logging disabled: tmux => 1.6 required
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 
 		# Console logging disabled: Bug in tmux 1.8 breaks logging.
-		elif [ "${tmuxversion}" -eq "18" ]; then
+		elif [ "${tmuxvdigit}" -eq "18" ]; then
 			echo -e "Console logging disabled: Bug in tmux 1.8 breaks logging
 			https://linuxgsm.com/tmux-upgrade
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
-		elif [ "${consolelogging}" == "on" ]||[ -z "${consolelogging}" ]; then
-			tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
+			if [ "$logtimestamp" == "on" ]; then
+				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			else
+				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			fi
 		fi
 	else
 		echo -e "Unable to detect tmux version" >> "${consolelog}"
@@ -127,23 +138,22 @@ fn_start_tmux(){
 		fn_print_fail_nl "Unable to start ${servername}"
 		fn_script_log_fatal "Unable to start ${servername}"
 		if [ -s "${lgsmlogdir}/.${selfname}-tmux-error.tmp" ]; then
-			fn_print_fail_nl "Unable to start ${servername}: Tmux error:"
-			fn_script_log_fatal "Unable to start ${servername}: Tmux error:"
+			fn_print_fail_nl "Unable to start ${servername}: tmux error:"
+			fn_script_log_fatal "Unable to start ${servername}: tmux error:"
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${parms}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
-			cat "${lgsmlogdir}/.${selfname}-tmux-error.tmp" | tee -a "${lgsmlog}"
+			tee -a "${lgsmlog}" < "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 			# Detected error https://linuxgsm.com/support
-			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
-			then
-			echo -e ""
-			echo -e "Fix"
-			echo -e "================================="
+			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"; then
+				echo -e ""
+				echo -e "Fix"
+				echo -e "================================="
 				if ! grep "tty:" /etc/group | grep "$(whoami)"; then
 					echo -e "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
@@ -171,7 +181,7 @@ fn_start_tmux(){
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
-	rm "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp"
+	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
 	echo -en "\n"
 }
 
@@ -190,11 +200,11 @@ fi
 if [ -z "${fixbypass}" ]; then
 	fix.sh
 fi
-info_config.sh
+info_game.sh
 core_logs.sh
 
 # Will check for updates is updateonstart is yes.
-if [ "${updateonstart}" == "yes" ]||[ "${updateonstart}" == "1" ]||[ "${updateonstart}" == "on" ]; then
+if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${updateonstart}" == "on" ]; then
 	exitbypass=1
 	unset updateonstart
 	command_update.sh

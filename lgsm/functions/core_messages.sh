@@ -9,7 +9,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # nl: new line: message is following by a new line.
 # eol: end of line: message is placed at the end of the current line.
-fn_ansi_loader(){
+fn_ansi_loader() {
 	if [ "${ansi}" != "off" ]; then
 		# echo colors
 		default="\e[0m"
@@ -34,8 +34,8 @@ fn_ansi_loader(){
 	creeol="\r\033[K"
 }
 
-fn_sleep_time(){
-	if [ "${sleeptime}" != "0" ]||[ "${travistest}" != "1" ]; then
+fn_sleep_time() {
+	if [ "${sleeptime}" != "0" ] || [ "${travistest}" != "1" ]; then
 		if [ -z "${sleeptime}" ]; then
 			sleeptime=0.5
 		fi
@@ -46,7 +46,7 @@ fn_sleep_time(){
 # Log display
 ########################
 ## Feb 28 14:56:58 ut99-server: Monitor:
-fn_script_log(){
+fn_script_log() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ${1}" >> "${lgsmlog}"
@@ -57,7 +57,7 @@ fn_script_log(){
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: PASS:
-fn_script_log_pass(){
+fn_script_log_pass() {
 	if [ -d "${lgsmlogdir}" ]; then
 
 		if [ -n "${commandname}" ]; then
@@ -70,7 +70,7 @@ fn_script_log_pass(){
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
-fn_script_log_fatal(){
+fn_script_log_fatal() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
@@ -82,7 +82,7 @@ fn_script_log_fatal(){
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: ERROR:
-fn_script_log_error(){
+fn_script_log_error() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: ERROR: ${1}" >> "${lgsmlog}"
@@ -94,7 +94,7 @@ fn_script_log_error(){
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: WARN:
-fn_script_log_warn(){
+fn_script_log_warn() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: WARN: ${1}" >> "${lgsmlog}"
@@ -106,7 +106,7 @@ fn_script_log_warn(){
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: INFO:
-fn_script_log_info(){
+fn_script_log_info() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: INFO: ${1}" >> "${lgsmlog}"
@@ -116,8 +116,8 @@ fn_script_log_info(){
 	fi
 }
 
-## Feb 28 14:56:58 ut99-server: Monitor: INFO:
-fn_script_log_update(){
+## Feb 28 14:56:58 ut99-server: Monitor: UPDATE:
+fn_script_log_update() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: UPDATE: ${1}" >> "${lgsmlog}"
@@ -131,7 +131,7 @@ fn_script_log_update(){
 ##################################
 
 # [ .... ]
-fn_print_dots(){
+fn_print_dots() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[ .... ] ${commandaction} ${selfname}: $*"
 	else
@@ -140,7 +140,7 @@ fn_print_dots(){
 	fn_sleep_time
 }
 
-fn_print_dots_nl(){
+fn_print_dots_nl() {
 	if [ "${commandaction}" ]; then
 		echo -e "${creeol}[ .... ] ${commandaction} ${selfname}: $*"
 	else
@@ -151,7 +151,7 @@ fn_print_dots_nl(){
 }
 
 # [  OK  ]
-fn_print_ok(){
+fn_print_ok() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -160,7 +160,7 @@ fn_print_ok(){
 	fn_sleep_time
 }
 
-fn_print_ok_nl(){
+fn_print_ok_nl() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${green}  OK  ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -171,7 +171,7 @@ fn_print_ok_nl(){
 }
 
 # [ FAIL ]
-fn_print_fail(){
+fn_print_fail() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -180,7 +180,7 @@ fn_print_fail(){
 	fn_sleep_time
 }
 
-fn_print_fail_nl(){
+fn_print_fail_nl() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${red} FAIL ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -191,7 +191,7 @@ fn_print_fail_nl(){
 }
 
 # [ ERROR ]
-fn_print_error(){
+fn_print_error() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${red} ERROR ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -200,7 +200,7 @@ fn_print_error(){
 	fn_sleep_time
 }
 
-fn_print_error_nl(){
+fn_print_error_nl() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${red} ERROR ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -211,7 +211,7 @@ fn_print_error_nl(){
 }
 
 # [ WARN ]
-fn_print_warn(){
+fn_print_warn() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${lightyellow} WARN ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -220,7 +220,7 @@ fn_print_warn(){
 	fn_sleep_time
 }
 
-fn_print_warn_nl(){
+fn_print_warn_nl() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${lightyellow} WARN ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -231,7 +231,7 @@ fn_print_warn_nl(){
 }
 
 # [ INFO ]
-fn_print_info(){
+fn_print_info() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -240,7 +240,7 @@ fn_print_info(){
 	fn_sleep_time
 }
 
-fn_print_info_nl(){
+fn_print_info_nl() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -251,7 +251,7 @@ fn_print_info_nl(){
 }
 
 # [ START ]
-fn_print_start(){
+fn_print_start() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${lightgreen} START ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -260,7 +260,7 @@ fn_print_start(){
 	fn_sleep_time
 }
 
-fn_print_start_nl(){
+fn_print_start_nl() {
 	if [ "${commandaction}" ]; then
 		echo -en "${creeol}[${lightgreen} START ${default}] ${commandaction} ${selfname}: $*"
 	else
@@ -275,69 +275,69 @@ fn_print_start_nl(){
 
 # No More Room in Hell Debug
 # =================================
-fn_print_header(){
+fn_print_header() {
 	echo -e ""
 	echo -e "${lightyellow}${gamename} ${commandaction}${default}"
 	echo -e "=================================${default}"
 }
 
 # Complete!
-fn_print_complete(){
+fn_print_complete() {
 	echo -en "${green}Complete!${default} $*"
 	fn_sleep_time
 }
 
-fn_print_complete_nl(){
+fn_print_complete_nl() {
 	echo -e "${green}Complete!${default} $*"
 	fn_sleep_time
 }
 
 # Failure!
-fn_print_failure(){
+fn_print_failure() {
 	echo -en "${red}Failure!${default} $*"
 	fn_sleep_time
 }
 
-fn_print_failure_nl(){
+fn_print_failure_nl() {
 	echo -e "${red}Failure!${default} $*"
 	fn_sleep_time
 }
 
 # Error!
-fn_print_error2(){
+fn_print_error2() {
 	echo -en "${red}Error!${default} $*"
 	fn_sleep_time
 }
 
-fn_print_error2_nl(){
+fn_print_error2_nl() {
 	echo -e "${red}Error!${default} $*"
 	fn_sleep_time
 }
 
 # Warning!
-fn_print_warning(){
+fn_print_warning() {
 	echo -en "${lightyellow}Warning!${default} $*"
 	fn_sleep_time
 }
 
-fn_print_warning_nl(){
+fn_print_warning_nl() {
 	echo -e "${lightyellow}Warning!${default} $*"
 	fn_sleep_time
 }
 
 # Information!
-fn_print_information(){
+fn_print_information() {
 	echo -en "${cyan}Information!${default} $*"
 	fn_sleep_time
 }
 
-fn_print_information_nl(){
+fn_print_information_nl() {
 	echo -e "${cyan}Information!${default} $*"
 	fn_sleep_time
 }
 
 # Y/N Prompt
-fn_prompt_yn(){
+fn_prompt_yn() {
 	local prompt="$1"
 	local initial="$2"
 
@@ -350,23 +350,23 @@ fn_prompt_yn(){
 	fi
 
 	while true; do
-		read -e -i "${initial}" -p  "${prompt}" -r yn
+		read -e -i "${initial}" -p "${prompt}" -r yn
 		case "${yn}" in
-			[Yy]|[Yy][Ee][Ss]) return 0 ;;
-			[Nn]|[Nn][Oo]) return 1 ;;
-		*) echo -e "Please answer yes or no." ;;
+			[Yy] | [Yy][Ee][Ss]) return 0 ;;
+			[Nn] | [Nn][Oo]) return 1 ;;
+			*) echo -e "Please answer yes or no." ;;
 		esac
 	done
 }
 
 # Prompt for message
-fn_prompt_message(){
+fn_prompt_message() {
 	while true; do
 		unset prompt
 		local prompt="$1"
-		read -e -p  "${prompt}" -r answer
+		read -e -p "${prompt}" -r answer
 		if fn_prompt_yn "Continue" Y; then
-			break;
+			break
 		fi
 	done
 	echo "${answer}"
@@ -375,139 +375,161 @@ fn_prompt_message(){
 # On-Screen End of Line
 ##################################
 
+# YES
+fn_print_yes_eol() {
+	echo -en "${cyan}YES${default}"
+	fn_sleep_time
+}
+
+fn_print_yes_eol_nl() {
+	echo -e "${cyan}YES${default}"
+	fn_sleep_time
+}
+
+# NO
+fn_print_no_eol() {
+	echo -en "${red}NO${default}"
+	fn_sleep_time
+}
+
+fn_print_no_eol_nl() {
+	echo -e "${red}NO${default}"
+	fn_sleep_time
+}
+
 # OK
-fn_print_ok_eol(){
+fn_print_ok_eol() {
 	echo -en "${green}OK${default}"
 	fn_sleep_time
 }
 
-fn_print_ok_eol_nl(){
+fn_print_ok_eol_nl() {
 	echo -e "${green}OK${default}"
 	fn_sleep_time
 }
 
 # FAIL
-fn_print_fail_eol(){
+fn_print_fail_eol() {
 	echo -en "${red}FAIL${default}"
 	fn_sleep_time
 }
 
-fn_print_fail_eol_nl(){
+fn_print_fail_eol_nl() {
 	echo -e "${red}FAIL${default}"
 	fn_sleep_time
 }
 
 # ERROR
-fn_print_error_eol(){
+fn_print_error_eol() {
 	echo -en "${red}ERROR${default}"
 	fn_sleep_time
 }
 
-fn_print_error_eol_nl(){
+fn_print_error_eol_nl() {
 	echo -e "${red}ERROR${default}"
 	fn_sleep_time
 }
 
 # WAIT
-fn_print_wait_eol(){
+fn_print_wait_eol() {
 	echo -en "${cyan}WAIT${default}"
 	fn_sleep_time
 }
 
-fn_print_wait_eol_nl(){
+fn_print_wait_eol_nl() {
 	echo -e "${cyan}WAIT${default}"
 	fn_sleep_time
 }
 
 # WARN
-fn_print_warn_eol(){
+fn_print_warn_eol() {
 	echo -en "${lightyellow}WARN${default}"
 	fn_sleep_time
 }
 
-fn_print_warn_eol_nl(){
+fn_print_warn_eol_nl() {
 	echo -e "${lightyellow}WARN${default}"
 	fn_sleep_time
 }
 
 # INFO
-fn_print_info_eol(){
+fn_print_info_eol() {
 	echo -en "${cyan}INFO${default}"
 	fn_sleep_time
 }
 
-fn_print_info_eol_nl(){
+fn_print_info_eol_nl() {
 	echo -e "${cyan}INFO${default}"
 	fn_sleep_time
 }
 
 # QUERYING
-fn_print_querying_eol(){
+fn_print_querying_eol() {
 	echo -en "${cyan}QUERYING${default}"
 	fn_sleep_time
 }
 
-fn_print_querying_eol_nl(){
+fn_print_querying_eol_nl() {
 	echo -e "${cyan}QUERYING${default}"
 	fn_sleep_time
 }
 
 # CHECKING
-fn_print_checking_eol(){
+fn_print_checking_eol() {
 	echo -en "${cyan}CHECKING${default}"
 	fn_sleep_time
 }
 
-fn_print_checking_eol_nl(){
+fn_print_checking_eol_nl() {
 	echo -e "${cyan}CHECKING${default}"
 	fn_sleep_time
 }
 
 # DELAY
-fn_print_delay_eol(){
+fn_print_delay_eol() {
 	echo -en "${green}DELAY${default}"
 	fn_sleep_time
 }
 
-fn_print_delay_eol_nl(){
+fn_print_delay_eol_nl() {
 	echo -e "${green}DELAY${default}"
 	fn_sleep_time
 }
 
 # CANCELED
-fn_print_canceled_eol(){
+fn_print_canceled_eol() {
 	echo -en "${lightyellow}CANCELED${default}"
 	fn_sleep_time
 }
 
-fn_print_canceled_eol_nl(){
+fn_print_canceled_eol_nl() {
 	echo -e "${lightyellow}CANCELED${default}"
 	fn_sleep_time
 }
 
 # REMOVED
-fn_print_removed_eol(){
+fn_print_removed_eol() {
 	echo -en "${red}REMOVED${default}"
 	fn_sleep_time
 }
 
-fn_print_removed_eol_nl(){
+fn_print_removed_eol_nl() {
 	echo -e "${red}REMOVED${default}"
 	fn_sleep_time
 }
 
 # UPDATE
-fn_print_update_eol(){
+fn_print_update_eol() {
 	echo -en "${cyan}UPDATE${default}"
 	fn_sleep_time
 }
 
-fn_print_update_eol_nl(){
+fn_print_update_eol_nl() {
 	echo -e "${cyan}UPDATE${default}"
 	fn_sleep_time
 }
 
-fn_print_ascii_logo(){
+fn_print_ascii_logo() {
 	echo -e ""
 	echo -e "                                mdMMMMbm"
 	echo -e "                              mMMMMMMMMMMm"
@@ -543,7 +565,7 @@ fn_print_ascii_logo(){
 	echo -e ""
 }
 
-fn_print_restart_warning(){
+fn_print_restart_warning() {
 	fn_print_warn "${selfname} will be restarted"
 	fn_script_log_warn "${selfname} will be restarted"
 	totalseconds=3
@@ -562,7 +584,7 @@ fn_print_restart_warning(){
 # Useful when a command has to call upon another command causing the other command to overrite commandname variables
 
 # Used to remember the command that ran first.
-fn_firstcommand_set(){
+fn_firstcommand_set() {
 	if [ -z "${firstcommandname}" ]; then
 		firstcommandname="${commandname}"
 		firstcommandaction="${commandaction}"
@@ -570,7 +592,7 @@ fn_firstcommand_set(){
 }
 
 # Used to reset commandname variables to the command the script ran first.
-fn_firstcommand_reset(){
+fn_firstcommand_reset() {
 	commandname="${firstcommandname}"
 	commandaction="${firstcommandaction}"
 }

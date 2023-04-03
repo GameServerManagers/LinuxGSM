@@ -31,12 +31,10 @@ if [ "${exitbypass}" ]; then
 else
 	# Run checks and gathers details to display.
 	check.sh
-	info_config.sh
-	info_parms.sh
+	info_game.sh
 	info_distro.sh
 	info_messages.sh
-	for queryip in "${queryips[@]}"
-	do
+	for queryip in "${queryips[@]}"; do
 		query_gamedig.sh
 		if [ "${querystatus}" == "0" ]; then
 			break
@@ -51,10 +49,10 @@ else
 		fn_info_message_script
 		fn_info_message_backup
 		# Some game servers do not have parms.
-		if [ "${shortname}" != "jc2" ]&&[ "${shortname}" != "jc3" ]&&[ "${shortname}" != "dst" ]&&[ "${shortname}" != "pz" ]&&[ "${engine}" != "renderware" ]; then
-			fn_parms
+		if [ "${shortname}" != "jc2" ] && [ "${shortname}" != "jc3" ] && [ "${shortname}" != "dst" ] && [ "${shortname}" != "pz" ] && [ "${engine}" != "renderware" ]; then
 			fn_info_message_commandlineparms
 		fi
+		fn_info_message_ports_edit
 		fn_info_message_ports
 		fn_info_message_select_engine
 		fn_info_message_statusbottom

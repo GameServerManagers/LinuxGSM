@@ -10,14 +10,14 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Files and Directories.
 modsdir="${lgsmdir}/mods"
 modstmpdir="${modsdir}/tmp"
-extractdir="${modstmpdir}/extract"
+extractdest="${modstmpdir}/extract"
 modsinstalledlist="installed-mods.txt"
 modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
 ## Installation.
 
 # Download management.
-fn_mod_install_files(){
+fn_mod_install_files() {
 	fn_fetch_file "${modurl}" "" "" "" "${modstmpdir}" "${modfilename}"
 	# Check if variable is valid checking if file has been downloaded and exists.
 	if [ ! -f "${modstmpdir}/${modfilename}" ]; then
@@ -25,49 +25,55 @@ fn_mod_install_files(){
 		fn_script_log_fatal "An issue occurred downloading ${modprettyname}"
 		core_exit.sh
 	fi
-	if [ ! -d "${extractdir}" ]; then
-		mkdir -p "${extractdir}"
+	if [ ! -d "${extractdest}" ]; then
+		mkdir -p "${extractdest}"
 	fi
-	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdir}"
+	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
 }
 
 # Convert mod files to lowercase if needed.
-fn_mod_lowercase(){
+fn_mod_lowercase() {
+	# Checking lowercase settings from mods array definition
 	if [ "${modlowercase}" == "LowercaseOn" ]; then
-
 		echo -en "converting ${modprettyname} files to lowercase..."
 		fn_sleep_time
 		fn_script_log_info "Converting ${modprettyname} files to lowercase"
-		fileswc=$(find "${extractdir}" -depth | wc -l)
-		echo -en "\r"
+		# Total files and directories for the mod, to output to the user
+		fileswc=$(find "${extractdest}" | wc -l)
+		# Total uppercase files and directories for the mod, to output to the user
+		filesupperwc=$(find "${extractdest}" -name '*[[:upper:]]*' | wc -l)
+		fn_script_log_info "Found ${filesupperwc} uppercase files out of ${fileswc}, converting"
+		echo -en "Found ${filesupperwc} uppercase files out of ${fileswc}, converting..."
+		# Convert files and directories starting from the deepest to prevent issues (-depth argument)
 		while read -r src; do
-			dst=$(dirname "${src}$(/)basename" "${src}" | tr '[:upper:]' '[:lower:]')
-			if [ "${src}" != "${dst}" ]
-			then
-				[ ! -e "${dst}" ] && mv -T "${src}" "${dst}" || echo -e "${src} was not renamed"
+			# We have to convert only the last file from the path, otherwise we will fail to convert anything if a parent dir has any uppercase
+			# therefore, we have to separate the end of the filename to only lowercase it rather than the whole line
+			# Gather parent dir, filename lowercase filename, and set lowercase destination name
+			latestparentdir=$(dirname "${src}")
+			latestfilelc=$(basename "${src}" | tr '[:upper:]' '[:lower:]')
+			dst="${latestparentdir}/${latestfilelc}"
+			# Only convert if destination does not already exist for some reason
+			if [ ! -e "${dst}" ]; then
+				# Finally we can rename the file
+				mv "${src}" "${dst}"
+				# Exit if it fails for any reason
 				local exitcode=$?
-				((renamedwc++))
+				if [ "${exitcode}" != 0 ]; then
+					fn_print_fail_eol_nl
+					core_exit.sh
+				fi
 			fi
-			echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..." $'\r'
-			((totalfileswc++))
-		done < <(find "${extractdir}" -depth)
-		echo -en "${renamedwc} / ${totalfileswc} / ${fileswc} converting ${modprettyname} files to lowercase..."
-
-		if [ "${exitcode}" != 0 ]; then
-			fn_print_fail_eol_nl
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-		fi
+		done < <(find "${extractdest}" -depth -name '*[[:upper:]]*')
+		fn_print_ok_eol_nl
 	fi
 }
 
 # Create ${modcommand}-files.txt containing the full extracted file/directory list.
-fn_mod_create_filelist(){
+fn_mod_create_filelist() {
 	echo -en "building ${modcommand}-files.txt..."
 	fn_sleep_time
 	# ${modsdir}/${modcommand}-files.txt.
-	find "${extractdir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
+	find "${extractdest}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
@@ -84,10 +90,10 @@ fn_mod_create_filelist(){
 }
 
 # Copy the mod into serverfiles.
-fn_mod_copy_destination(){
+fn_mod_copy_destination() {
 	echo -en "copying ${modprettyname} to ${modinstalldir}..."
 	fn_sleep_time
-	cp -Rf "${extractdir}/." "${modinstalldir}/"
+	cp -Rf "${extractdest}/." "${modinstalldir}/"
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
@@ -99,7 +105,7 @@ fn_mod_copy_destination(){
 }
 
 # Add the mod to the installed-mods.txt.
-fn_mod_add_list(){
+fn_mod_add_list() {
 	if [ -z "$(sed -n "/^${modcommand}$/p" "${modsinstalledlistfullpath}")" ]; then
 		echo -e "${modcommand}" >> "${modsinstalledlistfullpath}"
 		fn_script_log_info "${modcommand} added to ${modsinstalledlist}"
@@ -107,7 +113,7 @@ fn_mod_add_list(){
 }
 
 # Prevent sensitive directories from being erased upon uninstall by removing them from: ${modcommand}-files.txt.
-fn_mod_tidy_files_list(){
+fn_mod_tidy_files_list() {
 	# Check file list validity.
 	fn_check_mod_files_list
 	# Output to the user
@@ -120,7 +126,7 @@ fn_mod_tidy_files_list(){
 	# generate elements to remove from list.
 	removefromlistamount=$(echo -e "${removefromlist}" | awk -F ';' '{ print NF }')
 	# Test all subvalue of "removefromlist" using the ";" separator.
-	for ((filesindex=1; filesindex < removefromlistamount; filesindex++)); do
+	for ((filesindex = 1; filesindex < removefromlistamount; filesindex++)); do
 		# Put current file into test variable.
 		removefilevar=$(echo -e "${removefromlist}" | awk -F ';' -v x=${filesindex} '{ print $x }')
 		# Delete line(s) matching exactly.
@@ -187,15 +193,15 @@ fn_mod_tidy_files_list(){
 ## Information Gathering.
 
 # Get details of a mod any (relevant and unique, such as full mod name or install command) value.
-fn_mod_get_info(){
+fn_mod_get_info() {
 	# Variable to know when job is done.
 	modinfocommand="0"
 	# Find entry in global array.
-	for ((index=0; index <= ${#mods_global_array[@]}; index++)); do
+	for ((index = 0; index <= ${#mods_global_array[@]}; index++)); do
 		# When entry is found.
 		if [ "${mods_global_array[index]}" == "${currentmod}" ]; then
 			# Go back to the previous "MOD" separator.
-			for ((index=index; index <= ${#mods_global_array[@]}; index--)); do
+			for ((index = index; index <= ${#mods_global_array[@]}; index--)); do
 				# When "MOD" is found.
 				if [ "${mods_global_array[index]}" == "MOD" ]; then
 					# Get info.
@@ -220,31 +226,31 @@ fn_mod_get_info(){
 }
 
 # Define all variables for a mod at once when index is set to a separator.
-fn_mods_define(){
-if [ -z "$index" ]; then
-	fn_script_log_fatal "index variable not set. Please report an issue."
-	fn_print_error "index variable not set. Please report an issue."
-	echo -e "* https://github.com/GameServerManagers/LinuxGSM/issues"
-	core_exit.sh
-fi
-	modcommand="${mods_global_array[index+1]}"
-	modprettyname="${mods_global_array[index+2]}"
-	modurl="${mods_global_array[index+3]}"
-	modfilename="${mods_global_array[index+4]}"
-	modsubdirs="${mods_global_array[index+5]}"
-	modlowercase="${mods_global_array[index+6]}"
-	modinstalldir="${mods_global_array[index+7]}"
-	modkeepfiles="${mods_global_array[index+8]}"
-	modengines="${mods_global_array[index+9]}"
-	modgames="${mods_global_array[index+10]}"
-	modexcludegames="${mods_global_array[index+11]}"
-	modsite="${mods_global_array[index+12]}"
-	moddescription="${mods_global_array[index+13]}"
+fn_mods_define() {
+	if [ -z "$index" ]; then
+		fn_script_log_fatal "index variable not set. Please report an issue."
+		fn_print_error "index variable not set. Please report an issue."
+		echo -e "* https://github.com/GameServerManagers/LinuxGSM/issues"
+		core_exit.sh
+	fi
+	modcommand="${mods_global_array[index + 1]}"
+	modprettyname="${mods_global_array[index + 2]}"
+	modurl="${mods_global_array[index + 3]}"
+	modfilename="${mods_global_array[index + 4]}"
+	modsubdirs="${mods_global_array[index + 5]}"
+	modlowercase="${mods_global_array[index + 6]}"
+	modinstalldir="${mods_global_array[index + 7]}"
+	modkeepfiles="${mods_global_array[index + 8]}"
+	modengines="${mods_global_array[index + 9]}"
+	modgames="${mods_global_array[index + 10]}"
+	modexcludegames="${mods_global_array[index + 11]}"
+	modsite="${mods_global_array[index + 12]}"
+	moddescription="${mods_global_array[index + 13]}"
 }
 
 # Builds list of installed mods.
 # using installed-mods.txt grabing mod info from mods_list.sh.
-fn_mods_installed_list(){
+fn_mods_installed_list() {
 	fn_mods_count_installed
 	# Set/reset variables.
 	installedmodsline="1"
@@ -259,7 +265,7 @@ fn_mods_installed_list(){
 		# Get mod info to make sure mod exists.
 		fn_mod_get_info
 		# Add the mod to available commands.
-		installedmodslist+=( "${modcommand}" )
+		installedmodslist+=("${modcommand}")
 		# Increment line check.
 		((installedmodsline++))
 	done
@@ -269,13 +275,13 @@ fn_mods_installed_list(){
 }
 
 # Loops through mods_global_array to define available mods & provide available commands for mods installation.
-fn_mods_available(){
+fn_mods_available() {
 	# First, reset variables.
 	compatiblemodslist=()
 	availablemodscommands=()
 	# Find compatible games.
 	# Find separators through the global array.
-	for ((index="0"; index <= ${#mods_global_array[@]}; index++)); do
+	for ((index = "0"; index <= ${#mods_global_array[@]}; index++)); do
 		# If current value is a separator; then.
 		if [ "${mods_global_array[index]}" == "${modseparator}" ]; then
 			# Set mod variables.
@@ -285,9 +291,9 @@ fn_mods_available(){
 			# If game is compatible.
 			if [ "${modcompatibility}" == "1" ]; then
 				# Put it into an array to prepare user output.
-				compatiblemodslist+=( "${modprettyname}" "${modcommand}" "${modsite}" "${moddescription}" )
+				compatiblemodslist+=("${modprettyname}" "${modcommand}" "${modsite}" "${moddescription}")
 				# Keep available commands in an array to make life easier.
-				availablemodscommands+=( "${modcommand}" )
+				availablemodscommands+=("${modcommand}")
 			fi
 		fi
 	done
@@ -296,7 +302,7 @@ fn_mods_available(){
 ## Mod compatibility check.
 
 # Find out if a game is compatible with a mod from a modgames (list of games supported by a mod) variable.
-fn_compatible_mod_games(){
+fn_compatible_mod_games() {
 	# Reset test value.
 	modcompatiblegame="0"
 	# If value is set to GAMES (ignore).
@@ -304,9 +310,9 @@ fn_compatible_mod_games(){
 		# How many games we need to test.
 		gamesamount=$(echo -e "${modgames}" | awk -F ';' '{ print NF }')
 		# Test all subvalue of "modgames" using the ";" separator.
-		for ((gamevarindex=1; gamevarindex < gamesamount; gamevarindex++)); do
+		for ((gamevarindex = 1; gamevarindex < gamesamount; gamevarindex++)); do
 			# Put current game name into modtest variable.
-			gamemodtest=$( echo -e "${modgames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )
+			gamemodtest=$(echo -e "${modgames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }')
 			# If game name matches.
 			if [ "${gamemodtest}" == "${gamename}" ]; then
 				# Mod is compatible.
@@ -317,7 +323,7 @@ fn_compatible_mod_games(){
 }
 
 # Find out if an engine is compatible with a mod from a modengines (list of engines supported by a mod) variable.
-fn_compatible_mod_engines(){
+fn_compatible_mod_engines() {
 	# Reset test value.
 	modcompatibleengine="0"
 	# If value is set to ENGINES (ignore).
@@ -325,9 +331,9 @@ fn_compatible_mod_engines(){
 		# How many engines we need to test.
 		enginesamount=$(echo -e "${modengines}" | awk -F ';' '{ print NF }')
 		# Test all subvalue of "modengines" using the ";" separator.
-		for ((gamevarindex=1; gamevarindex < ${enginesamount}; gamevarindex++)); do
+		for ((gamevarindex = 1; gamevarindex < ${enginesamount}; gamevarindex++)); do
 			# Put current engine name into modtest variable.
-			enginemodtest=$( echo -e "${modengines}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )
+			enginemodtest=$(echo -e "${modengines}" | awk -F ';' -v x=${gamevarindex} '{ print $x }')
 			# If engine name matches.
 			if [ "${enginemodtest}" == "${engine}" ]; then
 				# Mod is compatible.
@@ -338,7 +344,7 @@ fn_compatible_mod_engines(){
 }
 
 # Find out if a game is not compatible with a mod from a modnotgames (list of games not supported by a mod) variable.
-fn_not_compatible_mod_games(){
+fn_not_compatible_mod_games() {
 	# Reset test value.
 	modeincompatiblegame="0"
 	# If value is set to NOTGAMES (ignore).
@@ -346,9 +352,9 @@ fn_not_compatible_mod_games(){
 		# How many engines we need to test.
 		excludegamesamount=$(echo -e "${modexcludegames}" | awk -F ';' '{ print NF }')
 		# Test all subvalue of "modexcludegames" using the ";" separator.
-		for ((gamevarindex=1; gamevarindex < excludegamesamount; gamevarindex++)); do
+		for ((gamevarindex = 1; gamevarindex < excludegamesamount; gamevarindex++)); do
 			# Put current engine name into modtest variable.
-			excludegamemodtest=$( echo -e "${modexcludegames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }' )
+			excludegamemodtest=$(echo -e "${modexcludegames}" | awk -F ';' -v x=${gamevarindex} '{ print $x }')
 			# If engine name matches.
 			if [ "${excludegamemodtest}" == "${gamename}" ]; then
 				# Mod is compatible.
@@ -359,14 +365,14 @@ fn_not_compatible_mod_games(){
 }
 
 # Sums up if a mod is compatible or not with modcompatibility=0/1.
-fn_mod_compatible_test(){
+fn_mod_compatible_test() {
 	# Test game and engine compatibility.
 	fn_compatible_mod_games
 	fn_compatible_mod_engines
 	fn_not_compatible_mod_games
 	if [ "${modeincompatiblegame}" == "1" ]; then
 		modcompatibility="0"
-	elif [ "${modcompatibleengine}" == "1" ]||[ "${modcompatiblegame}" == "1" ]; then
+	elif [ "${modcompatibleengine}" == "1" ] || [ "${modcompatiblegame}" == "1" ]; then
 		modcompatibility="1"
 	else
 		modcompatibility="0"
@@ -376,7 +382,7 @@ fn_mod_compatible_test(){
 ## Directory management.
 
 # Create mods files and directories if it doesn't exist.
-fn_create_mods_dir(){
+fn_create_mods_dir() {
 	# Create lgsm data modsdir.
 	if [ ! -d "${modsdir}" ]; then
 		echo -en "creating LinuxGSM mods data directory ${modsdir}..."
@@ -414,7 +420,7 @@ fn_create_mods_dir(){
 }
 
 # Create tmp download mod directory.
-fn_mods_create_tmp_dir(){
+fn_mods_create_tmp_dir() {
 	if [ ! -d "${modstmpdir}" ]; then
 		mkdir -p "${modstmpdir}"
 		exitcode=$?
@@ -431,10 +437,10 @@ fn_mods_create_tmp_dir(){
 }
 
 # Remove the tmp mod download directory when finished.
-fn_mods_clear_tmp_dir(){
+fn_mods_clear_tmp_dir() {
 	if [ -d "${modstmpdir}" ]; then
 		echo -en "clearing mod download directory ${modstmpdir}..."
-		rm -fr "${modstmpdir:?}"
+		rm -rf "${modstmpdir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
@@ -453,7 +459,7 @@ fn_mods_clear_tmp_dir(){
 }
 
 # Counts how many mods were installed.
-fn_mods_count_installed(){
+fn_mods_count_installed() {
 	if [ -f "${modsinstalledlistfullpath}" ]; then
 		installedmodscount=$(wc -l < "${modsinstalledlistfullpath}")
 	else
@@ -462,7 +468,7 @@ fn_mods_count_installed(){
 }
 
 # Exits if no mods were installed.
-fn_mods_check_installed(){
+fn_mods_check_installed() {
 	# Count installed mods.
 	fn_mods_count_installed
 	# If no mods are found.
@@ -476,10 +482,10 @@ fn_mods_check_installed(){
 }
 
 # Checks that mod files list exists and isn't empty.
-fn_check_mod_files_list(){
+fn_check_mod_files_list() {
 	# File list must exist and be valid before any operation on it.
 	if [ -f "${modsdir}/${modcommand}-files.txt" ]; then
-	# How many lines is the file list.
+		# How many lines is the file list.
 		modsfilelistsize=$(wc -l < "${modsdir}/${modcommand}-files.txt")
 		# If file list is empty.
 		if [ "${modsfilelistsize}" -eq 0 ]; then
@@ -495,7 +501,7 @@ fn_check_mod_files_list(){
 	fi
 }
 
-fn_mod_exist(){
+fn_mod_exist() {
 	modreq=$1
 	# requires one parameter, the mod
 	if [ -f "${modsdir}/${modreq}-files.txt" ]; then
@@ -510,7 +516,7 @@ fn_mod_exist(){
 	fi
 }
 
-fn_mod_required_fail_exist(){
+fn_mod_required_fail_exist() {
 	modreq=$1
 	# requires one parameter, the mod
 	fn_script_log_fatal "${modreq}-files.txt is empty: unable to find ${modreq} installed"
@@ -519,7 +525,7 @@ fn_mod_required_fail_exist(){
 	core_exit.sh
 }
 
-fn_mod_liblist_gam_filenames(){
+fn_mod_liblist_gam_filenames() {
 	# clear variables just in case
 	moddll=""
 	modso=""
@@ -531,37 +537,37 @@ fn_mod_liblist_gam_filenames(){
 			moddll="mp.dll"
 			modso="cs.so"
 			moddylib="cs.dylib"
-		;;
+			;;
 		"Day of Defeat")
 			moddll="dod.dll"
 			modso="dod.so"
 			moddylib="dod.dylib"
-		;;
+			;;
 		"Team Fortress Classic")
 			moddll="tfc.dll"
 			modso="tfc.so"
 			moddylib="tfc.dylib"
-		;;
+			;;
 		"Natural Selection")
 			moddll="ns.dll"
 			modso="ns_i386.so"
 			moddylib=""
-		;;
+			;;
 		"The Specialists")
 			moddll="mp.dll"
 			modso="ts_i386.so"
 			moddylib=""
-		;;
+			;;
 		"Half-Life: Deathmatch")
 			moddll="hl.dll"
 			modso="hl.so"
 			moddylib="hl.dylib"
-		;;
+			;;
 	esac
 }
 
 # modifers for liblist.gam to add/remote metamod binaries
-fn_mod_install_liblist_gam_file(){
+fn_mod_install_liblist_gam_file() {
 
 	fn_mod_liblist_gam_filenames
 
@@ -619,7 +625,7 @@ fn_mod_install_liblist_gam_file(){
 	fi
 }
 
-fn_mod_remove_liblist_gam_file(){
+fn_mod_remove_liblist_gam_file() {
 
 	fn_mod_liblist_gam_filenames
 
@@ -677,7 +683,7 @@ fn_mod_remove_liblist_gam_file(){
 	fi
 }
 
-fn_mod_install_amxmodx_file(){
+fn_mod_install_amxmodx_file() {
 	# does plugins.ini exist?
 	if [ -f "${modinstalldir}/addons/metamod/plugins.ini" ]; then
 		# since it does exist, is the entry already in plugins.ini
@@ -712,9 +718,9 @@ fn_mod_install_amxmodx_file(){
 	fi
 }
 
-fn_mod_remove_amxmodx_file(){
+fn_mod_remove_amxmodx_file() {
 	if [ -f "${modinstalldir}/addons/metamod/plugins.ini" ]; then
-	    # since it does exist, is the entry already in plugins.ini
+		# since it does exist, is the entry already in plugins.ini
 		logentry="line (linux addons/amxmodx/dlls/amxmodx_mm_i386.so) removed from ${modinstalldir}/addons/metamod/plugins.ini"
 		echo -en "removing amxmodx_mm_i386.so in plugins.ini..."
 		grep -q "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" "${modinstalldir}/addons/metamod/plugins.ini"
@@ -736,7 +742,7 @@ fn_mod_remove_amxmodx_file(){
 
 			# if file is empty, remove it.
 			if [ -f "${modinstalldir}/addons/metamod/plugins.ini" ]; then
-				rm "${modinstalldir}/addons/metamod/plugins.ini"
+				rm -f "${modinstalldir}/addons/metamod/plugins.ini"
 				fn_script_log_pass "file removed ${modinstalldir}/addons/metamod/plugins.ini because it was empty"
 			fi
 		fi

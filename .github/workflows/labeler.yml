@@ -1,16 +1,24 @@
-name: "Set Issue Label and Assignee"
+name: "Issue Labeler"
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
   pull_request:
-    typed: [opened]
+    types: [opened, edited]
+
+permissions:
+  contents: read
 
 jobs:
-  test:
+  triage:
+    permissions:
+      contents: read # for github/issue-labeler to get repo contents
+      issues: write # for github/issue-labeler to create or remove labels
     runs-on: ubuntu-latest
     steps:
-      - uses: Naturalclar/issue-action@v2.0.2
+      - uses: github/issue-labeler@v3.1
         with:
-          title-or-body: "both"
-          parameters: '[ {"keywords": ["backup"], "labels": ["command: backup"]}, {"keywords": ["console"], "labels": ["command: console"]}, {"keywords": ["command: debug"], "labels": ["command: debug"]}, {"keywords": ["command: details"], "labels": ["command: details"]}, {"keywords": ["fast-dl"], "labels": ["command: fast-dl"]}, {"keywords": ["command: install"], "labels": ["command: install"]}, {"keywords": ["command: mods"], "labels": ["command: mods"]}, {"keywords": ["monitor"], "labels": ["command: monitor"]}, {"keywords": ["command: start"], "labels": ["command: start"]}, {"keywords": ["command: stop"], "labels": ["command: stop"]}, {"keywords": ["command: update-lgsm"], "labels": ["command: update-lgsm"]}, {"keywords": ["update"], "labels": ["command: update"]}, {"keywords": ["validate"], "labels": ["command: validate"]}, {"keywords": ["wipe"], "labels": ["command: wipe"]}, {"keywords": ["CentOS"], "labels": ["distro: CentOS"]}, {"keywords": ["Debian"], "labels": ["distro: Debian"]}, {"keywords": ["Fedora"], "labels": ["distro: Fedora"]}, {"keywords": ["Ubuntu"], "labels": ["distro: Ubuntu"]} ]'
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          not-before:
+          enable-versioned-regex: 0
+          include-title: 1
