@@ -32,7 +32,7 @@ logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${HOME}/.steam/steamcmd"
 serverfiles="${rootdir}/serverfiles"
-functionsdir="${lgsmdir}/functions"
+modulesdir="${lgsmdir}/modules"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
@@ -52,20 +52,20 @@ fi
 travistest="1"
 
 ## GitHub Branch Select
-# Allows for the use of different function files
+# Allows for the use of different module files
 # from a different repo and/or branch.
 githubuser="GameServerManagers"
 githubrepo="LinuxGSM"
 githubbranch="${TRAVIS_BRANCH}"
 
-# Core function that is required first.
-core_functions.sh() {
-	functionfile="${FUNCNAME[0]}"
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nohash"
+# Core module that is required first.
+core_modules.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
 }
 
 # Bootstrap
-# Fetches the core functions required before passed off to core_dl.sh.
+# Fetches the core modules required before passed off to core_dl.sh.
 fn_bootstrap_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
@@ -184,7 +184,7 @@ fn_bootstrap_fetch_file_github() {
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_bootstrap_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
@@ -328,11 +328,11 @@ if [ "$(whoami)" == "root" ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
-	elif [ ! -f "${functionsdir}/core_functions.sh" ] || [ ! -f "${functionsdir}/check_root.sh" ] || [ ! -f "${functionsdir}/core_messages.sh" ]; then
+	elif [ ! -f "${modulesdir}/core_modules.sh" ] || [ ! -f "${modulesdir}/check_root.sh" ] || [ ! -f "${modulesdir}/core_messages.sh" ]; then
 		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else
-		core_functions.sh
+		core_modules.sh
 		check_root.sh
 	fi
 fi
@@ -378,7 +378,7 @@ if [ "${shortname}" == "core" ]; then
 
 # LinuxGSM server mode.
 else
-	core_functions.sh
+	core_modules.sh
 	if [ "${shortname}" != "core-dep" ]; then
 		# Load LinuxGSM configs.
 		# These are required to get all the default variables for the specific server.
@@ -399,8 +399,8 @@ else
 				echo -e "OK"
 			fi
 		else
-			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
-			if [ "${function_file_diff}" != "" ]; then
+			module_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
+			if [ "${module_file_diff}" != "" ]; then
 				fn_print_warn_nl "_default.cfg has been altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
@@ -641,7 +641,7 @@ echo -e ""
 )
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "0.2 - Enable dev-debug"
@@ -658,7 +658,7 @@ echo -e ""
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "1.0 - Pre-install tests"
@@ -686,7 +686,7 @@ fi
 
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "1.2 - getopt"
@@ -704,7 +704,7 @@ echo -e ""
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "1.3 - getopt with incorrect args"
@@ -723,7 +723,7 @@ getopt="abc123"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "2.0 - Installation"
@@ -744,7 +744,7 @@ echo -e "Command: ./${gameservername} auto-install"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.0 - Start/Stop/Restart Tests"
@@ -767,7 +767,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.2 - start - online"
@@ -786,7 +786,7 @@ fn_setstatus
 fn_test_result_fail
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.3 - start - updateonstart"
@@ -806,7 +806,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.4 - stop"
@@ -825,7 +825,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.5 - stop - offline"
@@ -844,7 +844,7 @@ fn_setstatus
 fn_test_result_fail
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.6 - restart"
@@ -863,7 +863,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "3.7 - restart - offline"
@@ -882,7 +882,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.0 - Update Tests"
@@ -905,7 +905,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.2 - update  - change buildid"
@@ -926,7 +926,7 @@ sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.3 - update  - change buildid - online"
@@ -947,7 +947,7 @@ sed -i 's/[0-9]\+/0/' "${serverfiles}/steamapps/appmanifest_${appid}.acf"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.4 - update  - remove appmanifest file"
@@ -968,7 +968,7 @@ rm --verbose "${serverfiles:?}/steamapps/appmanifest_${appid}.acf"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.5 - force-update"
@@ -988,7 +988,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.6 - force-update - online"
@@ -1008,7 +1008,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.7 - validate"
@@ -1027,7 +1027,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.8 - validate - online"
@@ -1047,7 +1047,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "4.9 - update-lgsm"
@@ -1067,7 +1067,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "Inserting IP address"
@@ -1108,7 +1108,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "5.2 - monitor - offline - with lockfile"
@@ -1131,7 +1131,7 @@ echo "${port}" >> "${lockdir}/${selfname}.lock"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "5.3 - monitor - offline - no lockfile"
@@ -1150,7 +1150,7 @@ fn_setstatus
 fn_test_result_fail
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "5.4 - test-alert"
@@ -1171,7 +1171,7 @@ sed -i 's/[0-9]\+/0/' "${servercfgfullpath}"
 fn_test_result_fail
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 fn_print_info_nl "Re-generating ${servercfg}."
@@ -1199,7 +1199,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "6.2 - postdetails"
@@ -1218,7 +1218,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "7.0 - Backup Tests"
@@ -1237,7 +1237,7 @@ echo -e "test de-activated until issue #1839 fixed"
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "8.0 - Development Tools Tests"
@@ -1260,7 +1260,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "8.2 - dev - detect ldd"
@@ -1279,7 +1279,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "8.3 - dev - detect deps"
@@ -1298,7 +1298,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "8.4 - dev - query-raw"
@@ -1317,7 +1317,7 @@ fn_setstatus
 fn_test_result_na
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "9.0 - Sponsor"
@@ -1340,7 +1340,7 @@ fn_setstatus
 fn_test_result_pass
 echo -e "run order"
 echo -e "================="
-grep functionfile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/functionfile=//g'
+grep modulefile= "${TRAVIS_BUILD_DIR}/dev-debug.log" | sed 's/modulefile=//g'
 
 echo -e ""
 echo -e "================================="
