@@ -59,7 +59,7 @@ apply_post_install_fix=(av kf kf2 lo ro samp ut2k4 ut ut3)
 for fix in "${apply_pre_start_fix[@]}" "${apply_post_install_fix[@]}"; do
 	if ! fn_exists_fix "${fix}"; then
 		fn_print_fail_nl "fix_${fix}.sh is registered but doesn't exist. Typo or did you miss to modify core_functions.sh?"
-		exitcode 1
+		exitcode=1
 		core_exit.sh
 	fi
 done

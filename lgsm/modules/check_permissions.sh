@@ -52,15 +52,9 @@ fn_check_ownership() {
 	fi
 }
 
-<<<<<<< HEAD:lgsm/modules/check_permissions.sh
-fn_check_permissions(){
+fn_check_permissions() {
 	if [ -d "${modulesdir}" ]; then
 		if [ "$(find "${modulesdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
-=======
-fn_check_permissions() {
-	if [ -d "${functionsdir}" ]; then
-		if [ "$(find "${functionsdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
->>>>>>> develop:lgsm/functions/check_permissions.sh
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fatal "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
@@ -229,15 +223,8 @@ fn_sys_perm_error_process() {
 	fi
 }
 
-<<<<<<< HEAD:lgsm/modules/check_permissions.sh
-# Run perm error detect & fix/alert modules on /sys directories.
-
-## Run checks.
-if [ "$(whoami)" != "root" ]; then
-=======
 ## Run permisions checks when not root or docker.
 if [ "$(whoami)" != "root" ] && [ ! -f /.dockerenv ]; then
->>>>>>> develop:lgsm/functions/check_permissions.sh
 	fn_check_ownership
 	fn_check_permissions
 	if [ "${commandname}" == "START" ]; then

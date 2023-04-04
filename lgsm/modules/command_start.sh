@@ -7,12 +7,8 @@
 
 commandname="START"
 commandaction="Starting"
-<<<<<<< HEAD:lgsm/modules/command_start.sh
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-=======
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
->>>>>>> develop:lgsm/functions/command_start.sh
 fn_firstcommand_set
 
 fn_start_teamspeak3() {

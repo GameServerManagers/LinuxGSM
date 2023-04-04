@@ -180,95 +180,50 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	fi
 fi
 # Check and update modules.
-<<<<<<< HEAD:lgsm/modules/command_update_linuxgsm.sh
 if [ -n "${modulesdir}" ]; then
 	if [ -d "${modulesdir}" ]; then
-		cd "${modulesdir}" || exit
-		for modulefile in *; do
-			# check if module exists in the repo and remove if missing.
-			# commonly used if module names change.
-			echo -en "checking ${remotereponame} module ${modulefile}...\c"
-			github_fileurl_dir="lgsm/modules"
-			if [ "${remotereponame}" == "GitHub" ]; then
-				curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${modulefile}" 1>/dev/null
-			else
-				curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${modulefile}" 1>/dev/null
-			fi
-			if [ $? != 0 ]; then
-				fn_print_error_eol_nl
-				fn_script_log_error "Checking ${remotereponame} module ${modulefile}"
-				echo -en "removing module ${modulefile}...\c"
-				if ! rm -f "${modulefile:?}"; then
-					fn_print_fail_eol_nl
-					fn_script_log_fatal "Removing module ${modulefile}"
-					core_exit.sh
-				else
-					fn_print_ok_eol_nl
-					fn_script_log_pass "Removing module ${modulefile}"
-				fi
-			else
-				# compare file
-				if [ "${remotereponame}" == "GitHub" ]; then
-					module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${modulefile}"))
-				else
-					module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${modulefile}"))
-				fi
-
-				# results
-				if [ "${module_file_diff}" != "" ]; then
-					fn_print_update_eol_nl
-					fn_script_log_update "Checking ${remotereponame} module ${modulefile}"
-					rm -rf "${modulesdir:?}/${modulefile}"
-					fn_update_module
-				else
-					fn_print_ok_eol_nl
-					fn_script_log_pass "Checking ${remotereponame} module ${modulefile}"
-=======
-if [ -n "${functionsdir}" ]; then
-	if [ -d "${functionsdir}" ]; then
 		(
-			cd "${functionsdir}" || exit
-			for functionfile in *; do
+			cd "${modulesdir}" || exit
+			for modulefile in *; do
 				# check if module exists in the repo and remove if missing.
 				# commonly used if module names change.
-				echo -en "checking ${remotereponame} module ${functionfile}...\c"
-				github_file_url_dir="lgsm/functions"
+				echo -en "checking ${remotereponame} module ${modulefile}...\c"
+				github_file_url_dir="lgsm/modules"
 				if [ "${remotereponame}" == "GitHub" ]; then
-					curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}" 1> /dev/null
+					curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
 				else
-					curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}" 1> /dev/null
+					curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
 				fi
 				if [ $? != 0 ]; then
 					fn_print_error_eol_nl
-					fn_script_log_error "Checking ${remotereponame} module ${functionfile}"
-					echo -en "removing module ${functionfile}...\c"
-					if ! rm -f "${functionfile:?}"; then
+					fn_script_log_error "Checking ${remotereponame} module ${modulefile}"
+					echo -en "removing module ${modulefile}...\c"
+					if ! rm -f "${modulefile:?}"; then
 						fn_print_fail_eol_nl
-						fn_script_log_fatal "Removing module ${functionfile}"
+						fn_script_log_fatal "Removing module ${modulefile}"
 						core_exit.sh
 					else
 						fn_print_ok_eol_nl
-						fn_script_log_pass "Removing module ${functionfile}"
+						fn_script_log_pass "Removing module ${modulefile}"
 					fi
 				else
 					# compare file
 					if [ "${remotereponame}" == "GitHub" ]; then
-						function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+						module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}"))
 					else
-						function_file_diff=$(diff "${functionsdir}/${functionfile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${functionfile}"))
+						module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}"))
 					fi
 
 					# results
-					if [ "${function_file_diff}" != "" ]; then
+					if [ "${module_file_diff}" != "" ]; then
 						fn_print_update_eol_nl
-						fn_script_log_update "Checking ${remotereponame} module ${functionfile}"
-						rm -rf "${functionsdir:?}/${functionfile}"
-						fn_update_function
+						fn_script_log_update "Checking ${remotereponame} module ${modulefile}"
+						rm -rf "${modulesdir:?}/${modulefile}"
+						fn_update_module
 					else
 						fn_print_ok_eol_nl
-						fn_script_log_pass "Checking ${remotereponame} module ${functionfile}"
+						fn_script_log_pass "Checking ${remotereponame} module ${modulefile}"
 					fi
->>>>>>> develop:lgsm/functions/command_update_linuxgsm.sh
 				fi
 			done
 		)

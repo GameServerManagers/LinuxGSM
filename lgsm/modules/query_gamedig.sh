@@ -6,13 +6,8 @@
 # Description: Querys a gameserver using node-gamedig.
 # https://github.com/sonicsnes/node-gamedig
 
-<<<<<<< HEAD:lgsm/modules/query_gamedig.sh
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-
-=======
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 querystatus="2"
->>>>>>> develop:lgsm/functions/query_gamedig.sh
 # Check if gamedig and jq are installed.
 if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
 

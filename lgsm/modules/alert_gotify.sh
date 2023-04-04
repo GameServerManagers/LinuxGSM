@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Sends Gotify alert.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 json=$(
 	cat << EOF

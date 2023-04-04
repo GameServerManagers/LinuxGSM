@@ -51,15 +51,21 @@ userinput2="${2}"
 [ -n "${LGSM_GITHUBREPO}" ] && githubrepo="${LGSM_GITHUBREPO}" || githubrepo="LinuxGSM"
 [ -n "${LGSM_GITHUBBRANCH}" ] && githubbranch="${LGSM_GITHUBBRANCH}" || githubbranch="master"
 
+# Check that curl is installed before doing anything
+if [ ! "$(command -v curl 2> /dev/null)" ]; then
+	echo -e "[ FAIL ] Curl is not installed"
+	exit 1
+fi
+
 # Core module that is required first.
-core_modules.sh(){
+core_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 # Bootstrap
 # Fetches the core modules required before passed off to core_dl.sh.
-fn_bootstrap_fetch_file(){
+fn_bootstrap_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
 	remote_fileurl_name="${3}"
@@ -166,13 +172,13 @@ fn_bootstrap_fetch_file_github() {
 		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
 		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
-	local_filename="${github_fileurl_name}"
+	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
 	run="${5:-0}"
 	forcedl="${6:-0}"
@@ -321,7 +327,7 @@ if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
-	elif [ ! -f "${modulesdir}/core_modules.sh" ]||[ ! -f "${modulesdir}/check_root.sh" ]||[ ! -f "${modulesdir}/core_messages.sh" ]; then
+	elif [ ! -f "${modulesdir}/core_modules.sh" ] || [ ! -f "${modulesdir}/check_root.sh" ] || [ ! -f "${modulesdir}/core_messages.sh" ]; then
 		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else

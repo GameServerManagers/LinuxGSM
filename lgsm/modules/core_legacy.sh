@@ -78,7 +78,6 @@ if [ -z "${wsstartmap}" ]; then
 	fi
 fi
 
-<<<<<<< HEAD:lgsm/modules/core_legacy.sh
 # Added as part of migrating functions dir to modules dir.
 # Will remove functions dir if files in modules dir older than 14 days
 functionsdir="${lgsmdir}/modules"
@@ -87,10 +86,8 @@ if [ -d "${lgsmdir}/functions" ]; then
 		rm -rf "${lgsmdir:?}/functions"
 	fi
 fi
-fn_parms(){
-=======
+
 fn_parms() {
->>>>>>> develop:lgsm/functions/core_legacy.sh
 	fn_reload_startparameters
 	parms="${startparameters}"
 }
