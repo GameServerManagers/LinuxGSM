@@ -320,6 +320,18 @@ fn_install_file() {
 	exit
 }
 
+# Check that git branch exists.
+if [ "${remotereponame}" == "GitHub" ]; then
+	branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null)
+else
+	branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null)
+fi
+
+if [ "${branchexistscheck}" != "200" ]; then
+	echo -e "${githubbranch} branch does not exist. Defaulting to master branch."
+	githubbranch="master"
+fi
+
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
 if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 	if [ "${userinput}" == "install" ] || [ "${userinput}" == "auto-install" ] || [ "${userinput}" == "i" ] || [ "${userinput}" == "ai" ]; then
