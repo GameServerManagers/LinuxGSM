@@ -15,7 +15,7 @@
 
 # Debugging
 if [ -f ".dev-debug" ]; then
-	exec 5> dev-debug.log
+	exec 5>dev-debug.log
 	BASH_XTRACEFD="5"
 	set -x
 fi
@@ -52,18 +52,32 @@ userinput2="${2}"
 [ -n "${LGSM_GITHUBBRANCH}" ] && githubbranch="${LGSM_GITHUBBRANCH}" || githubbranch="master"
 
 # Check that curl is installed before doing anything
-if [ ! "$(command -v curl 2> /dev/null)" ]; then
+if [ ! "$(command -v curl 2>/dev/null)" ]; then
 	echo -e "[ FAIL ] Curl is not installed"
 	exit 1
 fi
 
-# Core module that is required first.
-core_modules.sh() {
+fn_repo_selector() {
+	# Check if GitHub is accessible if not fail over to Bitbucket.
+	repocheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/linuxgsm.sh" 2>/dev/null)
+	if [ "${repocheck}" != "200" ]; then
+		echo -e "Selecting repo: GitHub is not accessable. Selecting Bitbucket"
+		repocheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/GameServerManagers/LinuxGSM/master/linuxgsm.sh" 2>/dev/null)
+		if [ "${repocheck}" != "200" ]; then
+			echo -e "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
+			exit 1
+		else
+			remotereponame="Bitbucket"
+		fi
+	else
+		remotereponame="GitHub"
+	fi
+
 	# Check that git branch exists.
 	if [ "${remotereponame}" == "GitHub" ]; then
-		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null)
+		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 2>/dev/null)
 	else
-		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null)
+		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 2>/dev/null)
 	fi
 
 	if [ "${branchexistscheck}" != "200" ]; then
@@ -71,7 +85,11 @@ core_modules.sh() {
 		githubbranch="master"
 	fi
 
-	# Fetches the core modules required before passed off to core_dl.sh.
+}
+
+# Fetches the core module required before passed off to core_dl.sh.
+core_modules.sh() {
+	fn_repo_selector
 	modulefile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
@@ -226,7 +244,7 @@ fn_install_menu_bash() {
 	while read -r line || [[ -n "${line}" ]]; do
 		var=$(echo -e "${line}" | awk -F "," '{print $2 " - " $3}')
 		menu_options+=("${var}")
-	done < "${options}"
+	done <"${options}"
 	menu_options+=("Cancel")
 	select option in "${menu_options[@]}"; do
 		if [ "${option}" ] && [ "${option}" != "Cancel" ]; then
@@ -252,7 +270,7 @@ fn_install_menu_whiptail() {
 		key=$(echo -e "${line}" | awk -F "," '{print $3}')
 		val=$(echo -e "${line}" | awk -F "," '{print $2}')
 		menu_options+=("${val//\"/}" "${key//\"/}")
-	done < "${options}"
+	done <"${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	if [ $? == 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
@@ -276,12 +294,12 @@ fn_install_menu() {
 		fi
 	done
 	case "$(basename "${menucmd}")" in
-		whiptail | dialog)
-			fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
-			;;
-		*)
-			fn_install_menu_bash selection "${title}" "${caption}" "${options}"
-			;;
+	whiptail | dialog)
+		fn_install_menu_whiptail "${menucmd}" selection "${title}" "${caption}" "${options}" 40 80 30
+		;;
+	*)
+		fn_install_menu_bash selection "${title}" "${caption}" "${options}"
+		;;
 	esac
 	eval "$resultvar=\"${selection}\""
 }
@@ -364,7 +382,7 @@ if [ "${shortname}" == "core" ]; then
 		} | column -s $'\t' -t | more
 		exit
 	elif [ "${userinput}" == "install" ] || [ "${userinput}" == "i" ]; then
-		tail -n +1 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' > "${serverlistmenu}"
+		tail -n +1 "${serverlist}" | awk -F "," '{print $1 "," $2 "," $3}' >"${serverlistmenu}"
 		fn_install_menu result "LinuxGSM" "Select game server to install." "${serverlistmenu}"
 		userinput="${result}"
 		fn_server_info
