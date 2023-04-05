@@ -59,6 +59,19 @@ fi
 
 # Core module that is required first.
 core_modules.sh() {
+	# Check that git branch exists.
+	if [ "${remotereponame}" == "GitHub" ]; then
+		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null)
+	else
+		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null)
+	fi
+
+	if [ "${branchexistscheck}" != "200" ]; then
+		echo -e "${githubbranch} branch does not exist. Defaulting to master branch."
+		githubbranch="master"
+	fi
+
+	# Fetches the core modules required before passed off to core_dl.sh.
 	modulefile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
@@ -319,18 +332,6 @@ fn_install_file() {
 	echo -e ""
 	exit
 }
-
-# Check that git branch exists.
-if [ "${remotereponame}" == "GitHub" ]; then
-	branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null)
-else
-	branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null)
-fi
-
-if [ "${branchexistscheck}" != "200" ]; then
-	echo -e "${githubbranch} branch does not exist. Defaulting to master branch."
-	githubbranch="master"
-fi
 
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
 if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
