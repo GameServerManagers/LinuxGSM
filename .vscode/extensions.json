@@ -5,7 +5,6 @@
     "yzhang.markdown-all-in-one",
     "esbenp.prettier-vscode",
     "timonwong.shellcheck",
-    "foxundermoon.shell-format",
     "redhat.vscode-yaml"
   ]
 }
