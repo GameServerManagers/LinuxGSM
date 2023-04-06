@@ -64,7 +64,7 @@ fn_default_config_local() {
 # PASSWORD to random password
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
+		random=$(echo $RANDOM | md5sum | head -c 8)
 		servername="LinuxGSM"
 		rconpass="admin${random}"
 		echo -e "changing hostname."
