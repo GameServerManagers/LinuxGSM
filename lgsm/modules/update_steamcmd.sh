@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating using SteamCMD.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # init steamcmd functions
 core_steamcmd.sh
@@ -18,7 +18,7 @@ fn_print_dots "${remotelocation}"
 
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
-	if [ "${status}" != "0" ]; then
+	if [ "${status}" != "0" ] && [ -v "${status}" ]; then
 		fn_print_restart_warning
 		exitbypass=1
 		command_stop.sh

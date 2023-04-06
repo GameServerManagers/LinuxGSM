@@ -1,119 +1,171 @@
 #!/bin/bash
-# LinuxGSM update_papermc.sh function
+# LinuxGSM update_papermc.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of PaperMC and Waterfall servers.
 
-commandname="UPDATE"
-commandaction="Update"
-function_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_papermc_dl() {
-	# get build info
-	builddata=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}/builds/${remotebuild}" | jq '.downloads')
-	buildname=$(echo -e "${builddata}" | jq -r '.application.name')
-	buildsha256=$(echo -e "${builddata}" | jq -r '.application.sha256')
-
-	fn_fetch_file "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}/builds/${remotebuild}/downloads/${buildname}" "" "" "" "${tmpdir}" "${buildname}" "nochmodx" "norun" "force" "${buildsha256}"
-
-	echo -e "copying to ${serverfiles}...\c"
-	cp -f "${tmpdir}/${buildname}" "${serverfiles}/${executable#./}"
-	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Copying to ${serverfiles}"
-		chmod u+x "${serverfiles}/${executable#./}"
-		echo "${remotebuild}" > "${localversionfile}"
-		fn_clear_tmp
-	else
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Copying to ${serverfiles}"
-		core_exit.sh
-	fi
+fn_update_dl() {
+	# Download and extract files to serverfiles
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${serverfiles}" "${executable#./}" "chmodx" "norun" "force" "${remotebuildhash}"
+	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
 }
 
-fn_update_papermc_localbuild() {
+fn_update_localbuild() {
 	# Gets local build info.
-	fn_print_dots "Checking for update: ${remotelocation}: checking local build"
-	sleep 0.5
-
-	if [ ! -f "${localversionfile}" ]; then
-		fn_print_error_nl "Checking for update: ${remotelocation}: checking local build: no local build files"
-		fn_script_log_error "No local build file found"
-	else
-		localbuild=$(head -n 1 "${localversionfile}")
-	fi
-
+	fn_print_dots "Checking local build: ${remotelocation}"
+	# Uses version file to get local build.
+	localbuild=$(head -n 1 "${serverfiles}/build.txt")
 	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
 		localbuild="0"
-		fn_print_error "Checking for update: ${remotelocation}: waiting for local build: missing local build info"
-		fn_script_log_error "Missing local build info, Set localbuild to 0"
 	else
-		fn_print_ok "Checking for update: ${remotelocation}: checking local build"
+		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
-	sleep 0.5
 }
 
-fn_update_papermc_remotebuild() {
-	# Gets remote build info.
-	remotebuild=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}/versions/${paperversion}" | jq -r '.builds[-1]')
-
-	# Checks if remotebuild variable has been set.
-	if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
-		fn_print_failure "Unable to get remote build"
-		fn_script_log_fatal "Unable to get remote build"
-		core_exit.sh
+fn_update_remotebuild() {
+	# Get remote build info.
+	apiurl="https://papermc.io/api/v2/projects/"
+	# Get list of projects.
+	remotebuildresponse=$(curl -s "${apiurl}")
+	# Get list of Minecraft versions for project.
+	remotebuildresponseproject=$(curl -s "${apiurl}/${paperproject}")
+	# Get latest Minecraft: Java Edition version or user specified version.
+	if [ "${mcversion}" == "latest" ]; then
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r '.versions[-1]')
 	else
-		fn_print_ok "Got build for version ${paperversion}"
-		fn_script_log "Got build for version ${paperversion}"
+		# Checks if user specified version exists.
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg mcversion "${mcversion}" '.versions[]|select(. == $mcversion)')
+		if [ -z "${remotebuildmcversion}" ]; then
+			# user passed version does not exist
+			fn_print_error_nl "Version ${mcversion} not available from ${remotelocation}"
+			fn_script_log_error "Version ${mcversion} not available from ${remotelocation}"
+			core_exit.sh
+		fi
+	fi
+	# Get list of paper builds for specific Minecraft: Java Edition version.
+	remotebuildresponsemcversion=$(curl -s "${apiurl}/paper/versions/${remotebuildmcversion}")
+	# Get latest paper build for specific Minecraft: Java Edition version.
+	remotebuildpaperversion=$(echo "${remotebuildresponsemcversion}" | jq -r '.builds[-1]')
+	# Get various info about the paper build.
+	remotebuildresponseversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}")
+	remotebuildfilename=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.name')
+	remotebuildhash=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.sha256')
+	remotebuildurl="${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}/downloads/${remotebuildfilename}"
+	# Combines Minecraft: Java Edition version and paper build. e.g 1.16.5-456
+	remotebuildversion="${remotebuildmcversion}-${remotebuildpaperversion}"
+
+	if [ "${firstcommandname}" != "INSTALL" ]; then
+		fn_print_dots "Checking remote build: ${remotelocation}"
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+			fn_print_fail "Checking remote build: ${remotelocation}"
+			fn_script_log_fatal "Checking remote build"
+			core_exit.sh
+		else
+			fn_print_ok "Checking remote build: ${remotelocation}"
+			fn_script_log_pass "Checking remote build"
+		fi
+	else
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+			fn_print_failure "Unable to get remote build"
+			fn_script_log_fatal "Unable to get remote build"
+			core_exit.sh
+		fi
 	fi
 }
 
-fn_update_papermc_compare() {
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	sleep 0.5
-	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
-		echo -e "Update available for version ${paperversion}"
+		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
-		fn_script_log_info "Update available for version ${paperversion}"
-		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"
-		echo -en "\n"
-		echo -en "applying update.\r"
-		echo -en "\n"
-
-		unset updateonstart
-
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			fn_update_papermc_dl
-		# If server started.
-		else
-			exitbypass=1
-			command_stop.sh
-			exitbypass=1
-			fn_update_papermc_dl
-			exitbypass=1
-			command_start.sh
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
 		fi
-		alert="update"
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
+		echo -en "\n"
+		fn_script_log_info "Update available"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
+
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
+				fn_update_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					sleep 5
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
+				exitbypass=1
+				command_stop.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
+			fi
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
+		fi
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
-		echo -e "No update available for version ${paperversion}"
+		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
+		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 	fi
 }
 
@@ -128,35 +180,14 @@ elif [ "${shortname}" == "wmc" ]; then
 	paperproject="waterfall"
 fi
 
-localversionfile="${datadir}/${paperproject}-version"
-
-# check if datadir was created, if not create it
-if [ ! -d "${datadir}" ]; then
-	mkdir -p "${datadir}"
-fi
-
-# check version if the user did set one and check it
-if [ "${mcversion}" == "latest" ]; then
-	paperversion=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}" | jq -r '.versions[-1]')
-else
-	# check if version there for the download from the api
-	paperversion=$(curl -s "https://${remotelocation}/api/v2/projects/${paperproject}" | jq -r -e --arg mcversion "${mcversion}" '.versions[]|select(. == $mcversion)')
-	if [ -z "${paperversion}" ]; then
-		# user passed version does not exist
-		fn_print_error_nl "Version ${mcversion} not available from ${remotelocation}"
-		fn_script_log_error "Version ${mcversion} not available from ${remotelocation}"
-		core_exit.sh
-	fi
-fi
-
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_papermc_remotebuild
-	fn_update_papermc_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
+	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	sleep 0.5
-	fn_update_papermc_localbuild
-	fn_update_papermc_remotebuild
-	fn_update_papermc_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

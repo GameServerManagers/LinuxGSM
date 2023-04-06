@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates the server directory.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Server Directory${default}"

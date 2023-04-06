@@ -7,7 +7,7 @@
 
 commandname="MODS-UPDATE"
 commandaction="Updating mods"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh
@@ -27,8 +27,8 @@ fn_remove_cfg_files() {
 			filetopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' -v x=${preservefilesindex} '{ print $x }')
 			echo -e "	* serverfiles/${filetopreserve}"
 			# If it matches an existing file that have been extracted delete the file.
-			if [ -f "${extractdir}/${filetopreserve}" ] || [ -d "${extractdir}/${filetopreserve}" ]; then
-				rm -r "${extractdir:?}/${filetopreserve}"
+			if [ -f "${extractdest}/${filetopreserve}" ] || [ -d "${extractdest}/${filetopreserve}" ]; then
+				rm -r "${extractdest:?}/${filetopreserve}"
 				# Write the file path in a tmp file, to rebuild a full file list as it is rebuilt upon update.
 				if [ ! -f "${modsdir}/.removedfiles.tmp" ]; then
 					touch "${modsdir}/.removedfiles.tmp"

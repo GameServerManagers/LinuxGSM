@@ -7,7 +7,7 @@
 
 commandname="UPDATE"
 commandaction="Updating"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_print_dots ""
@@ -31,6 +31,8 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jediknight2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vintagestory.sh
+elif [ "${shortname}" == "ut99" ]; then
+	update_ut99.sh
 else
 	update_steamcmd.sh
 fi

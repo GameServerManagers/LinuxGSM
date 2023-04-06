@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "ts3" ]; then
 	eulaurl="https://www.teamspeak.com/en/privacy-and-terms"
@@ -31,11 +31,9 @@ if [ -z "${autoinstall}" ]; then
 	fi
 elif [ "${commandname}" == "START" ]; then
 	fn_print_info "By continuing you are indicating your agreement to the EULA."
-	echo -e ""
 	sleep 5
 else
 	echo -e "By using auto-install you are indicating your agreement to the EULA."
-	echo -e ""
 	sleep 5
 fi
 

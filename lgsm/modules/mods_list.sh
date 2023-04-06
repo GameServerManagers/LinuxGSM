@@ -8,7 +8,7 @@
 # Usage: Then add this array to the mods_global_array.
 # Usage: If needed, you can scrape the download URL first.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_script_log_info "Retrieving latest mods URLs"
@@ -87,6 +87,10 @@ gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlat
 movementapilatestversion=$(curl --connect-timeout 10 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
 movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
 movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
+
+# Rust
+carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
+carbonrustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
 
 # Oxide
 oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
@@ -187,6 +191,9 @@ mod_info_darkrp=(MOD "darkrp" "DarkRP" "https://github.com/FPtje/DarkRP/archive/
 mod_info_darkrpmodification=(MOD "darkrpmodification" "DarkRP Modification" "https://github.com/FPtje/darkrpmodification/archive/master.zip" "darkrpmodification-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "NOUPDATE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Customize DarkRP settings")
 mod_info_laserstool=(MOD "laserstool" "Laser STool" "https://github.com/dvdvideo1234/laserstool/archive/main.zip" "laserstool-main.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/dvdvideo1234/LaserSTool" "Scripted tool that spawns laser entities, simulates light rays and even kill players")
 
+# Rust
+mod_info_rustcarbon=(MOD "rustcarbon" "Carbon for Rust" "${carbonrustlatestlink}" "Carbon.Linux.Release.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "carbonmod.gg" "Allows for the use of both plugins and harmony mods")
+
 # Oxidemod
 mod_info_rustoxide=(MOD "rustoxide" "Oxide for Rust" "${oxiderustlatestlink}" "Oxide.Rust-linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Rust;" "NOTGAMES" "https://umod.org/games/rust" "Allows for the use of plugins")
 mod_info_hwoxide=(MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlink}" "Oxide.Hurtworld.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Hurtworld;" "NOTGAMES" "https://umod.org/games/hurtworld" "Allows for the use of plugins")
@@ -199,4 +206,4 @@ mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valeimpluslatestlink}"
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")
+mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")

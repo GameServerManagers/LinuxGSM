@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Separator is different for details.
 fn_messages_separator() {
@@ -339,7 +339,7 @@ fn_info_message_gameserver() {
 			fi
 		fi
 
-		# Reserved Slots
+		# Reverved Slots
 		if [ -n "${statspassword}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi
@@ -386,19 +386,9 @@ fn_info_message_gameserver() {
 			echo -e "${lightblue}Game mode:\t${default}${gamemode}"
 		fi
 
-		# World name
-		if [ -n "${}" ]; then
-			echo -e "${lightblue}World name:\t${default}${}"
-		fi
-
-		# World type
-		if [ -n "${worldtype}" ]; then
-			echo -e "${lightblue}World type:\t${default}${worldtype}"
-		fi
-
-		# World Size
-		if [ -n "${worldsize}" ]; then
-			echo -e "${lightblue}World size:\t${default}${worldsize}m"
+		# Game world
+		if [ -n "${gameworld}" ]; then
+			echo -e "${lightblue}Game world:\t${default}${gameworld}"
 		fi
 
 		# Tick rate
@@ -459,6 +449,11 @@ fn_info_message_gameserver() {
 		# Salt (Rust)
 		if [ -n "${salt}" ]; then
 			echo -e "${lightblue}Salt:\t${default}${salt}"
+		fi
+
+		# World Size (Rust)
+		if [ -n "${worldsize}" ]; then
+			echo -e "${lightblue}World size:\t${default}${worldsize}m"
 		fi
 
 		# Random map rotation mode (Squad and Post Scriptum)
@@ -778,7 +773,7 @@ fn_port() {
 		portname="${1}"
 		porttype="${2}"
 		portprotocol="${3}"
-		echo -e "${portname}\t${!porttype}\t${portprotocol}\t$(echo "${ssinfo}" | grep ${portprotocol} | grep ${!porttype} | wc -l)"
+		echo -e "${portname}\t${!porttype}\t${portprotocol}\t$(echo "${ssinfo}" | grep "${portprotocol}" | grep -c "${!porttype}")"
 	fi
 }
 
@@ -827,8 +822,7 @@ fn_info_message_av() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Game" port tcp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "Steam Master" steammasterport udp
 		fn_port "Steam Query" steamqueryport udp
 		fn_port "RCON" rconport tcp
@@ -1224,6 +1218,7 @@ fn_info_message_pvr() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Game" port tcp
 		fn_port "Game+400" port401 udp
 		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t

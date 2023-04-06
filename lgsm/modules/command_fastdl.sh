@@ -7,7 +7,7 @@
 
 commandname="FASTDL"
 commandaction="Fastdl"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh

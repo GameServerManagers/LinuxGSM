@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Checks if server executable exists.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists
 execname=$(basename "${executable}")

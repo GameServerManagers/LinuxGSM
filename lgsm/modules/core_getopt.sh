@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Define all commands here.
 ## User commands | Trigger commands | Description
@@ -18,11 +18,11 @@ cmd_restart=("r;restart" "command_restart.sh" "Restart the server.")
 cmd_details=("dt;details" "command_details.sh" "Display server information.")
 cmd_postdetails=("pd;postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
 cmd_backup=("b;backup" "command_backup.sh" "Create backup archives of the server.")
-cmd_update_linuxgsm=("ul;update-lgsm;uf;update-functions" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
+cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
 cmd_skeleton=("sk;skeleton" "command_skeleton.sh" "Create a skeleton directory.")
-cmd_donate=("do;donate" "command_donate.sh" "Donation options.")
+cmd_sponso=("s;sponsor" "command_sponsor.sh" "Donation options.")
 cmd_send=("sd;send" "command_send.sh" "Send command to game server console.")
 # Console servers only.
 cmd_console=("c;console" "command_console.sh" "Access server console.")
@@ -54,7 +54,7 @@ cmd_dev_detect_deps=("dd;detect-deps" "command_dev_detect_deps.sh" "Detect requi
 cmd_dev_detect_glibc=("dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
 cmd_dev_detect_ldd=("dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
 cmd_dev_query_raw=("qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
-cmd_dev_clear_functions=("cf;clear-functions" "command_dev_clear_functions.sh" "Delete the contents of the functions dir.")
+cmd_dev_clear_modules=("cf;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
 
 ### Set specific opt here.
 
@@ -65,8 +65,8 @@ currentopt+=("${cmd_update_linuxgsm[@]}")
 
 # Exclude noupdate games here.
 if [ "${shortname}" == "jk2" ] || [ "${engine}" != "idtech3" ]; then
-	if [ "${shortname}" != "bf1942" ] && [ "${shortname}" != "bfv" ] && [ "${engine}" != "idtech2" ] && [ "${engine}" != "iw2.0" ] && [ "${engine}" != "iw3.0" ] && [ "${engine}" != "quake" ] && [ "${shortname}" != "samp" ] && [ "${shortname}" != "ut2k4" ] && [ "${shortname}" != "ut99" ]; then
-		currentopt+=("${cmd_update[@]}")
+	if [ "${shortname}" != "bf1942" ] && [ "${shortname}" != "bfv" ] && [ "${engine}" != "idtech2" ] && [ "${engine}" != "iw2.0" ] && [ "${engine}" != "iw3.0" ] && [ "${engine}" != "quake" ] && [ "${shortname}" != "samp" ] && [ "${shortname}" != "ut2k4" ]; then
+		currentopt+=("${cmd_update[@]}" "${cmd_check_update[@]}")
 		# force update for SteamCMD or Multi Theft Auto only.
 		if [ "${appid}" ] || [ "${shortname}" == "mta" ]; then
 			currentopt+=("${cmd_force_update[@]}")
@@ -75,8 +75,8 @@ if [ "${shortname}" == "jk2" ] || [ "${engine}" != "idtech3" ]; then
 fi
 
 # Validate and check-update command.
-if [ "${appid}" ] || [ "${shortname}" == "ts3" ]; then
-	currentopt+=("${cmd_validate[@]}" "${cmd_check_update[@]}")
+if [ "${appid}" ]; then
+	currentopt+=("${cmd_validate[@]}")
 fi
 
 # Backup.
@@ -102,10 +102,12 @@ if [ "${shortname}" == "ts3" ]; then
 	currentopt+=("${cmd_change_password[@]}")
 fi
 
-# Unreal exclusive.
+# Rust exclusive.
 if [ "${shortname}" == "rust" ]; then
 	currentopt+=("${cmd_fullwipe[@]}" "${cmd_mapwipe[@]}")
 fi
+
+# Unreal exclusive.
 if [ "${engine}" == "unreal2" ]; then
 	if [ "${shortname}" == "ut2k4" ]; then
 		currentopt+=("${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}")
@@ -143,11 +145,11 @@ currentopt+=("${cmd_install[@]}" "${cmd_auto_install[@]}")
 ## Developer commands.
 currentopt+=("${cmd_dev_debug[@]}")
 if [ -f ".dev-debug" ]; then
-	currentopt+=("${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_functions[@]}")
+	currentopt+=("${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_modules[@]}")
 fi
 
-## Donate.
-currentopt+=("${cmd_donate[@]}")
+## Sponsor.
+currentopt+=("${cmd_sponsor[@]}")
 
 ### Build list of available commands.
 optcommands=()

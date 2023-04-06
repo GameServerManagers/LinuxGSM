@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Core functions for SteamCMD
+# Description: Core modules for SteamCMD
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_steamcmd() {
 	if [ "${shortname}" == "ark" ] && [ "${installsteamcmd}" == "1" ]; then
@@ -14,7 +14,7 @@ fn_install_steamcmd() {
 	if [ ! -d "${steamcmddir}" ]; then
 		mkdir -p "${steamcmddir}"
 	fi
-	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "" "norun" "noforce" "nohash"
+	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "nochmodx" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
@@ -157,9 +157,9 @@ fn_update_steamcmd_localbuild() {
 	fi
 
 	# Checks if localbuild variable has been set.
-	if [ -z "${localbuild}" ] || [ "${localbuild}" == "null" ]; then
-		fn_print_fail "Checking local build: ${remotelocation}"
-		fn_script_log_fatal "Checking local build"
+	if [ -z "${localbuild}" ]; then
+		fn_print_fail "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_fatal "Missing local build info"
 		core_exit.sh
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
@@ -168,7 +168,7 @@ fn_update_steamcmd_localbuild() {
 }
 
 fn_update_steamcmd_remotebuild() {
-	# Gets remote build info.
+	# Get remote build info.
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
@@ -179,12 +179,12 @@ fn_update_steamcmd_remotebuild() {
 	fi
 
 	# password for branch not needed to check the buildid
-	remotebuild=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
+	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -194,7 +194,7 @@ fn_update_steamcmd_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -204,12 +204,12 @@ fn_update_steamcmd_remotebuild() {
 
 fn_update_steamcmd_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	if [ "${localbuild}" != "${remotebuild}" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
@@ -220,14 +220,14 @@ fn_update_steamcmd_compare() {
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
 			fn_script_log_info "Branch password: ${betapassword}"
 		fi
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
 			unset updateonstart
@@ -246,8 +246,8 @@ fn_update_steamcmd_compare() {
 				exitbypass=1
 				command_start.sh
 				fn_firstcommand_reset
-				unset exitbypass
 			fi
+			unset exitbypass
 			date +%s > "${lockdir}/lastupdate.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
@@ -259,7 +259,7 @@ fn_update_steamcmd_compare() {
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
@@ -270,7 +270,7 @@ fn_update_steamcmd_compare() {
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi

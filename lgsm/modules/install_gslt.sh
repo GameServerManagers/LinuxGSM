@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Configures GSLT.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Game Server Login Token${default}"

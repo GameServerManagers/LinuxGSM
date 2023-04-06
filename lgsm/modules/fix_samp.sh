@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves issue that the default rcon password is not changed
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ -f "${servercfgfullpath}" ]; then
 	# check if default password is set "changeme"

@@ -1,10 +1,10 @@
 #!/bin/bash
-# LinuxGSM fix_lo.sh function
+# LinuxGSM fix_lo.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
 # Description: Resolves installation issue with Last Oasis
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 appidfile=${executabledir}/steam_appid.txt
 if [ ! -f "${appidfile}" ]; then

@@ -5,92 +5,62 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft Bedrock servers.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-#random number for userAgent
-randnum=$((1 + RANDOM % 5000))
-
-fn_update_minecraft_dl() {
-	fn_fetch_file "https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuild}.zip" "" "" "" "${tmpdir}" "bedrock_server.${remotebuild}.zip"
+fn_update_dl() {
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuildversion}.zip"
 	echo -e "Extracting to ${serverfiles}...\c"
 	if [ "${firstcommandname}" == "INSTALL" ]; then
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "server.properties" -d "${serverfiles}"
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "server.properties" -d "${serverfiles}"
 	else
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuild}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
 	fi
 	local exitcode=$?
-	if [ "${exitcode}" == "0" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting to ${serverfiles}"
-		chmod u+x "${serverfiles}/bedrock_server"
-		fn_clear_tmp
-	else
+	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting to ${serverfiles}"
-		fn_clear_tmp
+		fn_script_log_fatal "Extracting ${local_filename}"
+		if [ -f "${lgsmlog}" ]; then
+			echo -e "${extractcmd}" >> "${lgsmlog}"
+		fi
+		echo -e "${extractcmd}"
 		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Extracting ${local_filename}"
 	fi
 }
 
-fn_update_minecraft_localbuild() {
+fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to gather info.
-	# Log is generated and cleared on startup but filled on shutdown.
-	requirerestart=1
-	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version //')
+	# Uses log file to get local build.
+	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version //' | tr -d '\000-\011\013-\037')
 	if [ -z "${localbuild}" ]; then
-		fn_print_error "Checking local build: ${remotelocation}"
-		fn_print_error_nl "Checking local build: ${remotelocation}: no log files containing version info"
-		fn_print_info_nl "Checking local build: ${remotelocation}: forcing server restart"
-		fn_script_log_error "No log files containing version info"
-		fn_script_log_info "Forcing server restart"
-
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
-			sleep 3
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-		# If server started.
-		else
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-		fi
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild=$(grep Version "$(ls -tr "${consolelogdir}"/* 2> /dev/null)" | tail -1 | sed 's/.*Version //')
-	fi
-
-	if [ -z "${localbuild}" ]; then
-		localbuild="0"
-		fn_print_error "Checking local build: ${remotelocation}: waiting for local build: missing local build info"
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
 		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
 		fn_script_log_pass "Checking local build"
 	fi
 }
 
-fn_update_minecraft_remotebuild() {
-	# Gets remote build info.
+fn_update_remotebuild() {
+	# Random number for userAgent
+	randnum=$((1 + RANDOM % 5000))
+	# Get remote build info.
 	if [ "${mcversion}" == "latest" ]; then
-		remotebuild=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+		remotebuildversion=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
 	else
-		remotebuild="${mcversion}"
+		remotebuildversion="${mcversion}"
 	fi
+	remotebuildurl="https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuildversion}.zip"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		# Checks if remotebuildversion variable has been set.
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fatal "Checking remote build"
 			core_exit.sh
@@ -100,7 +70,7 @@ fn_update_minecraft_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fatal "Unable to get remote build"
 			core_exit.sh
@@ -108,63 +78,90 @@ fn_update_minecraft_remotebuild() {
 	fi
 }
 
-fn_update_minecraft_compare() {
-	# Removes dots so if statement can compare version numbers.
+fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
-	localbuilddigit=$(echo -e "${localbuild}" | tr -cd '[:digit:]')
-	remotebuilddigit=$(echo -e "${remotebuild}" | tr -cd '[:digit:]')
-	if [ "${localbuilddigit}" -ne "${remotebuilddigit}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
 		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
-		fn_script_log_info "${localbuild} > ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
-		unset updateonstart
-		check_status.sh
-		# If server stopped.
-		if [ "${status}" == "0" ]; then
-			exitbypass=1
-			fn_update_minecraft_dl
-			if [ "${requirerestart}" == "1" ]; then
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			check_status.sh
+			# If server stopped.
+			if [ "${status}" == "0" ]; then
+				fn_update_dl
+				if [ "${localbuild}" == "0" ]; then
+					exitbypass=1
+					command_start.sh
+					fn_firstcommand_reset
+					exitbypass=1
+					sleep 5
+					command_stop.sh
+					fn_firstcommand_reset
+				fi
+			# If server started.
+			else
+				fn_print_restart_warning
 				exitbypass=1
 				command_stop.sh
 				fn_firstcommand_reset
+				exitbypass=1
+				fn_update_dl
+				exitbypass=1
+				command_start.sh
+				fn_firstcommand_reset
 			fi
-		# If server started.
-		else
-			fn_print_restart_warning
-			exitbypass=1
-			command_stop.sh
-			fn_firstcommand_reset
-			exitbypass=1
-			fn_update_minecraft_dl
-			exitbypass=1
-			command_start.sh
-			fn_firstcommand_reset
+			unset exitbypass
+			date +%s > "${lockdir}/lastupdate.lock"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
 		fi
-		unset exitbypass
-		date +%s > "${lockdir}/lastupdate.lock"
-		alert="update"
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
 		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		if [ -n "${branch}" ]; then
+			echo -e "* Branch: ${branch}"
+		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
+		if [ -n "${branch}" ]; then
+			fn_script_log_info "Branch: ${branch}"
+		fi
+		if [ -f "${rootdir}/.dev-debug" ]; then
+			echo -e "Remote build info"
+			echo -e "* apiurl: ${apiurl}"
+			echo -e "* remotebuildfilename: ${remotebuildfilename}"
+			echo -e "* remotebuildurl: ${remotebuildurl}"
+			echo -e "* remotebuildversion: ${remotebuildversion}"
+		fi
 	fi
 }
 
@@ -172,13 +169,13 @@ fn_update_minecraft_compare() {
 remotelocation="minecraft.net"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
-	fn_update_minecraft_remotebuild
-	fn_update_minecraft_dl
+	fn_update_remotebuild
+	fn_update_dl
 else
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
-	fn_update_minecraft_localbuild
-	fn_update_minecraft_remotebuild
-	fn_update_minecraft_compare
+	fn_update_localbuild
+	fn_update_remotebuild
+	fn_update_compare
 fi

@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.1.0"
+version="v23.2.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -32,7 +32,7 @@ logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${HOME}/.steam/steamcmd"
 serverfiles="${rootdir}/serverfiles"
-functionsdir="${lgsmdir}/functions"
+modulesdir="${lgsmdir}/modules"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
@@ -57,14 +57,14 @@ if [ ! "$(command -v curl 2> /dev/null)" ]; then
 	exit 1
 fi
 
-# Core function that is required first.
-core_functions.sh() {
-	functionfile="${FUNCNAME[0]}"
-	fn_bootstrap_fetch_file_github "lgsm/functions" "core_functions.sh" "${functionsdir}" "chmodx" "run" "noforcedl" "nomd5"
+# Core module that is required first.
+core_modules.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
 }
 
 # Bootstrap
-# Fetches the core functions required before passed off to core_dl.sh.
+# Fetches the core modules required before passed off to core_dl.sh.
 fn_bootstrap_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
@@ -183,7 +183,7 @@ fn_bootstrap_fetch_file_github() {
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	md5="${7:-0}"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_bootstrap_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
@@ -327,11 +327,11 @@ if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
 			exit 1
 		fi
-	elif [ ! -f "${functionsdir}/core_functions.sh" ] || [ ! -f "${functionsdir}/check_root.sh" ] || [ ! -f "${functionsdir}/core_messages.sh" ]; then
+	elif [ ! -f "${modulesdir}/core_modules.sh" ] || [ ! -f "${modulesdir}/check_root.sh" ] || [ ! -f "${modulesdir}/core_messages.sh" ]; then
 		echo -e "[ FAIL ] Do NOT run this script as root!"
 		exit 1
 	else
-		core_functions.sh
+		core_modules.sh
 		check_root.sh
 	fi
 fi
@@ -377,7 +377,7 @@ if [ "${shortname}" == "core" ]; then
 
 # LinuxGSM server mode.
 else
-	core_functions.sh
+	core_modules.sh
 	if [ "${shortname}" != "core-dep" ]; then
 		# Load LinuxGSM configs.
 		# These are required to get all the default variables for the specific server.
@@ -397,8 +397,8 @@ else
 				echo -e "OK"
 			fi
 		else
-			function_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
-			if [ "${function_file_diff}" != "" ]; then
+			config_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
+			if [ "${config_file_diff}" != "" ]; then
 				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"

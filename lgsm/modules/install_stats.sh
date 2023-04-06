@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Enabled LinuxGSM Stats.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}LinuxGSM Stats${default}"

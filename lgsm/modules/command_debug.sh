@@ -7,7 +7,7 @@
 
 commandname="DEBUG"
 commandaction="Debuging"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Trap to remove lockfile on quit.

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves an issue with Arma Reforger.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: Profile directory doesn't exist.
 # Issue Link: https://feedback.bistudio.com/T164845

@@ -6,7 +6,7 @@
 # Description: Create symlinks for renamed No More Room In Hell serverfiles.
 # Solution from Steam Community post: https://steamcommunity.com/app/224260/discussions/2/1732089092441769414/
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ln -s "${serverfiles}/bin/vphysics_srv.so" "${serverfiles}/bin/vphysics.so"
 ln -s "${serverfiles}/bin/studiorender_srv.so" "${serverfiles}/bin/studiorender.so"

@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates default server configs.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir() {
@@ -64,7 +64,7 @@ fn_default_config_local() {
 # PASSWORD to random password
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(echo $RANDOM | md5sum | head -c 8)
+		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${random}"
 		echo -e "changing hostname."

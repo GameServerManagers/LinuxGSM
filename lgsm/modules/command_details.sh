@@ -7,7 +7,7 @@
 
 commandname="DETAILS"
 commandaction="Viewing details"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Run checks and gathers details to display.
@@ -38,7 +38,4 @@ fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
 
-if [ -z "${exitcode}" ]; then
-	exitcode=0
-fi
 core_exit.sh

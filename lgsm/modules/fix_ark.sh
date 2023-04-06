@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves various issues with ARK: Survival Evolved.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # removes mulitple appworkshop_346110.acf if found.
 steamappsfilewc="$(find "${HOME}" -name appworkshop_346110.acf | wc -l)"

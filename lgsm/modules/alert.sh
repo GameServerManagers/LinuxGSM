@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Overall function for managing alerts.
+# Description: Overall module for managing alerts.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Generates alert log of the details at the time of the alert.
 # Used with email alerts.
@@ -60,7 +60,7 @@ fn_alert_update() {
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} received update"
+	alertbody="${gamename} received update: ${remotebuildversion}"
 }
 
 fn_alert_check_update() {
@@ -69,7 +69,7 @@ fn_alert_check_update() {
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} update available"
+	alertbody="${gamename} update available: ${remotebuildversion}"
 }
 
 fn_alert_permissions() {

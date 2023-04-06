@@ -14,10 +14,10 @@
 # hash: Optional, set an hash sum and will compare it against the file.
 #
 # Downloads can be defined in code like so:
-# fn_fetch_file "${remote_fileurl}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
-# fn_fetch_file "http://example.com/file.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
+# fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
+# fn_fetch_file "http://example.com/file.tar.bz2" "http://example.com/file2.tar.bz2" "file.tar.bz2" "file2.tar.bz2" "/some/dir" "file.tar.bz2" "chmodx" "run" "forcedl" "10cd7353aa9d758a075c600a6dd193fd"
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_dl_steamcmd() {
 	fn_print_start_nl "${remotelocation}"
@@ -124,7 +124,7 @@ fn_dl_steamcmd() {
 				echo -en "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
-		elif [ "${exitcode}" != "0" ]; then
+		elif [ "${exitcode}" != 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 		else
@@ -146,12 +146,12 @@ fn_clear_tmp() {
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
 		local exitcode=$?
-		if [ "${exitcode}" == 0 ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "clearing LinuxGSM tmp directory"
-		else
+		if [ "${exitcode}" != 0 ]; then
 			fn_print_error_eol_nl
 			fn_script_log_error "clearing LinuxGSM tmp directory"
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "clearing LinuxGSM tmp directory"
 		fi
 	fi
 }
@@ -202,31 +202,56 @@ fn_dl_hash() {
 
 # Extracts bzip2, gzip or zip files.
 # Extracts can be defined in code like so:
-# fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdir}"
+# fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdest}" "${extractsrc}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
 fn_dl_extract() {
 	local_filedir="${1}"
 	local_filename="${2}"
-	extractdir="${3}"
+	extractdest="${3}"
+	extractsrc="${4}"
 	# Extracts archives.
 	echo -en "extracting ${local_filename}..."
-	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
-	if [ ! -d "${extractdir}" ]; then
-		mkdir "${extractdir}"
+
+	if [ ! -d "${extractdest}" ]; then
+		mkdir "${extractdest}"
 	fi
+	if [ ! -f "${local_filedir}/${local_filename}" ]; then
+		fn_print_fail_eol_nl
+		echo -en "file ${local_filedir}/${local_filename} not found"
+		fn_script_log_fatal "Extracting ${local_filename}"
+		fn_script_log_fatal "File ${local_filedir}/${local_filename} not found"
+		core_exit.sh
+	fi
+	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
-		extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+		else
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
-		extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+		else
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
 	elif [ "${mime}" == "application/x-xz" ]; then
-		extractcmd=$(tar -xf "${local_filedir}/${local_filename}" -C "${extractdir}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+		else
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
 	elif [ "${mime}" == "application/zip" ]; then
-		extractcmd=$(unzip -qo -d "${extractdir}" "${local_filedir}/${local_filename}")
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(unzip -qoj -d "${extractdest}" "${local_filedir}/${local_filename}" "${extractsrc}"/*)
+		else
+			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
+		fi
 	fi
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting download"
+		fn_script_log_fatal "Extracting ${local_filename}"
 		if [ -f "${lgsmlog}" ]; then
 			echo -e "${extractcmd}" >> "${lgsmlog}"
 		fi
@@ -234,7 +259,7 @@ fn_dl_extract() {
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting download"
+		fn_script_log_pass "Extracting ${local_filename}"
 	fi
 }
 
@@ -358,23 +383,27 @@ fn_fetch_file() {
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
-			# Larger files show a progress bar.
-			if [ "${local_filename##*.}" == "bz2" ] || [ "${local_filename##*.}" == "gz" ] || [ "${local_filename##*.}" == "zip" ] || [ "${local_filename##*.}" == "jar" ] || [ "${local_filename##*.}" == "xz" ]; then
+			curlcmd=(curl --connect-timeout 10 --fail -L -o "${local_filedir}/${local_filename}" --retry 2)
+
+			# if is large file show progress, else be silent
+			local exitcode=""
+			large_files=("bz2" "gz" "zip" "jar" "xz")
+			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
 				echo -en "downloading ${local_filename}..."
 				fn_sleep_time
 				echo -en "\033[1K"
-				curlcmd=$(curl --connect-timeout 10 --progress-bar --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}")
-				echo -en "downloading ${local_filename}..."
+				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
+				exitcode="$?"
 			else
 				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
-				curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
+				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
+				exitcode="$?"
 			fi
-			local exitcode=$?
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
-					rm -f "${local_filedir:?}/${local_filename:?}"
+				if head -n 1 "${local_filedir}/${local_filename}" | grep -q "DOCTYPE"; then
+					rm "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
@@ -384,22 +413,21 @@ fn_fetch_file() {
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fatal "Downloading ${local_filename}"
+						fn_script_log_fatal "Downloading ${local_filename}..."
 						fn_script_log_fatal "${fileurl}"
 					fi
 					core_exit.sh
 				else
 					fn_print_error_eol_nl
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "Downloading ${local_filename}..."
 						fn_script_log_error "${fileurl}"
 					fi
 				fi
 			else
-				fn_print_ok_eol
-				echo -en "\033[2K\\r"
+				fn_print_ok_eol_nl
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_pass "Downloading ${local_filename}"
+					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
 
 				# Make file executable if chmodx is set.
@@ -425,11 +453,13 @@ fn_fetch_file() {
 	fi
 }
 
-# GitHub file download functions.
+# GitHub file download modules.
 # Used to simplify downloading specific files from GitHub.
 
-# github_fileurl_dir: the directory of the file in the GitHub: lgsm/functions
-# github_fileurl_name: the filename of the file to download from GitHub: core_messages.sh
+# github_file_url_dir: the directory of the file in the GitHub: lgsm/modules
+# github_file_url_name: the filename of the file to download from GitHub: core_messages.sh
+# github_file_url_dir: the directory of the file in the GitHub: lgsm/modules
+# github_file_url_name: the filename of the file to download from GitHub: core_messages.sh
 # githuburl: the full GitHub url
 
 # remote_fileurl: The URL of the file: http://example.com/dl/File.tar.bz2
@@ -442,58 +472,58 @@ fn_fetch_file() {
 
 # Fetches files from the Git repo.
 fn_fetch_file_github() {
-	github_fileurl_dir="${1}"
-	github_fileurl_name="${2}"
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
 	# For legacy versions - code can be removed at a future date
 	if [ "${legacymode}" == "1" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	elif [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+	elif [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
-	local_filename="${github_fileurl_name}"
+	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
 	run="${5:-0}"
 	forcedl="${6:-0}"
 	hash="${7:-0}"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 fn_check_file_github() {
-	github_fileurl_dir="${1}"
-	github_fileurl_name="${2}"
-	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	fn_check_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${github_fileurl_name}"
+	fn_check_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${github_file_url_name}"
 }
 
 # Fetches config files from the Git repo.
 fn_fetch_config() {
-	github_fileurl_dir="${1}"
-	github_fileurl_name="${2}"
+	github_file_url_dir="${1}"
+	github_file_url_name="${2}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
@@ -503,55 +533,55 @@ fn_fetch_config() {
 	run="norun"
 	forcedl="noforce"
 	hash="nohash"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches modules from the Git repo during first download.
-fn_fetch_function() {
-	github_fileurl_dir="lgsm/functions"
-	github_fileurl_name="${functionfile}"
+fn_fetch_module() {
+	github_file_url_dir="lgsm/modules"
+	github_file_url_name="${modulefile}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	local_filedir="${functionsdir}"
-	local_filename="${github_fileurl_name}"
+	local_filedir="${modulesdir}"
+	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="run"
 	forcedl="noforce"
 	hash="nohash"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }
 
 # Fetches modules from the Git repo during update-lgsm.
-fn_update_function() {
-	github_fileurl_dir="lgsm/functions"
-	github_fileurl_name="${functionfile}"
+fn_update_module() {
+	github_file_url_dir="lgsm/modules"
+	github_file_url_name="${modulefile}"
 	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
-	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManager" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_fileurl_dir}/${github_fileurl_name}"
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
 	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_fileurl_dir}/${github_fileurl_name}"
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
 	fi
 	remote_fileurl_name="GitHub"
 	remote_fileurl_backup_name="Bitbucket"
-	local_filedir="${functionsdir}"
-	local_filename="${github_fileurl_name}"
+	local_filedir="${modulesdir}"
+	local_filename="${github_file_url_name}"
 	chmodx="chmodx"
 	run="norun"
 	forcedl="noforce"
 	hash="nohash"
-	# Passes vars to the file download function.
+	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 
 }
@@ -590,7 +620,7 @@ fn_dl_latest_release_github() {
 			fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 			fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 		else
-			# Fetch file from the remote location from the existing function to the ${tmpdir} for now.
+			# Fetch file from the remote location from the existing module to the ${tmpdir} for now.
 			fn_fetch_file "${githubreleasedownloadlink}" "" "${githubreleasefilename}" "" "${githubreleasedownloadpath}" "${githubreleasefilename}"
 		fi
 	fi

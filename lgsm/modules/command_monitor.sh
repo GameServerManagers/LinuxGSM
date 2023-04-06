@@ -8,7 +8,7 @@
 
 commandname="MONITOR"
 commandaction="Monitoring"
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_monitor_check_lockfile() {
@@ -72,7 +72,7 @@ fn_monitor_check_queryport() {
 		fn_print_dots "Checking port: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking port: CHECKING"
-		if [ -n "${rconenabled}" ] && [ "${rconenabled}" != "true" ] && [ ${shortname} == "av" ]; then
+		if [ -n "${rconenabled}" ] && [ "${rconenabled}" != "true" ] && [ "${shortname}" == "av" ]; then
 			fn_print_warn "Checking port: Unable to query, rcon is not enabled"
 			fn_script_log_warn "Checking port: Unable to query, rcon is not enabled"
 		else
@@ -84,10 +84,10 @@ fn_monitor_check_queryport() {
 }
 
 fn_query_gsquery() {
-	if [ ! -f "${functionsdir}/query_gsquery.py" ]; then
-		fn_fetch_file_github "lgsm/functions" "query_gsquery.py" "${functionsdir}" "chmodx" "norun" "noforce" "nohash"
+	if [ ! -f "${modulesdir}/query_gsquery.py" ]; then
+		fn_fetch_file_github "lgsm/modules" "query_gsquery.py" "${modulesdir}" "chmodx" "norun" "noforce" "nohash"
 	fi
-	"${functionsdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
+	"${modulesdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}" > /dev/null 2>&1
 	querystatus="$?"
 }
 

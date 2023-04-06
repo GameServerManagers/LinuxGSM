@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Creates log directories.
 
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo -e ""
