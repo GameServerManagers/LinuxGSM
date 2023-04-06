@@ -38,4 +38,7 @@ fn_info_message_ports
 fn_info_message_select_engine
 fn_info_message_statusbottom
 
+if [ -z "${exitcode}" ]; then
+	exitcode=0
+fi
 core_exit.sh
