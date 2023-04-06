@@ -18,6 +18,7 @@ for ip_command in "${ip_commands_array[@]}"; do
 	fi
 done
 
+# Used to get the server interface link speed.
 ethtool_commands_array=("/bin/ethtool" "/usr/sbin/ethtool" "ethtool")
 for ethtool_command in "${ethtool_commands_array[@]}"; do
 	if [ "$(command -v ${ethtool_command} 2> /dev/null)" ]; then
