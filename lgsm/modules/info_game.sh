@@ -46,7 +46,7 @@ fn_info_game_sqf() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="sed 's/${3} *= *'\([^']*\)'/\1/' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+	eval "${1}"="sed 's/${2} *= *'\([^']*\)'/\1/' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
 }
 
 # Config Type: XML
@@ -55,7 +55,7 @@ fn_info_game_xml() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="sed -n 's/.*<${2}>\\(.*\\)<\/${2}>.*/\\1/p' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}" 2>&1)" || echo "Unable to parse ${2}"
 }
 
 # Config Type: ini
@@ -720,17 +720,19 @@ fn_info_game_bfv() {
 # Filetype: xml
 fn_info_game_bt() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_xml "servername" "name"
-		fn_info_game_xml "serverpassword" "password"
-		fn_info_game_xml "port" "port"
-		fn_info_game_xml "queryport" "queryport"
-		fn_info_game_xml "maxplayers" "maxplayers"
+		fn_info_game_xml "servername" "/serversettings/@name"
+		fn_info_game_xml "serverpassword" "/serversettings/@password"
+		fn_info_game_xml "port" "/serversettings/@port"
+		fn_info_game_xml "queryport" "/serversettings/@queryport"
+		fn_info_game_xml "maxplayers" "/serversettings/@MaxPlayers"
+		fn_info_game_xml "tickrate" "/serversettings/@TickRate"
 	fi
-	servername=${servername:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
-	maxplayers=${maxplayers:-"0"}
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	tickrate="${tickrate:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: json
