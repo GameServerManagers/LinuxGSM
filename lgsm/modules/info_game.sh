@@ -40,6 +40,24 @@ fn_info_game_json() {
 	eval "${1}"="jq -r '${2}' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
 }
 
+# Config Type: SQF
+# Comment: // or /* */
+fn_info_game_sqf() {
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="sed 's/${3} *= *'\([^']*\)'/\1/' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+}
+
+# Config Type: XML
+# Comment: <!-- -->
+fn_info_game_xml() {
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="sed -n 's/.*<${2}>\\(.*\\)<\/${2}>.*/\\1/p' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+}
+
 # Config Type: ini
 # Parameters: false
 # Comment: ; or #
@@ -616,17 +634,18 @@ fn_info_game_unreal2k4() {
 }
 
 # Config Type: SQF
+# Parameters: true
 # Comment: // or /* */
 # Example: serverName = "SERVERNAME";
 # Filetype: cfg
 fn_info_game_arma3() {
 	if [ -f "${servercfgfullpath}" ]; then
-		adminpassword="$(sed -nr 's/^passwordAdmin\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")"
-		maxplayers="$(sed -nr 's/^maxPlayers\s*=\s*([0-9]+)\s*;/\1/p' "${servercfgfullpath}")"
-		servername="$(sed -nr 's/^hostname\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")"
-		serverpassword="$(sed -nr 's/^password\s*=\s*"(.*)"\s*;/\1/p' "${servercfgfullpath}")"
+		fn_info_game_sqf "adminpassword" "passwordAdmin"
+		fn_info_game_sqf "maxplayers" "maxPlayers"
+		fn_info_game_sqf "servername" "hostname"
+		fn_info_game_sqf "serverpassword" "password"
 	fi
-	port="${port:-"2302"}"
+	port="${port:-"0"}"
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
 	maxplayers="${maxplayers:-"0"}"
@@ -634,7 +653,7 @@ fn_info_game_arma3() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steammasterport="$((port + 2))"
-	voiceport="${port:-"2302"}"
+	voiceport="${port:-"0"}"
 	voiceunusedport="$((port + 3))"
 }
 
@@ -659,29 +678,19 @@ fn_info_game_armar() {
 # Example: game.serverName "SERVERNAME"
 # Filetype: con
 fn_info_game_bf1942() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-	else
-		servername=$(grep -E "^game.serverName " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverName //g' | tr -d '=\";,:' | xargs)
-		serverpassword=$(grep "game.serverPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/game.serverPassword//g' | tr -d '=\";,:' | xargs)
-		maxplayers=$(grep "game.serverMaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
-		port=$(grep "game.serverPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
-		queryport="22000"
-		configip=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		configip=${configip:-"0.0.0.0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_con "configip" "game.serverIp"
+		fn_info_game_con "maxplayers" "game.serverMaxPlayers"
+		fn_info_game_con "port" "game.serverPort"
+		fn_info_game_con "servername" "game.serverName"
+		fn_info_game_con "serverpassword" "game.serverPassword"
 	fi
+	configip="${configip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="22000"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: con
@@ -689,57 +698,39 @@ fn_info_game_bf1942() {
 # Example: game.serverName "SERVERNAME"
 # Filetype: con
 fn_info_game_bfv() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-	else
-		servername=$(grep "game.serverName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverName//g' | tr -d '=\";,:' | xargs)
-		serverpassword=$(grep "game.serverPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/game.serverPassword//g' | tr -d '=\";,:' | xargs)
-		maxplayers=$(grep "game.serverMaxPlayers" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
-		port=$(grep "game.serverPort" "${servercfgfullpath}" | grep -v "\--" | tr -cd '[:digit:]')
-		queryport="23000"
-		configip=$(grep "game.serverIP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/game.serverIP//g' | tr -d '=\";,:' | xargs)
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		configip=${configip:-"0.0.0.0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_con "configip" "game.serverIp"
+		fn_info_game_con "maxplayers" "game.serverMaxPlayers"
+		fn_info_game_con "port" "game.serverPort"
+		fn_info_game_con "servername" "game.serverName"
+		fn_info_game_con "serverpassword" "game.serverPassword"
 	fi
+	configip="${configip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="22000"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: XML
+# Parameters: false
 # Comment: <!-- -->
 # Example: <serversettings name="SERVERNAME" />
 # Filetype: xml
 fn_info_game_bt() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		port="${zero}"
-		queryport="${zero}"
-		maxplayers="${unavailable}"
-	else
-		servername=$(grep -Po 'name="\K.*(?=")' "${servercfgfullpath}")         # Assuming GNU grep is used
-		serverpassword=$(grep -Po 'password="\K.*(?=")' "${servercfgfullpath}") # Assuming GNU grep is used
-		port=$(grep " port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$(grep "queryport=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		maxplayers=$(grep "maxplayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		maxplayers=${maxplayers:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_xml "servername" "name"
+		fn_info_game_xml "serverpassword" "password"
+		fn_ingo_game_xml "port" "port"
+		fn_ingo_game_xml "queryport" "queryport"
+		fn_ingo_game_xml "maxplayers" "maxplayers"
 	fi
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	port=${port:-"0"}
+	queryport=${queryport:-"0"}
+	maxplayers=${maxplayers:-"0"}
 }
 
 # Config Type: json
@@ -1333,39 +1324,25 @@ fn_info_game_mom() {
 # Example: <servername>Default MTA Server</servername>
 # Filetype: conf
 fn_info_game_mta() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		port=${zero}
-		queryport=${zero}
-		httpport=${zero}
-		ase="${unavailable}"
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-	else
-		port=$(grep -m 1 "serverport" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<serverport>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
-		queryport=$((port + 123))
-		httpport=$(grep -m 1 "httpport" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<httpport>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
-		servername=$(grep -m 1 "servername" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<servername>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<")
-		serverpassword=$(grep -m 1 "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<password>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<")
-		maxplayers=$(grep -m 1 "maxplayers" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<maxplayers>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
-		ase=$(grep -m 1 "ase" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/<ase>//g' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' | cut -f1 -d "<" | tr -cd '[:digit:]')
-		if [ "${ase}" == "1" ]; then
-			ase="Enabled"
-		else
-			ase="Disabled"
-		fi
-
-		# Not set
-		port=${port:-"22003"}
-		queryport=${queryport:-"2326"}
-		httpport=${httpport:-"22005"}
-		ase=${ase:-"Disabled"}
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_xml "port" "port"
+		fn_info_game_xml "httpport" "httpport"
+		fn_info_game_xml "servername" "servername"
+		fn_info_game_xml "maxplayers" "maxplayers"
+		fn_info_game_xml "ase" "ase"
 	fi
-
+	if [ "${ase}" == "1" ]; then
+		ase="Enabled"
+	else
+		ase="Disabled"
+	fi
+	port="${port:-"0"}"
+	queryport="$((port + 123))"
+	httpport="${httpport:-"0"}"
+	ase="${ase:-"Disabled"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: custom
